@@ -108,11 +108,13 @@ public final class BillingConstants {
 		public static final String CANCELLATION_FEE_WAIVED = "Cancellation Fee Waived";
 		public static final String CANCELLATION_NOTICE = "Cancellation Notice";
 		public static final String CANCELLATION = "Cancellation";
+		public static final String CA_FRAUD_ASSESSMENT_FEE = "CA Fraud Assessment Fee";
 		public static final String CANCELLATION_NON_PAYMENT_OF_PREMIUM = "Cancellation - Non Payment of Premium";
 		public static final String CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM = "Cancellation - Insured Non-Payment Of Premium";
 		public static final String CANCELLATION_INSURED_REQUEST_DUE_TO_HIGH_PREMIUM = "Cancellation - Insured Request - Due To High Premium";
 		public static final String PAYMENT_DECLINED = "Payment Declined";
 		public static final String PAYMENT_DISAPPROVED = "Payment Disapproved";
+		public static final String POLICY_FEE = "Policy Fee";
 		public static final String WRITE_OFF = "Write-off";
 		public static final String SERVICE_FEE = "Service Fee";
 		public static final String SERVICE_FEE_WAIVED = "Service Fee Waived";

@@ -47,7 +47,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 
         // Perform Endorsement effective today+2days and AP OOS Endorsement effective today+1day
         SearchPage.openPolicy(policyNumber);
-        performNPBEndorsement(policyNumber, dueDate.plusDays(2));
+        performNonPremBearingEndorsement(policyNumber, dueDate.plusDays(2));
         Dollar endorsementOosAmt = performAPEndorsement(policyNumber, dueDate.plusDays(1));
 
         // TODO Validate END-05

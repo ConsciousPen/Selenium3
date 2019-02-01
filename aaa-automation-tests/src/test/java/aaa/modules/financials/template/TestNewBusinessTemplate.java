@@ -4,15 +4,15 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.common.pages.Page;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.ProductConstants;
+import aaa.helpers.billing.BillingHelper;
+import aaa.main.enums.BillingConstants;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
-import toolkit.utils.datetime.DateTimeUtils;
 
 public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
@@ -26,7 +26,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
      * 6. Validate Cancellation sub-ledger entries
      * 7. Reinstate policy with no lapse (reinstatement eff. date same as cancellation date)
      * 8. Validate Reinstatement sub-ledger entries
-     * @details NBZ-01, PMT-01, END-01, CNL-01, RST-01
+     * @details NBZ-01, PMT-01, END-01, CNL-01, RST-01, FEE-01
      */
 	protected void testNewBusinessScenario_1() {
 
@@ -35,8 +35,9 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		createCustomerIndividual();
 		String policyNumber = createFinancialPolicy();
 		Dollar premTotal = getTotalTermPremium();
+		LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
 
-        // NB validations
+        // NBZ-01 validations
         assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1044"));
         assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1021")
                 .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1021")));
@@ -45,12 +46,24 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")
                 .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")));
 
+        // PMT-01 validations
+        Dollar paymentAmt = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.DEPOSIT_PAYMENT);
+        assertThat(paymentAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1001"));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1044"));
+
+        // FEE-01 validations (CA Choice only)
+        if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+            Dollar policyFee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.POLICY_FEE);
+            assertThat(policyFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.POLICY_FEE, "1034"));
+            assertThat(policyFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.POLICY_FEE, "1034"));
+            assertThat(policyFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.POLICY_FEE, "1040"));
+        }
+        SearchPage.openPolicy(policyNumber);
+
         // Perform AP endorsement and pay total amount due
         Dollar addedPrem = performAPEndorsement(policyNumber);
 
-        // AP endorsement validations
-        assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_PAYMENT, "1001"));
-        assertThat(addedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_PAYMENT, "1044"));
+        // END-01 validations
         assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
         assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")
                 .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")));
@@ -62,23 +75,17 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		// Cancel policy
 		cancelPolicy();
 
+		// CNL-01 validations
+        validateCancellationTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION), policyNumber);
+        SearchPage.openPolicy(policyNumber);
+
 		// Reinstate policy without lapse
         performReinstatement();
 
-		// Cancellation & reinstatement validations
-        assertThat(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1015"))
-                .isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1021"));
-
-        assertThat(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1044"))
-                .isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")
-                        .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")));
-
-        assertThat(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1021"))
-                .isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1015"));
-
-        assertThat(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1044"))
-                .isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022")
-                        .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022")));
+		// RST-01 validations
+        validateReinstatementTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT), policyNumber);
 
 	}
 
@@ -92,7 +99,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
      * 6. Advance time one week
      * 6. Reinstate policy with lapse
      * 7. Remove reinstatement lapse
-     * @details NBZ-03, PMT-04, END-02, CNL-06, PMT-05, RST-02, RST-07, RST-09
+     * @details NBZ-03, END-02, CNL-03, PMT-04, RST-02, RST-07, RST-09, FEE-04, FEE-15, FEE-18, FEE-19
      */
 	protected void testNewBusinessScenario_2() {
 
@@ -104,20 +111,78 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		String policyNumber = createFinancialPolicy(adjustTdPolicyEffDate(getPolicyTD(), effDate));
         Dollar premTotal = getTotalTermPremium();
 
-        // NB validations
-        //TODO implement DB validation
+        // Get Fee amount from billing tab (if any)
+        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+        Dollar totalFees = BillingHelper.getFeesValue(today);
 
-        performRPEndorsement(effDate);
-        //TODO implement DB validation
+        // NB-03 and PMT-04 validations
+        assertThat(premTotal.add(totalFees)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1001"));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1065"));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1042"));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")));
 
-		// Cancel policy
+        // FEE-15 validations (CA Select only)
+        if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+            Dollar fraudFee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CA_FRAUD_ASSESSMENT_FEE);
+            assertThat(fraudFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CA_FRAUD_ASSESSMENT_FEE, "1034"));
+            assertThat(fraudFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CA_FRAUD_ASSESSMENT_FEE, "1034"));
+            assertThat(fraudFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CA_FRAUD_ASSESSMENT_FEE, "1040"));
+        }
+
+        // TODO need to check with Andrew why CA HO4 is not getting Seismic Fee but DP3 is
+        // FEE-04 validations (CA HO products only, excluding DP3 and PUP)
+        if (getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.HOME_CA_HO4) || getPolicyType().equals(PolicyType.HOME_CA_HO6)) {
+            Dollar seismicFee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.SEISMIC_SAFETY_FEE);
+            assertThat(seismicFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.SEISMIC_FEE, "1034"));
+            assertThat(seismicFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.SEISMIC_FEE, "1040"));
+        }
+
+        // Advance time to policy effective date
+        advanceTimeAndOpenPolicy(effDate, policyNumber);
+
+        // Perform RP endorsement
+        Dollar reducedPrem = performRPEndorsement(effDate, premTotal);
+
+        // END-02 validations
+        assertThat(reducedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
+        assertThat(reducedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")));
+        assertThat(reducedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")
+                .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")));
+        assertThat(reducedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")
+                .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")));
+
+		// Cancel policy on effective date (flat cancellation)
         cancelPolicy();
+
+        // CNL-03 validations
+        validateCancellationTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION), policyNumber);
+
+        // FEE-19 validations (CA Choice only)
+        if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+            Dollar cancellationFee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_FEE);
+            assertThat(cancellationFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION_FEE, "1034"));
+            assertThat(cancellationFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION_FEE, "1040"));
+        }
+
+        // FEE-18 validations
+        if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+            Dollar fraudFee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CA_FRAUD_ASSESSMENT_FEE);
+            assertThat(fraudFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.CA_FRAUD_ASSESSMENT_FEE, "1034"));
+            assertThat(fraudFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.CA_FRAUD_ASSESSMENT_FEE, "1040"));
+        }
+        SearchPage.openPolicy(policyNumber);
 
 		// Advance time and reinstate policy with lapse
         performReinstatementWithLapse(effDate, policyNumber);
-        // TODO implement DB validation
 
-		//TODO need to change the reinstatement lapse RST-07, then remove the lapse RST-09
+        // RST-02 validations
+        validateReinstatementTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT), policyNumber);
+
+		//TODO need to change the reinstatement lapse RST-07, then remove the lapse RST-09 and validations
 
 	}
 
@@ -131,7 +196,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
      * 6. Validate Cancellation sub-ledger entries
      * 7. Reinstate policy with no lapse (reinstatement eff. date same as cancellation date)
      * 8. Validate Reinstatement sub-ledger entries
-     * @details NBZ-02, PMT-01, END-03, CNL-02, RST-03, PMT-06, PMT-19
+     * @details NBZ-02, END-03, CNL-02, RST-03
      */
 	protected void testNewBusinessScenario_3() {
 
@@ -141,19 +206,22 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(getPolicyTD()));
         Dollar premTotal = getTotalTermPremium();
 
-        // NB validations
-        //TODO implement
+        // TODO NBZ-02 validations
 
+        // Perform AP endorsement
         Dollar addedPrem = performAPEndorsement(policyNumber);
-        // TODO implement DB validation
+
+        // TODO END-03 validations
 
         // Cancel policy
         cancelPolicy();
-        // TODO implement DB validation
+
+        // TODO validate CNL-02
 
         // Reinstate policy without lapse
         performReinstatement();
-        // TODO implement DB validation
+
+        // TODO validate RST-03
 
     }
 
@@ -167,7 +235,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
      * 6. Advance time one week
      * 6. Reinstate policy with lapse
      * 7. Remove reinstatement lapse
-     * @details NBZ-04, PMT-04, END-04, CNL-07, PMT-05, RST-04, RST-08, RST-10
+     * @details NBZ-04, PMT-05, PMT-06, END-04, CNL-04, RST-04, RST-08, RST-10
      */
     protected void testNewBusinessScenario_4() {
 
@@ -177,21 +245,49 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         mainApp().open();
         createCustomerIndividual();
         String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(adjustTdPolicyEffDate(getPolicyTD(), effDate)));
+        Dollar premTotal = getTotalTermPremium();
 
-        // NB validations
-        //TODO implement DB validation
+        //TODO NBZ-04 validations
 
-        performRPEndorsement(effDate);
-        // TODO implement DB validation
+        performRPEndorsement(effDate, premTotal);
+
+        // TODO END-04 and PMT-05 validations
+
+        // Advance time to policy effective date
+        advanceTimeAndOpenPolicy(effDate, policyNumber);
 
         // Cancel policy
         cancelPolicy();
 
+        // TODO CNL-04 validations
+
         // Advance time and reinstate policy with lapse
         performReinstatementWithLapse(effDate, policyNumber);
-        // TODO implement DB validation
 
-        //TODO need to change the reinstatement lapse RST-08, then remove the lapse RST-10
+        // TODO RST-04 validations
+
+        //TODO need to change the reinstatement lapse RST-08, then remove the lapse RST-10 and validations
+
+    }
+
+    private void validateCancellationTx(Dollar refundAmt, String policyNumber) {
+        assertThat(refundAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1044"));
+        assertThat(refundAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1015")
+                .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1015")));
+        assertThat(refundAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1021")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1021")));
+        assertThat(refundAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")
+                .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")));
+    }
+
+    private void validateReinstatementTx(Dollar premAmt, String policyNumber) {
+        assertThat(premAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1044"));
+        assertThat(premAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1015")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1015")));
+        assertThat(premAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1021")
+                .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1021")));
+        assertThat(premAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022")));
     }
 
 }

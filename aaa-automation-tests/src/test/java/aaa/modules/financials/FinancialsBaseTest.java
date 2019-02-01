@@ -8,16 +8,17 @@ import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FinancialsBaseTest extends FinancialsTestDataFactory {
 
@@ -102,18 +103,36 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		return addedPrem;
 	}
 
-	protected void performRPEndorsement(LocalDateTime effDate) {
+	protected Dollar performRPEndorsement(LocalDateTime effDate, Dollar currentPremium) {
 		policy.endorse().perform(getEndorsementTD(effDate));
 		policy.getDefaultView().fill(getReducePremiumTD());
+		return currentPremium.subtract(getTotalTermPremium());
 	}
 
-	protected void performNPBEndorsement(String policyNumber) {
-		performNPBEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime());
+	protected void performNonPremBearingEndorsement(String policyNumber) {
+		performNonPremBearingEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime());
 	}
 
-	protected void performNPBEndorsement(String policyNumber, LocalDateTime effDate) {
+	protected void performNonPremBearingEndorsement(String policyNumber, LocalDateTime effDate) {
 		policy.endorse().perform(getEndorsementTD(effDate));
 		policy.getDefaultView().fill(getNPBEndorsementTD());
+		SearchPage.openPolicy(policyNumber);
+	}
+
+	protected Dollar getBillingAmountByType(String type, String subtype) {
+		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		}
+		Map<String, String> query = new HashMap<>();
+		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, type);
+		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, subtype);
+		return new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).abs();
+	}
+
+	protected void advanceTimeAndOpenPolicy(LocalDateTime date, String policyNumber) {
+		mainApp().close();
+		TimeSetterUtil.getInstance().nextPhase(date);
+		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 	}
 

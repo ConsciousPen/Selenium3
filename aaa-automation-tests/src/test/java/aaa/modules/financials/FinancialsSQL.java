@@ -1,5 +1,7 @@
 package aaa.modules.financials;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.db.DBService;
@@ -33,37 +35,46 @@ public final class FinancialsSQL {
 		return String.format("select SUM(ENTRYAMT) from LEDGERENTRY where LEDGERACCOUNTNO = '%s'", account);
 	}
 
-    public static Dollar getDebitsForAccountByPolicy(String policyNumber, String txType, String account) {
-        String query = String.format(
+	public static Dollar getDebitsForAccountByPolicy(String policyNumber, String txType, String account) {
+		return getDebitsForAccountByPolicy(null, policyNumber, txType, account);
+	}
+
+    public static Dollar getDebitsForAccountByPolicy(LocalDateTime txDate, String policyNumber, String txType, String account) {
+        String query =
         		"select SUM(ENTRYAMT) " +
 						"from (" +
-							"select ENTRYAMT from LEDGERENTRY WHERE PRODUCTNUMBER = '%s' " +
-								"and TRANSACTIONTYPE = '%s' " +
-								"and LEDGERACCOUNTNO = '%s' " +
-								"and entrytype = 'DEBIT'" +
-						")",
-				policyNumber,
-				txType,
-				account);
-
+							"select ENTRYAMT " +
+				            "from LEDGERENTRY " +
+				            "WHERE PRODUCTNUMBER like '%" + policyNumber + "' " +
+								"and TRANSACTIONTYPE = '" + txType + "' " +
+								"and LEDGERACCOUNTNO = '" + account + "' " +
+								"and entrytype = 'DEBIT'";
+        if (txDate != null) {
+        	query += " and trunc(TXDATE) = '" + txDate.format(DateTimeFormatter.ofPattern("dd-MMM-yy")) + "'";
+        }
+		query += ")";
         Optional<String> value = DBService.get().getValue(query);
         return value.map(Dollar::new).orElseGet(() -> new Dollar("0.00"));
     }
 
-	public static Dollar getCreditsForAccountByPolicy(String policyNumber, String txType, String account) {
-	    String query = String.format(
+    public static Dollar getCreditsForAccountByPolicy(String policyNumber, String txType, String account) {
+		return getCreditsForAccountByPolicy(null, policyNumber, txType, account);
+    }
+
+	public static Dollar getCreditsForAccountByPolicy(LocalDateTime txDate, String policyNumber, String txType, String account) {
+	    String query =
 	    		"select SUM(ENTRYAMT) " +
 						"from (" +
 							"select ENTRYAMT " +
 							"from LEDGERENTRY " +
-							"WHERE PRODUCTNUMBER = '%s' " +
-								"and TRANSACTIONTYPE = '%s' " +
-								"and LEDGERACCOUNTNO = '%s' " +
-								"and entrytype = 'CREDIT'" +
-						")",
-				policyNumber,
-				txType,
-				account);
+							"WHERE PRODUCTNUMBER  like '%" + policyNumber + "' " +
+								"and TRANSACTIONTYPE = '" + txType + "' " +
+								"and LEDGERACCOUNTNO = '" + account + "' " +
+								"and entrytype = 'CREDIT'";
+		if (txDate != null) {
+			query += " and trunc(TXDATE) = '" + txDate.format(DateTimeFormatter.ofPattern("dd-MMM-yy")) + "'";
+		}
+		query += ")";
 
         Optional<String> value = DBService.get().getValue(query);
         return value.map(Dollar::new).orElseGet(() -> new Dollar("0.00"));
@@ -75,6 +86,12 @@ public final class FinancialsSQL {
 	    public static final String MANUAL_PAYMENT = "ManualPayment";
 	    public static final String CANCELLATION = "cancellation";
 	    public static final String REINSTATEMENT = "reinstatement";
+	    public static final String DEPOSIT_PAYMENT = "DepositPayment";
+	    public static final String POLICY_FEE = "PolicyFee";
+	    public static final String CA_FRAUD_ASSESSMENT_FEE = "CAFraudAssessmentFee";
+	    public static final String CANCELLATION_FEE = "CancellationFee";
+	    public static final String OVERPAYMENT_REALLOCATION_ADJUSTMENT = "OverPaymentReallocationAdjustment";
+		public static final String SEISMIC_FEE = "SeismicFee";
     }
 
 }
