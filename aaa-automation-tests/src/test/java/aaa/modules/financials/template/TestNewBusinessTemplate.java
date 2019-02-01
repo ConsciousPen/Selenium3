@@ -77,14 +77,14 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		cancelPolicy();
 
 		// CNL-01 validations
-        validateCancellationTx(getCancellationRefundAmount(), policyNumber);
+        validateCancellationTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION), policyNumber);
         SearchPage.openPolicy(policyNumber);
 
 		// Reinstate policy without lapse
         performReinstatement();
 
 		// RST-01 validations
-        validateReinstatementTx(getReinstatementPremAmount(), policyNumber);
+        validateReinstatementTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT), policyNumber);
 
 	}
 
@@ -156,7 +156,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         cancelPolicy();
 
         // CNL-03 validations
-        validateCancellationTx(getCancellationRefundAmount(), policyNumber);
+        validateCancellationTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION), policyNumber);
 
         // FEE-19 validations (CA Choice only)
         if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
@@ -177,7 +177,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         performReinstatementWithLapse(effDate, policyNumber);
 
         // RST-02 validations
-        validateReinstatementTx(getReinstatementPremAmount(), policyNumber);
+        validateReinstatementTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT), policyNumber);
 
 		//TODO need to change the reinstatement lapse RST-07, then remove the lapse RST-09 and validations
 
