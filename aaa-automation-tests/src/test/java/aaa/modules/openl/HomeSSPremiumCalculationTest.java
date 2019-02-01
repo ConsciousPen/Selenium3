@@ -97,7 +97,7 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 		}
 
 		// Set capping factor from test if policy is capped
-		if (openLPolicy.isCappedPolicy() && PremiumsAndCoveragesQuoteTab.linkViewCappingDetails.isPresent()) {
+		if (PremiumsAndCoveragesQuoteTab.linkViewCappingDetails.isPresent()) {
 			PremiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
 			premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.VIEW_CAPPING_DETAILS_DIALOG).fill(tdGenerator.getCappingData(openLPolicy));
 		}
