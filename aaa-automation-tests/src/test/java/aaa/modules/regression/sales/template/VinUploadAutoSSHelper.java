@@ -44,7 +44,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 		//3. Add new VIN versions/VIN data for vehicle VINs used above(4 new liability symbols prefilled in db)
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-//		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("VIN data has been updated for the following vehicle(s): %s", vinNumber));
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("VIN data has been updated for the following vehicle(s): %s", vinNumber));
 		//4. System rates renewal image according to renewal timeline
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
