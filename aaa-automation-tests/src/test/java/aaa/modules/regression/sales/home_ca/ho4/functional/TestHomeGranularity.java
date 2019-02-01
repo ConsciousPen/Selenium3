@@ -1,10 +1,14 @@
 package aaa.modules.regression.sales.home_ca.ho4.functional;
 
+import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.constants.HomeGranularityConstants;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
 import aaa.modules.regression.sales.template.functional.TestHomeGranularityAbstract;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -18,6 +22,15 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
 
     @Override
     protected PolicyType getPolicyType() { return PolicyType.HOME_CA_HO4; }
+
+    @Override
+    protected Tab getApplicantTab(){return new ApplicantTab();}
+
+    @Override
+    protected Tab getReportsTab(){return new ReportsTab();}
+
+    @Override
+    protected Tab getPremiumAndCoveragesQuoteTab(){return new PremiumsAndCoveragesQuoteTab();}
 
     private TestData getTDAddressChange() {
         return getTestSpecificTD("TestData_ChangeAddress");

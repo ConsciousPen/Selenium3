@@ -4,22 +4,21 @@
  */
 package aaa.main.modules.policy.home_ss.defaulttabs;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.openqa.selenium.By;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
+import org.openqa.selenium.By;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -47,6 +46,7 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 	public static RatingDetailsTable tableCappedPolicyPremium = new RatingDetailsTable("//div[@id='cappingDetailsPopupPanel:vehicleCapPanel_body']//table");
 	public static Table autoPaySetupSavingMessage = new Table(By.id("policyDataGatherForm:installmentFeeAmountSavedPanel"));
 	public static Table tableCoverages = new Table(By.xpath("//table[@id='policyDataGatherForm:coverageSummaryTable']"));
+	public static Table tableViewRatingDetails = new Table(By.id("horatingDetailsPopupForm:ratingDetailsTable"));
 
 	public static Button buttonViewCappingDetails = new Button(By.id("policyDataGatherForm:viewCappingDetails_Link_1"), Waiters.AJAX);
 
