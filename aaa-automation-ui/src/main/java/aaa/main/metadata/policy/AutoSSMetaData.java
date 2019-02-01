@@ -208,9 +208,9 @@ public final class AutoSSMetaData {
 				public static final AssetDescriptor<Button> CLOSE_BTN = declare("Close", Button.class, By.xpath("//div[@id = 'autoOtherPolicySearchPopup_header_controls']/child::img"));
 				public static final AssetDescriptor<StaticElement> ERROR_MESSAGE = declare("Error Message", StaticElement.class, By.xpath(".//span[@id='autoOtherPolicySearchForm:noResults']"));
 
-				public static final AssetDescriptor<FillableTable> RESULT_TABLE = declare("ResultTable", FillableTable.class, ResultsTableRows.class, By.xpath(".//table[@id=’ autoOtherPolicySearchForm:elasticSearchResponseTable’]"));
+				public static final AssetDescriptor<FillableTable> RESULT_TABLE = declare("Result Table", FillableTable.class, ResultsTableRows.class, By.xpath(".//table[@id=’ autoOtherPolicySearchForm:elasticSearchResponseTable’]"));
 
-				public static final AssetDescriptor<Button> ADD_SELECTED_BTN = declare("Add Selected", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:btnAddSelected']"));
+				public static final AssetDescriptor<Button> ADD_SELECTED_BTN = declare("Submit", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:btnAddSelected']"));
 				public static final AssetDescriptor<Button> CANCEL_BTN = declare("Cancel", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:cmdButtonCancelHomeRenterCondo']"));
 
 				public static final class ResultsTableRows extends MetaData {
