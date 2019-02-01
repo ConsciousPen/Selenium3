@@ -20,7 +20,6 @@ import toolkit.utils.TestInfo;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestPolicyWaivers extends AutoSSBaseTest {
-    protected TestData tdPolicy;
     private String origQuoteNum;
     private String policyNum;
     private DriverTab driverTab = new DriverTab();
