@@ -42,7 +42,7 @@ public class TestScenario3 extends Scenario3 {
 			expirePolicy();
 			customerDeclineRenewal();
 			payRenewOffer();
-			verifyDocGenForms(false, DocGenEnum.Documents._55_5003); //, DocGenEnum.Documents._55_5080); NB: 55_5080 is generated and should not be from my POV, but we have no feedback with clarification request PASBB-624
+			verifyDocGenForms(false, DocGenEnum.Documents._55_5003, DocGenEnum.Documents._55_5080);
 		});
 	}
 }
