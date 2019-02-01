@@ -46,7 +46,8 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table tableFormsSummary = new Table(By.id("policyDataGatherForm:formSummaryTable"));
 	public static Table tablefeesSummary = new Table(By.id("policyDataGatherForm:feesSummaryTable"));
 	public static Table tableInstallmentFeeDetails = new Table(By.id("policyDataGatherForm:installmentFeeDetailsTable"));
-	public static Table tableStateAndLocalTaxesSummary = new Table(By.xpath("//table[@id='policyDataGatherForm:taxTable' or @id='policyDataGatherForm:taxSurchargeSummaryTable']"));
+	public static Table tableStateAndLocalTaxesSummary = new Table(By.xpath("//table[@id='policyDataGatherForm:taxTable']"));
+	public static Table tableStateAndLocalTaxesSummaryDetailed = new Table(By.xpath("//table[@id='policyDataGatherForm:taxSurchargeSummaryTable']"));
 	public static Table tableAAAPremiumSummary = new Table(By.id("policyDataGatherForm:AAAPremiumSummary"));
 	public static Table tableTermPremiumbyVehicle = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table"));
 	public static Table tablePolicyLevelLiabilityCoveragesPremium = new Table(By.xpath("//table[@id='policyDataGatherForm:policyTableTotalVehiclePremium']"));
@@ -101,7 +102,11 @@ public class PremiumAndCoveragesTab extends Tab {
 	}
 
 	public static Dollar getStateAndLocalTaxesAndPremiumSurchargesPremium() {
-		return new Dollar(tableStateAndLocalTaxesSummary.getFooter().getCell(tableStateAndLocalTaxesSummary.getColumnsCount()).getValue());
+		if (tableStateAndLocalTaxesSummaryDetailed.isPresent() && tableStateAndLocalTaxesSummaryDetailed.isVisible()) {
+			return new Dollar(tableStateAndLocalTaxesSummaryDetailed.getFooter().getCell(tableStateAndLocalTaxesSummaryDetailed.getColumnsCount()).getValue());
+		} else {
+			return new Dollar(tableStateAndLocalTaxesSummary.getRow(1).getCell(tableStateAndLocalTaxesSummary.getColumnsCount()).getValue());
+		}
 	}
 
 	public TestData getRatingDetailsQuoteInfoData() {

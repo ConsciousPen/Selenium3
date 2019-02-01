@@ -2,6 +2,8 @@ package aaa.modules.regression.sales.template.functional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
@@ -24,6 +26,7 @@ import toolkit.webdriver.controls.ComboBox;
 public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
 
     private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+    private GeneralTab generalTab = new GeneralTab();
     private DriverTab driverTab = new DriverTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
     private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
@@ -39,7 +42,14 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
         mainApp().open();
         createCustomerIndividual(customerTd);
         policy.initiate();
-        policy.getDefaultView().fillUpTo(getPolicyTD(), DriverTab.class, true);
+        policy.getDefaultView().fillUpTo(getPolicyTD(),GeneralTab.class, true);
+        List<String> titleOptions = generalTab.getNamedInsuredInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.TITLE).getAllValues();
+        titleOptions.remove("Unknown/No Preference");
+        List<String> sortedTitleOptions = new ArrayList<>(titleOptions);
+        sortedTitleOptions.sort(String.CASE_INSENSITIVE_ORDER);
+        assertThat(titleOptions).isEqualTo(sortedTitleOptions);
+        generalTab.submitTab();
+        driverTab.fillTab(getPolicyTD());
         assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.GENDER).getValue()).isEqualTo("X");
         driverTab.submitTab();
         policy.getDefaultView().fillFromTo(getPolicyTD(), MembershipTab.class, PremiumAndCoveragesTab.class, true);

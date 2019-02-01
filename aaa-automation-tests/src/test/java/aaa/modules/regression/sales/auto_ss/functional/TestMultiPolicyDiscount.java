@@ -6,6 +6,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -282,10 +283,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         _generalTab.mpd_SearchAndAddManually("Home", "NOT_FOUND");
 
         // Added MPD element, filling up to purchase point. Includes hacky methods to get around system error.
-        HACK_NavigateAroundDriverTab();
-        policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, VehicleTab.class, false);
-        HACK_NavigateAroundVehicleTab();
-        policy.getDefaultView().fillFromTo(testData, FormsTab.class, DocumentsAndBindTab.class, true);
+        policy.getDefaultView().fillFromTo(testData, GeneralTab.class, DocumentsAndBindTab.class, true);
         _documentsAndBindTab.btnPurchase.click();
         Page.dialogConfirmation.buttonNo.click();
 
@@ -296,26 +294,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         removeMPDAndRerate(0);
     }
-
-    //TODO: Remove this method after resolving local issue with maven.
-    private void HACK_NavigateAroundDriverTab(){
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        DriverTab dt = new DriverTab();
-        dt.getAssetList().getAsset(AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), AutoSSMetaData.DriverTab.OCCUPATION.getControlClass()).setValue("Clergy");
-        dt.getAssetList().getAsset(AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getControlClass()).setValue("B12254293");
-        dt.getAssetList().getAsset(AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getControlClass()).setValue("16");
-        dt.submitTab();
-    }
-
-    //TODO: Remove this method after resolving local issue with maven.
-    private void HACK_NavigateAroundVehicleTab(){
-
-        VehicleTab vt = new VehicleTab();
-        vt.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE.getLabel(), AutoSSMetaData.VehicleTab.USAGE.getControlClass()).setValue("Pleasure");
-        vt.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN.getLabel(), AutoSSMetaData.VehicleTab.VIN.getControlClass()).setValue("4T1VK13E8PU075864");
-        vt.submitTab();
-    }
-
+    
     /**
      * Handles looping through editing an mpd element, throwing the rerating error, validating its presence, re-calculating premium, then ensuring the rerate error is gone. <br>
      *     Returns the state of the test to a loopable position so the method can be called again directly, ending on the Documents and Bind Tab.
@@ -391,4 +370,22 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         ValidateErrorMessage(false);
         Page.dialogConfirmation.buttonNo.click();
     }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    public void pas24729_MPD_ValidateEligibilityRuleFires(@Optional("") String state) {
+        // Using default test data.
+        TestData testData = getPolicyTD();
+
+        // Add MPD Element manually (after no results found)
+        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
+        _generalTab.mpd_SearchAndAddManually("Home", "NOT_FOUND");
+
+        // Continue towards purchase of quote.
+
+        // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
+        // Will most likely be a new error message that requires metadata.
+    }
+
 }
