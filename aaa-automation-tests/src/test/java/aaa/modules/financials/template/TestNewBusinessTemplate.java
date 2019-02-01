@@ -129,19 +129,16 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             assertThat(fraudFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CA_FRAUD_ASSESSMENT_FEE, "1040"));
         }
 
-        // TODO need to check with Andrew why CA HO4 is not getting Seismic Fee
-        // FEE-04 validations (CA HO products only)
-        if (getPolicyType().isCaProduct() && !getPolicyType().isAutoPolicy()) {
+        // TODO need to check with Andrew why CA HO4 is not getting Seismic Fee but DP3 is
+        // FEE-04 validations (CA HO products only, excluding DP3 and PUP)
+        if (getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.HOME_CA_HO4) || getPolicyType().equals(PolicyType.HOME_CA_HO6)) {
             Dollar seismicFee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.SEISMIC_SAFETY_FEE);
             assertThat(seismicFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.SEISMIC_FEE, "1034"));
             assertThat(seismicFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.SEISMIC_FEE, "1040"));
         }
 
         // Advance time to policy effective date
-        mainApp().close();
-        TimeSetterUtil.getInstance().nextPhase(effDate);
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
+        advanceTimeAndOpenPolicy(effDate, policyNumber);
 
         // Perform RP endorsement
         Dollar reducedPrem = performRPEndorsement(effDate, premTotal);
@@ -182,7 +179,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // RST-02 validations
         validateReinstatementTx(getReinstatementPremAmount(), policyNumber);
 
-		//TODO need to change the reinstatement lapse RST-07, then remove the lapse RST-09
+		//TODO need to change the reinstatement lapse RST-07, then remove the lapse RST-09 and validations
 
 	}
 
@@ -235,7 +232,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
      * 6. Advance time one week
      * 6. Reinstate policy with lapse
      * 7. Remove reinstatement lapse
-     * @details NBZ-04, PMT-05, PMT-06, END-04, CNL-07, RST-04, RST-08, RST-10
+     * @details NBZ-04, PMT-05, PMT-06, END-04, CNL-04, RST-04, RST-08, RST-10
      */
     protected void testNewBusinessScenario_4() {
 
@@ -247,20 +244,26 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(adjustTdPolicyEffDate(getPolicyTD(), effDate)));
         Dollar premTotal = getTotalTermPremium();
 
-        // NB validations
-        //TODO implement DB validation
+        //TODO NBZ-04 validations
 
         performRPEndorsement(effDate, premTotal);
-        // TODO implement DB validation
+
+        // TODO END-04 and PMT-05 validations
+
+        // Advance time to policy effective date
+        advanceTimeAndOpenPolicy(effDate, policyNumber);
 
         // Cancel policy
         cancelPolicy();
 
+        // TODO CNL-04 validations
+
         // Advance time and reinstate policy with lapse
         performReinstatementWithLapse(effDate, policyNumber);
-        // TODO implement DB validation
 
-        //TODO need to change the reinstatement lapse RST-08, then remove the lapse RST-10
+        // TODO RST-04 validations
+
+        //TODO need to change the reinstatement lapse RST-08, then remove the lapse RST-10 and validations
 
     }
 

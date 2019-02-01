@@ -142,4 +142,11 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		return new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).abs();
 	}
 
+	protected void advanceTimeAndOpenPolicy(LocalDateTime date, String policyNumber) {
+		mainApp().close();
+		TimeSetterUtil.getInstance().nextPhase(date);
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+	}
+
 }
