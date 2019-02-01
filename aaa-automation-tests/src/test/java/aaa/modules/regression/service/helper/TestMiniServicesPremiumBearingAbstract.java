@@ -197,7 +197,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		assertSoftly(softly -> {
 			softly.assertThat(response.allowedEndorsements).isEmpty();
 			softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
-			softly.assertThat(response.ruleSets.get(0).errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.SYSTEM_CREATED_PENDED_ENDORSEMENT.getMessage());
+			softly.assertThat(response.ruleSets.get(0).errors.get(0).message).startsWith(ErrorDxpEnum.Errors.SYSTEM_CREATED_PENDED_ENDORSEMENT.getMessage());
 			softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
 			softly.assertThat(response.ruleSets.get(1).errors).isEmpty();
 		});
@@ -1472,12 +1472,12 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			//Hit start endorsement info service with Id2
 			ValidateEndorsementResponse endorsementInfoResp2 = HelperCommon.startEndorsement(policyNumber, endorsementDate, SESSION_ID_2);
-			assertThat(endorsementInfoResp2.ruleSets.get(0).errors.stream().anyMatch(err -> err.message.equals(ErrorDxpEnum.Errors.POLICY_IS_LOCKED.getMessage()))).isTrue(); //BUG: PAS-16902 Not getting "Policy is locked" message
+			assertThat(endorsementInfoResp2.ruleSets.get(0).errors.stream().anyMatch(err -> err.message.startsWith(ErrorDxpEnum.Errors.POLICY_IS_LOCKED.getMessage()))).isTrue(); //BUG: PAS-16902 Not getting "Policy is locked" message
 
 			//Try to lock policy with id2
 			PolicyLockUnlockDto response1 = HelperCommon.executePolicyLockService(policyNumber, Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), SESSION_ID_2);
 			softly.assertThat(response1.errorCode).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getCode());
-			softly.assertThat(response1.message).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
+			softly.assertThat(response1.message).startsWith(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
 
 			mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -1490,7 +1490,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			//Try unlock policy with id2
 			PolicyLockUnlockDto response2 = HelperCommon.executePolicyUnlockService(policyNumber, Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), SESSION_ID_2);
 			softly.assertThat(response2.errorCode).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getCode());
-			softly.assertThat(response2.message).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
+			softly.assertThat(response2.message).startsWith(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
 
 			//Unlock policy with id1
 			PolicyLockUnlockDto response3 = HelperCommon.executePolicyUnlockService(policyNumber, Response.Status.OK.getStatusCode(), SESSION_ID_1);
@@ -1503,12 +1503,12 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			//Check if policy can be locked using lock service
 			PolicyLockUnlockDto response4 = HelperCommon.executePolicyLockService(policyNumber, Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), SESSION_ID_1);
 			softly.assertThat(response4.errorCode).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getCode());
-			softly.assertThat(response4.message).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
+			softly.assertThat(response4.message).startsWith(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
 
 			//Check if policy can be unlocked using unlock service
 			PolicyLockUnlockDto response5 = HelperCommon.executePolicyUnlockService(policyNumber, Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), SESSION_ID_1);
 			softly.assertThat(response5.errorCode).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getCode());
-			softly.assertThat(response5.message).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
+			softly.assertThat(response5.message).startsWith(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
 		});
 	}
 

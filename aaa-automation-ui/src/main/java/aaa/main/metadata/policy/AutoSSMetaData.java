@@ -190,35 +190,39 @@ public final class AutoSSMetaData {
 			}
 		}
 
-		public static final class SearchOtherAAAProducts extends MetaData {
-			public static final AssetDescriptor<RadioGroup> SEARCH_BY = declare("Search By", RadioGroup.class, By.xpath("//table[@id = 'autoOtherPolicySearchForm:searchById']"));
-			public static final AssetDescriptor<Button> SEARCH_BY_POLICY_NUMBER_BTN = declare("Search By Policy Number Button", Button.class, By.xpath("//input[@id = 'autoOtherPolicySearchForm:searchById:1']"));
-			public static final AssetDescriptor<Button> SEARCH_BY_CUSTOMER_DETAILS_BTN = declare("Search By Customer Details Button", Button.class, By.xpath("//input[@id = 'autoOtherPolicySearchForm:searchById:0']"));
-			public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First Name", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderFirstName']"));
-			public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last Name", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderLastName']"));
-			public static final AssetDescriptor<TextBox> DATE_OF_BIRTH = declare("Date of Birth", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderDobInputDate']"));
-			public static final AssetDescriptor<TextBox> ADDRESS_LINE_1 = declare("Address Line1", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderAddressLine1']"));
-			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderCity']"));
-			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:riskStateDropdown']"));
-			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip Code", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderZipCode']"));
-			public static final AssetDescriptor<TextBox> PHONE_NUMBER = declare("Phone Number", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderPhoneNumber']"));
-			public static final AssetDescriptor<TextBox> MEMBERSHIP = declare("Membership", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderMembershipNumber']"));
-			public static final AssetDescriptor<TextBox> EMAIL = declare("Email", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderEmailAddress']"));
-			public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:autoPolicyTypeDropdown']"));
-			public static final AssetDescriptor<TextBox> POLICY_QUOTE_NUMBER = declare("Policy/Quote Number", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:autoOrderPolicyNumber']"));
-			public static final AssetDescriptor<Button> SEARCH_BTN = declare("Search", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:cmdButtonSearch']"));
-			public static final AssetDescriptor<Button> CLEAR_BTN = declare("Clear", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:cmdButtonClear']"));
-			public static final AssetDescriptor<Button> CLOSE_BTN = declare("Close", Button.class, By.xpath("//div[@id = 'autoOtherPolicySearchPopup_header_controls']/child::img"));
-			public static final AssetDescriptor<StaticElement> ERROR_MESSAGE = declare("Error Message", StaticElement.class, By.xpath(".//span[@id='autoOtherPolicySearchForm:noResults']"));
-			//add "Submit" and "Result Table" locators.
+			public static final class SearchOtherAAAProducts extends MetaData {
+				public static final AssetDescriptor<RadioGroup> SEARCH_BY = declare("Search By", RadioGroup.class, By.xpath("//table[@id = 'autoOtherPolicySearchForm:searchById']"));
+				public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First Name", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderFirstName']"));
+				public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last Name", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderLastName']"));
+				public static final AssetDescriptor<TextBox> DATE_OF_BIRTH = declare("Date of Birth", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderDobInputDate']"));
+				public static final AssetDescriptor<TextBox> ADDRESS_LINE_1 = declare("Address Line1", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderAddressLine1']"));
+				public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderCity']"));
+				public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:riskStateDropdown']"));
+				public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip Code", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderZipCode']"));
+				public static final AssetDescriptor<TextBox> PHONE_NUMBER = declare("Phone Number", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderPhoneNumber']"));
+				public static final AssetDescriptor<TextBox> MEMBERSHIP = declare("Membership", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderMembershipNumber']"));
+				public static final AssetDescriptor<TextBox> EMAIL = declare("Email", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderEmailAddress']"));
+				public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:autoPolicyTypeDropdown']"));
+				public static final AssetDescriptor<TextBox> POLICY_QUOTE_NUMBER = declare("Policy/Quote Number", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:autoOrderPolicyNumber']"));
+				public static final AssetDescriptor<Button> SEARCH_BTN = declare("Search", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:cmdButtonSearch']"));
+				public static final AssetDescriptor<Button> CLEAR_BTN = declare("Clear", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:cmdButtonClear']"));
+				public static final AssetDescriptor<Button> CLOSE_BTN = declare("Close", Button.class, By.xpath("//div[@id = 'autoOtherPolicySearchPopup_header_controls']/child::img"));
+				public static final AssetDescriptor<StaticElement> ERROR_MESSAGE = declare("Error Message", StaticElement.class, By.xpath(".//span[@id='autoOtherPolicySearchForm:noResults']"));
 
-			//need to see results table and add it here
-			public static final AssetDescriptor<Button> ADD_SELECTED_BUTTON = declare("Add Selected", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:btnAddSelected']"));
+				public static final AssetDescriptor<FillableTable> RESULT_TABLE = declare("Result Table", FillableTable.class, ResultsTableRows.class, By.xpath(".//table[@id=’ autoOtherPolicySearchForm:elasticSearchResponseTable’]"));
 
-			//Not sure about these buttons, they look strange.
-			public static final AssetDescriptor<Button> ADD_MOTOR_OR_LIFE_BTN = declare("Add Motor/Life", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:addMotorOrLife']"));
-			public static final AssetDescriptor<Button> ADD_HOME_RENTERS_CONDO_BTN = declare("Add Home/Renters/Condo", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:addHomeRenterCondo']"));
-			public static final AssetDescriptor<Button> CANCEL_BTN = declare("Cancel", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:cmdButtonCancelHomeRenterCondo']"));
+				public static final AssetDescriptor<Button> ADD_SELECTED_BTN = declare("Submit", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:btnAddSelected']"));
+				public static final AssetDescriptor<Button> CANCEL_BTN = declare("Cancel", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:cmdButtonCancelHomeRenterCondo']"));
+
+				public static final class ResultsTableRows extends MetaData {
+					public static final AssetDescriptor<StaticElement> CUSTOMER_NAME_ADDRESS = declare("Customer Name/Address", StaticElement.class);
+					public static final AssetDescriptor<StaticElement> DATE_OF_BIRTH = declare("Date of Birth", StaticElement.class);
+					public static final AssetDescriptor<StaticElement> POLICY_TYPE = declare("Policy Type", StaticElement.class);
+					public static final AssetDescriptor<StaticElement> OTHER_AAA_PRODUCTS_POLICY_ADDRESS = declare("Other AAA Products/Policy Address", StaticElement.class);
+					public static final AssetDescriptor<StaticElement> STATUS = declare("Status", StaticElement.class);
+					public static final AssetDescriptor<CheckBox> SELECT = declare("Select", CheckBox.class);
+				}
+			}
 		}
 
 		public static final class CurrentCarrierInformation extends MetaData {
