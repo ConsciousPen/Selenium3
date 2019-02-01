@@ -118,7 +118,7 @@ public class HomeSSOpneLCappingDetails extends OpenLCappingDetails {
 	}
 
 	public Double getTermCappingFactor() {
-		return termCappingFactor == null ? 0.0 : termCappingFactor;
+		return termCappingFactor;
 	}
 
 	public void setTermCappingFactor(Double termCappingFactor) {
