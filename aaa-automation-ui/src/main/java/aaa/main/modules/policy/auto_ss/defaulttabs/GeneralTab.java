@@ -11,9 +11,10 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
-import aaa.toolkit.webdriver.customcontrols.NoSectionsMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.SelectSearchDialog;
+import toolkit.webdriver.controls.CheckBox;
+import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.table.Table;
@@ -57,12 +58,20 @@ public class GeneralTab extends Tab {
 		return getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIST_OF_PRODUCTS_OWNED.getLabel(), FillableTable.class).getTable();
 	}
 
+	public AssetList getListOfProductsRowsAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.LIST_OF_PRODUCT_ROWS.getLabel(), AutoSSMetaData.GeneralTab.LIST_OF_PRODUCT_ROWS.getControlClass());
+	}
+
 	public Table getManualSearchResultTable() {
-		return getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.RESULT_TABLE.getLabel(), FillableTable.class).getTable();
+		return getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.RESULT_TABLE.getLabel(), FillableTable.class).getTable();
 	}
 
 	public SelectSearchDialog getSearchOtherAAAProducts() {
-		return getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_OTHER_AAA_PRODUCTS.getLabel(), SelectSearchDialog.class);
+		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.SEARCH_OTHER_AAA_PRODUCTS.getLabel(), SelectSearchDialog.class);
+	}
+
+	public AssetList getSearchOtherAAAProductsAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.SEARCH_OTHER_AAA_PRODUCTS.getLabel(), AssetList.class);
 	}
 
 	public AssetList getCurrentCarrierInfoAssetList() {
@@ -111,7 +120,7 @@ public class GeneralTab extends Tab {
 	 */
 	public void mpd_SearchByPolicyNumber(String policyType, String inputPolicyNumber){
 		getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getControlClass()).click();
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BY_POLICY_NUMBER_BTN.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BY_POLICY_NUMBER_BTN.getControlClass()).click();
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BY.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BY.getControlClass()).setValue("Policy Number");
 		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.POLICY_TYPE.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.POLICY_TYPE.getControlClass()).setValue(policyType);
 		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getControlClass()).setValue(inputPolicyNumber);
 		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
@@ -125,10 +134,10 @@ public class GeneralTab extends Tab {
 	    if(policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME.getLabel()) || policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS.getLabel()) ||
                 policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO.getLabel())){
 
-            getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_HOME_RENTERS_CONDO_BTN.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_HOME_RENTERS_CONDO_BTN.getControlClass()).click();
+			getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_HOME_RENTERS_CONDO_BTN.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_HOME_RENTERS_CONDO_BTN.getControlClass()).click();
 
         }else{
-            getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_MOTOR_OR_LIFE_BTN.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_MOTOR_OR_LIFE_BTN.getControlClass()).click();
+			getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_MOTOR_OR_LIFE_BTN.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_MOTOR_OR_LIFE_BTN.getControlClass()).click();
         }
 	}
 
@@ -150,15 +159,15 @@ public class GeneralTab extends Tab {
 	 * @param searchFieldValue This variable is applied to the First Name field of the Customer Details Search and can manipulate response results. <br>
 	 */
 	public void mpd_SearchCustomerDetails(String searchFieldValue){
-		getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), Button.class).click();
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BY_CUSTOMER_DETAILS_BTN.getLabel(), Button.class).click();
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.FIRST_NAME.getLabel(), TextBox.class).setValue(searchFieldValue);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.LAST_NAME.getLabel(), TextBox.class).setValue("JunkDataLastName");
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.DATE_OF_BIRTH.getLabel(), TextBox.class).setValue("01/01/1980");
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADDRESS_LINE_1.getLabel(), TextBox.class).setValue("JunkDataAddress");
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.CITY.getLabel(), TextBox.class).setValue("JunkDataCity");
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ZIP_CODE.getLabel(), TextBox.class).setValue("JunkDataZip");
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), Button.class).click();
+		getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getControlClass()).click();
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BY.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BY.getControlClass()).setValue("Customer Details");
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.FIRST_NAME.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.FIRST_NAME.getControlClass()).setValue(searchFieldValue);
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.LAST_NAME.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.LAST_NAME.getControlClass()).setValue("JunkDataLastName");
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.DATE_OF_BIRTH.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.DATE_OF_BIRTH.getControlClass()).setValue("01/01/1980");
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADDRESS_LINE_1.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADDRESS_LINE_1.getControlClass()).setValue("JunkDataAddress");
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.CITY.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.CITY.getControlClass()).setValue("JunkDataCity");
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ZIP_CODE.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ZIP_CODE.getControlClass()).setValue("JunkDataZip");
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
 	}
 
 	/**
@@ -170,31 +179,31 @@ public class GeneralTab extends Tab {
 	 * @param city Customer City. <br>
 	 * @param zipCode Customer Zip Code. <br>
 	 */
-	public void mpd_SearchCustomerDetails(String firstName, String lastName, String dateOfBirth, String address, String city, String State, String zipCode){
-		getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), Button.class).click();
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BY_CUSTOMER_DETAILS_BTN.getLabel(), Button.class).click();
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.FIRST_NAME.getLabel(), TextBox.class).setValue(firstName);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.LAST_NAME.getLabel(), TextBox.class).setValue(lastName);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.DATE_OF_BIRTH.getLabel(), TextBox.class).setValue(dateOfBirth);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADDRESS_LINE_1.getLabel(), TextBox.class).setValue(address);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.CITY.getLabel(), TextBox.class).setValue(city);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.STATE.getLabel(), ComboBox.class).setValue(State);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ZIP_CODE.getLabel(), TextBox.class).setValue(zipCode);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), Button.class).click();
+	public void mpd_SearchCustomerDetails(String firstName, String lastName, String dateOfBirth, String address, String city, String state, String zipCode){
+		getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getControlClass()).click();
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BY.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BY.getControlClass()).setValue("Customer Details");
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.FIRST_NAME.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.FIRST_NAME.getControlClass()).setValue(firstName);
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.LAST_NAME.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.LAST_NAME.getControlClass()).setValue(lastName);
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.DATE_OF_BIRTH.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.DATE_OF_BIRTH.getControlClass()).setValue(dateOfBirth);
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADDRESS_LINE_1.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADDRESS_LINE_1.getControlClass()).setValue(address);
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.CITY.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.CITY.getControlClass()).setValue(city);
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.STATE.getLabel(), (AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.STATE.getControlClass())).setValue(state);
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ZIP_CODE.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ZIP_CODE.getControlClass()).setValue(zipCode);
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
 	}
 
 	public void mpd_EditPolicyInMPDTable(int index, String newPolicyType, String newPolicyNumber){
 		mpdTable_getEditLinkByIndex(index).click();
-		getListOfProductRowsAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE_EDIT.getLabel(),
+		getListOfProductsRowsAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE_EDIT.getLabel(),
 				AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE_EDIT.getControlClass()).setValue(newPolicyType);
-		getListOfProductRowsAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.QUOTE_POLICY_NUMBER_EDIT.getLabel(),
+		getListOfProductsRowsAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.QUOTE_POLICY_NUMBER_EDIT.getLabel(),
 				AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.QUOTE_POLICY_NUMBER_EDIT.getControlClass()).setValue(newPolicyNumber);
-		getListOfProductRowsAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.SAVE_BTN.getLabel(),
+		getListOfProductsRowsAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.SAVE_BTN.getLabel(),
 				AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.SAVE_BTN.getControlClass()).click();
 	}
 
 	public void mpd_ClickRefresh() {
-		getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getLabel(), Button.class).click();
+		getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getControlClass()).click();
 	}
 
 	/**
@@ -231,7 +240,7 @@ public class GeneralTab extends Tab {
 	 */
 	public void mpdSearchTable_addSelected(int index){
 		new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + String.valueOf(index) + ":customerSelected")).setValue(true);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_SELECTED_BUTTON.getLabel(), Button.class).click();
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_SELECTED_BTN.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_SELECTED_BTN.getControlClass()).click();
 	}
 
 	/**
@@ -243,7 +252,7 @@ public class GeneralTab extends Tab {
 		{
 			new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + String.valueOf(index) + ":customerSelected")).setValue(true);
 		}
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_SELECTED_BUTTON.getLabel(), Button.class).click();
+		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_SELECTED_BTN.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_SELECTED_BTN.getControlClass()).click();
 	}
 
 	/**
