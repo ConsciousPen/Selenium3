@@ -326,7 +326,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      */
     private void addMPDAndRerate(String in_newPolicyType, String in_newPolicyNumber){
         // Change MPD Policy and Attempt to Purchase
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());_generalTab.mpd_SearchAndAddManually(in_newPolicyType, in_newPolicyNumber);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        _generalTab.mpd_SearchAndAddManually(in_newPolicyType, in_newPolicyNumber);
         doRerate();
     }
 
@@ -379,13 +380,15 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         TestData testData = getPolicyTD();
 
         // Add MPD Element manually (after no results found)
-        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
+        createQuoteAndFillUpTo(testData, DocumentsAndBindTab.class, true);
         _generalTab.mpd_SearchAndAddManually("Home", "NOT_FOUND");
 
         // Continue towards purchase of quote.
+        policy.getDefaultView().fillFromTo(testData, GeneralTab.class, DocumentsAndBindTab.class, true);
+        _documentsAndBindTab.btnPurchase.click();
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
-        // Will most likely be a new error message that requires metadata.
+        new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.MPD_COMPANION_VALIDATION);
     }
 
 }
