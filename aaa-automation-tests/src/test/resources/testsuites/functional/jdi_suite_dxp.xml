@@ -865,6 +865,16 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="PIP Coverage MD" parallel="methods">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15361_viewPIPMD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="pas12942_GaragingAddressConsistencyDXP" parallel="methods">
         <parameter name="state" value="CT"/>
         <classes>

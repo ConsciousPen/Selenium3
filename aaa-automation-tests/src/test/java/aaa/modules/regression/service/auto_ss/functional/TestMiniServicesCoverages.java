@@ -1452,6 +1452,23 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	/**
 	 * @author Maris Strazds
+	 * @name View Coverage - PIP in MD
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Run view endorsement coverages service
+	 * 4. Verify PIP coverage
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.MD})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15361"})
+	public void pas15361_viewPIPMD(@Optional("MD") String state) {
+		pas15361_viewPIPMDBody();
+	}
+
+	/**
+	 * @author Maris Strazds
 	 * @name
 	 * @scenario
 	 * 1. Create policy in PAS with Tort Threshold = Limited Tort
