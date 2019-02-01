@@ -58,7 +58,7 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 	protected Dollar calculatePremium(AutoSSOpenLPolicy openLPolicy) {
 		new PremiumAndCoveragesTab().calculatePremium();
 		Dollar totalPremium = PremiumAndCoveragesTab.getTotalTermPremium();
-		if (PremiumAndCoveragesTab.tableStateAndLocalTaxesSummary.isPresent()) { // WV and KY states have AP/RP taxes
+		if (PremiumAndCoveragesTab.tableStateAndLocalTaxesSummaryDetailed.isPresent() || PremiumAndCoveragesTab.tableStateAndLocalTaxesSummary.isPresent()) { // WV and KY states have AP/RP taxes
 			totalPremium = totalPremium.subtract(PremiumAndCoveragesTab.getStateAndLocalTaxesAndPremiumSurchargesPremium());
 		}
 		return totalPremium;
