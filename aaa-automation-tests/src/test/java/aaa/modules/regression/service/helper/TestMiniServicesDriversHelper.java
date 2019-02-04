@@ -61,7 +61,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private RemoveDriverRequest removeDriverRequest = new RemoveDriverRequest();
 	private DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
 	private String policyNumber7Drivers;
-	private TestMiniServicesCoveragesHelper testMiniServicesCoveragesHelper = new TestMiniServicesCoveragesHelper();
+	private static TestMiniServicesCoveragesHelper testMiniServicesCoveragesHelper = new TestMiniServicesCoveragesHelper();
 
 	protected void pas11932_viewDriversInfo(PolicyType policyType) {
 		assertSoftly(softly -> {
@@ -2139,7 +2139,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			validateFormPremiumInPAndCTab(0, 0, softly);
 
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
-			validateFormsTab(viewEndorsementCoverages, softly);
+			validateFormsTab(viewEndorsementCoverages, softly, policyNumber);
 			formsTab.saveAndExit();
 
 			//Change "Death Indemnity and Specific Disability" to yes
@@ -2170,7 +2170,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			validateFormPremiumInPAndCTab(1, 0, softly);
 
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
-			validateFormsTab(viewEndorsementCoverages, softly);
+			validateFormsTab(viewEndorsementCoverages, softly, policyNumber);
 			formsTab.saveAndExit();
 
 			//Change "Total Disability" to yes
@@ -2202,7 +2202,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			validateFormPremiumInPAndCTab(1, 1, softly);
 
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
-			validateFormsTab(viewEndorsementCoverages, softly);
+			validateFormsTab(viewEndorsementCoverages, softly, policyNumber);
 			formsTab.saveAndExit();
 
 			//Change "Death Indemnity and Specific Disability" to No, when also "Total Disability" = yes ---> "Total Disability"  should be defaulted to null
@@ -2234,9 +2234,11 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			validateFormPremiumInPAndCTab(0, 0, softly);
 
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
-			validateFormsTab(viewEndorsementCoverages, softly);
+			validateFormsTab(viewEndorsementCoverages, softly, policyNumber);
 			formsTab.saveAndExit();
 
+			//Just finishing transaction
+			HelperCommon.orderReports(policyNumber, addDriverResponse.oid, OrderReportsResponse.class, Response.Status.OK.getStatusCode());
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 
 		});
@@ -2325,7 +2327,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			validateFormPremiumInPAndCTab(1, 0, softly);
 
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
-			validateFormsTab(viewEndorsementCoverages, softly);
+			validateFormsTab(viewEndorsementCoverages, softly, policyNumber);
 			formsTab.saveAndExit();
 
 			//Nafr driver should not have option to select "Death Indemnity and Specific Disability"
@@ -2448,7 +2450,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			validateFormPremiumInPAndCTab(2, 1, softly);
 
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
-			validateFormsTab(viewEndorsementCoverages, softly);
+			validateFormsTab(viewEndorsementCoverages, softly, policyNumber);
 			formsTab.saveAndExit();
 
 			//Nafr driver should not have option to select "Death Indemnity and Specific Disability" and "Total Disability"
@@ -2701,11 +2703,11 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	}
 
-	private void validateFormsTab(PolicyCoverageInfo policyCoverageInfo, ETCSCoreSoftAssertions softly) {
+	private void validateFormsTab(PolicyCoverageInfo policyCoverageInfo, ETCSCoreSoftAssertions softly, String policyNumber) {
 		AutoSSForms.AutoSSDriverFormsController driverForms = formsTab.getAssetList().getAsset(AutoSSMetaData.FormsTab.DRIVER_FORMS);
 
 		Coverage covDISD = testMiniServicesCoveragesHelper.findCoverage(policyCoverageInfo.driverCoverages, "DISD");
-		ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber7Drivers);
+		ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 
 		int driverCount = viewDriversResponse.driverList.size();
 		for (int i = 0; i < driverCount; i++) {
