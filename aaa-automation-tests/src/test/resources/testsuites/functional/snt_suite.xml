@@ -19,7 +19,7 @@
         </classes>
     </test>
 
-    <test name="Home Granularity CA HO3" parallel="methods" thread-count="1024">
+    <test name="Home Granularity SS HO3" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestHomeGranularity">
@@ -44,7 +44,7 @@
         </classes>
     </test>
 
-    <test name="Home Granularity CA HO4" parallel="methods" thread-count="1024">
+    <test name="Home Granularity SS HO4" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestHomeGranularity">
@@ -68,7 +68,7 @@
         </classes>
     </test>
 
-    <test name="Home Granularity CA HO6" parallel="methods" thread-count="1024">
+    <test name="Home Granularity SS HO6" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestHomeGranularity">
@@ -92,7 +92,7 @@
         </classes>
     </test>
 
-    <test name="Home Granularity CA DP3" parallel="methods" thread-count="1024">
+    <test name="Home Granularity SS DP3" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestHomeGranularity">
