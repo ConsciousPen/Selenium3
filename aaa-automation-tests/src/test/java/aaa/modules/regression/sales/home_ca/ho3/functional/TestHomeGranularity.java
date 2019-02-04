@@ -1,9 +1,14 @@
 package aaa.modules.regression.sales.home_ca.ho3.functional;
 
+import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.constants.HomeGranularityConstants;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.modules.regression.sales.template.functional.TestHomeGranularityAbstract;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -16,6 +21,21 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
 
     @Override
     protected PolicyType getPolicyType() { return PolicyType.HOME_CA_HO3; }
+
+    @Override
+    protected Tab getApplicantTab(){return new ApplicantTab();}
+
+    @Override
+    protected Tab getReportsTab(){return new ReportsTab();}
+
+    @Override
+    protected Tab getPremiumAndCoveragesQuoteTab(){return new PremiumsAndCoveragesQuoteTab();}
+
+    private String zipCode = HomeGranularityConstants.EADS_MOCK_ZIPCODE_CA;
+    private String address = HomeGranularityConstants.EADS_MOCK_ADDRESS_CA;
+    private String censusBlock = HomeGranularityConstants.EADS_MOCK_CENSUS_BLOCK_CA;
+    private String latitude = HomeGranularityConstants.EADS_MOCK_LATITUDE_CA;
+    private String longitude = HomeGranularityConstants.EADS_MOCK_LONGITUDE_CA;
 
     /**
      * @name test: Capture Census Block Group, Latitude and Longitude when address is validated
@@ -50,6 +70,6 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-23927")
     public void pas23927_validateCensusBlockGroupAndLatLongFromEADS(@Optional("CA") String state) {
-        validateCensusBlockGroupAndLatLongFromEADS();
+        validateCensusBlockGroupAndLatLongFromEADS(zipCode, address, censusBlock, latitude, longitude);
     }
 }
