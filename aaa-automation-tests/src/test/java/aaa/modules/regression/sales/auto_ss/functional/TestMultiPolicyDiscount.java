@@ -375,13 +375,24 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
-    public void pas24729_MPD_ValidateEligibilityRuleFires(@Optional("") String state) {
+    public void pas24729_MPD_ValidateEligibilityRuleFires_Home(@Optional("") String state) {
+        doMPDEligibilityTest("Home");
+    }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    public void pas24729_MPD_ValidateEligibilityRuleFires_Life(@Optional("") String state) {
+        doMPDEligibilityTest("Life");
+    }
+
+    private void doMPDEligibilityTest(String in_policyType){
         // Using default test data.
         TestData testData = getPolicyTD();
 
         // Add MPD Element manually (after no results found)
-        createQuoteAndFillUpTo(testData, DocumentsAndBindTab.class, true);
-        _generalTab.mpd_SearchAndAddManually("Home", "NOT_FOUND");
+        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
+        _generalTab.mpd_SearchAndAddManually(in_policyType, "NOT_FOUND");
 
         // Continue towards purchase of quote.
         policy.getDefaultView().fillFromTo(testData, GeneralTab.class, DocumentsAndBindTab.class, true);

@@ -7,7 +7,7 @@ public final class ErrorEnum {
 	public enum Errors {
 
 		ERROR_POLICY_NOT_RATED("Unprepared data", "Cannot issue policy which was not rated!"),
-		MPD_COMPANION_VALIDATION("", "Policy cannot be bound with a Home companion policy that is not system validated."),
+		MPD_COMPANION_VALIDATION("MPD_COMPANION_VALIDATION", "Policy cannot be bound with a Home companion policy that is not system validated."),
 		ERROR_200127("200127", "The selected pay plan is not allowed when Membership is \"\"No\"\". Please choose a plan with a minimum down payment of 50% or greater. Do not select 'refer for approval.' Any exceptions to this rule must be discussed directly with Service. (200127) [for ExistingPolicies.existingMembershipCd]"),
 		ERROR_200103("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
 		ERROR_200104("200104", "Driver with 2 or more At-fault accidents are unacceptable (200104) [for Drive..."),
