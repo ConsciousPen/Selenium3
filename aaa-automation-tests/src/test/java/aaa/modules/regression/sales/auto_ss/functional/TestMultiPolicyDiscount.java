@@ -326,7 +326,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      */
     private void addMPDAndRerate(String in_newPolicyType, String in_newPolicyNumber){
         // Change MPD Policy and Attempt to Purchase
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());_generalTab.mpd_SearchAndAddManually(in_newPolicyType, in_newPolicyNumber);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        _generalTab.mpd_SearchAndAddManually(in_newPolicyType, in_newPolicyNumber);
         doRerate();
     }
 
@@ -374,18 +375,31 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
-    public void pas24729_MPD_ValidateEligibilityRuleFires(@Optional("") String state) {
+    public void pas24729_MPD_ValidateEligibilityRuleFires_Home(@Optional("") String state) {
+        doMPDEligibilityTest("Home");
+    }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    public void pas24729_MPD_ValidateEligibilityRuleFires_Life(@Optional("") String state) {
+        doMPDEligibilityTest("Life");
+    }
+
+    private void doMPDEligibilityTest(String in_policyType){
         // Using default test data.
         TestData testData = getPolicyTD();
 
         // Add MPD Element manually (after no results found)
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-        _generalTab.mpd_SearchAndAddManually("Home", "NOT_FOUND");
+        _generalTab.mpd_SearchAndAddManually(in_policyType, "NOT_FOUND");
 
         // Continue towards purchase of quote.
+        policy.getDefaultView().fillFromTo(testData, GeneralTab.class, DocumentsAndBindTab.class, true);
+        _documentsAndBindTab.btnPurchase.click();
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
-        // Will most likely be a new error message that requires metadata.
+        new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.MPD_COMPANION_VALIDATION);
     }
 
 }
