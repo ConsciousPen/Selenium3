@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Show Me The Money Ledger Time Shift Test Suite" verbose="1" parallel="tests" thread-count="1024">
+<suite name="Show Me The Money Ledger Time Shift Test Suite AWS" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
@@ -60,19 +60,6 @@
         <parameter name="state" value="NV"/>
         <classes>
             <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationRenewal"/>
-        </classes>
-    </test>
-    <!-- Policy Escheatment Reversals: PAS-19074-->
-    <test name="CA TestFinancePolicyEscheatmentCheckReversals" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinancePolicyEscheatmentCheckReversals"/>
-        </classes>
-    </test>
-    <test name="CA TestFinanceCheckPermissionForReversal" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceCheckPermissionForReversal"/>
         </classes>
     </test>
 </suite>
