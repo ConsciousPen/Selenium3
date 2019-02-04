@@ -7,8 +7,8 @@ public class HomeGranularityConstants {
     public static final String MOCK_LONGITUDE = "-102.176";
     public static final String MOCK_CENSUS_BLOCK = "060290022002";
     //AVS Mock (stub service) Lat/Long and Census Block ID for SS(AZ) Home (All Products) using the default address used by automation
-    public static final String MOCK_LATITUDE_AZ = "23.787054";
-    public static final String MOCK_LONGITUDE_AZ = "-13.999876";
+    public static final String MOCK_LATITUDE_AZ = "12.651";
+    public static final String MOCK_LONGITUDE_AZ = "-143.988";
     public static final String MOCK_CENSUS_BLOCK_AZ = "060290021001";
     //EADS Mock Lat/Long and Census Block ID
     public static final String EADS_MOCK_LATITUDE_CA = "33.5150579";
