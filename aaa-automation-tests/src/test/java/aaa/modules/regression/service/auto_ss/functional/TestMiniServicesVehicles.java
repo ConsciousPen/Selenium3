@@ -549,6 +549,24 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	}
 
 	/**
+	 * @author Nauris Ivanans
+	 * @name Check NY UI fields after adding and replacing vehicle
+	 * @scenario 1. Create policy
+	 * 2. Add one vehicle from DXP
+	 * 3. Replace one vehicle from DXP
+	 * 4. Check default "Is this a Replacement Vehicle?" and "Select the Replaced Vehicle" values on UI:
+	 * For added vehicle "Is this a Replacement Vehicle?" = false
+	 * For replaced vehicle "Is this a Replacement Vehicle?" = true
+	 * and "Select the Replaced Vehicle" displays information about the vehicle that was replaced.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-24166"})
+	public void pas24166_ReplaceVehicleAndCheckUIFields(@Optional("NY") String state) {
+		pas24166_ReplaceVehicleAndCheckUIFields();
+	}
+
+	/**
 	 * @author Oleg Stasyuk
 	 * @name Check Vehicle coverages after replacing the vehicle
 	 * @scenario 1.Create a policy with 1 leased vehicle, 1 New Car coverage and 2 drivers

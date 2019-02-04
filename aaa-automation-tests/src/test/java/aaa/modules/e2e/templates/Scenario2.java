@@ -341,4 +341,14 @@ public class Scenario2 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
 	
+	//CA : to avoid aaaRefundGenerationAsyncJob failure later - PAS-24650
+	protected void makeManualPaymentInTotalDueAmount() {
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+
+		Dollar sum = BillingHelper.getPolicyTotalDueAmount(policyNum);
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_CC"), sum);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
+	}
 }

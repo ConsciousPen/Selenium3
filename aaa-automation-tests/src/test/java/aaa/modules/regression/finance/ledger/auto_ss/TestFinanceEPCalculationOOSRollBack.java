@@ -87,8 +87,8 @@ public class TestFinanceEPCalculationOOSRollBack extends FinanceOperations {
 		searchForPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 
-		assertThat(LedgerHelper.getEndingActualPremium(policyNumber))
-				.isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
+		assertThat(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)))
+				.isEqualTo(LedgerHelper.getEndingActualPremium(policyNumber));
 
 		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE, TxType.ENDORSE,
 				TxType.ENDORSE, TxType.ROLL_BACK);

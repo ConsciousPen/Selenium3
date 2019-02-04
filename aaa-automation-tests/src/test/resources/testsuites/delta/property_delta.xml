@@ -79,4 +79,13 @@
             <class name="aaa.modules.delta.home_ss.dp3.TestORDeltaScenario1"/>
         </classes>
     </test>
+    <test name="Delta MD Scenarios" parallel="methods">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.delta.home_ss.ho3.TestMDDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.ho4.TestMDDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.ho6.TestMDDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.dp3.TestMDDeltaScenario1"/>
+        </classes>
+    </test>
 </suite>

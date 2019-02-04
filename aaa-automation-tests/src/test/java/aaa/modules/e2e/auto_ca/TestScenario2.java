@@ -59,6 +59,7 @@ public class TestScenario2 extends Scenario2 {
 			renewalPaymentNotGenerated();
 			updatePolicyStatus();
 			makeManualPaymentInFullRenewalOfferAmount();
+			makeManualPaymentInTotalDueAmount(); //PAS-24650
 			verifyDocGenForms(false, DocGenEnum.Documents._55_5003, DocGenEnum.Documents._55_5080);
 		});
 	}

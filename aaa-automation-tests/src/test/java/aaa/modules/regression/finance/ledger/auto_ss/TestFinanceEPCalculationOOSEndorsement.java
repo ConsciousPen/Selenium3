@@ -85,8 +85,8 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
 		searchForPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 
-		assertThat(LedgerHelper.getEndingActualPremium(policyNumber))
-				.isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
+		assertThat(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)))
+				.isEqualTo(LedgerHelper.getEndingActualPremium(policyNumber));
 
 		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE, TxType.ENDORSE, TxType.OOS_ENDORSE, TxType.ROLL_ON);
 		validateEPCalculations(policyNumber, txTypes, today, expirationDate);

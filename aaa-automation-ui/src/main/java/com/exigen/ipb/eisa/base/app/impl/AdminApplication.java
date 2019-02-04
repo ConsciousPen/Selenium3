@@ -21,7 +21,7 @@ public class AdminApplication extends Application {
 	}
 
 	@Override
-	protected final void switchPanel() {
+	public final void switchPanel() {
 		log.debug("Switch to Admin App");
 		Link linkSwitch = new Link(By.id("logoutForm:switchToAdmin"));
 		if (linkSwitch.isPresent() && linkSwitch.isVisible()) {

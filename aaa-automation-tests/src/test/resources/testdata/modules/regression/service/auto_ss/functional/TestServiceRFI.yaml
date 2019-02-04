@@ -892,3 +892,16 @@ DriverTab4_WY: {
   License Type: 'Licensed (US)',
   License Number: 400064774
 }
+
+TestData_AddVewhicle: {
+  VehicleTab: ['@TestData_VehicleTab'],
+}
+
+TestData_VehicleTab: {
+  Add Vehicle: Click,
+  VIN: WAUKJAFM8C6314628,
+  Usage: Pleasure,
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Odometer Reading: 3000
+}

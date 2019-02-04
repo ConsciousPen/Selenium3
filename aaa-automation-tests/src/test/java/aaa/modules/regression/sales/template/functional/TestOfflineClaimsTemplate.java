@@ -301,7 +301,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
      * @return
      */
     protected String downloadClaimRequest() {
-        String claimRequestFolder = BatchJob.getRenewalClaimOrderAsyncJobParameters().get("processedFolder");
+        String claimRequestFolder = BatchJob.getRenewalClaimOrderAsyncJobParameters().get(BatchJob.ParametersName.PROCESSED_FOLDER);
         List<String> requests = RemoteHelper.get().getListOfFiles(claimRequestFolder);
         assertThat(requests).hasSize(1);
         String claimRequest = requests.get(0);
@@ -379,7 +379,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
         // Upload claim response
         RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(),
-                BatchJob.getRenewalClaimOrderAsyncJobParameters().get("importFolder") + File.separator + claimResponseFile.getName());
+                BatchJob.getRenewalClaimOrderAsyncJobParameters().get(BatchJob.ParametersName.IMPORT_FOLDER) + File.separator + claimResponseFile.getName());
     }
 
     /**

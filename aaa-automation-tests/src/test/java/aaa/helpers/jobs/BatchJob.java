@@ -255,8 +255,8 @@ public class BatchJob {
 
 	public static HashMap<String, String> getRenewalClaimOrderAsyncJobParameters() {
 		HashMap<String, String> parameters = new HashMap();
-		parameters.put("importFolder", getFormattedFolderPath("%SPAS_B_PASHUB_EXGPAS_4001_D/inbound"));
-		parameters.put("processedFolder", getFormattedFolderPath("%SPAS_B_EXGPAS_PASHUB_4001_D/outbound"));
+		parameters.put(ParametersName.IMPORT_FOLDER, getFormattedFolderPath("%SPAS_B_PASHUB_EXGPAS_4001_D/inbound"));
+		parameters.put(ParametersName.PROCESSED_FOLDER, getFormattedFolderPath("%SPAS_B_EXGPAS_PASHUB_4001_D/outbound"));
 		return parameters;
 	}
 
