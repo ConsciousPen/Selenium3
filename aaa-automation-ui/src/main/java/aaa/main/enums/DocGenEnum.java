@@ -273,6 +273,7 @@ public final class DocGenEnum {
 		HSIQXX4("Renters Insurance Quote Page"),
 		HSIQXX6("Condominium Owners Insurance Quote Page"),
 		HSPISKY("Policy Information Sheet (KY)"),
+		HSPIMDA("HSPIMDA", "Notice of Increased/Decreased Recalculated Premium"), 
 		HSPRNMXX("Pre-Renewal letter (Mortgagee)"),
 		HSPRNXX("HSPRNXX","Pre-Renewal letter"),
 		HSRNMXX("Renewal Cover Letter (Mortgagee)"),

@@ -1,0 +1,102 @@
+TestData: {
+  PropertyInfoTab: '@PropertyInfoTab',
+  MortgageesTab: '@MortgageesTab'
+}
+
+PropertyInfoTab: {
+  DwellingAddress: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  Interior: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@Interior',
+  #DetachedStructures: ['@<delta_home_ss_ho3>@TestMDDeltaScenario1@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: {},
+  PetsOrAnimals: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PetsOrAnimals',
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+}
+
+MortgageesTab: {
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+}
+
+# ----- PropertyInfo Tab -----
+PropertyValue: {
+  Personal property value: '75000' 
+}
+
+Construction: {
+  Year built: 2009,
+  Square footage: 1,
+  Roof type: Laminate / Architectural,
+  Construction type: 'Masonry', 
+}
+  
+# ----- Mortgagees Tab ----- 
+AdditionalInsured: {
+  Interest: Trust, 
+  Name: Pasha Ulybasha
+}
+
+# =========== TC03 Storm Shutter discount ===========
+TestData_StormShutterYes: {
+  PropertyInfoTab: '@PropertyInfoTab_StormShutterYes',
+}
+
+PropertyInfoTab_StormShutterYes: {
+  HomeRenovation: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@HomeRenovation_StormShutterYes'
+}
+
+# ============ TC_verifyUnderwritingApprovalTab ===============
+TestData_UW1: {}
+
+TestData_UW2: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2',
+}
+
+UnderwritingAndApprovalTab_UW2: {
+  "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.": 'Yes',
+  Remark Prior Insurance MD:  'test remark'
+}
+
+TestData_UW3: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW3',
+}
+
+UnderwritingAndApprovalTab_UW3: {
+  "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.": 'No', 
+}
+
+
+#================================================
+TestData_Plus20Days: {
+  CancelNoticeActionTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@CancelNoticeActionTab_Plus20Days'
+}
+
+TestData_Plus21Days: {
+  CancelNoticeActionTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@CancelNoticeActionTab_Plus21Days'
+}  
+
+# ============= Endorsement ================ 
+TestData_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage E - Personal Liability Each Occurrence: 'contains=$500,000',
+    Coverage F - Medical Payments to Others: 'contains=$3,000'
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
