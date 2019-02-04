@@ -458,5 +458,5 @@ PAS-25099:
   summary: "PUP Policy does not rate after first attempt"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.sales.pup.]
+    - tests: [aaa.modules.regression.sales.pup.*]
       messages: ['no such element: Unable to locate element: {"method":"id","selector":"policyDataGatherForm:ratingPUPDetailsPopupLink"}']
