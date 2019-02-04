@@ -337,9 +337,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14646"})
 	public void pas14646_UimDelimiter(@Optional("VA") String state) {
-		assertSoftly(softly ->
-				pas14646_UimDelimiter(state, softly)
-		);
+		assertSoftly(this::pas14646_UimDelimiter);
 	}
 
 	/**
@@ -1526,5 +1524,23 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23299"})
 	public void pas23299_EMBCoveragePA(@Optional("PA") String state) {
 		pas23299_EMBCoveragePABody();
+	}
+
+	/**
+	 * @author Nauris Ivanans
+	 * @name View/Update Limitation on Lawsuit for NJ state
+	 * @scenario
+	 * 1. Create policy in PAS with Limitation on Lawsuit = "No Limitation on Lawsuit"
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsementCoverages service and validate response
+	 * 4. Update Limitation on Lawsuit to "Limitation on Lawsuit", check update, view, change log responses and in PAS UI
+	 * 5. Update  Limitation on Lawsuit back to "No Limitation on Lawsuit", check update, view, change log responses and in PAS UI
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15302"})
+	public void pas15302_lolCoverageNJ(@Optional("NJ") String state) {
+		pas15302_lolCoverageNJBody();
 	}
 }

@@ -456,6 +456,10 @@ public enum AvailableCoverageLimits {
 	EMB(ImmutableList.of(
 			CoverageLimits.COV_EMB_0,
 			CoverageLimits.COV_EMB_1000
+	)),
+	LOL(ImmutableList.of(
+			CoverageLimits.COV_LOL,
+			CoverageLimits.COV_NO_LOL
 	));
 
 	private final List<CoverageLimits> availableLimits;
