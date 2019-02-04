@@ -11,7 +11,6 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.CustomerConstants;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoCaMetaData;
@@ -136,9 +135,9 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
     protected void pas23279_ValidateRelToFirstNamedInsuredListNBEndTx() {
 
         TestData testData = getPolicyTD();
-        adjustPolicyTd(testData);
         TestData addDriverTd = getDriverTd().adjust(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), "Parent");
         createQuoteAndFillUpTo(testData, DriverTab.class);
+
         Assertions.assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).getAllValues()).contains("Employee");
         driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), addDriverTd));
         driverTab.submitTab();
@@ -204,7 +203,7 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
                 .adjust(AutoCaMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click");
     }
 
-    private TestData adjustPolicyTd(TestData td) {
+    private void adjustPolicyTd(TestData td) {
         td.mask(TestData.makeKeyPath(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()))
                 .mask(TestData.makeKeyPath(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(),
                         AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()));
@@ -212,7 +211,6 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
             td.mask(TestData.makeKeyPath(AutoCaMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoCaMetaData.DocumentsAndBindTab.VEHICLE_INFORMATION.getLabel() + "[0]",
                     AutoCaMetaData.DocumentsAndBindTab.VehicleInformation.ARE_THERE_ANY_ADDITIONAL_INTERESTS.getLabel()));
         }
-        return td;
     }
 
 }
