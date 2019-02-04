@@ -94,6 +94,11 @@
                     <include name="pas730_VehicleTypeNotPPA"/>
                 </methods>
             </class>
+        </classes>
+    </test>
+    <test name="Auto SS STAT Code Refresh OK">
+        <parameter name="state" value="OK"/>
+        <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshPPAVehicle">
                 <methods>
                     <include name="pas730_VehicleTypePPA"/>
