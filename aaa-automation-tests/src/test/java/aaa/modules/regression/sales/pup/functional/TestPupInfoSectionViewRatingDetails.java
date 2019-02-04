@@ -523,7 +523,6 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
 
     private void openRatingDetails(){
         premiumAndCoveragesQuoteTab.calculatePremium();
-        premiumAndCoveragesQuoteTab.calculatePremium();  // VRD link is not enabled unless you calculate premium a second time
         PropertyQuoteTab.RatingDetailsViewPUP.open();
     }
 
