@@ -61,7 +61,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private RemoveDriverRequest removeDriverRequest = new RemoveDriverRequest();
 	private DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
 	private String policyNumber7Drivers;
-	private static TestMiniServicesCoveragesHelper testMiniServicesCoveragesHelper = new TestMiniServicesCoveragesHelper();
+	private static final TestMiniServicesCoveragesHelper testMiniServicesCoveragesHelper = new TestMiniServicesCoveragesHelper();
 
 	protected void pas11932_viewDriversInfo(PolicyType policyType) {
 		assertSoftly(softly -> {
