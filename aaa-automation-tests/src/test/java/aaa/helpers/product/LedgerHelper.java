@@ -19,6 +19,7 @@ public class LedgerHelper {
 					"FROM LEDGERENTRY " +
 					"WHERE PRODUCTNUMBER = '%s' " +
 					"AND PERIODTYPE = 'MONTHLY' " +
+					"AND TRANSACTIONTYPE = '%s' " +
 					"AND LEDGERACCOUNTNO = '1015'";
 
 	private static final String GET_MONTHLY_EARNED_PREMIUM_AMOUNTS =
@@ -29,27 +30,6 @@ public class LedgerHelper {
 					+ "and LEDGERACCOUNTNO = '1015' "
 					+ "group by TXDATE "
 					+ "ORDER BY TXDATE";
-
-	private static final String GET_TERM_AND_ACTUAL_PREMIUMS =
-			"Select TO_CHAR(TRANSACTIONDATE, 'MM/DD/YYYY') as TRANSACTION_DATE, TO_CHAR(TRANSACTIONEFFECTIVEDATE, 'MM/DD/YYYY') as TRANSACTION_EFFECTIVE_DATE, txtype, sum(PERIODAMT) as TERM_PREMIUM, sum(PREMIUMAMT) as ACTUAL_PREMIUM from " +
-					"(select p.id, p.TRANSACTIONDATE, p.TRANSACTIONEFFECTIVEDATE, p.txType,c.coverageCd, pe.PREMIUMAMT, " +
-					"pe.PERIODAMT, " +
-					"pe.CHANGEAMT, " +
-					"pe.FACTOR, " +
-					"pe.MONTHLYAMT, " +
-					"pe.PREMIUMCD, " +
-					"pe.PREMIUMTYPE, " +
-					"pe.ANNUALAMT, " +
-					"pe.REMOVEDAMT " +
-					" from PolicySummary p " +
-					"inner join RiskItem ri on ri.POLICYDETAIL_ID = p.policyDetail_id " +
-					"inner join Coverage c on c.RiskItem_ID = ri.id " +
-					"inner join PremiumEntry pe on pe.Coverage_ID = c.id " +
-					"where p.policyNumber = '%s' " +
-					"ORDER BY POLICYSUMMARY_ID, PE.PREMIUMCD) " +
-					"where premiumtype='NET_PREMIUM' and PREMIUMCD='NWT' " +
-					"group by TRANSACTIONDATE, TRANSACTIONEFFECTIVEDATE, txtype " +
-					"order by TRANSACTIONDATE ";
 
 	private static final String GET_TERM_AND_ACTUAL_PREMIUMS_UPDATED =
 			"Select TO_CHAR(TRANSACTIONDATE, 'MM/DD/YYYY') as TRANSACTION_DATE, TO_CHAR(TRANSACTIONEFFECTIVEDATE, 'MM/DD/YYYY') as TRANSACTION_EFFECTIVE_DATE, txtype, sum(PERIODAMT) as TERM_PREMIUM, sum(PREMIUMAMT) as ACTUAL_PREMIUM from "+
@@ -86,7 +66,11 @@ public class LedgerHelper {
 	public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
 	public static String getEarnedMonthlyReportedPremiumTotal(@Nonnull String policyNumber) {
-		String query = String.format(GET_EARNED_MONTHLY_REPORTED_PREMIUM_TOTAL, policyNumber);
+		return getEarnedMonthlyReportedPremiumTotal(policyNumber, "policy");
+	}
+
+	public static String getEarnedMonthlyReportedPremiumTotal(@Nonnull String policyNumber, @Nonnull String txType) {
+		String query = String.format(GET_EARNED_MONTHLY_REPORTED_PREMIUM_TOTAL, policyNumber, txType);
 		return DBService.get().getValue(query).get();
 	}
 
