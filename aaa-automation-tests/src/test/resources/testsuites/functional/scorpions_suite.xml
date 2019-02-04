@@ -96,8 +96,8 @@
             </class>
         </classes>
     </test>
-    <test name="Auto SS STAT Code Refresh OK">
-        <parameter name="state" value="OK"/>
+    <test name="Auto SS STAT Code Refresh WY">
+        <parameter name="state" value="WY"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshPPAVehicle">
                 <methods>
