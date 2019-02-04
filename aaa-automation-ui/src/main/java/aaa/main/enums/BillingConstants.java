@@ -207,6 +207,8 @@ public final class BillingConstants {
 
 	public static final class BillingPendingTransactionsActions {
 		public static final String APPROVE = "Approve";
+		public static final String CHANGE = "Change";
+		public static final String REJECT = "Reject";
 	}
 
 	public static final class BillingStatus {

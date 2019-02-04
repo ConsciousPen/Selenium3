@@ -5,16 +5,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.assertj.core.api.SoftAssertions;
+
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.delta.HssQuoteDataGatherHelper;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
+import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.xml.model.Document;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.actiontabs.CancelNoticeActionTab;
+import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
@@ -24,6 +32,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.UnderwritingAndApprovalTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
+import aaa.toolkit.webdriver.WebDriverHelper;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
@@ -31,11 +40,11 @@ import toolkit.webdriver.controls.ComboBox;
 
 public class MDDeltaScenario1 extends BaseTest {
 	protected IPolicy policy;
+	protected TestData tdPolicy;
 	protected String quoteNumber;
 	protected String policyNumber; 
 	
-	public void TC_createQuote(String scenarioPolicyType) {
-		TestData td = getTestSpecificTD("TestData");
+	public void createQuote(TestData td, String scenarioPolicyType) {
 		policy = getPolicyType().get();
 		
 		mainApp().open();		
@@ -49,7 +58,7 @@ public class MDDeltaScenario1 extends BaseTest {
         log.info("DELTA MD SC1: "+scenarioPolicyType+" Quote created with #" + quoteNumber);		
 	}
 	
-	public void TC_verifyLOVsOfImmediatePriorCarrier() {
+	public void verifyLOVsOfImmediatePriorCarrier() {
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
@@ -57,10 +66,48 @@ public class MDDeltaScenario1 extends BaseTest {
 		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrierThenSaveAndExit(immediatePriorCarrierLOVs);
 	}
 
-	public void TC_verifyEndorsementHS0495(String scenarioPolicyType) {
+	public void verifyEndorsementHS0495(String scenarioPolicyType) {
 		Map<String, String> endorsement_HS0495 = new HashMap<>(); 
 		endorsement_HS0495.put("Form ID", "HS 04 95"); 
 		endorsement_HS0495.put("Name", "Water Back Up And Sump Discharge Or"); 
+		
+		mainApp().open(); 
+		SearchPage.openQuote(quoteNumber);	
+		
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
+			String policyLimit;
+			if (getPolicyType().equals(PolicyType.HOME_SS_HO4)) {
+				policyLimit = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PROPERTY_VALUE).getAsset(
+						HomeSSMetaData.PropertyInfoTab.PropertyValue.PERSONAL_PROPERTY_VALUE).getValue();
+			}
+			else {
+				policyLimit = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PROPERTY_VALUE).getAsset(
+						HomeSSMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT).getValue();
+			}
+			policyLimit = policyLimit.substring(0, policyLimit.length()-3);
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
+
+			if (scenarioPolicyType.equals("HO3-Legasy")) {
+				editHS0495AndVerifyCoverageLimitLOVs_Legasy(endorsement_HS0495, policyLimit, softly);
+			} else if (scenarioPolicyType.equals("HO3-Prestige")) {
+				editHS0495AndVerifyCoverageLimitLOVs_Prestige(endorsement_HS0495, policyLimit, softly);
+			} else {
+				addHS0495AndVerifyCoverageLimitLOVs(endorsement_HS0495, policyLimit, softly);
+			}
+			new EndorsementTab().saveAndExit();
+		});
+	}
+	
+	public void verifyEndorsementDS0495() {
+		Map<String, String> endorsement_DS0495 = new HashMap<>(); 
+		endorsement_DS0495.put("Form ID", "DS 04 95"); 
+		endorsement_DS0495.put("Name", "Water Back Up And Sump Discharge Or"); 
 		
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
@@ -77,17 +124,13 @@ public class MDDeltaScenario1 extends BaseTest {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
 
-			if (scenarioPolicyType.equals("HO3-Legasy")) {
-				editHS0495AndVerifyCoverageLimitLOVs_Legasy(endorsement_HS0495, policyLimit, softly);
-			} else if (scenarioPolicyType.equals("HO3-Prestige")) {
-				editHS0495AndVerifyCoverageLimitLOVs_Prestige(endorsement_HS0495, policyLimit, softly);
-			} else {
-				addHS0495AndVerifyCoverageLimitLOVs(endorsement_HS0495, policyLimit, softly);
-			}
+			addDS0495AndVerifyCoverageLimitLOVs(endorsement_DS0495, policyLimit, softly);
+			
+			new EndorsementTab().saveAndExit();
 		});
 	}
 	
-	public void TC_verifyEndorsementHS2338() {
+	public void verifyEndorsementHS2338() {
 		Map<String, String> endorsement_HS2338 = new HashMap<>(); 
 		endorsement_HS2338.put("Form ID", "HS 23 38"); 
 		endorsement_HS2338.put("Name", "Home day Care Coverage Endorsement - Maryland"); 
@@ -157,10 +200,11 @@ public class MDDeltaScenario1 extends BaseTest {
 			endorsementTab.btnSaveForm.click();
 
 			softly.assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_HS2338)).exists();
+			endorsementTab.saveAndExit();
 		});
 	}
 	
-	public void TC_verifyStormShutterDiscount() {
+	public void verifyStormShutterDiscount() {
 		TestData td_StormShutterYes = getTestSpecificTD("TestData_StormShutterYes"); 
 		
 		Map<String, String> StormShutterDiscount_row = new HashMap<>();
@@ -200,7 +244,7 @@ public class MDDeltaScenario1 extends BaseTest {
 			softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(StormShutterDiscount_row)).exists();
 
 			PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-			softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Storm Shutter")).as("Storm Shutter Discount: wrong value in Rating Details").isEqualTo("3.0%");
+			softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Storm Shutter")).as("Storm Shutter Discount: wrong value in Rating Details").isNotEqualTo("0.0"); //.isEqualTo("3.0%");
 			if (getPolicyType().equals(PolicyType.HOME_SS_HO3) || getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
 				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Distance to shore")).as("Distance to shore: wrong value in Rating Details").isEqualTo(distanceToCoast);
 				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Elevation")).as("Elevation: wrong value in Rating Details").isEqualTo(elevation);
@@ -210,8 +254,40 @@ public class MDDeltaScenario1 extends BaseTest {
 			PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
 		});
 	}
+
+	public void verifyInspectionTypeAndEligibility() {
+		mainApp().open(); 
+		SearchPage.openQuote(quoteNumber);	
+		policy.dataGather().start();
+		
+		TestData td1 = getTestSpecificTD("TestData_Construction1");
+		TestData td2 = getTestSpecificTD("TestData_Construction2");
+		TestData td3 = getTestSpecificTD("TestData_Construction3");
+		TestData td = getTestSpecificTD("TestData_correct");		
+		
+		if (getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
+			verifyErrorOnBind(td1, ErrorEnum.Errors.ERROR_AAA_HO_SS2103528);
+			verifyErrorOnBind(td2, ErrorEnum.Errors.ERROR_AAA_HO_SS11120040);
+			verifyErrorOnBind(td3, ErrorEnum.Errors.ERROR_AAA_HO_SS1162304_MD);
+		}
+		else {
+			verifyInspectionTypeAndErrorOnBind(td1, "Interior", ErrorEnum.Errors.ERROR_AAA_HO_SS3282256);
+			verifyInspectionTypeAndErrorOnBind(td2, "Interior", ErrorEnum.Errors.ERROR_AAA_HO_SS11120040);
+			verifyInspectionTypeAndErrorOnBind(td3, "High Value Interior", ErrorEnum.Errors.ERROR_AAA_HO_SS1162304_MD);
+		}
+		
+		HssQuoteDataGatherHelper.fillPropertyInfoTabWithCorrectData(td);
+		if (getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
+			new PropertyInfoTab().saveAndExit();
+		}
+		else {
+			NavigationPage.toViewTab(HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
+			new UnderwritingAndApprovalTab().fillTab(td);		
+			new UnderwritingAndApprovalTab().saveAndExit();
+		}
+	}
 	
-	public void TC_verifyUnderwritingApprovalTab() {
+	public void verifyUnderwritingApprovalTab() {
 		TestData td_uw1 = getTestSpecificTD("TestData_UW1");
 		TestData td_uw2 = getTestSpecificTD("TestData_UW2");
 		TestData td_uw3 = getTestSpecificTD("TestData_UW3");
@@ -219,16 +295,19 @@ public class MDDeltaScenario1 extends BaseTest {
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
-		UnderwritingAndApprovalTab underwritingTab = new UnderwritingAndApprovalTab();
-        underwritingTab.fillTab(td_uw1);
-        underwritingTab.submitTab();
 
 		CustomSoftAssertions.assertSoftly(softly -> {
-			softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES))
-					.hasWarningWithText("Business or farming activity is ineligible");
-
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
+			UnderwritingAndApprovalTab underwritingTab = new UnderwritingAndApprovalTab();
+			if (!getPolicyType().equals(PolicyType.HOME_SS_HO4)) {
+				underwritingTab.fillTab(td_uw1);
+		        underwritingTab.submitTab();
+				softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES))
+						.hasWarningWithText("Business or farming activity is ineligible");
+			}
+			if (getPolicyType().equals(PolicyType.HOME_SS_HO4)) {
+				softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES)).isPresent(false);
+			}
 			underwritingTab.fillTab(td_uw2);
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
 			new BindTab().btnPurchase.click();
@@ -243,22 +322,16 @@ public class MDDeltaScenario1 extends BaseTest {
 		});
 	}
 	
-	public void TC_verifyInspectionTypeAndEligibility() {
-		//TODO
-	}
-	
-	public void TC_purchasePolicy(String scenarioPolicyType) {
-		TestData td = getTestSpecificTD("TestData");
-		
+	public void purchasePolicy(TestData td, String scenarioPolicyType) {
 		mainApp().open(); 		
 		SearchPage.openQuote(quoteNumber);
 		
 		policy.dataGather().start(); 		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
+		NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 	
 		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+		NavigationPage.toViewTab(HomeSSTab.BIND.get());
 		policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         
@@ -266,30 +339,82 @@ public class MDDeltaScenario1 extends BaseTest {
         policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         
         log.info("DELTA MD SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);	
+        
+        //Verify declaration document is generated on NB
+        Document decDoc; 
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+        	decDoc = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.DS02, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
+        }
+        else {
+        	decDoc = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.HS02, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
+        }
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(decDoc).as("Declaration Document is not generated on NB").isNotNull();
+        });       
 	}
 	
-	public void TC_verifyDeclarationDocumentsGenerated() {
-		//TODO
-	} 
-	
-	//HO3, DP3
-	public void TC_verifyHSHU1MDGenerated() {
-		//TODO
-	}
-	
-	public void TC_verifyODDPolicy() {
-		//TODO
+	public void verifyODDPolicy() {
+		mainApp().open(); 		
+		SearchPage.openPolicy(policyNumber);
+		policy.policyDocGen().start();
+		GenerateOnDemandDocumentActionTab odd_tab = new GenerateOnDemandDocumentActionTab();
+
+		switch (getPolicyType().getShortName()) {
+			case "HomeSS":
+				odd_tab.verify.documentsPresent(DocGenEnum.Documents.HS11.setState(getState()));
+				odd_tab.generateDocuments(DocGenEnum.Documents.HS11.setState(getState()));
+				WebDriverHelper.switchToDefault();
+				DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.HS11.setState(getState()));
+				break;
+			case "HomeSS_HO4":
+				odd_tab.verify.documentsPresent(DocGenEnum.Documents.HS11_4.setState(String.format("%s4", getState())));
+				odd_tab.generateDocuments(DocGenEnum.Documents.HS11_4.setState(String.format("%s4", getState())));
+				WebDriverHelper.switchToDefault();
+				DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.HS11_4.setState(String.format("%s4", getState())));
+				break;
+			case "HomeSS_HO6":
+				odd_tab.verify.documentsPresent(DocGenEnum.Documents.HS11_6.setState(String.format("%s6", getState())));
+				odd_tab.generateDocuments(DocGenEnum.Documents.HS11_6.setState(String.format("%s6", getState())));
+				WebDriverHelper.switchToDefault();
+				DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.HS11_6.setState(String.format("%s6", getState())));
+				break;
+			case "HomeSS_DP3":
+				odd_tab.verify.documentsPresent(DocGenEnum.Documents.DS11.setState(getState()));
+				odd_tab.generateDocuments(DocGenEnum.Documents.DS11.setState(getState()));
+				WebDriverHelper.switchToDefault();
+				DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.DS11.setState(getState()));
+				break;
+			default:
+				break;
+		}
+		//odd_tab.saveAndExit();
+		mainApp().close();
 	}
 
-	public void TC_verifyAnimalType() {
+	public void verifyAnimalType() {
 		//TODO
 	}
 	
-	public void TC_verifyHSPIMDA() {
-		//TODO
+	public void verifyHSPIMDA() {
+		mainApp().open(); 		
+		SearchPage.openPolicy(policyNumber);
+		
+		CustomSoftAssertions.assertSoftly(softly -> {
+			policy.policyDocGen().start();
+			GenerateOnDemandDocumentActionTab odd_tab = new GenerateOnDemandDocumentActionTab();
+			odd_tab.verify.documentsPresent(softly, false, DocGenEnum.Documents.HSPIMDA);
+			odd_tab.saveAndExit();
+		
+			TestData endorse_td = getTestSpecificTD("TestData_Endorsement").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
+			policy.endorse().performAndFill(endorse_td);
+		
+			policy.policyDocGen().start();
+			odd_tab.verify.documentsPresent(softly, DocGenEnum.Documents.HSPIMDA);
+			odd_tab.saveAndExit();	
+		});
 	}
 	
-	public void TC_verifyCancelNoticeTab() {
+	public void verifyCancelNoticeTab() {
 		TestData td_plus21days = getTestSpecificTD("TestData_Plus21Days");
 		
 		String error_9206 = "Cancellation effective date must be at least 21 days from today when the policy is within the new business discovery period."; 
@@ -326,6 +451,20 @@ public class MDDeltaScenario1 extends BaseTest {
 
 		softly.assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(hs0495)).exists();
 	}
+	
+	private void addDS0495AndVerifyCoverageLimitLOVs(Map<String, String> ds0495, String policyLimit, ETCSCoreSoftAssertions softly) {
+		EndorsementTab endorsementTab = new EndorsementTab();
+		softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(ds0495)).exists();
+		endorsementTab.getAddEndorsementLink("DS 04 95").click();
+
+		softly.assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_95).getAsset(
+				HomeSSMetaData.EndorsementTab.EndorsementDS0495.COVERAGE_LIMIT)).hasOptions("$5000", "$10,000", "$15,000", "$20,000", "$25,000", "$50,000", policyLimit);
+		endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_95).getAsset(
+				HomeSSMetaData.EndorsementTab.EndorsementDS0495.COVERAGE_LIMIT.getLabel(), ComboBox.class).setValue("$20,000"); 
+		endorsementTab.btnSaveForm.click();
+
+		softly.assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(ds0495)).exists();
+	}
 
 	private void editHS0495AndVerifyCoverageLimitLOVs_Legasy(Map<String, String> hs0495, String policyLimit, ETCSCoreSoftAssertions softly) {
 		EndorsementTab endorsementTab = new EndorsementTab();
@@ -348,6 +487,39 @@ public class MDDeltaScenario1 extends BaseTest {
 				HomeSSMetaData.EndorsementTab.EndorsementHS0495.COVERAGE_LIMIT)).hasOptions("$10,000", "$15,000", "$20,000", "$25,000", "$50,000", policyLimit);
 		endorsementTab.btnSaveForm.click();
 	}	
+	
+	private void verifyErrorOnBind(TestData td, ErrorEnum.Errors errorCode) {
+		NavigationPage.toViewTab(HomeSSTab.PROPERTY_INFO.get());
+		new PropertyInfoTab().fillTab(td);
+		
+		NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
+		
+		NavigationPage.toViewTab(HomeSSTab.BIND.get());
+		new BindTab().btnPurchase.click();		
+		ErrorTab errorTab = new ErrorTab(); 
+		errorTab.verify.errorsPresent(errorCode);
+		errorTab.cancel();
+	}
+	
+	private void verifyInspectionTypeAndErrorOnBind(TestData td, String inspectionType, ErrorEnum.Errors errorCode) {
+		NavigationPage.toViewTab(HomeSSTab.PROPERTY_INFO.get());
+		new PropertyInfoTab().fillTab(td);
+		
+		NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
+		
+		NavigationPage.toViewTab(HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
+		assertThat(new UnderwritingAndApprovalTab().getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.UNDERWRITER_SELECTED_INSPECTION_TYPE).getValue()).isEqualTo(inspectionType);
+		
+		NavigationPage.toViewTab(HomeSSTab.BIND.get());
+		new BindTab().btnPurchase.click();		
+		ErrorTab errorTab = new ErrorTab(); 
+		errorTab.verify.errorsPresent(errorCode);
+		errorTab.cancel();
+	}
 	
 	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<>();
 	static {

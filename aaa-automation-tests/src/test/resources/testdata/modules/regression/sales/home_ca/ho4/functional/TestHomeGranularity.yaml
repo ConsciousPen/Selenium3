@@ -1,0 +1,31 @@
+TestData_ChangeAddress: {
+  GeneralTab: {},
+  ApplicantTab: {DwellingAddress: '@DwellingAddress_Change'},
+  ReportsTab: '@ReportsTab_Reorder',
+  PropertyInfoTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+  PurchaseTab: {}
+}
+
+DwellingAddress_Change: {
+  Zip code: '95101',
+  Street address 1: 265 CHIPMAN AVE,
+  County: Los Angeles,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+
+ReportsTab_Reorder: {
+  Sales Agent Agreement: 'I Agree',
+  PublicProtectionClass: [{Report: 'Re-order report'}],
+  CLUEreport: [{Report: 'Re-order report'}],
+}
+
+
+

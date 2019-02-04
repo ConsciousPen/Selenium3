@@ -20,18 +20,18 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.toolkit.webdriver.customcontrols.NoSectionsMultiAssetList;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
-import toolkit.webdriver.controls.composite.assets.AssetList;
 
 public class TestMembershipValidationError extends AutoSSBaseTest {
 
 	private GeneralTab generalTab = new GeneralTab();
 	private ErrorTab errorTab = new ErrorTab();
-	private AssetList assetListAAAProductOwned = generalTab.getAAAProductOwnedAssetList();
+	private NoSectionsMultiAssetList assetListAAAProductOwned = generalTab.getOtherAAAProductOwnedAssetList();
 
 	/**
 	*@author Viktor Petrenko
@@ -69,12 +69,12 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 
 		CustomSoftAssertions.assertSoftly(softly -> {
 			// Start of PAS-3794 New Business DE & NJ: Non-Member Message
-			generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("No");
-			softly.assertThat(assetListAAAProductOwned.getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.EXISTING_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK)).hasValue(ErrorEnum.Errors.ERROR_AAA_SS171018
+			generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("No");
+			softly.assertThat(assetListAAAProductOwned.getAsset(AutoSSMetaData.GeneralTab.AAAMembership.EXISTING_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK)).hasValue(ErrorEnum.Errors.ERROR_AAA_SS171018
 					.getMessage());
 
-			generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
-			softly.assertThat(assetListAAAProductOwned.getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.EXISTING_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK)).hasValue(ErrorEnum.Errors.ERROR_AAA_SS171018
+			generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Membership Pending");
+			softly.assertThat(assetListAAAProductOwned.getAsset(AutoSSMetaData.GeneralTab.AAAMembership.EXISTING_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK)).hasValue(ErrorEnum.Errors.ERROR_AAA_SS171018
 					.getMessage());
 			// End of PAS-3794 New Business DE & NJ: Non-Member Message
 			policy.getDefaultView().fillFromTo(getAdjustedTestData(), GeneralTab.class, PremiumAndCoveragesTab.class, true);
@@ -109,12 +109,12 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 		TestData testDataPolicyInformation = testDataGeneralTab.getTestData(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel())
 				.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
 
-		TestData testDataAAAProductsOwned = testDataGeneralTab.getTestData(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel())
-				.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Yes")
-				.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), "9920702826992041");
+		TestData testDataAAAProductsOwned = testDataGeneralTab.getTestData(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel())
+				.adjust(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes")
+				.adjust(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), "9920702826992041");
 
 		TestData generalTabAdjusted = testDataGeneralTab
-				.adjust(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), testDataAAAProductsOwned)
+				.adjust(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), testDataAAAProductsOwned)
 				.adjust(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), testDataPolicyInformation);
 
 		testData.adjust(generalTab.getMetaKey(),generalTabAdjusted).resolveLinks();

@@ -8,8 +8,12 @@ import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
+import aaa.toolkit.webdriver.customcontrols.NoSectionsMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
+import aaa.toolkit.webdriver.customcontrols.dialog.SelectSearchDialog;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.table.Table;
@@ -30,15 +34,31 @@ public class GeneralTab extends Tab {
 	}
 
 	public MultiAssetList getNamedInsuredInfoAssetList() {
-		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), MultiAssetList.class);
+		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), MultiInstanceAfterAssetList.class);
 	}
 
 	public AddressValidationDialog getValidateAddressDialogAssetList() {
 		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_DIALOG);
 	}
 
-	public AssetList getAAAProductOwnedAssetList() {
-		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AssetList.class);
+	public AssetList getAAAMembershipAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AssetList.class);
+	}
+
+	public NoSectionsMultiAssetList getOtherAAAProductOwnedAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED.getLabel(), NoSectionsMultiAssetList.class);
+	}
+
+	public Table getOtherAAAProductTable() {
+		return getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIST_OF_PRODUCTS_OWNED.getLabel(), FillableTable.class).getTable();
+	}
+
+	public Table getManualSearchResultTable() {
+		return getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.RESULT_TABLE.getLabel(), FillableTable.class).getTable();
+	}
+
+	public SelectSearchDialog getSearchOtherAAAProducts() {
+		return getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_OTHER_AAA_PRODUCTS.getLabel(), SelectSearchDialog.class);
 	}
 
 	public AssetList getCurrentCarrierInfoAssetList() {
@@ -55,10 +75,6 @@ public class GeneralTab extends Tab {
 
 	public InquiryAssetList getPolicyInfoInquiryAssetList() {
 		return getInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), InquiryAssetList.class);
-	}
-
-	public InquiryAssetList getAAAProductOwnedInquiryAssetList() {
-		return getInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), InquiryAssetList.class);
 	}
 
 	@Override

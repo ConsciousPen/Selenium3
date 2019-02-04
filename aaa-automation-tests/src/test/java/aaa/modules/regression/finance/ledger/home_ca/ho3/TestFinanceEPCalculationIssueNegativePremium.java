@@ -57,7 +57,7 @@ public class TestFinanceEPCalculationIssueNegativePremium extends FinanceOperati
 
 		policy.policyInquiry().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
-		assertThat(EndorsementTab.tblIncludedEndorsements.getColumn("Form ID").getValue()).contains("HO-60");
+		assertThat(new EndorsementTab().tblIncludedEndorsements.getColumn("Form ID").getValue()).contains("HO-60");
 
 		jobDate = runEPJobUntil(jobDate, eDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(eDate);
@@ -74,8 +74,8 @@ public class TestFinanceEPCalculationIssueNegativePremium extends FinanceOperati
 		BigDecimal endorsementEndingPremium = LedgerHelper.toBigDecimal(PolicySummaryPage.tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, "Endorsement")
 				.getCell(PolicyConstants.PolicyTransactionHistoryTable.ENDING_PREMIUM).getValue());
 
-		assertThat(new Dollar(endorsementEndingPremium))
-				.isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
+		assertThat(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)))
+				.isEqualTo(LedgerHelper.getEndingActualPremium(policyNumber));
 
 		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE);
 		List<TxWithTermPremium> txsWithPremiums = createTxsWithPremiums(policyNumber, txTypes);

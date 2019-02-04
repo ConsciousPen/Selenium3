@@ -1,46 +1,7 @@
 TestData: {
-  GeneralTab: '@GeneralTab',
-  ApplicantTab: '@ApplicantTab',
-  ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab',
-  ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: {},
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
-  MortgageesTab: '@MortgageesTab',
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
-  DocumentsTab: '@DocumentsTab',
-  BindTab: '@BindTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-GeneralTab: {
-  State: 'MD',
-  Policy type: 'HO3',
-  Effective date: '$<today:MM/dd/yyyy>',
-  Lead source: 'Book Roll',
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
-}
-
-ApplicantTab: {
-  NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
-  DwellingAddress: '@DwellingAddress',
-  PreviousDwellingAddress: {},
-  MailingAddress: {},
-  NamedInsuredInformation: '@NamedInsuredInformation',
-  AgentInfo: '@AgentInfo',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-}
-
-ReportsTab: {
-  Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Order report'}],
-  #InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
-  RiskMeterReport: [{Report: 'Order Report'}],
-  PublicProtectionClass: [{Report: 'Order Report'}],
-  CLUEreport: [{Report: 'Order report'}]
+  MortgageesTab: '@MortgageesTab'
 }
 
 PropertyInfoTab: {
@@ -61,18 +22,10 @@ PropertyInfoTab: {
   ClaimHistory: {},
 }
 
-ProductOfferingTab: {}
-
 EndorsementTab: {
   HS 03 12: '@Endorsement_HS0312',
   HS 04 54: '@Endorsement_HS0454',
   HS 24 73: '@Endorsement_HS2473'
-}
-
-PremiumsAndCoveragesQuoteTab: {
-  Payment plan: Pay in Full,
-  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
-  Coverage E - Personal Liability Each Occurrence: '$300,000'
 }
 
 MortgageesTab: {
@@ -82,76 +35,6 @@ MortgageesTab: {
   AdditionalInsured: '@AdditionalInsured', 
   "Is there an additional interest?": 'Yes', 
   AdditionalInterest: '@AdditionalInterest'
-}
-
-UnderwritingAndApprovalTab: {
-  "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.": "No",
-  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No", 
-  "Has the property been in foreclosure proceedings within the past 18 months?": "No", 
-  "Do employees of any resident or applicant reside in the dwelling?": "No",
-  "Is any business or farming activity conducted on the premises?": "No"
-}
-
-DocumentsTab: {
-  DocumentsToIssue: {
-  Signed policy application: Physically Signed
-  }
-}
-  
-BindTab: {}
-
-PurchaseTab: {
- PaymentAllocation: {
-  Cash: /rest
- },
-}
-
-# ----- Applicant Tab -----
-NamedInsured: {
-  Relationship to primary named insured:  Primary Insured,
-  Social security number: 1234567890,
-  Employer: '1234567890',
-}
-
-AAAMembership: {
-  Membership number: '4290023667710001'
-}
-
-DwellingAddress: {
- Zip code: '21217',
- Street address 1: 265 CHIPMAN AVE,
- Validate Address: true,
- Validate Address Dialog: {
-    #Street number: '265', 
-    #Street Name: CHIPMAN AVE
- }
-}
-
-NamedInsuredInformation: {
-  Home Phone Number: '1234567890'
-}
-
-OtherActiveAAAPolicies: {
-  Other active AAA policies: "Yes",
-  Add: 'click',
-  ActiveUnderlyingPoliciesSearch: {},
-  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual', 
-}
-
-OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
-  Policy type: Auto,
-  "Companion Auto Pending with Discount?": 'No',
-  Auto policy state: MD, 
-  Policy number: '345345345',
-  Effective date: '$<today:MM/dd/yyyy>',
-  Policy tier: 'index=1',
-  Auto policy BI limit: 'index=1',
-  Auto Insurance Persistency: '21'
-}
-
-AgentInfo: {
-  Channel Type: Independent Agent,
-  Agency: SMTestIA - 400001650
 }
 
 # ----- PropertyInfo Tab -----
@@ -286,7 +169,117 @@ UnderwritingAndApprovalTab_UW3: {
   "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.": 'No', 
 }
 
-#================================================
+#================ TC verifyInspectionTypeAndEligibility ================
+TestData_Construction1: {
+  PropertyInfoTab: '@PropertyInfoTab_Construction1'
+}
+
+TestData_Construction2: {
+  PropertyInfoTab: '@PropertyInfoTab_Construction2'
+}
+
+TestData_Construction3: {
+  PropertyInfoTab: '@PropertyInfoTab_Construction3'
+}
+
+TestData_correct: {
+  PropertyInfoTab: '@PropertyInfoTab_correct',  
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_1'
+}
+
+
+PropertyInfoTab_Construction1: {
+  Construction: '@Construction_1',
+  HomeRenovation: '@HomeRenovation_1'
+}
+
+PropertyInfoTab_Construction2: {
+  Construction: '@Construction_2',
+  HomeRenovation: '@HomeRenovation_2'
+}
+
+PropertyInfoTab_Construction3: {
+  Construction: '@Construction_3',
+  PropertyValue: '@PropertyValue_1'
+}
+
+PropertyInfoTab_correct: {
+  Construction: '@Construction_3',
+  HomeRenovation: '@HomeRenovation_3',
+  PropertyValue: '@PropertyValue_2'
+}
+
+Construction_1: {
+  Year built: '1939'
+}
+
+Construction_2: {
+  Year built: '1899'
+}
+
+Construction_3: {
+  Year built: '2002'
+}
+
+HomeRenovation_1: { 
+  Plumbing renovation: 'Other', 
+  "Plumbing % complete": '100', 
+  "Plumbing Month of completion": 12, 
+  "Plumbing Year of completion": '2009', 
+  Electrical renovation: 'Other',
+  "Electrical % complete": '100', 
+  "Electrical Month of completion": 12, 
+  "Electrical Year of completion": '2009', 
+  Roof renovation: 'Partial replace', 
+  "Roof % complete": '50', 
+  "Roof Month of completion": 6, 
+  "Roof Year of completion": '2013',
+  "Heating/cooling renovation": 'Space Heater', 
+  "Heating/cooling % complete": '100', 
+  "Heating/cooling Month of completion": 12,
+  "Heating/cooling Year of completion": '2009'
+}  
+
+HomeRenovation_2: {
+  Plumbing renovation: '100% Copper', 
+  "Plumbing % complete": '100', 
+  "Plumbing Month of completion": 12, 
+  "Plumbing Year of completion": '2009', 
+  Electrical renovation: '100% Circuit/Romex',
+  "Electrical % complete": '100', 
+  "Electrical Month of completion": 12, 
+  "Electrical Year of completion": '2009', 
+  Roof renovation: '100% Replace', 
+  "Roof % complete": '100', 
+  "Roof Month of completion": 12, 
+  "Roof Year of completion": '2009', 
+  "Heating/cooling renovation": Forced Air, 
+  "Heating/cooling % complete": '100', 
+  "Heating/cooling Month of completion": 12,
+  "Heating/cooling Year of completion": '2009'
+}  
+
+HomeRenovation_3: {
+  Plumbing renovation: '',  
+  Electrical renovation: '',
+  Roof renovation: '',  
+  "Heating/cooling renovation": ''
+}
+
+PropertyValue_1: {
+  Coverage A - Dwelling limit: 2000001, 
+  Reason replacement cost differs from the tool value: 'index=1'
+}
+
+PropertyValue_2: {
+  Coverage A - Dwelling limit: '75000'
+}
+
+UnderwritingAndApprovalTab_1: {
+  "Underwriter-selected inspection type": 'No Inspection Required' 
+}
+
+#================ TC verifyCancelNoticeTab ================
 TestData_Plus20Days: {
   CancelNoticeActionTab: '@CancelNoticeActionTab_Plus20Days'
 }
@@ -305,4 +298,20 @@ CancelNoticeActionTab_Plus21Days: {
     Description: test test
   }
 
-
+# ============= Endorsement ================ 
+TestData_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage E - Personal Liability Each Occurrence: 'contains=$500,000',
+    Coverage F - Medical Payments to Others: 'contains=$3,000'
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}

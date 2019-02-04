@@ -27,7 +27,7 @@ public class TestConversionAuto extends TestMaigConversionHomeAbstract {
     @Parameters({STATE_PARAM})
     @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-21331"})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-21331", "PAS-21588"})
     public void pas20836_expirationNoticeFormGeneration(@Optional("AZ") String state) throws NoSuchFieldException {
         super.pas20836_expirationNoticeFormGeneration(state);
     }

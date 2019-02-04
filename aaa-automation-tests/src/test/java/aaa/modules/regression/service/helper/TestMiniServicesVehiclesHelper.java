@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.ws.rs.core.Response;
 
+import aaa.common.pages.Page;
 import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -32,25 +33,12 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableList;
-import org.apache.commons.lang.StringUtils;
+import org.assertj.core.api.Assertions;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.RadioGroup;
-
-import javax.ws.rs.core.Response;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-
-import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionTab.RuleRow.RULE_NAME;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
@@ -231,7 +219,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
 		assertSoftly(softly -> {
 			softly.assertThat(updateVehicleResponse.usage).isEqualTo("Business");
-			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).validations.get(0).message).isEqualTo("Usage is Business");
+			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).validations.get(0).message).startsWith("Usage is Business");
 		});
 
 		ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
@@ -1004,7 +992,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			List<TestData> vehicleCoverageDetailsUIExpected = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
-			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+			PremiumAndCoveragesTab.RatingDetailsView.close();
 			premiumAndCoveragesTab.saveAndExit();
 
 			//remove/replace vehicle
@@ -1080,7 +1068,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 			//check coverages in UI
 			List<TestData> vehicleCoverageDetailsUIActual = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
-			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+			PremiumAndCoveragesTab.RatingDetailsView.close();
 			//order of Vehicles is changed after revert, hence reordering list
 			Collections.reverse(vehicleCoverageDetailsUIExpected);
 			if (testWithUpdates) {
@@ -2165,6 +2153,36 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//PAS-14680 end
 	}
 
+	protected void pas24166_ReplaceVehicleAndCheckUIFields() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		ViewVehicleResponse currentPolicyVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
+		String vehicleToReplaceOid = currentPolicyVehicles.vehicleList.get(0).oid;
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		Vehicle replacedVehicle = HelperCommon.replaceVehicle(policyNumber, vehicleToReplaceOid,
+				DXPRequestFactory.createReplaceVehicleRequest("4S3GTAD6XJ3750502", "2013-01-21", false, false), Vehicle.class, 200);
+		Vehicle addedVehicle = HelperCommon.addVehicle(policyNumber,
+				DXPRequestFactory.createAddVehicleRequest("3FAFP31341R200709", "2013-01-21"), Vehicle.class, 201);
+
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		VehicleTab.tableVehicleList.selectRow(1);
+		assertThat(vehicleTab.getAssetList().getAsset(VIN.getLabel()).getValue().toString()).isEqualTo(replacedVehicle.vehIdentificationNo);
+		assertThat(vehicleTab.getAssetList().getAsset(IS_THIS_A_REPLACEMENT_VEHICLE.getLabel()).getValue().toString()).isEqualTo("Yes");
+		assertThat(vehicleTab.getAssetList().getAsset(SELECT_THE_REPLACED_VEHICLE)).isPresent(true);
+		assertThat(vehicleTab.getAssetList().getAsset(SELECT_THE_REPLACED_VEHICLE.getLabel()).getValue().toString()).isEqualTo("2011/CHEVROLET/EXPRESS VAN/1GNWGPFG8B6548273");
+		VehicleTab.tableVehicleList.selectRow(2);
+		assertThat(vehicleTab.getAssetList().getAsset(VIN.getLabel()).getValue().toString()).isEqualTo(addedVehicle.vehIdentificationNo);
+		assertThat(vehicleTab.getAssetList().getAsset(IS_THIS_A_REPLACEMENT_VEHICLE.getLabel()).getValue().toString()).isEqualTo("No");
+		assertThat(vehicleTab.getAssetList().getAsset(SELECT_THE_REPLACED_VEHICLE)).isPresent(false);
+		vehicleTab.saveAndExit();
+	}
+
 	protected void pas13920_ReplaceVehicleNoAssignmentsKeepCoveragesBody() {
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
@@ -3035,6 +3053,56 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
+	protected void pas21597_addVehicleCheckAntiTheftBody(ETCSCoreSoftAssertions softly) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_Endorsement"), vehicleTab.getClass(), true);
+
+		//Verify Anti-Theft Dropdown Values on Vehicle tab
+		softly.assertThat(vehicleTab.getAssetList().getAsset(ANTI_THEFT)).hasOptions(
+				Arrays.asList("", "None", "Category 1 - Alarm Only", "Category 2 - Non-Passive Alarm", "Category 3 - Passive Alarm, Device or VIN Etching", "Category 4 - Tracking Device", "Category 3 & 4 - Passive Alarm and Tracking Device"));
+
+		vehicleTab.cancel();
+		Page.dialogConfirmation.buttonDeleteEndorsement.click();
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		String purchaseDate2 = "2013-01-20";
+		String vin2 = "1C4BJWDG0JL847133"; //jeep wrangler 2018
+		String newVehicleOid = addVehicleWithChecks(policyNumber, purchaseDate2, vin2, true);
+
+		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
+		updateVehicleRequest.antiTheft = "CAT1";
+
+		VehicleUpdateResponseDto response = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleRequest);
+		Assertions.assertThat(response.antiTheft).isEqualTo("CAT1");
+
+		//Check metaData service
+		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, newVehicleOid);
+		AttributeMetadata metaDataFieldResponse = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "antiTheft", true, true, false, null, "String");
+		softly.assertThat(metaDataFieldResponse.valueRange.get("NONE")).isEqualTo("None");
+		softly.assertThat(metaDataFieldResponse.valueRange.get("CAT1")).isEqualTo("Category 1 - Alarm Only");
+		softly.assertThat(metaDataFieldResponse.valueRange.get("CAT2")).isEqualTo("Category 2 - Non-Passive Alarm");
+		softly.assertThat(metaDataFieldResponse.valueRange.get("CAT3")).isEqualTo("Category 3 - Passive Alarm, Device or VIN Etching");
+		softly.assertThat(metaDataFieldResponse.valueRange.get("CAT4")).isEqualTo("Category 4 - Tracking Device");
+		softly.assertThat(metaDataFieldResponse.valueRange.get("CAT3AND4")).isEqualTo("Category 3 & 4 - Passive Alarm and Tracking Device");
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
+		String docId = rfiServiceResponse.documents.get(0).documentId;
+		String docId2 = rfiServiceResponse.documents.get(1).documentId;
+		HelperCommon.endorsementBind(policyNumber, "Madam Jovita", Response.Status.OK.getStatusCode(), docId, docId2);
+
+		//Check PAS side
+		SearchPage.openPolicy(policyNumber);
+		policy.policyInquiry().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		VehicleTab.tableVehicleList.selectRow(2);
+		assertThat(vehicleTab.getInquiryAssetList().getStaticElement(ANTI_THEFT).getValue()).isEqualTo("Category 1 - Alarm Only");
+	}
+
 	private String checkAvailableActionsByVehicleOid(ViewVehicleResponse viewVehicleResponse, String vehiclePpa1Oid) {
 		String availableActions = "";
 		if (!"pendingRemoval".equals(viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehiclePpa1Oid.equals(vehicle.oid)).findFirst().orElse(null).vehicleStatus)) {
@@ -3043,7 +3111,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		return availableActions;
 	}
 
-	private String addVehicleWithChecks(String policyNumber, String purchaseDate, String vin, boolean allowedToAddVehicle) {
+	public String addVehicleWithChecks(String policyNumber, String purchaseDate, String vin, boolean allowedToAddVehicle) {
 		//Add new vehicle
 		Vehicle responseAddVehicle =
 				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
@@ -3078,7 +3146,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	private boolean hasError(List<ValidationError> validations, String expectedMessage) {
-		return validations.stream().anyMatch(error -> error.message.equals(expectedMessage));
+		return validations.stream().anyMatch(error -> error.message.startsWith(expectedMessage));
 	}
 
 	private Vehicle getVehicleByOid(ViewVehicleResponse viewVehicleResponse, String oid) {

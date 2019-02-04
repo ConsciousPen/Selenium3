@@ -74,8 +74,8 @@ public class TestFinanceEPCalculationCancelFlagTransactions extends FinanceOpera
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 
-		assertThat(LedgerHelper.getEndingActualPremium(policyNumber))
-				.isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
+		assertThat(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)))
+				.isEqualTo(LedgerHelper.getEndingActualPremium(policyNumber));
 
 		List<TxType> txTypes = Arrays.asList(TxType.ISSUE);
 		validateEPCalculations(policyNumber, txTypes, today, expirationDate);

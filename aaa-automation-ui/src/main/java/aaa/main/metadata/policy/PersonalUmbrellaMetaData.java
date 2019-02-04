@@ -597,7 +597,8 @@ public final class PersonalUmbrellaMetaData {
 		public static final AssetDescriptor<ComboBox> PAYMENT_PLAN_AT_RENEWAL = declare("Payment plan at renewal", ComboBox.class, Waiters.AJAX);
 		
 		public static final AssetDescriptor<ComboBox> PERSONAL_UMBRELLA = declare("Personal Umbrella", ComboBox.class, Waiters.AJAX, true, By.id("policyDataGatherForm:pupCoverageDetail:0:pupTableCoverageLimitSelect"));
-		public static final AssetDescriptor<JavaScriptButton> CALCULATE_PREMIUM = declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, By.id("policyDataGatherForm:calculatePremiumPup"));
+		//public static final AssetDescriptor<JavaScriptButton> CALCULATE_PREMIUM = declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, By.id("policyDataGatherForm:actionButton_AAAPUPRateAction")); 
+		public static final AssetDescriptor<JavaScriptButton> CALCULATE_PREMIUM = declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, By.xpath("//input[@id='policyDataGatherForm:actionButton_AAAPUPRateAction'or @id='policyDataGatherForm:calculatePremium_AAAPUPRateAction']"));
 		public static final AssetDescriptor<DialogAssetList> OVERRRIDE_PREMIUM_DIALOG = declare("OverridePremium", DialogAssetList.class, OverridePremiumDialog.class,
 				By.xpath("//form[@id='premiumOverrideInfoFormAAAPUPPremiumOverride']"));
 		public static final class OverridePremiumDialog extends MetaData {
