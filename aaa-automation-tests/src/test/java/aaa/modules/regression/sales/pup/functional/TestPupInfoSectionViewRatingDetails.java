@@ -522,9 +522,8 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
     }
 
     private void openRatingDetails(){
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-        NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
         premiumAndCoveragesQuoteTab.calculatePremium();
+        premiumAndCoveragesQuoteTab.calculatePremium();  // VRD link is not enabled unless you calculate premium a second time
         PropertyQuoteTab.RatingDetailsViewPUP.open();
     }
 
