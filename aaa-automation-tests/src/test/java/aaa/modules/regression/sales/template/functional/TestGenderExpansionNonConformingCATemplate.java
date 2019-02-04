@@ -81,6 +81,9 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), getDriverTd()));
+        premiumAndCoveragesTab.calculatePremium();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
+        assertThat(premiumAndCoveragesTab.getRatingDetailsDriversData().get(1).getValue("Gender")).isEqualTo("X");
 
         bindAndValidateEndorsement(td);
         assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Gender").getValue()).as("Gender should be displayed - X").isEqualTo("X");
@@ -94,6 +97,9 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.GENDER).setValue("X");
+        premiumAndCoveragesTab.calculatePremium();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
+        assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(3).getValue()).isEqualTo("X");
 
         bindAndValidateEndorsement(td);
         assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(1).getCell("Gender").getValue()).as("Gender should be displayed - X").isEqualTo("X");
@@ -161,13 +167,7 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
     }
 
     private void bindAndValidateEndorsement(TestData testData) {
-        premiumAndCoveragesTab.calculatePremium();
-        PremiumAndCoveragesTab.RatingDetailsView.open();
-        List<TestData> driverData = premiumAndCoveragesTab.getRatingDetailsDriversData();
-        assertThat(driverData.get(1).getValue(CustomerConstants.FIRST_NAME)).contains("Seriously");
-        assertThat(driverData.get(1).getValue(CustomerConstants.GENDER)).isEqualTo("X");
         adjustPolicyTd(testData);
-
         PremiumAndCoveragesTab.RatingDetailsView.close();
         premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, DocumentsAndBindTab.class,true);
