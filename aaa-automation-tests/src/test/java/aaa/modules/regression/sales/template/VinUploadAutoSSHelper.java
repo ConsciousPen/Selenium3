@@ -224,11 +224,12 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 		PremiumAndCoveragesTab.RatingDetailsView.close();
 	}
 
-	protected void liabilitySymbolCheck_pas866() {
+	protected void liabilitySymbolCheck_pas866(String biSymbol) {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		List<String> ratingDetailsTable = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		ratingDetailsTable.forEach(f -> assertThat(PremiumAndCoveragesTab
-				.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase("AX"));
+				.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isNotEqualToIgnoringCase(biSymbol));
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 	}
 
 
@@ -244,6 +245,10 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 
 	protected String getCollSymbolFromVRD() {
 		return tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
+	}
+
+	protected String getBISymbolFromVRD() {
+		return tableRatingDetailsVehicles.getRow(1, "BI Symbol").getCell(2).getValue();
 	}
 
 	protected void createAndFillUpTo(TestData testData, Class<? extends Tab> tab) {

@@ -80,15 +80,16 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		PremiumAndCoveragesTab.RatingDetailsView.open();
 		String compSymbol = getCompSymbolFromVRD();
 		String collSymbol = getCollSymbolFromVRD();
+		String biSymbol = getBISymbolFromVRD();
 		PremiumAndCoveragesTab.RatingDetailsView.close();
 
 		VehicleTab.buttonSaveAndExit.click();
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
-		//For Comp and Coll Symbols
+		//Edit DB for Comp and Coll Symbols
 		addPPAVehicleToDBAutoSS();
 
-		//For liability symbols
+		//Edit DB for liability symbols
 		LookupQueries.insertStatCodeValues();
 
 		findAndRateQuote(testData, quoteNumber);
@@ -96,7 +97,7 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 		compCollSymbolCheck_pas730(compSymbol, collSymbol, isPPAType);
 
 		//TODO: Remove this check after all states have been rolled out to new liability symbol format. All MSRP liability symbols will be '000'
-		liabilitySymbolCheck_pas866();
+		liabilitySymbolCheck_pas866(biSymbol);
 
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 	}
