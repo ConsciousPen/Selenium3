@@ -15,8 +15,10 @@ import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.SelectSearchDialog;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.collection.Links;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -266,5 +268,15 @@ public class GeneralTab extends Tab {
 			i = 1;
 		}
 		return i;
+	}
+
+	/**
+	 * Returns Unquoted Checkbox control based on passed in data.
+	 * @param assetDescriptor AssetDescriptor for each checkbox.
+	 * @return Checkbox representing requested control.
+	 */
+	public CheckBox getUnquotedCheckBox(AssetDescriptor<CheckBox> assetDescriptor){
+		return this.getOtherAAAProductOwnedAssetList().getAsset(assetDescriptor.getLabel(),
+				assetDescriptor.getControlClass());
 	}
 }

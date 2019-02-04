@@ -6,7 +6,6 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -18,10 +17,15 @@ import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
+import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+import toolkit.webdriver.controls.waiters.Waiters;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 @StateList(states = Constants.States.AZ)
@@ -34,13 +38,6 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     ErrorTab _errorTab = new ErrorTab();
     PremiumAndCoveragesTab _pncTab = new PremiumAndCoveragesTab();
     DocumentsAndBindTab _documentsAndBindTab = new DocumentsAndBindTab();
-
-    private AssetDescriptor<CheckBox> _homeCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME;
-    private AssetDescriptor<CheckBox> _rentersCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS;
-    private AssetDescriptor<CheckBox> _condoCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO;
-    private AssetDescriptor<CheckBox> _lifeCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE;
-    private AssetDescriptor<CheckBox> _motorCycleCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE;
-
 
     /**
      * Make sure various combos of Unquoted Other AAA Products rate properly and are listed in the UI
@@ -127,6 +124,60 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     }
 
     /**
+     * This tests that when verified policies are in the list, unquoted options are disabled, and if they are removed, the options are re-enabled.
+     * @param state the test will run against.
+     * @scenario
+     * Prereqs: enterpriseSearchService.enterpriseCustomersSearchUri setup to return all 3 homeowner types on refresh.
+     * 1. Using standard test data, create customer, start auto quote, fill up to general tab with default data.
+     * 2. Click the refresh button.
+     * 3. Verify the unquoted options that come back from refresh are disabled. (Based on prereqs, should be all HO)
+     * 4. Remove all the Disabled policies and make sure checkboxes re-enable.
+     * @author Brian Bond - CIO
+     */
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Rate SS Auto with Quoted/Unquoted Products")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23983")
+    public void pas_21481_MPD_Unquoted_Companion_Product_AC2_AC3_Test1(@Optional("") String state) {
+
+        // Step 1
+        TestData testData = getPolicyTD();
+
+        // Create customer and move to general tab. //
+        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
+
+        // Step 2
+        Button refreshButton = _generalTab.getOtherAAAProductOwnedAssetList().getAsset(
+                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getLabel(),
+                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getControlClass());
+
+        refreshButton.click(Waiters.AJAX);
+
+        // Step 3
+        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isFalse();
+        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).isEnabled()).isFalse();
+        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).isEnabled()).isFalse();
+        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE).isEnabled()).isTrue();
+
+        // Motorcycle in AZ only
+        if (getState().equals("AZ")){
+            assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE).isEnabled()).isTrue();
+        }
+        else{
+            assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE).isPresent()).isFalse();
+        }
+
+        // Step 4
+        // This for loop might need to be refactored as method could get rejected.
+        for(int i = 0; i < 3; i++) {
+            _generalTab.mpdTable_getRemoveLinkByIndex(0).click(Waiters.AJAX);
+        }
+
+        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isTrue();
+        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).isEnabled()).isTrue();
+        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).isEnabled()).isTrue();
+    }
+
+    /**
      * Sets the unquoted policy checkboxes based of passed in checkboxMap.
      * @param checkboxMap is what to set each checkbox to. Expects all 5 product keys with bool value where true checks and false unchecks.
      */
@@ -137,35 +188,41 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
                     "Make sure that all values in mpdPolicyType enum are present with associated booleans for checkboxMap");
         }
 
+        for (mpdPolicyType fillInCheckbox : checkboxMap.keySet()) {
+
+            setUnquotedCheckbox(fillInCheckbox, checkboxMap.get(fillInCheckbox));
+        }
+    }
+
+    /**
+     * Sets an individual checkbox to whatever is passed in.
+     * @param policyType is which policy type unquoted box to fill in.
+     * @param fillInCheckbox true = check, false = uncheck.
+     */
+    private void setUnquotedCheckbox(mpdPolicyType policyType, Boolean fillInCheckbox){
+
         GeneralTab generalTab = new GeneralTab();
 
-        for (mpdPolicyType fillInCheckbox : checkboxMap.keySet()) {
-            switch (fillInCheckbox){
-                case condo:
-                    generalTab.getOtherAAAProductOwnedAssetList().getAsset(_condoCheckbox.getLabel(),
-                            _condoCheckbox.getControlClass()).setValue(checkboxMap.get(fillInCheckbox));
-                    break;
+        switch (policyType){
+            case condo:
+                generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).setValue(fillInCheckbox);
+                break;
 
-                case home:
-                    generalTab.getOtherAAAProductOwnedAssetList().getAsset(_homeCheckbox.getLabel(),
-                            _homeCheckbox.getControlClass()).setValue(checkboxMap.get(fillInCheckbox));
-                    break;
+            case home:
+                generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).setValue(fillInCheckbox);
+                break;
 
-                case renters:
-                    generalTab.getOtherAAAProductOwnedAssetList().getAsset(_rentersCheckbox.getLabel(),
-                            _rentersCheckbox.getControlClass()).setValue(checkboxMap.get(fillInCheckbox));
-                    break;
+            case renters:
+                generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).setValue(fillInCheckbox);
+                break;
 
-                case life:
-                    generalTab.getOtherAAAProductOwnedAssetList().getAsset(_lifeCheckbox.getLabel(),
-                            _lifeCheckbox.getControlClass()).setValue(checkboxMap.get(fillInCheckbox));
-                    break;
+            case life:
+                generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE).setValue(fillInCheckbox);
+                break;
 
-                case motorcycle:
-                    generalTab.getOtherAAAProductOwnedAssetList().getAsset(_motorCycleCheckbox.getLabel(),
-                            _motorCycleCheckbox.getControlClass()).setValue(checkboxMap.get(fillInCheckbox));
-                    break;
-            }
+            case motorcycle:
+                generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE).setValue(fillInCheckbox);
+                break;
         }
     }
 
