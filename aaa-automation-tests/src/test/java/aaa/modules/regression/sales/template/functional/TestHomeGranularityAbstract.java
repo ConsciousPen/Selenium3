@@ -41,8 +41,10 @@ public abstract class TestHomeGranularityAbstract extends PolicyBaseTest {
         TestData policyTd = getPolicyTD();
         createQuoteAndFillUpTo(policyTd, getPremiumAndCoveragesQuoteTab().getClass());
         String quoteNumber = quoteDataGatherPage.getQuoteNumber();
-        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(quoteNumber, mockCensusBlock, mockLatitude, mockLongitude, "quote","rated");
-        checkVRD(censusBlockGroupID);
+        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(quoteNumber, censusBlock, latitude, longitude, "quote","rated");
+        if(checkVRD){
+            checkVRD(censusBlockGroupID);
+        }
     }
 
     protected void validateCensusBlockGroupAndLatLongFromEADS(String zipCode, String address, String censusBlock, String latitude, String longitude) {
