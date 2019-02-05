@@ -1,0 +1,139 @@
+!!aaa.helpers.claim.datamodel.claim.CASClaimResponse
+claimLineItemList:
+- agreementNumber: CAAC952918598
+  claimList:
+  - accidentFault: ADVERSE_PARTY_AT_FAULT
+    claimCause: cause1
+    claimCloseDate: '2018-03-12'
+    claimCoverageList:
+    - {claimCoverageAmount: '65.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_004,
+       coverageName: COLL_GROUP}
+    - {claimCoverageAmount: '4293.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
+       coverageName: MEDICAL_PAYMENTS}
+    claimDateOfLoss: '2017-05-26'
+    claimDeductibleAmount: '0.000000000'
+    claimDeductibleCurrencyCode: USD
+    claimNumber: 1002-10-8703
+    claimPrefix: ''
+    claimOpenDate: '2017-05-26'
+    claimPolicyReferenceNumber: CAAC952918598
+    claimStatusCode: CLOSED
+    claimType: B
+    driverAgeAsOfDateOfLoss: '21'
+    driverDateofBirth: '1996-05-05'
+    driverName: JOSHUA FUSSELL
+    driverRelationToInsured: INSURED
+    permissiveUse: N
+    drivingLicenseNumber: D07963714
+    drivingLicenseState: AZ
+    lossSummary: IV hit OV while turning.
+    subroFlag: Y
+    totalAmountPaid: '4358.250000000'
+    totalAmountPaidCurrencyCode: USD
+    vehicleBodyType: SRW SUPER DUTY
+    vehicleMake: FORD
+    vehicleManufacturedYear: '2006'
+    vehicleDescription: Big truck
+    vehicleSerialNumber: 1FTNF20506ED96616
+  - accidentFault: NOT_AT_FAULT
+    claimCause: cause2
+    claimCloseDate: '2018-08-12'
+    claimCoverageList:
+    - {claimCoverageAmount: '100', claimCoverageCurrencyCode: USD, coverageId: COV_004,
+       coverageName: RENTAL_REIMBURSEMENT}
+    - {claimCoverageAmount: '150', claimCoverageCurrencyCode: USD, coverageId: COV_005,
+       coverageName: TOWING_N_LABOR}
+    - {claimCoverageAmount: '200', claimCoverageCurrencyCode: USD, coverageId: COV_006,
+       coverageName: COMP_DED_400}
+    claimDateOfLoss: '2018-05-26'
+    claimDeductibleAmount: '0'
+    claimDeductibleCurrencyCode: USD
+    claimNumber: 1002-10-8702
+    claimPrefix: ''
+    claimOpenDate: '2018-05-26'
+    claimPolicyReferenceNumber: CAAC952918598
+    claimStatusCode: OPEN
+    claimType: Comprehensive
+    driverAgeAsOfDateOfLoss: '21'
+    driverDateofBirth: '1996-05-05'
+    driverName: casMATTHEW casFOX
+    driverRelationToInsured: INSURED
+    permissiveUse: Y
+    drivingLicenseNumber: A19191912
+    drivingLicenseState: CA
+    lossSummary: IV hit OV while turning.
+    subroFlag: Y
+    totalAmountPaid: '5000'
+    totalAmountPaidCurrencyCode: USD
+    vehicleBodyType: SRW SUPER DUTY
+    vehicleMake: FORD
+    vehicleManufacturedYear: '2006'
+    vehicleSerialNumber: 1FTNF20506ED96616
+    vehicleDescription: Big truck
+  - accidentFault: ADVERSE_PARTY_AT_FAULT
+    claimCause: cause3
+    claimCloseDate: '2018-11-30'
+    claimCoverageList:
+    - {claimCoverageAmount: '99.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_004,
+       coverageName: COLL_GROUP}
+    - {claimCoverageAmount: '3500.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
+       coverageName: MEDICAL_PAYMENTS}
+    claimDateOfLoss: '2018-11-11' # dateOfLoss of policy = claim's dateOfLoss
+    claimDeductibleAmount: '0.000000000'
+    claimDeductibleCurrencyCode: USD
+    claimNumber: 1002-10-8704
+    claimPrefix: ''
+    claimOpenDate: '2018-11-11'
+    claimPolicyReferenceNumber: CAAC952918598
+    claimStatusCode: CLOSED
+    claimType: B
+    driverAgeAsOfDateOfLoss: '31'
+    driverDateofBirth: '1987-12-12'
+    driverName: BRUCE BANNER
+    driverRelationToInsured: INSURED
+    permissiveUse: Y
+    drivingLicenseNumber: D99999999
+    drivingLicenseState: CA
+    lossSummary: IV hit OV while parked.
+    subroFlag: Y
+    totalAmountPaid: '3500.000000000'
+    totalAmountPaidCurrencyCode: USD
+    vehicleBodyType: SRW SUPER DUTY
+    vehicleMake: FORD
+    vehicleManufacturedYear: '2006'
+    vehicleDescription: Big truck
+    vehicleSerialNumber: 1FTNF20506ED96616
+  - accidentFault: ADVERSE_PARTY_AT_FAULT
+    claimCause: cause4
+    claimCloseDate: '2018-11-30'
+    claimCoverageList:
+    - {claimCoverageAmount: '99.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_004,
+       coverageName: COLL_GROUP}
+    - {claimCoverageAmount: '3500.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
+       coverageName: MEDICAL_PAYMENTS}
+    claimDateOfLoss: '2018-11-10' # dateOfLoss of policy is greater than claim's dateOfLoss (1 day)
+    claimDeductibleAmount: '0.000000000'
+    claimDeductibleCurrencyCode: USD
+    claimNumber: 1002-10-8704-INVALID-dateOfLoss
+    claimPrefix: ''
+    claimOpenDate: '2018-11-11'
+    claimPolicyReferenceNumber: CAAC952918598
+    claimStatusCode: CLOSED
+    claimType: B
+    driverAgeAsOfDateOfLoss: '31'
+    driverDateofBirth: '1987-12-12'
+    driverName: BRUCE BANNER
+    driverRelationToInsured: INSURED
+    permissiveUse: Y
+    drivingLicenseNumber: D99999999
+    drivingLicenseState: CA
+    lossSummary: IV hit OV while parked.
+    subroFlag: Y
+    totalAmountPaid: '3500.000000000'
+    totalAmountPaidCurrencyCode: USD
+    vehicleBodyType: SRW SUPER DUTY
+    vehicleMake: FORD
+    vehicleManufacturedYear: '2006'
+    vehicleDescription: Big truck
+    vehicleSerialNumber: 1FTNF20506ED96616
+  product: AAA_CSA
