@@ -63,6 +63,12 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_PIPDEDAPPTO_NIO,
 			CoverageLimits.COV_PIPDEDAPPTO_NIAHF
 	)),
+	COV_PIP_MD(ImmutableList.of(
+			CoverageLimits.COV_PIP_2500_GUEST,
+			CoverageLimits.COV_PIP_5000_GUEST,
+			CoverageLimits.COV_PIP_2500_FULL,
+			CoverageLimits.COV_PIP_5000_FULL
+	)),
 	PD_IN(ImmutableList.of(
 			CoverageLimits.COV_10000,
 			CoverageLimits.COV_15000,
