@@ -52,7 +52,7 @@ TestData3: {
 
 GeneralTab1: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2','@NamedInsuredInformation3'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
   CurrentCarrierInformation: '@CurrentCarrierInformation'
@@ -60,7 +60,7 @@ GeneralTab1: {
 
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
   CurrentCarrierInformation: '@CurrentCarrierInformation'
@@ -87,17 +87,9 @@ CurrentCarrierInformation: {
   Agent Entered BI Limits: '$300,000/$500,000',
 }
 
-AAAProductOwned: {
+AAAMembership: {
   Current AAA Member: 'Yes',
-  Membership Number: 4290023667710001,
-  Life: 'Yes',
-  'Life Policy #': L87654567,
-  Home: 'Yes',
-  'Home Motorcycle Policy #': H65654328,
-  Renters: 'Yes',
-  'Renters Policy #': R09871234,
-  Condo: 'Yes',
-  'Condo Policy #': C76509878
+  Membership Number: 4290023667710001
 }
 
 NamedInsuredInformation1: {

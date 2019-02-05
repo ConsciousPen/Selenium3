@@ -932,25 +932,6 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	}
 
 	/**
-	 * @author Megha Gubbala
-	 * @name Driver MetaData Service
-	 * @scenario 1. Create policy. with 1 Afr and 1 Nafr
-	 * 2. Create endorsement outside of PAS
-	 * 3. run driver meta data service
-	 * 4. Verify ADB is visible true for AFR and disable to NAFR driver
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas17641"})
-	public void pas17641_MetaDataServiceDriverAddADB(@Optional("AZ") String state) {
-
-		TestData td = getTestSpecificTD("TestData");
-		assertSoftly(softly ->
-				pas17641_MetaDataServiceDriverAddADBBody(softly, getPolicyType(), td)
-		);
-	}
-
-	/**
 	 * @author Jovita Pukenaite
 	 * @name The "Age first licensed" cannot be greater than the age of the driver
 	 * @scenario 1. Create policy.
