@@ -83,12 +83,22 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		
 		log.info("TEST: Policy created #" + PolicySummaryPage.getPolicyNumber());
 		
-		//TODO Policy Inquiry
+		//Policy Inquiry
 		policy.policyInquiry().start();
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(DocumentsAndBindTab.availableForPrinting_AutoInsuranceQuote).isPresent(false);
 			softly.assertThat(DocumentsAndBindTab.availableForPrinting_AutoInsuranceApplication).isPresent();
+			softly.assertThat(DocumentsAndBindTab.availableForPrinting_NamedDriverExclusion).isPresent();
+			softly.assertThat(DocumentsAndBindTab.availableForPrinting_CriticalInformationForTeenageDrivers).isPresent();
+			softly.assertThat(DocumentsAndBindTab.availableForPrinting_UninsuredAndUnderinsuredMotoristCoverage).isPresent();
+			softly.assertThat(DocumentsAndBindTab.availableForPrinting_AAAUsageBasedInsuranceProgram).isPresent();
+			softly.assertThat(DocumentsAndBindTab.availableForPrinting_AAAwithSMARTtrekAcknowledgement).isPresent();
+			softly.assertThat(DocumentsAndBindTab.availableForPrinting_ACPSMARTtrekSubscription).isPresent();
 			softly.assertThat(DocumentsAndBindTab.requiredToBind_AutoInsuranceApplication).isPresent();
+			softly.assertThat(DocumentsAndBindTab.requiredToBond_NamedDriverExclusion).isPresent();
+			softly.assertThat(DocumentsAndBindTab.reqiuredToBind_UninsuredAndUnderinsuredMotoristCoverage).isPresent();
+			softly.assertThat(DocumentsAndBindTab.requiredToBind_AAAwithSMARTtrekAcknowledgement).isPresent();
 		});
 		documentsAndBindTab.cancel();
 		
