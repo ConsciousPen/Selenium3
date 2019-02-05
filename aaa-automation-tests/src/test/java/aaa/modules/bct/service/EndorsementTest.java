@@ -2,13 +2,10 @@ package aaa.modules.bct.service;
 
 import static aaa.common.enums.Constants.States.*;
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -32,7 +29,6 @@ import aaa.utils.StateList;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.db.DBService;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public class EndorsementTest extends BackwardCompatibilityBaseTest {
@@ -428,6 +424,6 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 			date1 = PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE1);
 			date2 = PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE2);
 		}
-		return getEmptyEndorsementPolicies(testName, date1, date2).get(0);
+		return getEmptyEndorsementPolicies(testName, date1, date2,getState()).get(0);
 	}
 }

@@ -80,11 +80,11 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		return getPoliciesFromQuery(getQueryResult(testName, queryName), queryName);
 	}
 
-	public List<String> getEmptyEndorsementPolicies(String testName, String startRangeDate, String endRangeDate) {
+	public List<String> getEmptyEndorsementPolicies(String testName, String startRangeDate, String endRangeDate,String state) {
 		String query = testDataManager.bct.get(getBctType()).getTestData(testName).getValue(SELECT_POLICY_QUERY_TYPE);
 		query = query.replace("/DATE1/", startRangeDate);
 		query = query.replace("/DATE2/", endRangeDate);
-		query = query.replace("/STATE/", getState());
+		query = query.replace("/STATE/", state);
 
 		return getPoliciesFromQuery(DBService.get().getRows(query + " ORDER BY POLICYNUMBER DESC"), SELECT_POLICY_QUERY_TYPE);
 	}
