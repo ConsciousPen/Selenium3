@@ -1263,18 +1263,10 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @NOTE: functionality related with pas15824_UmpdDelimiter (needed to update)
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.VA})
+	@StateList(states = {Constants.States.VA, Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21364"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21364", "PAS-19127"})
 	public void pas21364_PDAndUMPDandCanChangeTrue(@Optional("VA") String state) {
-		pas21364_PDAndUMPDAndCanChangeTrueBody();
-	}
-
-	@Parameters({"state"})
-	@StateList(states = {Constants.States.NJ})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19127"})
-	public void pas19127_PDAndUMPDandCanChangeTrue(@Optional("NJ") String state) {
 		pas21364_PDAndUMPDAndCanChangeTrueBody();
 	}
 
