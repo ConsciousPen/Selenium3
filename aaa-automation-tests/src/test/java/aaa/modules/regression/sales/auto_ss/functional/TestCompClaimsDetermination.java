@@ -1,13 +1,14 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import java.util.List;
+
+import aaa.helpers.logs.PasAppLogGrabber;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -24,9 +25,9 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 	// Example: http://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1
 
 	private static VehicleTab vehicleTab = new VehicleTab();
-	private static PasAdminLogGrabber pasAdminLogGrabber = new PasAdminLogGrabber();
+	private static PasAppLogGrabber pasAppLogGrabber = new PasAppLogGrabber();
 
-	private static String adminLog;
+	private static String appLog;
 	private static List<String> listOfClaims;
 	private static String pasFirstNamedInsured;
 	private static String pas2ndDriver = "pasMATTHEW pasFOX";
@@ -94,8 +95,8 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 		// Move to R-46 and run batch job part 2 and renewalClaimReceiveAsyncJob to generate Microservice Request/Response and Analytic logs
 		runRenewalClaimReceiveJob();
 
-		adminLog = downloadPasAdminLog();
-		listOfClaims = pasAdminLogGrabber.retrieveClaimsAnalyticsLogValues(adminLog);
+		appLog = downloadPasAppLog();
+		listOfClaims = pasAppLogGrabber.retrieveClaimsAnalyticsLogValues(appLog);
 
 		CustomSoftAssertions.assertSoftly(softly -> {
 		// Verify Claim Analytic Logs: MATCH CODE according to Claim Number and policyNumber

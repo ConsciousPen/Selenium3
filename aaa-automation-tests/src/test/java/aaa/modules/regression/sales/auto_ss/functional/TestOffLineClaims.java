@@ -6,6 +6,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+
+import aaa.helpers.logs.PasAppLogGrabber;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -21,7 +23,6 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
@@ -58,7 +59,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
 	private static String adminLog;
 	private static List<String> listOfClaims;
-	private static PasAdminLogGrabber pasAdminLogGrabber = new PasAdminLogGrabber();
+	private static PasAppLogGrabber pasAppLogGrabber = new PasAppLogGrabber();
 	private static final String pasDriverNameKey = "pasDriverName";
 	private static final String matchCodeKey = "matchCode";
 

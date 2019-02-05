@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
 import aaa.common.enums.RestRequestMethodTypes;
+import aaa.helpers.logs.PasAppLogGrabber;
 import aaa.helpers.rest.JsonClient;
 import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
@@ -38,7 +39,6 @@ import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import aaa.helpers.claim.datamodel.claim.Claim;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -72,7 +72,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     @SuppressWarnings("SpellCheckingInspection")
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_hhmmss");
     @SuppressWarnings("SpellCheckingInspection")
-    private static final String PAS_ADMIN_LOG_PATH = System.getProperty("user.dir")
+    private static final String PAS_APP_LOG_PATH = System.getProperty("user.dir")
             + PropertyProvider.getProperty("test.downloadfiles.location") + "pas_admin_log";
     public static final String SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = 'TRUE' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse'";
     public static final String SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS = "UPDATE LOOKUPVALUE SET DATEOFLOSS = '%s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse'";
@@ -315,17 +315,17 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     }
 
     /**
-     * Method returns content as String of pas-admins wrapper.log file
+     * Method returns content as String of pas-app wrapper.log file
      * @return
      */
-    protected String downloadPasAdminLog() {
-        String pasAdminLogFolder = PasAdminLogGrabber.getPasAdminLogFolder();
-        RemoteHelper.get().getListOfFiles(pasAdminLogFolder);
-        RemoteHelper.get().downloadFile("wrapper.log", PAS_ADMIN_LOG_PATH);
-        File pasAdminLogFile = new File(PAS_ADMIN_LOG_PATH + File.separator + "wrapper.log");
-        assertThat(pasAdminLogFile).exists().isFile().canRead().isAbsolute();
-        String content = contentOf(pasAdminLogFile, Charset.defaultCharset());
-        log.info("Downloaded PAS Admin Log File: {}" + content);
+    protected String downloadPasAppLog() {
+        String pasAppLogFolder = PasAppLogGrabber.getPasAppLogFolder();
+        RemoteHelper.get().getListOfFiles(pasAppLogFolder);
+        RemoteHelper.get().downloadFile("wrapper.log", PAS_APP_LOG_PATH);
+        File pasAppLogFile = new File(PAS_APP_LOG_PATH + File.separator + "wrapper.log");
+        assertThat(pasAppLogFile).exists().isFile().canRead().isAbsolute();
+        String content = contentOf(pasAppLogFile, Charset.defaultCharset());
+        log.info("Downloaded PAS Application Log File: {}" + content);
         return content;
     }
 
