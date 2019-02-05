@@ -3341,8 +3341,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 			String driverFNI = viewDriversResponse.driverList.get(0).oid;
 			String driverAFR = viewDriversResponse.driverList.get(1).oid;
-			String driver3 = viewDriversResponse.driverList.get(2).oid;
-			String driver4 = viewDriversResponse.driverList.get(3).oid;
 
 			//Validate view coverages that 0 drivers have ADB added
 			Coverage adbCoverageToMatch = Coverage.create(CoverageInfo.ADB)
@@ -4515,7 +4513,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		softly.assertThat(custEquipIndex).as("CUSTEQUIP should be displayed after COLLDED").isEqualTo(colldedIndex + 1);
 	}
 
-	protected void pas15265_UnderInsuredConversionCoverageCTBody(boolean testWithUimconv) {
+	protected void pas15265_UnderInsuredConversionCoverageBody(boolean testWithUimconv) {
 		TestData td = getPolicyDefaultTD();
 		String setUimconvValueUI;
 		if (testWithUimconv) {
@@ -4944,7 +4942,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertThat(umpdActual).isEqualToIgnoringGivenFields(umpdExpected, "coverageLimit", "coverageLimitDisplay");
 		assertThat(uimpdActual).isEqualToIgnoringGivenFields(uimpdExpected, "coverageLimit", "coverageLimitDisplay");
 
-		helperMiniServices.rateAndBindWithRfi(policyNumber);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 	}
 
@@ -5057,7 +5055,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertThat(umpdActual).isEqualToIgnoringGivenFields(umpdExpected, "availableLimits"); //Available coverage limits are in scope of PAS-15281 tests
 		validateCoverageLimitInPASUI(umpdExpected);
 
-		helperMiniServices.rateAndBindWithRfi(policyNumber);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 	}
 
@@ -5181,7 +5179,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertThat(umpdActual).isEqualToIgnoringGivenFields(umpdExpected, "availableLimits"); //Available coverage limits are in scope of PAS-15281 tests
 		validateCoverageLimitInPASUI(umpdExpected);
 
-		helperMiniServices.rateAndBindWithRfi(policyNumber);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 	}
 
@@ -6132,7 +6130,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		coverageUpdateAndValidate(policyNumber, pipWorkLossExpected, CoverageInfo.PIPWORKLOSS_DC.getCode(), CoverageLimits.COV_12000);
 		coverageUpdateAndValidate(policyNumber, pipFuneralExpected, CoverageInfo.PIPFUNERAL_DC.getCode(), CoverageLimits.COV_4000);
 
-		helperMiniServices.rateAndBindWithRfi(policyNumber);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
 	protected void pas23299_EMBCoveragePABody() {

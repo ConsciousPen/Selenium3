@@ -334,6 +334,7 @@
         </classes>
     </test>
     <test thread-count="1024" name="DriverAssignmentExistsForState" parallel="methods">
+        <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesAssignments">
                 <methods>
@@ -910,8 +911,8 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
-                    <include name="pas15265_WithUnderInsuredConversionCoverageCT"/>
-                    <include name="pas15265_WithOutUnderInsuredConversionCoverageCT"/>
+                    <include name="pas15265_WithUnderInsuredConversionCoverage"/>
+                    <include name="pas15265_WithOutUnderInsuredConversionCoverage"/>
                 </methods>
             </class>
         </classes>

@@ -347,7 +347,8 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @name Check UM/UIM delimiter
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ, Constants.States.ID, Constants.States.KY,Constants.States.SD, Constants.States.MT})
+	@StateList(states = {Constants.States.AZ, Constants.States.ID, Constants.States.KY, Constants.States.SD,
+			Constants.States.MT, Constants.States.PA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15228"})
 	public void pas15228_UmUimDelimiter(@Optional("ID") String state) {
@@ -500,6 +501,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 6. Set BI and PD so that the error is displayed, rate and bind the endorsement. (successfully)
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA, Constants.States.OH})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15379"})
 	public void pas15379_ValidatePUPErrorRelatedWithBiPdLimits(@Optional("VA") String state) {
@@ -721,7 +723,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@StateList(states = {Constants.States.AZ, Constants.States.MD})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas17642"})
-	public void pas17642_UpdateCoverageADB(@Optional("AZ") String state) {
+	public void pas17642_UpdateCoverageADB(@Optional("MD") String state) {
 		pas17642_UpdateCoverageADBBody();
 	}
 
@@ -892,12 +894,12 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @author Maris Strazds
 	 * @name
 	 * @scenario1
-	 * 1. Create CT Auto policy in PAS with 'Underinsured Motorist Conversion Coverage' (UIMCONV) = no
+	 * 1. Create CT/KS Auto policy in PAS with 'Underinsured Motorist Conversion Coverage' (UIMCONV) = no
 	 * 2. Create endorsement through service
 	 * 3. Run viewEndorsement coverages service
 	 * 4. Validate 'Underinsured Motorist Conversion Coverage'(UIMCONV) and 'Uninsured/Underinsured Motorist Bodily Injury' (UIMB) coverage
 	 * @scenario2
-	 * 1. Create CT Auto policy in PAS with 'Underinsured Motorist Conversion Coverage' (UIMCONV) = yes
+	 * 1. Create CT/KS Auto policy in PAS with 'Underinsured Motorist Conversion Coverage' (UIMCONV) = yes
 	 * 2. Create endorsement through service
 	 * 3. Run viewEndorsement coverages service
 	 * 4. Validate 'Underinsured Motorist Conversion Coverage'(UIMCONV) and 'ninsured/Underinsured Motorist Bodily Injury With UIM Conversion Coverage' (UIMB) coverage
@@ -905,19 +907,19 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @NOTE: Probably should be able to update these tests with Update story when it will be in sprint. Probably both tests then could be consolidated in one.
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.CT})
+	@StateList(states = {Constants.States.CT, Constants.States.KS})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15265"})
-	public void pas15265_WithOutUnderInsuredConversionCoverageCT(@Optional("CT") String state) {
-		pas15265_UnderInsuredConversionCoverageCTBody(false);
+	public void pas15265_WithOutUnderInsuredConversionCoverage(@Optional("CT") String state) {
+		pas15265_UnderInsuredConversionCoverageBody(false);
 	}
 
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.CT})
+	@StateList(states = {Constants.States.CT, Constants.States.KS})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15265"})
-	public void pas15265_WithUnderInsuredConversionCoverageCT(@Optional("CT") String state) {
-		pas15265_UnderInsuredConversionCoverageCTBody(true);
+	public void pas15265_WithUnderInsuredConversionCoverage(@Optional("CT") String state) {
+		pas15265_UnderInsuredConversionCoverageBody(true);
 	}
 
 	/**
@@ -1157,7 +1159,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 7. Check transaction change log
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.VA})
+	@StateList(states = {Constants.States.VA, Constants.States.KS, Constants.States.WV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21363"})
 	public void pas21363_BIAndUMBIAndCanChangeTrue(@Optional("VA") String state) {
@@ -1215,7 +1217,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 7. Check transaction change log
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.KS})
+	@StateList(states = {Constants.States.KS, Constants.States.IN})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21363"})
 	public void pas21363_BIAndUMBIAndCanChangeFalse(@Optional("KS") String state) {
@@ -1255,7 +1257,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @NOTE: functionality related with pas15824_UmpdDelimiter (needed to update)
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.VA})
+	@StateList(states = {Constants.States.VA, Constants.States.KS, Constants.States.WV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21364"})
 	public void pas21364_PDAndUMPDandCanChangeTrue(@Optional("VA") String state) {
