@@ -3137,7 +3137,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		Vehicle responseAddVehicle =
 				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, "2018-01-01"), Vehicle.class, 201);
-		softly.assertThat(responseAddVehicle.isLessThan1000Miles).isFalse();
+		softly.assertThat(responseAddVehicle.isLessThan1000Miles).isNull();
 		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, responseAddVehicle.oid);
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "isLessThan1000Miles", true,
 				isLessThan1000Expected, isLessThan1000Expected, null, "Boolean");
