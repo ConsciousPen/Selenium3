@@ -606,10 +606,10 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas11654", "PAS-22550"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas11654", "PAS-22550", "PAS-20835"})
 	public void pas11654_MDEnhancedUIMBICoverage(@Optional("MD") String state) {
 		assertSoftly(softly ->
-				pas11654_MDEnhancedUIMBICoverageBody(softly, getPolicyType())
+				pas11654_MDEnhancedUIMBICoverageBody(softly, getPolicyType(), false) //TODO: if we will have story to enable update for EUIM, change canChangeCoverage to true and test should be ready to go
 		);
 	}
 
