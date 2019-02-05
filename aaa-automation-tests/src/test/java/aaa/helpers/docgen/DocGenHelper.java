@@ -1,33 +1,32 @@
 package aaa.helpers.docgen;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.SkipException;
+import aaa.common.enums.Constants;
 import aaa.helpers.db.DbXmlHelper;
 import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.helpers.xml.XmlHelper;
 import aaa.helpers.xml.model.*;
 import aaa.main.enums.DocGenEnum;
-import org.apache.commons.collections4.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import aaa.main.modules.policy.PolicyType;
+import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
-
-import java.text.MessageFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class DocGenHelper {
 	public static final String DOCGEN_SOURCE_FOLDER = "/home/DocGen/";
@@ -89,6 +88,9 @@ public class DocGenHelper {
 	 *                        By default strict match check is used, this means exception will be thrown if xml content differs from existing model (e.g. has extra tags)
 	 */
 	public static DocumentWrapper verifyDocumentsGenerated(ETCSCoreSoftAssertions softly, boolean documentsExistence, boolean generatedByJob, String policyNumber, DocGenEnum.Documents... documents) {
+		if (isPasDocEnabled(policyNumber)) {
+			throw new SkipException(String.format("PasDoc is enabled for product and state combination: " + policyNumber + ". Test will be skipped."));
+		}
 		assertThat(documents.length == 0 && !documentsExistence).as("Unable to call method with empty \"documents\" array and false \"documentsExistence\" argument values!").isFalse();
 
 		log.info(String.format("Verifying that document with \"%1$s\" quote/policy number is generated%2$s%3$s.",
@@ -250,9 +252,9 @@ public class DocGenHelper {
 	 * @param allDocumentPackages getAllDocumentPackages()
 	 * @return List<Document>
 	 */
-	public static List<String> getPackageDataElementsByNameFromDocumentPackageList(List<DocumentPackage> allDocumentPackages, String sectionName, String tag) throws NoSuchFieldException{
+	public static List<String> getPackageDataElementsByNameFromDocumentPackageList(List<DocumentPackage> allDocumentPackages, String sectionName, String tag) throws NoSuchFieldException {
 		List<String> dataElements = new ArrayList<>();
-		for( DocumentPackage documentPackage: allDocumentPackages){
+		for (DocumentPackage documentPackage : allDocumentPackages) {
 			List<DocumentDataSection> documentDataSection = documentPackage.getDocumentPackageData().getDocumentDataSection();
 			dataElements.add(documentDataSection.stream()
 					.filter(a -> a.getSectionName().equals(sectionName))
@@ -298,7 +300,7 @@ public class DocGenHelper {
 	 * @param quoteNumber quote/policy number
 	 * @param eventName   event name of the generated document
 	 */
-	public static Document waitForDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName) 	{
+	public static Document waitForDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName) {
 		return waitForDocumentsAppearanceInDB(docId, quoteNumber, eventName, true);
 	}
 
@@ -309,18 +311,18 @@ public class DocGenHelper {
 	 * @param quoteNumber quote/policy number
 	 * @param eventName   event name of the generated document
 	 */
-	public static List<Document> waitForMultipleDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName) 	{
+	public static List<Document> waitForMultipleDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName) {
 		return waitForMultipleDocumentsAppearanceInDB(docId, quoteNumber, eventName, true);
 	}
 
-		/**
-		 * Wait for document(s) request appearance in database for specific <b>docId</b> with timeout {@link DocGenHelper#DOCUMENT_GENERATION_TIMEOUT}
-		 *
-		 * @param docId       documents ids to be used for waiting xml document.
-		 * @param quoteNumber quote/policy number
-		 * @param eventName   event name of the generated document
-		 * @param assertExists   assert if the generated document exists
-		 */
+	/**
+	 * Wait for document(s) request appearance in database for specific <b>docId</b> with timeout {@link DocGenHelper#DOCUMENT_GENERATION_TIMEOUT}
+	 *
+	 * @param docId       documents ids to be used for waiting xml document.
+	 * @param quoteNumber quote/policy number
+	 * @param eventName   event name of the generated document
+	 * @param assertExists   assert if the generated document exists
+	 */
 	public static Document waitForDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName, boolean assertExists) {
 		long conditionCheckPoolingIntervalInSeconds = 1;
 		log.info(String.format("Waiting for xml document \"%1$s\" request appearance in database.", docId.getId()));
@@ -462,7 +464,7 @@ public class DocGenHelper {
 		List<Map<String, String>> allDocs = DbXmlHelper.getXmlsByPolicyNumber(policyNumber, eventName);
 		List<DocumentPackage> listOfDocumentPackages = new ArrayList<>();
 
-		for(Map<String, String> doc: allDocs) {
+		for (Map<String, String> doc : allDocs) {
 			String xmlDoc = doc.get("DATA");
 			DocumentPackage documentPackage = getDocumentPackage(xmlDoc);
 			listOfDocumentPackages.add(documentPackage);
@@ -471,7 +473,6 @@ public class DocGenHelper {
 		return listOfDocumentPackages;
 	}
 
-
 	/**
 	 * Get All Documents from Document Package List
 	 * @param allDocumentPackages getAllDocumentPackages()
@@ -479,7 +480,7 @@ public class DocGenHelper {
 	 */
 	public static List<Document> getDocumentsFromDocumentPackagesList(List<DocumentPackage> allDocumentPackages) {
 		List<Document> actualDocumentsListAfterFirstRenewal = new ArrayList<>();
-		for( DocumentPackage documentPackage: allDocumentPackages){
+		for (DocumentPackage documentPackage : allDocumentPackages) {
 			actualDocumentsListAfterFirstRenewal.addAll(documentPackage.getDocuments());
 		}
 		return actualDocumentsListAfterFirstRenewal;
@@ -493,4 +494,81 @@ public class DocGenHelper {
 			return dw.getList(SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber)).size() > 0;
 		}
 	}
+
+	public static Boolean isPasDocEnabled(String state, PolicyType pType) {
+		HashMap<String, ProductCode> pMap = new HashMap<>();
+		pMap.put(PolicyType.HOME_SS_HO3.getName(), ProductCode.AAA_HO_SS);
+		pMap.put(PolicyType.AUTO_SS.getName(), ProductCode.AAA_SS);
+		pMap.put(PolicyType.AUTO_CA_SELECT.getName(), ProductCode.AAA_CSA);
+		pMap.put(PolicyType.HOME_CA_HO3.getName(), ProductCode.AAA_HO_CA);
+		pMap.put(PolicyType.PUP.getName(), ProductCode.AAA_PUP_SS);
+		assertThat(pMap.get(pType.getName()).name()).as("Policy Type " + pType.getName() + " is not in a range").isNotEmpty();
+		return executePasDocQuery(pMap.get(pType.getName()).name(), state);
+	}
+
+	public static Boolean isPasDocEnabled(String policyNum) {
+		assertThat(policyNum).as("Policy number is not defined").isNotEmpty();
+		final String queryTemplate = "select lv.displayvalue from lookuplist ll	inner join lookupvalue lv on lv.lookuplist_id=ll.id where ll.lookupname='AAARolloutEligibilityLookup' and lv.code='PASDoc' and lv.productcd='%s' and lv.riskstatecd='%s'";
+		String template = parsePolicyNum(policyNum);
+		String state;
+		ProductCode product = null;
+		if (template.startsWith("CA")) {
+			state = Constants.States.CA;
+			switch (template) {
+				case "CAH":
+					product = ProductCode.AAA_HO_CA;
+					break;
+				case "CAAS":
+					product = ProductCode.AAA_CSA;
+					break;
+				case "CAPU":
+					product = ProductCode.AAA_PUP_SS;
+					break;
+			}
+		} else {
+			state = template.substring(0, 2);
+			String prodTemp = template.substring(2);
+			switch (prodTemp) {
+				case "H":
+					product = ProductCode.AAA_HO_SS;
+					break;
+				case "SS":
+					product = ProductCode.AAA_SS;
+					break;
+				case "PU":
+					product = ProductCode.AAA_PUP_SS;
+					break;
+			}
+		}
+		return executePasDocQuery(product.name(), state);
+	}
+
+	public static void checkPasDocEnabled(String state, PolicyType pType) {
+		if (isPasDocEnabled(state, pType)) {
+			throw new SkipException(String.format("PasDoc is enabled for product and state combination: %s - %s. Test will be skipped", pType, state));
+		}
+	}
+
+	private static Boolean executePasDocQuery(String state, String pType) {
+		assertThat(state).as("State is not defined").isNotEmpty();
+		assertThat(pType).as("Policy Type is not defined").isNotNull();
+		final String queryTemplate = "select lv.displayvalue from lookuplist ll	inner join lookupvalue lv on lv.lookuplist_id=ll.id where ll.lookupname='AAARolloutEligibilityLookup' and lv.code='PASDoc' and lv.productcd='%s' and lv.riskstatecd='%s'";
+		String value = DBService.get().getValue(String.format(queryTemplate, pType, state)).orElse("false");
+		return value.equals("true");
+	}
+
+	private static String parsePolicyNum(String policyNum) {
+		Pattern r = Pattern.compile("Q?([A-Z]*).*");
+		Matcher m = r.matcher(policyNum);
+
+		if (!m.find()) {
+			throw new SkipException("Policy number can't be parsed: " + policyNum);
+		}
+		return m.group(1);
+	}
+
+	private enum ProductCode {
+		AAA_HO_SS, AAA_SS, AAA_CSA, AAA_HO_CA, AAA_PUP_SS
+	}
+
 }
