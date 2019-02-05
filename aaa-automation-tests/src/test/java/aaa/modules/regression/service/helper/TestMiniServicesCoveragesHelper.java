@@ -3343,10 +3343,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			String driverAFR = viewDriversResponse.driverList.get(1).oid;
 			String driver3 = viewDriversResponse.driverList.get(2).oid;
 			String driver4 = viewDriversResponse.driverList.get(3).oid;
-			softly.assertThat(viewDriversResponse.driverList.get(0).availableCoverages.toString()).contains("ADB");
-			softly.assertThat(viewDriversResponse.driverList.get(1).availableCoverages.toString()).contains("ADB");
-			softly.assertThat(viewDriversResponse.driverList.get(2).availableCoverages.toString()).doesNotContain("ADB");
-			softly.assertThat(viewDriversResponse.driverList.get(3).availableCoverages.toString()).doesNotContain("ADB");
 
 			//Validate view coverages that 0 drivers have ADB added
 			Coverage adbCoverageToMatch = Coverage.create(CoverageInfo.ADB)
