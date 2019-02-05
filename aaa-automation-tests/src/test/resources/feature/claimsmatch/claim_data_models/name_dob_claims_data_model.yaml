@@ -47,7 +47,7 @@ claimLineItemList:
     driverName: Robin Hood
     claimOpenDate: '2017-05-26'
     claimPolicyReferenceNumber: AZSS203552391
-    claimStatusCode: CLOSED
+    claimStatusCode: OPEN
     claimType: B
     driverAgeAsOfDateOfLoss: '21'
     driverDateofBirth: '1975-05-26'
@@ -88,8 +88,7 @@ claimLineItemList:
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
     subroFlag: Y
-    totalAmountPaid: '4358.250000000'
-    totalAmountPaidCurrencyCode: USD
+    #totalAmountPaid and totalAmountPaidCurrencyCode removed for this claim
     vehicleBodyType: SRW SUPER DUTY
     vehicleMake: FORD
     vehicleManufacturedYear: '2006'
@@ -108,7 +107,7 @@ claimLineItemList:
     claimPrefix: ''
     claimOpenDate: '2019-01-02'
     claimPolicyReferenceNumber: AZSS203552391
-    claimStatusCode: CLOSED
+    claimStatusCode: OPEN
     claimType: B
     driverAgeAsOfDateOfLoss: '21'
     driverDateofBirth: '1997-10-16'
@@ -119,8 +118,7 @@ claimLineItemList:
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
     subroFlag: Y
-    totalAmountPaid: '4358.250000000'
-    totalAmountPaidCurrencyCode: USD
+    #totalAmountPaid and totalAmountPaidCurrencyCode removed for this claim
     vehicleBodyType: SRW SUPER DUTY
     vehicleMake: FORD
     vehicleManufacturedYear: '2006'
@@ -150,7 +148,7 @@ claimLineItemList:
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
     subroFlag: Y
-    totalAmountPaid: '4358.250000000'
+    totalAmountPaid: '0.000000000'
     totalAmountPaidCurrencyCode: USD
     vehicleBodyType: SRW SUPER DUTY
     vehicleMake: FORD
