@@ -4562,11 +4562,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	/**
 	 This is used for UMBI and UIMBI.
 	 */
-	protected void pas21363_BIAndUMBIAndCanChangeTrueBody(CoverageInfo coverageInfo) {
+	protected void pas21363_BIAndUMBIAndCanChangeTrueBody(CoverageInfo coverageInfo) {//TODO-mstrazds:
 		Map<String, CoverageInfo> mapBIAndState = new LinkedHashMap<>();
 		mapBIAndState.put(Constants.States.DE, CoverageInfo.BI_WV_VA_KS_DC_DE);
 		mapBIAndState.put(Constants.States.VA, CoverageInfo.BI_WV_VA_KS_DC_DE);
-		mapBIAndState.put(Constants.States.PA, CoverageInfo.BI_AZ_PA);
+		mapBIAndState.put(Constants.States.PA, CoverageInfo.BI_AZ_PA_NJ);
+		mapBIAndState.put(Constants.States.NJ, CoverageInfo.BI_AZ_PA_NJ);
 
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
@@ -4702,45 +4703,64 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
-	protected void pas21364_PDAndUMPDAndCanChangeTrueBody() {
+	protected void pas21364_PDAndUMPDAndCanChangeTrueBody() { //TODO-mstrazds:
+		Map<String, CoverageInfo> mapBIAndState = new LinkedHashMap<>();
+		mapBIAndState.put(Constants.States.VA, CoverageInfo.BI_WV_VA_KS_DC_DE);
+		mapBIAndState.put(Constants.States.NJ, CoverageInfo.BI_AZ_PA_NJ);
+
+		Map<String, CoverageInfo> mapPDAndState = new LinkedHashMap<>();
+		mapPDAndState.put(Constants.States.VA, CoverageInfo.PD_VA);
+		mapPDAndState.put(Constants.States.NJ, CoverageInfo.PD_NJ);
+
+		Map<String, CoverageInfo> mapUMPDAndState = new LinkedHashMap<>();
+		mapUMPDAndState.put(Constants.States.VA, CoverageInfo.UMPD_VA);
+		mapUMPDAndState.put(Constants.States.NJ, CoverageInfo.UMPD_NJ);
+
+		final CoverageInfo covBI = mapBIAndState.get(getState());
+		final CoverageInfo covPD = mapPDAndState.get(getState());
+		final CoverageInfo covUMPD = mapUMPDAndState.get(getState());
+
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
 		//update BI to highest available limit so that PD has all available limits
-		updateCoverage(policyNumber, CoverageInfo.BI_WV_VA_KS_DC_DE.getCode(), CoverageInfo.BI_WV_VA_KS_DC_DE.getAvailableLimits().get(CoverageInfo.BI_WV_VA_KS_DC_DE.getAvailableLimits().size() - 1).getLimit());
+
+		updateCoverage(policyNumber, covBI.getCode(), covBI.getAvailableLimits().get(covBI.getAvailableLimits().size() - 1).getLimit());
 
 		PolicyCoverageInfo policyCoverageInfo = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
-		Coverage coveragePDActual = findCoverage(policyCoverageInfo.policyCoverages, CoverageInfo.PD_VA.getCode());
-		Coverage coverageUMPDActual = findCoverage(policyCoverageInfo.policyCoverages, CoverageInfo.UMPD_VA.getCode());
-		Coverage coveragePDExpected = Coverage.create(CoverageInfo.PD_VA);
-		Coverage coverageUMPDExpected = Coverage.create(CoverageInfo.UMPD_VA).removeAvailableLimitsAbove(CoverageInfo.UMPD_VA.getDefaultLimit());
+
+		Coverage coveragePDActual = findCoverage(policyCoverageInfo.policyCoverages, covPD.getCode());
+
+		Coverage coverageUMPDActual = findCoverage(policyCoverageInfo.policyCoverages, covUMPD.getCode());
+		Coverage coveragePDExpected = Coverage.create(covPD);
+		Coverage coverageUMPDExpected = Coverage.create(covUMPD).removeAvailableLimitsAbove(covUMPD.getDefaultLimit());
 		assertThat(coverageUMPDActual.getCanChangeCoverage()).as("Precondition: canChangeCoverage is expected to be TRUE for UMPD for this state.").isTrue();
 		assertSoftly(softly -> {
 			softly.assertThat(coveragePDActual).isEqualToComparingFieldByField(coveragePDExpected);
 			softly.assertThat(coverageUMPDActual).isEqualToComparingFieldByField(coverageUMPDExpected);
 
 			//Update PD from higher Limit to lower limit (go through all available limits) ---> PD and UMPD is updated. UMPD available limits are changed.
-			updateCoverageAndValidate_pas21363(softly, policyNumber, true, CoverageInfo.PD_VA.getReversedAvailableLimits(), CoverageInfo.PD_VA, CoverageInfo.UMPD_VA);
+			updateCoverageAndValidate_pas21363(softly, policyNumber, true, covPD.getReversedAvailableLimits(), covPD, covUMPD);
 
 			//Update PD from lower Limit to higher limit (go through all available limits) ---> PD and UMPD is updated. UMPD available limits are changed.
-			updateCoverageAndValidate_pas21363(softly, policyNumber, true, CoverageInfo.PD_VA.getAvailableLimits(), CoverageInfo.PD_VA, CoverageInfo.UMPD_VA);
+			updateCoverageAndValidate_pas21363(softly, policyNumber, true, covPD.getAvailableLimits(), covPD, covUMPD);
 
 			//Update UMPD to lower limit than PD (go through all available limits) ---> PD is not updated, UMPD is updated. UMPD available limits doesn't change.
-			for (CoverageLimits coverageLimit : CoverageInfo.UMPD_VA.getAvailableLimits()) {
-				PolicyCoverageInfo updateUMPDResponse = updateCoverage(policyNumber, CoverageInfo.UMPD_VA.getCode(), coverageLimit.getLimit());
-				Coverage pdAfterUpdateActual = findCoverage(updateUMPDResponse.policyCoverages, CoverageInfo.PD_VA.getCode());
-				Coverage pdAfterUpdateExpected = Coverage.create(CoverageInfo.PD_VA).changeLimit(CoverageInfo.PD_VA.getAvailableLimits().get(CoverageInfo.PD_VA.getAvailableLimits().size() - 1));//the same limit as after last update (highest available PD limit)
+			for (CoverageLimits coverageLimit : covUMPD.getAvailableLimits()) {
+				PolicyCoverageInfo updateUMPDResponse = updateCoverage(policyNumber, covUMPD.getCode(), coverageLimit.getLimit());
+				Coverage pdAfterUpdateActual = findCoverage(updateUMPDResponse.policyCoverages, covPD.getCode());
+				Coverage pdAfterUpdateExpected = Coverage.create(covPD).changeLimit(covPD.getAvailableLimits().get(covPD.getAvailableLimits().size() - 1));//the same limit as after last update (highest available PD limit)
 				softly.assertThat(pdAfterUpdateActual).isEqualToComparingFieldByField(pdAfterUpdateExpected);
 
-				Coverage umpdAfterUpdateActual = findCoverage(updateUMPDResponse.policyCoverages, CoverageInfo.UMPD_VA.getCode());
-				Coverage umpdAfterUpdateExpected = Coverage.create(CoverageInfo.UMPD_VA).changeLimit(coverageLimit);//Assert that UMPD available limits doesn't change
+				Coverage umpdAfterUpdateActual = findCoverage(updateUMPDResponse.policyCoverages, covUMPD.getCode());
+				Coverage umpdAfterUpdateExpected = Coverage.create(covUMPD).changeLimit(coverageLimit);//Assert that UMPD available limits doesn't change
 				softly.assertThat(umpdAfterUpdateActual).isEqualToComparingFieldByField(umpdAfterUpdateExpected);
 				validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateUMPDResponse);
 
 				//Check in UI that coverages updated as expected after last update. Validate transaction history.
-				if (CoverageInfo.UMPD_VA.getAvailableLimits().indexOf(coverageLimit) + 1 == CoverageInfo.UMPD_VA.getAvailableLimits().size()) {
+				if (covUMPD.getAvailableLimits().indexOf(coverageLimit) + 1 == covUMPD.getAvailableLimits().size()) {
 					validateCoverageLimitInPASUI(pdAfterUpdateExpected, umpdAfterUpdateExpected);
 
 					validatePolicyLevelCoverageChangeLog(policyNumber, pdAfterUpdateExpected, umpdAfterUpdateExpected);
@@ -4751,7 +4771,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			Update BI to lower limit so that PD limit and available limits also are updated ---> PD is updated, PD availableLimits are updated, UMPD is updated. UMPD available limits are updated.
 			Update BI to higher limit so that PD limit and available limits also are updated ---> PD is not updated, PD availableLimits are updated, UMPD is not updated. UMPD available limits are updated.
 			*/
-			updateBIAndCheckPDAndUMPD_pas21364(softly, policyNumber, true, CoverageInfo.BI_WV_VA_KS_DC_DE, CoverageInfo.PD_VA, CoverageInfo.UMPD_VA);
+			updateBIAndCheckPDAndUMPD_pas21364(softly, policyNumber, true, covBI, covPD, covUMPD);
 
 		});
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);//US has note not to bind
