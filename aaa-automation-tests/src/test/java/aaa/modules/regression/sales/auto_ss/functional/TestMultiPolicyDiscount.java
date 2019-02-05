@@ -436,14 +436,14 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         // Add MPD Element manually (after no results found)
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
         _generalTab.mpd_SearchAndAddManually(in_policyType, "NOT_FOUND");
-        doScreenshot("DoMPDEligibilityTest", in_policyType, "AddedMPD");
+        //doScreenshot("DoMPDEligibilityTest", in_policyType, "AddedMPD");
 
         // Continue towards purchase of quote.
         policy.getDefaultView().fillFromTo(testData, GeneralTab.class, DocumentsAndBindTab.class, true);
         _documentsAndBindTab.btnPurchase.click();
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
-        doScreenshot("DoMPDEligibilityTest", in_policyType, "ErrorValidation");
+        //doScreenshot("DoMPDEligibilityTest", in_policyType, "ErrorValidation");
         if (!in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
             new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.MPD_COMPANION_VALIDATION);
         }else {
@@ -465,13 +465,13 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         }
 
         _generalTab.mpd_SearchAndAddManually(in_policyType, "NOT_FOUND");
-        doScreenshot("DoMPDEligibilityTest_MidTerm", in_policyType, "AddedMPD");
+        //doScreenshot("DoMPDEligibilityTest_MidTerm", in_policyType, "AddedMPD");
         policy.getDefaultView().fillFromTo(getPolicyTD("Endorsement", "TestData_Empty_Endorsement"), GeneralTab.class, DocumentsAndBindTab.class, true);
         _documentsAndBindTab.btnPurchase.click();
         Page.dialogConfirmation.buttonYes.click();
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
-        doScreenshot("DoMPDEligibilityTest_MidTerm", in_policyType, "ErrorValidation");
+        //doScreenshot("DoMPDEligibilityTest_MidTerm", in_policyType, "ErrorValidation");
         if (!in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
             new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.MPD_COMPANION_VALIDATION);
         }else {
