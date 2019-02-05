@@ -44,7 +44,7 @@ public abstract class TestHomeGranularityAbstract extends PolicyBaseTest {
         String mockLongitude   = HomeGranularityConstants.MOCK_LONGITUDE;
         createQuoteAndFillUpTo(policyTd, getPremiumAndCoveragesQuoteTab().getClass());
         String quoteNumber = quoteDataGatherPage.getQuoteNumber();
-        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(quoteNumber, mockCensusBlock, mockLatitude, mockLongitude, HomeGranularityQueries.SELECT_CENSUS_BLOCK_GROUP);
+        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(quoteNumber, mockCensusBlock, mockLatitude, mockLongitude, "quote","rated");
         checkVRD(censusBlockGroupID);
     }
 
@@ -55,10 +55,10 @@ public abstract class TestHomeGranularityAbstract extends PolicyBaseTest {
         createQuoteAndFillUpTo(policyTd, getApplicantTab().getClass());
         Tab.buttonTopSave.click();
         String quoteNumber = quoteDataGatherPage.getQuoteNumber();
-        validateCensusBlockGroupAndLatLong(quoteNumber, null, null, null, HomeGranularityQueries.SELECT_CENSUS_BLOCK_GROUP);
+        validateCensusBlockGroupAndLatLong(quoteNumber, null, null, null, "quote","dataGather");
         Tab.buttonNext.click();
         policy.getDefaultView().fillFromTo(policyTd, getReportsTab().getClass(), getPremiumAndCoveragesQuoteTab().getClass(), true);
-        validateCensusBlockGroupAndLatLong(quoteNumber, censusBlock, latitude, longitude, HomeGranularityQueries.SELECT_CENSUS_BLOCK_GROUP);
+        validateCensusBlockGroupAndLatLong(quoteNumber, censusBlock, latitude, longitude, "quote","rated");
     }
 
     protected void riskAddressChangeDuringRenewal(TestData tdChangedAddress) {
@@ -79,12 +79,13 @@ public abstract class TestHomeGranularityAbstract extends PolicyBaseTest {
         Tab.buttonTopSave.click();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.REPORTS.get());
         policy.getDefaultView().fillFromTo(tdChangedAddress, getReportsTab().getClass(), getPremiumAndCoveragesQuoteTab().getClass(), true);
-        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(policyNumber, mockCensusBlock, mockLatitude, mockLongitude, HomeGranularityQueries.SELECT_RECAPTURED_CENSUS_BLOCK_GROUP);
+        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(policyNumber, mockCensusBlock, mockLatitude, mockLongitude, "renewal", "rated");
         checkVRD(censusBlockGroupID);
     }
 
-    protected String validateCensusBlockGroupAndLatLong(String policyNumber, String censusBlockGroup, String latitude, String longitude, String censusBlockQuery) {
-        Map<String,String> censusBlockGroupAndLatLongFromDb = DBService.get().getRow(String.format(censusBlockQuery, policyNumber));
+    protected String validateCensusBlockGroupAndLatLong(String policyNumber, String censusBlockGroup, String latitude, String longitude, String txtype, String status) {
+        String censusBlockQuery = HomeGranularityQueries.SELECT_LAT_LONG_CENSUS_BLOCK_GROUP;
+        Map<String,String> censusBlockGroupAndLatLongFromDb = DBService.get().getRow(String.format(censusBlockQuery, policyNumber,txtype,status));
         String censusBlockGroupDbValue = censusBlockGroupAndLatLongFromDb.get("CENSUSBLOCK");
         String latitudeDbValue = censusBlockGroupAndLatLongFromDb.get("LATITUDE");
         String longitudeDbValue = censusBlockGroupAndLatLongFromDb.get("LONGITUDE");
@@ -121,5 +122,19 @@ public abstract class TestHomeGranularityAbstract extends PolicyBaseTest {
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+    }
+
+    protected void riskAddressChangeDuringEndorsement(TestData tdChangeAddress) {
+        String mockCensusBlock = HomeGranularityConstants.DEFAULT_DYNAMIC_CENSUS_BLOCK;
+        String mockLatitude    = HomeGranularityConstants.DEFAULT_DYNAMIC_LATITUDE;
+        String mockLongitude   = HomeGranularityConstants.DEFAULT_DYNAMIC_LONGITUDE;
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createPolicy();
+        tdChangeAddress.adjust(getTestSpecificTD("TestData_Endorsement"));
+        policy.endorse().perform(tdChangeAddress);
+        policy.getDefaultView().fillUpTo(tdChangeAddress, getPremiumAndCoveragesQuoteTab().getClass(), true );
+        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(policyNumber, mockCensusBlock, mockLatitude, mockLongitude, "endorsement","rated");
+        checkVRD(censusBlockGroupID);
     }
 }
