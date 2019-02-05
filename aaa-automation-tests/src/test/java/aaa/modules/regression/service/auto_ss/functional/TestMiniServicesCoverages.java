@@ -606,10 +606,10 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas11654", "PAS-22550"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas11654", "PAS-22550", "PAS-20835"})
 	public void pas11654_MDEnhancedUIMBICoverage(@Optional("MD") String state) {
 		assertSoftly(softly ->
-				pas11654_MDEnhancedUIMBICoverageBody(softly, getPolicyType())
+				pas11654_MDEnhancedUIMBICoverageBody(softly, getPolicyType(), false) //TODO: if we will have story to enable update for EUIM, change canChangeCoverage to true and test should be ready to go
 		);
 	}
 
@@ -1448,6 +1448,23 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15272"})
 	public void pas15272_viewUpdatePipDE(@Optional("DE") String state) {
 		pas15272_viewUpdatePipDEBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name View Coverage - PIP in MD
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Run view endorsement coverages service
+	 * 4. Verify PIP coverage
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.MD})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15361"})
+	public void pas15361_viewPIPMD(@Optional("MD") String state) {
+		pas15361_viewPIPMDBody();
 	}
 
 	/**
