@@ -41,6 +41,9 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     private String censusBlock = HomeGranularityConstants.EADS_MOCK_CENSUS_BLOCK_CA;
     private String latitude = HomeGranularityConstants.EADS_MOCK_LATITUDE_CA;
     private String longitude = HomeGranularityConstants.EADS_MOCK_LONGITUDE_CA;
+    private String avsMockCensusBlock = HomeGranularityConstants.MOCK_CENSUS_BLOCK;
+    private String avsMockLatitude = HomeGranularityConstants.MOCK_LATITUDE;
+    private String avsMockLongitude = HomeGranularityConstants.MOCK_LONGITUDE;
 
     /**
      * @name test: Capture Census Block Group, Latitude and Longitude when address is validated
@@ -56,7 +59,7 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-23235")
     public void pas23235_validateCensusBlockGroupAndLatLong(@Optional("CA") String state) {
-        validateCensusBlockGroupAndLatLong();
+        validateCensusBlockGroupAndLatLong(avsMockCensusBlock, avsMockLatitude, avsMockLongitude,true);
     }
 
     /**

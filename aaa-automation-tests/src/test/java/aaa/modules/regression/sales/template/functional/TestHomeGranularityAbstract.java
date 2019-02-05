@@ -37,15 +37,14 @@ public abstract class TestHomeGranularityAbstract extends PolicyBaseTest {
     String keypathZipCode = TestData.makeKeyPath(keypathDwellingAddress, HomeCaMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel());
     String keypathAddress1 = TestData.makeKeyPath(keypathDwellingAddress, HomeCaMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel());
 
-    protected void validateCensusBlockGroupAndLatLong() {
+    protected void validateCensusBlockGroupAndLatLong(String censusBlock, String latitude, String longitude, Boolean checkVRD) {
         TestData policyTd = getPolicyTD();
-        String mockCensusBlock = HomeGranularityConstants.MOCK_CENSUS_BLOCK;
-        String mockLatitude    = HomeGranularityConstants.MOCK_LATITUDE;
-        String mockLongitude   = HomeGranularityConstants.MOCK_LONGITUDE;
         createQuoteAndFillUpTo(policyTd, getPremiumAndCoveragesQuoteTab().getClass());
         String quoteNumber = quoteDataGatherPage.getQuoteNumber();
-        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(quoteNumber, mockCensusBlock, mockLatitude, mockLongitude, "quote","rated");
-        checkVRD(censusBlockGroupID);
+        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(quoteNumber, censusBlock, latitude, longitude, "quote","rated");
+        if(checkVRD){
+            checkVRD(censusBlockGroupID);
+        }
     }
 
     protected void validateCensusBlockGroupAndLatLongFromEADS(String zipCode, String address, String censusBlock, String latitude, String longitude) {

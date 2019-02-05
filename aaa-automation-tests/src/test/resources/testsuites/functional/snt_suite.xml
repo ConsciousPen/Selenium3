@@ -24,7 +24,7 @@
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestHomeGranularity">
                 <methods>
-                    <!--<include name="pas23235_validateCensusBlockGroupAndLatLong"/>-->
+                    <include name="pas24138_validateCensusBlockGroupAndLatLong"/>
                     <include name="pas24030_validateCensusBlockGroupAndLatLongFromEADS"/>
                 </methods>
             </class>
@@ -50,7 +50,7 @@
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestHomeGranularity">
                 <methods>
-                    <!--<include name="pas23235_validateCensusBlockGroupAndLatLong"/>-->
+                    <include name="pas24138_validateCensusBlockGroupAndLatLong"/>
                     <include name="pas24030_validateCensusBlockGroupAndLatLongFromEADS"/>
                 </methods>
             </class>
@@ -74,7 +74,7 @@
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestHomeGranularity">
                 <methods>
-                    <!--<include name="pas23235_validateCensusBlockGroupAndLatLong"/>-->
+                    <include name="pas24138_validateCensusBlockGroupAndLatLong"/>
                     <include name="pas24030_validateCensusBlockGroupAndLatLongFromEADS"/>
                 </methods>
             </class>
@@ -98,7 +98,7 @@
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestHomeGranularity">
                 <methods>
-                    <!--<include name="pas23235_validateCensusBlockGroupAndLatLong"/>-->
+                    <include name="pas24138_validateCensusBlockGroupAndLatLong"/>
                     <include name="pas24030_validateCensusBlockGroupAndLatLongFromEADS"/>
                 </methods>
             </class>
