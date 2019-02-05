@@ -34,6 +34,9 @@ public class DocumentsAndBindTab extends Tab {
 	public static Dialog confirmRenewal = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialog-1_content']");
 	public static StaticElement helpIconPaperlessPreferences = new StaticElement(By.xpath("//label[@id='policyDataGatherForm:paperlessPreferences_enrolledInPaperless_helpText']"));
 
+	public static StaticElement availableForPrinting_AutoInsuranceApplication = new StaticElement(By.xpath("//td[text()='Auto Insurance Application']"));
+	public static StaticElement requiredToBind_AutoInsuranceApplication = new StaticElement(By.xpath("//div[text()='Auto Insurance Application']"));
+	
 	public AssetList getDocumentsForPrintingAssetList() {
 		return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING.getLabel(), AssetList.class);
 	}

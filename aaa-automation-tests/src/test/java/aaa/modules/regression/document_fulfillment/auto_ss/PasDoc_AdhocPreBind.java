@@ -21,12 +21,12 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 
-public class PasDoc_AdhocPreBind_TS2 extends AutoSSBaseTest {
+public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
-	public void TestScenario2(@Optional("") String state) {
+	public void testScenario2(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
@@ -84,6 +84,13 @@ public class PasDoc_AdhocPreBind_TS2 extends AutoSSBaseTest {
 		log.info("TEST: Policy created #" + PolicySummaryPage.getPolicyNumber());
 		
 		//TODO Policy Inquiry
+		policy.policyInquiry().start();
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(DocumentsAndBindTab.availableForPrinting_AutoInsuranceApplication).isPresent();
+			softly.assertThat(DocumentsAndBindTab.requiredToBind_AutoInsuranceApplication).isPresent();
+		});
+		documentsAndBindTab.cancel();
 		
 		//Endorsement
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
