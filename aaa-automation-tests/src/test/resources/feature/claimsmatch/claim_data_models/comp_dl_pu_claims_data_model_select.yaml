@@ -24,8 +24,8 @@ claimLineItemList:
     driverName: JOSHUA FUSSELL
     driverRelationToInsured: INSURED
     permissiveUse: N
-    drivingLicenseNumber: D07963714
-    drivingLicenseState: AZ
+    drivingLicenseNumber: D0796371
+    drivingLicenseState: CA
     lossSummary: IV hit OV while turning.
     subroFlag: Y
     totalAmountPaid: '4358.250000000'
@@ -59,7 +59,7 @@ claimLineItemList:
     driverName: casMATTHEW casFOX
     driverRelationToInsured: INSURED
     permissiveUse: Y
-    drivingLicenseNumber: A19191912
+    drivingLicenseNumber: A1919191
     drivingLicenseState: CA
     lossSummary: IV hit OV while turning.
     subroFlag: Y
@@ -92,7 +92,7 @@ claimLineItemList:
     driverName: BRUCE BANNER
     driverRelationToInsured: INSURED
     permissiveUse: Y
-    drivingLicenseNumber: D99999999
+    drivingLicenseNumber: D9999999
     drivingLicenseState: CA
     lossSummary: IV hit OV while parked.
     subroFlag: Y
@@ -125,7 +125,7 @@ claimLineItemList:
     driverName: BRUCE BANNER
     driverRelationToInsured: INSURED
     permissiveUse: Y
-    drivingLicenseNumber: D99999999
+    drivingLicenseNumber: D9999999
     drivingLicenseState: CA
     lossSummary: IV hit OV while parked.
     subroFlag: Y
@@ -136,4 +136,4 @@ claimLineItemList:
     vehicleManufacturedYear: '2006'
     vehicleDescription: Big truck
     vehicleSerialNumber: 1FTNF20506ED96616
-  product: AAA_SS
+  product: AAA_CSA
