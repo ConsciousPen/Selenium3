@@ -37,7 +37,6 @@ import org.assertj.core.api.Assertions;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
-import toolkit.exceptions.IstfException;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 
