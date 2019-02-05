@@ -2923,7 +2923,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas11654_MDEnhancedUIMBICoverageBody(ETCSCoreSoftAssertions softly, PolicyType policyType) {
+	protected void pas11654_MDEnhancedUIMBICoverageBody(ETCSCoreSoftAssertions softly, PolicyType policyType, boolean canChangeCoverage) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
@@ -2932,22 +2932,24 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class);
 
-		Coverage coverageEUIM = policyCoverageResponse.policyCoverages.get(3);
-		coverageXproperties(softly, coverageEUIM, "EUIM", "Enhanced UIM", "false", "No", null, true, true);
+		Coverage coverageEUIM = findCoverage(policyCoverageResponse.policyCoverages, "EUIM");//policyCoverageResponse.policyCoverages.get(3);
+		coverageXproperties(softly, coverageEUIM, "EUIM", "Enhanced UIM", "false", "No", null, true, canChangeCoverage);
 
-		String coverageCd1 = "EUIM";
-		String newBILimits1 = "true";
-		PolicyCoverageInfo coverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd1, newBILimits1), PolicyCoverageInfo.class);
+		if (canChangeCoverage) {
+			String coverageCd1 = "EUIM";
+			String newBILimits1 = "true";
+			PolicyCoverageInfo coverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd1, newBILimits1), PolicyCoverageInfo.class);
 
-		Coverage coverageEUIM1 = coverageResponse.policyCoverages.get(3);
-		coverageXproperties(softly, coverageEUIM1, "EUIM", "Enhanced UIM", "true", "Yes", null, true, true);
+			Coverage coverageEUIM1 = findCoverage(coverageResponse.policyCoverages, "EUIM");
+			coverageXproperties(softly, coverageEUIM1, "EUIM", "Enhanced UIM", "true", "Yes", null, true, true);
 
-		String coverageCd2 = "EUIM";
-		String newBILimits2 = "false";
-		PolicyCoverageInfo coverageResponse1 = HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd2, newBILimits2), PolicyCoverageInfo.class);
+			String coverageCd2 = "EUIM";
+			String newBILimits2 = "false";
+			PolicyCoverageInfo coverageResponse1 = HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd2, newBILimits2), PolicyCoverageInfo.class);
 
-		Coverage coverageEUIM2 = coverageResponse1.policyCoverages.get(3);
-		coverageXproperties(softly, coverageEUIM2, "EUIM", "Enhanced UIM", "false", "No", null, true, true);
+			Coverage coverageEUIM2 = findCoverage(coverageResponse1.policyCoverages, "EUIM");
+			coverageXproperties(softly, coverageEUIM2, "EUIM", "Enhanced UIM", "false", "No", null, true, true);
+		}
 	}
 
 	protected void pas20675_TortCoverageBody(ETCSCoreSoftAssertions softly, PolicyType policyType) {
@@ -3141,18 +3143,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	private void bind_pas15255(String policyNumber) {
-		//if state must have signed RUMBI document, sign it. Currently not possible to sign through service
-		if (Constants.States.CO.equals(getState())) {
-			premiumAndCoveragesTab.calculatePremium();
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-			DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
-			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.REJECTION_OF_UNINSURED_UNDERINSURED_MOTORISTS_COVERAGE.getLabel(), RadioGroup.class)
-					.setValue("Physically Signed");
-			documentsAndBindTab.submitTab();
-		} else {
-			premiumAndCoveragesTab.saveAndExit();
-			helperMiniServices.endorsementRateAndBind(policyNumber);
-		}
+		premiumAndCoveragesTab.saveAndExit();
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
 	private void updateCoverageAndCheckUmbi_pas15255(String policyNumber, String coverageCdChange, String availableLimitsChange, String vehicleOid, boolean customerDisplayed, boolean canChangeCoverage, String coverageLimitDisplay, String state) {
