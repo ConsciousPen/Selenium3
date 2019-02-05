@@ -36,9 +36,9 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     private String censusBlock = HomeGranularityConstants.EADS_MOCK_CENSUS_BLOCK_CA;
     private String latitude = HomeGranularityConstants.EADS_MOCK_LATITUDE_CA;
     private String longitude = HomeGranularityConstants.EADS_MOCK_LONGITUDE_CA;
-    private String avsMockCensusBlock = HomeGranularityConstants.MOCK_CENSUS_BLOCK_AZ;
-    private String avsMockLatitude = HomeGranularityConstants.MOCK_LATITUDE_AZ;
-    private String avsMockLongitude = HomeGranularityConstants.MOCK_LONGITUDE_AZ;
+    private String avsMockCensusBlock = HomeGranularityConstants.MOCK_CENSUS_BLOCK;
+    private String avsMockLatitude = HomeGranularityConstants.MOCK_LATITUDE;
+    private String avsMockLongitude = HomeGranularityConstants.MOCK_LONGITUDE;
 
     /**
      * @name test: Capture Census Block Group, Latitude and Longitude when address is validated
