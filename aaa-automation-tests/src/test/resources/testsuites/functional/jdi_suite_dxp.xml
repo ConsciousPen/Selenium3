@@ -1052,6 +1052,7 @@
                     <include name="pas23300_AAFPPAFormRFI"/>
                     <include name="pas23301_AA52UPAAFormRFI"/>
                     <include name="pas23301_AA52UPAAFormAddReplaceVehicleTriggerRFI"/>
+                    <include name="pas23302_AA52IPAAFormRFI"/>
                 </methods>
             </class>
         </classes>
