@@ -1056,4 +1056,15 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="NJ Coverages" parallel="methods">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas19127_BIAndUMBIAndCanChangeTrue"/>
+                    <include name="pas19127_PDAndUMPDandCanChangeTrue"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

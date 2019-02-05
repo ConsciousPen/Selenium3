@@ -4562,7 +4562,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	/**
 	 This is used for UMBI and UIMBI.
 	 */
-	protected void pas21363_BIAndUMBIAndCanChangeTrueBody(CoverageInfo coverageInfo) {//TODO-mstrazds:
+	protected void pas21363_BIAndUMBIAndCanChangeTrueBody(CoverageInfo coverageInfo) {
 		Map<String, CoverageInfo> mapBIAndState = new LinkedHashMap<>();
 		mapBIAndState.put(Constants.States.DE, CoverageInfo.BI_WV_VA_KS_DC_DE);
 		mapBIAndState.put(Constants.States.VA, CoverageInfo.BI_WV_VA_KS_DC_DE);
@@ -4703,7 +4703,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
-	protected void pas21364_PDAndUMPDAndCanChangeTrueBody() { //TODO-mstrazds:
+	protected void pas21364_PDAndUMPDAndCanChangeTrueBody() {
 		Map<String, CoverageInfo> mapBIAndState = new LinkedHashMap<>();
 		mapBIAndState.put(Constants.States.VA, CoverageInfo.BI_WV_VA_KS_DC_DE);
 		mapBIAndState.put(Constants.States.NJ, CoverageInfo.BI_AZ_PA_NJ);
