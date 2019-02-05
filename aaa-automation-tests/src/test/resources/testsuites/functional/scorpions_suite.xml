@@ -94,6 +94,11 @@
                     <include name="pas730_VehicleTypeNotPPA"/>
                 </methods>
             </class>
+        </classes>
+    </test>
+    <test name="Auto SS STAT Code Refresh WY">
+        <parameter name="state" value="WY"/>
+        <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshPPAVehicle">
                 <methods>
                     <include name="pas730_VehicleTypePPA"/>
@@ -211,16 +216,6 @@
                     <include name="pas12476_TestUpdatePayPlanRestrictionsWhenCarrierIsYes"/>
                     <include name="pas12476_TestUpdatePayPlanRestrictionsWhenCarrierIsNO"/>
                     <include name="pas12476_TestUpdatePayPlanRestrictionsWhenBiLimitIsMoreThen50K"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas12879_EnsureStatCodeIsRrefreshed Auto SS ID">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestStatCodeRefresh">
-                <methods>
-                    <include name="pas12879_EnsureStatCodeIsRrefreshed"/>
                 </methods>
             </class>
         </classes>

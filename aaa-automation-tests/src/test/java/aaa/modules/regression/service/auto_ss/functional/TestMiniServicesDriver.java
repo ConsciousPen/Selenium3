@@ -430,7 +430,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 10. Check the FNI driver status.
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.VA})
+	@StateList(states = {Constants.States.VA, Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475", "PAS-17503"})
 	public void pas14475_NameInsuredMaritalStatus(@Optional("VA") String state) {

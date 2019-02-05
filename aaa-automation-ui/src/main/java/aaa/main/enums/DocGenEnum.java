@@ -88,8 +88,10 @@ public final class DocGenEnum {
 		AA52OR("Rejection of Uninsured/Underinsured Motorist Bodily Injury Coverage"),
 		AA52UPAB(""),
 		AA52UPAC(""),
+		AA52UPAA("RUUELLUU", "AA52UPAA", "Uninsured Motorists Coverage Selection/Rejection"),
 		AA52VA("IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE"),
 		AA52WV("Uninsured/Underinsured Motorists Coverage Offer"),
+		AA52IPAA("UIMCRELL", "AA52IPAA","Underinsured Motorists Coverage Selection/Rejection"),
 		AA53CA("Agreement Deleting Uninsured Motorist Property Damage Coverage"),
 		AA53IN("Rejection of Uninsured Motorist Property Damage Coverage"),
 		AA57CA(""),
@@ -110,7 +112,7 @@ public final class DocGenEnum {
 		AADNPAE(""),
 		AADNUBI(""),
 		AAEUIMMD("AAEUIMMD 07 18", "AAEUIMMD", "Maryland Enhanced Uninsured Motorists Coverage"),
-		AAFPPA(""),
+		AAFPPA("AAFPPA","First Party Benefits Coverage and Limits Selection Form"),
 		AAGCAZ("Golf Cart Coverage Endorsement"),
 		AAIFNY2(""),
 		AAIFNYC("Confirmation of Suspension of Physical Damage Coverage"),
@@ -272,6 +274,7 @@ public final class DocGenEnum {
 		HSIQXX4("Renters Insurance Quote Page"),
 		HSIQXX6("Condominium Owners Insurance Quote Page"),
 		HSPISKY("Policy Information Sheet (KY)"),
+		HSPIMDA("HSPIMDA", "Notice of Increased/Decreased Recalculated Premium"), 
 		HSPRNMXX("Pre-Renewal letter (Mortgagee)"),
 		HSPRNXX("HSPRNXX","Pre-Renewal letter"),
 		HSRNMXX("Renewal Cover Letter (Mortgagee)"),
@@ -403,7 +406,7 @@ public final class DocGenEnum {
 		_61_6530("61 6530", "California Residential Property Insurance Disclosure"),
 		_62_6500("62 6500", "CA Evidence of Property Insurance"),
 		AACSDC("District of Columbia Coverage Selection/Rejection Form"),
-		AADNDE1("Delaware Motorist Protection Act");
+		AADNDE1("AADNDE1", "Delaware Motorists Protection Act");
 
 
 

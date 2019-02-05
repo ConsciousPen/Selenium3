@@ -1,55 +1,81 @@
 package aaa.modules.regression.conversions.home_ss.ho4.functional;
 
-import aaa.common.enums.Constants;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
-import aaa.main.metadata.CustomerMetaData;
-import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
-import aaa.modules.policy.HomeSSHO4BaseTest;
-import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.conversions.template.TestPolicyRmeNyLegacyTierFieldTemplate;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
-import static toolkit.verification.CustomAssertions.assertThat;
+public class TestPolicyRmeNyLegacyTierField extends TestPolicyRmeNyLegacyTierFieldTemplate {
 
-/**
- * @author Sushil Sivaram
- * @name Test Policy RME Legacy Tier field
- * @scenario
- * 1. Create Individual Customer / Account
- * 2. Select RME Action with HSS product
- * 3. Verify "Legacy  Tier" field is exist on RME screen
- */
+    @Override
+    protected PolicyType getPolicyType() {
+        return PolicyType.HOME_SS_HO4;
+    }
 
-public class TestPolicyRmeNyLegacyTierField extends HomeSSHO4BaseTest {
+    /**
+     * @author Sushil Sivaram, Rokas Lazdauskas
+     * @name Test Policy RME Legacy Tier field
+     * @scenario
+     * 1. Create Individual Customer / Account
+     * 2. Select RME Action with HSS product
+     * 3. Fill everything in RME screen except "Legacy Tier"
+     * 4. Verify "Legacy  Tier" field is exist on RME screen
+     * 5. Submit tab and check "Legacy Tier Is Required" message
+     * 6. Try filling alphabetical, special charecter or numeric value which is not in range 1-50 and submiting tab
+     * 7. Check that "Legacy tier message is out of range" message appears.
+     * 8. Fill "Legacy Tier" field with correct value
+     * 9. Check that user is able to proceed.
+     */
+    @Parameters({"state"})
+    @StateList(states = {Constants.States.NY})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO4, testCaseId = {"PAS-23185", "PAS-23421"})
+    public void testPolicyRmeLegacyTier (@Optional("NY") String state) {
+        testPolicyRmeLegacyTier();
+    }
+
+    /**
+     * @author Parth Varmora
+     * @name Test Policy Legacy Tier Mapping and Tier Locked
+     * @scenario
+     * 1.Create a NY conversion HO policy.  Use the legacy tier of 1, and set it up to generate a tier J.
+     * 2.Rate the policy and determine the tier using the view rating details popup.
+     * 3.Verify Market tier in view rating details popup
+     * 4.Complete the entry and save the policy.
+     * 5.initiate second renewal
+     * 6.Verify Market tier in view rating details popup not getting changed
+     */
 
     @Parameters({"state"})
     @StateList(states = {Constants.States.NY})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO4, testCaseId = "PAS-23185")
-    public void testPolicyRmeMpd (@Optional("NY") String state) {
+    @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO4, testCaseId = {"PAS-23184, PAS-23187"})
+    public void testNYLegacyTierMapping(@Optional("NY") String state) {
+        testPolicyLegacyTierMapping(1);
+    }
 
-        InitiateRenewalEntryActionTab initiateRenewalEntryActionTab = new InitiateRenewalEntryActionTab();
-
-        mainApp().open();
-
-        // Create customer
-        createCustomerIndividual();
-        customer.initiateRenewalEntry().start();
-        initiateRenewalEntryActionTab.fillTab(getTestSpecificTD("TD_Renewal_Actions"));
-
-        //Verify "Legacy Tier" Text Box is exist on RME screen
-        assertThat(initiateRenewalEntryActionTab.getAssetList().getAsset(CustomerMetaData
-                .InitiateRenewalEntryActionTab.LEGACY_TIER)).isPresent();
-
-        initiateRenewalEntryActionTab.submitTab();
-
-        policy.dataGather().start();
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get());
-
+    /**
+     * @author Parth Varmora
+     * @name Test Policy Legacy Tier Mapping and Tier Locked
+     * @scenario
+     * 1.Create a NY conversion HO policy.  Use the legacy tier of 50, and set it up to generate a tier E.
+     * 2.Rate the policy and determine the tier using the view rating details popup.
+     * 3.Verify Market tier in view rating details popup
+     * 4.Complete the entry and save the policy.
+     * 5.initiate second renewal
+     * 6.Verify Market tier in view rating details popup not getting changed
+     */
+    @Parameters({"state"})
+    @StateList(states = {Constants.States.NY})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO4, testCaseId = {"PAS-23184, PAS-23187"})
+    public void testNYLegacyTierMapping_edgeCase (@Optional("NY") String state) {
+        testPolicyLegacyTierMapping(50);
     }
 }

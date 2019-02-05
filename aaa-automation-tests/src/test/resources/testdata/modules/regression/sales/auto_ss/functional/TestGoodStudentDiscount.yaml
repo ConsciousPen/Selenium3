@@ -16,7 +16,7 @@ TestData_GSD_Endorsement: {
 
 GeneralTabGSD: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2', '@NamedInsuredInformation3', '@NamedInsuredInformation4', '@NamedInsuredInformation5'],
-  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
 }

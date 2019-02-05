@@ -39,7 +39,7 @@ VehicleTab_NY: {
   Add Vehicle: Click,
   Usage: Pleasure,
   VIN: WDCYC7BB0B6729451,
-  "Less Than 3,000 Miles": 'No',
+  #"Less Than 3,000 Miles": 'No', #vehicle became older
   'Is this a Replacement Vehicle?': 'No'
 }
 

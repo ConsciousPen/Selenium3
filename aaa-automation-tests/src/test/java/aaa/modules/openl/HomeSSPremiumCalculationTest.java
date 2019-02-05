@@ -37,8 +37,6 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 
 		if (openLPolicy.isLegacyConvPolicy()) {
 			TestData renewalEntryData = tdGenerator.getRenewalEntryData(openLPolicy);
-			renewalEntryData.adjust(TestData.makeKeyPath(new InitiateRenewalEntryActionTab().getMetaKey(), CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_POLICY_PREMIUM.getLabel()), openLPolicy.getCappingDetails().getPreviousPolicyPremium() == null ? "1000" : openLPolicy.getCappingDetails().getPreviousPolicyPremium().toString());
-
 			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
 				NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
 			}
@@ -50,9 +48,8 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy);
 
 		policy.get().getDefaultView().fillUpTo(quoteRatingData, PremiumsAndCoveragesQuoteTab.class, false);
-
 		checkFormHS0492(tdGenerator, openLPolicy);
-
+		checkFormHS0490(tdGenerator, openLPolicy);
 		policy.get().getDefaultView().fillUpTo(tdGenerator.getPremiumsAndCoveragesQuoteTabData(openLPolicy), PremiumsAndCoveragesQuoteTab.class, true);
 
 		TestData proofData = tdGenerator.getProofData(openLPolicy);
@@ -74,13 +71,6 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 
-		if (openLPolicy.getForms().stream().noneMatch(c -> "HS0490".equals(c.getFormCode())) && PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", "HS 04 90").isPresent()) {
-			premiumsAndCoveragesQuoteTab.calculatePremium();
-			policy.get().getDefaultView().fillUpTo(tdGenerator.getChangeCoverageCData(openLPolicy), PremiumsAndCoveragesQuoteTab.class, true);
-			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
-			policy.get().getDefaultView().fill(tdGenerator.getRemoveHS0490Data(openLPolicy));
-		}
-
 		if (openLPolicy.getForms().stream().anyMatch(c -> "HS0904".equals(c.getFormCode())) && !openLPolicy.isLegacyConvPolicy()) {
 			premiumsAndCoveragesQuoteTab.calculatePremium();
 			premiumsAndCoveragesQuoteTab.submitTab();
@@ -101,12 +91,12 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			policy.get().endorse().performAndFill(endorsementData);
 		}
 
-		if (openLPolicy.isLegacyConvPolicy() && !PremiumsAndCoveragesQuoteTab.linkViewCappingDetails.isPresent()) {
+		if (openLPolicy.isCappedPolicy() && !PremiumsAndCoveragesQuoteTab.linkViewCappingDetails.isPresent()) {
 			premiumsAndCoveragesQuoteTab.calculatePremium();
 			assertThat(PremiumsAndCoveragesQuoteTab.linkViewCappingDetails).as("View Capping Details link did not appear after premium calculation").isPresent();
 		}
 
-		// Set capping factor from test if policy is capped or set capping factor = 100% if system sets custom capping itself
+		// Set capping factor from test if policy is capped
 		if (PremiumsAndCoveragesQuoteTab.linkViewCappingDetails.isPresent()) {
 			PremiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
 			premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.VIEW_CAPPING_DETAILS_DIALOG).fill(tdGenerator.getCappingData(openLPolicy));
@@ -130,6 +120,16 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 		if (openLPolicy.getForms().stream().anyMatch(c -> "HS0492".equals(c.getFormCode()))) {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
 			policy.get().getDefaultView().fillUpTo(tdGenerator.getFormHS0492Data(openLPolicy), PremiumsAndCoveragesQuoteTab.class, false);
+		}
+	}
+
+	private void checkFormHS0490(HomeSSTestDataGenerator tdGenerator, HomeSSOpenLPolicy openLPolicy) {
+		if (openLPolicy.getForms().stream().noneMatch(c -> "HS0490".equals(c.getFormCode())) && PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", "HS 04 90").isPresent()) {
+			policy.get().getDefaultView().fillUpTo(tdGenerator.getChangeCoverageCData(openLPolicy), PremiumsAndCoveragesQuoteTab.class, true);
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
+			policy.get().getDefaultView().fill(tdGenerator.getRemoveHS0490Data(openLPolicy));
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		}
 	}
 

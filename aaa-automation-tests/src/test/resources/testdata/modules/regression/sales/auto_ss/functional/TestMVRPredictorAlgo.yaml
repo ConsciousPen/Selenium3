@@ -23,7 +23,7 @@ TestData_DriverTab_Endorsement: {
 
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2', '@NamedInsuredInformation3', '@NamedInsuredInformation4'],
-  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
 }
@@ -164,7 +164,7 @@ TestData_DriverTabViolations_Endorsement: {
 
 GeneralTabV: {
   NamedInsuredInformation: ['@NamedInsuredInformation1v', '@NamedInsuredInformation2v', '@NamedInsuredInformation3v', '@NamedInsuredInformation4v', '@NamedInsuredInformation5v', '@NamedInsuredInformation6v'],
-  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
 }
@@ -377,7 +377,7 @@ TestData_DriverTabAccidents_Endorsement: {
 
 GeneralTabA: {
   NamedInsuredInformation: ['@NamedInsuredInformation1a', '@NamedInsuredInformation2a', '@NamedInsuredInformation3a', '@NamedInsuredInformation4a', '@NamedInsuredInformation5a', '@NamedInsuredInformation6a'],
-  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
 }
@@ -457,7 +457,7 @@ Driver1a: {
   Occupation: Clergy,
   Gender: Female,
   License Type: 'Licensed (US)',
-  License Number: 156773434
+  License Number: 156773432
 }
 
 Driver2a: {

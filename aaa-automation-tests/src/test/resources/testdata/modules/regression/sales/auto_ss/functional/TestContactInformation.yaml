@@ -14,7 +14,7 @@ TestData: {
 
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2', '@NamedInsuredInformation3'],
-  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation'

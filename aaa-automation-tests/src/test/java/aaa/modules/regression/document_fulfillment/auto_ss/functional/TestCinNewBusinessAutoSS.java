@@ -44,7 +44,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7515")
     public void testCinNewBusinessMVR(@Optional("AZ") String state) {
         TestData policyTD = getPolicyDefaultTD().adjust(getTestSpecificTD("TestData_MVR").resolveLinks())
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAMembership"))
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"))
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_649"))
                 .adjust(SUPPRESS_PRIOR_BI_TRIGGER, getTestSpecificTD("CurrentCarrierInformation_1000_1000").getValue("Agent Entered BI Limits"));
@@ -74,7 +74,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-7515")
     public void testCinNewBusinessCLUE(@Optional("AZ") String state) {
         TestData policyTD = getPolicyDefaultTD().adjust(getTestSpecificTD("TestData_CLUE").resolveLinks())
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAMembership"))
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"))
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_649"))
                 .adjust(SUPPRESS_PRIOR_BI_TRIGGER, getTestSpecificTD("CurrentCarrierInformation_1000_1000").getValue("Agent Entered BI Limits"));
@@ -109,7 +109,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testInsuranceScoreNotInBestBand(@Optional("AZ") String state) {
         TestData policyTD = getPolicyDefaultTD()
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAMembership"))
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"))
                 .adjust(SUPPRESS_PRIOR_BI_TRIGGER, getTestSpecificTD("CurrentCarrierInformation_1000_1000").getValue("Agent Entered BI Limits"));
 
@@ -139,7 +139,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testInsuranceScoreInBestBand(@Optional("AZ") String state) {
         TestData policyTD = adjustNameInsured(getPolicyDefaultTD(), "NameInsured_BestBand")
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAMembership"))
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"))
                 .adjust(SUPPRESS_PRIOR_BI_TRIGGER, getTestSpecificTD("CurrentCarrierInformation_1000_1000").getValue("Agent Entered BI Limits"));
 
@@ -170,7 +170,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testInsuranceScoreNoHit(@Optional("AZ") String state) {
         TestData policyTD = adjustNameInsured(getPolicyDefaultTD(), "NameInsured_NoHit")
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAMembership"))
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"))
                 .adjust(SUPPRESS_PRIOR_BI_TRIGGER, getTestSpecificTD("CurrentCarrierInformation_1000_1000").getValue("Agent Entered BI Limits"));
 
@@ -200,7 +200,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testInsuranceScoreNoScore(@Optional("AZ") String state) {
         TestData policyTD = adjustNameInsured(getPolicyDefaultTD(), "NameInsured_NoScore")
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAMembership"))
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"))
                 .adjust(SUPPRESS_PRIOR_BI_TRIGGER, getTestSpecificTD("CurrentCarrierInformation_1000_1000").getValue("Agent Entered BI Limits"));
 
@@ -231,7 +231,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     public void testInsuranceScoreOverrideUp(@Optional("AZ") String state) {
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_651"))
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAMembership"))
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"))
                 .adjust(SUPPRESS_PRIOR_BI_TRIGGER, getTestSpecificTD("CurrentCarrierInformation_1000_1000").getValue("Agent Entered BI Limits"));
 
@@ -262,7 +262,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     public void testInsuranceScoreOverrideDown(@Optional("AZ") String state) {
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_649"))
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAMembership"))
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"))
                 .adjust(SUPPRESS_PRIOR_BI_TRIGGER, getTestSpecificTD("CurrentCarrierInformation_1000_1000").getValue("Agent Entered BI Limits"));
 
@@ -330,7 +330,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     public void testPriorBILimitPrefillNone(@Optional("AZ") String state) {
         TestData policyTD = adjustNameInsured(getPolicyDefaultTD(), "NameInsured_Prior_BI_None")
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_649"))
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAMembership"))
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"))
                 .adjust(CURRENT_CARRIER_INFORMATION, getTestSpecificTD("Dont_Override_CurrentCarrierInformation"))
                 .adjust(REQUIRED_TO_ISSUE, getTestSpecificTD("RequiredToIssue_No_PriorBI"));
@@ -363,7 +363,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     public void testPriorBILimitNone(@Optional("AZ") String state) {
         TestData policyTD = adjustNameInsured(getPolicyDefaultTD(), "NameInsured_Prior_BI_1000")
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_649"))
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAMembership"))
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"))
                 .adjust(CURRENT_CARRIER_INFORMATION, getTestSpecificTD("CurrentCarrierInformation_None"));
 
@@ -396,7 +396,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     public void testPriorBILimitPrefillLessThan500k(@Optional("AZ") String state) {
         TestData policyTD = adjustNameInsured(getPolicyDefaultTD(), "NameInsured_Prior_BI_100_300")
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_649"))
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAMembership"))
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"))
                 .adjust(CURRENT_CARRIER_INFORMATION, getTestSpecificTD("Dont_Override_CurrentCarrierInformation"))
                 .adjust(REQUIRED_TO_ISSUE, getTestSpecificTD("RequiredToIssue_No_PriorBI"));
@@ -429,7 +429,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     public void testPriorBILimitLessThan500k(@Optional("AZ") String state) {
         TestData policyTD = adjustNameInsured(getPolicyDefaultTD(), "NameInsured_Prior_BI_1000")
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_649"))
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAMembership"))
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"))
                 .adjust(CURRENT_CARRIER_INFORMATION, getTestSpecificTD("CurrentCarrierInformation_25_50"));
 
@@ -462,7 +462,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     public void testPriorBILimitPrefill500k(@Optional("AZ") String state) {
         TestData policyTD = adjustNameInsured(getPolicyDefaultTD(), "NameInsured_Prior_BI_500")
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_649"))
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAMembership"))
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"))
                 .adjust(CURRENT_CARRIER_INFORMATION, getTestSpecificTD("Dont_Override_CurrentCarrierInformation"))
                 .adjust(REQUIRED_TO_ISSUE, getTestSpecificTD("RequiredToIssue_No_PriorBI"));
@@ -495,7 +495,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     public void testPriorBILimit500k(@Optional("AZ") String state) {
         TestData policyTD = adjustNameInsured(getPolicyDefaultTD(), "NameInsured_Prior_BI_100_300")
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_649"))
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAMembership"))
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"))
                 .adjust(CURRENT_CARRIER_INFORMATION, getTestSpecificTD("CurrentCarrierInformation_500_500"));
 
@@ -528,7 +528,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
     public void testPriorBILimitPrefillMoreThan500k(@Optional("AZ") String state) {
         TestData policyTD = adjustNameInsured(getPolicyDefaultTD(), "NameInsured_Prior_BI_1000")
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_649"))
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAMembership"))
                 .adjust(DRIVER_ACTIVITY_REPORTS_PATH, getTestSpecificTD("DriverActivityReportsTab"))
                 .adjust(CURRENT_CARRIER_INFORMATION, getTestSpecificTD("Dont_Override_CurrentCarrierInformation"))
                 .adjust(REQUIRED_TO_ISSUE, getTestSpecificTD("RequiredToIssue_No_PriorBI"));
@@ -570,7 +570,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
         TestData policyTD = adjustNameInsured(getPolicyDefaultTD(), "NamedInsured_ChangeableNAF")
                 .adjust(ERROR_TAB, getTestSpecificTD("ErrorTab_VA_MVR"))
                 .adjust(INSURANCE_SCORE_OVERRIDE, getTestSpecificTD("InsuranceScoreOverride_649"))
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAMembership"))
                 .adjust(SUPPRESS_PRIOR_BI_TRIGGER, getTestSpecificTD("CurrentCarrierInformation_1000_1000").getValue("Agent Entered BI Limits"));
         String policyNumber = createPolicy(policyTD);
 
@@ -607,7 +607,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(ADJUST_ELC, getTestSpecificTD("GeneralTab_ELC").getValue("Extraordinary Life Circumstance"))
                 .adjust(ERROR_TAB_CALCULATE_PREMIUM, getTestSpecificTD("ErrorTab_ELC"))
-                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAProductOwned"))
+                .adjust(DISABLE_MEMBERSHIP, getTestSpecificTD("AAAMembership"))
                 .adjust(SUPPRESS_PRIOR_BI_TRIGGER, getTestSpecificTD("CurrentCarrierInformation_1000_1000").getValue("Agent Entered BI Limits"));
 
         String policyNumber = createPolicy(policyTD);

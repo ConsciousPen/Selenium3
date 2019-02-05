@@ -334,6 +334,7 @@
         </classes>
     </test>
     <test thread-count="1024" name="DriverAssignmentExistsForState" parallel="methods">
+        <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesAssignments">
                 <methods>
@@ -522,6 +523,16 @@
                     <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriver"/>
                     <include name="pas13920_ReplaceVehicleKeepCoveragesOneDriverOneVehicle"/>
                     <include name="pas13920_ReplaceVehicleNoAssignmentsKeepCoverages"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="Replace vehicles NY" parallel="methods">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas12175_RemoveReplaceAllVehicles"/>
                 </methods>
             </class>
         </classes>
@@ -855,12 +866,32 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="PIP Coverage MD" parallel="methods">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15361_viewPIPMD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="pas12942_GaragingAddressConsistencyDXP" parallel="methods">
         <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
                     <include name="pas12942_GaragingAddressConsistencyDXP"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas21597_addVehicleCheckAntiTheft" parallel="methods">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas21597_addVehicleCheckAntiTheft"/>
                 </methods>
             </class>
         </classes>
@@ -880,8 +911,8 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
-                    <include name="pas15265_WithUnderInsuredConversionCoverageCT"/>
-                    <include name="pas15265_WithOutUnderInsuredConversionCoverageCT"/>
+                    <include name="pas15265_WithUnderInsuredConversionCoverage"/>
+                    <include name="pas15265_WithOutUnderInsuredConversionCoverage"/>
                 </methods>
             </class>
         </classes>
@@ -971,6 +1002,7 @@
                 <methods>
                     <include name="pas15304_tortCoveragePA"/>
                     <include name="pas15350_firstPartyBenefitsPA"/>
+                    <include name="pas24075_firstPartyBenefitsAddedPA"/>
                     <include name="pas23299_EMBCoveragePA"/>
                     <include name="pas23057_BIAndUMBIAndCanChangeTrue"/>
                     <include name="pas23057_BIAndUIMBIAndCanChangeTrue"/>
@@ -986,6 +1018,7 @@
                 <methods>
                     <include name="pas23511_VirginiaAndAA52VA"/>
                     <include name="pas21366_VirginiaAndAA52VA"/>
+                    <include name="pas23334_RetriggerDocumentIgnoreTheOverriddenRule"/>
                 </methods>
             </class>
         </classes>
@@ -996,6 +1029,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
                 <methods>
                     <include name="pas21423_aacsdcFormRFI"/>
+                    <include name="pas23334_RetriggerDocumentIgnoreTheOverriddenRule"/>
                 </methods>
             </class>
         </classes>
@@ -1006,6 +1040,30 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
                 <methods>
                     <include name="pas21596_aadnde1FormRFI"/>
+                    <include name="pas23334_RetriggerDocumentIgnoreTheOverriddenRule"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="PA AADNPAB" parallel="methods">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas23303_UpdateTortSignInAADNPAB"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="PA RFI Forms" parallel="methods">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas23300_AAFPPAFormRFI"/>
+                    <include name="pas23301_AA52UPAAFormRFI"/>
+                    <include name="pas23301_AA52UPAAFormAddReplaceVehicleTriggerRFI"/>
+                    <include name="pas23302_AA52IPAAFormRFI"/>
                 </methods>
             </class>
         </classes>
