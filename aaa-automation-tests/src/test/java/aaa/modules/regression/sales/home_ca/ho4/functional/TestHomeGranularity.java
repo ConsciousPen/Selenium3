@@ -96,4 +96,21 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     public void pas23218_riskAddressChangeDuringRenewal(@Optional("CA") String state) {
         riskAddressChangeDuringRenewal(getTDAddressChange());
     }
+
+    /**
+     * @name test: ReCapture Latitude and Longitude (after validating address)Census Block Group(e.g. after Calculating Premium) when address changed during Endorsement
+     * @scenario
+     * 1. Create policy
+     * 2. Initiate Endorsement. Change address on Applicant Tab
+     * 3. Validate address and continue up to Premium & Coverages Tab and Calculate Premium
+     * 4. Verify lat/long and census block are refreshed in the db
+     *
+     * @details
+     */
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-24576")
+    public void pas24576_riskAddressChangeDuringEndorsement(@Optional("CA") String state) {
+        riskAddressChangeDuringEndorsement(getTDAddressChange());
+    }
 }

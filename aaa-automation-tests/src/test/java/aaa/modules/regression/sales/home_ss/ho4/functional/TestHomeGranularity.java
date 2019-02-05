@@ -14,6 +14,7 @@ import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.AZ)
@@ -30,6 +31,10 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
 
     @Override
     protected Tab getPremiumAndCoveragesQuoteTab(){return new PremiumsAndCoveragesQuoteTab();}
+
+    private TestData getTDAddressChange() {
+        return getTestSpecificTD("TestData_ChangeAddress");
+    }
 
     private String zipCode = HomeGranularityConstants.EADS_MOCK_ZIPCODE_AZ;
     private String address = HomeGranularityConstants.EADS_MOCK_ADDRESS_AZ;
@@ -75,4 +80,20 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
         validateCensusBlockGroupAndLatLongFromEADS(zipCode, address, censusBlock, latitude, longitude);
     }
 
+    /**
+     * @name test: ReCapture Latitude and Longitude (after validating address)Census Block Group(e.g. after Calculating Premium) when address changed during Endorsement
+     * @scenario
+     * 1. Create policy
+     * 2. Initiate Endorsement. Change address on Applicant Tab
+     * 3. Validate address and continue up to Premium & Coverages Tab and Calculate Premium
+     * 4. Verify lat/long and census block are refreshed in the db
+     *
+     * @details  **** TO UNCOMMENT WHEN SS HO4 ENDORSEMENT STORY IS COMPLETE *********
+     */
+   /* @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-xxxxx")
+    public void pas23218_riskAddressChangeDuringEndorsement(@Optional("AZ") String state) {
+        riskAddressChangeDuringEndorsement(getTDAddressChange());
+    }*/
 }
