@@ -52,7 +52,9 @@
                             <bcr:driverAgeAsOfDateOfLoss>${claim.driverAgeAsOfDateOfLoss}</bcr:driverAgeAsOfDateOfLoss>
                             <bcr:driverDateofBirth>${claim.driverDateofBirth}</bcr:driverDateofBirth>
                             <bcr:driverRelationToInsured>${claim.driverRelationToInsured}</bcr:driverRelationToInsured>
+                            <#if claim.permissiveUse?has_content>
                             <bcr:PermissiveUse>${claim.permissiveUse}</bcr:PermissiveUse>
+                            </#if>
                         </bcr:driverInformation>
                         <bcr:vehicleInformation>
                             <bcr:vehicleSerialNumber>${claim.vehicleSerialNumber}</bcr:vehicleSerialNumber>

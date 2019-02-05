@@ -45,7 +45,7 @@ claimLineItemList:
     claimPrefix: ''
     claimOpenDate: '2019-01-01'
     claimPolicyReferenceNumber: AZSS203552391
-    claimStatusCode: CLOSED
+    claimStatusCode: OPEN
     claimType: Accident
     driverAgeAsOfDateOfLoss: '21'
     driverDateofBirth: '1996-05-05'
