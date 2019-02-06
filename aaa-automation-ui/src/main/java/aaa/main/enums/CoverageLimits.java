@@ -85,6 +85,10 @@ public enum CoverageLimits {
 	COV_FPB_177_5K_TOTAL_PAS_UI_DISPLAY("Combo3", "Combo - $177.5K / $2.5K FE / $25K ADB"),
 	COV_FPB_ADDED("Added", "Select Individual Coverages"),
 	COV_FPB_ADDED_PAS_UI_DISPLAY("Added", "Added"), //Value in PAS UI is "Added", but in DXP it is "Select Individual Coverages"
+	COV_PIP_2500_GUEST("2500","$2,500 Guest"),
+	COV_PIP_2500_FULL("2501","$2,500 Full"),
+	COV_PIP_5000_GUEST("5000","$5,000 Guest"),
+	COV_PIP_5000_FULL("5001","$5,000 Full"),
 	COV_IL_5000_MAX_PA("1000/5000", "$1,000/month ($5,000 max)"),
 	COV_IL_15000_MAX_PA("1000/15000", "$1,000/month ($15,000 max)"),
 	COV_IL_25000_MAX_PA("1500/25000", "$1,500/month ($25,000 max)"),
