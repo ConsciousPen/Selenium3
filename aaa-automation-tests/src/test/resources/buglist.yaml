@@ -430,7 +430,7 @@ PT-3244:
     messages: ["Errors: 'Roof shape' is not in within range"]
   - tests: [aaa.modules.bct.service.EndorsementTest.BCT_ONL_EmptyEndorsementHomeCAHo4]
     messages: ["//input[@id='policyDataGatherForm:premiumRecalcCov' or @id='policyDataGatherForm:actionButton_AAAHORateAction']"]
-PAS-23891:
+PT-3254:
   summary: "Regression BCT: \"Cancel Notice\" flag is present after accepting payment"
   reason: PROD
   failures:
@@ -460,3 +460,23 @@ PAS-25099:
   failures:
     - tests: [aaa.modules.regression.sales.pup.*]
       messages: ['no such element: Unable to locate element: {"method":"id","selector":"policyDataGatherForm:ratingPUPDetailsPopupLink"}']
+PAS-24131:
+  summary: "Regression BCT: grouprefundGenerationJob failed with huge amount of exceptions"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.*]
+      messages: ['class com.exigen.ipb.billing.personal.allocation.services.impl.PolicyNetPremiumAllocationNode']
+PAS-25091:
+  summary: "Regression BCT 19.2 : Policy tier is empty for added Auto_SS to DP3 policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Errors: 'Policy tier' is required"]
+PAS-25103:
+  summary: "Regression BCT 19.2 : Empty \"Property policy number\" field for quote mentioned under Underlying Risks/\"List of recreational equipment\" field"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.*]
+      messages: ["Errors: 'Property policy number' is required"]
+    - tests: [aaa.modules.bct.service.*]
+      messages: ["Cannot get value of Cell {<unnamed>: {<unnamed>: {<unnamed>: By.id: policyDataGatherForm:pupTableTotalPremium}"]
