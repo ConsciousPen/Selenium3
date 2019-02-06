@@ -71,14 +71,14 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
-	public void BCT_ONL_EmptyEndorsementAutoSS(@Optional("") String state) {
+	public void BCT_ONL_EmptyEndorsementAutoSS(@Optional("AZ") String state) {
 		mainApp().open();
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_AAA_SS", date1, date2);
 		IPolicy policy = PolicyType.AUTO_SS.get();
 		SearchPage.openPolicy(policyNumber);
 		deletePendingTransaction(policy);
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
-		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
+		log.info(String.format("Pohttp://etcs-influx-analytic-postgres-passonar.apps.ocpdemo.tent.trt.csaa.pri/runs/bc626084-284c-11e9-bd2d-f98434f9c45d?exclude=PASSEDlicy premium on Policy Summary page: '%s'", policyPremium));
 
 		policy.policyInquiry().start();
 		policy.policyInquiry().getView().fillFromTo(getTestSpecificTD("TestDataInquiryAutoSS"), GeneralTab.class, DocumentsAndBindTab.class, false);

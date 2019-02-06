@@ -23,11 +23,11 @@ public class EndorsementTemplate extends BackwardCompatibilityBaseTest {
 	public static final String TESTDATA_INQUIRY_HOME_CA = "TestDataInquiryHomeCA";
 
 	@DataProvider(name = "getPoliciesForEmptyEndorsementTests", parallel = true)
-	public Iterator<Object[]> getPolicyNumbersFromDB(Method m, ITestContext iTestContext) {
+	public synchronized Iterator<Object[]> getPolicyNumbersFromDB(Method m, ITestContext iTestContext) {
 		String state = iTestContext.getCurrentXmlTest().getAllParameters().get("state");
 		if (state == null) {
 			state = PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE);
-			context.getCurrentXmlTest().addParameter(STATE_PARAM, state);
+			iTestContext.getCurrentXmlTest().addParameter(STATE_PARAM, state);
 		}
 		log.info(" DataProvider got state: {}", state);
 		List<String> policyNumbers = getPoliciesForEmptyEndorsementTests(m.getName(), date1, date2, state);
