@@ -107,4 +107,56 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
 	    // Check 2nd driver: Has DL match claim
 		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
     }
+
+	/**
+	 * @author Chris Johns
+	 * PAS-22172 - END - CAS: reconcile permissive use claims when driver/named insured is added (avail for rating)
+	 * @name Test Offline STUB/Mock Data Claims
+	 * @scenario Test Steps:
+	 * 1. Create a Policy with 3 drivers; FNI will get X PU Claims
+	 * 2. Move time to R-63 and run Renewal Part1 + "renewalClaimOrderAsyncJob"
+	 * 3. Create CAS Response File Thru Automation Framework - This is the 'Offline Batch Job' step
+	 * 4. Move Time to R-46 and run Renewal Part2 + "claimsRenewBatchReceiveJob" - X PU claims are assigned
+	 * 5. Retrieve policy and enter renewal image
+	 * 6. Verify all PU claims are assigned to the FNI
+	 * 7. Accept a payment and renew the policy
+	 * 8. Initiate an endorsement
+	 * 9. Add an AFR driver who's CLUE report will return a claim that matches one of the PU claims on the FNI
+	 * 10. Calculate premium and order CLUE report
+	 * 11. Navigate to the drive tab, and verify the PU claim was moved from the FNI to the newly added driver
+	 * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-14679")
+	public void pas22172_ReconcilePUEndorsementAFRD(@Optional("CA") @SuppressWarnings("unused") String state) {
+
+		// Toggle ON PermissiveUse Logic
+		// Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
+		// Set RISKSTATECD in DB to get policy DATEOFLOSS working
+		DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
+		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
+
+		createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
+		runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
+		generateClaimRequest();        // Download claim request and assert it
+
+		// Create the claim response
+		createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
+		runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
+
+		// Retrieve policy
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		// Enter renewal image and verify claim presence
+		buttonRenewals.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+		// Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
+		// Check 2nd driver: Has DL match claim
+		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
+	}
+
 }
