@@ -141,10 +141,4 @@ public class HelperMiniServices extends PolicyBaseTest {
 		}
 		return orderReportErrorResponse;
 	}
-	public void rateAndBindWithRfi(String policyNumber) {
-		rateEndorsementWithCheck(policyNumber);
-		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, true);
-		String doccId = rfiServiceResponse.documents.get(0).documentId;
-		HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), doccId);
-	}
 }

@@ -1,6 +1,6 @@
 !!aaa.helpers.claim.datamodel.claim.CASClaimResponse
 claimLineItemList:
-- agreementNumber: AZSS203552391
+- agreementNumber: CAAS952918581
   claimList:
   - accidentFault: ADVERSE_PARTY_AT_FAULT
     claimCause: cause1
@@ -16,7 +16,7 @@ claimLineItemList:
     claimNumber: 1002-10-8703
     claimPrefix: ''
     claimOpenDate: '2017-05-26'
-    claimPolicyReferenceNumber: AZSS203552391
+    claimPolicyReferenceNumber: CAAS952918581
     claimStatusCode: CLOSED
     claimType: B
     driverAgeAsOfDateOfLoss: '21'
@@ -24,8 +24,8 @@ claimLineItemList:
     driverName: JOSHUA FUSSELL
     driverRelationToInsured: INSURED
     permissiveUse: N
-    drivingLicenseNumber: D07963714
-    drivingLicenseState: AZ
+    drivingLicenseNumber: D0796371
+    drivingLicenseState: CA
     lossSummary: IV hit OV while turning.
     subroFlag: Y
     totalAmountPaid: '4358.250000000'
@@ -51,7 +51,7 @@ claimLineItemList:
     claimNumber: 1002-10-8702
     claimPrefix: ''
     claimOpenDate: '2018-05-26'
-    claimPolicyReferenceNumber: AZSS203552391
+    claimPolicyReferenceNumber: CAAS952918581
     claimStatusCode: OPEN
     claimType: Comprehensive
     driverAgeAsOfDateOfLoss: '21'
@@ -59,11 +59,12 @@ claimLineItemList:
     driverName: casMATTHEW casFOX
     driverRelationToInsured: INSURED
     permissiveUse: Y
-    drivingLicenseNumber: A19191912
-    drivingLicenseState: AZ
+    drivingLicenseNumber: A1919191
+    drivingLicenseState: CA
     lossSummary: IV hit OV while turning.
     subroFlag: Y
-    #totalAmountPaid and totalAmountPaidCurrencyCode removed for this claim
+    totalAmountPaid: '5000'
+    totalAmountPaidCurrencyCode: USD
     vehicleBodyType: SRW SUPER DUTY
     vehicleMake: FORD
     vehicleManufacturedYear: '2006'
@@ -83,7 +84,7 @@ claimLineItemList:
     claimNumber: 1002-10-8704
     claimPrefix: ''
     claimOpenDate: '2018-11-11'
-    claimPolicyReferenceNumber: AZSS203552391
+    claimPolicyReferenceNumber: CAAS952918581
     claimStatusCode: CLOSED
     claimType: B
     driverAgeAsOfDateOfLoss: '31'
@@ -91,8 +92,8 @@ claimLineItemList:
     driverName: BRUCE BANNER
     driverRelationToInsured: INSURED
     permissiveUse: Y
-    drivingLicenseNumber: D99999999
-    drivingLicenseState: AZ
+    drivingLicenseNumber: D9999999
+    drivingLicenseState: CA
     lossSummary: IV hit OV while parked.
     subroFlag: Y
     totalAmountPaid: '3500.000000000'
@@ -116,7 +117,7 @@ claimLineItemList:
     claimNumber: 1002-10-8704-INVALID-dateOfLoss
     claimPrefix: ''
     claimOpenDate: '2018-11-11'
-    claimPolicyReferenceNumber: AZSS203552391
+    claimPolicyReferenceNumber: CAAS952918581
     claimStatusCode: CLOSED
     claimType: B
     driverAgeAsOfDateOfLoss: '31'
@@ -124,8 +125,8 @@ claimLineItemList:
     driverName: BRUCE BANNER
     driverRelationToInsured: INSURED
     permissiveUse: Y
-    drivingLicenseNumber: D99999999
-    drivingLicenseState: AZ
+    drivingLicenseNumber: D9999999
+    drivingLicenseState: CA
     lossSummary: IV hit OV while parked.
     subroFlag: Y
     totalAmountPaid: '3500.000000000'
@@ -135,4 +136,4 @@ claimLineItemList:
     vehicleManufacturedYear: '2006'
     vehicleDescription: Big truck
     vehicleSerialNumber: 1FTNF20506ED96616
-  product: AAA_SS
+  product: AAA_CSA
