@@ -1182,6 +1182,14 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas21363_BIAndUMBIAndCanChangeTrueBody(CoverageInfo.UMBI_PA);
 	}
 
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19127"})
+	public void pas19127_BIAndUMBIAndCanChangeTrue(@Optional("NJ") String state) {
+		pas21363_BIAndUMBIAndCanChangeTrueBody(CoverageInfo.UMBI_NJ);
+	}
+
 	/**
 	 * @author Maris Strazds
 	 * @name Test BI and UIMBI update when canChangeCoverage = TRUE for UIMBI
@@ -1243,7 +1251,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	/**
 	 * @author Maris Strazds
 	 * @name Test PD and UMPD update when canChangeCoverage = TRUE for UMPD
-	 * @NOTE FOR THIS TEST ANY STATE WHERE canChangeCoverage = FALSE for UMPD COULD BE USED. Test can be adapted to any state where PD available limits are the same as UMPD available limits.
+	 * @NOTE FOR THIS TEST ANY STATE WHERE canChangeCoverage = TRUE for UMPD COULD BE USED. Test can be adapted to any state where PD available limits are the same as UMPD available limits.
 	 * @scenario
 	 * 1. Create policy in PAS
 	 * 2.Create endorsement through service
@@ -1257,9 +1265,9 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @NOTE: functionality related with pas15824_UmpdDelimiter (needed to update)
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.VA, Constants.States.KS, Constants.States.WV})
+	@StateList(states = {Constants.States.VA, Constants.States.KS, Constants.States.WV, Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21364"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21364", "PAS-19127"})
 	public void pas21364_PDAndUMPDandCanChangeTrue(@Optional("VA") String state) {
 		pas21364_PDAndUMPDAndCanChangeTrueBody();
 	}

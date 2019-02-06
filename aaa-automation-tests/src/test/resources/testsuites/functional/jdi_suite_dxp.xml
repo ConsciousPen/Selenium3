@@ -937,12 +937,21 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="BI and UMBI canChangeCoverage - PD and UMPD canChangeCoverage" parallel="methods">
+    <test thread-count="1024" name="BI and UMBI canChangeCoverage" parallel="methods">
         <parameter name="state" value="VA, KS, WV"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas21363_BIAndUMBIAndCanChangeTrue"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="PD and UMPD canChangeCoverage" parallel="methods">
+        <parameter name="state" value="VA, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
                     <include name="pas21364_PDAndUMPDandCanChangeTrue"/>
                 </methods>
             </class>
@@ -1064,6 +1073,16 @@
                     <include name="pas23301_AA52UPAAFormRFI"/>
                     <include name="pas23301_AA52UPAAFormAddReplaceVehicleTriggerRFI"/>
                     <include name="pas23302_AA52IPAAFormRFI"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="NJ Coverages" parallel="methods">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas19127_BIAndUMBIAndCanChangeTrue"/>
                 </methods>
             </class>
         </classes>
