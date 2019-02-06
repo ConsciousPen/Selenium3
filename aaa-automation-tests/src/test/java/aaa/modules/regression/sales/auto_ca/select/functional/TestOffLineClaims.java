@@ -13,6 +13,9 @@ import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsCATemplate;
@@ -32,6 +35,7 @@ import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -63,6 +67,7 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
      * PAS-14058 - COMP Claims match to FNI
      * PAS-18341 - Added PermissiveUse tag to Claims Service Contract
 	 * PAS-18300 - PERMISSIVE_USE match to FNI when dateOfLoss param = claim dateOfLoss
+     * PAS-23269 - UI-CA: Show Permissive Use Indicator on Driver Tab
      * @name Test Offline STUB/Mock Data Claims
      * @scenario Test Steps:
      * 1. Create a Policy with 3 drivers; 1 with no STUB data match, 2, and 3 with STUB data match
@@ -73,6 +78,7 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
      * 6. Run Renewal Part2 + "claimsRenewBatchReceiveJob"
      * 7. Retrieve policy and enter renewal image
      * 8. Verify Claim Data is applied to the correct driver.
+     * 9. Verify the Permissive Use indicator in Driver Activity is not editable for the user other than 34/41
      * @details Clean Path. Expected Result is that claims data is applied to the correct driver
      */
     @Parameters({"state"})
@@ -106,5 +112,42 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
 	    // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
 	    // Check 2nd driver: Has DL match claim
 		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
+    }
+
+    /**
+     * @author Kiruthika Rajendran
+     * PAS-23269 - UI-CA: Show Permissive Use Indicator on Driver Tab
+     * @name Test Clue claims STUB/Mock Data Claims
+     * @scenario Test Steps:
+     * 1. Create a Quote with 4 drivers
+     * 2. Calculate the Premium and click on Validate Driving History
+     * 3. Go to Driver tab.
+     * 4. Check for the Activity for Clue claims     *
+     * 5. Verify Clue Claim Data for the correct driver.
+     * 9. Verify the Permissive Use indicator in Driver Activity
+     * @details Clean Path. Expected Result Permissive Use indicator in Driver Activity
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-23269")
+    public void pas23269_verifypermissiveUseindicator(@Optional("CA") @SuppressWarnings("unused") String state) {
+
+        TestData testData = getPolicyTD();
+        List<TestData> testDataDriverData = new ArrayList<>();// Merged driver tab with 4 drivers
+        testDataDriverData.add(testData.getTestData("DriverTab"));
+        testDataDriverData.addAll(getTestSpecificTD("TestData_DriverTab_OfflineClaim").resolveLinks().getTestDataList("DriverTab"));
+        adjusted = testData.adjust("DriverTab", testDataDriverData).resolveLinks();
+
+        mainApp().open();
+        createCustomerIndividual();
+        policy.initiate();
+        PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+        DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+        DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
+
+        policy.getDefaultView().fillUpTo(adjusted, PremiumAndCoveragesTab.class, true);
+        premiumAndCoveragesTab.submitTab();
+        policy.getDefaultView().fillFromTo(adjusted, DriverActivityReportsTab.class, DocumentsAndBindTab.class,  true);
+//        documentsAndBindTab.submitTab();
     }
 }
