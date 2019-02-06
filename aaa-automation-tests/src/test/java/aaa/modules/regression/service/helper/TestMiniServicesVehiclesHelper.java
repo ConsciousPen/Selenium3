@@ -953,7 +953,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			//get vehicle OID to remove
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 			SearchPage.openPolicy(policyNumber);
-			Vehicle vehicleToRemove = getVehicleByVin(HelperCommon.viewEndorsementVehicles(policyNumber), "JTDKDTB38J1600184"); //the same VIN as in Test Data JTDKDTB38J1600184
+			Vehicle vehicleToRemove = findVehicleByVin(HelperCommon.viewEndorsementVehicles(policyNumber), "JTDKDTB38J1600184"); //the same VIN as in Test Data JTDKDTB38J1600184
 			if (testWithUpdates) {
 				//update vehicle info
 				String address1 = "2011 CORAL AVE";
@@ -3122,7 +3122,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 	private void validateLessThan1000Miles_ExistingVehicles(String policyNumber, String vin, boolean isLessThan1000Expected,
 															ViewVehicleResponse policyResponse, ETCSCoreSoftAssertions softly) {
-		Vehicle returnedVehicle = getVehicleByVin(policyResponse, vin);
+		Vehicle returnedVehicle = findVehicleByVin(policyResponse, vin);
 		softly.assertThat(returnedVehicle.isLessThan1000Miles).isFalse();
 		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, returnedVehicle.oid);
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "isLessThan1000Miles",
@@ -3204,7 +3204,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 				.orElseThrow(() -> new IllegalArgumentException("No Vehicle found for oid: " + oid));
 	}
 
-	private Vehicle getVehicleByVin(ViewVehicleResponse viewVehicleResponse, String vin) {
+	private Vehicle findVehicleByVin(ViewVehicleResponse viewVehicleResponse, String vin) {
 		return viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehicle.vehIdentificationNo.equals(vin)).findFirst()
 				.orElseThrow(() -> new IllegalArgumentException("No Vehicle found for vin: " + vin));
 	}
