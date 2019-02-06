@@ -481,23 +481,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
     private void doMPDEligibilityTest_Renewal(String in_policyType){
         // Create Policy
-        TestData td = getPolicyDefaultTD();
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber = createPolicy(td);
-        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-        LocalDateTime _renewalImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
-        mainApp().close();
-
-        // Advance JVM to Image Creation Date
-        TimeSetterUtil.getInstance().nextPhase(_renewalImageGenDate);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
-
-        // Go to Policy and Open Renewal Image
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
-        PolicySummaryPage.buttonRenewals.click();
+        createPolicyAdvanceToRenewalImage();
 
         // In Renewal Image, Add MPD Element and Bind
         _generalTab.mpd_SearchAndAddManually(in_policyType, "NOT_FOUND");
@@ -515,5 +499,87 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
     private void doScreenshot(String testName, String fileName, String extraNotes){
         ScreenshotManager.getInstance().makeScreenshot(String.format("%s_%s_%s", testName, fileName, extraNotes));
+    }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23456")
+    public void pas23456_MPD_Prevent_MTEBind(@Optional("") String state) {
+        doMTEPreventBindTest(false, "Home");
+    }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23456")
+    public void pas23456_MPD_Prevent_MTEBind_Flat_Condo(@Optional("") String state) {
+        doMTEPreventBindTest(true, "Condo");
+    }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23456")
+    public void pas23456_MPD_Allow_MTEBind(@Optional("") String state) {
+        doMTEPreventBindTest(false, "Life");
+    }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23456")
+    public void pas23456_MPD_Allow_MTEBind_Flat(@Optional("") String state) {
+        doMTEPreventBindTest(true, "Motorcycle");
+    }
+
+    private void doMTEPreventBindTest(Boolean bFlatEndorsement, String in_policyType){
+        // Create Policy and Initiate Endorsement
+        TestData td = getPolicyDefaultTD();
+        mainApp().open();
+        createCustomerIndividual();
+        createPolicy(td);
+
+        if (bFlatEndorsement){
+            policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        }else{
+            policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
+        }
+
+        // Add MPD Element via Customer Search
+        _generalTab.mpd_SearchCustomerDetails("CUSTOMER_E");
+        _generalTab.mpdSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
+
+        policy.getDefaultView().fillFromTo(getPolicyTD("Endorsement", "TestData_Empty_Endorsement"), GeneralTab.class, DocumentsAndBindTab.class, true);
+        _documentsAndBindTab.btnPurchase.click();
+        Page.dialogConfirmation.buttonYes.click();
+
+        if (!in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
+            new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.MPD_COMPANION_VALIDATION);
+        }else {
+            CustomAssertions.assertThat(PolicySummaryPage.labelPolicyNumber.isPresent());
+        }
+    }
+
+    private void doMTEPreventBindTest_Renewals(String in_policyType){
+        // Get into Renewal Image
+        createPolicyAdvanceToRenewalImage();
+    }
+
+    private void createPolicyAdvanceToRenewalImage(){
+        // Create Policy
+        TestData td = getPolicyDefaultTD();
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createPolicy(td);
+        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        LocalDateTime _renewalImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
+        mainApp().close();
+
+        // Advance JVM to Image Creation Date
+        TimeSetterUtil.getInstance().nextPhase(_renewalImageGenDate);
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+        JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
+
+        // Go to Policy and Open Renewal Image
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        PolicySummaryPage.buttonRenewals.click();
     }
 }

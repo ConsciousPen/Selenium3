@@ -20,6 +20,10 @@ import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Implementation of a specific tab in a workspace.
  * Tab classes from the default workspace are named <TAB LABEL>Tab, whereas all other tab classes - <TAB LABEL>ActionTab (to prevent duplication).
@@ -33,6 +37,10 @@ public class GeneralTab extends Tab {
 	public static Table tblOtherAAAProducts_GeneralTabTable = new Table(By.id("policyDataGatherForm:otherAAAProductsTable"));
 
 	public static Table tblOtherAAAProducts_SearchResults = new Table(By. id("autoOtherPolicySearchForm:elasticSearchResponseTable"));
+
+	public static List<String> _listOfMPDTableColumnNames = Arrays.asList("Policy Number / Address", "Policy Type", "Customer Name/DOB", "Expiration Date", "Status", "MPD");
+
+	public static List<String> _listOfMPDSearchResultsTableColumnNames = Arrays.asList("Customer Name/Address", "Date of Birth", "Policy Type", "Other AAA Products/Policy Address", "Status", "Select");
 
 	public GeneralTab() {
 		super(AutoSSMetaData.GeneralTab.class);
@@ -257,6 +265,75 @@ public class GeneralTab extends Tab {
 			new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + String.valueOf(index) + ":customerSelected")).setValue(true);
 		}
 		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_SELECTED_BTN.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_SELECTED_BTN.getControlClass()).click();
+	}
+
+	/**
+	 * Returns 'Policy Number / Address', 'Date of Birth', etc. data via the given row index.
+	 * @param index First row of data begins at index 1, not index 0.
+	 * @return
+	 */
+	public String mpdTable_viewData(String columnName, int index) {
+		index = mpdIndexWatchDog(index);
+		return tblOtherAAAProducts_GeneralTabTable.getColumn(columnName).getCell(index).getValue();
+	}
+
+	/**
+	 * Returns 'Policy Number / Address', 'Date of Birth', etc. data via the given row index.
+	 * @param index First row of data begins at index 1, not index 0.
+	 * @return
+	 */
+	public String mpdSearchTable_viewData(String columnName, int index) {
+		index = mpdIndexWatchDog(index);
+		return tblOtherAAAProducts_SearchResults.getColumn(columnName).getCell(index).getValue();
+	}
+
+	public ArrayList<String> mpdTable_viewAllRowDataByColumn(String columnName) {
+		ArrayList<String> myStringArray = new ArrayList<>();
+		for(int i = 1; i <= tblOtherAAAProducts_GeneralTabTable.getRowsCount(); i++) {
+			myStringArray.add(mpdTable_viewData(columnName, i));
+		}
+		return myStringArray;
+	}
+
+	public ArrayList<String> mpdTable_viewAllColumnDataByRow(int index_RowToGet) {
+		index_RowToGet = mpdIndexWatchDog(index_RowToGet);
+		ArrayList<String> myStringArray = new ArrayList<>();
+
+		for(String columnName: _listOfMPDTableColumnNames){
+			myStringArray.add(mpdTable_viewData(columnName, index_RowToGet));
+		}
+		return myStringArray;
+	}
+
+	public ArrayList<String> mpdSearchTable_viewAllColumnDataByRow(int index_RowToGet) {
+		index_RowToGet = mpdIndexWatchDog(index_RowToGet);
+		ArrayList<String> myStringArray = new ArrayList<>();
+
+		for(String columnName: _listOfMPDSearchResultsTableColumnNames){
+			myStringArray.add(mpdSearchTable_viewData(columnName, index_RowToGet));
+		}
+		return myStringArray;
+	}
+
+	public MPDTableElement mpdTable_getTableRowAsObject(int index_RowToGet) {
+		index_RowToGet = mpdIndexWatchDog(index_RowToGet);
+		ArrayList<String> dataAsArray = mpdTable_viewAllColumnDataByRow(index_RowToGet);
+
+		MPDTableElement _rowAsObject = new MPDTableElement(
+				dataAsArray.get(0), dataAsArray.get(1), dataAsArray.get(2), dataAsArray.get(3), dataAsArray.get(4), dataAsArray.get(5)
+		);
+		return _rowAsObject;
+	}
+
+	public MPDSearchTableElement mpdSearchResultsTable_getTableRowAsObject(int index_RowToGet){
+		index_RowToGet = mpdIndexWatchDog(index_RowToGet);
+		ArrayList<String> dataAsArray = mpdSearchTable_viewAllColumnDataByRow(index_RowToGet);
+
+		MPDSearchTableElement _rowAsObject = new MPDSearchTableElement(
+				dataAsArray.get(0), dataAsArray.get(1), dataAsArray.get(2), dataAsArray.get(3), dataAsArray.get(4)
+		);
+
+		return _rowAsObject;
 	}
 
 	/**
