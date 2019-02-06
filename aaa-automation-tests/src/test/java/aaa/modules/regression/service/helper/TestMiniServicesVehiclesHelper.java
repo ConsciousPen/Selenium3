@@ -3104,14 +3104,12 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas18408_validateLessThan1000Miles(ETCSCoreSoftAssertions softly) {
-		mainApp().open();
 		TestData td = getPolicyDefaultTD();
 		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_1000MilesVeh").getTestDataList("VehicleTab"))
 				.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError)
 				.resolveLinks();
-		createCustomerIndividual();
-		String policyNumber = createPolicy(testData);
+		String policyNumber = openAppAndCreatePolicy(testData);
 		ViewVehicleResponse policyResponse = HelperCommon.viewPolicyVehicles(policyNumber);
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		validateLessThan1000Miles_ExistingVehicles(policyNumber, "1FADP3J2XJL222680", true, policyResponse, softly);
@@ -3124,8 +3122,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 	private void validateLessThan1000Miles_ExistingVehicles(String policyNumber, String vin, boolean isLessThan1000Expected,
 															ViewVehicleResponse policyResponse, ETCSCoreSoftAssertions softly) {
-		Vehicle returnedVehicle = policyResponse.vehicleList.stream().filter(vehicle -> StringUtils.equals(vin, vehicle.vehIdentificationNo))
-				.findFirst().orElseThrow(() -> new IllegalArgumentException("No matching vehicle found."));
+		Vehicle returnedVehicle = getVehicleByVin(policyResponse, vin);
 		softly.assertThat(returnedVehicle.isLessThan1000Miles).isFalse();
 		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, returnedVehicle.oid);
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "isLessThan1000Miles",
