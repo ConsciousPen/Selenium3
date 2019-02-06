@@ -12,7 +12,10 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.billing.account.BillingAccountActions;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsCATemplate;
@@ -50,6 +53,7 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
     private static final String CLAIM_NUMBER_3 = "1002-10-8704";
     private static final String COMP_DL_PU_CLAIMS_DATA_MODEL = "comp_dl_pu_claims_data_model_select.yaml";
 	private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE = ImmutableMap.of(CLAIM_NUMBER_1, "D5435433", CLAIM_NUMBER_2, "D5435433");
+	private PurchaseTab purchaseTab = new PurchaseTab();
 
     @Override
     protected PolicyType getPolicyType() {
@@ -157,6 +161,32 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
 		// Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
 		// Check 2nd driver: Has DL match claim
 		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
+
+		//Bind The Renewal Image
+		policy.getDefaultView().fillFromTo(getPolicyTD(), AssignmentTab.class, PurchaseTab.class, true);
+		purchaseTab.submitTab();
+		mainApp().close();
+
+		//Accept Payment and renew the policy
+		payTotalAmtDue(policyNumber);
+//		mainApp().close();
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+
+		//Initiate an endorsement: Add AFR Driver, calculate premium and order clue
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		TestData tdEndorsement = getTestSpecificTD("TestData_Endorsement");
+		policy.createEndorsement(tdEndorsement);
+		//TODO: Correct Endorsement Test Data: Need to order clue, and then navigate back to driver page
+
+		//Navigate to Driver page and verify PU claim moved from FNI to newly added driver
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+		puDropAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_3);
+
+
 	}
+
+
 
 }

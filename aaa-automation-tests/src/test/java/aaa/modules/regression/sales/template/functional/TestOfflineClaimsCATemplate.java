@@ -167,6 +167,26 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         });
     }
 
+    // Assertions for COMP and DL Tests
+    public void puDropAssertions(String COMP_MATCH, String PU_MATCH) {
+        CustomSoftAssertions.assertSoftly(softly -> {
+            DriverTab driverTab = new DriverTab();
+            ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
+            softly.assertThat(DriverTab.tableDriverList).hasRows(5);
+
+            // Check 1st driver: Contains only one Matched Claim (Verifying that comp claim has not moved)
+            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(COMP_MATCH);
+
+            // Check 5th driver: Original Permissive Use claim should be on the newly added driver
+            DriverTab.tableDriverList.selectRow(5);
+            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("CLUE");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(PU_MATCH);
+        });
+    }
+
     // Assertions for Name/DOB Tests
     public void nameDobYobAssertions(String LASTNAME_FIRSTNAME_DOB, String LASTNAME_FIRSTNAME, String LASTNAME_FIRSTINITAL_DOB, String LASTNAME_FIRSTNAME_YOB ) {
         CustomSoftAssertions.assertSoftly(softly -> {
