@@ -23,7 +23,7 @@ public class TestEndorsement extends EndorsementTemplate {
 
 	@Test(dataProvider = "getPoliciesForEmptyEndorsementTests")
 	@StateList(states = {CA})
-	public void BCT_ONL_EmptyEndorsementAutoCAChoice(String policyNumber) {
+	public void BCT_ONL_EmptyEndorsementAutoCAChoice(String state, String policyNumber) {
 		TestData td = getTestSpecificTD("TestDataEndorseAutoCA");
 
 		Dollar policyPremium = getPreEndorsementPremium(getPolicyType().get(), policyNumber);
