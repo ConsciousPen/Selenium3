@@ -28,6 +28,13 @@ PAS-0002:
   - tests: [aaa.modules.bct.*]
     messages: ["No policies found by 'SelectPolicy' query"]
 
+PAS-0003:
+  summary: "PasDoc is Not Enabled"
+  reason: ENV
+  failures:
+    - tests: aaa.*
+      messages: ["PasDoc is enabled for product and state combination:"]
+
 QC-DOCGENCOMMON:
   summary: "Common dummy ticket for all dependent docgen tests to mark them yellow if they are skipped due to failed 1st policy creation test"
   reason: PROD
