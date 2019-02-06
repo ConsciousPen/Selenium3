@@ -9,6 +9,7 @@ import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import aaa.utils.StateList;
 import toolkit.verification.CustomSoftAssertions;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -86,19 +87,25 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		//Policy Inquiry
 		policy.policyInquiry().start();
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		
+		InquiryAssetList inquiryDocumentsForPrintingAssetList = new InquiryAssetList(new DocumentsAndBindTab().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.class);
+		InquiryAssetList inquiryRequiredToBindAssetList = new InquiryAssetList(new DocumentsAndBindTab().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.class);	
+		
 		CustomSoftAssertions.assertSoftly(softly -> {
-			softly.assertThat(DocumentsAndBindTab.availableForPrinting_AutoInsuranceQuote).isPresent(false);
-			softly.assertThat(DocumentsAndBindTab.availableForPrinting_AutoInsuranceApplication).isPresent();
-			softly.assertThat(DocumentsAndBindTab.availableForPrinting_NamedDriverExclusion).isPresent();
-			softly.assertThat(DocumentsAndBindTab.availableForPrinting_CriticalInformationForTeenageDrivers).isPresent();
-			softly.assertThat(DocumentsAndBindTab.availableForPrinting_UninsuredAndUnderinsuredMotoristCoverage).isPresent();
-			softly.assertThat(DocumentsAndBindTab.availableForPrinting_AAAUsageBasedInsuranceProgram).isPresent();
-			softly.assertThat(DocumentsAndBindTab.availableForPrinting_AAAwithSMARTtrekAcknowledgement).isPresent();
-			softly.assertThat(DocumentsAndBindTab.availableForPrinting_ACPSMARTtrekSubscription).isPresent();
-			softly.assertThat(DocumentsAndBindTab.requiredToBind_AutoInsuranceApplication).isPresent();
-			softly.assertThat(DocumentsAndBindTab.requiredToBond_NamedDriverExclusion).isPresent();
-			softly.assertThat(DocumentsAndBindTab.reqiuredToBind_UninsuredAndUnderinsuredMotoristCoverage).isPresent();
-			softly.assertThat(DocumentsAndBindTab.requiredToBind_AAAwithSMARTtrekAcknowledgement).isPresent();
+			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTO_INSURANCE_APPLICATION)).isPresent();
+			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTO_INSURANCE_QUOTE)).isPresent(false);
+			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.NAMED_DRIVER_EXCLUSION)).isPresent();
+			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.NAMED_DRIVER_EXCLUSION)).isPresent();
+			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.CRITICAL_INFORMATION_FOR_TEENAGE_DRIVERS_AND_THEIR_PARENTS)).isPresent();
+			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION)).isPresent();
+			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AAA_USAGE_BASED_INSURANCE_PROGRAM_TERMS_AND_CONDITIONS)).isPresent();
+			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AAA_WITH_SMARTTRECK_ACKNOWLEDGEMENT)).isPresent();
+			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.ACP_SMARTTRECK_SUBSCRIPTION_TERMS)).isPresent();
+			
+			softly.assertThat(inquiryRequiredToBindAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION)).isPresent();
+			softly.assertThat(inquiryRequiredToBindAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NAMED_DRIVER_EXCLUSION)).isPresent();
+			softly.assertThat(inquiryRequiredToBindAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION)).isPresent();
+			softly.assertThat(inquiryRequiredToBindAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS)).isPresent();
 		});
 		documentsAndBindTab.cancel();
 		
@@ -219,5 +226,5 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		log.info("TEST: Renewal created for policy #" + PolicySummaryPage.getPolicyNumber());
 		
 	}	
-	
+
 }

@@ -33,20 +33,6 @@ public class DocumentsAndBindTab extends Tab {
 	public static Dialog confirmEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");
 	public static Dialog confirmRenewal = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialog-1_content']");
 	public static StaticElement helpIconPaperlessPreferences = new StaticElement(By.xpath("//label[@id='policyDataGatherForm:paperlessPreferences_enrolledInPaperless_helpText']"));
-
-	public static StaticElement availableForPrinting_AutoInsuranceApplication = new StaticElement(By.xpath("//td[text()='Auto Insurance Application']"));
-	public static StaticElement availableForPrinting_AutoInsuranceQuote = new StaticElement(By.xpath("//td[text()='Auto Insurance Quote']"));
-	public static StaticElement availableForPrinting_AutoPayAuthorizationForm = new StaticElement(By.xpath("//td[text()='AutoPay Authorization Form']"));
-	public static StaticElement availableForPrinting_NamedDriverExclusion = new StaticElement(By.xpath("//td[text()='Named Driver Exclusion']"));
-	public static StaticElement availableForPrinting_CriticalInformationForTeenageDrivers = new StaticElement(By.xpath("//td[text()='Critical Information for Teenage Drivers and Their Parents']"));
-	public static StaticElement availableForPrinting_UninsuredAndUnderinsuredMotoristCoverage = new StaticElement(By.xpath("//td[text()='Uninsured and Underinsured Motorist Coverage Selection']"));
-	public static StaticElement availableForPrinting_AAAUsageBasedInsuranceProgram = new StaticElement(By.xpath("//td[text()='AAA Usage Based Insurance Program Terms and Conditions']"));
-	public static StaticElement availableForPrinting_AAAwithSMARTtrekAcknowledgement = new StaticElement(By.xpath("//td[text()='AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies']"));
-	public static StaticElement availableForPrinting_ACPSMARTtrekSubscription = new StaticElement(By.xpath("//td[text()='ACP SMARTtrek Subscription Terms and Conditions']"));
-	public static StaticElement requiredToBind_AutoInsuranceApplication = new StaticElement(By.xpath("//div[text()='Auto Insurance Application']"));
-	public static StaticElement requiredToBond_NamedDriverExclusion = new StaticElement(By.xpath("//div[text()='Named Driver Exclusion']"));
-	public static StaticElement reqiuredToBind_UninsuredAndUnderinsuredMotoristCoverage = new StaticElement(By.xpath("//div[text()='Uninsured and Underinsured Motorist Coverage Selection']"));
-	public static StaticElement requiredToBind_AAAwithSMARTtrekAcknowledgement = new StaticElement(By.xpath("//div[text()='AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies']"));
 	
 	public AssetList getDocumentsForPrintingAssetList() {
 		return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING.getLabel(), AssetList.class);
