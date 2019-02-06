@@ -36,4 +36,6 @@ public class VehicleUpdateDto  implements RestBodyRequest {
 	@ApiModelProperty(value = "Vehicle purchase date", example = "2018-02-28")
 	public String purchaseDate;
 
+	@ApiModelProperty(value = "Is Less Than 1,000 Miles?", example = "true")
+	public Boolean isLessThan1000Miles;
 }
