@@ -689,11 +689,10 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 3. PendingAdd vehicle has no available actions
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.VA})
+	@StateList(states = {Constants.States.VA, Constants.States.NY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12175"})
 	public void pas12175_RemoveReplaceAllVehicles(@Optional("VA") String state) {
-
 		pas12175_RemoveReplaceAllVehiclesBody();
 	}
 
@@ -840,6 +839,34 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	public void pas21597_addVehicleCheckAntiTheft(@Optional("NJ") String state) {
 
 		assertSoftly(softly -> pas21597_addVehicleCheckAntiTheftBody(softly));
+	}
+
+	/**
+	 * @author Sabra Domeika
+	 * @name New Jersey and the Less than 1000 miles question
+	 * @scenario
+	 * 1. Create a policy with one vehicle older than 7 years and one less than 7 years.
+	 * 2. Run view vehicles and validate that the less than 1000 miles value is returned.
+	 * 3. Start an endorsement in DXP.
+	 * 4. Run the metadata service. Validate that for the older vehicle, the less than 1000 miles question is not
+	 * listed as visible. validate that the for the newer vehicle, the less than 1000 miles question is visible.
+	 * 5. For a vehicle less than 7 years, a vehicle equal to 7 years and a vehicle less than 7 years, do the following:
+	 * 5a. Create a new endorsement in DXP.
+	 * 5b. Add the vehicle. Validate that less than 1000 miles value is returned.
+	 * 5c. Validate the metadata service shows the question as visible for the <= 7 vehicles and is shown as
+	 * not visible for the > 7 vehicle.
+	 * 5d. For the vehicles <= 7 years, update the field to Yes. Validate that the right value is returned in the
+	 * response. Run the Change Log service and validate that the value is present there as well.
+	 * 5e. Run the Rate service.
+	 * 5f. Run the Bind service.
+	 * @param state
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.NJ})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18408"})
+	public void pas18408_lessThan1000Miles(@Optional("NJ") String state) {
+		assertSoftly(softly -> pas18408_validateLessThan1000Miles(softly));
 	}
 }
 

@@ -419,6 +419,59 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		});
 	}
 
+	/**
+	 * @name RFI AA52IPAA Form
+	 * @scenario 1
+	 * 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Rate. Hit RFI service.
+	 * 4. Check the response.
+	 * 5. Update UIMBI/UIMSU coverage. Rate.
+	 * 6. Hit RFI service, check if document is displaying.
+	 * 7. Run bind service without signing document and verify error. and policy is not bound.
+	 * 8. Run bind service with document id verify no error and we can bind the policy.
+	 * 9. go to pas UI and verify if policy is bound
+	 * 10. Go to document and bind page and verify if document is electronically signed.
+	 * 11. create an endorsement on policy from pas change coverage and rate the policy
+	 * 12. go to document and bind page verify if its reset to document not signed
+	 * 13. Try to bind policy from pas and verify error.
+	 * 14. Select document physically signed
+	 * 15.  Bind the policy verify there is no error message.
+	 *
+	 * @scenario 2
+	 * 1. Create policy and override the rule
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Trigger the document by updating one of the coverages (UMBI or UMSU)
+	 * 4. Hit RFI service and check that docuemnt is returned
+	 * 5. Bind Endorsement ---> No rule is fired (as it was overriden at NB)
+	 *
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23302"})
+	public void pas23302_AA52IPAAFormRFI(@Optional("PA") String state) {
+		DocGenEnum.Documents document = DocGenEnum.Documents.AA52IPAA;
+		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNDERINSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION;
+		ErrorEnum.Errors error = ErrorEnum.Errors.ERROR_AAA_200307;
+
+		TestData td = getPolicyDefaultTD();
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.TORT_THRESHOLD.getLabel()), "contains=Full Tort");//do not get TORT rule
+
+		verifyRFIScenarios("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_50100.getLimit(), CoverageLimits.COV_00.getDisplay(), document, documentAsset, error, td, false, false);
+		verifyRFIScenarios("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_00.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, false, false);
+		verifyRFIScenarios("UIMSU", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_STACKED_UNSTACKED, CoverageLimits.COV_UNSTACKED.getLimit(), CoverageLimits.COV_STACKED.getDisplay(), document, documentAsset, error, td, false, false);
+
+		//Create policy and override rule
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNDERINSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION.getLabel()), "Not Signed");
+		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+		td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.TORT_THRESHOLD.getLabel()), "contains=Full Tort");//to not get TORT rule
+		verifyRFIScenarios("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_50100.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, false, true);
+		verifyRFIScenarios("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_00.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, false, true);
+		verifyRFIScenarios("UIMSU", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_STACKED_UNSTACKED, CoverageLimits.COV_UNSTACKED.getLimit(), CoverageLimits.COV_STACKED.getDisplay(), document, documentAsset, error, td, false, true);
+	}
+
 	private void validateDocSignTagsNotExist(DocGenEnum.Documents document, String query) {
 		assertThat(DocGenHelper.getDocument(document, query).toString().contains("DocSignedBy")).isFalse();
 		assertThat(DocGenHelper.getDocument(document, query).toString().contains("DocSignedDate")).isFalse();
@@ -426,7 +479,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name RFI AA52UPAA Form
+	 * @name RFI AA52UPAA and AA52IPAA vehen Adding Vehicle
 	 * @scenario 1
 	 * 1. Create policy.
 	 * 2. Create endorsement outside of PAS.
@@ -442,8 +495,6 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	 * 12. go to document and bind page verify if its reset to document not signed
 	 * 13 Try to bind policy from pas and verify error.
 	 * 14 Select document physically signed
-	 * 15 Verify in db that we are not sending document signed by
-	 * 16  Bind the policy verify there is no error message.
 	 * @scenario 2
 	 * 1. Create policy and override the rule
 	 * 2. Create endorsement outside of PAS.
@@ -456,32 +507,47 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.PA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23301"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23301", "PAS-23302"})
 	public void pas23301_AA52UPAAFormAddReplaceVehicleTriggerRFI(@Optional("PA") String state) {
-		DocGenEnum.Documents document = DocGenEnum.Documents.AA52UPAA;
-		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNUNSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION;
-		ErrorEnum.Errors error = ErrorEnum.Errors.ERROR_200306;
-
 		TestData td = getPolicyDefaultTD();
 		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.TORT_THRESHOLD.getLabel()), "contains=Full Tort");//to not get TORT rule
-		validateRFIScenariosAddVehicle(document, documentAsset, error, td, false);
+		validateRFIScenariosAddVehicle_pas23301_pas23302(td, false);
 
-		//Create policy and override rule
+		//Create policy and override rule 200306 and rule 200307
 		td.adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNUNSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION.getLabel()), "Not Signed");
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNDERINSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION.getLabel()), "Not Signed");
 		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
 		td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
-		validateRFIScenariosAddVehicle(document, documentAsset, error, td, true);
+		validateRFIScenariosAddVehicle_pas23301_pas23302(td, true);
 
 	}
 
-	private void validateRFIScenariosAddVehicle(DocGenEnum.Documents document, AssetDescriptor<RadioGroup> documentAsset, ErrorEnum.Errors error, TestData td, boolean isRuleOverridden) {
+	private void validateRFIScenariosAddVehicle_pas23301_pas23302(TestData td, boolean isRuleOverridden) {
+
+		DocGenEnum.Documents documentAA52UPAA = DocGenEnum.Documents.AA52UPAA;
+		DocGenEnum.Documents documentAA52IPAA = DocGenEnum.Documents.AA52IPAA;
+		AssetDescriptor<RadioGroup> documentAssetUninsured = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNUNSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION;
+		AssetDescriptor<RadioGroup> documentAssetUnderinsured = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNDERINSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION;
+		ErrorEnum.Errors error200306 = ErrorEnum.Errors.ERROR_200306;
+		ErrorEnum.Errors error200307 = ErrorEnum.Errors.ERROR_AAA_200307;
+
 		String policyNumber = openAppAndCreatePolicy(td);
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		vehiclesHelper.addVehicleWithChecks(policyNumber, "2013-02-22", "1HGEM21504L055795", true);
 
-		String docId = checkDocumentInRfiService(policyNumber, document.getId(), document.getName(), "policy", "NS");
-		bindEndorsement(policyNumber, docId, error.getCode(), error.getMessage(), "attributeForRules", isRuleOverridden);
+		String docId1 = checkDocumentInRfiService(policyNumber, documentAA52UPAA.getId(), documentAA52UPAA.getName(), "policy", "NS");
+		String docId2 = checkDocumentInRfiService(policyNumber, documentAA52IPAA.getId(), documentAA52IPAA.getName(), "policy", "NS");
+
+		if (!isRuleOverridden) {
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error200306.getCode(), error200306.getMessage(), "attributeForRules");
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error200307.getCode(), error200307.getMessage(), "attributeForRules");
+			//Bind policy with doccId for successful bind and doccument is electronically signed
+			HelperCommon.endorsementBind(policyNumber, "Johnny B. Washington", Response.Status.OK.getStatusCode(), docId1, docId2);
+		} else {
+			//Bind without Document Sign ----Rule is not fired as it was overridden at NB
+			HelperCommon.endorsementBind(policyNumber, "Johnny B. Washington", Response.Status.OK.getStatusCode());
+		}
 
 		SoftAssertions.assertSoftly(softly -> {
 
@@ -493,9 +559,11 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
 			if (!isRuleOverridden) {
-				softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).getValue()).isEqualTo("Electronically Signed");
+				softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAssetUninsured).getValue()).isEqualTo("Electronically Signed");
+				softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAssetUnderinsured).getValue()).isEqualTo("Electronically Signed");
 			} else {
-				softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).getValue()).isEqualTo("Not Signed");
+				softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAssetUninsured).getValue()).isEqualTo("Not Signed");
+				softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAssetUnderinsured).getValue()).isEqualTo("Not Signed");
 			}
 
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
@@ -506,14 +574,17 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			premiumAndCoveragesTab.calculatePremium();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
-			softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).getValue()).isEqualTo("Not Signed");
+			softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAssetUninsured).getValue()).isEqualTo("Not Signed");
+			softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAssetUnderinsured).getValue()).isEqualTo("Not Signed");
 			documentsAndBindTab.submitTab();
 			if (!isRuleOverridden) {
 				//On bind verify error message
-				errorTab.verify.errorsPresent(true, error);
+				errorTab.verify.errorsPresent(true, error200306);
+				errorTab.verify.errorsPresent(true, error200307);
 				errorTab.cancel();
 				//Physically sign the document and bind policy
-				documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).setValue("Physically Signed");
+				documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAssetUninsured).setValue("Physically Signed");
+				documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAssetUnderinsured).setValue("Physically Signed");
 				documentsAndBindTab.submitTab();
 			}
 			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE); //indicates Endorsement bound successfully
@@ -821,23 +892,23 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private String checkDocumentInRfiService(String policyNumber, String documentCode, String documentName, String parent, String status) {
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
-		String doccId = rfiServiceResponse.documents.get(0).documentId;
+		RFIDocument rfiDocument = rfiServiceResponse.documents.stream().filter(document -> document.documentCode.equals(documentCode)).findFirst().orElse(null);
 		assertSoftly(softly -> {
 
 			softly.assertThat(rfiServiceResponse.url).isNull();
-			softly.assertThat(rfiServiceResponse.documents.get(0).documentCode).isEqualTo(documentCode);
-			softly.assertThat(rfiServiceResponse.documents.get(0).documentName).isEqualTo(documentName);
-			softly.assertThat(rfiServiceResponse.documents.get(0).documentId).startsWith(documentCode);
-			softly.assertThat(rfiServiceResponse.documents.get(0).status).startsWith(status);
-			softly.assertThat(rfiServiceResponse.documents.get(0).parent).isEqualTo(parent);
-			softly.assertThat(rfiServiceResponse.documents.get(0).parentOid).isNotEmpty();
+			softly.assertThat(rfiDocument.documentCode).isEqualTo(documentCode);
+			softly.assertThat(rfiDocument.documentName).isEqualTo(documentName);
+			softly.assertThat(rfiDocument.documentId).startsWith(documentCode);
+			softly.assertThat(rfiDocument.status).startsWith(status);
+			softly.assertThat(rfiDocument.parent).isEqualTo(parent);
+			softly.assertThat(rfiDocument.parentOid).isNotEmpty();
 
 			RFIDocuments rfiServiceResponse2 = HelperCommon.rfiViewService(policyNumber, true);
 			softly.assertThat(rfiServiceResponse2.url).isNotEmpty();
 			softly.assertThat(rfiServiceResponse2.documents).isNotEmpty();
 
 		});
-		return doccId;
+		return rfiDocument.documentId;
 	}
 
 	/**
