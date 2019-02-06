@@ -1,10 +1,11 @@
 package aaa.modules.financials;
 
+import com.exigen.ipb.etcsa.utils.Dollar;
+import toolkit.db.DBService;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import toolkit.db.DBService;
 
 public final class FinancialsSQL {
 
@@ -92,6 +93,7 @@ public final class FinancialsSQL {
 	    public static final String CANCELLATION_FEE = "CancellationFee";
 	    public static final String OVERPAYMENT_REALLOCATION_ADJUSTMENT = "OverPaymentReallocationAdjustment";
 		public static final String SEISMIC_FEE = "SeismicFee";
+		public static final String EMPLOYEE_BENEFIT = "EmployeeBenefit";
     }
 
 }

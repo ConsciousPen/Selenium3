@@ -1,7 +1,5 @@
 package aaa.modules.financials;
 
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -13,12 +11,16 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-import static toolkit.verification.CustomAssertions.assertThat;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class FinancialsBaseTest extends FinancialsTestDataFactory {
 
@@ -40,6 +42,10 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 			return new Dollar(PolicySummaryPage.tableCoveragePremiumSummaryCA.getRow(3).getCell(2).getValue());
 		}
 		return new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Term Premium"));
+	}
+
+	protected Dollar getEmployeeDiscount() {
+		return new Dollar(PolicySummaryPage.getAmountDueForProperty().multiply(-1));
 	}
 
 	protected Dollar payTotalAmountDue(){
