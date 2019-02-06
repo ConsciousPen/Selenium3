@@ -114,7 +114,8 @@ public enum CoverageInfo {
 	UMPD_NV_NOCOLL("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_NOCOLL, "Per Accident"),
 	UMPD_NV_WITHCOLL("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_WITHCOLL, "Per Accident"),
 	UMPD_NV_WOUM("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_WOUM, "Per Accident"),
-	EMB("EMB", "Extraordinary Medical Expense Benefits", CoverageLimits.COV_EMB_0, AvailableCoverageLimits.EMB, null);
+	EMB("EMB", "Extraordinary Medical Expense Benefits", CoverageLimits.COV_EMB_0, AvailableCoverageLimits.EMB, null),
+	LOL("LOL", "Limitation on Lawsuit", CoverageLimits.COV_LOL, AvailableCoverageLimits.LOL, null);
 
 	private final String code;
 	private final String description;

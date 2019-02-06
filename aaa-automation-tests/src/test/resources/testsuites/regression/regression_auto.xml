@@ -97,7 +97,11 @@
                     <include name="newBusiness_HardStopOverridableBind"/>
                 </methods>
             </class>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidation"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidation">
+            <methods>
+                <exclude name="pas6668_pas8815_Validate_Override_Automated_Renewal_DummyNumber"/>
+            </methods>
+            </class>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestNotOrderedMembershipError"/>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipOverride">
                 <methods>

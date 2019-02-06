@@ -885,12 +885,13 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="pas21597_addVehicleCheckAntiTheft" parallel="methods">
+    <test thread-count="1024" name="Vehicle Deltas - NJ" parallel="methods">
         <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
                     <include name="pas21597_addVehicleCheckAntiTheft"/>
+                    <include name="pas18408_lessThan1000Miles"/>
                 </methods>
             </class>
         </classes>
@@ -1082,6 +1083,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas19127_BIAndUMBIAndCanChangeTrue"/>
+                    <include name="pas15302_lolCoverageNJ"/>
                 </methods>
             </class>
         </classes>

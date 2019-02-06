@@ -241,6 +241,11 @@
                     <include name="pas19839_ooseConflictManualAddNamedInsuredInformation"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict -->
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidation">
+                <methods>
+                    <include name="pas6668_pas8815_Validate_Override_Automated_Renewal_DummyNumber"/>
+                </methods>
+            </class>
         </classes>
     </test> <!-- AZ Auto -->
     <test name="PA Auto" parallel="methods">
