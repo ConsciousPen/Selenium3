@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -380,6 +381,12 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         Page.dialogConfirmation.buttonNo.click();
     }
 
+    /**
+     * Validates that the MPD Companion Validation Error occurs when manually adding a 'Home/Renters/Condo' MPD policy to a quote.
+     * @param state
+     * @author Tyrone Jemison - CIO
+     * @Runtime 2min
+     */
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
@@ -387,6 +394,12 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         doMPDEligibilityTest("Home");
     }
 
+    /**
+     * Validates that the MPD Companion Validation Error DOES NOT occur when manually adding a 'Life/Motorcycle' MPD policy to a quote.
+     * @param state
+     * @author Tyrone Jemison - CIO
+     * @Runtime 2min
+     */
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
@@ -394,6 +407,12 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         doMPDEligibilityTest("Life");
     }
 
+    /**
+     * Validates that the MPD Companion Validation Error occurs when manually adding a 'Home/Renters/Condo' MPD policy to a MidTerm Endorsement.
+     * @param state
+     * @author Tyrone Jemison - CIO
+     * @Runtime 2min
+     */
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
@@ -401,32 +420,17 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         doMPDEligibilityTest_MidTerm(false, "Renters");
     }
 
-    @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
-    public void pas24729_MPD_ValidateEligibility_MidTermFlat_Condo(@Optional("") String state) {
-        doMPDEligibilityTest_MidTerm(true, "Condo");
-    }
-
-    @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
-    public void pas24729_MPD_ValidateEligibility_MidTerm_Motorcycle(@Optional("") String state) {
-        doMPDEligibilityTest_MidTerm(false, "Motorcycle");
-    }
-
-    @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
-    public void pas24729_MPD_ValidateEligibility_MidTermFlat_Motorcycle(@Optional("") String state) {
-        doMPDEligibilityTest_MidTerm(true, "Motorcycle");
-    }
-
+    /**
+     * Validates that the MPD Companion Validation Error occurs when manually adding a 'Home/Renters/Condo' MPD policy to a Renewal Image.
+     * @param state
+     * @author Tyrone Jemison - CIO
+     * @Runtime 4min
+     */
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
     public void pas24729_MPD_ValidateEligibility_Renewal_Home(@Optional("") String state) {
-        doMPDEligibilityTest_Renewal("Home");
+        doMPDEligibilityTest_Renewal("Condo");
     }
 
     private void doMPDEligibilityTest(String in_policyType){
@@ -497,6 +501,14 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         }
     }
 
+    /**
+     * Plug this method in whenever you want to use automation to facilitate grabbing screenshots. <br>
+     *     Captures the entire web browser rather than only what's visible at the moment. (E.G. Scroll Bars) <br>
+     *         !!DO NOT PROVIDE SPACES IN STRINGS!!
+     * @param testName Name of test class being executed.
+     * @param fileName Name of specific test method being executed.
+     * @param extraNotes Details of specific test operation being captured by screenshot.
+     */
     private void doScreenshot(String testName, String fileName, String extraNotes){
         ScreenshotManager.getInstance().makeScreenshot(String.format("%s_%s_%s", testName, fileName, extraNotes));
     }
@@ -511,22 +523,22 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23456")
-    public void pas23456_MPD_Prevent_MTEBind_Flat_Condo(@Optional("") String state) {
-        doMTEPreventBindTest(true, "Condo");
-    }
-
-    @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23456")
     public void pas23456_MPD_Allow_MTEBind(@Optional("") String state) {
         doMTEPreventBindTest(false, "Life");
     }
 
     @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23456")
-    public void pas23456_MPD_Allow_MTEBind_Flat(@Optional("") String state) {
-        doMTEPreventBindTest(true, "Motorcycle");
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    public void pas23456_MPD_Prevent_Renewal(@Optional("") String state) {
+        doMTEPreventBindTest_Renewals("Renters");
+    }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    public void pas23456_MPD_Prevent_AmendedRenewal(@Optional("") String state) {
+
     }
 
     private void doMTEPreventBindTest(Boolean bFlatEndorsement, String in_policyType){
@@ -576,10 +588,15 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         TimeSetterUtil.getInstance().nextPhase(_renewalImageGenDate);
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
         // Go to Policy and Open Renewal Image
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         PolicySummaryPage.buttonRenewals.click();
+        Tab.buttonGo.click();
+        Tab.buttonOk.click();
+        Page.dialogConfirmation.buttonOk.click();
     }
 }
