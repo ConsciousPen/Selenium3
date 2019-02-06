@@ -1,7 +1,6 @@
 package aaa.modules.bct;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,7 +11,6 @@ import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.exigen.ipb.eisa.utils.batchjob.Job;
 import aaa.common.enums.JobResultEnum;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.http.HttpJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
@@ -38,12 +36,13 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	protected void executeBatchTest(Job job){
 		JobUtils.executeJob(job);
 
+		//TODO Refactor, since http package is obsolete and deleted
 		String result = null;
-		try {
+		/*try {
 			result = HttpJob.JobStatistic.getJobProcessedStatistic(job.getJobName());
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 
 		boolean failurePercentage = getFailurePercentage(result);
 
@@ -209,16 +208,18 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	private HashMap<String, String> prepareStatisticsRow(String result) {
 		String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-		HashMap<String, String> splittedRow = HttpJob.JobStatistic.splitStatisticsRow(result);
+		//TODO Refactor, since http package is obsolete and deleted
+		//HashMap<String, String> splittedRow = HttpJob.JobStatistic.splitStatisticsRow(result);
 
-		for(Map.Entry<String, String> entry : splittedRow.entrySet()){
+/*		for(Map.Entry<String, String> entry : splittedRow.entrySet()){
 			assertThat(entry.getValue()).as(entry.getKey() + " was empty").isNotEmpty();
 		}
 
 		if(!splittedRow.get(JobResultEnum.JobStatisticsConstants.DATE).contains(currentDate)){
 			log.info("HTTP: ERROR LOG COULD BE OUTDATED, PLEASE CHECK DATES, TODAY {}, LOG DATE {}", currentDate, splittedRow.get(JobResultEnum.JobStatisticsConstants.DATE));
 		}
-		return splittedRow;
+		return splittedRow;*/
+		return null;
 	}
 
 

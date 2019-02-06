@@ -9,7 +9,6 @@ import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.main.enums.DocGenEnum.Documents;
@@ -46,7 +45,7 @@ public class TestScenarioCO extends AutoSSBaseTest {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
-		HttpStub.executeAllBatches();
+
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();

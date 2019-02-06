@@ -15,7 +15,6 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.main.enums.ProductConstants;
@@ -30,7 +29,6 @@ import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * @author Sushil Sivaram
@@ -141,9 +139,9 @@ public class TestPolicyFirelineReportsOnRenewal extends HomeSSHO3BaseTest {
 	private void renewPolicy() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
-		HttpStub.executeAllBatches();
+
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
-		HttpStub.executeAllBatches();
+
 		PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 		BindTab bindTab = new BindTab();
 		mainApp().open();
@@ -159,10 +157,8 @@ public class TestPolicyFirelineReportsOnRenewal extends HomeSSHO3BaseTest {
 	private void runISOOfflineJobs() {
 		LocalDateTime timePoint1 = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate).minusDays(28);
 		TimeSetterUtil.getInstance().nextPhase(timePoint1);
-		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_ISO_BATCH);
-		Waiters.SLEEP(5000).go();
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
-		HttpStub.executeAllBatches();
+
 	}
 
 	private String firelineOrderDatePostRenewal() {

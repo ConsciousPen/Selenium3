@@ -12,7 +12,6 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.product.PolicyHelper;
@@ -150,7 +149,7 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
 
         LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-        HttpStub.executeAllBatches();
+
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
     }
 

@@ -17,7 +17,6 @@ import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.product.ProductRenewalsVerifier;
@@ -126,7 +125,7 @@ public class TestManualConversionScenario4 extends AutoSSBaseTest {
 		//8. (2R-63) Run the following job - renewalOfferGenerationPart1 -> Job run is successful.
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(secondRenewalDate));
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
-		HttpStub.executeAllBatches();
+
 		//9. (2R-45) Run the following job - renewalOfferGenerationPart2 -> Job run is successful.
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(secondRenewalDate));
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);

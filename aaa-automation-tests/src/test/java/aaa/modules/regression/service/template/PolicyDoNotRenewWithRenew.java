@@ -6,7 +6,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.main.enums.ProductConstants;
@@ -48,7 +47,6 @@ public abstract class PolicyDoNotRenewWithRenew extends PolicyBaseTest {
 		LocalDateTime renewDate=getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewDate);
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
-		HttpStub.executeAllBatches();
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);

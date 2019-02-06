@@ -13,7 +13,6 @@ import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.*;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.product.PolicyHelper;
@@ -145,7 +144,7 @@ public class Scenario7 extends ScenarioBaseTest {
 		}
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
-		HttpStub.executeAllBatches();
+
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();

@@ -8,7 +8,6 @@ import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.main.enums.DocGenEnum.Documents;
@@ -53,7 +52,7 @@ public class TestScenario5 extends AutoCaSelectBaseTest {
 	public void TC03_RenewImageGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
-		HttpStub.executeAllBatches();
+
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 	}
 	
