@@ -207,13 +207,20 @@ public final class AutoSSMetaData {
 				public static final AssetDescriptor<Button> CLEAR_BTN = declare("Clear", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:cmdButtonClear']"));
 				public static final AssetDescriptor<Button> CLOSE_BTN = declare("Close", Button.class, By.xpath("//div[@id = 'autoOtherPolicySearchPopup_header_controls']/child::img"));
 				public static final AssetDescriptor<StaticElement> ERROR_MESSAGE = declare("Error Message", StaticElement.class, By.xpath(".//span[@id='autoOtherPolicySearchForm:noResults']"));
-				//add "Submit" and "Result Table" locators.
 
-				//need to see results table and add it here
+				public static final AssetDescriptor<FillableTable> RESULT_TABLE = declare("Result Table", FillableTable.class, ResultsTableRows.class, By.xpath(".//table[@id=’ autoOtherPolicySearchForm:elasticSearchResponseTable’]"));
 
-				//Not sure about these buttons, they look strange.
-				public static final AssetDescriptor<Button> ADD_BTN = declare("Add", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:addHomeRenterCondo']"));
+				public static final AssetDescriptor<Button> ADD_SELECTED_BTN = declare("Submit", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:btnAddSelected']"));
 				public static final AssetDescriptor<Button> CANCEL_BTN = declare("Cancel", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:cmdButtonCancelHomeRenterCondo']"));
+
+				public static final class ResultsTableRows extends MetaData {
+					public static final AssetDescriptor<StaticElement> CUSTOMER_NAME_ADDRESS = declare("Customer Name/Address", StaticElement.class);
+					public static final AssetDescriptor<StaticElement> DATE_OF_BIRTH = declare("Date of Birth", StaticElement.class);
+					public static final AssetDescriptor<StaticElement> POLICY_TYPE = declare("Policy Type", StaticElement.class);
+					public static final AssetDescriptor<StaticElement> OTHER_AAA_PRODUCTS_POLICY_ADDRESS = declare("Other AAA Products/Policy Address", StaticElement.class);
+					public static final AssetDescriptor<StaticElement> STATUS = declare("Status", StaticElement.class);
+					public static final AssetDescriptor<CheckBox> SELECT = declare("Select", CheckBox.class);
+				}
 			}
 		}
 
@@ -803,6 +810,10 @@ public final class AutoSSMetaData {
 				declare("Has the customer expressed interest in purchasing the quote?", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> SALES_AGENT_AGREEMENT =
 				declare("Sales Agent Agreement", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:agentAgreesAAASSMvrOrClueReportDisclaimerComponent']"));
+
+		// Only needed when a CA license number is used for an SS policy
+		public static final AssetDescriptor<RadioGroup> SALES_AGENT_AGREEMENT_DMV = declare("Sales Agent Agreement DMV", RadioGroup.class, By.xpath(".//table[@id='policyDataGatherForm:sedit_AAASSDriverReportDisclosureComponent_disclosureAgrees']"));
+
 		public static final AssetDescriptor<Button> VALIDATE_DRIVING_HISTORY = declare("Validate Driving History", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:submitReports"));
 
 		public static final AssetDescriptor<FillableTable> ORDER_CLUE_REPORT =

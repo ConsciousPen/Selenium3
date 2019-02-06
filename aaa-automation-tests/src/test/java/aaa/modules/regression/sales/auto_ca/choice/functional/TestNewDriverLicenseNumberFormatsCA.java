@@ -45,10 +45,10 @@ public class TestNewDriverLicenseNumberFormatsCA extends AutoCaSelectBaseTest {
 	public void pas23888_NewLicenceNumberFormatMO(@Optional("CA") String state) {
 
 		// TestData for MO license policy
-		TestData policyTD1 = getPolicyTD().adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(),
-				AutoCaMetaData.DriverTab.LICENSE_STATE.getLabel()), "MO")
-				.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(),
-						AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel()), licenseNumberMO);
+		TestData policyTD1 = getPolicyTD()
+				.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.LICENSE_STATE.getLabel()), "MO")
+				.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel()), licenseNumberMO)
+				.mask(TestData.makeKeyPath(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
 
 		assertDriverLicenseNumberFormat(policyTD1, "AL", licenseNumberAL);
 	}
@@ -59,10 +59,10 @@ public class TestNewDriverLicenseNumberFormatsCA extends AutoCaSelectBaseTest {
 	public void pas23888_NewLicenceNumberFormatAL(@Optional("CA") String state) {
 
 		//TestData for AL license policy
-		TestData policyTD2 = getPolicyTD().adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(),
-				AutoCaMetaData.DriverTab.LICENSE_STATE.getLabel()), "AL")
-				.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(),
-						AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel()), licenseNumberAL);
+		TestData policyTD2 = getPolicyTD()
+				.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.LICENSE_STATE.getLabel()), "AL")
+				.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel()), licenseNumberAL)
+				.mask(TestData.makeKeyPath(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
 
 		assertDriverLicenseNumberFormat(policyTD2, "MO", licenseNumberMO);
 	}
