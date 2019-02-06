@@ -4,6 +4,8 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
+import aaa.common.components.MPDSearchTableElement;
+import aaa.common.components.MPDTableElement;
 import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
@@ -295,6 +297,11 @@ public class GeneralTab extends Tab {
 		return myStringArray;
 	}
 
+	/**
+	 *
+	 * @param index_RowToGet Index begins at 1.
+	 * @return
+	 */
 	public ArrayList<String> mpdTable_viewAllColumnDataByRow(int index_RowToGet) {
 		index_RowToGet = mpdIndexWatchDog(index_RowToGet);
 		ArrayList<String> myStringArray = new ArrayList<>();
@@ -305,6 +312,11 @@ public class GeneralTab extends Tab {
 		return myStringArray;
 	}
 
+	/**
+	 *
+	 * @param index_RowToGet Index begins at 1.
+	 * @return
+	 */
 	public ArrayList<String> mpdSearchTable_viewAllColumnDataByRow(int index_RowToGet) {
 		index_RowToGet = mpdIndexWatchDog(index_RowToGet);
 		ArrayList<String> myStringArray = new ArrayList<>();
@@ -315,6 +327,11 @@ public class GeneralTab extends Tab {
 		return myStringArray;
 	}
 
+	/**
+	 *
+	 * @param index_RowToGet Index begins at 1.
+	 * @return
+	 */
 	public MPDTableElement mpdTable_getTableRowAsObject(int index_RowToGet) {
 		index_RowToGet = mpdIndexWatchDog(index_RowToGet);
 		ArrayList<String> dataAsArray = mpdTable_viewAllColumnDataByRow(index_RowToGet);
@@ -325,6 +342,11 @@ public class GeneralTab extends Tab {
 		return _rowAsObject;
 	}
 
+	/**
+	 *
+	 * @param index_RowToGet Index begins at 1.
+	 * @return
+	 */
 	public MPDSearchTableElement mpdSearchResultsTable_getTableRowAsObject(int index_RowToGet){
 		index_RowToGet = mpdIndexWatchDog(index_RowToGet);
 		ArrayList<String> dataAsArray = mpdSearchTable_viewAllColumnDataByRow(index_RowToGet);
