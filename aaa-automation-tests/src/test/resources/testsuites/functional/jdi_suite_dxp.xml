@@ -334,6 +334,7 @@
         </classes>
     </test>
     <test thread-count="1024" name="DriverAssignmentExistsForState" parallel="methods">
+        <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesAssignments">
                 <methods>
@@ -865,6 +866,16 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="PIP Coverage MD" parallel="methods">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15361_viewPIPMD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="pas12942_GaragingAddressConsistencyDXP" parallel="methods">
         <parameter name="state" value="CT"/>
         <classes>
@@ -900,8 +911,8 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
-                    <include name="pas15265_WithUnderInsuredConversionCoverageCT"/>
-                    <include name="pas15265_WithOutUnderInsuredConversionCoverageCT"/>
+                    <include name="pas15265_WithUnderInsuredConversionCoverage"/>
+                    <include name="pas15265_WithOutUnderInsuredConversionCoverage"/>
                 </methods>
             </class>
         </classes>
@@ -1061,6 +1072,7 @@
                     <include name="pas23300_AAFPPAFormRFI"/>
                     <include name="pas23301_AA52UPAAFormRFI"/>
                     <include name="pas23301_AA52UPAAFormAddReplaceVehicleTriggerRFI"/>
+                    <include name="pas23302_AA52IPAAFormRFI"/>
                 </methods>
             </class>
         </classes>

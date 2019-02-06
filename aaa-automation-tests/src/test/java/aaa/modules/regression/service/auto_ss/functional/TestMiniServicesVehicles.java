@@ -689,11 +689,10 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 3. PendingAdd vehicle has no available actions
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.VA})
+	@StateList(states = {Constants.States.VA, Constants.States.NY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12175"})
 	public void pas12175_RemoveReplaceAllVehicles(@Optional("VA") String state) {
-
 		pas12175_RemoveReplaceAllVehiclesBody();
 	}
 

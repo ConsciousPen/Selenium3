@@ -25,6 +25,7 @@ public enum CoverageInfo {
 	PIP_OTHER_THAN_1530_DE("PIP", "Added Personal Injury Protection", CoverageLimits.COV_2550, AvailableCoverageLimits.PIP_DE, "Per Person/Per Accident"),
 	PIPDED_DE("PIPDED", "Personal Injury Protection Deductible", CoverageLimits.DED_0, AvailableCoverageLimits.PIPDED_DE, "Deductible"),
 	PIPDEDAPPTO_DE("PIPDEDAPPTO", "Personal Injury Protection Deductible Applies To", CoverageLimits.COV_PIPDEDAPPTO_NIO, AvailableCoverageLimits.COV_PIPDEDAPPTO_DE),
+	PIP_MD("PIP", "Personal Injury Protection", CoverageLimits.COV_PIP_2500_GUEST, AvailableCoverageLimits.COV_PIP_MD, "Per Person"),
 	WLB_UT("WLB", "Rejection of Work Loss Benefit", CoverageLimits.COV_FALSE, AvailableCoverageLimits.WLB_UT),
 	INCOMELOSS_OR("WORKLOSS", "Income Loss", CoverageLimits.COV_3000, null, "Per Month/Max 52 Weeks"),
 	CHILDEXP_OR("CHILDEXP", "Childcare Expenses", CoverageLimits.COV_25, null, "Per Day/$750 Max"),

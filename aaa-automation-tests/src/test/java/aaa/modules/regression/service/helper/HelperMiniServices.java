@@ -3,6 +3,8 @@ package aaa.modules.regression.service.helper;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
@@ -95,7 +97,11 @@ public class HelperMiniServices extends PolicyBaseTest {
 	}
 
 	public void bindEndorsementWithCheck(String policyNumber) {
-		PolicySummary bindResponse = HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
+		//When Binding, Sign all Required To Bind (RFI) documents if they exist
+		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);//TODO-mstrazds: change generateDocs to true when devs finish teck story for lookup update in Sprint 48
+		List<String> listOfDocIDs = rfiServiceResponse.documents.stream().map(doc -> doc.documentId).collect(Collectors.toList());
+		PolicySummary bindResponse = HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode(), listOfDocIDs);
+
 		assertThat(bindResponse.bindDate).isNotEmpty();
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -134,11 +140,5 @@ public class HelperMiniServices extends PolicyBaseTest {
 			assertThat(orderReportErrorResponse.validations).isEmpty();
 		}
 		return orderReportErrorResponse;
-	}
-	public void rateAndBindWithRfi(String policyNumber) {
-		rateEndorsementWithCheck(policyNumber);
-		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, true);
-		String doccId = rfiServiceResponse.documents.get(0).documentId;
-		HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), doccId);
 	}
 }
