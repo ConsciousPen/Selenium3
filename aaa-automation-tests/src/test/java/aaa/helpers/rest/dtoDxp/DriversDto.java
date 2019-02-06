@@ -97,19 +97,6 @@ public class DriversDto implements RestBodyRequest {
 	@ApiModelProperty(value = "Available Actions for driver")
 	public List<String> availableActions;
 
-	@ApiModelProperty(value = "Available Coverages for driver", readOnly = true)
-	public List<String> availableCoverages;
-
-	@ApiModelProperty(value = "Death and Specific Disability Coverage?", example = "true")
-	public Boolean specificDisabilityInd;
-
-	@ApiModelProperty(value = "Total Disability Coverage?", example = "true")
-	public Boolean totalDisabilityInd;
-
-	@ApiModelProperty(value = "ADB Coverage?", example = "true")
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public Boolean adbCoverageInd;
-
 	@ApiModelProperty(value = "List of driver related validation errors", readOnly = true)
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	@JsonInclude(JsonInclude.Include.NON_NULL)

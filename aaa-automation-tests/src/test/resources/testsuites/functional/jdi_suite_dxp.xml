@@ -60,7 +60,6 @@
                     <include name="pas14475_NameInsuredMaritalStatusDSS"/>
                     <include name="pas14475_NameInsuredMaritalStatus"/>
                     <include name="pas15513_ViewDriverRemoveDriverIndicator"/>
-                    <include name="pas17641_MetaDataServiceDriverAddADB"/>
                 </methods>
             </class>
         </classes>
@@ -334,6 +333,7 @@
         </classes>
     </test>
     <test thread-count="1024" name="DriverAssignmentExistsForState" parallel="methods">
+        <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesAssignments">
                 <methods>
@@ -865,6 +865,16 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="PIP Coverage MD" parallel="methods">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15361_viewPIPMD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="pas12942_GaragingAddressConsistencyDXP" parallel="methods">
         <parameter name="state" value="CT"/>
         <classes>
@@ -900,8 +910,8 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
-                    <include name="pas15265_WithUnderInsuredConversionCoverageCT"/>
-                    <include name="pas15265_WithOutUnderInsuredConversionCoverageCT"/>
+                    <include name="pas15265_WithUnderInsuredConversionCoverage"/>
+                    <include name="pas15265_WithOutUnderInsuredConversionCoverage"/>
                 </methods>
             </class>
         </classes>
@@ -926,12 +936,21 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="BI and UMBI canChangeCoverage - PD and UMPD canChangeCoverage" parallel="methods">
+    <test thread-count="1024" name="BI and UMBI canChangeCoverage" parallel="methods">
         <parameter name="state" value="VA, KS, WV"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas21363_BIAndUMBIAndCanChangeTrue"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="PD and UMPD canChangeCoverage" parallel="methods">
+        <parameter name="state" value="VA, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
                     <include name="pas21364_PDAndUMPDandCanChangeTrue"/>
                 </methods>
             </class>
@@ -1053,6 +1072,16 @@
                     <include name="pas23301_AA52UPAAFormRFI"/>
                     <include name="pas23301_AA52UPAAFormAddReplaceVehicleTriggerRFI"/>
                     <include name="pas23302_AA52IPAAFormRFI"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="NJ Coverages" parallel="methods">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas19127_BIAndUMBIAndCanChangeTrue"/>
                 </methods>
             </class>
         </classes>

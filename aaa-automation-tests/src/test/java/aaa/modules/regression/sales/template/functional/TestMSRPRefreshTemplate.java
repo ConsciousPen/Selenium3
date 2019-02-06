@@ -446,3 +446,4 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		DBService.get().executeUpdate(UPDATE_SELECT_VEHICLEREFDATAVINCONTROL_BY_MSRP_VERSION);
 	}
 }
+

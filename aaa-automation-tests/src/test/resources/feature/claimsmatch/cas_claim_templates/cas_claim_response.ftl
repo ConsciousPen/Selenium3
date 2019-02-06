@@ -37,10 +37,14 @@
                             <AAANCNU_Common_version1:currencyCode>${claim.claimDeductibleCurrencyCode}</AAANCNU_Common_version1:currencyCode>
                         </bcr:claimDeductible>
                         <bcr:subroFlag>${claim.subroFlag}</bcr:subroFlag>
+                        <#if claim.totalAmountPaid?has_content>
                         <bcr:totalAmountPaid>
                             <AAANCNU_Common_version1:amount>${claim.totalAmountPaid}</AAANCNU_Common_version1:amount>
                             <AAANCNU_Common_version1:currencyCode>${claim.totalAmountPaidCurrencyCode}</AAANCNU_Common_version1:currencyCode>
                         </bcr:totalAmountPaid>
+                        <#else>
+                        <bcr:totalAmountPaid/>
+                        </#if>
                         <bcr:driverInformation>
                             <bcr:driverName>${claim.driverName}</bcr:driverName>
                             <bcr:drivingLicenseNumber>${claim.drivingLicenseNumber}</bcr:drivingLicenseNumber>
@@ -49,7 +53,7 @@
                             <bcr:driverDateofBirth>${claim.driverDateofBirth}</bcr:driverDateofBirth>
                             <bcr:driverRelationToInsured>${claim.driverRelationToInsured}</bcr:driverRelationToInsured>
                             <#if claim.permissiveUse?has_content>
-                                <bcr:PermissiveUse>${claim.permissiveUse}</bcr:PermissiveUse>
+                            <bcr:PermissiveUse>${claim.permissiveUse}</bcr:PermissiveUse>
                             </#if>
                         </bcr:driverInformation>
                         <bcr:vehicleInformation>

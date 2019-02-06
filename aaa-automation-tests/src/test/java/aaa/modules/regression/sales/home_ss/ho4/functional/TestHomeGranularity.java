@@ -14,6 +14,7 @@ import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.AZ)
@@ -31,11 +32,18 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     @Override
     protected Tab getPremiumAndCoveragesQuoteTab(){return new PremiumsAndCoveragesQuoteTab();}
 
+    private TestData getTDAddressChange() {
+        return getTestSpecificTD("TestData_ChangeAddress");
+    }
+
     private String zipCode = HomeGranularityConstants.EADS_MOCK_ZIPCODE_AZ;
     private String address = HomeGranularityConstants.EADS_MOCK_ADDRESS_AZ;
     private String censusBlock = HomeGranularityConstants.EADS_MOCK_CENSUS_BLOCK_AZ;
     private String latitude = HomeGranularityConstants.EADS_MOCK_LATITUDE_AZ;
     private String longitude = HomeGranularityConstants.EADS_MOCK_LONGITUDE_AZ;
+    private String avsMockCensusBlock = HomeGranularityConstants.MOCK_CENSUS_BLOCK_AZ;
+    private String avsMockLatitude = HomeGranularityConstants.MOCK_LATITUDE_AZ;
+    private String avsMockLongitude = HomeGranularityConstants.MOCK_LONGITUDE_AZ;
 
     /**
      * @name test: Capture Census Block Group, Latitude and Longitude when address is validated
@@ -49,9 +57,9 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
      */
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-XXXXX")
-    public void pas23235_validateCensusBlockGroupAndLatLong(@Optional("AZ") String state) {
-        validateCensusBlockGroupAndLatLong();
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-24138")
+    public void pas24138_validateCensusBlockGroupAndLatLong(@Optional("AZ") String state) {
+        validateCensusBlockGroupAndLatLong(avsMockCensusBlock, avsMockLatitude, avsMockLongitude,false);
     }
 
     /**
@@ -72,4 +80,20 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
         validateCensusBlockGroupAndLatLongFromEADS(zipCode, address, censusBlock, latitude, longitude);
     }
 
+    /**
+     * @name test: ReCapture Latitude and Longitude (after validating address)Census Block Group(e.g. after Calculating Premium) when address changed during Endorsement
+     * @scenario
+     * 1. Create policy
+     * 2. Initiate Endorsement. Change address on Applicant Tab
+     * 3. Validate address and continue up to Premium & Coverages Tab and Calculate Premium
+     * 4. Verify lat/long and census block are refreshed in the db
+     *
+     * @details  **** TO UNCOMMENT WHEN SS HO4 ENDORSEMENT STORY IS COMPLETE *********
+     */
+   /* @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-xxxxx")
+    public void pas23218_riskAddressChangeDuringEndorsement(@Optional("AZ") String state) {
+        riskAddressChangeDuringEndorsement(getTDAddressChange());
+    }*/
 }
