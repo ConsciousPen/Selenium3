@@ -135,7 +135,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 		createCustomerIndividual();
 		policy.initiate();
 		String membershipPendingKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
-		TestData membershipPendingTD = getTestSpecificTD("AAAProductOwned_Pending");
+		TestData membershipPendingTD = getTestSpecificTD("AAAMembership_Pending");
 		TestData td = getPolicyDefaultTD().adjust(membershipPendingKey, membershipPendingTD);
 		policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesTab.class, true);
 		verifyRestrictedAndUnrestrictedPaymentPlans();
@@ -160,7 +160,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 		createCustomerIndividual();
 		policy.initiate();
 		String membershipNoKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
-		TestData membershipNoTD = getTestSpecificTD("AAAProductOwned_No");
+		TestData membershipNoTD = getTestSpecificTD("AAAMembership_No");
 		TestData td = getPolicyDefaultTD().adjust(membershipNoKey, membershipNoTD);
 		policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesTab.class, true);
 		verifyRestrictedPaymentPlans();
@@ -185,7 +185,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 		createCustomerIndividual();
 		policy.initiate();
 		String membershipOverrideKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
-		TestData membershipOverrideTD = getTestSpecificTD("AAAProductOwned_Override");
+		TestData membershipOverrideTD = getTestSpecificTD("AAAMembership_Override");
 		TestData td = getPolicyDefaultTD().adjust(membershipOverrideKey, membershipOverrideTD);
 		policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesTab.class, true);
 		verifyAllPayPlansAvailable();
@@ -235,7 +235,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 		createCustomerIndividual();
 		policy.initiate();
 		String membershipOverrideKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
-		TestData membershipOverrideTD = getTestSpecificTD("AAAProductOwned_Override");
+		TestData membershipOverrideTD = getTestSpecificTD("AAAMembership_Override");
 		String minimumBIKey = TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName());
 		TestData minimumBITD = getTestSpecificTD("PremiumAndCoveragesTab_Minimum");
 		TestData td = getPolicyDefaultTD().adjust(membershipOverrideKey, membershipOverrideTD).adjust(minimumBIKey, minimumBITD);
@@ -262,7 +262,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 		createCustomerIndividual();
 		policy.initiate();
 		String membershipPendingKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
-		TestData membershipPendingTD = getTestSpecificTD("AAAProductOwned_Pending");
+		TestData membershipPendingTD = getTestSpecificTD("AAAMembership_Pending");
 		String currentCarrierKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel());
 		TestData currentCarrierTD = getTestSpecificTD("CurrentCarrierInformation_No");
 		TestData td = getPolicyDefaultTD().adjust(membershipPendingKey, membershipPendingTD).adjust(currentCarrierKey,currentCarrierTD);
@@ -289,7 +289,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 		createCustomerIndividual();
 		policy.initiate();
 		String membershipPendingKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
-		TestData membershipPendingTD = getTestSpecificTD("AAAProductOwned_Pending");
+		TestData membershipPendingTD = getTestSpecificTD("AAAMembership_Pending");
 		String minimumBIKey = TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName());
 		TestData minimumBITD = getTestSpecificTD("PremiumAndCoveragesTab_Minimum");
 		TestData td = getPolicyDefaultTD().adjust(membershipPendingKey, membershipPendingTD).adjust(minimumBIKey,minimumBITD);

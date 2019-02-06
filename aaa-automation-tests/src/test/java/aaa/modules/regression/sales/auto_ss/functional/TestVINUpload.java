@@ -6,10 +6,9 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import com.google.common.collect.ImmutableMap;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -198,10 +197,17 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
+		//List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
+		Map<String, String> pas2712Values = ImmutableMap.of(
+				"BI Symbol", "BI047",
+				"PD Symbol", "PD043",
+				"UM Symbol", "UM061",
+				"MP Symbol", "MP061"
+		);
+		Set<String> pas2712Fields = pas2712Values.keySet(); //("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol")
 		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
 		// PAS-7345 Update "individual VIN retrieval" logic to get liab symbols instead of STAT/Choice Tier
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase("AX"));
+		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase(pas2712Values.get(f)));
 
 		PremiumAndCoveragesTab.RatingDetailsView.close();
 		// End PAS-2714 Renewal Update Vehicle
@@ -232,7 +238,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 		uploadToVINTableTab.uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.REFRESHABLE_VIN_RESET_ORIGINAL.get()));
-
 	}
 
 	/**
@@ -338,7 +343,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
 
-		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN4.get());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.STATCODE_VIN_REFERSH_RENEWAL.get());
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN4)
@@ -635,7 +640,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), SUBSEQUENT_RENEWAL_35);
-		String controlTableR35 = vinMethods.getControlTableFile();
 		String vinTableR35 = vinMethods.getSpecificUploadFile(VinUploadFileType.SUBSEQUENT_RENEWAL_35.get());
 
 		//1. Create a policy with VIN matched data and save the expiration data
@@ -644,11 +648,10 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//2. Upload Updated VIN Data for utilized VIN
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		uploadToVINTableTab.uploadFiles(controlTableR35, vinTableR35);
+		uploadToVINTableTab.uploadVinTable(vinTableR35);
 
 		//3. Move to R-35 and generate automated renewal image. Retrieve policy and verify VIN data
 		// DID refresh
-
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 		verifyVinRefreshWhenVersionIsNotCurrent(policyNumber, policyExpirationDate.minusDays(35), softly);
 		softly.close();
@@ -673,7 +676,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN4);
-		String controlTableR45 = vinMethods.getControlTableFile();
 		String vinTableR45 = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN4.get());
 		//1. Create a policy
 		String policyNumber = createPreconds(testData);
@@ -689,7 +691,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		//3. Upload Updated VIN Data
 		adminApp().open();
-		uploadToVINTableTab.uploadFiles(controlTableR45, vinTableR45);
+		uploadToVINTableTab.uploadVinTable(vinTableR45);
 		/*
 		 * Automated Renewal R-25
 		 */
@@ -723,7 +725,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN7);
 
-		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN7.get());
+		String vinRefreshOnRenewal35 = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN7.get());
 		/*
 		 * Automated Renewal R-35
 		 */
@@ -733,7 +735,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		uploadToVINTableTab.uploadVinTable(pas2716VinTableFileName);
+		uploadToVINTableTab.uploadVinTable(vinRefreshOnRenewal35);
 		verifyAutomatedRenewal(NEW_VIN7, policyNumber, policyExpirationDate.minusDays(35));
 	}
 
@@ -978,27 +980,21 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 	@AfterClass(alwaysRun = true)
 	protected void resetDefault() {
-		List<String> listOfVinNumbers = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6, NEW_VIN7, NEW_VIN8, SUBSEQUENT_RENEWAL_35, SUBSEQUENT_RENEWAL_45, SUBSEQUENT_RENEWAL_46, NEW_VIN10);
+		List<String> listOfVinNumbers = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6,
+				NEW_VIN7, NEW_VIN8, SUBSEQUENT_RENEWAL_35, SUBSEQUENT_RENEWAL_45, SUBSEQUENT_RENEWAL_46, NEW_VIN10);
+		List<String> vinList2017 = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5,
+				NEW_VIN7, SUBSEQUENT_RENEWAL_35, SUBSEQUENT_RENEWAL_45,SUBSEQUENT_RENEWAL_46, NEW_VIN10);
 		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinNumbers, DefaultVinVersions.DefaultVersions.SignatureSeries);
-		// pas533_newVinAdded
-		// NewVIN_UT_SS.xlsx
-		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(NEW_VIN), SYMBOL_2017);
-		// pas2714_Endorsement
-		// New3VIN_UT_SS.xlsx
-		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(NEW_VIN3), SYMBOL_2017);
-		// pas11659_Renewal_VersionR45
-		// New2VIN_UT_SS.xlsx
-		// R45VIN_UT_SS.xlsx
-		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(NEW_VIN2), SYMBOL_2017);
-
+		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(vinList2017, SYMBOL_2017);
 		DBService.get().executeUpdate(String.format(VehicleQueries.REPAIR_COLLCOMP, "7MSRP15H%V"));
 		DBService.get().executeUpdate(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE);
 		//PartialMatchNewQuote_UT_SS.xlsx
 		//pas12872_VINRefreshPartialMatchUnboundQuote
 		DBService.get().executeUpdate(String.format("Delete FROM Vehiclerefdatavin WHERE VIN like '%s' and BI_Symbol IN ('BI001','BI002')","1G1ZJ5SU%G"));
-
-		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1", "3FADP4BE%H", "SYMBOL_2000", "FORD");
-		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("3FADP4BE%H", "FORD MOTOR");
+		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("19XFB5F5&C", "TEST");
+		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1", "3FADP4BE&H", "SYMBOL_2000", "FIESTA");
+		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1", "3FADP4BE&H", "SYMBOL_2017", "FIESTA");
+		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("3FADP4BE&H", "FORD MOTOR");
 		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("1J2WW12P&5", "MDX");
 	}
 }

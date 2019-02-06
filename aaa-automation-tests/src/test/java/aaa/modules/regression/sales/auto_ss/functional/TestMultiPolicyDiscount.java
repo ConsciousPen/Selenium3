@@ -4,12 +4,19 @@ import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.ErrorEnum;
+import toolkit.utils.screenshots.ScreenshotManager;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -18,10 +25,8 @@ import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.waiters.Waiters;
-
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -34,10 +39,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     public enum mpdPolicyType{
         home, renters, condo, life, motorcycle
     }
-    GeneralTab _generalTab = new GeneralTab();
-    ErrorTab _errorTab = new ErrorTab();
-    PremiumAndCoveragesTab _pncTab = new PremiumAndCoveragesTab();
-    DocumentsAndBindTab _documentsAndBindTab = new DocumentsAndBindTab();
+    private GeneralTab _generalTab = new GeneralTab();
+    private ErrorTab _errorTab = new ErrorTab();
+    private PremiumAndCoveragesTab _pncTab = new PremiumAndCoveragesTab();
+    private DocumentsAndBindTab _documentsAndBindTab = new DocumentsAndBindTab();
 
     /**
      * Make sure various combos of Unquoted Other AAA Products rate properly and are listed in the UI
@@ -136,8 +141,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Rate SS Auto with Quoted/Unquoted Products")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23983")
-    public void pas_21481_MPD_Unquoted_Companion_Product_AC2_AC3_Test1(@Optional("") String state) {
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-21481")
+    public void pas_21481_MPD_Unquoted_Companion_Product_AC2_AC3(@Optional("") String state) {
 
         // Step 1
         TestData testData = getPolicyTD();
@@ -152,7 +157,9 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         refreshButton.click(Waiters.AJAX);
 
-        // Step 3
+        // Step 3:
+        // Note: If following fails on first assert, validate hitting refresh comes back with
+        // Home, Renters, and Condo policies. If not, check test pre-reqs have been met.
         assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isFalse();
         assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).isEnabled()).isFalse();
         assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).isEnabled()).isFalse();
@@ -175,6 +182,76 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isTrue();
         assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).isEnabled()).isTrue();
         assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).isEnabled()).isTrue();
+    }
+
+    /**
+     * This tests that when unquoted HO policies are checked, that refresh button returned policies replace them in the table and
+     * the unquoted options for those become disabled.
+     * @param state the test will run against.
+     * @scenario
+     * Prereqs: enterpriseSearchService.enterpriseCustomersSearchUri setup to return all 3 homeowner types on refresh.
+     * 1. Using standard test data, create customer, start auto quote, fill up to general tab with default data.
+     * 2. Check unquoted Home, Condo, and Renters.
+     * 3. Click the refresh button.
+     * 4. Verify the the MDM returned policies replace the unquoted options. (Based on prereqs, should be all HO)
+     * 5. Verify the checkboxes are disabled for Home, Renters, and Condo.
+     * @author Brian Bond - CIO
+     */
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Rate SS Auto with Quoted/Unquoted Products")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-21481")
+    public void pas_21481_MPD_Unquoted_Companion_Product_AC5(@Optional("") String state) {
+
+        // Step 1
+        TestData testData = getPolicyTD();
+
+        // Create customer and move to general tab. //
+        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
+
+        // Step 2
+        setUnquotedCheckbox(mpdPolicyType.home, true);
+        setUnquotedCheckbox(mpdPolicyType.renters, true);
+        setUnquotedCheckbox(mpdPolicyType.condo, true);
+
+        // Step 3
+        Button refreshButton = _generalTab.getOtherAAAProductOwnedAssetList().getAsset(
+                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getLabel(),
+                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getControlClass());
+
+        refreshButton.click(Waiters.AJAX);
+
+        // Step 4
+        String policyTypeMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
+        String policyStatusMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.STATUS.getLabel();
+
+        // Find row matching policyType, then pull the status cell out of it to assert on.
+        String homeStatusColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
+                policyTypeMetaDataLabel,mpdPolicyType.home.toString())
+                .getCell(policyStatusMetaDataLabel)
+                .getValue();
+
+        String rentersStatusColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
+                policyTypeMetaDataLabel,mpdPolicyType.renters.toString())
+                .getCell(policyStatusMetaDataLabel)
+                .getValue();
+
+        String condoStatusColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
+                policyTypeMetaDataLabel,mpdPolicyType.condo.toString())
+                .getCell(policyStatusMetaDataLabel)
+                .getValue();
+
+        // Note: If following fails on first assert with Actual:"UNQUOTED", validate hitting refresh comes back with
+        // Home, Renters, and Condo policies. If not, check test pre-reqs have been met.
+
+        // Unquoted show up as UNQUOTED status. All should be ACTIVE if came from Refresh button.
+        assertThat(homeStatusColumnValue).isEqualTo("ACTIVE");
+        assertThat(rentersStatusColumnValue).isEqualTo("ACTIVE");
+        assertThat(condoStatusColumnValue).isEqualTo("ACTIVE");
+
+        // Step 5
+        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isFalse();
+        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).isEnabled()).isFalse();
+        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).isEnabled()).isFalse();
     }
 
     /**
@@ -383,7 +460,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      */
     private void addMPDAndRerate(String in_newPolicyType, String in_newPolicyNumber){
         // Change MPD Policy and Attempt to Purchase
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());_generalTab.mpd_SearchAndAddManually(in_newPolicyType, in_newPolicyNumber);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        _generalTab.mpd_SearchAndAddManually(in_newPolicyType, in_newPolicyNumber);
         doRerate();
     }
 
@@ -431,18 +509,137 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
-    public void pas24729_MPD_ValidateEligibilityRuleFires(@Optional("") String state) {
+    public void pas24729_MPD_ValidateEligibilityRuleFires_Home(@Optional("") String state) {
+        doMPDEligibilityTest("Home");
+    }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    public void pas24729_MPD_ValidateEligibilityRuleFires_Life(@Optional("") String state) {
+        doMPDEligibilityTest("Life");
+    }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    public void pas24729_MPD_ValidateEligibility_MidTerm_Renters(@Optional("") String state) {
+        doMPDEligibilityTest_MidTerm(false, "Renters");
+    }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    public void pas24729_MPD_ValidateEligibility_MidTermFlat_Condo(@Optional("") String state) {
+        doMPDEligibilityTest_MidTerm(true, "Condo");
+    }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    public void pas24729_MPD_ValidateEligibility_MidTerm_Motorcycle(@Optional("") String state) {
+        doMPDEligibilityTest_MidTerm(false, "Motorcycle");
+    }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    public void pas24729_MPD_ValidateEligibility_MidTermFlat_Motorcycle(@Optional("") String state) {
+        doMPDEligibilityTest_MidTerm(true, "Motorcycle");
+    }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    public void pas24729_MPD_ValidateEligibility_Renewal_Home(@Optional("") String state) {
+        doMPDEligibilityTest_Renewal("Home");
+    }
+
+    private void doMPDEligibilityTest(String in_policyType){
         // Using default test data.
         TestData testData = getPolicyTD();
 
         // Add MPD Element manually (after no results found)
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-        _generalTab.mpd_SearchAndAddManually("Home", "NOT_FOUND");
+        _generalTab.mpd_SearchAndAddManually(in_policyType, "NOT_FOUND");
+        //doScreenshot("DoMPDEligibilityTest", in_policyType, "AddedMPD");
 
         // Continue towards purchase of quote.
+        policy.getDefaultView().fillFromTo(testData, GeneralTab.class, DocumentsAndBindTab.class, true);
+        _documentsAndBindTab.btnPurchase.click();
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
-        // Will most likely be a new error message that requires metadata.
+        //doScreenshot("DoMPDEligibilityTest", in_policyType, "ErrorValidation");
+        if (!in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
+            new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.MPD_COMPANION_VALIDATION);
+        }else {
+            CustomAssertions.assertThat(Page.dialogConfirmation.isPresent());
+        }
     }
 
+    private void doMPDEligibilityTest_MidTerm(Boolean bFlatEndorsement, String in_policyType){
+        // Create Policy and Initiate Endorsement
+        TestData td = getPolicyDefaultTD();
+        mainApp().open();
+        createCustomerIndividual();
+        createPolicy(td);
+
+        if (bFlatEndorsement){
+            policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        }else{
+            policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
+        }
+
+        _generalTab.mpd_SearchAndAddManually(in_policyType, "NOT_FOUND");
+        //doScreenshot("DoMPDEligibilityTest_MidTerm", in_policyType, "AddedMPD");
+        policy.getDefaultView().fillFromTo(getPolicyTD("Endorsement", "TestData_Empty_Endorsement"), GeneralTab.class, DocumentsAndBindTab.class, true);
+        _documentsAndBindTab.btnPurchase.click();
+        Page.dialogConfirmation.buttonYes.click();
+
+        // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
+        //doScreenshot("DoMPDEligibilityTest_MidTerm", in_policyType, "ErrorValidation");
+        if (!in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
+            new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.MPD_COMPANION_VALIDATION);
+        }else {
+            CustomAssertions.assertThat(PolicySummaryPage.labelPolicyNumber.isPresent());
+        }
+    }
+
+    private void doMPDEligibilityTest_Renewal(String in_policyType){
+        // Create Policy
+        TestData td = getPolicyDefaultTD();
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createPolicy(td);
+        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        LocalDateTime _renewalImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
+        mainApp().close();
+
+        // Advance JVM to Image Creation Date
+        TimeSetterUtil.getInstance().nextPhase(_renewalImageGenDate);
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+        JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
+
+        // Go to Policy and Open Renewal Image
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        PolicySummaryPage.buttonRenewals.click();
+
+        // In Renewal Image, Add MPD Element and Bind
+        _generalTab.mpd_SearchAndAddManually(in_policyType, "NOT_FOUND");
+        policy.getDefaultView().fillFromTo(getPolicyTD("Endorsement", "TestData_Empty_Endorsement"), GeneralTab.class, DocumentsAndBindTab.class, true);
+        _documentsAndBindTab.btnPurchase.click();
+        Page.dialogConfirmation.buttonYes.click();
+
+        // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
+        if (!in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
+            new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.MPD_COMPANION_VALIDATION);
+        }else {
+            CustomAssertions.assertThat(PolicySummaryPage.labelPolicyNumber.isPresent());
+        }
+    }
+
+    private void doScreenshot(String testName, String fileName, String extraNotes){
+        ScreenshotManager.getInstance().makeScreenshot(String.format("%s_%s_%s", testName, fileName, extraNotes));
+    }
 }

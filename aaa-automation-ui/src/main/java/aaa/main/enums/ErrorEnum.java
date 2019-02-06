@@ -7,6 +7,7 @@ public final class ErrorEnum {
 	public enum Errors {
 
 		ERROR_POLICY_NOT_RATED("Unprepared data", "Cannot issue policy which was not rated!"),
+		MPD_COMPANION_VALIDATION("MPD_COMPANION_VALIDATION", "Policy cannot be bound with a Home companion policy that is not system validated."),
 		ERROR_200127("200127", "The selected pay plan is not allowed when Membership is \"\"No\"\". Please choose a plan with a minimum down payment of 50% or greater. Do not select 'refer for approval.' Any exceptions to this rule must be discussed directly with Service. (200127) [for ExistingPolicies.existingMembershipCd]"),
 		ERROR_200103("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
 		ERROR_200104("200104", "Driver with 2 or more At-fault accidents are unacceptable (200104) [for Drive..."),
@@ -84,12 +85,14 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_SS7160042("AAA_HO_SS7160042", "Applicants who have been cancelled, refused insurance or non-renewed in the p..."),
 		ERROR_AAA_HO_SS11120040("AAA_HO_SS11120040", "Dwellings built prior to 1900 are ineligible."),
 		ERROR_AAA_HO_SS3282256("AAA_HO_SS3282256", "Dwellings built prior to 1940 must have all four major systems fully renovated."),
+		ERROR_AAA_HO_SS2103528("AAA_HO_SS2103528", "Dwellings built prior to 1940 must have all four major systems fully renovated."),
 		ERROR_AAA_HO_SS1100204("AAA_HO_SS1100204", "Proof of plumbing, electrical, heating/cooling system and roof renovations is..."),
 		ERROR_AAA_HO_SS3200008("AAA_HO_SS3200008", "Risks with more than 3 horses or 4 livestock are unacceptable."),
 		ERROR_AAA_HO_SS3195184("AAA_HO_SS3195184", "Risks with more than 3 horses or 4 livestock are unacceptable."),
 		ERROR_AAA_HO_SS12141800("AAA_HO_SS12141800", "Underwriting approval required. Primary home of the applicant is not insured ..."),
 		ERROR_AAA_HO_SS1160000("AAA_HO_SS1160000", "Coverage A greater than 120% of replacement cost requires underwriting approval."),
 		ERROR_AAA_HO_SS1162304("AAA_HO_SS1162304", "Coverage A greater than $1,000,000 requires underwriting approval."),
+		ERROR_AAA_HO_SS1162304_MD("AAA_HO_SS1162304_MD", "Coverage A greater than $2,000,000 requires underwriting approval."),
 		ERROR_AAA_HO_SS4250648("AAA_HO_SS4250648", "Coverage B must be less than 50% of Coverage A to bind."),
 		ERROR_AAA_HO_SS3281224("AAA_HO_SS3281224", "Coverage B cannot exceed Coverage A."),
 		ERROR_AAA_HO_SS3280000_1("AAA_HO_SS3280000_1", "Dwellings with more than 2 detached building structures rented to others on t..."),

@@ -522,8 +522,6 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
     }
 
     private void openRatingDetails(){
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-        NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
         premiumAndCoveragesQuoteTab.calculatePremium();
         PropertyQuoteTab.RatingDetailsViewPUP.open();
     }

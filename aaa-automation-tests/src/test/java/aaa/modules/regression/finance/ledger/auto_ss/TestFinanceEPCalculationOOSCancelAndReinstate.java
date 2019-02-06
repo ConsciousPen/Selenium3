@@ -80,8 +80,8 @@ public class TestFinanceEPCalculationOOSCancelAndReinstate extends FinanceOperat
 		searchForPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 
-		assertThat(LedgerHelper.getEndingActualPremium(policyNumber))
-				.isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
+		assertThat(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)))
+				.isEqualTo(LedgerHelper.getEndingActualPremium(policyNumber));
 
 		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE, TxType.OOS_CANCEL, TxType.REINSTATE);
 		validateEPCalculations(policyNumber, txTypes, today, expirationDate);
