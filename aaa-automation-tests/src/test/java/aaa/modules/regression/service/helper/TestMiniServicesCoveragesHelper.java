@@ -1643,7 +1643,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		softly.assertThat(coverageWithSubCoveragesActual).isEqualTo(orderOfCoveragesExpected);
 	}
 
-	protected void pas14646_UimDelimiter(String state, ETCSCoreSoftAssertions softly) {
+	protected void pas14646_UimDelimiter(ETCSCoreSoftAssertions softly) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		SearchPage.openPolicy(policyNumber);
@@ -1651,12 +1651,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class);
-		Coverage filteredPolicyCoverageResponse = policyCoverageResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		Coverage filteredPolicyCoverageResponse = findPolicyCoverage(policyCoverageResponse, "UMBI");
 		softly.assertThat(filteredPolicyCoverageResponse.getCoverageType()).isEqualTo("Per Person/Per Accident");
 		softly.assertThat(filteredPolicyCoverageResponse.getAvailableLimits().size()).isNotEqualTo(0);
 
 		PolicyCoverageInfo coverageEndorsementResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
-		Coverage filteredCoverageEndorsementResponse = coverageEndorsementResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		Coverage filteredCoverageEndorsementResponse = findPolicyCoverage(coverageEndorsementResponse, "UMBI");
 		softly.assertThat(filteredCoverageEndorsementResponse.getCoverageType()).isEqualTo("Per Person/Per Accident");
 		softly.assertThat(filteredPolicyCoverageResponse.getAvailableLimits().size()).isNotEqualTo(0);
 
@@ -3601,27 +3601,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(findCoverage(coverages, towinglabor.getCoverageCd())).isEqualToComparingFieldByField(towinglabor);
 			softly.assertThat(findCoverage(coverages, specequip.getCoverageCd())).isEqualToComparingFieldByField(specequip);
 		}
-	}
-
-	private PolicyCoverageInfo updateCoverage(String policyNumber, Coverage updateData) {
-		return HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(updateData.getCoverageCd(),
-				updateData.getCoverageLimit()), PolicyCoverageInfo.class);
-	}
-
-	private Coverage findPolicyCoverage(PolicyCoverageInfo policyCoverageInfo, String coverageCd) {
-		return policyCoverageInfo.policyCoverages.stream()
-				.filter(cov -> coverageCd.equals(cov.getCoverageCd()))
-				.findFirst()
-				.orElse(null);
-	}
-
-	private Coverage findVehicleCoverage(PolicyCoverageInfo policyCoverageInfo, String coverageCd, String oid) {
-		return policyCoverageInfo.vehicleLevelCoverages.stream()
-				.filter(cov -> oid.equals(cov.oid))
-				.flatMap(cov -> cov.coverages.stream())
-				.filter(cov -> coverageCd.equals(cov.getCoverageCd()))
-				.findFirst()
-				.orElse(null);
 	}
 
 	protected void pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(String state, PolicyType policyType, boolean runOnMotorHome) {
@@ -5781,6 +5760,74 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	}
 
+	protected void pas15288_ViewUpdateCoveragePIPCoverageBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		Coverage pipMedicalExpected = Coverage.create(CoverageInfo.PIPMEDICAL_DC);
+		Coverage pipWorkLossExpected = Coverage.create(CoverageInfo.PIPWORKLOSS_DC);
+		Coverage pipFuneralExpected = Coverage.create(CoverageInfo.PIPFUNERAL_DC);
+
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		assertSoftly(softly -> {
+			Coverage pipMedicalActual = findCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIPMEDICAL_DC.getCode());
+			Coverage pipWorklossActual = findCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIPWORKLOSS_DC.getCode());
+			Coverage pipFuneralActual = findCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIPFUNERAL_DC.getCode());
+
+			assertThat(pipMedicalActual).isEqualToIgnoringGivenFields(pipMedicalExpected);
+			assertThat(pipWorklossActual).isEqualToIgnoringGivenFields(pipWorkLossExpected);
+			assertThat(pipFuneralActual).isEqualToIgnoringGivenFields(pipFuneralExpected);
+		});
+
+		coverageUpdateAndValidate(policyNumber, pipMedicalExpected, CoverageInfo.PIPMEDICAL_DC.getCode(), CoverageLimits.COV_50000);
+		coverageUpdateAndValidate(policyNumber, pipWorkLossExpected, CoverageInfo.PIPWORKLOSS_DC.getCode(), CoverageLimits.COV_12000);
+		coverageUpdateAndValidate(policyNumber, pipFuneralExpected, CoverageInfo.PIPFUNERAL_DC.getCode(), CoverageLimits.COV_4000);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	protected void pas23299_EMBCoveragePABody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		Coverage covEMBNo = Coverage.create(CoverageInfo.EMB);
+
+		//Check viewEndorsementCoverages default response
+		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covEMBNo);
+
+		//Update EMB=Yes and check
+		Coverage covEMBYes = Coverage.create(CoverageInfo.EMB).changeLimit(CoverageLimits.COV_EMB_1000);
+		updateCoverageAndCheck(policyNumber, covEMBYes, covEMBYes);
+		//Update EMB=No and check again
+		updateCoverageAndCheck(policyNumber, covEMBNo, covEMBNo);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	protected void pas15302_lolCoverageNJBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		Coverage covLol = Coverage.create(CoverageInfo.LOL);
+
+		//Check viewEndorsementCoverages response, default should be selected as "Limitation on Lawsuit" and check
+		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covLol);
+
+		//Update to "No Limitation on Lawsuit" and check
+		Coverage covNoLol = Coverage.create(CoverageInfo.LOL).changeLimit(CoverageLimits.COV_NO_LOL);
+		updateCoverageAndCheck(policyNumber, covNoLol, covNoLol);
+		//Update back to "Limitation on Lawsuit" and check
+		updateCoverageAndCheck(policyNumber, covLol, covLol);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
 	private void updateCoverageAndCheck_pas24075(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
 		Coverage covFPBAddedExpected = Coverage.create(CoverageInfo.FPB_ADDED_PA);
 
@@ -6126,53 +6173,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateCoverageResponse);
 	}
 
-	protected void pas15288_ViewUpdateCoveragePIPCoverageBody() {
-		mainApp().open();
-		String policyNumber = getCopiedPolicy();
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-
-		Coverage pipMedicalExpected = Coverage.create(CoverageInfo.PIPMEDICAL_DC);
-		Coverage pipWorkLossExpected = Coverage.create(CoverageInfo.PIPWORKLOSS_DC);
-		Coverage pipFuneralExpected = Coverage.create(CoverageInfo.PIPFUNERAL_DC);
-
-		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
-		assertSoftly(softly -> {
-			Coverage pipMedicalActual = findCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIPMEDICAL_DC.getCode());
-			Coverage pipWorklossActual = findCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIPWORKLOSS_DC.getCode());
-			Coverage pipFuneralActual = findCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIPFUNERAL_DC.getCode());
-
-			assertThat(pipMedicalActual).isEqualToIgnoringGivenFields(pipMedicalExpected);
-			assertThat(pipWorklossActual).isEqualToIgnoringGivenFields(pipWorkLossExpected);
-			assertThat(pipFuneralActual).isEqualToIgnoringGivenFields(pipFuneralExpected);
-		});
-
-		coverageUpdateAndValidate(policyNumber, pipMedicalExpected, CoverageInfo.PIPMEDICAL_DC.getCode(), CoverageLimits.COV_50000);
-		coverageUpdateAndValidate(policyNumber, pipWorkLossExpected, CoverageInfo.PIPWORKLOSS_DC.getCode(), CoverageLimits.COV_12000);
-		coverageUpdateAndValidate(policyNumber, pipFuneralExpected, CoverageInfo.PIPFUNERAL_DC.getCode(), CoverageLimits.COV_4000);
-
-		helperMiniServices.endorsementRateAndBind(policyNumber);
-	}
-
-	protected void pas23299_EMBCoveragePABody() {
-		mainApp().open();
-		String policyNumber = getCopiedPolicy();
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		SearchPage.openPolicy(policyNumber);
-
-		Coverage covEMBNo = Coverage.create(CoverageInfo.EMB);
-
-		//Check viewEndorsementCoverages default response
-		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
-		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covEMBNo);
-
-		//Update EMB=Yes and check
-		Coverage covEMBYes = Coverage.create(CoverageInfo.EMB).changeLimit(CoverageLimits.COV_EMB_1000);
-		updateCoverageAndCheck(policyNumber, covEMBYes, covEMBYes);
-		//Update EMB=No and check again
-		updateCoverageAndCheck(policyNumber, covEMBNo, covEMBNo);
-		helperMiniServices.endorsementRateAndBind(policyNumber);
-	}
-
 	private void coverageUpdateAndValidate(String policyNumber, Coverage pipExpected, String coverageCd, CoverageLimits coverageLimits) {
 		PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber, coverageCd, coverageLimits.getLimit());
 		pipExpected.changeLimit(coverageLimits);
@@ -6184,6 +6184,20 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateCoverageLimitInPASUI(pipExpected);
 		});
 
+	}
+
+	private PolicyCoverageInfo updateCoverage(String policyNumber, Coverage updateData) {
+		return HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(updateData.getCoverageCd(),
+				updateData.getCoverageLimit()), PolicyCoverageInfo.class);
+	}
+
+	private Coverage findPolicyCoverage(PolicyCoverageInfo policyCoverageInfo, String coverageCd) {
+		Coverage coverage = policyCoverageInfo.policyCoverages.stream()
+				.filter(cov -> coverageCd.equals(cov.getCoverageCd()))
+				.findFirst()
+				.orElse(null);
+		assertThat(coverage).isNull();
+		return coverage;
 	}
 
 }
