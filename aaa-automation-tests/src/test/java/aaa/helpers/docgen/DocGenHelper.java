@@ -514,30 +514,26 @@ public class DocGenHelper {
 		ProductCode product = null;
 		if (template.startsWith("CA")) {
 			state = Constants.States.CA;
-			switch (template) {
-				case "CAH":
-					product = ProductCode.AAA_HO_CA;
-					break;
-				case "CAAS":
-					product = ProductCode.AAA_CSA;
-					break;
-				case "CAPU":
-					product = ProductCode.AAA_PUP_SS;
-					break;
+			if (template.startsWith("CAH")) {
+				product = ProductCode.AAA_HO_CA;
+			}
+			if (template.startsWith("CAA")) {
+				product = ProductCode.AAA_CSA;
+			}
+			if (template.startsWith("CAPU")) {
+				product = ProductCode.AAA_PUP_SS;
 			}
 		} else {
 			state = template.substring(0, 2);
 			String prodTemp = template.substring(2);
-			switch (prodTemp) {
-				case "H":
-					product = ProductCode.AAA_HO_SS;
-					break;
-				case "SS":
-					product = ProductCode.AAA_SS;
-					break;
-				case "PU":
-					product = ProductCode.AAA_PUP_SS;
-					break;
+			if (prodTemp.startsWith("H")) {
+				product = ProductCode.AAA_HO_SS;
+			}
+			if (prodTemp.startsWith("SS")) {
+				product = ProductCode.AAA_SS;
+			}
+			if (prodTemp.startsWith("PU")) {
+				product = ProductCode.AAA_PUP_SS;
 			}
 		}
 		return executePasDocQuery(product.name(), state);
@@ -566,6 +562,11 @@ public class DocGenHelper {
 		}
 		return m.group(1);
 	}
+
+/*	@Test
+	public void test() {
+		isPasDocEnabled("QCAAC952528763");
+	}*/
 
 	private enum ProductCode {
 		AAA_HO_SS, AAA_SS, AAA_CSA, AAA_HO_CA, AAA_PUP_SS
