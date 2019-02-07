@@ -16,8 +16,10 @@ public class PasAppLogGrabber {
 
     private static String pasAppLogFolderPrefix = PropertyProvider.getProperty(CsaaTestProperties.PAS_APP_LOG_FOLDER, "/AAA/tcserver/pivotal-tc-server-developer-3.2.8.RELEASE/");
     private static final String PAS_APP_LOG = "%Spas-app/logs";
+    private static final String PAS_ADMIN_LOG = "%Spas-admin/logs";
 
     public static String getPasAppLogFolder() {
+        //TODO:gunxgar  create an IF to deterirmine which logs system should check
         return getFormattedFolderPathForPasAppLog(PAS_APP_LOG);
     }
 

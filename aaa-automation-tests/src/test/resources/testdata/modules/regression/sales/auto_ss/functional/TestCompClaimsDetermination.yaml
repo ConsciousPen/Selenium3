@@ -5,10 +5,8 @@ TestData_DriverTab_CompClaimsDetermination_AZ: {
 Driver_FNI: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
-  Date of Birth: '12/12/1980',
   License Type: 'Licensed (US)',
   License Number: A19191911,
-  Age First Licensed: 18
 }
 
 Driver_Second: {

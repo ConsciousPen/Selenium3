@@ -8,6 +8,7 @@ import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplate;
 import aaa.utils.StateList;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -112,8 +113,7 @@ public class TestOfflineClaimsAnalytics extends TestOfflineClaimsTemplate {
 
         // Gather Policy details: Policy Number and expiration date
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-        policyEffectiveDate =  PolicySummaryPage.getEffectiveDate().format(DateTimeUtils.TIME_STAMP_WITH_MS);
-        mainApp().close();
+        policyEffectiveDate =  PolicySummaryPage.getEffectiveDate().toLocalDate().toString();
 
         // Move to R-63, run batch job part 1 and renewalClaimOrderAsyncJob to generate CAS Request
         runRenewalClaimOrderJob();
@@ -130,7 +130,7 @@ public class TestOfflineClaimsAnalytics extends TestOfflineClaimsTemplate {
         CustomSoftAssertions.assertSoftly(softly -> {
             // Verify Claim Analytic Logs: all keys and values
             softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, policyEffectiveDateKey))
-                    .as("Policy Eff. date should be equal to: "+policyEffectiveDate).isEqualTo(policyEffectiveDate);
+                    .as("Policy Eff. date should be equal to: "+policyEffectiveDate+" 00:00:00.0").isEqualTo(policyEffectiveDate+" 00:00:00.0");
             softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, coverageIdKey))
                     .as("Coverage IDs should be equal to: COV_001,COV_002").isEqualTo("COV_001,COV_002");
             softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, coverageAmountKey))
