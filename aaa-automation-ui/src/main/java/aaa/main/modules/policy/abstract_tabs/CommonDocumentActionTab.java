@@ -23,7 +23,7 @@ import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 public abstract class CommonDocumentActionTab extends ActionTab {
 	private static final Object lock = new Object();
 	public Verify verify = new Verify();
-	public Button buttonOk = new Button(By.xpath("//input[@id='policyDataGatherForm:generateDocButton'"));
+	public Button buttonOk = new Button(By.xpath("//input[@id='policyDataGatherForm:generateDocButton']"));
 	public Button buttonCancel = new Button(id("policyDataGatherForm:adhocCancel"));
 	public Button buttonPreviewDocuments = new Button(id("policyDataGatherForm:previewDocButton"));
 	public TextBox textboxEmailAddress = new TextBox(id("policyDataGatherForm:emailAddress"));
