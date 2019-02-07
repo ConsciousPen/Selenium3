@@ -15,6 +15,8 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccountActions;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -163,22 +165,25 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
 		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
 
 		//Bind The Renewal Image
-		policy.getDefaultView().fillFromTo(getPolicyTD(), AssignmentTab.class, PurchaseTab.class, true);
-		purchaseTab.submitTab();
-		mainApp().close();
+//		policy.getDefaultView().fillFromTo(getPolicyTD(), DriverTab.class, PurchaseTab.class, true);
+//		purchaseTab.submitTab();
+//		mainApp().close();
+
+		//Move time to R-35 and run batch jobs:
+		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
 
 		//Accept Payment and renew the policy
 		payTotalAmtDue(policyNumber);
-//		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 
 		//Initiate an endorsement: Add AFR Driver, calculate premium and order clue
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		TestData tdEndorsement = getTestSpecificTD("TestData_Endorsement");
-		policy.createEndorsement(tdEndorsement);
-		//TODO: Correct Endorsement Test Data: Need to order clue, and then navigate back to driver page
+		TestData addDriverTd = getTestSpecificTD("Add_PU_Claim_Driver_Endorsement_CA");
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		policy.getDefaultView().fillFromTo(addDriverTd, GeneralTab.class, DriverActivityReportsTab.class, true);
+		//		policy.createEndorsement(tdEndorsement);
 
 		//Navigate to Driver page and verify PU claim moved from FNI to newly added driver
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
