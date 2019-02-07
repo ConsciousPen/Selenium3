@@ -808,7 +808,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			createEndorsementInPasUpdateCoverage("$250,000/$500,000 (+$34.00)", biCoverage);
 			assertThat(aacsdcRule).hasValue("Not Signed");
 			deleteEndorsementInPas();
-			dxpOnlyCreateEndorsementCheckDocument("BI", "50000/100000",
+			dxpOnlyCreateEndorsementCheckDocument("BI", "250000/500000",
 					"District of Columbia Coverage Selection/Rejection Form", "AACSDC", policyNumber2);
 		}
 	}
