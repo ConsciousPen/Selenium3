@@ -272,7 +272,6 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         // Data and tools setup
         TestData testData = getPolicyTD();
         GeneralTab generalTab = new GeneralTab();
-        PremiumAndCoveragesTab pncTab = new PremiumAndCoveragesTab();
 
         // Create customer and move to general tab. //
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
@@ -295,19 +294,36 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
                 policy.getDefaultView().fillFromTo(testData, DriverTab.class, DocumentsAndBindTab.class, true);
             }
             else {
+                NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+                _pncTab.btnCalculatePremium().click(Waiters.AJAX);
                 NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+
+                // Ensure Physically sign Auto Insurance Application set
+                _documentsAndBindTab.getRequiredToBindAssetList().getAsset(
+                        AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(),
+                        AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getControlClass())
+                        .setValue("Physically Signed");
             }
 
             // Attempt to bind
-            _documentsAndBindTab.submitTab();
+            DocumentsAndBindTab.btnPurchase.click(Waiters.AJAX);
 
-            // BondTODO: Check for no unquoted scenario.
+            // If any unquoted was checked ("true") then error message appears.
+            if (currentScenario.containsValue(true)) {
+                // Hard stop error page should be present
+                String errorMsg = _errorTab.tableErrors.
+                        getRow("Code", "MPD_COMPANION_UNQUOTED_VALIDATION").
+                        getCell("Message").getValue();
 
-            String errorMsg = _errorTab.tableErrors.
-                    getRow("Code", "MPD_COMPANION_UNQUOTED_VALIDATION").
-                    getCell("Message").getValue();
+                assertThat(errorMsg).startsWith("Policy cannot be bound with an unquoted companion policy.");
 
-            assertThat(errorMsg).startsWith("Policy cannot be bound with an unquoted companion policy.");
+                _errorTab.cancel(true);
+            }else{
+                // Purchase confirmation should be present
+                Button buttonNo = DocumentsAndBindTab.confirmPurchase.buttonNo;
+                assertThat(buttonNo.isPresent() && buttonNo.isVisible()).isTrue();
+                buttonNo.click(Waiters.AJAX);
+            }
 
             // Return to General tab.
             NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
