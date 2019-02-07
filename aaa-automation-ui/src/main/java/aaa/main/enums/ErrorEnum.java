@@ -17,7 +17,7 @@ public final class ErrorEnum {
 		ERROR_200305("200305", "First Party Benefits signed form must be received (200305)"),
 		ERROR_200306("200306", "A signed Uninsured motorist coverage selection form must be received prior to issuing this transaction (200306)"),
 		ERROR_200401("200401", "Credit Adverse Impact requires Underwriting Review and approval"),
-		ERROR_200900("200900", "A signed Coverage Selection/Rejection Form  must be received prior to issuing this transaction"),
+		ERROR_200900("200900", "A signed Coverage Selection/Rejection Form must be received prior to issuing this transaction (200900)"),
 		ERROR_200060_CO("200060_CO", "If Medical Payments coverage is rejected, a signed form must be received"),
 		ERROR_AAA_SS9140068("AAA_SS9140068", "It is too late in the term to change to the selected bill plan."),
 		ERROR_AAA_CLUE_order_validation_SS("AAA_CLUE_order_validation_SS", "Current CLUE must be ordered"),
