@@ -204,3 +204,15 @@ PremiumAndCoveragesTab_OneVeh: {
     }
   ]
 }
+
+#----------------------------------------------
+TestData_1000MilesVeh: {
+  VehicleTab: ['@VehicleTab_2018_New', '@VehicleTab_2003Vehicle'],
+}
+
+VehicleTab_2003Vehicle: {
+  Usage: Pleasure,
+  VIN: 1G8AZ54F531234567, #Saturn Ion 2003
+}
+
+

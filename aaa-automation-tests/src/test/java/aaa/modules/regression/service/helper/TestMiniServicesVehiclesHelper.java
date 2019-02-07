@@ -953,7 +953,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			//get vehicle OID to remove
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 			SearchPage.openPolicy(policyNumber);
-			Vehicle vehicleToRemove = getVehicleByVin(HelperCommon.viewEndorsementVehicles(policyNumber), "JTDKDTB38J1600184"); //the same VIN as in Test Data JTDKDTB38J1600184
+			Vehicle vehicleToRemove = findVehicleByVin(HelperCommon.viewEndorsementVehicles(policyNumber), "JTDKDTB38J1600184"); //the same VIN as in Test Data JTDKDTB38J1600184
 			if (testWithUpdates) {
 				//update vehicle info
 				String address1 = "2011 CORAL AVE";
@@ -3103,6 +3103,56 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		assertThat(vehicleTab.getInquiryAssetList().getStaticElement(ANTI_THEFT).getValue()).isEqualTo("Category 1 - Alarm Only");
 	}
 
+	protected void pas18408_validateLessThan1000Miles(ETCSCoreSoftAssertions softly) {
+		TestData td = getPolicyDefaultTD();
+		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_1000MilesVeh").getTestDataList("VehicleTab"))
+				.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError)
+				.resolveLinks();
+		String policyNumber = openAppAndCreatePolicy(testData);
+		ViewVehicleResponse policyResponse = HelperCommon.viewPolicyVehicles(policyNumber);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		validateLessThan1000Miles_ExistingVehicles(policyNumber, "1FADP3J2XJL222680", true, policyResponse, softly);
+		validateLessThan1000Miles_ExistingVehicles(policyNumber, "1G8AZ54F531234567", false, policyResponse, softly);
+
+		validateLessThan1000Miles_AddedVehicle(policyNumber,"WAUC8AFC5JN033929", true, softly);
+		validateLessThan1000Miles_AddedVehicle(policyNumber,"WAUKFAFLXAN008557", false, softly);
+		validateLessThan1000Miles_AddedVehicle(policyNumber,"WAUAFAFL8CN008636", true, softly);
+	}
+
+	private void validateLessThan1000Miles_ExistingVehicles(String policyNumber, String vin, boolean isLessThan1000Expected,
+															ViewVehicleResponse policyResponse, ETCSCoreSoftAssertions softly) {
+		Vehicle returnedVehicle = findVehicleByVin(policyResponse, vin);
+		softly.assertThat(returnedVehicle.isLessThan1000Miles).isFalse();
+		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, returnedVehicle.oid);
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "isLessThan1000Miles",
+				true, isLessThan1000Expected, isLessThan1000Expected, null, "Boolean");
+	}
+
+	private void validateLessThan1000Miles_AddedVehicle(String policyNumber, String vin, boolean isLessThan1000Expected,
+														ETCSCoreSoftAssertions softly) {
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		Vehicle responseAddVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, "2018-01-01"), Vehicle.class, 201);
+		softly.assertThat(responseAddVehicle.isLessThan1000Miles).isFalse();
+		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, responseAddVehicle.oid);
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "isLessThan1000Miles", true,
+				isLessThan1000Expected, isLessThan1000Expected, null, "Boolean");
+		if (isLessThan1000Expected) {
+			VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
+			updateVehicleRequest.isLessThan1000Miles = Boolean.TRUE;
+			Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, responseAddVehicle.oid, updateVehicleRequest);
+			softly.assertThat(updateVehicleResponse.isLessThan1000Miles).isTrue();
+			ComparablePolicy changeLog = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
+			ComparableVehicle addedVehicle = changeLog.vehicles.get(responseAddVehicle.oid);
+			softly.assertThat(addedVehicle.changeType).isEqualTo("ADDED");
+			softly.assertThat(addedVehicle.data.isLessThan1000Miles).isTrue();
+		}
+		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, responseAddVehicle.oid);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithCheck(policyNumber);
+	}
+
 	private String checkAvailableActionsByVehicleOid(ViewVehicleResponse viewVehicleResponse, String vehiclePpa1Oid) {
 		String availableActions = "";
 		if (!"pendingRemoval".equals(viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehiclePpa1Oid.equals(vehicle.oid)).findFirst().orElse(null).vehicleStatus)) {
@@ -3154,7 +3204,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 				.orElseThrow(() -> new IllegalArgumentException("No Vehicle found for oid: " + oid));
 	}
 
-	private Vehicle getVehicleByVin(ViewVehicleResponse viewVehicleResponse, String vin) {
+	private Vehicle findVehicleByVin(ViewVehicleResponse viewVehicleResponse, String vin) {
 		return viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehicle.vehIdentificationNo.equals(vin)).findFirst()
 				.orElseThrow(() -> new IllegalArgumentException("No Vehicle found for vin: " + vin));
 	}

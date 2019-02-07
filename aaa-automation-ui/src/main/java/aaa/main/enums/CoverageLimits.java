@@ -97,7 +97,9 @@ public enum CoverageLimits {
 	COV_UNSTACKED("N", "Unstacked"),
 	SP_EQ_0("0", "$0.00"),
 	COV_EMB_0("0", "No"),
-	COV_EMB_1000("1000", "Yes");
+	COV_EMB_1000("1000", "Yes"),
+	COV_NO_LOL("FALSE", "No Limitation on Lawsuit"),
+	COV_LOL("TRUE", "Limitation on Lawsuit");
 
 	private final String limit;
 	private final String display;
