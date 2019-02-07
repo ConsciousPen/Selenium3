@@ -1158,7 +1158,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21363"})
-	public void pas21363_BIAndUMBIAndCanChangeTrue(@Optional("KS") String state) {
+	public void pas21363_BIAndUMBIAndCanChangeTrue(@Optional("VA") String state) {
 		pas21363_BIAndUMBIAndCanChangeTrueBody(CoverageInfo.UMBI_VA_KS);
 	}
 
