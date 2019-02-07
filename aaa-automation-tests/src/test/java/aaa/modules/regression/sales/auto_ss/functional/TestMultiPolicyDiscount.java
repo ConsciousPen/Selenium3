@@ -33,7 +33,7 @@ import java.util.HashMap;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
-@StateList(states = Constants.States.AZ)
+@StateList(statesExcept = Constants.States.CA)
 public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
     public enum mpdPolicyType{
@@ -252,6 +252,66 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isFalse();
         assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).isEnabled()).isFalse();
         assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).isEnabled()).isFalse();
+    }
+
+    /**
+     * This test validates that New Business scenarios that have unquoted options checked result in error at bind time.
+     * @param state the test will run against.
+     * @scenario
+     * 1. Create new customer with default test data.
+     * 2. Create new quote checking the current scenario boxes that are marked yes.
+     * 3. Finish running through the quote and attempt to bind.
+     * 4. Verify all scenarios but #7 block binding with hard stop error message: Policy cannot be bound with an unquoted companion policy.
+     * @author Brian Bond - CIO
+     */
+    @Parameters({"state"})
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind at NB")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-18315")
+    public void pas18315_CIO_Prevent_Unquoted_Bind_NB(@Optional("") String state) {
+
+        // Data and tools setup
+        TestData testData = getPolicyTD();
+        GeneralTab generalTab = new GeneralTab();
+        PremiumAndCoveragesTab pncTab = new PremiumAndCoveragesTab();
+
+        // Create customer and move to general tab. //
+        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
+
+        ArrayList<HashMap<mpdPolicyType, Boolean>> scenarioList = getUnquotedManualScenarios();
+
+        // Perform the following for each scenario. Done this way to avoid recreating users every scenario.
+        for (int i = 0; i < scenarioList.size(); i++ ) {
+
+            HashMap <mpdPolicyType, Boolean> currentScenario = scenarioList.get(i);
+
+            // Set unquoted policies //
+            setUnquotedCheckboxes(currentScenario);
+
+            // On first iteration fill in data. Else jump to Documents & Bind page
+            if (i == 0) {
+                // Continue to next tab then move to Documents & Bind Tab tab //
+                generalTab.submitTab();
+
+                policy.getDefaultView().fillFromTo(testData, DriverTab.class, DocumentsAndBindTab.class, true);
+            }
+            else {
+                NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+            }
+
+            // Attempt to bind
+            _documentsAndBindTab.submitTab();
+
+            // BondTODO: Check for no unquoted scenario.
+
+            String errorMsg = _errorTab.tableErrors.
+                    getRow("Code", "MPD_COMPANION_UNQUOTED_VALIDATION").
+                    getCell("Message").getValue();
+
+            assertThat(errorMsg).startsWith("Policy cannot be bound with an unquoted companion policy.");
+
+            // Return to General tab.
+            NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        }
     }
 
     /**
