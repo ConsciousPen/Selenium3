@@ -1,11 +1,20 @@
-TestData_TwoSpouses_TwoOthers: {
+ApplicantTab_OneSpouse_OneChild: {
+  NamedInsured: ['@NamedInsured', '@NamedInsuredFirstSpouse', '@NamedInsuredChild'],
+}
+
+TestData_NamedInsuredOther: {
   ApplicantTab: {
-    NamedInsured: ['@home_ss_ho3@DataGather@NamedInsured', '@NamedInsuredFirstSpouse', '@NamedInsuredSecondSpouse', '@NamedInsuredChild', '@NamedInsuredOther'],
+    NamedInsured: ['@NamedInsuredOther'],
   }
 }
 
+
+NamedInsured: {
+  First name: 'FN Primary Insured',
+  Relationship to primary named insured:  Primary Insured,
+}
+
 NamedInsuredFirstSpouse: {
-  Add: 'click',
   CustomerSearchDialog: {},
   First name: 'FN Spouse First',
   Last name: 'LN Spouse First',
@@ -17,7 +26,6 @@ NamedInsuredFirstSpouse: {
 }
 
 NamedInsuredSecondSpouse: {
- Add: 'click',
  CustomerSearchDialog: {},
  First name: 'FN Spouse Second',
  Last name: 'LN Spouse Second',
@@ -29,7 +37,6 @@ NamedInsuredSecondSpouse: {
 }
 
 NamedInsuredChild: {
- Add: 'click',
  CustomerSearchDialog: {},
  First name: 'FN Child',
  Last name: 'LN Child',
