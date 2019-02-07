@@ -1093,6 +1093,7 @@
                 <methods>
                     <include name="pas19127_BIAndUMBIAndCanChangeTrue"/>
                     <include name="pas15302_lolCoverageNJ"/>
+                    <include name="pas15353_viewPIPNonMedExpenseNoNJ"/>
                 </methods>
             </class>
         </classes>
