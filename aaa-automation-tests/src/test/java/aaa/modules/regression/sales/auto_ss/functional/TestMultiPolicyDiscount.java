@@ -29,6 +29,7 @@ import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.waiters.Waiters;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static toolkit.verification.CustomAssertions.assertThat;
@@ -40,6 +41,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     public enum mpdPolicyType{
         home, renters, condo, life, motorcycle
     }
+
+    // Add more states here if they get MC policy support.
+    private ArrayList<String> motorcycleSupportedStates = new ArrayList<>(Arrays.asList(Constants.States.AZ));
+
     private GeneralTab _generalTab = new GeneralTab();
     private ErrorTab _errorTab = new ErrorTab();
     private PremiumAndCoveragesTab _pncTab = new PremiumAndCoveragesTab();
@@ -166,8 +171,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).isEnabled()).isFalse();
         assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE).isEnabled()).isTrue();
 
-        // Motorcycle in AZ only
-        if (getState().equals("AZ")){
+        // Only add motorcycle in supported states
+        if (motorcycleSupportedStates.contains(getState())){
             assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE).isEnabled()).isTrue();
         }
         else{
@@ -199,7 +204,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * @author Brian Bond - CIO
      */
     @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Rate SS Auto with Quoted/Unquoted Products")
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Rate SS Auto with Quoted/Unquoted Products")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-21481")
     public void pas_21481_MPD_Unquoted_Companion_Product_AC5(@Optional("") String state) {
 
@@ -331,12 +336,35 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     }
 
     /**
+     * This test validates that New Business scenarios that have unquoted options checked result in error at bind time.
+     * @param state the test will run against.
+     * @scenario
+     * 1. Bind policy with no MPD.
+     * 2. Create an endorsement
+     * 3. Check all unquoted checkboxes
+     * 4. Attempt to complete the endorsement
+     * 5. Verify error message stops you from completing endorsement
+     * @author Brian Bond - CIO
+     */
+    @Parameters({"state"})
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind at NB")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-18315")
+    public void pas18315_CIO_Prevent_Unquoted_Bind_Endorsment(@Optional("") String state) {
+        openAppCreatePolicy();
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+    }
+
+    /**
      * Sets the unquoted policy checkboxes based of passed in checkboxMap.
      * @param checkboxMap is what to set each checkbox to. Expects all 5 product keys with bool value where true checks and false unchecks.
      */
     private void setUnquotedCheckboxes(HashMap <mpdPolicyType, Boolean> checkboxMap)throws IllegalArgumentException{
+
+        // Only some states supports MC. If in the list, only check against mpdPolicyType length. Otherwise subtract 1 so no error thrown.
+        int adjustForMotorcycle = motorcycleSupportedStates.contains(getState()) ? 0 : 1 ;
+
         // Check values
-        if (checkboxMap.size() != mpdPolicyType.values().length){
+        if (checkboxMap.size() != mpdPolicyType.values().length - adjustForMotorcycle){
             throw new IllegalArgumentException("setUnquotedCheckboxes requires that every policy type has a boolean included. " +
                     "Make sure that all values in mpdPolicyType enum are present with associated booleans for checkboxMap");
         }
@@ -397,6 +425,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         7	        No  	No  	No  	No  	No
          */
 
+        String currentState = getState();
+
         // Scenario 1
         scenarioList.add(new HashMap<mpdPolicyType, Boolean>() {
             {
@@ -404,7 +434,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
                 put(mpdPolicyType.renters, true);
                 put(mpdPolicyType.condo, true);
                 put(mpdPolicyType.life, true);
-                put(mpdPolicyType.motorcycle, true);
+
+                if (motorcycleSupportedStates.contains(currentState)) {
+                    put(mpdPolicyType.motorcycle, true);
+                }
             }
         });
 
@@ -415,7 +448,11 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
                 put(mpdPolicyType.renters, false);
                 put(mpdPolicyType.condo, false);
                 put(mpdPolicyType.life, false);
-                put(mpdPolicyType.motorcycle, false);}
+
+                if (motorcycleSupportedStates.contains(currentState)) {
+                    put(mpdPolicyType.motorcycle, false);
+                }
+            }
         });
 
         // Scenario 3
@@ -425,7 +462,11 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
                 put(mpdPolicyType.renters, true);
                 put(mpdPolicyType.condo, false);
                 put(mpdPolicyType.life, true);
-                put(mpdPolicyType.motorcycle, false);}
+
+                if (motorcycleSupportedStates.contains(currentState)) {
+                    put(mpdPolicyType.motorcycle, false);
+                }
+            }
         });
 
         // Scenario 4
@@ -435,7 +476,11 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
                 put(mpdPolicyType.renters, false);
                 put(mpdPolicyType.condo, true);
                 put(mpdPolicyType.life, false);
-                put(mpdPolicyType.motorcycle, true);}
+
+                if (motorcycleSupportedStates.contains(currentState)) {
+                    put(mpdPolicyType.motorcycle, true);
+                }
+            }
         });
 
         // Scenario 5
@@ -445,7 +490,11 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
                 put(mpdPolicyType.renters, true);
                 put(mpdPolicyType.condo, true);
                 put(mpdPolicyType.life, false);
-                put(mpdPolicyType.motorcycle, false);}
+
+                if (motorcycleSupportedStates.contains(currentState)) {
+                    put(mpdPolicyType.motorcycle, false);
+                }
+            }
         });
 
         // Scenario 6
@@ -455,7 +504,11 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
                 put(mpdPolicyType.renters, false);
                 put(mpdPolicyType.condo, false);
                 put(mpdPolicyType.life, true);
-                put(mpdPolicyType.motorcycle, true);}
+
+                if (motorcycleSupportedStates.contains(currentState)) {
+                    put(mpdPolicyType.motorcycle, true);
+                }
+            }
         });
 
         // Scenario 7
@@ -465,7 +518,11 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
                 put(mpdPolicyType.renters, false);
                 put(mpdPolicyType.condo, false);
                 put(mpdPolicyType.life, false);
-                put(mpdPolicyType.motorcycle, false);}
+
+                if (motorcycleSupportedStates.contains(currentState)) {
+                    put(mpdPolicyType.motorcycle, false);
+                }
+            }
         });
 
         return scenarioList;
