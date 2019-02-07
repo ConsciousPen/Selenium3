@@ -272,7 +272,6 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         // Data and tools setup
         TestData testData = getPolicyTD();
-        GeneralTab generalTab = new GeneralTab();
 
         // Create customer and move to general tab. //
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
@@ -290,7 +289,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
             // On first iteration fill in data. Else jump to Documents & Bind page
             if (i == 0) {
                 // Continue to next tab then move to Documents & Bind Tab tab //
-                generalTab.submitTab();
+                _generalTab.submitTab();
 
                 policy.getDefaultView().fillFromTo(testData, DriverTab.class, DocumentsAndBindTab.class, true);
             }
