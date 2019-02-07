@@ -6208,7 +6208,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				.filter(cov -> coverageCd.equals(cov.getCoverageCd()))
 				.findFirst()
 				.orElse(null);
-		assertThat(coverage).isNull();
+		assertThat(coverage).isNotNull();
 		return coverage;
 	}
 
