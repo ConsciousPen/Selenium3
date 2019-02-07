@@ -574,11 +574,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
         //doScreenshot("DoMPDEligibilityTest", in_policyType, "ErrorValidation");
-        if (!in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
-            new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.MPD_COMPANION_VALIDATION);
-        }else {
-            CustomAssertions.assertThat(Page.dialogConfirmation.isPresent());
-        }
+        validateMPDCompanionError(in_policyType);
     }
 
     private void doMPDEligibilityTest_MidTerm(Boolean bFlatEndorsement, String in_policyType){
@@ -599,11 +595,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
         //doScreenshot("DoMPDEligibilityTest_MidTerm", in_policyType, "ErrorValidation");
-        if (!in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
-            new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.MPD_COMPANION_VALIDATION);
-        }else {
-            CustomAssertions.assertThat(PolicySummaryPage.labelPolicyNumber.isPresent());
-        }
+        validateMPDCompanionError(in_policyType);
     }
 
     private void doMPDEligibilityTest_Renewal(String in_policyType){
@@ -617,11 +609,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         Page.dialogConfirmation.buttonYes.click();
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
-        if (!in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
-            new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.MPD_COMPANION_VALIDATION);
-        }else {
-            CustomAssertions.assertThat(PolicySummaryPage.labelPolicyNumber.isPresent());
-        }
+        validateMPDCompanionError(in_policyType);
     }
 
     /**
@@ -641,13 +629,6 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23456")
     public void pas23456_MPD_Prevent_MTEBind(@Optional("") String state) {
         doMTEPreventBindTest(false, "Home");
-    }
-
-    @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23456")
-    public void pas23456_MPD_Allow_MTEBind(@Optional("") String state) {
-        doMTEPreventBindTest(false, "Life");
     }
 
     @Parameters({"state"})
@@ -683,7 +664,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         Page.dialogConfirmation.buttonYes.click();
 
         // Validate error message appears.
-        validateMPDCompanionError(in_policyType);
+        validateMTEBindError(in_policyType);
     }
 
     private void doMTEPreventBindTest_Renewals(String in_policyType, boolean bAmendedRenew){
@@ -709,7 +690,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         Page.dialogConfirmation.buttonYes.click();
 
         // Validate error message appears.
-        validateMPDCompanionError(in_policyType);
+        validateMTEBindError(in_policyType);
     }
 
     private void createPolicyAdvanceToRenewalImage(){
@@ -747,5 +728,9 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         }else {
             CustomAssertions.assertThat(PolicySummaryPage.labelPolicyNumber.isPresent());
         }
+    }
+
+    private void validateMTEBindError(String thePolicyType){
+        new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.AAA_SS02012019);
     }
 }
