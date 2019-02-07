@@ -435,7 +435,7 @@
         </classes>
     </test>
     <test thread-count="1024" name="pas15228_UmUimDelimiter" parallel="methods">
-        <parameter name="state" value="AZ, ID, KY, PA, SD, MT"/>
+        <parameter name="state" value="AZ, ID, KY, SD, MT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
@@ -695,6 +695,15 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas20818_ViewPdCoverageLimits"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas21363_BIAndUMBIAndCanChangeFalse" parallel="methods">
+        <parameter name="state" value="KS, WV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
                     <include name="pas21363_BIAndUMBIAndCanChangeFalse"/>
                 </methods>
             </class>
@@ -907,7 +916,7 @@
         </classes>
     </test>
     <test thread-count="1024" name="Underinsured Conversion Coverage - CT" parallel="methods">
-        <parameter name="state" value="KS"/>
+        <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
@@ -938,7 +947,7 @@
         </classes>
     </test>
     <test thread-count="1024" name="BI and UMBI canChangeCoverage" parallel="methods">
-        <parameter name="state" value="VA, KS, WV"/>
+        <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
