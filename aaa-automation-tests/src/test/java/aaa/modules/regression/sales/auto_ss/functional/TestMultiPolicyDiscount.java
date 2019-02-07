@@ -537,7 +537,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * Validates that the MPD Companion Validation Error occurs when manually adding a 'Home/Renters/Condo' MPD policy to a MidTerm Endorsement.
      * @param state
      * @author Tyrone Jemison - CIO
-     * @Runtime 2min
+     * @Runtime 3min
      */
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
@@ -550,7 +550,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * Validates that the MPD Companion Validation Error occurs when manually adding a 'Home/Renters/Condo' MPD policy to a Renewal Image.
      * @param state
      * @author Tyrone Jemison - CIO
-     * @Runtime 4min
+     * @Runtime 4-7min
      */
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
@@ -583,10 +583,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
     private void doMPDEligibilityTest_MidTerm(Boolean bFlatEndorsement, String in_policyType){
         // Create Policy and Initiate Endorsement
-        TestData td = getPolicyDefaultTD();
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(td);
+        openAppCreatePolicy();
 
         if (bFlatEndorsement){
             policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -657,22 +654,19 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
     public void pas23456_MPD_Prevent_Renewal(@Optional("") String state) {
-        doMTEPreventBindTest_Renewals("Renters");
+        doMTEPreventBindTest_Renewals("Renters", false);
     }
 
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
     public void pas23456_MPD_Prevent_AmendedRenewal(@Optional("") String state) {
-
+        doMTEPreventBindTest_Renewals("Home", true);
     }
 
     private void doMTEPreventBindTest(Boolean bFlatEndorsement, String in_policyType){
         // Create Policy and Initiate Endorsement
-        TestData td = getPolicyDefaultTD();
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(td);
+        openAppCreatePolicy();
 
         if (bFlatEndorsement){
             policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -688,24 +682,38 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         _documentsAndBindTab.btnPurchase.click();
         Page.dialogConfirmation.buttonYes.click();
 
-        if (!in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !in_policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
-            new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.MPD_COMPANION_VALIDATION);
-        }else {
-            CustomAssertions.assertThat(PolicySummaryPage.labelPolicyNumber.isPresent());
-        }
+        // Validate error message appears.
+        validateMPDCompanionError(in_policyType);
     }
 
-    private void doMTEPreventBindTest_Renewals(String in_policyType){
+    private void doMTEPreventBindTest_Renewals(String in_policyType, boolean bAmendedRenew){
         // Get into Renewal Image
         createPolicyAdvanceToRenewalImage();
+
+        if(bAmendedRenew) {
+            // Provide blank data for renewal image. Complete and save it.
+            policy.getDefaultView().fillFromTo(getPolicyTD("Endorsement", "TestData_Empty_Endorsement"), GeneralTab.class, DocumentsAndBindTab.class, true);
+            _documentsAndBindTab.btnPurchase.click();
+            Page.dialogConfirmation.buttonYes.click();
+            // From policy summary page, begin endorsement on the renewal image.
+            policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        }
+
+        // Add MPD Home element.
+        _generalTab.mpd_SearchCustomerDetails("CUSTOMER_E");
+        _generalTab.mpdSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
+
+        // Complete Endorsement.
+        policy.getDefaultView().fillFromTo(getPolicyTD("Endorsement", "TestData_Empty_Endorsement"), GeneralTab.class, DocumentsAndBindTab.class, true);
+        _documentsAndBindTab.btnPurchase.click();
+        Page.dialogConfirmation.buttonYes.click();
+
+        // Validate error message appears.
+        validateMPDCompanionError(in_policyType);
     }
 
     private void createPolicyAdvanceToRenewalImage(){
-        // Create Policy
-        TestData td = getPolicyDefaultTD();
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber = createPolicy(td);
+        String policyNumber = openAppCreatePolicy();
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
         LocalDateTime _renewalImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
         mainApp().close();
@@ -724,5 +732,20 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         Tab.buttonGo.click();
         Tab.buttonOk.click();
         Page.dialogConfirmation.buttonOk.click();
+    }
+
+    private String openAppCreatePolicy(){
+        TestData td = getPolicyDefaultTD();
+        mainApp().open();
+        createCustomerIndividual();
+        return createPolicy(td);
+    }
+
+    private void validateMPDCompanionError(String thePolicyType){
+        if (!thePolicyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !thePolicyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
+            new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.MPD_COMPANION_VALIDATION);
+        }else {
+            CustomAssertions.assertThat(PolicySummaryPage.labelPolicyNumber.isPresent());
+        }
     }
 }
