@@ -78,7 +78,8 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 	}
 
-	protected void performReinstatement() {
+	protected void performReinstatement(String policyNumber) {
+		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getReinstatementTD());
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
