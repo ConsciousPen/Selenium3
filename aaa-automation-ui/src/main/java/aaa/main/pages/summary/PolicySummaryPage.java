@@ -2,23 +2,15 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.pages.summary;
 
-import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.*;
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import org.apache.commons.lang.StringUtils;
-import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.PolicyConstants;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.apache.commons.lang.StringUtils;
+import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -30,6 +22,16 @@ import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
+
+import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.*;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class PolicySummaryPage extends SummaryPage {
 
@@ -96,6 +98,8 @@ public class PolicySummaryPage extends SummaryPage {
 		+ "or @id='productConsolidatedViewForm:pupCoverageDetail' " + "or @id='productConsolidatedViewForm:pupTableTotalPremium']"));
 	public static Table tableTotalStateTaxesProperty = new Table(By.xpath("//table[@id='productConsolidatedViewForm:stateLocalTaxes']"));
 	public static Table tablePupPropertyInformation = new Table(By.id("productConsolidatedViewForm:body_scolumn_PupConsolidatedPropertyInfo"));
+    public static Table tableCoverageSummaryCA = new Table(By.id("productConsolidatedViewForm:coveragesPremiumsTable"));
+    public static Table tableCoveragePremiumSummaryCA = new Table(By.xpath("//table[@id='productConsolidatedViewForm:coveragesPremiumsTable']/following-sibling::table[1]"));
 	// cea
 	public static Table tablePaymentSummary = new Table(By.xpath("//table[@id='productConsolidatedViewForm:billing_transactions_active']"));
 	public static Table tableTransactionSummary = new Table(By.xpath("//table[@id='productConsolidatedViewForm:billing_transactions_active2']"));
@@ -103,11 +107,16 @@ public class PolicySummaryPage extends SummaryPage {
 	public static Table tableAppliedDiscountsPolicy = new Table(By.xpath("//table[@id='productConsolidatedViewForm:policyDiscountsTable']"));
 	public static Table tableAppliedDiscountsDriver = new Table(By.xpath("//table[@id='productConsolidatedViewForm:driverDiscountsTable']"));
 	public static Table tableAppliedDiscountsVehicle = new Table(By.xpath("//table[@id='productConsolidatedViewForm:vehicleDiscountsTable']"));
+	public static Table tableAmountDue = new Table(By.xpath("//table[@id='productConsolidatedViewForm:amountDueTable']"));
 
 	public static Dialog dialogRemoveSuspense = new Dialog("//div[@id='validateActionPopup_container']");
 
 	public static Dollar getTotalPremiumSummaryForProperty() {
 		return new Dollar(tableTotalPremiumSummaryProperty.getRow(1).getCell(2).getValue());
+	}
+
+	public static Dollar getAmountDueForProperty(){
+		return new Dollar(tableAmountDue.getRow(1).getCell(1).getValue());
 	}
 	
 	public static Dollar getTotalStateTaxesForProperty() {
