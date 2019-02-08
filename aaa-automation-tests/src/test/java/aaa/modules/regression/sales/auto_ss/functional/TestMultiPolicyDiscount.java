@@ -179,12 +179,6 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         }
 
         // Step 4
-        // This for loop might need to be refactored as method could get rejected.
-        /*
-        for(int i = 0; i < 3; i++) {
-            _generalTab.mpdTable_getRemoveLinkByIndex(0).click(Waiters.AJAX);
-        }
-        */
         _generalTab.removeAllOtherAAAProductsOwnedTablePolicies();
 
         assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isTrue();
