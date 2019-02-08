@@ -901,6 +901,7 @@ public final class AutoSSMetaData {
 					declare("Critical Information for Teenage Drivers and Their Parents", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> STATEMENT_ELECTING_LOWER_LIMITS_FOR_UM_UIM_COVERAGE = declare("Statement Electing Lower Limits for Uninsured/Underinsured Motorists Coverage",
 					RadioGroup.class, By.id("policyDataGatherForm:adhocDocContent_AA52COB"));
+			public static final AssetDescriptor<RadioGroup> NON_OWNER_AUTOMOBILE_ENDORSEMENT = declare("Non-Owner Automobile Endorsement", RadioGroup.class, Waiters.AJAX);
 
 			// VA
 			public static final AssetDescriptor<RadioGroup> EVALUE_ACKNOWLEDGEMENT = declare("eValue Acknowledgement", RadioGroup.class, Waiters.AJAX);
@@ -930,7 +931,7 @@ public final class AutoSSMetaData {
 
 		public static final class RequiredToBind extends MetaData {
 			public static final AssetDescriptor<RadioGroup> AUTO_INSURANCE_APPLICATION =
-					declare("Auto Insurance Application", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:document_PAA']"));
+					declare("Auto Insurance Application", RadioGroup.class, Waiters.AJAX, false, By.xpath("//*[@id='policyDataGatherForm:document_PAA']"));
 			public static final AssetDescriptor<RadioGroup> MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE =
 					declare("Medical Payments Rejection of Coverage", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:document_RMPC']"));
 			public static final AssetDescriptor<RadioGroup> REJECTION_OF_UNINSURED_UNDERINSURED_MOTORISTS_COVERAGE =
@@ -938,7 +939,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> PERSONAL_AUTO_APPLICATION = declare("Personal Auto Application", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS =
 					declare("AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies", RadioGroup.class, Waiters.AJAX, false,
-							By.xpath("//table[@id='policyDataGatherForm:document_AAAUBI1B']"));
+							By.xpath("//*[@id='policyDataGatherForm:document_AAAUBI1B']"));
 			public static final AssetDescriptor<RadioGroup> NAMED_DRIVER_EXCLUSION_ELECTION = declare("Named Driver Exclusion Election", RadioGroup.class);
 			// DC
 			public static final AssetDescriptor<RadioGroup> INFORMED_CONSENT_FORM_UNINSURED_MOTORIST_COVERAGE = declare("Informed Consent Form - Uninsured Motorist Coverage", RadioGroup.class);

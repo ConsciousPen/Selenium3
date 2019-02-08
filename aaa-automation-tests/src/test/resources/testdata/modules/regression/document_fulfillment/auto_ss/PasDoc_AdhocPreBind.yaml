@@ -1,4 +1,4 @@
-TestData_1: {
+TestData_SC2: {
   DriverTab: ['@DriverTab_ExcludedDriver', '@DriverTab_TeenageDriver'], 
   RatingDetailReportsTab: {}, 
   VehicleTab: '@VehicleTab_EnrolledInUBI',
@@ -9,12 +9,40 @@ TestData_1: {
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
-TestData_Endorsement: {
+TestData_SC3: { 
+  GeneralTab: '@GeneralTab_NANO', 
+  VehicleTab: {}, 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_NANO', 
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+TestData_Endorsement_SC2: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMBIEqualToBI'
 }
 
-TestData_Renewal: {
+TestData_Renewal_SC2: {
   DocumentsAndBindTab: '@DocumentsAndBindTab_Renew'
+}
+
+# -------- GeneralTab ---------
+GeneralTab_NANO: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  PolicyInformation: '@PolicyInformation_NANO'
+}
+
+PolicyInformation_NANO: {
+  Policy Type: Named Non Owner,
+  Effective Date: '$<today:MM/dd/yyyy>',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'contains=Draper - 500005417 - Draper',
+  Agent: 'House Account Draper',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 # --------- DriverTab ---------
@@ -95,6 +123,14 @@ DocumentsAndBindTab: {
   RequiredToIssue: {
     Proof of Prior Insurance: 'Yes'
   }
+}
+
+DocumentsAndBindTab_NANO: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Non-Owner Automobile Endorsement: Physically Signed
+  }, 
+  Agreement: I agree 
 }
 
 DocumentsAndBindTab_Renew: {
