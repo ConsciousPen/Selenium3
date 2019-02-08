@@ -21,6 +21,7 @@ import toolkit.webdriver.controls.collection.Links;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -125,6 +126,21 @@ public class GeneralTab extends Tab {
         mpd_SearchByPolicyNumber(policyType, policyNumber);
         mpd_ManuallyAddPolicyAfterNoResultsFound(policyType);
     }
+
+	/**
+	 * Removes all policies from the Other AAA Products Owned table.
+	 */
+	public void removeAllOtherAAAProductsOwnedTablePolicies(){
+		List<Row> rows = this.getOtherAAAProductTable().getRows();
+
+		int zeroBasedRowIterator = rows.size() - 1;
+
+		// Start at end of list since table gets smaller
+		for (int i = zeroBasedRowIterator; i >= 0; i-- ){
+			// Uses cell index due to column not labelled
+			rows.get(i).getCell(7).controls.links.get("Remove").click(Waiters.AJAX);
+		}
+	}
 
 	/**
 	 * Simply conducts a basic search using the input String as a policy number.
