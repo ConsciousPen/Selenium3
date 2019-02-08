@@ -350,8 +350,28 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind at NB")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-18315")
     public void pas18315_CIO_Prevent_Unquoted_Bind_Endorsment(@Optional("") String state) {
+        // Step 1
         openAppCreatePolicy();
+
+        // Step 2
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+
+        // Step 3 (Using the first scenario which is check all)
+        setUnquotedCheckboxes(getUnquotedManualScenarios().get(0));
+
+        // Step 4
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        _pncTab.btnCalculatePremium().click(Waiters.AJAX);
+
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        _documentsAndBindTab.submitTab();
+
+        // Step 5
+        String errorMsg = _errorTab.tableErrors.
+                getRow("Code", "MPD_COMPANION_UNQUOTED_VALIDATION").
+                getCell("Message").getValue();
+
+        assertThat(errorMsg).startsWith("Policy cannot be bound with an unquoted companion policy.");
     }
 
     /**
