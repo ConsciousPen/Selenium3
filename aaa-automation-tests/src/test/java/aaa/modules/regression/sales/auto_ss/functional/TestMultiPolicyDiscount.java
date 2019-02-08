@@ -817,6 +817,24 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         doMTEPreventBindTest_Renewals("Home", true);
     }
 
+    /**
+     * Validates that a NB policy can be bound when adding a System-Validated Home policy.
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    public void pas23456_MPD_Allow_NBBindWithSystemValidatedPolicy(@Optional("") String state) {
+        TestData testData = getPolicyTD();
+        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
+        _generalTab.mpd_SearchCustomerDetails("CUSTOMER_E");
+        _generalTab.mpdSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
+        policy.getDefaultView().fillFromTo(testData, GeneralTab.class, PurchaseTab.class, true);
+        PurchaseTab.btnApplyPayment.click();
+        Page.dialogConfirmation.buttonYes.click();
+        CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue().contains("Active")).isTrue();
+    }
+
     private void doMTEPreventBindTest(Boolean bFlatEndorsement, String in_policyType){
         // Create Policy and Initiate Endorsement
         openAppCreatePolicy();
