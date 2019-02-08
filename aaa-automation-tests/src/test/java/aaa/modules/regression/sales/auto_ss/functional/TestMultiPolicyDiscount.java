@@ -11,16 +11,13 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ErrorEnum;
-import toolkit.utils.screenshots.ScreenshotManager;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
@@ -611,7 +608,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         // Added MPD element, filling up to purchase point. Includes hacky methods to get around system error.
         policy.getDefaultView().fillFromTo(testData, GeneralTab.class, DocumentsAndBindTab.class, true);
         _documentsAndBindTab.btnPurchase.click();
-        Page.dialogConfirmation.buttonNo.click();
+        ErrorTab.buttonCancel.click();
 
         editMPDAndRerate(0, "Renters", "ABC1"); // Editing only the policyType in this scenario.
         editMPDAndRerate(0, "Renters", "XYZ2"); // Editing only the policyNumber in this scenario.
@@ -663,9 +660,17 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * Will fail attempting to get the object, but assert that the failure was expected and that we're at an expected point.
      * @param bExpected
      */
-    private void ValidateErrorMessage(boolean bExpected){
+    private void ValidateRerateErrorMessage(boolean bExpected){
         try{
-            CustomAssertions.assertThat(_errorTab.tableErrors.getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString().contains("Unprepared data")).isEqualTo(bExpected);
+            if(_errorTab.tableErrors.getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString().contains("Unprepared data")){
+                CustomAssertions.assertThat(_errorTab.tableErrors.getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString().contains("Unprepared data")).isEqualTo(bExpected);
+            }
+            else{
+                _errorTab.overrideAllErrors();
+                _errorTab.buttonOverride.click();
+                _documentsAndBindTab.btnPurchase.click();
+                CustomAssertions.assertThat(_errorTab.tableErrors.getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString().contains("Unprepared data")).isEqualTo(bExpected);
+            }
         }catch(IstfException ex){
             CustomAssertions.assertThat(Page.dialogConfirmation.buttonNo.isPresent()).isTrue();
             CustomAssertions.assertThat(bExpected).isFalse(); // Making sure we were expecting it to be false here.
@@ -680,7 +685,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         _documentsAndBindTab.submitTab();
 
         // Validate Error
-        ValidateErrorMessage(true);
+        ValidateRerateErrorMessage(true);
 
         // Return to P&C Tab and Re-Rate
         _errorTab.buttonCancel.click();
@@ -694,7 +699,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         _documentsAndBindTab.btnPurchase.click();
 
         // Validate No UW Error
-        ValidateErrorMessage(false);
+        ValidateRerateErrorMessage(false);
         Page.dialogConfirmation.buttonNo.click();
     }
 
@@ -757,14 +762,12 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         // Add MPD Element manually (after no results found)
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
         _generalTab.mpd_SearchAndAddManually(in_policyType, "NOT_FOUND");
-        //doScreenshot("DoMPDEligibilityTest", in_policyType, "AddedMPD");
 
         // Continue towards purchase of quote.
         policy.getDefaultView().fillFromTo(testData, GeneralTab.class, DocumentsAndBindTab.class, true);
         _documentsAndBindTab.btnPurchase.click();
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
-        //doScreenshot("DoMPDEligibilityTest", in_policyType, "ErrorValidation");
         validateMPDCompanionError(in_policyType);
     }
 
@@ -772,20 +775,12 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         // Create Policy and Initiate Endorsement
         openAppCreatePolicy();
 
-        if (bFlatEndorsement){
-            policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        }else{
-            policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
-        }
+        handleEndorsementType(bFlatEndorsement);
 
         _generalTab.mpd_SearchAndAddManually(in_policyType, "NOT_FOUND");
-        //doScreenshot("DoMPDEligibilityTest_MidTerm", in_policyType, "AddedMPD");
-        policy.getDefaultView().fillFromTo(getPolicyTD("Endorsement", "TestData_Empty_Endorsement"), GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnPurchase.click();
-        Page.dialogConfirmation.buttonYes.click();
+        fillFromGeneralTabToErrorMsg();
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
-        //doScreenshot("DoMPDEligibilityTest_MidTerm", in_policyType, "ErrorValidation");
         validateMPDCompanionError(in_policyType);
     }
 
@@ -795,24 +790,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         // In Renewal Image, Add MPD Element and Bind
         _generalTab.mpd_SearchAndAddManually(in_policyType, "NOT_FOUND");
-        policy.getDefaultView().fillFromTo(getPolicyTD("Endorsement", "TestData_Empty_Endorsement"), GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnPurchase.click();
-        Page.dialogConfirmation.buttonYes.click();
+        fillFromGeneralTabToErrorMsg();
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
         validateMPDCompanionError(in_policyType);
-    }
-
-    /**
-     * Plug this method in whenever you want to use automation to facilitate grabbing screenshots. <br>
-     *     Captures the entire web browser rather than only what's visible at the moment. (E.G. Scroll Bars) <br>
-     *         !!DO NOT PROVIDE SPACES IN STRINGS!!
-     * @param testName Name of test class being executed.
-     * @param fileName Name of specific test method being executed.
-     * @param extraNotes Details of specific test operation being captured by screenshot.
-     */
-    private void doScreenshot(String testName, String fileName, String extraNotes){
-        ScreenshotManager.getInstance().makeScreenshot(String.format("%s_%s_%s", testName, fileName, extraNotes));
     }
 
     @Parameters({"state"})
@@ -840,19 +821,13 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         // Create Policy and Initiate Endorsement
         openAppCreatePolicy();
 
-        if (bFlatEndorsement){
-            policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        }else{
-            policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
-        }
+        handleEndorsementType(bFlatEndorsement);
 
         // Add MPD Element via Customer Search
         _generalTab.mpd_SearchCustomerDetails("CUSTOMER_E");
         _generalTab.mpdSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
 
-        policy.getDefaultView().fillFromTo(getPolicyTD("Endorsement", "TestData_Empty_Endorsement"), GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnPurchase.click();
-        Page.dialogConfirmation.buttonYes.click();
+        fillFromGeneralTabToErrorMsg();
 
         // Validate error message appears.
         validateMTEBindError(in_policyType);
@@ -864,9 +839,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         if(bAmendedRenew) {
             // Provide blank data for renewal image. Complete and save it.
-            policy.getDefaultView().fillFromTo(getPolicyTD("Endorsement", "TestData_Empty_Endorsement"), GeneralTab.class, DocumentsAndBindTab.class, true);
-            _documentsAndBindTab.btnPurchase.click();
-            Page.dialogConfirmation.buttonYes.click();
+            fillFromGeneralTabToErrorMsg();
             // From policy summary page, begin endorsement on the renewal image.
             policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         }
@@ -876,9 +849,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         _generalTab.mpdSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
 
         // Complete Endorsement.
-        policy.getDefaultView().fillFromTo(getPolicyTD("Endorsement", "TestData_Empty_Endorsement"), GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnPurchase.click();
-        Page.dialogConfirmation.buttonYes.click();
+        fillFromGeneralTabToErrorMsg();
 
         // Validate error message appears.
         validateMTEBindError(in_policyType);
@@ -923,5 +894,24 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
     private void validateMTEBindError(String thePolicyType){
         new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.AAA_SS02012019);
+    }
+
+    private void fillFromGeneralTabToErrorMsg(){
+        policy.getDefaultView().fillFromTo(getPolicyTD("Endorsement", "TestData_Empty_Endorsement"), GeneralTab.class, DocumentsAndBindTab.class, true);
+        _documentsAndBindTab.btnPurchase.click();
+        Page.dialogConfirmation.buttonYes.click();
+    }
+
+    private void handleEndorsementType(boolean bFlatEndorsement){
+        if (bFlatEndorsement){
+            policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        }else{
+            policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
+        }
+    }
+
+    @AfterMethod
+    private void postTest(){
+        mainApp().close();
     }
 }
