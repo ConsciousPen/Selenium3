@@ -107,23 +107,26 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getAaaInsurancePersistency())
 						.format(DateTimeUtils.MM_DD_YYYY));
 
-		Map<String, Object> aAAProductOwnedData = new HashMap<>();
-		aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()));
-		// TODO NEED TO REFACTOR According to changes in UI for Auto SS product for MPD feature.
+		Map<String, Object> currentAAAMembershipData = new HashMap<>();
+		currentAAAMembershipData.put(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()));
 
-		 /*
+		// TODO NEED TO REFACTOR According to changes in UI for Auto SS product for MPD feature.
+		// ownedHome is a temporal fix for NY Auto SS test, should be deleted after MPD Merge to master
+		String ownedHome = "Y".equalsIgnoreCase(openLPolicy.getAaaHomePolicy()) ? "Yes": "No";
+
+		/*Map<String, Object> aAAProductOwnedData = new HashMap<>();
+		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaHomePolicy()))) {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME_OLD.getLabel(), "Yes");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+		} else {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME_OLD.getLabel(), "No");
+		}
+
 		if (Boolean.TRUE.equals(openLPolicy.isAaaLifePolicy())) {
 			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel(), true);
 			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
 		} else {
 			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.LIFE.getLabel(), "No");
-		}
-
-		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaHomePolicy()))) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.HOME.getLabel(), "Yes");
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.HOME_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
-		} else {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.HOME.getLabel(), "No");
 		}
 
 		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaRentersPolicy()))) {
@@ -138,15 +141,15 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CONDO_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
 		} else {
 			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CONDO.getLabel(), "No");
-		}
-		*/
+		}*/
+
 
 		// TODO Refactor section  END
 
 		//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.AAAMembership.MOTORCYCLE.getLabel(), openLPolicy.isAaaMotorcyclePolicy()
 
 		if (membershipNumber != null) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), membershipNumber);
+			currentAAAMembershipData.put(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), membershipNumber);
 		}
 
 		Map<String, Object> currentCarrierInformationData = new HashMap<>();
@@ -195,10 +198,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		return DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), Arrays.asList(namedInsuredInformationData),
-				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), new SimpleDataProvider(aAAProductOwnedData),
+				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), new SimpleDataProvider(currentAAAMembershipData),
 				AutoSSMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), DataProviderFactory.emptyData(),
 				AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), new SimpleDataProvider(currentCarrierInformationData),
-				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), new SimpleDataProvider(policyInformationData));
+				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), new SimpleDataProvider(policyInformationData),
+		        AutoSSMetaData.GeneralTab.HOME.getLabel(), ownedHome);
 	}
 
 	private List<TestData> getDriverTabData(AutoSSOpenLPolicy openLPolicy) {
