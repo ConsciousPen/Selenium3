@@ -11,13 +11,11 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccountActions;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsCATemplate;
@@ -165,9 +163,9 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
 		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
 
 		//Bind The Renewal Image
-//		policy.getDefaultView().fillFromTo(getPolicyTD(), DriverTab.class, PurchaseTab.class, true);
-//		purchaseTab.submitTab();
-//		mainApp().close();
+		policy.getDefaultView().fillFromTo(getPolicyTD(), DriverTab.class, PurchaseTab.class, true);
+		purchaseTab.submitTab();
+		mainApp().close();
 
 		//Move time to R-35 and run batch jobs:
 		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
@@ -177,21 +175,18 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 
-		//Initiate an endorsement: Add AFR Driver, calculate premium and order clue
-		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
+		//Set test date for endorsement
 		TestData addDriverTd = getTestSpecificTD("Add_PU_Claim_Driver_Endorsement_CA");
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		policy.getDefaultView().fillFromTo(addDriverTd, GeneralTab.class, DriverActivityReportsTab.class, true);
-		//		policy.createEndorsement(tdEndorsement);
+		//Initiate an endorsement: Add AFR Driver, calculate premium and order clue
+		initiateAddDriverEndorsement(policyNumber, addDriverTd);
 
 		//Navigate to Driver page and verify PU claim moved from FNI to newly added driver
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
 		puDropAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_3);
 
-
+		//Bind Endorsement
+		bindEndorsement();
 	}
-
-
 
 }

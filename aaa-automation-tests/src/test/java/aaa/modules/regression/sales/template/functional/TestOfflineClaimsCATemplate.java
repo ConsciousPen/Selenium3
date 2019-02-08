@@ -19,6 +19,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
@@ -132,6 +133,37 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         mainApp().close();
     }
 
+    /**
+     * Initiates an endorsement, calculates premium, orders CLUE report for newly added driver
+     * @param policyNumber given policy number
+     * @param addDriverTd specific details for the driver being added to the policy
+     */
+    public void initiateAddDriverEndorsement(String policyNumber, TestData addDriverTd) {
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        policy.getDefaultView().fill(addDriverTd);
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.submitTab();
+
+        //Modify default test data to mask unnecessary steps
+        TestData td = getPolicyTD()
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
+        new DriverActivityReportsTab().fillTab(td);
+    }
+
+    /**
+     * Binds current endorsement: calculates premium, navigates to bind page, and binds endorsement
+     */
+    public void bindEndorsement() {
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        new aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab().submitTab();
+    }
+
     // Move to R-63, run batch job part 1 and offline claims batch job
     public void runRenewalClaimOrderJob() {
         policyExpirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
@@ -177,6 +209,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
             softly.assertThat(DriverTab.tableDriverList).hasRows(5);
 
             // Check 1st driver: Contains only one Matched Claim (Verifying that comp claim has not moved)
+            DriverTab.tableDriverList.selectRow(1);
             softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(COMP_MATCH);
