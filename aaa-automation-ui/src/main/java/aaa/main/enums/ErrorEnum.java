@@ -99,6 +99,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_SS3281092("AAA_HO_SS3281092", "Dwellings with more than 3 detached building structures on the residence prem..."),
 		ERROR_AAA_HO_SS3230162("AAA_HO_SS3230162", "More than 2 additional Insureds require Underwriting approval"),
 		ERROR_AAA_HO_SS3230756("AAA_HO_SS3230756", "More than 2 additional Interests require Underwriting approval"),
+		ERROR_AAA_HO_SS67cbad46("AAA_HO_SS67cbad46", "All named insureds must have an insurance score ordered."),
 		ERROR_AAA_PUP_SS1263335("AAA_PUP_SS1263335", "Applicants with any liability claims in the past 3 years are ineligible."),
 		ERROR_AAA_PUP_SS2260177("AAA_PUP_SS2260177", "Risk is ineligible because applicant does not have a valid license."),
 		ERROR_AAA_PUP_SS2220189("AAA_PUP_SS2220189", "Risks with a property liability limit less than $300,000 are ineligible."),

@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.ws.rs.core.Response;
 
+import aaa.common.enums.Constants;
 import aaa.common.pages.Page;
 import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -2708,13 +2709,14 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas12175_RemoveReplaceAllVehiclesBody() {
+		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");//Getting CARCO rule for NY
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleOtherTypes").getTestDataList("VehicleTab")).resolveLinks();
+		if (getState().equals(Constants.States.NY)) {
+			testData.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError);
+		}
 
-		mainApp().open();
-		createCustomerIndividual();
-		policy.createPolicy(testData);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = openAppAndCreatePolicy(testData);
 
 		String vehicleVinPpa1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
 		String vehicleVinConv = td.getTestDataList("VehicleTab").get(1).getValue("VIN");
