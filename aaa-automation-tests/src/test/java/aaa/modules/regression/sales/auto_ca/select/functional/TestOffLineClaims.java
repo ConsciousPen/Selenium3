@@ -160,11 +160,12 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
 
 		// Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
 		// Check 2nd driver: Has DL match claim
-		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
+//		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
 
-		//Bind The Renewal Image
-		policy.getDefaultView().fillFromTo(getPolicyTD(), DriverTab.class, PurchaseTab.class, true);
-		purchaseTab.submitTab();
+		//Exit Renewal Image
+//		policy.getDefaultView().fillFromTo(getPolicyTD(), DriverTab.class, PurchaseTab.class, true);
+		////		purchaseTab.submitTab();
+		DriverTab.buttonSaveAndExit.click();
 		mainApp().close();
 
 		//Move time to R-35 and run batch jobs:
@@ -177,7 +178,6 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
 
 		//Set test date for endorsement
 		TestData addDriverTd = getTestSpecificTD("Add_PU_Claim_Driver_Endorsement_CA");
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		//Initiate an endorsement: Add AFR Driver, calculate premium and order clue
 		initiateAddDriverEndorsement(policyNumber, addDriverTd);
 
