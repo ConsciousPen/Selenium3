@@ -263,7 +263,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     /**
      * This test validates that New Business scenarios that have unquoted options checked result in error at bind time.
      * @param state the test will run against.
-     * @scenario
+     * @scenario PAS-18315 Test 1
      * 1. Create new customer with default test data.
      * 2. Create new quote checking the current scenario boxes that are marked yes.
      * 3. Finish running through the quote and attempt to bind.
@@ -336,9 +336,9 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     }
 
     /**
-     * This test validates that New Business scenarios that have unquoted options checked result in error at bind time.
+     * This test validates the endorsement scenario with unquoted options checked result in error at bind time.
      * @param state the test will run against.
-     * @scenario
+     * @scenario PAS-18315 Test 2
      * 1. Bind policy with no MPD.
      * 2. Create an endorsement
      * 3. Check all unquoted checkboxes
@@ -347,7 +347,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * @author Brian Bond - CIO
      */
     @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind at NB")
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind during Endorsment")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-18315")
     public void pas18315_CIO_Prevent_Unquoted_Bind_Endorsment(@Optional("") String state) {
         // Step 1
@@ -355,6 +355,45 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         // Step 2
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+
+        // Step 3 (Using the first scenario which is check all)
+        setUnquotedCheckboxes(getUnquotedManualScenarios().get(0));
+
+        // Step 4
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        _pncTab.btnCalculatePremium().click(Waiters.AJAX);
+
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        _documentsAndBindTab.submitTab();
+
+        // Step 5
+        String errorMsg = _errorTab.tableErrors.
+                getRow("Code", "MPD_COMPANION_UNQUOTED_VALIDATION").
+                getCell("Message").getValue();
+
+        assertThat(errorMsg).startsWith("Policy cannot be bound with an unquoted companion policy.");
+    }
+
+    /**
+     * This test validates the Amended Renewal scenario with unquoted options checked result in error at bind time.
+     * @param state the test will run against.
+     * @scenario PAS-18315 Test 3
+     * 1. Bind policy with no MPD.
+     * 2. Create and rate renewal image. Create an endorsement on renewal image (testing UI lockout so no need to run the timechange job execution process).
+     * 3. Check all unquoted checkboxes
+     * 4. Attempt to complete the endorsement
+     * 5. Verify error message stops you from completing endorsement
+     * @author Brian Bond - CIO
+     */
+    @Parameters({"state"})
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind during Amended Renewal")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-18315")
+    public void pas18315_CIO_Prevent_Unquoted_Bind_Amended_Renewal(@Optional("") String state) {
+        // Step 1
+        openAppCreatePolicy();
+
+        // Step 2
+        policy.createRenewal(getPolicyTD("InitiateRenewalEntry", "TestData"));
 
         // Step 3 (Using the first scenario which is check all)
         setUnquotedCheckboxes(getUnquotedManualScenarios().get(0));
