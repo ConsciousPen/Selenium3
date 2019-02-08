@@ -23,11 +23,13 @@ import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.waiters.Waiters;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
@@ -60,8 +62,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         // Data and tools setup
         TestData testData = getPolicyTD();
-        GeneralTab generalTab = new GeneralTab();
-        PremiumAndCoveragesTab pncTab = new PremiumAndCoveragesTab();
+        //GeneralTab generalTab = new GeneralTab();
+        //PremiumAndCoveragesTab pncTab = new PremiumAndCoveragesTab();
 
         // Create customer and move to general tab. //
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
@@ -79,7 +81,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
             // On first iteration fill in data. Else jump to PnC page
             if (i == 0) {
                 // Continue to next tab then move to P&C tab //
-                generalTab.submitTab();
+                _generalTab.submitTab();
 
                 policy.getDefaultView().fillFromTo(testData, DriverTab.class, PremiumAndCoveragesTab.class, true);
             }
@@ -91,7 +93,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
                 // Check in View Rating details for Multi-Policy Discount //
                 String mpdDiscountApplied =
-                        pncTab.getRatingDetailsQuoteInfoData().getValue("AAA Multi-Policy Discount");
+                        _pncTab.getRatingDetailsQuoteInfoData().getValue("AAA Multi-Policy Discount");
 
                 // Close the VRD Popup
                 PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
@@ -151,7 +153,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         TestData testData = getPolicyTD();
 
         // Create customer and move to general tab. //
-        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
+        createQuoteAndFillUpTo(testData, GeneralTab.class, false);//true);
 
         // Step 2
         Button refreshButton = _generalTab.getOtherAAAProductOwnedAssetList().getAsset(
@@ -177,15 +179,14 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         }
 
         // Step 4
-        // This for loop might need to be refactored as method could get rejected.
-        for(int i = 0; i < 3; i++) {
-            _generalTab.mpdTable_getRemoveLinkByIndex(0).click(Waiters.AJAX);
-        }
+        _generalTab.removeAllOtherAAAProductsOwnedTablePolicies();
 
         assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isTrue();
         assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).isEnabled()).isTrue();
         assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).isEnabled()).isTrue();
     }
+
+
 
     /**
      * This tests that when unquoted HO policies are checked, that refresh button returned policies replace them in the table and
