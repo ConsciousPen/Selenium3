@@ -35,6 +35,7 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments;
 import org.assertj.core.api.Assertions;
+import org.codehaus.janino.Mod;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -3120,6 +3121,46 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		validateLessThan1000Miles_AddedVehicle(policyNumber,"WAUC8AFC5JN033929", true, softly);
 		validateLessThan1000Miles_AddedVehicle(policyNumber,"WAUKFAFLXAN008557", false, softly);
 		validateLessThan1000Miles_AddedVehicle(policyNumber,"WAUAFAFL8CN008636", true, softly);
+	}
+
+	protected void pas25065_validateMakeModelOthersForRemovedVehicleBody() {
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleOtherTypes_withPPAOther").getTestDataList("VehicleTab")).resolveLinks();
+		List<TestData> tdVehicles = td.getTestDataList("VehicleTab");
+		//remove PPA (which is not Make/Model other)
+		tdVehicles.remove(0);
+
+		String policyNumber = openAppAndCreatePolicy(testData);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		ViewVehicleResponse viewVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
+		List<Vehicle> vehicleList = new ArrayList<>();
+		for (TestData tdVehicle : tdVehicles) {
+			Vehicle vehicle = findVehicleByVin(viewVehicleResponse, tdVehicle.getValue(VIN.getLabel()));
+			printToLog("Starting to check fields for vehType " + vehicle.vehTypeCd + "...");
+			vehicleList.add(vehicle);
+
+			if ("Trailer".equals(vehicle.vehTypeCd) || "Golf".equals(vehicle.vehTypeCd)) {
+				assertThat(vehicle.otherBodyStyle).isNull(); //Trailer and Golf Cart don't have otherBodyStyle
+			} else {
+				assertThat(vehicle.otherBodyStyle).isEqualToIgnoringCase(tdVehicle.getValue(OTHER_BODY_STYLE.getLabel()));
+			}
+			assertThat(vehicle.model).isEqualTo("OTHER");
+			assertThat(vehicle.otherManufacturer).isEqualTo(tdVehicle.getValue(OTHER_MAKE.getLabel()));
+			assertThat(vehicle.manufacturer).isEqualTo("OTHER");
+			assertThat(vehicle.otherModel).isEqualTo(tdVehicle.getValue(OTHER_MODEL.getLabel()));
+			printToLog("...fields OK for vehType " + vehicle.vehTypeCd);
+
+			//Delete Vehicle
+			HelperCommon.deleteVehicle(policyNumber, vehicle.oid, VehicleUpdateResponseDto.class, Response.Status.OK.getStatusCode());
+		}
+
+		ComparablePolicy comparablePolicy = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
+		for (Vehicle vehicle : vehicleList) {
+			assertThat(comparablePolicy.vehicles.get(vehicle.oid).data).isEqualToIgnoringGivenFields(vehicle, "garagingAddress", "vehicleOwnership", "availableActions");
+			printToLog("ChangeLog OK for: " + vehicle.vehTypeCd);
+		}
+
 	}
 
 	private void validateLessThan1000Miles_ExistingVehicles(String policyNumber, String vin, boolean isLessThan1000Expected,
