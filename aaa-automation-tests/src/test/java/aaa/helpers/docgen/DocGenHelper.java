@@ -514,7 +514,7 @@ public class DocGenHelper {
 		ProductCode product = null;
 		if (template.startsWith("CA")) {
 			state = Constants.States.CA;
-			if (template.startsWith("CAH")) {
+			if (template.startsWith("CAH") || template.startsWith("CAD")) {
 				product = ProductCode.AAA_HO_CA;
 			}
 			if (template.startsWith("CAA")) {
