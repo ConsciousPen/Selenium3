@@ -11,9 +11,10 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsCATemplate;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
@@ -29,8 +30,11 @@ import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 import java.io.File;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -106,5 +110,98 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
 	    // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
 	    // Check 2nd driver: Has DL match claim
 		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
+    }
+
+    /**
+     * @author Kiruthika Rajendran
+     * PAS-23269 - UI-CA: Show Permissive Use Indicator on Driver Tab
+     * @name Test Clue claims STUB/Mock Data Claims
+     * @scenario Test Steps:
+     * 1. Create a Quote with 4 drivers
+     * 2. Calculate the Premium and click on Validate Driving History
+     * 3. Go to Driver tab.
+     * 4. Check for the Activity for Clue claims     *
+     * 5. Verify Clue Claim Data for the correct driver.
+     * 9. Verify the Permissive Use indicator in Driver Activity
+     * @details Clean Path. Expected Result Permissive Use indicator in Driver Activity
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23269")
+    public void pas23269_verifypermissiveUseindicator(@Optional("CA") @SuppressWarnings("unused") String state) {
+
+        // Toggle ON PermissiveUse Logic
+        // Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
+        // Set RISKSTATECD in DB to get policy DATEOFLOSS working
+        DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
+        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
+
+//        TestData testData = getPolicyTD();
+//        List<TestData> testDataDriverData = new ArrayList<>();// Merged driver tab with 4 drivers
+//        testDataDriverData.add(testData.getTestData("DriverTab"));
+//        testDataDriverData.addAll(getTestSpecificTD("TestData_DriverTab_OfflineClaim_PU").resolveLinks().getTestDataList("DriverTab"));
+//        adjusted = testData.adjust("DriverTab", testDataDriverData).resolveLinks();
+
+        TestData testData = getPolicyTD();
+        adjusted = testData.adjust(getTestSpecificTD("TestData_DriverTab_OfflineClaim_PU").resolveLinks());
+
+        mainApp().open();
+        createCustomerIndividual();
+        policy.initiate();
+        PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+        DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+        DriverTab drivertab = new DriverTab();
+        //In driver tab, 4 drivers are added. Company Input activity is added for Driver4
+        //policy.getDefaultView().fillUpTo(adjusted, PremiumAndCoveragesTab.class, true);
+        //premiumAndCoveragesTab.submitTab();
+        policy.getDefaultView().fillUpTo(adjusted, DriverTab.class, true);
+
+//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+       log.info(drivertab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).getValue());
+       assertThat(drivertab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
+        drivertab.submitTab();
+
+        policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, DocumentsAndBindTab.class, true);
+        documentsAndBindTab.submitTab();
+//        new ErrorTab().overrideAllErrors();
+//        documentsAndBindTab.submitTab();
+        new PurchaseTab().fillTab(adjusted).submitTab();
+        policyNumber = PolicySummaryPage.getPolicyNumber();
+        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+
+        //Initiate endorsement
+        TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(5));
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+//        policy.getDefaultView().fill(tdEndorsement);
+
+
+        TestData tdEndorsement = getTestSpecificTD("TestData_Endorsement_PU");
+//        policy.createEndorsement(tdEndorsement);
+
+
+        runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
+        generateClaimRequest();        // Download claim request and assert it
+
+        // Create the claim response
+        createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
+        runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
+
+        //TBD - Login with different user
+
+        // Retrieve policy
+        mainApp().open();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+        // Enter renewal image and verify claim presence
+        buttonRenewals.click();
+        policy.dataGather().start();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+        // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
+        // Check 2nd driver: Has DL match claim
+        compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
     }
 }

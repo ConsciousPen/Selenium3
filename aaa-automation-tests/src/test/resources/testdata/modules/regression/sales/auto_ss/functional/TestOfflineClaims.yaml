@@ -4,6 +4,22 @@ TestData_DriverTab_OfflineClaim_AZ: {
 }
 
   ######Test Data for 2/3/4 Drivers
+Driver1: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  First Name: NICOLAS,
+  Last Name: SMITH,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 12/05/1960,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Clergy,
+  License Type: "Licensed (US)",
+  License State: AZ,
+  License Number: A12345111,
+  Age First Licensed: 18
+}
+
 Driver2: {
   Add Driver: Click,
   DriverSearchDialog:{},

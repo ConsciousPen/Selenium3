@@ -1,9 +1,59 @@
 ############### 3 Drivers on policy
 TestData_DriverTab_OfflineClaim_CA: {
-  DriverTab: ['@Driver2','@Driver3','@Driver4']
+  #GeneralTab: ['@GeneralTab_Customer'],
+  DriverTab: ['@Driver1','@Driver2','@Driver3','@Driver4']
 }
 
-  ######Test Data for 2/3/4 Drivers
+TestData_DriverTab_OfflineClaim_PU_CA: {
+ # GeneralTab: ['@GeneralTab_Customer'],
+  PrefillTab: '@PrefillTab1_CA',
+  DriverTab: ['@Driver1','@Driver2','@Driver3','@Driver4','@Driver5']
+}
+
+PrefillTab1_CA: {
+  First Name: Nicolas,
+  Last Name: Smith,
+  Zip Code: 90255,
+  Address Line 1: 6586 PORCUPINE WAY,
+  City: HUNTINGTON PARK,
+  State: CA,
+  Date of Birth: '12/05/1969',
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+
+#GeneralTab_Customer: {
+#  First Name: NICOLAS,
+#  Last Name: SMITH,
+#  Date of Birth: 01/02/1960,
+#  Gender: Male,
+#  Marital Status: Married,
+#  Zip Code: '90255',
+#  Address Line 1: 6586 PORCUPINE WAY
+#}
+
+  ######Test Data for 1/2/3/4 Drivers
+
+Driver1: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  #First Name: NICOLAS,
+  #Last Name: SMITH,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 12/05/1969,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435422,
+  Age First Licensed: 18
+}
+
 Driver2: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -56,4 +106,29 @@ Driver4: {
   Permit Before License: 'Yes',
   "License #": D5435435,
   Age First Licensed: 18
+}
+
+Driver5: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Henry,
+  Last Name: Stone,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 12/21/1979,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435436,
+  Age First Licensed: 18,
+     ActivityInformation: {
+       Activity Source : 'Company Input',
+       Type: 'Minor Violation',
+       Description: Driving on sidewalk,
+       Occurrence Date: '$<today-1d:MM/dd/yyyy>',
+       "Permissive Use Loss?": 'Yes'
+      }
 }
