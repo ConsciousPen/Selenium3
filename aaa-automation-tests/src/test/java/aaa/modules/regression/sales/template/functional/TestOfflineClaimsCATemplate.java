@@ -141,6 +141,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     public void initiateAddDriverEndorsement(String policyNumber, TestData addDriverTd) {
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
+	    policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         policy.getDefaultView().fill(addDriverTd);
 
