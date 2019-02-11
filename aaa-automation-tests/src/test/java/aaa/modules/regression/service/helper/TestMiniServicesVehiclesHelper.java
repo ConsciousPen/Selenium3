@@ -2810,7 +2810,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas12942_GaragingAddressConsistencyDXPBody( String state) {
+	protected void pas12942_GaragingAddressConsistencyDXPBody() {
 		mainApp().open();
 
 		String policyNumber = getCopiedPolicy();
@@ -2822,14 +2822,25 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		String vin = "3FAFP31341R200709";
 		Vehicle response1 = HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
 
-		if ("VA".equals(state)) {
-			VehicleUpdateDto updateVehicleRequest = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "2011 CORAL AVE", "Chesapeake", "23324", "VA");
-			HelperCommon.updateVehicle(policyNumber, response1.oid, updateVehicleRequest);
-		}else if ("CT".equals(state))
-		{
-			VehicleUpdateDto updateVehicleRequest = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "213 Regis Court", "Meriden", "06450", "CT");
-			HelperCommon.updateVehicle(policyNumber, response1.oid, updateVehicleRequest);
+		String address1 = null;
+		String city = null;
+		String postalCode = null;
+		String state = null;
+
+		if (Constants.States.VA.equals(getState())) {
+			address1 = "2011 CORAL AVE";
+			city = "Chesapeake";
+			postalCode = "23324";
+			state = "VA";
+		} else if (Constants.States.CT.equals(getState())) {
+			address1 = "213 Regis Court";
+			city = "Meriden";
+			postalCode = "06450";
+			state = "CT";
 		}
+
+		VehicleUpdateDto updateVehicleRequest = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, address1, city, postalCode, state);
+		HelperCommon.updateVehicle(policyNumber, response1.oid, updateVehicleRequest);
 
 		//hit Meta Data and verify that the garaging address is different
 		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, response1.oid);
@@ -2840,7 +2851,6 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		if ("CT".equals(state))
 		{
 			testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.county", true, true, true, null, "String");
-
 		}
 		//check that the garaging address is different in PAS and bind the endorsement
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -2849,10 +2859,10 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
-		assertThat(vehicleTab.getAssetList().getAsset(ADDRESS_LINE_1.getLabel()).getValue().toString().equals("213 Regis Court")).isTrue();
-		assertThat(vehicleTab.getAssetList().getAsset(CITY.getLabel()).getValue().toString().equals("Meriden")).isTrue();
-		assertThat(vehicleTab.getAssetList().getAsset(STATE.getLabel()).getValue().toString().equals("CT")).isTrue();
-		assertThat(vehicleTab.getAssetList().getAsset(ZIP_CODE.getLabel()).getValue().toString().equals("06450")).isTrue();
+		assertThat(vehicleTab.getAssetList().getAsset(ADDRESS_LINE_1.getLabel()).getValue().toString()).isEqualTo(address1);
+		assertThat(vehicleTab.getAssetList().getAsset(CITY.getLabel()).getValue().toString()).isEqualTo(city);
+		assertThat(vehicleTab.getAssetList().getAsset(STATE.getLabel()).getValue().toString()).isEqualTo(state);
+		assertThat(vehicleTab.getAssetList().getAsset(ZIP_CODE.getLabel()).getValue().toString()).isEqualTo(postalCode);
 		vehicleTab.saveAndExit();
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);

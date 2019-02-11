@@ -722,10 +722,11 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 6. Run the test for CT and VA If CT verify county in meta data service
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA,Constants.States.CT})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12942, Pas-15269"})
 	public void pas12942_GaragingAddressConsistencyDXP(@Optional("CT") String state) {
-		pas12942_GaragingAddressConsistencyDXPBody(state);
+		pas12942_GaragingAddressConsistencyDXPBody();
 	}
 
 	/**
