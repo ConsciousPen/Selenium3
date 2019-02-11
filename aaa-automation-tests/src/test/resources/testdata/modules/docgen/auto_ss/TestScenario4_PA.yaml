@@ -49,9 +49,11 @@ TestData_EndorsementOne: {
     FormsTab: {},
     PremiumAndCoveragesTab: {},
     DriverActivityReportsTab: {},
-    DocumentsAndBindTab: {}
+    DocumentsAndBindTab: {
+       RequiredToBind: {
+            First Party Benefits Coverage and Limits Selection Form: Physically Signed,}
+   }
 }
-
 # ------------- Documents Verification ----------
 TestData_VerificationEDOne: {
    AA41PA: '@AA41PA'
