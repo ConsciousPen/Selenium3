@@ -1,0 +1,101 @@
+TestData: {
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: {},
+  MortgageesTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@MortgageesTab'
+}
+
+PropertyInfoTab: {
+  DwellingAddress: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PropertyValue',
+  Construction: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@Construction',
+  Interior: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: {},
+  PetsOrAnimals: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PetsOrAnimals',
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: '@RentalInformation'
+}
+
+# ----- PropertyInfo Tab -----
+DetachedStructures: {
+   "Are there any detached structures on the property?": 'Yes', 
+   Rented to others: 'No', 
+   Description: 'Detached structure 1',
+   Limit of liability: '1000' 
+}  
+
+RentalInformation: {
+  Number of consecutive years insured has owned any rental properties: '5',
+  Property manager: 'index=1',
+  "Does the tenant have an underlying HO4 policy?": "No"
+}
+
+# =========== TC03 Storm Shutter discount ===========
+TestData_StormShutterYes: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PropertyInfoTab_StormShutterYes',
+}
+
+# ============ TC_verifyUnderwritingApprovalTab ===============
+TestData_UW1: {
+  UnderwritingAndApprovalTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@UnderwritingAndApprovalTab_UW1',
+}
+
+TestData_UW2: {
+  UnderwritingAndApprovalTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@UnderwritingAndApprovalTab_UW2',
+}
+
+TestData_UW3: {
+  UnderwritingAndApprovalTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@UnderwritingAndApprovalTab_UW3',
+}
+
+#================ TC verifyInspectionTypeAndEligibility ================
+TestData_Construction1: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PropertyInfoTab_Construction1'
+}
+
+TestData_Construction2: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PropertyInfoTab_Construction2'
+}
+
+TestData_Construction3: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PropertyInfoTab_Construction3'
+}
+
+TestData_correct: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PropertyInfoTab_correct',  
+  UnderwritingAndApprovalTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@UnderwritingAndApprovalTab_1'
+}
+
+#================ TC verifyCancelNoticeTab ================
+TestData_Plus20Days: {
+  CancelNoticeActionTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@CancelNoticeActionTab_Plus20Days'
+}
+
+TestData_Plus21Days: {
+  CancelNoticeActionTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@CancelNoticeActionTab_Plus21Days'
+}
+
+# ============= Endorsement ================ 
+TestData_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage E - Personal Liability Each Occurrence: 'contains=$500,000',
+    Coverage F - Medical Payments to Others: 'contains=$3,000'
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}

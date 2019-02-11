@@ -27,7 +27,7 @@ TestData_NY: {
 Vehicle1_NY: {
   Usage: Pleasure,
   VIN: 1GNWGPFG8B6548273,
-  "Less Than 3,000 Miles": 'No'
+  #"Less Than 3,000 Miles": 'No'  #vehicle became older
 }
 
 #---- Endorsement ----

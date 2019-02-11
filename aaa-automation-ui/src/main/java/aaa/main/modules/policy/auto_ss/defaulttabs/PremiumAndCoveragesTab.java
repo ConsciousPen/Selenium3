@@ -46,7 +46,8 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table tableFormsSummary = new Table(By.id("policyDataGatherForm:formSummaryTable"));
 	public static Table tablefeesSummary = new Table(By.id("policyDataGatherForm:feesSummaryTable"));
 	public static Table tableInstallmentFeeDetails = new Table(By.id("policyDataGatherForm:installmentFeeDetailsTable"));
-	public static Table tableStateAndLocalTaxesSummary = new Table(By.xpath("//table[@id='policyDataGatherForm:taxTable' or @id='policyDataGatherForm:taxSurchargeSummaryTable']"));
+	public static Table tableStateAndLocalTaxesSummary = new Table(By.xpath("//table[@id='policyDataGatherForm:taxTable']"));
+	public static Table tableStateAndLocalTaxesSummaryDetailed = new Table(By.xpath("//table[@id='policyDataGatherForm:taxSurchargeSummaryTable']"));
 	public static Table tableAAAPremiumSummary = new Table(By.id("policyDataGatherForm:AAAPremiumSummary"));
 	public static Table tableTermPremiumbyVehicle = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table"));
 	public static Table tablePolicyLevelLiabilityCoveragesPremium = new Table(By.xpath("//table[@id='policyDataGatherForm:policyTableTotalVehiclePremium']"));
@@ -59,7 +60,6 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Button buttonReturnToPremiumAndCoverages = new Button(By.id("cappingDetailsPopupPanel:cappingReturnTo"), Waiters.AJAX);
 	public static Button buttonViewRatingDetails = new Button(By.id("policyDataGatherForm:viewRatingDetails_Link_1"), Waiters.AJAX);
 	public static Button buttonContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
-	public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"), Waiters.AJAX);
 
 	public static StaticElement totalTermPremium = new StaticElement(By.xpath("//span[@class='TOTAL_TERM_PREMIUM']"));
 	public static StaticElement totalActualPremium = new StaticElement(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAPremiumSummary_body']/table/tbody/tr/td[2]/span"));
@@ -102,12 +102,16 @@ public class PremiumAndCoveragesTab extends Tab {
 	}
 
 	public static Dollar getStateAndLocalTaxesAndPremiumSurchargesPremium() {
-		return new Dollar(tableStateAndLocalTaxesSummary.getRow(1).getCell(tableStateAndLocalTaxesSummary.getColumnsCount()).getValue());
+		if (tableStateAndLocalTaxesSummaryDetailed.isPresent() && tableStateAndLocalTaxesSummaryDetailed.isVisible()) {
+			return new Dollar(tableStateAndLocalTaxesSummaryDetailed.getFooter().getCell(tableStateAndLocalTaxesSummaryDetailed.getColumnsCount()).getValue());
+		} else {
+			return new Dollar(tableStateAndLocalTaxesSummary.getRow(1).getCell(tableStateAndLocalTaxesSummary.getColumnsCount()).getValue());
+		}
 	}
 
 	public TestData getRatingDetailsQuoteInfoData() {
 		if (!tableRatingDetailsQuoteInfo.isPresent()) {
-			buttonViewRatingDetails.click();
+			RatingDetailsView.open();
 		}
 
 		Map<String, Object> map = new LinkedHashMap<>();
@@ -242,8 +246,8 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	@Override
 	public Tab submitTab() {
-		if (buttonRatingDetailsOk.isPresent() && buttonRatingDetailsOk.isVisible()) {
-			buttonRatingDetailsOk.click();
+		if (RatingDetailsView.buttonRatingDetailsOk.isPresent() && RatingDetailsView.buttonRatingDetailsOk.isVisible()) {
+			RatingDetailsView.buttonRatingDetailsOk.click();
 		}
 		buttonContinue.click();
 		return this;
@@ -327,7 +331,7 @@ public class PremiumAndCoveragesTab extends Tab {
 		List<TestData> testDataList = new ArrayList<>();
 
 		if (!table.isPresent()) {
-			buttonViewRatingDetails.click();
+			RatingDetailsView.open();
 		}
 
 		Map<String, Object> map = new LinkedHashMap<>();
@@ -365,5 +369,20 @@ public class PremiumAndCoveragesTab extends Tab {
 		}
 
 		return testDataList;
+	}
+
+	public static class RatingDetailsView {
+		public static RatingDetailsTable tableVehicleSummary = new RatingDetailsTable("//div[@id='ratingDetailsPopup_container']//table[@id='ratingDetailsPopupForm:vehicle_summary']");
+		public static RatingDetailsTable tableDriverSummary = new RatingDetailsTable("//div[@id='ratingDetailsPopup_container']//table[@id='ratingDetailsPopupForm:driver_summary']");
+
+		public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"), Waiters.AJAX);
+
+		public static void open() {
+			buttonViewRatingDetails.click();
+		}
+
+		public static void close() {
+			buttonRatingDetailsOk.click();
+		}
 	}
 }

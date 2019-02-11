@@ -7,6 +7,8 @@ package aaa.main.modules.policy.home_ss.defaulttabs;
 import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
@@ -40,6 +42,7 @@ public class ReportsTab extends Tab {
 	public StaticElement lblAdversalyImpactedMessage = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:warningMessage']"));
 	public StaticElement lblELCMessage = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:ELCMessageText']"));
 	public StaticElement lblFirelineMessage = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:firelineValidationErrorMessage']"));
+	protected static Logger log = LoggerFactory.getLogger(ReportsTab.class);
 
 	public ReportsTab() {
 		super(HomeSSMetaData.ReportsTab.class);

@@ -8,6 +8,7 @@ import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.metadata.policy.AutoSSMetaData.GeneralTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
@@ -46,14 +47,25 @@ public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemp
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-8271")
     public void pas8271_testClueReportOnCopyPolicyActionSS(@Optional("") String state) {
 
-        // Get state-specific 2nd driver and adjust test data
-        TestData tdDriverTab =  getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName()).get(1)
-                .adjust(AutoSSMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click")
-                .adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), "Sally")
-                .adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), "Smith")
-                .mask(AutoSSMetaData.DriverTab.NAMED_INSURED.getLabel());
-        TestData tdEndorsement = getTestSpecificTD("TestData").adjust(DriverTab.class.getSimpleName(), tdDriverTab);
+        // Get state-specific 2nd driver and adjust test data      
+		TestData tdNamedInsured = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData")
+				.getTestData(GeneralTab.class.getSimpleName())
+				.getTestDataList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel())
+				.get(1)
+				.adjust(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADD_INSURED.getLabel(), "Click")
+				.adjust(AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel(), "Sally")
+				.adjust(AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel(), "Smith");
+		
+        TestData tdDriverTab =  getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData")
+        		.getTestDataList(DriverTab.class.getSimpleName())
+        		.get(1)
+        		.adjust(AutoSSMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click");
+		
 
+        TestData tdEndorsement = getTestSpecificTD("TestData")
+        		.adjust(DriverTab.class.getSimpleName(), tdDriverTab)
+        		.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel()), tdNamedInsured);
+		
 		pas8271_testClueReportOnCopyPolicyAction(tdEndorsement);
 
     }
@@ -81,14 +93,16 @@ public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemp
 
 		mainApp().open();
 		createCustomerIndividual();
+		
+		List<TestData> tdNamedInsured = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData")
+				.getTestData(GeneralTab.class.getSimpleName())
+				.getTestDataList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel());
 
-		List<TestData> tdDriverTab = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName());
-		tdDriverTab.get(1)
-				.adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), "Sally")
-				.adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), "Smith")
-				.mask(AutoSSMetaData.DriverTab.NAMED_INSURED.getLabel());
-		TestData td = getPolicyDefaultTD().adjust(DriverTab.class.getSimpleName(), tdDriverTab);
-
+		tdNamedInsured.get(1)
+				.adjust(AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel(), "Sally")
+				.adjust(AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel(), "Smith");
+		
+		TestData td = getPolicyDefaultTD().adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel()), tdNamedInsured);
 		// Initiate Quote with 2 drivers, fill up to DAR page, and initiate Copy From Quote action
 		createQuoteFillAndInitiateCopyAction(td, new DriverActivityReportsTab());
 

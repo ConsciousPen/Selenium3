@@ -14,7 +14,7 @@ TestData: {
 
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
   CurrentCarrierInformation: '@CurrentCarrierInformation'
@@ -28,21 +28,14 @@ CurrentCarrierInformation: {
   Agent Entered BI Limits: '$300,000/$500,000',
 }
 
-AAAProductOwned: {
+AAAMembership: {
   Current AAA Member: 'Yes',
-  Membership Number: 4290023667710001,
-  Life: 'Yes',
-  'Life Policy #': L87654567,
-  Home: 'Yes',
-  'Home Motorcycle Policy #': H65654328,
-  Renters: 'Yes',
-  'Renters Policy #': R09871234,
-  Condo: 'Yes',
-  'Condo Policy #': C76509878
+  Membership Number: 4290023667710001
 }
 
 NamedInsuredInformation1: {
   Social Security Number: 123456789,
+  Insured Date of Birth: '$<today-21y:MM/dd/yyyy>',
   "Has lived here for less than three years?": 'No',
   Residence: Own Home,
 }
@@ -52,6 +45,7 @@ NamedInsuredInformation2: {
   First Name: Jenny,
   Last Name: Smith,
   Base Date: $<today>,
+  Insured Date of Birth: '$<today-19y:MM/dd/yyyy>',
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
   Residence: Own Home,
@@ -60,7 +54,6 @@ NamedInsuredInformation2: {
 DriverTab1: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
-  Date of Birth: '$<today-21y:MM/dd/yyyy>',
   License Type: 'Licensed (US)',
   License Number: 400064773,
   Affinity Group: AAA Employee
@@ -70,7 +63,6 @@ DriverTab2: {
   DriverSearchDialog: {},
   Named Insured: 'index=0',
   'Rel. to First Named Insured': Child,
-  Date of Birth: '$<today-19y:MM/dd/yyyy>',
   Gender: Female,
   Marital Status: Single,
   Occupation: Student,

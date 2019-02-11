@@ -10,11 +10,19 @@ public final class ErrorEnum {
 		ERROR_200127("200127", "The selected pay plan is not allowed when Membership is \"\"No\"\". Please choose a plan with a minimum down payment of 50% or greater. Do not select 'refer for approval.' Any exceptions to this rule must be discussed directly with Service. (200127) [for ExistingPolicies.existingMembershipCd]"),
 		ERROR_200103("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
 		ERROR_200104("200104", "Driver with 2 or more At-fault accidents are unacceptable (200104) [for Drive..."),
+		ERROR_200123("200123", "Delaware Motorists Protection Act form must be received prior to issuing this transaction"),
+		ERROR_200037_VA("200037_VA", "A signed IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE form must be received prior to issuing this transaction"),
+		ERROR_200304("200304", "If Limited Tort Liability coverage is selected, a signed form must be receive..."),
+		ERROR_200305("200305", "First Party Benefits signed form must be received (200305)"),
+		ERROR_200306("200306", "A signed Uninsured motorist coverage selection form must be received prior to issuing this transaction (200306)"),
 		ERROR_200401("200401", "Credit Adverse Impact requires Underwriting Review and approval"),
+		ERROR_200900("200900", "A signed Coverage Selection/Rejection Form must be received prior to issuing this transaction (200900)"),
 		ERROR_200060_CO("200060_CO", "If Medical Payments coverage is rejected, a signed form must be received"),
 		ERROR_AAA_SS9140068("AAA_SS9140068", "It is too late in the term to change to the selected bill plan."),
 		ERROR_AAA_CLUE_order_validation_SS("AAA_CLUE_order_validation_SS", "Current CLUE must be ordered"),
 		ERROR_AAA_SS10240324("AAA_SS10240324", "At least one phone number must be provided."),
+		ERROR_AAA_SS190125("AAA_SS190125", "Pennsylvania Notice to Named Insureds Regarding Tort Options must be received prior to issuing this transaction."),
+
 
 		// Property errors
 		ERROR_AAA_HO_Fireline("AAA_HO_Fireline","FireLine score is ineligible. (AAA_HO_Fireline) [for AAAFirelineDetailsMVO.fi..." ),
@@ -76,18 +84,21 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_SS7160042("AAA_HO_SS7160042", "Applicants who have been cancelled, refused insurance or non-renewed in the p..."),
 		ERROR_AAA_HO_SS11120040("AAA_HO_SS11120040", "Dwellings built prior to 1900 are ineligible."),
 		ERROR_AAA_HO_SS3282256("AAA_HO_SS3282256", "Dwellings built prior to 1940 must have all four major systems fully renovated."),
+		ERROR_AAA_HO_SS2103528("AAA_HO_SS2103528", "Dwellings built prior to 1940 must have all four major systems fully renovated."),
 		ERROR_AAA_HO_SS1100204("AAA_HO_SS1100204", "Proof of plumbing, electrical, heating/cooling system and roof renovations is..."),
 		ERROR_AAA_HO_SS3200008("AAA_HO_SS3200008", "Risks with more than 3 horses or 4 livestock are unacceptable."),
 		ERROR_AAA_HO_SS3195184("AAA_HO_SS3195184", "Risks with more than 3 horses or 4 livestock are unacceptable."),
 		ERROR_AAA_HO_SS12141800("AAA_HO_SS12141800", "Underwriting approval required. Primary home of the applicant is not insured ..."),
 		ERROR_AAA_HO_SS1160000("AAA_HO_SS1160000", "Coverage A greater than 120% of replacement cost requires underwriting approval."),
 		ERROR_AAA_HO_SS1162304("AAA_HO_SS1162304", "Coverage A greater than $1,000,000 requires underwriting approval."),
+		ERROR_AAA_HO_SS1162304_MD("AAA_HO_SS1162304_MD", "Coverage A greater than $2,000,000 requires underwriting approval."),
 		ERROR_AAA_HO_SS4250648("AAA_HO_SS4250648", "Coverage B must be less than 50% of Coverage A to bind."),
 		ERROR_AAA_HO_SS3281224("AAA_HO_SS3281224", "Coverage B cannot exceed Coverage A."),
 		ERROR_AAA_HO_SS3280000_1("AAA_HO_SS3280000_1", "Dwellings with more than 2 detached building structures rented to others on t..."),
 		ERROR_AAA_HO_SS3281092("AAA_HO_SS3281092", "Dwellings with more than 3 detached building structures on the residence prem..."),
 		ERROR_AAA_HO_SS3230162("AAA_HO_SS3230162", "More than 2 additional Insureds require Underwriting approval"),
 		ERROR_AAA_HO_SS3230756("AAA_HO_SS3230756", "More than 2 additional Interests require Underwriting approval"),
+		ERROR_AAA_HO_SS67cbad46("AAA_HO_SS67cbad46", "All named insureds must have an insurance score ordered."),
 		ERROR_AAA_PUP_SS1263335("AAA_PUP_SS1263335", "Applicants with any liability claims in the past 3 years are ineligible."),
 		ERROR_AAA_PUP_SS2260177("AAA_PUP_SS2260177", "Risk is ineligible because applicant does not have a valid license."),
 		ERROR_AAA_PUP_SS2220189("AAA_PUP_SS2220189", "Risks with a property liability limit less than $300,000 are ineligible."),
@@ -149,6 +160,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_SS_MAIG_IS_REPORT("AAA_HO_SS_MAIG_IS_REPORT", "A valid insurance score report for at least one named insured or insurance sc..."),
 
 		// Auto Errors
+		ERROR_AAA_200307("200307", "A signed Underinsured motorist coverage selection form must be received prior to issuing this transaction (200307)"),
 		ERROR_AAA_10022001("10022001", "Base year on rewrite must be current year (10022001) [for Policy.policyNumber]"),
 		ERROR_AAA_200005("200005", "Driver with a narcotics, drug or felony conviction involving a motor vehicle ..."),
 		ERROR_AAA_200008("200008", "Each driver must have a unique Driver's License Number."),
@@ -172,6 +184,7 @@ public final class ErrorEnum {
 		ERROR_AAA_200205("200205", "Vehicles with Physical Damage Coverage requires a CARCO Inspection"),
 		ERROR_AAA_200200_NY("200200_NY", "Vehicles with Physical Damage Coverage require a CARCO Inspection or Proof o..."),
 		ERROR_AAA_200203("200203", "If Uninsured/Underinsured Motorist (UM/UIM) Coverage is rejected. A signed Un..."),
+		ERROR_AAA_10006002_CA("10006002", "Do not bind the endorsement more than 30 days in advance. (10006002) [for Pol..."),
 
 		//MEMBERSHIP Errors
 		ERROR_AAA_AUTO_SS_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm..."),

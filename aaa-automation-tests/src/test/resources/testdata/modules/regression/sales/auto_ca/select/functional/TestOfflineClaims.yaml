@@ -1,0 +1,59 @@
+############### 3 Drivers on policy
+TestData_DriverTab_OfflineClaim_CA: {
+  DriverTab: ['@Driver2','@Driver3','@Driver4']
+}
+
+  ######Test Data for 2/3/4 Drivers
+Driver2: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: JOSHUA,
+  Last Name: FUSSELL,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 12/05/1970,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435433,
+  Age First Licensed: 18
+}
+
+Driver3: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Tony,
+  Last Name: Stark,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 10/16/1997,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435434,
+  Age First Licensed: 18
+}
+
+Driver4: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Robin,
+  Last Name: Hood,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 12/20/1975,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435435,
+  Age First Licensed: 18
+}

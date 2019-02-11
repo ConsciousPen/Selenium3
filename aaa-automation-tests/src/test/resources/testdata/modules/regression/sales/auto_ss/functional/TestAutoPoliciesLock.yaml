@@ -1,8 +1,8 @@
 TestData: {
     Age First Licensed: 18,
-    License Number: A1483465,
-    License State: 'CA',
-    Date of Birth: '01/01/1978',
+    License Number: 156773434,
+    License State: 'CT',
+    #Date of Birth: '01/01/1978',
     ActivityInformation: ['@ActivityCC', '@ActivityCC', '@ActivityNAF', '@ActivityNAF']
 }
 

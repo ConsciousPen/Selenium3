@@ -3,10 +3,7 @@ package aaa.modules.regression.service.helper;
 import static aaa.admin.modules.IAdmin.log;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import javax.ws.rs.core.Response;
 import org.apache.http.client.utils.URIBuilder;
 import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
@@ -445,9 +442,17 @@ public class HelperCommon {
 		return JsonClient.sendPostRequest(requestUrl, null, ErrorResponseDto.class, 422);
 	}
 
-	public static PolicySummary endorsementBind(String policyNumber, String authorizedBy, int status) {
+	public static PolicySummary endorsementBind(String policyNumber, String authorizedBy, int status, String... documentsSigned) {
 		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
 		request.authorizedBy = authorizedBy;
+		request.documentsSigned = Arrays.asList(documentsSigned);
+		return endorsementBind(policyNumber, authorizedBy, status, Arrays.asList(documentsSigned));
+	}
+
+	public static PolicySummary endorsementBind(String policyNumber, String authorizedBy, int status, List<String> documentsSigned) {
+		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
+		request.authorizedBy = authorizedBy;
+		request.documentsSigned = documentsSigned;
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_BIND, policyNumber));
 		return JsonClient.sendPostRequest(requestUrl, request, PolicySummary.class, status);
 	}
@@ -457,9 +462,10 @@ public class HelperCommon {
 		return JsonClient.sendDeleteRequest(requestUrl, String.class, status);
 	}
 
-	public static ErrorResponseDto endorsementBindError(String policyNumber, String authorizedBy, int status) {
+	public static ErrorResponseDto endorsementBindError(String policyNumber, String authorizedBy, int status, String... documentsSigned) {
 		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
 		request.authorizedBy = authorizedBy;
+		request.documentsSigned = Arrays.asList(documentsSigned);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_BIND, policyNumber));
 		return JsonClient.sendPostRequest(requestUrl, request, ErrorResponseDto.class, status);
 	}

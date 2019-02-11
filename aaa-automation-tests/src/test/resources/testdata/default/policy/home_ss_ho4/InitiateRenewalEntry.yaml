@@ -182,7 +182,8 @@ InitiateRenewalEntryActionTab_NY: {
   Renewal Policy Premium: 0,
   Policy Term: Annual,
   Enrolled in Autopay: 'No',
-  Legacy policy had Multi-Policy discount: 'Yes'
+  Legacy policy had Multi-Policy discount: 'Yes',
+  Legacy Tier: 1,
 }
 
 TestData_OH: {

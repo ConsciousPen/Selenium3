@@ -110,7 +110,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	}
 
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-13529"})
 	public void pas13529_renewalComparisonAAAProductOwned(@Optional("CA") String state) {
 		renewalComparison(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsComparisonConstants.AAA_PRODUCT_OWNED, "GeneralTab", "AAAProductOwned");
@@ -229,7 +229,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	}
 
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-13832"})
 	public void pas13832_renewalComparisonThirdPartyDesignee(@Optional("CA") String state) {
 		renewalComparison(getTDThirdPartyDesigneeVersion1(), getTDThirdPartyDesigneeVersion2(), VersionsComparisonConstants.THIRD_PARTY_DESIGNEE, "GeneralTab", "ThirdPartyDesigneeInformation");
@@ -275,7 +275,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	}
 
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-14145","PAS-14144","PAS-14160","PAS-14159"})
 	public void pas14145_dataGatherComparisonVehicleInformation(@Optional("CA") String state) {
 		dataGatherComparison(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.VEHICLE_INFORMATION, "VehicleTab", "VehicleInformation");

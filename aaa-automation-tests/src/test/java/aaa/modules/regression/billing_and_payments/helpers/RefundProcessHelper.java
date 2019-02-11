@@ -1,7 +1,5 @@
 package aaa.modules.regression.billing_and_payments.helpers;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.*;
 import static org.assertj.core.api.Assertions.fail;
 import static toolkit.verification.CustomAssertions.assertThat;
@@ -9,10 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -24,7 +19,6 @@ import aaa.common.pages.SearchPage;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.TimePoints;
 import aaa.helpers.billing.DisbursementEngineHelper;
-import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.ssh.RemoteHelper;
@@ -33,6 +27,7 @@ import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.AdvancedAllocationsActionTab;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
@@ -40,12 +35,10 @@ import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
-import toolkit.webdriver.controls.waiters.Waiter;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 public class RefundProcessHelper extends PolicyBilling {
@@ -78,8 +71,7 @@ public class RefundProcessHelper extends PolicyBilling {
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains("Type", "Refund").getCell(TYPE).controls.links.get("Refund").click();
 		String transactionID = acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).getValue();
 		acceptPaymentActionTab.back();
-
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			//TODO doesn't work in VDMs
 	/*        RemoteHelper.waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, 10, policyNumber);
 	        String neededFilePath = RemoteHelper.waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, "csv", 10, policyNumber).get(0);
@@ -138,18 +130,29 @@ public class RefundProcessHelper extends PolicyBilling {
 				softly.assertThat(neededLine.getReferencePaymentTransactionNumber()).isNotEmpty();
 			}
 			softly.assertThat(neededLine.geteRefundEligible()).isEqualTo(refundEligible);
-		});
+		softly.close();
 	}
 
 	@SuppressWarnings("Unchecked")
-	public void refundRecordInFileCheck(String policyNumber, String refundType, String refundMethod, String productType, String companyId, String deceasedNamedInsuredFlag, String policyState,
+	public void refundRecordInFileCheck(PolicyType policyType, String policyNumber, String refundType, String refundMethod, String companyId, String deceasedNamedInsuredFlag, String policyState,
 			String refundAmount, String email, String refundEligible) {
+
+		//This 'if' condition is just refactoring.
+		String productType;
+		if (policyType.isAutoPolicy()) {
+			productType = "PA";
+		} else if (policyType.equals(PolicyType.PUP)) {
+			productType = "PU";
+		} else {
+			productType = "HO";
+		}
+
 		//TODO waitForFilesAppearance doesn't work in VDMs
 		if (!StringUtils.isEmpty(PropertyProvider.getProperty("scrum.envs.ssh")) && !"true".equals(PropertyProvider.getProperty("scrum.envs.ssh"))) {
 			mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains("Type", "Refund").getCell(TYPE).controls.links.get("Refund").click();
-			CustomSoftAssertions.assertSoftly(softly -> {
+			ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 				String transactionID = acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).getValue();
 				acceptPaymentActionTab.back();
 
@@ -211,7 +214,7 @@ public class RefundProcessHelper extends PolicyBilling {
 					softly.assertThat(neededLine.getReferencePaymentTransactionNumber()).isNotEmpty();
 				}
 				softly.assertThat(neededLine.geteRefundEligible()).isEqualTo(refundEligible);
-			});
+			softly.close();
 		} else {
 			//to make sure Automated refund is generated also on SCRUM team envs
 			mainApp().open();
@@ -276,7 +279,7 @@ public class RefundProcessHelper extends PolicyBilling {
 	 * @details
 	 */
 	public void pas7298_pendingManualRefunds(String pendingRefundAmount, String approvedRefundAmount, String paymentMethod) {
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 			billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), new Dollar(pendingRefundAmount));
 
@@ -288,7 +291,7 @@ public class RefundProcessHelper extends PolicyBilling {
 			softly.assertThat("Refund").isNotEqualTo(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).getValue());
 			pendingRefundLinksCheck(softly);
 			pendingRefundVoid(softly);
-		});
+		softly.close();
 	}
 
 	/**
@@ -308,7 +311,7 @@ public class RefundProcessHelper extends PolicyBilling {
 	 * @details
 	 */
 	public void pas7298_pendingAutomatedRefunds(String policyNumber, String approvedRefundAmount, String pendingRefundAmount, String paymentMethod, TimePoints getTimePoints) {
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 			Dollar totalDue1 = BillingSummaryPage.getTotalDue();
 			billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue1.add(new Dollar(approvedRefundAmount)));
@@ -335,7 +338,7 @@ public class RefundProcessHelper extends PolicyBilling {
 			//TODO failing because of LastPaymentMethodStub configuration and tolerance limit. Will work when we will be updating stub data on the fly.
 			pendingRefundPaymentMethodCheck(paymentMethod, softly);
 			pendingRefundVoid(softly);
-		});
+		softly.close();
 	}
 
 	private void pendingRefundPaymentMethodCheck(String paymentMethod, ETCSCoreSoftAssertions softly) {
@@ -887,6 +890,7 @@ public class RefundProcessHelper extends PolicyBilling {
 
 		File disbursementEngineFile = DisbursementEngineHelper.createFile(builder, folderName);
 		DisbursementEngineHelper.copyFileToServer(disbursementEngineFile, folderName);
+		mainApp().close();
 		if ("ERR".equals(refundStatus)) {
 			//TODO workaround for Time-setter parallel execution
 			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
@@ -896,7 +900,7 @@ public class RefundProcessHelper extends PolicyBilling {
 			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 			JobUtils.executeJob(Jobs.aaaRefundDisbursementRecieveInfoJob);
 		}
-		mainApp().reopen();
+		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 	}
 

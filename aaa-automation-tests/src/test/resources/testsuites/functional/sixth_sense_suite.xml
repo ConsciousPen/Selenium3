@@ -16,10 +16,35 @@
         </classes>
     </test>
 
+    <test name="Test CA newly added Driver License number formats MO/AL">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestNewDriverLicenseNumberFormatsCA"/>
+        </classes>
+    </test>
+
+    <test name="Test SS newly added Driver License number formats MO/AL">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestNewDriverLicenseNumberFormatsSS"/>
+        </classes>
+    </test>
+
     <test name="Test CARCO Task Not Created">
         <parameter name="state" value="NJ, NY"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestCARCOTaskCreation"/>
+        </classes>
+    </test>
+
+    <test name="Test Accident Surcharge Waiver">
+        <parameter name="state" value="AZ, NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver">
+                <methods>
+                    <exclude name="pas23995_testAccidentSurchargeWaiverAgedRenewalCAS"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
@@ -134,5 +159,13 @@
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementPremiumEntries"/>
         </classes>
     </test>
+
+    <test name="Test Refund Action Change">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRefundTransactionChange"/>
+        </classes>
+    </test>
+
 
 </suite>

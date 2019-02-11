@@ -7,6 +7,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.AutoSSTestDataGenerator;
+import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
@@ -57,9 +58,17 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 	protected Dollar calculatePremium(AutoSSOpenLPolicy openLPolicy) {
 		new PremiumAndCoveragesTab().calculatePremium();
 		Dollar totalPremium = PremiumAndCoveragesTab.getTotalTermPremium();
-		if (PremiumAndCoveragesTab.tableStateAndLocalTaxesSummary.isPresent()) { // WV and KY states have AP/RP taxes
+		if (PremiumAndCoveragesTab.tableStateAndLocalTaxesSummaryDetailed.isPresent() || PremiumAndCoveragesTab.tableStateAndLocalTaxesSummary.isPresent()) { // WV and KY states have AP/RP taxes
 			totalPremium = totalPremium.subtract(PremiumAndCoveragesTab.getStateAndLocalTaxesAndPremiumSurchargesPremium());
 		}
 		return totalPremium;
+	}
+
+	@Override
+	protected String createCustomerIndividual(AutoSSOpenLPolicy openLPolicy) {
+		TestData td = getCustomerIndividualTD("DataGather", "TestData")
+				.adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.DATE_OF_BIRTH.getLabel()),
+						AutoSSTestDataGenerator.getDriverTabDateOfBirth(openLPolicy.getDrivers().get(0).getDriverAge(), openLPolicy.getEffectiveDate()));
+		return createCustomerIndividual(td);
 	}
 }

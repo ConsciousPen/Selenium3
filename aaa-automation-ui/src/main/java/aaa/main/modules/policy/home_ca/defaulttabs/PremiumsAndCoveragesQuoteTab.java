@@ -4,20 +4,20 @@
  */
 package aaa.main.modules.policy.home_ca.defaulttabs;
 
-import org.openqa.selenium.By;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
+import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -33,6 +33,7 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 	public static Table tableEndorsementForms = new Table(By.id("policyDataGatherForm:formSummaryTable"));
 	public static Button btnContinue = new Button(By.id("policyDataGatherForm:next_footer"), Waiters.AJAX);
 	public static Link linkViewPropertyQuote = new Link(By.id("policyDataGatherForm:viewHomeQuoteCA_Link"), Waiters.AJAX);
+	public static Table tableViewRatingDetails = new Table(By.id("horatingDetailsPopupForm:ratingDetailsTable"));
 
 	public PremiumsAndCoveragesQuoteTab() {
 		super(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class);

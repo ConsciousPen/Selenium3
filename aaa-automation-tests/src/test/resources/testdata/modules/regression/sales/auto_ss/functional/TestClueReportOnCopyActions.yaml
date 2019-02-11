@@ -5,7 +5,7 @@ TestData: {
   GeneralTab: {},
   DriverTab: {},
   MembershipTab: {},
-  RatingDetailReportsTab: {},
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
   AssignmentTab: {},
   FormsTab: {},
@@ -17,6 +17,11 @@ TestData: {
 EndorsementActionTab: {
   Endorsement Date: $<today>,
   Endorsement Reason: Maintain Driver(s)
+}
+
+RatingDetailReportsTab: {
+  Customer Agreement: Customer Agrees,
+  Order Report: click
 }
 
 DriverActivityReportsTab: {

@@ -3,6 +3,8 @@ package aaa.modules.regression.service.helper;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
@@ -88,14 +90,18 @@ public class HelperMiniServices extends PolicyBaseTest {
 	void rateEndorsementWithErrorCheck(String policyNumber, String errorCode, String errorMessage, String field) {
 		ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
 		assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-		assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+		assertThat(rateResponse.message).startsWith(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 		ErrorResponseDto rateResponseFiltered = rateResponse.errors.stream().filter(errors -> errorCode.equals(errors.errorCode)).findFirst().orElse(null);
-		assertThat(rateResponseFiltered.message).contains(errorMessage);
+		assertThat(rateResponseFiltered.message).startsWith(errorMessage);
 		assertThat(rateResponseFiltered.field).isEqualTo(field);
 	}
 
-	void bindEndorsementWithCheck(String policyNumber) {
-		PolicySummary bindResponse = HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
+	public void bindEndorsementWithCheck(String policyNumber) {
+		//When Binding, Sign all Required To Bind (RFI) documents if they exist
+		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);//TODO-mstrazds: change generateDocs to true when devs finish teck story for lookup update in Sprint 48
+		List<String> listOfDocIDs = rfiServiceResponse.documents.stream().map(doc -> doc.documentId).collect(Collectors.toList());
+		PolicySummary bindResponse = HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode(), listOfDocIDs);
+
 		assertThat(bindResponse.bindDate).isNotEmpty();
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -120,12 +126,12 @@ public class HelperMiniServices extends PolicyBaseTest {
 		for(ErrorDxpEnum.Errors error : errors) {
 			if(errorExistsCheck) {
 				assertThat(orderReportErrorResponse.validations.stream()
-						.anyMatch(valError ->  valError.message.equals(error.getMessage()))).isTrue();
+						.anyMatch(valError ->  valError.message.contains(error.getMessage()))).isTrue();
 				assertThat(orderReportErrorResponse.validations.stream()
 						.anyMatch(valError ->  valError.errorCode.equals(error.getCode()))).isTrue();
 			} else {
 				assertThat(orderReportErrorResponse.validations.stream()
-						.noneMatch(valError -> valError.message.equals(error.getMessage()))).isTrue();
+						.noneMatch(valError -> valError.message.contains(error.getMessage()))).isTrue();
 				assertThat(orderReportErrorResponse.validations.stream()
 						.noneMatch(valError ->  valError.errorCode.equals(error.getCode()))).isTrue();
 			}
@@ -135,5 +141,4 @@ public class HelperMiniServices extends PolicyBaseTest {
 		}
 		return orderReportErrorResponse;
 	}
-
 }

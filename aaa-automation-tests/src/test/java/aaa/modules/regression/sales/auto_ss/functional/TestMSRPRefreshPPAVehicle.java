@@ -16,6 +16,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.db.queries.LookupQueries;
 import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.helpers.product.VinUploadFileType;
@@ -69,26 +70,34 @@ public class TestMSRPRefreshPPAVehicle extends VinUploadAutoSSHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-730")
 	@StateList(statesExcept = {Constants.States.CA})
-	public void pas730_VehicleTypePPA(@Optional("UT") String state) {
+	public void pas730_VehicleTypePPA(@Optional("WY") String state) {
 		TestData testDataVehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData").getTestData(vehicleTab.getMetaKey()).mask("VIN");
 		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks();
 		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(),AutoCaMetaData.VehicleTab.YEAR.getLabel()), "2025");
 
 		createAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		String compSymbol = getCompSymbolFromVRD();
 		String collSymbol = getCollSymbolFromVRD();
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		String biSymbol = getBISymbolFromVRD();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 
 		VehicleTab.buttonSaveAndExit.click();
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
+		//Edit DB for Comp and Coll Symbols
 		addPPAVehicleToDBAutoSS();
+
+		//Edit DB for liability symbols
+		LookupQueries.insertStatCodeValues();
 
 		findAndRateQuote(testData, quoteNumber);
 
 		compCollSymbolCheck_pas730(compSymbol, collSymbol, isPPAType);
+
+		//TODO: Remove this check after all states have been rolled out to new liability symbol format. All MSRP liability symbols will be '000'
+		liabilitySymbolCheck_pas866(biSymbol);
 
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 	}

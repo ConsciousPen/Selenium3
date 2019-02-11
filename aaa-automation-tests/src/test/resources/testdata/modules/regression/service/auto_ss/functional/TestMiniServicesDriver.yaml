@@ -52,7 +52,7 @@ TestData3: {
 
 GeneralTab1: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2','@NamedInsuredInformation3'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
   CurrentCarrierInformation: '@CurrentCarrierInformation'
@@ -60,7 +60,7 @@ GeneralTab1: {
 
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
   CurrentCarrierInformation: '@CurrentCarrierInformation'
@@ -87,20 +87,13 @@ CurrentCarrierInformation: {
   Agent Entered BI Limits: '$300,000/$500,000',
 }
 
-AAAProductOwned: {
+AAAMembership: {
   Current AAA Member: 'Yes',
-  Membership Number: 4290023667710001,
-  Life: 'Yes',
-  'Life Policy #': L87654567,
-  Home: 'Yes',
-  'Home Motorcycle Policy #': H65654328,
-  Renters: 'Yes',
-  'Renters Policy #': R09871234,
-  Condo: 'Yes',
-  'Condo Policy #': C76509878
+  Membership Number: 4290023667710001
 }
 
 NamedInsuredInformation1: {
+  Insured Date of Birth: '$<today-21y:MM/dd/yyyy>',
   Social Security Number: 123456789,
   "Has lived here for less than three years?": 'No',
   Residence: Own Home,
@@ -111,6 +104,7 @@ NamedInsuredInformation2: {
   First Name: Jenny,
   Last Name: Smith,
   Base Date: $<today>,
+  Insured Date of Birth: '$<today-29y:MM/dd/yyyy>',
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
   Residence: Own Home,
@@ -122,6 +116,7 @@ NamedInsuredInformation3: {
   Last Name: Smith,
   Base Date: $<today>,
   Social Security Number: 785411263,
+  Insured Date of Birth: '$<today-25y:MM/dd/yyyy>',
   "Has lived here for less than three years?": 'No',
   Residence: Own Home,
 }
@@ -176,7 +171,6 @@ DriverTab1: {
   Rel. to First Named Insured: Spouse,
   Occupation: Self-Employed,
   Age First Licensed: 18,
-  Date of Birth: '$<today-25y:MM/dd/yyyy>',
   Gender: 'Female',
   Marital Status: Single,
   Occupation: 'index=1',
@@ -190,7 +184,6 @@ DriverTab2: {
   DriverSearchDialog: {},
   Occupation: Self-Employed,
   Age First Licensed: 18,
-  Date of Birth: '$<today-21y:MM/dd/yyyy>',
   License Type: 'Licensed (US)',
   License Number: 407378541
 }
@@ -243,7 +236,6 @@ DriverTab5: {
     Rel. to First Named Insured: Parent,
     Occupation: Self-Employed,
     Age First Licensed: 18,
-    Date of Birth: '$<today-29y:MM/dd/yyyy>',
     Gender: 'Female',
     Marital Status: Single,
     Occupation: 'index=1',
@@ -301,7 +293,7 @@ DriverTab_notNI_Spouse: {
   Middle Name: 'not',
   Last Name: 'Spouser',
   Suffix: 'III',
-  Date of Birth: '12/12/1992',
+  Date of Birth: $<today-25y>,
   Gender: 'Female',
   Marital Status: Single,
   Occupation: 'index=1',
@@ -416,7 +408,6 @@ TestData_DeathAndSpecificDisabilityCoverage3: {
 Driver_one_withDeathIndemnityAndSpecificDisabilityCov: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
-  Date of Birth: '$<today-21y:MM/dd/yyyy>',
   License Type: 'Licensed (US)',
   License Number: 400064773,
   Death Indemnity and Specific Disability: "Yes",
@@ -488,7 +479,6 @@ Driver_NAFR: {
 Driver_one: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
-  Date of Birth: '$<today-21y:MM/dd/yyyy>',
   License Type: 'Licensed (US)',
   License Number: 400064773
   }

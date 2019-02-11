@@ -45,7 +45,7 @@ claimLineItemList:
     claimPrefix: ''
     claimOpenDate: '2019-01-01'
     claimPolicyReferenceNumber: AZSS203552391
-    claimStatusCode: CLOSED
+    claimStatusCode: OPEN
     claimType: Accident
     driverAgeAsOfDateOfLoss: '21'
     driverDateofBirth: '1996-05-05'
@@ -82,6 +82,37 @@ claimLineItemList:
     driverName: MATTHEW FOX
     driverRelationToInsured: INSURED
     drivingLicenseNumber: A19191911
+    drivingLicenseState: AZ
+    lossSummary: IV hit OV while turning.
+    subroFlag: Y
+    totalAmountPaid: '1500'
+    totalAmountPaidCurrencyCode: USD
+    vehicleBodyType: SRW SUPER DUTY
+    vehicleMake: FORD
+    vehicleManufacturedYear: '2006'
+    vehicleDescription: Big truck
+    vehicleSerialNumber: 1FTNF20506ED96616
+  - accidentFault: AT_FAULT
+    claimCause: cause4
+    claimCloseDate: '2018-11-30'
+    claimCoverageList:
+    - {claimCoverageAmount: '1500', claimCoverageCurrencyCode: USD, coverageId: COV_003,
+       coverageName: BODILY_INJURY}
+    claimDateOfLoss: '2018-11-11'
+    claimDeductibleAmount: '0'
+    claimDeductibleCurrencyCode: USD
+    claimNumber: IIRatingClaim4
+    claimPrefix: ''
+    claimOpenDate: '2018-11-15'
+    claimPolicyReferenceNumber: AZSS203552391
+    claimStatusCode: CLOSED
+    claimType: Accident
+    driverAgeAsOfDateOfLoss: '21'
+    driverDateofBirth: '1999-01-01'
+    driverName: Invalid Name
+    driverRelationToInsured: INSURED
+    permissiveUse: Y
+    drivingLicenseNumber: A99887766
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
     subroFlag: Y

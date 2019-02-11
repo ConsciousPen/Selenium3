@@ -13,7 +13,7 @@ TestData: {
 
 GeneralTab_ID: {
   NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
-  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_ID'

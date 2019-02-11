@@ -62,7 +62,8 @@ GeneralTab: {
     "Has lived here for less than three years?": 'No',
     Residence: Own Home
   },
-  AAAProductOwned: {
+  AAAMembership: {
+    Current AAA Member: 'Yes',
     Membership Number: 4290023667710001
   },
   ContactInformation: {

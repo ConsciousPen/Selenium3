@@ -18,7 +18,6 @@ DriverTab2: {
       DriverSearchDialog: {},
       Occupation: Self-Employed,
       Age First Licensed: 18,
-      Date of Birth: '$<today-21y:MM/dd/yyyy>',
       License Type: 'Licensed (US)',
       License Number: 407378541
     }
@@ -89,7 +88,6 @@ DriverTab1_MD: {
       DriverSearchDialog: {},
       Occupation: Self-Employed,
       Age First Licensed: 18,
-      Date of Birth: '$<today-21y:MM/dd/yyyy>',
       License Type: 'Licensed (US)',
       License Number: S123456789999
 }
@@ -124,7 +122,7 @@ DriverTab3_MD: {
       Middle Name: 'not',
       Last Name: 'Insured',
       Suffix: 'III',
-      Date of Birth: '12/12/1992',
+      Date of Birth: '$<today-25y:MM/dd/yyyy>',
       Gender: 'Female',
       Marital Status: Single,
       Occupation: 'index=1',
@@ -330,7 +328,6 @@ Driver_FNI: {
   'Driver Rejects Limitation on Right to Sue?': 'Yes', #important!
   Occupation: Self-Employed,
   Age First Licensed: 18,
-  Date of Birth: '$<today-21y:MM/dd/yyyy>',
   License Type: 'Licensed (US)',
   License Number: 407378541
 }
@@ -358,7 +355,37 @@ DriverTab_AFR: {
 TestData_OrderOfCoverages: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "MEDPM", "IL"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future
-  DriverLevelCoverages:[] #do not have requirements regarding to driver coverages for all states
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_AZ: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_OH: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_OR: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "PIP", "MEDEXP", "WORKLOSS", "ESSENSERV", "FUNEXP", "CHILDEXP", "PIPDED"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB"]
+}
+
+TestData_OrderOfCoverages_NJ: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "MEDPM", "IL"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future
+  DriverLevelCoverages:[]
+}
+
+TestData_OrderOfCoverages_VA: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "MEDPM", "IL"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future
+  DriverLevelCoverages:["DISD", "TD"]
 }
 
 TestData_OrderOfCoverages_KY: {
@@ -376,31 +403,91 @@ TestData_OrderOfCoverages_SD: {
 TestData_OrderOfCoverages_KS: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "PIP", "MEDEXP", "REHABEXP", "WORKLOSS", "ESSENSERV", "FUNEXP", "SURVLOSS"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #todo for future -  find a way how to use common coverages for multiple states
-  DriverLevelCoverages: ["ADB"],
+  DriverLevelCoverages: ["ADB"]
 }
 
 TestData_OrderOfCoverages_CT: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMCONV", "MEDPM"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
-  DriverLevelCoverages: ["ADB"],
-}
-
-TestData_OrderOfCoverages_WV: {
-  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "UMPD", "UIMPD", "MEDPM"],
-  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
-  DriverLevelCoverages: ["ADB"],
+  DriverLevelCoverages: ["ADB"]
 }
 
 TestData_OrderOfCoverages_MD: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "EUIM", "UMPD", "MEDPM", "PIP"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future?
-  DriverLevelCoverages:[] #do not have requirements regarding to driver coverages for all states
+  DriverLevelCoverages:["ADB"]
 }
 
 TestData_OrderOfCoverages_DE: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "PIP", "PIPDED", "PIPDEDAPPTO", "FUNEXP", "PROPERTY"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
-  DriverLevelCoverages:["ADB"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_UT: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "PIP", "WLB", "MEDEXP", "WORKLOSS", "HOUSEEXP", "FUNEXP", "SURVLOSS"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_DC: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "UMPD", "UIMPD", "PIPMEDICAL", "PIPWORKLOSS", "FUNERAL"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB"]
+}
+
+TestData_OrderOfCoverages_CO: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "UMPDDED", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_ID: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_IN: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "UMPDDED", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_MT: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_NV: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_OK: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_PA: {
+  PolicyLevelCoverages: ["TORT", "BI", "PD", "UMBI", "UMSU", "UIMBI", "UIMSU", "FPB", "MEDPM", "ADBC", "FUNERAL", "IL", "EMB"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: []
+}
+
+TestData_OrderOfCoverages_WV: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "UMPD", "UIMPD", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_WY: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
 }
 
 VehicleTab_Motor_Home: {
@@ -425,15 +512,3 @@ VehicleTab_GolfCart: {
    Other Model: GRX100,
    Stated Amount: 1500
  }
-
-TestData_OrderOfCoverages_UT: {
-  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "PIP", "WLB", "MEDEXP", "WORKLOSS", "HOUSEEXP", "FUNEXP", "SURVLOSS"],
-  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
-  DriverLevelCoverages:["ADB"]
-}
-
-TestData_OrderOfCoverages_NV: {
-  PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM"],
-  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
-  DriverLevelCoverages: ["ADB"]
-}

@@ -213,4 +213,18 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 		executeBatchTest(job);
 	}
 
+	@Parameters({"state"})
+	@Test(description = "batchJob29.xml")
+	public void BCT_BTCH_aaaScheatmentProcessAsyncJob(@Optional("") String state){
+		Job job = GroupJobs.groupAAAEscheatmentProcessAsyncJob;
+		executeBatchTest(job);
+	}
+
+	@Parameters({"state"})
+	@Test(description = "batchJob30.xml")
+	public void BCT_BTCH_aaaGenerateEscheatmentReportJob(@Optional("") String state){
+		Job job = GroupJobs.groupaaaGenerateEscheatmentReportJob;
+		executeBatchTest(job);
+	}
+
 }

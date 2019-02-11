@@ -66,4 +66,10 @@
             <class name="aaa.modules.regression.finance.billing.home_ss.ho6.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount"/>
         </classes>
     </test>
+    <test name="WV TestFinanceSmallBalanceWriteOffWhenPolicyUnderpaid" parallel="methods">
+        <parameter name="state" value="WV"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffWhenPolicyUnderpaid"/>
+        </classes>
+    </test>
 </suite>

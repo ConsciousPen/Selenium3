@@ -1,0 +1,12 @@
+TestData_Adjustment: {
+  VehicleTab: '@VehicleTab',
+}
+
+VehicleTab: {
+  VIN: 1N6AA07A25N519526,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 10,
+  Odometer Reading: 3000
+}

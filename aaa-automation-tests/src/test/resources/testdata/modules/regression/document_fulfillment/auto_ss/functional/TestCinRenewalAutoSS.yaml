@@ -49,7 +49,7 @@ Driver_840: {
   Named Insured: 'John Daniel',
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': Other,
-  Date of Birth: '$<today-37y-4d:MM/dd/yyyy>',
+  #Date of Birth: '$<today-37y-4d:MM/dd/yyyy>',
   Gender: Male,
   Marital Status: Married,
   Occupation: Employed,
@@ -71,6 +71,7 @@ NamedInsured_840: {
   Base Date: '$<today:MM/dd/yyyy>',
   First Name: 'John',
   Last Name: 'Daniel',
+  Insured Date of Birth: '$<today-37y-4d:MM/dd/yyyy>',
   "Has lived here for less than three years?": 'No',
   Residence: 'Own Home',
   Social Security Number: 123456789
@@ -160,6 +161,6 @@ DriverActivityReportsTab: {
   OrderInternalClaimsReport: [{}]
 }
 
-AAAProductOwned: {
+AAAMembership: {
   Current AAA Member: 'No'
 }

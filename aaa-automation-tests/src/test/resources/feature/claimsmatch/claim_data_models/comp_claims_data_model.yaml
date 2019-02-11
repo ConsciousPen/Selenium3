@@ -25,7 +25,6 @@ claimLineItemList:
     driverDateofBirth: '1996-05-05'
     driverName: casMATTHEW casFOX
     driverRelationToInsured: INSURED
-    permissiveUse: Y
     drivingLicenseNumber: A19191912
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
@@ -54,13 +53,12 @@ claimLineItemList:
     claimPrefix: ''
     claimOpenDate: '2018-05-26'
     claimPolicyReferenceNumber: AZSS203552391
-    claimStatusCode: OPEN
+    claimStatusCode: CLOSED
     claimType: Comprehensive
     driverAgeAsOfDateOfLoss: '21'
     driverDateofBirth: '1996-05-05'
     driverName: casMATTHEW casFOX
     driverRelationToInsured: INSURED
-    permissiveUse: N
     drivingLicenseNumber: A19191912
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
@@ -91,7 +89,7 @@ claimLineItemList:
     claimPrefix: ''
     claimOpenDate: '2018-05-26'
     claimPolicyReferenceNumber: AZSS203552391
-    claimStatusCode: CLOSED
+    claimStatusCode: OPEN
     claimType: Accident
     driverAgeAsOfDateOfLoss: '21'
     driverDateofBirth: '1996-05-05'
@@ -101,8 +99,7 @@ claimLineItemList:
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
     subroFlag: Y
-    totalAmountPaid: '5000'
-    totalAmountPaidCurrencyCode: USD
+    #totalAmountPaid and totalAmountPaidCurrencyCode removed for this claim
     vehicleBodyType: SRW SUPER DUTY
     vehicleMake: FORD
     vehicleManufacturedYear: '2006'
@@ -171,7 +168,7 @@ claimLineItemList:
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
     subroFlag: Y
-    totalAmountPaid: '5000.000000000'
+    totalAmountPaid: '0.000000000'
     totalAmountPaidCurrencyCode: USD
     vehicleBodyType: SRW SUPER DUTY
     vehicleMake: FORD
