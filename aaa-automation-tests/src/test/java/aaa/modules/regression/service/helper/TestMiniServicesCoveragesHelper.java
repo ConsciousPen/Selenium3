@@ -1722,19 +1722,19 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		assertSoftly(softly -> {
 			PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class);
-			Coverage filteredPolicyCoverageResponseUMPD = policyCoverageResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.getCoverageCd())).findFirst().orElse(null);
+			Coverage filteredPolicyCoverageResponseUMPD = findPolicyCoverage(policyCoverageResponse, "UMPD");
 			//BUG: PAS-15829 UMPD not returned from viewPolicyCoverages for NJ (for Policy and Endorsement)
 			softly.assertThat(filteredPolicyCoverageResponseUMPD.getCoverageType()).isEqualTo("Per Accident");
 
 			//cancHangeCoverage = true for VA, false for other states
 			boolean canChangeCOverageUMPD = false;
-			if (Constants.States.VA.equals(getState())) {
+			if (Constants.States.VA.equals(getState()) || Constants.States.NJ.equals(getState())) {
 				canChangeCOverageUMPD = true;
 			}
 			softly.assertThat(filteredPolicyCoverageResponseUMPD.getCanChangeCoverage()).isEqualTo(canChangeCOverageUMPD);
 
 			PolicyCoverageInfo coverageEndorsementResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
-			Coverage filteredEndorsementCoverageResponseUMPD = coverageEndorsementResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.getCoverageCd())).findFirst().orElse(null);
+			Coverage filteredEndorsementCoverageResponseUMPD = findPolicyCoverage(coverageEndorsementResponse, "UMPD");
 			softly.assertThat(filteredEndorsementCoverageResponseUMPD.getCoverageType()).isEqualTo("Per Accident");
 			softly.assertThat(filteredEndorsementCoverageResponseUMPD.getCanChangeCoverage()).isEqualTo(canChangeCOverageUMPD);
 		});
@@ -3069,7 +3069,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			covBI = covBI.changeLimit(CoverageLimits.COV_2550);
-			covUIMBI = covUIMBI.changeLimit(CoverageLimits.COV_2550);
+			covUIMBI = covUIMBI.changeLimit(CoverageLimits.COV_2550).removeAvailableLimitsAbove(CoverageLimits.COV_2550);;
 			covUMBI = covUMBI.changeLimit(CoverageLimits.COV_2550).removeAvailableLimitsAbove(CoverageLimits.COV_2550);
 			covUIMPD = covUIMPD.changeLimit(CoverageLimits.COV_50000);
 			covUMPD = covUMPD.changeLimit(CoverageLimits.COV_50000);
@@ -4284,7 +4284,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private void validateCustomEquipCov(ETCSCoreSoftAssertions softly, boolean coverageExpected, String oid, PolicyCoverageInfo policyCoverageInfo) {
 		VehicleCoverageInfo vehicleCoverageInfo = findVehicleCoverages(policyCoverageInfo, oid);
-		Coverage custEquip = findCoverage(vehicleCoverageInfo.coverages, "CUSTEQUIP");
+		Coverage custEquip = findCoverage(vehicleCoverageInfo.coverages, "CUSTEQUIP", coverageExpected);
 
 		if (coverageExpected && "VA".equals(getState())) {
 			assertThat(vehicleCoverageInfo.coverages.stream().anyMatch(coverage -> "CUSTEQUIP".equals(coverage.getCoverageCd()))).as("CUSTEQUIP is expected").isTrue();
@@ -6246,11 +6246,17 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	protected Coverage findCoverage(List<Coverage> coverageList, String coverageCd) {
+		return findCoverage(coverageList, coverageCd, true);
+	}
+
+	protected Coverage findCoverage(List<Coverage> coverageList, String coverageCd, boolean assertCoverageExistence) {
 		Coverage coverage = coverageList.stream()
 				.filter(cov -> coverageCd.equals(cov.getCoverageCd()))
 				.findFirst()
 				.orElse(null);
-		assertThat(coverage).as("Coverage " + coverageCd + " not found.").isNotNull();
+		if(assertCoverageExistence) {
+			assertThat(coverage).as("Coverage " + coverageCd + " not found.").isNotNull();
+		}
 		return coverage;
 	}
 
