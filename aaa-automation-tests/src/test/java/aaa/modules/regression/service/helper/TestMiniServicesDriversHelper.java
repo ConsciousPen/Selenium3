@@ -62,7 +62,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private RemoveDriverRequest removeDriverRequest = new RemoveDriverRequest();
 	private DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
 	private String policyNumber7Drivers;
-	private static final TestMiniServicesCoveragesHelper testMiniServicesCoveragesHelper = new TestMiniServicesCoveragesHelper();
+	private static final TestMiniServicesCoveragesHelper TEST_MINI_SERVICES_COVERAGES_HELPER = new TestMiniServicesCoveragesHelper();
 
 	protected void pas11932_viewDriversInfo(PolicyType policyType) {
 		assertSoftly(softly -> {
@@ -2675,7 +2675,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private void validateFormsTab(PolicyCoverageInfo policyCoverageInfo, ETCSCoreSoftAssertions softly, String policyNumber) {
 		AutoSSForms.AutoSSDriverFormsController driverForms = formsTab.getAssetList().getAsset(AutoSSMetaData.FormsTab.DRIVER_FORMS);
 
-		Coverage covDISD = testMiniServicesCoveragesHelper.findCoverage(policyCoverageInfo.driverCoverages, "DISD");
+		Coverage covDISD = TEST_MINI_SERVICES_COVERAGES_HELPER.findCoverage(policyCoverageInfo.driverCoverages, "DISD");
 		ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 
 		int driverCount = viewDriversResponse.driverList.size();
