@@ -526,7 +526,7 @@ public class DocGenHelper {
 		} else {
 			state = template.substring(0, 2);
 			String prodTemp = template.substring(2);
-			if (prodTemp.startsWith("H")) {
+			if (prodTemp.startsWith("H") || prodTemp.startsWith("D")) {
 				product = ProductCode.AAA_HO_SS;
 			}
 			if (prodTemp.startsWith("SS")) {
