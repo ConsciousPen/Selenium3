@@ -19,7 +19,7 @@ public class LedgerHelper {
 					"FROM LEDGERENTRY " +
 					"WHERE PRODUCTNUMBER = '%s' " +
 					"AND PERIODTYPE = 'MONTHLY' " +
-					"AND TRANSACTIONTYPE = '%s' " +
+					"AND TRANSACTIONTYPE %s in ('%s') " +
 					"AND LEDGERACCOUNTNO = '1015'";
 
 	private static final String GET_MONTHLY_EARNED_PREMIUM_AMOUNTS =
@@ -66,11 +66,12 @@ public class LedgerHelper {
 	public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
 	public static String getEarnedMonthlyReportedPremiumTotal(@Nonnull String policyNumber) {
-		return getEarnedMonthlyReportedPremiumTotal(policyNumber, "policy");
+		return getEarnedMonthlyReportedPremiumTotal(policyNumber, "renewal", false);
 	}
 
-	public static String getEarnedMonthlyReportedPremiumTotal(@Nonnull String policyNumber, @Nonnull String txType) {
-		String query = String.format(GET_EARNED_MONTHLY_REPORTED_PREMIUM_TOTAL, policyNumber, txType);
+	public static String getEarnedMonthlyReportedPremiumTotal(@Nonnull String policyNumber, @Nonnull String txTypes, @Nonnull boolean includeOrExclude) {
+		String inOrEx = includeOrExclude ? "" : "not";
+		String query = String.format(GET_EARNED_MONTHLY_REPORTED_PREMIUM_TOTAL, policyNumber, inOrEx, txTypes);
 		return DBService.get().getValue(query).get();
 	}
 
