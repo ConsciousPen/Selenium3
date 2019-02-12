@@ -416,46 +416,45 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 		// Set RISKSTATECD in DB to get policy DATEOFLOSS working
 		DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
 		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
-//
-//		createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
-//		runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
-//		generateClaimRequest();        // Download claim request and assert it
-//
-//		// Create the claim response
-//		createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
-//		runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
-//
-//		// Retrieve policy
-//		mainApp().open();
-//		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-//
-//		// Enter renewal image and verify claim presence
-//		buttonRenewals.click();
-//		policy.dataGather().start();
-//		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-//
-//		// Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
-//		// Check 2nd driver: Has DL match claim
-//		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
-//		mainApp().close();
-//
-//		//Move time to R-35 and run batch jobs:
-//		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
-//
-//		//Accept Payment and renew the policy
-//		payTotalAmtDue(policyNumber);
-//		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-//		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+
+		createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
+		runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
+		generateClaimRequest();        // Download claim request and assert it
+
+		// Create the claim response
+		createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
+		runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
+
+		// Retrieve policy
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		// Enter renewal image and verify claim presence
+		buttonRenewals.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+		// Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
+		// Check 2nd driver: Has DL match claim
+		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
+		mainApp().close();
+
+		//Move time to R-35 and run batch jobs:
+		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
+
+		//Accept Payment and renew the policy
+		payTotalAmtDue(policyNumber);
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 
 		//Set test date for endorsement
 		TestData addDriverTd = getTestSpecificTD("Add_PU_Claim_Driver_Endorsement_AZ");
 		//Initiate an endorsement: Add AFR Driver, calculate premium and order clue
-		initiateAddDriverEndorsement("AZSS952918547", addDriverTd);
-//		initiateAddDriverEndorsement(policyNumber, addDriverTd);
+		initiateAddDriverEndorsement(policyNumber, addDriverTd);
 
 		//Navigate to Driver page and verify PU claim moved from FNI to newly added driver
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-//		puDropAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_3);
+		puDropAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_3);
 
 		//Bind Endorsement
 		bindEndorsement();
