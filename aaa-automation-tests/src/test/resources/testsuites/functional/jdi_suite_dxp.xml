@@ -82,6 +82,7 @@
                     <include name="pas9490_ViewVehicleServiceCheckVehiclesStatus"/>
                     <include name="pas9610_UpdateVehicleService"/>
                     <include name="pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVa"/>
+                    <include name="pas25065_validateMakeModelOthersForRemovedVehicle"/>
                 </methods>
             </class>
         </classes>
