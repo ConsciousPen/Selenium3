@@ -237,13 +237,13 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-436", "PAS-231", "PAS-288"})
 	public void pas436_eValueDiscountVariations(@Optional("VA") String state) {
 		eValueConfigCheck();
-		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
-		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", false, false, "");
-		testEvalueDiscount("AAAProductOwned_No", "CurrentCarrierInformation", false, false, "");
-		testEvalueDiscount("AAAProductOwned_Override", "CurrentCarrierInformation", true, true, "Pending");
-		testEvalueDiscount("AAAProductOwned_Override", "CurrentCarrierInformation", false, false, "");
-		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation_DayLapsedMore4", false, false, "");
-		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation_BILimitLess", false, false, "");
+		testEvalueDiscount("AAAMembership_Active", "CurrentCarrierInformation", true, true, "Pending");
+		testEvalueDiscount("AAAMembership_Active", "CurrentCarrierInformation", false, false, "");
+		testEvalueDiscount("AAAMembership_No", "CurrentCarrierInformation", false, false, "");
+		testEvalueDiscount("AAAMembership_Override", "CurrentCarrierInformation", true, true, "Pending");
+		testEvalueDiscount("AAAMembership_Override", "CurrentCarrierInformation", false, false, "");
+		testEvalueDiscount("AAAMembership_Active", "CurrentCarrierInformation_DayLapsedMore4", false, false, "");
+		testEvalueDiscount("AAAMembership_Active", "CurrentCarrierInformation_BILimitLess", false, false, "");
 	}
 
 	/**

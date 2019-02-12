@@ -446,6 +446,13 @@ public class HelperCommon {
 		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
 		request.authorizedBy = authorizedBy;
 		request.documentsSigned = Arrays.asList(documentsSigned);
+		return endorsementBind(policyNumber, authorizedBy, status, Arrays.asList(documentsSigned));
+	}
+
+	public static PolicySummary endorsementBind(String policyNumber, String authorizedBy, int status, List<String> documentsSigned) {
+		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
+		request.authorizedBy = authorizedBy;
+		request.documentsSigned = documentsSigned;
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_BIND, policyNumber));
 		return JsonClient.sendPostRequest(requestUrl, request, PolicySummary.class, status);
 	}

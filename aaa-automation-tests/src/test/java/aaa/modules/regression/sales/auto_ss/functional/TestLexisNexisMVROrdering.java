@@ -76,7 +76,8 @@ public class TestLexisNexisMVROrdering extends AutoSSBaseTest {
 
 		TestData td = getPolicyTD()
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel()), "CA")
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "C6512304");
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "C6512304")
+				.adjust(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()), "I Agree");
 
 		testLexisNexisMVROrdering(td);
 

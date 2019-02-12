@@ -15,6 +15,7 @@ import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.PurchaseMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -43,11 +44,14 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
         createCustomerIndividual(customerTd);
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(),GeneralTab.class, true);
+
+        // Validate PAS-24421
         List<String> titleOptions = generalTab.getNamedInsuredInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.TITLE).getAllValues();
         titleOptions.remove("Unknown/No Preference");
         List<String> sortedTitleOptions = new ArrayList<>(titleOptions);
         sortedTitleOptions.sort(String.CASE_INSENSITIVE_ORDER);
         assertThat(titleOptions).isEqualTo(sortedTitleOptions);
+
         generalTab.submitTab();
         driverTab.fillTab(getPolicyTD());
         assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.GENDER).getValue()).isEqualTo("X");
@@ -71,25 +75,16 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
     protected void pas23040_ValidateGenderExpansionNonConformingEndTx() {
 
         TestData td = getPolicyTD();
-        TestData addDriver = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName()).get(1)
-                .mask(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel())
-                .adjust(AutoCaMetaData.DriverTab.FIRST_NAME.getLabel(), "Seriously")
-                .adjust(AutoCaMetaData.DriverTab.LAST_NAME.getLabel(), "Yes")
-                .adjust(AutoCaMetaData.DriverTab.GENDER.getLabel(), "X")
-                .adjust(AutoCaMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click");
 
         openAppAndCreatePolicy(td);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-        driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), addDriver));
+        driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), getDriverTd()));
         premiumAndCoveragesTab.calculatePremium();
         PremiumAndCoveragesTab.RatingDetailsView.open();
         assertThat(premiumAndCoveragesTab.getRatingDetailsDriversData().get(1).getValue("Gender")).isEqualTo("X");
-        td.mask(TestData.makeKeyPath(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
-                .mask(TestData.makeKeyPath(AutoCaMetaData.DocumentsAndBindTab.class.getSimpleName(),AutoCaMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()))
-                .mask(TestData.makeKeyPath(AutoCaMetaData.DocumentsAndBindTab.class.getSimpleName(),AutoCaMetaData.DocumentsAndBindTab.VEHICLE_INFORMATION.getLabel()));
 
-        validateAndBind(td);
+        bindAndValidateEndorsement(td);
         assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Gender").getValue()).as("Gender should be displayed - X").isEqualTo("X");
 
     }
@@ -104,12 +99,8 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
         premiumAndCoveragesTab.calculatePremium();
         PremiumAndCoveragesTab.RatingDetailsView.open();
         assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(3).getValue()).isEqualTo("X");
-        td.mask(TestData.makeKeyPath(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
-                .mask(TestData.makeKeyPath(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY.getLabel()))
-                .mask(TestData.makeKeyPath(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT.getLabel()))
-                .mask(TestData.makeKeyPath(AutoCaMetaData.DocumentsAndBindTab.class.getSimpleName(),AutoCaMetaData.DocumentsAndBindTab.VEHICLE_INFORMATION.getLabel()));
 
-        validateAndBind(td);
+        bindAndValidateEndorsement(td);
         assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(1).getCell("Gender").getValue()).as("Gender should be displayed - X").isEqualTo("X");
 
     }
@@ -129,17 +120,10 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
 
     protected void pas23040_ValidateGenderExpansionNonConformingRenewal1() {
 
-        TestData addDriver = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName()).get(1)
-                .mask(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel())
-                .adjust(AutoCaMetaData.DriverTab.FIRST_NAME.getLabel(), "Seriously")
-                .adjust(AutoCaMetaData.DriverTab.LAST_NAME.getLabel(), "Yes")
-                .adjust(AutoCaMetaData.DriverTab.GENDER.getLabel(), "X")
-                .adjust(AutoCaMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click");
-
         String policyNumber = openAppAndCreatePolicy();
         policy.renew().start();
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-        driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), addDriver));
+        driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), getDriverTd()));
         premiumAndCoveragesTab.calculatePremium();
         PremiumAndCoveragesTab.RatingDetailsView.open();
         assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(3).getValue()).isEqualTo("X");
@@ -151,22 +135,16 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
     protected void pas23279_ValidateRelToFirstNamedInsuredListNBEndTx() {
 
         TestData testData = getPolicyTD();
-        TestData addDriver = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName()).get(1)
-                .mask(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel())
-                .adjust(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), "Parent")
-                .adjust(AutoCaMetaData.DriverTab.FIRST_NAME.getLabel(), "Seriously")
-                .adjust(AutoCaMetaData.DriverTab.LAST_NAME.getLabel(), "Yes")
-                .adjust(AutoCaMetaData.DriverTab.GENDER.getLabel(), "X")
-                .adjust(AutoCaMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click");
-
-
+        TestData addDriverTd = getDriverTd().adjust(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), "Parent");
         createQuoteAndFillUpTo(testData, DriverTab.class);
+
         Assertions.assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).getAllValues()).contains("Employee");
-        driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), addDriver));
+        driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), addDriverTd));
         driverTab.submitTab();
         policy.getDefaultView().fillFromTo(testData, MembershipTab.class, PurchaseTab.class, true);
         purchaseTab.submitTab();
-        Assertions.assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Rel. to First Named Insured").getValue()).as("Value should be displayed - Parent").isEqualTo("Parent");
+        Assertions.assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Rel. to First Named Insured").getValue())
+                .as("Value should be displayed - Parent").isEqualTo("Parent");
 
         //Endorse the policy and change the value for second Driver "Rel to Named Insured" to Sibling from Parent
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
@@ -174,10 +152,8 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
         DriverTab.tableDriverList.getRow(2).getCell(5).controls.links.getFirst().click();
         driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED).setValue("Sibling");
         driverTab.submitTab();
-        testData.mask(TestData.makeKeyPath(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
-                .mask(TestData.makeKeyPath(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY.getLabel()))
-                .mask(TestData.makeKeyPath(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT.getLabel()))
-                .mask(TestData.makeKeyPath(AutoCaMetaData.DocumentsAndBindTab.class.getSimpleName(),AutoCaMetaData.DocumentsAndBindTab.VEHICLE_INFORMATION.getLabel()));
+        adjustPolicyTd(testData);
+
         policy.getDefaultView().fillFromTo(testData, MembershipTab.class,DocumentsAndBindTab.class, true);
         documentsAndBindTab.submitTab();
         if (errorTab.tableErrors.isPresent()) {
@@ -185,11 +161,12 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
             errorTab.override();
             documentsAndBindTab.submitTab();
         }
-        Assertions.assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Rel. to First Named Insured").getValue()).as("Value should be displayed - Sibling").isEqualTo("Sibling");
+        Assertions.assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Rel. to First Named Insured").getValue())
+                .as("Value should be displayed - Sibling").isEqualTo("Sibling");
     }
 
-    private void validateAndBind(TestData testData) {
-
+    private void bindAndValidateEndorsement(TestData testData) {
+        adjustPolicyTd(testData);
         PremiumAndCoveragesTab.RatingDetailsView.close();
         premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, DocumentsAndBindTab.class,true);
@@ -215,6 +192,25 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
 		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
+    }
+
+    private TestData getDriverTd() {
+        return getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName()).get(1)
+                .mask(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel())
+                .adjust(AutoCaMetaData.DriverTab.FIRST_NAME.getLabel(), "Seriously")
+                .adjust(AutoCaMetaData.DriverTab.LAST_NAME.getLabel(), "Yes")
+                .adjust(AutoCaMetaData.DriverTab.GENDER.getLabel(), "X")
+                .adjust(AutoCaMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click");
+    }
+
+    private void adjustPolicyTd(TestData td) {
+        td.mask(TestData.makeKeyPath(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()))
+                .mask(TestData.makeKeyPath(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(),
+                        AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()));
+        if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+            td.mask(TestData.makeKeyPath(AutoCaMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoCaMetaData.DocumentsAndBindTab.VEHICLE_INFORMATION.getLabel() + "[0]",
+                    AutoCaMetaData.DocumentsAndBindTab.VehicleInformation.ARE_THERE_ANY_ADDITIONAL_INTERESTS.getLabel()));
+        }
     }
 
 }
