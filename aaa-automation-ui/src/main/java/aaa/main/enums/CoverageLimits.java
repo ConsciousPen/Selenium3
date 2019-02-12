@@ -24,8 +24,11 @@ public enum CoverageLimits {
 	COV_30000("30000", "$30,000"),
 	COV_40000("40000", "$40,000"),
 	COV_50000("50000", "$50,000"),
+	COV_75000("75000", "$75,000"),
 	COV_100000("100000", "$100,000"),
+	COV_150000("150000", "$150,000"),
 	COV_177500("177500", "$177,500"),
+	COV_250000("250000", "$250,000"),
 	COV_300000("300000", "$300,000"),
 	COV_500000("500000", "$500,000"),
 	COV_1000000("1000000", "$1,000,000"),
@@ -85,6 +88,12 @@ public enum CoverageLimits {
 	COV_FPB_177_5K_TOTAL_PAS_UI_DISPLAY("Combo3", "Combo - $177.5K / $2.5K FE / $25K ADB"),
 	COV_FPB_ADDED("Added", "Select Individual Coverages"),
 	COV_FPB_ADDED_PAS_UI_DISPLAY("Added", "Added"), //Value in PAS UI is "Added", but in DXP it is "Select Individual Coverages"
+	COV_PIP_2500_GUEST("2500","$2,500 Guest"),
+	COV_PIP_2500_FULL("2501","$2,500 Full"),
+	COV_PIP_5000_GUEST("5000","$5,000 Guest"),
+	COV_PIP_5000_FULL("5001","$5,000 Full"),
+	COV_PIPPRIMINS_AUTO_INSURANCE("AI","Auto Insurance"),
+	COV_PIPPRIMINS_PERSONAL_HEALTH_INSURANCE("PHI","Personal Health Insurance"),
 	COV_IL_5000_MAX_PA("1000/5000", "$1,000/month ($5,000 max)"),
 	COV_IL_15000_MAX_PA("1000/15000", "$1,000/month ($15,000 max)"),
 	COV_IL_25000_MAX_PA("1500/25000", "$1,500/month ($25,000 max)"),
@@ -93,7 +102,9 @@ public enum CoverageLimits {
 	COV_UNSTACKED("N", "Unstacked"),
 	SP_EQ_0("0", "$0.00"),
 	COV_EMB_0("0", "No"),
-	COV_EMB_1000("1000", "Yes");
+	COV_EMB_1000("1000", "Yes"),
+	COV_NO_LOL("FALSE", "No Limitation on Lawsuit"),
+	COV_LOL("TRUE", "Limitation on Lawsuit");
 
 	private final String limit;
 	private final String display;
