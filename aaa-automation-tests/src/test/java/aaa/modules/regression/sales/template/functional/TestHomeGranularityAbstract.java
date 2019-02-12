@@ -14,7 +14,6 @@ import aaa.helpers.db.queries.HomeGranularityQueries;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -22,13 +21,7 @@ import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-
 public abstract class TestHomeGranularityAbstract extends PolicyBaseTest {
-public class TestHomeGranularityAbstract extends PolicyBaseTest {
 
     private QuoteDataGatherPage quoteDataGatherPage = new QuoteDataGatherPage();
     private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
