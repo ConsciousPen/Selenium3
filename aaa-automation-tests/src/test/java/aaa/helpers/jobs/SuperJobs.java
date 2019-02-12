@@ -1,6 +1,7 @@
 package aaa.helpers.jobs;
 
 import aaa.common.enums.Constants;
+import aaa.modules.BaseTest;
 import org.apache.commons.lang.NotImplementedException;
 
 import java.util.ArrayList;
@@ -399,16 +400,118 @@ public class SuperJobs {
         Job baseJob = Jobs.aaaRenewalNoticeBillAsyncJob;
 
         StateOffset timePointMap = getStateOffsetMap();
-        timePointMap.stateOffsetMap.put(defaultStateKey, 20);
 
-        // Waiting on clarification for MD / MT as they are not in document.
-        //timePointMap.stateOffsetMap.put(Constants.States.MD, ?);
-        //timePointMap.stateOffsetMap.put(Constants.States.MT, ?);
+        timePointMap.stateOffsetMap.put(defaultStateKey, 20);
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
         return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
     }
+
+    public static SuperJob.PaymentSuperJob makePayment(String state, BaseTest baseTest, String policyNumber) {
+
+        // The actual job is not used for this one. This is a placeholder.
+        Job baseJob = Jobs.aaaBatchMarkerJob;
+
+        StateOffset timePointMap = getStateOffsetMap();
+
+        timePointMap.stateOffsetMap.put(defaultStateKey, 13);//20);
+
+        int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
+
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset).
+                new PaymentSuperJob(baseTest,policyNumber, baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+    }
+
+    /**
+     * This Reminder is CA only currently. Other states are marked jobNotApplicableValue and skipped by scheduler.
+     * @param state Should be CA. If not, the scheduler will skip.
+     * @return one job that represents the state requested.
+     */
+    public static SuperJob preRenewalReminderGenerationAsyncJob(String state) {
+        Job baseJob = Jobs.preRenewalReminderGenerationAsyncJob;
+
+        StateOffset timePointMap = getStateOffsetMap();
+        timePointMap.stateOffsetMap.put(defaultStateKey, jobNotApplicableValue);
+        timePointMap.stateOffsetMap.put(Constants.States.CA, 10);
+
+        int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
+
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+    }
+
+    public static SuperJob aaaBatchMarkerJob(TimePoint newBusinessTimePoint){
+        Job baseJob = Jobs.aaaBatchMarkerJob;
+
+        int offset = getNewBusinessPlus_15_Or_30(newBusinessTimePoint);
+
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Add_Days, offset);
+    }
+
+    public static SuperJob aaaAutomatedProcessingInitiationJob(TimePoint newBusinessTimePoint){
+        Job baseJob = Jobs.aaaAutomatedProcessingInitiationJob;
+
+        int offset = getNewBusinessPlus_15_Or_30(newBusinessTimePoint);
+
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Add_Days, offset);
+    }
+
+    public static SuperJob automatedProcessingRatingJob(TimePoint newBusinessTimePoint){
+        Job baseJob = Jobs.automatedProcessingRatingJob;
+
+        int offset = getNewBusinessPlus_15_Or_30(newBusinessTimePoint);
+
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Add_Days, offset);
+    }
+
+    public static SuperJob automatedProcessingRunReportsServicesJob(TimePoint newBusinessTimePoint){
+        Job baseJob = Jobs.automatedProcessingRunReportsServicesJob;
+
+        int offset = getNewBusinessPlus_15_Or_30(newBusinessTimePoint);
+
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Add_Days, offset);
+    }
+
+    public static SuperJob automatedProcessingIssuingOrProposingJob(TimePoint newBusinessTimePoint){
+        Job baseJob = Jobs.automatedProcessingIssuingOrProposingJob;
+
+        int offset = getNewBusinessPlus_15_Or_30(newBusinessTimePoint);
+
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Add_Days, offset);
+    }
+
+    public static SuperJob automatedProcessingStrategyStatusUpdateJob(TimePoint newBusinessTimePoint){
+        Job baseJob = Jobs.automatedProcessingStrategyStatusUpdateJob;
+
+        int offset = getNewBusinessPlus_15_Or_30(newBusinessTimePoint);
+
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Add_Days, offset);
+    }
+
+    private static int getNewBusinessPlus_15_Or_30(TimePoint newBusinessTimePoint){
+        HashMap<TimePoint, StateOffset> timePointMap = getMultiTimePointMap();
+
+        // Order Membership timepoint
+        timePointMap.get(TimePoint.First).stateOffsetMap.put(defaultStateKey, 15);
+
+        // Membership Revalidation timepoint
+        timePointMap.get(TimePoint.Second).stateOffsetMap.put(defaultStateKey, 30);
+
+        return getOffsetFromMap(timePointMap.get(newBusinessTimePoint).stateOffsetMap, defaultStateKey);
+    }
+
+    /**
+     * Policy status update job updates policy status after renewal period. May do other things.
+     * @param offsetType Whether to add or subtract days.
+     * @param offsetNumberOfDays How many days to adjust based on offsetType
+     * @return one job that will be run at the offsetType and offsetNumberOfDays.
+     */
+    public static SuperJob policyStatusUpdateJob(SuperJob.JobOffsetType offsetType, int offsetNumberOfDays) {
+        Job baseJob = Jobs.policyStatusUpdateJob;
+        return new SuperJob(baseJob, offsetType, offsetNumberOfDays);
+    }
+
+
 
     /**
      * Checks the map passed in for the specific state otherwise returns default.

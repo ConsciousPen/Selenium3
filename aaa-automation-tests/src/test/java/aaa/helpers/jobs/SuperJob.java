@@ -1,5 +1,10 @@
 package aaa.helpers.jobs;
 
+import aaa.common.Tab;
+import aaa.common.pages.SearchPage;
+import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
+import aaa.modules.BaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -15,6 +20,8 @@ public class SuperJob {
     }
 
     public JobOffsetType offsetType;
+
+    public String jobName;
 
     public final Job job;
 
@@ -45,6 +52,7 @@ public class SuperJob {
         }
         jobOffsetDays = jobOffsetByDays;
         sameDayDependencies = jobSameDayDependancies;
+        jobName = job.getJobName();
     }
 
     /**
@@ -82,11 +90,9 @@ public class SuperJob {
 
             LocalDateTime targetDate = jobSchedule.scheduledTargetDate.plusDays(daysOffset);
 
-            if (simulateOutputOnly) {
-                output.add("Simulate | Timeshift - " + outputTimeFormat.format(targetDate));
-            }
-            else {
-                output.add("Execute | Timeshift - " + outputTimeFormat.format(targetDate));
+            output.add("Execute | Timeshift - " + outputTimeFormat.format(targetDate));
+
+            if (!simulateOutputOnly) {
                 TimeSetterUtil.getInstance().nextPhase(targetDate);
             }
 
@@ -94,13 +100,11 @@ public class SuperJob {
 
             // Execute all jobs for current time point
             for (SuperJob superJob : todaysJobs){
-                if (simulateOutputOnly) {
 
-                    output.add("Simulate | Job Execute " + outputTimeFormat.format(targetDate) + " " + superJob.job.getJobName());
-                }
-                else {
-                    output.add("Execute | Job Execute " + outputTimeFormat.format(targetDate) + " " + superJob.job.getJobName());
-                    JobUtils.executeJob(superJob.job);
+                output.add("Execute | Job Execute " + outputTimeFormat.format(targetDate) + " " + superJob.jobName);
+
+                if (!simulateOutputOnly) {
+                    superJob.executeJob();
                 }
             }
         }
@@ -108,72 +112,13 @@ public class SuperJob {
     }
 
     /**
-     * Gets a list of all required jobs to perform an auto renewal for both CA and SS.
-     * @param state is used to set correct time offsets and filter out N/A jobs
-     * @return ArrayList of Jobs that can be used to build a schedule for Auto Renewals
+     * Executes the job using the job runner.
      */
-    public static ArrayList<SuperJob> getAutoRenewalJobList(
-            String state, SuperJobs.PolicyTerm policyTerm, boolean makePayment){
-
-        ArrayList<SuperJob> jobList = new ArrayList<>();
-
-        //Initiate Renewal
-        jobList.add(SuperJobs.policyAutomatedRenewalAsyncTaskGenerationJob(state));
-
-        //UBI SafetyScore
-        jobList.addAll(SuperJobs.getTelematicSafetyScoreJobs(state, policyTerm));
-
-        //Order Membership
-        jobList.add(SuperJobs.aaaMembershipRenewalBatchOrderAsyncJob(state, SuperJobs.TimePoint.First));
-
-        //Order Insurance Score
-        SuperJob aaaInsuranceScoreRenewalBatchOrderAsyncJob =
-                SuperJobs.aaaInsuranceScoreRenewalBatchOrderAsyncJob(state, SuperJobs.TimePoint.First);
-
-        jobList.add(aaaInsuranceScoreRenewalBatchOrderAsyncJob);
-
-        jobList.add(SuperJobs.aaaInsuranceScoreRenewalBatchReceiveAsyncJob(state,
-                SuperJobs.TimePoint.First, aaaInsuranceScoreRenewalBatchOrderAsyncJob));
-
-        //Order MVR/CLUE
-        jobList.add(SuperJobs.aaaMvrRenewBatchOrderAsyncJob(state));
-        jobList.add(SuperJobs.aaaMvrRenewAsyncBatchReceiveJob(state));
-        jobList.add(SuperJobs.aaaClueRenewBatchOrderAsyncJob(state));
-        jobList.add(SuperJobs.aaaClueRenewAsyncBatchReceiveJob(state));
-
-        //Order Internal Claims
-        jobList.addAll(SuperJobs.getRenewalClaimOrderAsyncJobs(state));
-
-        //Membership Revalidation
-        jobList.add(SuperJobs.aaaMembershipRenewalBatchOrderAsyncJob(state, SuperJobs.TimePoint.Second));
-
-        //Renewal Image Available to all users
-        jobList.add(SuperJobs.renewalImageRatingAsyncTaskJob(state, SuperJobs.TimePoint.First));
-
-        //Premium Calculate
-        jobList.add(SuperJobs.renewalImageRatingAsyncTaskJob(state, SuperJobs.TimePoint.Second));
-
-        //Non-Renewal Notice
-        jobList.add(SuperJobs.policyDoNotRenewAsyncJob(state));
-
-        //Propose/Renewal Offer
-        jobList.add(SuperJobs.renewalOfferAsyncTaskJob(state));
-        jobList.add(SuperJobs.aaaPreRenewalNoticeAsyncJob(state));
-
-        //Renewal Bill
-        jobList.add(SuperJobs.aaaRenewalNoticeBillAsyncJob(state));
-
-        if (makePayment) {
-            //Special Make Payment job
-        }
-
-        //Renewal Reminder
-            //aaaRenewalNoticeBillAsyncJob
-
-        //R+1 Update Status (policyStatusUpdateJob)
-
-        return jobList;
+    public void executeJob(){
+        JobUtils.executeJob(this.job);
     }
+
+
 
     /**
      * Job can be overridden to support weekends even if JobSchedule(allowWeekendDates = false).
@@ -190,5 +135,30 @@ public class SuperJob {
      */
     public boolean getSupportsWeekends(){
         return supportsWeekend;
+    }
+
+    public class PaymentSuperJob extends SuperJob{
+
+        private BaseTest _baseTest;
+        private String _policyNumber;
+
+        public PaymentSuperJob(BaseTest baseTest, String policyNumber, Job jobToSchedule, JobOffsetType jobOffsetOperationType, int jobOffsetByDays, SuperJob ... jobSameDayDependancies){
+            super(jobToSchedule, jobOffsetOperationType, jobOffsetByDays, jobSameDayDependancies);
+            _baseTest = baseTest;
+            _policyNumber = policyNumber;
+            jobName = "makePayment SuperJob.PaymentSuperJob";
+        }
+
+        @Override
+        public void executeJob(){
+            // Make a payement
+            _baseTest.mainApp().open();
+            SearchPage.openBilling(_policyNumber);
+            new BillingAccount().acceptPayment().start();
+            new AcceptPaymentActionTab().setCheckNumber(123);
+            Tab.buttonOk.click();
+            _baseTest.mainApp().close();
+        }
+
     }
 }
