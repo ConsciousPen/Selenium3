@@ -713,7 +713,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
-    public void pas24729_MPD_ValidateEligibilityRuleFires_Home(@Optional("") String state) {
+    public void pas3649_MPD_ValidateEligibilityRuleFires_Home(@Optional("") String state) {
         doMPDEligibilityTest("Home");
     }
 
@@ -726,7 +726,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
-    public void pas24729_MPD_ValidateEligibilityRuleFires_Life(@Optional("") String state) {
+    public void pas3649_MPD_ValidateEligibilityRuleFires_Life(@Optional("") String state) {
         doMPDEligibilityTest("Life");
     }
 
@@ -739,7 +739,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
-    public void pas24729_MPD_ValidateEligibility_MidTerm_Renters(@Optional("") String state) {
+    public void pas3649_MPD_ValidateEligibility_MidTerm_Renters(@Optional("") String state) {
         doMPDEligibilityTest_MidTerm(false, "Renters");
     }
 
@@ -747,12 +747,12 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * Validates that the MPD Companion Validation Error occurs when manually adding a 'Home/Renters/Condo' MPD policy to a Renewal Image.
      * @param state
      * @author Tyrone Jemison - CIO
-     * @Runtime 4-7min
+     * @Runtime 8min
      */
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
-    public void pas24729_MPD_ValidateEligibility_Renewal_Home(@Optional("") String state) {
+    public void pas3649_MPD_ValidateEligibility_Renewal_Home(@Optional("") String state) {
         doMPDEligibilityTest_Renewal("Condo");
     }
 
@@ -809,13 +809,6 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
     public void pas23456_MPD_Prevent_Renewal(@Optional("") String state) {
         doMTEPreventBindTest_Renewals("Renters", false);
-    }
-
-    @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
-    public void pas23456_MPD_Prevent_AmendedRenewal(@Optional("") String state) {
-        doMTEPreventBindTest_Renewals("Home", true);
     }
 
     /**
