@@ -120,7 +120,6 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9610"})
 	public void pas9610_UpdateVehicleService(@Optional("VA") String state) {
-
 		pas9610_UpdateVehicleService();
 	}
 
@@ -726,7 +725,6 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12942, Pas-15269"})
 	public void pas12942_GaragingAddressConsistencyDXP(@Optional("CT") String state) {
-
 		pas12942_GaragingAddressConsistencyDXPBody(state);
 	}
 
@@ -866,7 +864,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	@StateList(states = {Constants.States.NJ})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18408"})
 	public void pas18408_lessThan1000Miles(@Optional("NJ") String state) {
-		assertSoftly(softly -> pas18408_validateLessThan1000Miles(softly));
+		assertSoftly(this::pas18408_validateLessThan1000Miles);
 	}
 }
 

@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.ws.rs.core.Response;
 
+import aaa.common.enums.Constants;
 import aaa.common.pages.Page;
 import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -234,8 +235,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			softly.assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(bindResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.POLICY_NOT_RATED_DXP.getCode());
-			softly.assertThat(bindResponse.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.POLICY_NOT_RATED_DXP.getMessage());
+			softly.assertThat(hasError(rateResponse, "vehOwnerInd", ErrorDxpEnum.Errors.REGISTERED_OWNERS)).isTrue();
+			softly.assertThat(hasError(rateResponse, "vehicleUsageCd", ErrorDxpEnum.Errors.USAGE_IS_BUSINESS)).isTrue();
 		});
 	}
 
@@ -271,8 +272,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			softly.assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(bindResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.POLICY_NOT_RATED_DXP.getCode());
-			softly.assertThat(bindResponse.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.POLICY_NOT_RATED_DXP.getMessage());
+			softly.assertThat(hasError(bindResponse, "vehOwnerInd", ErrorDxpEnum.Errors.REGISTERED_OWNERS)).isTrue();
 		});
 	}
 
@@ -1445,14 +1445,6 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
 
-		VehicleUpdateDto updateVehicleSalvagedRequest = new VehicleUpdateDto();
-		updateVehicleSalvagedRequest.salvaged = true;
-		Vehicle updateVehicleSalvagedResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleSalvagedRequest);
-		assertThat(updateVehicleSalvagedResponse.salvaged).isEqualTo(true);
-		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
-
 		VehicleUpdateDto updateVehiclePurchaseDateRequest = new VehicleUpdateDto();
 		updateVehiclePurchaseDateRequest.purchaseDate = "2018-02-28";
 		Vehicle updateVehiclePurchaseDateResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehiclePurchaseDateRequest);
@@ -1462,7 +1454,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
 
 		//Bind endorsement
-		HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
+		helperMiniServices.bindEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 		softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 
@@ -2708,13 +2700,14 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas12175_RemoveReplaceAllVehiclesBody() {
+		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");//Getting CARCO rule for NY
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleOtherTypes").getTestDataList("VehicleTab")).resolveLinks();
+		if (getState().equals(Constants.States.NY)) {
+			testData.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError);
+		}
 
-		mainApp().open();
-		createCustomerIndividual();
-		policy.createPolicy(testData);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = openAppAndCreatePolicy(testData);
 
 		String vehicleVinPpa1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
 		String vehicleVinConv = td.getTestDataList("VehicleTab").get(1).getValue("VIN");

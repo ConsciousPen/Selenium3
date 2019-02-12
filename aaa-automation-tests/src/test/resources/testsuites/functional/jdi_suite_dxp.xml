@@ -311,6 +311,16 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="PolicyPremiumService NJ" parallel="methods">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas19166ViewPremiumServicePligaFeeInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="DXP E2E" parallel="methods">
         <parameter name="state" value="VA, UT"/>
         <classes>
@@ -1093,6 +1103,7 @@
                 <methods>
                     <include name="pas19127_BIAndUMBIAndCanChangeTrue"/>
                     <include name="pas15302_lolCoverageNJ"/>
+                    <include name="pas15353_viewPIPNonMedExpenseNoNJ"/>
                 </methods>
             </class>
         </classes>

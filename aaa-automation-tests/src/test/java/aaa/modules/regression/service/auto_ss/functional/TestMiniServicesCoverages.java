@@ -1474,6 +1474,23 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	/**
 	 * @author Maris Strazds
+	 * @name View Coverage - PIP in NJ- "Non-Medical Expense" = "No"
+	 * @scenario
+	 * 1. Create policy in PAS with "Non-Medical Expense" = "No"
+	 * 2. Create endorsement through service
+	 * 3. Run view endorsement coverages service
+	 * 4. Verify PIP, APIP coverage and subCoverages
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15353"})
+	public void pas15353_viewPIPNonMedExpenseNoNJ(@Optional("NJ") String state) {
+		pas15353_viewPIPNonMedExpenseNoNJBody();
+	}
+
+	/**
+	 * @author Maris Strazds
 	 * @name
 	 * @scenario
 	 * 1. Create policy in PAS with Tort Threshold = Limited Tort
