@@ -11,8 +11,8 @@
     </properties>
     <hub>
         <url>http://n01apl4364.tent.trt.csaa.pri:9999</url>
-        <min>10</min>
-        <max>12</max>
+        <min>4</min>
+        <max>4</max>
         <keywords>
             <keyword>JDI</keyword>
         </keywords>
