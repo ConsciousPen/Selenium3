@@ -148,19 +148,18 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         premiumAndCoveragesTab.submitTab();
 
         //Modify default test data to mask unnecessary steps
-        TestData td = getPolicyTD();
-//                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
-//                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
-        new DriverActivityReportsTab().fillTab(td);
+	    TestData td = getPolicyTD()
+			    .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()));
+	    new DriverActivityReportsTab().fillTab(td);
     }
 
     /**
      * Binds current endorsement: calculates premium, navigates to bind page, and binds endorsement
      */
     public void bindEndorsement() {
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        new aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab().submitTab();
+        new DocumentsAndBindTab().submitTab();
     }
 
     // Move to R-63, run batch job part 1 and offline claims batch job

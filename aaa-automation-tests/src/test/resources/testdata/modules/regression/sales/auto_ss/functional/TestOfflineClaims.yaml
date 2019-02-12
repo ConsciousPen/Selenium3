@@ -63,11 +63,10 @@ Driver5: {
   Date of Birth: 12/12/1987,
   Gender: Male,
   Marital Status: Married,
-  Occupation: Architect,
-  License Type: "Valid",
+  Occupation: Clergy,
+  License Type: "Licensed (US)",
   License State: AZ,
-  Permit Before License: 'Yes',
-  "License #": D99999999,
+  "License Number": D99999999,
   Age First Licensed: 18
 }
 
