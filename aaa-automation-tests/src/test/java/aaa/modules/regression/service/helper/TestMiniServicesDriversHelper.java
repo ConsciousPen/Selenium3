@@ -1546,6 +1546,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		} else {
 			// issue PAS-19028
 			softly.assertThat(updateDriverResponse1.validations).isEmpty();
+			// issue PAS-25209
+			HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
 		}
 
 		ViewDriversResponse responseViewDrivers2 = HelperCommon.viewEndorsementDrivers(policyNumber);
