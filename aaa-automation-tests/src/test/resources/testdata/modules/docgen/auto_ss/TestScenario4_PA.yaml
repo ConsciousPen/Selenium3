@@ -51,7 +51,9 @@ TestData_EndorsementOne: {
     DriverActivityReportsTab: {},
     DocumentsAndBindTab: {
        RequiredToBind: {
-            First Party Benefits Coverage and Limits Selection Form: Physically Signed,}
+         'Uninsured Motorists Coverage Selection/Rejection': Physically Signed,
+         'Underinsured Motorists Coverage Selection/Rejection': Physically Signed,
+         First Party Benefits Coverage and Limits Selection Form: Physically Signed,}
    }
 }
 # ------------- Documents Verification ----------
