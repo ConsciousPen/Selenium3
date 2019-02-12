@@ -202,7 +202,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
             DriverTab.buttonSaveAndExit.click();
     }
 
-    // Assertions for COMP and DL Tests
+    // Assertions for COMP and DL Tests: PAS-22172
     public void puDropAssertions(String COMP_MATCH, String PU_MATCH) {
         CustomSoftAssertions.assertSoftly(softly -> {
             DriverTab driverTab = new DriverTab();
