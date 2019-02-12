@@ -1,43 +1,23 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
+import java.util.Map;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.claim.BatchClaimHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.main.enums.SearchEnum;
-import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsCATemplate;
-import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplate;
-import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableMap;
-import org.assertj.core.api.Assertions;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomSoftAssertions;
-
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-
-import static aaa.common.pages.SearchPage.tableSearchResults;
-import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @StateList(states = {Constants.States.CA})
 public class TestOffLineClaims extends TestOfflineClaimsCATemplate {

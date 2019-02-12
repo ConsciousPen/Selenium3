@@ -1,40 +1,10 @@
 package aaa.modules.regression.sales.template.functional;
 
-import aaa.common.enums.NavigationEnum;
-import aaa.common.enums.RestRequestMethodTypes;
-import aaa.common.pages.NavigationPage;
-import aaa.common.pages.SearchPage;
-import aaa.helpers.claim.BatchClaimHelper;
-import aaa.helpers.claim.ClaimCASResponseTags;
-import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
-import aaa.helpers.claim.datamodel.claim.Claim;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.helpers.logs.PasAdminLogGrabber;
-import aaa.helpers.rest.JsonClient;
-import aaa.helpers.rest.RestRequestInfo;
-import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
-import aaa.helpers.ssh.RemoteHelper;
-import aaa.main.enums.SearchEnum;
-import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
-import aaa.modules.policy.AutoSSBaseTest;
-import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.apache.commons.io.FileUtils;
-import org.json.JSONObject;
-import org.testng.annotations.BeforeTest;
-import toolkit.config.PropertyProvider;
-import toolkit.datax.TestData;
-import toolkit.db.DBService;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomSoftAssertions;
-
-import javax.annotation.Nonnull;
+import static aaa.common.pages.SearchPage.tableSearchResults;
+import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
+import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Files.contentOf;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -49,12 +19,38 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static aaa.common.pages.SearchPage.tableSearchResults;
-import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
-import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Files.contentOf;
+import javax.annotation.Nonnull;
+import org.apache.commons.io.FileUtils;
+import org.json.JSONObject;
+import org.testng.annotations.BeforeTest;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.RestRequestMethodTypes;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
+import aaa.helpers.claim.BatchClaimHelper;
+import aaa.helpers.claim.ClaimCASResponseTags;
+import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
+import aaa.helpers.claim.datamodel.claim.Claim;
+import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.logs.PasAdminLogGrabber;
+import aaa.helpers.rest.JsonClient;
+import aaa.helpers.rest.RestRequestInfo;
+import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
+import aaa.helpers.ssh.RemoteHelper;
+import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
+import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
+import toolkit.config.PropertyProvider;
+import toolkit.datax.TestData;
+import toolkit.db.DBService;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomSoftAssertions;
 
 /**
  * This template is used to test Batch Claim Logic.
@@ -137,8 +133,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(63));
         LocalDateTime updatedTime = TimeSetterUtil.getInstance().getCurrentTime();
         assertThat(updatedTime).isEqualToIgnoringHours(policyExpirationDate.minusDays(63));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+        JobUtils.executeJob(BatchJob.renewalClaimOrderAsyncJob);
     }
 
     // Assertions for COMP and DL Tests
@@ -212,8 +208,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     public void runRenewalClaimReceiveJob() {
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(46));
         DBService.get().executeUpdate(SQL_REMOVE_RENEWALCLAIMRECEIVEASYNCJOB_BATCH_JOB_CONTROL_ENTRY);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-        JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+        JobUtils.executeJob(BatchJob.renewalClaimReceiveAsyncJob);
     }
 
     /**
@@ -304,7 +300,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      * @return
      */
     protected String downloadClaimRequest() {
-        String claimRequestFolder = Jobs.getClaimOrderJobFolder();
+        String claimRequestFolder = BatchJob.getRenewalClaimOrderAsyncJobParameters().get(BatchJob.ParametersName.PROCESSED_FOLDER);
         List<String> requests = RemoteHelper.get().getListOfFiles(claimRequestFolder);
         assertThat(requests).hasSize(1);
         String claimRequest = requests.get(0);
@@ -381,8 +377,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         log.info("Generated CAS claim response filename {} content {}", casResponseFileName, content);
 
         // Upload claim response
-        RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(),
-                Jobs.getClaimReceiveJobFolder() + File.separator + claimResponseFile.getName());
+        RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(),//todo doublecheck
+                BatchJob.getRenewalClaimOrderAsyncJobParameters().get(BatchJob.ParametersName.IMPORT_FOLDER) + File.separator + claimResponseFile.getName());
     }
 
     /**

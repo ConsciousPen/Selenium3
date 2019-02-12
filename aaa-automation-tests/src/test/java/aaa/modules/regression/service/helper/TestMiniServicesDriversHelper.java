@@ -3,6 +3,7 @@ package aaa.modules.regression.service.helper;
 import static aaa.main.enums.ErrorDxpEnum.Errors.INSURANCE_SCORE_ORDER_MESSAGE;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.MIDDLE_NAME;
 import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import static toolkit.webdriver.controls.composite.assets.metadata.MetaData.getAssets;
 import java.math.BigDecimal;
 import java.text.ParseException;
