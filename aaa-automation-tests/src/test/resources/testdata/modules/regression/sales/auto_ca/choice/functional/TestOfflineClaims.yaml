@@ -5,59 +5,62 @@ TestData_DriverTab_OfflineClaim_CA: {
 
 TestData_DriverTab_OfflineClaim_PU_CA: {
  # GeneralTab: ['@GeneralTab_Customer'],
-  PrefillTab: '@PrefillTab1_CA',
-  DriverTab: ['@Driver1','@Driver2','@Driver3','@Driver4']
+ # PrefillTab: '@PrefillTab1_CA',
+  DriverTab: ['@Driver2','@Driver3','@Driver4']
 }
 
-TestData_Endorsement_PU_CA: {
-  EndorsementActionTab: '@EndorsementActionTab',
-  GeneralTab: {},
-  DriverTab: ['@Driver5'],
-  RatingDetailReportsTab: {
-     Order Report: click
-    },
-  VehicleTab: {},
-  AssignmentTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {
-  Validate Driving History: click
-  },
-  DocumentsAndBindTab: {}
-}
-
-
-PrefillTab1_CA: {
-  First Name: Nicolas,
-  Last Name: Smith,
-  Zip Code: 90255,
-  Address Line 1: 6586 PORCUPINE WAY,
-  City: HUNTINGTON PARK,
-  State: CA,
-  Date of Birth: '12/05/1969',
-  Validate Address: click,
-  Validate Address Dialog: {},
-  Order Prefill: click
-}
+#TestData_Endorsement_PU_CA: {
+#  EndorsementActionTab: '@EndorsementActionTab',
+#  GeneralTab: {},
+#  DriverTab: ['@Driver5'],
+#  MembershipTab: {
+#    #Customer Agreement: Customer Agrees,
+#    #Sales Agent Agreement: I Agree,
+#    Order Report: click,
+#    AAAMembershipReport: [{}]
+#  },
+#  VehicleTab: {},
+#  AssignmentTab: {},
+#  FormsTab: {},
+#  PremiumAndCoveragesTab: {},
+#  DriverActivityReportsTab: {
+#  Sales Agent Agreement: I Agree,
+#    Validate Driving History: click
+#  },
+#  DocumentsAndBindTab: {}
+#}
+#
+#PrefillTab1_CA: {
+#  First Name: Nicolas,
+#  Last Name: Smith,
+#  Zip Code: 90255,
+#  Address Line 1: 6586 PORCUPINE WAY,
+#  City: HUNTINGTON PARK,
+#  State: CA,
+#  Date of Birth: '12/05/1969',
+#  Validate Address: click,
+#  Validate Address Dialog: {},
+#  Order Prefill: click
+#}
 
   ######Test Data for 1/2/3/4 Drivers
-Driver1: {
-  Add Driver: Click,
-  DriverSearchDialog:{},
-  Driver Type: Available for Rating,
-  #First Name: Nicolas,
-  #Last Name: SMITH,
-  'Rel. to First Named Insured': Sibling,
-  Date of Birth: 12/05/1969,
-  Age First Licensed: 18,
-  Gender: Male,
-  Marital Status: Married,
-  Occupation: Architect,
-  License Type: "Valid",
-  License State: CA,
-  Permit Before License: 'Yes',
-  "License #": D1278001
-}
+#Driver1: {
+#  Add Driver: Click,
+#  DriverSearchDialog:{},
+#  Driver Type: Available for Rating,
+#  #First Name: Nicolas,
+#  #Last Name: SMITH,
+#  'Rel. to First Named Insured': Sibling,
+#  Date of Birth: 12/05/1969,
+#  Age First Licensed: 18,
+#  Gender: Male,
+#  Marital Status: Married,
+#  Occupation: Architect,
+#  License Type: "Valid",
+#  License State: CA,
+#  Permit Before License: 'Yes',
+#  "License #": D1278001
+#}
 
 Driver2: {
   Add Driver: Click,
@@ -128,25 +131,48 @@ Driver4: {
     }
 }
 
+#Driver5: {
+#  Add Driver: Click,
+#  DriverSearchDialog:{},
+#  Driver Type: Available for Rating,
+#  First Name: Bruce,
+#  Last Name: Banner,
+#  'Rel. to First Named Insured': Sibling,
+#  Date of Birth: 12/21/1979,
+#  Gender: Male,
+#  Marital Status: Married,
+#  Occupation: Architect,
+#  License Type: "Valid",
+#  License State: CA,
+#  Permit Before License: 'Yes',
+#  "License #": D5435436,
+#   Age First Licensed: 18
+#}
+
+EndorsementActionTab: {
+  Endorsement Date: $<today>,
+  Endorsement Reason: Maintain Vehicle(s)
+}
+
 Driver5: {
   Add Driver: Click,
   DriverSearchDialog:{},
   Driver Type: Available for Rating,
   First Name: Bruce,
-  Last Name: Banner,
+  Last Name: Banerr,
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: 12/21/1979,
+  Date of Birth: 12/12/1981,
   Gender: Male,
   Marital Status: Married,
   Occupation: Architect,
   License Type: "Valid",
   License State: CA,
   Permit Before License: 'Yes',
-  "License #": D5435436,
-   Age First Licensed: 18
+  "License #": D5435440, #D9999999
+  Age First Licensed: 18
 }
 
-EndorsementActionTab: {
-  Endorsement Date: $<today>,
-  Endorsement Reason: Maintain Vehicle(s)
+############### Add 5th Driver at endorsement
+Add_PU_Claim_Driver_Endorsement_CA: {
+  DriverTab: ['@Driver5'],
 }

@@ -8,6 +8,7 @@ import aaa.helpers.claim.BatchClaimHelper;
 import aaa.helpers.claim.ClaimCASResponseTags;
 import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import aaa.helpers.claim.datamodel.claim.Claim;
+import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.logs.PasAdminLogGrabber;
@@ -15,15 +16,17 @@ import aaa.helpers.rest.JsonClient;
 import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.helpers.ssh.RemoteHelper;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.SearchEnum;
-import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
-import aaa.modules.policy.AutoSSBaseTest;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
+import aaa.main.pages.summary.BillingSummaryPage;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
@@ -90,6 +93,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     protected static DriverTab driverTab = new DriverTab();
     protected static PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
     protected static DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+    ErrorTab errorTab = new ErrorTab();
 
     @BeforeTest
     public void prepare() {
@@ -131,6 +135,38 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         mainApp().close();
     }
 
+    /**
+     * Initiates an endorsement, calculates premium, orders CLUE report for newly added driver
+     * @param policyNumber given policy number
+     * @param addDriverTd specific details for the driver being added to the policy
+     */
+    public void initiateAddDriverEndorsement(String policyNumber, TestData addDriverTd) {
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        policy.getDefaultView().fill(addDriverTd);
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.submitTab();
+
+        //Modify default test data to mask unnecessary steps
+        TestData td = getPolicyTD()
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
+        new DriverActivityReportsTab().fillTab(td);
+    }
+
+    /**
+     * Binds current endorsement: calculates premium, navigates to bind page, and binds endorsement
+     */
+    public void bindEndorsement() {
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+        new aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab().submitTab();
+    }
+
     // Move to R-63, run batch job part 1 and offline claims batch job
     public void runRenewalClaimOrderJob() {
         policyExpirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
@@ -142,28 +178,57 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     }
 
     // Assertions for COMP and DL Tests
-    public void compDLPuAssertions(String COMP_MATCH, String DL_MATCH, String PU_MATCH) {
+    public void compDLPuAssertions(String COMP_MATCH, String DL_MATCH, String PU_MATCH, boolean fiveDrivers) {
         CustomSoftAssertions.assertSoftly(softly -> {
             DriverTab driverTab = new DriverTab();
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-            softly.assertThat(DriverTab.tableDriverList).hasRows(4);
+            if(fiveDrivers) {
+                softly.assertThat(DriverTab.tableDriverList).hasRows(5);
+            } else {
+                softly.assertThat(DriverTab.tableDriverList).hasRows(4);
+            }
 
             // Check 1st driver: Contains only Two Matched Claims (Verifying that PermissiveUse Claim with wrong dateOfLoss is not displayed)
             softly.assertThat(DriverTab.tableActivityInformationList).hasRows(2);
 
             // Check 1st driver: FNI, has COMP and Permissive Use matched claims (2nd PermissiveUse Claim is not displayed, because of dateOfLoss Param > Claim dateOfLoss)
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(COMP_MATCH);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(COMP_MATCH);
+            //PAS-23269 - PU indicator check
+            assertThat(driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
 
 	        DriverTab.tableActivityInformationList.selectRow(2);
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(PU_MATCH);
+	        softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+	        softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(PU_MATCH);
+            //PAS-23269 - PU indicator check
+            assertThat(driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
 
             // Check 2nd driver: Has DL match claim
             DriverTab.tableDriverList.selectRow(2);
             softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(DL_MATCH);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(DL_MATCH);
+            //PAS-23269 - PU indicator check
+            assertThat(driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
+
+        });
+    }
+
+    // Assertions for clue claims  Tests
+    public void puIndicatorAssertions() {
+        CustomSoftAssertions.assertSoftly(softly -> {
+            DriverTab driverTab = new DriverTab();
+            softly.assertThat(DriverTab.tableDriverList).hasRows(5);
+
+            if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+                // Check 5th driver: Check the clue claims with permissive use indicator
+                DriverTab.tableDriverList.selectRow(5);
+            } else if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)){
+                // Check 3rd driver: Check the clue claims with permissive use indicator
+                DriverTab.tableDriverList.selectRow(3);
+            }
+            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
+            softly.assertThat(driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
         });
     }
 
@@ -177,21 +242,21 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
             // Check 3rd driver
             // PAS-8310 - LASTNAME_FIRSTNAME_DOB Match
             DriverTab.tableDriverList.selectRow(3);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME_DOB);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME_DOB);
             // PAS-17894 - LASTNAME_FIRSTNAME & LASTNAME_FIRSTINITAL_DOB //PAS-21435 - Removed LASTNAME_YOB match logic. Claim 8FAZ88888OHS is now unmatched
             DriverTab.tableActivityInformationList.selectRow(2);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME);
             DriverTab.tableActivityInformationList.selectRow(3);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTINITAL_DOB);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTINITAL_DOB);
 
             // Check 4th driver.
             // PAS-8310 - LASTNAME_FIRSTNAME_YOB Match
             DriverTab.tableDriverList.selectRow(4);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME_YOB);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME_YOB);
         });
     }
 
@@ -234,7 +299,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         buttonRenewals.click();
         policy.dataGather().start();
         premiumAndCoveragesTab.calculatePremium();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab();
         payTotalAmtDue(policyNumber);
     }
@@ -478,5 +543,54 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         assertThat(actualMatchCodes).isEqualTo(expectedMatchCodes);
     }
 
+    protected void billingPaymentAcception() {
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));
+
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+
+        BillingSummaryPage.open();
+        Dollar totDue = BillingSummaryPage.getTotalDue();
+        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount
+                .getTestData("AcceptPayment", "TestData_Cash"), totDue);
+    }
+
+    protected void preconditionToDoSecondRenewal() {
+
+        policyExpirationDate = policyExpirationDate.plusYears(1);
+
+        LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+        TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+    }
+
+    protected void initiateRenewal() {
+
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+
+        PolicySummaryPage.buttonRenewals.click();
+        policy.dataGather().start();
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        new PremiumAndCoveragesTab().calculatePremium();
+    }
+
+    protected void bindRenewalPolicy() {
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+        new DocumentsAndBindTab().submitTab();
+//        errorTab.overrideErrors(ErrorEnum.Errors.ERROR_200104);
+  //      errorTab.override();
+        new DocumentsAndBindTab().submitTab();
+    }
+
+    protected void preconditionToDoFirstRenewal(){
+        LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+        TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+        HttpStub.executeAllBatches();
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+    }
 
 }

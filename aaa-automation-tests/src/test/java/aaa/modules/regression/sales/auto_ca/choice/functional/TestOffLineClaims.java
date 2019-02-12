@@ -109,7 +109,7 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
 
 	    // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
 	    // Check 2nd driver: Has DL match claim
-		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
+		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3,false);
     }
 
     /**
@@ -128,80 +128,156 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23269")
-    public void pas23269_verifypermissiveUseindicator(@Optional("CA") @SuppressWarnings("unused") String state) {
+    public void pas23269_verifyPermissiveUseIndicator(@Optional("CA") @SuppressWarnings("unused") String state) {
 
-        // Toggle ON PermissiveUse Logic
-        // Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
-        // Set RISKSTATECD in DB to get policy DATEOFLOSS working
+//         Toggle ON PermissiveUse Logic
+//         Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
+//         Set RISKSTATECD in DB to get policy DATEOFLOSS working
         DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
         DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
 
-//        TestData testData = getPolicyTD();
-//        List<TestData> testDataDriverData = new ArrayList<>();// Merged driver tab with 4 drivers
-//        testDataDriverData.add(testData.getTestData("DriverTab"));
-//        testDataDriverData.addAll(getTestSpecificTD("TestData_DriverTab_OfflineClaim_PU").resolveLinks().getTestDataList("DriverTab"));
-//        adjusted = testData.adjust("DriverTab", testDataDriverData).resolveLinks();
-
         TestData testData = getPolicyTD();
-        adjusted = testData.adjust(getTestSpecificTD("TestData_DriverTab_OfflineClaim_PU").resolveLinks());
+        List<TestData> testDataDriverData = new ArrayList<>();// Merged driver tab with 4 drivers
+        testDataDriverData.add(testData.getTestData("DriverTab"));
+        testDataDriverData.addAll(getTestSpecificTD("TestData_DriverTab_OfflineClaim_PU").resolveLinks().getTestDataList("DriverTab"));
+        adjusted = testData.adjust("DriverTab", testDataDriverData).resolveLinks();
 
+//      Create a policy with 5 drivers
         mainApp().open();
         createCustomerIndividual();
         policy.initiate();
         PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
         DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
-        DriverTab drivertab = new DriverTab();
-        //In driver tab, 4 drivers are added. Company Input activity is added for Driver4
-        //policy.getDefaultView().fillUpTo(adjusted, PremiumAndCoveragesTab.class, true);
-        //premiumAndCoveragesTab.submitTab();
+        DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
+        DriverTab driverTab = new DriverTab();
         policy.getDefaultView().fillUpTo(adjusted, DriverTab.class, true);
+//      Assert to check the PU indicator for company input in quote level
+        assertThat(driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
+        driverTab.submitTab();
 
-//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-       log.info(drivertab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).getValue());
-       assertThat(drivertab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
-        drivertab.submitTab();
+        policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, DriverActivityReportsTab.class, true);
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        driverTab.submitTab();
 
-        policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, DocumentsAndBindTab.class, true);
+        //Modify default test data to mask unnecessary steps
+        adjusted = getPolicyTD()
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT.getLabel()))
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        policy.getDefaultView().fillFromTo(adjusted, PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
         documentsAndBindTab.submitTab();
-//        new ErrorTab().overrideAllErrors();
+
+//        policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, DocumentsAndBindTab.class, true);
 //        documentsAndBindTab.submitTab();
+
         new PurchaseTab().fillTab(adjusted).submitTab();
         policyNumber = PolicySummaryPage.getPolicyNumber();
-        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-        LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+        mainApp().close();
 
-        //Initiate endorsement
-        TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(5));
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
-//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-//        policy.getDefaultView().fill(tdEndorsement);
+//        Initiate endorsement
+        TestData addDriverTd = getTestSpecificTD("Add_PU_Claim_Driver_Endorsement_CA");
+        initiateAddDriverEndorsement(policyNumber, addDriverTd);
 
+//        Navigate to Driver page and verify the clue claim is added to driver3
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        puIndicatorAssertions();       // Assert to check PU indicator check for clue claims in endoresment
+        bindEndorsement();             // Bind endorsement
 
-        TestData tdEndorsement = getTestSpecificTD("TestData_Endorsement_PU");
-//        policy.createEndorsement(tdEndorsement);
-
-
+//       Check for the internal claims on renewal
         runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
         generateClaimRequest();        // Download claim request and assert it
 
-        // Create the claim response
+//         Create the claim response
         createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
         runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
 
-        //TBD - Login with different user
-
-        // Retrieve policy
+//      Retrieve policy
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
-        // Enter renewal image and verify claim presence
+//        Enter renewal image and verify claim presence
         buttonRenewals.click();
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
-        // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
-        // Check 2nd driver: Has DL match claim
-        compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
+//        Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
+//        Check 2nd driver: Has DL match claim
+//        Assert to check PU indicator check for internal claims in renewal
+        compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3,true);
+
+        mainApp().close();
+
+        //It is R-46
+        //timeshift to R-35
+        //Run renewal jobs
+        //pay bill
+        //timeshift to R
+        //Run renewal and status job
+        //timeshift to R+5
+        //login with qa_roles/qa with  F35 roles States --> CA and UW-->01 and Billing -->01
+        //put endorsement data
+        //check PU indicator is disabled for this user
+        //Move time to R-35 and run batch jobs:
+        moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
+
+        //Accept Payment and renew the policy
+        payTotalAmtDue(policyNumber);
+        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
+        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+
+//      Scenario to check the user does not have privilege to edit the PU indicator in endorsement
+        mainApp().open(getLoginTD()
+                .adjust("User", "qa_roles")
+                .adjust("Groups", "F35")
+                .adjust("States", "CA")
+                .adjust("UW_AuthLevel", "01")
+                .adjust("Billing_AuthLevel", "01")
+        );
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        assertThat(!driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isVisible());
     }
+
+    /* @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23269")
+    public void pas23269_privilegeGroupTest(@Optional("CA") @SuppressWarnings("unused") String state) {
+        //It is R-46
+        //timeshift to R-35
+        //Run renewal jobs
+        //pay bill
+        //timeshift to R
+        //Run renewal and status job
+        //timeshift to R+5
+        //login with qa_roles/qa with  F35 roles States --> CA and UW-->01 and Billing -->01
+        //put endorsement data
+        //check PU indicator is disabled for this user
+        policyNumber = "";
+        preconditionToDoFirstRenewal();
+        initiateRenewal();
+        bindRenewalPolicy();
+//      Bill payment
+        billingPaymentAcception();
+//      Second renewal generation
+        preconditionToDoSecondRenewal();
+//      Scenario to check the user does not have privilege to edit the PU indicator in endorsement
+        mainApp().open(getLoginTD()
+                .adjust("User", "qa_roles")
+                .adjust("Groups", "F35")
+                .adjust("States", "CA")
+                .adjust("UW_AuthLevel", "01")
+                .adjust("Billing_AuthLevel", "01")
+        );
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        assertThat(!driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
+
+    }
+    */
 }

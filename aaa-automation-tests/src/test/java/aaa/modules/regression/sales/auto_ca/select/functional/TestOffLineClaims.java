@@ -14,11 +14,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsCATemplate;
@@ -38,6 +34,7 @@ import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -114,7 +111,8 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
 
 	    // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
 	    // Check 2nd driver: Has DL match claim
-		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
+		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3,true);
+
     }
 
     /**
@@ -147,55 +145,87 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
 //        testDataDriverData.addAll(getTestSpecificTD("TestData_DriverTab_OfflineClaim_PU").resolveLinks().getTestDataList("DriverTab"));
 //        adjusted = testData.adjust("DriverTab", testDataDriverData).resolveLinks();
 
+//        TestData testData = getPolicyTD();
+//        adjusted = testData.adjust(getTestSpecificTD("TestData_DriverTab_OfflineClaim_PU").resolveLinks());
+//
+//        mainApp().open();
+//        createCustomerIndividual();
+//        policy.initiate();
+//        PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+//        DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+//        //In driver tab, 4 drivers are added. Company Input activity is added for Driver4
+//        policy.getDefaultView().fillUpTo(adjusted, PremiumAndCoveragesTab.class, true);
+//        premiumAndCoveragesTab.submitTab();
+//        policy.getDefaultView().fillFromTo(adjusted, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
+//        documentsAndBindTab.submitTab();
+////        new ErrorTab().overrideAllErrors();
+////        documentsAndBindTab.submitTab();
+//        new PurchaseTab().fillTab(adjusted).submitTab();
+//        policyNumber = PolicySummaryPage.getPolicyNumber();
+
+        // Toggle ON PermissiveUse Logic
+        // Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
+        // Set RISKSTATECD in DB to get policy DATEOFLOSS working
+        DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
+        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
+
         TestData testData = getPolicyTD();
-        adjusted = testData.adjust(getTestSpecificTD("TestData_DriverTab_OfflineClaim_PU").resolveLinks());
+        List<TestData> testDataDriverData = new ArrayList<>();// Merged driver tab with 4 drivers
+        testDataDriverData.add(testData.getTestData("DriverTab"));
+        testDataDriverData.addAll(getTestSpecificTD("TestData_DriverTab_OfflineClaim_PU").resolveLinks().getTestDataList("DriverTab"));
+        adjusted = testData.adjust("DriverTab", testDataDriverData).resolveLinks();
+
+        //code for overriding driver1
+//        TestData testData = getPolicyTD();
+//        adjusted = testData.adjust(getTestSpecificTD("TestData_DriverTab_OfflineClaim_PU").resolveLinks());
 
         mainApp().open();
         createCustomerIndividual();
         policy.initiate();
         PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
         DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+        DriverTab driverTab = new DriverTab();
         //In driver tab, 4 drivers are added. Company Input activity is added for Driver4
-        policy.getDefaultView().fillUpTo(adjusted, PremiumAndCoveragesTab.class, true);
-        premiumAndCoveragesTab.submitTab();
-        policy.getDefaultView().fillFromTo(adjusted, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
+        //policy.getDefaultView().fillUpTo(adjusted, PremiumAndCoveragesTab.class, true);
+        //premiumAndCoveragesTab.submitTab();
+        policy.getDefaultView().fillUpTo(adjusted, DriverTab.class, true);
+
+//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        assertThat(driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
+        driverTab.submitTab();
+
+        policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, DocumentsAndBindTab.class, true);
         documentsAndBindTab.submitTab();
 //        new ErrorTab().overrideAllErrors();
 //        documentsAndBindTab.submitTab();
         new PurchaseTab().fillTab(adjusted).submitTab();
         policyNumber = PolicySummaryPage.getPolicyNumber();
+        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+        mainApp().close();
 
-        /**
-         * Initiates an endorsement, calculates premium, orders CLUE report for newly added driver
-         * @param policyNumber given policy number
-         * @param addDriverTd specific details for the driver being added to the policy
-         */
-        //public void initiateAddDriverEndorsement(String policyNumber, TestData addDriverTd) {
-          /*  mainApp().open();
-            SearchPage.openPolicy(policyNumber);
-            NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-            policy.getDefaultView().fill(addDriverTd);
 
-            NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-            premiumAndCoveragesTab.calculatePremium();
-            premiumAndCoveragesTab.submitTab();
+        //Initiate endorsement
+/*      TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(5));
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        TestData tdEndorsement = getTestSpecificTD("TestData_Endorsement_PU");
+        policy.createEndorsement(tdEndorsement);
+*/
 
-            //Modify default test data to mask unnecessary steps
-            TestData td = getPolicyTD()
-                    .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
-                    .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
-            new DriverActivityReportsTab().fillTab(td);*/
-     //   }
+        //TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(5));
 
-        /**
-         * Binds current endorsement: calculates premium, navigates to bind page, and binds endorsement
-         */
-        /*public void bindEndorsement() {
-            NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-            NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-            new aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab().submitTab();
-        }*/
+        //Initiate an endorsement
+        TestData addDriverTd = getTestSpecificTD("Add_PU_Claim_Driver_Endorsement_CA");
+//        TestData addDriverTd = getTestSpecificTD("TestData_Endorsement_PU_CA");
+//        endorsementData.adjust(addDriverTd);
+//        policy.createEndorsement(endorsementData);
+        initiateAddDriverEndorsement(policyNumber, addDriverTd);
 
+        //Navigate to Driver page and verify the clue claim is added to driver5
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        puIndicatorAssertions();
+        bindEndorsement();
 
         runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
         generateClaimRequest();        // Download claim request and assert it
@@ -215,7 +245,30 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
 
         // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
         // Check 2nd driver: Has DL match claim
-        compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
+        compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3,true);
 
+        mainApp().close();
+
+        moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
+
+        //Accept Payment and renew the policy
+        payTotalAmtDue(policyNumber);
+        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
+        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+
+//      Scenario to check the user does not have privilege to edit the PU indicator in endorsement
+        //Login with different user. Check the PU indicator is not editable for internal claims other than E34/L41
+        mainApp().open(getLoginTD()
+                .adjust("User", "qa_roles")
+                .adjust("Groups", "F35")
+                .adjust("States", "CA")
+                .adjust("UW_AuthLevel", "01")
+                .adjust("Billing_AuthLevel", "01")
+        );
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        assertThat(!driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isVisible());
     }
 }
