@@ -229,19 +229,21 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             // Check 3rd driver
             // PAS-8310 - LASTNAME_FIRSTNAME_DOB Match
             DriverTab.tableDriverList.selectRow(3);
+            DriverTab.tableActivityInformationList.selectRow(2);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME_DOB);
             // PAS-17894 - LASTNAME_FIRSTNAME & LASTNAME_FIRSTINITAL_DOB //PAS-21435 - Removed LASTNAME_YOB match logic. Claim 8FAZ88888OHS is now unmatched
-            DriverTab.tableActivityInformationList.selectRow(2);
+            DriverTab.tableActivityInformationList.selectRow(3);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME);
-            DriverTab.tableActivityInformationList.selectRow(3);
+            DriverTab.tableActivityInformationList.selectRow(4);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTINITAL_DOB);
 
             // Check 4th driver.
             // PAS-8310 - LASTNAME_FIRSTNAME_YOB Match
             DriverTab.tableDriverList.selectRow(4);
+            DriverTab.tableActivityInformationList.selectRow(2);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME_YOB);
         });
