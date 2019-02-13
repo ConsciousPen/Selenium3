@@ -23,7 +23,7 @@ ApplicantTab: {
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
   InsuranceScoreReport: ['@InsuranceScoreReport'],
-  CLUEreport: [{Report: 'Order report'}]
+  CLUEreport: [{Report: 'Order report'}],
 }
 
 InsuranceScoreReport: {
