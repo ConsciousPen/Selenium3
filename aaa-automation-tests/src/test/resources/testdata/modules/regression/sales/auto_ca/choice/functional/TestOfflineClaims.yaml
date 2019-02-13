@@ -9,7 +9,7 @@ TestData_DriverTab_OfflineClaim_PU_CA: {
   DriverTab: ['@Driver2','@Driver3','@Driver4']
 }
 
-#TBD - NO Deleting
+#TBD - Not to be Deleted
 #PrefillTab1_CA: {
 #  First Name: Nicolas,
 #  Last Name: Smith,
@@ -23,7 +23,7 @@ TestData_DriverTab_OfflineClaim_PU_CA: {
 #  Order Prefill: click
 #}
 
-#No Deleting
+#TBD - Not to be Deleted
   ######Test Data for 1/2/3/4 Drivers
 #Driver1: {
 #  Add Driver: Click,

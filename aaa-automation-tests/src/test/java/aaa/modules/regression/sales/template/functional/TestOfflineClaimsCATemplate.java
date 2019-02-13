@@ -8,7 +8,6 @@ import aaa.helpers.claim.BatchClaimHelper;
 import aaa.helpers.claim.ClaimCASResponseTags;
 import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import aaa.helpers.claim.datamodel.claim.Claim;
-import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.logs.PasAdminLogGrabber;
@@ -16,17 +15,12 @@ import aaa.helpers.rest.JsonClient;
 import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.helpers.ssh.RemoteHelper;
-import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
-import aaa.main.pages.summary.BillingSummaryPage;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
@@ -137,8 +131,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * Initiates an endorsement, calculates premium, orders CLUE report for newly added driver
+     *
      * @param policyNumber given policy number
-     * @param addDriverTd specific details for the driver being added to the policy
+     * @param addDriverTd  specific details for the driver being added to the policy
      */
     public void initiateAddDriverEndorsement(String policyNumber, TestData addDriverTd) {
         mainApp().open();
@@ -182,7 +177,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         CustomSoftAssertions.assertSoftly(softly -> {
             DriverTab driverTab = new DriverTab();
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-            if(fiveDrivers) {
+            if (fiveDrivers) {
                 softly.assertThat(DriverTab.tableDriverList).hasRows(5);
             } else {
                 softly.assertThat(DriverTab.tableDriverList).hasRows(4);
@@ -197,9 +192,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
             //PAS-23269 - PU indicator check
             assertThat(driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
 
-	        DriverTab.tableActivityInformationList.selectRow(2);
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(PU_MATCH);
+            DriverTab.tableActivityInformationList.selectRow(2);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(PU_MATCH);
             //PAS-23269 - PU indicator check
             assertThat(driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
 
@@ -222,7 +217,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
             if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
                 // Check 5th driver: Check the clue claims with permissive use indicator
                 DriverTab.tableDriverList.selectRow(5);
-            } else if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)){
+            } else if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
                 // Check 3rd driver: Check the clue claims with permissive use indicator
                 DriverTab.tableDriverList.selectRow(3);
             }
@@ -232,7 +227,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     }
 
     // Assertions for Name/DOB Tests
-    public void nameDobYobAssertions(String LASTNAME_FIRSTNAME_DOB, String LASTNAME_FIRSTNAME, String LASTNAME_FIRSTINITAL_DOB, String LASTNAME_FIRSTNAME_YOB ) {
+    public void nameDobYobAssertions(String LASTNAME_FIRSTNAME_DOB, String LASTNAME_FIRSTNAME, String LASTNAME_FIRSTINITAL_DOB, String LASTNAME_FIRSTNAME_YOB) {
         CustomSoftAssertions.assertSoftly(softly -> {
             DriverTab driverTab = new DriverTab();
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
@@ -282,6 +277,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * Method changes current date to policy expiration date and issues generated renewal image
+     *
      * @param policyNumber given policy number
      */
     protected void issueGeneratedRenewalImage(String policyNumber) {
@@ -289,11 +285,11 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
-		if (tableSearchResults.isPresent()) {
-			tableSearchResults.getRow("Eff. Date",
-					TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
-					.getCell(1).controls.links.getFirst().click();
-		}
+        if (tableSearchResults.isPresent()) {
+            tableSearchResults.getRow("Eff. Date",
+                    TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
+                    .getCell(1).controls.links.getFirst().click();
+        }
 
         buttonRenewals.click();
         policy.dataGather().start();
@@ -305,8 +301,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * Method updates CAS Response XML with given Driver Licence according to Claim Number
+     *
      * @param claimToDriverLicenseMap given Driver Licence Number according to Claim Number
-     * @param response CAS Response
+     * @param response                CAS Response
      */
     private void updateDriverLicence(Map<String, String> claimToDriverLicenseMap, CASClaimResponse response) {
         List<Claim> claims = response.getClaimLineItemList().stream()
@@ -322,9 +319,10 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * Method Updates CAS Response value by given XML Tag Name
+     *
      * @param updatableDateFieldValueMap given value according to Claim Number
-     * @param response CAS Response
-     * @param updatableDateField given XML Tag name
+     * @param response                   CAS Response
+     * @param updatableDateField         given XML Tag name
      */
     protected void updateDatesForClaim(Map<String, String> updatableDateFieldValueMap, CASClaimResponse response, String updatableDateField) {
         List<Claim> claims = response.getClaimLineItemList().stream()
@@ -365,6 +363,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * Method returns content as String of CAS Request file
+     *
      * @return
      */
     protected String downloadClaimRequest() {
@@ -382,6 +381,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * Method returns content as String of pas-admins wrapper.log file
+     *
      * @return
      */
     protected String downloadPasAdminLog() {
@@ -396,12 +396,12 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     }
 
     /**
-     Method goes though all Claim Analytics items and returns required value according to claimNumber and policyNumber
+     * Method goes though all Claim Analytics items and returns required value according to claimNumber and policyNumber
      *
      * @param listOfClaims list Of Claim JSONs as strings;
-     * @param claimNumber given claim number
+     * @param claimNumber  given claim number
      * @param policyNumber given policy number
-     * @param key key of value which you want to get
+     * @param key          key of value which you want to get
      */
     protected String retrieveClaimValueFromAnalytics(List<String> listOfClaims, String claimNumber, String policyNumber, String key) {
         String claimValue = null;
@@ -421,13 +421,13 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     /**
      * Method creates CAS Response file and updates required fields: Policy Number, Driver Licence, Claim Dates: Date Of Loss, Close Date, Open Date
      *
-     * @param policyNumber given Policy Number
-     * @param dataModelFileName given CAS Response data model
+     * @param policyNumber         given Policy Number
+     * @param dataModelFileName    given CAS Response data model
      * @param claimToDriverLicence if != null, given Driver Licence according to Claim Number
-     * @param claimDatesToUpdate if != null, given Claim Dates according to Claim Number
+     * @param claimDatesToUpdate   if != null, given Claim Dates according to Claim Number
      */
     private void createCasClaimResponseAndUpload(String policyNumber, String dataModelFileName,
-            Map<String, String> claimToDriverLicence, Map<String, String> claimDatesToUpdate) {
+                                                 Map<String, String> claimToDriverLicence, Map<String, String> claimDatesToUpdate) {
         // Create Cas response file
         String casResponseFileName = getCasResponseFileName();
         BatchClaimHelper batchClaimHelper = new BatchClaimHelper(dataModelFileName, casResponseFileName);
@@ -452,34 +452,34 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     /**
      * Method creates CAS Response file and Uploads to required folder: With Updated Policy Number only
      *
-     * @param policyNumber - given Policy Number
+     * @param policyNumber      - given Policy Number
      * @param dataModelFileName given CAS Response data model
      */
-    public void createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(String policyNumber, String dataModelFileName){
+    public void createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(String policyNumber, String dataModelFileName) {
         createCasClaimResponseAndUpload(policyNumber, dataModelFileName, null, null);
     }
 
     /**
      * Method creates CAS Response file and Uploads to required folder: With Updated Policy Number & Driver License
      *
-     * @param policyNumber given policy number
-     * @param dataModelFileName given CAS Response data model
+     * @param policyNumber         given policy number
+     * @param dataModelFileName    given CAS Response data model
      * @param claimToDriverLicence given Driver License according to Claim Number
      */
     public void createCasClaimResponseAndUploadWithUpdatedDL(String policyNumber, String dataModelFileName,
-            Map<String, String> claimToDriverLicence){
+                                                             Map<String, String> claimToDriverLicence) {
         createCasClaimResponseAndUpload(policyNumber, dataModelFileName, claimToDriverLicence, null);
     }
 
     /**
      * Method creates CAS Response file and Uploads to required folder: With Updated Policy Number & Claim Dates: Date Of Loss, Close Date, Open Date
      *
-     * @param policyNumber given Policy Number
-     * @param dataModelFileName given CAS Response data model
+     * @param policyNumber       given Policy Number
+     * @param dataModelFileName  given CAS Response data model
      * @param claimDatesToUpdate given Claim Dates according to Claim Number
      */
     public void createCasClaimResponseAndUploadWithUpdatedDates(String policyNumber, String dataModelFileName,
-            Map<String, String> claimDatesToUpdate){
+                                                                Map<String, String> claimDatesToUpdate) {
         createCasClaimResponseAndUpload(policyNumber, dataModelFileName, null, claimDatesToUpdate);
     }
 
@@ -503,8 +503,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Create a list of all the actual UNMATCHED claim numbers
         ArrayList<String> actualUnmatchedClaims = new ArrayList<>();
         int x = 0;
-        while (x < microServiceResponse.getUnmatchedClaims().size())
-        {
+        while (x < microServiceResponse.getUnmatchedClaims().size()) {
             String claimNumber = microServiceResponse.getUnmatchedClaims().get(x).getClaimNumber();
             actualUnmatchedClaims.add(claimNumber);
             x++;
@@ -512,8 +511,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         //Verify the actual UNMATCHED claims equal the expected UNMATCHED claims
         //PAS-21435 - Removed LASTNAME_YOB match logic. These claims will now be unmatched
-        log.info("expected: "+expectedUnmatchedClaims);
-        log.info("actual: "+actualUnmatchedClaims);
+        log.info("expected: " + expectedUnmatchedClaims);
+        log.info("actual: " + actualUnmatchedClaims);
         assertThat(actualUnmatchedClaims).isEqualTo(expectedUnmatchedClaims);
 
         //Create a list of all the expected MATCH CODES (Last 3: PERMISSIVE_USE to cover all possible cases of PU)
@@ -524,8 +523,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Create a list of all the actual MATCH CODES
         ArrayList<String> actualMatchCodes = new ArrayList<>();
         int y = 0;
-        while (y < microServiceResponse.getMatchedClaims().size())
-        {
+        while (y < microServiceResponse.getMatchedClaims().size()) {
             String matchcode = microServiceResponse.getMatchedClaims().get(y).getMatchCode();
             actualMatchCodes.add(matchcode);
             y++;
@@ -537,8 +535,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //PAS-8310  - Match Logic: LASTNAME_FIRSTNAME_DOB, LASTNAME_FIRSTNAME_YOB
         //PAS-17894 - Match Logic: LASTNAME_FIRSTNAME, LASTNAME_FIRSTINITAL_DOB, & LASTNAME_YOB
         //PAS-18300 - Match Logic: PERMISSIVE_USE
-        log.info("expected match codes: "+expectedMatchCodes);
-        log.info("actual match codes: "+actualMatchCodes);
+        log.info("expected match codes: " + expectedMatchCodes);
+        log.info("actual match codes: " + actualMatchCodes);
         assertThat(actualMatchCodes).isEqualTo(expectedMatchCodes);
     }
 }
