@@ -116,23 +116,42 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
      * @author Kiruthika Rajendran
      * PAS-23269 - UI-CA: Show Permissive Use Indicator on Driver Tab
      * @name Test Clue claims STUB/Mock Data Claims
-     * @scenario Test Steps:
-     * 1. Create a Quote with 4 drivers
-     * 2. Calculate the Premium and click on Validate Driving History
-     * 3. Go to Driver tab.
-     * 4. Check for the Activity for Clue claims     *
-     * 5. Verify Clue Claim Data for the correct driver.
-     * 9. Verify the Permissive Use indicator in Driver Activity
-     * @details Clean Path. Expected Result Permissive Use indicator in Driver Activity
+     @scenario Test Steps:
+      * 1. Create a Quote with 4 drivers
+      * 2. Add activity for driver4 and validate PU indicator
+      * 3. Bind the policy
+      * 4. Initiate an endorsement
+      * 5. Add driver5
+      * 6. Calculate the Premium and click on Validate Driving History
+      * 7. Go to Driver tab and
+      * 8. Check for the Activity for Clue claims with PU indicator
+      * 9. Calculate Premium and bind the endorsement
+      * 10. Move time to R-63
+      * 11. Run Renewal Part1 + "renewalClaimOrderAsyncJob"
+      * 12. Run Claims Offline Batch Job
+      * 13. Move Time to R-46
+      * 14. Run Renewal Part2 + "claimsRenewBatchReceiveJob"
+      * 15. Login with privileged user L41/E34. Retrieve policy and enter renewal image
+      * 16. Check for the CAS claims with PU indicator
+      * 17. Move time to R-35
+      * 18. Run the renewal jobs
+      * 19. Pay the bill
+      * 20. Move time to R
+      * 21. Run the StatusJob
+      * 22. Login with qa_roles/qa with F35 roles,States --> CA and UW-->01 and Billing -->01
+      * 23. Initate an endorsement
+      * 24. Navigate to driver tab
+      * 25. Check the PU indicator is not editable for this user group
+      * @details Clean Path. Expected Result Permissive Use indicator in Driver Activity
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23269")
     public void pas23269_verifyPermissiveUseIndicator(@Optional("CA") @SuppressWarnings("unused") String state) {
 
-//         Toggle ON PermissiveUse Logic
-//         Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
-//         Set RISKSTATECD in DB to get policy DATEOFLOSS working
+        //Toggle ON PermissiveUse Logic
+        //Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
+        //Set RISKSTATECD in DB to get policy DATEOFLOSS working
         DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
         DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
 
@@ -142,7 +161,7 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
         testDataDriverData.addAll(getTestSpecificTD("TestData_DriverTab_OfflineClaim_PU").resolveLinks().getTestDataList("DriverTab"));
         adjusted = testData.adjust("DriverTab", testDataDriverData).resolveLinks();
 
-//      Create a policy with 5 drivers
+        //Create a policy with 5 drivers
         mainApp().open();
         createCustomerIndividual();
         policy.initiate();
@@ -151,7 +170,7 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
         DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
         DriverTab driverTab = new DriverTab();
         policy.getDefaultView().fillUpTo(adjusted, DriverTab.class, true);
-//      Assert to check the PU indicator for company input in quote level
+        //Assert to check the PU indicator for company input in quote level
         assertThat(driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
         driverTab.submitTab();
 
@@ -169,57 +188,44 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
         policy.getDefaultView().fillFromTo(adjusted, PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
         documentsAndBindTab.submitTab();
 
-//        policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, DocumentsAndBindTab.class, true);
-//        documentsAndBindTab.submitTab();
-
         new PurchaseTab().fillTab(adjusted).submitTab();
         policyNumber = PolicySummaryPage.getPolicyNumber();
         mainApp().close();
 
-//        Initiate endorsement
+        //Initiate endorsement
         TestData addDriverTd = getTestSpecificTD("Add_PU_Claim_Driver_Endorsement_CA");
         initiateAddDriverEndorsement(policyNumber, addDriverTd);
 
-//        Navigate to Driver page and verify the clue claim is added to driver3
+        //Navigate to Driver page and verify the clue claim is added to driver3
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         puIndicatorAssertions();       // Assert to check PU indicator check for clue claims in endoresment
         bindEndorsement();             // Bind endorsement
 
-//       Check for the internal claims on renewal
+        // Check for the internal claims on renewal
         runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
         generateClaimRequest();        // Download claim request and assert it
 
-//         Create the claim response
+        //Create the claim response
         createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
         runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
 
-//      Retrieve policy
+        //Retrieve policy
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
-//        Enter renewal image and verify claim presence
+        //Enter renewal image and verify claim presence
         buttonRenewals.click();
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
-//        Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
-//        Check 2nd driver: Has DL match claim
-//        Assert to check PU indicator check for internal claims in renewal
+        //Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
+        //Check 2nd driver: Has DL match claim
+        //Assert to check PU indicator check for internal claims in renewal
         compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3,true);
 
         mainApp().close();
 
-        //It is R-46
-        //timeshift to R-35
-        //Run renewal jobs
-        //pay bill
-        //timeshift to R
-        //Run renewal and status job
-        //timeshift to R+5
-        //login with qa_roles/qa with  F35 roles States --> CA and UW-->01 and Billing -->01
-        //put endorsement data
-        //check PU indicator is disabled for this user
-        //Move time to R-35 and run batch jobs:
+        //Run the renewal job and pay the bill
         moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
 
         //Accept Payment and renew the policy
@@ -227,44 +233,8 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
         JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 
-//      Scenario to check the user does not have privilege to edit the PU indicator in endorsement
-        mainApp().open(getLoginTD()
-                .adjust("User", "qa_roles")
-                .adjust("Groups", "F35")
-                .adjust("States", "CA")
-                .adjust("UW_AuthLevel", "01")
-                .adjust("Billing_AuthLevel", "01")
-        );
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-        assertThat(!driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isVisible());
-    }
-
-    /* @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23269")
-    public void pas23269_privilegeGroupTest(@Optional("CA") @SuppressWarnings("unused") String state) {
-        //It is R-46
-        //timeshift to R-35
-        //Run renewal jobs
-        //pay bill
-        //timeshift to R
-        //Run renewal and status job
-        //timeshift to R+5
-        //login with qa_roles/qa with  F35 roles States --> CA and UW-->01 and Billing -->01
-        //put endorsement data
-        //check PU indicator is disabled for this user
-        policyNumber = "";
-        preconditionToDoFirstRenewal();
-        initiateRenewal();
-        bindRenewalPolicy();
-//      Bill payment
-        billingPaymentAcception();
-//      Second renewal generation
-        preconditionToDoSecondRenewal();
-//      Scenario to check the user does not have privilege to edit the PU indicator in endorsement
+        //Scenario to check the user does not have privilege to edit the PU indicator in endorsement
+        //Login with different user. Check the PU indicator is not editable for internal claims other than E34/L41
         mainApp().open(getLoginTD()
                 .adjust("User", "qa_roles")
                 .adjust("Groups", "F35")
@@ -277,7 +247,5 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         assertThat(!driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
-
     }
-    */
 }

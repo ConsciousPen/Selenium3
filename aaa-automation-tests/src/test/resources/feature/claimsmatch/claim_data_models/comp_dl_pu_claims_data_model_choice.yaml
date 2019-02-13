@@ -23,7 +23,7 @@ claimLineItemList:
     driverDateofBirth: '1996-05-05'
     driverName: JOSHUA FUSSELL
     driverRelationToInsured: INSURED
-   # permissiveUse: N
+    permissiveUse: N
     drivingLicenseNumber: D0796371
     drivingLicenseState: CA
     lossSummary: IV hit OV while turning.

@@ -9,27 +9,7 @@ TestData_DriverTab_OfflineClaim_PU_CA: {
   DriverTab: ['@Driver2','@Driver3','@Driver4']
 }
 
-#TestData_Endorsement_PU_CA: {
-#  EndorsementActionTab: '@EndorsementActionTab',
-#  GeneralTab: {},
-#  DriverTab: ['@Driver5'],
-#  MembershipTab: {
-#    #Customer Agreement: Customer Agrees,
-#    #Sales Agent Agreement: I Agree,
-#    Order Report: click,
-#    AAAMembershipReport: [{}]
-#  },
-#  VehicleTab: {},
-#  AssignmentTab: {},
-#  FormsTab: {},
-#  PremiumAndCoveragesTab: {},
-#  DriverActivityReportsTab: {
-#  Sales Agent Agreement: I Agree,
-#    Validate Driving History: click
-#  },
-#  DocumentsAndBindTab: {}
-#}
-#
+#TBD - NO Deleting
 #PrefillTab1_CA: {
 #  First Name: Nicolas,
 #  Last Name: Smith,
@@ -43,6 +23,7 @@ TestData_DriverTab_OfflineClaim_PU_CA: {
 #  Order Prefill: click
 #}
 
+#No Deleting
   ######Test Data for 1/2/3/4 Drivers
 #Driver1: {
 #  Add Driver: Click,
@@ -115,12 +96,6 @@ Driver4: {
   "License #": D1278333,
   Age First Licensed: 18,
   ActivityInformation: {
-     #Activity Source : 'Company Input',
-     #Type: 'Minor Violation',
-     #Description: Disregard police,
-     #Occurrence Date: '$<today-1d:MM/dd/yyyy>',
-    #"Permissive Use Loss?": 'Yes',
-    #"Include in Points and/or YAF?": 'Yes'
      Activity Source: Company Input,
      Type: '10-yr Major Violation',
      Occurrence Date: '$<today-3M:MM/dd/yyyy>',
@@ -130,24 +105,6 @@ Driver4: {
      Not Included in Points and/or YAF - Reason Codes: 'Report errors',
     }
 }
-
-#Driver5: {
-#  Add Driver: Click,
-#  DriverSearchDialog:{},
-#  Driver Type: Available for Rating,
-#  First Name: Bruce,
-#  Last Name: Banner,
-#  'Rel. to First Named Insured': Sibling,
-#  Date of Birth: 12/21/1979,
-#  Gender: Male,
-#  Marital Status: Married,
-#  Occupation: Architect,
-#  License Type: "Valid",
-#  License State: CA,
-#  Permit Before License: 'Yes',
-#  "License #": D5435436,
-#   Age First Licensed: 18
-#}
 
 EndorsementActionTab: {
   Endorsement Date: $<today>,

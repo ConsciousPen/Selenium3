@@ -62,12 +62,6 @@ Driver4: {
   "License #": D5435435,
   Age First Licensed: 18,
   ActivityInformation: {
-       #Activity Source : 'Company Input',
-       #Type: 'Minor Violation',
-       #Description: Disregard police,
-       #Occurrence Date: '$<today-1d:MM/dd/yyyy>',
-      #"Permissive Use Loss?": 'Yes',
-      #"Include in Points and/or YAF?": 'Yes'
        Activity Source: Company Input,
        Type: '10-yr Major Violation',
        Occurrence Date: '$<today-3M:MM/dd/yyyy>',

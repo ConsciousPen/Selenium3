@@ -210,7 +210,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
             softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(DL_MATCH);
             //PAS-23269 - PU indicator check
             assertThat(driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
-
         });
     }
 
@@ -542,55 +541,4 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         log.info("actual match codes: "+actualMatchCodes);
         assertThat(actualMatchCodes).isEqualTo(expectedMatchCodes);
     }
-
-    protected void billingPaymentAcception() {
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));
-
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
-
-        BillingSummaryPage.open();
-        Dollar totDue = BillingSummaryPage.getTotalDue();
-        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount
-                .getTestData("AcceptPayment", "TestData_Cash"), totDue);
-    }
-
-    protected void preconditionToDoSecondRenewal() {
-
-        policyExpirationDate = policyExpirationDate.plusYears(1);
-
-        LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
-        TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-    }
-
-    protected void initiateRenewal() {
-
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
-
-        PolicySummaryPage.buttonRenewals.click();
-        policy.dataGather().start();
-
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        new PremiumAndCoveragesTab().calculatePremium();
-    }
-
-    protected void bindRenewalPolicy() {
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().submitTab();
-//        errorTab.overrideErrors(ErrorEnum.Errors.ERROR_200104);
-  //      errorTab.override();
-        new DocumentsAndBindTab().submitTab();
-    }
-
-    protected void preconditionToDoFirstRenewal(){
-        LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
-        TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-        HttpStub.executeAllBatches();
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-    }
-
 }
