@@ -98,6 +98,16 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="NV UMPD" parallel="methods">
+        <parameter name="state" value="NV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15344_ViewUpdateUmpdNV"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="CoveragesAZ" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
