@@ -154,7 +154,8 @@ public class CsaaXmlClass {
 	}
 
 	private Boolean containsParams(Class clazz, String methodName) {
-		return getAnnotation(clazz, methodName, Parameters.class) != null && getAnnotation(clazz, methodName, Parameters.class).value().length != 0;
+		Parameters paramAnn = getAnnotation(clazz, methodName, Parameters.class);
+		return (paramAnn != null && paramAnn.value().length != 0) || !getAnnotation(clazz, methodName, Test.class).dataProvider().isEmpty();
 	}
 
 	private void logNotMatchingTests(Class clazz, String methodName, Reasons message) {
