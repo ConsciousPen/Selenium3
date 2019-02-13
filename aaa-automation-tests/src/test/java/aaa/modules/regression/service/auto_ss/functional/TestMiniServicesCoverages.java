@@ -1096,9 +1096,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16112"})
 	public void pas16112_umpdOregonViewCoverage(@Optional("OR") String state) {
-		assertSoftly(softly ->
-				pas16112_umpdOregonViewCoverageBody(softly, getPolicyType())
-		);
+		assertSoftly(this::pas16112_umpdOregonViewCoverageBody);
 	}
 
 	/**
