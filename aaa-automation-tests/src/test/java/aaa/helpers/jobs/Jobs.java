@@ -127,6 +127,8 @@ public class Jobs {
 
 	public static Job policyTransactionLedgerJob_NonMonthly = new Job("policyTransactionLedgerJob_NonMonthly");
 
+	public static Job ledgerStatusUpdateJob = new Job("ledgerStatusUpdateJob");
+
 	public static Job cftDcsEodJob = new Job("cftDcsEodJob");
 
 	public static Job aaaCreditDisclosureNoticeJob = new Job("aaaCreditDisclosureNoticeJob");
