@@ -7,6 +7,27 @@ Driver_FNI: {
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
   License Number: A19191911
+  ActivityInformation: ['@ActivityMinor', '@ActivityMajor']
+}
+
+ActivityMinor: {
+  Activity Source: Company Input,
+  Type: 'Minor Violation',
+  Description: 'Improper Passing',
+  Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+  Conviction Date: '$<today-3M:MM/dd/yyyy>',
+  'Include in Points and/or YAF?': 'Yes'
+  # 'Permissive Use: 'Yes'
+}
+
+ActivityMajor: {
+  Activity Source: Customer Input,
+  Type: 'Major Violation',
+  Description: 'Hit and run',
+  Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+  Conviction Date: '$<today-3M:MM/dd/yyyy>',
+  'Include in Points and/or YAF?': 'Yes'
+  # 'Permissive Use: 'Yes'
 }
 
 Driver_Second: {

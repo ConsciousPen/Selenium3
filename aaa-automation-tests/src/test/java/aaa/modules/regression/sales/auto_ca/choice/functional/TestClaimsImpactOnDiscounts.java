@@ -7,7 +7,14 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsCATemplate;
 import aaa.utils.StateList;
@@ -23,6 +30,7 @@ import toolkit.utils.TestInfo;
 import java.util.Map;
 
 import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @StateList(states = {Constants.States.CA})
 public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
@@ -75,15 +83,20 @@ public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
         TestData testData = getTestSpecificTD("TestData_DriverTab_DiscountsGDD_CAC").resolveLinks();
         TestData td = getPolicyTD().adjust(testData);
 
-        mainApp().open();
-        createCustomerIndividual();
-        policy.createPolicy(td);
-       /* TODO:gunxgar - FillUpTo Driver TAB: change all except One Customer Input CLaim to PU;
-        - Validate P&C, that GDD is NOT displayed
-        - Navigate back change all to be PU;
-        - Validate P&C, that GDD is displayed;
-        Fill Up From - Finish Quote Creation and issue policy;
-        */
+
+        // Verify GDD during NB Quote Creation ---------------------------------------
+        createQuoteAndFillUpTo(testData, DocumentsAndBindTab.class);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        //CLUE CLAIMS? need to update mock with required driver info;
+        // Test data: Change CLUE claims to have Occ Dates and INC in Rating!
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.calculatePremium();
+
+        assertThat(PremiumAndCoveragesTab.tableDiscounts.getColumn(1).getValue()).contains("Good Driver Discount");
+
+        policy.calculatePremiumAndPurchase(testData);
+
+
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         mainApp().close();
