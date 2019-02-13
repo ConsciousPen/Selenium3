@@ -153,7 +153,12 @@ public class ScenarioBaseTest extends BaseTest {
 			}
 			Dollar fee = BillingHelper.getFeesValue(billGenDate);
 			Dollar expOffer = BillingHelper.getInstallmentDueByDueDate(intallmentDate).add(fee).add(previousTermMinDueAmount).add(correctionAmount);
-			new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setDueDate(intallmentDate).setMinDue(expOffer).verifyPresent();
+			if (getState().equals(Constants.States.CA)) {
+				new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.OFFER).setDueDate(intallmentDate).setMinDue(expOffer).verifyPresent();
+			} else {
+				new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setDueDate(intallmentDate).setMinDue(expOffer).verifyPresent();
+			}
+			
 	}
 
 
