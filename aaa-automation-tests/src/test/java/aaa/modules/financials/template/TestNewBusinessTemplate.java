@@ -14,7 +14,6 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 import java.time.LocalDateTime;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestNewBusinessTemplate extends FinancialsBaseTest {

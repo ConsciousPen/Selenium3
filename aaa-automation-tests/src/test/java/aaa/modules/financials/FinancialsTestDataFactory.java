@@ -205,7 +205,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                 break;
             case AUTO_SS:
                 td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
-                        AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.ELEVEN_PAY);
+                        AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.AUTO_ELEVEN_PAY);
                 break;
             case HOME_SS_HO3:
             case HOME_SS_HO4:
@@ -337,6 +337,48 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                 break;
             case PUP:
                 td = getPupNonPremiumBearingTd();
+                break;
+            default:
+                throw new IstfException("No Policy Type was matched!");
+        }
+        return td;
+    }
+
+    protected TestData getRenewalFillTd() {
+        TestData td;
+        String type = getPolicyType().getShortName();
+        switch (type) {
+            case CA_SELECT:
+            case CA_CHOICE:
+                td = getEmptyTestDataCaAuto().adjust(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel(), "Click"));
+                break;
+            case AUTO_SS:
+                td = getEmptyTestDataSSAuto().adjust(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        AutoSSMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel(), "Click"));
+                break;
+            case HOME_SS_HO3:
+            case HOME_SS_HO4:
+            case HOME_SS_HO6:
+            case HOME_SS_DP3:
+                td = getEmptyTestDataSSHome().adjust(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        HomeSSMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM.getLabel(), "Click"));
+                break;
+            case HOME_CA_HO3:
+            case HOME_CA_HO4:
+            case HOME_CA_HO6:
+            case HOME_CA_DP3:
+                td = getEmptyTestDataCaHome().adjust(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON.getLabel(), "Click"));
+                break;
+            case PUP:
+                if (getState().equals(Constants.States.CA)) {
+                    td = getEmptyTestDataCAPup();
+                } else {
+                    td = getEmptyTestDataSSPup();
+                }
+                td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.CALCULATE_PREMIUM.getLabel(), "Click"));
                 break;
             default:
                 throw new IstfException("No Policy Type was matched!");

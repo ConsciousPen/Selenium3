@@ -32,6 +32,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         mainApp().open();
         createCustomerIndividual();
         String policyNumber = createFinancialPolicy(adjustTdMonthlyPaymentPlan(getPolicyTD()));
+        LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
         LocalDateTime dueDate = PolicySummaryPage.getEffectiveDate().plusMonths(1);
 
         // Advance time 1 month, generate and pay first installment bill
@@ -57,9 +58,9 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
             softly.assertThat(nonEftFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(billDueDate, policyNumber, FinancialsSQL.TxType.NON_EFT_INSTALLMENT_FEE, "1034"));
         });
 
-//        // Pay off remaining balance on policy
-//        SearchPage.openPolicy(policyNumber);
-//        payTotalAmountDue();
+        // Pay off remaining balance on policy
+        SearchPage.openPolicy(policyNumber);
+        payTotalAmountDue();
 
         // Perform Endorsement effective today+2days and AP OOS Endorsement effective today+1day
         SearchPage.openPolicy(policyNumber);
@@ -69,9 +70,19 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 
         // TODO Validate END-07
 
+        // Roll back endorsement
         policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData"));
 
         // TODO Validate END-05
+
+        // Move to renewal timepoint and propose renewal image
+        TimeSetterUtil.getInstance().nextPhase(renewalEffDate);
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        policy.renew().performAndFill(getRenewalFillTd());
+        Dollar renewalAmt = payTotalAmountDue();
+
+        // TODO Validate RNW-01
 
     }
 
