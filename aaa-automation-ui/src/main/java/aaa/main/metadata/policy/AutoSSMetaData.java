@@ -60,6 +60,10 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<AssetList> OTHER_AAA_PRODUCTS_OWNED = declare("OtherAAAProductsOwned", AssetList.class, OtherAAAProductsOwned.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAutoOtherPoliciesMPD']"));
 		public static final AssetDescriptor<AssetList> SEARCH_OTHER_AAA_PRODUCTS = declare("SearchOtherAAAProducts", AssetList.class, SearchOtherAAAProducts.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAutoOtherPoliciesMPD']"));
 		public static final AssetDescriptor<AssetList> LIST_OF_PRODUCT_ROWS = declare("ListOfProductsRows", AssetList.class, OtherAAAProductsOwned.ListOfProductsRows.class);
+
+		//todo: delete this field after MPD feature will be merged to master(temporal fix)
+		public static final AssetDescriptor<RadioGroup> HOME = declare("Home", RadioGroup.class);
+
 		public static final AssetDescriptor<AssetList> POLICY_INFORMATION = declare("PolicyInformation", AssetList.class, PolicyInformation.class);
 
 		public static final AssetDescriptor<MultiInstanceAfterAssetList> NAMED_INSURED_INFORMATION =

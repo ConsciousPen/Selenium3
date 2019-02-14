@@ -35,6 +35,7 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments;
 import org.assertj.core.api.Assertions;
+import org.codehaus.janino.Mod;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -235,8 +236,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			softly.assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(bindResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.POLICY_NOT_RATED_DXP.getCode());
-			softly.assertThat(bindResponse.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.POLICY_NOT_RATED_DXP.getMessage());
+			softly.assertThat(hasError(rateResponse, "vehOwnerInd", ErrorDxpEnum.Errors.REGISTERED_OWNERS)).isTrue();
+			softly.assertThat(hasError(rateResponse, "vehicleUsageCd", ErrorDxpEnum.Errors.USAGE_IS_BUSINESS)).isTrue();
 		});
 	}
 
@@ -272,8 +273,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			softly.assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(bindResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.POLICY_NOT_RATED_DXP.getCode());
-			softly.assertThat(bindResponse.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.POLICY_NOT_RATED_DXP.getMessage());
+			softly.assertThat(hasError(bindResponse, "vehOwnerInd", ErrorDxpEnum.Errors.REGISTERED_OWNERS)).isTrue();
 		});
 	}
 
@@ -1446,14 +1446,6 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
 
-		VehicleUpdateDto updateVehicleSalvagedRequest = new VehicleUpdateDto();
-		updateVehicleSalvagedRequest.salvaged = true;
-		Vehicle updateVehicleSalvagedResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleSalvagedRequest);
-		assertThat(updateVehicleSalvagedResponse.salvaged).isEqualTo(true);
-		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
-
 		VehicleUpdateDto updateVehiclePurchaseDateRequest = new VehicleUpdateDto();
 		updateVehiclePurchaseDateRequest.purchaseDate = "2018-02-28";
 		Vehicle updateVehiclePurchaseDateResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehiclePurchaseDateRequest);
@@ -1463,7 +1455,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
 
 		//Bind endorsement
-		HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
+		helperMiniServices.bindEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 		softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 
@@ -2819,7 +2811,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas12942_GaragingAddressConsistencyDXPBody( String state) {
+	protected void pas12942_GaragingAddressConsistencyDXPBody() {
 		mainApp().open();
 
 		String policyNumber = getCopiedPolicy();
@@ -2831,14 +2823,25 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		String vin = "3FAFP31341R200709";
 		Vehicle response1 = HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
 
-		if ("VA".equals(state)) {
-			VehicleUpdateDto updateVehicleRequest = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "2011 CORAL AVE", "Chesapeake", "23324", "VA");
-			HelperCommon.updateVehicle(policyNumber, response1.oid, updateVehicleRequest);
-		}else if ("CT".equals(state))
-		{
-			VehicleUpdateDto updateVehicleRequest = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "213 Regis Court", "Meriden", "06450", "CT");
-			HelperCommon.updateVehicle(policyNumber, response1.oid, updateVehicleRequest);
+		String address1 = null;
+		String city = null;
+		String postalCode = null;
+		String state = null;
+
+		if (Constants.States.VA.equals(getState())) {
+			address1 = "2011 CORAL AVE";
+			city = "Chesapeake";
+			postalCode = "23324";
+			state = "VA";
+		} else if (Constants.States.CT.equals(getState())) {
+			address1 = "213 Regis Court";
+			city = "Meriden";
+			postalCode = "06450";
+			state = "CT";
 		}
+
+		VehicleUpdateDto updateVehicleRequest = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, address1, city, postalCode, state);
+		HelperCommon.updateVehicle(policyNumber, response1.oid, updateVehicleRequest);
 
 		//hit Meta Data and verify that the garaging address is different
 		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, response1.oid);
@@ -2849,7 +2852,6 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		if ("CT".equals(state))
 		{
 			testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.county", true, true, true, null, "String");
-
 		}
 		//check that the garaging address is different in PAS and bind the endorsement
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -2858,10 +2860,10 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
-		assertThat(vehicleTab.getAssetList().getAsset(ADDRESS_LINE_1.getLabel()).getValue().toString().equals("213 Regis Court")).isTrue();
-		assertThat(vehicleTab.getAssetList().getAsset(CITY.getLabel()).getValue().toString().equals("Meriden")).isTrue();
-		assertThat(vehicleTab.getAssetList().getAsset(STATE.getLabel()).getValue().toString().equals("CT")).isTrue();
-		assertThat(vehicleTab.getAssetList().getAsset(ZIP_CODE.getLabel()).getValue().toString().equals("06450")).isTrue();
+		assertThat(vehicleTab.getAssetList().getAsset(ADDRESS_LINE_1.getLabel()).getValue().toString()).isEqualTo(address1);
+		assertThat(vehicleTab.getAssetList().getAsset(CITY.getLabel()).getValue().toString()).isEqualTo(city);
+		assertThat(vehicleTab.getAssetList().getAsset(STATE.getLabel()).getValue().toString()).isEqualTo(state);
+		assertThat(vehicleTab.getAssetList().getAsset(ZIP_CODE.getLabel()).getValue().toString()).isEqualTo(postalCode);
 		vehicleTab.saveAndExit();
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -3122,6 +3124,46 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		validateLessThan1000Miles_AddedVehicle(policyNumber,"WAUAFAFL8CN008636", true, softly);
 	}
 
+	protected void pas25065_validateMakeModelOthersForRemovedVehicleBody() {
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleOtherTypes_withPPAOther").getTestDataList("VehicleTab")).resolveLinks();
+		List<TestData> tdVehicles = td.getTestDataList("VehicleTab");
+		//remove PPA (which is not Make/Model other)
+		tdVehicles.remove(0);
+
+		String policyNumber = openAppAndCreatePolicy(testData);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		ViewVehicleResponse viewVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
+		List<Vehicle> vehicleList = new ArrayList<>();
+		for (TestData tdVehicle : tdVehicles) {
+			Vehicle vehicle = findVehicleByVin(viewVehicleResponse, tdVehicle.getValue(VIN.getLabel()));
+			printToLog("Starting to check fields for vehType " + vehicle.vehTypeCd + "...");
+			vehicleList.add(vehicle);
+
+			if ("Trailer".equals(vehicle.vehTypeCd) || "Golf".equals(vehicle.vehTypeCd)) {
+				assertThat(vehicle.otherBodyStyle).isNull(); //Trailer and Golf Cart don't have otherBodyStyle
+			} else {
+				assertThat(vehicle.otherBodyStyle).isEqualToIgnoringCase(tdVehicle.getValue(OTHER_BODY_STYLE.getLabel()));
+			}
+			assertThat(vehicle.model).isEqualTo("OTHER");
+			assertThat(vehicle.otherManufacturer).isEqualTo(tdVehicle.getValue(OTHER_MAKE.getLabel()));
+			assertThat(vehicle.manufacturer).isEqualTo("OTHER");
+			assertThat(vehicle.otherModel).isEqualTo(tdVehicle.getValue(OTHER_MODEL.getLabel()));
+			printToLog("...fields OK for vehType " + vehicle.vehTypeCd);
+
+			//Delete Vehicle
+			HelperCommon.deleteVehicle(policyNumber, vehicle.oid, VehicleUpdateResponseDto.class, Response.Status.OK.getStatusCode());
+		}
+
+		ComparablePolicy comparablePolicy = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
+		for (Vehicle vehicle : vehicleList) {
+			assertThat(comparablePolicy.vehicles.get(vehicle.oid).data).isEqualToIgnoringGivenFields(vehicle, "garagingAddress", "vehicleOwnership", "availableActions");
+			printToLog("ChangeLog OK for: " + vehicle.vehTypeCd);
+		}
+
+	}
+
 	private void validateLessThan1000Miles_ExistingVehicles(String policyNumber, String vin, boolean isLessThan1000Expected,
 															ViewVehicleResponse policyResponse, ETCSCoreSoftAssertions softly) {
 		Vehicle returnedVehicle = findVehicleByVin(policyResponse, vin);
@@ -3206,7 +3248,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 				.orElseThrow(() -> new IllegalArgumentException("No Vehicle found for oid: " + oid));
 	}
 
-	private Vehicle findVehicleByVin(ViewVehicleResponse viewVehicleResponse, String vin) {
+	protected Vehicle findVehicleByVin(ViewVehicleResponse viewVehicleResponse, String vin) {
 		return viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehicle.vehIdentificationNo.equals(vin)).findFirst()
 				.orElseThrow(() -> new IllegalArgumentException("No Vehicle found for vin: " + vin));
 	}

@@ -82,6 +82,7 @@
                     <include name="pas9490_ViewVehicleServiceCheckVehiclesStatus"/>
                     <include name="pas9610_UpdateVehicleService"/>
                     <include name="pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVa"/>
+                    <include name="pas25065_validateMakeModelOthersForRemovedVehicle"/>
                 </methods>
             </class>
         </classes>
@@ -93,6 +94,16 @@
                 <methods>
                     <include name="pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVa"/>
                     <include name="pas9750_addVehicleServiceBlockingForPurchaseDate"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="NV UMPD" parallel="methods">
+        <parameter name="state" value="NV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15344_ViewUpdateUmpdNV"/>
                 </methods>
             </class>
         </classes>
@@ -594,11 +605,20 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
                 <methods>
                     <include name="pas14475_NameInsuredMaritalStatusPSS"/>
-                    <include name="pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate"/>
                     <include name="pas14963_remove_driver_transaction_history"/>
                     <include name="pas16578_removeDriverCheckIfTaskWasCreated"/>
                     <include name="pas17769_tooOldDriverErrorAndNoHintFromReportResponse"/>
                     <include name="pas19768_ageFirstLicensedCannotBeGreaterThanDob"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="Add named insured not Policy Effective Date" parallel="methods">
+        <parameter name="state" value="VA, CT"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate"/>
                 </methods>
             </class>
         </classes>
@@ -1103,6 +1123,7 @@
                 <methods>
                     <include name="pas19127_BIAndUMBIAndCanChangeTrue"/>
                     <include name="pas15302_lolCoverageNJ"/>
+                    <include name="pas15353_viewPIPNonMedExpenseNoNJ"/>
                 </methods>
             </class>
         </classes>
