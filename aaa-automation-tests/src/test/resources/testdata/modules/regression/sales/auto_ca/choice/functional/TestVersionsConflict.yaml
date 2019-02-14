@@ -61,11 +61,7 @@ TestData_NB_Policy: {
   PremiumAndCoveragesTab: {
     Product: CA Choice,
   },
-  DriverActivityReportsTab: {
-    "Has the customer expressed interest in purchasing the policy?": 'Yes',
-    Sales Agent Agreement: I Agree,
-    Validate Driving History: click
-  },
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: {
     RequiredToBind: {
       Personal Auto Application: Physically Signed,
