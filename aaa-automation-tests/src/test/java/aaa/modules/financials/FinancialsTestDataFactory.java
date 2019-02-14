@@ -402,18 +402,26 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     private Map<String, String> getPupUnderlyingPolicies() {
         Map<String, String> policies = new LinkedHashMap<>();
         PolicyType type;
+        PolicyType typeAuto;
         String hoPolicy;
+        String autoPolicy;
         String state = getState().intern();
         synchronized (state) {
             if (getState().equals(Constants.States.CA)) {
                 type = PolicyType.HOME_CA_HO3;
+                typeAuto = PolicyType.AUTO_CA_SELECT;
             } else {
                 type = PolicyType.HOME_SS_HO3;
+                typeAuto = PolicyType.AUTO_SS;
             }
             type.get().createPolicy(getStateTestData(testDataManager.policy.get(type), "DataGather", "TestData"));
             hoPolicy = PolicySummaryPage.getPolicyNumber();
             policies.put("Primary_HO3", hoPolicy);
             ALL_POLICIES.add(hoPolicy);
+            typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
+            autoPolicy = PolicySummaryPage.getPolicyNumber();
+            policies.put("Primary_Auto", autoPolicy);
+            ALL_POLICIES.add(autoPolicy);
         }
         return policies;
     }
