@@ -301,7 +301,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                 td = getCaHomeReducePremiumTd();
                 break;
             case PUP:
-                td = new SimpleDataProvider();  // TODO needs replaced with PUP method for premium reduction
+                td = getPupReducePremiumTd();
                 break;
             default:
                 throw new IstfException("No Policy Type was matched!");
@@ -496,6 +496,17 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         }
         return td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
                     PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), "contains=$3,000,000"));
+    }
+
+    private TestData getPupReducePremiumTd() {
+        TestData td;
+        if (getState().equals(Constants.States.CA)) {
+            td = getEmptyTestDataCAPup();
+        } else {
+            td = getEmptyTestDataSSPup();
+        }
+        return td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), "contains=$1,000,000"));
     }
 
     private TestData getPupErrorTabOverride() {
