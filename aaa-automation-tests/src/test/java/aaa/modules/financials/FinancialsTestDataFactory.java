@@ -38,6 +38,11 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
         if (getPolicyType().equals(PolicyType.PUP)) {
             td = new PrefillTab().adjustWithRealPolicies(td, getPupUnderlyingPolicies());
+            td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                    PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), "contains=$2,000,000"));
+            if (!getState().equals(Constants.States.CA)) {
+                td.adjust(PersonalUmbrellaMetaData.ErrorTab.class.getSimpleName(), getPupErrorTabOverride());
+            }
         }
         return td;
     }
@@ -491,6 +496,17 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     }
 
     private TestData getPupAddPremiumTd() {
+        TestData td;
+        if (getState().equals(Constants.States.CA)) {
+            td = getEmptyTestDataCAPup();
+        } else {
+            td = getEmptyTestDataSSPup();
+        }
+        return td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                    PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), "contains=$3,000,000"));
+    }
+
+    private TestData getPupErrorTabOverride() {
         List<TestData> errorsOverride = new ArrayList<>();
         TestData overrideTd = DataProviderFactory.dataOf(
                 PersonalUmbrellaMetaData.ErrorTab.ErrorsOverride.MESSAGE.getLabel(), "contains=Underwriting approval required for Liability Coverage limits greater than",
@@ -499,16 +515,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                 PersonalUmbrellaMetaData.ErrorTab.ErrorsOverride.DURATION.getLabel(), "Life",
                 PersonalUmbrellaMetaData.ErrorTab.ErrorsOverride.REASON_FOR_OVERRIDE.getLabel(), "index=1");
         errorsOverride.add(overrideTd);
-        TestData errorTabOverride = DataProviderFactory.dataOf(PersonalUmbrellaMetaData.ErrorTab.ERROR_OVERRIDE.getLabel(), errorsOverride);
-
-        TestData td;
-        if (getState().equals(Constants.States.CA)) {
-            td = getEmptyTestDataCAPup();
-        } else {
-            td = getEmptyTestDataSSPup().adjust(PersonalUmbrellaMetaData.ErrorTab.class.getSimpleName(), errorTabOverride);
-        }
-        return td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
-                    PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), "contains=$2,000,000"));
+        return DataProviderFactory.dataOf(PersonalUmbrellaMetaData.ErrorTab.ERROR_OVERRIDE.getLabel(), errorsOverride);
     }
 
     private TestData getPupNonPremiumBearingTd() {

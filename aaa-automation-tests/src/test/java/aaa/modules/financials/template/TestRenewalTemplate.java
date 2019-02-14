@@ -24,7 +24,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
      * 5. Create AP endorsement with eff. date today + 2 days
      * 6. Create AP endorsement with eff. date today + 1 day (OOS)
      * 7. Roll back endorsement
-     * 8. Cancel policy ON or AFTER effective date
+     * 8. Move time point and bind renewal ON or AFTER the renewal effective date
      * @details PMT-02, RNW-01, END-05, END-07, FEE-10
      */
     protected void testRenewalScenario_1() {
@@ -91,12 +91,11 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
      * @scenario
      * 1. Create policy WITHOUT employee benefit with monthly payment plan.
      * 2. Advance time 1 month and pay installment amount (and full amount due)
-     * 3. Advance policy through renewal cycle
-     * 4. Pay amount due and verify renewal is active
-     * 5. Create AP endorsement with eff. date today + 2 days
-     * 6. Create AP endorsement with eff. date today + 1 day (OOS)
-     * 7. Roll back endorsement
-     * 8. Cancel policy ON or AFTER effective date
+     * 3. Decline payment for reason = NSF
+     * 4. Create AP endorsement with eff. date today + 2 days
+     * 5. Create AP endorsement with eff. date today + 1 day (OOS)
+     * 6. Roll back endorsement
+     * 7. Move time point and bind renewal BEFORE the renewal effective date
      * @details FEE-07, RNW-03, END-05, END-07
      */
     protected void testRenewalScenario_2() {

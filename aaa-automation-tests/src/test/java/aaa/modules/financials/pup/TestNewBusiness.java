@@ -16,12 +16,32 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 		return PolicyType.PUP;
 	}
 
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.PUP)
 	public void testNewBusinessScenario_1(@Optional("") String state) {
 		testNewBusinessScenario_1();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+	@TestInfo(component = ComponentConstant.Sales.PUP)
+	public void testNewBusinessScenario_2(@Optional("") String state) {
+		testNewBusinessScenario_2();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+	@TestInfo(component = ComponentConstant.Sales.PUP)
+	public void testNewBusinessScenario_3(@Optional("") String state) {
+		testNewBusinessScenario_3();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+	@TestInfo(component = ComponentConstant.Sales.PUP)
+	public void testNewBusinessScenario_4(@Optional("") String state) {
+		testNewBusinessScenario_4();
 	}
 
 }
