@@ -146,7 +146,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         advanceTimeAndOpenPolicy(effDate, policyNumber);
 
         // Perform RP endorsement
-        Dollar reducedPrem = performRPEndorsement(effDate, premTotal);
+        Dollar reducedPrem = performRPEndorsement(effDate, policyNumber);
 
         // END-02 validations
         assertThat(reducedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
@@ -288,7 +288,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         //TODO NBZ-04 validations
 
-        performRPEndorsement(effDate, premTotal);
+        Dollar reducedPrem = performRPEndorsement(effDate, policyNumber);
 
         // TODO END-04 and PMT-05 validations
 

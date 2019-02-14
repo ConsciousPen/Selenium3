@@ -112,10 +112,12 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		SearchPage.openPolicy(policyNumber);
 	}
 
-	protected Dollar performRPEndorsement(LocalDateTime effDate, Dollar currentPremium) {
+	protected Dollar performRPEndorsement(LocalDateTime effDate, String policyNumber) {
 		policy.endorse().perform(getEndorsementTD(effDate));
 		policy.getDefaultView().fill(getReducePremiumTD());
-		return currentPremium.subtract(getTotalTermPremium());
+		Dollar reducedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT);
+		SearchPage.openPolicy(policyNumber);
+		return reducedPrem;
 	}
 
 	protected void performNonPremBearingEndorsement(String policyNumber) {
