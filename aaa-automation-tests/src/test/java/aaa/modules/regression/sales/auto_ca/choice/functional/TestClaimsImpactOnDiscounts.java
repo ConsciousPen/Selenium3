@@ -8,24 +8,25 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsCATemplate;
+import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
+import org.openqa.selenium.remote.service.DriverCommandExecutor;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.RadioGroup;
 
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
 
     private static final String CLAIM_NUMBER_1 = "Claim-GDD-111";
     private static final String CLAIM_NUMBER_2 = "Claim-GDD-222";
-    private static final String COMP_DL_PU_CLAIMS_DATA_MODEL = "comp_dl_pu_claims_data_model_choice.yaml"; //TODO:gunxgar change
+    private static final String GDD_PU_CLAIMS_DATA_MODEL = "gdd_PUClaims_data_model.yaml";
 
     @Override
     protected PolicyType getPolicyType() {
@@ -84,18 +85,15 @@ public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
         TestData td = getPolicyTD().adjust(testData);
 
 
-        // Verify GDD during NB Quote Creation ---------------------------------------
-        createQuoteAndFillUpTo(testData, DocumentsAndBindTab.class);
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        //CLUE CLAIMS? need to update mock with required driver info;
-        // Test data: Change CLUE claims to have Occ Dates and INC in Rating!
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        premiumAndCoveragesTab.calculatePremium();
+        // --------------------------------------- Verify GDD during NB Quote Creation ---------------------------------------
+        createQuoteAndFillUpTo(td, DriverActivityReportsTab.class);
 
-        assertThat(PremiumAndCoveragesTab.tableDiscounts.getColumn(1).getValue()).contains("Good Driver Discount");
+        validateGDD();
 
-        policy.calculatePremiumAndPurchase(testData);
-
+        //policy.getDefaultView().fillFromTo(td, PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+        new DocumentsAndBindTab().fillTab(td).submitTab();
+        //policy.getDefaultView().getTab(DocumentsAndBindTab.class).submitTab();
 
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -106,7 +104,7 @@ public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
         generateClaimRequest();        // Download claim request and assert it
 
         // Create the claim response
-        createCasClaimResponseAndUploadWithUpdatedDates(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, UPDATE_CAS_RESPONSE_DATE_FIELDS);
+        createCasClaimResponseAndUploadWithUpdatedDates(policyNumber, GDD_PU_CLAIMS_DATA_MODEL, UPDATE_CAS_RESPONSE_DATE_FIELDS);
 
         runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
 
@@ -114,39 +112,57 @@ public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
-        // Enter renewal image and verify claim presence
+        // --------------------------------------- Verify GDD during Renewal Quote Creation ---------------------------------------
         buttonRenewals.click();
         policy.dataGather().start();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-
-        /* TODO:gunxgar - Change all except one internal CLaim to PU
-        - Validate P&C, that GDD is NOT displayed
-        - Navigate back change all to be PU;
-        - Validate P&C, that GDD is displayed;
-        */
-
+        validateGDD();
         premiumAndCoveragesTab.saveAndExit();
+
+        // --------------------------------------- Verify GDD during Endorsement Quote Creation ---------------------------------------
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        /* TODO:gunxgar - Change all except one CLUE Claim
-        - Validate P&C, that GDD is NOT displayed
-        - Navigate back change all to be PU;
-        - Validate P&C, that GDD is displayed;
-        */
-
-
+        validateGDD();
         premiumAndCoveragesTab.saveAndExit();
+
+
+        // --------------------------------------- Verify GDD during Rewritten Quote Creation ---------------------------------------
         policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
         policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
 
         policy.dataGather().start();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        validateGDD();
 
-        /* TODO:gunxgar - Change all except one Company Input Claim
-        - Validate P&C, that GDD is NOT displayed
-        - Navigate back change all to be PU;
-        - Validate P&C, that GDD is displayed;
-        */
+    }
+    /*
+    Method Validates P&C tab, and that Good Driver Discount is applied with Permissive Use Claims only
+     */
+    private void validateGDD(){
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+
+        //Making sure that PU = Yes, and its included in rating.
+
+        ActivityInformationMultiAssetList activityInformationAssetList = new DriverTab().getActivityInformationAssetList();
+
+        for (int i = 1; i <= DriverTab.tableActivityInformationList.getAllRowsCount(); i++){
+            DriverTab.tableActivityInformationList.selectRow(i);
+            if (activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_YAF.getLabel(), RadioGroup.class).getValue().equals("No")) {
+                activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_YAF.getLabel(), RadioGroup.class).setValue("Yes");
+            } else if (activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).getValue().equals("No")) {
+                activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).setValue("Yes");
+            }
+        }
+        //TODO:gunxgar Test data: Change CLUE claims to have Occ Dates and!
+
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.calculatePremium();
+
+        assertThat(PremiumAndCoveragesTab.tableDiscounts.getColumn(1).getCell(1).getValue()).contains("Good Driver (Matthew Fox)");
+        //for each, List Items: For, check if contains
+
+
+        //Negative Case: Make One Claimas non PU; validate;
+        //TODO:gunxgar NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+
+
     }
 }

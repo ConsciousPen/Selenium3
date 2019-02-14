@@ -1,47 +1,58 @@
 TestData_DriverTab_DiscountsGDD_CAC: {
-  DriverTab: ['@Driver_FNI', '@Driver_Second'],
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@Driver_FNI'
+}
+
+PrefillTab: {
+  Zip Code: 90210,
+  Address Line 1: '1 Gerhardstrasse',
+  Date of Birth: '01/01/1971',
+  Validate Address: click,
+  Validate Address Dialog: {
+  },
+  Order Prefill: click
+}
+
+GeneralTab: {
+  NamedInsuredInformation: '@NamedInsuredInformationToGetClaims',
+  AAAProductOwned: '@<auto_ca_choice>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',
+  #CurrentCarrierInformation: '@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ca_choice>@DataGather@PolicyInformation',
+}
+
+NamedInsuredInformationToGetClaims: {
+  First Name: 'Matthew',
+  Last Name: 'Fox'
 }
 
 Driver_FNI: {
-  Occupation: Self-Employed,
+  Occupation: Self Employed,
   Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: A19191911
-  ActivityInformation: ['@ActivityMinor', '@ActivityMajor']
-}
-
-ActivityMinor: {
-  Activity Source: Company Input,
-  Type: 'Minor Violation',
-  Description: 'Improper Passing',
-  Occurrence Date: '$<today-3M:MM/dd/yyyy>',
-  Conviction Date: '$<today-3M:MM/dd/yyyy>',
-  'Include in Points and/or YAF?': 'Yes'
-  # 'Permissive Use: 'Yes'
-}
-
-ActivityMajor: {
-  Activity Source: Customer Input,
-  Type: 'Major Violation',
-  Description: 'Hit and run',
-  Occurrence Date: '$<today-3M:MM/dd/yyyy>',
-  Conviction Date: '$<today-3M:MM/dd/yyyy>',
-  'Include in Points and/or YAF?': 'Yes'
-  # 'Permissive Use: 'Yes'
-}
-
-Driver_Second: {
-  Add Driver: Click,
-  DriverSearchDialog:{},
-  First Name: pasMATTHEW,
-  Last Name: pasFOX,
-  'Rel. to First Named Insured': Sibling,
-  Date of Birth: '12/12/1980',
-  Gender: Male,
-  Marital Status: Married,
-  Occupation: Clergy,
-  License Type: "Licensed (US)",
-  License State: AZ,
-  License Number: A19191912,
-  Age First Licensed: 18
+  License Type: 'Valid',
+  License Number: C1919191,
+  Permit Before License: 'No',
+  ActivityInformation: [
+  {
+    Activity Source: Company Input,
+    Type: 'Accident',
+    Description: 'Fault accident with injury',
+    Occurrence Date: '$<today-2M:MM/dd/yyyy>',
+    Conviction Date: '$<today-2M:MM/dd/yyyy>',
+    Loss Payment Amount: 4000,
+    Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    'Include in Points and/or YAF?': 'Yes',
+    'Permissive Use Loss?': 'Yes'
+  },
+  {
+    Activity Source: Customer Input,
+    Type: 'Major Violation',
+    Description: 'Hit and run',
+    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+    Conviction Date: '$<today-3M:MM/dd/yyyy>',
+    'Include in Points and/or YAF?': 'Yes',
+    'Permissive Use Loss?': 'Yes'
+  }
+  ]
 }

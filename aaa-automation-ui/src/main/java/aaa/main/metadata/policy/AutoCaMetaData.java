@@ -287,6 +287,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<RadioGroup> INCLUDE_IN_RATING = declare("Include in Rating?", RadioGroup.class);
 			public static final AssetDescriptor<ComboBox> NOT_INCLUDED_IN_RATING_REASON = declare("Not Included in Rating Reasons", ComboBox.class);
 			public static final AssetDescriptor<RadioGroup> INCLUDE_IN_POINTS_AND_OR_YAF = declare("Include in Points and/or YAF?", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> PERMISSIVE_USE_LOSS = declare("Permissive Use Loss?", RadioGroup.class);
 			public static final AssetDescriptor<ComboBox> NOT_INCLUDED_IN_POINTS_AND_OR_YAF_REASON_CODES = declare("Not Included in Points and/or YAF - Reason Codes", ComboBox.class);
 			public static final AssetDescriptor<RadioGroup> WAS_THE_MINOR_MOVING_VIOLATION_OBTAINED_DURING_THE_HOURS_OF_EMPLOYMENT = declare(
 					"Was the minor moving violation obtained during the hours of employment?", RadioGroup.class);
