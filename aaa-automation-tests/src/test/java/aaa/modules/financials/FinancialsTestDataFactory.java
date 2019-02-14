@@ -319,16 +319,21 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                         AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), DataProviderFactory.dataOf(
                                 AutoSSMetaData.GeneralTab.NamedInsuredInformation.MIDDLE_NAME.getLabel(), "Test")));
                 break;
-            case HOME_SS_HO3:
-            case HOME_SS_HO4:
-            case HOME_SS_HO6:
             case HOME_SS_DP3:
+            case HOME_SS_HO3:
                 td = getEmptyTestDataSSHome()
                         .adjust(HomeSSMetaData.ApplicantTab.class.getSimpleName(), DataProviderFactory.dataOf(
                                 HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), DataProviderFactory.dataOf(
                                         HomeSSMetaData.ApplicantTab.NamedInsured.MIDDLE_NAME.getLabel(), "Test")))
                         .adjust(TestData.makeKeyPath(HomeSSMetaData.UnderwritingAndApprovalTab.class.getSimpleName(),
                                 HomeSSMetaData.UnderwritingAndApprovalTab.UNDERWRITER_SELECTED_INSPECTION_TYPE.getLabel()), "index=1");
+                break;
+            case HOME_SS_HO4:
+            case HOME_SS_HO6:
+                td = getEmptyTestDataSSHome()
+                        .adjust(HomeSSMetaData.ApplicantTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                                HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), DataProviderFactory.dataOf(
+                                        HomeSSMetaData.ApplicantTab.NamedInsured.MIDDLE_NAME.getLabel(), "Test")));
                 break;
             case HOME_CA_HO3:
             case HOME_CA_HO4:

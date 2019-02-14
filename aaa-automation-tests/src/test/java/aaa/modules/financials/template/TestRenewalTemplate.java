@@ -67,7 +67,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         SearchPage.openPolicy(policyNumber);
         performNonPremBearingEndorsement(policyNumber, dueDate.plusDays(2));
         performAPEndorsement(policyNumber, dueDate.plusDays(1));
-        policy.rollOn().perform(false, false);
+        policy.rollOn().perform(false, true);
 
         // TODO Validate END-07
 
@@ -128,7 +128,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         SearchPage.openPolicy(policyNumber);
         performNonPremBearingEndorsement(policyNumber, dueDate.plusDays(2));
         performRPEndorsement(policyNumber, dueDate.plusDays(1));
-        policy.rollOn().perform(false, false);
+        policy.rollOn().perform(false, true);
 
         // TODO Validate END-07
 
