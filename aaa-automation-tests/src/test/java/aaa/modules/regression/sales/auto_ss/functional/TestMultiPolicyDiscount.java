@@ -15,6 +15,8 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
+import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.*;
@@ -23,13 +25,15 @@ import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.composite.table.Row;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.TextBox;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.waiters.Waiters;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
@@ -56,14 +60,12 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * @author Brian Bond - CIO
      */
     @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Rate SS Auto with Quoted/Unquoted Products")
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Rate SS Auto with Quoted/Unquoted Products")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23983")
     public void pas23983_MPD_unquoted_rate_and_show_discounts(@Optional("") String state) {
 
         // Data and tools setup
         TestData testData = getPolicyTD();
-        //GeneralTab generalTab = new GeneralTab();
-        //PremiumAndCoveragesTab pncTab = new PremiumAndCoveragesTab();
 
         // Create customer and move to general tab. //
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
@@ -145,7 +147,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * @author Brian Bond - CIO
      */
     @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Rate SS Auto with Quoted/Unquoted Products")
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Rate SS Auto with Quoted/Unquoted Products")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-21481")
     public void pas_21481_MPD_Unquoted_Companion_Product_AC2_AC3(@Optional("") String state) {
 
@@ -409,6 +411,51 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
                 getCell("Message").getValue();
 
         assertThat(errorMsg).startsWith("Policy cannot be bound with an unquoted companion policy.");
+    }
+
+    /**
+     * This test validates that removing named insureds without rating results in error message at bind time.
+     * @param state the test will run against.
+     * @scenario PAS-18315 Test 1
+     * 1. Create quote with 2 NIs
+     * 2. Remove one of the NI (NO mpd data returned)
+     * 3. Navigate to Doc and Bind tab and bind
+     * 4. Verify a hard stop error occurs directing user to Re-Rate the policy.
+     * @author Brian Bond - CIO
+     */
+    @Parameters({"state"})
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Removing a NI and associated companion products")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3622")
+    public void pas_3622_CIO_Remove_NI_Companion_AC1_1(@Optional("") String state) {
+        // Data and tools setup
+        TestData testData = getPolicyTD();
+
+        // Create customer and move to general tab. //
+        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
+
+        // Add second NI
+        _generalTab.addAnotherNamedInsured("Jane", "Doe", "02/14/1990", "No", "Own Home");
+
+        // Move to documents and bind tab.
+        _generalTab.submitTab();
+
+        policy.getDefaultView().fillFromTo(testData, DriverTab.class, DocumentsAndBindTab.class, true);
+
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+
+        // Remove Second NI
+        _generalTab.removeInsured(2);
+
+        // Attempt to Bind
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        _documentsAndBindTab.submitTab();
+
+        // Check for error.
+        String errorMsg = _errorTab.tableErrors.
+                getRow("Code", "Unprepared data").
+                getCell("Message").getValue();
+
+        assertThat(errorMsg).startsWith("Cannot issue policy which was not rated!");
     }
 
     /**
