@@ -64,7 +64,9 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         SearchPage.openPolicy(policyNumber);
 
         // Perform AP endorsement and pay total amount due
-        Dollar addedPrem = performAPEndorsement(policyNumber);
+        performAPEndorsement(policyNumber);
+        Dollar addedPrem = payTotalAmountDue();
+        SearchPage.openPolicy(policyNumber);
 
         // END-01 validations
         assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
@@ -228,7 +230,9 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         }
 
         // Perform AP endorsement
-        Dollar addedPrem = performAPEndorsement(policyNumber);
+        performAPEndorsement(policyNumber);
+        Dollar addedPrem = payTotalAmountDue();
+        SearchPage.openPolicy(policyNumber);
 
         //END-03 validations
         assertSoftly(softly -> {

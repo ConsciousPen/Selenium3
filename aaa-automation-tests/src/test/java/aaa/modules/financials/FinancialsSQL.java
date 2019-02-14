@@ -94,6 +94,7 @@ public final class FinancialsSQL {
 	    public static final String OVERPAYMENT_REALLOCATION_ADJUSTMENT = "OverPaymentReallocationAdjustment";
 		public static final String SEISMIC_FEE = "SeismicFee";
 		public static final String EMPLOYEE_BENEFIT = "EmployeeBenefit";
+		public static final String NON_EFT_INSTALLMENT_FEE = "NonEFTInstallmentFee";
     }
 
 }

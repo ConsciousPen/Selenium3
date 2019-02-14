@@ -45,12 +45,14 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 	}
 
 	protected Dollar getEmployeeDiscount() {
-		return new Dollar(PolicySummaryPage.getAmountDueForProperty().multiply(-1));
+		return new Dollar(PolicySummaryPage.getAmountDueForProperty()).abs();
 	}
 
 	protected Dollar payTotalAmountDue(){
 		// Open Billing account and Pay min due for the renewal
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		}
 		Dollar due = new Dollar(BillingSummaryPage.getTotalDue());
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), due);
 
@@ -60,7 +62,9 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 	}
 	protected Dollar payMinAmountDue() {
 		// Open Billing account and Pay min due for the renewal
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		}
 		Dollar due = new Dollar(BillingSummaryPage.getMinimumDue());
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), due);
 
@@ -98,16 +102,14 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
-	protected Dollar performAPEndorsement(String policyNumber) {
-		return performAPEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime());
+	protected void performAPEndorsement(String policyNumber) {
+		performAPEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime());
 	}
 
-	protected Dollar performAPEndorsement(String policyNumber, LocalDateTime effDate) {
+	protected void performAPEndorsement(String policyNumber, LocalDateTime effDate) {
 		policy.endorse().perform(getEndorsementTD(effDate));
 		policy.getDefaultView().fill(getAddPremiumTD());
-		Dollar addedPrem = payTotalAmountDue();
 		SearchPage.openPolicy(policyNumber);
-		return addedPrem;
 	}
 
 	protected Dollar performRPEndorsement(LocalDateTime effDate, Dollar currentPremium) {
