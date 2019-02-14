@@ -498,7 +498,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     private TestData getPupAddPremiumTd() {
         TestData td;
         if (getState().equals(Constants.States.CA)) {
-            td = getEmptyTestDataCAPup();
+            td = getEmptyTestDataCAPup().adjust(PersonalUmbrellaMetaData.ErrorTab.class.getSimpleName(), getPupErrorTabOverride());
         } else {
             td = getEmptyTestDataSSPup();
         }
