@@ -15,6 +15,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.SkipException;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.db.DbXmlHelper;
 import aaa.helpers.docgen.searchNodes.SearchBy;
@@ -508,7 +509,6 @@ public class DocGenHelper {
 
 	public static Boolean isPasDocEnabled(String policyNum) {
 		assertThat(policyNum).as("Policy number is not defined").isNotEmpty();
-		final String queryTemplate = "select lv.displayvalue from lookuplist ll	inner join lookupvalue lv on lv.lookuplist_id=ll.id where ll.lookupname='AAARolloutEligibilityLookup' and lv.code='PASDoc' and lv.productcd='%s' and lv.riskstatecd='%s'";
 		String template = parsePolicyNum(policyNum);
 		String state;
 		ProductCode product = null;
@@ -536,7 +536,7 @@ public class DocGenHelper {
 				product = ProductCode.AAA_PUP_SS;
 			}
 		}
-		return executePasDocQuery(product.name(), state);
+		return executePasDocQuery(state, product.name());
 	}
 
 	public static void checkPasDocEnabled(String state, PolicyType pType) {
@@ -548,9 +548,9 @@ public class DocGenHelper {
 	private static Boolean executePasDocQuery(String state, String pType) {
 		assertThat(state).as("State is not defined").isNotEmpty();
 		assertThat(pType).as("Policy Type is not defined").isNotNull();
-		final String queryTemplate = "select lv.displayvalue from lookuplist ll	inner join lookupvalue lv on lv.lookuplist_id=ll.id where ll.lookupname='AAARolloutEligibilityLookup' and lv.code='PASDoc' and lv.productcd='%s' and lv.riskstatecd='%s'";
+		final String queryTemplate = "select lv.displayvalue from lookuplist ll inner join lookupvalue lv on lv.lookuplist_id=ll.id where ll.lookupname='AAARolloutEligibilityLookup' and lv.code='PASDoc' and lv.productcd='%s' and lv.riskstatecd='%s'";
 		String value = DBService.get().getValue(String.format(queryTemplate, pType, state)).orElse("false");
-		return value.equals("true");
+		return value.equalsIgnoreCase("true");
 	}
 
 	private static String parsePolicyNum(String policyNum) {
@@ -563,10 +563,12 @@ public class DocGenHelper {
 		return m.group(1);
 	}
 
-/*	@Test
+	@Test
 	public void test() {
-		isPasDocEnabled("QCAAC952528763");
-	}*/
+		if (isPasDocEnabled("AZSS952415914")) {
+			throw new SkipException(String.format("PasDoc is enabled for product and state combination: " + "AZSS952415914" + ". Test will be skipped."));
+		}
+	}
 
 	private enum ProductCode {
 		AAA_HO_SS, AAA_SS, AAA_CSA, AAA_HO_CA, AAA_PUP_SS
