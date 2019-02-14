@@ -191,7 +191,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                         HomeCaMetaData.ApplicantTab.NamedInsured.AAA_EMPLOYEE.getLabel()), "Yes");
                 break;
             case PUP:
-                td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(), PersonalUmbrellaMetaData.PrefillTab.NAMED_INSURED.getLabel(),
+                td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(), PersonalUmbrellaMetaData.PrefillTab.NAMED_INSURED.getLabel() + "[0]",
                         PersonalUmbrellaMetaData.PrefillTab.NamedInsured.AAA_EMPLOYEE.getLabel()), "Yes");
                 break;
             default:
