@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
@@ -83,6 +84,69 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         Dollar renewalAmt = payTotalAmountDue();
 
         // TODO Validate RNW-01
+
+    }
+
+    /**
+     * @scenario
+     * 1. Create policy WITHOUT employee benefit with monthly payment plan.
+     * 2. Advance time 1 month and pay installment amount (and full amount due)
+     * 3. Advance policy through renewal cycle
+     * 4. Pay amount due and verify renewal is active
+     * 5. Create AP endorsement with eff. date today + 2 days
+     * 6. Create AP endorsement with eff. date today + 1 day (OOS)
+     * 7. Roll back endorsement
+     * 8. Cancel policy ON or AFTER effective date
+     * @details FEE-07, RNW-03, END-05, END-07
+     */
+    protected void testRenewalScenario_2() {
+
+        // Create policy WITHOUT employee benefit with monthly payment plan
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createFinancialPolicy(adjustTdMonthlyPaymentPlan(getPolicyTD()));
+        LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
+        LocalDateTime dueDate = PolicySummaryPage.getEffectiveDate().plusMonths(1);
+
+        // Advance time 1 month, generate first installment bill
+        LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(dueDate);
+        LocalDateTime billDueDate = getTimePoints().getBillDueDate(dueDate);
+        TimeSetterUtil.getInstance().nextPhase(billGenDate);
+        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+        TimeSetterUtil.getInstance().nextPhase(billDueDate);
+
+        // Pay installment amount and decline payment
+        mainApp().open();
+        SearchPage.openBilling(policyNumber);
+        payMinAmountDue();
+        SearchPage.openBilling(policyNumber);
+        BillingHelper.declinePayment(billDueDate);
+
+        // TODO Validate FEE-07
+
+        // Perform Endorsement effective today+2days and RP OOS Endorsement effective today+1day
+        SearchPage.openPolicy(policyNumber);
+        performNonPremBearingEndorsement(policyNumber, dueDate.plusDays(2));
+        performRPEndorsement(policyNumber, dueDate.plusDays(1));
+        policy.rollOn().perform(false, false);
+
+        // TODO Validate END-07
+
+        // Roll back endorsement
+        policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData"));
+
+        // TODO Validate END-05
+
+        // Move to renewal offer time point and create renewal image
+        moveTimeAndRunRenewJobs(getTimePoints().getRenewOfferGenerationDate(renewalEffDate));
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        PolicySummaryPage.buttonRenewals.click();
+        policy.dataGather().start();
+        policy.getDefaultView().fill(getRenewalFillTd());
+        Dollar renewalAmt = payTotalAmountDue();
+
+        // TODO Validate RNW-03
 
     }
 

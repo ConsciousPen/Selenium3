@@ -160,7 +160,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         advanceTimeAndOpenPolicy(effDate, policyNumber);
 
         // Perform RP endorsement
-        Dollar reducedPrem = performRPEndorsement(effDate, policyNumber);
+        Dollar reducedPrem = performRPEndorsement(policyNumber, effDate);
 
         // END-02 validations
         assertSoftly(softly -> {
@@ -308,7 +308,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         //TODO NBZ-04 validations
 
-        Dollar reducedPrem = performRPEndorsement(effDate, policyNumber);
+        Dollar reducedPrem = performRPEndorsement(policyNumber, effDate);
 
         // TODO END-04 and PMT-05 validations
 
