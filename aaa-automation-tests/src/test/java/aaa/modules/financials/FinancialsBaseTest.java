@@ -38,20 +38,6 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		return policyNum;
 	}
 
-	protected Dollar getTotalTermPremium() {
-		if (!getPolicyType().isAutoPolicy()) {
-			return PolicySummaryPage.getTotalPremiumSummaryForProperty();
-		}
-		if (isStateCA()){
-			return new Dollar(PolicySummaryPage.tableCoveragePremiumSummaryCA.getRow(3).getCell(2).getValue());
-		}
-		return new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Term Premium"));
-	}
-
-	protected Dollar getEmployeeDiscount() {
-		return new Dollar(PolicySummaryPage.getAmountDueForProperty()).abs();
-	}
-
 	protected Dollar payTotalAmountDue(){
 		// Open Billing account and Pay min due for the renewal
 		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
