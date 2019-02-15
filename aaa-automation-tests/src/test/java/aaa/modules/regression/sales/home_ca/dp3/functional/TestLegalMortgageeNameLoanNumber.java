@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.CA)
-public class TestLegalMortgageeNameAndLoanNumber extends TestMortgageeNameAndLoanNumberCATemplate {
+public class TestLegalMortgageeNameLoanNumber extends TestMortgageeNameAndLoanNumberCATemplate {
 
     @Override
     protected PolicyType getPolicyType() {
