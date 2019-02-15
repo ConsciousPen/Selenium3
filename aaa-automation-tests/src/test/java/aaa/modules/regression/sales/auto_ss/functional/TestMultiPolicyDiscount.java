@@ -52,6 +52,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     private ErrorTab _errorTab = new ErrorTab();
     private PremiumAndCoveragesTab _pncTab = new PremiumAndCoveragesTab();
     private DocumentsAndBindTab _documentsAndBindTab = new DocumentsAndBindTab();
+    private PurchaseTab _purchaseTab = new PurchaseTab();
 
     /**
      * Make sure various combos of Unquoted Other AAA Products rate properly and are listed in the UI
@@ -511,6 +512,113 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
                 getCell("Message").getValue();
 
         assertThat(errorMsg).startsWith("Cannot issue policy which was not rated!");
+    }
+
+    /**
+     * This test validates that removing named insureds without rating results in error message at bind time.
+     * @param state the test will run against.
+     * @scenario
+     * 1. Bind a policy with 2 NI (one of the NI is CUSTOMER_E) with MPD table populated
+     * 2. Create Endorsement
+     * 3. Remove CUSTOMER_E
+     * 4. MPD Table will NOT refresh and data will persist
+     * 5. Rate the policy.
+     * 6. Remove CUSTOMER_E and bind
+     * 7. Verify Table does not refresh when removing CUSTOMER_E by successfully binding without re-rate
+     * @author Brian Bond - CIO
+     */
+    @Parameters({"state"})
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Removing a NI and associated companion products")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3622")
+    public void pas_3622_CIO_Remove_NI_Companion_AC2_1(@Optional("") String state) {
+
+        // Data and tools setup
+        TestData testData = getPolicyTD();
+
+        // Create customer and move to general tab.
+        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
+
+        // Add second NI
+        _generalTab.addAnotherNamedInsured("CUSTOMER_E", "Doe", "02/14/1990", "No", "Own Home");
+
+        // Trigger refresh
+        Button refreshButton = _generalTab.getOtherAAAProductOwnedAssetList().getAsset(
+                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getLabel(),
+                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getControlClass());
+
+        refreshButton.click(Waiters.AJAX);
+
+        // Complete purchase
+        _generalTab.submitTab();
+
+        policy.getDefaultView().fillFromTo(testData, DriverTab.class, PurchaseTab.class, true);
+
+        _purchaseTab.submitTab();
+
+        // Start endorsement
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+
+        _generalTab.removeInsured(2);
+
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+
+        _documentsAndBindTab.submitTab();
+
+        // BondTODO: Add verifications after code fixed.
+        // Rob needs to put the default back to Active
+    }
+
+    /**
+     * This test validates that removing named insureds without rating results in error message at bind time.
+     * @param state the test will run against.
+     * @scenario
+     * 1. Bind a policy with 2 NI (one of the NI is CUSTOMER_E) with MPD table populated
+     * 2. Create Renewal Image
+     * 3. Remove CUSTOMER_E
+     * 4. MPD Table will NOT refresh and data will persist
+     * 5. Rate the policy.
+     * 6. Remove CUSTOMER_E and bind
+     * 7. Verify Table does not refresh when removing CUSTOMER_E by successfully binding without re-rate
+     * @author Brian Bond - CIO
+     */
+    @Parameters({"state"})
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Removing a NI and associated companion products")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3622")
+    public void pas_3622_CIO_Remove_NI_Companion_AC2_2(@Optional("") String state) {
+
+        // Data and tools setup
+        TestData testData = getPolicyTD();
+
+        // Create customer and move to general tab.
+        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
+
+        // Add second NI
+        _generalTab.addAnotherNamedInsured("CUSTOMER_E", "Doe", "02/14/1990", "No", "Own Home");
+
+        // Trigger refresh
+        Button refreshButton = _generalTab.getOtherAAAProductOwnedAssetList().getAsset(
+                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getLabel(),
+                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getControlClass());
+
+        refreshButton.click(Waiters.AJAX);
+
+        // Complete purchase
+        _generalTab.submitTab();
+
+        policy.getDefaultView().fillFromTo(testData, DriverTab.class, PurchaseTab.class, true);
+
+        _purchaseTab.submitTab();
+
+        // Start renewal
+        policy.createRenewal(getPolicyTD("InitiateRenewalEntry", "TestData"));
+
+        _generalTab.removeInsured(2);
+
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+
+        _documentsAndBindTab.submitTab();
+
+        // BondTODO: Add verifications after code fixed.
     }
 
     /**
