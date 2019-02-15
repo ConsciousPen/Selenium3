@@ -48,7 +48,15 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     protected abstract void reorderClueReport();
     protected abstract String getNamedInsuredLabel();
 
-    private String pas6739WarningMsg = "Underwriting approval is required for claim(s) that have been modified";
+    private String pas25173SSWarningMsg = "Claims occurring in the last 60 months are considered for tier and claims discount\n" +
+                                        "Claims occurring in the last 36 months are considered for claims points and eligibility\n" +
+                                        "Catastrophe claims are not considered for rating, but are considered for eligibility\n" +
+                                        "Paid open, subrogated, and closed claims are considered for rating and eligibility";
+
+    private String pas25173CAWarningMsg = "Claims occurring in the last 60 months are considered for tier (DP3 policies only)\n" +
+                                          "Claims occurring in the last 36 months are considered for claims points and eligibility\n" +
+                                          "Catastrophe claims are not considered for rating, but are considered for eligibility\n" +
+                                          "Paid open, subrogated, and closed claims are considered for rating and eligibility";
 
     protected void pas6759_AbilityToRemoveManuallyEnteredClaimsNB() {
 
@@ -967,10 +975,12 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     private void validateWarningMessage(){
         if (isStateCA()){
             // Check warning message is fired for CA
-            assertThat(getPropertyInfoTab().getAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(), MultiInstanceAfterAssetList.class).getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.CLAIM_MODIFIED_WARNING_MESSAGE)).hasValue(pas6739WarningMsg);
+            assertThat(getPropertyInfoTab().getAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(),
+                    MultiInstanceAfterAssetList.class).getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.CLAIM_MODIFIED_WARNING_MESSAGE)).hasValue(pas25173CAWarningMsg);
         } else {
             // Check warning message is fired for SS
-            assertThat(getPropertyInfoTab().getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(), MultiInstanceAfterAssetList.class).getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CLAIM_MODIFIED_WARNING_MESSAGE)).hasValue(pas6739WarningMsg);
+            assertThat(getPropertyInfoTab().getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(),
+                    MultiInstanceAfterAssetList.class).getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CLAIM_MODIFIED_WARNING_MESSAGE)).hasValue(pas25173SSWarningMsg);
         }
 
     }
