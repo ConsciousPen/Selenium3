@@ -96,7 +96,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
      * 5. Create AP endorsement with eff. date today + 1 day (OOS)
      * 6. Roll back endorsement
      * 7. Move time point and bind renewal BEFORE the renewal effective date
-     * @details PMT-03, FEE-07, FEE-08, FEE-09, RNW-03, END-05, END-07
+     * @details PMT-03, FEE-07, FEE-08, FEE-09, FEE-17, FEE-18, RNW-03, END-05, END-07
      */
     protected void testRenewalScenario_2() {
 
