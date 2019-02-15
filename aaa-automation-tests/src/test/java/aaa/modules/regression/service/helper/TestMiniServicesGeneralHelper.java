@@ -542,7 +542,11 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		//BUG not reset status
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 
-		helperMiniServices.endorsementRateAndBind(policyNumber);
+		//Bind endorsement
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.POLICY_NOT_RATED_DXP.getCode(), ErrorDxpEnum.Errors.POLICY_NOT_RATED_DXP.getMessage(), null);
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithCheck(policyNumber);
 
 		//Unlock policy
 		PolicyLockUnlockDto responseUnlock = HelperCommon.executePolicyUnlockService(policyNumber, Response.Status.OK.getStatusCode(), SESSION_ID_1);

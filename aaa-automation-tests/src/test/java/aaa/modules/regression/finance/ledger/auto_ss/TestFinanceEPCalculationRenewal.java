@@ -81,7 +81,7 @@ public class TestFinanceEPCalculationRenewal extends FinanceOperations {
 		SearchPage.openPolicy(policyNumber, "Policy Active");
 		PolicySummaryPage.buttonTransactionHistory.click();
 
-		assertThat(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber, "renewal", true)))
+		assertThat(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber, "renewal")))
 				.isEqualTo(LedgerHelper.getEndingActualPremium(policyNumber));
 	}
 }

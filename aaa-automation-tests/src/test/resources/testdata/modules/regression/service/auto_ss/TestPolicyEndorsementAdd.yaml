@@ -584,7 +584,7 @@ TestData_PA: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab_PA',
+  DocumentsAndBindTab: {}
 }
 
 DriverTab_PA: {
@@ -599,13 +599,6 @@ DriverTab_PA: {
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
   License Number: 83127881
-}
-
-DocumentsAndBindTab_PA: {
-  RequiredToBind: {
-    Uninsured Motorists Coverage Selection/Rejection: Physically Signed,
-    Underinsured Motorists Coverage Selection/Rejection: Physically Signed,
-  }
 }
 
 

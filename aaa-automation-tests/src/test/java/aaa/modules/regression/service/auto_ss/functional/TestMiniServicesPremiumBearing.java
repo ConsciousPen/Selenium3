@@ -636,28 +636,6 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	}
 
 	/**
-	 * @author Jovita Pukenaite
-	 * @name View Premium Service - PLIGA Fee
-	 * @scenario 1. Create policy
-	 * 2. Hit view Policy Premium service
-	 * 3. Check if PLIGA fee is there
-	 * 4. Create endorsement outside of PAS
-	 * 5. Add vehicle.
-	 * 6. Rate and check if PLIGA fee is there
-	 * 7. Hit view endorsement Premium info
-	 * 8. Check response again.
-	 * 9. Bind and check premium info again.
-	 */
-	@Parameters({"state"})
-	@StateList(states = {Constants.States.NJ})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19166"})
-	public void pas19166ViewPremiumServicePligaFeeInformation(@Optional("NJ") String state) {
-
-		pas19166ViewPremiumServicePligaFeeInformationBody();
-	}
-
-	/**
 	 * @author Oleg Stasyuk
 	 * @name Manual Endorsement Deletion
 	 */

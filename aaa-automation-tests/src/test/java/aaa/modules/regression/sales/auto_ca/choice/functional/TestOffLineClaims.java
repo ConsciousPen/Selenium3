@@ -4,21 +4,39 @@ import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.claim.BatchClaimHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
+import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsCATemplate;
+import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import aaa.utils.StateList;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
+import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomSoftAssertions;
+
+import java.io.File;
+import java.util.List;
 import java.util.Map;
 
+import static aaa.common.pages.SearchPage.tableSearchResults;
 import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @StateList(states = {Constants.States.CA})
 public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
@@ -26,14 +44,14 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
 	// NOTE: Claims Matching Logic: e2e tests should use HTTP instead of HTTPS in DB (value of Microservice propertyname ='aaaClaimsMicroService.microServiceUrl')
 	// Example: http://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1
 
-	private static final String CLAIM_NUMBER_1 = "1002-10-8702";
-	private static final String CLAIM_NUMBER_2 = "1002-10-8703";
-	private static final String CLAIM_NUMBER_3 = "1002-10-8704";
-
-	private static final String COMP_DL_PU_CLAIMS_DATA_MODEL = "comp_dl_pu_claims_data_model_choice.yaml";
+    private static final String CLAIM_NUMBER_1 = "1002-10-8702";
+    private static final String CLAIM_NUMBER_2 = "1002-10-8703";
+    private static final String CLAIM_NUMBER_3 = "1002-10-8704";
+    private static final String COMP_DL_PU_CLAIMS_DATA_MODEL = "comp_dl_pu_claims_data_model_choice.yaml";
 	private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE = ImmutableMap.of(CLAIM_NUMBER_1, "D1278111", CLAIM_NUMBER_2, "D1278111");
 
-	@Override
+
+    @Override
     protected PolicyType getPolicyType() {
         return PolicyType.AUTO_CA_CHOICE;
     }
@@ -89,17 +107,4 @@ public class TestOffLineClaims extends TestOfflineClaimsCATemplate {
 	    // Check 2nd driver: Has DL match claim
 		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
     }
-
-	/**
-	 * @author Chris Johns
-	 * PAS-22172 - END - CAS: reconcile permissive use claims when driver/named insured is added (avail for rating)
-	 * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added
-	 * @scenario Test Steps: See Template For Details
-	 * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver*/
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-14679")
-	public void pas22172_ReconcilePUEndorsementAFRD(@Optional("CA") @SuppressWarnings("unused") String state) {
-		reconcilePUEndorsementAFRBody();
-	}
 }

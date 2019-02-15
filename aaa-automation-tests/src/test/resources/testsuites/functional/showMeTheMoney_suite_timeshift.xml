@@ -72,11 +72,4 @@
             <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffWhenPolicyUnderpaid"/>
         </classes>
     </test>
-    <!-- Earned Premium Calculation Changes: PAS-14510 - Renewal-->
-    <test name="PAS-14510 Earned Premium Calculation Changes - Renewal" parallel="methods" thread-count="1024">
-        <parameter name="state" value="NV"/>
-        <classes>
-            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationRenewal"/>
-        </classes>
-    </test>
 </suite>

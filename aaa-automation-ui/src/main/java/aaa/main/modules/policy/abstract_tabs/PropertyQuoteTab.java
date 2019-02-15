@@ -63,7 +63,6 @@ public abstract class PropertyQuoteTab extends Tab {
 	public static StaticElement lblErrorMessage = new StaticElement(By.xpath("//span[@class='error_message']"));
 	public static Button btnContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
 	public static Table tablePremiumOverrideadjustment = new Table(By.id("premiumOverrideInfoFormAAAPUPPremiumOverride:adjustment_info"));
-	public static StaticElement mortgageeLoanNumberErrorMsg = new StaticElement(By.id("policyDataGatherForm:sedit_AAAHOMortgageeInfo_accountNumber_error"));
 
 	protected PropertyQuoteTab(Class<? extends MetaData> mdClass) {
 		super(mdClass);

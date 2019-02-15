@@ -29,7 +29,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	List<String> getPolicyLevelCoverageCDs() {
-		List<String> policyLevelCoverage = Arrays.asList("BI", "BI-Verbal", "RBI", "PD", "UMBI", "UIMBI", "EUIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB", "UIMPD", "EUIMPD", "UM/SUM", "APIP", "OBEL");
+		List<String> policyLevelCoverage = Arrays.asList("BI", "RBI", "PD", "UMBI", "UIMBI", "EUIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB", "UIMPD", "EUIMPD", "UM/SUM", "APIP", "OBEL");
 		if (!getState().equals(Constants.States.OR)) {
 			policyLevelCoverage = new ArrayList<>(policyLevelCoverage);
 			policyLevelCoverage.add("UMPD");

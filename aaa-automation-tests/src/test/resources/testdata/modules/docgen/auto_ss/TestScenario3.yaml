@@ -45,12 +45,7 @@ Endorsement: {
     "Underinsured Motorist Stacked/Unstacked": Stacked
   },
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-  RequiredToBind: {
-    'Uninsured Motorists Coverage Selection/Rejection': Physically Signed,
-    'Underinsured Motorists Coverage Selection/Rejection': Physically Signed,
-  },
-},
+  DocumentsAndBindTab: {},
 }
 
 # ------------- Tabs ----------

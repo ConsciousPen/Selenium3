@@ -217,12 +217,7 @@ public class Scenario9 extends ScenarioBaseTest {
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 
 		if (getState().equals(Constants.States.CA)) {
-			if (getPolicyType().equals(PolicyType.HOME_CA_HO4)) {
-				//first installment amount differs from others installment amounts
-				verifyRenewalOfferPaymentAmountByIntallmentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
-			} else {
-				verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount, softly);
-			}
+			verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount, softly);
 		}
 
 		if (verifyPligaOrMvleFee(renewOfferGenDate, policyTerm, totalVehiclesNumber)) {

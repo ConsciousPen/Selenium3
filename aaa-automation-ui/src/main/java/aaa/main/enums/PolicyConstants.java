@@ -288,10 +288,4 @@ public final class PolicyConstants {
         public static final String REASON_CODE_ASW = "Waived - Accident Surcharge Waiver";
     }
 
-    public static final class ViewRatingDetailsAuto {
-        public static final String MONTHS_WITH_PRIOR_INSURANCE_CARRIER = "Months With Prior Insurance Carrier";
-        public static final String CUSTOMERS_TIER = "Customer's Tier";
-        public static final String TOTAL_UNDERWRITER_POINTS_USED_IN_TIER = "Total Underwriter Points Used in Tier";
-    }
-
 }

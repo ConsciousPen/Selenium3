@@ -512,7 +512,3 @@ VehicleTab_GolfCart: {
    Other Model: GRX100,
    Stated Amount: 1500
  }
-
-PolicyLevelPersonalInjuryProtectionCoverages_NonMedExp_NO: {
-    Non-Medical Expense: 'No'
-  }

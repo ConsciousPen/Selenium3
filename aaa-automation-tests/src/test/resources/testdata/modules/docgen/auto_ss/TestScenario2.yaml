@@ -653,7 +653,6 @@ TestData_Endorsement2_PA: {
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {},
-  ErrorTab: '@ErrorTab_PA_Endorsement',
 }
 
 DriverInformationED3_PA: {
@@ -675,15 +674,6 @@ DriverInformationED3_PA: {
   Age First Licensed: 20
 }
 
-ErrorTab_PA_Endorsement: {
-   ErrorsOverride: [{
-    Message: "contains=Pennsylvania Notice to Named Insureds Regarding Tort Options",
-    Override: 'true',
-    Approval: 'true',
-    Duration: Life,
-    Reason for override: index=1
-   }]  
-}
 
 ##-----------Endorsement for Renewal --------------
 TestData_AddRenewal: {

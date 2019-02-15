@@ -69,7 +69,6 @@ PremiumAndCoveragesTab: {
 DriverActivityReportsTab: {
   "Has the customer expressed interest in purchasing the policy?": 'Yes',
   Sales Agent Agreement: I Agree,
-  Sales Agent Agreement DMV: I Agree,
   Validate Driving History: click
 }
 

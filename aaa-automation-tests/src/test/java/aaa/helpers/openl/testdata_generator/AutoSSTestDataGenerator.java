@@ -107,26 +107,23 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getAaaInsurancePersistency())
 						.format(DateTimeUtils.MM_DD_YYYY));
 
-		Map<String, Object> currentAAAMembershipData = new HashMap<>();
-		currentAAAMembershipData.put(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()));
-
+		Map<String, Object> aAAProductOwnedData = new HashMap<>();
+		aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()));
 		// TODO NEED TO REFACTOR According to changes in UI for Auto SS product for MPD feature.
-		// ownedHome is a temporal fix for NY Auto SS test, should be deleted after MPD Merge to master
-		String ownedHome = "Y".equalsIgnoreCase(openLPolicy.getAaaHomePolicy()) ? "Yes" : "No";
 
-		/*Map<String, Object> aAAProductOwnedData = new HashMap<>();
-		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaHomePolicy()))) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME_OLD.getLabel(), "Yes");
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
-		} else {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME_OLD.getLabel(), "No");
-		}
-
+		 /*
 		if (Boolean.TRUE.equals(openLPolicy.isAaaLifePolicy())) {
 			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel(), true);
 			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
 		} else {
 			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.LIFE.getLabel(), "No");
+		}
+
+		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaHomePolicy()))) {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.HOME.getLabel(), "Yes");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.HOME_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+		} else {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.HOME.getLabel(), "No");
 		}
 
 		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaRentersPolicy()))) {
@@ -141,14 +138,15 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CONDO_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
 		} else {
 			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CONDO.getLabel(), "No");
-		}*/
+		}
+		*/
 
 		// TODO Refactor section  END
 
 		//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.AAAMembership.MOTORCYCLE.getLabel(), openLPolicy.isAaaMotorcyclePolicy()
 
 		if (membershipNumber != null) {
-			currentAAAMembershipData.put(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), membershipNumber);
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), membershipNumber);
 		}
 
 		Map<String, Object> currentCarrierInformationData = new HashMap<>();
@@ -158,31 +156,27 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		currentCarrierInformationData.putAll(
 				getGeneralTabAgentInceptionAndExpirationData(openLPolicy.getAutoInsurancePersistency(), openLPolicy.getAaaInsurancePersistency(), openLPolicy.getEffectiveDate()));
 
-		if (!openLPolicy.isLegacyConvPolicy()) {
-			currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), "AAA-SoCal (ACSC)");
-		} else {
-			//TODO-dchubkov: all ID states tests have "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)" value for "Agent Entered Current/Prior Carrier" but it's missed. To be investigated...
-			if (StringUtils.isNotBlank(openLPolicy.getCappingDetails().getCarrierCode()) && !getState().equals(Constants.States.ID)) {
-				//TODO-dchubkov: add common method for replacing values from excel?
-				String carrierCode = openLPolicy.getCappingDetails().getCarrierCode().trim().replaceAll("\u00A0", "");
-				currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
-			} else if (openLPolicy.isCappedPolicy()) {
-				String carrierCode;
-				switch (getState()) {
-					//TODO-dchubkov: fill carrier codes for other states, see "Capping" tab -> "Carrier Code" column in algorithm files for each state
-					case Constants.States.KY:
-					case Constants.States.UT:
-						carrierCode = "Western United";
-						break;
-					case Constants.States.MD:
-						carrierCode = "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)";
-						break;
-					default:
-						throw new IstfException(String.format("In order to set termCappingFactor=%1$s, appropriate carrier code should be set in General tab but it's unknown for %2$s state.",
-								openLPolicy.getCappingDetails().getTermCappingFactor(), getState()));
-				}
-				currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
+		//TODO-dchubkov: all ID states tests have "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)" value for "Agent Entered Current/Prior Carrier" but it's missed. To be investigated...
+		if (StringUtils.isNotBlank(openLPolicy.getCappingDetails().getCarrierCode()) && !getState().equals(Constants.States.ID)) {
+			//TODO-dchubkov: add common method for replacing values from excel?
+			String carrierCode = openLPolicy.getCappingDetails().getCarrierCode().trim().replaceAll("\u00A0", "");
+			currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
+		} else if (openLPolicy.isCappedPolicy()) {
+			String carrierCode;
+			switch (getState()) {
+				//TODO-dchubkov: fill carrier codes for other states, see "Capping" tab -> "Carrier Code" column in algorithm files for each state
+				case Constants.States.KY:
+				case Constants.States.UT:
+					carrierCode = "Western United";
+					break;
+				case Constants.States.MD:
+					carrierCode = "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)";
+					break;
+				default:
+					throw new IstfException(String.format("In order to set termCappingFactor=%1$s, appropriate carrier code should be set in General tab but it's unknown for %2$s state.",
+							openLPolicy.getCappingDetails().getTermCappingFactor(), getState()));
 			}
+			currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
 		}
 
 		Map<String, Object> policyInformationData = new HashMap<>();
@@ -201,11 +195,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		return DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), Arrays.asList(namedInsuredInformationData),
-				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), new SimpleDataProvider(currentAAAMembershipData),
+				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), new SimpleDataProvider(aAAProductOwnedData),
 				AutoSSMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), DataProviderFactory.emptyData(),
 				AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), new SimpleDataProvider(currentCarrierInformationData),
-				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), new SimpleDataProvider(policyInformationData),
-				AutoSSMetaData.GeneralTab.HOME.getLabel(), ownedHome);
+				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), new SimpleDataProvider(policyInformationData));
 	}
 
 	private List<TestData> getDriverTabData(AutoSSOpenLPolicy openLPolicy) {
@@ -810,7 +803,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					"TWOYR".equals(openLPolicy.getAaaAPIPLengthIncomeCont()) ? "Two Years" : "Unlimited");
 		}
 		if (openLPolicy.getAaaPIPExtMedPayLimit() != null) {
-			Dollar limit = openLPolicy.getAaaPIPExtMedPayLimit() == 0 || openLPolicy.getAaaPIPExtMedPayLimit() == 1 ? new Dollar(1000) : new Dollar(10000);
+			Dollar limit = openLPolicy.getAaaPIPExtMedPayLimit() == 1 ? new Dollar(1000) : new Dollar(10000);
 			td.put(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.EXTENDED_MEDICAL_PAYMENTS.getLabel(), limit.toString().replaceAll("\\.00", ""));
 		}
 		if (openLPolicy.getAaaPIPMedExpDeductible() != null) {

@@ -79,7 +79,7 @@ public class TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment extends 
 				.getCell(PolicyConstants.PolicyTransactionHistoryTable.ENDING_PREMIUM).getValue());
 
 		assertThat(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)))
-				.isEqualTo(new Dollar(issueEndingPremium));
+				.isEqualTo(LedgerHelper.getEndingActualPremium(policyNumber));
 
 		List<TxType> txTypes = Arrays.asList(TxType.ISSUE);
 		List<TxWithTermPremium> txsWithPremiums = createTxsWithPremiums(policyNumber, txTypes);

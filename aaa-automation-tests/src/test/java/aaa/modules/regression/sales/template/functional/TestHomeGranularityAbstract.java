@@ -37,12 +37,14 @@ public abstract class TestHomeGranularityAbstract extends PolicyBaseTest {
     String keypathZipCode = TestData.makeKeyPath(keypathDwellingAddress, HomeCaMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel());
     String keypathAddress1 = TestData.makeKeyPath(keypathDwellingAddress, HomeCaMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel());
 
-    protected void validateCensusBlockGroupAndLatLong(String censusBlock, String latitude, String longitude) {
+    protected void validateCensusBlockGroupAndLatLong(String censusBlock, String latitude, String longitude, Boolean checkVRD) {
         TestData policyTd = getPolicyTD();
         createQuoteAndFillUpTo(policyTd, getPremiumAndCoveragesQuoteTab().getClass());
         String quoteNumber = quoteDataGatherPage.getQuoteNumber();
         String censusBlockGroupID = validateCensusBlockGroupAndLatLong(quoteNumber, censusBlock, latitude, longitude, "quote","rated");
-        checkVRD(censusBlockGroupID);
+        if(checkVRD){
+            checkVRD(censusBlockGroupID);
+        }
     }
 
     protected void validateCensusBlockGroupAndLatLongFromEADS(String zipCode, String address, String censusBlock, String latitude, String longitude) {
@@ -103,15 +105,10 @@ public abstract class TestHomeGranularityAbstract extends PolicyBaseTest {
     protected void checkVRD(String censusBlockGroupID){
 
         premiumsAndCoveragesQuoteTab.linkViewRatingDetails.click();
-        if(isStateCA()){
-            assertSoftly(softly -> {
-                softly.assertThat(premiumsAndCoveragesQuoteTab.tableViewRatingDetails.getRow(3, "Census Block").getCell(4).getValue()).isEqualTo(censusBlockGroupID);
-            });
-        } else {
-            assertSoftly(softly -> {
-                softly.assertThat(premiumsAndCoveragesQuoteTab.tableViewRatingDetailsValues.getRow(1, "Census Block").getCell(2).getValue()).isEqualTo(censusBlockGroupID);
-            });
-        }
+
+        assertSoftly(softly -> {
+            softly.assertThat(premiumsAndCoveragesQuoteTab.tableViewRatingDetails.getRow(3, "Census Block").getCell(4).getValue()).isEqualTo(censusBlockGroupID);
+        });
     }
 
     /**

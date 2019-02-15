@@ -34,7 +34,6 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 	public static Button btnContinue = new Button(By.id("policyDataGatherForm:next_footer"), Waiters.AJAX);
 	public static Link linkViewPropertyQuote = new Link(By.id("policyDataGatherForm:viewHomeQuoteCA_Link"), Waiters.AJAX);
 	public static Table tableViewRatingDetails = new Table(By.id("horatingDetailsPopupForm:ratingDetailsTable"));
-	public static Table tableViewRatingDetailsValues = new Table(By.id("horatingDetailsPopupForm_5:ratingDetailsTable"));
 
 	public PremiumsAndCoveragesQuoteTab() {
 		super(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class);

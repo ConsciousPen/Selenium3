@@ -293,7 +293,7 @@ DriverTab_notNI_Spouse: {
   Middle Name: 'not',
   Last Name: 'Spouser',
   Suffix: 'III',
-  Date of Birth: $<today-25y>,
+  Date of Birth: '12/12/1992',
   Gender: 'Female',
   Marital Status: Single,
   Occupation: 'index=1',

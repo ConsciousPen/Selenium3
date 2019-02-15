@@ -54,7 +54,7 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-23235")
     public void pas23235_validateCensusBlockGroupAndLatLong(@Optional("CA") String state) {
-        validateCensusBlockGroupAndLatLong(avsMockCensusBlock, avsMockLatitude, avsMockLongitude);
+        validateCensusBlockGroupAndLatLong(avsMockCensusBlock, avsMockLatitude, avsMockLongitude,true);
     }
 
     /**

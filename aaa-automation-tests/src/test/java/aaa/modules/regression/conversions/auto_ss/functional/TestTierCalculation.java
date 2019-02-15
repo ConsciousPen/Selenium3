@@ -18,7 +18,6 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -178,8 +177,8 @@ public class TestTierCalculation extends AutoSSBaseTest {
             put("Premium", PremiumAndCoveragesTab.totalActualPremium.getValue());
         }};
         PremiumAndCoveragesTab.RatingDetailsView.open();
-        params.put("UW points", PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, PolicyConstants.ViewRatingDetailsAuto.TOTAL_UNDERWRITER_POINTS_USED_IN_TIER).getCell(6).getValue());
-        params.put("Tier", PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, PolicyConstants.ViewRatingDetailsAuto.CUSTOMERS_TIER).getCell(2).getValue());
+        params.put("UW points", PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue());
+        params.put("Tier", PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Customer's Tier").getCell(2).getValue());
         return params;
     }
 

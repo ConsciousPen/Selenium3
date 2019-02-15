@@ -56,6 +56,12 @@
             <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationFlagTransactions"/>
         </classes>
     </test>
+    <test name="PAS-14510 Earned Premium Calculation Changes - Renewal" parallel="methods" thread-count="1024">
+        <parameter name="state" value="NV"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationRenewal"/>
+        </classes>
+    </test>
     <!-- Policy Escheatment Reversals: PAS-19074-->
     <test name="CA TestFinancePolicyEscheatmentCheckReversals" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>

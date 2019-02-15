@@ -20,7 +20,7 @@ ApplicantTab: {
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
-  CLUEreport: [{Report: 'Order report'}]
+  CLUEreport: [{Report: 'Order report'}],
 }
 
 PropertyInfoTab: {

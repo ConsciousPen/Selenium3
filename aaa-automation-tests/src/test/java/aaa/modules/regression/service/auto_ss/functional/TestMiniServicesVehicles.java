@@ -120,6 +120,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9610"})
 	public void pas9610_UpdateVehicleService(@Optional("VA") String state) {
+
 		pas9610_UpdateVehicleService();
 	}
 
@@ -722,11 +723,11 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 6. Run the test for CT and VA If CT verify county in meta data service
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.VA,Constants.States.CT})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12942, Pas-15269"})
 	public void pas12942_GaragingAddressConsistencyDXP(@Optional("CT") String state) {
-		pas12942_GaragingAddressConsistencyDXPBody();
+
+		pas12942_GaragingAddressConsistencyDXPBody(state);
 	}
 
 	/**
@@ -865,25 +866,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	@StateList(states = {Constants.States.NJ})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18408"})
 	public void pas18408_lessThan1000Miles(@Optional("NJ") String state) {
-		assertSoftly(this::pas18408_validateLessThan1000Miles);
-	}
-
-	/**
-	 * @author Maris Strazds
-	 * @name Check that deleted vehicle and change log contains fields Make, Model, Other Make, Other Model, Other Series, Other Body Style
-	 * @scenario
-	 * 1. Create policy in PAS with Make/Model = other for PPA, VAN, Motor Home, Trailer, Golf Cart, Limited/Antique
-	 * 2. Create Endorsement through service
-	 * 3. Check that fields Make, Model, Other Make, Other Model, Other Series, Other Body Style contains correct values for vehicles listed above
-	 * 3. Remove above listed vehicles through service
-	 * 4. Verify that change log contains fields Make, Model, Other Make, Other Model, Other Series, Other Body Style contains correct values for vehicles listed above with correct values
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@StateList(states = {Constants.States.AZ})//Should work also for other states if they have all specific Vehicle Types
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-25065"})
-	public void pas25065_validateMakeModelOthersForRemovedVehicle(@Optional("AZ") String state) {
-		pas25065_validateMakeModelOthersForRemovedVehicleBody();
+		assertSoftly(softly -> pas18408_validateLessThan1000Miles(softly));
 	}
 }
 

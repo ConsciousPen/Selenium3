@@ -69,7 +69,7 @@ public final class ErrorDxpEnum {
 		MUST_HAVE_PPA("200016", "Policy must cover at least one Private Passenger Automobile"),
 		EXPENSIVE_VEHICLE("200022", "Vehicle value exceeds acceptable coverage limit"),
 		TOO_OLD_DRIVER_ERROR("AAA_SS7120048", "The date of birth provided for the Driver Available for Rating should be between 01/01/1900 and today's date"),
-		AGE_FIRST_LICENSED_GREATER_THAN_DOB("AAA_CSA10260784", "Age First Licensed is greater than Current Age (AAA_CSA10260784) [for DriverView.Driver.firstLicenseAge]"),
+		AGE_FIRST_LICENSED_GREATER_THAN_DOB("AAA_CSA10260784", "Age First Licensed is greater than Current Age"),
 
 		DRIVER_UNDER_AGE_COMMON("AAA_CSA6220000", "Drivers under age 16 must be excluded or not available for rating"), //the same as in PAS
 		DRIVER_UNDER_AGE_VA("AAA_CSA6220000_VA", "Drivers under age 16 must be not available for rating"), //the same as in PAS
@@ -78,8 +78,8 @@ public final class ErrorDxpEnum {
 		DRIVER_UNDER_AGE_MT("AAA_CSA6220000_MT", "Drivers under age 15 must be not available for rating"), //the same as in PAS
 		DRIVER_UNDER_AGE_SD("AAA_CSA6220000_SD", "Drivers under age 14 must be excluded or not available for rating"), //the same as in PAS
 		AGE_FIRST_LICENSED_ERROR("Age First Licensed must be 14 or greater (BAU00209) [for DriverView.Driver.firstLicenseAge]"),
-		DUPLICATE_DRIVER_LICENSE_ERROR("Duplicate Driver License (AAASS200008) [for DriverView.DrivingLicense.licensePermitNumber]"),
-		VALIDATE_DRIVER_LICENSE_BY_STATE("License number is inconsistent with state format (AAA_CSA3040364) [for DriverView.DrivingLicense.licensePermitNumber]"),
+		DUPLICATE_DRIVER_LICENSE_ERROR("Duplicate Driver License"),
+		VALIDATE_DRIVER_LICENSE_BY_STATE("License number is inconsistent with state format"),
 		INSURANCE_SCORE_ORDER_MESSAGE("Need Insurance Score Order (AAA_SS9192341) [for DriverView.Driver.insuredOid]"),
 		RELATIONSHIP_TO_FNI_ERROR("AAA_SS180807-NTzjT","Relationship to FNI needs review"),
 		DRIVER_NAME_MISMATCH("Driver name returned from DMV does not match Driver name entered for the Name Mismatch. Please verify that Driver name provided on the application is correct"),
@@ -95,7 +95,8 @@ public final class ErrorDxpEnum {
 		REVERT_DELETE_VEHICLE_ERROR("ERROR_SERVICE_VALIDATION", "Removal can not be cancelled. Revert option is not available on vehicle."),
 		VEHICLE_CANNOT_BE_REMOVED_ERROR("ERROR_SERVICE_VALIDATION", "Vehicle cannot be removed. Remove action is not available on vehicle."),
 		VEHICLE_CANNOT_BE_ADDED_ERROR("AAA_SS181009-lwY5B", "Vehicles cannot be added with a purchase date within 30 days from the transaction effective date."),
-		DRIVER_WITH_MORE_THAN_TWO_AT_FAULT_VIOLATION_C("200105_C", "Driver with 3 or more Non-fault accidents are unacceptable.");
+		DRIVER_WITH_MORE_THAN_TWO_AT_FAULT_VIOLATION_C("200105_C", "Driver with 3 or more Non-fault accidents are unacceptable."),
+	;
 
 		private final String code;
 		private final String message;
