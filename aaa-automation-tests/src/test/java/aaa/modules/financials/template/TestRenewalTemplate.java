@@ -8,6 +8,7 @@ import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
@@ -46,7 +47,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         mainApp().open();
         SearchPage.openBilling(policyNumber);
         Dollar nonEftFee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE);
-        Dollar installmentAmt = payMinAmountDue();
+        Dollar installmentAmt = payMinAmountDue(METHOD_CASH);
 
         assertSoftly(softly -> {
             // FEE-10 validations
@@ -60,7 +61,6 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         });
 
         // Pay off remaining balance on policy
-        SearchPage.openPolicy(policyNumber);
         payTotalAmountDue();
 
         // Perform Endorsement effective today+2days and AP OOS Endorsement effective today+1day
@@ -68,11 +68,12 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         performNonPremBearingEndorsement(policyNumber, dueDate.plusDays(2));
         performAPEndorsement(policyNumber, dueDate.plusDays(1));
         policy.rollOn().perform(false, true);
+        Dollar addedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT);
 
         // TODO Validate END-07
 
         // Roll back endorsement
-        policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData"));
+        Dollar rollBackAmount = rollBackEndorsement(policyNumber);
 
         // TODO Validate END-05
 
@@ -96,7 +97,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
      * 5. Create AP endorsement with eff. date today + 1 day (OOS)
      * 6. Roll back endorsement
      * 7. Move time point and bind renewal BEFORE the renewal effective date
-     * @details FEE-07, RNW-03, END-05, END-07
+     * @details PMT-03, FEE-07, FEE-08, FEE-09, RNW-03, END-05, END-07
      */
     protected void testRenewalScenario_2() {
 
@@ -114,25 +115,47 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
         TimeSetterUtil.getInstance().nextPhase(billDueDate);
 
-        // Pay installment amount and decline payment
+        // Pay installment amount by check, decline payment with fees + no restriction, waive NSF & installment fees
         mainApp().open();
         SearchPage.openBilling(policyNumber);
-        payMinAmountDue();
-        SearchPage.openBilling(policyNumber);
+        Dollar installmentAmt = payMinAmountDue(METHOD_CHECK);
+        Dollar nonEftFee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE);
         BillingHelper.declinePayment(billDueDate);
+        Dollar nsfFee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NSF_FEE__WITHOUT_RESTRICTION);
+        waiveFeeByDateAndType(billDueDate, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NSF_FEE__WITHOUT_RESTRICTION);
+        waiveFeeByDateAndType(billGenDate, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE);
 
-        // TODO Validate FEE-07
+        assertSoftly(softly -> {
+            // PMT-03 validations
+            softly.assertThat(installmentAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.PAYMENT_DECLINED, "1001"));
+            softly.assertThat(installmentAmt.subtract(nonEftFee)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.PAYMENT_DECLINED, "1044"));
+            softly.assertThat(nonEftFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(billDueDate, policyNumber, FinancialsSQL.TxType.NON_EFT_INSTALLMENT_FEE, "1034"));
 
-        // Perform Endorsement effective today+2days and RP OOS Endorsement effective today+1day
+            // FEE-07 validations
+            softly.assertThat(nsfFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NSF_FEE, "1034"));
+            softly.assertThat(nsfFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NSF_FEE, "1040"));
+
+            // FEE-08 validations, (for credits, validating there are now 2 nsf fee values since entry is identical to PMT-02 entry)
+            softly.assertThat(nonEftFee.multiply(2)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(billDueDate, policyNumber, FinancialsSQL.TxType.NON_EFT_INSTALLMENT_FEE, "1034"));
+            softly.assertThat(nonEftFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(billDueDate, policyNumber, FinancialsSQL.TxType.NON_EFT_INSTALLMENT_FEE, "1040"));
+
+            // FEE-09 validations
+            softly.assertThat(nsfFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NSF_FEE_WAIVED, "1034"));
+            softly.assertThat(nsfFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NSF_FEE_WAIVED, "1040"));
+        });
+
+        // Perform Endorsement effective today+2days and RP OOS Endorsement effective today+1day (can't use performRPEndorsement method here)
         SearchPage.openPolicy(policyNumber);
         performNonPremBearingEndorsement(policyNumber, dueDate.plusDays(2));
-        performRPEndorsement(policyNumber, dueDate.plusDays(1));
+        policy.endorse().perform(getEndorsementTD(dueDate.plusDays(1)));
+        policy.getDefaultView().fill(getReducePremiumTD());
         policy.rollOn().perform(false, true);
+        Dollar reducedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT);
 
         // TODO Validate END-07
 
         // Roll back endorsement
-        policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData"));
+        Dollar rollBackAmount = rollBackEndorsement(policyNumber);
 
         // TODO Validate END-05
 

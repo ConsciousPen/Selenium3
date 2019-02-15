@@ -1,7 +1,5 @@
 package aaa.modules.financials.template;
 
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
 import aaa.main.enums.BillingConstants;
@@ -36,8 +34,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createFinancialPolicy();
-		Dollar premTotal = getTotalTermPremium();
-		LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
+		Dollar premTotal = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.POLICY);
 
         // NBZ-01 validations
 
@@ -122,10 +119,9 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createFinancialPolicy(adjustTdPolicyEffDate(getPolicyTD(), effDate));
-        Dollar premTotal = getTotalTermPremium();
 
-        // Get Fee amount from billing tab (if any)
-        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+        // Get premium and fee amounts from billing tab (if any)
+        Dollar premTotal = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.POLICY);
         Dollar totalFees = BillingHelper.getFeesValue(today);
 
         // NB-03 and PMT-04 validations
@@ -228,7 +224,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         mainApp().open();
         createCustomerIndividual();
         String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(getPolicyTD()));
-        Dollar premTotal = getTotalTermPremium();
+        Dollar premTotal = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.POLICY);
 
         //NBZ-02 validations
         assertSoftly(softly -> {
@@ -242,12 +238,13 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         });
         //Employee Benefit discount (CA Only) for NBZ-02 validations
         if(isAutoCA()){
-            Dollar employeeDiscount = getEmployeeDiscount();
+            Dollar employeeDiscount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EMPLOYEE_BENEFIT);
             assertSoftly(softly -> {
                 softly.assertThat(employeeDiscount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.EMPLOYEE_BENEFIT, "1044"));
                 softly.assertThat(employeeDiscount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.EMPLOYEE_BENEFIT, "1041"));
             });
         }
+        SearchPage.openPolicy(policyNumber);
 
         // Perform AP endorsement
         performAPEndorsement(policyNumber);
@@ -304,10 +301,11 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         mainApp().open();
         createCustomerIndividual();
         String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(adjustTdPolicyEffDate(getPolicyTD(), effDate)));
-        Dollar premTotal = getTotalTermPremium();
+        Dollar premTotal = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.POLICY);
 
         //TODO NBZ-04 validations
 
+        SearchPage.openPolicy(policyNumber);
         Dollar reducedPrem = performRPEndorsement(policyNumber, effDate);
 
         // TODO END-04 and PMT-05 validations

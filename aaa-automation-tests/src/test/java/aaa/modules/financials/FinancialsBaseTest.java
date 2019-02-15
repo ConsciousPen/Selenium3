@@ -17,12 +17,16 @@ import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class FinancialsBaseTest extends FinancialsTestDataFactory {
+
+	protected static final String METHOD_CASH = "TestData_Cash";
+	protected static final String METHOD_CHECK = "TestData_Check";
 
 	protected String createFinancialPolicy() {
 		return createFinancialPolicy(getPolicyTD());
@@ -55,21 +59,15 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		}
 		Dollar due = new Dollar(BillingSummaryPage.getTotalDue());
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), due);
-
-		// Open Policy Summary Page
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
 		return due;
 	}
-	protected Dollar payMinAmountDue() {
+	protected Dollar payMinAmountDue(String paymentMethod) {
 		// Open Billing account and Pay min due for the renewal
 		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		}
 		Dollar due = new Dollar(BillingSummaryPage.getMinimumDue());
-		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), due);
-
-		// Open Policy Summary Page
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", paymentMethod), due);
 		return due;
 	}
 
@@ -130,6 +128,14 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		SearchPage.openPolicy(policyNumber);
 	}
 
+	protected Dollar rollBackEndorsement(String policyNumber) {
+		SearchPage.openPolicy(policyNumber);
+		policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData"));
+		Dollar rollBackAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ROLL_BACK_ENDORSEMENT);
+		SearchPage.openPolicy(policyNumber);
+		return rollBackAmount;
+	}
+
 	protected Dollar getBillingAmountByType(String type, String subtype) {
 		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -138,6 +144,16 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, type);
 		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, subtype);
 		return new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).abs();
+	}
+
+	protected void waiveFeeByDateAndType(LocalDateTime txDate, String feeType) {
+		Map<String, String> query = new HashMap<>();
+		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, txDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.FEE);
+		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, feeType);
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query)
+				.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(BillingConstants.PaymentsAndOtherTransactionAction.WAIVE).click();
+		BillingSummaryPage.dialogConfirmation.confirm();
 	}
 
 	protected void advanceTimeAndOpenPolicy(LocalDateTime date, String policyNumber) {
