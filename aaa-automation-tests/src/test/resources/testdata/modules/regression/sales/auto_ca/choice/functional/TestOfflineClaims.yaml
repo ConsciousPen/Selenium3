@@ -64,7 +64,7 @@ Driver2: {
 Driver3: {
   Add Driver: Click,
   DriverSearchDialog:{},
-  Driver Type: Available for Rating,
+  Driver Type:  Available for Rating,
   First Name: Tony,
   Last Name: Stark,
   'Rel. to First Named Insured': Sibling,
@@ -125,7 +125,7 @@ Driver5: {
   License Type: "Valid",
   License State: CA,
   Permit Before License: 'Yes',
-  "License #": D5435440, #D9999999
+  "License #": D9999999,
   Age First Licensed: 18
 }
 
