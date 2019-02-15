@@ -28,6 +28,7 @@ public class DocumentsAndBindTab extends Tab {
 	}
 
 	public static Button btnGenerateDocuments = new Button(By.id("policyDataGatherForm:generate_link"));
+	public static Button btnGenerateESignaturaDocuments = new Button(By.id("policyDataGatherForm:generate_link_esign"));
 	public static Button btnPurchase = new Button(By.xpath(".//input[@id='policyDataGatherForm:overridenActionButton_PurchaseAction_footer' or @id='policyDataGatherForm:actionButton_PurchaseAction_footer']"));
 	public static Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
 	public static Dialog confirmEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");

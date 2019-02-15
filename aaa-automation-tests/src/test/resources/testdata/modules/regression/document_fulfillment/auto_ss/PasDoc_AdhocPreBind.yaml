@@ -24,6 +24,13 @@ TestData_Renewal_SC2: {
   DocumentsAndBindTab: '@DocumentsAndBindTab_Renew'
 }
 
+TestData_SC5: {
+  DriverTab: ['@<auto_ss>@DataGather@DriverTab', '@DriverTab_ExcludedDriver', '@DriverTab_TeenageDriver'], 
+  VehicleTab: ['@<auto_ss>@DataGather@VehicleTab', '@VehicleTab_EnrolledInUBI'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMBILessThanBI', 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_SC5'
+}
+
 # -------- GeneralTab ---------
 GeneralTab_NANO: {
   NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
@@ -144,3 +151,233 @@ DocumentsAndBindTab_Renew: {
     Proof of Prior Insurance: 'Yes'
   }
 }
+
+DocumentsAndBindTab_SC5: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Uninsured and Underinsured Motorist Coverage Selection: Physically Signed, 
+    Named Driver Exclusion: Physically Signed, 
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+
+# ---------------
+TestData_GenAllDocs: {
+  DocumentsAndBindTab: '@DocumentsAndBindTab_GenAllDocs'
+}
+
+DocumentsAndBindTab_GenAllDocs: {
+  DocumentsForPrinting: {
+    AAA Usage Based Insurance Program Terms and Conditions: 'Yes', 
+    "AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies": 'Yes', 
+    ACP SMARTtrek Subscription Terms and Conditions: 'Yes', 
+    Auto Insurance Application: 'Yes',
+    Auto Insurance Quote: 'Yes', 
+    AutoPay Authorization Form: 'Yes', 
+    Critical Information for Teenage Drivers and Their Parents: 'Yes',
+    Named Driver Exclusion: 'Yes', 
+    Uninsured and Underinsured Motorist Coverage Selection: 'Yes'
+  }
+}
+
+# Generate Auto Insurance Qoute - AAIQAZ
+TestData_Gen_AAIQAZ: {
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Gen_AAIQAZ'
+}
+
+DocumentsAndBindTab_Gen_AAIQAZ: {
+  DocumentsForPrinting: {
+    AAA Usage Based Insurance Program Terms and Conditions: 'No', 
+    "AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies": 'No', 
+    ACP SMARTtrek Subscription Terms and Conditions: 'No', 
+    Auto Insurance Application: 'No',
+    Auto Insurance Quote: 'Yes', 
+    AutoPay Authorization Form: 'No', 
+    Critical Information for Teenage Drivers and Their Parents: 'No',
+    Named Driver Exclusion: 'No', 
+    Uninsured and Underinsured Motorist Coverage Selection: 'No',
+    #Generate Documents: click
+  }
+}
+
+# Generate Auto Insurance Application - AA11XX
+TestData_Gen_AA11XX: {
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Gen_AA11XX'
+}
+
+DocumentsAndBindTab_Gen_AA11XX: {
+  DocumentsForPrinting: {
+    AAA Usage Based Insurance Program Terms and Conditions: 'No', 
+    "AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies": 'No', 
+    ACP SMARTtrek Subscription Terms and Conditions: 'No', 
+    Auto Insurance Application: 'Yes',
+    Auto Insurance Quote: 'No', 
+    AutoPay Authorization Form: 'No', 
+    Critical Information for Teenage Drivers and Their Parents: 'No',
+    Named Driver Exclusion: 'No', 
+    Uninsured and Underinsured Motorist Coverage Selection: 'No',
+    #Generate Documents: click
+  }
+}
+
+# Generate AutoPay Authorization Form - AHAPXX
+TestData_Gen_AHAPXX: {
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Gen_AHAPXX'
+}
+
+DocumentsAndBindTab_Gen_AHAPXX: {
+  DocumentsForPrinting: {
+    AAA Usage Based Insurance Program Terms and Conditions: 'No', 
+    "AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies": 'No', 
+    ACP SMARTtrek Subscription Terms and Conditions: 'No', 
+    Auto Insurance Application: 'No',
+    Auto Insurance Quote: 'No', 
+    AutoPay Authorization Form: 'Yes', 
+    Critical Information for Teenage Drivers and Their Parents: 'No',
+    Named Driver Exclusion: 'No', 
+    Uninsured and Underinsured Motorist Coverage Selection: 'No',
+    #Generate Documents: click
+  }
+}
+
+# Generate Uninsured and Underinsured Motorist Coverage Selection - AA52AZ
+TestData_Gen_AA52AZ: {
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Gen_AA52AZ'
+}
+
+DocumentsAndBindTab_Gen_AA52AZ: {
+  DocumentsForPrinting: {
+    AAA Usage Based Insurance Program Terms and Conditions: 'No', 
+    "AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies": 'No', 
+    ACP SMARTtrek Subscription Terms and Conditions: 'No', 
+    Auto Insurance Application: 'No',
+    Auto Insurance Quote: 'No', 
+    AutoPay Authorization Form: 'No', 
+    Critical Information for Teenage Drivers and Their Parents: 'No',
+    Named Driver Exclusion: 'No', 
+    Uninsured and Underinsured Motorist Coverage Selection: 'Yes',
+    #Generate Documents: click
+  }
+}
+
+# Generate Named Driver Exclusion - AA43AZ
+TestData_Gen_AA43AZ: {
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Gen_AA43AZ'
+}
+
+DocumentsAndBindTab_Gen_AA43AZ: {
+  DocumentsForPrinting: {
+    AAA Usage Based Insurance Program Terms and Conditions: 'No', 
+    "AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies": 'No', 
+    ACP SMARTtrek Subscription Terms and Conditions: 'No', 
+    Auto Insurance Application: 'No',
+    Auto Insurance Quote: 'No', 
+    AutoPay Authorization Form: 'No', 
+    Critical Information for Teenage Drivers and Their Parents: 'No',
+    Named Driver Exclusion: 'Yes', 
+    Uninsured and Underinsured Motorist Coverage Selection: 'No',
+    #Generate Documents: click
+  }
+}
+
+# Generate Critical Information for Teenage Drivers and Their Parents - AATSXX
+TestData_Gen_AATSXX: {
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Gen_AATSXX'
+}
+
+DocumentsAndBindTab_Gen_AATSXX: {
+  DocumentsForPrinting: {
+    AAA Usage Based Insurance Program Terms and Conditions: 'No', 
+    "AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies": 'No', 
+    ACP SMARTtrek Subscription Terms and Conditions: 'No', 
+    Auto Insurance Application: 'No',
+    Auto Insurance Quote: 'No', 
+    AutoPay Authorization Form: 'No', 
+    Critical Information for Teenage Drivers and Their Parents: 'Yes',
+    Named Driver Exclusion: 'No', 
+    Uninsured and Underinsured Motorist Coverage Selection: 'No',
+    #Generate Documents: click
+  }
+}
+
+# Generate AAA Usage Based Insurance Program Terms and Conditions - AAUBI
+TestData_Gen_AAUBI: {
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Gen_AAUBI'
+}
+
+DocumentsAndBindTab_Gen_AAUBI: {
+  DocumentsForPrinting: {
+    AAA Usage Based Insurance Program Terms and Conditions: 'Yes', 
+    "AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies": 'No', 
+    ACP SMARTtrek Subscription Terms and Conditions: 'No', 
+    Auto Insurance Application: 'No',
+    Auto Insurance Quote: 'No', 
+    AutoPay Authorization Form: 'No', 
+    Critical Information for Teenage Drivers and Their Parents: 'No',
+    Named Driver Exclusion: 'No', 
+    Uninsured and Underinsured Motorist Coverage Selection: 'No',
+    #Generate Documents: click
+  }
+}
+
+# Generate ACP SMARTtrek Subscription Terms and Conditions - ACPUBI
+TestData_Gen_ACPUBI: {
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Gen_ACPUBI'
+}
+
+DocumentsAndBindTab_Gen_ACPUBI: {
+  DocumentsForPrinting: {
+    AAA Usage Based Insurance Program Terms and Conditions: 'No', 
+    "AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies": 'No', 
+    ACP SMARTtrek Subscription Terms and Conditions: 'Yes', 
+    Auto Insurance Application: 'No',
+    Auto Insurance Quote: 'No', 
+    AutoPay Authorization Form: 'No', 
+    Critical Information for Teenage Drivers and Their Parents: 'No',
+    Named Driver Exclusion: 'No', 
+    Uninsured and Underinsured Motorist Coverage Selection: 'No',
+    #Generate Documents: click
+  }
+}
+
+# Generate AAA with SMARTtrek Acknowledgement - AAUBI1
+TestData_Gen_AAUBI1: {
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Gen_AAUBI1'
+}
+
+DocumentsAndBindTab_Gen_AAUBI1: {
+  DocumentsForPrinting: {
+    AAA Usage Based Insurance Program Terms and Conditions: 'No', 
+    "AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies": 'Yes', 
+    ACP SMARTtrek Subscription Terms and Conditions: 'No', 
+    Auto Insurance Application: 'No',
+    Auto Insurance Quote: 'No', 
+    AutoPay Authorization Form: 'No', 
+    Critical Information for Teenage Drivers and Their Parents: 'No',
+    Named Driver Exclusion: 'No', 
+    Uninsured and Underinsured Motorist Coverage Selection: 'No',
+    #Generate Documents: click
+  }
+}
+
+# Generate Non-Owner Automobile Endorsement - AA41XX
+TestData_Gen_AA41XX: {
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Gen_AA41XX'
+}
+
+DocumentsAndBindTab_Gen_AA41XX: {
+  DocumentsForPrinting: {
+    Auto Insurance Application: 'No',
+    Auto Insurance Quote: 'No',
+    AutoPay Authorization Form: 'No', 
+    Non-Owner Automobile Endorsement: 'Yes', 
+    Uninsured and Underinsured Motorist Coverage Selection: 'No',
+    #Generate Documents: click
+  }
+}
+

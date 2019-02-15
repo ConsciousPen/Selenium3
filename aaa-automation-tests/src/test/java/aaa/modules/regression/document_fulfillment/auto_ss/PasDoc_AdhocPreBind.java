@@ -7,7 +7,9 @@ import org.testng.annotations.Test;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import aaa.utils.StateList;
@@ -15,6 +17,7 @@ import toolkit.datax.TestData;
 import toolkit.verification.CustomAssertions;
 import toolkit.verification.CustomSoftAssertions;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
@@ -29,6 +32,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
 	public void testScenario2(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(States.AZ, PolicyType.AUTO_SS);
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
@@ -138,7 +142,8 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
-	public void testScenario3(@Optional("") String state) {				
+	public void testScenario3(@Optional("") String state) {		
+		DocGenHelper.checkPasDocEnabled(States.AZ, PolicyType.AUTO_SS);
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
@@ -239,7 +244,8 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
-	public void testScenario4(@Optional("") String state) {				
+	public void testScenario4(@Optional("") String state) {	
+		DocGenHelper.checkPasDocEnabled(States.AZ, PolicyType.AUTO_SS);
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
@@ -282,6 +288,258 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		documentsAndBindTab.submitTab();
 		log.info("TEST: Renewal created for policy #" + PolicySummaryPage.getPolicyNumber());
 		
+	}
+	
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
+	public void testScenario5(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(States.AZ, PolicyType.AUTO_SS);
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td_sc5 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC5").resolveLinks());
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(td_sc5, DocumentsAndBindTab.class, true);
+		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
+		docsAndBindTab.saveAndExit();
+		log.info("TEST: Quote created #" + PolicySummaryPage.getPolicyNumber());
+		
+		policy.dataGather().start();
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		//Verify generation all docs
+		generateAndVerifyDoc(getTestSpecificTD("TestData_GenAllDocs"));	
+		//Verify docs generation
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAIQAZ"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA11XX"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AHAPXX"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA52AZ"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA43AZ"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AATSXX"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_ACPUBI"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI1"));
+		
+		docsAndBindTab.submitTab();
+		new PurchaseTab().fillTab(getPolicyTD());
+		new PurchaseTab().submitTab();
+		log.info("TEST: Policy created #" + PolicySummaryPage.getPolicyNumber());
+		
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();	
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		//Verify generation all docs
+		generateAndVerifyDoc(getTestSpecificTD("TestData_GenAllDocs"));	
+		//Verify docs generation
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAIQAZ"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA11XX"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AHAPXX"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA52AZ"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA43AZ"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AATSXX"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_ACPUBI"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI1"));	
+		docsAndBindTab.submitTab();
+		log.info("TEST: Endorsement created for policy#" + PolicySummaryPage.getPolicyNumber());
+		
+		policy.renew().start();
+		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();		
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		//Verify generation all docs
+		generateAndVerifyDoc(getTestSpecificTD("TestData_GenAllDocs"));	
+		//Verify docs generation
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAIQAZ"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA11XX"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AHAPXX"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA52AZ"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA43AZ"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AATSXX"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_ACPUBI"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI1"));	
+		docsAndBindTab.submitTab();
+		log.info("TEST: Renewal created for policy#" + PolicySummaryPage.getPolicyNumber());		
+	}
+	
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
+	public void testScenario6(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(States.AZ, PolicyType.AUTO_SS);
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td_sc6 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC3").resolveLinks());	
+		
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(td_sc6, DocumentsAndBindTab.class, true);
+		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
+		docsAndBindTab.saveAndExit();
+		log.info("TEST: Quote created #" + PolicySummaryPage.getPolicyNumber());
+		
+		policy.dataGather().start();
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA41XX"));
+		docsAndBindTab.submitTab();
+		new PurchaseTab().fillTab(getPolicyTD());
+		new PurchaseTab().submitTab();
+		log.info("TEST: Policy created #" + PolicySummaryPage.getPolicyNumber());
+		
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();	
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA41XX"));
+		docsAndBindTab.submitTab();
+		log.info("TEST: Endorsement created for policy#" + PolicySummaryPage.getPolicyNumber());
+		
+		policy.renew().start();
+		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();		
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA41XX"));
+		docsAndBindTab.submitTab();
+		log.info("TEST: Renewal created for policy#" + PolicySummaryPage.getPolicyNumber());		
+	}
+	
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
+	public void testScenario7(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(States.AZ, PolicyType.AUTO_SS);
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td_sc7 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC5").resolveLinks());
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(td_sc7, DocumentsAndBindTab.class, true);
+		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
+		docsAndBindTab.saveAndExit();
+		log.info("TEST: Quote created #" + PolicySummaryPage.getPolicyNumber());
+		
+		policy.dataGather().start();
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		//Verify generation all docs
+		generateESignatureDocs(getTestSpecificTD("TestData_GenAllDocs"), true);		
+		//Verify generation of separate doc
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAIQAZ"), false);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AA11XX"), true);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AHAPXX"), true);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AA52AZ"), true);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AA43AZ"), true);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AATSXX"), false);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAUBI"), false);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_ACPUBI"), false);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAUBI1"), true);
+		
+		docsAndBindTab.submitTab();
+		new PurchaseTab().fillTab(getPolicyTD());
+		new PurchaseTab().submitTab();
+		log.info("TEST: Policy created #" + PolicySummaryPage.getPolicyNumber());
+		
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();	
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		//Verify generation all docs
+		generateESignatureDocs(getTestSpecificTD("TestData_GenAllDocs"), true);		
+		//Verify generation of separate doc
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAIQAZ"), false);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AA11XX"), true);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AHAPXX"), true);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AA52AZ"), true);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AA43AZ"), true);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AATSXX"), false);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAUBI"), false);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_ACPUBI"), false);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAUBI1"), true);		
+		docsAndBindTab.submitTab();
+		log.info("TEST: Endorsement created for policy#" + PolicySummaryPage.getPolicyNumber());
+		
+		policy.renew().start();
+		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();		
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		//Verify generation all docs
+		generateESignatureDocs(getTestSpecificTD("TestData_GenAllDocs"), true);		
+		//Verify generation of separate doc
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAIQAZ"), false);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AA11XX"), true);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AHAPXX"), true);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AA52AZ"), true);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AA43AZ"), true);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AATSXX"), false);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAUBI"), false);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_ACPUBI"), false);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAUBI1"), true);
+		docsAndBindTab.submitTab();
+		log.info("TEST: Renewal created for policy#" + PolicySummaryPage.getPolicyNumber());	
+	}
+	
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
+	public void testScenario8(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(States.AZ, PolicyType.AUTO_SS);
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td_sc8 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC3").resolveLinks());	
+		
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(td_sc8, DocumentsAndBindTab.class, true);
+		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
+		docsAndBindTab.saveAndExit();
+		log.info("TEST: Quote created #" + PolicySummaryPage.getPolicyNumber());
+		
+		policy.dataGather().start();
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AA41XX"), true);
+		docsAndBindTab.submitTab();
+		new PurchaseTab().fillTab(getPolicyTD());
+		new PurchaseTab().submitTab();
+		log.info("TEST: Policy created #" + PolicySummaryPage.getPolicyNumber());
+		
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();	
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AA41XX"), true);
+		docsAndBindTab.submitTab();
+		log.info("TEST: Endorsement created for policy#" + PolicySummaryPage.getPolicyNumber());
+		
+		policy.renew().start();
+		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();		
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AA41XX"), true);
+		docsAndBindTab.submitTab();
+		log.info("TEST: Renewal created for policy#" + PolicySummaryPage.getPolicyNumber());
+	}
+	
+	
+	private void generateAndVerifyDoc(TestData td_doc) {
+		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
+		docsAndBindTab.fillTab(td_doc);
+		//DocumentsAndBindTab.btnGenerateDocuments.click();
+		//TODO verify doc generated
+		
+	}
+	
+	private void generateESignatureDocs(TestData td_doc, boolean isActiveBtn) {
+		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
+		docsAndBindTab.fillTab(td_doc);
+		CustomAssertions.assertThat(docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.BTN_GENERATE_ESIGNATURE_DOCUMENTS)).isPresent(isActiveBtn);
+		if (isActiveBtn) {
+			//CustomAssertions.assertThat(docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+			//		AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.BTN_GENERATE_ESIGNATURE_DOCUMENTS)).isEnabled();
+			DocumentsAndBindTab.btnGenerateESignaturaDocuments.click();
+			CustomAssertions.assertThat(docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG)).isPresent();
+			docsAndBindTab.getEnterRecipientEmailAddressDialogAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EnterRecipientEmailAddressDialog.RECIPIENT_EMAIL_ADDRESS).setValue("test@email.com");
+			docsAndBindTab.getEnterRecipientEmailAddressDialogAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EnterRecipientEmailAddressDialog.BTN_OK).click();
+			Page.dialogConfirmation.buttonOk.click();
+		}
 	}
 	
 	private void fillAdditionalData(TestData td) {
