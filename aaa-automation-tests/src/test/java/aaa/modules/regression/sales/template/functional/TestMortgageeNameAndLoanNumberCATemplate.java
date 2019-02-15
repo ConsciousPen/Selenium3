@@ -10,25 +10,22 @@ import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab;
 import aaa.modules.policy.PolicyBaseTest;
-import toolkit.datax.TestData;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class TestMortgageeNameAndLoanNumberCATemplate extends PolicyBaseTest {
 
     MortgageesTab mortgageesTab = new MortgageesTab();
     private ErrorTab errorTab = new ErrorTab();
-    TestData td = getPolicyTD();
 
     protected void pas6214_testMortgageeLoanNumberNB() {
 
-        createQuoteAndFillUpTo(td, MortgageesTab.class, false);
+        createQuoteAndFillUpTo(getPolicyTD(), MortgageesTab.class, false);
         validateLoanNumberMessage();
     }
 
     protected void pas6214_testMortgageeLoanNumberEndTx() {
 
-        openAppAndCreatePolicy(td);
+        openAppAndCreatePolicy(getPolicyTD());
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.MORTGAGEE_AND_ADDITIONAL_INTERESTS.get());
         validateLoanNumberMessage();
@@ -40,7 +37,7 @@ public class TestMortgageeNameAndLoanNumberCATemplate extends PolicyBaseTest {
 
     protected void pas6214_testMortgageeLoanNumberRenewal(){
 
-        openAppAndCreatePolicy(td);
+        openAppAndCreatePolicy(getPolicyTD());
         policy.renew().perform();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.MORTGAGEE_AND_ADDITIONAL_INTERESTS.get());
         validateLoanNumberMessage();
