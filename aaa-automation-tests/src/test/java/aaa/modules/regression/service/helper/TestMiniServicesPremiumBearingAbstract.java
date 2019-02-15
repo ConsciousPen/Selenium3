@@ -63,6 +63,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private ErrorTab errorTab = new ErrorTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
+	private TestMiniServicesVehiclesHelper testMiniServicesVehiclesHelper = new TestMiniServicesVehiclesHelper();
 
 	protected abstract String getGeneralTab();
 
@@ -1692,6 +1693,36 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		checkIfTaxInfoIsDisplaying(response3, getState());
 	}
 
+	protected void pas19166ViewPremiumServicePligaFeeInformationBody(){
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		PolicyPremiumInfo[] responsePolicyPremium = HelperCommon.viewPolicyPremiums(policyNumber);
+		checkIfPligaFeeInfoIsDisplaying(responsePolicyPremium);
+
+		//create endorsement check pliga fee there
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		PolicyPremiumInfo[] responseRate = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
+		checkIfPligaFeeInfoIsDisplaying(responseRate);
+
+		PolicyPremiumInfo[] response2 = HelperCommon.viewEndorsementPremiums(policyNumber);
+		checkIfPligaFeeInfoIsDisplaying(response2);
+
+		String purchaseDate = "2013-01-21";
+		String vin = "JF1GJAH65EH007244"; //Subaru Impreza 2014
+		testMiniServicesVehiclesHelper.addVehicleWithChecks(policyNumber, purchaseDate, vin, true);
+
+		PolicyPremiumInfo[] responseRate2 = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
+		checkIfPligaFeeInfoIsDisplaying(responseRate2);
+
+		PolicyPremiumInfo[] response3 = HelperCommon.viewEndorsementPremiums(policyNumber);
+		checkIfPligaFeeInfoIsDisplaying(response3);
+
+		helperMiniServices.bindEndorsementWithCheck(policyNumber);
+		PolicyPremiumInfo[] responsePolicyPremium2 = HelperCommon.viewPolicyPremiums(policyNumber);
+		checkIfPligaFeeInfoIsDisplaying(responsePolicyPremium2);
+	}
+
 	private void checkIfTaxInfoIsDisplaying(PolicyPremiumInfo[] response, String state){
 
 		String premium = "GWT";
@@ -1725,6 +1756,21 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(city.actualAmt).isNotEmpty();
 			softly.assertThat(city.termPremium).isNotEmpty();
 			}
+		});
+	}
+
+	private void checkIfPligaFeeInfoIsDisplaying(PolicyPremiumInfo[] response) {
+
+		String premiumType = "SPECIAL";
+		String premiumCode = "PLIGA*2";
+
+		PolicyPremiumInfo pligaFee = Arrays.stream(response).filter(policyPremiumInfo -> (premiumCode).equals(policyPremiumInfo.premiumCode)).findFirst().orElse(null);
+
+		assertSoftly(softly -> {
+			softly.assertThat(pligaFee.premiumType).isEqualTo(premiumType);
+			softly.assertThat(pligaFee.premiumCode).isEqualTo(premiumCode);
+			softly.assertThat(pligaFee.actualAmt).isNull();
+			softly.assertThat(pligaFee.termPremium).isNotEmpty();
 		});
 	}
 

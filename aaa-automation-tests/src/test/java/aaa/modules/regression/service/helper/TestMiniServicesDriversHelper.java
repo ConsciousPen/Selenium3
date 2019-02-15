@@ -62,7 +62,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private RemoveDriverRequest removeDriverRequest = new RemoveDriverRequest();
 	private DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
 	private String policyNumber7Drivers;
-	private static final TestMiniServicesCoveragesHelper testMiniServicesCoveragesHelper = new TestMiniServicesCoveragesHelper();
+	private static final TestMiniServicesCoveragesHelper TEST_MINI_SERVICES_COVERAGES_HELPER = new TestMiniServicesCoveragesHelper();
 
 	protected void pas11932_viewDriversInfo(PolicyType policyType) {
 		assertSoftly(softly -> {
@@ -1546,6 +1546,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		} else {
 			// issue PAS-19028
 			softly.assertThat(updateDriverResponse1.validations).isEmpty();
+			// issue PAS-25209
+			HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
 		}
 
 		ViewDriversResponse responseViewDrivers2 = HelperCommon.viewEndorsementDrivers(policyNumber);
@@ -2538,17 +2540,23 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D8571783", 28, "CA", "CH", "MSS");
 
 			DriverWithRuleSets updateDriverResponse1 = HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest);
-			softly.assertThat(updateDriverResponse1.validations.stream().anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getMessage()) && (ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getCode()).equals(error.errorCode))).isTrue();
+			softly.assertThat(updateDriverResponse1.validations.stream()
+					.anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getMessage())
+							&& (ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getCode()).equals(error.errorCode))).isTrue();
 
 			UpdateDriverRequest updateDriverRequest2 = DXPRequestFactory.createUpdateDriverRequest(null, null, 27, null, null, null);
 
 			DriverWithRuleSets updateDriverResponse2 = HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest2);
-			softly.assertThat(updateDriverResponse2.validations.stream().anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getMessage()) && (ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getCode()).equals(error.errorCode))).isFalse();
+			softly.assertThat(updateDriverResponse2.validations.stream()
+					.anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getMessage())
+							&& (ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getCode()).equals(error.errorCode))).isFalse();
 
 			UpdateDriverRequest updateDriverRequest3 = DXPRequestFactory.createUpdateDriverRequest(null, null, 27, null, null, null);
 
 			DriverWithRuleSets updateDriverResponse3 = HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest3);
-			softly.assertThat(updateDriverResponse3.validations.stream().anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getMessage()) && (ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getCode()).equals(error.errorCode))).isFalse();
+			softly.assertThat(updateDriverResponse3.validations.stream()
+					.anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getMessage())
+							&& (ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getCode()).equals(error.errorCode))).isFalse();
 
 			HelperCommon.orderReports(policyNumber, driverOid, OrderReportsResponse.class, 200);
 			helperMiniServices.endorsementRateAndBind(policyNumber);
@@ -2669,7 +2677,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private void validateFormsTab(PolicyCoverageInfo policyCoverageInfo, ETCSCoreSoftAssertions softly, String policyNumber) {
 		AutoSSForms.AutoSSDriverFormsController driverForms = formsTab.getAssetList().getAsset(AutoSSMetaData.FormsTab.DRIVER_FORMS);
 
-		Coverage covDISD = testMiniServicesCoveragesHelper.findCoverage(policyCoverageInfo.driverCoverages, "DISD");
+		Coverage covDISD = TEST_MINI_SERVICES_COVERAGES_HELPER.findCoverage(policyCoverageInfo.driverCoverages, "DISD");
 		ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 
 		int driverCount = viewDriversResponse.driverList.size();
