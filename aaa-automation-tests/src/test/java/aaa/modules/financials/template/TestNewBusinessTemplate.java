@@ -147,7 +147,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         advanceTimeAndOpenPolicy(effDate, policyNumber);
 
         // Perform RP endorsement
-        Dollar reducedPrem = performRPEndorsement(effDate, premTotal);
+        Dollar reducedPrem = performRPEndorsement(effDate, premTotal, policyNumber);
 
         // END-02 validations
         assertThat(reducedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
@@ -293,14 +293,14 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         });
         //Employee Benefit discount (CA Auto Only) for NBZ-04 validations
         if(isAutoCA()){
-            Dollar employeeDiscount = getEmployeeDiscount();
             assertSoftly(softly -> {
+                Dollar employeeDiscount = getEmployeeDiscount();
                 softly.assertThat(employeeDiscount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.EMPLOYEE_BENEFIT, "1044"));
                 softly.assertThat(employeeDiscount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.EMPLOYEE_BENEFIT, "1041"));
             });
         }
 
-        Dollar reducedPrem = performRPEndorsement(effDate, premTotal);
+        Dollar reducedPrem = performRPEndorsement(effDate, premTotal, policyNumber);
 
         // Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
         advanceTimeAndOpenPolicy(effDate, policyNumber);
@@ -316,6 +316,15 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")
                     .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")));
         });
+        //END-04 Employee Benefit validations (CA Auto Only)
+        if(isAutoCA()){
+            assertSoftly(softly -> {
+                //Store employee benefit for END-04
+                Dollar employeeDiscount = getEmployeeDiscount();
+                softly.assertThat(employeeDiscount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.EMPLOYEE_BENEFIT, "1044"));
+                softly.assertThat(employeeDiscount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.EMPLOYEE_BENEFIT, "1041"));
+            });
+        }
 
         //Remaining NBZ-04 validations that are recorded at effective date
         assertSoftly(softly -> {

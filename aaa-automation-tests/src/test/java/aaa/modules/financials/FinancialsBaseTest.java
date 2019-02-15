@@ -45,7 +45,8 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 	}
 
 	protected Dollar getEmployeeDiscount() {
-		return new Dollar(PolicySummaryPage.getAmountDueForProperty().multiply(-1));
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		return new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(5, "Employee Benefit").getCell(7).getValue()).abs();
 	}
 
 	protected Dollar payTotalAmountDue(){
@@ -110,7 +111,10 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		return addedPrem;
 	}
 
-	protected Dollar performRPEndorsement(LocalDateTime effDate, Dollar currentPremium) {
+	protected Dollar performRPEndorsement(LocalDateTime effDate, Dollar currentPremium, String policyNumber) {
+		if (!PolicySummaryPage.tableTransactionHistory.isPresent()) {
+			SearchPage.openPolicy(policyNumber);
+		}
 		policy.endorse().perform(getEndorsementTD(effDate));
 		policy.getDefaultView().fill(getReducePremiumTD());
 		return currentPremium.subtract(getTotalTermPremium());
