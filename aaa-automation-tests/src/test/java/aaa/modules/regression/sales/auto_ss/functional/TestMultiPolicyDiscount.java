@@ -416,7 +416,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     /**
      * This test validates that removing named insureds without rating results in error message at bind time.
      * @param state the test will run against.
-     * @scenario PAS-18315 Test 1
+     * @scenario
      * 1. Create quote with 2 NIs
      * 2. Remove one of the NI (NO mpd data returned)
      * 3. Navigate to Doc and Bind tab and bind
@@ -435,6 +435,61 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         // Add second NI
         _generalTab.addAnotherNamedInsured("Jane", "Doe", "02/14/1990", "No", "Own Home");
+
+        // Move to documents and bind tab.
+        _generalTab.submitTab();
+
+        policy.getDefaultView().fillFromTo(testData, DriverTab.class, DocumentsAndBindTab.class, true);
+
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+
+        // Remove Second NI
+        _generalTab.removeInsured(2);
+
+        // Attempt to Bind
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        _documentsAndBindTab.submitTab();
+
+        // Check for error.
+        String errorMsg = _errorTab.tableErrors.
+                getRow("Code", "Unprepared data").
+                getCell("Message").getValue();
+
+        assertThat(errorMsg).startsWith("Cannot issue policy which was not rated!");
+    }
+
+    /**
+     * This test validates that removing named insureds without rating results in error message at bind time.
+     * @param state the test will run against.
+     * @scenario
+     * 1. Create quote with 2 NI (one of the NI is CUSTOMER_E)
+     * 2. Populate MPD table via refresh
+     * 3. Remove CUSTOMER_E
+     * 4. Re trigger refresh (Table will now be empty)
+     * 5. Bind
+     * 6. Verify a hard stop error occurs directing user to Re-Rate the policy.
+     * @author Brian Bond - CIO
+     */
+    @Parameters({"state"})
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Removing a NI and associated companion products")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3622")
+    public void pas_3622_CIO_Remove_NI_Companion_AC1_2(@Optional("") String state) {
+
+        // Data and tools setup
+        TestData testData = getPolicyTD();
+
+        // Create customer and move to general tab. //
+        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
+
+        // Add second NI
+        _generalTab.addAnotherNamedInsured("CUSTOMER_E", "Doe", "02/14/1990", "No", "Own Home");
+
+        // Trigger refresh
+        Button refreshButton = _generalTab.getOtherAAAProductOwnedAssetList().getAsset(
+                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getLabel(),
+                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getControlClass());
+
+        refreshButton.click(Waiters.AJAX);
 
         // Move to documents and bind tab.
         _generalTab.submitTab();
