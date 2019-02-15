@@ -285,13 +285,13 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(adjustTdPolicyEffDate(getPolicyTD(), effDate)));
         Dollar premTotal = getTotalTermPremium();
 
-        //TODO NBZ-04 validations
+        //NBZ-04 validations
         assertSoftly(softly -> {
             softly.assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1042"));
             softly.assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")));
         });
-        //Employee Benefit discount (CA Only) for NBZ-04 validations
+        //Employee Benefit discount (CA Auto Only) for NBZ-04 validations
         if(isAutoCA()){
             Dollar employeeDiscount = getEmployeeDiscount();
             assertSoftly(softly -> {
@@ -300,16 +300,24 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             });
         }
 
-        performRPEndorsement(effDate, premTotal);
+        Dollar reducedPrem = performRPEndorsement(effDate, premTotal);
 
-        // TODO END-04 and PMT-05 validations
-
-        // Advance time to policy effective date
+        // Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
         advanceTimeAndOpenPolicy(effDate, policyNumber);
         JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
 
+        // TODO END-04 and PMT-05 validations
+        assertSoftly(softly -> {
+            softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
+            softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")
+                    .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")));
+            softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")
+                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")));
+            softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")
+                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")));
+        });
+
         //Remaining NBZ-04 validations that are recorded at effective date
-        // TODO Currently showing as Null when querying DB. Need to understand how these appear in the DB when they are recorded at effective date. Perhaps afer running a batch job?
         assertSoftly(softly -> {
             //Recorded at effective date
             softly.assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1044")
