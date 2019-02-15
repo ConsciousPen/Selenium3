@@ -3,17 +3,16 @@ package aaa.toolkit.webdriver.customcontrols.dialog;
 import java.util.Map;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialogSingleSearch;
+import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.AbstractClickableStringElement;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
-import toolkit.webdriver.controls.composite.table.Table;
 
 public class SelectSearchDialog extends AbstractDialogSingleSearch {
 
 	private static final By DEFAULT_ERROR_MESSAGE_LOCATOR = By.xpath(".//span[contains(@id, ':noResults')]");
-	private static final By DEFAULT_RESULT_TABLE_LOCATOR = By.xpath(".//table[contains(@id, 'SearchTable') or (contains(@id, 'SearchFrom'))]");
 	private static final String DEFAULT_POPUP_OPENER_NAME = "Open";
 	private static final String DEFAULT_POPUP_SUBMITTER_NAME = "Submit";
 	private static final String DEFAULT_POPUP_CLOSER_NAME = "Close";
@@ -24,7 +23,7 @@ public class SelectSearchDialog extends AbstractDialogSingleSearch {
 	private static final String RESULT_TABLE_NAME = "Result Table";
 	private static final String ERROR_POPUP_NAME = "Error Message";
 	protected StaticElement errorMessage = new StaticElement(POPUP_PARENT, DEFAULT_ERROR_MESSAGE_LOCATOR);
-	protected Table resultTable = new ResultTable(POPUP_PARENT, DEFAULT_RESULT_TABLE_LOCATOR);
+	protected FillableTable resultTable;
 
 	public SelectSearchDialog(By locator) {
 		super(locator);
@@ -41,11 +40,10 @@ public class SelectSearchDialog extends AbstractDialogSingleSearch {
 	}
 
 	public StaticElement getErrorMessage() {
-
 		return errorMessage;
 	}
 
-	public Table getResultTable() {
+	public FillableTable getResultTable() {
 		return resultTable;
 	}
 
@@ -131,7 +129,7 @@ public class SelectSearchDialog extends AbstractDialogSingleSearch {
 		}
 
 		if (getAssetCollection().containsKey(RESULT_TABLE_NAME)) {
-			resultTable = getAsset(RESULT_TABLE_NAME, Table.class);
+			resultTable = getAsset(RESULT_TABLE_NAME, FillableTable.class);
 		}
 	}
 }
