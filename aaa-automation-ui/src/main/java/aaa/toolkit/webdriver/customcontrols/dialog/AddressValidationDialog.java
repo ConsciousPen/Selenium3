@@ -43,14 +43,16 @@ public class AddressValidationDialog extends DialogAssetList {
 
 	@Override
 	public void submit() {
-		Button buttonClosePopup = getAsset(DEFAULT_POPUP_SUBMITTER_NAME, Button.class);
-		if (buttonClosePopup != null) {
-			buttonClosePopup.click();
+		if (getAssetCollection().containsKey(DEFAULT_POPUP_SUBMITTER_NAME)) {
+			Button buttonClosePopup = getAsset(DEFAULT_POPUP_SUBMITTER_NAME, Button.class);
+			if (buttonClosePopup != null) {
+				buttonClosePopup.click();
+			}
 		}
 	}
 
 	@Override
-	public void fill(TestData td) {
+	public synchronized void fill(TestData td) {
 		if (td.containsKey(name)) {
 
 			//TODO auto ss: popup opens with delay, temp solution
@@ -58,7 +60,7 @@ public class AddressValidationDialog extends DialogAssetList {
 			//if (!buttonClosePopup.isPresent()){
 			//	buttonClosePopup.waitForAccessible(7000);
 			//}
-//TODO Think on filling.
+			//TODO Think on filling.
 			// openDialog();
 			TestData data = getValueToFill(td);
 
@@ -80,14 +82,16 @@ public class AddressValidationDialog extends DialogAssetList {
 						if (matcher.matches()) {
 							((TextBox) getAsset(STREET_NUMBER)).setValue(matcher.group(1).trim());
 							((TextBox) getAsset(STREET_NAME)).setValue(matcher.group(2).trim());
-						} else
+						} else {
 							log.info("Unable to parse and fill Address Validation Form");
+						}
 					} catch (Exception e) {
 						throw new IstfException("Unable to parse and fill Address Validation Form: ", e);
 					}
 				}
-			} else
+			} else {
 				setValue(data);
+			}
 			submit();
 		}
 	}

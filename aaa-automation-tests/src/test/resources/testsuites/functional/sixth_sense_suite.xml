@@ -167,5 +167,11 @@
         </classes>
     </test>
 
+    <test name="Test Months With Prior Carrier VRD">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMonthsWithPriorCarrierVRD"/>
+        </classes>
+    </test>
 
 </suite>
