@@ -23,7 +23,6 @@ public class BackendJobNames {
 		storage.put(GroupJobs.groupaaaMvrRenewBatchOrderAsyncJob.getJobName(), "aaaMvrRenewBatchOrderAsyncJob");
 		storage.put(GroupJobs.groupmembershipRenewalBatchOrderJob.getJobName(), "aaaMembershipRenewalBatchOrderAsyncJob");
 		storage.put(GroupJobs.groupPolicyStatusUpdateJob.getJobName(), "policyStatusUpdateJob");
-		storage.put(GroupJobs.policyStatusUpdateJob.getJobName(), "policyStatusUpdateJob");
 		storage.put(GroupJobs.groupaaaRecurringPaymentsProcessingJob.getJobName(), "aaaRecurringPaymentsAsyncProcessJob");
 		storage.put(GroupJobs.groupapplyPendingTransactionsAsyncJob.getJobName(), "applyPendingTransactionsAsyncJob");
 		storage.put(GroupJobs.groupaaacancellationNoticeGenerationJob.getJobName(), "aaaCancellationNoticeAsyncJob");
