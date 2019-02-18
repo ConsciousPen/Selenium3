@@ -11,11 +11,15 @@ import aaa.common.pages.Page;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.verification.CustomAssertions;
 import toolkit.verification.CustomSoftAssertions;
+import aaa.main.enums.DocGenEnum;
+import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
@@ -302,27 +306,29 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(td_sc5, DocumentsAndBindTab.class, true);
 		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
 		docsAndBindTab.saveAndExit();
-		log.info("TEST: Quote created #" + PolicySummaryPage.getPolicyNumber());
+		String quoteNumber = PolicySummaryPage.getPolicyNumber();
+		log.info("TEST: Quote created #" + quoteNumber);
 		
 		policy.dataGather().start();
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		//Verify generation all docs
 		generateAndVerifyDoc(getTestSpecificTD("TestData_GenAllDocs"));	
 		//Verify docs generation
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAIQAZ"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA11XX"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AHAPXX"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA52AZ"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA43AZ"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AATSXX"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_ACPUBI"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI1"));
-		
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAIQAZ"), quoteNumber, Documents.AAIQAZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA11XX"), quoteNumber, Documents.AA11AZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AHAPXX"), quoteNumber, Documents.AHAPXX);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA52AZ"), quoteNumber, Documents.AA52AZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA43AZ"), quoteNumber, Documents.AA43AZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AATSXX"), quoteNumber, Documents.AATSXX);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI"), quoteNumber, Documents.AAUBI);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_ACPUBI"), quoteNumber, Documents.ACPPNUBI);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI1"), quoteNumber, Documents.AAUBI1);
+		log.info("Distribution Channel is: " + getDistributionChannel(quoteNumber));
 		docsAndBindTab.submitTab();
 		new PurchaseTab().fillTab(getPolicyTD());
 		new PurchaseTab().submitTab();
-		log.info("TEST: Policy created #" + PolicySummaryPage.getPolicyNumber());
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		log.info("TEST: Policy created #" + policyNumber);
 		
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -331,15 +337,15 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		//Verify generation all docs
 		generateAndVerifyDoc(getTestSpecificTD("TestData_GenAllDocs"));	
 		//Verify docs generation
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAIQAZ"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA11XX"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AHAPXX"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA52AZ"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA43AZ"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AATSXX"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_ACPUBI"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI1"));	
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA11XX"), policyNumber, Documents.AA11AZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AHAPXX"), policyNumber, Documents.AHAPXX);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA52AZ"), policyNumber, Documents.AA52AZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA43AZ"), policyNumber, Documents.AA43AZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AATSXX"), policyNumber, Documents.AATSXX);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI"), policyNumber, Documents.AAUBI);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_ACPUBI"), policyNumber, Documents.ACPPNUBI);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI1"), policyNumber, Documents.AAUBI1);
+		log.info("Distribution Channel is: " + getDistributionChannel(policyNumber));
 		docsAndBindTab.submitTab();
 		log.info("TEST: Endorsement created for policy#" + PolicySummaryPage.getPolicyNumber());
 		
@@ -350,15 +356,15 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		//Verify generation all docs
 		generateAndVerifyDoc(getTestSpecificTD("TestData_GenAllDocs"));	
 		//Verify docs generation
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAIQAZ"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA11XX"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AHAPXX"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA52AZ"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA43AZ"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AATSXX"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_ACPUBI"));
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI1"));	
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA11XX"), policyNumber, Documents.AA11AZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AHAPXX"), policyNumber, Documents.AHAPXX);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA52AZ"), policyNumber, Documents.AA52AZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA43AZ"), policyNumber, Documents.AA43AZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AATSXX"), policyNumber, Documents.AATSXX);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI"), policyNumber, Documents.AAUBI);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_ACPUBI"), policyNumber, Documents.ACPPNUBI);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI1"), policyNumber, Documents.AAUBI1);
+		log.info("Distribution Channel is: " + getDistributionChannel(policyNumber));
 		docsAndBindTab.submitTab();
 		log.info("TEST: Renewal created for policy#" + PolicySummaryPage.getPolicyNumber());		
 	}
@@ -376,21 +382,25 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(td_sc6, DocumentsAndBindTab.class, true);
 		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
 		docsAndBindTab.saveAndExit();
+		String quoteNumber = PolicySummaryPage.getPolicyNumber();
 		log.info("TEST: Quote created #" + PolicySummaryPage.getPolicyNumber());
 		
 		policy.dataGather().start();
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA41XX"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA41XX"), quoteNumber, Documents.AA41XX);		
+		log.info("Distribution Channel is: " + getDistributionChannel(quoteNumber));
 		docsAndBindTab.submitTab();
 		new PurchaseTab().fillTab(getPolicyTD());
 		new PurchaseTab().submitTab();
-		log.info("TEST: Policy created #" + PolicySummaryPage.getPolicyNumber());
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		log.info("TEST: Policy created #" + policyNumber);
 		
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		new PremiumAndCoveragesTab().calculatePremium();	
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA41XX"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA41XX"), policyNumber, Documents.AA41XX);
+		log.info("Distribution Channel is: " + getDistributionChannel(policyNumber));
 		docsAndBindTab.submitTab();
 		log.info("TEST: Endorsement created for policy#" + PolicySummaryPage.getPolicyNumber());
 		
@@ -398,7 +408,8 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		new PremiumAndCoveragesTab().calculatePremium();		
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA41XX"));
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA41XX"), policyNumber, Documents.AA41XX);
+		log.info("Distribution Channel is: " + getDistributionChannel(policyNumber));
 		docsAndBindTab.submitTab();
 		log.info("TEST: Renewal created for policy#" + PolicySummaryPage.getPolicyNumber());		
 	}
@@ -516,13 +527,25 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		log.info("TEST: Renewal created for policy#" + PolicySummaryPage.getPolicyNumber());
 	}
 	
+	private String getDistributionChannel(String policyNumber) {
+		String getDistributionChannelFromDB = "select * from aaadocgenentity " 
+				+ "where entityid in (select id from policysummary where policynumber = '%s') order by id";
+		return DBService.get().getValue(String.format(getDistributionChannelFromDB, policyNumber)).get();
+	}
 	
 	private void generateAndVerifyDoc(TestData td_doc) {
 		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
 		docsAndBindTab.fillTab(td_doc);
 		//DocumentsAndBindTab.btnGenerateDocuments.click();
-		//TODO verify doc generated
-		
+		//TODO verify doc generated		
+	}
+	
+	private void generateAndVerifyDoc(TestData td_doc, String policyNum, DocGenEnum.Documents... documents) {
+		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
+		docsAndBindTab.fillTab(td_doc);
+		DocumentsAndBindTab.btnGenerateDocuments.click();
+		WebDriverHelper.switchToDefault();
+		DocGenHelper.verifyDocumentsGenerated(true, false, policyNum, documents);		
 	}
 	
 	private void generateESignatureDocs(TestData td_doc, boolean isActiveBtn) {

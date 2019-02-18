@@ -144,6 +144,8 @@ public final class DocGenEnum {
 		AASR26("Cancellation of Financial Responsibility"),
 		AATSXX("Critical Information For Teenage Drivers And Their Parents"),
 		AAVICA("Community Service Survey"),
+		AAUBI(""),
+		AAUBI1(""),
 		ACPPNUBI(""),
 		AH34XX("AH34XX", "AH34XX", "Cancellation Notice Document (NonPayment)"),
 		AH35XX("Autopay Schedule Compilation"),
