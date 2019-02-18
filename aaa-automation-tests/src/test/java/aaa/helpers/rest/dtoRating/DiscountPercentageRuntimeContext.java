@@ -1,6 +1,7 @@
 package aaa.helpers.rest.dtoRating;
 
 import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import aaa.helpers.rest.RestBodyRequest;
 
@@ -16,7 +17,7 @@ public class DiscountPercentageRuntimeContext implements RestBodyRequest {
 
 	public String usState;
 
-	@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+	@JsonInclude
 	public String country;
 
 	@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)

@@ -303,6 +303,7 @@ public class BatchJob {
 	}
 
 	private static List<Job> getCftDcsEodJob_batchJobs() {
+
 		return Arrays.asList(
 				aaaCCardExpiryNoticeAsyncJob,
 				aaaMvrRenewBatchOrderAsyncJob,

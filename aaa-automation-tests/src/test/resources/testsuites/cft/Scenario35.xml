@@ -5,7 +5,7 @@
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
     <test name="AutoSS Scenario 35 CFT" parallel="none">
-        <parameter name="state" value="MD, PA"/>
+        <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.cft.auto_ss.TestCFTScenario35"/>
         </classes>

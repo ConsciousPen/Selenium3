@@ -99,7 +99,7 @@ public class TestFinanceEPCalculationOOSEndorseNegativePremium extends FinanceOp
 				.getCell(PolicyConstants.PolicyTransactionHistoryTable.ENDING_PREMIUM).getValue());
 
 		assertThat(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)))
-				.isEqualTo(LedgerHelper.getEndingActualPremium(policyNumber));
+				.isEqualTo(new Dollar(rolledOnEndorsementEndingPremium));
 
 		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE, TxType.ENDORSE,
 				TxType.OOS_ENDORSE, TxType.ROLL_ON);

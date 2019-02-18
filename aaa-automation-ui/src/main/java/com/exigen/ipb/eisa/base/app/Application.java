@@ -106,7 +106,9 @@ public abstract class Application {
 	}
 
 	public void open(String url) {
-		BrowserController.get().open(url);
+		if (!isApplicationOpened) {
+			openSession();
+		}
 	}
 
 	public String formatUrl() {
@@ -117,8 +119,13 @@ public abstract class Application {
 	protected abstract void switchPanel();
 
 	private void openSession() {
+		openSession(url);
+	}
+
+	private void openSession(String url) {
 		CSAAApplicationFactory.get().closeAllApps();
 		BrowserController.initBrowser();
+		log.info("Opening URL: " + url);
 		BrowserController.get().open(url);
 		if (BrowserController.getBrowserName().equals("chrome")) {
 			BrowserController.get().driver().manage().window().setSize(new Dimension(1920, 1080));
