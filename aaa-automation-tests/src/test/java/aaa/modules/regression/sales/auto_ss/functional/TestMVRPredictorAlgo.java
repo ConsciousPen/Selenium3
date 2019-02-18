@@ -433,7 +433,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 				.mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoSSMetaData.GeneralTab.PolicyInformation.LEAD_SOURCE.getLabel()))
 				.resolveLinks());
 					
-	td.adjust(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel()),
+	    td.adjust(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel()),
 			new RatingDetailReportsTab().getInsuranceScoreOverrideData("900"));
 
 		// Open application Create Customer Initiate Conversion Policy with Driver exceeding MVR predictor threshold.
@@ -479,6 +479,8 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNum = createPolicy(td);
+		
+		setDoNotRenewFlag(policyNum);
 
 		// Change time for any state other than NJ (due to Documents & Bind tab issue)
 		if (!getState().equals(Constants.States.NJ)) {
@@ -487,6 +489,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
+		policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().perform();
 	}
 
