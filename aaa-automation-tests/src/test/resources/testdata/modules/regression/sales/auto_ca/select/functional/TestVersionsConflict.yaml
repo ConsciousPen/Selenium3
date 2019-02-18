@@ -62,7 +62,11 @@ TestData_NB_Policy: {
     Bodily Injury Liability: 'contains=$500,000/$500,000',
     Property Damage Liability: 'contains=$100,000',
   },
-  DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the policy?": 'Yes',
+    Sales Agent Agreement: I Agree,
+    Validate Driving History: click
+  },
   DocumentsAndBindTab: {
     RequiredToBind: {
       California Car Policy Application: Physically Signed,
@@ -76,6 +80,7 @@ TestData_NB_Policy: {
   },
   PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
 }
+
 
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
