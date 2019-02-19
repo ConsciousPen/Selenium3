@@ -23,7 +23,7 @@ ApplicantTab: {
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
   InsuranceScoreReport: ['@InsuranceScoreReport'],
-  CLUEreport: [{Report: 'Order report'}],
+  CLUEreport: [{Report: 'Re-order report'}],
 }
 
 InsuranceScoreReport: {
@@ -408,7 +408,7 @@ MailingAddress_MD: {
 ReportsTab_MD: {
   Sales Agent Agreement: 'I Agree',
   #InsuranceScoreReport: ['@InsuranceScoreReport'],
-  CLUEreport: [{Report: 'Order report'}]
+  CLUEreport: [{Report: 'Re-order report'}],
 }
 
 # -------------------- MT ----------------------
@@ -662,7 +662,7 @@ MailingAddress_PA: {
 ReportsTab_PA: {
   Sales Agent Agreement: 'I Agree',
   #InsuranceScoreReport: ['@InsuranceScoreReport'],
-  CLUEreport: [{Report: 'Order report'}]
+  CLUEreport: [{Report: 'Re-order report'}],
 }
 
 # -------------------- SD ----------------------

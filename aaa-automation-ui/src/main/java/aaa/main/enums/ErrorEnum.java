@@ -7,7 +7,7 @@ public final class ErrorEnum {
 	public enum Errors {
 
 		ERROR_POLICY_NOT_RATED("Unprepared data", "Cannot issue policy which was not rated!"),
-		MPD_COMPANION_VALIDATION("MPD_COMPANION_VALIDATION", "Policy cannot be bound with a Home companion policy that is not system validated."),
+		MPD_COMPANION_VALIDATION("MPD_COMPANION_VALIDATION", "Companion policy used for Multi-Policy Discount is not system validated."),
 		ERROR_200127("200127", "The selected pay plan is not allowed when Membership is \"\"No\"\". Please choose a plan with a minimum down payment of 50% or greater. Do not select 'refer for approval.' Any exceptions to this rule must be discussed directly with Service. (200127) [for ExistingPolicies.existingMembershipCd]"),
 		ERROR_200103("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
 		ERROR_200104("200104", "Driver with 2 or more At-fault accidents are unacceptable (200104) [for Drive..."),
@@ -159,6 +159,7 @@ public final class ErrorEnum {
 		ERROR_AAA_CSACN0100("AAA_CSACN0100", "Current Term Policy was Reinstated Late (AAA_CSACN0100) [for Policy.effective]"),
 		ERROR_AAA_CA_HOCN0400("AAA_CA_HOCN0400", "A high level premium variance has been detected between the legacy renewal pr..."),
 		ERROR_AAA_HO_SS_MAIG_IS_REPORT("AAA_HO_SS_MAIG_IS_REPORT", "A valid insurance score report for at least one named insured or insurance sc..."),
+		ERROR_AAA_HO_CA7230928("AAA_HO_CA7230928", "'Loan number' is required (AAA_HO_CA7230928) [for AAAHOMortgageeInfo.accountN..."),
 
 		// Auto Errors
 		ERROR_AAA_200307("200307", "A signed Underinsured motorist coverage selection form must be received prior to issuing this transaction (200307)"),
