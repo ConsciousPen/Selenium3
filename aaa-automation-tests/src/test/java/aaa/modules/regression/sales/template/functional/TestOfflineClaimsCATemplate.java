@@ -237,7 +237,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
     }
 
-    protected void pas23269_verifyPermissiveUseIndicator() {
+    protected void pas18317_verifyPermissiveUseIndicator() {
         TestData testData = getPolicyTD();
         List<TestData> testDataDriverData = new ArrayList<>();// Merged driver tab with 4 drivers
         testDataDriverData.add(testData.getTestData("DriverTab"));
@@ -252,7 +252,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Assert to check the PU indicator for company input in quote level
         CustomSoftAssertions.assertSoftly(softly -> {
             softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Company Input");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
+            //PAS-18317: PU indicator will NOT show for NON FNI drivers
+            assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent()).isFalse();
         });
         driverTab.submitTab();
 
@@ -285,9 +286,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         TestData addDriverTd = getTestSpecificTD("Add_PU_Claim_Driver_Endorsement");
         initiateAddDriverEndorsement(policyNumber, addDriverTd);
 
-        //Navigate to Driver page and verify the clue claim is added to driver3
+        //Navigate to Driver page and verify the clue claim is added to driver5
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-        puIndicatorAssertions();       // Assert to check PU indicator check for clue claims in endoresment
+        puIndicatorAssertions();       // Assert to check PU indicator check for clue claims in endorsment
         bindEndorsement();
     }
 
@@ -303,6 +304,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     }
 
     // Assertions for clue claims  Tests
+    //PAS-18317: PU indicator will NOT show for NON FNI drivers
     public void puIndicatorAssertions() {
         CustomSoftAssertions.assertSoftly(softly -> {
             softly.assertThat(DriverTab.tableDriverList).hasRows(5);
@@ -315,7 +317,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
             }
             softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
             softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("CLUE");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
+            assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent()).isFalse();
         });
     }
 
