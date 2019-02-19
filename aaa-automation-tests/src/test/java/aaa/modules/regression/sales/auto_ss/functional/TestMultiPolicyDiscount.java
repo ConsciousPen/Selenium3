@@ -19,6 +19,7 @@ import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.assertj.core.api.Assertions;
 import org.testng.annotations.*;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
@@ -515,16 +516,13 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     }
 
     /**
-     * This test validates that removing named insureds without rating results in error message at bind time.
+     * This test validates that removing named insureds on endorsements does not refresh MPD table.
      * @param state the test will run against.
      * @scenario
-     * 1. Bind a policy with 2 NI (one of the NI is CUSTOMER_E) with MPD table populated
+     * 1. Bind a policy with 2 NI (one of the NI is REFRESH_P) with MPD table populated
      * 2. Create Endorsement
-     * 3. Remove CUSTOMER_E
-     * 4. MPD Table will NOT refresh and data will persist
-     * 5. Rate the policy.
-     * 6. Remove CUSTOMER_E and bind
-     * 7. Verify Table does not refresh when removing CUSTOMER_E by successfully binding without re-rate
+     * 3. Remove REFRESH_P
+     * 4. Verify Table does not refresh when removing REFRESH_P (Data will stay Peter Parker instead of reverting to default).
      * @author Brian Bond - CIO
      */
     @Parameters({"state"})
@@ -539,7 +537,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
 
         // Add second NI
-        _generalTab.addAnotherNamedInsured("CUSTOMER_E", "Doe", "02/14/1990", "No", "Own Home");
+        _generalTab.addAnotherNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         // Trigger refresh
         Button refreshButton = _generalTab.getOtherAAAProductOwnedAssetList().getAsset(
@@ -560,25 +558,41 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         _generalTab.removeInsured(2);
 
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        // Pull customer names out of table
+        String policyTypeMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
+        String customerNameDOBMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.CUSTOMER_NAME_DOB.getLabel();
 
-        _documentsAndBindTab.submitTab();
+        // Find row matching policyType, then pull the status cell out of it to assert on.
+        String homeStatusColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
+                policyTypeMetaDataLabel,mpdPolicyType.home.toString())
+                .getCell(customerNameDOBMetaDataLabel)
+                .getValue();
 
-        // BondTODO: Add verifications after code fixed.
-        // Rob needs to put the default back to Active
+        String rentersStatusColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
+                policyTypeMetaDataLabel,mpdPolicyType.renters.toString())
+                .getCell(customerNameDOBMetaDataLabel)
+                .getValue();
+
+        String condoStatusColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
+                policyTypeMetaDataLabel,mpdPolicyType.condo.toString())
+                .getCell(customerNameDOBMetaDataLabel)
+                .getValue();
+
+        // Verify no refresh on table by checking Peter Parker has not reverted to default response
+        String expectedName = "PETER PARKER";
+        assertThat(homeStatusColumnValue).startsWith(expectedName);
+        assertThat(rentersStatusColumnValue).startsWith(expectedName);
+        assertThat(condoStatusColumnValue).startsWith(expectedName);
     }
 
     /**
-     * This test validates that removing named insureds without rating results in error message at bind time.
+     * This test validates that removing named insureds on amended renewals does not refresh MPD table.
      * @param state the test will run against.
      * @scenario
-     * 1. Bind a policy with 2 NI (one of the NI is CUSTOMER_E) with MPD table populated
+     * 1. Bind a policy with 2 NI (one of the NI is REFRESH_P) with MPD table populated
      * 2. Create Renewal Image
-     * 3. Remove CUSTOMER_E
-     * 4. MPD Table will NOT refresh and data will persist
-     * 5. Rate the policy.
-     * 6. Remove CUSTOMER_E and bind
-     * 7. Verify Table does not refresh when removing CUSTOMER_E by successfully binding without re-rate
+     * 3. Remove REFRESH_P
+     * 4. Verify Table does not refresh when removing REFRESH_P (Data will stay Peter Parker instead of reverting to default).
      * @author Brian Bond - CIO
      */
     @Parameters({"state"})
@@ -593,7 +607,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
 
         // Add second NI
-        _generalTab.addAnotherNamedInsured("CUSTOMER_E", "Doe", "02/14/1990", "No", "Own Home");
+        _generalTab.addAnotherNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         // Trigger refresh
         Button refreshButton = _generalTab.getOtherAAAProductOwnedAssetList().getAsset(
@@ -612,13 +626,34 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         // Start renewal
         policy.createRenewal(getPolicyTD("InitiateRenewalEntry", "TestData"));
 
+        // Remove driver 2
         _generalTab.removeInsured(2);
 
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        // Pull customer names out of table
+        String policyTypeMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
+        String customerNameDOBMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.CUSTOMER_NAME_DOB.getLabel();
 
-        _documentsAndBindTab.submitTab();
+        // Find row matching policyType, then pull the status cell out of it to assert on.
+        String homeStatusColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
+                policyTypeMetaDataLabel,mpdPolicyType.home.toString())
+                .getCell(customerNameDOBMetaDataLabel)
+                .getValue();
 
-        // BondTODO: Add verifications after code fixed.
+        String rentersStatusColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
+                policyTypeMetaDataLabel,mpdPolicyType.renters.toString())
+                .getCell(customerNameDOBMetaDataLabel)
+                .getValue();
+
+        String condoStatusColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
+                policyTypeMetaDataLabel,mpdPolicyType.condo.toString())
+                .getCell(customerNameDOBMetaDataLabel)
+                .getValue();
+
+        // Verify no refresh on table by checking Peter Parker has not reverted to default response
+        String expectedName = "PETER PARKER";
+        assertThat(homeStatusColumnValue).startsWith(expectedName);
+        assertThat(rentersStatusColumnValue).startsWith(expectedName);
+        assertThat(condoStatusColumnValue).startsWith(expectedName);
     }
 
     /**
