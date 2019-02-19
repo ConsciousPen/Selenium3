@@ -8,8 +8,12 @@ import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.xml.model.Document;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
@@ -17,20 +21,20 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import org.testng.annotations.*;
+import org.testng.annotations.Optional;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.TimeSpan;
 import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.waiters.Waiters;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
@@ -48,6 +52,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     private ErrorTab _errorTab = new ErrorTab();
     private PremiumAndCoveragesTab _pncTab = new PremiumAndCoveragesTab();
     private DocumentsAndBindTab _documentsAndBindTab = new DocumentsAndBindTab();
+    DocGenHelper _docGenHelper = new DocGenHelper();
 
     /**
      * Make sure various combos of Unquoted Other AAA Products rate properly and are listed in the UI
@@ -920,6 +925,241 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         }else{
             policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
         }
+    }
+
+    /**
+     * This test validates that adding an unquoted companion product appears on a generated AH11AZ document.
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
+    public void pas22193_AH11AZDocGen_QAAC1(@Optional("AZ") String state){
+        DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
+        String policyNumber = "";
+        AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
+
+        // Create AutoSS quote with Unquoted Home Companion Policy added.
+        TestData td = getPolicyDefaultTD();
+        createQuoteAndFillUpTo(td, GeneralTab.class, true);
+        _generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).setValue(true);
+        policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
+        _documentsAndBindTab.btnGenerateDocuments.click();
+        policyNumber = Tab.labelPolicyNumber.getValue();
+
+        DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Home)");
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "HOME-UNQUOTED");
+    }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = {Groups.FUNCTIONAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
+    public void pas22193_AH11AZDocGen_QAAC1dot1(@Optional("AZ") String state){
+        DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
+        String policyNumber = "";
+        AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
+
+        // Create AutoSS quote with Unquoted Home Companion Policy added.
+        TestData td = getPolicyDefaultTD();
+        createQuoteAndFillUpTo(td, GeneralTab.class, true);
+        _generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).setValue(true);
+        policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
+        _documentsAndBindTab.btnGenerateDocuments.click();
+        policyNumber = Tab.labelPolicyNumber.getValue();
+
+        DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Renters)");
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "RENTERS-UNQUOTED");
+    }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = {Groups.FUNCTIONAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
+    public void pas22193_AH11AZDocGen_QAAC1dot2(@Optional("AZ") String state){
+        DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
+        String policyNumber = "";
+        AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
+
+        // Create AutoSS quote with Unquoted Home Companion Policy added.
+        TestData td = getPolicyDefaultTD();
+        createQuoteAndFillUpTo(td, GeneralTab.class, true);
+        _generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).setValue(true);
+        policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
+        _documentsAndBindTab.btnGenerateDocuments.click();
+        policyNumber = Tab.labelPolicyNumber.getValue();
+
+        DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Condo)");
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "CONDO-UNQUOTED");
+    }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = {Groups.FUNCTIONAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
+    public void pas22193_AH11AZDocGen_QAAC1dot3(@Optional("AZ") String state){
+        DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
+        String policyNumber = "";
+        AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
+
+        // Create AutoSS quote with Unquoted Home Companion Policy added.
+        TestData td = getPolicyDefaultTD();
+        createQuoteAndFillUpTo(td, GeneralTab.class, true);
+        _generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).setValue(true);
+        _generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).setValue(true);
+        _generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).setValue(true);
+        _generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE).setValue(true);
+        _generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE).setValue(true);
+        policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
+        _documentsAndBindTab.btnGenerateDocuments.click();
+        policyNumber = Tab.labelPolicyNumber.getValue();
+
+        DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Life, Motorcycle, Home)");
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "HOME-UNQUOTED");
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "LIFE-UNQUOTED");
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "MOTORCYCLE-UNQUOTED");
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
+    public void pas22193_AH11AZDocGen_QAAC2(@Optional("AZ") String state){
+        DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
+        String policyNumber = "";
+        AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
+
+        // Create AutoSS quote with Unquoted Home Companion Policy added.
+        TestData td = getPolicyDefaultTD();
+        createQuoteAndFillUpTo(td, GeneralTab.class, true);
+
+        _generalTab.mpd_SearchCustomerDetails("CUSTOMER_E");
+        _generalTab.mpdSearchTable_addSelected(0);
+        _generalTab.mpd_SearchCustomerDetails("CUSTOMER_E");
+        _generalTab.mpdSearchTable_addSelected(1);
+
+        policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
+        _documentsAndBindTab.btnGenerateDocuments.click();
+        policyNumber = Tab.labelPolicyNumber.getValue();
+
+        DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Home)");
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "QAZH3206557376"); //Asserts that the Mockwire Home policy shows up instead of the Renters policy.
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
+    public void pas22193_AH11AZDocGen_QAAC3(@Optional("AZ") String state){
+        DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
+        String policyNumber = "";
+        AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
+
+        // Create AutoSS quote with Unquoted Home Companion Policy added.
+        TestData td = getPolicyDefaultTD();
+        createQuoteAndFillUpTo(td, GeneralTab.class, true);
+
+        _generalTab.mpd_SearchByPolicyNumber("Home", "NOT_FOUND");
+        _generalTab.mpd_ManuallyAddPolicyAfterNoResultsFound("Home", "TestHome_FirstAdded");
+        _generalTab.mpd_SearchByPolicyNumber("Home", "NOT_FOUND");
+        _generalTab.mpd_ManuallyAddPolicyAfterNoResultsFound("Home", "TestHome_SecondAdded");
+
+        policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
+        _documentsAndBindTab.btnGenerateDocuments.click();
+        policyNumber = Tab.labelPolicyNumber.getValue();
+
+        DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Home)");
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "TestHome_FirstAdded"); //Asserts that the Mockwire Home policy shows up instead of the Renters policy.
+    }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = {Groups.FUNCTIONAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
+    public void pas22193_AH11AZDocGen_QAAC4(@Optional("AZ") String state){
+        DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
+        String policyNumber = "";
+        AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
+
+        // Create AutoSS quote with Unquoted Home Companion Policy added.
+        TestData td = getPolicyDefaultTD();
+        createQuoteAndFillUpTo(td, GeneralTab.class, true);
+
+        _generalTab.mpd_SearchCustomerDetails("CUSTOMER_NE");
+        _generalTab.mpdSearchTable_addSelected(0);
+        _generalTab.mpd_SearchCustomerDetails("CUSTOMER_NE");
+        _generalTab.mpdSearchTable_addSelected(1);
+        _generalTab.mpd_SearchCustomerDetails("CUSTOMER_NE");
+        _generalTab.mpdSearchTable_addSelected(2);
+
+        policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
+        _documentsAndBindTab.btnGenerateDocuments.click();
+        policyNumber = Tab.labelPolicyNumber.getValue();
+
+        DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
+        String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, document.getId(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
+        try {
+            CustomAssertions.assertThat(DocGenHelper.getDocument(document, query).toString().contains("Multi-Policy Discount")).isFalse();
+        }catch(NoSuchElementException ex){
+            CustomAssertions.assertThat(ex).hasMessage("No value present");
+        }
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
+    public void pas22193_AH11AZDocGen_QAAC5(@Optional("AZ") String state){
+        DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
+        String policyNumber = "";
+        AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
+
+        // Create AutoSS quote with Unquoted Home Companion Policy added.
+        TestData td = getPolicyDefaultTD();
+        createQuoteAndFillUpTo(td, GeneralTab.class, true);
+
+        _generalTab.mpd_SearchCustomerDetails("CUSTOMER_E");
+        _generalTab.mpdSearchTable_addSelected(0);
+        _generalTab.mpd_SearchAndAddManually("Motorcycle", "NOT_FOUND");
+        _generalTab.mpd_SearchByPolicyNumber("Life", "NOT_FOUND");
+        _generalTab.mpd_ManuallyAddPolicyAfterNoResultsFound( "Life", "TestLife");
+
+        policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
+        _documentsAndBindTab.btnGenerateDocuments.click();
+        policyNumber = Tab.labelPolicyNumber.getValue();
+
+        DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Motorcycle, Life, Home)");
+
+        // Checking Affinity Group Section for Listed Policies.
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "QAZH3206557376");
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "NOT_FOUND");
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "TestLife");
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
+    public void pas22193_AH11AZDocGen_QAAC6(@Optional("AZ") String state){
+        DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
+        String policyNumber = "";
+        AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
+
+        // Create AutoSS quote with Unquoted Home Companion Policy added.
+        TestData td = getPolicyDefaultTD();
+        createQuoteAndFillUpTo(td, GeneralTab.class, true);
+
+        _generalTab.mpd_SearchCustomerDetails("CUSTOMER_NE");
+        _generalTab.mpdSearchTable_addSelected(0);
+        _generalTab.mpd_SearchAndAddManually("Life", "TestLifePolicy");
+
+        policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
+        _documentsAndBindTab.btnGenerateDocuments.click();
+        policyNumber = Tab.labelPolicyNumber.getValue();
+
+        DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Life)");
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "TestLifePolicy");
+
     }
 
     //@AfterMethod
