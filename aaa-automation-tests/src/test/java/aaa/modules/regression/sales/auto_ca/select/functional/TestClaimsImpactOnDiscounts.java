@@ -1,23 +1,38 @@
-package aaa.modules.regression.sales.auto_ca.choice.functional;
+package aaa.modules.regression.sales.auto_ca.select.functional;
 
-import java.util.Map;
+import aaa.common.enums.Constants;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.regression.sales.template.functional.TestOfflineClaimsCATemplate;
+import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
+import aaa.utils.StateList;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableMap;
+import org.openqa.selenium.remote.service.DriverCommandExecutor;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableMap;
-import aaa.common.enums.Constants;
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
-import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.regression.sales.template.functional.TestOfflineClaimsCATemplate;
-import aaa.utils.StateList;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.RadioGroup;
+
+import java.util.Map;
+
+import static aaa.common.pages.Page.dialogConfirmation;
+import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @StateList(states = {Constants.States.CA})
 public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
@@ -28,7 +43,7 @@ public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.AUTO_CA_CHOICE;
+        return PolicyType.AUTO_CA_SELECT;
     }
 
     /**
@@ -37,7 +52,7 @@ public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
      * PAS-23190 - Endorsement/NB/Rewrite: Good Driver Discount Cannot be Influenced by Permissive Use Claims (CAS/CLUE/CCInputs)
      * @name Test Permissive Use Claims (CC input/internal/CLUE) impact on policy Good Driver Discount (GDD)
      * @scenario Test Steps:
-     * 1. Create Auto Choice Quote with 1 driver:
+     * 1. Create Auto Select Quote with 1 driver:
      * 1.1: FNI: 2 CLUE Claims (Accidents); 2 CAS Claims (visible on R only); 2 CC Input Claims: Major/Minor Violation;
      * 1.2 All Claims have Points: more than 1 and are Included in rating.
      * 2. Leave one CC Input Claim as NOT Permissive Use (PU = No)
@@ -52,7 +67,7 @@ public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = {"PAS-18303", "PAS-23190"})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = {"PAS-18303", "PAS-23190"})
     public void pas18303_goodDriverDiscountForPUClaims(@Optional("CA") @SuppressWarnings("unused") String state) {
 
         // Claim Dates: claimDateOfLoss/claimOpenDate/claimCloseDate all are the same

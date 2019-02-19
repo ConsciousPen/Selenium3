@@ -22,7 +22,7 @@ claimLineItemList:
     driverName: MATTHEW FOX
     driverRelationToInsured: INSURED
     permissiveUse: Y
-    drivingLicenseNumber: C1919999
+    drivingLicenseNumber: D1278222
     drivingLicenseState: CA
     lossSummary: IV hit OV while turning.
     subroFlag: Y
@@ -53,7 +53,7 @@ claimLineItemList:
     driverName: MATTHEW FOX
     driverRelationToInsured: INSURED
     permissiveUse: Y
-    drivingLicenseNumber: C1919999
+    drivingLicenseNumber: C1919191
     drivingLicenseState: CA
     lossSummary: IV hit OV while turning.
     subroFlag: Y

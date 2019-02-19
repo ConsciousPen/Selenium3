@@ -271,6 +271,7 @@ public final class AutoCaMetaData {
 				.xpath(".//div[@id='policyDataGatherForm:componentView_DrivingRecord']"));
 
 		public static final class ActivityInformation extends MetaData {
+			public static final AssetDescriptor<RadioGroup> OVERRIDE_ACTIVITY_DETAILS = declare("Override Activity Details?", RadioGroup.class);
 			public static final AssetDescriptor<Button> ADD_ACTIVITY = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addDrivingRecord"));
 			public static final AssetDescriptor<TextBox> ORIGINAL_CONVICTION_DATE = declare("Original Conviction Date", TextBox.class);
 			public static final AssetDescriptor<ComboBox> ACTIVITY_SOURCE = declare("Activity Source", ComboBox.class);

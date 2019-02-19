@@ -1,5 +1,31 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static aaa.common.pages.Page.dialogConfirmation;
+import static aaa.common.pages.SearchPage.tableSearchResults;
+import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
+import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Files.contentOf;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.BooleanUtils;
+import org.json.JSONObject;
+import org.testng.annotations.BeforeTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.RestRequestMethodTypes;
 import aaa.common.pages.NavigationPage;
@@ -16,45 +42,21 @@ import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
-import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.apache.commons.io.FileUtils;
-import org.json.JSONObject;
-import org.testng.annotations.BeforeTest;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
-
-import javax.annotation.Nonnull;
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static aaa.common.pages.SearchPage.tableSearchResults;
-import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
-import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Files.contentOf;
+import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.TextBox;
 
 /**
  * This template is used to test Batch Claim Logic.
@@ -90,9 +92,14 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     protected static DriverTab driverTab = new DriverTab();
     protected static PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
     protected static DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+    protected static PurchaseTab purchaseTab = new PurchaseTab();
 
     @BeforeTest
     public void prepare() {
+        // Toggle ON PermissiveUse Logic & Set DATEOFLOSS Parameter in DB
+        DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
+        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
+
         try {
             FileUtils.forceDeleteOnExit(Paths.get(CAS_REQUEST_PATH).toFile());
             FileUtils.forceDeleteOnExit(Paths.get(CAS_RESPONSE_PATH).toFile());
@@ -155,9 +162,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(COMP_MATCH);
 
-	        DriverTab.tableActivityInformationList.selectRow(2);
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(PU_MATCH);
+            DriverTab.tableActivityInformationList.selectRow(2);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(PU_MATCH);
 
             // Check 2nd driver: Has DL match claim
             DriverTab.tableDriverList.selectRow(2);
@@ -168,7 +175,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     }
 
     // Assertions for Name/DOB Tests
-    public void nameDobYobAssertions(String LASTNAME_FIRSTNAME_DOB, String LASTNAME_FIRSTNAME, String LASTNAME_FIRSTINITAL_DOB, String LASTNAME_FIRSTNAME_YOB ) {
+    public void nameDobYobAssertions(String LASTNAME_FIRSTNAME_DOB, String LASTNAME_FIRSTNAME, String LASTNAME_FIRSTINITAL_DOB, String LASTNAME_FIRSTNAME_YOB) {
         CustomSoftAssertions.assertSoftly(softly -> {
             DriverTab driverTab = new DriverTab();
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
@@ -218,31 +225,47 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * Method changes current date to policy expiration date and issues generated renewal image
+     *
      * @param policyNumber given policy number
      */
-    protected void issueGeneratedRenewalImage(String policyNumber) {
+    protected void issueGeneratedRenewalImage(String policyNumber, Boolean validateGDD) {
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
-		if (tableSearchResults.isPresent()) {
-			tableSearchResults.getRow("Eff. Date",
-					TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
-					.getCell(1).controls.links.getFirst().click();
-		}
+        if (tableSearchResults.isPresent()) {
+            tableSearchResults.getRow("Eff. Date",
+                    TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
+                    .getCell(1).controls.links.getFirst().click();
+        }
 
         buttonRenewals.click();
         policy.dataGather().start();
         premiumAndCoveragesTab.calculatePremium();
+
+        if (BooleanUtils.isTrue(validateGDD)) {
+            validateGDD();
+        }
+
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab();
         payTotalAmtDue(policyNumber);
     }
 
     /**
+     * Method changes current date to policy expiration date, validates Good Driver Discount and issues generated renewal image
+     *
+     * @param policyNumber given policy number
+     */
+    protected void issueGeneratedRenewalImageWithGDDValidation(String policyNumber) {
+        issueGeneratedRenewalImage(policyNumber, true);
+    }
+
+    /**
      * Method updates CAS Response XML with given Driver Licence according to Claim Number
+     *
      * @param claimToDriverLicenseMap given Driver Licence Number according to Claim Number
-     * @param response CAS Response
+     * @param response                CAS Response
      */
     private void updateDriverLicence(Map<String, String> claimToDriverLicenseMap, CASClaimResponse response) {
         List<Claim> claims = response.getClaimLineItemList().stream()
@@ -258,9 +281,10 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * Method Updates CAS Response value by given XML Tag Name
+     *
      * @param updatableDateFieldValueMap given value according to Claim Number
-     * @param response CAS Response
-     * @param updatableDateField given XML Tag name
+     * @param response                   CAS Response
+     * @param updatableDateField         given XML Tag name
      */
     protected void updateDatesForClaim(Map<String, String> updatableDateFieldValueMap, CASClaimResponse response, String updatableDateField) {
         List<Claim> claims = response.getClaimLineItemList().stream()
@@ -301,6 +325,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * Method returns content as String of CAS Request file
+     *
      * @return
      */
     protected String downloadClaimRequest() {
@@ -318,6 +343,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * Method returns content as String of pas-admins wrapper.log file
+     *
      * @return
      */
     protected String downloadPasAdminLog() {
@@ -332,12 +358,12 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     }
 
     /**
-     Method goes though all Claim Analytics items and returns required value according to claimNumber and policyNumber
+     * Method goes though all Claim Analytics items and returns required value according to claimNumber and policyNumber
      *
      * @param listOfClaims list Of Claim JSONs as strings;
-     * @param claimNumber given claim number
+     * @param claimNumber  given claim number
      * @param policyNumber given policy number
-     * @param key key of value which you want to get
+     * @param key          key of value which you want to get
      */
     protected String retrieveClaimValueFromAnalytics(List<String> listOfClaims, String claimNumber, String policyNumber, String key) {
         String claimValue = null;
@@ -357,13 +383,13 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     /**
      * Method creates CAS Response file and updates required fields: Policy Number, Driver Licence, Claim Dates: Date Of Loss, Close Date, Open Date
      *
-     * @param policyNumber given Policy Number
-     * @param dataModelFileName given CAS Response data model
+     * @param policyNumber         given Policy Number
+     * @param dataModelFileName    given CAS Response data model
      * @param claimToDriverLicence if != null, given Driver Licence according to Claim Number
-     * @param claimDatesToUpdate if != null, given Claim Dates according to Claim Number
+     * @param claimDatesToUpdate   if != null, given Claim Dates according to Claim Number
      */
     private void createCasClaimResponseAndUpload(String policyNumber, String dataModelFileName,
-            Map<String, String> claimToDriverLicence, Map<String, String> claimDatesToUpdate) {
+                                                 Map<String, String> claimToDriverLicence, Map<String, String> claimDatesToUpdate) {
         // Create Cas response file
         String casResponseFileName = getCasResponseFileName();
         BatchClaimHelper batchClaimHelper = new BatchClaimHelper(dataModelFileName, casResponseFileName);
@@ -388,34 +414,34 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     /**
      * Method creates CAS Response file and Uploads to required folder: With Updated Policy Number only
      *
-     * @param policyNumber - given Policy Number
+     * @param policyNumber      - given Policy Number
      * @param dataModelFileName given CAS Response data model
      */
-    public void createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(String policyNumber, String dataModelFileName){
+    public void createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(String policyNumber, String dataModelFileName) {
         createCasClaimResponseAndUpload(policyNumber, dataModelFileName, null, null);
     }
 
     /**
      * Method creates CAS Response file and Uploads to required folder: With Updated Policy Number & Driver License
      *
-     * @param policyNumber given policy number
-     * @param dataModelFileName given CAS Response data model
+     * @param policyNumber         given policy number
+     * @param dataModelFileName    given CAS Response data model
      * @param claimToDriverLicence given Driver License according to Claim Number
      */
     public void createCasClaimResponseAndUploadWithUpdatedDL(String policyNumber, String dataModelFileName,
-            Map<String, String> claimToDriverLicence){
+                                                             Map<String, String> claimToDriverLicence) {
         createCasClaimResponseAndUpload(policyNumber, dataModelFileName, claimToDriverLicence, null);
     }
 
     /**
      * Method creates CAS Response file and Uploads to required folder: With Updated Policy Number & Claim Dates: Date Of Loss, Close Date, Open Date
      *
-     * @param policyNumber given Policy Number
-     * @param dataModelFileName given CAS Response data model
+     * @param policyNumber       given Policy Number
+     * @param dataModelFileName  given CAS Response data model
      * @param claimDatesToUpdate given Claim Dates according to Claim Number
      */
     public void createCasClaimResponseAndUploadWithUpdatedDates(String policyNumber, String dataModelFileName,
-            Map<String, String> claimDatesToUpdate){
+                                                                Map<String, String> claimDatesToUpdate) {
         createCasClaimResponseAndUpload(policyNumber, dataModelFileName, null, claimDatesToUpdate);
     }
 
@@ -439,8 +465,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Create a list of all the actual UNMATCHED claim numbers
         ArrayList<String> actualUnmatchedClaims = new ArrayList<>();
         int x = 0;
-        while (x < microServiceResponse.getUnmatchedClaims().size())
-        {
+        while (x < microServiceResponse.getUnmatchedClaims().size()) {
             String claimNumber = microServiceResponse.getUnmatchedClaims().get(x).getClaimNumber();
             actualUnmatchedClaims.add(claimNumber);
             x++;
@@ -448,8 +473,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         //Verify the actual UNMATCHED claims equal the expected UNMATCHED claims
         //PAS-21435 - Removed LASTNAME_YOB match logic. These claims will now be unmatched
-        log.info("expected: "+expectedUnmatchedClaims);
-        log.info("actual: "+actualUnmatchedClaims);
+        log.info("expected: " + expectedUnmatchedClaims);
+        log.info("actual: " + actualUnmatchedClaims);
         assertThat(actualUnmatchedClaims).isEqualTo(expectedUnmatchedClaims);
 
         //Create a list of all the expected MATCH CODES (Last 3: PERMISSIVE_USE to cover all possible cases of PU)
@@ -460,8 +485,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Create a list of all the actual MATCH CODES
         ArrayList<String> actualMatchCodes = new ArrayList<>();
         int y = 0;
-        while (y < microServiceResponse.getMatchedClaims().size())
-        {
+        while (y < microServiceResponse.getMatchedClaims().size()) {
             String matchcode = microServiceResponse.getMatchedClaims().get(y).getMatchCode();
             actualMatchCodes.add(matchcode);
             y++;
@@ -473,10 +497,74 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //PAS-8310  - Match Logic: LASTNAME_FIRSTNAME_DOB, LASTNAME_FIRSTNAME_YOB
         //PAS-17894 - Match Logic: LASTNAME_FIRSTNAME, LASTNAME_FIRSTINITAL_DOB, & LASTNAME_YOB
         //PAS-18300 - Match Logic: PERMISSIVE_USE
-        log.info("expected match codes: "+expectedMatchCodes);
-        log.info("actual match codes: "+actualMatchCodes);
+        log.info("expected match codes: " + expectedMatchCodes);
+        log.info("actual match codes: " + actualMatchCodes);
         assertThat(actualMatchCodes).isEqualTo(expectedMatchCodes);
     }
 
+    /*
+    Method Validates P&C tab, and that Good Driver Discount is applied with Permissive Use Claims only
+     */
+    protected void validateGDD() {
+        String CLUE_Dates = TimeSetterUtil.getInstance().getCurrentTime().minusDays(90).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+
+        //Making sure that PU = Yes, and its included in rating.
+        ActivityInformationMultiAssetList activityInformationAssetList = new aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab().getActivityInformationAssetList();
+
+        for (int i = 1; i <= aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.tableActivityInformationList.getAllRowsCount(); i++) {
+            aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.tableActivityInformationList.selectRow(i);
+
+            if (activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OVERRIDE_ACTIVITY_DETAILS.getLabel(), RadioGroup.class).isPresent()) {
+                if (activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OVERRIDE_ACTIVITY_DETAILS.getLabel(), RadioGroup.class).getValue().equals("No")) {
+                    activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OVERRIDE_ACTIVITY_DETAILS.getLabel(), RadioGroup.class).setValue("Yes");
+                    activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), TextBox.class).setValue(CLUE_Dates);
+                }
+            }
+
+            if (activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_YAF.getLabel(), RadioGroup.class).getValue().equals("No")) {
+                activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_YAF.getLabel(), RadioGroup.class).setValue("Yes");
+            } else if (activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).getValue().equals("No")) {
+                activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).setValue("Yes");
+            }
+        }
+
+        //Verify That Discount is Applied with Permissive Use Claims
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.calculatePremium();
+        assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.tableDiscounts.getColumn(1).getCell(1).getValue()).contains("Good Driver");
+
+        //Negative Case: Make One Claimas non PU
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.tableActivityInformationList.selectRow(1);
+        activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).setValue("No");
+
+        //Verify That Discount is NOT Applied when one Claim is not PU Claim
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.calculatePremium();
+        assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.tableDiscounts.getColumn(1).getCell(1).getValue()).doesNotContain("Good Driver");
+
+    }
+
+    /*
+    Method Validates P&C tab, and that Good Driver Discount is applied with Permissive Use Claims only: Renewal, Endorsement, Rewritten Quotes
+     */
+    protected void validateGDDonRenewalEndorsementRewrittenQuote() {
+        // Verify GDD during Renewal Quote Creation
+        issueGeneratedRenewalImageWithGDDValidation(policyNumber);
+
+        // Verify GDD during Endorsement Quote Creation
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        validateGDD();
+        premiumAndCoveragesTab.cancel();
+        dialogConfirmation.buttonDeleteEndorsement.click();
+
+        // Verify GDD during Rewritten Quote Creation
+        buttonRenewals.click();
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+        policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
+        policy.dataGather().start();
+        validateGDD();
+    }
 }

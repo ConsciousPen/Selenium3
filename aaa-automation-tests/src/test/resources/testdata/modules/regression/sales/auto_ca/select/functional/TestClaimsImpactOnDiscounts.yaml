@@ -1,4 +1,4 @@
-TestData_DriverTab_DiscountsGDD_CAC: {
+TestData_DriverTab_DiscountsGDD_CAS: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@GeneralTab',
   DriverTab: '@Driver_FNI'
@@ -18,9 +18,9 @@ PrefillTab: {
 
 GeneralTab: {
   NamedInsuredInformation: '@NamedInsuredInformationToGetClaims',
-  AAAProductOwned: '@<auto_ca_choice>@DataGather@AAAProductOwned',
-  ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',
-  PolicyInformation: '@<auto_ca_choice>@DataGather@PolicyInformation'
+  AAAProductOwned: '@<auto_ca_select>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation'
 }
 
 # Data according to ChoicePointClueMockData.xls (ID Scorpion_CA_Choice_001)
@@ -59,7 +59,7 @@ Driver_FNI: {
   ]
 }
 
-TestData_DriverActivityReportsTab_CAC: {
+TestData_DriverActivityReportsTab_CAS: {
   DriverActivityReportsTab: '@DriverActivityReportsTab_2nd'
 
 }
