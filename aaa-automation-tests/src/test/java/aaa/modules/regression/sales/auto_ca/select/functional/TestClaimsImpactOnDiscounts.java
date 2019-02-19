@@ -10,7 +10,6 @@ import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -71,7 +70,17 @@ public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
         TestData td2 = getPolicyTD().adjust(tdAfterValidation);
 
         // Verify GDD during NB Quote Creation
-        createQuoteAndFillUpTo(td, DriverActivityReportsTab.class);
+        createQuoteAndFillUpTo(td, PremiumAndCoveragesTab.class, true);
+        premiumAndCoveragesTab.submitTab();
+
+        // Overriding Errors caused by created ActivityInformation entries
+        if (errorTab.isVisible()) {
+            errorTab.overrideAllErrors();
+            errorTab.submitTab();
+            premiumAndCoveragesTab.submitTab();
+        }
+
+        driverActivityReportsTab.fillTab(td);
         validateGDD();
 
         policy.getDefaultView().fillFromTo(td2, PremiumAndCoveragesTab.class, PurchaseTab.class, true);

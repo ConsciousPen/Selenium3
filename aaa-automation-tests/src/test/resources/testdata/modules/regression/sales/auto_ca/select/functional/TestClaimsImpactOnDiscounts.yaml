@@ -1,7 +1,8 @@
 TestData_DriverTab_DiscountsGDD_CAS: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@GeneralTab',
-  DriverTab: '@Driver_FNI'
+  DriverTab: '@Driver_FNI',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab'
 }
 
 # Data according to ChoicePointClueMockData.xls (ID Scorpion_CA_Choice_001)
@@ -59,6 +60,12 @@ Driver_FNI: {
   ]
 }
 
+# Adding P&C Tab info, as Default Test data doesn't work with currect adjusted data (ActivityInformation )
+PremiumAndCoveragesTab: {
+  Product: 'CA Select',
+  Payment Plan: Annual
+}
+
 TestData_DriverActivityReportsTab_CAS: {
   DriverActivityReportsTab: '@DriverActivityReportsTab_2nd'
 
@@ -66,6 +73,6 @@ TestData_DriverActivityReportsTab_CAS: {
 DriverActivityReportsTab_2nd: {
   Sales Agent Agreement: I Agree,
   Sales Agent Agreement DMV: I Agree,
-  #OrderCLUEReport: [Select: 'Yes'],
+  #OrderCLUEReport: [{Select: 'Yes'}],
   Validate Driving History: click
 }

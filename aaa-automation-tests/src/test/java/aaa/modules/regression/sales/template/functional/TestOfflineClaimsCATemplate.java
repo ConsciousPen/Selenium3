@@ -94,6 +94,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     protected static PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
     protected static DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
     protected static PurchaseTab purchaseTab = new PurchaseTab();
+    protected static ErrorTab errorTab = new ErrorTab();
+    protected static DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
 
     @BeforeTest
     public void prepare() {
