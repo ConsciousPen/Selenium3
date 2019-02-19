@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.PrivilegeEnum;
 import aaa.common.enums.RestRequestMethodTypes;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -124,9 +125,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         adjusted = testData.adjust("DriverTab", testDataDriverData);
 
         // Create Customer and Policy with 4 drivers
-        mainApp().open();
-        createCustomerIndividual();
-        policy.createPolicy(adjusted);
+        openAppAndCreatePolicy(adjusted);
         policyNumber = labelPolicyNumber.getValue();
         mainApp().close();
         return policyNumber;
@@ -185,14 +184,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         //Scenario to check the user does not have privilege to edit the PU indicator in endorsement
         //Login with different user. Check the PU indicator is not editable for internal claims other than E34/L41
-        mainApp().open(getLoginTD()
-                .adjust("User", "qa_roles")
-                .adjust("Groups", "F35")
-                .adjust("States", "CA")
-                .adjust("UW_AuthLevel", "01")
-                .adjust("Billing_AuthLevel", "01")
-        );
-        mainApp().open();
+        openAppNonPrivilegedUser(PrivilegeEnum.Privilege.F35);
+       // mainApp().open();
         SearchPage.openPolicy(policyNumber);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
