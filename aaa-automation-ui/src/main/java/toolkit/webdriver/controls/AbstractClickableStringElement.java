@@ -1,9 +1,12 @@
 package toolkit.webdriver.controls;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
+import toolkit.utils.meters.WaitMeters;
+import toolkit.webdriver.ElementHighlighter;
 import toolkit.webdriver.controls.waiters.Waiter;
-
 
 /**
  * Base class for clickable controls such as buttons or links (but not checkboxes!)
@@ -39,7 +42,18 @@ abstract public class AbstractClickableStringElement extends AbstractNonEditable
 
 	@Override
 	public void click(Waiter waiter) {
-		super.click(waiter);
+		log.debug("Clicking control " + this);
+		ElementHighlighter.highlight(this);
+		ensureVisible();
+		try {
+			//If works without this sleep - Delete this class
+			//Waiters.SLEEP(500).go();
+			getWebElement().click();
+		} catch (TimeoutException te) {
+			throw new IstfException(String.format("Page failed to reload in time after click on %1$s", this), te);
+		}
+		WaitMeters.capture(WaitMeters.PAGE_LOAD);
+		waiter.go();
 	}
 
 	@Override
