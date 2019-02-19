@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
+import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.policy.*;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
@@ -37,6 +38,11 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
         if (getPolicyType().equals(PolicyType.PUP)) {
             td = new PrefillTab().adjustWithRealPolicies(td, getPupUnderlyingPolicies());
+            td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                    PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), "contains=$2,000,000"));
+            if (!getState().equals(Constants.States.CA)) {
+                td.adjust(PersonalUmbrellaMetaData.ErrorTab.class.getSimpleName(), getPupErrorTabOverride());
+            }
         }
         return td;
     }
@@ -185,7 +191,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                         HomeCaMetaData.ApplicantTab.NamedInsured.AAA_EMPLOYEE.getLabel()), "Yes");
                 break;
             case PUP:
-                td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(), PersonalUmbrellaMetaData.PrefillTab.NAMED_INSURED.getLabel(),
+                td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(), PersonalUmbrellaMetaData.PrefillTab.NAMED_INSURED.getLabel() + "[0]",
                         PersonalUmbrellaMetaData.PrefillTab.NamedInsured.AAA_EMPLOYEE.getLabel()), "Yes");
                 break;
             default:
@@ -199,28 +205,35 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         switch (type) {
             case CA_SELECT:
             case CA_CHOICE:
-                td.adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Standard Monthly");
+                td.adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
+                        AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.STANDARD_MONTHLY);
                 break;
             case AUTO_SS:
-                td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Standard Monthly");
+                td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
+                        AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.AUTO_ELEVEN_PAY);
                 break;
             case HOME_SS_HO3:
             case HOME_SS_HO4:
             case HOME_SS_HO6:
             case HOME_SS_DP3:
                 td.adjust(TestData.makeKeyPath(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(),
-                        HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), "Standard Monthly");
+                        HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.ELEVEN_PAY);
                 break;
             case HOME_CA_HO3:
             case HOME_CA_HO4:
             case HOME_CA_HO6:
             case HOME_CA_DP3:
                 td.adjust(TestData.makeKeyPath(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(),
-                        HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), "Standard Monthly");
+                        HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.MONTHLY_STANDARD);
                 break;
             case PUP:
-                td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(),
-                        PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), "Standard Monthly");
+                if (getState().equals(Constants.States.CA)) {
+                    td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(),
+                            PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.MONTHLY_STANDARD);
+                } else {
+                    td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(),
+                            PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.ELEVEN_PAY);
+                }
                 break;
             default:
                 throw new IstfException("No Policy Type was matched!");
@@ -288,7 +301,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                 td = getCaHomeReducePremiumTd();
                 break;
             case PUP:
-                td = new SimpleDataProvider();  // TODO needs replaced with PUP method for premium reduction
+                td = getPupReducePremiumTd();
                 break;
             default:
                 throw new IstfException("No Policy Type was matched!");
@@ -311,13 +324,21 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                         AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), DataProviderFactory.dataOf(
                                 AutoSSMetaData.GeneralTab.NamedInsuredInformation.MIDDLE_NAME.getLabel(), "Test")));
                 break;
+            case HOME_SS_DP3:
             case HOME_SS_HO3:
+                td = getEmptyTestDataSSHome()
+                        .adjust(HomeSSMetaData.ApplicantTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                                HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), DataProviderFactory.dataOf(
+                                        HomeSSMetaData.ApplicantTab.NamedInsured.MIDDLE_NAME.getLabel(), "Test")))
+                        .adjust(TestData.makeKeyPath(HomeSSMetaData.UnderwritingAndApprovalTab.class.getSimpleName(),
+                                HomeSSMetaData.UnderwritingAndApprovalTab.UNDERWRITER_SELECTED_INSPECTION_TYPE.getLabel()), "index=1");
+                break;
             case HOME_SS_HO4:
             case HOME_SS_HO6:
-            case HOME_SS_DP3:
-                td = getEmptyTestDataSSHome().adjust(HomeSSMetaData.ApplicantTab.class.getSimpleName(), DataProviderFactory.dataOf(
-                        HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), DataProviderFactory.dataOf(
-                                HomeSSMetaData.ApplicantTab.NamedInsured.MIDDLE_NAME.getLabel(), "Test")));
+                td = getEmptyTestDataSSHome()
+                        .adjust(HomeSSMetaData.ApplicantTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                                HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), DataProviderFactory.dataOf(
+                                        HomeSSMetaData.ApplicantTab.NamedInsured.MIDDLE_NAME.getLabel(), "Test")));
                 break;
             case HOME_CA_HO3:
             case HOME_CA_HO4:
@@ -329,6 +350,48 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                 break;
             case PUP:
                 td = getPupNonPremiumBearingTd();
+                break;
+            default:
+                throw new IstfException("No Policy Type was matched!");
+        }
+        return td;
+    }
+
+    protected TestData getRenewalFillTd() {
+        TestData td;
+        String type = getPolicyType().getShortName();
+        switch (type) {
+            case CA_SELECT:
+            case CA_CHOICE:
+                td = getEmptyTestDataCaAuto().adjust(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel(), "Click"));
+                break;
+            case AUTO_SS:
+                td = getEmptyTestDataSSAuto().adjust(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        AutoSSMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel(), "Click"));
+                break;
+            case HOME_SS_HO3:
+            case HOME_SS_HO4:
+            case HOME_SS_HO6:
+            case HOME_SS_DP3:
+                td = getEmptyTestDataSSHome().adjust(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        HomeSSMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM.getLabel(), "Click"));
+                break;
+            case HOME_CA_HO3:
+            case HOME_CA_HO4:
+            case HOME_CA_HO6:
+            case HOME_CA_DP3:
+                td = getEmptyTestDataCaHome().adjust(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON.getLabel(), "Click"));
+                break;
+            case PUP:
+                if (getState().equals(Constants.States.CA)) {
+                    td = getEmptyTestDataCAPup();
+                } else {
+                    td = getEmptyTestDataSSPup();
+                }
+                td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.CALCULATE_PREMIUM.getLabel(), "Click"));
                 break;
             default:
                 throw new IstfException("No Policy Type was matched!");
@@ -433,6 +496,28 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     }
 
     private TestData getPupAddPremiumTd() {
+        TestData td;
+        if (getState().equals(Constants.States.CA)) {
+            td = getEmptyTestDataCAPup().adjust(PersonalUmbrellaMetaData.ErrorTab.class.getSimpleName(), getPupErrorTabOverride());
+        } else {
+            td = getEmptyTestDataSSPup();
+        }
+        return td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                    PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), "contains=$3,000,000"));
+    }
+
+    private TestData getPupReducePremiumTd() {
+        TestData td;
+        if (getState().equals(Constants.States.CA)) {
+            td = getEmptyTestDataCAPup();
+        } else {
+            td = getEmptyTestDataSSPup();
+        }
+        return td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), "contains=$1,000,000"));
+    }
+
+    private TestData getPupErrorTabOverride() {
         List<TestData> errorsOverride = new ArrayList<>();
         TestData overrideTd = DataProviderFactory.dataOf(
                 PersonalUmbrellaMetaData.ErrorTab.ErrorsOverride.MESSAGE.getLabel(), "contains=Underwriting approval required for Liability Coverage limits greater than",
@@ -441,16 +526,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                 PersonalUmbrellaMetaData.ErrorTab.ErrorsOverride.DURATION.getLabel(), "Life",
                 PersonalUmbrellaMetaData.ErrorTab.ErrorsOverride.REASON_FOR_OVERRIDE.getLabel(), "index=1");
         errorsOverride.add(overrideTd);
-        TestData errorTabOverride = DataProviderFactory.dataOf(PersonalUmbrellaMetaData.ErrorTab.ERROR_OVERRIDE.getLabel(), errorsOverride);
-
-        TestData td;
-        if (getState().equals(Constants.States.CA)) {
-            td = getEmptyTestDataCAPup();
-        } else {
-            td = getEmptyTestDataSSPup().adjust(PersonalUmbrellaMetaData.ErrorTab.class.getSimpleName(), errorTabOverride);
-        }
-        return td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
-                    PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), "contains=$2,000,000"));
+        return DataProviderFactory.dataOf(PersonalUmbrellaMetaData.ErrorTab.ERROR_OVERRIDE.getLabel(), errorsOverride);
     }
 
     private TestData getPupNonPremiumBearingTd() {
