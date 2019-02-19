@@ -23,7 +23,7 @@ public class DbXmlHelper implements AaaDocGenEntityQueries {
 	 */
 	public static String getXmlByDocName(@Nonnull DocGenEnum.Documents docId, String selectPolicyData, DocGenEnum.XmlnsDbFormat... xmlns) {
 		Map<String, String> params = ImmutableMap.of(
-				"DOC_NAME", docId.getId(),
+				"DOC_NAME", docId.getIdInXml(),
 				"GET_DATA", selectPolicyData,
 				"NS_VALUES", Arrays.stream(xmlns).map(DocGenEnum.XmlnsDbFormat::getXmlns).
 						collect(Collectors.joining(","))
