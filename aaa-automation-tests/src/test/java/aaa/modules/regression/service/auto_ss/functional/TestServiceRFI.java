@@ -242,6 +242,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		verifyRFIScenarios("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY, "25000/50000", "$50,000/$100,000", document, documentAsset, error, getPolicyDefaultTD(), true, false);
 		verifyRFIScenarios("PIP", AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION, "25000/50000", "$50,000/$100,000", document, documentAsset, error, getPolicyDefaultTD(), true, false);
 		verifyRFIScenarios("PIPDED", AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE, "250", "$500", document, documentAsset, error, getPolicyDefaultTD(), true, false);
+		verifyRFIScenarios("PIPDEDAPPTO", AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_APPLIES_TO_DEDUCTIBLE, "F", "Named Insured Only", document, documentAsset, error, getPolicyDefaultTD(), true, false);
+
 
 		//Override rule at NB
 		TestData td = getPolicyDefaultTD();
@@ -249,30 +251,6 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
 		td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
 		verifyRFIScenarios("BI", AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY, "25000/50000", "$50,000/$100,000", document, documentAsset, error, td, true, true);
-
-	}
-
-	private void verifyAadndeScenarios(String coverageCd, AssetDescriptor<ComboBox> coverageAsset, String updateLimitDXP, String updateLimitPAS) {
-		assertSoftly(softly -> {
-
-			String policyNumber = policyCreationForAASCDC(coverageCd, updateLimitDXP, getPolicyDefaultTD());
-
-			String doccId = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AADNDE1.getId(), DocGenEnum.Documents.AADNDE1.getName());
-
-			bindEndorsement(policyNumber, doccId, ErrorEnum.Errors.ERROR_200123.getCode(), ErrorEnum.Errors.ERROR_200123.getMessage(), false);
-
-			//PAS-24114
-			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, DocGenEnum.Documents.AADNDE1.getId(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
-			verifyDocInDb(softly, query, DocGenEnum.Documents.AADNDE1, false);
-
-			//Go to pas and and verify
-			goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.DELAWARE_MOTORISTS_PROTECTION_ACT,
-					coverageAsset, updateLimitPAS, ErrorEnum.Errors.ERROR_200123, false);
-
-			String query1 = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, DocGenEnum.Documents.AADNDE1.getId(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
-			softly.assertThat(DocGenHelper.getDocument(DocGenEnum.Documents.AADNDE1, query1).toString().contains("DocSignedBy")).isFalse();
-			softly.assertThat(DocGenHelper.getDocument(DocGenEnum.Documents.AADNDE1, query1).toString().contains("DocSignedDate")).isFalse();
-		});
 	}
 
 	/**
