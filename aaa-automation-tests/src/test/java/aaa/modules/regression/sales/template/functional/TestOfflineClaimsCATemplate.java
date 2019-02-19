@@ -299,7 +299,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         activityAssertions(4, 1, 2, 1, "Internal Claims", COMP_MATCH, true);
         activityAssertions(4, 1, 2, 2, "Internal Claims", PU_MATCH, true);
         //PAS-23269 - PU indicator check and Check 2nd driver: Has DL match claim
-        activityAssertions(4, 2, 1, 1, "Internal Claims", DL_MATCH, true);
+        activityAssertions(4, 2, 1, 1, "Internal Claims", DL_MATCH, false);
         DriverTab.buttonSaveAndExit.click();
     }
 
