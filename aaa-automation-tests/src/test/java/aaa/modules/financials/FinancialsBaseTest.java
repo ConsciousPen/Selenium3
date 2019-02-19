@@ -1,7 +1,5 @@
 package aaa.modules.financials;
 
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -13,14 +11,22 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-import static toolkit.verification.CustomAssertions.assertThat;
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+
 public class FinancialsBaseTest extends FinancialsTestDataFactory {
+
+	protected static final String METHOD_CASH = "TestData_Cash";
+	protected static final String METHOD_CHECK = "TestData_Check";
 
 	protected String createFinancialPolicy() {
 		return createFinancialPolicy(getPolicyTD());
@@ -32,34 +38,22 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		return policyNum;
 	}
 
-	protected Dollar getTotalTermPremium() {
-		if (!getPolicyType().isAutoPolicy()) {
-			return PolicySummaryPage.getTotalPremiumSummaryForProperty();
-		}
-		if (isStateCA()){
-			return new Dollar(PolicySummaryPage.tableCoveragePremiumSummaryCA.getRow(3).getCell(2).getValue());
-		}
-		return new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Term Premium"));
-	}
-
 	protected Dollar payTotalAmountDue(){
 		// Open Billing account and Pay min due for the renewal
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		}
 		Dollar due = new Dollar(BillingSummaryPage.getTotalDue());
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), due);
-
-		// Open Policy Summary Page
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
 		return due;
 	}
-	protected Dollar payMinAmountDue() {
+	protected Dollar payMinAmountDue(String paymentMethod) {
 		// Open Billing account and Pay min due for the renewal
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		}
 		Dollar due = new Dollar(BillingSummaryPage.getMinimumDue());
-		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), due);
-
-		// Open Policy Summary Page
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", paymentMethod), due);
 		return due;
 	}
 
@@ -72,7 +66,8 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 	}
 
-	protected void performReinstatement() {
+	protected void performReinstatement(String policyNumber) {
+		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getReinstatementTD());
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
@@ -91,22 +86,22 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
-	protected Dollar performAPEndorsement(String policyNumber) {
-		return performAPEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime());
+	protected void performAPEndorsement(String policyNumber) {
+		performAPEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime());
 	}
 
-	protected Dollar performAPEndorsement(String policyNumber, LocalDateTime effDate) {
+	protected void performAPEndorsement(String policyNumber, LocalDateTime effDate) {
 		policy.endorse().perform(getEndorsementTD(effDate));
 		policy.getDefaultView().fill(getAddPremiumTD());
-		Dollar addedPrem = payTotalAmountDue();
 		SearchPage.openPolicy(policyNumber);
-		return addedPrem;
 	}
 
-	protected Dollar performRPEndorsement(LocalDateTime effDate, Dollar currentPremium) {
+	protected Dollar performRPEndorsement(String policyNumber, LocalDateTime effDate) {
 		policy.endorse().perform(getEndorsementTD(effDate));
 		policy.getDefaultView().fill(getReducePremiumTD());
-		return currentPremium.subtract(getTotalTermPremium());
+		Dollar reducedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT);
+		SearchPage.openPolicy(policyNumber);
+		return reducedPrem;
 	}
 
 	protected void performNonPremBearingEndorsement(String policyNumber) {
@@ -119,6 +114,14 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		SearchPage.openPolicy(policyNumber);
 	}
 
+	protected Dollar rollBackEndorsement(String policyNumber) {
+		SearchPage.openPolicy(policyNumber);
+		policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData"));
+		Dollar rollBackAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ROLL_BACK_ENDORSEMENT);
+		SearchPage.openPolicy(policyNumber);
+		return rollBackAmount;
+	}
+
 	protected Dollar getBillingAmountByType(String type, String subtype) {
 		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -127,6 +130,16 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, type);
 		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, subtype);
 		return new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).abs();
+	}
+
+	protected void waiveFeeByDateAndType(LocalDateTime txDate, String feeType) {
+		Map<String, String> query = new HashMap<>();
+		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, txDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.FEE);
+		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, feeType);
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query)
+				.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(BillingConstants.PaymentsAndOtherTransactionAction.WAIVE).click();
+		BillingSummaryPage.dialogConfirmation.confirm();
 	}
 
 	protected void advanceTimeAndOpenPolicy(LocalDateTime date, String policyNumber) {

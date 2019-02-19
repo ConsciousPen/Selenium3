@@ -63,7 +63,8 @@ claimLineItemList:
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
     subroFlag: Y
-    #totalAmountPaid and totalAmountPaidCurrencyCode removed for this claim
+    totalAmountPaid: '4358.250000000'
+    totalAmountPaidCurrencyCode: USD
     vehicleBodyType: SRW SUPER DUTY
     vehicleMake: FORD
     vehicleManufacturedYear: '2006'

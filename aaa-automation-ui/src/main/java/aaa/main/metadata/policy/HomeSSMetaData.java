@@ -171,7 +171,7 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class NamedInsuredInformation extends MetaData {
-			public static final AssetDescriptor<TextBox> HOME_PHONE_NUMBER = declare("Home Phone Number", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> HOME_PHONE_NUMBER = declare("Home Phone Number", TextBox.class, Waiters.AJAX.then(Waiters.AJAX));
 			public static final AssetDescriptor<TextBox> WORK_PHONE_NUMBER = declare("Work Phone Number", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> MOBILE_PHONE_NUMBER = declare("Mobile Phone Number", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> PREFFERRED_PHONE_NUMBER = declare("Preferred Phone #", ComboBox.class);

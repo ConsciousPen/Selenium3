@@ -101,6 +101,7 @@ public final class BillingConstants {
 		public static final String MANUAL_REFUND = "Manual Refund";
 		public static final String AUTOMATED_REFUND = "Automated Refund";
 		public static final String INSTALLMENT_FEE = "Installment Fee";
+		public static final String EMPLOYEE_BENEFIT = "Employee Benefit";
 		public static final String ENDORSEMENT = "Endorsement";
 		public static final String NOT_SUFFICIENT_FUNDS_FEE = "Not Sufficient Funds Fee";
 		public static final String CANCELLATION_NOTICE_FEE = "Cancellation Notice Fee";
@@ -133,6 +134,7 @@ public final class BillingConstants {
 		public static final String REINSTATEMENT_WITHOUT_LAPSE = "Reinstatement - Without Lapse: payment received within grace period";
 		public static final String REINSTATEMENT_WITH_LAPSE = "Reinstatement - Lapse: payment received within the lapse period";
 		public static final String REINSTATEMENT_RESCIND_CANCELLATION = "Reinstatement - Rescind Cancellation";
+		public static final String ROLL_BACK_ENDORSEMENT = "Roll Back Endorsement";
 		public static final String CROSS_POLICY_TRANSFER = "Cross Policy Transfer";
 		public static final String OFFER_WITHOUT_LAPSE = "Offer without Lapse";
 		public static final String SUSPENSE = "Suspense";
