@@ -185,7 +185,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Scenario to check the user does not have privilege to edit the PU indicator in endorsement
         //Login with different user. Check the PU indicator is not editable for internal claims other than E34/L41
         openAppNonPrivilegedUser(PrivilegeEnum.Privilege.F35);
-       // mainApp().open();
         SearchPage.openPolicy(policyNumber);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
