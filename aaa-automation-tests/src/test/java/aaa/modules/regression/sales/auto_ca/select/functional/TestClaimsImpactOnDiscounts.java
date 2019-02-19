@@ -1,38 +1,23 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
-import aaa.common.enums.Constants;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
-import aaa.common.pages.SearchPage;
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
-import aaa.main.enums.SearchEnum;
-import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.*;
-import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.regression.sales.template.functional.TestOfflineClaimsCATemplate;
-import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
-import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableMap;
-import org.openqa.selenium.remote.service.DriverCommandExecutor;
+import java.util.Map;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableMap;
+import aaa.common.enums.Constants;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
+import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.regression.sales.template.functional.TestOfflineClaimsCATemplate;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.RadioGroup;
-
-import java.util.Map;
-
-import static aaa.common.pages.Page.dialogConfirmation;
-import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @StateList(states = {Constants.States.CA})
 public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
@@ -78,11 +63,11 @@ public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
                 ImmutableMap.of(CLAIM_NUMBER_1, claim1_dates, CLAIM_NUMBER_2, claim2_dates);
 
         //Adjusted Test Data for: CCInput/CLUE/Internal Claims
-        TestData testDataForCLUE = getTestSpecificTD("TestData_DriverTab_DiscountsGDD_CAC").resolveLinks();
+        TestData testDataForCLUE = getTestSpecificTD("TestData_DriverTab_DiscountsGDD_CAS").resolveLinks();
         TestData td = getPolicyTD().adjust(testDataForCLUE);
 
         //Adjusted Test Data after assertions
-        TestData tdAfterValidation = getTestSpecificTD("TestData_DriverActivityReportsTab_CAC").resolveLinks();
+        TestData tdAfterValidation = getTestSpecificTD("TestData_DriverActivityReportsTab_CAS").resolveLinks();
         TestData td2 = getPolicyTD().adjust(tdAfterValidation);
 
         // Verify GDD during NB Quote Creation
