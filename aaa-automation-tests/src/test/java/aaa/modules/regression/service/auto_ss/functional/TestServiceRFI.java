@@ -409,12 +409,11 @@ public class TestServiceRFI extends AutoSSBaseTest {
 				verifyDocInDb(softly, query, document, true); //tags expected only for Electronically signed doc
 			}
 
-			//Go to pas and and verify
+			//Go to PAS and verify
 			goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, documentAsset, coverageAsset, updateLimitPAS, error, isRuleOverridden);
-			//Verify Signed by is not there in XML when Signed from PAS UI
+			//Verify Signed by is not there in XML when Signed from PAS UI.
 			if (checkDocXML) {
-				if (document.equals(DocGenEnum.Documents.AA52UPAA) || document.equals(DocGenEnum.Documents.AA52IPAA) || document.equals(DocGenEnum.Documents.AAFPPA)) {
-					//assertThat(DocGenHelper.getDocument(document, query)).isNull(); // Document does not exists
+				if ((document.equals(DocGenEnum.Documents.AA52UPAA) || document.equals(DocGenEnum.Documents.AA52IPAA) || document.equals(DocGenEnum.Documents.AAFPPA)) && !isRuleOverridden) { //isRuleOverridden means that Document was not signed.
 					DocGenHelper.checkDocumentsDoesNotExistInXml(policyNumber, AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE, document);// Document does not exist
 				} else {
 					validateDocSignTagsNotExist(document, query); //Document doesn't contain DocSignTags if signed in PAS
