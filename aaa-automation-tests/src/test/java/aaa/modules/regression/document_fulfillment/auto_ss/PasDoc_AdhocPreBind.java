@@ -35,7 +35,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
-	public void testScenario2(@Optional("") String state) {
+	public void testScenario1_2(@Optional("") String state) {
 		DocGenHelper.checkPasDocEnabled(States.AZ, PolicyType.AUTO_SS);
 		mainApp().open();
 		createCustomerIndividual();
@@ -54,6 +54,11 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTOPAY_AUTHORIZATION_FORM)).isPresent();
 			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION)).isPresent();
+			//Verify enabled buttons
+			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.BTN_GENERATE_DOCUMENTS)).isEnabled();
+			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.BTN_GENERATE_ESIGNATURE_DOCUMENTS)).isEnabled();
 			//Required to Bind
 			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(
 					AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION)).isPresent();
@@ -312,7 +317,8 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		//Verify generation all docs
-		generateAndVerifyDoc(getTestSpecificTD("TestData_GenAllDocs"));	
+		generateAndVerifyDoc(getTestSpecificTD("TestData_GenAllDocs"), quoteNumber, Documents.AAIQAZ, Documents.AA11AZ, 
+				Documents.AHAPXX, Documents.AA52AZ, Documents.AA43AZ, Documents.AATSXX, Documents.AAUBI, Documents.ACPPNUBI, Documents.AAUBI1);	
 		//Verify docs generation
 		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAIQAZ"), quoteNumber, Documents.AAIQAZ);
 		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA11XX"), quoteNumber, Documents.AA11AZ);
@@ -335,7 +341,8 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		new PremiumAndCoveragesTab().calculatePremium();	
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		//Verify generation all docs
-		generateAndVerifyDoc(getTestSpecificTD("TestData_GenAllDocs"));	
+		generateAndVerifyDoc(getTestSpecificTD("TestData_GenAllDocs"), quoteNumber, Documents.AA11AZ, Documents.AHAPXX, 
+				Documents.AA52AZ, Documents.AA43AZ, Documents.AATSXX, Documents.AAUBI, Documents.ACPPNUBI, Documents.AAUBI1);	
 		//Verify docs generation
 		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA11XX"), policyNumber, Documents.AA11AZ);
 		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AHAPXX"), policyNumber, Documents.AHAPXX);
@@ -354,7 +361,8 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		new PremiumAndCoveragesTab().calculatePremium();		
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		//Verify generation all docs
-		generateAndVerifyDoc(getTestSpecificTD("TestData_GenAllDocs"));	
+		generateAndVerifyDoc(getTestSpecificTD("TestData_GenAllDocs"), quoteNumber, Documents.AA11AZ, Documents.AHAPXX, 
+				Documents.AA52AZ, Documents.AA43AZ, Documents.AATSXX, Documents.AAUBI, Documents.ACPPNUBI, Documents.AAUBI1);	
 		//Verify docs generation
 		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA11XX"), policyNumber, Documents.AA11AZ);
 		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AHAPXX"), policyNumber, Documents.AHAPXX);
@@ -533,13 +541,6 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		return DBService.get().getValue(String.format(getDistributionChannelFromDB, policyNumber)).get();
 	}
 	
-	private void generateAndVerifyDoc(TestData td_doc) {
-		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
-		docsAndBindTab.fillTab(td_doc);
-		//DocumentsAndBindTab.btnGenerateDocuments.click();
-		//TODO verify doc generated		
-	}
-	
 	private void generateAndVerifyDoc(TestData td_doc, String policyNum, DocGenEnum.Documents... documents) {
 		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
 		docsAndBindTab.fillTab(td_doc);
@@ -554,8 +555,6 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		CustomAssertions.assertThat(docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.BTN_GENERATE_ESIGNATURE_DOCUMENTS)).isPresent(isActiveBtn);
 		if (isActiveBtn) {
-			//CustomAssertions.assertThat(docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
-			//		AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.BTN_GENERATE_ESIGNATURE_DOCUMENTS)).isEnabled();
 			DocumentsAndBindTab.btnGenerateESignaturaDocuments.click();
 			CustomAssertions.assertThat(docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG)).isPresent();
