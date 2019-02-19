@@ -241,6 +241,11 @@
                     <include name="pas19839_ooseConflictManualAddNamedInsuredInformation"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict -->
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidation">
+                <methods>
+                    <include name="pas6668_pas8815_Validate_Override_Automated_Renewal_DummyNumber"/>
+                </methods>
+            </class>
         </classes>
     </test> <!-- AZ Auto -->
     <test name="PA Auto" parallel="methods">
@@ -652,6 +657,12 @@
         <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestGoodStudentDiscount"/>
+        </classes>
+    </test>
+    <test name="Rescission Notice Due to Non Sufficient Funds" parallel="methods">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.TestRescissionNoticeDueToNSF"/>
         </classes>
     </test>
 </suite>

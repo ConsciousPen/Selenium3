@@ -1,19 +1,5 @@
 package aaa.modules.regression.service.helper;
 
-import static aaa.main.enums.ErrorDxpEnum.Errors.INSURANCE_SCORE_ORDER_MESSAGE;
-import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.MIDDLE_NAME;
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import static toolkit.webdriver.controls.composite.assets.metadata.MetaData.getAssets;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import javax.ws.rs.core.Response;
-import org.apache.commons.lang3.BooleanUtils;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableList;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -33,11 +19,27 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableList;
+import org.apache.commons.lang3.BooleanUtils;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
+
+import javax.ws.rs.core.Response;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
+import static aaa.main.enums.ErrorDxpEnum.Errors.INSURANCE_SCORE_ORDER_MESSAGE;
+import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.MIDDLE_NAME;
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import static toolkit.webdriver.controls.composite.assets.metadata.MetaData.getAssets;
 
 public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private static final List<String> MARRIED_STATUSES = ImmutableList.of("Married", "Registered Domestic Partner",
@@ -52,7 +54,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private static final String DRIVER_STATUS_ACTIVE = "active";
 
 	private DriverTab driverTab = new DriverTab();
-	private AssignmentTab assignmentTab = new AssignmentTab();
 	private FormsTab formsTab = new FormsTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
@@ -61,7 +62,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private RemoveDriverRequest removeDriverRequest = new RemoveDriverRequest();
 	private DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
 	private String policyNumber7Drivers;
-	private static final TestMiniServicesCoveragesHelper testMiniServicesCoveragesHelper = new TestMiniServicesCoveragesHelper();
+	private static final TestMiniServicesCoveragesHelper TEST_MINI_SERVICES_COVERAGES_HELPER = new TestMiniServicesCoveragesHelper();
 
 	protected void pas11932_viewDriversInfo(PolicyType policyType) {
 		assertSoftly(softly -> {
@@ -1545,6 +1546,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		} else {
 			// issue PAS-19028
 			softly.assertThat(updateDriverResponse1.validations).isEmpty();
+			// issue PAS-25209
+			HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
 		}
 
 		ViewDriversResponse responseViewDrivers2 = HelperCommon.viewEndorsementDrivers(policyNumber);
@@ -2279,10 +2282,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			validateSelectedAndAvailableCoverages(true, getDriverByOid(viewEndorsementDriversResponse.driverList, secondAFROID), viewEndorsementCoverages, true, false, softly);
 			validateSelectedAndAvailableCoverages(false, getDriverByOid(viewEndorsementDriversResponse.driverList, nafrOID), viewEndorsementCoverages, null, null, softly);
 
-			validateMetadata_pas16913(softly, policyNumber, getDriverByOid(viewEndorsementDriversResponse.driverList, fniOID), true, false); //Driver without specificDisability coverage
-			validateMetadata_pas16913(softly, policyNumber, getDriverByOid(viewEndorsementDriversResponse.driverList, secondAFROID), true, true); //Driver with specificDisability coverage
-			validateMetadata_pas16913(softly, policyNumber, getDriverByOid(viewEndorsementDriversResponse.driverList, nafrOID), false, false); //Driver = NAFR
-
 			//update driver 1
 			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("DISD", "true",
 					ImmutableList.of(fniOID, secondAFROID));
@@ -2362,17 +2361,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
 
-	}
-
-	//Validate specificDisabilityInd and totalDisabilityInd metadata. Only "visible" can change.
-	private void validateMetadata_pas16913(ETCSCoreSoftAssertions softly, String policyNumber, DriversDto driver, boolean specificDisabilityIndVisible, boolean totalDisabilityIndVisible) {
-		AttributeMetadata[] metaDataResponseDriver = HelperCommon.viewEndorsementDriversMetaData(policyNumber, driver.oid);
-
-		AttributeMetadata metaDataFieldResponseSpecificDisabilityInd = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponseDriver, "specificDisabilityInd", true, specificDisabilityIndVisible, false, null, "Boolean");
-		softly.assertThat(metaDataFieldResponseSpecificDisabilityInd.valueRange).size().isEqualTo(0);
-
-		AttributeMetadata metaDataFieldResponseTotalDisabilityInd = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponseDriver, "totalDisabilityInd", true, totalDisabilityIndVisible, false, null, "Boolean");
-		softly.assertThat(metaDataFieldResponseTotalDisabilityInd.valueRange).size().isEqualTo(0);
 	}
 
 	protected void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03Body() {
@@ -2539,29 +2527,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas17641_MetaDataServiceDriverAddADBBody(ETCSCoreSoftAssertions softly, PolicyType policyType, TestData td) {
-
-		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(td);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-
-		ViewDriversResponse response = HelperCommon.viewEndorsementDrivers(policyNumber);
-
-		String driverAFR = response.driverList.get(1).oid;
-		String driverNAFR = response.driverList.get(2).oid;
-
-		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementDriversMetaData(policyNumber, driverAFR);
-
-		softly.assertThat(testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "adbCoverageInd", true, true, false, null, "Boolean"));
-
-		AttributeMetadata[] metaDataResponse1 = HelperCommon.viewEndorsementDriversMetaData(policyNumber, driverNAFR);
-		softly.assertThat(testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse1, "adbCoverageInd", true, false, false, null, "Boolean"));
-
-	}
-
 	protected void pas19768_ageFirstLicensedCannotBeGreaterThanDobBody() {
 		assertSoftly(softly -> {
 			mainApp().open();
@@ -2575,17 +2540,23 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D8571783", 28, "CA", "CH", "MSS");
 
 			DriverWithRuleSets updateDriverResponse1 = HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest);
-			softly.assertThat(updateDriverResponse1.validations.stream().anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getMessage()) && (ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getCode()).equals(error.errorCode))).isTrue();
+			softly.assertThat(updateDriverResponse1.validations.stream()
+					.anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getMessage())
+							&& (ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getCode()).equals(error.errorCode))).isTrue();
 
 			UpdateDriverRequest updateDriverRequest2 = DXPRequestFactory.createUpdateDriverRequest(null, null, 27, null, null, null);
 
 			DriverWithRuleSets updateDriverResponse2 = HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest2);
-			softly.assertThat(updateDriverResponse2.validations.stream().anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getMessage()) && (ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getCode()).equals(error.errorCode))).isFalse();
+			softly.assertThat(updateDriverResponse2.validations.stream()
+					.anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getMessage())
+							&& (ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getCode()).equals(error.errorCode))).isFalse();
 
 			UpdateDriverRequest updateDriverRequest3 = DXPRequestFactory.createUpdateDriverRequest(null, null, 27, null, null, null);
 
 			DriverWithRuleSets updateDriverResponse3 = HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest3);
-			softly.assertThat(updateDriverResponse3.validations.stream().anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getMessage()) && (ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getCode()).equals(error.errorCode))).isFalse();
+			softly.assertThat(updateDriverResponse3.validations.stream()
+					.anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getMessage())
+							&& (ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getCode()).equals(error.errorCode))).isFalse();
 
 			HelperCommon.orderReports(policyNumber, driverOid, OrderReportsResponse.class, 200);
 			helperMiniServices.endorsementRateAndBind(policyNumber);
@@ -2706,7 +2677,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private void validateFormsTab(PolicyCoverageInfo policyCoverageInfo, ETCSCoreSoftAssertions softly, String policyNumber) {
 		AutoSSForms.AutoSSDriverFormsController driverForms = formsTab.getAssetList().getAsset(AutoSSMetaData.FormsTab.DRIVER_FORMS);
 
-		Coverage covDISD = testMiniServicesCoveragesHelper.findCoverage(policyCoverageInfo.driverCoverages, "DISD");
+		Coverage covDISD = TEST_MINI_SERVICES_COVERAGES_HELPER.findCoverage(policyCoverageInfo.driverCoverages, "DISD");
 		ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 
 		int driverCount = viewDriversResponse.driverList.size();

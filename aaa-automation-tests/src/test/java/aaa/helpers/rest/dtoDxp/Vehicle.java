@@ -81,6 +81,9 @@ public class Vehicle implements RestBodyRequest {
 	@ApiModelProperty(value = "OID of vehicle replaced by this vehicle", example = "vKceby6oeNj4Hcu8rUJB7Q")
 	public String vehicleReplacedBy;
 
+	@ApiModelProperty(value = "Is Less Than 1,000 Miles?", example = "true")
+	public Boolean isLessThan1000Miles;
+
 	@ApiModelProperty(value = "Available Actions for the vehicle")
 	public List<String> availableActions;
 

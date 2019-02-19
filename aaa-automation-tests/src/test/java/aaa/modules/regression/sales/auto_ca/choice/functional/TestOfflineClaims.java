@@ -90,7 +90,8 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * PAS-22172 - END - CAS: reconcile permissive use claims when driver/named insured is added (avail for rating)
      * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added
      * @scenario Test Steps: See Template For Details
-     * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver*/
+     * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver
+     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-14679")

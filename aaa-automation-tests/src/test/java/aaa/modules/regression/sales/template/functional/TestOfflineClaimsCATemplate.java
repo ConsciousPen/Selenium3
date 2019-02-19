@@ -286,7 +286,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         new PurchaseTab().fillTab(adjusted).submitTab();
         policyNumber = PolicySummaryPage.getPolicyNumber();
-        log.info("Policy created successfully. Policy number is "+policyNumber);
+        log.info("Policy created successfully. Policy number is " + policyNumber);
         mainApp().close();
 
         //Initiate endorsement
@@ -303,10 +303,10 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         // Check 1st driver: Contains only Two Matched Claims (Verifying that PermissiveUse Claim with wrong dateOfLoss is not displayed)
         // Check 1st driver: FNI, has COMP and Permissive Use matched claims (2nd PermissiveUse Claim is not displayed, because of dateOfLoss Param > Claim dateOfLoss)
         //PAS-23269 - PU indicator check
-        activityAssertions(4,1,2, 1,"Internal Claims", COMP_MATCH, true);
-        activityAssertions(4,1,2,2, "Internal Claims", PU_MATCH, true);
+        activityAssertions(4, 1, 2, 1, "Internal Claims", COMP_MATCH, true);
+        activityAssertions(4, 1, 2, 2, "Internal Claims", PU_MATCH, true);
         //PAS-23269 - PU indicator check and Check 2nd driver: Has DL match claim
-        activityAssertions(4,2,1,1,"Internal Claims", DL_MATCH, true);
+        activityAssertions(4, 2, 1, 1, "Internal Claims", DL_MATCH, true);
         DriverTab.buttonSaveAndExit.click();
     }
 
@@ -330,23 +330,23 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     // Assertions for COMP and DL Tests: PAS-22172
     public void puDropAssertions(String COMP_MATCH, String PU_MATCH) {
         // Check 1st driver: Contains only one Matched Claim (Verifying that comp claim has not moved)
-        activityAssertions(5,1,1,1, "Internal Claims", COMP_MATCH, false);
+        activityAssertions(5, 1, 1, 1, "Internal Claims", COMP_MATCH, false);
 
         // Check 5th driver: Original Permissive Use claim should be on the newly added driver
-        activityAssertions(5,5,1,1, "CLUE", PU_MATCH, false);
+        activityAssertions(5, 5, 1, 1, "CLUE", PU_MATCH, false);
     }
 
     // Assertions for Name/DOB Tests
     public void nameDobYobAssertions(String LASTNAME_FIRSTNAME_DOB, String LASTNAME_FIRSTNAME, String LASTNAME_FIRSTINITAL_DOB, String LASTNAME_FIRSTNAME_YOB) {
         // Check 3rd driver
         // PAS-8310 - LASTNAME_FIRSTNAME_DOB Match
-        activityAssertions(4,3,4,2, "Internal Claims", LASTNAME_FIRSTNAME_DOB, false);
+        activityAssertions(4, 3, 4, 2, "Internal Claims", LASTNAME_FIRSTNAME_DOB, false);
         // PAS-17894 - LASTNAME_FIRSTNAME & LASTNAME_FIRSTINITAL_DOB //PAS-21435 - Removed LASTNAME_YOB match logic. Claim 8FAZ88888OHS is now unmatched
-        activityAssertions(4,3,4,3, "Internal Claims", LASTNAME_FIRSTNAME, false);
-        activityAssertions(4,3,4,4, "Internal Claims", LASTNAME_FIRSTINITAL_DOB, false);
+        activityAssertions(4, 3, 4, 3, "Internal Claims", LASTNAME_FIRSTNAME, false);
+        activityAssertions(4, 3, 4, 4, "Internal Claims", LASTNAME_FIRSTINITAL_DOB, false);
         // Check 4th driver.
         // PAS-8310 - LASTNAME_FIRSTNAME_YOB Match
-        activityAssertions(4,4,1,1, "Internal Claims", LASTNAME_FIRSTNAME_YOB, false);
+        activityAssertions(4, 4, 1, 1, "Internal Claims", LASTNAME_FIRSTNAME_YOB, false);
     }
 
     private void activityAssertions(int totalDrivers, int driverRowNo, int totalActivities, int activityRowNo, String activitySource, String claimNumber, boolean checkPU) {
@@ -473,6 +473,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * Method returns content as String of CAS Request file
+     *
      * @return CAS claim request content
      */
     protected String downloadClaimRequest() {
@@ -490,6 +491,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * Method returns content as String of pas-admins wrapper.log file
+     *
      * @return PAS Admin Log File content
      */
     protected String downloadPasAdminLog() {
@@ -647,6 +649,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         log.info("actual match codes: " + actualMatchCodes);
         assertThat(actualMatchCodes).isEqualTo(expectedMatchCodes);
     }
+
     /**
      * @author Chris Johns
      * PAS-22172 - END - CAS: reconcile permissive use claims when driver/named insured is added (avail for rating)
@@ -667,12 +670,12 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      */
     public void reconcilePUEndorsementAFRBody() {
         String COMP_DL_PU_CLAIMS_DATA_MODEL;
-        Map<String, String> CLAIM_TO_DRIVER_LICENSE ;
+        Map<String, String> CLAIM_TO_DRIVER_LICENSE;
 
-        if(getPolicyType().getShortName().equalsIgnoreCase(PolicyType.AUTO_CA_CHOICE.getShortName())){
+        if (getPolicyType().getShortName().equalsIgnoreCase(PolicyType.AUTO_CA_CHOICE.getShortName())) {
             COMP_DL_PU_CLAIMS_DATA_MODEL = "comp_dl_pu_claims_data_model_choice.yaml";
             CLAIM_TO_DRIVER_LICENSE = ImmutableMap.of(CLAIM_NUMBER_1, "D1278111", CLAIM_NUMBER_2, "D1278111");
-        }else{
+        } else {
             COMP_DL_PU_CLAIMS_DATA_MODEL = "comp_dl_pu_claims_data_model_select.yaml";
             CLAIM_TO_DRIVER_LICENSE = ImmutableMap.of(CLAIM_NUMBER_1, "D5435433", CLAIM_NUMBER_2, "D5435433");
         }
