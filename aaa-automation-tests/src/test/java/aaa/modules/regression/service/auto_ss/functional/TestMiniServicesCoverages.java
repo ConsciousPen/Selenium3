@@ -1096,9 +1096,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16112"})
 	public void pas16112_umpdOregonViewCoverage(@Optional("OR") String state) {
-		assertSoftly(softly ->
-				pas16112_umpdOregonViewCoverageBody(softly, getPolicyType())
-		);
+		assertSoftly(this::pas16112_umpdOregonViewCoverageBody);
 	}
 
 	/**
@@ -1470,6 +1468,23 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15361"})
 	public void pas15361_viewPIPMD(@Optional("MD") String state) {
 		pas15361_viewPIPMDBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name View Coverage - PIP in NJ- "Non-Medical Expense" = "No"
+	 * @scenario
+	 * 1. Create policy in PAS with "Non-Medical Expense" = "No"
+	 * 2. Create endorsement through service
+	 * 3. Run view endorsement coverages service
+	 * 4. Verify PIP, APIP coverage and subCoverages
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15353"})
+	public void pas15353_viewPIPNonMedExpenseNoNJ(@Optional("NJ") String state) {
+		pas15353_viewPIPNonMedExpenseNoNJBody();
 	}
 
 	/**
