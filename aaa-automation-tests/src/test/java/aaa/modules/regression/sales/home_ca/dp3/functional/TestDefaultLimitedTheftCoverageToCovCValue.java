@@ -44,7 +44,6 @@ public class TestDefaultLimitedTheftCoverageToCovCValue extends HomeCaDP3BaseTes
 	public void pas25050_defaultLimitedTheftCoverageComparisonToCovCNB(@Optional("CA") String state) {
 		mainApp().open();
 		createCustomerIndividual();
-
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(getPolicyTD(), EndorsementTab.class, true);
 
@@ -109,11 +108,19 @@ public class TestDefaultLimitedTheftCoverageToCovCValue extends HomeCaDP3BaseTes
 		//calculate Premium and save Cov C + Endorsement form values. Assert that they are equal
 		new PremiumsAndCoveragesQuoteTab().calculatePremium();
 
-		String value1 = PropertyQuoteTab.tableEndorsementForms.getRowContains(PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "DP 04 73 Limited Theft Coverage").getCell(PolicyConstants.PolicyEndorsementFormsTable.TERM_PREMIUM).getValue().replace("$", "''");
-
-		String value2 = new PremiumsAndCoveragesQuoteTab().getAssetList()
+		String value1 = new PremiumsAndCoveragesQuoteTab().getAssetList()
 				.getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C).getValue();
 
+		String value2 = PropertyQuoteTab.tableEndorsementForms.getRowContains(PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "DP 04 73 Limited Theft Coverage").getCell(PolicyConstants.PolicyEndorsementFormsTable.TERM_PREMIUM).getValue().replace("$", "").replaceAll(",", "");
+
+		// Assert P&C tab endorsement form value contains Cov C value
 		assertThat(value1).contains(value2);
+
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.ENDORSEMENT.get());
+		new EndorsementTab().getLinkEdit(endorsementID).click();
+		String value3 = new EndorsementTab().getAssetList().getAsset(HomeCaMetaData.EndorsementTab.DP_04_73).getAsset(HomeCaMetaData.EndorsementTab.EndorsementDP0473.COVERAGE_LIMIT).getValue().replace("$", "").replaceAll(",", "");
+
+		// assert Endorsement tab endorsement coverage limit value contains Cov C value
+		assertThat(value1).contains(value3);
 	}
 }
