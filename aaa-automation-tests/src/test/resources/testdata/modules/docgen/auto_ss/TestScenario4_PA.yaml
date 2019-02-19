@@ -49,9 +49,13 @@ TestData_EndorsementOne: {
     FormsTab: {},
     PremiumAndCoveragesTab: {},
     DriverActivityReportsTab: {},
-    DocumentsAndBindTab: {}
+    DocumentsAndBindTab: {
+       RequiredToBind: {
+         'Uninsured Motorists Coverage Selection/Rejection': Physically Signed,
+         'Underinsured Motorists Coverage Selection/Rejection': Physically Signed,
+         First Party Benefits Coverage and Limits Selection Form: Physically Signed,}
+   }
 }
-
 # ------------- Documents Verification ----------
 TestData_VerificationEDOne: {
    AA41PA: '@AA41PA'

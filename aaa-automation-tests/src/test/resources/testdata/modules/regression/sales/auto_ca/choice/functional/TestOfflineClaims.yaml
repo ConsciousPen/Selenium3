@@ -57,3 +57,26 @@ Driver4: {
   "License #": D1278333,
   Age First Licensed: 18
 }
+
+Driver5: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Bruce,
+  Last Name: Banerr,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 12/12/1987,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D9999999,
+  Age First Licensed: 18
+}
+
+############### Add 5th Driver at endorsement
+Add_PU_Claim_Driver_Endorsement_CA: {
+  DriverTab: ['@Driver5'],
+}

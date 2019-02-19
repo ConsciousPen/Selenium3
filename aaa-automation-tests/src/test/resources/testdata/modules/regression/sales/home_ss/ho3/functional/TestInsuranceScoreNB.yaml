@@ -1,0 +1,60 @@
+ApplicantTab_OneSpouse_OneChild: {
+  NamedInsured: ['@NamedInsured', '@NamedInsuredFirstSpouse', '@NamedInsuredChild'],
+}
+
+TestData_NamedInsuredOther: {
+  ApplicantTab: {
+    NamedInsured: ['@NamedInsuredOther'],
+  }
+}
+
+
+NamedInsured: {
+  First name: 'FN Primary Insured',
+  Relationship to primary named insured:  Primary Insured,
+}
+
+NamedInsuredFirstSpouse: {
+  CustomerSearchDialog: {},
+  First name: 'FN Spouse First',
+  Last name: 'LN Spouse First',
+  Relationship to primary named insured: Spouse,
+  Marital status: 'Single',
+  Date of birth: '09/05/1979',
+  Social security number: '123456789',
+  Occupation: 'index=1'
+}
+
+NamedInsuredSecondSpouse: {
+ CustomerSearchDialog: {},
+ First name: 'FN Spouse Second',
+ Last name: 'LN Spouse Second',
+ Relationship to primary named insured: Spouse,
+ Marital status: 'Single',
+ Date of birth: '09/05/1979',
+ Social security number: '123456789',
+ Occupation: 'index=1'
+}
+
+NamedInsuredChild: {
+ CustomerSearchDialog: {},
+ First name: 'FN Child',
+ Last name: 'LN Child',
+ Relationship to primary named insured: Child,
+ Marital status: 'Single',
+ Date of birth: '09/05/1979',
+ Social security number: '123456789',
+ Occupation: 'index=1'
+}
+
+NamedInsuredOther: {
+ Add: 'click',
+ CustomerSearchDialog: {},
+ First name: 'FN Other',
+ Last name: 'LN Other',
+ Relationship to primary named insured: Other,
+ Marital status: 'Single',
+ Date of birth: '09/05/1979',
+ Social security number: '123456789',
+ Occupation: 'index=1'
+}
