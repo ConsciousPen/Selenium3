@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import aaa.admin.modules.reports.operationalreports.OperationalReport;
-import aaa.helpers.browser.DownloadsHelper;
+import aaa.utils.browser.DownloadsHelper;
 import aaa.main.enums.OperationalReportsConstants;
 import aaa.modules.BaseTest;
 import aaa.utils.excel.io.ExcelManager;

@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.testng.annotations.Test;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.admin.modules.reports.operationalreports.OperationalReport;
-import aaa.helpers.browser.DownloadsHelper;
+import aaa.utils.browser.DownloadsHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.modules.policy.PolicyBaseTest;

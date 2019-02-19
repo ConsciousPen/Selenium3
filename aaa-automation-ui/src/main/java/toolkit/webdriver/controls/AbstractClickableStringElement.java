@@ -2,15 +2,13 @@ package toolkit.webdriver.controls;
 
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
-import toolkit.utils.meters.WaitMeters;
-import toolkit.webdriver.ElementHighlighter;
 import toolkit.webdriver.controls.waiters.Waiter;
-import toolkit.webdriver.controls.waiters.Waiters;
+
 
 /**
  * Base class for clickable controls such as buttons or links (but not checkboxes!)
  */
-public abstract class AbstractClickableStringElement extends AbstractNonEditableStringElement {
+abstract public class AbstractClickableStringElement extends AbstractNonEditableStringElement {
 	protected AbstractClickableStringElement(By locator, Waiter waiter) {
 		super(locator, waiter);
 	}
@@ -36,23 +34,16 @@ public abstract class AbstractClickableStringElement extends AbstractNonEditable
 
 	@Override
 	public void click() {
-		log.debug("Clicking control " + this);
-		ElementHighlighter.highlight(this);
-		ensureVisible();
-		Waiters.SLEEP(500).go();
-		getWebElement().click();
-		WaitMeters.capture(WaitMeters.PAGE_LOAD);
-		waitForPageUpdate();
+		super.click();
 	}
 
 	@Override
 	public void click(Waiter waiter) {
-		log.debug("Clicking control " + this);
-		ElementHighlighter.highlight(this);
-		ensureVisible();
-		Waiters.SLEEP(500).go();
-		getWebElement().click();
-		WaitMeters.capture(WaitMeters.PAGE_LOAD);
-		waiter.go();
+		super.click(waiter);
+	}
+
+	@Override
+	public void doubleClick() {
+		super.doubleClick();
 	}
 }

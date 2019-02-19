@@ -1,4 +1,4 @@
-package aaa.helpers.browser;
+package aaa.utils.browser;
 
 import java.io.File;
 import java.util.List;

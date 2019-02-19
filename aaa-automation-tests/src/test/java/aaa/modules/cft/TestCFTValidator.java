@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
-import aaa.helpers.browser.DownloadsHelper;
+import aaa.utils.browser.DownloadsHelper;
 import aaa.helpers.constants.Groups;
 import aaa.modules.cft.report.ReportGeneratorService;
 import toolkit.config.PropertyProvider;
