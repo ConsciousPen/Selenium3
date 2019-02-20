@@ -50,6 +50,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     private ErrorTab _errorTab = new ErrorTab();
     private PremiumAndCoveragesTab _pncTab = new PremiumAndCoveragesTab();
     private DocumentsAndBindTab _documentsAndBindTab = new DocumentsAndBindTab();
+    private PurchaseTab _purchaseTab = new PurchaseTab();
 
     /**
      * Make sure various combos of Unquoted Other AAA Products rate properly and are listed in the UI
