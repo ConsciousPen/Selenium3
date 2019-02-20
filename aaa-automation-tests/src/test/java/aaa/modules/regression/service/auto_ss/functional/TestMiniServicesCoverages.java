@@ -1519,7 +1519,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19163"})
     public void pas19163_viewPipYesAndNonMedExpenseYesNJ(@Optional("NJ") String state) {
-        pas19163_viewPIPNonMedExpenseYesNJBody();
+		pas19163_viewPipYesAndNonMedExpenseYesNJbody();
     }
 
 	/**
