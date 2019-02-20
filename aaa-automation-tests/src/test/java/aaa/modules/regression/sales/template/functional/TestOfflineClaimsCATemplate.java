@@ -178,7 +178,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Accept Payment and renew the policy
         payTotalAmtDue(policyNumber);
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
         //Scenario to check the user does not have privilege to edit the PU indicator in endorsement
         //Login with different user. Check the PU indicator is not editable for internal claims other than E34/L41
