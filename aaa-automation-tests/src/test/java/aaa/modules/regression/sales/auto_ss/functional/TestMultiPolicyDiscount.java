@@ -1400,8 +1400,9 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
     }
 
-    //@AfterMethod
-    //private void postTest(){
-    //    mainApp().close();
-    //}
+    /*@AfterMethod
+    private void postTest(){
+        mainApp().close();
+    }
+    */
 }
