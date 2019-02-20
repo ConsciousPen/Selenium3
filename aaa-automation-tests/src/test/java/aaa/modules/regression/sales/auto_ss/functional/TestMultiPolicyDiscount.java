@@ -246,13 +246,11 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
                 .getCell(policyStatusMetaDataLabel)
                 .getValue();
 
-        // Note: If following fails on first assert with Actual:"UNQUOTED", validate hitting refresh comes back with
-        // Home, Renters, and Condo policies. If not, check test pre-reqs have been met.
-
-        // Unquoted show up as UNQUOTED status. All should be ACTIVE if came from Refresh button.
-        assertThat(homeStatusColumnValue).isEqualTo("ACTIVE");
-        assertThat(rentersStatusColumnValue).isEqualTo("ACTIVE");
-        assertThat(condoStatusColumnValue).isEqualTo("ACTIVE");
+        // Expected to be replaced with an Active or Quoted status. If not, make sure prereq is met.
+        String unexpected = "UNQUOTED";
+        assertThat(homeStatusColumnValue).isNotEqualTo(unexpected);
+        assertThat(rentersStatusColumnValue).isNotEqualTo(unexpected);
+        assertThat(condoStatusColumnValue).isNotEqualTo(unexpected);
 
         // Step 5
         assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isFalse();
