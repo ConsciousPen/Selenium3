@@ -96,26 +96,6 @@ public class Efolder {
 		return StringUtils.join(keys, "/");
 	}
 
-	private static void executeContextMenu(String path, String operation) {
-		if (!isTreeExpanded(path)) {
-			expandFolder(path);
-		}
-		String[] pathParts = path.split("/");
-		new Actions(BrowserController.get().driver()).contextClick(getLabel(pathParts[pathParts.length - 1]).getWebElement()).perform();
-		BrowserController.get().executeScript("$('.rf-tt.ef-tree-node-tooltip').hide();");
-		new Link(By.xpath(String.format("//div[@id='jqContextMenu']//li[.='%s']", operation))).click();
-	}
-
-	//TODO vskatulo:  functionality is not full, verify only one layer
-	private static boolean isTreeExpanded(String path) {
-		String[] pathParts = path.split("/");
-		StaticElement lastFolder = new StaticElement(By.xpath(String.format("//form[@id='efForm']//div[span/span/span[contains(@id, 'efForm:efTree') and .='%s']]/span[1]",
-				pathParts[pathParts.length - 1])));
-		StaticElement expandButton = new StaticElement(By.xpath(String.format("//form[@id='efForm']//div[span/span/span[contains(@id, 'efForm:efTree') and .='%s']]/span[@class='rf-trn-hnd-colps rf-trn-hnd']",
-				pathParts[pathParts.length - 1])));
-		return lastFolder.isPresent() && !expandButton.isPresent();
-	}
-
 	public void addDocument(TestData testData, String path) {
 		executeContextMenu(path, EfolderConstants.DocumentOparetions.ADD_DOCUMENT);
 		getDefaultView().fill(testData);
@@ -138,5 +118,25 @@ public class Efolder {
 
 	public void retrieveFile(String path) {
 		executeContextMenu(path, EfolderConstants.DocumentOparetions.RETRIEVE);
+	}
+
+	private static void executeContextMenu(String path, String operation) {
+		if (!isTreeExpanded(path)) {
+			expandFolder(path);
+		}
+		String[] pathParts = path.split("/");
+		new Actions(BrowserController.get().driver()).contextClick(getLabel(pathParts[pathParts.length - 1]).getWebElement()).perform();
+		BrowserController.get().executeScript("$('.rf-tt.ef-tree-node-tooltip').hide();");
+		new Link(By.xpath(String.format("//div[@id='jqContextMenu']//li[.='%s']", operation))).click();
+	}
+
+	//TODO vskatulo:  functionality is not full, verify only one layer
+	private static boolean isTreeExpanded(String path) {
+		String[] pathParts = path.split("/");
+		StaticElement lastFolder = new StaticElement(By.xpath(String.format("//form[@id='efForm']//div[span/span/span[contains(@id, 'efForm:efTree') and .='%s']]/span[1]",
+				pathParts[pathParts.length - 1])));
+		StaticElement expandButton = new StaticElement(By.xpath(String.format("//form[@id='efForm']//div[span/span/span[contains(@id, 'efForm:efTree') and .='%s']]/span[@class='rf-trn-hnd-colps rf-trn-hnd']",
+				pathParts[pathParts.length - 1])));
+		return lastFolder.isPresent() && !expandButton.isPresent();
 	}
 }
