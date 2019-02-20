@@ -464,7 +464,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	 * @scenario 1
 	 * 1. Create policy.
 	 * 2. Create endorsement outside of PAS.
-	 * 3. Add vehicle through service
+	 * 3. Add/replace vehicle through service
 	 * 4. Rate. Hit RFI service.
 	 * 5. Check the response.
 	 * 6. Check if document is displaying.
@@ -479,7 +479,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	 * @scenario 2
 	 * 1. Create policy and override the rule
 	 * 2. Create endorsement outside of PAS.
-	 * 3. Trigger the document by replacing vehicle
+	 * 3. Trigger the document by adding vehicle
 	 * 4. Hit RFI service and check that document is returned
 	 * 5. Bind Endorsement ---> No rule is fired (as it was overridden at NB)
 	 *
@@ -571,6 +571,41 @@ public class TestServiceRFI extends AutoSSBaseTest {
 				DocGenHelper.checkDocumentsDoesNotExistInXml(policyNumber, AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE, documentAA52UPAA);// Document does not exist
 			}
 		});
+
+		//Verify Replace vehicle scenario (DXP)
+		if (!isRuleOverridden) {
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			ViewVehicleResponse viewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
+			String vehicleOid = viewVehicles.vehicleList.get(0).oid;
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			String replacedVehicleVin = "2T1BURHE4JC034340"; //Toyota Corolla 2018
+			TestMiniServicesVehiclesHelper vehiclesHelper1 = new TestMiniServicesVehiclesHelper();
+			vehiclesHelper1.replaceVehicleWithUpdates(policyNumber, vehicleOid, replacedVehicleVin, true, true);
+
+			docId1 = checkDocumentInRfiService(policyNumber, documentAA52UPAA.getId(), documentAA52UPAA.getName());
+			docId2 = checkDocumentInRfiService(policyNumber, documentAA52IPAA.getId(), documentAA52IPAA.getName());
+
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error200306.getCode(), error200306.getMessage(), "attributeForRules");
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error200307.getCode(), error200307.getMessage(), "attributeForRules");
+
+			//Bind policy with docId and document is electronically signed
+			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), docId1, docId2);
+			assertSoftly(softly -> {
+				String queryAA52IPAA = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, documentAA52IPAA.getIdInXml(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
+				String queryAA52UPAA = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, documentAA52UPAA.getIdInXml(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
+				verifyDocInDb(softly, queryAA52IPAA, documentAA52IPAA, true);
+				verifyDocInDb(softly, queryAA52UPAA, documentAA52UPAA, true);
+
+				//create endorsement from, pas go to bind page verify document is electronically signed
+				mainApp().open();
+				SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+				policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+				NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+				softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAssetUninsured).getValue()).isEqualTo("Electronically Signed");
+				softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAssetUnderinsured).getValue()).isEqualTo("Electronically Signed");
+				documentsAndBindTab.saveAndExit();
+			});
+		}
 	}
 
 	/**
