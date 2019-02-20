@@ -313,7 +313,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         //Employee Benefit discount (CA Auto Only) for NBZ-04 validations
         if(isAutoCA()){
             assertSoftly(softly -> {
-                Dollar employeeDiscount = getEmployeeDiscount();
+                Dollar employeeDiscount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EMPLOYEE_BENEFIT);
                 softly.assertThat(employeeDiscount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.EMPLOYEE_BENEFIT, "1044"));
                 softly.assertThat(employeeDiscount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.EMPLOYEE_BENEFIT, "1041"));
             });
@@ -322,11 +322,11 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         SearchPage.openPolicy(policyNumber);
         Dollar reducedPrem = performRPEndorsement(policyNumber, effDate);
 
-        // Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
+        //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
         advanceTimeAndOpenPolicy(effDate, policyNumber);
         JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
 
-        // TODO END-04 and PMT-05 validations
+        //END-04 and PMT-05 validations
         assertSoftly(softly -> {
             softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
             softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")
@@ -340,7 +340,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         if(isAutoCA()){
             assertSoftly(softly -> {
                 //Store employee benefit for END-04
-                Dollar employeeDiscount = getEmployeeDiscount();
+                Dollar employeeDiscount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EMPLOYEE_BENEFIT);
                 softly.assertThat(employeeDiscount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.EMPLOYEE_BENEFIT, "1044"));
                 softly.assertThat(employeeDiscount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.EMPLOYEE_BENEFIT, "1041"));
             });
@@ -361,15 +361,19 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             softly.assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1042"));
         });
 
-        // Cancel policy
+        //Cancel policy
         cancelPolicy();
 
-        // TODO CNL-04 validations
+        //CNL-04 validations
+        validateCancellationTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION), policyNumber);
 
-        // Advance time and reinstate policy with lapse
+        //Advance time and reinstate policy with lapse
         performReinstatementWithLapse(effDate, policyNumber);
 
-        // TODO RST-04 validations
+        //RST-04 validations
+        validateReinstatementTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT), policyNumber);
 
         //TODO need to change the reinstatement lapse RST-08, then remove the lapse RST-10 and validations
 
