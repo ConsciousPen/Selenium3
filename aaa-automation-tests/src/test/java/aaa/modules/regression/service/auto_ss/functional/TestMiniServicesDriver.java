@@ -903,7 +903,6 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16578", "PAS-17933", "PAS-17957"})
 	public void pas16578_removeDriverCheckIfTaskWasCreated(@Optional("VA") String state) {
-
 		pas16578_removeDriverCheckIfTaskWasCreatedBody();
 	}
 
@@ -927,7 +926,6 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17769", "PAS-17658"})
 	public void pas17769_tooOldDriverErrorAndNoHintFromReportResponse(@Optional("VA") String state) {
-
 		pas17769_tooOldDriverErrorAndNoHintFromReportResponseBody();
 	}
 
@@ -947,7 +945,6 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19768"})
 	public void pas19768_ageFirstLicensedCannotBeGreaterThanDob(@Optional("VA") String state) {
-
 		pas19768_ageFirstLicensedCannotBeGreaterThanDobBody();
 	}
 
