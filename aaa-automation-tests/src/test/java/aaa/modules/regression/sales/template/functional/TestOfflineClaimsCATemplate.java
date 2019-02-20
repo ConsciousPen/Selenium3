@@ -813,4 +813,12 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         policy.dataGather().start();
         validateGDD();
     }
+
+    /*
+    Method Validates Driver tab that 'Permissive Use Loss?' Radio Button is not visible for Not First Named Insured Driver
+     */
+    protected void validateNonFNIPermissiveUse() {
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+
+    }
 }

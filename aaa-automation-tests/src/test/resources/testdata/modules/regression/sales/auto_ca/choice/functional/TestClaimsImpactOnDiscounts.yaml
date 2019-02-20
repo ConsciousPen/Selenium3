@@ -1,7 +1,7 @@
 TestData_DriverTab_DiscountsGDD_CAC: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@GeneralTab',
-  DriverTab: '@Driver_FNI'
+  DriverTab: ['@Driver_FNI', '@Driver_Second'],
 }
 
 # Data according to ChoicePointClueMockData.xls (ID Scorpion_CA_Choice_001)
@@ -30,10 +30,12 @@ NamedInsuredInformationToGetClaims: {
 }
 
 Driver_FNI: {
+  'Rel. to First Named Insured': 'First Named Insured',
   Occupation: Self Employed,
   Age First Licensed: 18,
   License Type: 'Valid',
   "License #": D1278222,
+  License State: CA,
   Permit Before License: 'No',
   ActivityInformation: [
   {
@@ -59,6 +61,35 @@ Driver_FNI: {
   ]
 }
 
+Driver_Second: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  First Name: Matt,
+  Last Name: Fox,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '12/12/1980',
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Self Employed,
+  Age First Licensed: 18,
+  License Type: 'Valid',
+  License State: CA,
+  "License #": D1278333,
+  Permit Before License: 'No',
+  ActivityInformation:
+    {
+      Activity Source: Company Input,
+      Type: 'Accident',
+      Description: 'Fault accident with injury',
+      Occurrence Date: '$<today-2M:MM/dd/yyyy>',
+      Conviction Date: '$<today-2M:MM/dd/yyyy>',
+      Loss Payment Amount: 4000,
+      Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+      'Include in Points and/or YAF?': 'Yes'
+    }
+}
+
+# Test Data for completing quote
 TestData_DriverActivityReportsTab_CAC: {
   DriverActivityReportsTab: '@DriverActivityReportsTab_2nd'
 

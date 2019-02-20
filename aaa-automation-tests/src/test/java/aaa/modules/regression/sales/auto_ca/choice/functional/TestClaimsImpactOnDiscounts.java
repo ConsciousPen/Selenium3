@@ -70,6 +70,8 @@ public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
         TestData tdAfterValidation = getTestSpecificTD("TestData_DriverActivityReportsTab_CAC").resolveLinks();
         TestData td2 = getPolicyTD().adjust(tdAfterValidation);
 
+        TestData td2ndDriver = getTestSpecificTD("TestData_2nd_Driver_CAC").resolveLinks();
+
         // Verify GDD during NB Quote Creation
         createQuoteAndFillUpTo(td, DriverActivityReportsTab.class);
         validateGDD();
