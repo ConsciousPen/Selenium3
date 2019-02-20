@@ -1890,8 +1890,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		lastTransactionHistoryOpen();
 		if (!membershipDiscountPresent) {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-			//TODO if it will fail, necessary to think how to implement verification.
-			softly.assertThat(generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER)).hasValue("No");
+			softly.assertThat(generalTab.getInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP)
+					.getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.CURRENT_AAA_MEMBER.getLabel()).getValue()).isEqualTo("No");
 		}
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		if (membershipDiscountPresent) {
