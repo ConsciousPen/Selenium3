@@ -62,6 +62,7 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 	@StateList(states = States.PA)
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL})
 	public void TC01_EndorsementOne(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(getState(),getPolicyType());
 		CustomSoftAssertions.assertSoftly(softly -> {
 			mainApp().open();
 			createCustomerIndividual();

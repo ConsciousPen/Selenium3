@@ -89,8 +89,10 @@ public class DocGenHelper {
 	 *                        By default strict match check is used, this means exception will be thrown if xml content differs from existing model (e.g. has extra tags)
 	 */
 	public static DocumentWrapper verifyDocumentsGenerated(ETCSCoreSoftAssertions softly, boolean documentsExistence, boolean generatedByJob, String policyNumber, DocGenEnum.Documents... documents) {
+		//checkPasDocEnabled(policyNumber);
 		if (isPasDocEnabled(policyNumber)) {
-			throw new SkipException(String.format("PasDoc is enabled for product and state combination: " + policyNumber + ". Test will be skipped."));
+			log.error(String.format("PasDoc is enabled for product and state combination: " + policyNumber + ". Verification will be skipped."));
+			return null;
 		}
 		assertThat(documents.length == 0 && !documentsExistence).as("Unable to call method with empty \"documents\" array and false \"documentsExistence\" argument values!").isFalse();
 
@@ -541,7 +543,13 @@ public class DocGenHelper {
 
 	public static void checkPasDocEnabled(String state, PolicyType pType) {
 		if (isPasDocEnabled(state, pType)) {
-			throw new SkipException(String.format("PasDoc is enabled for product and state combination: %s - %s. Test will be skipped", pType, state));
+			throw new SkipException(String.format("PasDoc is enabled for product and state combination: %s - %s. Test will be skipped", state, pType));
+		}
+	}
+
+	public static void checkPasDocEnabled(String policyNum) {
+		if (isPasDocEnabled(policyNum)) {
+			throw new SkipException(String.format("PasDoc is enabled for product and state combination: %s. Test will be skipped", policyNum));
 		}
 	}
 

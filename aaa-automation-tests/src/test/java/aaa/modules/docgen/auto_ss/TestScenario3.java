@@ -34,6 +34,7 @@ public class TestScenario3 extends AutoSSBaseTest {
 	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testPolicyCreation(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(getState(),getPolicyType());
 		CustomSoftAssertions.assertSoftly(softly -> {
 			mainApp().open();
 			createCustomerIndividual();

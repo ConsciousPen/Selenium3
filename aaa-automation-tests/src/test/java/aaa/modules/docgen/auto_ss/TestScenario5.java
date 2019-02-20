@@ -70,7 +70,7 @@ public class TestScenario5 extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void TC01_GenerateQuoteDocuments(@Optional("") String state) {
-
+		DocGenHelper.checkPasDocEnabled(getState(),getPolicyType());
 		CustomSoftAssertions.assertSoftly(softly -> {
 			mainApp().open();
 
