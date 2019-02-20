@@ -6,6 +6,8 @@ TestData_DriverTab_DiscountsGDD_CAC: {
 
 # Data according to ChoicePointClueMockData.xls (ID Scorpion_CA_Choice_001)
 PrefillTab: {
+  First Name: 'Tony',
+  Last Name: 'Stark',
   Zip Code: 90255,
   Address Line 1: '6586 PORCUPINE WAY',
   Date of Birth: '10/16/1997',
@@ -23,11 +25,7 @@ GeneralTab: {
   PolicyInformation: '@<auto_ca_choice>@DataGather@PolicyInformation'
 }
 
-# Data according to ChoicePointClueMockData.xls (ID Scorpion_CA_Choice_001)
-NamedInsuredInformationToGetClaims: {
-  First Name: 'Tony',
-  Last Name: 'Stark'
-}
+NamedInsuredInformationToGetClaims: {}
 
 Driver_FNI: {
   'Rel. to First Named Insured': 'First Named Insured',
@@ -37,19 +35,7 @@ Driver_FNI: {
   "License #": D1278222,
   License State: CA,
   Permit Before License: 'No',
-  ActivityInformation: [
-  {
-    Activity Source: Company Input,
-    Type: 'Accident',
-    Description: 'Fault accident with injury',
-    Occurrence Date: '$<today-2M:MM/dd/yyyy>',
-    Conviction Date: '$<today-2M:MM/dd/yyyy>',
-    Loss Payment Amount: 4000,
-    Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-    'Include in Points and/or YAF?': 'Yes',
-    'Permissive Use Loss?': 'Yes'
-  },
-  {
+  ActivityInformation: {
     Activity Source: Customer Input,
     Type: 'Major Violation',
     Description: 'Hit and run',
@@ -58,35 +44,32 @@ Driver_FNI: {
     'Include in Points and/or YAF?': 'Yes',
     'Permissive Use Loss?': 'Yes'
   }
-  ]
 }
 
 Driver_Second: {
   Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: Matt,
-  Last Name: Fox,
+  First Name: pasMATTHEW,
+  Last Name: pasFOX,
+  Driver Type: 'Available for Rating',
   'Rel. to First Named Insured': Spouse,
   Date of Birth: '12/12/1980',
   Gender: Male,
   Marital Status: Married,
   Occupation: Self Employed,
-  Age First Licensed: 18,
-  License Type: 'Valid',
+  License Type: "Valid",
   License State: CA,
-  "License #": D1278333,
+  "License #": D1234567,
+  Age First Licensed: 18,
   Permit Before License: 'No',
-  ActivityInformation:
-    {
-      Activity Source: Company Input,
-      Type: 'Accident',
-      Description: 'Fault accident with injury',
-      Occurrence Date: '$<today-2M:MM/dd/yyyy>',
-      Conviction Date: '$<today-2M:MM/dd/yyyy>',
-      Loss Payment Amount: 4000,
-      Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-      'Include in Points and/or YAF?': 'Yes'
-    }
+  ActivityInformation: {
+    Activity Source: Customer Input,
+    Type: 'Major Violation',
+    Description: 'Hit and run',
+    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+    Conviction Date: '$<today-3M:MM/dd/yyyy>',
+    'Include in Points and/or YAF?': 'Yes',
+  }
 }
 
 # Test Data for completing quote

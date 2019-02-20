@@ -47,9 +47,8 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
@@ -414,7 +413,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
             validateGDD();
         }
 
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab();
         payTotalAmtDue(policyNumber);
     }
@@ -758,6 +757,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         //Making sure that PU = Yes, and its included in rating.
         ActivityInformationMultiAssetList activityInformationAssetList = new DriverTab().getActivityInformationAssetList();
+        DriverTab.viewDriver(1);
 
         for (int i = 1; i <= DriverTab.tableActivityInformationList.getAllRowsCount(); i++) {
             DriverTab.tableActivityInformationList.selectRow(i);
@@ -789,7 +789,11 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Verify That Discount is NOT Applied when one Claim is not PU Claim
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         premiumAndCoveragesTab.calculatePremium();
-        assertThat(PremiumAndCoveragesTab.tableDiscounts.getColumn(1).getCell(1).getValue()).doesNotContain("Good Driver");
+
+        // If Discounts table is not visible, means that GDD discounts is not applied (Auto CA Select specific)
+        if (PremiumAndCoveragesTab.tableDiscounts.isPresent()) {
+            assertThat(PremiumAndCoveragesTab.tableDiscounts.getColumn(1).getCell(1).getValue()).doesNotContain("Good Driver");
+        }
 
     }
 
@@ -819,6 +823,10 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      */
     protected void validateNonFNIPermissiveUse() {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        DriverTab.viewDriver(2);
 
+        CustomSoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).isVisible()).isFalse();
+        });
     }
 }

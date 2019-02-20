@@ -7,9 +7,12 @@ import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.Constants;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -80,9 +83,19 @@ public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
             premiumAndCoveragesTab.submitTab();
         }
 
+        // Select First Named Insured Driver and navigate again to Driver Activity Reports to Order CLUE
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        DriverTab.viewDriver(1);
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
         driverActivityReportsTab.fillTab(td);
+
+        // Verify GDD during NB Quote Creation
         validateGDD();
 
+        // Verify that Permissive Use Indicator is not displayed for Non First Named Insured
+        validateNonFNIPermissiveUse();
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         policy.getDefaultView().fillFromTo(td2, PremiumAndCoveragesTab.class, PurchaseTab.class, true);
         purchaseTab.submitTab();
 
