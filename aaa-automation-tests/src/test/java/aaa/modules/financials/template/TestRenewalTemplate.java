@@ -21,7 +21,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
      * 2. Advance time 1 month and pay installment amount (and full amount due)
      * 3. Advance policy through renewal cycle
      * 4. Pay amount due and verify renewal is active
-     * 5. Create AP endorsement with eff. date today + 2 days
+     * 5. Create NPB endorsement with eff. date today + 2 days
      * 6. Create AP endorsement with eff. date today + 1 day (OOS)
      * 7. Roll back endorsement
      * 8. Move time point and bind renewal ON or AFTER the renewal effective date
@@ -90,8 +90,8 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
      * 1. Create policy WITHOUT employee benefit with monthly payment plan.
      * 2. Advance time 1 month and pay installment amount (and full amount due)
      * 3. Decline payment for reason = NSF
-     * 4. Create AP endorsement with eff. date today + 2 days
-     * 5. Create AP endorsement with eff. date today + 1 day (OOS)
+     * 4. Create NPB endorsement with eff. date today + 2 days
+     * 5. Create RP endorsement with eff. date today + 1 day (OOS)
      * 6. Roll back endorsement
      * 7. Move time point and bind renewal BEFORE the renewal effective date
      * @details PMT-03, FEE-07, FEE-08, FEE-09, FEE-17, FEE-18, RNW-03, END-05, END-07
@@ -162,6 +162,38 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         Dollar renewalAmt = payTotalAmountDue();
 
         // TODO Validate RNW-03
+
+    }
+
+    /**
+     * @scenario
+     * 1. Create policy WITH employee benefit with monthly payment plan.
+     * 2. Advance time 1 month and pay installment amount (and full amount due)
+     * 3. Advance policy through renewal cycle
+     * 4. Pay amount due and verify renewal is active
+     * 5. Create NPB endorsement with eff. date today + 2 days
+     * 6. Create AP endorsement with eff. date today + 1 day (OOS)
+     * 7. Roll back endorsement
+     * 8. Move time point and bind renewal ON or AFTER the renewal effective date
+     * @details RNW-02, END-06, END-08
+     */
+    protected void testRenewalScenario_3() {
+
+    }
+
+    /**
+     * @scenario
+     * 1. Create policy WITH employee benefit with monthly payment plan.
+     * 2. Advance time 1 month and pay installment amount (and full amount due)
+     * 3. Advance policy through renewal cycle
+     * 4. Pay amount due and verify renewal is active
+     * 5. Create NPB endorsement with eff. date today + 2 days
+     * 6. Create RP endorsement with eff. date today + 1 day (OOS)
+     * 7. Roll back endorsement
+     * 8. Move time point and bind renewal BEFORE the renewal effective date
+     * @details RNW-04, END-06, END-08
+     */
+    protected void testRenewalScenario_4() {
 
     }
 
