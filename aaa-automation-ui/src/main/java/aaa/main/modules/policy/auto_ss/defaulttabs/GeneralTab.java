@@ -130,7 +130,7 @@ public class GeneralTab extends Tab {
 	 * @param livedHereLessThan3Years is "Yes" or "No" if named insured has lived at location for less than 3 years.
 	 * @param residence can be any option in the Residence drop down.
 	 */
-	public void addAnotherNamedInsured(String firstName, String lastName, String dateOfBirth, String livedHereLessThan3Years, String residence){
+	public void addNamedInsured(String firstName, String lastName, String dateOfBirth, String livedHereLessThan3Years, String residence){
 		GeneralTab generalTab = new GeneralTab();
 
 		// Click Add Insured Button
@@ -442,7 +442,6 @@ public class GeneralTab extends Tab {
 	 * @return Checkbox representing requested control.
 	 */
 	public CheckBox getUnquotedCheckBox(AssetDescriptor<CheckBox> assetDescriptor){
-		return this.getOtherAAAProductOwnedAssetList().getAsset(assetDescriptor.getLabel(),
-				assetDescriptor.getControlClass());
+		return this.getOtherAAAProductOwnedAssetList().getAsset(assetDescriptor);
 	}
 }

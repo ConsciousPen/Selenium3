@@ -20,7 +20,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.assertj.core.api.Assertions;
 import org.testng.annotations.*;
 import org.testng.annotations.Optional;
 import toolkit.datax.TestData;
@@ -157,11 +156,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createQuoteAndFillUpTo(testData, GeneralTab.class, false);//true);
 
         // Step 2
-        Button refreshButton = _generalTab.getOtherAAAProductOwnedAssetList().getAsset(
-                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getLabel(),
-                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getControlClass());
-
-        refreshButton.click(Waiters.AJAX);
+        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
+                .click(Waiters.AJAX);
 
         // Step 3:
         // Note: If following fails on first assert, validate hitting refresh comes back with
@@ -220,8 +216,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         // Step 3
         Button refreshButton = _generalTab.getOtherAAAProductOwnedAssetList().getAsset(
-                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getLabel(),
-                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getControlClass());
+                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH);
 
         refreshButton.click(Waiters.AJAX);
 
@@ -302,8 +297,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
                 // Ensure Physically sign Auto Insurance Application set
                 _documentsAndBindTab.getRequiredToBindAssetList().getAsset(
-                        AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(),
-                        AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getControlClass())
+                        AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION)
                         .setValue("Physically Signed");
             }
 
@@ -431,7 +425,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
 
         // Add second NI
-        _generalTab.addAnotherNamedInsured("Jane", "Doe", "02/14/1990", "No", "Own Home");
+        _generalTab.addNamedInsured("Jane", "Doe", "02/14/1990", "No", "Own Home");
 
         // Move to documents and bind tab.
         _generalTab.submitTab();
@@ -479,14 +473,11 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
 
         // Add second NI
-        _generalTab.addAnotherNamedInsured("CUSTOMER_E", "Doe", "02/14/1990", "No", "Own Home");
+        _generalTab.addNamedInsured("CUSTOMER_E", "Doe", "02/14/1990", "No", "Own Home");
 
         // Trigger refresh
-        Button refreshButton = _generalTab.getOtherAAAProductOwnedAssetList().getAsset(
-                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getLabel(),
-                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getControlClass());
-
-        refreshButton.click(Waiters.AJAX);
+        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
+                .click(Waiters.AJAX);
 
         // Move to documents and bind tab.
         _generalTab.submitTab();
@@ -532,14 +523,11 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
 
         // Add second NI
-        _generalTab.addAnotherNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        _generalTab.addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         // Trigger refresh
-        Button refreshButton = _generalTab.getOtherAAAProductOwnedAssetList().getAsset(
-                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getLabel(),
-                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getControlClass());
-
-        refreshButton.click(Waiters.AJAX);
+        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
+                .click(Waiters.AJAX);
 
         // Complete purchase
         _generalTab.submitTab();
@@ -602,14 +590,11 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
 
         // Add second NI
-        _generalTab.addAnotherNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        _generalTab.addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         // Trigger refresh
-        Button refreshButton = _generalTab.getOtherAAAProductOwnedAssetList().getAsset(
-                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getLabel(),
-                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getControlClass());
-
-        refreshButton.click(Waiters.AJAX);
+        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
+                .click(Waiters.AJAX);
 
         // Complete purchase
         _generalTab.submitTab();
