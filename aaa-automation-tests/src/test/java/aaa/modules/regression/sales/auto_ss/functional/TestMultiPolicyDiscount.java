@@ -215,10 +215,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         setUnquotedCheckbox(mpdPolicyType.condo, true);
 
         // Step 3
-        Button refreshButton = _generalTab.getOtherAAAProductOwnedAssetList().getAsset(
-                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH);
-
-        refreshButton.click(Waiters.AJAX);
+        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
+                .click(Waiters.AJAX);
 
         // Step 4
         String policyTypeMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
