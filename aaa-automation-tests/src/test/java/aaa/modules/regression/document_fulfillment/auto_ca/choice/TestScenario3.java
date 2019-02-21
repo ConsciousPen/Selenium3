@@ -17,7 +17,7 @@ public class TestScenario3 extends AutoCaChoiceBaseTest {
 	@Parameters({"state"})
 	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void testAH61XX(@Optional("CA") String state) {
+	public void testAH61XX_AH62XX(@Optional("CA") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNum = createPolicy();
