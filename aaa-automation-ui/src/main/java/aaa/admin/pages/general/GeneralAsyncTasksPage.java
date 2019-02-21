@@ -10,6 +10,7 @@ import toolkit.webdriver.controls.StaticElement;
 public class GeneralAsyncTasksPage extends AdminPage {
 
     public static Link linkStartManager = new Link(By.id("asyncTaskSummaryForm:startManager"));
+    public static Link linkStartAllManager = new Link(By.id("asyncTaskSummaryForm:startAllManagers"));
     public static Link linkStopManager = new Link(By.id("asyncTaskSummaryForm:stopManager"));
     public static StaticElement labelFailedTasks = new StaticElement(By.id("asyncTaskSummaryForm:allStatsFailednode"));
     public static StaticElement labelLockedTasks = new StaticElement(By.id("asyncTaskSummaryForm:allStatsLockednode"));
