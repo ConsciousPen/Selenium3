@@ -5677,7 +5677,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES.getLabel()),
 				getTestSpecificTD("AdditionalPersonalInjuryProtectionBenefit_NO").resolveLinks());
 
-		String policyNumber = "NJSS952918542";//openAppAndCreatePolicy(td);
+		String policyNumber = openAppAndCreatePolicy(td);
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		PolicyCoverageInfo viewEndCovResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 
@@ -5721,7 +5721,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
     protected void pas19163_viewPipYesAndNonMedExpenseYesNJbody(){
-        String policyNumber = createConversionPolicy();
+        String policyNumber = openAppAndCreatePolicy();
         helperMiniServices.createEndorsementWithCheck(policyNumber);
         PolicyCoverageInfo viewEndCovResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 
