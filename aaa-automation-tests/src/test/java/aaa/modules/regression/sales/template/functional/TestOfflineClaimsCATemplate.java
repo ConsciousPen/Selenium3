@@ -794,7 +794,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         if (PremiumAndCoveragesTab.tableDiscounts.isPresent()) {
             assertThat(PremiumAndCoveragesTab.tableDiscounts.getColumn(1).getCell(1).getValue()).doesNotContain("Good Driver");
         }
-
     }
 
     /*
@@ -819,14 +818,42 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     }
 
     /*
-    Method Validates Driver tab that 'Permissive Use Loss?' Radio Button is not visible for Not First Named Insured Driver
+    Method Validates Driver tab that PU Indicator is not visible for Non First Named Insured Driver
      */
     protected void validateNonFNIPermissiveUse() {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         DriverTab.viewDriver(2);
 
+        //Verify that 'Permissive Use Loss?' is not visible for Non First Named Insured
         CustomSoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).isVisible()).isFalse();
+            softly.assertThat(!activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent());
         });
+    }
+
+    /*
+   Method Validates NB quote: Good Driver Discount validation & PU indicator visibility on different Drivers
+	*/
+    protected void validateGDDAndPUIndicatorOnNB(TestData td, TestData td2) {
+        // Select First Named Insured Driver and navigate again to Driver Activity Reports to Order CLUE
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        DriverTab.viewDriver(1);
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+        driverActivityReportsTab.fillTab(td);
+
+        //Making Sure that correct Policy Type is selected: Select OR Choice
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.fillTab(td);
+        // Verify GDD during NB Quote Creation
+        validateGDD();
+
+        // Verify that Permissive Use Indicator is not displayed for Non First Named Insured
+        validateNonFNIPermissiveUse();
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        policy.getDefaultView().fillFromTo(td2, PremiumAndCoveragesTab.class, PurchaseTab.class, true);
+        purchaseTab.submitTab();
+
+        policyNumber = labelPolicyNumber.getValue();
+        mainApp().close();
     }
 }

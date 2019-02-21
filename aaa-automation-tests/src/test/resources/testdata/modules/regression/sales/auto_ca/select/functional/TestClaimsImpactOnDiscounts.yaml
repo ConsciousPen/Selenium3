@@ -72,7 +72,7 @@ Driver_Second: {
   }
 }
 
-# Adding P&C Tab info, as Default Test data doesn't work with currect adjusted data (ActivityInformation )
+# Adding P&C Tab info, to be sure that After order CLUE, Correct Policy Type is selected
 PremiumAndCoveragesTab: {
   Product: 'CA Select',
   Payment Plan: Annual
