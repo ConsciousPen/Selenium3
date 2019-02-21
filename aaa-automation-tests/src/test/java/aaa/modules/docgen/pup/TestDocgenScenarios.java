@@ -5,8 +5,8 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
@@ -17,12 +17,12 @@ import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import aaa.utils.StateList;
-import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestDocgenScenarios extends PersonalUmbrellaBaseTest {
-	
+
 	String quoteNum;
-	
+
 	/**
 	 * @author Lina Li
 	 * @name Verify On-Demand Documents tab for PUP policy
@@ -112,106 +112,108 @@ public class TestDocgenScenarios extends PersonalUmbrellaBaseTest {
 	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void TC01(@Optional("") String state) {
-		
-		CustomSoftAssertions.assertSoftly(softly -> {
-			mainApp().open();
 
-			GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
-			createCustomerIndividual();
-			quoteNum = createQuote();
-			log.info("Create PUP Quote" + quoteNum);
+		mainApp().open();
 
-			//Verify the documents on quote GODD page
-			policy.quoteDocGen().start();
+		GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
+		createCustomerIndividual();
+		quoteNum = createQuote();
+		log.info("Create PUP Quote" + quoteNum);
+
+		//Verify the documents on quote GODD page
+		policy.quoteDocGen().start();
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			goddTab.verify.documentsPresent(softly, AHFMXX, PS11, PSIQXX, HSRFIXXPUP, HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX);
 			goddTab.verify.documentsPresent(softly, false, _438BFUNS, AHRCTXX, AHPNXX, AHNBXX, HSEIXX, HSES, PS02);
 			goddTab.verify.documentsEnabled(softly, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU08XX, AHFMXX, PSIQXX, PS11);
 			goddTab.verify.documentsEnabled(softly, false, HSU01XX, HSU02XX, HSU07XX, HSU09XX, HSRFIXXPUP);
 			goddTab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, null, PSIQXX);
 			DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, PSIQXX, AHPNXX);
-
-		});
+			goddTab.cancel();
+		softly.close();
 	}
 
 	@Parameters({"state"})
 	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void TC02(@Optional("") String state) {
-		
-		CustomSoftAssertions.assertSoftly(softly -> {
-			mainApp().open();
 
-			SearchPage.openQuote(quoteNum);
-			
-			GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
+		mainApp().open();
 
-			policy.quoteDocGen().start();
-			goddTab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, null, PS11, AHFMXX);
-			DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, PS11, AHPNXX, AHFMXX);
-		});
+		SearchPage.openQuote(quoteNum);
+
+		GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
+
+		policy.quoteDocGen().start();
+		goddTab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, null, PS11, AHFMXX);
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, PS11, AHPNXX, AHFMXX);
+		goddTab.cancel();
+		softly.close();
 	}
-	
+
 	@Parameters({"state"})
 	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void TC03(@Optional("") String state) {
-		
-		CustomSoftAssertions.assertSoftly(softly -> {
-			mainApp().open();
 
-			SearchPage.openQuote(quoteNum);
-			
-			GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
+		mainApp().open();
 
-			policy.quoteDocGen().start();
-			goddTab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, getTestSpecificTD("QuoteGenerateHSU"), 
-					HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU08XX);
-			DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU08XX);
+		SearchPage.openQuote(quoteNum);
 
-		});
+		GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
+
+		policy.quoteDocGen().start();
+		goddTab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, getTestSpecificTD("QuoteGenerateHSU"),
+				HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU08XX);
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU08XX);
+		goddTab.cancel();
+		softly.close();
 	}
-	
+
 	@Parameters({"state"})
 	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void TC04(@Optional("") String state) {
-		
-		CustomSoftAssertions.assertSoftly(softly -> {
-			mainApp().open();
 
-			SearchPage.openQuote(quoteNum);
-			
-			GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
+		mainApp().open();
 
-			policy.dataGather().start();
-			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
-			policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class).fillTab(getTestSpecificTD("ChnagePersonalUmbrellaLimit2000"), false);
-			Tab.buttonSaveAndExit.click();
+		SearchPage.openQuote(quoteNum);
 
-			policy.quoteDocGen().start();
-			goddTab.verify.documentsEnabled(softly, false, AHFMXX);
-			goddTab.buttonCancel.click();
+		GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 
-			policy.dataGather().start();
-			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
-			policy.getDefaultView().fill(getTestSpecificTD("ChnagePersonalUmbrellaLimit1000"));
-			String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
+		policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class).fillTab(getTestSpecificTD("ChnagePersonalUmbrellaLimit2000"), false);
+		Tab.buttonSaveAndExit.click();
 
-			//Verify the documents for policy
-			DocGenHelper.verifyDocumentsGenerated(softly, policyNum, PS02, AHNBXX);
-			
-			policy.policyDocGen().start();
-			goddTab.verify.documentsPresent(softly, AHRCTXXPUP, PS11, HSRFIXXPUP, HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX);
-			goddTab.verify.documentsPresent(softly, false,
-					PSIQXX,
-					AHPNXX,
-					_438BFUNS,
-					HSEIXX,
-					HSES);
-			goddTab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, getTestSpecificTD("PolicyGenerateHSU"), PS11, AHRCTXXPUP, HSU01XX, HSU09XX);
-			DocGenHelper.verifyDocumentsGenerated(softly, policyNum, PS11, AHPNXX, AHRCTXXPUP, HSU01XX, HSU09XX);
-		});
+		policy.quoteDocGen().start();
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		goddTab.verify.documentsEnabled(softly, false, AHFMXX);
+		goddTab.cancel();
+
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
+		policy.getDefaultView().fill(getTestSpecificTD("ChnagePersonalUmbrellaLimit1000"));
+		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
+
+		//Verify the documents for policy
+		DocGenHelper.verifyDocumentsGenerated(softly, policyNum, PS02, AHNBXX);
+
+		policy.policyDocGen().start();
+		goddTab.verify.documentsPresent(softly, AHRCTXXPUP, PS11, HSRFIXXPUP, HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX);
+		goddTab.verify.documentsPresent(softly, false,
+				PSIQXX,
+				AHPNXX,
+				_438BFUNS,
+				HSEIXX,
+				HSES);
+		goddTab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, getTestSpecificTD("PolicyGenerateHSU"), PS11, AHRCTXXPUP, HSU01XX, HSU09XX);
+		DocGenHelper.verifyDocumentsGenerated(softly, policyNum, PS11, AHPNXX, AHRCTXXPUP, HSU01XX, HSU09XX);
+		goddTab.cancel();
+		softly.close();
 	}
 }

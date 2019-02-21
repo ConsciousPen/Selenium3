@@ -1,17 +1,15 @@
 package aaa.modules.docgen.home_ss.ho3;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import java.util.List;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
@@ -34,7 +32,7 @@ import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 /**
  *
@@ -127,13 +125,12 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testQuoteDocuments(@Optional("") String state) {
-		CustomSoftAssertions.assertSoftly(softly -> {
-			mainApp().open();
+		mainApp().open();
 
-			createCustomerIndividual();
-			String quoteNum = createQuote();
-			policy.quoteDocGen().start();
-			//PAS-6839 Remove Old CIN Documents and triggers from the system
+		createCustomerIndividual();
+		String quoteNum = createQuote();
+		policy.quoteDocGen().start();
+		//PAS-6839 Remove Old CIN Documents and triggers from the system
 			/*
 			if (getState().equals(States.VA)) {
 				documentActionTab.verify.documentsPresent(DocGenEnum.Documents.HSAUDVA);
@@ -141,98 +138,100 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				documentActionTab.verify.documentsPresent(DocGenEnum.Documents.AHAUXX);
 			}
 			*/
-			documentActionTab.verify.documentsPresent(softly,
-					DocGenEnum.Documents.AHFMXX,
-					DocGenEnum.Documents.HS11.setState(getState()),
-					DocGenEnum.Documents.HSIQXX,
-					DocGenEnum.Documents.HSRFIXX,
-					DocGenEnum.Documents.HSU01XX,
-					DocGenEnum.Documents.HSU02XX,
-					DocGenEnum.Documents.HSU03XX,
-					DocGenEnum.Documents.HSU04XX,
-					DocGenEnum.Documents.HSU05XX,
-					DocGenEnum.Documents.HSU06XX,
-					DocGenEnum.Documents.HSU07XX,
-					DocGenEnum.Documents.HSU08XX,
-					DocGenEnum.Documents.HSU09XX);
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		documentActionTab.verify.documentsPresent(softly,
+				DocGenEnum.Documents.AHFMXX,
+				DocGenEnum.Documents.HS11.setState(getState()),
+				DocGenEnum.Documents.HSIQXX,
+				DocGenEnum.Documents.HSRFIXX,
+				DocGenEnum.Documents.HSU01XX,
+				DocGenEnum.Documents.HSU02XX,
+				DocGenEnum.Documents.HSU03XX,
+				DocGenEnum.Documents.HSU04XX,
+				DocGenEnum.Documents.HSU05XX,
+				DocGenEnum.Documents.HSU06XX,
+				DocGenEnum.Documents.HSU07XX,
+				DocGenEnum.Documents.HSU08XX,
+				DocGenEnum.Documents.HSU09XX);
 
-			documentActionTab.verify.documentsPresent(softly,
-					false,
-					DocGenEnum.Documents._438BFUNS,
-					DocGenEnum.Documents.AHRCTXX,
-					DocGenEnum.Documents.AHPNXX,
-					DocGenEnum.Documents.HS02,
-					DocGenEnum.Documents.AHNBXX,
-					//				Documents.HSEIXX, // TODO Present on the page, need to confirm the request
-					DocGenEnum.Documents.HSES);
+		documentActionTab.verify.documentsPresent(softly,
+				false,
+				DocGenEnum.Documents._438BFUNS,
+				DocGenEnum.Documents.AHRCTXX,
+				DocGenEnum.Documents.AHPNXX,
+				DocGenEnum.Documents.HS02,
+				DocGenEnum.Documents.AHNBXX,
+				//				Documents.HSEIXX, // TODO Present on the page, need to confirm the request
+				DocGenEnum.Documents.HSES);
 
-			documentActionTab.generateDocuments(DocGenEnum.Documents.HSIQXX);
-			WebDriverHelper.switchToDefault();
-			DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, DocGenEnum.Documents.HSIQXX, DocGenEnum.Documents.AHPNXX);
+		documentActionTab.generateDocuments(DocGenEnum.Documents.HSIQXX);
+		WebDriverHelper.switchToDefault();
+		DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, DocGenEnum.Documents.HSIQXX, DocGenEnum.Documents.AHPNXX);
 
-			PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
-			policy.quoteDocGen().start();
-			if (getState().equals(Constants.States.VA)) {
-				documentActionTab.selectDocuments(DocGenEnum.Documents.HSAUDVA);
-			}
-			documentActionTab.generateDocuments(
-					DocGenEnum.Documents.HS11.setState(getState()),
-					DocGenEnum.Documents.AHFMXX,
-					DocGenEnum.Documents.HSILXX
-			);
-			WebDriverHelper.switchToDefault();
-			DocGenHelper.verifyDocumentsGenerated(softly, quoteNum,
-					DocGenEnum.Documents.HS11.setState(getState()),
-					DocGenEnum.Documents.AHFMXX,
-					DocGenEnum.Documents.HSILXX,
-					DocGenEnum.Documents.AHPNXX
-			);
-			if (getState().equals(Constants.States.VA)) {
-				DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, DocGenEnum.Documents.HSAUDVA);
-			}
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+		policy.quoteDocGen().start();
+		if (getState().equals(Constants.States.VA)) {
+			documentActionTab.selectDocuments(DocGenEnum.Documents.HSAUDVA);
+		}
+		documentActionTab.generateDocuments(
+				DocGenEnum.Documents.HS11.setState(getState()),
+				DocGenEnum.Documents.AHFMXX,
+				DocGenEnum.Documents.HSILXX
+		);
+		WebDriverHelper.switchToDefault();
+		DocGenHelper.verifyDocumentsGenerated(softly, quoteNum,
+				DocGenEnum.Documents.HS11.setState(getState()),
+				DocGenEnum.Documents.AHFMXX,
+				DocGenEnum.Documents.HSILXX,
+				DocGenEnum.Documents.AHPNXX
+		);
+		if (getState().equals(Constants.States.VA)) {
+			DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, DocGenEnum.Documents.HSAUDVA);
+		}
 
-			PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
-			policy.quoteDocGen().start();
-			documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"),
-					DocGenEnum.Documents.HSU03XX,
-					DocGenEnum.Documents.HSU04XX,
-					DocGenEnum.Documents.HSU05XX,
-					DocGenEnum.Documents.HSU06XX,
-					DocGenEnum.Documents.HSU08XX
-			);
-			WebDriverHelper.switchToDefault();
-			DocGenHelper.verifyDocumentsGenerated(softly, quoteNum,
-					DocGenEnum.Documents.HSU03XX,
-					DocGenEnum.Documents.HSU04XX,
-					DocGenEnum.Documents.HSU05XX,
-					DocGenEnum.Documents.HSU06XX,
-					DocGenEnum.Documents.HSU08XX
-			);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+		policy.quoteDocGen().start();
+		documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"),
+				DocGenEnum.Documents.HSU03XX,
+				DocGenEnum.Documents.HSU04XX,
+				DocGenEnum.Documents.HSU05XX,
+				DocGenEnum.Documents.HSU06XX,
+				DocGenEnum.Documents.HSU08XX
+		);
+		WebDriverHelper.switchToDefault();
+		DocGenHelper.verifyDocumentsGenerated(softly, quoteNum,
+				DocGenEnum.Documents.HSU03XX,
+				DocGenEnum.Documents.HSU04XX,
+				DocGenEnum.Documents.HSU05XX,
+				DocGenEnum.Documents.HSU06XX,
+				DocGenEnum.Documents.HSU08XX
+		);
 
-			PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
-			policy.dataGather().start();
-			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-			policy.getDefaultView().fillFromTo(getTestSpecificTD("InsuranceScoreOverride926"), ReportsTab.class, PropertyInfoTab.class, true);
-			Tab.buttonSaveAndExit.click();
-			policy.quoteDocGen().start();
-			documentActionTab.verify.documentsEnabled(softly, false, DocGenEnum.Documents.AHFMXX, DocGenEnum.Documents.HSILXX);
-			//		documentActionTab.verify.documentsPresent(false, Documents.AHAUXX);
-			documentActionTab.buttonCancel.click();
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+		policy.getDefaultView().fillFromTo(getTestSpecificTD("InsuranceScoreOverride926"), ReportsTab.class, PropertyInfoTab.class, true);
+		Tab.buttonSaveAndExit.click();
+		policy.quoteDocGen().start();
+		documentActionTab.verify.documentsEnabled(softly, false, DocGenEnum.Documents.AHFMXX, DocGenEnum.Documents.HSILXX);
+		//		documentActionTab.verify.documentsPresent(false, Documents.AHAUXX);
+		documentActionTab.cancel();
 
-			policy.dataGather().start();
-			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-			policy.getDefaultView().fillFromTo(getTestSpecificTD("InsuranceScoreOverride920"), ReportsTab.class, PremiumsAndCoveragesQuoteTab.class);
-			policy.getDefaultView().getTab(PremiumsAndCoveragesQuoteTab.class).calculatePremium();
-			Tab.buttonSaveAndExit.click();
-			policy.quoteDocGen().start();
-			documentActionTab.verify.documentsEnabled(softly, DocGenEnum.Documents.AHFMXX, DocGenEnum.Documents.HSILXX);
-			//if (!getState().equals("VA"))
-			//	documentActionTab.verify.documentsPresent(Documents.AHAUXX);
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+		policy.getDefaultView().fillFromTo(getTestSpecificTD("InsuranceScoreOverride920"), ReportsTab.class, PremiumsAndCoveragesQuoteTab.class);
+		policy.getDefaultView().getTab(PremiumsAndCoveragesQuoteTab.class).calculatePremium();
+		Tab.buttonSaveAndExit.click();
+		policy.quoteDocGen().start();
+		documentActionTab.verify.documentsEnabled(softly, DocGenEnum.Documents.AHFMXX, DocGenEnum.Documents.HSILXX);
+		//if (!getState().equals("VA"))
+		//	documentActionTab.verify.documentsPresent(Documents.AHAUXX);
 
-			log.info("==========================================");
-			log.info(getState() + " HO3 Quote Documents Generation is checked, quote: " + quoteNum);
-			log.info("==========================================");
-		});
+		log.info("==========================================");
+		log.info(getState() + " HO3 Quote Documents Generation is checked, quote: " + quoteNum);
+		log.info("==========================================");
+		documentActionTab.cancel();
+		softly.close();
 	}
 
 	/**
@@ -300,62 +299,64 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testPolicyDocuments(@Optional("") String state) {
-		CustomSoftAssertions.assertSoftly(softly -> {
-			mainApp().open();
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		mainApp().open();
 
-			String policyNum = getCopiedPolicy();
+		createCustomerIndividual();
+		String policyNum = createPolicy();
 
-			DocGenHelper.verifyDocumentsGenerated(softly, policyNum, DocGenEnum.Documents.HS02, DocGenEnum.Documents.AHNBXX, DocGenEnum.Documents.HS0420);
+		DocGenHelper.verifyDocumentsGenerated(softly, policyNum, DocGenEnum.Documents.HS02, DocGenEnum.Documents.AHNBXX, DocGenEnum.Documents.HS0420);
 
-			policy.policyDocGen().start();
-			documentActionTab.verify.documentsEnabled(softly,
-					DocGenEnum.Documents.F605005,
-					DocGenEnum.Documents.AHRCTXX,
-					DocGenEnum.Documents.HS11.setState(getState()),
-					DocGenEnum.Documents.HSEIXX,
-					DocGenEnum.Documents.HSILXX,
-					DocGenEnum.Documents.HSU01XX,
-					//				Documents.HSU02XX  //TODO Actually HSU02XX is disabled, need to confirm the request
-					DocGenEnum.Documents.HSU04XX,
-					DocGenEnum.Documents.HSU06XX,
-					DocGenEnum.Documents.HSU07XX,
-					DocGenEnum.Documents.HSU08XX,
-					DocGenEnum.Documents.HSU09XX
-			);
-			documentActionTab.verify.documentsEnabled(softly, false,
-					DocGenEnum.Documents.AHFMXX,
-					DocGenEnum.Documents.HSRFIXX,
-					DocGenEnum.Documents.HSU03XX
-			);
-			documentActionTab.verify.documentsPresent(softly, false,
-					DocGenEnum.Documents.HSIQXX,
-					DocGenEnum.Documents.AHPNXX,
-					DocGenEnum.Documents._438BFUNS,
-					DocGenEnum.Documents.HSES
-			);
+		policy.policyDocGen().start();
+		documentActionTab.verify.documentsEnabled(softly,
+				DocGenEnum.Documents.F605005,
+				DocGenEnum.Documents.AHRCTXX,
+				DocGenEnum.Documents.HS11.setState(getState()),
+				DocGenEnum.Documents.HSEIXX,
+				DocGenEnum.Documents.HSILXX,
+				DocGenEnum.Documents.HSU01XX,
+				//				Documents.HSU02XX  //TODO Actually HSU02XX is disabled, need to confirm the request
+				DocGenEnum.Documents.HSU04XX,
+				DocGenEnum.Documents.HSU06XX,
+				DocGenEnum.Documents.HSU07XX,
+				DocGenEnum.Documents.HSU08XX,
+				DocGenEnum.Documents.HSU09XX
+		);
+		documentActionTab.verify.documentsEnabled(softly, false,
+				DocGenEnum.Documents.AHFMXX,
+				DocGenEnum.Documents.HSRFIXX,
+				DocGenEnum.Documents.HSU03XX
+		);
+		documentActionTab.verify.documentsPresent(softly, false,
+				DocGenEnum.Documents.HSIQXX,
+				DocGenEnum.Documents.AHPNXX,
+				DocGenEnum.Documents._438BFUNS,
+				DocGenEnum.Documents.HSES
+		);
 
-			documentActionTab.generateDocuments(DocGenEnum.Documents.HS11);
-			WebDriverHelper.switchToDefault();
-			DocGenHelper.verifyDocumentsGenerated(softly, policyNum, DocGenEnum.Documents.HS11, DocGenEnum.Documents.AHPNXX);
+		documentActionTab.generateDocuments(DocGenEnum.Documents.HS11);
+		WebDriverHelper.switchToDefault();
+		DocGenHelper.verifyDocumentsGenerated(softly, policyNum, DocGenEnum.Documents.HS11, DocGenEnum.Documents.AHPNXX);
 
-			PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
-			policy.policyDocGen().start();
-			documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),
-					DocGenEnum.Documents.AHRCTXX,
-					DocGenEnum.Documents.HSEIXX,
-					DocGenEnum.Documents.HSILXX,
-					DocGenEnum.Documents.HSU01XX,
-					DocGenEnum.Documents.HSU09XX
-			);
-			WebDriverHelper.switchToDefault();
-			DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
-					DocGenEnum.Documents.AHRCTXX,
-					DocGenEnum.Documents.HSEIXX,
-					DocGenEnum.Documents.HSILXX,
-					DocGenEnum.Documents.HSU01XX,
-					DocGenEnum.Documents.HSU09XX
-			);
-		});
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+		policy.policyDocGen().start();
+		documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),
+				DocGenEnum.Documents.AHRCTXX,
+				DocGenEnum.Documents.HSEIXX,
+				DocGenEnum.Documents.HSILXX,
+				DocGenEnum.Documents.HSU01XX,
+				DocGenEnum.Documents.HSU09XX
+		);
+		WebDriverHelper.switchToDefault();
+		DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
+				DocGenEnum.Documents.AHRCTXX,
+				DocGenEnum.Documents.HSEIXX,
+				DocGenEnum.Documents.HSILXX,
+				DocGenEnum.Documents.HSU01XX,
+				DocGenEnum.Documents.HSU09XX
+		);
+		documentActionTab.cancel();
+		softly.close();
 	}
 
 	/**
@@ -376,7 +377,8 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testPolicyRescissionNoticeDocument(@Optional("") String state) {
 		mainApp().open();
-		String policyNum = getCopiedPolicy();
+		createCustomerIndividual();
+		String policyNum = createPolicy();
 
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData_NewBusinessRescissionNSF"));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
@@ -459,96 +461,97 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testMortgagePolicyDocuments(@Optional("") String state) {
-		CustomSoftAssertions.assertSoftly(softly -> {
-			mainApp().open();
-			createCustomerIndividual();
-			createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_MortgagePolicy").resolveLinks()));
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		mainApp().open();
+		createCustomerIndividual();
+		createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_MortgagePolicy").resolveLinks()));
 
-			policy.quoteDocGen().start();
-			documentActionTab.verify.documentsEnabled(softly,
-					//Documents.AHAUXX,
-					DocGenEnum.Documents.AHFMXX,
-					DocGenEnum.Documents.HS11.setState(getState()),
-					DocGenEnum.Documents.HSIQXX,
-					DocGenEnum.Documents.HSU03XX,
-					DocGenEnum.Documents.HSU04XX,
-					DocGenEnum.Documents.HSU05XX,
-					DocGenEnum.Documents.HSU06XX,
-					DocGenEnum.Documents.HSU08XX
-			);
-			documentActionTab.verify.documentsEnabled(softly, false,
-					DocGenEnum.Documents.HSRFIXX,
-					DocGenEnum.Documents.HSU01XX,
-					DocGenEnum.Documents.HSU02XX,
-					DocGenEnum.Documents.HSU07XX,
-					DocGenEnum.Documents.HSU09XX
-			);
-			documentActionTab.verify.documentsPresent(softly, false,
-					DocGenEnum.Documents._438BFUNS,
-					DocGenEnum.Documents.AHRCTXX,
-					DocGenEnum.Documents.AHPNXX,
-					DocGenEnum.Documents.HS02,
-					DocGenEnum.Documents.AHNBXX,
-					//				Documents.HSEIXX, // TODO Not absent as expected, need to check the requirement
-					DocGenEnum.Documents.HSES);
-			documentActionTab.buttonCancel.click();
+		policy.quoteDocGen().start();
+		documentActionTab.verify.documentsEnabled(softly,
+				//Documents.AHAUXX,
+				DocGenEnum.Documents.AHFMXX,
+				DocGenEnum.Documents.HS11.setState(getState()),
+				DocGenEnum.Documents.HSIQXX,
+				DocGenEnum.Documents.HSU03XX,
+				DocGenEnum.Documents.HSU04XX,
+				DocGenEnum.Documents.HSU05XX,
+				DocGenEnum.Documents.HSU06XX,
+				DocGenEnum.Documents.HSU08XX
+		);
+		documentActionTab.verify.documentsEnabled(softly, false,
+				DocGenEnum.Documents.HSRFIXX,
+				DocGenEnum.Documents.HSU01XX,
+				DocGenEnum.Documents.HSU02XX,
+				DocGenEnum.Documents.HSU07XX,
+				DocGenEnum.Documents.HSU09XX
+		);
+		documentActionTab.verify.documentsPresent(softly, false,
+				DocGenEnum.Documents._438BFUNS,
+				DocGenEnum.Documents.AHRCTXX,
+				DocGenEnum.Documents.AHPNXX,
+				DocGenEnum.Documents.HS02,
+				DocGenEnum.Documents.AHNBXX,
+				//				Documents.HSEIXX, // TODO Not absent as expected, need to check the requirement
+				DocGenEnum.Documents.HSES);
+		documentActionTab.cancel();
 
-			policy.purchase(getPolicyTD());
-			String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
+		policy.purchase(getPolicyTD());
+		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 
-			DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
-					DocGenEnum.Documents.HS02,
-					DocGenEnum.Documents.AHNBXX,
-					DocGenEnum.Documents._438BFUNS,
-					DocGenEnum.Documents.HS0420
-					// TODO the following documents cannot be found in the xml file, need to confirm the request
-					//				Documents.HS0435,
-					//				Documents.HS0455,
-					//				Documents.HS0465,
-					//				Documents.HS0495,
-					//				Documents.HS0906,
-					//				Documents.HS0926,
-					//				Documents.HS0931,
-					//				Documents.HS0934,
-					//				Documents.HS0965,
-					//				Documents.HS0477
-			);
+		DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
+				DocGenEnum.Documents.HS02,
+				DocGenEnum.Documents.AHNBXX,
+				DocGenEnum.Documents._438BFUNS,
+				DocGenEnum.Documents.HS0420
+				// TODO the following documents cannot be found in the xml file, need to confirm the request
+				//				Documents.HS0435,
+				//				Documents.HS0455,
+				//				Documents.HS0465,
+				//				Documents.HS0495,
+				//				Documents.HS0906,
+				//				Documents.HS0926,
+				//				Documents.HS0931,
+				//				Documents.HS0934,
+				//				Documents.HS0965,
+				//				Documents.HS0477
+		);
 
-			policy.policyDocGen().start();
-			documentActionTab.verify.documentsEnabled(softly,
-					//				Documents.AHFMXX, // TODO actually it is disabled on the page, need to confirm the request
-					DocGenEnum.Documents.HS11.setState(getState()),
-					DocGenEnum.Documents.HSEIXX,
-					DocGenEnum.Documents.HSES.setState(getState()),
-					DocGenEnum.Documents.HSILXX,
-					//				Documents.HSRFIXX, // TODO actually it is disabled on the page, need to confirm the request
-					DocGenEnum.Documents.HSU01XX,
-					//				Documents.HSU02XX, // TODO actually it is disabled on the page, need to confirm the request
-					DocGenEnum.Documents.HSU04XX,
-					DocGenEnum.Documents.HSU05XX,
-					DocGenEnum.Documents.HSU06XX,
-					DocGenEnum.Documents.HSU07XX,
-					DocGenEnum.Documents.HSU08XX,
-					DocGenEnum.Documents.HSU09XX
-			);
-			documentActionTab.verify.documentsEnabled(softly, false,
-					//				Documents.AHRCTXX, // TODO actually it is enabled on the page, need to confirm the request
-					DocGenEnum.Documents.HSU03XX
-			);
-			documentActionTab.verify.documentsPresent(softly, false,
-					DocGenEnum.Documents.AHNBXX,
-					DocGenEnum.Documents.HSIQXX,
-					DocGenEnum.Documents.AHPNXX,
-					DocGenEnum.Documents._438BFUNS,
-					DocGenEnum.Documents.HS02);
-			documentActionTab.generateDocuments(
-					//				Documents.HSRFIXX, // TODO actually it is disabled on the page, need to confirm the request
-					DocGenEnum.Documents.HSES.setState(getState())
-			);
-			DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
-					//				Documents.HSRFIXX, // TODO actually it is disabled on the page, need to confirm the request
-					DocGenEnum.Documents.HSES);
-		});
+		policy.policyDocGen().start();
+		documentActionTab.verify.documentsEnabled(softly,
+				//				Documents.AHFMXX, // TODO actually it is disabled on the page, need to confirm the request
+				DocGenEnum.Documents.HS11.setState(getState()),
+				DocGenEnum.Documents.HSEIXX,
+				DocGenEnum.Documents.HSES.setState(getState()),
+				DocGenEnum.Documents.HSILXX,
+				//				Documents.HSRFIXX, // TODO actually it is disabled on the page, need to confirm the request
+				DocGenEnum.Documents.HSU01XX,
+				//				Documents.HSU02XX, // TODO actually it is disabled on the page, need to confirm the request
+				DocGenEnum.Documents.HSU04XX,
+				DocGenEnum.Documents.HSU05XX,
+				DocGenEnum.Documents.HSU06XX,
+				DocGenEnum.Documents.HSU07XX,
+				DocGenEnum.Documents.HSU08XX,
+				DocGenEnum.Documents.HSU09XX
+		);
+		documentActionTab.verify.documentsEnabled(softly, false,
+				//				Documents.AHRCTXX, // TODO actually it is enabled on the page, need to confirm the request
+				DocGenEnum.Documents.HSU03XX
+		);
+		documentActionTab.verify.documentsPresent(softly, false,
+				DocGenEnum.Documents.AHNBXX,
+				DocGenEnum.Documents.HSIQXX,
+				DocGenEnum.Documents.AHPNXX,
+				DocGenEnum.Documents._438BFUNS,
+				DocGenEnum.Documents.HS02);
+		documentActionTab.generateDocuments(
+				//				Documents.HSRFIXX, // TODO actually it is disabled on the page, need to confirm the request
+				DocGenEnum.Documents.HSES.setState(getState())
+		);
+		DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
+				//				Documents.HSRFIXX, // TODO actually it is disabled on the page, need to confirm the request
+				DocGenEnum.Documents.HSES);
+		documentActionTab.cancel();
+		softly.close();
 	}
 
 	/**
@@ -687,7 +690,8 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		Dollar amount = new Dollar(1234);
 
 		mainApp().open();
-		String policyNum = getCopiedPolicy();
+		createCustomerIndividual();
+		String policyNum = createPolicy();
 		BillingSummaryPage.open();
 		billing.acceptPayment().perform(check_payment, amount);
 		new BillingPaymentsAndTransactionsVerifier().setType("Payment").setSubtypeReason("Manual Payment").setAmount(amount.negate()).setStatus("Issued").verifyPresent();
@@ -698,14 +702,14 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		//billing.issueRefund().perform(amount);
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob, true);
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob, true);
-		
+
 		SearchPage.openBilling(policyNum);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Issued").verifyPresent();
 
 		//refund check are now generated in csv files PASBB-795
 		List<String> documentsFilePaths = RemoteHelper.get().waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, "csv", 10, policyNum);
 		assertThat(documentsFilePaths.size()).isGreaterThan(0);
-		
+
 		log.info("==========================================");
 		log.info(getState() + " HO3 Refund Check Document is checked, policy: " + policyNum);
 		log.info("==========================================");

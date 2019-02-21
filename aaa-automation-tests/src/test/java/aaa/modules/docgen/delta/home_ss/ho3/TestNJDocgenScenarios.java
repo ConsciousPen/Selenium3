@@ -16,7 +16,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.utils.StateList;
-import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 /**
  *
@@ -71,13 +71,14 @@ public class TestNJDocgenScenarios extends HomeSSHO3BaseTest {
 	@StateList(states = States.NJ)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testDeltaPolicyDocuments(@Optional("") String state) {
-		CustomSoftAssertions.assertSoftly(softly -> {
+
 			mainApp().open();
 
 			createCustomerIndividual();
 			String quoteNum = createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_DeltaPolicyDocuments")));
 
 			policy.quoteDocGen().start();
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			documentActionTab.verify.documentsPresent(softly, false, DocGenEnum.Documents.HSEQNJ);
 			documentActionTab.generateDocuments(DocGenEnum.Documents.HS11.setState(getState()));
 			WebDriverHelper.switchToDefault();
@@ -114,6 +115,7 @@ public class TestNJDocgenScenarios extends HomeSSHO3BaseTest {
 					DocGenEnum.Documents.AHELCXXL,
 					DocGenEnum.Documents.AHELCXXP
 			);
-		});
+			documentActionTab.cancel();
+		softly.close();
 	}
 }

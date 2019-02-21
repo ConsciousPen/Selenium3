@@ -3,7 +3,6 @@ package aaa.modules.docgen.home_ca.ho4;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -13,7 +12,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO4BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.utils.StateList;
-import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 /**
  *
@@ -60,78 +59,79 @@ public class TestDocgenScenarios extends HomeCaHO4BaseTest {
 	@StateList(states = States.CA)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testQuoteDocuments(@Optional("") String state) {
-		CustomSoftAssertions.assertSoftly(softly -> {
-			mainApp().open();
+		mainApp().open();
 
-			createCustomerIndividual();
-			String quoteNum = createQuote();
+		createCustomerIndividual();
+		String quoteNum = createQuote();
 
-			policy.quoteDocGen().start();
-			documentActionTab.verify.documentsEnabled(softly,
-					DocGenEnum.Documents._61_6528_HO4,
-					DocGenEnum.Documents._61_4003,
-					//Documents.WUAUCA,
-					DocGenEnum.Documents.F1122,
-					DocGenEnum.Documents.HSU06CA,
-					DocGenEnum.Documents.HSU08XX,
-					DocGenEnum.Documents._61_3026
-			);
-			documentActionTab.verify.documentsEnabled(softly, false,
-					//				Documents._62_6500,
-					DocGenEnum.Documents.WURFICA,
-					DocGenEnum.Documents.HSU01CA,
-					DocGenEnum.Documents.HSU02XX,
-					DocGenEnum.Documents.HSU07CA,
-					DocGenEnum.Documents.HSU09XX,
-					DocGenEnum.Documents.AHPNCA
-			);
-			documentActionTab.verify.documentsPresent(softly, false,
-					DocGenEnum.Documents.F1076B,
-					DocGenEnum.Documents._61_6530,
-					DocGenEnum.Documents._61_3000,
-					DocGenEnum.Documents._61_2006
-			);
+		policy.quoteDocGen().start();
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		documentActionTab.verify.documentsEnabled(softly,
+				DocGenEnum.Documents._61_6528_HO4,
+				DocGenEnum.Documents._61_4003,
+				//Documents.WUAUCA,
+				DocGenEnum.Documents.F1122,
+				DocGenEnum.Documents.HSU06CA,
+				DocGenEnum.Documents.HSU08XX,
+				DocGenEnum.Documents._61_3026
+		);
+		documentActionTab.verify.documentsEnabled(softly, false,
+				//				Documents._62_6500,
+				DocGenEnum.Documents.WURFICA,
+				DocGenEnum.Documents.HSU01CA,
+				DocGenEnum.Documents.HSU02XX,
+				DocGenEnum.Documents.HSU07CA,
+				DocGenEnum.Documents.HSU09XX,
+				DocGenEnum.Documents.AHPNCA
+		);
+		documentActionTab.verify.documentsPresent(softly, false,
+				DocGenEnum.Documents.F1076B,
+				DocGenEnum.Documents._61_6530,
+				DocGenEnum.Documents._61_3000,
+				DocGenEnum.Documents._61_2006
+		);
 
-			documentActionTab.generateDocuments(DocGenEnum.Documents._61_4003);
-			WebDriverHelper.switchToDefault();
-			DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, DocGenEnum.Documents._61_4003, DocGenEnum.Documents.AHPNCA, DocGenEnum.Documents._60_5019);
+		documentActionTab.generateDocuments(DocGenEnum.Documents._61_4003);
+		WebDriverHelper.switchToDefault();
+		DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, DocGenEnum.Documents._61_4003, DocGenEnum.Documents.AHPNCA, DocGenEnum.Documents._60_5019);
 
-			PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
-			policy.quoteDocGen().start();
-			documentActionTab.generateDocuments(DocGenEnum.Documents._61_6528_HO4);
-			WebDriverHelper.switchToDefault();
-			DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, DocGenEnum.Documents._61_6528_HO4, DocGenEnum.Documents.AHPNCA);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+		policy.quoteDocGen().start();
+		documentActionTab.generateDocuments(DocGenEnum.Documents._61_6528_HO4);
+		WebDriverHelper.switchToDefault();
+		DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, DocGenEnum.Documents._61_6528_HO4, DocGenEnum.Documents.AHPNCA);
 
-			PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
-			policy.quoteDocGen().start();
-			documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"),
-					//Documents.WUAUCA,
-					DocGenEnum.Documents.F1122,
-					DocGenEnum.Documents._60_5019,
-					DocGenEnum.Documents.HSU03XX,
-					DocGenEnum.Documents.HSU04XX,
-					DocGenEnum.Documents.HSU05XX,
-					DocGenEnum.Documents.HSU06CA,
-					DocGenEnum.Documents.HSU08XX,
-					DocGenEnum.Documents._61_3026
-			);
-			WebDriverHelper.switchToDefault();
-			DocGenHelper.verifyDocumentsGenerated(softly, quoteNum,
-					//Documents.WUAUCA,
-					DocGenEnum.Documents.F1122,
-					DocGenEnum.Documents._60_5019,
-					DocGenEnum.Documents.HSU03XX,
-					DocGenEnum.Documents.HSU04XX,
-					DocGenEnum.Documents.HSU05XX,
-					DocGenEnum.Documents.HSU06CA,
-					DocGenEnum.Documents.HSU08XX,
-					DocGenEnum.Documents._61_3026
-			);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+		policy.quoteDocGen().start();
+		documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"),
+				//Documents.WUAUCA,
+				DocGenEnum.Documents.F1122,
+				DocGenEnum.Documents._60_5019,
+				DocGenEnum.Documents.HSU03XX,
+				DocGenEnum.Documents.HSU04XX,
+				DocGenEnum.Documents.HSU05XX,
+				DocGenEnum.Documents.HSU06CA,
+				DocGenEnum.Documents.HSU08XX,
+				DocGenEnum.Documents._61_3026
+		);
+		WebDriverHelper.switchToDefault();
+		DocGenHelper.verifyDocumentsGenerated(softly, quoteNum,
+				//Documents.WUAUCA,
+				DocGenEnum.Documents.F1122,
+				DocGenEnum.Documents._60_5019,
+				DocGenEnum.Documents.HSU03XX,
+				DocGenEnum.Documents.HSU04XX,
+				DocGenEnum.Documents.HSU05XX,
+				DocGenEnum.Documents.HSU06CA,
+				DocGenEnum.Documents.HSU08XX,
+				DocGenEnum.Documents._61_3026
+		);
 
-			log.info("==========================================");
-			log.info(getState() + " HO4 Quote Documents Generation is checked, quote: " + quoteNum);
-			log.info("==========================================");
-		});
+		log.info("==========================================");
+		log.info(getState() + " HO4 Quote Documents Generation is checked, quote: " + quoteNum);
+		log.info("==========================================");
+		documentActionTab.cancel();
+		softly.close();
 	}
 
 	/**
@@ -170,82 +170,84 @@ public class TestDocgenScenarios extends HomeCaHO4BaseTest {
 	@StateList(states = States.CA)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testPolicyDocuments(@Optional("") String state) {
-		CustomSoftAssertions.assertSoftly(softly -> {
-			mainApp().open();
 
-			createCustomerIndividual();
-			String policyNum = createPolicy(getPolicyTD());
-			DocGenHelper.verifyDocumentsGenerated(softly, policyNum, DocGenEnum.Documents._61_5120, DocGenEnum.Documents._1075_HO4);
+		mainApp().open();
 
-			policy.policyDocGen().start();
-			documentActionTab.verify.documentsEnabled(softly,
-					DocGenEnum.Documents._61_4003,
-					DocGenEnum.Documents._62_6500,
-					DocGenEnum.Documents.F1122,
-					DocGenEnum.Documents._60_5019,
-					DocGenEnum.Documents.HSU01CA,
-					DocGenEnum.Documents.HSU04XX,
-					DocGenEnum.Documents.HSU05XX,
-					DocGenEnum.Documents.HSU06CA,
-					DocGenEnum.Documents.HSU07CA,
-					DocGenEnum.Documents.HSU08XX,
-					DocGenEnum.Documents.HSU09XX,
-					DocGenEnum.Documents._61_3026
-			);
-			documentActionTab.verify.documentsEnabled(softly, false,
-					DocGenEnum.Documents.WURFICA
-			);
-			documentActionTab.verify.documentsPresent(softly, false,
-					DocGenEnum.Documents._61_6528_HO4,
-					DocGenEnum.Documents.AHPNCA,
-					DocGenEnum.Documents._61_6530,
-					DocGenEnum.Documents._61_6513,
-					DocGenEnum.Documents._61_3000
-			);
-			documentActionTab.generateDocuments(DocGenEnum.Documents._61_4003);
-			WebDriverHelper.switchToDefault();
-			DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
-					DocGenEnum.Documents._61_4003,
-					DocGenEnum.Documents._60_5019,
-					DocGenEnum.Documents.AHPNCA);
+		createCustomerIndividual();
+		String policyNum = createPolicy(getPolicyTD());
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		DocGenHelper.verifyDocumentsGenerated(softly, policyNum, DocGenEnum.Documents._61_5120, DocGenEnum.Documents._1075_HO4);
 
-			PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
-			policy.policyDocGen().start();
-			documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),
-					//Documents.WUAUCA,
-					DocGenEnum.Documents._62_6500,
-					DocGenEnum.Documents.F1122,
-					DocGenEnum.Documents._60_5019,
-					DocGenEnum.Documents.HSU01CA,
-					DocGenEnum.Documents.HSU04XX,
-					DocGenEnum.Documents.HSU05XX,
-					DocGenEnum.Documents.HSU06CA,
-					DocGenEnum.Documents.HSU07CA,
-					DocGenEnum.Documents.HSU08XX,
-					DocGenEnum.Documents.HSU09XX,
-					DocGenEnum.Documents._61_3026,
-					DocGenEnum.Documents.AHRCTXXPUP
-			);
-			WebDriverHelper.switchToDefault();
-			DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
-					//Documents.WUAUCA,
-					DocGenEnum.Documents._62_6500,
-					DocGenEnum.Documents.F1122,
-					DocGenEnum.Documents._60_5019,
-					DocGenEnum.Documents.HSU01CA,
-					DocGenEnum.Documents.HSU04XX,
-					DocGenEnum.Documents.HSU05XX,
-					DocGenEnum.Documents.HSU06CA,
-					DocGenEnum.Documents.HSU07CA,
-					DocGenEnum.Documents.HSU08XX,
-					DocGenEnum.Documents.HSU09XX,
-					DocGenEnum.Documents._61_3026,
-					DocGenEnum.Documents.AHRCTXXPUP
-			);
-			log.info("==========================================");
-			log.info(getState() + " HO6 Policy Documents Generation is checked, policy: " + policyNum);
-			log.info("==========================================");
-		});
+		policy.policyDocGen().start();
+		documentActionTab.verify.documentsEnabled(softly,
+				DocGenEnum.Documents._61_4003,
+				DocGenEnum.Documents._62_6500,
+				DocGenEnum.Documents.F1122,
+				DocGenEnum.Documents._60_5019,
+				DocGenEnum.Documents.HSU01CA,
+				DocGenEnum.Documents.HSU04XX,
+				DocGenEnum.Documents.HSU05XX,
+				DocGenEnum.Documents.HSU06CA,
+				DocGenEnum.Documents.HSU07CA,
+				DocGenEnum.Documents.HSU08XX,
+				DocGenEnum.Documents.HSU09XX,
+				DocGenEnum.Documents._61_3026
+		);
+		documentActionTab.verify.documentsEnabled(softly, false,
+				DocGenEnum.Documents.WURFICA
+		);
+		documentActionTab.verify.documentsPresent(softly, false,
+				DocGenEnum.Documents._61_6528_HO4,
+				DocGenEnum.Documents.AHPNCA,
+				DocGenEnum.Documents._61_6530,
+				DocGenEnum.Documents._61_6513,
+				DocGenEnum.Documents._61_3000
+		);
+		documentActionTab.generateDocuments(DocGenEnum.Documents._61_4003);
+		WebDriverHelper.switchToDefault();
+		DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
+				DocGenEnum.Documents._61_4003,
+				DocGenEnum.Documents._60_5019,
+				DocGenEnum.Documents.AHPNCA);
+
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+		policy.policyDocGen().start();
+		documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),
+				//Documents.WUAUCA,
+				DocGenEnum.Documents._62_6500,
+				DocGenEnum.Documents.F1122,
+				DocGenEnum.Documents._60_5019,
+				DocGenEnum.Documents.HSU01CA,
+				DocGenEnum.Documents.HSU04XX,
+				DocGenEnum.Documents.HSU05XX,
+				DocGenEnum.Documents.HSU06CA,
+				DocGenEnum.Documents.HSU07CA,
+				DocGenEnum.Documents.HSU08XX,
+				DocGenEnum.Documents.HSU09XX,
+				DocGenEnum.Documents._61_3026,
+				DocGenEnum.Documents.AHRCTXXPUP
+		);
+		WebDriverHelper.switchToDefault();
+		DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
+				//Documents.WUAUCA,
+				DocGenEnum.Documents._62_6500,
+				DocGenEnum.Documents.F1122,
+				DocGenEnum.Documents._60_5019,
+				DocGenEnum.Documents.HSU01CA,
+				DocGenEnum.Documents.HSU04XX,
+				DocGenEnum.Documents.HSU05XX,
+				DocGenEnum.Documents.HSU06CA,
+				DocGenEnum.Documents.HSU07CA,
+				DocGenEnum.Documents.HSU08XX,
+				DocGenEnum.Documents.HSU09XX,
+				DocGenEnum.Documents._61_3026,
+				DocGenEnum.Documents.AHRCTXXPUP
+		);
+		log.info("==========================================");
+		log.info(getState() + " HO6 Policy Documents Generation is checked, policy: " + policyNum);
+		log.info("==========================================");
+		documentActionTab.cancel();
+		softly.close();
 	}
 
 }

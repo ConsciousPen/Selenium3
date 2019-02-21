@@ -38,7 +38,8 @@ public class TestScenario2 extends AutoCaSelectBaseTest {
 		Dollar amount = new Dollar(1234);
 
 		mainApp().open();
-		String policyNum = getCopiedPolicy();
+		createCustomerIndividual();
+		String policyNum = createPolicy();
 		BillingSummaryPage.open();
 		billing.acceptPayment().perform(check_payment, amount);
 		new BillingPaymentsAndTransactionsVerifier().setType("Payment").setSubtypeReason("Manual Payment").setAmount(amount.negate()).setStatus("Issued").verifyPresent();

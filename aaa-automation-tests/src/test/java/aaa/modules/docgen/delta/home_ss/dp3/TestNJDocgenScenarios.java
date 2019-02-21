@@ -3,7 +3,6 @@ package aaa.modules.docgen.delta.home_ss.dp3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
@@ -14,7 +13,7 @@ import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.modules.policy.HomeSSDP3BaseTest;
 import aaa.utils.StateList;
-import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 /**
  *
@@ -66,11 +65,11 @@ public class TestNJDocgenScenarios extends HomeSSDP3BaseTest {
 	@StateList(states = States.NJ)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testDeltaPolicyDocuments(@Optional("") String state) {
-		CustomSoftAssertions.assertSoftly(softly -> {
-			mainApp().open();
-			createCustomerIndividual();
-			policyNum = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_DeltaPolicyDocuments")));
-			// TODO No such field "Is there any Third Party Designee ?", so cannot generate HSTPNJ
+		mainApp().open();
+		createCustomerIndividual();
+		policyNum = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_DeltaPolicyDocuments")));
+		// TODO No such field "Is there any Third Party Designee ?", so cannot generate HSTPNJ
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			DocGenHelper.verifyDocumentsGenerated(softly, policyNum, DocGenEnum.Documents.HSFLDNJ, DocGenEnum.Documents.HSCSND, DocGenEnum.Documents.HSHU2NJ, DocGenEnum.Documents.HSELNJ);
 
 			policy.policyDocGen().start();
@@ -80,32 +79,28 @@ public class TestNJDocgenScenarios extends HomeSSDP3BaseTest {
 					DocGenEnum.Documents.HSHU2NJ,
 					DocGenEnum.Documents.HSELNJ
 			);
-		});
-	}
+		softly.close();
+		documentActionTab.cancel();
 
-	/**
-	 * Test steps:
-	 * 1. Open policy which was created in dp3DeltaPolicyDocuments test;
-	 * 2. Select "Cancellation Notice" from "MoveTo"
-	 * 3. Fill the cancellation notice dialogue (Cancellation reason = "'Material Misrepresentation" )
-	 * 4. Run DocGen Batch Job
-	 * 5. Verify that AH61XX form is generated
-	 * 6. Verify that AHTPC form is generated
-	 * <p/>
-	 * # Req
-	 * 15370: US CL GD-87 Generate Cancellation Notice Document U/W or Insured Request
-	 * 15780: US PA GD-02 Generate Cancellation Notice-UW or Insured Request
-	 * 17315:HO-DOC-TPD01-NJ-01 17315 - US NJ GD- 17 Generate Third Party Designee Cover Page (AHTPC__ 11 12)
-	 */
-
-	@Parameters({"state"})
-	@StateList(states = States.NJ)
-	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL}, dependsOnMethods = "testDeltaPolicyDocuments")
-	public void testThirdPartyDesigneeCoverPage(@Optional("") String state) {
+		/**
+		 * Test steps:
+		 * 1. Open policy which was created in dp3DeltaPolicyDocuments test;
+		 * 2. Select "Cancellation Notice" from "MoveTo"
+		 * 3. Fill the cancellation notice dialogue (Cancellation reason = "'Material Misrepresentation" )
+		 * 4. Run DocGen Batch Job
+		 * 5. Verify that AH61XX form is generated
+		 * 6. Verify that AHTPC form is generated
+		 * <p/>
+		 * # Req
+		 * 15370: US CL GD-87 Generate Cancellation Notice Document U/W or Insured Request
+		 * 15780: US PA GD-02 Generate Cancellation Notice-UW or Insured Request
+		 * 17315:HO-DOC-TPD01-NJ-01 17315 - US NJ GD- 17 Generate Third Party Designee Cover Page (AHTPC__ 11 12)
+		 */
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData_MaterialMisrepresentation"));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH61XX);
 	}
+
 }

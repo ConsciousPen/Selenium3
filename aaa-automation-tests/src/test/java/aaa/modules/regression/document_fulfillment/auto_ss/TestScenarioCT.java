@@ -38,23 +38,18 @@ public class TestScenarioCT extends AutoSSBaseTest {
 		docgenActionTab.generateDocuments(Documents.AHCAAG);
 		//WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AHCAAG);
-	}
-	
-	@Parameters({ "state" })
-	@StateList(states = States.CT)
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void TC02(@Optional("") String state) {
-		
+		docgenActionTab.cancel();
+
 		mainApp().open();
-		
+
 		SearchPage.openQuote(quoteNumber);
 
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		policy.dataGather().getView().fillFromTo(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase").resolveLinks()), DocumentsAndBindTab.class, PurchaseTab.class, true);
 		policy.dataGather().getView().getTab(PurchaseTab.class).submitTab();
-		String policyNumber = PolicySummaryPage.getPolicyNumber();	
-		
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
 		JobUtils.executeJob(Jobs.aaaCCardExpiryNoticeJob, true);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._60_5006); //CCEXPIRATION_NOTICE
