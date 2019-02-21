@@ -1,0 +1,173 @@
+TestData_SC2: {
+  DriverTab: ['@DriverTab_FinancialDriver', '@DriverTab_ExcludedDriver1', '@DriverTab_PermitDriver1'], 
+  VehicleTab: ['@<auto_ss>@DataGather@VehicleTab', '@VehicleTab_EnrolledInUBI_1'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMBILessThanBI', 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Full' 
+}
+
+TestData_ExcludedDrivers: {
+  DriverTab: ['@<auto_ss>@DataGather@DriverTab', '@DriverTab_ExcludedDriver1', '@DriverTab_ExcludedDriver2'], 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_ExcludedDrivers' 
+}
+
+TestData_VehiclesWithUBI: {
+  VehicleTab: ['@VehicleTab_EnrolledInUBI_2', '@VehicleTab_EnrolledInUBI_1'], 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_VehiclesWithUBI' 
+}
+
+TestData_PermitDrivers: {
+  DriverTab: ['@<auto_ss>@DataGather@DriverTab', '@DriverTab_PermitDriver1', '@DriverTab_PermitDriver2'], 
+  DocumentsAndBindTab: '@DocumentsAndBindTab' 
+}
+
+# --------- DriverTab ---------
+DriverTab_FinancialDriver: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12345678, 
+  Financial Responsibility Filing Needed: 'Yes'
+}
+
+DriverTab_ExcludedDriver1: {
+  Add Driver: click,
+  DriverSearchDialog: {},
+  Driver Type: Excluded, 
+  Reason: index=1, 
+  'Rel. to First Named Insured': Spouse, 
+  First Name: Excluded1,
+  Last Name: Driver1,
+  Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A22345678
+}
+
+DriverTab_ExcludedDriver2: {
+  Add Driver: click,
+  DriverSearchDialog: {},
+  Driver Type: Excluded, 
+  Reason: index=1, 
+  'Rel. to First Named Insured': Sibling, 
+  First Name: Excluded2,
+  Last Name: Driver2,
+  Date of Birth: 01/03/1983,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A22355678
+}
+
+DriverTab_PermitDriver1: {
+  Add Driver: click,
+  DriverSearchDialog: {},
+  Driver Type: Not Available for Rating, 
+  Reason: Permit Driver, 
+  'Rel. to First Named Insured': Parent, 
+  First Name: Permit1, 
+  Last Name: Driver1,
+  Date of Birth: 01/01/1978,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  License Type: Learner's Permit
+}
+
+DriverTab_PermitDriver2: {
+  Add Driver: click,
+  DriverSearchDialog: {},
+  Driver Type: Not Available for Rating, 
+  Reason: Permit Driver, 
+  'Rel. to First Named Insured': Spouse, 
+  First Name: Permit2, 
+  Last Name: Driver2,
+  Date of Birth: 03/01/1982,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  License Type: Learner's Permit
+}
+
+# -------- VehicleTab ---------
+VehicleTab_EnrolledInUBI_1: {
+  Add Vehicle: click,
+  Type: Private Passenger Auto, 
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451,
+  'Enroll in Usage Based Insurance?': 'Yes',
+  Get Vehicle Details: click, 
+  Vehicle Eligibility Response: Vehicle Eligible, 
+  AAA UBI Device Status: Shipped, 
+  Device Voucher Number: 12345678, 
+  Safety Score: 100
+}
+
+VehicleTab_EnrolledInUBI_2: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273, 
+  'Enroll in Usage Based Insurance?': 'Yes',
+  Get Vehicle Details: click, 
+  #Vehicle Eligibility Response: Vehicle Eligible, 
+  #AAA UBI Device Status: Shipped, 
+  #Device Voucher Number: 12345699, 
+  #Safety Score: 120
+}
+
+# ------ PremiumAndCoveragesTab ------- 
+PremiumAndCoveragesTab_UMBILessThanBI: {
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Uninsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
+  Underinsured Motorists Bodily Injury: 'contains=$50,000/$100,000'
+}
+
+# ------- DocumentsAndBindTab --------
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+DocumentsAndBindTab_ExcludedDrivers: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Named Driver Exclusion: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+DocumentsAndBindTab_VehiclesWithUBI: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+DocumentsAndBindTab_Full: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Uninsured and Underinsured Motorist Coverage Selection: Physically Signed, 
+    Named Driver Exclusion: Physically Signed, 
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }, 
+  Case Number: '12345'
+}
