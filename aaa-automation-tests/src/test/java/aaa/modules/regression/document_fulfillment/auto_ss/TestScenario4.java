@@ -51,7 +51,9 @@ public class TestScenario4 extends AutoSSBaseTest {
 					docgenActionTab.verify.documentsPresent(softly, Documents.AA11VA, Documents.AA52VA, Documents.AAIQ.setState(getState()), Documents.AHFMXX, Documents.AU03);
 					break;
 				case States.AZ:
-					docgenActionTab.verify.documentsPresent(softly, Documents.AA11AZ, Documents.AA52AZ_UPPERCASE, Documents.AAIQ.setState(getState()), Documents.AHFMXX, Documents.AU03, Documents.AA43AZ);
+					// document AA52AZ are disabled in case PASDOC disable and not displayed in case PASDOC enable
+					//docgenActionTab.verify.documentsPresent(softly, Documents.AA11AZ, Documents.AA52AZ_UPPERCASE, Documents.AAIQ.setState(getState()), Documents.AHFMXX, Documents.AU03, Documents.AA43AZ);
+					docgenActionTab.verify.documentsPresent(softly, Documents.AA11AZ, Documents.AAIQ.setState(getState()), Documents.AHFMXX, Documents.AU03, Documents.AA43AZ);
 					break;
 				case States.IN:
 					docgenActionTab.verify.documentsPresent(softly, Documents.AA11IN, Documents.AA52IN, Documents.AAIQ.setState(getState()), Documents.AHFMXX, Documents.AU03, Documents.AA43IN);
