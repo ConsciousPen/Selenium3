@@ -455,12 +455,6 @@ PT-2901:
       messages: ['Errors: The connection has timed out']
     - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*]
       messages: ['[LoginPanel is displayed] expected:<[tru]e> but was:<[fals]e>']
-PAS-24509:
-  summary: "Regression: Property: Exception on policy copy or endorsement"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.*]
-      messages: ['Cannot get value of StaticElement', 'Errors: base00001; Error; Data has been modified by another agent']
 PAS-25099:
   summary: "PUP Policy does not rate after first attempt"
   reason: PROD
@@ -487,3 +481,11 @@ PAS-25103:
       messages: ["Errors: 'Property policy number' is required"]
     - tests: [aaa.modules.bct.service.*]
       messages: ["Cannot get value of Cell {<unnamed>: {<unnamed>: {<unnamed>: By.id: policyDataGatherForm:pupTableTotalPremium}"]
+PAS-25174:
+  summary: "Regression: Home SS: Premium deltas are not shown on Premium tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.conversions.home_ss.*]
+      messages: ['Coverages should be rounded to dollar value']
+    - tests: [aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater.*]
+      messages: ['String index out of range: -1']  

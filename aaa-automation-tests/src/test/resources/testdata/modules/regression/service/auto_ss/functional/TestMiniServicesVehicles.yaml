@@ -70,6 +70,14 @@ TestData_VehicleOtherTypes: {
     VehicleTab: ['@VehicleTab_1','@VehicleTab_Van','@VehicleTab_2','@VehicleTab_Motor_Home'],
 }
 
+TestData_VehicleOtherTypes_NY: {
+  VehicleTab: ['@VehicleTab_1','@VehicleTab_Van_NY','@VehicleTab_2_NY','@VehicleTab_Motor_Home_NY'],
+}
+
+TestData_VehicleOtherTypes_withPPAOther: {
+  VehicleTab: ['@VehicleTab_1', '@VehicleTab_PPAOther', '@VehicleTab_Van', '@VehicleTab_Motor_Home', '@VehicleTab_Trailer', '@VehicleTab_GolfCart', '@VehicleTab_LimitedAntique'],
+}
+
 VehicleTab_1: {
     Add Vehicle: Click,
     Usage: Pleasure,
@@ -80,6 +88,13 @@ VehicleTab_2: {
     Add Vehicle: Click,
     Usage: Pleasure,
     VIN: 1GAZG1FG7D1145543
+}
+
+VehicleTab_2_NY: {
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: 1GAZG1FG7D1145543,
+  'Less Than 3,000 Miles': 'No'
 }
 
 VehicleTab_Van: {
@@ -95,6 +110,20 @@ VehicleTab_Van: {
    'Stated Amount': '50000',
 }
 
+VehicleTab_Van_NY: {
+  Type: Conversion Van,
+  Usage: Pleasure,
+  VIN: 5FNRL5H64GB087983,
+  Make: 'OTHER',
+  Other Make: 'Other Make',
+  Other Model: 'Model',
+  Other Series: 'Series',
+  'Other Body Style': 'Sedan',
+  Stat Code: 'Cargo Van',
+  'Stated Amount': '50000',
+  'Less Than 3,000 Miles': 'No'
+}
+
 VehicleTab_Motor_Home: {
     Add Vehicle: Click,
     Type: Motor Home,
@@ -104,6 +133,63 @@ VehicleTab_Motor_Home: {
     Other Make: 'Motor',
     Other Model: 'Motor',
    Stated Amount: '50000',
+}
+
+VehicleTab_Motor_Home_NY: {
+  Add Vehicle: Click,
+  Type: Motor Home,
+  Motor Home Type: Mini Motor Home (Class C),
+  Usage: Pleasure Use - Occupied Less than 30 Days a Year,
+  VIN: 5B4MP67G123353230,
+  Other Make: 'Motor',
+  Other Model: 'Motor',
+  Stated Amount: '50000',
+  'Less Than 3,000 Miles': 'No'
+}
+
+VehicleTab_PPAOther: {
+  Type: Private Passenger Auto,
+  Usage: Pleasure,
+  VIN: 5FNRWRONG,
+  Make: 'OTHER',
+  Other Make: 'Other Make PPA',
+  Other Model: 'Model PPA',
+  Other Series: 'Series PPA',
+  'Other Body Style': 'Sedan',
+  Stat Code: 'Large car',
+  'Stated Amount': '50000',
+}
+
+VehicleTab_LimitedAntique: {
+  Type: Limited Production/Antique,
+  Usage: Pleasure,
+  VIN: PXL111,
+  Make: 'OTHER',
+  Other Make: 'Other Make Limited',
+  Other Model: 'Model Limited',
+  Other Series: 'Series Limited',
+  'Other Body Style': 'Coupe',
+  'Stated Amount': '50000',
+}
+
+VehicleTab_GolfCart: {
+  Type: Golf Cart,
+  Usage: 'index=1',
+  VIN: ABC1,
+  Other Make: 'Other Make Limited',
+  Other Model: 'Model Limited',
+  'Stated Amount': '5000',
+}
+
+VehicleTab_Trailer: {
+  Type: Trailer,
+  Trailer Type: Travel Trailer,
+  Usage: Pleasure Use - Occupied Less than 30 Days a Year,
+  VIN: XCV2,
+  Other Make: 'Other Make Limited',
+  Other Model: 'Model Limited',
+  Stat Code: 'Recreational Trailer',
+  'Stated Amount': '50000',
 }
 
 #---------------------------------------------
@@ -204,3 +290,15 @@ PremiumAndCoveragesTab_OneVeh: {
     }
   ]
 }
+
+#----------------------------------------------
+TestData_1000MilesVeh: {
+  VehicleTab: ['@VehicleTab_2018_New', '@VehicleTab_2003Vehicle'],
+}
+
+VehicleTab_2003Vehicle: {
+  Usage: Pleasure,
+  VIN: 1G8AZ54F531234567, #Saturn Ion 2003
+}
+
+
