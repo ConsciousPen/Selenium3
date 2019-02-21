@@ -25,15 +25,7 @@ public class TestScenario3 extends AutoCaChoiceBaseTest {
 		
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH61XX);
-	}
 
-	@Parameters({"state"})
-	@StateList(states = States.CA)
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void testAH62XX(@Optional("CA") String state) {
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNum = createPolicy();
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
 		policy.reinstate().perform(getTestSpecificTD("TestData_Reinstate"));
