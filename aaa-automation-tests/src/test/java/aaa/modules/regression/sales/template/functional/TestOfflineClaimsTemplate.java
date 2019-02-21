@@ -64,7 +64,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
     @SuppressWarnings("SpellCheckingInspection")
     private static final String CAS_REQUEST_PATH = System.getProperty("user.dir")
-            + PropertyProvider.getProperty("test.downloadfiles.location") + "cas_claim_requests";
+            + PropertyProvider.getProperty("") + "cas_claim_requests";
     @SuppressWarnings("SpellCheckingInspection")
     private static final String CAS_RESPONSE_PATH = System.getProperty("user.dir")
             + PropertyProvider.getProperty("test.downloadfiles.location") + "cas_claim_responses";

@@ -15,6 +15,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.SkipException;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.db.DbXmlHelper;
 import aaa.helpers.docgen.searchNodes.SearchBy;
@@ -88,8 +89,10 @@ public class DocGenHelper {
 	 *                        By default strict match check is used, this means exception will be thrown if xml content differs from existing model (e.g. has extra tags)
 	 */
 	public static DocumentWrapper verifyDocumentsGenerated(ETCSCoreSoftAssertions softly, boolean documentsExistence, boolean generatedByJob, String policyNumber, DocGenEnum.Documents... documents) {
+		//checkPasDocEnabled(policyNumber);
 		if (isPasDocEnabled(policyNumber)) {
-			throw new SkipException(String.format("PasDoc is enabled for product and state combination: " + policyNumber + ". Test will be skipped."));
+			log.error(String.format("PasDoc is enabled for product and state combination: " + policyNumber + ". Verification will be skipped."));
+			return null;
 		}
 		assertThat(documents.length == 0 && !documentsExistence).as("Unable to call method with empty \"documents\" array and false \"documentsExistence\" argument values!").isFalse();
 
@@ -503,58 +506,59 @@ public class DocGenHelper {
 		pMap.put(PolicyType.HOME_CA_HO3.getName(), ProductCode.AAA_HO_CA);
 		pMap.put(PolicyType.PUP.getName(), ProductCode.AAA_PUP_SS);
 		assertThat(pMap.get(pType.getName()).name()).as("Policy Type " + pType.getName() + " is not in a range").isNotEmpty();
-		return executePasDocQuery(pMap.get(pType.getName()).name(), state);
+		return executePasDocQuery(state, pMap.get(pType.getName()).name());
 	}
 
 	public static Boolean isPasDocEnabled(String policyNum) {
 		assertThat(policyNum).as("Policy number is not defined").isNotEmpty();
-		final String queryTemplate = "select lv.displayvalue from lookuplist ll	inner join lookupvalue lv on lv.lookuplist_id=ll.id where ll.lookupname='AAARolloutEligibilityLookup' and lv.code='PASDoc' and lv.productcd='%s' and lv.riskstatecd='%s'";
 		String template = parsePolicyNum(policyNum);
 		String state;
 		ProductCode product = null;
 		if (template.startsWith("CA")) {
 			state = Constants.States.CA;
-			switch (template) {
-				case "CAH":
-					product = ProductCode.AAA_HO_CA;
-					break;
-				case "CAAS":
-					product = ProductCode.AAA_CSA;
-					break;
-				case "CAPU":
-					product = ProductCode.AAA_PUP_SS;
-					break;
+			if (template.startsWith("CAH") || template.startsWith("CAD")) {
+				product = ProductCode.AAA_HO_CA;
+			}
+			if (template.startsWith("CAA")) {
+				product = ProductCode.AAA_CSA;
+			}
+			if (template.startsWith("CAPU")) {
+				product = ProductCode.AAA_PUP_SS;
 			}
 		} else {
 			state = template.substring(0, 2);
 			String prodTemp = template.substring(2);
-			switch (prodTemp) {
-				case "H":
-					product = ProductCode.AAA_HO_SS;
-					break;
-				case "SS":
-					product = ProductCode.AAA_SS;
-					break;
-				case "PU":
-					product = ProductCode.AAA_PUP_SS;
-					break;
+			if (prodTemp.startsWith("H") || prodTemp.startsWith("D")) {
+				product = ProductCode.AAA_HO_SS;
+			}
+			if (prodTemp.startsWith("SS")) {
+				product = ProductCode.AAA_SS;
+			}
+			if (prodTemp.startsWith("PU")) {
+				product = ProductCode.AAA_PUP_SS;
 			}
 		}
-		return executePasDocQuery(product.name(), state);
+		return executePasDocQuery(state, product.name());
 	}
 
 	public static void checkPasDocEnabled(String state, PolicyType pType) {
 		if (isPasDocEnabled(state, pType)) {
-			throw new SkipException(String.format("PasDoc is enabled for product and state combination: %s - %s. Test will be skipped", pType, state));
+			throw new SkipException(String.format("PasDoc is enabled for product and state combination: %s - %s. Test will be skipped", state, pType));
+		}
+	}
+
+	public static void checkPasDocEnabled(String policyNum) {
+		if (isPasDocEnabled(policyNum)) {
+			throw new SkipException(String.format("PasDoc is enabled for product and state combination: %s. Test will be skipped", policyNum));
 		}
 	}
 
 	private static Boolean executePasDocQuery(String state, String pType) {
 		assertThat(state).as("State is not defined").isNotEmpty();
 		assertThat(pType).as("Policy Type is not defined").isNotNull();
-		final String queryTemplate = "select lv.displayvalue from lookuplist ll	inner join lookupvalue lv on lv.lookuplist_id=ll.id where ll.lookupname='AAARolloutEligibilityLookup' and lv.code='PASDoc' and lv.productcd='%s' and lv.riskstatecd='%s'";
+		final String queryTemplate = "select lv.displayvalue from lookuplist ll inner join lookupvalue lv on lv.lookuplist_id=ll.id where ll.lookupname='AAARolloutEligibilityLookup' and lv.code='PASDoc' and lv.productcd='%s' and lv.riskstatecd='%s'";
 		String value = DBService.get().getValue(String.format(queryTemplate, pType, state)).orElse("false");
-		return value.equals("true");
+		return value.equalsIgnoreCase("true");
 	}
 
 	private static String parsePolicyNum(String policyNum) {
@@ -565,6 +569,13 @@ public class DocGenHelper {
 			throw new SkipException("Policy number can't be parsed: " + policyNum);
 		}
 		return m.group(1);
+	}
+
+	@Test
+	public void test() {
+		if (isPasDocEnabled("AZSS952415914")) {
+			throw new SkipException(String.format("PasDoc is enabled for product and state combination: " + "AZSS952415914" + ". Test will be skipped."));
+		}
 	}
 
 	private enum ProductCode {

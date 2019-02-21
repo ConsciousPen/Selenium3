@@ -55,6 +55,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL})
 	public void TC01_CreatePolicy(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(getState(),getPolicyType());
 		currentDate = TimeSetterUtil.getInstance().getCurrentTime();
 		TimeSetterUtil.getInstance().nextPhase(currentDate.plusYears(1));
 		mainApp().open();

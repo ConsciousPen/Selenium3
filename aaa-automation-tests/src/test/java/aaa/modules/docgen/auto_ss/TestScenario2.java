@@ -107,7 +107,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL})
 	public void TC01_CreatePolicy(@Optional("") String state) {
-
+		DocGenHelper.checkPasDocEnabled(getState(),getPolicyType());
 		mainApp().open();
 		createCustomerIndividual();
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
