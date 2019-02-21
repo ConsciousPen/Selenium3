@@ -506,7 +506,7 @@ public class DocGenHelper {
 		pMap.put(PolicyType.HOME_CA_HO3.getName(), ProductCode.AAA_HO_CA);
 		pMap.put(PolicyType.PUP.getName(), ProductCode.AAA_PUP_SS);
 		assertThat(pMap.get(pType.getName()).name()).as("Policy Type " + pType.getName() + " is not in a range").isNotEmpty();
-		return executePasDocQuery(pMap.get(pType.getName()).name(), state);
+		return executePasDocQuery(state, pMap.get(pType.getName()).name());
 	}
 
 	public static Boolean isPasDocEnabled(String policyNum) {
