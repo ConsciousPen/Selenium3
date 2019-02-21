@@ -1510,7 +1510,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
      * @name View Coverage when PIP = YES and "Non-Medical Expense" = "Yes"
      * @scenario
      * 1. Create policy in PAS with "Non-Medical Expense" = YES
-     * and "Additional Personal Injury Protection Benefit" = NO
+     * and "Additional Personal Injury Protection Benefit" = YES
      * 2. Run view endorsement coverages service
      * 3. Verify coverages.
      */

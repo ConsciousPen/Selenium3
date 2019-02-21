@@ -113,7 +113,7 @@ public enum CoverageLimits {
 	COV_EMB_1000("1000", "Yes"),
 	COV_NO_LOL("FALSE", "No Limitation on Lawsuit"),
 	COV_LOL("TRUE", "Limitation on Lawsuit"),
-	COV_2YR("2 YR", "Two Years"),
+	COV_2YR("2YR", "Two Years"),
 	COV_UNL("UNL", "Unlimited"),
 	COV_PIPCOVINCLUDES_NIFM("NIFM", "Named Insureds and Family Members"),
 	COV_PIPCOVINCLUDES_NI("NI", "Named Insureds");
