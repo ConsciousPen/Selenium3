@@ -5677,7 +5677,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES.getLabel()),
 				getTestSpecificTD("AdditionalPersonalInjuryProtectionBenefit_NO").resolveLinks());
 
-		String policyNumber = openAppAndCreatePolicy(td);
+		String policyNumber = "NJSS952918542";//openAppAndCreatePolicy(td);
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		PolicyCoverageInfo viewEndCovResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 
@@ -5690,7 +5690,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
         Coverage covAPIPExpected = Coverage.create(CoverageInfo.APIP_NJ).enableCanChange().enableCustomerDisplay();
         Coverage covPIPMAXINCCONTExpected = Coverage.create(CoverageInfo.PIPMAXINCCONT_NME_NO_NJ).disableCanChange().enableCustomerDisplay();//subCoverages
-        Coverage covESSENSERVExpected = Coverage.create(CoverageInfo.ESSENSERV_NME_NO_NJ).disableCanChange().enableCustomerDisplay();//subCoverages
+        Coverage covESSENSERVExpected = Coverage.create(CoverageInfo.ESSENSERV_NME_YES_NJ).disableCanChange().enableCustomerDisplay();//subCoverages
         Coverage covFUNEXPExpected = Coverage.create(CoverageInfo.FUNEXP_NME_NO_NJ).disableCanChange().enableCustomerDisplay();//subCoverages
 
         Coverage covPIPActual = findCoverage(viewEndCovResponse.policyCoverages, covPIPExpected.getCoverageCd());
