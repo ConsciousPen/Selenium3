@@ -54,6 +54,7 @@ public final class DocGenEnum {
 		AA11WY("Wyoming Auto Insurance Application"),
 		AA16CO("MEDICAL PAYMENTS REJECTION OF COVERAGE"),
 		AA16NV("Rejection of Medical Payments Coverage"),
+		AA34CTA("Cancellation Warning Notice"),
 		AA41CA("Non-Owner Automobile Endorsement"),
 		AA41PA(""),
 		AA41XX("Non-Owners Endorsement"),

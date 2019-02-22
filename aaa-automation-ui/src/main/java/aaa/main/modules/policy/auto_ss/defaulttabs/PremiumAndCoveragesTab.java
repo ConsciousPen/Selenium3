@@ -55,6 +55,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table autoPaySetupSavingMessage = new Table(By.id("policyDataGatherForm:installmentFeeAmountSavedPanel"));
 	public static Table tableeMemberMessageGrid = new Table(By.id("policyDataGatherForm:eMemberMessageGrid"));
 	public static Table tablePolicyLevelLiabilityCoverages = new Table(By.id("policyDataGatherForm:policy_vehicle_detail_coverage"));
+	public static Table tablePolicyLevelPersonalInjuryProtectionCoverage = new Table(By.id("policyDataGatherForm:policy_level_pip_coverage"));
 
 	public static Button buttonViewCappingDetails = new Button(By.id("policyDataGatherForm:viewCappingDetails_Link_1"), Waiters.AJAX);
 	public static Button buttonReturnToPremiumAndCoverages = new Button(By.id("cappingDetailsPopupPanel:cappingReturnTo"), Waiters.AJAX);
@@ -262,17 +263,7 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	public String getVehicleCoverageDetailsValueByVehicle(int index, String coverageName) {
 		Table vehicleCoverageDetailsTable = new Table(tableVehicleCoverageDetails.format(index));
-		Row coverageRow = vehicleCoverageDetailsTable.getRowContains(1, coverageName);
-		Cell cell = coverageRow.getCell(2);
-		String result;
-		if (cell.controls.comboBoxes.getFirst().isPresent()) {
-			result = cell.controls.comboBoxes.getFirst().getValue();
-		} else if (cell.controls.textBoxes.getFirst().isPresent()) {
-			result = cell.controls.textBoxes.getFirst().getValue();
-		} else {
-			result = cell.getValue();
-		}
-		return result;
+		return getCoverageValueFromTable(coverageName, vehicleCoverageDetailsTable);
 	}
 
 	public void setVehicleCoverageDetailsValueByVehicle(int index, String coverageName, String value) {
@@ -314,7 +305,15 @@ public class PremiumAndCoveragesTab extends Tab {
 	}
 
 	public String getPolicyCoverageDetailsValue(String coverageName) {
-		Row coverageRow = tablePolicyLevelLiabilityCoverages.getRowContains(1, coverageName);
+		return getCoverageValueFromTable(coverageName, tablePolicyLevelLiabilityCoverages);
+	}
+
+	public String getPolicyPersonalInjuryProtectionCoverageDetailsValue(String coverageName) {
+		return getCoverageValueFromTable(coverageName, tablePolicyLevelPersonalInjuryProtectionCoverage);
+	}
+
+	private String getCoverageValueFromTable(String coverageName, Table coverageTable) {
+		Row coverageRow = coverageTable.getRowContains(1, coverageName);
 		Cell cell = coverageRow.getCell(2);
 		String result;
 		if (cell.controls.comboBoxes.getFirst().isPresent()) {

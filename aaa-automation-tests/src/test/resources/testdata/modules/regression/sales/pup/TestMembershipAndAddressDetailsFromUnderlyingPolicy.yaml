@@ -1,0 +1,29 @@
+TestData: '@PrefillTab'
+
+PrefillTab: {
+  NamedInsured: [{
+    Relationship to primary named insured: Primary Insured,
+    Marital status: Single,
+    AAA employee: 'No',
+    LLC: 'No',
+    Trustee: 'No',
+    Occupation: 'index=1'
+  }],
+
+  ActiveUnderlyingPolicies: [{
+    Add: click,
+    ActiveUnderlyingPoliciesSearch: {
+      Policy Type: Auto,
+      Policy Number: Primary_Auto
+    }
+  },
+  {
+    ActiveUnderlyingPoliciesSearch: {
+      Policy Type: HO3,
+      Policy Number: Primary_Home
+    },
+    ActiveUnderlyingPoliciesManual: {
+          Primary policy: 'Yes',
+        }
+  }]
+}
