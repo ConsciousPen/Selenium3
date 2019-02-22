@@ -33,7 +33,7 @@ Driver1: {
   Driver Type: Available for Rating,
   #First Name: Nicolas,
   #Last Name: SMITH,
-  'Rel. to First Named Insured': Sibling,
+  'Rel. to First Named Insured': First Named Insured,
   Date of Birth: 10/16/1997,
   Age First Licensed: 18,
   Gender: Male,
