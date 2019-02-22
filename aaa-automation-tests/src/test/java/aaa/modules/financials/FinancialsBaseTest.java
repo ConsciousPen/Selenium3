@@ -58,7 +58,9 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 	}
 
 	protected void cancelPolicy(String policyNumber) {
-        SearchPage.openPolicy(policyNumber);
+		if (!PolicySummaryPage.labelPolicyStatus.isPresent()) {
+			SearchPage.openPolicy(policyNumber);
+		}
 		cancelPolicy(TimeSetterUtil.getInstance().getCurrentTime());
 	}
 
@@ -68,7 +70,9 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 	}
 
 	protected void performReinstatement(String policyNumber) {
-		SearchPage.openPolicy(policyNumber);
+		if (!PolicySummaryPage.labelPolicyStatus.isPresent()) {
+			SearchPage.openPolicy(policyNumber);
+		}
 		policy.reinstate().perform(getReinstatementTD());
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
