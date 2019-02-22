@@ -51,7 +51,7 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
         // Initiate Renewal
         LocalDateTime renewalTime = PolicySummaryPage.getExpirationDate();
         mainApp().close();
-        TimeSetterUtil.getInstance().nextPhase(renewalTime);
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalTime));
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         policy.renew().perform();

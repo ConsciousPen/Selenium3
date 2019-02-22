@@ -118,6 +118,11 @@ public class Coverage {
 		return this;
 	}
 
+	public Coverage enableCustomerDisplay() {
+		this.customerDisplayed = true;
+		return this;
+	}
+
 	public Coverage disableCanChange() {
 		this.canChangeCoverage = false;
 		return this;
