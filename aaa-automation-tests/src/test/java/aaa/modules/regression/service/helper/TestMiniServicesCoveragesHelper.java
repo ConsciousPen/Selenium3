@@ -4818,11 +4818,11 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		//check if UM and UIM were updated with BI
 		Coverage umbiActual = findCoverage(biCoverageResponse.policyCoverages, CoverageInfo.UMBI_DC.getCode());
-		Coverage umbiExpected = Coverage.create(CoverageInfo.UMBI_DC).changeLimit(CoverageLimits.COV_2550);
+		Coverage umbiExpected = Coverage.create(CoverageInfo.UMBI_DC).changeLimit(CoverageLimits.COV_2550).removeAvailableLimit(CoverageLimits.COV_00).removeAvailableLimitsAbove(CoverageLimits.COV_250500);
 		Coverage uimbiActual = findCoverage(biCoverageResponse.policyCoverages, CoverageInfo.UIMBI_DC.getCode());
-		Coverage uimbiExpected = Coverage.create(CoverageInfo.UIMBI_DC).changeLimit(CoverageLimits.COV_2550);
-		assertThat(umbiActual).isEqualToIgnoringGivenFields(umbiExpected, "coverageLimit", "availableLimits");
-		assertThat(uimbiActual).isEqualToIgnoringGivenFields(uimbiExpected, "coverageLimit", "availableLimits");
+		Coverage uimbiExpected = Coverage.create(CoverageInfo.UIMBI_DC).changeLimit(CoverageLimits.COV_2550).removeAvailableLimitsAll().changeAvailableLimits(CoverageLimits.COV_00, CoverageLimits.COV_2550);
+		assertThat(umbiActual).isEqualTo(umbiExpected);
+		assertThat(uimbiActual).isEqualTo(uimbiExpected);
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 	}
 
