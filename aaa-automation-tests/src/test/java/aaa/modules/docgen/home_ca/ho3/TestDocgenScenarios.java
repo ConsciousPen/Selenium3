@@ -287,7 +287,6 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 				DocGenEnum.Documents.HSU06CA
 		);
 
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU09"),
 				DocGenEnum.Documents.HSU07CA,
@@ -301,7 +300,6 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 				DocGenEnum.Documents.HSU09XX
 		);
 
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(
 				DocGenEnum.Documents._61_3000,
@@ -314,7 +312,6 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 				DocGenEnum.Documents._61_3026,
 				DocGenEnum.Documents.HSU08XX
 		);
-		documentActionTab.cancel();
 		softly.close();
 	}
 

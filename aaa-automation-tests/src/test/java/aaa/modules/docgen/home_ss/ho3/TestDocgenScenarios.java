@@ -215,7 +215,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		policy.quoteDocGen().start();
 		documentActionTab.verify.documentsEnabled(softly, false, DocGenEnum.Documents.AHFMXX, DocGenEnum.Documents.HSILXX);
 		//		documentActionTab.verify.documentsPresent(false, Documents.AHAUXX);
-		documentActionTab.cancel();
+		documentActionTab.cancel(true);
 
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
@@ -355,7 +355,6 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				DocGenEnum.Documents.HSU01XX,
 				DocGenEnum.Documents.HSU09XX
 		);
-		documentActionTab.cancel();
 		softly.close();
 	}
 
@@ -493,7 +492,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				DocGenEnum.Documents.AHNBXX,
 				//				Documents.HSEIXX, // TODO Not absent as expected, need to check the requirement
 				DocGenEnum.Documents.HSES);
-		documentActionTab.cancel();
+		documentActionTab.cancel(true);
 
 		policy.purchase(getPolicyTD());
 		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();

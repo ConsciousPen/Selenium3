@@ -388,6 +388,10 @@ public class TestScenario2 extends AutoSSBaseTest {
 
 		clearList();
 
+		if (getState().equals(States.PA)) {
+			return;
+		}
+
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		TestData endorsementTd = getTestSpecificTD("TestData_Endorsement");

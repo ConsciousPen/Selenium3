@@ -3,8 +3,8 @@ package aaa.modules.regression.document_fulfillment.auto_ss;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
@@ -36,9 +36,7 @@ public class TestScenarioCT extends AutoSSBaseTest {
 
 		policy.quoteDocGen().start();
 		docgenActionTab.generateDocuments(Documents.AHCAAG);
-		//WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AHCAAG);
-		docgenActionTab.cancel();
 
 		mainApp().open();
 

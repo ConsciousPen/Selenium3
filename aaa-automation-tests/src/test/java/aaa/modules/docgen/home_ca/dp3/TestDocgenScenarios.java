@@ -112,7 +112,6 @@ public class TestDocgenScenarios extends HomeCaDP3BaseTest {
 			log.info("==========================================");
 			log.info(getState() + " DP3 Quote Documents Generation is checked, quote: " + quoteNum);
 			log.info("==========================================");
-			documentActionTab.cancel();
 		softly.close();
 	}
 
@@ -213,7 +212,6 @@ public class TestDocgenScenarios extends HomeCaDP3BaseTest {
 					DocGenEnum.Documents._61_3026,
 					DocGenEnum.Documents.AHRCTXXPUP
 			);
-			documentActionTab.cancel();
 			log.info("==========================================");
 			log.info(getState() + " DP3 Policy Documents Generation is checked, policy: " + policyNum);
 			log.info("==========================================");

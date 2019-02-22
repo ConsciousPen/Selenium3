@@ -32,7 +32,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	@StateList(states = {States.AZ, States.IN, States.OH, States.VA})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void TC01_CreatePolicy(@Optional("") String state) {
-
+		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType());
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
 		createCustomerIndividual();
@@ -180,6 +180,8 @@ public class TestScenario4 extends AutoSSBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(DocumentsForPrinting.BTN_GENERATE_DOCUMENTS).click();
+		WebDriverHelper.switchToDefault();
+		documentsAndBindTab.cancel();
 		softly = new ETCSCoreSoftAssertions();
 		/* Check xml */
 		switch (getState()) {

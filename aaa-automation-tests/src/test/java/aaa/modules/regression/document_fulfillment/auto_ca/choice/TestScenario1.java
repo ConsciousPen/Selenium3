@@ -23,7 +23,6 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
 import aaa.utils.StateList;
-import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 /**
@@ -68,7 +67,7 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 
 			// 2
 			policy.quoteDocGen().start();
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			docgenActionTab.verify.documentsEnabled(softly,
 					Documents.AA11CA,
 					Documents.AHAPXX_CA,
@@ -181,7 +180,7 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 			policy.renew().start();
 			checkAA52CA(softly);
 			Tab.buttonSaveAndExit.click();
-		});
+		softly.close();
 	}
 
 	private void checkAA52CA(ETCSCoreSoftAssertions softly){

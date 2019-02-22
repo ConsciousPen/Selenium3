@@ -8,7 +8,6 @@ import aaa.common.Tab;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
@@ -118,7 +117,7 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest {
 		policy.quoteDocGen().start();
 		goddTab.verify.documentsEnabled(false, AHFMXX, HSILXX);
 		//goddTab.verify.documentsPresent(false, AHAUXX);
-		goddTab.cancel();
+		goddTab.cancel(true);
 
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
@@ -132,9 +131,8 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest {
 		log.info("==========================================");
 		log.info(getState() + " HO4 Quote Documents Generation is checked, quote: " + quoteNumber);
 		log.info("==========================================");
-		goddTab.cancel();
 		softly.close();
-	}
+		goddTab.cancel(true);
 
 	/**
 	 * @author Lina Li
@@ -186,20 +184,14 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest {
 	 * 13. Verify HUS02XX is enable
 	 * @details
 	 */
-	@Parameters({"state"})
-	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
-	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL}, dependsOnMethods = "TC01_Quote_Documents")
-	public void TC02_Policy_Documents(@Optional("") String state) {
-		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-		mainApp().open();
 
-		SearchPage.openQuote(quoteNumber);
 		policy.purchase(getPolicyTD("DataGather", "TestData"));
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		softly = new ETCSCoreSoftAssertions();
 		DocGenHelper.verifyDocumentsGenerated(softly, policyNumber, HS02_4, AHNBXX, HS0988);
 
 		policy.policyDocGen().start();
-		GenerateOnDemandDocumentActionTab goddTab = policy.policyDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
+		goddTab = policy.policyDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 		goddTab.verify.documentsPresent(softly, AHFMXX, AHRCTXX, HS11_4
 				.setState(String.format("%s4", getState())), HSEIXX, HSILXX, HSRFIXX, HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX);
 		goddTab.verify.documentsEnabled(softly, AHRCTXX, HS11_4.setState(String.format("%s4", getState())), HSEIXX, HSILXX, HSU01XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX);

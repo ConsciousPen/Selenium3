@@ -117,7 +117,6 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
 		log.info("==========================================");
 		log.info(getState() + " HO6 Quote Documents Generation is checked, quote: " + quoteNum);
 		log.info("==========================================");
-		documentActionTab.cancel();
 		softly.close();
 	}
 
@@ -191,7 +190,6 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
 		log.info("==========================================");
 		log.info(getState() + " HO6 Policy Documents Generation is checked, policy: " + policyNum);
 		log.info("==========================================");
-		documentActionTab.cancel();
 		softly.close();
 	}
 

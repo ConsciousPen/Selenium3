@@ -130,7 +130,6 @@ public class TestDocgenScenarios extends HomeCaHO4BaseTest {
 		log.info("==========================================");
 		log.info(getState() + " HO4 Quote Documents Generation is checked, quote: " + quoteNum);
 		log.info("==========================================");
-		documentActionTab.cancel();
 		softly.close();
 	}
 
@@ -210,7 +209,6 @@ public class TestDocgenScenarios extends HomeCaHO4BaseTest {
 				DocGenEnum.Documents._60_5019,
 				DocGenEnum.Documents.AHPNCA);
 
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),
 				//Documents.WUAUCA,
@@ -246,7 +244,6 @@ public class TestDocgenScenarios extends HomeCaHO4BaseTest {
 		log.info("==========================================");
 		log.info(getState() + " HO6 Policy Documents Generation is checked, policy: " + policyNum);
 		log.info("==========================================");
-		documentActionTab.cancel();
 		softly.close();
 	}
 

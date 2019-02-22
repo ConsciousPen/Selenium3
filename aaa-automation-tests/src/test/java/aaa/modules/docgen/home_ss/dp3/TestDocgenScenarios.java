@@ -253,7 +253,6 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest {
 				DocGenEnum.Documents.HSILXX,
 				DocGenEnum.Documents.HSRFIXX
 		);
-		documentActionTab.cancel();
 		softly.close();
 	}
 
@@ -476,7 +475,6 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest {
 				DocGenEnum.Documents.HSU01XX,
 				DocGenEnum.Documents.HSU09XX
 		);
-		documentActionTab.cancel();
 		softly.close();
 	}
 
@@ -542,7 +540,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest {
 				DocGenEnum.Documents.DS0926,
 				DocGenEnum.Documents.DS0934,
 				DocGenEnum.Documents.DS2482);
-		documentActionTab.cancel();
+		documentActionTab.cancel(true);
 
 		policy.purchase(getPolicyTD());
 		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -573,7 +571,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest {
 						DocGenEnum.Documents.DS2482);
 				break;
 		}
-		documentActionTab.cancel();
+		documentActionTab.cancel(true);
 		softly.close();
 	}
 }

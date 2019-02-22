@@ -4,7 +4,6 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants.States;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
@@ -80,7 +79,7 @@ public class TestNJDocgenScenarios extends HomeSSDP3BaseTest {
 					DocGenEnum.Documents.HSELNJ
 			);
 		softly.close();
-		documentActionTab.cancel();
+		documentActionTab.cancel(true);
 
 		/**
 		 * Test steps:
@@ -96,8 +95,6 @@ public class TestNJDocgenScenarios extends HomeSSDP3BaseTest {
 		 * 15780: US PA GD-02 Generate Cancellation Notice-UW or Insured Request
 		 * 17315:HO-DOC-TPD01-NJ-01 17315 - US NJ GD- 17 Generate Third Party Designee Cover Page (AHTPC__ 11 12)
 		 */
-		mainApp().open();
-		SearchPage.openPolicy(policyNum);
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData_MaterialMisrepresentation"));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH61XX);

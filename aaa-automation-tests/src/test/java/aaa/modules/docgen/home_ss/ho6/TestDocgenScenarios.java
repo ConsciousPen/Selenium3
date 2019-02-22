@@ -184,7 +184,7 @@ public class TestDocgenScenarios extends HomeSSHO6BaseTest {
 		Tab.buttonSaveAndExit.click();
 		policy.quoteDocGen().start();
 		documentActionTab.verify.documentsEnabled(softly, false, DocGenEnum.Documents.AHFMXX, DocGenEnum.Documents.HSILXX);
-		documentActionTab.cancel();
+		documentActionTab.cancel(true);
 
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
@@ -320,7 +320,6 @@ public class TestDocgenScenarios extends HomeSSHO6BaseTest {
 				DocGenEnum.Documents.HSU01XX,
 				DocGenEnum.Documents.HSU09XX
 		);
-		documentActionTab.cancel();
 		softly.close();
 	}
 }
