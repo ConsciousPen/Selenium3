@@ -549,7 +549,6 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
 				//				Documents.HSRFIXX, // TODO actually it is disabled on the page, need to confirm the request
 				DocGenEnum.Documents.HSES);
-		documentActionTab.cancel();
 		softly.close();
 	}
 

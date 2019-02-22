@@ -115,7 +115,6 @@ public class TestNJDocgenScenarios extends HomeSSHO3BaseTest {
 				DocGenEnum.Documents.AHELCXXL,
 				DocGenEnum.Documents.AHELCXXP
 		);
-		documentActionTab.cancel(true);
 		softly.close();
 	}
 }

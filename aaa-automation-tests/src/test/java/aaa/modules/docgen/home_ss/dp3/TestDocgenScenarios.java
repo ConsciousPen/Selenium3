@@ -571,7 +571,6 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest {
 						DocGenEnum.Documents.DS2482);
 				break;
 		}
-		documentActionTab.cancel(true);
 		softly.close();
 	}
 }
