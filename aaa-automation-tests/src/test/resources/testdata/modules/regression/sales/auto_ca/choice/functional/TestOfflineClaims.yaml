@@ -4,44 +4,46 @@ TestData_DriverTab_OfflineClaim_CA: {
 }
 
 TestData_DriverTab_OfflineClaim_PU_CA: {
- # GeneralTab: ['@GeneralTab_Customer'],
- # PrefillTab: '@PrefillTab1_CA',
-  DriverTab: ['@Driver2','@Driver3','@Driver4']
+ DriverTab: ['@Driver2','@Driver3','@Driver4']
 }
 
-#TBD - Not to be Deleted
-#PrefillTab1_CA: {
-#  First Name: Nicolas,
-#  Last Name: Smith,
-#  Zip Code: 90255,
-#  Address Line 1: 6586 PORCUPINE WAY,
-#  City: HUNTINGTON PARK,
-#  State: CA,
-#  Date of Birth: '12/05/1969',
-#  Validate Address: click,
-#  Validate Address Dialog: {},
-#  Order Prefill: click
-#}
+TestData_DriverTab_ReconcileFNIclaims_PU_CA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ca_choice>@DataGather@GeneralTab',
+  DriverTab:  '@Driver1'
+}
 
-#TBD - Not to be Deleted
-  ######Test Data for 1/2/3/4 Drivers
-#Driver1: {
-#  Add Driver: Click,
-#  DriverSearchDialog:{},
-#  Driver Type: Available for Rating,
-#  #First Name: Nicolas,
-#  #Last Name: SMITH,
-#  'Rel. to First Named Insured': Sibling,
-#  Date of Birth: 12/05/1969,
-#  Age First Licensed: 18,
-#  Gender: Male,
-#  Marital Status: Married,
-#  Occupation: Architect,
-#  License Type: "Valid",
-#  License State: CA,
-#  Permit Before License: 'Yes',
-#  "License #": D1278001
-#}
+PrefillTab: {
+  First Name: Tony,
+  Last Name: Stark,
+  Zip Code: 90255,
+  Address Line 1: 6586 PORCUPINE WAY,
+  City: HUNTINGTON PARK,
+  State: CA,
+  Date of Birth: '10/16/1997',
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+
+Driver1: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  #First Name: Nicolas,
+  #Last Name: SMITH,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 10/16/1997,
+  Age First Licensed: 18,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D1278222
+}
 
 Driver2: {
   Add Driver: Click,
