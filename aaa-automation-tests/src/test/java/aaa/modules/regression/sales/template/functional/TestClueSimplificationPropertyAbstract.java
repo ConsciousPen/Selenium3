@@ -973,6 +973,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     private void validateWarningMessage(){
+        //PAS-25173 [replacing PAS-21557] - a new requirement to update the warning message - disposition 'CAT' or 'IIRE' frm [Yes to No] or [No to Yes]
         if (isStateCA()){
             // Check warning message is fired for CA
             assertThat(getPropertyInfoTab().getAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(),
