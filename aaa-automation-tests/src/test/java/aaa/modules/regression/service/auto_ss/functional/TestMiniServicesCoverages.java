@@ -1523,6 +1523,30 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
     }
 
 	/**
+	 * @author Jovita Pukenaite
+	 * @name View/Update Coverages - PIP - New Jersey - Coverage Includes is NI and RR
+	 * @scenario
+	 * 1. Create policy, where Coverage Includes = Named Insureds.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Update Coverage Includes to Named Insureds and Family Members.
+	 * 4. Check response.
+	 * 5. Go in to PAS endorsement.
+	 * 6. Validate that fields are displaying.
+	 * 7. Issue endorsement.
+	 * 8. Create new one outside of PAS.
+	 * 9. Update Coverage Includes = Named Insureds.
+	 * 10. Check response.
+	 * 11. Go in to PAS, check if the fields aren't displaying anymore.
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-25531"})
+	public void pas25531_viewUpdatePipCoveragesIncludesNiAndRrNJ(@Optional("NJ") String state) {
+		pas25531_viewUpdatePipCoveragesIncludesNiAndRrNJBody();
+	}
+
+	/**
 	 * @author Maris Strazds
 	 * @name
 	 * @scenario

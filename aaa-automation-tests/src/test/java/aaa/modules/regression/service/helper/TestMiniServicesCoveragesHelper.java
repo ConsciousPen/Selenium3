@@ -5751,6 +5751,25 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
         assertThat(covFUNEXPActual).isEqualToComparingFieldByField(covFUNEXPExpected);
     }
 
+    protected void pas25531_viewUpdatePipCoveragesIncludesNiAndRrNJBody(){
+		String policyNumber = openAppAndCreatePolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		Coverage covNewPIPCOVINCLUDES = Coverage.create(CoverageInfo.PIPCOVINCLUDES_NJ).changeLimit(CoverageLimits.COV_PIPCOVINCLUDES_NIFM);
+		PolicyCoverageInfo updateResponse = updateCoverage(policyNumber, covNewPIPCOVINCLUDES);
+
+		Coverage covAPIPExpected = Coverage.create(CoverageInfo.APIP_NME_YES_PIP_YES_NJ).enableCanChange().enableCustomerDisplay();
+		Coverage covAPIPActual = findCoverage(updateResponse.policyCoverages, covAPIPExpected.getCoverageCd());
+		Coverage covPIPCOVINCLUDESExpected = Coverage.create(CoverageInfo.PIPCOVINCLUDES_NJ);//subCoverages
+		List<Coverage> subCoveragesAPIPActual = covAPIPActual.getSubCoverages();
+		Coverage covPIPCOVINCLUDESActual = findCoverage(subCoveragesAPIPActual, covPIPCOVINCLUDESExpected.getCoverageCd());
+
+
+
+
+
+
+	}
+
 	private void updateCoverageAndCheck_pas15272(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
 		updateCoverageAndCheckResponses(policyNumber, covToUpdate, expectedCoveragesToCheck);
 		//Modify list of coverages before checking in PAS UI

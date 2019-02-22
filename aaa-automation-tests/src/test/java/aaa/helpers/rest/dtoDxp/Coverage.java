@@ -46,6 +46,9 @@ public class Coverage {
 	@ApiModelProperty(value = "List of drivers that the coverage is applied to")
 	private LinkedHashSet<String> currentlyAddedDrivers;
 
+	@ApiModelProperty(value = "Relatives Covered")
+	private LinkedHashSet<String> relativesCovered;
+
 	@ApiModelProperty(value = "List of sub coverages associated to the coverage")
 	private List<Coverage> subCoverages;
 
