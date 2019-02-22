@@ -77,7 +77,7 @@ public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
         // Overriding Errors caused by created ActivityInformation entries (Auto Select Rules)
         if (errorTab.isVisible()) {
             errorTab.overrideAllErrors();
-            errorTab.override();
+            errorTab.buttonOverride.click();
             premiumAndCoveragesTab.submitTab();
         }
 
