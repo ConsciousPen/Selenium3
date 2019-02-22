@@ -17,6 +17,7 @@ import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -34,6 +35,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
 	public void testScenario1(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(States.AZ, PolicyType.AUTO_SS);
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
@@ -52,6 +54,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
 	public void testScenario2(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(States.AZ, PolicyType.AUTO_SS);
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td_sc2 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC2").resolveLinks());
@@ -67,6 +70,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
 	public void testScenario3(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(States.AZ, PolicyType.AUTO_SS);
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
@@ -81,6 +85,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
 	public void testScenario4(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(States.AZ, PolicyType.AUTO_SS);
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy();
@@ -107,6 +112,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
 	public void testScenario5(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(States.AZ, PolicyType.AUTO_SS);
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td_sc5 = getPolicyTD().adjust(getTestSpecificTD("TestData_ExcludedDrivers").resolveLinks());
@@ -135,6 +141,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
 	public void testScenario6(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(States.AZ, PolicyType.AUTO_SS);
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td_sc6 = getPolicyTD().adjust(getTestSpecificTD("TestData_VehiclesWithUBI").resolveLinks());
@@ -156,6 +163,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
 	public void testScenario7(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(States.AZ, PolicyType.AUTO_SS);
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td_sc7 = getPolicyTD().adjust(getTestSpecificTD("TestData_PermitDrivers").resolveLinks());
@@ -165,9 +173,28 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		
 		policy.policyDocGen().start();
 		odd_tab.verify.documentsPresent(Documents.AAPDXX);
-		odd_tab.generateDocuments(Documents.AAPDXX);
+		odd_tab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, null, Documents.AAPDXX);
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AAPDXX);
 		verifyOneDocumentGenerated(policyNumber, "AAPDXX");
+	}
+	
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
+	public void testScenario8(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(States.AZ, PolicyType.AUTO_SS);
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td_sc8 = getPolicyTD().adjust(getTestSpecificTD("TestData_FinancialDrivers").resolveLinks());
+		createPolicy(td_sc8);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 8: Several Drivers with Financial Responsibility: Created Policy#" + policyNumber);
+		
+		policy.policyDocGen().start();
+		odd_tab.verify.documentsPresent(null, true, Documents.AASR22);
+		odd_tab.generateDocuments(Documents.AASR22);
+		DocGenHelper.verifyDocumentsGenerated(true, false, policyNumber, Documents.AASR22);	
+		verifyOneDocumentGenerated(policyNumber, "AASR22");
 	}
 
 	

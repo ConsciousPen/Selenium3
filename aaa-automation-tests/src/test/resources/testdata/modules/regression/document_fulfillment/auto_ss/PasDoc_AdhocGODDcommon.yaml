@@ -1,5 +1,5 @@
 TestData_SC2: {
-  DriverTab: ['@DriverTab_FinancialDriver', '@DriverTab_ExcludedDriver1', '@DriverTab_PermitDriver1'], 
+  DriverTab: ['@DriverTab_FinancialDriver1', '@DriverTab_ExcludedDriver1', '@DriverTab_PermitDriver1'], 
   VehicleTab: ['@<auto_ss>@DataGather@VehicleTab', '@VehicleTab_EnrolledInUBI_1'],
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMBILessThanBI', 
   DocumentsAndBindTab: '@DocumentsAndBindTab_Full' 
@@ -20,15 +20,38 @@ TestData_PermitDrivers: {
   DocumentsAndBindTab: '@DocumentsAndBindTab' 
 }
 
-# --------- DriverTab ---------
-DriverTab_FinancialDriver: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: A12345678, 
-  Financial Responsibility Filing Needed: 'Yes'
+TestData_FinancialDrivers: {
+  GeneralTab: '@GeneralTab', 
+  DriverTab: ['@DriverTab_FinancialDriver1', '@DriverTab_FinancialDriver2'],
+  DocumentsAndBindTab: '@DocumentsAndBindTab_FinancialDrivers'
 }
 
+# -------- GeneralTab ---------
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
+}
+
+NamedInsuredInformation1: {
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+NamedInsuredInformation2: {
+  InsuredSearchDialog: {},
+  First Name: Jenny,
+  Last Name: Smith,
+  Insured Date of Birth: 12/05/1962,
+  Base Date: $<today>,
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+# --------- DriverTab ---------
 DriverTab_ExcludedDriver1: {
   Add Driver: click,
   DriverSearchDialog: {},
@@ -91,6 +114,30 @@ DriverTab_PermitDriver2: {
   Marital Status: Married,
   Occupation: Employed,
   License Type: Learner's Permit
+}
+
+DriverTab_FinancialDriver1: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A22345678, 
+  Financial Responsibility Filing Needed: 'Yes', 
+  Filing State: Arizona
+}
+
+DriverTab_FinancialDriver2: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A22345679, 
+  Financial Responsibility Filing Needed: 'Yes', 
+  Filing State: Arizona
 }
 
 # -------- VehicleTab ---------
@@ -156,6 +203,15 @@ DocumentsAndBindTab_VehiclesWithUBI: {
   RequiredToIssue: {
     Proof of Prior Insurance: 'Yes'
   }
+}
+
+DocumentsAndBindTab_FinancialDrivers: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed
+  }, 
+  Agreement: I agree, 
+  Case Number: '12345',
+  #Case Number: '12346'
 }
 
 DocumentsAndBindTab_Full: {
