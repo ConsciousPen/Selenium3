@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -18,7 +19,6 @@ import aaa.utils.StateList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 @StateList(states = Constants.States.MD)
 public class TestMDOrderClueFNIExcluded extends AutoSSBaseTest {
@@ -36,7 +36,7 @@ public class TestMDOrderClueFNIExcluded extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-5147"})
 	public void pas5147_testOrderClueFNIExcluded_StandardNB(@Optional("MD") String state) {
 
@@ -60,7 +60,7 @@ public class TestMDOrderClueFNIExcluded extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-5147"})
 	public void pas5147_testOrderClueFNIExcluded_NanoNB(@Optional("MD") String state) {
 
@@ -88,7 +88,7 @@ public class TestMDOrderClueFNIExcluded extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-5147"})
 	public void pas5147_testOrderClueExcludeFNIEndorsementStandard(@Optional("MD") String state) {
 
@@ -113,7 +113,7 @@ public class TestMDOrderClueFNIExcluded extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-5147"})
 	public void pas5147_testOrderClueExcludeFNIEndorsementNano(@Optional("MD") String state) {
 
