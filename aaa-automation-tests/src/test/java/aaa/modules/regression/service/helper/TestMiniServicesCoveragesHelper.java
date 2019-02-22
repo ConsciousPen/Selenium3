@@ -5671,6 +5671,77 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertThat(covFUNEXPActual).isEqualToComparingFieldByField(covFUNEXPExpected);
 	}
 
+	protected void pas23975_viewUpdatePIPPrimaryInsurerNJBody() {
+
+		TestData td = getPolicyDefaultTD();
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES.getLabel()),
+				getTestSpecificTD("PolicyLevelPersonalInjuryProtectionCoverages_Primary_Insurer_Personal_Health_Insurance")).resolveLinks();
+
+
+
+		//TODO-mstrazds: create policy with Primary Insurer = Personal Health Insurance
+		String policyNumber = openAppAndCreatePolicy(td);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		PolicyCoverageInfo viewCovResponse = HelperCommon.viewEndorsementCoverages(policyNumber,PolicyCoverageInfo.class);
+
+		Coverage covPIPRIMINSPersonalExpected = Coverage.create(CoverageInfo.PIPPRIMINS_NJ).changeLimit(CoverageLimits.COV_PIPPRIMINS_PERSONAL_HEALTH_INSURANCE).setInsName1("abc").setCertNum1("12z");
+
+		Coverage covPIPActual = findCoverage(viewCovResponse.policyCoverages, CoverageInfo.PIP_NJ.getCode());
+		List<Coverage> subCoveragesPIPActual = covPIPActual.getSubCoverages();
+		Coverage covPIPRIMINSActual = findCoverage(subCoveragesPIPActual, CoverageInfo.PIPPRIMINS_NJ.getCode());
+
+		assertThat(covPIPRIMINSPersonalExpected).isEqualTo(covPIPRIMINSActual);
+
+		//Update Primary Insurer to Auto
+		Coverage covPIPRIMINSAutoExpected = Coverage.create(CoverageInfo.PIPPRIMINS_NJ).changeLimit(CoverageLimits.COV_PIPPRIMINS_AUTO_INSURANCE);
+		updateCoverageAndCheck(policyNumber, covPIPRIMINSAutoExpected, covPIPRIMINSAutoExpected);
+
+		//Update Primary Insurer back to Personal Health Insurance (without populating CertNum1, InsName1)
+		covPIPRIMINSPersonalExpected.setInsName1("").setCertNum1("");
+		validatePIPPRIMINSError(policyNumber, covPIPRIMINSPersonalExpected);
+
+		//Update Primary Insurer to Personal Health Insurance (without populating CertNum1, but populating InsName1)
+		covPIPRIMINSPersonalExpected.setInsName1("3az").setCertNum1("");
+		validatePIPPRIMINSError(policyNumber, covPIPRIMINSPersonalExpected);
+
+		//Update Primary Insurer to Personal Health Insurance (without populating InsName1, but populating CertNum1)
+		covPIPRIMINSPersonalExpected.setInsName1("").setCertNum1("r1g");
+		validatePIPPRIMINSError(policyNumber, covPIPRIMINSPersonalExpected);
+
+		//Update Primary Insurer to Personal Health Insurance (populating InsName1, but populating less than 3 symbols for CertNum1)
+		covPIPRIMINSPersonalExpected.setInsName1("t54").setCertNum1("ty");
+		validatePIPPRIMINSError(policyNumber, covPIPRIMINSPersonalExpected);
+
+		//Update Primary Insurer to Personal Health Insurance (populating CertNum1, but populating less than 3 symbols for InsName1 )
+		covPIPRIMINSPersonalExpected.setInsName1("1a").setCertNum1("tb7");
+		validatePIPPRIMINSError(policyNumber, covPIPRIMINSPersonalExpected);
+
+		//Update Primary Insurer to Personal Health Insurance (with populating at least 3 symbols for both InsName1 AND CertNum1)
+		covPIPRIMINSPersonalExpected.setInsName1("2ad").setCertNum1("tb7");
+		updateCoverageAndCheck_pas23975(policyNumber, covPIPRIMINSPersonalExpected,covPIPRIMINSPersonalExpected);
+//TODO-mstrazds:rate and check error
+	}
+
+	private void validatePIPPRIMINSError(String policyNumber, Coverage covPIPRIMINSPersonalExpected) {
+		PolicyCoverageInfo policyCoverageInfoBeforeUpdate = HelperCommon.viewEndorsementCoverages(policyNumber,PolicyCoverageInfo.class);
+
+		UpdatePIPPRIMINSCoverageRequest updatePIPPRIMINSCoverageRequest = DXPRequestFactory.createUpdatePIPRIMINSCoverageRequest(covPIPRIMINSPersonalExpected.getCoverageCd(), covPIPRIMINSPersonalExpected.getCoverageLimit()
+				, covPIPRIMINSPersonalExpected.getInsName1(), covPIPRIMINSPersonalExpected.getCertNum1());
+		ErrorResponseDto errorResponse = HelperCommon.updateEndorsementCoverage(policyNumber,updatePIPPRIMINSCoverageRequest,ErrorResponseDto.class, 422);
+		assertThat(errorResponse.errorCode).isEqualTo("bdlfbl");
+		assertThat(errorResponse.message).isEqualTo("\"Insurer name\",\"Policy/Group #/Certificate #\" mandatory fields value cannot be left blank and require at least 3 characters");
+
+		//Assert that coverage is not updated as there was error
+		PolicyCoverageInfo policyCoverageInfoAfterUpdate = HelperCommon.viewEndorsementCoverages(policyNumber,PolicyCoverageInfo.class);
+		assertThat(policyCoverageInfoAfterUpdate).isEqualTo(policyCoverageInfoBeforeUpdate);
+
+		//TODO-mstrazds:rate and check error
+
+		//validate change log
+		Coverage covPIPRIMINSAutoExpected = Coverage.create(CoverageInfo.PIPPRIMINS_NJ).changeLimit(CoverageLimits.COV_PIPPRIMINS_AUTO_INSURANCE);
+		validatePolicyLevelCoverageChangeLog(policyNumber, covPIPRIMINSAutoExpected);
+	}
+
 	protected void pas19161_viewPIPNonMedExpenseYesNJBody(){
 		TestData td = getPolicyDefaultTD();
 		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
@@ -6295,6 +6366,27 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		validateCoverageLimitInPASUI(expectedCoveragesToCheck);
 	}
 
+	private void updateCoverageAndCheck_pas23975(String policyNumber, Coverage covToUpdatePIPPRIMINS, Coverage... expectedCoveragesToCheck) {
+		PolicyCoverageInfo updateCoverageResponse = updatePIPPRIMINSCoverage(policyNumber, covToUpdatePIPPRIMINS);
+		validatePolicyLevelCoverageChangeLog(policyNumber, expectedCoveragesToCheck);//TODO-mstrazds:PIPPRIMINS is subcoverage - does this work?
+		validateCoveragesDXP(updateCoverageResponse.policyCoverages, expectedCoveragesToCheck);
+		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateCoverageResponse);
+
+		//Check PIPPRIMINS coverage in PAS UI
+		openPendedEndorsementDataGatherAndNavigateToPC();
+		assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(covToUpdatePIPPRIMINS.getCoverageDescription())).isEqualTo(covToUpdatePIPPRIMINS.getCoverageLimitDisplay());
+		if (covToUpdatePIPPRIMINS.getCoverageLimitDisplay().equals(CoverageLimits.COV_PIPPRIMINS_PERSONAL_HEALTH_INSURANCE.getDisplay())) {
+			assertThat(premiumAndCoveragesTab.getPolicyPersonalInjuryProtectionCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages
+					.INSURER_NAME.getLabel())).isEqualTo(covToUpdatePIPPRIMINS.getInsName1());
+			assertThat(premiumAndCoveragesTab.getPolicyPersonalInjuryProtectionCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages
+					.POLICY_GROUP_NUM_CERTIFICATE_NUM.getLabel())).isEqualTo(covToUpdatePIPPRIMINS.getCertNum1());
+		} else {
+			assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES)
+					.getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.INSURER_NAME.getLabel()).isPresent()).isFalse();
+		}
+		premiumAndCoveragesTab.saveAndExit();
+	}
+
 	/**
 	 * It is better to use updateCoverageAndCheck instead to be sure that nothing is updating when navigating to P&C Tab.
 	 * Use in cases when it is not possible to check in Inquiry mode.
@@ -6327,6 +6419,11 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	private PolicyCoverageInfo updateCoverage(String policyNumber, Coverage updateData) {
 		return HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(updateData.getCoverageCd(),
 				updateData.getCoverageLimit()), PolicyCoverageInfo.class);
+	}
+
+	private PolicyCoverageInfo updatePIPPRIMINSCoverage(String policyNumber, Coverage updateData) {
+		return HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdatePIPRIMINSCoverageRequest(updateData.getCoverageCd(),
+				updateData.getCoverageLimit(), updateData.getInsName1(), updateData.getCertNum1()), PolicyCoverageInfo.class);
 	}
 
 	protected Coverage findCoverage(List<Coverage> coverageList, String coverageCd) {

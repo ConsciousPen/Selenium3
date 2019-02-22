@@ -49,6 +49,10 @@ public class Coverage {
 	@ApiModelProperty(value = "List of sub coverages associated to the coverage")
 	private List<Coverage> subCoverages;
 
+	private String insName1; //for PIPPRIMINS coverage
+
+	private String certNum1; //for PIPPRIMINS coverage
+
 	public static Coverage create(CoverageInfo coverageInfo) {
 		Coverage coverage = new Coverage();
 		coverage.coverageCd = coverageInfo.getCode();
@@ -193,6 +197,23 @@ public class Coverage {
 		return subCoverages;
 	}
 
+	public String getInsName1() {
+		return insName1;
+	}
+	public String getCertNum1(){
+		return certNum1;
+	}
+
+	public Coverage setInsName1(String insName1) {
+		this.insName1 = insName1;
+		return this;
+	}
+
+	public Coverage setCertNum1(String certNum1) {
+		this.insName1 = certNum1;
+		return this;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -212,14 +233,16 @@ public class Coverage {
 				Objects.equals(getAvailableLimits(), coverage.getAvailableLimits()) &&
 				Objects.equals(getAvailableDrivers(), coverage.getAvailableDrivers()) &&
 				Objects.equals(getCurrentlyAddedDrivers(), coverage.getCurrentlyAddedDrivers()) &&
-				Objects.equals(getSubCoverages(), coverage.getSubCoverages());
+				Objects.equals(getSubCoverages(), coverage.getSubCoverages()) &&
+				Objects.equals(getInsName1(), coverage.getInsName1()) &&
+				Objects.equals(getCertNum1(), coverage.getCertNum1());
 	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(getCoverageCd(), getCoverageDescription(), getCoverageLimit(), getCoverageLimitDisplay(),
 				getCoverageType(), getCustomerDisplayed(), getCanChangeCoverage(), getAvailableLimits(),
-				getAvailableLimits(), getCurrentlyAddedDrivers(), getSubCoverages());
+				getAvailableLimits(), getCurrentlyAddedDrivers(), getSubCoverages(), getInsName1(), getCertNum1());
 	}
 
 	@Override
@@ -236,6 +259,8 @@ public class Coverage {
 				", availableDrivers=" + availableDrivers +
 				", currentlyAddedDrivers=" + currentlyAddedDrivers +
 				", subCoverages=" + subCoverages +
+				", insName1=" + insName1 +
+				", certNum1=" + certNum1 +
 				'}';
 	}
 }
