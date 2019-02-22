@@ -210,25 +210,25 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeRestriction"), "($200.00)");
 		verifyPaymentDeclinedTransactionPresent("200");
 
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._60_5000);
 
 		//Decline previous manual payment with reason "Fee + Restriction" (to get 60 5003)
 		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeRestriction"), "($300.00)");
 
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._60_5003);
 
 		//Decline deposit payment with reason "Fee + No Restriction" (to get 605001)
 		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeNoRestriction"), "($400.00)");
 
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._60_5001);
 
 		//Decline previous manual payment with reason "No Fee + No Restriction" (to get 60 5002)
 		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_NoFeeNoRestriction"), "($500.00)");
 
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._60_5002);
 
 	}

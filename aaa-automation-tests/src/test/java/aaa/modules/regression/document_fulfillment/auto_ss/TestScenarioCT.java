@@ -48,8 +48,8 @@ public class TestScenarioCT extends AutoSSBaseTest {
 		policy.dataGather().getView().getTab(PurchaseTab.class).submitTab();
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		JobUtils.executeJob(Jobs.aaaCCardExpiryNoticeJob, true);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.aaaCCardExpiryNoticeJob);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._60_5006); //CCEXPIRATION_NOTICE
 	}
 }

@@ -28,7 +28,7 @@ public class TestScenario7 extends AutoSSBaseTest {
 		createCustomerIndividual();
 		String policyNum = createPolicy();
 		policy.cancel().perform(getTestSpecificTD("TestData_Cancellation"));
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.AH60XXA);
 	}
 }

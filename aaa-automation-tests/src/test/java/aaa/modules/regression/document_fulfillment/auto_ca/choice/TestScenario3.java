@@ -23,13 +23,13 @@ public class TestScenario3 extends AutoCaChoiceBaseTest {
 		String policyNum = createPolicy();
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData_SubstantialIncrease"));
 		
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH61XX);
 
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
 		policy.reinstate().perform(getTestSpecificTD("TestData_Reinstate"));
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH62XX);
 	}
 }

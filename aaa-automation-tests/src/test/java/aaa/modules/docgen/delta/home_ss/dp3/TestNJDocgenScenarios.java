@@ -96,7 +96,7 @@ public class TestNJDocgenScenarios extends HomeSSDP3BaseTest {
 		 * 17315:HO-DOC-TPD01-NJ-01 17315 - US NJ GD- 17 Generate Third Party Designee Cover Page (AHTPC__ 11 12)
 		 */
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData_MaterialMisrepresentation"));
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH61XX);
 	}
 

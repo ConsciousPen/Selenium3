@@ -167,7 +167,7 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 			String paymentReferenceId = DBService.get().getValue(String.format(GET_PAYMENT_REFERENCE_ID_BY_BILLING_ACCOUNT, billingAccount)).get();
 			File paymentCentralFile = paymentCentralHelper.createFile(policyNumber, paymentAmountPlain, paymentReferenceId);
 			PaymentCentralHelper.copyFileToServer(paymentCentralFile);
-			JobUtils.executeJob(Jobs.aaaPaymentCentralRejectFeedAsyncJob, true);
+			JobUtils.executeJob(Jobs.aaaPaymentCentralRejectFeedAsyncJob);
 		} else if ("ERR".equals(recurringPaymentResponseStatus)) {
 			//Generate file for unsuccessful Recurring Payment Response and run job
 			generateFileForRecurringPaymentResponseJob(policyNumber, billingAccount, paymentAmountPlain, "ERR");
@@ -210,7 +210,7 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 		String paymentNumber = DBService.get().getValue(String.format(GET_PAYMENT_NUMBER_BY_BILLING_ACCOUNT, billingAccount)).get();
 		File recurringPaymentResponseFile = aaaRecurringPaymentResponseHelper.createFile(policyNumber, paymentAmountPlain, paymentNumber, err);
 		AAARecurringPaymentResponseHelper.copyFileToServer(recurringPaymentResponseFile);
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsResponseProcessAsyncJob, true);
+		JobUtils.executeJob(Jobs.aaaRecurringPaymentsResponseProcessAsyncJob);
 		Waiters.SLEEP(5000).go();
 	}
 

@@ -49,7 +49,7 @@ public class TestScenario4 extends AutoCaSelectBaseTest {
 		SearchPage.openBilling(policyNumber);
 		Dollar totalDue = BillingSummaryPage.getTotalDue();
 		billing.acceptPayment().perform(cash_payment, totalDue);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._550029);
 	}
 }

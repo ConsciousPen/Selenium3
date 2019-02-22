@@ -45,7 +45,7 @@ public class TestScenario1 extends HomeSSHO3BaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, DocGenEnum.Documents.AH62XX);
 	}
 

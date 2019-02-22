@@ -203,7 +203,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 		policy.reinstate().perform(getTestSpecificTD("TestData_Reinstate"));
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 
 		BillingSummaryPage.open();
 
