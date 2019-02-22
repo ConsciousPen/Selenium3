@@ -324,7 +324,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
         advanceTimeAndOpenPolicy(effDate, policyNumber);
-        JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
+        runLedgerStatusUpdateJob();
 
         //END-04 and PMT-05 validations
         assertSoftly(softly -> {
