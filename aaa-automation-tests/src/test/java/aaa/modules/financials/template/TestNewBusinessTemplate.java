@@ -84,7 +84,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         });
 
 		// Cancel policy
-		cancelPolicy();
+        cancelPolicy(policyNumber);
 
 		// CNL-01 validations
         validateCancellationTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
@@ -171,7 +171,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         });
 
 		// Cancel policy on effective date (flat cancellation)
-        cancelPolicy();
+        cancelPolicy(policyNumber);
 
         // CNL-03 validations
         validateCancellationTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
@@ -268,7 +268,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         });
 
         // Cancel policy
-        cancelPolicy();
+        cancelPolicy(policyNumber);
 
         //validate CNL-02
         validateCancellationTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
@@ -362,7 +362,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         });
 
         //Cancel policy
-        cancelPolicy();
+        cancelPolicy(policyNumber);
 
         //CNL-04 validations
         validateCancellationTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,

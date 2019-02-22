@@ -57,7 +57,8 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		return due;
 	}
 
-	protected void cancelPolicy() {
+	protected void cancelPolicy(String policyNumber) {
+        SearchPage.openPolicy(policyNumber);
 		cancelPolicy(TimeSetterUtil.getInstance().getCurrentTime());
 	}
 
