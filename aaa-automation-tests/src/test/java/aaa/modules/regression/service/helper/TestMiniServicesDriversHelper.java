@@ -309,6 +309,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		HelperCommon.updateDriverAssignment(policyNumber, vehicle1.oid, Arrays.asList(addedDriver.oid));
 
 		// rate and bind
+		HelperCommon.orderReports(policyNumber, addedDriverResponse.oid, OrderReportsResponse.class, 200);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 		// create 2nd endorsement
