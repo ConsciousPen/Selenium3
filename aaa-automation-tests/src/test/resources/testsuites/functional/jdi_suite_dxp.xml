@@ -1124,6 +1124,8 @@
                     <include name="pas19127_BIAndUMBIAndCanChangeTrue"/>
                     <include name="pas15302_lolCoverageNJ"/>
                     <include name="pas15353_viewPIPNonMedExpenseNoNJ"/>
+                    <include name="pas19161_viewPIPNonMedExpenseYesNJ"/>
+                    <include name="pas19163_viewPipYesAndNonMedExpenseYesNJ"/>
                 </methods>
             </class>
         </classes>
