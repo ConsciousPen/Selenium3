@@ -1,9 +1,12 @@
 package aaa.modules.regression.document_fulfillment.auto_ca.choice;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.Tab;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.NavigationEnum.AutoCaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -20,12 +23,6 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
 import aaa.utils.StateList;
-
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-
-import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 /**
@@ -61,7 +58,7 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testPolicyDocuments(@Optional("") String state) {
-		CustomSoftAssertions.assertSoftly(softly -> {
+
 			mainApp().open();
 
 			// 1
@@ -70,6 +67,7 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 
 			// 2
 			policy.quoteDocGen().start();
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			docgenActionTab.verify.documentsEnabled(softly,
 					Documents.AA11CA,
 					Documents.AHAPXX_CA,
@@ -182,7 +180,7 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 			policy.renew().start();
 			checkAA52CA(softly);
 			Tab.buttonSaveAndExit.click();
-		});
+		softly.close();
 	}
 
 	private void checkAA52CA(ETCSCoreSoftAssertions softly){

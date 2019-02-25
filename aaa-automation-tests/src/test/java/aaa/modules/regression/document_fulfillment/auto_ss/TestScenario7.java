@@ -25,9 +25,10 @@ public class TestScenario7 extends AutoSSBaseTest {
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		mainApp().open();
-		String policyNumber = getCopiedPolicy();
+		createCustomerIndividual();
+		String policyNum = createPolicy();
 		policy.cancel().perform(getTestSpecificTD("TestData_Cancellation"));
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents.AH60XXA);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.AH60XXA);
 	}
 }

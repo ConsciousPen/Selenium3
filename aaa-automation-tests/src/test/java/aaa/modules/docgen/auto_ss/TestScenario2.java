@@ -106,8 +106,8 @@ public class TestScenario2 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL})
-	public void TC01_CreatePolicy(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(),getPolicyType());
+	public void testDocGenScenario02(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType());
 		mainApp().open();
 		createCustomerIndividual();
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
@@ -387,12 +387,10 @@ public class TestScenario2 extends AutoSSBaseTest {
 		}
 
 		clearList();
-	}
 
-	@Parameters({"state"})
-	@StateList(states = {States.AZ, States.IN, States.OK})
-	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC02_01_EndorsePolicy(@Optional("") String state) {
+		if (getState().equals(States.PA)) {
+			return;
+		}
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -423,7 +421,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 								.adjust(TestData.makeKeyPath("AASR26", "form", "TermEffDt", "DateTimeField"), termEffDt)
 								.adjust(TestData.makeKeyPath("AASR26", "form", "TermExprDt", "DateTimeField"), termExprDt),
 						policyNumber);
-				
+
 				break;
 			case "OK":
 				DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR26).verify.mapping(getTestSpecificTD("TestData_AASR26")
@@ -438,16 +436,9 @@ public class TestScenario2 extends AutoSSBaseTest {
 
 		clearList();
 
-	}
-
-	@Parameters({"state"})
-	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
-	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC02_02_EndorsePolicy(@Optional("") String state) {
-
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		TestData endorsementTd = getTestSpecificTD("TestData_Endorsement2");
+		endorsementTd = getTestSpecificTD("TestData_Endorsement2");
 		policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
 		assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled(false);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -506,7 +497,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 								.adjust(TestData.makeKeyPath("AA02AZ", "form", "EndrEffDt", "DateTimeField"), endrEffDt),
 						policyNumber);
 				break;
-				
+
 			case "IN":
 				DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43IN, AH35XX, AA59XX, AA52IN, AA53IN, AA10XX, AAPDXX, AA02IN).verify.mapping(getTestSpecificTD("TestData_VerificationED")
 								.adjust(TestData.makeKeyPath("AA43IN", "form", "PlcyNum", "TextField"), policyNumber)
@@ -656,13 +647,6 @@ public class TestScenario2 extends AutoSSBaseTest {
 
 		clearList();
 
-	}
-	
-	@Parameters({"state"})
-	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
-	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC03_RenewalImageGeneration(@Optional("") String state) {
-		clearList();
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate_CurrentTerm);
 		Log.info("Policy Renewal Image Generation Date" + renewImageGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
@@ -673,12 +657,6 @@ public class TestScenario2 extends AutoSSBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-	}
-
-	@Parameters({"state"})
-	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
-	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC04_RenewaPreviewGeneration(@Optional("") String state) {
 
 		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate_CurrentTerm);
 		Log.info("Policy Renewal Preview Generation Date" + renewPreviewGenDate);
@@ -695,18 +673,13 @@ public class TestScenario2 extends AutoSSBaseTest {
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 
-	}
-
-	@Parameters({"state"})
-	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
-	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC05_RenewaOfferGeneration(@Optional("") String state) {
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate_CurrentTerm);
 		Log.info("Policy Renewal Offer Generation Date" + renewOfferGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 
+		clearList();
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -911,12 +884,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 		}
 
 		clearList();
-	}
 
-	@Parameters({"state"})
-	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
-	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC06_RenewaOfferBillGeneration(@Optional("") String state) {
 		LocalDateTime renewOfferBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate_CurrentTerm);
 		Log.info("Policy Renewal Offer Bill Generation Date" + renewOfferBillGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferBillGenDate);
@@ -1040,7 +1008,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 				break;
 		}
 
-		 PremiumAndCoveragesTab.RatingDetailsView.close();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 
 		netWrtPrem = formatValue(PremiumAndCoveragesTab.tableAAAPremiumSummary.getRow(1).getCell("Actual Premium").getValue());
 		allVehTotPrem = formatValue(PremiumAndCoveragesTab.totalTermPremium.getValue());

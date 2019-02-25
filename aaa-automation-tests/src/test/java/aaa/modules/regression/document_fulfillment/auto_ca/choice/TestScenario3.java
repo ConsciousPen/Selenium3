@@ -17,25 +17,19 @@ public class TestScenario3 extends AutoCaChoiceBaseTest {
 	@Parameters({"state"})
 	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void testAH61XX(@Optional("CA") String state) {
+	public void testAH61XX_AH62XX(@Optional("CA") String state) {
 		mainApp().open();
-		String policyNum = getCopiedPolicy();
+		createCustomerIndividual();
+		String policyNum = createPolicy();
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData_SubstantialIncrease"));
 		
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH61XX);
-	}
 
-	@Parameters({"state"})
-	@StateList(states = States.CA)
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void testAH62XX(@Optional("CA") String state) {
-		mainApp().open();
-		String policyNum = getCopiedPolicy();
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
 		policy.reinstate().perform(getTestSpecificTD("TestData_Reinstate"));
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH62XX);
 	}
 }
