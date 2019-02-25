@@ -423,7 +423,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
 
         // Add second NI
-        _generalTab.addNamedInsured("Jane", "Doe", "02/14/1990", "No", "Own Home");
+        _generalTab.addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         // Move to documents and bind tab.
         _generalTab.submitTab();
@@ -471,7 +471,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
 
         // Add second NI
-        _generalTab.addNamedInsured("CUSTOMER_E", "Doe", "02/14/1990", "No", "Own Home");
+        _generalTab.addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         // Trigger refresh
         _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
