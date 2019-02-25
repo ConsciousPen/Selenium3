@@ -4,7 +4,12 @@ public enum CoverageLimits {
 	COV_20("20", "$20"),
 	COV_25("25", "$25"),
 	COV_30("30", "$30"),
+	COV_175("175", "$175"),
+	COV_125("125", "$125"),
 	COV_250("250", "$250"),
+	COV_400("400", "$400"),
+	COV_600("600", "$600"),
+	COV_700("700", "$700"),
 	COV_900("900", "$900"),
 	COV_1500("1500", "$1,500"),
 	COV_2000("2000", "$2,000"),
@@ -50,6 +55,9 @@ public enum CoverageLimits {
 	COV_10001000("1000000/1000000", "$1,000,000/$1,000,000"),
 	COV_10002000("1000000/2000000", "$1,000,000/$2,000,000"),
 	COV_20002000("2000000/2000000", "$2,000,000/$2,000,000"),
+	COV_5200("5200", "$100 per Week/$5,200 Maximum"),
+	COV_4380("4380", "$12 per Day/$4,380 Maximum"),
+	COV_8760("8760", "$12 per Day/$8,760 Maximum"),
 	COV_INCLUDED("Included"),
 	COV_0("0", "No Coverage"),
 	COV_00("0/0", "No Coverage"),
@@ -104,7 +112,11 @@ public enum CoverageLimits {
 	COV_EMB_0("0", "No"),
 	COV_EMB_1000("1000", "Yes"),
 	COV_NO_LOL("FALSE", "No Limitation on Lawsuit"),
-	COV_LOL("TRUE", "Limitation on Lawsuit");
+	COV_LOL("TRUE", "Limitation on Lawsuit"),
+	COV_2YR("2YR", "Two Years"),
+	COV_UNL("UNL", "Unlimited"),
+	COV_PIPCOVINCLUDES_NIFM("NIFM", "Named Insureds and Family Members"),
+	COV_PIPCOVINCLUDES_NI("NI", "Named Insureds");
 
 	private final String limit;
 	private final String display;
