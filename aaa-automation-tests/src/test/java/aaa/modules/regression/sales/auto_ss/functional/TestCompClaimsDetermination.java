@@ -1,14 +1,13 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import java.util.List;
-
-import aaa.helpers.logs.PasAppLogGrabber;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.logs.PasLogGrabber;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -25,7 +24,7 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 	// Example: http://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1
 
 	private static VehicleTab vehicleTab = new VehicleTab();
-	private static PasAppLogGrabber pasAppLogGrabber = new PasAppLogGrabber();
+	private static PasLogGrabber pasLogGrabber = new PasLogGrabber();
 
 	private static String appLog;
 	private static List<String> listOfClaims;
@@ -96,7 +95,7 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 		runRenewalClaimReceiveJob();
 
 		appLog = downloadPasAppLog();
-		listOfClaims = pasAppLogGrabber.retrieveClaimsAnalyticsLogValues(appLog);
+		listOfClaims = pasLogGrabber.retrieveClaimsAnalyticsLogValues(appLog);
 
 		CustomSoftAssertions.assertSoftly(softly -> {
 		// Verify Claim Analytic Logs: MATCH CODE according to Claim Number and policyNumber

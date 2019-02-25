@@ -20,17 +20,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
-
-import aaa.common.enums.RestRequestMethodTypes;
-import aaa.helpers.logs.PasAppLogGrabber;
-import aaa.helpers.rest.JsonClient;
-import aaa.helpers.rest.RestRequestInfo;
-import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.RestRequestMethodTypes;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.claim.BatchClaimHelper;
@@ -39,14 +34,18 @@ import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import aaa.helpers.claim.datamodel.claim.Claim;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.logs.PasLogGrabber;
+import aaa.helpers.rest.JsonClient;
+import aaa.helpers.rest.RestRequestInfo;
+import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import toolkit.config.PropertyProvider;
@@ -73,8 +72,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     @SuppressWarnings("SpellCheckingInspection")
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_hhmmss");
     @SuppressWarnings("SpellCheckingInspection")
-    private static final String PAS_APP_LOG_PATH = System.getProperty("user.dir")
-            + PropertyProvider.getProperty("test.downloadfiles.location") + "pas_admin_log";
+    private static final String PAS_LOG_DOWNLOAD_PATH = System.getProperty("user.dir")
+            + PropertyProvider.getProperty("test.downloadfiles.location") + "downloaded_pas_log";
     public static final String SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = 'TRUE' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse'";
     public static final String SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS = "UPDATE LOOKUPVALUE SET DATEOFLOSS = '%s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse'";
     private static final String CLAIMS_URL = "https://claims-assignment-master.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1"; //Post-Permissive Use
@@ -95,11 +94,13 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         try {
             FileUtils.forceDeleteOnExit(Paths.get(CAS_REQUEST_PATH).toFile());
             FileUtils.forceDeleteOnExit(Paths.get(CAS_RESPONSE_PATH).toFile());
+            FileUtils.forceDeleteOnExit(Paths.get(PAS_LOG_DOWNLOAD_PATH).toFile());
             Files.createDirectories(Paths.get(CAS_REQUEST_PATH));
             Files.createDirectories(Paths.get(CAS_RESPONSE_PATH));
+            Files.createDirectories(Paths.get(PAS_LOG_DOWNLOAD_PATH));
         } catch (IOException e) {
             throw new IllegalStateException("Can't delete directories " + CAS_RESPONSE_PATH + " "
-                    + CAS_REQUEST_PATH, e);
+                    + CAS_REQUEST_PATH + " " + PAS_LOG_DOWNLOAD_PATH, e);
         }
     }
 
@@ -374,15 +375,33 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
      * Method returns content as String of pas-app wrapper.log file
      * @return
      */
-    protected String downloadPasAppLog() {
-        String pasAppLogFolder = PasAppLogGrabber.getPasAppLogFolder();
-        RemoteHelper.get().getListOfFiles(pasAppLogFolder);
-        RemoteHelper.get().downloadFile("wrapper.log", PAS_APP_LOG_PATH);
-        File pasAppLogFile = new File(PAS_APP_LOG_PATH + File.separator + "wrapper.log");
-        assertThat(pasAppLogFile).exists().isFile().canRead().isAbsolute();
-        String content = contentOf(pasAppLogFile, Charset.defaultCharset());
-        log.info("Downloaded PAS Application Log File: {}" + content);
+    protected String downloadPasSelectedLog(String requiredLogFolder) {
+        String pasSelectedLogFolder = requiredLogFolder;
+        RemoteHelper.get().getListOfFiles(pasSelectedLogFolder);
+        RemoteHelper.get().downloadFile("wrapper.log", PAS_LOG_DOWNLOAD_PATH);
+        File downloadedPasLogFile = new File(PAS_LOG_DOWNLOAD_PATH + File.separator + "wrapper.log");
+        assertThat(downloadedPasLogFile).exists().isFile().canRead().isAbsolute();
+        String content = contentOf(downloadedPasLogFile, Charset.defaultCharset());
+        log.info("Downloaded Selected PAS Log File: {}" + content);
         return content;
+    }
+
+    /**
+     * Method returns content as String of pas-app wrapper.log file
+     * @return
+     */
+    protected String downloadPasAppLog() {
+        String pasAppLogFolder = PasLogGrabber.getPasAppLogFolder();
+        return downloadPasSelectedLog(pasAppLogFolder);
+    }
+
+    /**
+     * Method returns content as String of pas-admin wrapper.log file
+     * @return
+     */
+    protected String downloadPasAdminLog() {
+        String pasAdminLogFolder = PasLogGrabber.getPasAdminLogFolder();
+        return downloadPasSelectedLog(pasAdminLogFolder);
     }
 
     /**

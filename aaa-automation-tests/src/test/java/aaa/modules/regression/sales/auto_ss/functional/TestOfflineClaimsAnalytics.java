@@ -1,24 +1,21 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import java.util.List;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.logs.PasAppLogGrabber;
+import aaa.helpers.logs.PasLogGrabber;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplate;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
-import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
-
-import java.util.List;
 
 @StateList(states = {Constants.States.AZ})
 public class TestOfflineClaimsAnalytics extends TestOfflineClaimsTemplate {
@@ -26,9 +23,10 @@ public class TestOfflineClaimsAnalytics extends TestOfflineClaimsTemplate {
     // NOTE: Claims Matching Logic: e2e tests should use HTTP instead of HTTPS in DB (Microservice propertyname ='aaaClaimsMicroService.microServiceUrl')
     // Example: http://claims-assignment-master.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1
 
-    private static PasAppLogGrabber pasAppLogGrabber = new PasAppLogGrabber();
+    private static PasLogGrabber pasLogGrabber = new PasLogGrabber();
 
     private static String appLog;
+    private static String adminLog;
     private static List<String> listOfClaims;
     private static String pasFirstNamedInsured;
     private static String policyEffectiveDate;
@@ -101,7 +99,6 @@ public class TestOfflineClaimsAnalytics extends TestOfflineClaimsTemplate {
         DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
         DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-JAN-18"));
 
-        //TODO: gunxgar change to default
         TestData testData = getPolicyDefaultTD();
 
         // Create Customer and Policy
@@ -124,8 +121,11 @@ public class TestOfflineClaimsAnalytics extends TestOfflineClaimsTemplate {
         // Move to R-46 and run batch job part 2 and renewalClaimReceiveAsyncJob to generate Microservice Request/Response and Analytic logs
         runRenewalClaimReceiveJob();
 
+        // Taking Both Logs, as Analytics randomly shown in Admin OR App logs
         appLog = downloadPasAppLog();
-        listOfClaims = pasAppLogGrabber.retrieveClaimsAnalyticsLogValues(appLog);
+        adminLog = downloadPasAdminLog();
+        String wholeLog = appLog + adminLog;
+        listOfClaims = pasLogGrabber.retrieveClaimsAnalyticsLogValues(wholeLog);
 
         CustomSoftAssertions.assertSoftly(softly -> {
             // Verify Claim Analytic Logs: all keys and values
