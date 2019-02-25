@@ -430,7 +430,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 10. Check the FNI driver status.
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.VA})
+	@StateList(states = {Constants.States.VA, Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475", "PAS-17503"})
 	public void pas14475_NameInsuredMaritalStatus(@Optional("VA") String state) {
@@ -903,7 +903,6 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16578", "PAS-17933", "PAS-17957"})
 	public void pas16578_removeDriverCheckIfTaskWasCreated(@Optional("VA") String state) {
-
 		pas16578_removeDriverCheckIfTaskWasCreatedBody();
 	}
 
@@ -927,27 +926,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17769", "PAS-17658"})
 	public void pas17769_tooOldDriverErrorAndNoHintFromReportResponse(@Optional("VA") String state) {
-
 		pas17769_tooOldDriverErrorAndNoHintFromReportResponseBody();
-	}
-
-	/**
-	 * @author Megha Gubbala
-	 * @name Driver MetaData Service
-	 * @scenario 1. Create policy. with 1 Afr and 1 Nafr
-	 * 2. Create endorsement outside of PAS
-	 * 3. run driver meta data service
-	 * 4. Verify ADB is visible true for AFR and disable to NAFR driver
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas17641"})
-	public void pas17641_MetaDataServiceDriverAddADB(@Optional("AZ") String state) {
-
-		TestData td = getTestSpecificTD("TestData");
-		assertSoftly(softly ->
-				pas17641_MetaDataServiceDriverAddADBBody(softly, getPolicyType(), td)
-		);
 	}
 
 	/**
@@ -966,7 +945,6 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19768"})
 	public void pas19768_ageFirstLicensedCannotBeGreaterThanDob(@Optional("VA") String state) {
-
 		pas19768_ageFirstLicensedCannotBeGreaterThanDobBody();
 	}
 

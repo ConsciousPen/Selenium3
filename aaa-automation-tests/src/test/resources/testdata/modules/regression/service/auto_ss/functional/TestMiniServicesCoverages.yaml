@@ -490,16 +490,17 @@ TestData_OrderOfCoverages_WY: {
   DriverLevelCoverages:["ADB"]
 }
 
-VehicleTab_Motor_Home: {
-         Add Vehicle: Click,
-         Type: Motor Home,
-         Motor Home Type: Mini Motor Home (Class C),
-         Usage: Pleasure Use - Occupied Less than 30 Days a Year,
-         VIN: 5B4MP67G123353230,
-         Other Make: 'Motor',
-         Other Model: 'Motor',
-        Stated Amount: '50000',
- }
+#The same name exist above
+#VehicleTab_Motor_Home: {
+#         Add Vehicle: Click,
+#         Type: Motor Home,
+#         Motor Home Type: Mini Motor Home (Class C),
+#         Usage: Pleasure Use - Occupied Less than 30 Days a Year,
+#         VIN: 5B4MP67G123353230,
+#         Other Make: 'Motor',
+#         Other Model: 'Motor',
+#        Stated Amount: '50000',
+# }
 
 VehicleTab_GolfCart: {
    Add Vehicle: click,
@@ -512,3 +513,13 @@ VehicleTab_GolfCart: {
    Other Model: GRX100,
    Stated Amount: 1500
  }
+
+PolicyLevelPersonalInjuryProtectionCoverages_NonMedExp_NO: {
+    Non-Medical Expense: 'No'
+  }
+
+AdditionalPersonalInjuryProtectionBenefit_NO: {
+  Additional Personal Injury Protection Benefit: 'No'
+}
+
+

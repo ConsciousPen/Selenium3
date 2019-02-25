@@ -1,0 +1,97 @@
+############### 3 Drivers on policy
+TestData_DriverTab_OfflineClaim_CA: {
+  DriverTab: ['@Driver2','@Driver3','@Driver4']
+}
+
+TestData_DriverTab_OfflineClaim_PU_CA: {
+ # GeneralTab: ['@GeneralTab_Customer'],
+ # PrefillTab: '@PrefillTab1_CA',
+  DriverTab: ['@Driver2','@Driver3','@Driver4']
+}
+
+Driver2: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: JOSHUA,
+  Last Name: FUSSELL,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 12/05/1970,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435433,
+  Age First Licensed: 18
+}
+
+Driver3: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Not Available for Rating,
+  Reason: Unlicensed spouse,
+  First Name: Tony,
+  Last Name: Stark,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 12/12/1987,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435434,
+  Age First Licensed: 18
+}
+
+Driver4: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Robin,
+  Last Name: Hood,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 12/20/1975,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435435,
+  Age First Licensed: 18,
+  ActivityInformation: {
+       Activity Source: Company Input,
+       Type: '10-yr Major Violation',
+       Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+       Description: 'Driving under the influence of drugs',
+       Conviction Date: '$<today-3M:MM/dd/yyyy>',
+       "Include in Points and/or YAF?": 'No',
+       Not Included in Points and/or YAF - Reason Codes: 'Report errors',
+      }
+}
+
+Driver5: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Bruce,
+  Last Name: Banerr,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 12/12/1987,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435440,
+  Age First Licensed: 18
+}
+
+############### Add 5th Driver at endorsement
+Add_PU_Claim_Driver_Endorsement_CA: {
+  DriverTab: ['@Driver5'],
+}

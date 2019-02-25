@@ -424,7 +424,7 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
      */
     @Parameters({STATE_PARAM})
     @StateList(statesExcept = States.CA)
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-1169")
     public void testPriorBILimitLessThan500k(@Optional("AZ") String state) {
         TestData policyTD = adjustNameInsured(getPolicyDefaultTD(), "NameInsured_Prior_BI_1000")

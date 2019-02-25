@@ -41,6 +41,9 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     private String censusBlock = HomeGranularityConstants.EADS_MOCK_CENSUS_BLOCK_CA;
     private String latitude = HomeGranularityConstants.EADS_MOCK_LATITUDE_CA;
     private String longitude = HomeGranularityConstants.EADS_MOCK_LONGITUDE_CA;
+    private String avsMockCensusBlock = HomeGranularityConstants.MOCK_CENSUS_BLOCK;
+    private String avsMockLatitude = HomeGranularityConstants.MOCK_LATITUDE;
+    private String avsMockLongitude = HomeGranularityConstants.MOCK_LONGITUDE;
 
     /**
      * @name test: Capture Census Block Group, Latitude and Longitude when address is validated
@@ -56,7 +59,7 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-23235")
     public void pas23235_validateCensusBlockGroupAndLatLong(@Optional("CA") String state) {
-        validateCensusBlockGroupAndLatLong();
+        validateCensusBlockGroupAndLatLong(avsMockCensusBlock, avsMockLatitude, avsMockLongitude);
     }
 
     /**
@@ -92,5 +95,22 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-23218")
     public void pas23218_riskAddressChangeDuringRenewal(@Optional("CA") String state) {
         riskAddressChangeDuringRenewal(getTDAddressChange());
+    }
+
+    /**
+     * @name test: ReCapture Latitude and Longitude (after validating address)Census Block Group(e.g. after Calculating Premium) when address changed during Endorsement
+     * @scenario
+     * 1. Create policy
+     * 2. Initiate Endorsement. Change address on Applicant Tab
+     * 3. Validate address and continue up to Premium & Coverages Tab and Calculate Premium
+     * 4. Verify lat/long and census block are refreshed in the db
+     *
+     * @details
+     */
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-24576")
+    public void pas24576_riskAddressChangeDuringEndorsement(@Optional("CA") String state) {
+        riskAddressChangeDuringEndorsement(getTDAddressChange());
     }
 }

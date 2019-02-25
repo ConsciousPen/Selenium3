@@ -83,11 +83,12 @@ Driver1: {
   Occupation: Clergy,
   Gender: Male,
   License Type: 'Licensed (US)',
+  License State: CT,
   License Number: 156773434
 }
 
 Driver2: {
-  Add Driver: Click,
+  #Add Driver: Click,
   DriverSearchDialog:{},
   Named Insured: 'Woman1 LastName1',
   #First Name: Woman1,
@@ -104,7 +105,7 @@ Driver2: {
 }
 
 Driver3: {
-  Add Driver: Click,
+  #Add Driver: Click,
   DriverSearchDialog:{},
   Named Insured: 'Man3 LastName3',
   #First Name: Man3,
@@ -121,7 +122,7 @@ Driver3: {
 }
 
 Driver4: {
-  Add Driver: Click,
+  #Add Driver: Click,
   DriverSearchDialog:{},
   Named Insured: 'Woman4 LastName3',
   #First Name: Woman4,
@@ -243,11 +244,12 @@ Driver1v: {
   Occupation: Clergy,
   Gender: Female,
   License Type: 'Licensed (US)',
+  License State: CT,
   License Number: 156773434
 }
 
 Driver2v: {
-  Add Driver: Click,
+  #Add Driver: Click,
   DriverSearchDialog:{},
   Named Insured: 'Woman1 LastName1',
   'Rel. to First Named Insured': Sibling,
@@ -268,7 +270,7 @@ Driver2v: {
 }
 
 Driver3v: {
-  Add Driver: Click,
+  #Add Driver: Click,
   DriverSearchDialog:{},
   Named Insured: 'Man3 LastName3',
   'Rel. to First Named Insured': Sibling,
@@ -289,7 +291,7 @@ Driver3v: {
 }
 
 Driver4v: {
-  Add Driver: Click,
+  #Add Driver: Click,
   DriverSearchDialog:{},
   Named Insured: 'Woman4 LastName4',
   'Rel. to First Named Insured': Sibling,
@@ -310,7 +312,7 @@ Driver4v: {
 }
 
 Driver5v: {
-  Add Driver: Click,
+  #Add Driver: Click,
   DriverSearchDialog:{},
   Named Insured: 'Woman5 LastName5',
   'Rel. to First Named Insured': Sibling,
@@ -331,7 +333,7 @@ Driver5v: {
 }
 
 Driver6v: {
-  Add Driver: Click,
+ #Add Driver: Click,
   DriverSearchDialog:{},
   Named Insured: 'Woman6 LastName6',
   'Rel. to First Named Insured': Sibling,
@@ -457,11 +459,12 @@ Driver1a: {
   Occupation: Clergy,
   Gender: Female,
   License Type: 'Licensed (US)',
+  License State: CT,
   License Number: 156773432
 }
 
 Driver2a: {
-  Add Driver: Click,
+  #Add Driver: Click,
   DriverSearchDialog:{},
   Named Insured: 'Woman1 LastName1',
   #First Name: Woman1,
@@ -485,7 +488,7 @@ Driver2a: {
 }
 
 Driver3a: {
-  Add Driver: Click,
+  #Add Driver: Click,
   DriverSearchDialog:{},
   Named Insured: 'Man3 LastName3',
   #First Name: Man3,
@@ -510,7 +513,7 @@ Driver3a: {
 }
 
 Driver4a: {
-  Add Driver: Click,
+  #Add Driver: Click,
   DriverSearchDialog:{},
   Named Insured: 'Woman4 LastName3',
   #First Name: Woman4,
@@ -533,7 +536,7 @@ Driver4a: {
 }
 
 Driver5a: {
-  Add Driver: Click,
+  #Add Driver: Click,
   DriverSearchDialog:{},
   Named Insured: 'Woman6 LastName1',
   #First Name: Woman6,
@@ -556,7 +559,7 @@ Driver5a: {
 }
 
 Driver6a: {
-  Add Driver: Click,
+  #Add Driver: Click,
   DriverSearchDialog:{},
   Named Insured: 'Woman6 LastName6',
   #First Name: Woman6,
