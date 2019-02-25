@@ -55,8 +55,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL})
 	public void testDocGenScenario01(@Optional("") String state) {
 		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType());
-		currentDate = TimeSetterUtil.getInstance().getCurrentTime();
-		TimeSetterUtil.getInstance().nextPhase(currentDate.plusYears(1));
+
 		mainApp().open();
 
 		createCustomerIndividual();
