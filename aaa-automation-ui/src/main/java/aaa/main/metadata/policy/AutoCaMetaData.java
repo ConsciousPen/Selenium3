@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.metadata.policy;
 
+import aaa.common.components.Dialog;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import aaa.main.enums.DocGenConstants;
@@ -299,6 +300,40 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<ComboBox> LIABILITY_CODE = declare("Liability Code", ComboBox.class);
 			public static final AssetDescriptor<AssetListConfirmationDialog> ACTIVITY_REMOVE_CONFIRMATION = declare("Activity remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX,
 					false, By.id("confirmEliminateInstance_Dialog_container"));
+			public static final AssetDescriptor<AssetList> SELECT_DRIVER_DIALOG = declare("Select Driver", AssetList.class, SelectDriverDialog.class);
+
+
+//			public static Dialog dialogSelectDriver = new Dialog(".//*[@id='policyDataGatherForm:selectDriverDialog_container']");
+//			public static final AssetDescriptor<ComboBox> ASSIGN_TO = declare("Assign To", ComboBox.class);
+//			public static final AssetDescriptor<Button> BTN_OK = declare("Yes", Button.class, Waiters.AJAX, By.xpath("//*[@id='policyDataGatherForm:okBtn1']"));
+		}
+
+//		public static final AssetDescriptor<SelectDriverDialog> SELECT_DRIVER_DIALOG = declare("Select Driver Dialog", SelectDriver.class, By
+//				.id(".//*[@id='policyDataGatherForm:selectDriverDialog_container']"));
+		//*[@id="policyDataGatherForm:selectDriverDialog_container"]
+//
+//		public static final class SelectDriver extends MetaData {
+//			public static final AssetDescriptor<ComboBox> ASSIGN_TO = declare("Assign To", ComboBox.class);
+//			public static final AssetDescriptor<Button> BTN_OK = declare("Yes", Button.class, Waiters.AJAX, By.xpath("//*[@id='policyDataGatherForm:okBtn1']"));
+
+
+//
+//		}
+
+		public static final class SelectDriverDialog extends MetaData {
+//		    public static final AssetDescriptor<ComboBox> ASSIGN_TO = declare("Assign To", ComboBox.class);
+            ////*[@id="policyDataGatherForm:DriverLabel"]
+//			.xpath("//span[@id='policyDataGatherForm:componentContextHolder']/ul/li"));
+			// #policyDataGatherForm\3a driverDropDownkj3OQRM5HMyW7n7VUyFHAg
+			////*[@id="policyDataGatherForm:driverDropDownkj3OQRM5HMyW7n7VUyFHAg"]
+			// //[starts-with(@id,'policyDataGatherForm:driverDropDown')]
+//		    public static final AssetDescriptor<ComboBox> ASSIGN_TO = declare("Assign To", ComboBox.class, Waiters.AJAX, By.xpath("//*[@id='policyDataGatherForm:DriverLabel']"));
+		    public static final AssetDescriptor<ComboBox> ASSIGN_TO = declare("Assign To", ComboBox.class, Waiters.AJAX, By.xpath("//*[starts-with(@id,'policyDataGatherForm:driverDropDown')]"));
+//			public static final AssetDescriptor<ComboBox> ASSIGN_TO = declare("Assign To", ComboBox.class, Waiters.AJAX, By.id("policyDataGatherForm:DriverLabel"));
+			//			public static final AssetDescriptor<ComboBox> ASSIGN_TO = declare("DriverLabel", ComboBox.class);
+//			public static final AssetDescriptor<ComboBox> ASSIGN_TO = declare("Assign To", ComboBox.class, Waiters.AJAX, By.xpath("//*[@id='policyDataGatherForm:driverDropDownkwRlfpiSxkCapbsEhzRF-Q']"));
+			//*[@id="policyDataGatherForm:driverDropDownkwRlfpiSxkCapbsEhzRF-Q"]
+			public static final AssetDescriptor<Button> BTN_OK = declare("Yes", Button.class, Waiters.AJAX, By.xpath("//*[@id='policyDataGatherForm:okBtn1']"));
 		}
 
 	}

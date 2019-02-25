@@ -21,10 +21,10 @@ claimLineItemList:
     claimType: B
     driverAgeAsOfDateOfLoss: '21'
     driverDateofBirth: '1996-05-05'
-    driverName: Tony Stark
+    driverName: Nicolas Smith
     driverRelationToInsured: INSURED
     permissiveUse: N
-    drivingLicenseNumber: D1278222
+    drivingLicenseNumber: D1278999
     drivingLicenseState: CA
     lossSummary: IV hit OV while turning.
     subroFlag: N
@@ -87,10 +87,10 @@ claimLineItemList:
     claimType: B
     driverAgeAsOfDateOfLoss: '31'
     driverDateofBirth: '1987-12-12'
-    driverName: Tony Stark
+    driverName: Nicolas Smith
     driverRelationToInsured: INSURED
     permissiveUse: N
-    drivingLicenseNumber: D1278999
+    drivingLicenseNumber: D1278989
     drivingLicenseState: CA
     lossSummary: IV hit OV while parked.
     subroFlag: Y

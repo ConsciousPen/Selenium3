@@ -7,15 +7,24 @@ TestData_DriverTab_OfflineClaim_PU_CA: {
  DriverTab: ['@Driver2','@Driver3','@Driver4']
 }
 
+#TestData_DriverTab_ReconcileFNIclaims_PU_CA: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@GeneralTab',
+##   GeneralTab: '@<auto_ca_choice>@DataGather@GeneralTab',
+#  DriverTab:  '@Driver1'
+##  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab'
+#}
+
 TestData_DriverTab_ReconcileFNIclaims_PU_CA: {
   PrefillTab: '@PrefillTab',
+#  GeneralTab: '@GeneralTab',
   GeneralTab: '@<auto_ca_choice>@DataGather@GeneralTab',
   DriverTab:  '@Driver1'
 }
 
 PrefillTab: {
-  First Name: Tony,
-  Last Name: Stark,
+  First Name: Nicolas,
+  Last Name: Smith,
   Zip Code: 90255,
   Address Line 1: 6586 PORCUPINE WAY,
   City: HUNTINGTON PARK,
@@ -26,6 +35,14 @@ PrefillTab: {
   Order Prefill: click
 }
 
+#GeneralTab: {
+#  NamedInsuredInformation: '@NamedInsuredInformationToGetClaims',
+#  AAAProductOwned: '@<auto_ca_choice>@DataGather@AAAProductOwned',
+#  ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',
+#  PolicyInformation: '@<auto_ca_choice>@DataGather@PolicyInformation'
+#}
+
+#NamedInsuredInformationToGetClaims: {}
 
 Driver1: {
   Add Driver: Click,
@@ -42,7 +59,7 @@ Driver1: {
   License Type: "Valid",
   License State: CA,
   Permit Before License: 'Yes',
-  "License #": D1278222
+  "License #": D1278999
 }
 
 Driver2: {
