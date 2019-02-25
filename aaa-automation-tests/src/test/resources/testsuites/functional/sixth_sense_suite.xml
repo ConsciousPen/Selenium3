@@ -48,6 +48,13 @@
 
     <!--Tests for Property-->
 
+    <test name="Test Default limited theft coverage value to cov c value">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestDefaultLimitedTheftCoverageToCovCValue"/>
+        </classes>
+    </test>
+
     <test name="Claims points on VRD page for CA DP3 policies during NB Applicant/Applicant And Property">
         <parameter name="state" value="CA"/>
         <classes>

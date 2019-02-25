@@ -1,13 +1,19 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Regression Tests Timepoint" verbose="1" parallel="tests" thread-count="1024">
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="1024" guice-stage="DEVELOPMENT" name="Regression Tests Timepoint" parallel="tests">
+    <parameter name="timeshift-scenario-mode" value="method"/>
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
     <test name="AZ Home" parallel="methods">
         <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="AZ"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
+
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
                 <methods>
@@ -37,6 +43,11 @@
     <test name="AZ PUP" parallel="methods">
         <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="AZ"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestEarnedPremiumWriteOff">
                 <methods>
@@ -53,6 +64,11 @@
     <test name="CT Home" parallel="methods">
         <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="CT"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestRestrictedPaymentPlan">
                 <methods>
@@ -64,6 +80,11 @@
     <test name="DE Home" parallel="methods">
         <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="DE"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
                 <methods>
@@ -85,11 +106,36 @@
                     <include name="pas10998_restrictionPaymentPlansMembershipPendingCalculation"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.home_ss.ho4.functional.TestRestrictedPaymentPlan -->
+            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestConversionNoClueISO360InspectionReports">
+                <methods>
+                    <include name="pas7211_ConversionNoClueISO360InspectionReports"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.conversions.home_ss.dp3.functional.TestConversionNoClueISO360InspectionReports -->
+            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionNoClueISO360InspectionReports">
+                <methods>
+                    <include name="pas7211_ConversionNoClueISO360InspectionReports"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionNoClueISO360InspectionReports -->
+            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionNoClueISO360InspectionReports">
+                <methods>
+                    <include name="pas7211_ConversionNoClueISO360InspectionReports"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionNoClueISO360InspectionReports -->
+            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionNoClueISO360InspectionReports">
+                <methods>
+                    <include name="pas7211_ConversionNoClueISO360InspectionReports"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionNoClueISO360InspectionReports -->
         </classes>
     </test> <!-- DE Home -->
     <test name="KY Home" parallel="methods">
         <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="KY"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestCinNewBusinessHomeHO4">
                 <methods>
@@ -101,6 +147,11 @@
     <test name="NJ Home" parallel="methods">
         <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="NJ"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6">
                 <methods>
@@ -112,22 +163,89 @@
                     <include name="pas2309_renewalCoverLetterHSRNHODPXX"/>
                 </methods>
             </class> <!-- aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3 -->
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestRemovingSppLowersTotalPremium">
+                <methods>
+                    <include name="pas5847_removingSPPDoesNotLowerTotalPremium"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho3.functional.TestRemovingSppLowersTotalPremium -->
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestRemovingSppLowersTotalPremium">
+                <methods>
+                    <include name="pas5847_removingSPPDoesNotLowerTotalPremium"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho6.functional.TestRemovingSppLowersTotalPremium -->
         </classes>
     </test> <!-- NJ Home -->
     <test name="NJ PUP" parallel="methods">
         <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="NJ"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup">
                 <methods>
                     <include name="pas2571_renewalCoverLetterHSRNPUPXXHO3"/>
                 </methods>
             </class> <!-- aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup -->
+            <class name="aaa.modules.regression.sales.pup.functional.TestOverrideLiabilityLosses">
+                <methods>
+                    <include name="pas6963_OverrideLiabilityLosses"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.pup.functional.TestOverrideLiabilityLosses -->
+            <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideIneligibleUnderlyingRisks">
+                <methods>
+                    <include name="pas6977_OverrideRulesForPup"/>
+                    <include name="pas6977_OverrideRulesForConversionMAIG"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.conversions.pup.functional.TestOverrideIneligibleUnderlyingRisks -->
+            <class name="aaa.modules.regression.conversions.pup.functional.TestBindPupWithoutAuto">
+                <methods>
+                    <include name="pas6957_TestBindPupWithoutAutoNB"/>
+                    <include name="pas6957_TestBindPupWithoutAutoConversion"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.conversions.pup.functional.TestBindPupWithoutAuto -->
+            <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideBindDriversWithMajorViolations">
+                <methods>
+                    <include name="pas6974_TestOverrideBindWithMajorViolationNB"/>
+                    <include name="pas6974_TestOverrideBindWithAlcoholRelatedViolationNB"/>
+                    <include name="pas6974_TestOverrideBindWithAlcoholRelatedViolationConversion"/>
+                    <include name="pas6974_TestOverrideBindWithMajorViolationConversion"/>
+                    <include name="pas6974_TestOverrideBindWithMajorViolationEndorsement"/>
+                    <include name="pas6974_TestOverrideBindWithAlcoholRelatedViolationEndorsement"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.conversions.pup.functional.TestOverrideBindDriversWithMajorViolations -->
+            <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideBindWithPropertyLosses">
+                <methods>
+                    <include name="pas7242_TestOverrideBindWithPropertyLossesNB"/>
+                    <include name="pas7242_TestOverrideBindWithPropertyLossesConversion"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.conversions.pup.functional.TestOverrideBindWithPropertyLosses -->
+            <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideNumberOfRisks">
+                <methods>
+                    <include name="pas7003_TestOverrideNumberOfRisksNB"/>
+                    <include name="pas7003_TestOverrideNumberOfRisksConversion"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.conversions.pup.functional.TestOverrideNumberOfRisks -->
+            <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits">
+                <methods>
+                    <include name="pas6971_TestOverrideBindLimitsNB"/>
+                    <include name="pas6971_TestOverrideBindLimitsConversion"/>
+                    <include name="pas6971_TestOverrideBindAutoCombinedSingleLimitNB"/>
+                    <include name="pas6971_TestOverrideBindAutoCombinedSingleLimitConversion"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits -->
         </classes>
     </test> <!-- NJ PUP -->
     <test name="VA Home" parallel="methods">
         <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="VA"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
                 <methods>
@@ -156,17 +274,32 @@
     <test name="VA PUP" parallel="methods">
         <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="VA"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup">
                 <methods>
                     <include name="pas2571_renewalCoverLetterHSRNPUPXXHO3"/>
                 </methods>
             </class> <!-- aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup -->
+            <class name="aaa.modules.regression.sales.pup.functional.TestExpiredDriversLicenceError">
+                <methods>
+                    <include name="pas4270_VerifyExpiredDriversLicenceError"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.pup.functional.TestExpiredDriversLicenceError -->
         </classes>
     </test> <!-- VA PUP -->
     <test name="CA Home" parallel="methods">
         <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="CA"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ca.ho3.functional.TestCinNewBusinessHomeCAHO3">
                 <methods>
@@ -178,11 +311,98 @@
                     <include name="pas11697_testEarnedPremiumWriteOffMoreDeclineMortgagee"/>
                 </methods>
             </class> <!-- aaa.modules.regression.billing_and_payments.home_ca.ho3.functional.TestEarnedPremiumWriteOff -->
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementWithAutoSelectCompanion">
+                <methods>
+                    <include name="pas8786_TestEndorsementRateWithPendingAutoSelectCompanion"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementWithAutoSelectCompanion -->
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementWithAutoSelectCompanion">
+                <methods>
+                    <include name="pas8786_TestEndorsementRateWithPendingAutoSelectCompanion"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementWithAutoSelectCompanion -->
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestEndorsementWithAutoSelectCompanion">
+                <methods>
+                    <include name="pas8786_TestEndorsementRateWithPendingAutoSelectCompanion"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ca.ho4.functional.TestEndorsementWithAutoSelectCompanion -->
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementWithAutoSelectCompanion">
+                <methods>
+                    <include name="pas8786_TestEndorsementRateWithPendingAutoSelectCompanion"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementWithAutoSelectCompanion -->
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestOverrideWildfireScore">
+                <methods>
+                    <include name="pas12922_UpdateCAWildfireScoreNB"/>
+                    <include name="pas12922_UpdateCAWildfireScoreNoPrivilegeNB"/>
+                    <include name="pas12922_UpdateCAWildfireScoreEndorsement"/>
+                    <include name="pas12922_UpdateCAWildfireScoreRenewal"/>
+                    <include name="pas12922_UpdateCAWildfireScoreNoPrivilegeEndorsement"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ca.dp3.functional.TestOverrideWildfireScore -->
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestOverrideWildfireScore">
+                <methods>
+                    <include name="pas12922_UpdateCAWildfireScoreNB"/>
+                    <include name="pas12922_UpdateCAWildfireScoreNoPrivilegeNB"/>
+                    <include name="pas12922_UpdateCAWildfireScoreEndorsement"/>
+                    <include name="pas12922_UpdateCAWildfireScoreRenewal"/>
+                    <include name="pas12922_UpdateCAWildfireScoreNoPrivilegeEndorsement"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ca.ho3.functional.TestOverrideWildfireScore -->
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestOverrideWildfireScore">
+                <methods>
+                    <include name="pas12922_UpdateCAWildfireScoreNB"/>
+                    <include name="pas12922_UpdateCAWildfireScoreNoPrivilegeNB"/>
+                    <include name="pas12922_UpdateCAWildfireScoreEndorsement"/>
+                    <include name="pas12922_UpdateCAWildfireScoreRenewal"/>
+                    <include name="pas12922_UpdateCAWildfireScoreNoPrivilegeEndorsement"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ca.ho6.functional.TestOverrideWildfireScore -->
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestViewPropertyQuoteLink">
+                <methods>
+                    <include name="pas14842_testViewPropertyQuoteLinkCADP3NB"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ca.dp3.functional.TestViewPropertyQuoteLink -->
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestViewPropertyQuoteLink">
+                <methods>
+                    <include name="pas14842_testViewPropertyQuoteLinkCAHO3NB"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ca.ho3.functional.TestViewPropertyQuoteLink -->
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestViewPropertyQuoteLink">
+                <methods>
+                    <include name="pas14842_testViewPropertyQuoteLinkCAHO4NB"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ca.ho4.functional.TestViewPropertyQuoteLink -->
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestViewPropertyQuoteLink">
+                <methods>
+                    <include name="pas14842_testViewPropertyQuoteLinkCAHO6NB"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ca.ho6.functional.TestViewPropertyQuoteLink -->
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestInitiateHOQuoteHO29Endorsement">
+                <methods>
+                    <include name="pas13261_testInitiateHOQuoteHO29added"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ca.ho3.functional.TestInitiateHOQuoteHO29Endorsement -->
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestInitiateHOQuoteHO29Endorsement">
+                <methods>
+                    <include name="pas13261_testInitiateHOQuoteHO29added"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ca.ho4.functional.TestInitiateHOQuoteHO29Endorsement -->
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestInitiateHOQuoteHO29Endorsement">
+                <methods>
+                    <include name="pas13261_testInitiateHOQuoteHO29added"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ca.ho6.functional.TestInitiateHOQuoteHO29Endorsement -->
         </classes>
     </test> <!-- CA Home -->
     <test name="UT Auto" parallel="methods">
         <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="UT"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestInstallmentFees">
                 <methods>
@@ -200,6 +420,11 @@
     <test name="AZ Auto" parallel="methods">
         <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="AZ"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.auto_ss.functional.TestCinNewBusinessAutoSS">
                 <methods>
@@ -245,34 +470,94 @@
                 <methods>
                     <include name="pas6668_pas8815_Validate_Override_Automated_Renewal_DummyNumber"/>
                 </methods>
-            </class>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidation -->
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClueResponseMultipleDriversAssignment">
+                <methods>
+                    <include name="pas20371_testClueActivityMappingToDriver"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestClueResponseMultipleDriversAssignment -->
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPremiumRecalculationFactors">
+                <methods>
+                    <include name="pas16430_testMaritalStatusEndorsement"/>
+                    <include name="pas16430_testMaritalStatusRenewal"/>
+                    <include name="pas16430_testMaritalStatusNB"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestPremiumRecalculationFactors -->
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClueReportOnCopyActions">
+                <methods>
+                    <include name="pas8271_testClueReportOnCopyPolicyActionSS"/>
+                    <include name="pas8271_testClueReportOnCopyQuoteActionSS"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestClueReportOnCopyActions -->
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver">
+                <methods>
+                    <include name="pas14738_testAccidentSurchargeWaiverEndorsement"/>
+                    <include name="pas14738_testAccidentSurchargeWaiverRenewal"/>
+                    <include name="pas14738_testAccidentSurchargeWaiverConversion"/>
+                    <include name="pas14738_testAccidentSurchargeWaiverNB"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver -->
         </classes>
     </test> <!-- AZ Auto -->
     <test name="PA Auto" parallel="methods">
         <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="PA"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestInstallmentFeesPopUpAndSavingsMsg">
                 <methods>
                     <include name="pas246_InstallmentFeesPopUpAndSavingsMsg"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestInstallmentFeesPopUpAndSavingsMsg -->
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEnrollUsageBasedEndorsementCheck">
+                <methods>
+                    <include name="pas4247_testVehicleWithoutUBI"/>
+                    <include name="pas4247_testVehicleWithUBI"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestEnrollUsageBasedEndorsementCheck -->
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints">
+                <methods>
+                    <include name="pas9063_verifyLockedUWPointsEndorsement"/>
+                    <include name="pas9063_verifyLockedUWPointsRenewal"/>
+                    <include name="pas9063_verifyLockedUWPointsConversion"/>
+                    <include name="pas9063_verifyLockedUWPoints"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints -->
         </classes>
     </test> <!-- PA Auto -->
     <test name="VA Auto" parallel="methods">
         <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="VA"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestInstallmentFeesPopUpAndSavingsMsg">
                 <methods>
                     <include name="pas246_InstallmentFeesPopUpAndSavingsMsg"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestInstallmentFeesPopUpAndSavingsMsg -->
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveVehicleOnEndorsement">
+                <methods>
+                    <include name="pas11404_removeVehicleOnEndorsement"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestRemoveVehicleOnEndorsement -->
         </classes>
     </test> <!-- VA Auto -->
     <test name="CA Auto" parallel="methods">
         <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="CA"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestContactInformation">
                 <methods>
@@ -333,336 +618,409 @@
                     <include name="pas19839_renewalMergeAddDriverAndActivityInformation"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsConflict -->
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestClueResponseMultipleDriversAssignment">
+                <methods>
+                    <include name="pas20371_testClueActivityMappingToDriver"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ca.select.functional.TestClueResponseMultipleDriversAssignment -->
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestClueResponseMultipleDriversAssignment">
+                <methods>
+                    <include name="pas20371_testClueActivityMappingToDriver"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ca.choice.functional.TestClueResponseMultipleDriversAssignment -->
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMajorViolationValidation">
+                <methods>
+                    <include name="pas5843_MajorViolationValidation"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ca.select.functional.TestMajorViolationValidation -->
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestClueReportOnCopyActions">
+                <methods>
+                    <include name="pas8271_testClueReportOnCopyPolicyActionCA_Select"/>
+                    <include name="pas8271_testClueReportOnCopyQuoteActionCA_Select"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ca.select.functional.TestClueReportOnCopyActions -->
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestClueReportOnCopyActions">
+                <methods>
+                    <include name="pas8271_testClueReportOnCopyPolicyActionCA_Choice"/>
+                    <include name="pas8271_testClueReportOnCopyQuoteActionCA_Choice"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ca.choice.functional.TestClueReportOnCopyActions -->
         </classes>
     </test> <!-- CA Auto -->
-    <test name="Test Clue assignment for multiple drivers CA" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestClueResponseMultipleDriversAssignment"/>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestClueResponseMultipleDriversAssignment"/>
-        </classes>
-    </test>
-    <test name="Test Clue assignment for multiple drivers SS" parallel="methods">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClueResponseMultipleDriversAssignment"/>
-        </classes>
-    </test>
-    <test name="Test Major Violation Validation" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMajorViolationValidation"/>
-        </classes>
-    </test>
-    <test name="Test Enroll Usage Based Endorsement" parallel="methods">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEnrollUsageBasedEndorsementCheck"/>
-        </classes>
-    </test>
-    <test name="Remove Distant Driver Discount" parallel="methods">
+    <test name="NJ Auto" parallel="methods">
+        <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="NJ"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveDistantDriverDiscount"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveDistantDriverDiscount">
+                <methods>
+                    <include name="pas8915_removeDistantDriverDiscount"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestRemoveDistantDriverDiscount -->
         </classes>
-    </test>
-    <test name="Test Locked BI Limits And UW Points" parallel="methods">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints"/>
-        </classes>
-    </test>
-    <test name="Test UM And UIM Coverages opted in HardStop Rule" parallel="methods">
+    </test> <!-- NJ Auto -->
+    <test name="ID Auto" parallel="methods">
+        <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="ID"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAA52IDHardStopRule"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAA52IDHardStopRule">
+                <methods>
+                    <include name="pas17818_testDocHardStopAA52IDBehaviorNB"/>
+                    <include name="pas17818_testDocHardStopAA52IDBehaviorRenewal"/>
+                    <include name="pas17818_testDocHardStopAA52IDBehaviorConversion"/>
+                    <include name="pas17818_testDocHardStopAA52IDBehaviorEndorsement"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestAA52IDHardStopRule -->
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAA52IDSignatureRequiredBehavior">
+                <methods>
+                    <include name="pas18892_testResetSignatureOptionEndorsement"/>
+                    <include name="pas18892_testResetSignatureOptionRenewal"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestAA52IDSignatureRequiredBehavior -->
         </classes>
-    </test>
-    <test name="Test AA52ID Reset Signature in Required to Bind Section" parallel="methods">
-        <parameter name="state" value="ID"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAA52IDSignatureRequiredBehavior"/>
-        </classes>
-    </test>
-    <test name="Test Premium Recalculation Factors" parallel="methods">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPremiumRecalculationFactors"/>
-        </classes>
-    </test>
-    <!--Tests for Property-->
-    <test name="Test Increased Insurance Limit And Supplemental Loss Endorsements" parallel="methods">
+    </test> <!-- ID Auto -->
+    <test name="MD Home" parallel="methods">
+        <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="MD"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestIncreasedInsuranceLimitAndSupplementalLossEndorsements"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestIncreasedInsuranceLimitAndSupplementalLossEndorsements">
+                <methods>
+                    <include name="pas18111_Privileged_NewBusiness"/>
+                    <include name="pas18111_Privileged_Endorsement"/>
+                    <include name="pas18111_Privileged_Renewal"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.dp3.functional.TestIncreasedInsuranceLimitAndSupplementalLossEndorsements -->
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestMDHurricaneDeductible">
+                <methods>
+                    <include name="pas6907_testMDHurricaneDeductible"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.dp3.functional.TestMDHurricaneDeductible -->
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestMDHurricaneDeductible">
+                <methods>
+                    <include name="pas6907_testMDHurricaneDeductible"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho3.functional.TestMDHurricaneDeductible -->
         </classes>
-    </test>
-    <test name="Test Endorsement With Pending Auto Select Companion" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementWithAutoSelectCompanion"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementWithAutoSelectCompanion"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestEndorsementWithAutoSelectCompanion"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementWithAutoSelectCompanion"/>
-        </classes>
-    </test>
-    <test name="Test MD Hurricane Deductible" parallel="methods">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestMDHurricaneDeductible"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestMDHurricaneDeductible"/>
-        </classes>
-    </test>
-    <test name="Test Update Wildfire Score SS" parallel="methods">
+    </test> <!-- MD Home -->
+    <test name="UT Home" parallel="methods">
+        <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="UT"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestOverrideWildfireScore"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestOverrideWildfireScore"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestOverrideWildfireScore"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestOverrideWildfireScore">
+                <methods>
+                    <include name="pas12922_UpdateWildfireScoreNB"/>
+                    <include name="pas12922_UpdateWildfireScoreNoPrivilegeNB"/>
+                    <include name="pas12922_UpdateWildfireScoreEndorsement"/>
+                    <include name="pas12922_UpdateWildfireScoreRenewal"/>
+                    <include name="pas12922_UpdateWildfireScoreManualEntry"/>
+                    <include name="pas12922_UpdateWildfireScoreNoPrivilegeEndorsement"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.dp3.functional.TestOverrideWildfireScore -->
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestOverrideWildfireScore">
+                <methods>
+                    <include name="pas12922_UpdateWildfireScoreNB"/>
+                    <include name="pas12922_UpdateWildfireScoreNoPrivilegeNB"/>
+                    <include name="pas12922_UpdateWildfireScoreEndorsement"/>
+                    <include name="pas12922_UpdateWildfireScoreRenewal"/>
+                    <include name="pas12922_UpdateWildfireScoreManualEntry"/>
+                    <include name="pas12922_UpdateWildfireScoreNoPrivilegeEndorsement"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho3.functional.TestOverrideWildfireScore -->
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestOverrideWildfireScore">
+                <methods>
+                    <include name="pas12922_UpdateWildfireScoreNB"/>
+                    <include name="pas12922_UpdateWildfireScoreNoPrivilegeNB"/>
+                    <include name="pas12922_UpdateWildfireScoreEndorsement"/>
+                    <include name="pas12922_UpdateWildfireScoreRenewal"/>
+                    <include name="pas12922_UpdateWildfireScoreManualEntry"/>
+                    <include name="pas12922_UpdateWildfireScoreNoPrivilegeEndorsement"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho6.functional.TestOverrideWildfireScore -->
         </classes>
-    </test>
-    <test name="Test Update Wildfire Score CA" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestOverrideWildfireScore"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestOverrideWildfireScore"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestOverrideWildfireScore"/>
-        </classes>
-    </test>
-    <test name="Test Tier And UW Points Lock NY" parallel="methods">
+    </test> <!-- UT Home -->
+    <test name="NY Home" parallel="methods">
+        <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="NY"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNYTierAndUWPointsLock"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestNYTierAndUWPointsLock"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <include name="pas14030_testNYViewRatingDetailsRenewal_DP3"/>
+                    <include name="pas14030_testNYViewRatingDetailsEndorsement_DP3"/>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_DP3"/>
+                    <include name="pas14030_testNYViewRatingDetailsMidTermEndorsement_DP3"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock -->
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <include name="pas14030_testNYViewRatingDetailsRenewal_HO3"/>
+                    <include name="pas14030_testNYViewRatingDetailsEndorsement_HO3"/>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO3"/>
+                    <include name="pas14030_testNYViewRatingDetailsMidTermEndorsement_HO3"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho3.functional.TestNYTierAndUWPointsLock -->
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <include name="pas14030_testNYViewRatingDetailsRenewal_HO4"/>
+                    <include name="pas14030_testNYViewRatingDetailsEndorsement_HO4"/>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO4"/>
+                    <include name="pas14030_testNYViewRatingDetailsMidTermEndorsement_HO4"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho4.functional.TestNYTierAndUWPointsLock -->
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <include name="pas14030_testNYViewRatingDetailsRenewal_HO6"/>
+                    <include name="pas14030_testNYViewRatingDetailsEndorsement_HO6"/>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO6"/>
+                    <include name="pas14030_testNYViewRatingDetailsMidTermEndorsement_HO6"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock -->
         </classes>
-    </test>
-    <test name="Test Renovation Discount for KS DP3, HO3" parallel="methods">
+    </test> <!-- NY Home -->
+    <test name="KS Home" parallel="methods">
+        <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="KS"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestRenovationDiscounts"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestRenovationDiscounts"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestRenovationDiscounts">
+                <methods>
+                    <include name="pas4317_RenovationDiscounts"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.dp3.functional.TestRenovationDiscounts -->
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestRenovationDiscounts">
+                <methods>
+                    <include name="pas4317_RenovationDiscounts"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho3.functional.TestRenovationDiscounts -->
         </classes>
-    </test>
-    <test name="Policy Conversation without ordering reports" parallel="methods">
-        <parameter name="state" value="DE"/>
-        <classes>
-            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestConversionNoClueISO360InspectionReports"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionNoClueISO360InspectionReports"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionNoClueISO360InspectionReports"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionNoClueISO360InspectionReports"/>
-        </classes>
-    </test>
-    <test name="Removing Spp Lowers Total Premium HO3, HO6" parallel="methods">
-        <parameter name="state" value="NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestRemovingSppLowersTotalPremium"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestRemovingSppLowersTotalPremium"/>
-        </classes>
-    </test>
-    <test name="Test Disable Reorder Report at Mid Term and Renewal" parallel="methods">
+    </test> <!-- KS Home -->
+    <test name="PA Home" parallel="methods">
+        <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="PA"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestDisableReorderReport"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestDisableReorderReport"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestDisableReorderReport"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestDisableReorderReport">
+                <methods>
+                    <include name="pas6795_disableReorderReportEndorsement"/>
+                    <include name="pas6827_disableReorderReportRenewal"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.dp3.functional.TestDisableReorderReport -->
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport">
+                <methods>
+                    <include name="pas6795_disableReorderReportEndorsement"/>
+                    <include name="pas6827_disableReorderReportRenewal"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport -->
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestDisableReorderReport">
+                <methods>
+                    <include name="pas6795_disableReorderReportEndorsement"/>
+                    <include name="pas6827_disableReorderReportRenewal"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho4.functional.TestDisableReorderReport -->
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestDisableReorderReport">
+                <methods>
+                    <include name="pas6795_disableReorderReportEndorsement"/>
+                    <include name="pas6827_disableReorderReportRenewal"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho6.functional.TestDisableReorderReport -->
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPAViewRatingDetails">
+                <methods>
+                    <include name="pas6676_testPAViewRatingDetails"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.dp3.functional.TestPAViewRatingDetails -->
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPAViewRatingDetails">
+                <methods>
+                    <include name="pas6676_testPAViewRatingDetails"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho3.functional.TestPAViewRatingDetails -->
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPAViewRatingDetails">
+                <methods>
+                    <include name="pas6676_testPAViewRatingDetails"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho4.functional.TestPAViewRatingDetails -->
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPAViewRatingDetails">
+                <methods>
+                    <include name="pas6676_testPAViewRatingDetails"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho6.functional.TestPAViewRatingDetails -->
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPrivilegeToEditCompanionAutoTier">
+                <methods>
+                    <include name="pas6676_testPAViewRatingDetailsAutoTier"/>
+                    <include name="pas6676_testPAViewRatingDetailsManualAutoTier"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.dp3.functional.TestPrivilegeToEditCompanionAutoTier -->
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPrivilegeToEditCompanionAutoTier">
+                <methods>
+                    <include name="pas6676_testPAViewRatingDetailsAutoTier"/>
+                    <include name="pas6676_testPAViewRatingDetailsManualAutoTier"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho3.functional.TestPrivilegeToEditCompanionAutoTier -->
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPrivilegeToEditCompanionAutoTier">
+                <methods>
+                    <include name="pas6676_testPAViewRatingDetailsAutoTier"/>
+                    <include name="pas6676_testPAViewRatingDetailsManualAutoTier"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho4.functional.TestPrivilegeToEditCompanionAutoTier -->
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPrivilegeToEditCompanionAutoTier">
+                <methods>
+                    <include name="pas6676_testPAViewRatingDetailsAutoTier"/>
+                    <include name="pas6676_testPAViewRatingDetailsManualAutoTier"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho6.functional.TestPrivilegeToEditCompanionAutoTier -->
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestViewPropertyQuoteLink">
+                <methods>
+                    <include name="pas14842_testViewPropertyQuoteLinkSSDP3NB"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.dp3.functional.TestViewPropertyQuoteLink -->
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestViewPropertyQuoteLink">
+                <methods>
+                    <include name="pas14842_testViewPropertyQuoteLinkSSHO3NB"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho3.functional.TestViewPropertyQuoteLink -->
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestViewPropertyQuoteLink">
+                <methods>
+                    <include name="pas14842_testViewPropertyQuoteLinkSSHO3NB"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho4.functional.TestViewPropertyQuoteLink -->
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestViewPropertyQuoteLink">
+                <methods>
+                    <include name="pas14842_testViewPropertyQuoteLinkSSHO6NB"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.home_ss.ho6.functional.TestViewPropertyQuoteLink -->
         </classes>
-    </test>
-    <test name="Test that the Home Value Section has new rating implementation" parallel="methods">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPAViewRatingDetails"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPAViewRatingDetails"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPAViewRatingDetails"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPAViewRatingDetails"/>
-        </classes>
-    </test>
-    <test name="Test PA Privilege to Edit Auto Companion Tier" parallel="methods">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPrivilegeToEditCompanionAutoTier"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPrivilegeToEditCompanionAutoTier"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPrivilegeToEditCompanionAutoTier"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPrivilegeToEditCompanionAutoTier"/>
-        </classes>
-    </test>
-    <test name="Test View Property Quote for SS" parallel="methods">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestViewPropertyQuoteLink"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestViewPropertyQuoteLink"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestViewPropertyQuoteLink"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestViewPropertyQuoteLink"/>
-        </classes>
-    </test>
-    <test name="Test View Property Quote for CA" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestViewPropertyQuoteLink"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestViewPropertyQuoteLink"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestViewPropertyQuoteLink"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestViewPropertyQuoteLink"/>
-        </classes>
-    </test>
-    <!--Tests for PUP-->
-    <test name="Test Override Liability Losses" parallel="methods">
-        <parameter name="state" value="NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.pup.functional.TestOverrideLiabilityLosses"/>
-        </classes>
-    </test>
-    <test name="Test Override Ineligible Underlying Risks" parallel="methods">
-        <parameter name="state" value="NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideIneligibleUnderlyingRisks"/>
-        </classes>
-    </test>
-    <test name="Test Bind PUP without Auto policies" parallel="methods">
-        <parameter name="state" value="NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.conversions.pup.functional.TestBindPupWithoutAuto"/>
-        </classes>
-    </test>
-    <test name="Test Override Drivers with Major Violations" parallel="methods">
-        <parameter name="state" value="NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideBindDriversWithMajorViolations"/>
-        </classes>
-    </test>
-    <test name="Test Override PUP policies with 2 or more violations" parallel="methods">
-        <parameter name="state" value="NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideBindWithPropertyLosses"/>
-        </classes>
-    </test>
-    <test name="Test Override PUP policies with high number of exposures/risks" parallel="methods">
-        <parameter name="state" value="NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideNumberOfRisks"/>
-        </classes>
-    </test>
-    <test name="Test Override PUP policies with relaxed coverage limits" parallel="methods">
-        <parameter name="state" value="NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits"/>
-        </classes>
-    </test>
-    <test name="Test Expired Drivers Licence Error" parallel="methods">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.pup.functional.TestExpiredDriversLicenceError"/>
-        </classes>
-    </test>
-    <!--Tests for Defects-->
-    <test name="Test PUP policies rate correctly when underlying DP3 has multiple units for SS states" parallel="methods">
+    </test> <!-- PA Home -->
+    <test name="UT PUP" parallel="methods">
+        <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="UT"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.sales.pup.functional.TestPupRatingWithMultipleUnits">
                 <methods>
-                    <exclude name="pas8369_testPUPWithMultipleUnitsOnDP3ForCA"/>
+                    <include name="pas8369_testPUPWithMultipleUnitsOnDP3ForSS"/>
                 </methods>
-            </class>
+            </class> <!-- aaa.modules.regression.sales.pup.functional.TestPupRatingWithMultipleUnits -->
         </classes>
-    </test>
-    <test name="Test PUP policies rate correctly when underlying DP3 has multiple units for CA" parallel="methods">
+    </test> <!-- UT PUP -->
+    <test name="CA PUP" parallel="methods">
+        <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="CA"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.sales.pup.functional.TestPupRatingWithMultipleUnits">
                 <methods>
-                    <exclude name="pas8369_testPUPWithMultipleUnitsOnDP3ForSS"/>
+                    <include name="pas8369_testPUPWithMultipleUnitsOnDP3ForCA"/>
                 </methods>
-            </class>
+            </class> <!-- aaa.modules.regression.sales.pup.functional.TestPupRatingWithMultipleUnits -->
         </classes>
-    </test>
-    <test name="Test HO29 Endorsement added by default" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestInitiateHOQuoteHO29Endorsement"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestInitiateHOQuoteHO29Endorsement"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestInitiateHOQuoteHO29Endorsement"/>
-        </classes>
-    </test>
-    <test name="Remove Vehicle on Current Term Endorsement" parallel="methods">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveVehicleOnEndorsement"/>
-        </classes>
-    </test>
-    <test name="Test CLUE reports on new copied policies for SS Auto" parallel="methods">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClueReportOnCopyActions"/>
-        </classes>
-    </test>
-    <test name="Test CLUE reports on new copied policies for CA Auto" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestClueReportOnCopyActions"/>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestClueReportOnCopyActions"/>
-        </classes>
-    </test>
-    <test name="Test CLUE reports in MD when the FNI is excluded" parallel="methods">
+    </test> <!-- CA PUP -->
+    <test name="MD Auto" parallel="methods">
+        <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="MD"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDOrderClueFNIExcluded"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDOrderClueFNIExcluded">
+                <methods>
+                    <include name="pas5147_testOrderClueExcludeFNIEndorsementStandard"/>
+                    <include name="pas5147_testOrderClueFNIExcluded_StandardNB"/>
+                    <include name="pas5147_testOrderClueFNIExcluded_NanoNB"/>
+                    <include name="pas5147_testOrderClueExcludeFNIEndorsementNano"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestMDOrderClueFNIExcluded -->
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior">
+                <methods>
+                    <include name="pas11620_PremiumChangeBetweenEnhancedAndStandardUIM"/>
+                    <include name="pas11620_testEUIMCoverageBehaviorNB"/>
+                    <include name="pas11620_testEUIMCoverageBehaviorEndorsement"/>
+                    <include name="pas11620_testEUIMCoverageBehaviorRenewal"/>
+                    <include name="pas11620_testEUIMCoverageBehaviorConversion"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior -->
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior">
+                <methods>
+                    <include name="pas12202_PremiumChangeBetweenEnhancedAndStandardUIMNanoPolicy"/>
+                    <include name="pas12202_testNanoPolicyEUIMCoverageBehaviorEndorsement"/>
+                    <include name="pas12202_testNanoPolicyEUIMCoverageBehaviorRenewal"/>
+                    <include name="pas12202_testNanoPolicyEUIMCoverageBehaviorConversion"/>
+                    <include name="pas12202_testNanoPolicyEUIMCoverageBehaviorNB"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior -->
         </classes>
-    </test>
-    <test name="Test Accident Surcharge Waiver" parallel="methods">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver"/>
-        </classes>
-    </test>
-    <test name="Test Enhanced UIM Coverage Behavior" parallel="methods">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior"/>
-        </classes>
-    </test>
-    <test name="Test Nano Enhanced UIM Coverage Behavior" parallel="methods">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior"/>
-        </classes>
-    </test>
-    <test name="MVR Predictor Algo" parallel="methods">
+    </test> <!-- MD Auto -->
+    <test name="CT Auto" parallel="methods">
+        <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="CT"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
                 <methods>
-                    <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="MVR Predictor Algo Accidents" parallel="methods">
-        <parameter name="state" value="CT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
-                <methods>
+                    <include name="pas9723_BypassMVRPredictorManuallyAddedViolations"/>
+                    <include name="pas14264_BypassMVRPredictorManuallyAddedViolationsEndorsement"/>
+                    <include name="pas14264_BypassMVRPredictorManuallyAddedViolationsRenewal"/>
+                    <include name="pas14264_BypassMVRPredictorManuallyAddedViolationsConversion"/>
+                    <include name="pas9723_MVRPredictorNewBusiness"/>
+                    <include name="pas14264_MVRPredictorEndorsement"/>
+                    <include name="pas14264_MVRPredictorRenewal"/>
+                    <include name="pas14264_MVRPredictorConversion"/>
                     <include name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
                     <include name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
                     <include name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
                     <include name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
                 </methods>
-            </class>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo -->
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestGoodStudentDiscount">
+                <methods>
+                    <include name="pas10108_GoodStudentDiscountMVRPredictorEndorsement"/>
+                    <include name="pas10108_GoodStudentDiscountMVRPredictorNB"/>
+                    <include name="pas10108_GoodStudentDiscountMVRPredictorRenewal"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestGoodStudentDiscount -->
         </classes>
-    </test>
-    <test name="Good Student Discount" parallel="methods">
-        <parameter name="state" value="CT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestGoodStudentDiscount"/>
-        </classes>
-    </test>
-    <test name="Rescission Notice Due to Non Sufficient Funds" parallel="methods">
-        <parameter name="state" value="CT"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.TestRescissionNoticeDueToNSF"/>
-        </classes>
-    </test>
-</suite>
+    </test> <!-- CT Auto -->
+</suite> <!-- Regression Tests Timepoint -->

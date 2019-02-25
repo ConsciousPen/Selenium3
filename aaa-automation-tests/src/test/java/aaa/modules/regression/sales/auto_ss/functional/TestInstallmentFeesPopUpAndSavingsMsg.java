@@ -33,7 +33,7 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends TestInstallmentFeesPo
 
 	@Parameters({"state"})
 	@StateList(statesExcept = States.CA)
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-246", "PAS-237"})
 	public void pas246_InstallmentFeesPopUpAndSavingsMsg(@Optional("VA") String state) {
 		mainApp().open();
