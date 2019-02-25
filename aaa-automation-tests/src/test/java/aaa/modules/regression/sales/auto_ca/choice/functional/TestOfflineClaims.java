@@ -116,7 +116,6 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * 9. Check for the Activity for Internal claims with PU indicator as No
      * 10. Accept a payment and renew the policy
      * 11. Initiate an endorsement
-     * 12.
      * 12. Add an AFR driver who's CLUE report will return a claim that matches one of the PU claims on the FNI
      * @details Clean Path. Expected Result is that internal claims will be move from the FNI to the newly added driver when Agent marks the PU as 'Yes'
      */
@@ -132,7 +131,7 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * @author Kiruthika Rajendran
      * PAS-24587 - END - User Flagged: reconcile permissive use claims when driver/named insured is added (avail for rating)
      * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added
-     * @scenario Test Steps: See Template For Details
+     * @scenario Test Steps:
      * @details Clean Path. Expected Result is that internal claims will be move from the FNI to the newly added driver when Agent marks the PU as 'Yes'
      */
     @Parameters({"state"})
