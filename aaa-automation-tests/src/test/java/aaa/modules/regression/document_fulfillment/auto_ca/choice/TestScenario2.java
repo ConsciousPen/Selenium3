@@ -50,7 +50,8 @@ public class TestScenario2 extends AutoCaChoiceBaseTest {
 		//billing.issueRefund().perform(amount);
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
-		
+
+		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Issued").verifyPresent();
 

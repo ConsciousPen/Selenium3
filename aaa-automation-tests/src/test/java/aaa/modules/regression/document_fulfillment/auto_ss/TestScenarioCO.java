@@ -24,8 +24,8 @@ public class TestScenarioCO extends AutoSSBaseTest {
 
 	@Parameters({ "state" })
 	@StateList(states = States.CO)
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void TC01_CreatePolicy(@Optional("") String state) {
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL, Groups.TIMEPOINT })
+	public void testDocGenScenario(@Optional("") String state) {
 		mainApp().open();
 
 		createCustomerIndividual();
