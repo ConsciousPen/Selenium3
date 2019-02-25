@@ -13,5 +13,6 @@ public class AddJob {
 		JobUtils.createJob(BatchJob.aaaRefundGenerationAsyncJob);
 		JobUtils.createJob(BatchJob.aaaRefundsDisbursementReceiveInfoAsyncJob);
 		JobUtils.createJob(BatchJob.aaaRefundCancellationAsyncJob);
+		JobUtils.createJob(BatchJob.renewalClaimOrderAsyncJob);
 	}
 }

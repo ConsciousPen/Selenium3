@@ -104,8 +104,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		TestData namedInsuredInformationData = DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(), getGeneralTabResidence(openLPolicy.isHomeOwner()),
-				AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getAaaInsurancePersistency())
-						.format(DateTimeUtils.MM_DD_YYYY));
+				AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel(),
+				Constants.States.MD.equals(openLPolicy.getState()) && openLPolicy.isLegacyConvPolicy() && !openLPolicy.getDrivers().get(0).isCleanDriver() ? openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY) : openLPolicy.getEffectiveDate().minusYears(openLPolicy.getAaaInsurancePersistency()).format(DateTimeUtils.MM_DD_YYYY));    //
 
 		Map<String, Object> currentAAAMembershipData = new HashMap<>();
 		currentAAAMembershipData.put(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()));
@@ -158,31 +158,27 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		currentCarrierInformationData.putAll(
 				getGeneralTabAgentInceptionAndExpirationData(openLPolicy.getAutoInsurancePersistency(), openLPolicy.getAaaInsurancePersistency(), openLPolicy.getEffectiveDate()));
 
-		if (!openLPolicy.isLegacyConvPolicy()) {
-			currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), "AAA-SoCal (ACSC)");
-		} else {
-			//TODO-dchubkov: all ID states tests have "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)" value for "Agent Entered Current/Prior Carrier" but it's missed. To be investigated...
-			if (StringUtils.isNotBlank(openLPolicy.getCappingDetails().getCarrierCode()) && !getState().equals(Constants.States.ID)) {
-				//TODO-dchubkov: add common method for replacing values from excel?
-				String carrierCode = openLPolicy.getCappingDetails().getCarrierCode().trim().replaceAll("\u00A0", "");
-				currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
-			} else if (openLPolicy.isCappedPolicy()) {
-				String carrierCode;
-				switch (getState()) {
-					//TODO-dchubkov: fill carrier codes for other states, see "Capping" tab -> "Carrier Code" column in algorithm files for each state
-					case Constants.States.KY:
-					case Constants.States.UT:
-						carrierCode = "Western United";
-						break;
-					case Constants.States.MD:
-						carrierCode = "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)";
-						break;
-					default:
-						throw new IstfException(String.format("In order to set termCappingFactor=%1$s, appropriate carrier code should be set in General tab but it's unknown for %2$s state.",
-								openLPolicy.getCappingDetails().getTermCappingFactor(), getState()));
-				}
-				currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
+		//TODO-dchubkov: all ID states tests have "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)" value for "Agent Entered Current/Prior Carrier" but it's missed. To be investigated...
+		if (StringUtils.isNotBlank(openLPolicy.getCappingDetails().getCarrierCode()) && !getState().equals(Constants.States.ID)) {
+			//TODO-dchubkov: add common method for replacing values from excel?
+			String carrierCode = openLPolicy.getCappingDetails().getCarrierCode().trim().replaceAll("\u00A0", "");
+			currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
+		} else if (openLPolicy.isCappedPolicy()) {
+			String carrierCode;
+			switch (getState()) {
+				//TODO-dchubkov: fill carrier codes for other states, see "Capping" tab -> "Carrier Code" column in algorithm files for each state
+				case Constants.States.KY:
+				case Constants.States.UT:
+					carrierCode = "Western United";
+					break;
+				case Constants.States.MD:
+					carrierCode = "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)";
+					break;
+				default:
+					throw new IstfException(String.format("In order to set termCappingFactor=%1$s, appropriate carrier code should be set in General tab but it's unknown for %2$s state.",
+							openLPolicy.getCappingDetails().getTermCappingFactor(), getState()));
 			}
+			currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
 		}
 
 		Map<String, Object> policyInformationData = new HashMap<>();
@@ -855,7 +851,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	}
 
 	private String getOtherBodyStyle(String statCode) {
-		List<String> otherBodyStyleStates = Arrays.asList(Constants.States.CO, Constants.States.DE, Constants.States.WY, Constants.States.OR, Constants.States.IN);
+		List<String> otherBodyStyleStates = Arrays.asList(Constants.States.CO, Constants.States.DE, Constants.States.WY, Constants.States.OR, Constants.States.IN, Constants.States.MT);
 		return !isConversionVanType(statCode) || otherBodyStyleStates.contains(getState()) ? AdvancedComboBox.RANDOM_MARK : null;
 	}
 

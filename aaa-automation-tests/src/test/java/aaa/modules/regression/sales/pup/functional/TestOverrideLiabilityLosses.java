@@ -30,7 +30,7 @@ public class TestOverrideLiabilityLosses extends PersonalUmbrellaBaseTest {
 	/**
 	 * @author Dominykas Razgunas
 	 * @name Liability losses bind rules can now be overridden
-	 * @scenario
+	 * @scenario.document_fulfillment.auto_ss.functional.TestCinNewBusinessAutoSS.testPriorBILimitLessThan500k
 	 * 1. Create PUP Policy
 	 * 2. Add Liability
 	 * 3. Override Bind Error
