@@ -5,10 +5,10 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
+import aaa.helpers.claim.ClaimAnalyticsJSONTags;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.logs.PasLogGrabber;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplate;
@@ -23,16 +23,12 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 	// NOTE: Claims Matching Logic: e2e tests should use HTTP instead of HTTPS in DB (Microservice propertyname ='aaaClaimsMicroService.microServiceUrl')
 	// Example: http://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1
 
-	private static VehicleTab vehicleTab = new VehicleTab();
 	private static PasLogGrabber pasLogGrabber = new PasLogGrabber();
 
-	private static String appLog;
 	private static List<String> listOfClaims;
 	private static String pasFirstNamedInsured;
 	private static String pas2ndDriver = "pasMATTHEW pasFOX";
 
-	private static final String matchCodeKey = "matchCode";
-	private static final String pasDriverNameKey = "pasDriverName";
 	private static final String CLAIM_NUMBER_1 = "AnalyticsClaim1"; // for MatchCode = COMP
 	private static final String CLAIM_NUMBER_2 = "AnalyticsClaim2"; // for MatchCode = COMP
 	private static final String CLAIM_NUMBER_3 = "AnalyticsClaim3"; // for MatchCode = COMP
@@ -94,28 +90,26 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 		// Move to R-46 and run batch job part 2 and renewalClaimReceiveAsyncJob to generate Microservice Request/Response and Analytic logs
 		runRenewalClaimReceiveJob();
 
-		appLog = downloadPasAppLog();
-		listOfClaims = pasLogGrabber.retrieveClaimsAnalyticsLogValues(appLog);
+		listOfClaims = pasLogGrabber.retrieveClaimsAnalyticsLogValues(combinePasAppAndAdminLog());
 
 		CustomSoftAssertions.assertSoftly(softly -> {
 		// Verify Claim Analytic Logs: MATCH CODE according to Claim Number and policyNumber
-			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, matchCodeKey))
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, ClaimAnalyticsJSONTags.TagNames.MATCH_CODE))
 					.as("Match Code should be equal to COMP").isEqualTo("COMP");
-			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_2, policyNumber, matchCodeKey))
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_2, policyNumber, ClaimAnalyticsJSONTags.TagNames.MATCH_CODE))
 					.as("Match Code should be equal to COMP").isEqualTo("COMP");
-			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_3, policyNumber, matchCodeKey))
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_3, policyNumber, ClaimAnalyticsJSONTags.TagNames.MATCH_CODE))
 					.as("Match Code should be equal to COMP").isEqualTo("COMP");
-			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_4, policyNumber, matchCodeKey))
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_4, policyNumber, ClaimAnalyticsJSONTags.TagNames.MATCH_CODE))
 					.as("Match Code should be equal to DL").isEqualTo("DL");
-			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_5, policyNumber, matchCodeKey))
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_5, policyNumber, ClaimAnalyticsJSONTags.TagNames.MATCH_CODE))
 					.as("Match Code should be equal to DL").isEqualTo("DL");
 
 		// Verify Claim Analytic Logs: PAS Driver Name according to Claim Number and policyNumber
-			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, pasDriverNameKey))
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, ClaimAnalyticsJSONTags.TagNames.PAS_DRIVER_NAME))
 					.as("PAS Driver should be First Named Insured").isEqualTo(pasFirstNamedInsured);
-			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_5, policyNumber, pasDriverNameKey))
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_5, policyNumber, ClaimAnalyticsJSONTags.TagNames.PAS_DRIVER_NAME))
 					.as("PAS Driver should be 2nd Driver of Policy").isEqualTo(pas2ndDriver);
-
 		});
 	}
 }

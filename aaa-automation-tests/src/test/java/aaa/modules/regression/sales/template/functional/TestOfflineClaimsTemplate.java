@@ -405,6 +405,14 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     }
 
     /**
+     * Method returns content as String of combined pas-app & pas-admin log
+     * @return
+     */
+    protected String combinePasAppAndAdminLog() {
+        return downloadPasAdminLog() + downloadPasAppLog();
+    }
+
+    /**
      Method goes though all Claim Analytics items and returns required value according to claimNumber and policyNumber
      *
      * @param listOfClaims list Of Claim JSONs as strings;
@@ -418,7 +426,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         for (int i = 0; i <= listOfClaims.size() - 1; i++) {
             JSONObject specificClaimData = new JSONObject(listOfClaims.get(i)).getJSONObject("claims-assignment");
             if (specificClaimData.getString("claimNumber").equals(claimNumber) && specificClaimData.getString("policyNumber").equals(policyNumber)) {
-                claimValue = specificClaimData.getString(key);
+                claimValue = specificClaimData.get(key).toString();
             } else {
                 log.info("Moving to the next Claim List Item.. Required Claim in this Claim Analytics JSON Item couldn't be found. Claim Number: "
                         + claimNumber);
@@ -550,5 +558,4 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         log.info("actual match codes: "+actualMatchCodes);
         assertThat(actualMatchCodes).isEqualTo(expectedMatchCodes);
     }
-
 }

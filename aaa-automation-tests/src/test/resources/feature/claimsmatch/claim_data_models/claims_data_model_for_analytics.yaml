@@ -14,7 +14,7 @@ claimLineItemList:
         claimDeductibleAmount: '50'
         claimDeductibleCurrencyCode: USD
         claimNumber: AnalyticsTestClaim1
-        claimPrefix: 'PREFIX'
+        claimPrefix: 'MG'
         claimOpenDate: '2018-05-26'
         claimPolicyReferenceNumber: AZSS203552391
         claimStatusCode: OPEN
@@ -24,7 +24,7 @@ claimLineItemList:
         driverName: casMATTHEW casFOX
         driverRelationToInsured: INSURED
         permissiveUse: Y
-        drivingLicenseNumber: A19191911
+        drivingLicenseNumber: A12345678
         drivingLicenseState: AZ
         lossSummary: IV hit OV while turning.
         subroFlag: Y
