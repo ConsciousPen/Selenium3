@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -32,15 +33,9 @@ public class TestLegalMortgageeName extends HomeSSHO3BaseTest {
         mortgageeTab.getMortgageeInfoAssetList().getAsset(HomeSSMetaData.MortgageesTab.MortgageeInformation
                 .USE_LEGAL_MORTGAGEE_FOR_EVIDENCE_OF_INSURANCE).setValue("Yes");
 
-        mortgageeTab.getMortgageeInfoAssetList().getAsset(HomeSSMetaData.MortgageesTab.MortgageeInformation.LEGAL_MORTGAGEE_NAME).setValue("Sreekanth");
-
-
-
-
-
-
-
-
+        mortgageeTab.getMortgageeInfoAssetList().getAsset(HomeSSMetaData.MortgageesTab.MortgageeInformation.MORTGAGEE_CLAUSE).setValue("Sreekanth");
+        String mortgageeHelpText = "Use the Mortgagee Clause field to override the “Lender Name” entered above. Information entered here will appear on the Evidence of Insurance and the Property Insurance Invoice. Please fill in with all required text by the lender in the format of how the clause should appear.";
+        assertThat(MortgageesTab.mortgageeClauseHelpText.getAttribute("title")).contains(mortgageeHelpText);
 
     }
 

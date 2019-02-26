@@ -4,10 +4,12 @@
  */
 package aaa.main.modules.policy.home_ss.defaulttabs;
 
+import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
 /**
@@ -17,7 +19,9 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
  * @category Generated
  */
 public class MortgageesTab extends Tab {
-    public MortgageesTab() {
+	public static StaticElement mortgageeClauseHelpText = new StaticElement(By.id("policyDataGatherForm:sedit_AAAHOMortgageeInfo_legalMortgageeName_helpText"));
+
+	public MortgageesTab() {
         super(HomeSSMetaData.MortgageesTab.class);
     }
 
