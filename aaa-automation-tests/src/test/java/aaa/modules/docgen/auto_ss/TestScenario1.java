@@ -72,7 +72,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 		log.info("Original Policy #" + policyNumber);
 
 		BillingSummaryPage.open();
-		installmentDD1 = BillingSummaryPage.getInstallmentDueDate(2);
+		installmentDD1 = BillingSummaryPage.getInstallmentDueDate(1);
 
 		/**
 		 * @author Lina Li

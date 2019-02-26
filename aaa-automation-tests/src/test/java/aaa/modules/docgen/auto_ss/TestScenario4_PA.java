@@ -4,7 +4,7 @@ import static aaa.main.enums.DocGenEnum.Documents.AA41PA;
 import static aaa.main.enums.DocGenEnum.Documents.AHRBXX;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
-import org.mortbay.log.Log;
+import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -12,8 +12,11 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
+import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
@@ -23,6 +26,7 @@ import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -76,6 +80,8 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 		softly.assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
 		softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		List<LocalDateTime> installmentDueDates = BillingHelper.getInstallmentDueDates();
 
 		termEffDt = DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
 
@@ -98,8 +104,21 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 		 * 6. At R-20,  aaaRenewalNoticeBillAsyncJob generate the form AHR1XX
 		 * @details
 		 */
+
+		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1));
+		TimeSetterUtil.getInstance().nextPhase(billGenDate);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+
+		TimeSetterUtil.getInstance().nextPhase(installmentDueDates.get(1));
+
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+		Dollar sum = BillingHelper.getBillMinDueAmount(installmentDueDates.get(1), BillingConstants.BillsAndStatementsType.BILL);
+		BillingAccount billingAccount = new BillingAccount();
+		billingAccount.acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), sum);
+
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
-		Log.info("Policy Renewal Image Generation Date" + renewImageGenDate);
+		log.info("Policy Renewal Image Generation Date" + renewImageGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
@@ -110,7 +129,7 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
-		Log.info("Policy Renewal Preview Generation Date" + renewPreviewGenDate);
+		log.info("Policy Renewal Preview Generation Date" + renewPreviewGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
@@ -120,7 +139,7 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
-		Log.info("Policy Renewal Offer Generation Date" + renewOfferGenDate);
+		log.info("Policy Renewal Offer Generation Date" + renewOfferGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
@@ -135,7 +154,7 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 
 		LocalDateTime renewOfferBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
-		Log.info("Policy Renewal Offer Bill Generation Date" + renewOfferBillGenDate);
+		log.info("Policy Renewal Offer Bill Generation Date" + renewOfferBillGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferBillGenDate);
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);

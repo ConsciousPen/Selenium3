@@ -107,6 +107,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL})
 	public void testDocGenScenario02(@Optional("") String state) {
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
 		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType());
 		mainApp().open();
 		createCustomerIndividual();

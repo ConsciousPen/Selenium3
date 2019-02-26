@@ -4,6 +4,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -28,6 +29,8 @@ public class TestScenario7 extends AutoSSBaseTest {
 		createCustomerIndividual();
 		String policyNum = createPolicy();
 		policy.cancel().perform(getTestSpecificTD("TestData_Cancellation"));
+		//TODO aperapecha: DocGen - remove shift after upgrade
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.AH60XXA);
 	}

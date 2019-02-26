@@ -8,6 +8,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
@@ -48,6 +49,8 @@ public class TestScenario2 extends AutoCaChoiceBaseTest {
 		billing.approveRefund().perform(amount);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Approved").verifyPresent();
 		//billing.issueRefund().perform(amount);
+		//TODO aperapecha: DocGen - remove shift after upgrade
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 

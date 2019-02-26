@@ -6,6 +6,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.Constants.States;
@@ -380,6 +381,8 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		String policyNum = createPolicy();
 
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData_NewBusinessRescissionNSF"));
+		//TODO aperapecha: DocGen - remove shift after upgrade
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH60XXA);
 	}
@@ -604,10 +607,14 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		verifyPaymentDeclinedTransactionPresent("17");
 		verifyFeeTransaction("NSF fee - with restriction");
 		verifyPaymentTransactionBecameDeclined("-17");
+		//TODO aperapecha: DocGen - remove shift after upgrade
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._60_5000);
 
 		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeRestriction"), "($16.00)");
+		//TODO aperapecha: DocGen - remove shift after upgrade
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._60_5003);
 
@@ -615,12 +622,16 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		verifyPaymentDeclinedTransactionPresent("18");
 		verifyFeeTransaction("NSF fee - without restriction");
 		verifyPaymentTransactionBecameDeclined("-18");
+		//TODO aperapecha: DocGen - remove shift after upgrade
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._60_5001);
 
 		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_NoFeeNoRestriction"), "($19.00)");
 		verifyPaymentDeclinedTransactionPresent("19");
 		verifyPaymentTransactionBecameDeclined("-19");
+		//TODO aperapecha: DocGen - remove shift after upgrade
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._60_5002);
 
@@ -652,6 +663,8 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
+		//TODO aperapecha: DocGen - remove shift after upgrade
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		if (getState().equals(Constants.States.PA)) {
 			DocGenHelper.verifyDocumentsGenerated(false, true, policyNum, DocGenEnum.Documents.AH61XX);
@@ -698,9 +711,13 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		billing.approveRefund().perform(amount);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Approved").verifyPresent();
 		//billing.issueRefund().perform(amount);
+
+		//TODO aperapecha: DocGen - remove shift after upgrade
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 
+		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Issued").verifyPresent();
 
