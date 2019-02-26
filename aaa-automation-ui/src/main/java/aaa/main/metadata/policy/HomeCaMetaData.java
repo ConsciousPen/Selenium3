@@ -689,7 +689,7 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<TextBox> REASON_CLAIM_IS_NOT_CHARGEABLE = declare("Reason claim is not chargeable", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<AssetListConfirmationDialog> ACTIVITY_REMOVE_CONFIRMATION =
 					declare("Activity remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmEliminateInstance_Dialog_container"));
-			public static final AssetDescriptor<StaticElement> CLAIM_MODIFIED_WARNING_MESSAGE = declare("Underwriting approval is required for claim(s) that have been modified", StaticElement.class, By.id("policyDataGatherForm:warningMsg"));
+
 		}
 
 		public static final class RentalInformation extends MetaData {
