@@ -158,12 +158,6 @@ PAS-18399:
   failures:
     - tests: [aaa.modules.regression.conversions.*]
       messages: ["doesn't have Success status. Reason"]
-PT-2620:
-  summary: "Auto SS Defensive Driver Discount is applied to a driver with minor violations after DDCC"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.*]
-      messages: ["Defensive Driving Course Discount"]
 PAS-11810:
   summary: "View Premium Service - Pended endorsement and renewal not rated"
   reason: PROD
@@ -292,16 +286,6 @@ PAS-17689:
   failures:
     - tests: [aaa.modules.regression.conversions.home_ss.*]
       messages: ["ComboBox {Fire department type:"]
-PAS-18111:
-  summary: "Cannot save endorsement Form"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestIncreasedInsuranceLimitAndSupplementalLossEndorsements.*,
-              aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements.*,
-              aaa.modules.regression.sales.home_ss.ho3.functional.TestEarthquakeEndorsements.*,
-              aaa.modules.regression.sales.home_ss.ho4.functional.TestEarthquakeEndorsements.*,
-              aaa.modules.regression.sales.home_ss.ho6.functional.TestEarthquakeEndorsements.*]
-      messages: ["is not present as expected"]
 PASBB-818:
   summary: "Regression BCT: Reinstatement Fee amount can't applied as total amount"
   reason: PROD
@@ -356,18 +340,6 @@ PAS-20303:
     messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
   - tests: [aaa.modules.regression.conversions.home_ss.ho6.functional.TestSpecialNonRenewalLetterKY.*]
     messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
-PT-2829:
-  summary: "Renewal Bill is not generated for 2nd Renewal (1st was conversion policy)"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.*]
-    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
-  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.*]
-    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
-  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration.*]
-    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
-  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration.*]
-    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
 PAS-21025:
   summary: "driverInformation in Response and Analytics of Microservice contains CAS Driver Information instead of PAS"
   reason: PROD
@@ -481,4 +453,10 @@ PAS-25174:
     - tests: [aaa.modules.regression.conversions.home_ss.*]
       messages: ['Coverages should be rounded to dollar value']
     - tests: [aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater.*]
-      messages: ['String index out of range: -1']  
+      messages: ['String index out of range: -1']
+PAS-25866:
+  summary: "Error 500 when rolling on changes for OOS endorsement on PUP policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.financials.pup.TestRenewal.*]
+      messages: ["no such element", "Error 500. Internal server error occurred"]
