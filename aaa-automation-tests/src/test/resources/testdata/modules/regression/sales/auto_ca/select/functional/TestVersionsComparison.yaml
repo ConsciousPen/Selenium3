@@ -562,7 +562,11 @@ TestData_DriverInformation_Version1: {
     }
   },
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
+  DriverActivityReportsTab: {
+    Sales Agent Agreement: I Agree,
+    Sales Agent Agreement DMV: I Agree,
+    Validate Driving History: click
+  },
   DocumentsAndBindTab: {
     RequiredToIssue:{
       Proof of Mature Driver Course Completion: 'Yes',
