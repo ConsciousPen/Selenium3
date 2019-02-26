@@ -7,19 +7,16 @@ TestData_DriverTab_OfflineClaim_PU_CA: {
  DriverTab: ['@Driver2','@Driver3','@Driver4']
 }
 
-#TestData_DriverTab_ReconcileFNIclaims_PU_CA: {
-#  PrefillTab: '@PrefillTab',
-#  GeneralTab: '@GeneralTab',
-##   GeneralTab: '@<auto_ca_choice>@DataGather@GeneralTab',
-#  DriverTab:  '@Driver1'
-##  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab'
-#}
-
 TestData_DriverTab_ReconcileFNIclaims_PU_CA: {
   PrefillTab: '@PrefillTab',
-#  GeneralTab: '@GeneralTab',
   GeneralTab: '@<auto_ca_choice>@DataGather@GeneralTab',
   DriverTab:  '@Driver1'
+}
+
+TestData_DriverTab_ClueReconcileFNIclaims_PU_CA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ca_choice>@DataGather@GeneralTab',
+  DriverTab:  ['@Driver1','@Driver3']
 }
 
 PrefillTab: {
@@ -35,24 +32,13 @@ PrefillTab: {
   Order Prefill: click
 }
 
-#GeneralTab: {
-#  NamedInsuredInformation: '@NamedInsuredInformationToGetClaims',
-#  AAAProductOwned: '@<auto_ca_choice>@DataGather@AAAProductOwned',
-#  ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',
-#  PolicyInformation: '@<auto_ca_choice>@DataGather@PolicyInformation'
-#}
-
-#NamedInsuredInformationToGetClaims: {}
-
 Driver1: {
   Add Driver: Click,
   DriverSearchDialog:{},
   Driver Type: Available for Rating,
-  #First Name: Nicolas,
-  #Last Name: SMITH,
   'Rel. to First Named Insured': First Named Insured,
   Date of Birth: 10/16/1997,
-  Age First Licensed: 18,
+  Age First Licensed: 21,
   Gender: Male,
   Marital Status: Married,
   Occupation: Architect,
@@ -151,4 +137,10 @@ Driver5: {
 ############### Add 5th Driver at endorsement
 Add_PU_Claim_Driver_Endorsement_CA: {
   DriverTab: ['@Driver5'],
+}
+
+################## Add Driver 2 at endorsement CLUE Reconclie################
+Add_Driver2_Endorsement_CA: {
+GeneralTab: {},
+DriverTab: ['@Driver3']
 }
