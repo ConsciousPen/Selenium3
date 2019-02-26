@@ -48,7 +48,6 @@ public class TestOfflineClaimsAnalytics extends TestOfflineClaimsTemplate {
      * 7. Retrieve the pas-admin AND pas-app logs and combine those in one log content
      * 8. Parse Claims Analytics rows from the log
      * 9. Verify all tags and values in JSON claim analytics according to Claim Number and policyNumber
-     *      //TODO: gunxgar - Created according to current functionality: need to refactor empty spaces (coverageId, coverageAmount, coverageName), missing values (claimCloseDate)
      *      "policyEffectiveDate": "2021-10-08 00:00:00.0"
      * 		"coverageId": " COV_001,COV_002",
      * 		"coverageAmount": " 100,250",
