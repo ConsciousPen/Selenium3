@@ -1488,6 +1488,41 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	}
 
 	/**
+	 * @author Jovita Pukenaite
+	 * @name View Coverage PIP and APIP when "Non-Medical Expense" = "Yes"
+	 * and "Additional Personal Injury Protection Benefit" = NO
+	 * @scenario
+	 * 1. Create policy in PAS with "Non-Medical Expense" = YES
+	 * and "Additional Personal Injury Protection Benefit" = NO
+	 * 2. Run view endorsement coverages service
+	 * 3. Verify PIP, APIP coverage and subCoverages
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19161"})
+	public void pas19161_viewPIPNonMedExpenseYesNJ(@Optional("NJ") String state) {
+		pas19161_viewPIPNonMedExpenseYesNJBody();
+	}
+
+    /**
+     * @author Jovita Pukenaite
+     * @name View Coverage when PIP = YES and "Non-Medical Expense" = "Yes"
+     * @scenario
+     * 1. Create policy in PAS with "Non-Medical Expense" = YES
+     * and "Additional Personal Injury Protection Benefit" = YES
+     * 2. Run view endorsement coverages service
+     * 3. Verify coverages.
+     */
+    @Parameters({"state"})
+    @StateList(states = {Constants.States.NJ})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19163"})
+    public void pas19163_viewPipYesAndNonMedExpenseYesNJ(@Optional("NJ") String state) {
+		pas19163_viewPipYesAndNonMedExpenseYesNJbody();
+    }
+
+	/**
 	 * @author Maris Strazds
 	 * @name
 	 * @scenario
