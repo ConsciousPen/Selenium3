@@ -54,7 +54,7 @@ public class Coverage {
 
 	private String certNum; //for PIPPRIMINS coverage
 
-	public List<String> relativesCovered;
+	private List<String> relativesCovered;
 
 	public static Coverage create(CoverageInfo coverageInfo) {
 		Coverage coverage = new Coverage();
