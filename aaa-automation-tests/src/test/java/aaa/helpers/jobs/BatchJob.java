@@ -1,7 +1,6 @@
 package aaa.helpers.jobs;
 
 import java.util.*;
-import org.testng.annotations.Test;
 import com.exigen.ipb.eisa.utils.batchjob.Job;
 import com.exigen.ipb.eisa.utils.batchjob.JobGroup;
 import aaa.config.CsaaTestProperties;
@@ -303,11 +302,6 @@ public class BatchJob {
 				"%sPAS_B_EXGPAS_PASHUB_4001_D/inbound",
 				"%sPAS_B_EXGPAS_PASHUB_4001_D/outbound");
 		return getFormattedJobFolders(foldersTemplate);
-	}
-
-	@Test
-	public void test() {
-		getRenewPart1JobFolders();
 	}
 
 	private static List<Job> getCftDcsEodJob_batchJobs() {
