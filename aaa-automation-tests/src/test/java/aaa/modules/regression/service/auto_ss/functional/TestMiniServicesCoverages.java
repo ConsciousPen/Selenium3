@@ -1491,10 +1491,9 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @author Maris Strazds//TODO-mstrazds:
 	 * @name View Coverage - PIP in NJ- "Non-Medical Expense" = "No"
 	 * @scenario
-	 * 1. Create policy in PAS with "Non-Medical Expense" = "No"
+	 * 1. Create policy in PAS
 	 * 2. Create endorsement through service
-	 * 3. Run view endorsement coverages service
-	 * 4. Verify PIP, APIP coverage and subCoverages
+	 * 3. Update PIPPRIMINS coverage with correct/incorrect data and check responses
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.NJ})
