@@ -1,12 +1,15 @@
 package aaa.helpers.jobs;
 
 import java.util.*;
+import org.testng.annotations.Test;
 import com.exigen.ipb.eisa.utils.batchjob.Job;
 import com.exigen.ipb.eisa.utils.batchjob.JobGroup;
 import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
 
 public class BatchJob {
+
+	private static String jobFolderPrefix = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");
 
 	public static Job policyAutomatedRenewalAsyncTaskGenerationJob = new Job("policyAutomatedRenewalAsyncTaskGenerationJob", new HashMap<>(), getRenewPart1JobFolders());
 	public static Job aaaRecurringPaymentsProcessingJob = new Job("aaaRecurringPaymentsProcessingJob");
@@ -251,7 +254,7 @@ public class BatchJob {
 	public static JobGroup membershipValidationJob = new JobGroup("membershipValidationJob", getMembershipValidationJob_batchJobs());
 	public static JobGroup renewalOfferGenerationPart1 = new JobGroup("renewalOfferGenerationPart1", getRenewal_Offer_Generation_Part1_batchJobs());
 	public static JobGroup renewalOfferGenerationPart2 = new JobGroup("renewalOfferGenerationPart2", getRenewal_Offer_Generation_Part2_batchJobs());
-	private static String jobFolderPrefix = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");
+
 
 	public static HashMap<String, String> getRenewalClaimOrderAsyncJobParameters() {
 		HashMap<String, String> parameters = new HashMap();
@@ -300,6 +303,11 @@ public class BatchJob {
 				"%sPAS_B_EXGPAS_PASHUB_4001_D/inbound",
 				"%sPAS_B_EXGPAS_PASHUB_4001_D/outbound");
 		return getFormattedJobFolders(foldersTemplate);
+	}
+
+	@Test
+	public void test() {
+		getRenewPart1JobFolders();
 	}
 
 	private static List<Job> getCftDcsEodJob_batchJobs() {
