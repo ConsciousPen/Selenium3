@@ -2,8 +2,24 @@
 TestData_DriverTab_OfflineClaim_AZ: {
   DriverTab: ['@Driver2','@Driver3','@Driver4']
 }
-
+#Not to be deleted
   ######Test Data for 2/3/4 Drivers
+#Driver1: {
+#  Add Driver: Click,
+#  DriverSearchDialog:{},
+#  First Name: NICOLAS,
+#  Last Name: SMITH,
+#  'Rel. to First Named Insured': Sibling,
+#  Date of Birth: 12/05/1960,
+#  Gender: Male,
+#  Marital Status: Married,
+#  Occupation: Clergy,
+#  License Type: "Licensed (US)",
+#  License State: AZ,
+#  License Number: A12345111,
+#  Age First Licensed: 18
+#}
+
 Driver2: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -50,4 +66,27 @@ Driver4: {
   License State: AZ,
   License Number: A12345444,
   Age First Licensed: 18
+}
+
+
+Driver5: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Bruce,
+  Last Name: Banerr,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 12/12/1987,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Clergy,
+  License Type: "Licensed (US)",
+  License State: AZ,
+  "License Number": D99999999,
+  Age First Licensed: 18
+}
+
+############### Add 5th Driver at endorsement
+Add_PU_Claim_Driver_Endorsement_AZ: {
+  DriverTab: ['@Driver5'],
 }

@@ -50,6 +50,13 @@
 
     <!--Tests for Property-->
 
+    <test name="Test Default limited theft coverage value to cov c value">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestDefaultLimitedTheftCoverageToCovCValue"/>
+        </classes>
+    </test>
+
     <test name="Claims points on VRD page for CA DP3 policies during NB Applicant/Applicant And Property">
         <parameter name="state" value="CA"/>
         <classes>
@@ -104,6 +111,15 @@
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>
+        </classes>
+    </test>
+
+    <test name="Test CA Mortgagee Loan Number is required">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestLegalMortgageeNameLoanNumber"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestLegalMortgageeNameLoanNumber"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestLegalMortgageeNameLoanNumber"/>
         </classes>
     </test>
 
