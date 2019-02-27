@@ -307,8 +307,8 @@ PremiumAndCoveragesTab_PA: {
   Underinsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
   'Underinsured Motorist Stacked/Unstacked': 'Stacked',
   First Party Benefits: 'Added',
-  Medical Expenses: 'contains=$5,000',
-  Funeral Benefits: 'contains=$1,500',
+  Medical Benefit: 'contains=$5,000',
+  Funeral Expense Benefit: 'contains=$1,500',
   Comprehensive Deductible: 'contains=$750',
   Collision Deductible: 'contains=$500'
 }
@@ -653,6 +653,7 @@ TestData_Endorsement2_PA: {
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {},
+  ErrorTab: '@ErrorTab_PA_Endorsement',
 }
 
 DriverInformationED3_PA: {
@@ -674,6 +675,15 @@ DriverInformationED3_PA: {
   Age First Licensed: 20
 }
 
+ErrorTab_PA_Endorsement: {
+   ErrorsOverride: [{
+    Message: "contains=Pennsylvania Notice to Named Insureds Regarding Tort Options",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   }]  
+}
 
 ##-----------Endorsement for Renewal --------------
 TestData_AddRenewal: {

@@ -231,7 +231,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<ComboBox> DRIVER_TYPE = declare("Driver Type", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> REASON = declare("Reason", ComboBox.class);
 		public static final AssetDescriptor<AdvancedComboBox> REL_TO_FIRST_NAMED_INSURED = declare("Rel. to First Named Insured", AdvancedComboBox.class);
-		public static final AssetDescriptor<TextBox> TITLE = declare("Title", TextBox.class);
+		public static final AssetDescriptor<ComboBox> TITLE = declare("Title", ComboBox.class);
 		public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First Name", TextBox.class);
 		public static final AssetDescriptor<TextBox> MIDDLE_NAME = declare("Middle Name", TextBox.class);
 		public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last Name", TextBox.class);
@@ -271,6 +271,7 @@ public final class AutoCaMetaData {
 				.xpath(".//div[@id='policyDataGatherForm:componentView_DrivingRecord']"));
 
 		public static final class ActivityInformation extends MetaData {
+			public static final AssetDescriptor<RadioGroup> OVERRIDE_ACTIVITY_DETAILS = declare("Override Activity Details?", RadioGroup.class);
 			public static final AssetDescriptor<Button> ADD_ACTIVITY = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addDrivingRecord"));
 			public static final AssetDescriptor<TextBox> ORIGINAL_CONVICTION_DATE = declare("Original Conviction Date", TextBox.class);
 			public static final AssetDescriptor<ComboBox> ACTIVITY_SOURCE = declare("Activity Source", ComboBox.class);
@@ -284,6 +285,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<TextBox> SVC_DESCRIPTION = declare("SVC Description", TextBox.class);
 			public static final AssetDescriptor<TextBox> CLAIM_NUMBER = declare("Claim Number", TextBox.class);
 			public static final AssetDescriptor<TextBox> CONVICTION_DATE = declare("Conviction Date", TextBox.class);
+			public static final AssetDescriptor<RadioGroup> PERMISSIVE_USE_LOSS = declare("Permissive Use Loss?", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> INCLUDE_IN_RATING = declare("Include in Rating?", RadioGroup.class);
 			public static final AssetDescriptor<ComboBox> NOT_INCLUDED_IN_RATING_REASON = declare("Not Included in Rating Reasons", ComboBox.class);
 			public static final AssetDescriptor<RadioGroup> INCLUDE_IN_POINTS_AND_OR_YAF = declare("Include in Points and/or YAF?", RadioGroup.class);
@@ -517,8 +519,9 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<StaticElement> POLICY_LEVEL_LIABILITY_COVERAGES = declare("Policy Level Liability Coverages", StaticElement.class);
 		public static final AssetDescriptor<DetailedVehicleCoveragesRepeatAssetList> DETAILED_VEHICLE_COVERAGES = declare("DetailedVehicleCoverages",
 				DetailedVehicleCoveragesRepeatAssetList.class, DetailedVehicleCoverages.class, false);
-		public static final AssetDescriptor<JavaScriptButton> CALCULATE_PREMIUM = declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, By.id("policyDataGatherForm:actionButton_AAAAutoRateAction"));
-
+		//public static final AssetDescriptor<JavaScriptButton> CALCULATE_PREMIUM = declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, By.id("policyDataGatherForm:actionButton_AAAAutoRateAction"));
+		public static final AssetDescriptor<JavaScriptButton> CALCULATE_PREMIUM = declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, By.xpath("//input[@id='policyDataGatherForm:actionButton_AAAAutoRateAction' or @id='policyDataGatherForm:calculatePremium_AAAAutoRateAction']"));
+		
 		public static final AssetDescriptor<DialogAssetList> OVERRRIDE_PREMIUM_DIALOG = declare("Override Premium",
 				DialogAssetList.class, OverridePremiumDialog.class, By.xpath("//div[@id='premiumOverridePopup_container']//div[@id='premiumOverridePopup_content']"));
 		public static final AssetDescriptor<Button> RATE_DETAILS = declare("Rate Details", Button.class, Waiters.AJAX, By.xpath("//button[text()='Rate Details']"));
@@ -593,6 +596,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<RadioGroup> HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY = declare("Has the customer expressed interest in purchasing the policy?",
 				RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> SALES_AGENT_AGREEMENT = declare("Sales Agent Agreement", RadioGroup.class, By.xpath(".//table[@id='policyDataGatherForm:FfcraPanel_5']"));
+		public static final AssetDescriptor<RadioGroup> SALES_AGENT_AGREEMENT_DMV = declare("Sales Agent Agreement DMV", RadioGroup.class, By.xpath(".//table[@id='policyDataGatherForm:sedit_AAACSADriverReportDisclosureComponent_disclosureAgrees']"));
 		public static final AssetDescriptor<Button> VALIDATE_DRIVING_HISTORY = declare("Validate Driving History", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:submitReports"));
 
 		public static final AssetDescriptor<FillableTable> ORDER_CLUE_REPORT = declare("OrderCLUEReport", FillableTable.class, OrderClueRow.class, By

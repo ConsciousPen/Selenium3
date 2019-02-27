@@ -27,5 +27,15 @@ ReportsTab_Reorder: {
   CLUEreport: [{Report: 'Re-order report'}],
 }
 
+TestData_Endorsement: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today>,
+    Endorsement Reason: 'Property/exposures'
+  },
+  ReportsTab: '@ReportsTab_Endorsement',
+}
 
-
+ReportsTab_Endorsement: {
+  Sales Agent Agreement: 'I Agree',
+  PublicProtectionClass: [{Report: 'Re-order report'}],
+}

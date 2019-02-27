@@ -1283,6 +1283,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 
 			//Update D2-->V3
 			HelperCommon.updateDriverAssignment(policyNumber, vehicleOidNd3, Arrays.asList(driverOid2));
+			HelperCommon.orderReports(policyNumber, driverOid2, OrderReportsResponse.class, 200);
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
 	}
@@ -1485,6 +1486,8 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			//Update V1-->D1,D2,D3, V2-->D4,D5
 			HelperCommon.updateDriverAssignment(policyNumber, vehicle1.oid, Arrays.asList(driver1.oid, driver2.oid, driver3.oid));
 			HelperCommon.updateDriverAssignment(policyNumber, vehicle2.oid, Arrays.asList(driverOid4, driverOid5));
+			HelperCommon.orderReports(policyNumber, driverOid4, OrderReportsResponse.class, 200);
+			HelperCommon.orderReports(policyNumber, driverOid5, OrderReportsResponse.class, 200);
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 
 			//Start TC2

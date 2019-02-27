@@ -2,10 +2,6 @@ package aaa.modules.regression.sales.template.functional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import org.apache.commons.lang3.NotImplementedException;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.apache.commons.lang3.NotImplementedException;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -724,27 +720,27 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
 
         switch(memberStatus){
             case YES:
-                CustomAssertions.assertThat(gt.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Yes");
+                CustomAssertions.assertThat(gt.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Yes");
                 if (rms.equals(RMSStatus.Inactive)) {
-                    CustomAssertions.assertThat(gt.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(INACTIVE_BML_MEMBERSHIP_NUMBER);
+                    CustomAssertions.assertThat(gt.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(INACTIVE_BML_MEMBERSHIP_NUMBER);
                 }
                 if (rms.equals(RMSStatus.Active)) {
-                    CustomAssertions.assertThat(gt.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(ACTIVE_BML_MEMBERSHIP_NUMBER);
+                    CustomAssertions.assertThat(gt.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(ACTIVE_BML_MEMBERSHIP_NUMBER);
                 }
                 break;
             case NO:
-                CustomAssertions.assertThat(gt.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("No");
+                CustomAssertions.assertThat(gt.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("No");
                 break;
             case PENDING:
-                CustomAssertions.assertThat(gt.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Pending");
+                CustomAssertions.assertThat(gt.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Pending");
                 break;
             case OVERRIDE_LIFE:
-                CustomAssertions.assertThat(gt.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Override");
-                CustomAssertions.assertThat(gt.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel()).getValue().toString()).isEqualToIgnoringCase("Life");
+                CustomAssertions.assertThat(gt.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Override");
+                CustomAssertions.assertThat(gt.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel()).getValue().toString()).isEqualToIgnoringCase("Life");
                 break;
             case OVERRIDE_TERM:
-                CustomAssertions.assertThat(gt.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Override");
-                CustomAssertions.assertThat(gt.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel()).getValue().toString()).isEqualToIgnoringCase("Term");
+                CustomAssertions.assertThat(gt.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Override");
+                CustomAssertions.assertThat(gt.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel()).getValue().toString()).isEqualToIgnoringCase("Term");
                 break;
             default:
                 break;
@@ -1007,7 +1003,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         // Validate Membership in P&C Tab
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-        aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab pnc = new aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab();
+        PremiumsAndCoveragesQuoteTab pnc = new PremiumsAndCoveragesQuoteTab();
         pnc.calculatePremium();
         switch(memberStatus){
             case YES:
@@ -1031,27 +1027,27 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         // Validate Membership in VRD
         pnc.calculatePremium();
 
-        aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+        PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
 
         switch(memberStatus){
             case YES:
-                CustomAssertions.assertThat(aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
+                CustomAssertions.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
                         .getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("Yes");
                 break;
             case NO:
-                CustomAssertions.assertThat(aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
+                CustomAssertions.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
                         .getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("No");
                 break;
             case PENDING:
-                CustomAssertions.assertThat(aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
+                CustomAssertions.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
                         .getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("Yes");
                 break;
             case OVERRIDE_LIFE:
-                CustomAssertions.assertThat(aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
+                CustomAssertions.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
                         .getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("Yes");
                 break;
             case OVERRIDE_TERM:
-                CustomAssertions.assertThat(aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
+                CustomAssertions.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
                         .getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("Yes");
                 break;
             default:

@@ -18,6 +18,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -78,6 +79,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
 
         //Create Policy
 		policyNumberNb = openAppAndCreatePolicy(tdAutoNB);
+		setDoNotRenewFlag(policyNumberNb);
 
         //Save policy Premium and Tier values
         policy.policyInquiry().start();
@@ -102,6 +104,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         documentsTab.submitTab();
         PolicySummaryPage.buttonBackFromRenewals.click();
         policyNumberConv = PolicySummaryPage.getPolicyNumber();
+        setDoNotRenewFlag(policyNumberConv);
 
         //Compare new business and conversion values
         assertThat(nbParams).isEqualTo(convParams);
@@ -160,6 +163,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
 
     private Map<String, String> getRenewalValues(String policyNumber) {
 		SearchPage.openPolicy(policyNumber);
+        policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().start();
 		premiumCovTab.calculatePremium();
         Map<String, String> result = paramMapToCompere();
@@ -174,8 +178,8 @@ public class TestTierCalculation extends AutoSSBaseTest {
             put("Premium", PremiumAndCoveragesTab.totalActualPremium.getValue());
         }};
         PremiumAndCoveragesTab.RatingDetailsView.open();
-        params.put("UW points", PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue());
-        params.put("Tier", PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Customer's Tier").getCell(2).getValue());
+        params.put("UW points", PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, PolicyConstants.ViewRatingDetailsAuto.TOTAL_UNDERWRITER_POINTS_USED_IN_TIER).getCell(6).getValue());
+        params.put("Tier", PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, PolicyConstants.ViewRatingDetailsAuto.CUSTOMERS_TIER).getCell(2).getValue());
         return params;
     }
 

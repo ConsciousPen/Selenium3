@@ -22,7 +22,7 @@ public class BackendJobNames {
 		storage.put(GroupJobs.grouprenewalClaimOrderAsyncJob.getJobName(), "renewalClaimOrderAsyncJob");
 		storage.put(GroupJobs.groupaaaMvrRenewBatchOrderAsyncJob.getJobName(), "aaaMvrRenewBatchOrderAsyncJob");
 		storage.put(GroupJobs.groupmembershipRenewalBatchOrderJob.getJobName(), "aaaMembershipRenewalBatchOrderAsyncJob");
-		storage.put(GroupJobs.groupPolicyStatusUpdateJob.getJobName(), "PolicyStatusUpdateJob");
+		storage.put(GroupJobs.groupPolicyStatusUpdateJob.getJobName(), "policyStatusUpdateJob");
 		storage.put(GroupJobs.groupaaaRecurringPaymentsProcessingJob.getJobName(), "aaaRecurringPaymentsAsyncProcessJob");
 		storage.put(GroupJobs.groupapplyPendingTransactionsAsyncJob.getJobName(), "applyPendingTransactionsAsyncJob");
 		storage.put(GroupJobs.groupaaacancellationNoticeGenerationJob.getJobName(), "aaaCancellationNoticeAsyncJob");
@@ -46,6 +46,7 @@ public class BackendJobNames {
 		storage.put(GroupJobs.groupautomatedProcessingRatingJob.getJobName(), "AutomatedProcessingRatingJob");
 		storage.put(GroupJobs.groupaaaMortgageeRenewalReminderAndExpNoticeAsyncJob.getJobName(), "aaaMortgageeRenewalReminderAndExpNoticeAsyncJob");
 		storage.put(GroupJobs.groupaaaRefundDisbursementAsyncJob.getJobName(), "aaaRefundDisbursementAsyncJob");
+		storage.put(GroupJobs.groupAAAEscheatmentProcessAsyncJob.getJobName(), "aaaEscheatmentProcessAsyncJob");
 
 
 		if(storage.containsKey(jobName)){

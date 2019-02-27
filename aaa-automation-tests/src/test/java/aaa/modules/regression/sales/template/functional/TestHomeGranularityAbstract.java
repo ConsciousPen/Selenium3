@@ -1,10 +1,10 @@
 package aaa.modules.regression.sales.template.functional;
 
 import aaa.common.Tab;
-import aaa.common.pages.QuoteDataGatherPage;
-import aaa.common.pages.SearchPage;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.QuoteDataGatherPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.HomeGranularityConstants;
 import aaa.helpers.db.queries.HomeGranularityQueries;
 import aaa.helpers.jobs.JobUtils;
@@ -12,54 +12,50 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 
-
 import java.time.LocalDateTime;
 import java.util.Map;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
-public class TestHomeGranularityAbstract extends PolicyBaseTest {
+public abstract class TestHomeGranularityAbstract extends PolicyBaseTest {
 
     private QuoteDataGatherPage quoteDataGatherPage = new QuoteDataGatherPage();
     private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
+
+    protected abstract Tab getApplicantTab();
+    protected abstract Tab getReportsTab();
+    protected abstract Tab getPremiumAndCoveragesQuoteTab();
 
     //Keypath for the Dwelling Address section on the Applicant tab
     String keypathDwellingAddress = TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeCaMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel());
     String keypathZipCode = TestData.makeKeyPath(keypathDwellingAddress, HomeCaMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel());
     String keypathAddress1 = TestData.makeKeyPath(keypathDwellingAddress, HomeCaMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel());
 
-    protected void validateCensusBlockGroupAndLatLong() {
+    protected void validateCensusBlockGroupAndLatLong(String censusBlock, String latitude, String longitude) {
         TestData policyTd = getPolicyTD();
-        String mockCensusBlock = HomeGranularityConstants.MOCK_CENSUS_BLOCK;
-        String mockLatitude    = HomeGranularityConstants.MOCK_LATITUDE;
-        String mockLongitude   = HomeGranularityConstants.MOCK_LONGITUDE;
-        createQuoteAndFillUpTo(policyTd, PremiumsAndCoveragesQuoteTab.class);
+        createQuoteAndFillUpTo(policyTd, getPremiumAndCoveragesQuoteTab().getClass());
         String quoteNumber = quoteDataGatherPage.getQuoteNumber();
-        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(quoteNumber, mockCensusBlock, mockLatitude, mockLongitude, HomeGranularityQueries.SELECT_CENSUS_BLOCK_GROUP);
+        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(quoteNumber, censusBlock, latitude, longitude, "quote","rated");
         checkVRD(censusBlockGroupID);
     }
 
-    protected void validateCensusBlockGroupAndLatLongFromEADS() {
+    protected void validateCensusBlockGroupAndLatLongFromEADS(String zipCode, String address, String censusBlock, String latitude, String longitude) {
         TestData policyTd = getPolicyTD()
-                .adjust(keypathZipCode, "90201")
-                .adjust(keypathAddress1, "265 CHIPMAN ST");
-        String defaultCensusBlock = HomeGranularityConstants.DEFAULT_CENSUS_BLOCK;
-        String defaultLatitude    = HomeGranularityConstants.DEFAULT_LATITUDE;
-        String defaultLongitude   = HomeGranularityConstants.DEFAULT_LONGITUDE;
-        createQuoteAndFillUpTo(policyTd, ApplicantTab.class);
+                .adjust(keypathZipCode, zipCode)
+                .adjust(keypathAddress1, address);
+        createQuoteAndFillUpTo(policyTd, getApplicantTab().getClass());
         Tab.buttonTopSave.click();
         String quoteNumber = quoteDataGatherPage.getQuoteNumber();
-        validateCensusBlockGroupAndLatLong(quoteNumber, null, null, null, HomeGranularityQueries.SELECT_CENSUS_BLOCK_GROUP);
+        validateCensusBlockGroupAndLatLong(quoteNumber, null, null, null, "quote","dataGather");
         Tab.buttonNext.click();
-        policy.getDefaultView().fillFromTo(policyTd, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
-        validateCensusBlockGroupAndLatLong(quoteNumber, defaultCensusBlock, defaultLatitude, defaultLongitude, HomeGranularityQueries.SELECT_CENSUS_BLOCK_GROUP);
+        policy.getDefaultView().fillFromTo(policyTd, getReportsTab().getClass(), getPremiumAndCoveragesQuoteTab().getClass(), true);
+        validateCensusBlockGroupAndLatLong(quoteNumber, censusBlock, latitude, longitude, "quote","rated");
     }
 
     protected void riskAddressChangeDuringRenewal(TestData tdChangedAddress) {
@@ -76,16 +72,17 @@ public class TestHomeGranularityAbstract extends PolicyBaseTest {
         SearchPage.openPolicy(policyNumber);
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
-        policy.getDefaultView().fillUpTo(tdChangedAddress, ApplicantTab.class, true );
+        policy.getDefaultView().fillUpTo(tdChangedAddress, getApplicantTab().getClass(), true );
         Tab.buttonTopSave.click();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.REPORTS.get());
-        policy.getDefaultView().fillFromTo(tdChangedAddress, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
-        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(policyNumber, mockCensusBlock, mockLatitude, mockLongitude, HomeGranularityQueries.SELECT_RECAPTURED_CENSUS_BLOCK_GROUP);
+        policy.getDefaultView().fillFromTo(tdChangedAddress, getReportsTab().getClass(), getPremiumAndCoveragesQuoteTab().getClass(), true);
+        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(policyNumber, mockCensusBlock, mockLatitude, mockLongitude, "renewal", "rated");
         checkVRD(censusBlockGroupID);
     }
 
-    protected String validateCensusBlockGroupAndLatLong(String policyNumber, String censusBlockGroup, String latitude, String longitude, String censusBlockQuery) {
-        Map<String,String> censusBlockGroupAndLatLongFromDb = DBService.get().getRow(String.format(censusBlockQuery, policyNumber));
+    protected String validateCensusBlockGroupAndLatLong(String policyNumber, String censusBlockGroup, String latitude, String longitude, String txtype, String status) {
+        String censusBlockQuery = HomeGranularityQueries.SELECT_LAT_LONG_CENSUS_BLOCK_GROUP;
+        Map<String,String> censusBlockGroupAndLatLongFromDb = DBService.get().getRow(String.format(censusBlockQuery, policyNumber,txtype,status));
         String censusBlockGroupDbValue = censusBlockGroupAndLatLongFromDb.get("CENSUSBLOCK");
         String latitudeDbValue = censusBlockGroupAndLatLongFromDb.get("LATITUDE");
         String longitudeDbValue = censusBlockGroupAndLatLongFromDb.get("LONGITUDE");
@@ -106,10 +103,15 @@ public class TestHomeGranularityAbstract extends PolicyBaseTest {
     protected void checkVRD(String censusBlockGroupID){
 
         premiumsAndCoveragesQuoteTab.linkViewRatingDetails.click();
-
-        assertSoftly(softly -> {
-            softly.assertThat(premiumsAndCoveragesQuoteTab.tableViewRatingDetails.getRow(3, "Census Block").getCell(4).getValue()).isEqualTo(censusBlockGroupID);
-        });
+        if(isStateCA()){
+            assertSoftly(softly -> {
+                softly.assertThat(premiumsAndCoveragesQuoteTab.tableViewRatingDetails.getRow(3, "Census Block").getCell(4).getValue()).isEqualTo(censusBlockGroupID);
+            });
+        } else {
+            assertSoftly(softly -> {
+                softly.assertThat(premiumsAndCoveragesQuoteTab.tableViewRatingDetailsValues.getRow(1, "Census Block").getCell(2).getValue()).isEqualTo(censusBlockGroupID);
+            });
+        }
     }
 
     /**
@@ -122,5 +124,19 @@ public class TestHomeGranularityAbstract extends PolicyBaseTest {
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+    }
+
+    protected void riskAddressChangeDuringEndorsement(TestData tdChangeAddress) {
+        String mockCensusBlock = HomeGranularityConstants.DEFAULT_DYNAMIC_CENSUS_BLOCK;
+        String mockLatitude    = HomeGranularityConstants.DEFAULT_DYNAMIC_LATITUDE;
+        String mockLongitude   = HomeGranularityConstants.DEFAULT_DYNAMIC_LONGITUDE;
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createPolicy();
+        tdChangeAddress.adjust(getTestSpecificTD("TestData_Endorsement"));
+        policy.endorse().perform(tdChangeAddress);
+        policy.getDefaultView().fillUpTo(tdChangeAddress, getPremiumAndCoveragesQuoteTab().getClass(), true );
+        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(policyNumber, mockCensusBlock, mockLatitude, mockLongitude, "endorsement","rated");
+        checkVRD(censusBlockGroupID);
     }
 }

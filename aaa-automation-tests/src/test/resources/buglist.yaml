@@ -158,12 +158,6 @@ PAS-18399:
   failures:
     - tests: [aaa.modules.regression.conversions.*]
       messages: ["doesn't have Success status. Reason"]
-PT-2620:
-  summary: "Auto SS Defensive Driver Discount is applied to a driver with minor violations after DDCC"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.*]
-      messages: ["Defensive Driving Course Discount"]
 PAS-11810:
   summary: "View Premium Service - Pended endorsement and renewal not rated"
   reason: PROD
@@ -205,7 +199,7 @@ PAS-5102:
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
-      messages: ["*Unable to locate element*", "Data relevant to ISO 360 has changed. Reorder ISO 360 report"]
+      messages: ["Data relevant to ISO 360 has changed. Reorder ISO 360 report"]
 PAS-15177:
   summary: "KY Taxes: Tax amount and total premium value are reduced during Empty endorsement"
   reason: PROD
@@ -292,16 +286,6 @@ PAS-17689:
   failures:
     - tests: [aaa.modules.regression.conversions.home_ss.*]
       messages: ["ComboBox {Fire department type:"]
-PAS-18111:
-  summary: "Cannot save endorsement Form"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestIncreasedInsuranceLimitAndSupplementalLossEndorsements.*,
-              aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements.*,
-              aaa.modules.regression.sales.home_ss.ho3.functional.TestEarthquakeEndorsements.*,
-              aaa.modules.regression.sales.home_ss.ho4.functional.TestEarthquakeEndorsements.*,
-              aaa.modules.regression.sales.home_ss.ho6.functional.TestEarthquakeEndorsements.*]
-      messages: ["is not present as expected"]
 PASBB-818:
   summary: "Regression BCT: Reinstatement Fee amount can't applied as total amount"
   reason: PROD
@@ -332,26 +316,6 @@ PAS-18945:
   failures:
     - tests: [aaa.modules.openl.AutoCaChoicePremiumCalculationTest.totalPremiumVerificationTest]
       messages: ["Cannot get value of StaticElement {<unnamed>: By.xpath: //span[@class='TOTAL_TERM_PREMIUM']", "Only qualified vehicles may carry Enhanced Transportation Expense"]
-PAS-19445:
-  summary: "Bind Rule Does Not Fire for a PUP Policy when the home policy has Cov E liability limit of $300,000 with NO SWIMMING Pool"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.*]
-    messages: ["Expecting", "Errors: AAA_PUP_SS2220190"]
-  - tests: [aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.*]
-    messages: ["Risks with a property liability limit less than $300,000 are ineligible"]
-PAS-20608:
-  summary: "Regression: CA choice: Payment plan dropdown resets after premium calculation"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.sales.auto_ca.choice.*]
-    messages: ["Cannot set value of AssetList {DriverActivityReportsTab:"]
-  - tests: [aaa.modules.regression.service.auto_ca.choice.*]
-    messages: ["Cannot set value of AssetList {DriverActivityReportsTab:"]
-  - tests: [aaa.modules.regression.document_fulfillment.auto_ca.choice.*]
-    messages: ["Cannot set value of AssetList {DriverActivityReportsTab:"]
-  - tests: [aaa.modules.regression.billing_and_payments.auto_ca.choice.*]
-    messages: ["Cannot set value of AssetList {DriverActivityReportsTab:"]
 PT-2761:
   summary: "Homeowners DP3 Conversion Policies second Renewal is not being Proposed"
   reason: PROD
@@ -376,18 +340,6 @@ PAS-20303:
     messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
   - tests: [aaa.modules.regression.conversions.home_ss.ho6.functional.TestSpecialNonRenewalLetterKY.*]
     messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
-PT-2829:
-  summary: "Renewal Bill is not generated for 2nd Renewal (1st was conversion policy)"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.*]
-    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
-  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.*]
-    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
-  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration.*]
-    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
-  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration.*]
-    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
 PAS-21025:
   summary: "driverInformation in Response and Analytics of Microservice contains CAS Driver Information instead of PAS"
   reason: PROD
@@ -450,18 +402,12 @@ PT-3244:
     messages: ["Errors: 'Roof shape' is not in within range"]
   - tests: [aaa.modules.bct.service.EndorsementTest.BCT_ONL_EmptyEndorsementHomeCAHo4]
     messages: ["//input[@id='policyDataGatherForm:premiumRecalcCov' or @id='policyDataGatherForm:actionButton_AAAHORateAction']"]
-PAS-23891:
+PAS-25233:
   summary: "Regression BCT: \"Cancel Notice\" flag is present after accepting payment"
   reason: PROD
   failures:
   - tests: [aaa.modules.bct.service.CancelPolicyTest.BCT_ONL_012_CancelPolicy]
     messages: ["['Cancel Notice' flag is absent]"]
-PAS-23995:
-  summary: "ASW Waiver not being given correctly"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver.*]
-      messages: ["Expecting"]
 PT-2901:
   summary: "Regression BCT: \"This page isn't working\" error at the screen after Reinstatement action. ReinstateFlow"
   reason: PROD
@@ -474,9 +420,63 @@ PT-2901:
       messages: ['Errors: The connection has timed out']
     - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*]
       messages: ['[LoginPanel is displayed] expected:<[tru]e> but was:<[fals]e>']
-PAS-24509:
-  summary: "Regression: Property: Exception on policy copy or endorsement"
+PAS-25099:
+  summary: "PUP Policy does not rate after first attempt"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.pup.*]
+      messages: ['no such element: Unable to locate element: {"method":"id","selector":"policyDataGatherForm:ratingPUPDetailsPopupLink"}']
+PAS-24131:
+  summary: "Regression BCT: grouprefundGenerationJob failed with huge amount of exceptions"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.*]
-      messages: ['Cannot get value of StaticElement', 'Errors: base00001; Error; Data has been modified by another agent']
+      messages: ['class com.exigen.ipb.billing.personal.allocation.services.impl.PolicyNetPremiumAllocationNode']
+PAS-25091:
+  summary: "Regression BCT 19.2 : Policy tier is empty for added Auto_SS to DP3 policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Errors: 'Policy tier' is required"]
+PAS-25103:
+  summary: "Regression BCT 19.2 : Empty \"Property policy number\" field for quote mentioned under Underlying Risks/\"List of recreational equipment\" field"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.*]
+      messages: ["Errors: 'Property policy number' is required"]
+    - tests: [aaa.modules.bct.service.*]
+      messages: ["Cannot get value of Cell {<unnamed>: {<unnamed>: {<unnamed>: By.id: policyDataGatherForm:pupTableTotalPremium}"]
+PAS-25174:
+  summary: "Regression: Home SS: Premium deltas are not shown on Premium tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.conversions.home_ss.*]
+      messages: ['Coverages should be rounded to dollar value']
+    - tests: [aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater.*]
+      messages: ['String index out of range: -1']
+PAS-25866:
+  summary: "Error 500 when rolling on changes for OOS endorsement on PUP policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.financials.pup.TestRenewal.*]
+      messages: ["no such element"]
+    - tests: [aaa.modules.financials.pup.TestRenewal.*]
+      messages: ["Error 500. Internal server error occurred"]
+PT-3481:
+  summary: "Regression BCT, 19.3 : \"Address requires validation before proceeding\" appears during Empty endorsement at the Applicant tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ['Errors: Address requires validation before proceeding']
+PAS-25857:
+  summary: "Errors: 'Description' is required"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Errors: 'Description' is required"]
+PAS-25865:
+  summary: "No session available (nullpointer) after Endorsement action to existing policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Errors: Time out. No session available"]

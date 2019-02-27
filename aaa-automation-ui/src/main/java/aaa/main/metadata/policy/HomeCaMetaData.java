@@ -689,7 +689,7 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<TextBox> REASON_CLAIM_IS_NOT_CHARGEABLE = declare("Reason claim is not chargeable", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<AssetListConfirmationDialog> ACTIVITY_REMOVE_CONFIRMATION =
 					declare("Activity remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmEliminateInstance_Dialog_container"));
-			public static final AssetDescriptor<StaticElement> CLAIM_MODIFIED_WARNING_MESSAGE = declare("Underwriting approval is required for claim(s) that have been modified", StaticElement.class, By.id("policyDataGatherForm:warningMsg"));
+
 		}
 
 		public static final class RentalInformation extends MetaData {
@@ -1136,7 +1136,9 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.AJAX);
 		}
 
-		public static final class EndorsementDP0473 extends MetaData {}
+		public static final class EndorsementDP0473 extends MetaData {
+			public static final AssetDescriptor<TextBox> COVERAGE_LIMIT = declare("Coverage limit", TextBox.class, Waiters.AJAX);
+		}
 		public static final class EndorsementDP0475 extends MetaData {}
 
 		public static final class EndorsementDW0463 extends MetaData {
@@ -1427,8 +1429,11 @@ public final class HomeCaMetaData {
 		 */
 		public static final AssetDescriptor<RadioGroup> OPTIONAL_COVERAGE_MASONRY_VENEER = declare("Optional coverage - Masonry veneer", RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<RadioGroup> OPTIONAL_COVERAGE_BREAKAGE_OF_PERSONAL_PROPERTY = declare("Optional coverage - Breakage of personal property", RadioGroup.class, Waiters.AJAX);
+		//public static final AssetDescriptor<JavaScriptButton> CALCULATE_PREMIUM_BUTTON =
+		//		declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, false, By.id("policyDataGatherForm:actionButton_AAAHORateAction"));
 		public static final AssetDescriptor<JavaScriptButton> CALCULATE_PREMIUM_BUTTON =
-				declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, false, By.id("policyDataGatherForm:actionButton_AAAHORateAction"));
+				declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:actionButton_AAAHORateAction'or @id='policyDataGatherForm:calculatePremium_AAAHORateAction']"));
+
 		public static final AssetDescriptor<RadioGroup> ACCEPT_CEA_OFFER = declare("Accept CEA offer", RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<RadioGroup> APPLY_CEA_DISCOUNT = declare("Apply CEA Discount", RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> CEA_PRODUCT = declare("CEA Product", ComboBox.class, Waiters.AJAX);

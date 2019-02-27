@@ -63,6 +63,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private ErrorTab errorTab = new ErrorTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
+	private TestMiniServicesVehiclesHelper testMiniServicesVehiclesHelper = new TestMiniServicesVehiclesHelper();
 
 	protected abstract String getGeneralTab();
 
@@ -197,7 +198,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		assertSoftly(softly -> {
 			softly.assertThat(response.allowedEndorsements).isEmpty();
 			softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
-			softly.assertThat(response.ruleSets.get(0).errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.SYSTEM_CREATED_PENDED_ENDORSEMENT.getMessage());
+			softly.assertThat(response.ruleSets.get(0).errors.get(0).message).startsWith(ErrorDxpEnum.Errors.SYSTEM_CREATED_PENDED_ENDORSEMENT.getMessage());
 			softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
 			softly.assertThat(response.ruleSets.get(1).errors).isEmpty();
 		});
@@ -1472,12 +1473,12 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			//Hit start endorsement info service with Id2
 			ValidateEndorsementResponse endorsementInfoResp2 = HelperCommon.startEndorsement(policyNumber, endorsementDate, SESSION_ID_2);
-			assertThat(endorsementInfoResp2.ruleSets.get(0).errors.stream().anyMatch(err -> err.message.equals(ErrorDxpEnum.Errors.POLICY_IS_LOCKED.getMessage()))).isTrue(); //BUG: PAS-16902 Not getting "Policy is locked" message
+			assertThat(endorsementInfoResp2.ruleSets.get(0).errors.stream().anyMatch(err -> err.message.startsWith(ErrorDxpEnum.Errors.POLICY_IS_LOCKED.getMessage()))).isTrue(); //BUG: PAS-16902 Not getting "Policy is locked" message
 
 			//Try to lock policy with id2
 			PolicyLockUnlockDto response1 = HelperCommon.executePolicyLockService(policyNumber, Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), SESSION_ID_2);
 			softly.assertThat(response1.errorCode).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getCode());
-			softly.assertThat(response1.message).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
+			softly.assertThat(response1.message).startsWith(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
 
 			mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -1490,7 +1491,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			//Try unlock policy with id2
 			PolicyLockUnlockDto response2 = HelperCommon.executePolicyUnlockService(policyNumber, Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), SESSION_ID_2);
 			softly.assertThat(response2.errorCode).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getCode());
-			softly.assertThat(response2.message).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
+			softly.assertThat(response2.message).startsWith(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
 
 			//Unlock policy with id1
 			PolicyLockUnlockDto response3 = HelperCommon.executePolicyUnlockService(policyNumber, Response.Status.OK.getStatusCode(), SESSION_ID_1);
@@ -1503,12 +1504,12 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			//Check if policy can be locked using lock service
 			PolicyLockUnlockDto response4 = HelperCommon.executePolicyLockService(policyNumber, Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), SESSION_ID_1);
 			softly.assertThat(response4.errorCode).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getCode());
-			softly.assertThat(response4.message).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
+			softly.assertThat(response4.message).startsWith(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
 
 			//Check if policy can be unlocked using unlock service
 			PolicyLockUnlockDto response5 = HelperCommon.executePolicyUnlockService(policyNumber, Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), SESSION_ID_1);
 			softly.assertThat(response5.errorCode).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getCode());
-			softly.assertThat(response5.message).isEqualTo(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
+			softly.assertThat(response5.message).startsWith(ErrorDxpEnum.Errors.ENTITY_IS_LOCKED_BY_OTHER_USER.getMessage());
 		});
 	}
 
@@ -1692,6 +1693,36 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		checkIfTaxInfoIsDisplaying(response3, getState());
 	}
 
+	protected void pas19166ViewPremiumServicePligaFeeInformationBody(){
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		PolicyPremiumInfo[] responsePolicyPremium = HelperCommon.viewPolicyPremiums(policyNumber);
+		checkIfPligaFeeInfoIsDisplaying(responsePolicyPremium);
+
+		//create endorsement check pliga fee there
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		PolicyPremiumInfo[] responseRate = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
+		checkIfPligaFeeInfoIsDisplaying(responseRate);
+
+		PolicyPremiumInfo[] response2 = HelperCommon.viewEndorsementPremiums(policyNumber);
+		checkIfPligaFeeInfoIsDisplaying(response2);
+
+		String purchaseDate = "2013-01-21";
+		String vin = "JF1GJAH65EH007244"; //Subaru Impreza 2014
+		testMiniServicesVehiclesHelper.addVehicleWithChecks(policyNumber, purchaseDate, vin, true);
+
+		PolicyPremiumInfo[] responseRate2 = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
+		checkIfPligaFeeInfoIsDisplaying(responseRate2);
+
+		PolicyPremiumInfo[] response3 = HelperCommon.viewEndorsementPremiums(policyNumber);
+		checkIfPligaFeeInfoIsDisplaying(response3);
+
+		helperMiniServices.bindEndorsementWithCheck(policyNumber);
+		PolicyPremiumInfo[] responsePolicyPremium2 = HelperCommon.viewPolicyPremiums(policyNumber);
+		checkIfPligaFeeInfoIsDisplaying(responsePolicyPremium2);
+	}
+
 	private void checkIfTaxInfoIsDisplaying(PolicyPremiumInfo[] response, String state){
 
 		String premium = "GWT";
@@ -1725,6 +1756,21 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(city.actualAmt).isNotEmpty();
 			softly.assertThat(city.termPremium).isNotEmpty();
 			}
+		});
+	}
+
+	private void checkIfPligaFeeInfoIsDisplaying(PolicyPremiumInfo[] response) {
+
+		String premiumType = "SPECIAL";
+		String premiumCode = "PLIGA*2";
+
+		PolicyPremiumInfo pligaFee = Arrays.stream(response).filter(policyPremiumInfo -> (premiumCode).equals(policyPremiumInfo.premiumCode)).findFirst().orElse(null);
+
+		assertSoftly(softly -> {
+			softly.assertThat(pligaFee.premiumType).isEqualTo(premiumType);
+			softly.assertThat(pligaFee.premiumCode).isEqualTo(premiumCode);
+			softly.assertThat(pligaFee.actualAmt).isNull();
+			softly.assertThat(pligaFee.termPremium).isNotEmpty();
 		});
 	}
 

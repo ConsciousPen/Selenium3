@@ -6,7 +6,7 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
     <test name="AutoSS Scenario 35 CFT" parallel="none">
-        <parameter name="state" value="MD, PA"/>
+        <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.cft.auto_ss.TestCFTScenario35"/>
         </classes>

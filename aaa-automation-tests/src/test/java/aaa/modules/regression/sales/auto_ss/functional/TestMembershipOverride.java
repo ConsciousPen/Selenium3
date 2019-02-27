@@ -68,7 +68,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	public void pas6311_Validate_Membership_Override_NewBusiness(@Optional("") String state) {
 
 		TestData testData = getPolicyTD();
-		TestData tdSpecific = getTestSpecificTD("AAAProductOwned_Override_NoDate").resolveLinks();
+		TestData tdSpecific = getTestSpecificTD("AAAMembership_Override_NoDate").resolveLinks();
 		testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
 				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
 				tdSpecific);
@@ -82,7 +82,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 
 		checkMemberSinceWarningMessage();
 
-		new GeneralTab().getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE).setValue("01/04/2009");
+		new GeneralTab().getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE).setValue("01/04/2009");
 		new GeneralTab().submitTab();
 
 		policy.getDefaultView().fillFromTo(testData, DriverTab.class, RatingDetailReportsTab.class, false);
@@ -129,10 +129,10 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	public void pas6311_pas9626_Validate_Membership_Override_Endorsement1(@Optional("") String state) {
 
 		TestData testData = getPolicyTD();
-		getTestSpecificTD("AAAProductOwned_Override_NoDate").resolveLinks();
+		//getTestSpecificTD("AAAMembership_Override_NoDate").resolveLinks();
 		testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
 				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
-				getTestSpecificTD("AAAProductOwned_MSNo").resolveLinks());
+				getTestSpecificTD("AAAMembership_MSNo").resolveLinks());
 
 		//testData.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "A00000000");
 
@@ -151,13 +151,13 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		checkMemberSinceWarningMessage();
 
 		// Enter "Current AAA Membership:" = "Override Membership"
-		new GeneralTab().getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Membership Override");
+		new GeneralTab().getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Membership Override");
 
 		// Enter "Override Type" = "Life"
-		new GeneralTab().getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE).setValue("Life");
+		new GeneralTab().getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE).setValue("Life");
 
 		// Enter 'Member Since Date' and click Continue
-		new GeneralTab().getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE).setValue("01/04/2009");
+		new GeneralTab().getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE).setValue("01/04/2009");
 		new GeneralTab().submitTab();
 
 		policy.getDefaultView().fillFromTo(tdSpecific, DriverTab.class, RatingDetailReportsTab.class, false);
@@ -197,13 +197,13 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9626")
 	public void pas9626_Validate_Membership_Override_Endorsement2(@Optional("") String state) {
 
-		TestData tdSpecific = getTestSpecificTD("AAAProductOwned2").resolveLinks();
+		TestData tdSpecific = getTestSpecificTD("AAAMembership2").resolveLinks();
 		TestData testData = getPolicyTD();
 
 		// Extract Original General tab from common testdata
 		TestData testDataGeneralTab = getPolicyTD().getTestData("GeneralTab");
 		// Swap AAAProductOwned from yaml file to general tab
-		testDataGeneralTab.adjust("AAAProductOwned", tdSpecific);
+		testDataGeneralTab.adjust("AAAMembership", tdSpecific);
 		// Put testDataGeneralTab to common testdata
 		testData.adjust("GeneralTab", testDataGeneralTab);
 
@@ -218,7 +218,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		//Adjust all AAA product owned Section
 		tdSpecific.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
 				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
-				getTestSpecificTD("AAAProductOwned_MS_Active2").resolveLinks());
+				getTestSpecificTD("AAAMembership_MS_Active2").resolveLinks());
 
 		policy.getDefaultView().fillFromTo(tdSpecific, GeneralTab.class, RatingDetailReportsTab.class, false);
 
@@ -255,13 +255,13 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9626")
 	public void pas9626_Validate_Membership_Override_Endorsement3(@Optional("") String state) {
 
-		TestData tdSpecific = getTestSpecificTD("AAAProductOwned_MS_Active2").resolveLinks();
+		TestData tdSpecific = getTestSpecificTD("AAAMembership_MS_Active2").resolveLinks();
 		TestData testData = getPolicyTD();
 
 		// Extract Original General tab from common testdata
 		TestData testDataGeneralTab = getPolicyTD().getTestData("GeneralTab");
 		// Swap AAAProductOwned from yaml file to general tab
-		testDataGeneralTab.adjust("AAAProductOwned", tdSpecific);
+		testDataGeneralTab.adjust("AAAMembership", tdSpecific);
 		// Put testDataGeneralTab to common testdata
 		testData.adjust("GeneralTab", testDataGeneralTab);
 		mainApp().open();
@@ -275,7 +275,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		//Adjust all AAA product owned Section
 		tdSpecific.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
 				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
-				getTestSpecificTD("AAAProductOwned_MS_Override_Term").resolveLinks());
+				getTestSpecificTD("AAAMembership_MS_Override_Term").resolveLinks());
 
 		new GeneralTab().fillTab(tdSpecific);
 		policy.getDefaultView().fillFromTo(tdSpecific, GeneralTab.class, RatingDetailReportsTab.class, false);
@@ -384,13 +384,13 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6313")
 	public void pas6313_Validate_Membership_Override_NB15NB30(@Optional("") String state) {
 
-		TestData tdSpecific = getTestSpecificTD("AAAProductOwned").resolveLinks();
+		TestData tdSpecific = getTestSpecificTD("AAAMembership").resolveLinks();
 		TestData testData = getPolicyTD().adjust(tdSpecific);
 
 		// Extract Original General tab from common testdata
 		TestData testDataGeneralTab = getPolicyTD().getTestData("GeneralTab");
 		// Swap AAAProductOwned from yaml file to general tab
-		testDataGeneralTab.adjust("AAAProductOwned", tdSpecific);
+		testDataGeneralTab.adjust("AAAMembership", tdSpecific);
 		// Put testDataGeneralTab to common testdata
 		testData.adjust("GeneralTab", testDataGeneralTab);
 
@@ -446,13 +446,13 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	@Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6313")
 	public void pas6313_Validate_Membership_Override_NB15NB30_Negative(@Optional("AZ") String state) {
-		TestData tdSpecific = getTestSpecificTD("AAAProductOwned_MS_Pending").resolveLinks();
+		TestData tdSpecific = getTestSpecificTD("AAAMembership_MS_Pending").resolveLinks();
 		TestData testData = getPolicyTD().adjust(tdSpecific);
 
 		// Extract Original General tab from common testdata
 		TestData testDataGeneralTab = getPolicyTD().getTestData("GeneralTab");
 		// Swap AAAProductOwned from yaml file to general tab
-		testDataGeneralTab.adjust("AAAProductOwned", tdSpecific);
+		testDataGeneralTab.adjust("AAAMembership", tdSpecific);
 		// Put testDataGeneralTab to common testdata
 		testData.adjust("GeneralTab", testDataGeneralTab);
 
@@ -511,7 +511,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	public void pas6314_Validate_Membership_Override_AC1(@Optional("AZ") String state) {
 
 		TestData testData = getPolicyTD();
-		TestData tdSpecific = getTestSpecificTD("AAAProductOwned_MS_Override_Term").resolveLinks();
+		TestData tdSpecific = getTestSpecificTD("AAAMembership_MS_Override_Term").resolveLinks();
 		testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
 				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
 				tdSpecific);
@@ -575,7 +575,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	public void pas6314_Validate_Membership_Override_AC2(@Optional("AZ") String state) {
 
 		TestData testData = getPolicyTD();
-		TestData tdSpecific = getTestSpecificTD("AAAProductOwned_MS_Override_Life").resolveLinks();
+		TestData tdSpecific = getTestSpecificTD("AAAMembership_MS_Override_Life").resolveLinks();
 		testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
 				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
 				tdSpecific);
@@ -640,7 +640,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	public void pas6314_Validate_Membership_Override_AC3(@Optional("AZ") String state) {
 
 		TestData testData = getPolicyTD();
-		TestData tdSpecific = getTestSpecificTD("AAAProductOwned_MSNo").resolveLinks();
+		TestData tdSpecific = getTestSpecificTD("AAAMembership_MSNo").resolveLinks();
 		testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
 				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
 				tdSpecific);
@@ -660,7 +660,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
 		//adjust test data for Renewal image updating
-		tdSpecific = getTestSpecificTD("AAAProductOwned_MS_Override_Term").resolveLinks();
+		tdSpecific = getTestSpecificTD("AAAMembership_MS_Override_Term").resolveLinks();
 		testData = getTestSpecificTD("TestData_Endorsement").resolveLinks();
 		testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
 				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
@@ -763,9 +763,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 
 	private void checkMemberSinceWarningMessage() {
 		GeneralTab generalTab = new GeneralTab();
-		assertThat(generalTab.getOtherAAAProductOwnedAssetList().
-				getAsset("Member Since Date").
-				getWarning().orElse("")).contains(MEMBER_SINCE_DATE_WARNING_MESSAGE);
+		assertThat(generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE).getWarning().orElse("")).contains(MEMBER_SINCE_DATE_WARNING_MESSAGE);
 	}
 
 	private void testMembershipOverridePrivilege(Boolean hasPrivilege) {
@@ -780,9 +778,9 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 
 		//Validate that 'Membership Override' option not displayed in "Current AAA Member" field
 		if (hasPrivilege) {
-			assertThat(generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues()).contains("Membership Override");
+			assertThat(generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues()).contains("Membership Override");
 		} else {
-			assertThat(generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues()).doesNotContain("Membership Override");
+			assertThat(generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues()).doesNotContain("Membership Override");
 		}
 
 	}
@@ -792,7 +790,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		assertThat(CURRENT_AAA_MEMBER_INQUIRY).valueContains("Membership Override"); // Still "Membership Override"
 		assertThat(OVERRIDE_TYPE_INQUIRY).hasValue(overrideType); //value like at NB
 		GeneralTab generalTab = new GeneralTab();
-		assertThat(generalTab.getOtherAAAProductOwnedAssetList().getAsset("Member Since Date").getValue().toString().contains("01/04/2009")).isTrue();
+		assertThat(generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE).getValue().contains("01/04/2009")).isTrue();
 	}
 
 	//Run Membership Validation Batch Jobs at Renewal Time point 1 and Time point 2

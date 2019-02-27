@@ -6,6 +6,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
+
 import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +36,8 @@ public class UploadToVINTableTab extends DefaultTab {
 
 	public static Button buttonUpload = new Button(By.className("start"));
 	public static Button buttonChoose = new Button(By.className("fileinput-button"));
+
+	private static ReentrantLock lock = new ReentrantLock();
 
 	protected static final String DEFAULT_PATH = "src/test/resources/uploadingfiles/vinUploadFiles/";
 
@@ -90,20 +94,26 @@ public class UploadToVINTableTab extends DefaultTab {
 	}
 
 	private void uploadFile(String fileName) {
-		getAssetList().getAsset(AdministrationMetaData.VinTableTab.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
-		buttonUpload.click();
+		log.info("Upload vin queue state: count of thread {}", lock.getQueueLength());
+		lock.lock();
+		try {
+			getAssetList().getAsset(AdministrationMetaData.VinTableTab.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(DEFAULT_PATH + fileName));
+			buttonUpload.click();
 
-		long timeoutInSeconds = 10;
-		long timeout = System.currentTimeMillis() + timeoutInSeconds * 1000;
+			long timeoutInSeconds = 10;
+			long timeout = System.currentTimeMillis() + timeoutInSeconds * 1000;
 
-		while (timeout > System.currentTimeMillis()) {
-			try {
-				Thread.sleep(1000);
-				log.info("Wait for file upload, in miliseconds left: {}", timeout - System.currentTimeMillis());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			while (timeout > System.currentTimeMillis()) {
+				try {
+					Thread.sleep(1000);
+					log.info("Wait for file upload, in miliseconds left: {}", timeout - System.currentTimeMillis());
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				assertThat(new StaticElement(By.xpath("//*[@id='uploadToVINTableForm']")).getValue()).doesNotContain("Error");
 			}
-			assertThat(new StaticElement(By.xpath("//*[@id='uploadToVINTableForm']")).getValue()).doesNotContain("Error");
+		} finally {
+			lock.unlock();
 		}
 	}
 

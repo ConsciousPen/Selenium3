@@ -238,13 +238,13 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-436", "PAS-231", "PAS-288"})
 	public void pas436_eValueDiscountVariations(@Optional("VA") String state) {
 		eValueConfigCheck();
-		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
-		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", false, false, "");
-		testEvalueDiscount("AAAProductOwned_No", "CurrentCarrierInformation", false, false, "");
-		testEvalueDiscount("AAAProductOwned_Override", "CurrentCarrierInformation", true, true, "Pending");
-		testEvalueDiscount("AAAProductOwned_Override", "CurrentCarrierInformation", false, false, "");
-		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation_DayLapsedMore4", false, false, "");
-		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation_BILimitLess", false, false, "");
+		testEvalueDiscount("AAAMembership_Active", "CurrentCarrierInformation", true, true, "Pending");
+		testEvalueDiscount("AAAMembership_Active", "CurrentCarrierInformation", false, false, "");
+		testEvalueDiscount("AAAMembership_No", "CurrentCarrierInformation", false, false, "");
+		testEvalueDiscount("AAAMembership_Override", "CurrentCarrierInformation", true, true, "Pending");
+		testEvalueDiscount("AAAMembership_Override", "CurrentCarrierInformation", false, false, "");
+		testEvalueDiscount("AAAMembership_Active", "CurrentCarrierInformation_DayLapsedMore4", false, false, "");
+		testEvalueDiscount("AAAMembership_Active", "CurrentCarrierInformation_BILimitLess", false, false, "");
 	}
 
 	/**
@@ -464,8 +464,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Membership Override");
-		generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE).setValue("01/01/2016");
+		generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Membership Override");
+		generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE).setValue("01/01/2016");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
 		new PremiumAndCoveragesTab().calculatePremium();
@@ -521,8 +521,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Membership Override");
-		generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE).setValue("01/01/2016");
+		generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Membership Override");
+		generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE).setValue("01/01/2016");
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
@@ -559,7 +559,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
+		generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
@@ -853,13 +853,13 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		//Membership check
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("No");
+		generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("No");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).isDisabled();
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
-		generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("4290023667710001");
+		generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
+		generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("4290023667710001");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).isEnabled();
 
@@ -909,13 +909,13 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		//Membership check
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("No");
+		generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("No");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).isDisabled();
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
-		generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("4290023667710001");
+		generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
+		generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("4290023667710001");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).isEnabled();
 
@@ -1152,7 +1152,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		checkBlueBoxMessages(MESSAGE_INFO_4, PRE_QUALIFICATIONS, softly);
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("No");
+		generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("No");
 		checkBlueBoxMessages(MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, softly);
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
@@ -1160,7 +1160,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		checkBlueBoxMessages(MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, softly);
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
+		generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
 		checkBlueBoxMessages(MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, softly);
 
 		new PremiumAndCoveragesTab().calculatePremium();
@@ -1184,7 +1184,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		checkBlueBoxMessages(MESSAGE_INFO_4, PRE_QUALIFICATIONS, softly);
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("No");
+		generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("No");
 		checkBlueBoxMessages(MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, softly);
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
@@ -1192,7 +1192,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		checkBlueBoxMessages(MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, softly);
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
+		generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
 		checkBlueBoxMessages(MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, softly);
 		softly.close();
 
@@ -1391,7 +1391,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("No");
+		generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("No");
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		//TODO Is it the only verification in test case? Why do we need other steps than?
@@ -2161,7 +2161,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		softly.assertThat(generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.COMMISSION_TYPE)).containsAllOptions(expectedCommissionTypeOptions);
 		softly.assertThat(generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.COMMISSION_TYPE)).hasValue(defaultCommissionTypeValue);
-		generalTab.saveAndExit();
 	}
 
 	private void eValueEnabledForRenewal() {
@@ -2277,7 +2276,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private void selectMembershipOrPriorInsur(String membershipOrPrior, String value) {
 		if ("membership".equals(membershipOrPrior)) {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-			generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue(value);
+			generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue(value);
 		} else if ("priorCarior".equals(membershipOrPrior)) {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 			if ("No".equals(value)) {

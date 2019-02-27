@@ -171,7 +171,7 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class NamedInsuredInformation extends MetaData {
-			public static final AssetDescriptor<TextBox> HOME_PHONE_NUMBER = declare("Home Phone Number", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> HOME_PHONE_NUMBER = declare("Home Phone Number", TextBox.class, Waiters.AJAX.then(Waiters.AJAX));
 			public static final AssetDescriptor<TextBox> WORK_PHONE_NUMBER = declare("Work Phone Number", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> MOBILE_PHONE_NUMBER = declare("Mobile Phone Number", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> PREFFERRED_PHONE_NUMBER = declare("Preferred Phone #", ComboBox.class);
@@ -581,7 +581,6 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<TextBox> REASON_CLAIM_IS_NOT_CHARGEABLE = declare("Reason claim is not chargeable", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<AssetListConfirmationDialog> ACTIVITY_REMOVE_CONFIRMATION =
 					declare("Activity remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmEliminateInstance_Dialog_container"));
-			public static final AssetDescriptor<StaticElement> CLAIM_MODIFIED_WARNING_MESSAGE = declare("Underwriting approval is required for claim(s) that have been modified", StaticElement.class, By.id("policyDataGatherForm:warningMsg"));
 		}
 
 		public static final class RentalInformation extends MetaData {
@@ -1414,7 +1413,10 @@ public final class HomeSSMetaData {
 				By.xpath(String.format("//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//select", HomeSSCoverages.HURRICANE_DEDUCTIBLE.get())));
 		public static final AssetDescriptor<ComboBox> COVERAGE_C_BUILDING = declare(HomeSSCoverages.COVERAGE_C_BUILDING.get(), ComboBox.class, Waiters.AJAX, true,
 				By.xpath(String.format("//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//select", HomeSSCoverages.COVERAGE_C_BUILDING.get())));
-		public static final AssetDescriptor<JavaScriptButton> CALCULATE_PREMIUM = declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, By.id("policyDataGatherForm:actionButton_AAAHORateAction"));
+		//public static final AssetDescriptor<JavaScriptButton> CALCULATE_PREMIUM = declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, By.id("policyDataGatherForm:actionButton_AAAHORateAction"));
+		public static final AssetDescriptor<JavaScriptButton> CALCULATE_PREMIUM =
+				declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:actionButton_AAAHORateAction'or @id='policyDataGatherForm:calculatePremium_AAAHORateAction']"));
+
 		public static final AssetDescriptor<DialogAssetList> OVERRRIDE_PREMIUM_DIALOG = declare("Override Premium", DialogAssetList.class, OverridePremiumDialog.class,
 				By.xpath("//form[@id='premiumOverrideInfoFormAAAHOPremiumOverride']"));
 

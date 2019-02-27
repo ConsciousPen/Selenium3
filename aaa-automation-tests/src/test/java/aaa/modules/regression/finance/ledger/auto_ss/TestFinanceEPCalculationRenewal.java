@@ -2,8 +2,6 @@ package aaa.modules.regression.finance.ledger.auto_ss;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -83,10 +81,7 @@ public class TestFinanceEPCalculationRenewal extends FinanceOperations {
 		SearchPage.openPolicy(policyNumber, "Policy Active");
 		PolicySummaryPage.buttonTransactionHistory.click();
 
-		assertThat(LedgerHelper.getEndingActualPremium(policyNumber))
-				.isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
-
-		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.CANCEL);
-		validateEPCalculations(policyNumber, txTypes, today, expirationDate);
+		assertThat(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber, "renewal", true)))
+				.isEqualTo(LedgerHelper.getEndingActualPremium(policyNumber));
 	}
 }

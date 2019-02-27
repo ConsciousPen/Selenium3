@@ -78,8 +78,8 @@ public class TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment extends 
 		BigDecimal issueEndingPremium = LedgerHelper.toBigDecimal(PolicySummaryPage.tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, "Issue")
 				.getCell(PolicyConstants.PolicyTransactionHistoryTable.ENDING_PREMIUM).getValue());
 
-		assertThat(new Dollar(issueEndingPremium))
-				.isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
+		assertThat(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)))
+				.isEqualTo(new Dollar(issueEndingPremium));
 
 		List<TxType> txTypes = Arrays.asList(TxType.ISSUE);
 		List<TxWithTermPremium> txsWithPremiums = createTxsWithPremiums(policyNumber, txTypes);
