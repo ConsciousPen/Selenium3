@@ -101,7 +101,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE_CHOICE = ImmutableMap.of(CLAIM_NUMBER_1, "D1278111", CLAIM_NUMBER_2, "D1278111");
     private static final String COMP_DL_PU_CLAIMS_DATA_MODEL_SELECT = "comp_dl_pu_claims_data_model_select.yaml";
     private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE_SELECT = ImmutableMap.of(CLAIM_NUMBER_1, "D5435433", CLAIM_NUMBER_2, "D5435433");
-   // private static final String DL_NAME_RECONCILEFNICLAIMS_DATA_MODEL_CHOICE= "dl_name_reconcileFNIclaims_data_model.yaml";
     protected boolean updatePUFlag = false;
     protected boolean secondDriverFlag = false;
 
