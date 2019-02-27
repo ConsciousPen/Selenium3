@@ -46,11 +46,17 @@ public class Coverage {
 	@ApiModelProperty(value = "List of drivers that the coverage is applied to")
 	private LinkedHashSet<String> currentlyAddedDrivers;
 
-	@ApiModelProperty(value = "Relatives Covered")
-	private LinkedHashSet<String> relativesCovered;
-
 	@ApiModelProperty(value = "List of sub coverages associated to the coverage")
 	private List<Coverage> subCoverages;
+
+    @ApiModelProperty(value = "List of relatives included in the coverage")
+    public List<String> relativesCovered;
+
+    @ApiModelProperty(value = "Insurer Name", example = "John Smith")
+    public String insurerName;
+
+    @ApiModelProperty(value = "Certificate Number", example = "456785")
+    public String certNum;
 
 	public static Coverage create(CoverageInfo coverageInfo) {
 		Coverage coverage = new Coverage();
@@ -196,6 +202,15 @@ public class Coverage {
 		return subCoverages;
 	}
 
+    public List<String> getRelativesCovered() {
+        return relativesCovered;
+    }
+
+    public Coverage setRelativesCovered(List<String> relativesCovered) {
+        this.relativesCovered = relativesCovered;
+        return this;
+    }
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -215,6 +230,7 @@ public class Coverage {
 				Objects.equals(getAvailableLimits(), coverage.getAvailableLimits()) &&
 				Objects.equals(getAvailableDrivers(), coverage.getAvailableDrivers()) &&
 				Objects.equals(getCurrentlyAddedDrivers(), coverage.getCurrentlyAddedDrivers()) &&
+				Objects.equals(getRelativesCovered(), coverage.getRelativesCovered()) &&
 				Objects.equals(getSubCoverages(), coverage.getSubCoverages());
 	}
 
@@ -222,7 +238,7 @@ public class Coverage {
 	public int hashCode() {
 		return Objects.hash(getCoverageCd(), getCoverageDescription(), getCoverageLimit(), getCoverageLimitDisplay(),
 				getCoverageType(), getCustomerDisplayed(), getCanChangeCoverage(), getAvailableLimits(),
-				getAvailableLimits(), getCurrentlyAddedDrivers(), getSubCoverages());
+				getAvailableLimits(), getCurrentlyAddedDrivers(), getRelativesCovered(), getSubCoverages());
 	}
 
 	@Override
@@ -238,6 +254,7 @@ public class Coverage {
 				", availableLimits=" + availableLimits +
 				", availableDrivers=" + availableDrivers +
 				", currentlyAddedDrivers=" + currentlyAddedDrivers +
+				", relativesCovered=" + relativesCovered +
 				", subCoverages=" + subCoverages +
 				'}';
 	}
