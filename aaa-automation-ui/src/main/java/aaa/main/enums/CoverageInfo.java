@@ -39,6 +39,7 @@ public enum CoverageInfo {
 	PIPCOVINCLUDES_NJ("PIPCOVINCLUDES", "Coverage Includes", CoverageLimits.COV_PIPCOVINCLUDES_NI, AvailableCoverageLimits.COV_PIPCOVINCLUDES_NJ, null),
 	DEATHBENEFIT_NJ("DEATHBENEFIT", "Death Benefits", CoverageLimits.COV_10000, null, null),
 	APIP_NJ("APIP", "Added Personal Injury Protection", CoverageLimits.COV_FALSE, AvailableCoverageLimits.COV_APIP_NJ, null),
+	APIP_NME_NO_NJ("APIP", "Added Personal Injury Protection", CoverageLimits.COV_TRUE, AvailableCoverageLimits.COV_APIP_NJ, null),
 	APIP_NME_YES_PIP_YES_NJ("APIP", "Added Personal Injury Protection", CoverageLimits.COV_TRUE, AvailableCoverageLimits.COV_APIP_NJ, null),
 	INCCONT_NJ("INCCONT", "Income Continuation", null, null, null),
 	ESSENSERV_NJ("ESSENSERV", "Essential Services", null, null, null),

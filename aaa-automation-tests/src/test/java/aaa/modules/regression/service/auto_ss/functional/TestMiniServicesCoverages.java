@@ -1547,6 +1547,36 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	}
 
 	/**
+	 * @author Jovita Pukenaite
+	 * @name Update Coverage - PIP - New Jersey
+	 * @scenario
+	 * 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Update Coverages: Medical Expense,
+	 * Medical Expense Deductible and Extended Medical Payments.
+	 * 4. Check response.
+	 * 5. Update Non-Medical Expense = No.
+	 * 6. Check the response.
+	 * 7. Update Non-Medical Expense = Yes and
+	 * Additional Personal Injury Protection Benefit = No
+	 * 8. Check the response
+	 * 9. Return back Additional Personal Injury Protection Benefit = Yes,
+	 * change Weekly Income Continuation Benefits and Length of Income Continuation
+	 * 10. Check response.
+	 *
+	 * Note: "Coverage Includes" coverage was covered with PAS-25531
+	 * and "Primary Insurer" with PAS-23975
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23997"})
+	public void pas23997_updatePipCoveragesNJ(@Optional("NJ") String state) {
+		assertSoftly(softly ->
+				pas23997_updatePipCoveragesNJbody(softly))
+		;}
+
+	/**
 	 * @author Maris Strazds
 	 * @name
 	 * @scenario
