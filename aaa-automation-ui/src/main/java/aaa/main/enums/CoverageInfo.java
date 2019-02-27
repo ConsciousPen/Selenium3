@@ -28,8 +28,6 @@ public enum CoverageInfo {
 	PIP_MD("PIP", "Personal Injury Protection", CoverageLimits.COV_PIP_2500_GUEST, AvailableCoverageLimits.COV_PIP_MD, "Per Person"),
 	PIP_NJ("PIP", "Personal Injury Protection", null, null, null),
 	PIPPRIMINS_NJ("PIPPRIMINS", "Primary Insurer", CoverageLimits.COV_PIPPRIMINS_AUTO_INSURANCE, AvailableCoverageLimits.COV_PIPRIMINS_NJ, null),
-	INSNAME1_NJ("INSNAME1", "Insurer Name", null, null, null),//subCoverage of PIPPRIMINS_NJ
-	CERTNUM1_NJ("CERTNUM1", "Policy / Group # /Certificate #", null, null, null),//subCoverage of PIPPRIMINS_NJ
 	PIPNONMEDEXP_NJ("PIPNONMEDEXP", "Non-Medical Expense", CoverageLimits.COV_FALSE, AvailableCoverageLimits.COV_PIPNONMEDEXP_NJ, null),
 	PIPNONMEDEXP_NME_NO_NJ("PIPNONMEDEXP", "Non-Medical Expense", CoverageLimits.COV_TRUE, AvailableCoverageLimits.COV_PIPNONMEDEXP_NJ, null),
 	PIPMEDEXP_NJ("PIPMEDEXP", "Medical Expense", CoverageLimits.COV_150000, AvailableCoverageLimits.COV_PIPMEDEXP_NJ, null),
