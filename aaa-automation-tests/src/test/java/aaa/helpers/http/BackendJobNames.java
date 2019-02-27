@@ -46,6 +46,7 @@ public class BackendJobNames {
 		storage.put(GroupJobs.groupautomatedProcessingRatingJob.getJobName(), "AutomatedProcessingRatingJob");
 		storage.put(GroupJobs.groupaaaMortgageeRenewalReminderAndExpNoticeAsyncJob.getJobName(), "aaaMortgageeRenewalReminderAndExpNoticeAsyncJob");
 		storage.put(GroupJobs.groupaaaRefundDisbursementAsyncJob.getJobName(), "aaaRefundDisbursementAsyncJob");
+		storage.put(GroupJobs.groupAAAEscheatmentProcessAsyncJob.getJobName(), "aaaEscheatmentProcessAsyncJob");
 
 
 		if(storage.containsKey(jobName)){

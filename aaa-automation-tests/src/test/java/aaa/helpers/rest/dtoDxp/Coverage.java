@@ -211,6 +211,23 @@ public class Coverage {
         return this;
     }
 
+	public String getInsurerName() {
+		return insurerName;
+	}
+	public String getCertNum(){
+		return certNum;
+	}
+
+	public Coverage addInsurerName(String insurerName) {
+		this.insurerName = insurerName;
+		return this;
+	}
+
+	public Coverage addCertNum(String certNum) {
+		this.certNum = certNum;
+		return this;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -230,6 +247,9 @@ public class Coverage {
 				Objects.equals(getAvailableLimits(), coverage.getAvailableLimits()) &&
 				Objects.equals(getAvailableDrivers(), coverage.getAvailableDrivers()) &&
 				Objects.equals(getCurrentlyAddedDrivers(), coverage.getCurrentlyAddedDrivers()) &&
+				Objects.equals(getSubCoverages(), coverage.getSubCoverages()) &&
+				Objects.equals(getInsurerName(), coverage.getInsurerName()) &&
+				Objects.equals(getCertNum(), coverage.getCertNum()) &&
 				Objects.equals(getRelativesCovered(), coverage.getRelativesCovered()) &&
 				Objects.equals(getSubCoverages(), coverage.getSubCoverages());
 	}
@@ -238,7 +258,7 @@ public class Coverage {
 	public int hashCode() {
 		return Objects.hash(getCoverageCd(), getCoverageDescription(), getCoverageLimit(), getCoverageLimitDisplay(),
 				getCoverageType(), getCustomerDisplayed(), getCanChangeCoverage(), getAvailableLimits(),
-				getAvailableLimits(), getCurrentlyAddedDrivers(), getRelativesCovered(), getSubCoverages());
+				getAvailableLimits(), getCurrentlyAddedDrivers(), getSubCoverages(), getInsurerName(), getCertNum(), getRelativesCovered());
 	}
 
 	@Override
@@ -254,8 +274,10 @@ public class Coverage {
 				", availableLimits=" + availableLimits +
 				", availableDrivers=" + availableDrivers +
 				", currentlyAddedDrivers=" + currentlyAddedDrivers +
-				", relativesCovered=" + relativesCovered +
 				", subCoverages=" + subCoverages +
+				", insurerName=" + insurerName +
+				", certNum=" + certNum +
+				", relativesCovered=" + relativesCovered +
 				'}';
 	}
 }
