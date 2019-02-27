@@ -209,8 +209,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      */
     public void initiateAddDriverEndorsement(String policyNumber, TestData addDriverTd) {
         mainApp().open();
-        //SearchPage.openPolicy(policyNumber);
-        SearchPage.openPolicy("CAAC952918550");
+        SearchPage.openPolicy(policyNumber);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         if(secondDriverFlag) {
             policy.getDefaultView().fillUpTo(getTestSpecificTD("Add_Driver2_Endorsement"), DriverTab.class, true);
@@ -226,7 +225,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         }
 
         policy.getDefaultView().fill(addDriverTd);
-
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         premiumAndCoveragesTab.calculatePremium();
         premiumAndCoveragesTab.submitTab();
@@ -344,7 +342,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     // Assertions for COMP and DL Tests: PAS-22172
     public void puDropAssertions(String COMP_MATCH, String PU_MATCH) {
         // Check 1st driver: Contains only one Matched Claim (Verifying that comp claim has not moved)
-        activityAssertions(5, 1, 1, 1, "Internal Claims", COMP_MATCH, false);
+        activityAssertions(5, 1, 1, 1, "Internal Claims", COMP_MATCH, true);
 
         // Check 5th driver: Original Permissive Use claim should be on the newly added driver
         activityAssertions(5, 5, 1, 1, "CLUE", PU_MATCH, false);
@@ -798,10 +796,10 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         //Set test date for endorsement
         TestData addDriverTd = getTestSpecificTD("Add_PU_Claim_Driver_Endorsement_CA");
-        //Initiate an endorsement: Add AFR Driver, calculate premium and order clue
+        //Initiate an endorsement: Add AFR Driver2, calculate premium and order clue
         updatePUFlag = true;
         initiateAddDriverEndorsement(policyNumber, addDriverTd);
-        //Navigate to Driver page and verify PU claim moved from FNI to newly added driver
+        //Navigate to Driver page and verify PU claim moved from FNI to newly added driver2
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         //Check the Driver 2 has CLUE claim
         activityAssertions(2, 2, 1, 1, "CLUE", CAS_CLUE_CLAIM,false);
@@ -810,6 +808,12 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     }
 
     public void pas24587_ClueReconcilePUAFRUserFlagged(){
+        // Toggle ON PermissiveUse Logic
+        // Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
+        // Set RISKSTATECD in DB to get policy DATEOFLOSS working
+        DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
+        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
+
         //Create a policy with 2 drivers
         TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_ClueReconcileFNIclaims_PU").resolveLinks();
         adjusted = getPolicyTD().adjust(testDataForFNI);
@@ -820,7 +824,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Initiate 1st endorsement
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
-//        SearchPage.openPolicy("CAAS952918580");
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         //Driver2 clue claim is reassigned to driver1
@@ -843,8 +846,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
         TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusMonths(2));
 
-
         //Initiate 2nd endorsement
+        updatePUFlag = true;
         secondDriverFlag = true;
         TestData addSecondDriverTd = getPolicyTD("Endorsement", "TestData");
         //Add Driver2 again and Order Clue report
