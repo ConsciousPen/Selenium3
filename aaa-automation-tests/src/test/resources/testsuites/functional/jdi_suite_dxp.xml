@@ -1126,6 +1126,7 @@
                     <include name="pas15353_viewPIPNonMedExpenseNoNJ"/>
                     <include name="pas19161_viewPIPNonMedExpenseYesNJ"/>
                     <include name="pas19163_viewPipYesAndNonMedExpenseYesNJ"/>
+                    <include name="pas23975_viewUpdatePIPPrimaryInsurerNJ"/>
                 </methods>
             </class>
         </classes>
