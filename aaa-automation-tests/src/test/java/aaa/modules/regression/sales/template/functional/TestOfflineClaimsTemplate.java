@@ -88,6 +88,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     protected static DriverTab driverTab = new DriverTab();
     protected static PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
     protected static DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+    protected static PasLogGrabber pasLogGrabber = new PasLogGrabber();
 
     @BeforeTest
     public void prepare() {
