@@ -151,7 +151,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		
 		policy.policyDocGen().start();
 		odd_tab.verify.documentsPresent(null, true, Documents.AAUBI, Documents.ACPUBI, Documents.AAUBI1);
-		odd_tab.generateDocuments(false, DocGenEnum.DeliveryMethod.LOCAL_PRINT, null, null, null, 
+		odd_tab.generateDocuments(true, DocGenEnum.DeliveryMethod.LOCAL_PRINT, null, null, null,
 				Documents.AAUBI, Documents.ACPUBI, Documents.AAUBI1);
 		DocGenHelper.verifyDocumentsGenerated(true, false, policyNumber, Documents.AAUBI, Documents.ACPUBI, Documents.AAUBI1);
 		verifyOneDocumentGenerated(policyNumber, "AAUBI");
@@ -173,7 +173,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		
 		policy.policyDocGen().start();
 		odd_tab.verify.documentsPresent(Documents.AAPDXX);
-		odd_tab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, null, Documents.AAPDXX);
+		odd_tab.generateDocuments(true, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, null, Documents.AAPDXX);
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AAPDXX);
 		verifyOneDocumentGenerated(policyNumber, "AAPDXX");
 	}
