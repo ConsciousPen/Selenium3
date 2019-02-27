@@ -29,6 +29,7 @@ import aaa.common.enums.RestRequestMethodTypes;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.claim.BatchClaimHelper;
+import aaa.helpers.claim.ClaimAnalyticsJSONTags;
 import aaa.helpers.claim.ClaimCASResponseTags;
 import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import aaa.helpers.claim.datamodel.claim.Claim;
@@ -426,7 +427,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
         for (int i = 0; i <= listOfClaims.size() - 1; i++) {
             JSONObject specificClaimData = new JSONObject(listOfClaims.get(i)).getJSONObject("claims-assignment");
-            if (specificClaimData.getString("claimNumber").equals(claimNumber) && specificClaimData.getString("policyNumber").equals(policyNumber)) {
+            if (specificClaimData.getString(ClaimAnalyticsJSONTags.TagNames.CLAIM_NUMBER).equals(claimNumber) && specificClaimData
+                    .getString(ClaimAnalyticsJSONTags.TagNames.POLICY_NUMBER).equals(policyNumber)) {
                 claimValue = specificClaimData.get(key).toString();
             } else {
                 log.info("Moving to the next Claim List Item.. Required Claim in this Claim Analytics JSON Item couldn't be found. Claim Number: "
