@@ -26,10 +26,6 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 
 	@Override
 	public TestData getRatingData(AutoCaChoiceOpenLPolicy openLPolicy) {
-		//		String defaultEffectiveDate = getRatingDataPattern().getValue(
-		//				new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel());
-		//		openLPolicy.setEffectiveDate(TimeSetterUtil.getInstance().parse(defaultEffectiveDate, DateTimeUtils.MM_DD_YYYY).toLocalDate());
-
 		TestData td = DataProviderFactory.dataOf(
 				new PrefillTab().getMetaKey(), getPrefillTabData(),
 				new DriverTab().getMetaKey(), getDriverTabData(openLPolicy),
