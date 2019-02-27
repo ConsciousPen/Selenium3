@@ -143,8 +143,8 @@ public class HelperMiniServices extends PolicyBaseTest {
 		return orderReportErrorResponse;
 	}
 
-	boolean hasError(ErrorResponseDto errorResponseDto, ErrorDxpEnum.Errors expectedError) {//TODO-mstrazds:remove redundant lines in places where already used
-		assertThat(errorResponseDto.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());//TODO-mstrazds:softly?
+	boolean hasError(ErrorResponseDto errorResponseDto, ErrorDxpEnum.Errors expectedError) {
+		assertThat(errorResponseDto.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 		assertThat(errorResponseDto.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 		return errorResponseDto.errors.stream().anyMatch(error -> "attributeForRules".equals(error.field)
 						&& expectedError.getCode().equals(error.errorCode)
