@@ -93,7 +93,7 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 				HSU09XX,
 				AHAPXX
 		);
-		goddTab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, null, _58_4000);
+		goddTab.generateDocuments(true, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, null, _58_4000);
 		DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, _58_4000, AHPNCA);
 
 		goddTab.cancel();
@@ -107,7 +107,7 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 
 		GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 		policy.quoteDocGen().start();
-		goddTab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, getTestSpecificTD("QuoteGenerateHSU"),
+		goddTab.generateDocuments(true, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, getTestSpecificTD("QuoteGenerateHSU"),
 				HSU03XX,
 				HSU04XX,
 				HSU05XX,
@@ -165,7 +165,7 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 		goddTab.verify.documentsEnabled(softly, false,
 				AHAPXX,
 				WURFICA_PUP);
-		goddTab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, null, _58_4000);
+		goddTab.generateDocuments(true, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, null, _58_4000);
 		DocGenHelper.verifyDocumentsGenerated(softly, policyNum, _58_4000, AHPNCA);
 
 		goddTab.cancel();
@@ -180,7 +180,7 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 		GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 
 		policy.policyDocGen().start();
-		goddTab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, getTestSpecificTD("PolicyGenerateHSU"),
+		goddTab.generateDocuments(true, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, getTestSpecificTD("PolicyGenerateHSU"),
 				HSU04XX,
 				HSU05XX,
 				HSU08XX,

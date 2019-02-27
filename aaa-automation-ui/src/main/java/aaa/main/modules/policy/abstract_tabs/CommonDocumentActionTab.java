@@ -104,7 +104,7 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 			submitTab();
 			
 			if (waitForPolicy == true) 
-			 PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+			 PolicySummaryPage.labelPolicyNumber.waitForAccessible(30000);
 			WebDriverHelper.switchToDefault();
 		}
 	}
