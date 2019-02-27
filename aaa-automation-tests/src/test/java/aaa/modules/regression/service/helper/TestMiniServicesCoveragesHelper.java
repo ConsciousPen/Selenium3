@@ -5666,7 +5666,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertThat(covPIPEXTMEDPMEActual).isEqualToComparingFieldByField(covPIPEXTMEDPMExpected);
 
 		//Validate APIP subCoverages
-		assertThat(covINCCONTActual).isEqualToComparingFieldByField(covINCCONTExpected);
+		assertThat(covINCCONTActual).isEqualToIgnoringGivenFields(covINCCONTExpected, "availableLimits");//Do not care about available limits as customerDisplay and canChange is false.
 		assertThat(covESSENSERVActual).isEqualToComparingFieldByField(covESSENSERVExpected);
 		assertThat(covFUNEXPActual).isEqualToComparingFieldByField(covFUNEXPExpected);
 	}
