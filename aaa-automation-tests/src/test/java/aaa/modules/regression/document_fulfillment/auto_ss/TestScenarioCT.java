@@ -3,6 +3,7 @@ package aaa.modules.regression.document_fulfillment.auto_ss;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -49,6 +50,8 @@ public class TestScenarioCT extends AutoSSBaseTest {
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		JobUtils.executeJob(Jobs.aaaCCardExpiryNoticeJob);
+		//TODO aperapecha: DocGen - remove shift after upgrade
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._60_5006); //CCEXPIRATION_NOTICE
 	}

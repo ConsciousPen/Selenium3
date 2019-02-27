@@ -29,7 +29,7 @@
             <class name="aaa.modules.docgen.auto_ss.TestScenario4"/>
         </classes>
     </test>
-    <test name="TestScenario4_IN">
+    <test name="TestScenario4_IN" parallel="methods">
         <parameter name="state" value="IN"/>
         <classes>
             <class name="aaa.modules.docgen.auto_ss.TestScenario4_IN"/>

@@ -12,7 +12,7 @@ import javax.xml.ws.WebServiceFeature;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.transport.http.HTTPConduitConfigurer;
-import org.mortbay.log.Log;
+import org.slf4j.LoggerFactory;
 import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import aaa.soap.AAAHTTPConfigurer;
 
@@ -26,7 +26,7 @@ import aaa.soap.AAAHTTPConfigurer;
         wsdlLocation = "http://nvdxpas2agl006.tent.trt.csaa.pri:9095/aaa-admin/services/1.6/aaaSSPolicyRate?wsdl",
         targetNamespace = "http://exigenservices.com/ipb/policy/integration")
 public class SSPolicyRateService extends Service {
-
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(SSPolicyRateService.class);
     public static final URL WSDL_LOCATION;
 
     public static final QName SERVICE = new QName("http://exigenservices.com/ipb/policy/integration", "SSPolicyRateService");
@@ -42,7 +42,7 @@ public class SSPolicyRateService extends Service {
         }
         Bus bus = BusFactory.getThreadDefaultBus();
         HTTPConduitConfigurer conf = new AAAHTTPConfigurer("qa", "qa");
-        Log.info("Logged as : qa");
+        log.info("Logged as : qa");
         bus.setExtension(conf, HTTPConduitConfigurer.class);
         WSDL_LOCATION = url;
     }
