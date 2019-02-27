@@ -612,12 +612,16 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._60_5000);
 
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
 		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeRestriction"), "($16.00)");
 		//TODO aperapecha: DocGen - remove shift after upgrade
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._60_5003);
 
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
 		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeNoRestriction"), "($18.00)");
 		verifyPaymentDeclinedTransactionPresent("18");
 		verifyFeeTransaction("NSF fee - without restriction");
@@ -627,6 +631,8 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._60_5001);
 
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
 		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_NoFeeNoRestriction"), "($19.00)");
 		verifyPaymentDeclinedTransactionPresent("19");
 		verifyPaymentTransactionBecameDeclined("-19");

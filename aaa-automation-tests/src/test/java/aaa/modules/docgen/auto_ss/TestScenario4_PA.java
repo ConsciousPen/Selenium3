@@ -175,21 +175,19 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 		Tab.buttonCancel.click();
 
 		BillingSummaryPage.open();
-		Dollar _curRnwlAmt = new Dollar(BillingSummaryPage.tableInstallmentSchedule.getRow(12).getCell(BillingConstants.BillingInstallmentScheduleTable.BILLED_AMOUNT).getValue());
+		Dollar _curRnwlAmt = BillingSummaryPage.getBillableAmount();
 		Dollar _instlFee = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Non EFT Installment Fee")
 				.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
 		Dollar _sr22Fee = new Dollar(0);
-		curRnwlAmt = _curRnwlAmt.subtract(_instlFee).subtract(_sr22Fee).toString().replace("$", "").replace(",", "");
-		totNwCrgAmt = formatValue(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
-		plcyPayMinAmt = formatValue(BillingSummaryPage.getMinimumDue().toString());
+		curRnwlAmt = _curRnwlAmt.subtract(_instlFee).subtract(_sr22Fee).toPlaingString();
+		totNwCrgAmt = BillingHelper.getBillDueAmount(policyExpirationDate, "Bill").toPlaingString();
+		plcyPayMinAmt = BillingSummaryPage.getMinimumDue().toPlaingString();
 		plcyDueDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance()
 				.parse(BillingSummaryPage.tableBillsStatements.getRow(BillingConstants.BillingBillsAndStatmentsTable.TYPE, "Bill").getCell(BillingConstants.BillingBillsAndStatmentsTable.DUE_DATE)
 						.getValue(), DateTimeUtils.MM_DD_YYYY));
-		plcyTotRnwlPrem =
-				formatValue(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Renewal - Policy Renewal Proposal")
-						.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
-		instlFee = formatValue(_instlFee.toString());
-		sr22Fee = formatValue(_sr22Fee.toString());
+		plcyTotRnwlPrem = BillingHelper.getPolicyRenewalProposalSum(renewOfferBillGenDate, policyNumber).toPlaingString();
+		instlFee = _instlFee.toPlaingString();
+		sr22Fee = _sr22Fee.toPlaingString();
 
 		// verify the xml file AHRBXX
 		softly = new ETCSCoreSoftAssertions();
@@ -207,10 +205,6 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 						.adjust(TestData.makeKeyPath("AHRBXX", "PaymentDetails", "InstlFee", "TextField"), instlFee),
 				policyNumber, softly);
 		softly.close();
-	}
-
-	private String formatValue(String value) {
-		return new Dollar(value.replace("\n", "")).toString().replace("$", "").replace(",", "");
 	}
 
 }

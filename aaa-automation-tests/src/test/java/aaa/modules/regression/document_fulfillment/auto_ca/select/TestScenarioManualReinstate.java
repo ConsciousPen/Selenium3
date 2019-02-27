@@ -35,7 +35,7 @@ public class TestScenarioManualReinstate extends AutoCaSelectBaseTest {
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusDays(1));
 		
-		mainApp().reopen();
+		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		
 		log.info("TEST: Reinstate Policy #" + policyNum);

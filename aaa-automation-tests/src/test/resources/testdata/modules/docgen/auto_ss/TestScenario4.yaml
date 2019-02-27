@@ -8,7 +8,7 @@ TestData: {
 }
 
 PremiumAndCoveragesTab: {
-  Payment Plan: 'Annual',
+  Payment Plan: 'Semi-Annual',
   Policy Term: Annual,
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Comprehensive Deductible: 'contains=$750',

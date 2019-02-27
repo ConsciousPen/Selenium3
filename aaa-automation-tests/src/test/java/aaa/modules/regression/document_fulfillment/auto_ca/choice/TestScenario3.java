@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
@@ -29,6 +30,8 @@ public class TestScenario3 extends AutoCaChoiceBaseTest {
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH61XX);
 
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
 		policy.reinstate().perform(getTestSpecificTD("TestData_Reinstate"));
