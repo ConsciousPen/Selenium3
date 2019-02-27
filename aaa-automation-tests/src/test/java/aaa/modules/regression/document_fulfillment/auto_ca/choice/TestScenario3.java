@@ -25,7 +25,7 @@ public class TestScenario3 extends AutoCaChoiceBaseTest {
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData_SubstantialIncrease"));
 
 		//TODO aperapecha: DocGen - remove shift after upgrade
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH61XX);
 
@@ -33,7 +33,7 @@ public class TestScenario3 extends AutoCaChoiceBaseTest {
 
 		policy.reinstate().perform(getTestSpecificTD("TestData_Reinstate"));
 		//TODO aperapecha: DocGen - remove shift after upgrade
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH62XX);
 	}

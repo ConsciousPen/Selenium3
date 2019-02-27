@@ -50,7 +50,7 @@ public class TestScenario2 extends AutoCaChoiceBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Approved").verifyPresent();
 		//billing.issueRefund().perform(amount);
 		//TODO aperapecha: DocGen - remove shift after upgrade
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 

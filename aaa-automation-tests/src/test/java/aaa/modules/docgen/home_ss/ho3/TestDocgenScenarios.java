@@ -382,7 +382,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData_NewBusinessRescissionNSF"));
 		//TODO aperapecha: DocGen - remove shift after upgrade
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH60XXA);
 	}
@@ -608,13 +608,13 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		verifyFeeTransaction("NSF fee - with restriction");
 		verifyPaymentTransactionBecameDeclined("-17");
 		//TODO aperapecha: DocGen - remove shift after upgrade
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._60_5000);
 
 		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeRestriction"), "($16.00)");
 		//TODO aperapecha: DocGen - remove shift after upgrade
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._60_5003);
 
@@ -623,7 +623,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		verifyFeeTransaction("NSF fee - without restriction");
 		verifyPaymentTransactionBecameDeclined("-18");
 		//TODO aperapecha: DocGen - remove shift after upgrade
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._60_5001);
 
@@ -631,7 +631,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		verifyPaymentDeclinedTransactionPresent("19");
 		verifyPaymentTransactionBecameDeclined("-19");
 		//TODO aperapecha: DocGen - remove shift after upgrade
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._60_5002);
 
@@ -664,7 +664,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 		//TODO aperapecha: DocGen - remove shift after upgrade
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		if (getState().equals(Constants.States.PA)) {
 			DocGenHelper.verifyDocumentsGenerated(false, true, policyNum, DocGenEnum.Documents.AH61XX);
@@ -713,7 +713,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		//billing.issueRefund().perform(amount);
 
 		//TODO aperapecha: DocGen - remove shift after upgrade
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 

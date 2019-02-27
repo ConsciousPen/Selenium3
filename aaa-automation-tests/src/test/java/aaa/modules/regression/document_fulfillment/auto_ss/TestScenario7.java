@@ -30,7 +30,7 @@ public class TestScenario7 extends AutoSSBaseTest {
 		String policyNum = createPolicy();
 		policy.cancel().perform(getTestSpecificTD("TestData_Cancellation"));
 		//TODO aperapecha: DocGen - remove shift after upgrade
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.AH60XXA);
 	}
