@@ -98,6 +98,10 @@ public class WebDriverHelper {
 				+ " and contains(@style,'none')]) and not(ancestor-or-self::*[contains(@style,'visibility') and contains(@style,'hidden')])]", text)));
 	}
 
+	/**
+	 * Gets list of open window handles and change the web driver's focus based on tab index.
+	 * @param index
+	 */
 	public static void switchToBrowserTab(Integer index){
 		Set<String> _set = BrowserController.get().driver().getWindowHandles();
 		List<String> _list = new ArrayList<>(_set);
