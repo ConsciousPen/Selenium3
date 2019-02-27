@@ -4,7 +4,6 @@ import java.util.Map;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
@@ -19,8 +18,6 @@ import toolkit.utils.TestInfo;
 @StateList(states = {Constants.States.CA})
 public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
 
-    private static final String CLAIM_NUMBER_1 = "Claim-GDD-111";
-    private static final String CLAIM_NUMBER_2 = "Claim-GDD-222";
     private static final String GDD_PU_CLAIMS_DATA_MODEL = "gdd_PUClaims_data_model.yaml";
 
     @Override
@@ -55,12 +52,7 @@ public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = {"PAS-18303", "PAS-23190", "PAS-18317"})
     public void pas18303_goodDriverDiscountForPUClaims(@Optional("CA") @SuppressWarnings("unused") String state) {
 
-        // Claim Dates: claimDateOfLoss/claimOpenDate/claimCloseDate all are the same
-        String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
-        String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(80).toLocalDate().toString();
-
-        Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS =
-                ImmutableMap.of(CLAIM_NUMBER_1, claim1_dates, CLAIM_NUMBER_2, claim2_dates);
+        Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS = ImmutableMap.of(CLAIM_NUMBER_1_GDD, claim1_dates_gdd, CLAIM_NUMBER_2_GDD, claim2_dates_gdd);
 
         //Adjusted Test Data for: CCInput/CLUE/Internal Claims
         TestData testDataForCLUE = getTestSpecificTD("TestData_DriverTab_DiscountsGDD_CAS").resolveLinks();

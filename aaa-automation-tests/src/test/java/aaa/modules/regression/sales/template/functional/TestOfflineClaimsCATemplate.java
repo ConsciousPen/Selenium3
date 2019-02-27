@@ -87,6 +87,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     protected TestData adjusted;
     protected LocalDateTime policyExpirationDate;
     protected String policyNumber;
+    // Claim Dates: For CAS Response
+    protected String claim1_dates_gdd = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
+    protected String claim2_dates_gdd = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(80).toLocalDate().toString();
 
     protected static DriverTab driverTab = new DriverTab();
     protected static PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
@@ -99,11 +102,12 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     private static final String CLAIM_NUMBER_1 = "1002-10-8702";
     private static final String CLAIM_NUMBER_2 = "1002-10-8703";
     private static final String CLAIM_NUMBER_3 = "1002-10-8704";
+    protected static final String CLAIM_NUMBER_1_GDD = "Claim-GDD-111";
+    protected static final String CLAIM_NUMBER_2_GDD = "Claim-GDD-222";
     private static final String COMP_DL_PU_CLAIMS_DATA_MODEL_CHOICE = "comp_dl_pu_claims_data_model_choice.yaml";
     private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE_CHOICE = ImmutableMap.of(CLAIM_NUMBER_1, "D1278111", CLAIM_NUMBER_2, "D1278111");
     private static final String COMP_DL_PU_CLAIMS_DATA_MODEL_SELECT = "comp_dl_pu_claims_data_model_select.yaml";
     private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE_SELECT = ImmutableMap.of(CLAIM_NUMBER_1, "D5435433", CLAIM_NUMBER_2, "D5435433");
-
 
     @BeforeTest
     public void prepare() {
@@ -838,9 +842,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
    Method Validates NB quote: Good Driver Discount validation & PU indicator visibility on different Drivers
 	*/
     protected void validateGDDAndPUIndicatorOnNB(TestData td, TestData td2) {
-        // Select First Named Insured Driver and navigate again to Driver Activity Reports to Order CLUE
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-        DriverTab.viewDriver(1);
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
         driverActivityReportsTab.fillTab(td);
 
