@@ -1488,7 +1488,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	}
 
 	/**
-	 * @author Maris Strazds//TODO-mstrazds:
+	 * @author Maris Strazds
 	 * @name View Coverage - PIP in NJ- "Non-Medical Expense" = "No"
 	 * @scenario
 	 * 1. Create policy in PAS
