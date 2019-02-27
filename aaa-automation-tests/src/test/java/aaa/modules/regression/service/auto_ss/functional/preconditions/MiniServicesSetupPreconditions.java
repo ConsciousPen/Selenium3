@@ -62,4 +62,10 @@ public class MiniServicesSetupPreconditions {
 			+ "    ('AAARolloutEligibilityLookupValue', 'RESTUpdateCoverages', 'FALSE', 'AAA_SS', 'AZ',\n"
 			+ "    (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
+	public static final String AAA_LOOKUP_CONFIG_ENABLE_CANCHANGE_FOR_STATE_COVERAGE = "INSERT into LOOKUPVALUE (lookuplist_id, dtype, code, displayValue, productCd, riskStateCd, coveragecd)\n"
+			+ "values((SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAAPortalCoveragesSettings'), 'AAAPortalCoveragesSettingsLookupValue', 'coverageEditable', 'TRUE', 'AAA_SS', '%s', '%s')";
+
+	public static final String AAA_LOOKUP_CONFIG_GET_CANCHANGE_FOR_STATE_COVERAGE = "select * from LOOKUPVALUE WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAAPortalCoveragesSettings'\n)"
+			+ "and CODE = 'coverageEditable' and riskstatecd = '%s'\n"
+			+ "and coveragecd = '%s'";
 }

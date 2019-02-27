@@ -1028,6 +1028,13 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     }
 
     @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23456")
+    public void pas23456_MPD_Allow_MTEBind(@Optional("") String state) {
+        doMTEAllowBindTest(false, "Home");
+    }
+
+    @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
     public void pas23456_MPD_Prevent_Renewal(@Optional("") String state) {
@@ -1065,7 +1072,25 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         fillFromGeneralTabToErrorMsg();
 
         // Validate error message appears.
-        validateMTEBindError(in_policyType);
+        validateMTEBindError();
+    }
+
+    private void doMTEAllowBindTest(Boolean bFlatEndorsement, String in_policyType){
+        // Create Policy and Initiate Endorsement
+        openAppCreatePolicy();
+
+        handleEndorsementType(bFlatEndorsement);
+
+        // Add MPD Element via Customer Search
+        _generalTab.mpd_SearchCustomerDetails("CUSTOMER_E");
+        _generalTab.mpdSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
+        _generalTab.mpd_SearchCustomerDetails("CUSTOMER_NE");
+        _generalTab.mpdSearchTable_addSelected(1);
+
+        fillFromGeneralTabToErrorMsg();
+
+        // Validate error message appears.
+        validateMTEBindErrorDoesNotOccur();
     }
 
     private void doMTEPreventBindTest_Renewals(String in_policyType, boolean bAmendedRenew){
@@ -1087,7 +1112,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         fillFromGeneralTabToErrorMsg();
 
         // Validate error message appears.
-        validateMTEBindError(in_policyType);
+        validateMTEBindError();
     }
 
     private void createPolicyAdvanceToRenewalImage(){
@@ -1127,8 +1152,16 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         }
     }
 
-    private void validateMTEBindError(String thePolicyType){
+    private void validateMTEBindError(){
         new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.AAA_SS02012019);
+    }
+
+    private void validateMTEBindErrorDoesNotOccur(){
+        try{
+            new ErrorTab().verify.errorsPresent(false, ErrorEnum.Errors.AAA_SS02012019);
+        }catch(IstfException ex){
+            CustomAssertions.assertThat(ex.getMessage()).isEqualToIgnoringCase("Column Code was not found in the table");
+        }
     }
 
     private void fillFromGeneralTabToErrorMsg(){
