@@ -1,0 +1,96 @@
+TestData_DriverTab_DiscountsGDD_CAS: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@Driver_FNI', '@Driver_Second'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab'
+}
+
+# Data according to ChoicePointClueMockData.xls (ID Scorpion_CA_Choice_001)
+PrefillTab: {
+  First Name: 'Tony',
+  Last Name: 'Stark',
+  Zip Code: 90255,
+  Address Line 1: '6586 PORCUPINE WAY',
+  Date of Birth: '10/16/1997',
+  City: 'HUNTINGTON PARK',
+  Validate Address: click,
+  Validate Address Dialog: {
+  },
+  Order Prefill: click
+}
+
+GeneralTab: {
+  NamedInsuredInformation: '@NamedInsuredInformationToGetClaims',
+  AAAProductOwned: '@<auto_ca_select>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation'
+}
+
+NamedInsuredInformationToGetClaims: {}
+
+Driver_FNI: {
+  Occupation: Self Employed,
+  Rel. to First Named Insured: 'First Named Insured',
+  Age First Licensed: 18,
+  License Type: 'Valid',
+  "License #": D1278222,
+  Permit Before License: 'No',
+  ActivityInformation: {
+    Activity Source: Customer Input,
+    Type: 'Major Violation',
+    Description: 'Hit and run',
+    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+    Conviction Date: '$<today-3M:MM/dd/yyyy>',
+    'Include in Points and/or YAF?': 'Yes',
+    'Permissive Use Loss?': 'Yes'
+  }
+}
+
+Driver_Second: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  First Name: pasMATTHEW,
+  Last Name: pasFOX,
+  Driver Type: 'Available for Rating',
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '12/12/1980',
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Self Employed,
+  License Type: "Valid",
+  License State: CA,
+  "License #": D1234567,
+  Age First Licensed: 18,
+  Permit Before License: 'No',
+  ActivityInformation: {
+    Activity Source: Customer Input,
+    Type: 'Major Violation',
+    Description: 'Hit and run',
+    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+    Conviction Date: '$<today-3M:MM/dd/yyyy>',
+    'Include in Points and/or YAF?': 'Yes'
+  }
+}
+
+# Adding P&C Tab info, to be sure that After order CLUE, Correct Policy Type is selected
+PremiumAndCoveragesTab: {
+  Product: 'CA Select',
+  Payment Plan: Annual
+}
+
+TestData_DriverActivityReportsTab_CAS: {
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_2nd',
+  DriverActivityReportsTab: '@DriverActivityReportsTab_2nd'
+}
+
+DriverActivityReportsTab_2nd: {
+  Sales Agent Agreement: I Agree,
+  Sales Agent Agreement DMV: I Agree,
+  #OrderCLUEReport: [{Select: 'Yes'}],
+  Validate Driving History: click
+}
+
+PremiumAndCoveragesTab_2nd: {
+  Product: 'CA Select',
+  Payment Plan: Annual
+}

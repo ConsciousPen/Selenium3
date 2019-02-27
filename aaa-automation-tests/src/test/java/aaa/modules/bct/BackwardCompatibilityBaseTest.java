@@ -83,7 +83,7 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		query = query.replace("/DATE2/", endRangeDate);
 		query = query.replace("/STATE/", getState());
 
-		return getPoliciesFromQuery(DBService.get().getRows(query + " ORDER BY POLICYNUMBER DESC"), SELECT_POLICY_QUERY_TYPE);
+		return getPoliciesFromQuery(DBService.get().getRows(query + "and rownum = 1"), SELECT_POLICY_QUERY_TYPE);
 	}
 
 	private List<Map<String, String>> getQueryResult(String testName, String queryName) {
@@ -94,7 +94,7 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		query = query.replace("pasadm.", "");
 		query = query.replace("PASADM.", "");
 
-		return DBService.get().getRows(query);
+		return DBService.get().getRows(query + "and rownum = 1");
 	}
 
 	protected List<String> getPoliciesWithDateRangeByQuery(String testName, String date1, String date2) {
