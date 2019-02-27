@@ -891,8 +891,12 @@ public final class AutoSSMetaData {
 		public static final class DocumentsForPrinting extends MetaData {
 			public static final AssetDescriptor<RadioGroup> AAA_USAGE_BASED_INSURANCE_PROGRAM_TERMS_AND_CONDITIONS =
 					declare("AAA Usage Based Insurance Program Terms and Conditions", RadioGroup.class, Waiters.AJAX);
+			//PAS DOC disabled 
 			public static final AssetDescriptor<RadioGroup> AAA_WITH_SMARTTRECK_ACKNOWLEDGEMENT =
 					declare("AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies", RadioGroup.class, Waiters.AJAX);
+			//PAS DOC enabled (NEW control)
+			public static final AssetDescriptor<RadioGroup> AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT =
+					declare("AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> ACP_SMARTTRECK_SUBSCRIPTION_TERMS = declare("ACP SMARTtrek Subscription Terms and Conditions", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> AUTO_INSURANCE_APPLICATION = declare("Auto Insurance Application", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> AUTO_INSURANCE_QUOTE = declare("Auto Insurance Quote", RadioGroup.class, Waiters.AJAX);
@@ -901,7 +905,10 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE = declare("Medical Payments Rejection of Coverage", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION =
 					declare("Uninsured and Underinsured Motorist Coverage Selection", RadioGroup.class, Waiters.AJAX);
+			//PAS DOC disabled 
 			public static final AssetDescriptor<RadioGroup> NAMED_DRIVER_EXCLUSION = declare("Named Driver Exclusion", RadioGroup.class, Waiters.AJAX);
+			//PAS DOC enabled (NEW control)
+			public static final AssetDescriptor<RadioGroup> NAMED_DRIVER_EXCLUSION_ELECTION = declare("Named Driver Exclusion Election", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> CRITICAL_INFORMATION_FOR_TEENAGE_DRIVERS_AND_THEIR_PARENTS =
 					declare("Critical Information for Teenage Drivers and Their Parents", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> STATEMENT_ELECTING_LOWER_LIMITS_FOR_UM_UIM_COVERAGE = declare("Statement Electing Lower Limits for Uninsured/Underinsured Motorists Coverage",
@@ -915,12 +922,17 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<Link> BTN_GENERATE_DOCUMENTS = declare("Generate Documents", Link.class, Waiters.AJAX, By.xpath("//a[@id='policyDataGatherForm:generate_link']"));
 			public static final AssetDescriptor<Link> BTN_GENERATE_ESIGNATURE_DOCUMENTS =
 					declare("Generate eSignature Documents", Link.class, Waiters.AJAX, By.xpath("//a[@id='policyDataGatherForm:generate_link_esign']"));
+			
 			public static final AssetDescriptor<AssetList> ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG =
-					declare("EnterRecipientEmailAddress", AssetList.class, EnterRecipientEmailAddressDialog.class, By.xpath("//div[@id='errorDialog1_content_scroller']"));
-
+					declare("EnterValidRecipientEmailAddress", AssetList.class, EnterRecipientEmailAddressDialog.class, By.xpath("//div[@id='errorDialog1_content_scroller']"));
+			//PAS DOC enabled: temp workaround
+			public static final AssetDescriptor<AssetList> ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG_PASDOC =
+					declare("EnterValidRecipientEmailAddress", AssetList.class, EnterRecipientEmailAddressDialog.class, By.xpath("//div[@id='errorDialog1Pasdoc_content_scroller']"));
+			
 			public static final class EnterRecipientEmailAddressDialog extends MetaData {
-				public static final AssetDescriptor<TextBox> RECIPIENT_EMAIL_ADDRESS = declare("Recipient Email Address", TextBox.class, Waiters.AJAX, By.id("recipientEmailAddressForm:recpEmail"));
-				public static final AssetDescriptor<Button> BTN_OK = declare("OK", Button.class, Waiters.AJAX, By.id("recipientEmailAddressForm:okButton"));
+				public static final AssetDescriptor<TextBox> RECIPIENT_EMAIL_ADDRESS = 
+						declare("Recipient Email Address", TextBox.class, Waiters.AJAX, By.xpath(".//input[contains(@id, ':recpEmail')]"));
+				public static final AssetDescriptor<Button> BTN_OK = declare("OK", Button.class, Waiters.AJAX, By.xpath(".//input[contains(@id, ':okButton')]"));
 
 				public static final AssetDescriptor<Link> LINK_CANCEL = declare("Cancel", Link.class, Waiters.AJAX, By.id("recipientEmailAddressForm:cancelBtn1"));
 			}
@@ -1041,6 +1053,8 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES =
 					declare("Proof of equivalent new car added protection with prior carrier for new vehicle(s)", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> CANADIAN_MVR_FOR_DRIVER = declare("Canadian MVR for (driver)", RadioGroup.class, Waiters.AJAX);
+			//PAS DOC enabled: NEW control
+			public static final AssetDescriptor<RadioGroup> AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT = declare("AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies", RadioGroup.class, Waiters.NONE);
 		}
 
 		public static final class GeneralInformation extends MetaData {
