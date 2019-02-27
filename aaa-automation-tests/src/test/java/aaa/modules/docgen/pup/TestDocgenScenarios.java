@@ -123,7 +123,7 @@ public class TestDocgenScenarios extends PersonalUmbrellaBaseTest {
 		goddTab.verify.documentsPresent(softly, AHFMXX, PS11, PSIQXX, HSRFIXXPUP, HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX);
 		goddTab.verify.documentsPresent(softly, false, _438BFUNS, AHRCTXX, AHPNXX, AHNBXX, HSEIXX, HSES, PS02);
 		goddTab.verify.documentsEnabled(softly, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU08XX, AHFMXX, PSIQXX, PS11);
-		goddTab.verify.documentsEnabled(softly, true, HSU01XX, HSU02XX, HSU07XX, HSU09XX, HSRFIXXPUP);
+		goddTab.verify.documentsEnabled(softly, false, HSU01XX, HSU02XX, HSU07XX, HSU09XX, HSRFIXXPUP);
 		goddTab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, null, PSIQXX);
 		if (goddTab.buttonCancel.isPresent()) {
 			goddTab.cancel(true);
