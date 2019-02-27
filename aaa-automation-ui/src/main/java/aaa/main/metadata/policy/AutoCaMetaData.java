@@ -306,7 +306,6 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<AssetListConfirmationDialog> ACTIVITY_REMOVE_CONFIRMATION = declare("Activity remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX,
 					false, By.id("confirmEliminateInstance_Dialog_container"));
 			public static final AssetDescriptor<AssetList> SELECT_DRIVER_DIALOG = declare("Select Driver", AssetList.class, SelectDriverDialog.class);
-
 			}
 
 		public static final class SelectDriverDialog extends MetaData {
