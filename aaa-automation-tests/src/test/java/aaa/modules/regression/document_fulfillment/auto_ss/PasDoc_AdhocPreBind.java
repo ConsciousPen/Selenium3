@@ -12,7 +12,6 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
-import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 //import toolkit.db.DBService;

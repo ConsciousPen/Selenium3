@@ -17,7 +17,6 @@ import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -92,7 +91,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		MainPage.QuickSearch.buttonSearchPlus.click();
 		SearchPage.openPolicy(policyNumber);
 		policy.policyDocGen().start();
-		odd_tab.verify.documentsPresent(null, false, Documents.AA06XX);
+		odd_tab.verify.documentsPresent(null, false, Documents.AA06XX_AUTOSS);
 		odd_tab.saveAndExit();
 		mainApp().close();
 		
@@ -100,7 +99,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		MainPage.QuickSearch.buttonSearchPlus.click();
 		SearchPage.openPolicy(policyNumber);
 		policy.policyDocGen().start();
-		odd_tab.verify.documentsPresent(null, true, Documents.AA06XX);
+		odd_tab.verify.documentsPresent(null, true, Documents.AA06XX_AUTOSS);
 		odd_tab.saveAndExit();
 	}
 	
