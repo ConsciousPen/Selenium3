@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
+import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.rest.dtoDxp.*;
@@ -140,5 +141,13 @@ public class HelperMiniServices extends PolicyBaseTest {
 			assertThat(orderReportErrorResponse.validations).isEmpty();
 		}
 		return orderReportErrorResponse;
+	}
+
+	boolean hasError(ErrorResponseDto errorResponseDto, ErrorDxpEnum.Errors expectedError) {
+		assertThat(errorResponseDto.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+		assertThat(errorResponseDto.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+		return errorResponseDto.errors.stream().anyMatch(error -> "attributeForRules".equals(error.field)
+						&& expectedError.getCode().equals(error.errorCode)
+						&& StringUtils.startsWith(error.message, expectedError.getMessage()));
 	}
 }
