@@ -6043,6 +6043,24 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
+	protected void pas25824_updateUIMBIThenUpdateUMBIBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		//Update UIMBI to No Coverage ---> UIMBI is updated to No Coverage, UMBI stays the same
+		Coverage covUIMBIExpected = Coverage.create(CoverageInfo.UIMBI_DC).changeLimit(CoverageLimits.COV_00).removeAvailableLimitsAll().changeAvailableLimits(CoverageLimits.COV_00, CoverageLimits.COV_100300);
+		Coverage covUMBIExpected = Coverage.create(CoverageInfo.UMBI_DC).changeLimit(CoverageLimits.COV_100300).removeAvailableLimitsAbove(CoverageLimits.COV_100300);//doesn't change
+		updateCoverageAndCheck(policyNumber, covUIMBIExpected, covUIMBIExpected, covUMBIExpected);
+
+		//Update UIMBI to other than No Coverage ---> UIMBI is updated, UMBI is also updated to the same limit (or actually stays the same)
+		covUIMBIExpected = covUIMBIExpected.changeLimit(CoverageLimits.COV_100300);
+		updateCoverageAndCheck(policyNumber, covUIMBIExpected, covUIMBIExpected, covUMBIExpected);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
 	private void updateCoverageAndCheck_pas24075(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
 		Coverage covFPBAddedExpected = Coverage.create(CoverageInfo.FPB_ADDED_PA);
 

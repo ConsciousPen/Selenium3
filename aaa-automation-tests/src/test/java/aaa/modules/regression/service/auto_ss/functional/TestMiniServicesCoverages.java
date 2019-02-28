@@ -1332,6 +1332,23 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	}
 
 	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Update UIMBI to No Coverage ---> UIMBI is updated to No Coverage, UMBI stays the same
+	 * 4. Update UIMBI to other than No Coverage ---> UIMBI is updated, UMBI is also updated to the same limit (or actually stays the same)
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DC})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-25824"})
+	public void pas25824_updateUIMBIThenUpdateUMBI(@Optional("DC") String state) {
+		pas25824_updateUIMBIThenUpdateUMBIBody();
+	}
+
+	/**
 	 * @author RVanover
 	 * @name View/Update PIP Coverage
 	 * @scenario for DC
