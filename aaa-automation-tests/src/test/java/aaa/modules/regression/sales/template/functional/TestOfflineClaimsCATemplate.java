@@ -124,8 +124,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     public void prepare() {
         // Toggle ON PermissiveUse Logic & Set DATEOFLOSS Parameter in DB
         DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-16"));
-
+        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
+        log.info("Updated PU flag in DB");
         try {
             FileUtils.forceDeleteOnExit(Paths.get(CAS_REQUEST_PATH).toFile());
             FileUtils.forceDeleteOnExit(Paths.get(CAS_RESPONSE_PATH).toFile());
@@ -167,11 +167,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     }
 
     protected void pas14679_CompDLPUMatchMore() {
-        // Toggle ON PermissiveUse Logic
-        // Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
-        // Set RISKSTATECD in DB to get policy DATEOFLOSS working
-        updatePUInDb();
-
         createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
         runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
         generateClaimRequest();        // Download claim request and assert it
@@ -575,14 +570,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         return claimValue;
     }
 
-    private void updatePUInDb() {
-        // Toggle ON PermissiveUse Logic
-        // Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
-        // Set RISKSTATECD in DB to get policy DATEOFLOSS working
-        DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
-    }
-
     /**
      * Method creates CAS Response file and updates required fields: Policy Number, Driver Licence, Claim Dates: Date Of Loss, Close Date, Open Date
      *
@@ -735,11 +722,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
             CLAIM_TO_DRIVER_LICENSE = ImmutableMap.of(CLAIM_NUMBER_1, "D5435433", CLAIM_NUMBER_2, "D5435433");
         }
 
-        // Toggle ON PermissiveUse Logic
-        // Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
-        // Set RISKSTATECD in DB to get policy DATEOFLOSS working
-        updatePUInDb();
-
         createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
         runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
         generateClaimRequest();        // Download claim request and assert it
@@ -755,7 +737,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         // Enter renewal image and verify claim presence
         buttonRenewals.click();
         policy.dataGather().start();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
 
         // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
         // Check 2nd driver: Has DL match claim
@@ -900,11 +882,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         DL_NAME_RECONCILEFNICLAIMS_DATA_MODEL = "dl_name_reconcileFNIclaims_data_model.yaml";
         CLAIM_TO_DRIVER_LICENSE = ImmutableMap.of(CLAIM_NUMBER_1, "D1278222", CLAIM_NUMBER_2, "D1278999");
 
-        // Toggle ON PermissiveUse Logic
-        // Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
-        // Set RISKSTATECD in DB to get policy DATEOFLOSS working
-        updatePUInDb();
-
         // Create Customer and Policy with one driver
         TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_ReconcileFNIclaims_PU").resolveLinks();
         adjusted = getPolicyTD().adjust(testDataForFNI);
@@ -925,7 +902,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         // Enter renewal image and verify claim presence
         buttonRenewals.click();
         policy.dataGather().start();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         // Check Driver1 has CAS claims with PU as NO
         assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).getValue().equals("Internal Claims"));
         assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).getValue().equals("No"));
@@ -955,11 +932,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      * Method to validate Clue Reconcile for AFR driver when PU flag is marked as Yes
      */
     public void pas24587_ClueReconcilePUAFRUserFlagged(){
-        // Toggle ON PermissiveUse Logic
-        // Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
-        // Set RISKSTATECD in DB to get policy DATEOFLOSS working
-        updatePUInDb();
-
         //Create a policy with 2 drivers
         TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_ClueReconcileFNIclaims_PU").resolveLinks();
         adjusted = getPolicyTD().adjust(testDataForFNI);

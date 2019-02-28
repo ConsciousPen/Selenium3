@@ -126,7 +126,6 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-24587")
     public void pas24587_CASClueReconcilePUAFRUserFlagged(@Optional("CA") @SuppressWarnings("unused") String state) {
-        log.info("component is ");
         pas24587_CASClueReconcilePUAFRUserFlagged();
     }
 
