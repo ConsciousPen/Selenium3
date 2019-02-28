@@ -1179,7 +1179,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     }
 
     /**
-     * This test validates that adding an unquoted companion product appears on a generated AH11AZ document.
+     * This test validates that adding an unquoted HOME companion product appears on a generated AH11AZ document.
      * @param state
      */
     @Parameters({"state"})
@@ -1203,6 +1203,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "HOME-UNQUOTED");
     }
 
+    /**
+     * This test validates that adding an unquoted RENTERS companion product appears on a generated AH11AZ document.
+     * @param state
+     */
     @Parameters({"state"})
     @Test(enabled = true, groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
@@ -1224,6 +1228,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "RENTERS-UNQUOTED");
     }
 
+    /**
+     * This test validates that adding an unquoted CONDO companion product appears on a generated AH11AZ document.
+     * @param state
+     */
     @Parameters({"state"})
     @Test(enabled = true, groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
@@ -1245,6 +1253,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "CONDO-UNQUOTED");
     }
 
+    /**
+     * This test validates that adding multiple unquoted companion product appears on a generated AH11AZ document.
+     * @param state
+     */
     @Parameters({"state"})
     @Test(enabled = true, groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
@@ -1272,6 +1284,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "MOTORCYCLE-UNQUOTED");
     }
 
+    /**
+     * This test validates that two quoted companion products of different types appear on a generated AH11AZ document.
+     * @param state
+     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
@@ -1298,6 +1314,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "QAZH3206557376"); //Asserts that the Mockwire Home policy shows up instead of the Renters policy.
     }
 
+    /**
+     * This test validates that two agent entered companion products of same types appear on a generated AH11AZ document.
+     * @param state
+     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
@@ -1324,6 +1344,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "TestHome_FirstAdded"); //Asserts that the Mockwire Home policy shows up instead of the Renters policy.
     }
 
+    /**
+     * This test validates that ineligible companion products do not appear on a generated AH11AZ document.
+     * @param state
+     */
     @Parameters({"state"})
     @Test(enabled = true, groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
@@ -1356,6 +1380,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         }
     }
 
+    /**
+     * This test validates that an eligible home, life and motorcycle companion products appear on a generated AH11AZ document.
+     * @param state
+     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
@@ -1387,6 +1415,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "TestLife");
     }
 
+    /**
+     * This test validates that an ineligible companion product does not appear on a generated AH11AZ document, but the life policy does.
+     * @param state
+     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
