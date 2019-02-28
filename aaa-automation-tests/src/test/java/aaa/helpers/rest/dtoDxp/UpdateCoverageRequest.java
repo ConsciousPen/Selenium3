@@ -13,4 +13,8 @@ public class UpdateCoverageRequest implements RestBodyRequest {
 
 	@ApiModelProperty(value = "List of drivers to apply coverage to")
 	public List<String> driverOids;
+
+	public String insurerName;
+
+	public String certNum;
 }
