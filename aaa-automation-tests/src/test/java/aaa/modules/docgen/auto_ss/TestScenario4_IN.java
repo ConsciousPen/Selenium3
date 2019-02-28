@@ -81,7 +81,7 @@ public class TestScenario4_IN extends AutoSSBaseTest {
 	@StateList(states = States.IN)
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL})
 	public void testDocGenScenario04_IN(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType());
+		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), false);
 		TestData tdBilling = testDataManager.billingAccount;
 		TestData cash_payment = tdBilling.getTestData("AcceptPayment", "TestData_Cash");
 

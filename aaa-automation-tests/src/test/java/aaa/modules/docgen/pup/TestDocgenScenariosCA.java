@@ -95,8 +95,6 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 		);
 		goddTab.generateDocuments(true, DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.EMAIL, null, null, _58_4000);
 		DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, _58_4000, AHPNCA);
-
-		goddTab.cancel();
 		softly.close();
 	}
 

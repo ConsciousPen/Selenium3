@@ -3,32 +3,26 @@ package aaa.modules.regression.document_fulfillment.auto_ss;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.modules.policy.AutoSSBaseTest;
-import aaa.toolkit.webdriver.WebDriverHelper;
-import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
-import aaa.utils.StateList;
-import toolkit.datax.TestData;
-//import toolkit.db.DBService;
-import toolkit.verification.CustomAssertions;
-import toolkit.verification.CustomSoftAssertions;
-import toolkit.webdriver.controls.waiters.Waiters;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.policy.AutoSSBaseTest;
+import aaa.toolkit.webdriver.WebDriverHelper;
+import aaa.utils.StateList;
+import toolkit.datax.TestData;
+import toolkit.verification.CustomAssertions;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.webdriver.controls.waiters.Waiters;
+
+//import toolkit.db.DBService;
 
 public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 
@@ -36,6 +30,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario1_2(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
@@ -126,7 +121,8 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-	public void testScenario3(@Optional("") String state) {		
+	public void testScenario3(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
@@ -209,7 +205,8 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-	public void testScenario4(@Optional("") String state) {	
+	public void testScenario4(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
@@ -258,6 +255,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario5(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td_sc5 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC5").resolveLinks());
@@ -337,7 +335,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario6(@Optional("") String state) {
-		//DocGenHelper.checkPasDocEnabled(States.AZ, PolicyType.AUTO_SS);
+		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td_sc6 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC3").resolveLinks());	
@@ -384,6 +382,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario7(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td_sc7 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC5").resolveLinks());
@@ -456,6 +455,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario8(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td_sc8 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC3").resolveLinks());	

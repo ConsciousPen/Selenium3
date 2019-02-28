@@ -120,7 +120,7 @@ public class DocumentWrapper {
 		 * @param policyNumber Policy/Quote Number
 		 */
 		public void mapping(boolean expectedValue, TestData td, String policyNumber, ETCSCoreSoftAssertions softly) {
-			DocGenHelper.checkPasDocEnabled(policyNumber);
+			DocGenHelper.checkPasDocEnabled(policyNumber, false);
 			for (String docKey : td.getKeys()) {
 				DocGenEnum.Documents document = null;
 				if (!"DocumentPackageData".equals(docKey)) {
