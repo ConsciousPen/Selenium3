@@ -160,7 +160,7 @@ public class DocGenHelper {
 		if (generatedByJob) {
 			standardDocumentRequest = XmlHelper.xmlToModel(content, StandardDocumentRequest.class);
 		} else {
-			standardDocumentRequest = XmlHelper.xmlToModel(content, CreateDocuments.class).getStandardDocumentRequest();
+			standardDocumentRequest = XmlHelper.xmlToModel(content, CreateDocuments.class, false).getStandardDocumentRequest();
 		}
 
 		return new DocumentWrapper(standardDocumentRequest, generatedByJob);

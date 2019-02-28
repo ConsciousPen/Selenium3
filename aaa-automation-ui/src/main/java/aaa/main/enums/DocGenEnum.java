@@ -6,6 +6,8 @@ public final class DocGenEnum {
 	private DocGenEnum() {
 	}
 
+	public static final String EMAIL = "test@csaa.com";
+
 	public enum Documents {
 		AA02AZ("Declaration page"),
 		AA02CA("Declaration page"),

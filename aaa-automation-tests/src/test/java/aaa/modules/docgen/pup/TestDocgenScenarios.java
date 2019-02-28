@@ -124,7 +124,7 @@ public class TestDocgenScenarios extends PersonalUmbrellaBaseTest {
 		goddTab.verify.documentsPresent(softly, false, _438BFUNS, AHRCTXX, AHPNXX, AHNBXX, HSEIXX, HSES, PS02);
 		goddTab.verify.documentsEnabled(softly, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU08XX, AHFMXX, PSIQXX, PS11);
 		goddTab.verify.documentsEnabled(softly, false, HSU01XX, HSU02XX, HSU07XX, HSU09XX, HSRFIXXPUP);
-		goddTab.generateDocuments(true, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, null, PSIQXX);
+		goddTab.generateDocuments(true, DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.EMAIL, null, null, PSIQXX);
 		/*if (goddTab.buttonCancel.isPresent()) {
 			goddTab.cancel(true);
 		}*/
@@ -132,13 +132,13 @@ public class TestDocgenScenarios extends PersonalUmbrellaBaseTest {
 		softly.close();
 
 		policy.quoteDocGen().start();
-		goddTab.generateDocuments(true, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, null, PS11, AHFMXX);
+		goddTab.generateDocuments(true, DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.EMAIL, null, null, PS11, AHFMXX);
 		softly = new ETCSCoreSoftAssertions();
 		DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, PS11, AHPNXX, AHFMXX);
 		softly.close();
 
 		policy.quoteDocGen().start();
-		goddTab.generateDocuments(true, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, getTestSpecificTD("QuoteGenerateHSU"),
+		goddTab.generateDocuments(true, DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.EMAIL, null, getTestSpecificTD("QuoteGenerateHSU"),
 				HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU08XX);
 		softly = new ETCSCoreSoftAssertions();
 		DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU08XX);
@@ -172,7 +172,7 @@ public class TestDocgenScenarios extends PersonalUmbrellaBaseTest {
 				_438BFUNS,
 				HSEIXX,
 				HSES);
-		goddTab.generateDocuments(true, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, getTestSpecificTD("PolicyGenerateHSU"), PS11, AHRCTXXPUP, HSU01XX, HSU09XX);
+		goddTab.generateDocuments(true, DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.EMAIL, null, getTestSpecificTD("PolicyGenerateHSU"), PS11, AHRCTXXPUP, HSU01XX, HSU09XX);
 		DocGenHelper.verifyDocumentsGenerated(softly, policyNum, PS11, AHPNXX, AHRCTXXPUP, HSU01XX, HSU09XX);
 		softly.close();
 	}

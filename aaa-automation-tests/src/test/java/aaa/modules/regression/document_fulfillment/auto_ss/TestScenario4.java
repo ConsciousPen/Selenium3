@@ -100,18 +100,61 @@ public class TestScenario4 extends AutoSSBaseTest {
 		policy.policyDocGen().start();
 		switch (getState()) {
 			case States.VA:
-				docgenActionTab.verify
-						.documentsEnabled(softly, Documents.AA11VA, Documents.AA52VA, Documents.AA10XX, Documents.AASR22, Documents.AHAPXX, Documents.AHRCTXXAUTO, Documents.AA06XX_AUTOSS, Documents._605005_SELECT, Documents._605004, Documents.AU02, Documents.AU07, Documents.AU09, Documents.AU10, Documents.AU08, Documents.AU06, Documents.AU04, Documents.AU05);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AA11VA);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AA52VA);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AA10XX);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AASR22);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AHAPXX);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AHRCTXXAUTO);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AA06XX_AUTOSS);
+				docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
+				docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU02);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU07);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU09);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU10);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU08);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU06);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU04);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU05);
 				docgenActionTab.verify.documentsEnabled(softly, false, Documents.AHFMXX);
 				break;
 			case States.OH:
-				docgenActionTab.verify
-						.documentsEnabled(Documents.AA11OH, Documents.AA10XX, Documents.AASR22OH, Documents.AHAPXX, Documents.AHRCTXXAUTO, Documents.AA06XX_AUTOSS, Documents._605004, Documents.AU02, Documents.AU07, Documents.AU09, Documents.AU10, Documents.AU08, Documents.AU06, Documents.AU04, Documents.AU05);
+				docgenActionTab.verify.documentsEnabled(Documents.AA11OH);
+				docgenActionTab.verify.documentsEnabled(Documents.AA10XX);
+				docgenActionTab.verify.documentsEnabled(Documents.AASR22OH);
+				docgenActionTab.verify.documentsEnabled(Documents.AHAPXX);
+				docgenActionTab.verify.documentsEnabled(Documents.AHRCTXXAUTO);
+				docgenActionTab.verify.documentsEnabled(Documents.AA06XX_AUTOSS);
+				docgenActionTab.verify.documentsEnabled(Documents._605004);
+				docgenActionTab.verify.documentsEnabled(Documents.AU02);
+				docgenActionTab.verify.documentsEnabled(Documents.AU07);
+				docgenActionTab.verify.documentsEnabled(Documents.AU09);
+				docgenActionTab.verify.documentsEnabled(Documents.AU10);
+				docgenActionTab.verify.documentsEnabled(Documents.AU08);
+				docgenActionTab.verify.documentsEnabled(Documents.AU06);
+				docgenActionTab.verify.documentsEnabled(Documents.AU04);
+				docgenActionTab.verify.documentsEnabled(Documents.AU05);
+
 				docgenActionTab.verify.documentsEnabled(softly, false, Documents.AA52OH);
 				break;
 			case States.IN:
-				docgenActionTab.verify
-						.documentsEnabled(softly, Documents.AA11IN, Documents.AA10XX, Documents.AASR22, Documents.AHAPXX, Documents.AHRCTXXAUTO, Documents.AA06XX_AUTOSS, Documents._605004, Documents._605005_SELECT, Documents.AU02, Documents.AU07, Documents.AU09, Documents.AU10, Documents.AU08, Documents.AU06, Documents.AU04, Documents.AU05);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AA11IN);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AA10XX);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AASR22);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AHAPXX);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AHRCTXXAUTO);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AA06XX_AUTOSS);
+				docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
+				docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU02);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU07);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU09);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU10);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU08);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU06);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU04);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU05);
 				docgenActionTab.verify.documentsEnabled(softly, false, Documents.AA52IN, Documents.AHFMXX);
 				break;
 			case States.AZ:
@@ -131,13 +174,24 @@ public class TestScenario4 extends AutoSSBaseTest {
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU06);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU04);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU05);
-
-
 				docgenActionTab.verify.documentsEnabled(softly, false, Documents.AA52AZ_UPPERCASE, Documents.AHFMXX);
 				break;
 			case States.WV:
-				docgenActionTab.verify
-						.documentsEnabled(softly, Documents.AA11WV, Documents.AASR22, Documents.AHAPXX, Documents.AHRCTXXAUTO, Documents.AA06XX_AUTOSS, Documents._605004, Documents._605005_SELECT, Documents.AU02, Documents.AU07, Documents.AU09, Documents.AU10, Documents.AU08, Documents.AU06, Documents.AU04, Documents.AU05);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AA11WV);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AASR22);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AHAPXX);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AHRCTXXAUTO);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AA06XX_AUTOSS);
+				docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
+				docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU02);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU07);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU09);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU10);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU08);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU06);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU04);
+				docgenActionTab.verify.documentsEnabled(softly, Documents.AU05);
 				break;
 		}
 		docgenActionTab.cancel();
