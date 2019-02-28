@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.ho3.functional;
+package aaa.modules.regression.sales.home_ss.dp3.functional;
 
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
@@ -15,7 +15,7 @@ public class TestLegalMortgageeName extends TestLegalMortgageeNameSSTemplate {
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.HOME_SS_HO3;
+        return PolicyType.HOME_SS_DP3;
     }
 
     /**
@@ -31,7 +31,7 @@ public class TestLegalMortgageeName extends TestLegalMortgageeNameSSTemplate {
     @StateList(states = {Constants.States.AZ, Constants.States.UT })
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Validate New Mortgagee Clause Text box")
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-24699")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-24699")
     public void pas24669_testLegalMortgageeNameNB(@Optional("") String state) {
 
         pas24669_testLegalMortgageeNameNB();
@@ -47,14 +47,14 @@ public class TestLegalMortgageeName extends TestLegalMortgageeNameSSTemplate {
      * 4. Select Option 'Yes' for Use Legal Mortgagee Name and Mortgagee Clause field is enabled with the text box
      * 5. Validate the Mortgagee Clause Name with the value Passed in String
      * @details
-    **/
+     **/
 
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Validate New Mortgagee Clause Text box")
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-24699")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-24699")
     public void pas24699_testMortgageeClauseEndTx(@Optional("") String state) {
 
-       pas24699_testMortgageeClauseSSEndTx();
+        pas24699_testMortgageeClauseSSEndTx();
 
     }
 
@@ -68,11 +68,11 @@ public class TestLegalMortgageeName extends TestLegalMortgageeNameSSTemplate {
      * 5. Validate the Mortgagee Clause Name with the value Passed in String
      * 6. Navigate till Bind page and 'Save & Exit'
      * @details
-    **/
+     **/
 
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Validate New Mortgagee Clause Text box")
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-24699")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-24699")
     public void pas24699_testMortgageeClauseSSRenewal(@Optional("") String state) {
 
         pas24699_testMortgageeClauseSSRenewal();

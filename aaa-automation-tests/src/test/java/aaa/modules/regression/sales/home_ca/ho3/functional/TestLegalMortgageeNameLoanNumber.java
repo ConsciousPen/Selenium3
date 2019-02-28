@@ -35,7 +35,7 @@ public class TestLegalMortgageeNameLoanNumber extends TestMortgageeNameAndLoanNu
     @StateList(states = Constants.States.CA)
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "PAS-6214-Validate Loan Number being Mandatory")
-    @TestInfo(component = ComponentConstant.Service.HOME_CA_HO3,  testCaseId = "PAS-6214")
+    @TestInfo(component = ComponentConstant.Service.HOME_CA_HO3,  testCaseId = "PAS-6214, PAS-24699")
     public void pas6214_testMortgageeLoanNumberNB(@Optional("CA") String state) {
         pas6214_testMortgageeLoanNumberNB();
 
