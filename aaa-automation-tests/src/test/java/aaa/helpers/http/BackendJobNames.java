@@ -28,7 +28,7 @@ public class BackendJobNames {
 		storage.put(GroupJobs.groupaaacancellationNoticeGenerationJob.getJobName(), "aaaCancellationNoticeAsyncJob");
 		storage.put(GroupJobs.groupaaacancellationConfirmationGenerationJob.getJobName(), "aaaCancellationConfirmationAsyncJob");
 		storage.put(GroupJobs.groupaaaCollectionCancellDebtBatchJob.getJobName(), "aaaCollectionCancellDebtBatchAsyncJob");
-		storage.put(GroupJobs.grouprefundGenerationJob.getJobName(), "grouprefundGenerationJob");
+		storage.put(GroupJobs.grouprefundGenerationJob.getJobName(), "aaaRefundGenerationAsyncJob");
 		storage.put(GroupJobs.groupoffCycleInvoiceGenerationJob.getJobName(), "aaaOffCycleBillingInvoiceAsyncJob");
 		storage.put(GroupJobs.groupaaaBillingInvoiceGenerationAsyncTaskJob.getJobName(), "aaaBillingInvoiceAsyncTaskJob");
 		storage.put(GroupJobs.groupchangeCancellationPendingPoliciesStatusJob.getJobName(), "ChangeCancellationPendingPoliciesStatusJob");
