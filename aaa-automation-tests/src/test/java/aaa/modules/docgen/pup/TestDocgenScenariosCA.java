@@ -130,7 +130,6 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 				_58_1027
 		);
 
-		goddTab.cancel();
 		softly.close();
 	}
 
@@ -166,7 +165,6 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 		goddTab.generateDocuments(true, DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.EMAIL, null, null, _58_4000);
 		DocGenHelper.verifyDocumentsGenerated(softly, policyNum, _58_4000, AHPNCA);
 
-		goddTab.cancel();
 		softly.close();
 	}
 
@@ -208,7 +206,6 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 				HSU07CA,
 				HSU01CA
 		);
-		goddTab.cancel();
 		softly.close();
 	}
 }
