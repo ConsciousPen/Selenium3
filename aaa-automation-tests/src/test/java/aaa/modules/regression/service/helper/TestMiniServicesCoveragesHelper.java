@@ -6035,6 +6035,27 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
+	protected void pas15302_lolCoverageNJBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		Coverage covLol = Coverage.create(CoverageInfo.LOL);
+
+		//Check viewEndorsementCoverages response, default should be selected as "Limitation on Lawsuit" and check
+		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covLol);
+
+		//Update to "No Limitation on Lawsuit" and check
+		Coverage covNoLol = Coverage.create(CoverageInfo.LOL).changeLimit(CoverageLimits.COV_NO_LOL);
+		updateCoverageAndCheck(policyNumber, covNoLol, covNoLol);
+		//Update back to "Limitation on Lawsuit" and check
+		updateCoverageAndCheck(policyNumber, covLol, covLol);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
 	protected void pas25824_updateUIMBIThenUpdateUMBIBody() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
