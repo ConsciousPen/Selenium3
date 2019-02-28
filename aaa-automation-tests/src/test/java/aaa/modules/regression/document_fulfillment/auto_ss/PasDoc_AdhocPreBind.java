@@ -34,7 +34,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario1_2(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -75,29 +75,6 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData_SC2"), DocumentsAndBindTab.class, PurchaseTab.class, true);
 		new PurchaseTab().submitTab();		
 		log.info("TEST: Policy created #" + PolicySummaryPage.getPolicyNumber());
-		
-		//Policy Inquiry
-		policy.policyInquiry().start();
-		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());		
-		InquiryAssetList inquiryDocumentsForPrintingAssetList = new InquiryAssetList(new DocumentsAndBindTab().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.class);
-		InquiryAssetList inquiryRequiredToBindAssetList = new InquiryAssetList(new DocumentsAndBindTab().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.class);	
-		
-		CustomSoftAssertions.assertSoftly(softly -> {
-			//softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTO_INSURANCE_QUOTE)).isDisabled();
-			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTO_INSURANCE_APPLICATION)).isPresent();
-			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.NAMED_DRIVER_EXCLUSION_ELECTION)).isPresent();
-			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.CRITICAL_INFORMATION_FOR_TEENAGE_DRIVERS_AND_THEIR_PARENTS)).isPresent();
-			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION)).isPresent();
-			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AAA_USAGE_BASED_INSURANCE_PROGRAM_TERMS_AND_CONDITIONS)).isPresent();
-			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT)).isPresent();
-			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.ACP_SMARTTRECK_SUBSCRIPTION_TERMS)).isPresent();
-			
-			softly.assertThat(inquiryRequiredToBindAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION)).isPresent();
-			softly.assertThat(inquiryRequiredToBindAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NAMED_DRIVER_EXCLUSION)).isPresent();
-			softly.assertThat(inquiryRequiredToBindAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION)).isPresent();
-			softly.assertThat(inquiryRequiredToBindAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS)).isPresent();
-		});
-		documentsAndBindTab.cancel();
 		
 		//Endorsement
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -148,7 +125,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario3(@Optional("") String state) {		
 		mainApp().open();
 		createCustomerIndividual();
@@ -178,24 +155,6 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData_SC3"), DocumentsAndBindTab.class, PurchaseTab.class, true);
 		new PurchaseTab().submitTab();		
 		log.info("TEST: Policy created #" + PolicySummaryPage.getPolicyNumber());
-		
-		//Policy Inquiry
-		policy.policyInquiry().start();
-		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
-		
-		InquiryAssetList inquiryDocumentsForPrintingAssetList = new InquiryAssetList(new DocumentsAndBindTab().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.class);
-		InquiryAssetList inquiryRequiredToBindAssetList = new InquiryAssetList(new DocumentsAndBindTab().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.class);	
-		
-		CustomSoftAssertions.assertSoftly(softly -> {
-			//Available for Printing
-			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTO_INSURANCE_APPLICATION)).isPresent();
-			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTOPAY_AUTHORIZATION_FORM)).isPresent();
-			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION)).isPresent();
-			softly.assertThat(inquiryDocumentsForPrintingAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.NON_OWNER_AUTOMOBILE_ENDORSEMENT)).isPresent();
-			//Required To Bind
-			softly.assertThat(inquiryRequiredToBindAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NON_OWNER_AUTOMOBILE_ENDORSEMENT)).isPresent();
-		});
-		documentsAndBindTab.cancel();
 		
 		//Endorsement
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -249,7 +208,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario4(@Optional("") String state) {	
 		mainApp().open();
 		createCustomerIndividual();
@@ -297,7 +256,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario5(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -376,7 +335,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario6(@Optional("") String state) {
 		//DocGenHelper.checkPasDocEnabled(States.AZ, PolicyType.AUTO_SS);
 		mainApp().open();
@@ -423,7 +382,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario7(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -495,7 +454,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario8(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
