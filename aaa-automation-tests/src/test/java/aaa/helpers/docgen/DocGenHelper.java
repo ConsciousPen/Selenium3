@@ -541,15 +541,17 @@ public class DocGenHelper {
 		return executePasDocQuery(state, product.name());
 	}
 
-	public static void checkPasDocEnabled(String state, PolicyType pType) {
-		if (isPasDocEnabled(state, pType)) {
-			throw new SkipException(String.format("PasDoc is enabled for product and state combination: %s - %s. Test will be skipped", state, pType));
+	public static void checkPasDocEnabled(String state, PolicyType pType, Boolean expectedValue) {
+		Boolean isEnabled = isPasDocEnabled(state, pType);
+		if (!isEnabled.equals(expectedValue)) {
+			throw new SkipException(String.format("PasDoc for product and state combination doesn't match. PasDoc switching-on expected: '%s', actual: '%s' - for product: '%s' and state: '%s'. Test will be skipped", expectedValue, isEnabled, pType, state));
 		}
 	}
 
-	public static void checkPasDocEnabled(String policyNum) {
-		if (isPasDocEnabled(policyNum)) {
-			throw new SkipException(String.format("PasDoc is enabled for product and state combination: %s. Test will be skipped", policyNum));
+	public static void checkPasDocEnabled(String policyNum, Boolean expectedValue) {
+		Boolean isEnabled = isPasDocEnabled(policyNum);
+		if (!isEnabled.equals(expectedValue)) {
+			throw new SkipException(String.format("PasDoc for product and state combination doesn't match. PasDoc switching-on expected: '%s', actual: '%s' - for policy: '%s'. Test will be skipped", expectedValue, isEnabled, policyNum));
 		}
 	}
 

@@ -115,7 +115,7 @@ AHRBXX: {
  },
  PaymentDetails: {
    PayTyp: {TextField: 'INSTALLMENT PAYMENT'},
-   PayPln: {TextField: 'Monthly'},
+   PayPln: {TextField: 'Semi-Annual'},
    CurRnwlAmt: {TextField: ''},
    InstlFee: {TextField: ''},
 #   OthrFee: {TextField: '0.00'},

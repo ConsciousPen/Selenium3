@@ -29,11 +29,11 @@ PAS-0002:
     messages: ["No policies found by 'SelectPolicy' query"]
 
 PAS-0003:
-  summary: "PasDoc is Not Enabled"
+  summary: "PasDoc switching-on error"
   reason: ENV
   failures:
     - tests: aaa.*
-      messages: ["PasDoc is enabled for product and state combination:"]
+      messages: ["PasDoc for product and state combination doesn't match. PasDoc switching-on expected:"]
 
 QC-DOCGENCOMMON:
   summary: "Common dummy ticket for all dependent docgen tests to mark them yellow if they are skipped due to failed 1st policy creation test"
@@ -427,12 +427,6 @@ PT-2901:
       messages: ['Errors: The connection has timed out']
     - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*]
       messages: ['[LoginPanel is displayed] expected:<[tru]e> but was:<[fals]e>']
-PAS-25099:
-  summary: "PUP Policy does not rate after first attempt"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.pup.*]
-      messages: ['no such element: Unable to locate element: {"method":"id","selector":"policyDataGatherForm:ratingPUPDetailsPopupLink"}']
 PAS-24131:
   summary: "Regression BCT: grouprefundGenerationJob failed with huge amount of exceptions"
   reason: PROD

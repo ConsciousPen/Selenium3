@@ -20,6 +20,7 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
 
 @StateList(states = Constants.States.CA)
 public class TestCoverageCRangeWithinCoverageA extends HomeCaHO3BaseTest {
@@ -50,10 +51,13 @@ public class TestCoverageCRangeWithinCoverageA extends HomeCaHO3BaseTest {
 	protected void pas20367_TestCoverageCRangeWithinCoverageATemplateCA(@Optional("CA") String state){
 
 		String policyNumber = openAppAndCreatePolicy();
-		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());
+		LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
+		setDoNotRenewFlag(policyNumber);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalEffDate));
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
+		policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().perform();
 
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());

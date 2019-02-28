@@ -108,7 +108,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL})
 	public void testDocGenScenario02(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType());
+		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), false);
 		mainApp().open();
 		createCustomerIndividual();
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));

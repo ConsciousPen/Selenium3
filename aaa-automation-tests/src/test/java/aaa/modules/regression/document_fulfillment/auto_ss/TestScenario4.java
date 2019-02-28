@@ -32,7 +32,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	@StateList(states = {States.AZ, States.IN, States.OH, States.VA})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void TC01_CreatePolicy(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType());
+		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), false);
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
 		createCustomerIndividual();

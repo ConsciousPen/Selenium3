@@ -6,7 +6,7 @@ TestData_Renewal: {
   AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: {}
 }
 

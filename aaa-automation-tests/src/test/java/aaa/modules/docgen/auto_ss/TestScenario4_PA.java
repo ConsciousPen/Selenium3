@@ -66,14 +66,14 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 	@StateList(states = States.PA)
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL})
 	public void testDocGenScenario04_PA(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType());
+		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), false);
 		mainApp().open();
 		createCustomerIndividual();
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-		log.info("Policy Effective date" + policyEffectiveDate);
-		log.info("Make first endorsement for Policy #" + policyNumber);
+		log.info("Policy Effective date: " + policyEffectiveDate);
+		log.info("Make first endorsement for Policy: # " + policyNumber);
 
 		TestData tdEndorsement = getTestSpecificTD("TestData_EndorsementOne");
 		policy.createEndorsement(tdEndorsement.adjust(getPolicyTD("Endorsement", "TestData")));
@@ -118,7 +118,7 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 		billingAccount.acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), sum);
 
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
-		log.info("Policy Renewal Image Generation Date" + renewImageGenDate);
+		log.info("Policy Renewal Image Generation Date: " + renewImageGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
@@ -129,7 +129,7 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
-		log.info("Policy Renewal Preview Generation Date" + renewPreviewGenDate);
+		log.info("Policy Renewal Preview Generation Date: " + renewPreviewGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
@@ -139,7 +139,7 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
-		log.info("Policy Renewal Offer Generation Date" + renewOfferGenDate);
+		log.info("Policy Renewal Offer Generation Date: " + renewOfferGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
@@ -154,7 +154,7 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 
 		LocalDateTime renewOfferBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
-		log.info("Policy Renewal Offer Bill Generation Date" + renewOfferBillGenDate);
+		log.info("Policy Renewal Offer Bill Generation Date: " + renewOfferBillGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferBillGenDate);
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
@@ -175,17 +175,15 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 		Tab.buttonCancel.click();
 
 		BillingSummaryPage.open();
-		Dollar _curRnwlAmt = BillingSummaryPage.getBillableAmount();
+		Dollar _curRnwlAmt = BillingSummaryPage.getMinimumDue();
 		Dollar _instlFee = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Non EFT Installment Fee")
 				.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
 		Dollar _sr22Fee = new Dollar(0);
 		curRnwlAmt = _curRnwlAmt.subtract(_instlFee).subtract(_sr22Fee).toPlaingString();
-		totNwCrgAmt = BillingHelper.getBillDueAmount(policyExpirationDate, "Bill").toPlaingString();
-		plcyPayMinAmt = BillingSummaryPage.getMinimumDue().toPlaingString();
-		plcyDueDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance()
-				.parse(BillingSummaryPage.tableBillsStatements.getRow(BillingConstants.BillingBillsAndStatmentsTable.TYPE, "Bill").getCell(BillingConstants.BillingBillsAndStatmentsTable.DUE_DATE)
-						.getValue(), DateTimeUtils.MM_DD_YYYY));
-		plcyTotRnwlPrem = BillingHelper.getPolicyRenewalProposalSum(renewOfferBillGenDate, policyNumber).toPlaingString();
+		totNwCrgAmt = _curRnwlAmt.toPlaingString();
+		plcyPayMinAmt = _curRnwlAmt.toPlaingString();
+		plcyDueDt = DocGenHelper.convertToZonedDateTime(policyExpirationDate);
+		plcyTotRnwlPrem = BillingHelper.getPolicyRenewalProposalSum(renewOfferGenDate, policyNumber).toPlaingString();
 		instlFee = _instlFee.toPlaingString();
 		sr22Fee = _sr22Fee.toPlaingString();
 
