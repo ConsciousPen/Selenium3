@@ -7,10 +7,7 @@ import com.google.common.collect.ImmutableList;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ApiModel(description = "Coverage Information")
@@ -70,6 +67,9 @@ public class Coverage {
 		coverage.coverageType = coverageInfo.getCoverageType();
 		coverage.canChangeCoverage = true;
 		coverage.customerDisplayed = true;
+		if (coverageInfo.equals(CoverageInfo.PIPCOVINCLUDES_NJ)) {
+			coverage.relativesCovered = new ArrayList<>();
+		}
 		return coverage;
 	}
 

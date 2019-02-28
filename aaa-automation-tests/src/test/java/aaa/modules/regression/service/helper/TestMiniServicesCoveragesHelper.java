@@ -5749,7 +5749,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdatePIPRIMINSCoverageRequest(covPIPRIMINSPersonalExpected.getCoverageCd(), covPIPRIMINSPersonalExpected.getCoverageLimit()
 				, covPIPRIMINSPersonalExpected.getInsurerName(), covPIPRIMINSPersonalExpected.getCertNum());
 		ErrorResponseDto errorResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, ErrorResponseDto.class, 422);
-		assertThat(helperMiniServices.hasError(errorResponse, ErrorDxpEnum.Errors.INSURER_NAME_POLICY_GROUP_CERTIFICATE_BLANK)).isTrue();
+		assertThat(helperMiniServices.hasError(errorResponse, ErrorDxpEnum.Errors.INSURER_NAME_POLICY_GROUP_CERTIFICATE_BLANK, "attributeForRules")).isTrue();
 		//Assert that coverage is not updated as there was error
 		PolicyCoverageInfo policyCoverageInfoAfterUpdate = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		assertThat(policyCoverageInfoAfterUpdate).isEqualToComparingFieldByFieldRecursively(policyCoverageInfoBeforeUpdate);
