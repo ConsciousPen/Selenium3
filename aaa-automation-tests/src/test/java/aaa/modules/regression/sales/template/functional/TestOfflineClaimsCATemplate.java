@@ -20,6 +20,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -111,6 +112,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     private static final String CAS_CLUE_CLAIM = "1002-10-8704";
     private static final String CLUE_CLAIM = "1002-10-8799";
+
     private static final String COMP_DL_PU_CLAIMS_DATA_MODEL_CHOICE = "comp_dl_pu_claims_data_model_choice.yaml";
     private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE_CHOICE = ImmutableMap.of(CLAIM_NUMBER_1, "D1278111", CLAIM_NUMBER_2, "D1278111");
     private static final String COMP_DL_PU_CLAIMS_DATA_MODEL_SELECT = "comp_dl_pu_claims_data_model_select.yaml";
@@ -118,9 +120,12 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     protected boolean updatePUFlag = false;
     protected boolean secondDriverFlag = false;
 
-
     @BeforeTest
     public void prepare() {
+        // Toggle ON PermissiveUse Logic & Set DATEOFLOSS Parameter in DB
+        DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
+        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-16"));
+
         try {
             FileUtils.forceDeleteOnExit(Paths.get(CAS_REQUEST_PATH).toFile());
             FileUtils.forceDeleteOnExit(Paths.get(CAS_RESPONSE_PATH).toFile());
@@ -147,6 +152,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         // Create Customer and Policy with 4 drivers
         openAppAndCreatePolicy(adjusted);
         policyNumber = labelPolicyNumber.getValue();
+
         mainApp().close();
         return policyNumber;
     }
@@ -164,8 +170,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         // Toggle ON PermissiveUse Logic
         // Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
         // Set RISKSTATECD in DB to get policy DATEOFLOSS working
-        DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
+        updatePUInDb();
 
         createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
         runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
@@ -570,6 +575,14 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         return claimValue;
     }
 
+    private void updatePUInDb() {
+        // Toggle ON PermissiveUse Logic
+        // Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
+        // Set RISKSTATECD in DB to get policy DATEOFLOSS working
+        DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
+        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
+    }
+
     /**
      * Method creates CAS Response file and updates required fields: Policy Number, Driver Licence, Claim Dates: Date Of Loss, Close Date, Open Date
      *
@@ -725,8 +738,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         // Toggle ON PermissiveUse Logic
         // Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
         // Set RISKSTATECD in DB to get policy DATEOFLOSS working
-        DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
+        updatePUInDb();
 
         createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
         runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
@@ -878,7 +890,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         mainApp().close();
     }
 
-
+    /**
+     * Method to validate CAS/Clue Reconcile for AFR driver when PU flag is marked as Yes
+     */
     public void pas24587_CASClueReconcilePUAFRUserFlagged(){
         String DL_NAME_RECONCILEFNICLAIMS_DATA_MODEL;
         Map<String, String> CLAIM_TO_DRIVER_LICENSE;
@@ -889,8 +903,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         // Toggle ON PermissiveUse Logic
         // Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
         // Set RISKSTATECD in DB to get policy DATEOFLOSS working
-        DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
+        updatePUInDb();
 
         // Create Customer and Policy with one driver
         TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_ReconcileFNIclaims_PU").resolveLinks();
@@ -938,12 +951,14 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         bindEndorsement();
     }
 
+    /**
+     * Method to validate Clue Reconcile for AFR driver when PU flag is marked as Yes
+     */
     public void pas24587_ClueReconcilePUAFRUserFlagged(){
         // Toggle ON PermissiveUse Logic
         // Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
         // Set RISKSTATECD in DB to get policy DATEOFLOSS working
-        DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
+        updatePUInDb();
 
         //Create a policy with 2 drivers
         TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_ClueReconcileFNIclaims_PU").resolveLinks();
