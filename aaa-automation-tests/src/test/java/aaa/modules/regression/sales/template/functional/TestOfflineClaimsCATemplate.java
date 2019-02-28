@@ -25,6 +25,7 @@ import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.BooleanUtils;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeTest;
 import toolkit.config.PropertyProvider;
@@ -32,6 +33,8 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
+import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.TextBox;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -49,6 +52,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static aaa.common.pages.Page.dialogConfirmation;
 import static aaa.common.pages.SearchPage.tableSearchResults;
 import static aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.*;
 import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
@@ -86,15 +90,25 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     protected LocalDateTime policyExpirationDate;
     protected LocalDateTime policyEffectiveDate;
     protected String policyNumber;
+    // Claim Dates: For CAS Response
+    protected String claim1_dates_gdd = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
+    protected String claim2_dates_gdd = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(80).toLocalDate().toString();
 
     protected static DriverTab driverTab = new DriverTab();
     protected static PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
     protected static DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+    protected static PurchaseTab purchaseTab = new PurchaseTab();
+    protected static ErrorTab errorTab = new ErrorTab();
+    protected static DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
     protected static ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
 
     private static final String CLAIM_NUMBER_1 = "1002-10-8702";
     private static final String CLAIM_NUMBER_2 = "1002-10-8703";
     private static final String CLAIM_NUMBER_3 = "1002-10-8704";
+
+    protected static final String CLAIM_NUMBER_1_GDD = "Claim-GDD-111";
+    protected static final String CLAIM_NUMBER_2_GDD = "Claim-GDD-222";
+
     private static final String CAS_CLUE_CLAIM = "1002-10-8704";
     private static final String CLUE_CLAIM = "1002-10-8799";
     private static final String COMP_DL_PU_CLAIMS_DATA_MODEL_CHOICE = "comp_dl_pu_claims_data_model_choice.yaml";
@@ -403,7 +417,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      *
      * @param policyNumber given policy number
      */
-    protected void issueGeneratedRenewalImage(String policyNumber) {
+    protected void issueGeneratedRenewalImage(String policyNumber, Boolean validateGDD) {
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -418,8 +432,23 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         policy.dataGather().start();
         premiumAndCoveragesTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+
+        if (BooleanUtils.isTrue(validateGDD)) {
+            validateGDD();
+        }
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab();
         payTotalAmtDue(policyNumber);
+    }
+
+    /**
+     * Method changes current date to policy expiration date, validates Good Driver Discount and issues generated renewal image
+     *
+     * @param policyNumber given policy number
+     */
+    protected void issueGeneratedRenewalImageWithGDDValidation(String policyNumber) {
+        issueGeneratedRenewalImage(policyNumber, true);
     }
 
     /**
@@ -741,6 +770,114 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Bind Endorsement
         bindEndorsement();
     }
+
+    /*
+    Method Validates P&C tab, and that Good Driver Discount is applied with Permissive Use Claims only
+     */
+    protected void validateGDD() {
+        String CLUE_Dates = TimeSetterUtil.getInstance().getCurrentTime().minusDays(90).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+
+        //Making sure that PU = Yes, and its included in rating.
+        ActivityInformationMultiAssetList activityInformationAssetList = new DriverTab().getActivityInformationAssetList();
+        DriverTab.viewDriver(1);
+
+        for (int i = 1; i <= DriverTab.tableActivityInformationList.getAllRowsCount(); i++) {
+            DriverTab.tableActivityInformationList.selectRow(i);
+
+            if (activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OVERRIDE_ACTIVITY_DETAILS.getLabel(), RadioGroup.class).isPresent()) {
+                if (activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OVERRIDE_ACTIVITY_DETAILS.getLabel(), RadioGroup.class).getValue().equals("No")) {
+                    activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OVERRIDE_ACTIVITY_DETAILS.getLabel(), RadioGroup.class).setValue("Yes");
+                    activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), TextBox.class).setValue(CLUE_Dates);
+                }
+            }
+
+            if (activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_YAF.getLabel(), RadioGroup.class).getValue().equals("No")) {
+                activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_YAF.getLabel(), RadioGroup.class).setValue("Yes");
+            } else if (activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).getValue().equals("No")) {
+                activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).setValue("Yes");
+            }
+        }
+
+        //Verify That Discount is Applied with Permissive Use Claims
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.calculatePremium();
+        assertThat(PremiumAndCoveragesTab.tableDiscounts.getColumn(1).getCell(1).getValue()).contains("Good Driver");
+
+        //Negative Case: Make One Claimas non PU
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        DriverTab.tableActivityInformationList.selectRow(1);
+        activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).setValue("No");
+
+        //Verify That Discount is NOT Applied when one Claim is not PU Claim
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.calculatePremium();
+
+        // If Discounts table is not visible, means that GDD discounts is not applied (Auto CA Select specific)
+        if (PremiumAndCoveragesTab.tableDiscounts.isPresent()) {
+            assertThat(PremiumAndCoveragesTab.tableDiscounts.getColumn(1).getCell(1).getValue()).doesNotContain("Good Driver");
+        }
+    }
+
+    /*
+    Method Validates P&C tab, and that Good Driver Discount is applied with Permissive Use Claims only: Renewal, Endorsement, Rewritten Quotes
+     */
+    protected void validateGDDonRenewalEndorsementRewrittenQuote() {
+        // Verify GDD during Renewal Quote Creation
+        issueGeneratedRenewalImageWithGDDValidation(policyNumber);
+
+        // Verify GDD during Endorsement Quote Creation
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        validateGDD();
+        premiumAndCoveragesTab.cancel();
+        dialogConfirmation.buttonDeleteEndorsement.click();
+
+        // Verify GDD during Rewritten Quote Creation
+        buttonRenewals.click();
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+        policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
+        policy.dataGather().start();
+        validateGDD();
+    }
+
+    /*
+    Method Validates Driver tab that PU Indicator is not visible for Non First Named Insured Driver
+     */
+    protected void validateNonFNIPermissiveUse() {
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        DriverTab.viewDriver(2);
+
+        //Verify that 'Permissive Use Loss?' is not visible for Non First Named Insured
+        CustomSoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(!activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent());
+        });
+    }
+
+    /*
+   Method Validates NB quote: Good Driver Discount validation & PU indicator visibility on different Drivers
+	*/
+    protected void validateGDDAndPUIndicatorOnNB(TestData td, TestData td2) {
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+        driverActivityReportsTab.fillTab(td);
+
+        //Making Sure that correct Policy Type is selected: Select OR Choice
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.fillTab(td);
+        // Verify GDD during NB Quote Creation
+        validateGDD();
+
+        // Verify that Permissive Use Indicator is not displayed for Non First Named Insured
+        validateNonFNIPermissiveUse();
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        policy.getDefaultView().fillFromTo(td2, PremiumAndCoveragesTab.class, PurchaseTab.class, true);
+        purchaseTab.submitTab();
+
+        policyNumber = labelPolicyNumber.getValue();
+        mainApp().close();
+    }
+
 
     public void pas24587_CASClueReconcilePUAFRUserFlagged(){
         String DL_NAME_RECONCILEFNICLAIMS_DATA_MODEL;
