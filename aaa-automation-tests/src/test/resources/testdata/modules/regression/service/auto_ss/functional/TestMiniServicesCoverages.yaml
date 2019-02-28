@@ -534,3 +534,9 @@ AdditionalPersonalInjuryProtectionBenefit_NO: {
 }
 
 
+
+PolicyLevelPersonalInjuryProtectionCoverages_Primary_Insurer_Personal_Health_Insurance: {
+  Primary Insurer: 'Personal Health Insurance',
+  Insurer Name: 'abc',
+  "Policy / Group # /Certificate #": '12Z'
+}

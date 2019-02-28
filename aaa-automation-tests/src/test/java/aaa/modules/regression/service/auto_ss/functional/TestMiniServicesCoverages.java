@@ -1332,6 +1332,23 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	}
 
 	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Update UIMBI to No Coverage ---> UIMBI is updated to No Coverage, UMBI stays the same
+	 * 4. Update UIMBI to other than No Coverage ---> UIMBI is updated, UMBI is also updated to the same limit (or actually stays the same)
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DC})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-25824"})
+	public void pas25824_updateUIMBIThenUpdateUMBI(@Optional("DC") String state) {
+		pas25824_updateUIMBIThenUpdateUMBIBody();
+	}
+
+	/**
 	 * @author RVanover
 	 * @name View/Update PIP Coverage
 	 * @scenario for DC
@@ -1485,6 +1502,22 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15353"})
 	public void pas15353_viewPIPNonMedExpenseNoNJ(@Optional("NJ") String state) {
 		pas15353_viewPIPNonMedExpenseNoNJBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name View Coverage - PIP in NJ- "Non-Medical Expense" = "No"
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Update PIPPRIMINS coverage with correct/incorrect data and check responses
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23975"})
+	public void pas23975_viewUpdatePIPPrimaryInsurerNJ(@Optional("NJ") String state) {
+		pas23975_viewUpdatePIPPrimaryInsurerNJBody();
 	}
 
 	/**

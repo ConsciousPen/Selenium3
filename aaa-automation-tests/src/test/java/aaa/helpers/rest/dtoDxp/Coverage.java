@@ -49,6 +49,13 @@ public class Coverage {
 	@ApiModelProperty(value = "List of sub coverages associated to the coverage")
 	private List<Coverage> subCoverages;
 
+	@ApiModelProperty(value = "Insurer Name", example = "John Smith")
+	private String insurerName; //for PIPPRIMINS coverage
+
+	private String certNum; //for PIPPRIMINS coverage
+
+	private List<String> relativesCovered;
+
 	public static Coverage create(CoverageInfo coverageInfo) {
 		Coverage coverage = new Coverage();
 		coverage.coverageCd = coverageInfo.getCode();
@@ -193,6 +200,27 @@ public class Coverage {
 		return subCoverages;
 	}
 
+	public String getInsurerName() {
+		return insurerName;
+	}
+	public String getCertNum(){
+		return certNum;
+	}
+
+	public List <String> getRelativesCovered(){
+		return relativesCovered;
+	}
+
+	public Coverage addInsurerName(String insurerName) {
+		this.insurerName = insurerName;
+		return this;
+	}
+
+	public Coverage addCertNum(String certNum) {
+		this.certNum = certNum;
+		return this;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -212,14 +240,16 @@ public class Coverage {
 				Objects.equals(getAvailableLimits(), coverage.getAvailableLimits()) &&
 				Objects.equals(getAvailableDrivers(), coverage.getAvailableDrivers()) &&
 				Objects.equals(getCurrentlyAddedDrivers(), coverage.getCurrentlyAddedDrivers()) &&
-				Objects.equals(getSubCoverages(), coverage.getSubCoverages());
+				Objects.equals(getSubCoverages(), coverage.getSubCoverages()) &&
+				Objects.equals(getInsurerName(), coverage.getInsurerName()) &&
+				Objects.equals(getCertNum(), coverage.getCertNum());
 	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(getCoverageCd(), getCoverageDescription(), getCoverageLimit(), getCoverageLimitDisplay(),
 				getCoverageType(), getCustomerDisplayed(), getCanChangeCoverage(), getAvailableLimits(),
-				getAvailableLimits(), getCurrentlyAddedDrivers(), getSubCoverages());
+				getAvailableLimits(), getCurrentlyAddedDrivers(), getSubCoverages(), getInsurerName(), getCertNum(), getRelativesCovered());
 	}
 
 	@Override
@@ -236,6 +266,9 @@ public class Coverage {
 				", availableDrivers=" + availableDrivers +
 				", currentlyAddedDrivers=" + currentlyAddedDrivers +
 				", subCoverages=" + subCoverages +
+				", insurerName=" + insurerName +
+				", certNum=" + certNum +
+				", relativesCovered=" + relativesCovered +
 				'}';
 	}
 }
