@@ -490,18 +490,6 @@ TestData_OrderOfCoverages_WY: {
   DriverLevelCoverages:["ADB"]
 }
 
-#The same name exist above
-#VehicleTab_Motor_Home: {
-#         Add Vehicle: Click,
-#         Type: Motor Home,
-#         Motor Home Type: Mini Motor Home (Class C),
-#         Usage: Pleasure Use - Occupied Less than 30 Days a Year,
-#         VIN: 5B4MP67G123353230,
-#         Other Make: 'Motor',
-#         Other Model: 'Motor',
-#        Stated Amount: '50000',
-# }
-
 VehicleTab_GolfCart: {
    Add Vehicle: click,
    Type: Golf Cart,
@@ -523,3 +511,9 @@ AdditionalPersonalInjuryProtectionBenefit_NO: {
 }
 
 
+
+PolicyLevelPersonalInjuryProtectionCoverages_Primary_Insurer_Personal_Health_Insurance: {
+  Primary Insurer: 'Personal Health Insurance',
+  Insurer Name: 'abc',
+  "Policy / Group # /Certificate #": '12Z'
+}

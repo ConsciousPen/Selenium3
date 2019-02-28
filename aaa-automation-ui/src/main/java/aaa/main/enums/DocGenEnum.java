@@ -110,6 +110,7 @@ public final class DocGenEnum {
 		AADNCO("Colorado Private Passenger Automobile Insurance Summary Disclosure Form"),
 		AADNNY1("Identification Card Notice"),
 		AADNNY2("DWI Notice"),
+		AADNPAB("AADNPAB", "Pennsylvania Notice to Named Insured Regarding Tort Options"),
 		AADNPAC(""),
 		AADNPAD(""),
 		AADNPAE(""),

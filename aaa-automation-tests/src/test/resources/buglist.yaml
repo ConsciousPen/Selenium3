@@ -427,12 +427,6 @@ PT-2901:
       messages: ['Errors: The connection has timed out']
     - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*]
       messages: ['[LoginPanel is displayed] expected:<[tru]e> but was:<[fals]e>']
-PAS-25099:
-  summary: "PUP Policy does not rate after first attempt"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.pup.*]
-      messages: ['no such element: Unable to locate element: {"method":"id","selector":"policyDataGatherForm:ratingPUPDetailsPopupLink"}']
 PAS-24131:
   summary: "Regression BCT: grouprefundGenerationJob failed with huge amount of exceptions"
   reason: PROD
