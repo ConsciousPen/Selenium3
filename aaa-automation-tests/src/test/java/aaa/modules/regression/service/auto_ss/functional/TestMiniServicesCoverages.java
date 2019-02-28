@@ -478,10 +478,10 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@StateList(states = {Constants.States.AZ, Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
 			Constants.States.MD, Constants.States.NV, Constants.States.OH, Constants.States.OR, Constants.States.CT, Constants.States.KY, Constants.States.SD,
 			Constants.States.WV, Constants.States.UT, Constants.States.DC, Constants.States.CO, Constants.States.ID, Constants.States.MT, Constants.States.OK,
-			Constants.States.PA, Constants.States.WY})
+			Constants.States.PA, Constants.States.WY,Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016", "PAS-19024", "PAS-19044", "PAS-18202", "PAS-19055", "PAS-19052", "PAS-18350", "PAS-23057"})
-	public void pas17646_OrderOfCoverage(@Optional("VA") String state) {
+	public void pas17646_OrderOfCoverage(@Optional("NJ") String state) {
 		assertSoftly(softly ->
 				pas17646_OrderOfCoverageBody(softly)
 		);
@@ -1600,21 +1600,4 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas23299_EMBCoveragePABody();
 	}
 
-	/**
-	 * @author Nauris Ivanans
-	 * @name View/Update Limitation on Lawsuit for NJ state
-	 * @scenario
-	 * 1. Create policy in PAS with Limitation on Lawsuit = "No Limitation on Lawsuit"
-	 * 2. Create endorsement through service
-	 * 3. Run viewEndorsementCoverages service and validate response
-	 * 4. Update Limitation on Lawsuit to "Limitation on Lawsuit", check update, view, change log responses and in PAS UI
-	 * 5. Update  Limitation on Lawsuit back to "No Limitation on Lawsuit", check update, view, change log responses and in PAS UI
-	 */
-	@Parameters({"state"})
-	@StateList(states = {Constants.States.NJ})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15302"})
-	public void pas15302_lolCoverageNJ(@Optional("NJ") String state) {
-		pas15302_lolCoverageNJBody();
-	}
 }
