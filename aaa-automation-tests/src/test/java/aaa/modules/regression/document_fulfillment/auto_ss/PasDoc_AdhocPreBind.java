@@ -17,6 +17,7 @@ import toolkit.datax.TestData;
 //import toolkit.db.DBService;
 import toolkit.verification.CustomAssertions;
 import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.waiters.Waiters;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.DocGenEnum.Documents;
@@ -66,9 +67,9 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 
 		fillFromDriverToDocumentsAndBindTab(getTestSpecificTD("TestData_SC2"));		
 		CustomSoftAssertions.assertSoftly(softly -> {
-			verifyDriverDocsPresent();
-			verifyVehicleDocsPresent();
-			verifyCoverageDocPresent();
+			verifyDriverDocsPresent(softly);
+			verifyVehicleDocsPresent(softly);
+			verifyCoverageDocPresent(softly);
 		});
 
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData_SC2"), DocumentsAndBindTab.class, PurchaseTab.class, true);
@@ -81,17 +82,17 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		new PremiumAndCoveragesTab().calculatePremium();
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		CustomSoftAssertions.assertSoftly(softly -> {
-			verifyDriverDocsPresent();
-			verifyVehicleDocsPresent();
-			verifyCoverageDocPresent();
+			verifyDriverDocsPresent(softly);
+			verifyVehicleDocsPresent(softly);
+			verifyCoverageDocPresent(softly);
 		});
 		
 		removeAdditionalData(getTestSpecificTD("TestData_Endorsement_SC2"));
 		
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		CustomSoftAssertions.assertSoftly(softly -> {
-			verifyDriverDocsPresent(false);
-			verifyVehicleDocsPresent(false);
+			verifyDriverDocsPresent(false, softly);
+			verifyVehicleDocsPresent(false, softly);
 			
 			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION)).isPresent();		
@@ -107,9 +108,9 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		CustomSoftAssertions.assertSoftly(softly -> {
-			verifyDriverDocsPresent();
-			verifyVehicleDocsPresent();
-			verifyCoverageDocPresent();
+			verifyDriverDocsPresent(softly);
+			verifyVehicleDocsPresent(softly);
+			verifyCoverageDocPresent(softly);
 		});
 		documentsAndBindTab.fillTab(getTestSpecificTD("TestData_Renewal_SC2"));
 		DocumentsAndBindTab.btnPurchase.click();
@@ -221,9 +222,9 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		CustomSoftAssertions.assertSoftly(softly -> {
-			verifyDriverDocsPresent();			
-			verifyVehicleDocsPresent();
-			verifyCoverageDocPresent();
+			verifyDriverDocsPresent(softly);			
+			verifyVehicleDocsPresent(softly);
+			verifyCoverageDocPresent(softly);
 		});
 		documentsAndBindTab.fillTab(getTestSpecificTD("TestData_Renewal_SC2"));
 		//documentsAndBindTab.submitTab();
@@ -239,8 +240,8 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		CustomSoftAssertions.assertSoftly(softly -> {
-			verifyDriverDocsPresent(false);			
-			verifyVehicleDocsPresent(false);
+			verifyDriverDocsPresent(false, softly);			
+			verifyVehicleDocsPresent(false, softly);
 			
 			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION)).isPresent();
@@ -551,43 +552,43 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		new PremiumAndCoveragesTab().calculatePremium();
 	}
 	
-	private void verifyDriverDocsPresent(boolean value) {
+	private void verifyDriverDocsPresent(boolean value, ETCSCoreSoftAssertions softly) {
 		//Docs in Available For Printing section
-		CustomAssertions.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.NAMED_DRIVER_EXCLUSION_ELECTION)).isPresent(value);			
-		CustomAssertions.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.CRITICAL_INFORMATION_FOR_TEENAGE_DRIVERS_AND_THEIR_PARENTS)).isPresent(value);
 		//Doc in Required to Bind section
-		CustomAssertions.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(
+		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NAMED_DRIVER_EXCLUSION)).isPresent(value);
 	}
 	
-	private void verifyDriverDocsPresent() {
-		verifyDriverDocsPresent(true);
+	private void verifyDriverDocsPresent(ETCSCoreSoftAssertions softly) {
+		verifyDriverDocsPresent(true, softly);
 	}
 	
-	private void verifyVehicleDocsPresent(boolean value) {
+	private void verifyVehicleDocsPresent(boolean value, ETCSCoreSoftAssertions softly) {
 		//Docs in Available for Printing section
-		CustomAssertions.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AAA_USAGE_BASED_INSURANCE_PROGRAM_TERMS_AND_CONDITIONS)).isPresent(value);
-		CustomAssertions.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT)).isPresent(value);
-		CustomAssertions.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.ACP_SMARTTRECK_SUBSCRIPTION_TERMS)).isPresent(value);
 		//Doc in Required to Bind section
-		CustomAssertions.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(
+		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS)).isPresent(value);
 	}
 	
-	private void verifyVehicleDocsPresent() {
-		verifyVehicleDocsPresent(true);
+	private void verifyVehicleDocsPresent(ETCSCoreSoftAssertions softly) {
+		verifyVehicleDocsPresent(true, softly);
 	}
 	
-	private void verifyCoverageDocPresent() {
-		CustomAssertions.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+	private void verifyCoverageDocPresent(ETCSCoreSoftAssertions softly) {
+		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION)).isPresent();
 		
-		CustomAssertions.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(
+		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION)).isPresent();
 	}
 	
