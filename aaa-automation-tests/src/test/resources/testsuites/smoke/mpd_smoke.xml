@@ -1,0 +1,26 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="MPD Smoke Test" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <test name="AZ MPD Smoke Test" parallel="methods">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMultiPolicyDiscount">
+                <methods>
+                    <include name="pas23983_MPD_unquoted_rate_and_show_discounts"/>
+                    <include name="pas22193_AH11AZDocGen_QAAC1dot3"/>
+                    <include name="pas22193_AH11AZDocGen_QAAC4"/>
+                    <include name="pas22193_AH11AZDocGen_QAAC5"/>
+                    <include name="pas23456_MPD_Prevent_MTEBind"/>
+                    <include name="pas3649_MPD_ValidateEligibilityRuleFires_Home"/>
+                    <include name="pas24021_MPD_ValidateRerateRuleFires"/>
+                    <include name="pas_3622_CIO_Remove_NI_Companion_AC1_1"/>
+                    <include name="pas18315_CIO_Prevent_Unquoted_Bind_NB"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
