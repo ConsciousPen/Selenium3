@@ -52,7 +52,7 @@ public class TestMaskDLN extends AutoSSBaseTest {
 
 	public void testMaskDLN(@Optional("") String state){
 		//PASBB-931 Create the quote when the driver witout privilege
-		mainApp().open(getLoginTD(Constants.UserGroups.A30));
+		mainApp().open(getLoginTD(Constants.UserGroups.F35));
 		createCustomerIndividual();
 		quoteNum = createQuote();
 		mainApp().close();
@@ -71,7 +71,7 @@ public class TestMaskDLN extends AutoSSBaseTest {
 		verifyMaskDLN(Constants.UserGroups.F35, false);
 
 		//PASBB-931 Bind the Quote when the driver without privilege
-		mainApp().open(getLoginTD(Constants.UserGroups.A30));
+		mainApp().open(getLoginTD(Constants.UserGroups.F35));
 		SearchPage.openQuote(quoteNum);
 		policy.purchase(getPolicyTD());
 		quoteNum = PolicySummaryPage.getPolicyNumber();

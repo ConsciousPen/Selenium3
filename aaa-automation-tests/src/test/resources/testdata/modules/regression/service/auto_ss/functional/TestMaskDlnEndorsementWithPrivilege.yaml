@@ -16,6 +16,16 @@ VehicleTab: {
   VIN: WDCYC7BB0B6729451,
 }
 
+TestData_EndorsementOne_PA: {
+    GeneralTab: {},
+    DriverTab: {},
+    RatingDetailReportsTab: {},
+    VehicleTab: '@VehicleTab',
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+    DriverActivityReportsTab: {},
+    DocumentsAndBindTab: '@DocumentsAndBindTab_PA'
+}
 
 # ------- AZ ------
 TestData_EndorsementTwo_AZ: {
@@ -315,11 +325,18 @@ TestData_EndorsementTwo_PA: {
     FormsTab: {},
     PremiumAndCoveragesTab: {},
     DriverActivityReportsTab:{},
-    DocumentsAndBindTab: {}
+    DocumentsAndBindTab: '@DocumentsAndBindTab_PA'
 }
 
 DriverTab_EndorsementTwo_PA: {
   License Number: 83127888
+}
+
+DocumentsAndBindTab_PA: {
+  RequiredToBind: {
+    Uninsured Motorists Coverage Selection/Rejection: Physically Signed,
+    Underinsured Motorists Coverage Selection/Rejection: Physically Signed,
+  }
 }
 
 # ------- SD ------
@@ -409,7 +426,7 @@ DriverTab_EndorsementThree_AZ: {
  License Number: A12345679
 }
 # ------- UT ------
-DriverTab_EndorsementThree_UT: {
+TestData_EndorsementThree_UT: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_UT',
     RatingDetailReportsTab: {},
@@ -425,7 +442,7 @@ DriverTab_EndorsementThree_UT: {
 }
 
 # ------- CO ------
-DriverTab_EndorsementThree_CO: {
+TestData_EndorsementThree_CO: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_CO',
     RatingDetailReportsTab: {},
@@ -442,7 +459,7 @@ DriverTab_EndorsementTwo_CO: {
 
 # ------- CT ------
 
-DriverTab_EndorsementThree_CT: {
+TestData_EndorsementThree_CT: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_CT',
     RatingDetailReportsTab: {},
@@ -458,7 +475,7 @@ DriverTab_EndorsementThree_CT: {
 }
 
 # ------- DC ------
-DriverTab_EndorsementThree_DC: {
+TestData_EndorsementThree_DC: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_DC',
     RatingDetailReportsTab: {},
@@ -474,7 +491,7 @@ DriverTab_EndorsementThree_DC: {
 }
 
 # ------- DE ------
-DriverTab_EndorsementThree_DE: {
+TestData_EndorsementThree_DE: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_DE',
     RatingDetailReportsTab: {},
@@ -490,7 +507,7 @@ DriverTab_EndorsementThree_DE: {
 }
 
 # ------- ID ------
-DriverTab_EndorsementThree_ID: {
+TestData_EndorsementThree_ID: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_ID',
     RatingDetailReportsTab: {},
@@ -507,7 +524,7 @@ DriverTab_EndorsementThree_ID: {
 
 
 # ------- IN ------
-DriverTab_EndorsementThree_IN: {
+TestData_EndorsementThree_IN: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_IN',
     RatingDetailReportsTab: {},
@@ -523,7 +540,7 @@ DriverTab_EndorsementThree_IN: {
 }
 
 # ------- KS ------
-DriverTab_EndorsementThree_KS: {
+TestData_EndorsementThree_KS: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_KS',
     RatingDetailReportsTab: {},
@@ -539,7 +556,7 @@ DriverTab_EndorsementThree_KS: {
 }
 
 # ------- KY ------
-DriverTab_EndorsementThree_KY: {
+TestData_EndorsementThree_KY: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_KY',
     RatingDetailReportsTab: {},
@@ -555,7 +572,7 @@ DriverTab_EndorsementThree_KY: {
 }
 
 # ------- MD ------
-DriverTab_EndorsementThree_MD: {
+TestData_EndorsementThree_MD: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_MD',
     RatingDetailReportsTab: {},
@@ -571,7 +588,7 @@ DriverTab_EndorsementThree_MD: {
 }
 
 # ------- MT ------
-DriverTab_EndorsementThree_MT: {
+TestData_EndorsementThree_MT: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_MT',
     RatingDetailReportsTab: {},
@@ -587,7 +604,7 @@ DriverTab_EndorsementThree_MT: {
 }
 
 # ------- NJ ------
-DriverTab_EndorsementThree_NJ: {
+TestData_EndorsementThree_NJ: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_NJ',
     RatingDetailReportsTab: {},
@@ -603,7 +620,7 @@ DriverTab_EndorsementThree_NJ: {
 }
 
 # ------- NV ------
-DriverTab_EndorsementThree_NV: {
+TestData_EndorsementThree_NV: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_NV',
     RatingDetailReportsTab: {},
@@ -619,7 +636,7 @@ DriverTab_EndorsementThree_NV: {
 }
 
 # ------- NY ------
-DriverTab_EndorsementThree_NY: {
+TestData_EndorsementThree_NY: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_NY',
     RatingDetailReportsTab: {},
@@ -635,7 +652,7 @@ DriverTab_EndorsementThree_NY: {
 }
 
 # ------- OH ------
-DriverTab_EndorsementThree_OH: {
+TestData_EndorsementThree_OH: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_OH',
     RatingDetailReportsTab: {},
@@ -651,7 +668,7 @@ DriverTab_EndorsementThree_OH: {
 }
 
 # ------- OK ------
-DriverTab_EndorsementThree_OK: {
+TestData_EndorsementThree_OK: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_OK',
     RatingDetailReportsTab: {},
@@ -667,7 +684,7 @@ DriverTab_EndorsementThree_OK: {
 }
 
 # ------- OR ------
-TDriverTab_EndorsementThree_OR: {
+TestData_EndorsementThree_OR: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_OR',
     RatingDetailReportsTab: {},
@@ -683,7 +700,7 @@ DriverTab_EndorsementThree_OR: {
 }
 
 # ------- PA ------
-DriverTab_EndorsementThree_PA: {
+TestData_EndorsementThree_PA: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_PA',
     RatingDetailReportsTab: {},
@@ -691,7 +708,7 @@ DriverTab_EndorsementThree_PA: {
     FormsTab: {},
     PremiumAndCoveragesTab: {},
     DriverActivityReportsTab:{},
-    DocumentsAndBindTab: {}
+    DocumentsAndBindTab: '@DocumentsAndBindTab_PA'
 }
 
 DriverTab_EndorsementThree_PA: {
@@ -699,7 +716,7 @@ DriverTab_EndorsementThree_PA: {
 }
 
 # ------- SD ------
-DriverTab_EndorsementThree_SD: {
+TestData_EndorsementThree_SD: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_SD',
     RatingDetailReportsTab: {},
@@ -715,7 +732,7 @@ DriverTab_EndorsementThree_SD: {
 }
 
 # ------- VA ------
-DriverTab_EndorsementThree_VA: {
+TestData_EndorsementThree_VA: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_VA',
     RatingDetailReportsTab: {},
@@ -731,7 +748,7 @@ DriverTab_EndorsementThree_VA: {
 }
 
 # ------- WV ------
-DriverTab_EndorsementThree_WV: {
+TestData_EndorsementThree_WV: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_WV',
     RatingDetailReportsTab: {},
@@ -747,7 +764,7 @@ DriverTab_EndorsementThree_WV: {
 }
 
 # ------- WY ------
-DriverTab_EndorsementThree_WY: {
+TestData_EndorsementThree_WY: {
     GeneralTab: {},
     DriverTab: '@DriverTab_EndorsementThree_WY',
     RatingDetailReportsTab: {},
