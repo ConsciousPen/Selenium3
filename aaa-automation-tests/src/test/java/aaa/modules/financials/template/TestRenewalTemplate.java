@@ -95,7 +95,10 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         policy.renew().performAndFill(getRenewalFillTd());
         Dollar renewalAmt = payTotalAmountDue();
 
-        // TODO Validate RNW-01
+        // RNW-01 validations
+        assertSoftly(softly -> {
+            softly.assertThat(renewalAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1044"));
+        });
 
     }
 

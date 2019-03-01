@@ -84,6 +84,7 @@ public final class FinancialsSQL {
 	public static final class TxType {
 	    public static final String NEW_BUSINESS = "policy";
 	    public static final String ENDORSEMENT = "endorsement";
+	    public static final String RENEWAL = "renewal";
 	    public static final String MANUAL_PAYMENT = "ManualPayment";
 	    public static final String CANCELLATION = "cancellation";
 	    public static final String REINSTATEMENT = "reinstatement";
