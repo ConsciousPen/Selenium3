@@ -851,7 +851,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	}
 
 	private String getOtherBodyStyle(String statCode) {
-		List<String> otherBodyStyleStates = Arrays.asList(Constants.States.CO, Constants.States.DE, Constants.States.WY, Constants.States.OR, Constants.States.IN, Constants.States.MT);
+		List<String> otherBodyStyleStates = Arrays.asList(Constants.States.CO, Constants.States.DE, Constants.States.WY, Constants.States.IN, Constants.States.MT);
 		return !isConversionVanType(statCode) || otherBodyStyleStates.contains(getState()) ? AdvancedComboBox.RANDOM_MARK : null;
 	}
 
