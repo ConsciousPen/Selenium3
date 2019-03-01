@@ -248,12 +248,24 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 		 Both, manual propose and automated propose should work running under aaa-admin.**/
 		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getEffectiveDateForTimePoint(
 				TimeSetterUtil.getInstance().getPhaseStartTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
+		LocalDateTime renewalBillGenerationDate = getTimePoints().getEffectiveDateForTimePoint(
+				TimeSetterUtil.getInstance().getPhaseStartTime(), TimePoints.TimepointsList.BILL_GENERATION);
 
 		// Create manual entry
 		String policyNumber = createFormsSpecificManualEntry(testData);
 
+		//Move time to R-20 for bill
+		TimeSetterUtil.getInstance().nextPhase(renewalBillGenerationDate);
+
+		//Propose the policy
+		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
+
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+
+//		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
 		//needed for home banking form generation
 		setUpTriggerHomeBankingConversionRenewal(policyNumber);
