@@ -241,8 +241,8 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest {
 		/*mainApp().close();
 
 		mainApp().open();
-		SearchPage.openPolicy(policyNum);*/
-		policy.policyDocGen().start();
+		SearchPage.openPolicy(policyNum);
+		policy.policyDocGen().start();*/
 
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(
