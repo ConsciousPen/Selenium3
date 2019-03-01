@@ -1027,6 +1027,7 @@
                     <include name="pas15288_ViewUpdateCoveragePIPCoverage"/>
                     <include name="pas15286_updateUMPDCoverageDC"/>
                     <include name="pas21421_updateUIMPDCoverageDC"/>
+                    <include name="pas25824_updateUIMBIThenUpdateUMBI"/>
                 </methods>
             </class>
         </classes>
@@ -1126,6 +1127,7 @@
                     <include name="pas15353_viewPIPNonMedExpenseNoNJ"/>
                     <include name="pas19161_viewPIPNonMedExpenseYesNJ"/>
                     <include name="pas19163_viewPipYesAndNonMedExpenseYesNJ"/>
+                    <include name="pas23975_viewUpdatePIPPrimaryInsurerNJ"/>
                 </methods>
             </class>
         </classes>
