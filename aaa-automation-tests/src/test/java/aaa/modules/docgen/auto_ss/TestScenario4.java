@@ -238,7 +238,8 @@ public class TestScenario4 extends AutoSSBaseTest {
 
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
-		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
+		BillingSummaryPage.showPriorTerms();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyExpirationDate);
 
 		LocalDateTime insuranceRenewalReminderDate = getTimePoints().getInsuranceRenewalReminderDate(policyExpirationDate);
 		log.info("Policy Insurance Renewal Reminder Notice Date" + insuranceRenewalReminderDate);
