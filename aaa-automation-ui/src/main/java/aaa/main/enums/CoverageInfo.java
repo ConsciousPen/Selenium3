@@ -46,7 +46,7 @@ public enum CoverageInfo {
 	ESSENSERV_NME_YES_PIP_YES_NJ("ESSENSERV", "Essential Services", CoverageLimits.COV_8760, null, "Day/Maximum"),
 	FUNEXP_NJ("FUNEXP", "Funeral Expense/Death Benefits", null, null, null),
 	FUNEXP_NME_NO_NJ("FUNEXP", "Funeral Expense/Death Benefits", CoverageLimits.COV_1000, null, null),
-	FUNEXP_NME_YES_PIP_YES__NJ("FUNEXP", "Funeral Expense/Death Benefits", CoverageLimits.COV_2000, null, null),
+	FUNEXP_NME_YES_PIP_YES__NJ("FUNEXP", "Funeral Expenses", CoverageLimits.COV_2000, null, null),
 	WLB_UT("WLB", "Rejection of Work Loss Benefit", CoverageLimits.COV_FALSE, AvailableCoverageLimits.WLB_UT),
 	INCOMELOSS_OR("WORKLOSS", "Income Loss", CoverageLimits.COV_3000, null, "Per Month/Max 52 Weeks"),
 	CHILDEXP_OR("CHILDEXP", "Childcare Expenses", CoverageLimits.COV_25, null, "Per Day/$750 Max"),
