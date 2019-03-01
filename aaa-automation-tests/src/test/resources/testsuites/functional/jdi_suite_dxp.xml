@@ -438,7 +438,6 @@
                     <include name="pas12852_GaragedInMichigan200020"/>
                     <include name="pas12852_GaragedOutOfState200019"/>
                     <include name="pas12852_DuplicateVin200031"/>
-                    <include name="pas12852_ExpensiveVehicle200022"/>
                     <include name="pas12852_GaragedOutOfStateOnlyOneVeh200018"/>
                     <include name="pas12852_MustHavePPA200016"/>
                 </methods>
