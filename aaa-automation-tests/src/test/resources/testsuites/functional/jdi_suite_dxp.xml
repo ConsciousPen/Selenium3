@@ -925,7 +925,7 @@
         </classes>
     </test>
     <test thread-count="1024" name="Vehicle Deltas - NJ" parallel="methods">
-        <parameter name="state" value="NJ"/>
+        <parameter name="state" value="NJ,NY"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
