@@ -1027,6 +1027,7 @@
                     <include name="pas15288_ViewUpdateCoveragePIPCoverage"/>
                     <include name="pas15286_updateUMPDCoverageDC"/>
                     <include name="pas21421_updateUIMPDCoverageDC"/>
+                    <include name="pas25824_updateUIMBIThenUpdateUMBI"/>
                 </methods>
             </class>
         </classes>
