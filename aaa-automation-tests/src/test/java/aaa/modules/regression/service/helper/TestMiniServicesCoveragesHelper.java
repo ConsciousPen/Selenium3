@@ -5835,40 +5835,40 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		String firstName = response.driverList.get(0).firstName;
 		String lastName = response.driverList.get(0).lastName;
 		List<String> fullName = Arrays.asList(firstName+" "+lastName);
-		String fullNameUi = (firstName+" "+lastName);
+		String fullNameUi = firstName+" "+lastName;
 
         //create
-		Coverage covNewPIPCOVINCLUDES_NIFM = Coverage.create(CoverageInfo.PIPCOVINCLUDES_NJ).changeLimit(CoverageLimits.COV_PIPCOVINCLUDES_NIFM);
-		Coverage covNewPIPCOVINCLUDES_NI = Coverage.create(CoverageInfo.PIPCOVINCLUDES_NJ).changeLimit(CoverageLimits.COV_PIPCOVINCLUDES_NI);
+		Coverage covNewPIPCOVINCLUDESnifm = Coverage.create(CoverageInfo.PIPCOVINCLUDES_NJ).changeLimit(CoverageLimits.COV_PIPCOVINCLUDES_NIFM);
+		Coverage covNewPIPCOVINCLUDESni = Coverage.create(CoverageInfo.PIPCOVINCLUDES_NJ).changeLimit(CoverageLimits.COV_PIPCOVINCLUDES_NI);
 
 		//expected
-		Coverage covPIPCOVINCLUDESExpected_NIFM = Coverage.create(CoverageInfo.PIPCOVINCLUDES_NJ).changeLimit(CoverageLimits.COV_PIPCOVINCLUDES_NIFM).setRelativesCovered(fullName);
-		Coverage covPIPCOVINCLUDESExpected_NI = Coverage.create(CoverageInfo.PIPCOVINCLUDES_NJ).setRelativesCovered(Collections.emptyList());
+		Coverage covPIPCOVINCLUDESExpectedNifm = Coverage.create(CoverageInfo.PIPCOVINCLUDES_NJ).changeLimit(CoverageLimits.COV_PIPCOVINCLUDES_NIFM).setRelativesCovered(fullName);
+		Coverage covPIPCOVINCLUDESExpectedNi = Coverage.create(CoverageInfo.PIPCOVINCLUDES_NJ).setRelativesCovered(Collections.emptyList());
 
 		//check viewCoverage before update
 		PolicyCoverageInfo viewResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		Coverage covAPIPActual = findCoverage(viewResponse.policyCoverages, CoverageInfo.APIP_NJ.getCode());
 		List<Coverage> subCoveragesAPIPActual = covAPIPActual.getSubCoverages();
 		Coverage covPIPCOVINCLUDESActual = findCoverage(subCoveragesAPIPActual, CoverageInfo.PIPCOVINCLUDES_NJ.getCode());
-		assertThat(covPIPCOVINCLUDESExpected_NI).isEqualTo(covPIPCOVINCLUDESActual);
+		assertThat(covPIPCOVINCLUDESExpectedNi).isEqualTo(covPIPCOVINCLUDESActual);
 
 		//update coverage
-		PolicyCoverageInfo updateResponse = updateCoverage(policyNumber, covNewPIPCOVINCLUDES_NIFM);
+		PolicyCoverageInfo updateResponse = updateCoverage(policyNumber, covNewPIPCOVINCLUDESnifm);
 		Coverage covAPIPActualUpdate = findCoverage(updateResponse.policyCoverages, CoverageInfo.APIP_NJ.getCode());
 		List<Coverage> subCoveragesAPIPActualUpdate = covAPIPActualUpdate.getSubCoverages();
 		Coverage covPIPCOVINCLUDESActualUpdate = findCoverage(subCoveragesAPIPActualUpdate, CoverageInfo.PIPCOVINCLUDES_NJ.getCode());
-		assertThat(covPIPCOVINCLUDESExpected_NIFM).isEqualTo(covPIPCOVINCLUDESActualUpdate);
+		assertThat(covPIPCOVINCLUDESExpectedNifm).isEqualTo(covPIPCOVINCLUDESActualUpdate);
 
 		//Check PAS UI
 		checkPasUiPIPCOVINCLUDES(policyNumber, fullNameUi, true);
 
 		//create new endorsement update coverage again
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		PolicyCoverageInfo updateResponse2 = updateCoverage(policyNumber, covNewPIPCOVINCLUDES_NI);
+		PolicyCoverageInfo updateResponse2 = updateCoverage(policyNumber, covNewPIPCOVINCLUDESni);
 		Coverage covAPIPActualUpdate2 = findCoverage(updateResponse2.policyCoverages, CoverageInfo.APIP_NJ.getCode());
 		List<Coverage> subCoveragesAPIPActualUpdate2 = covAPIPActualUpdate2.getSubCoverages();
 		Coverage covPIPCOVINCLUDESActualUpdate2 = findCoverage(subCoveragesAPIPActualUpdate2, CoverageInfo.PIPCOVINCLUDES_NJ.getCode());
-		assertThat(covPIPCOVINCLUDESExpected_NI).isEqualTo(covPIPCOVINCLUDESActualUpdate2);
+		assertThat(covPIPCOVINCLUDESExpectedNi).isEqualTo(covPIPCOVINCLUDESActualUpdate2);
 
 		//Check PAS UI
 		checkPasUiPIPCOVINCLUDES(policyNumber, null, false);
