@@ -1,7 +1,7 @@
 package aaa.main.modules.policy.abstract_tabs;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import static org.openqa.selenium.By.id;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.Map;
 import org.openqa.selenium.By;
@@ -61,7 +61,7 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 	}
 
 	public void generateDocuments(DocGenEnum.Documents... documents) {
-		generateDocuments(DocGenEnum.DeliveryMethod.CENTRAL_PRINT, documents);
+		generateDocuments(DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.EMAIL, null, null, documents);
 	}
 
 	public void generateDocuments(DocGenEnum.DeliveryMethod deliveryMethod, DocGenEnum.Documents... documents) {
@@ -69,7 +69,7 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 	}
 
 	public void generateDocuments(TestData expandedDocumentsData, DocGenEnum.Documents... documents) {
-		generateDocuments(DocGenEnum.DeliveryMethod.CENTRAL_PRINT, expandedDocumentsData, documents);
+		generateDocuments(DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.EMAIL, null, expandedDocumentsData, documents);
 	}
 
 	public void generateDocuments(DocGenEnum.DeliveryMethod deliveryMethod, TestData expandedDocumentsData, DocGenEnum.Documents... documents) {
@@ -103,8 +103,9 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 
 			submitTab();
 
-			if (waitForPolicy == true)
-			 PolicySummaryPage.labelPolicyNumber.waitForAccessible(30000);
+			if (waitForPolicy == true) {
+				PolicySummaryPage.labelPolicyNumber.waitForAccessible(30000);
+			}
 			WebDriverHelper.switchToDefault();
 		}
 	}
