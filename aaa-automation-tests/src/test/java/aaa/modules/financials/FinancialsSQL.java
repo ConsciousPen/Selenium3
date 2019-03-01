@@ -98,6 +98,7 @@ public final class FinancialsSQL {
 		public static final String PAYMENT_DECLINED = "PaymentDeclined";
 		public static final String NSF_FEE = "NotSufficientFunds";
 		public static final String NSF_FEE_WAIVED = "NSFFeeWORestriction";
+		public static final String ROLL_BACK_ENDORSEMENT = "retro";
     }
 
 }
