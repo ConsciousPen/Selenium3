@@ -96,16 +96,16 @@ public class TestMinDueIsNotRecalculatedAfterRenewals extends FinanceOperations 
 		// Check that Renewal Proposal Min Due did not change and Bill was not discarded
 		SearchPage.openBilling(policyNumber);
 		assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS, ProductConstants.PolicyStatus.PROPOSED).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue())).isEqualTo(minDue);
-		assertThat(BillingSummaryPage.tableBillsStatements.getValuesFromRows(BillingConstants.BillingBillsAndStatmentsTable.TYPE)).doesNotContain(BillingConstants.BillsAndStatementsType.DISCARDED_BILL);
+		assertThat(BillingSummaryPage.tableBillsStatements.getValuesFromRows(BillingConstants.BillingBillsAndStatmentsTable.TYPE)).doesNotContain(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER);
 	}
 
 	private void renewalAndChangeBodilyInjury(String bodilyInjuryAmount){
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY).setValueContains(bodilyInjuryAmount);
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY).setValueContains(bodilyInjuryAmount);
 		new PremiumAndCoveragesTab().calculatePremium();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
 	}
 }
