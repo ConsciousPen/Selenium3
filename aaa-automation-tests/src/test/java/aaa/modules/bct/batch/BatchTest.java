@@ -42,7 +42,7 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test(description = "batchJob05.xml")
 	public void BCT_BTCH_POLICY_STATUS_UPDATE(@Optional("") String state) {
-		JobUtils.executeJob(GroupJobs.groupPolicyStatusUpdateJob);
+		executeBatchTest(GroupJobs.groupPolicyStatusUpdateJob);
 	}
 
 	@Parameters({"state"})
