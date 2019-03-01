@@ -18,9 +18,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -259,13 +257,20 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 
 		//Propose the policy
 		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
+//		SearchPage.openPolicy(policyNumber);
+//		policy.dataGather().start();
+//		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+//		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+//		PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
+//		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+//		new BindTab().submitTab();
 
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+//		TestData td = getPolicyTD().adjust(AutoSSMetaData.DriverTab.class.getSimpleName(), DataProviderFactory.emptyData());
+		TestData proposeTd = getPolicyTD().adjust(HomeSSMetaData.ReportsTab.class.getSimpleName(), DataProviderFactory.emptyData());
+		policy.calculatePremiumAndPurchase(proposeTd);
 
-//		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
+		//Verify policy is in proposed status
+		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
 		//needed for home banking form generation
 		setUpTriggerHomeBankingConversionRenewal(policyNumber);
