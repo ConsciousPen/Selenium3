@@ -90,35 +90,3 @@ Driver5: {
 Add_PU_Claim_Driver_Endorsement_AZ: {
   DriverTab: ['@Driver5'],
 }
-
-TestData_DriverTab_ClaimsWithPUYes_AZ: {
-  DriverTab: ['@Driver_FNI', '@Driver_Second'],
-}
-
-Driver_FNI: {
-  'Rel. to First Named Insured': 'First Named Insured',
-  Occupation: Self Employed,
-  Age First Licensed: 18,
-  License Type: 'Valid',
-  "License #": A1919191,
-  License State: CA,
-  Permit Before License: 'No'
-}
-
-Driver_Second: {
-  Add Driver: Click,
-  DriverSearchDialog:{},
-  First Name: pasMATTHEW,
-  Last Name: pasFOX,
-  Driver Type: 'Available for Rating',
-  'Rel. to First Named Insured': Spouse,
-  Date of Birth: '12/12/1980',
-  Gender: Male,
-  Marital Status: Married,
-  Occupation: Self Employed,
-  License Type: "Valid",
-  License State: CA,
-  "License #": A1919192,
-  Age First Licensed: 18,
-  Permit Before License: 'No'
-}

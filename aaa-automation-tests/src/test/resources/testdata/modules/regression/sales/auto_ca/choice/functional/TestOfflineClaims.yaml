@@ -144,3 +144,38 @@ Add_Driver2_Endorsement_CA: {
 GeneralTab: {},
 DriverTab: ['@Driver3']
 }
+
+TestData_PUDefaulting: {
+ PrefillTab: '@PrefillTab_PUDefaulting',
+ DriverTab: '@Driver_PUDefaulting_FNI',
+ PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_PUDefaulting'
+}
+
+PrefillTab_PUDefaulting: {
+ First Name: 'Matthew',
+ Last Name: 'Fox',
+ Zip Code: 90255,
+ Address Line 1: 6586 PORCUPINE WAY,
+ City: HUNTINGTON PARK,
+ State: CA,
+ Date of Birth: '10/16/1997',
+ Validate Address: click,
+ Validate Address Dialog: {
+ },
+ Order Prefill: click
+}
+
+Driver_PUDefaulting_FNI: {
+ 'Rel. to First Named Insured': 'First Named Insured',
+ Occupation: Architect,
+ Age First Licensed: 18,
+ License Type: 'Valid',
+ "License #": C1919191,
+ License State: CA,
+ Permit Before License: 'No'
+}
+
+PremiumAndCoveragesTab_PUDefaulting: {
+ Product: 'CA Choice',
+ Payment Plan: Annual
+}
