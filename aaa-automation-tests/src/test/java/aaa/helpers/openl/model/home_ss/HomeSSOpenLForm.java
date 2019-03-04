@@ -14,6 +14,7 @@ public class HomeSSOpenLForm extends OpenLForm {
 
 	private Boolean masonaryOrFarmPremisesInd;
 	private Double optionalValue;
+	private Double optionalValue1;
 	private Double optionalValue3;
 	private Double optionalValue4;
 	private Double optionalValue5;
@@ -51,6 +52,14 @@ public class HomeSSOpenLForm extends OpenLForm {
 
 	public void setOptionalValue(Double optionalValue) {
 		this.optionalValue = optionalValue;
+	}
+
+	public Double getOptionalValue1() {
+		return optionalValue1;
+	}
+
+	public void setOptionalValue1(Double optionalValue1) {
+		this.optionalValue1 = optionalValue1;
 	}
 
 	public Double getOptionalValue3() {

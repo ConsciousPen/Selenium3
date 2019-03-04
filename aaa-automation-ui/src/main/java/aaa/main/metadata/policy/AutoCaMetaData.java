@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.metadata.policy;
 
+import aaa.common.components.Dialog;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import aaa.main.enums.DocGenConstants;
@@ -266,11 +267,17 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<RadioGroup> FINANCIAL_RESPONSIBILITY_FILING_NEEDED = declare("Financial Responsibility Filing Needed", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> SMOKER_CIGARETTES_OR_PIPES = declare("Smoker: Cigarettes, cigars or pipes", RadioGroup.class);
 		public static final AssetDescriptor<TextBox> ADDRESS_VALIDATED = declare("Address Validated?", TextBox.class);
-
 		public static final AssetDescriptor<ActivityInformationMultiAssetList> ACTIVITY_INFORMATION = declare("ActivityInformation", ActivityInformationMultiAssetList.class, ActivityInformation.class, By
 				.xpath(".//div[@id='policyDataGatherForm:componentView_DrivingRecord']"));
+		public static final AssetDescriptor<AssetList> REMOVE_DRIVER_DIALOG = declare("Please Confirm", AssetList.class, RemoveDriverDialog.class);
+
+		public static final class RemoveDriverDialog extends MetaData {
+			public static final AssetDescriptor<Button> BTN_OK = declare("Yes", Button.class, Waiters.AJAX, By.xpath("//*[@id='confirmEliminateInstance_Dialog_form:buttonYes']"));
+		}
+
 
 		public static final class ActivityInformation extends MetaData {
+			public static final AssetDescriptor<RadioGroup> OVERRIDE_ACTIVITY_DETAILS = declare("Override Activity Details?", RadioGroup.class);
 			public static final AssetDescriptor<Button> ADD_ACTIVITY = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addDrivingRecord"));
 			public static final AssetDescriptor<TextBox> ORIGINAL_CONVICTION_DATE = declare("Original Conviction Date", TextBox.class);
 			public static final AssetDescriptor<ComboBox> ACTIVITY_SOURCE = declare("Activity Source", ComboBox.class);
@@ -299,8 +306,13 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<ComboBox> LIABILITY_CODE = declare("Liability Code", ComboBox.class);
 			public static final AssetDescriptor<AssetListConfirmationDialog> ACTIVITY_REMOVE_CONFIRMATION = declare("Activity remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX,
 					false, By.id("confirmEliminateInstance_Dialog_container"));
-		}
+			public static final AssetDescriptor<AssetList> SELECT_DRIVER_DIALOG = declare("Select Driver", AssetList.class, SelectDriverDialog.class);
+			}
 
+		public static final class SelectDriverDialog extends MetaData {
+		    public static final AssetDescriptor<ComboBox> ASSIGN_TO = declare("Assign To", ComboBox.class, Waiters.AJAX, By.xpath("//*[starts-with(@id,'policyDataGatherForm:driverDropDown')]"));
+			public static final AssetDescriptor<Button> BTN_OK = declare("Yes", Button.class, Waiters.AJAX, By.xpath("//*[@id='policyDataGatherForm:okBtn1']"));
+		}
 	}
 
 	public static final class MembershipTab extends MetaData {
