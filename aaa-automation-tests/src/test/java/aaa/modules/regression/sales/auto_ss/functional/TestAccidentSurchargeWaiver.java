@@ -53,7 +53,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-14738")
     public void pas14738_testAccidentSurchargeWaiverConversion(@Optional("") String state) {
 
@@ -80,7 +80,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14738")
     public void pas14738_testAccidentSurchargeWaiverNB(@Optional("") String state) {
 
@@ -104,7 +104,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-14738")
     public void pas14738_testAccidentSurchargeWaiverEndorsement(@Optional("") String state) {
 
@@ -138,7 +138,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-14738")
     public void pas14738_testAccidentSurchargeWaiverRenewal(@Optional("") String state) {
 

@@ -12,7 +12,6 @@
             <class name="aaa.modules.preconditions.CleanCacheAdmin"/>
             <class name="aaa.modules.preconditions.AddJob"/>
             <class name="aaa.modules.preconditions.ClearFolders"/>
-            <class name="aaa.modules.preconditions.ClearDocGenFolder"/>
         </classes>
     </test>
 </suite>

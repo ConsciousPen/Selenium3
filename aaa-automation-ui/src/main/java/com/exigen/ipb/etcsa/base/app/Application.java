@@ -125,6 +125,7 @@ public abstract class Application {
 		CSAAApplicationFactory.get().opReportApp().close();
 		if (TimeShiftTestUtil.isContextAvailable()) {
 			if (TimeShiftTestUtil.getContext().getPhaseUrls().length == 0) {
+				log.info("Opening URL: " + url);
 				TimeShiftTestUtil.getContext().setPhaseStartUrls(url);
 			}
 			BrowserController.initBrowser(TimeShiftTestUtil.getContext().getBrowser(0).getWebDriver());

@@ -27,5 +27,8 @@ public class AddJob {
 		if (!service.isJobExist(JobGroup.fromSingleJob(Jobs.aaaRefundCancellationAsyncJob.getJobName()))) {
 			service.createJob(JobGroup.fromSingleJob(Jobs.aaaRefundCancellationAsyncJob.getJobName()));
 		}
+		if (!service.isJobExist(JobGroup.fromSingleJob(Jobs.renewalClaimOrderAsyncJob.getJobName()))) {
+			service.createJob(JobGroup.fromSingleJob(Jobs.renewalClaimOrderAsyncJob.getJobName()));
+		}
 	}
 }

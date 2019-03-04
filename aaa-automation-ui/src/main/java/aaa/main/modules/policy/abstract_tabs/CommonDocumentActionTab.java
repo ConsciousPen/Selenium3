@@ -1,15 +1,17 @@
 package aaa.main.modules.policy.abstract_tabs;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import static org.openqa.selenium.By.id;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.Map;
 import org.openqa.selenium.By;
 import aaa.common.ActionTab;
 import aaa.common.Tab;
+import aaa.common.components.Dialog;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -17,6 +19,7 @@ import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
@@ -26,8 +29,11 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 	public Button buttonOk = new Button(By.xpath("//a[@id='policyDataGatherForm:generateDocLink' or @id='policyDataGatherForm:generateEmailDocLink']"));
 	public Button buttonCancel = new Button(id("policyDataGatherForm:adhocCancel"));
 	public Button buttonPreviewDocuments = new Button(id("policyDataGatherForm:previewDocLink"));
-	public TextBox textboxEmailAddress = new TextBox(id("policyDataGatherForm:emailAddress"));
-
+	public TextBox textboxEmailAddress = new TextBox(By.xpath("//input[@id='policyDataGatherForm:emailAddress' or @id='policyDataGatherForm:emailInputField']"));
+	public Dialog dialogError = new Dialog(By.xpath("//div[@id='policyDataGatherForm:errorDialog_content']"));
+	public StaticElement errorMsg = new StaticElement(By.xpath("//div[@id ='policyDataGatherForm:errorDialog_content']/span/table/tbody/tr/td/span"));
+	public Button closeErrorDialogBtn = new Button(id("policyDataGatherForm:cancelBtn"));
+	
 	protected CommonDocumentActionTab(Class<? extends MetaData> mdClass) {
 		super(mdClass);
 	}
@@ -60,25 +66,25 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 	}
 
 	public void generateDocuments(DocGenEnum.Documents... documents) {
-		generateDocuments(DocGenEnum.DeliveryMethod.CENTRAL_PRINT, documents);
+		generateDocuments(DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.EMAIL, null, null, documents);
 	}
 
 	public void generateDocuments(DocGenEnum.DeliveryMethod deliveryMethod, DocGenEnum.Documents... documents) {
-		generateDocuments(deliveryMethod, null, documents);
+		if (deliveryMethod.equals(DocGenEnum.DeliveryMethod.EMAIL)) {
+			generateDocuments(deliveryMethod, DocGenEnum.EMAIL, null, null, documents);
+		} else {
+			generateDocuments(deliveryMethod, null, null, null, documents);
+		}
 	}
 
 	public void generateDocuments(TestData expandedDocumentsData, DocGenEnum.Documents... documents) {
-		generateDocuments(DocGenEnum.DeliveryMethod.CENTRAL_PRINT, expandedDocumentsData, documents);
-	}
-
-	public void generateDocuments(DocGenEnum.DeliveryMethod deliveryMethod, TestData expandedDocumentsData, DocGenEnum.Documents... documents) {
-		generateDocuments(deliveryMethod, null, null, expandedDocumentsData, documents);
+		generateDocuments(DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.EMAIL, null, expandedDocumentsData, documents);
 	}
 
 	public void generateDocuments(DocGenEnum.DeliveryMethod deliveryMethod, String emailAddress, String fax, TestData expandedDocumentsData, DocGenEnum.Documents... documents) {
-		generateDocuments(true, deliveryMethod, null, null, expandedDocumentsData, documents);
+		generateDocuments(true, deliveryMethod, emailAddress, fax, expandedDocumentsData, documents);
 	}
-	
+
 	public void generateDocuments(Boolean waitForPolicy, DocGenEnum.DeliveryMethod deliveryMethod, String emailAddress, String fax, TestData expandedDocumentsData, DocGenEnum.Documents... documents) {
 		synchronized (lock) {
 			if (documents.length > 0) {
@@ -101,10 +107,11 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 			}
 
 			submitTab();
-			
-			if (waitForPolicy == true) 
-			 PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
-			
+
+			if (waitForPolicy == true) {
+				PolicySummaryPage.labelPolicyNumber.waitForAccessible(30000);
+			}
+			WebDriverHelper.switchToDefault();
 		}
 	}
 

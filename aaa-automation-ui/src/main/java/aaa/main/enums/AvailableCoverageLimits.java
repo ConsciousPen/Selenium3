@@ -69,6 +69,48 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_PIP_2500_FULL,
 			CoverageLimits.COV_PIP_5000_FULL
 	)),
+	COV_PIPRIMINS_NJ(ImmutableList.of(
+			CoverageLimits.COV_PIPPRIMINS_AUTO_INSURANCE,
+			CoverageLimits.COV_PIPPRIMINS_PERSONAL_HEALTH_INSURANCE
+	)),
+	COV_PIPNONMEDEXP_NJ(ImmutableList.of(
+			CoverageLimits.COV_FALSE,
+			CoverageLimits.COV_TRUE
+	)),
+	COV_PIPMEDEXP_NJ(ImmutableList.of(
+			CoverageLimits.COV_15000,
+			CoverageLimits.COV_50000,
+			CoverageLimits.COV_75000,
+			CoverageLimits.COV_150000,
+			CoverageLimits.COV_250000
+	)),
+
+    COV_PIPMAXINCCONT_NJ(ImmutableList.of(
+            CoverageLimits.COV_100,
+            CoverageLimits.COV_125,
+            CoverageLimits.COV_175,
+            CoverageLimits.COV_250,
+            CoverageLimits.COV_400,
+            CoverageLimits.COV_500,
+            CoverageLimits.COV_600,
+            CoverageLimits.COV_700
+    )),
+
+	COV_PIPMEDEXPDED_NJ(ImmutableList.of(
+			CoverageLimits.COV_250,
+			CoverageLimits.COV_500,
+			CoverageLimits.COV_1000,
+			CoverageLimits.COV_2000,
+			CoverageLimits.COV_2500
+	)),
+	COV_PIPEXTMEDPM_NJ(ImmutableList.of(
+			CoverageLimits.COV_1000,
+			CoverageLimits.COV_10000
+	)),
+	COV_APIP_NJ(ImmutableList.of(
+			CoverageLimits.COV_FALSE,
+			CoverageLimits.COV_TRUE
+	)),
 	PD_IN(ImmutableList.of(
 			CoverageLimits.COV_10000,
 			CoverageLimits.COV_15000,
@@ -500,7 +542,15 @@ public enum AvailableCoverageLimits {
 	LOL(ImmutableList.of(
 			CoverageLimits.COV_LOL,
 			CoverageLimits.COV_NO_LOL
-	));
+	)),
+    COV_PIPLENINCCONT_NJ(ImmutableList.of(
+            CoverageLimits.COV_2YR,
+            CoverageLimits.COV_UNL
+    )),
+    COV_PIPCOVINCLUDES_NJ(ImmutableList.of(
+            CoverageLimits.COV_PIPCOVINCLUDES_NI,
+            CoverageLimits.COV_PIPCOVINCLUDES_NIFM
+    ));
 
 	private final List<CoverageLimits> availableLimits;
 

@@ -653,6 +653,7 @@ TestData_Endorsement2_PA: {
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {},
+  ErrorTab: '@ErrorTab_PA_Endorsement',
 }
 
 DriverInformationED3_PA: {
@@ -674,6 +675,15 @@ DriverInformationED3_PA: {
   Age First Licensed: 20
 }
 
+ErrorTab_PA_Endorsement: {
+   ErrorsOverride: [{
+    Message: "contains=Pennsylvania Notice to Named Insureds Regarding Tort Options",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   }]  
+}
 
 ##-----------Endorsement for Renewal --------------
 TestData_AddRenewal: {
@@ -737,7 +747,7 @@ AA43AZ: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: 56},
+    #NmdInsrdAge: {TextField: 56},
     NmdInsrdStAbrv: {TextField: 'AZ'}
   },
   AgentDetails: {
@@ -939,9 +949,8 @@ AA52AZ: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdStAbrv: {TextField: 'AZ'},
-    NmdInsrdAge: {TextField: '56'}
-  }, 
+    NmdInsrdStAbrv: {TextField: 'AZ'}
+  },
   CoverageDetails: {
     VehBICovAmt: {TextField: '100000/300000'},
     VehUMCovAmt: [
@@ -1387,7 +1396,6 @@ AA43IN: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Harry'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: 56},
     NmdInsrdStAbrv: {TextField: 'IN'}
   },
   AgentDetails: {
@@ -1547,9 +1555,8 @@ AA52IN: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Harry'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdStAbrv: {TextField: 'IN'},
-    NmdInsrdAge: {TextField: '56'}
-  }, 
+    NmdInsrdStAbrv: {TextField: 'IN'}
+  },
   CoverageDetails: {
     VehBICovAmt: {TextField: '100000/300000'},
     UMUIMCovAmt: [
@@ -1593,9 +1600,8 @@ AA53IN: {
   },
   NamedInsuredDetails: {
    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
-   NmdInsrdLstNm: {TextField: 'Smith'},
-   NmdInsrdAge: {TextField: '56'}
-  }, 
+   NmdInsrdLstNm: {TextField: 'Smith'}
+  },
   form: {
     PlcyNum: {TextField: ''},
     PlcyGrp: {TextField: 'PERSONAL AUTO'},
@@ -2134,7 +2140,6 @@ AA43PA: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Steve'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: 56},
     NmdInsrdStAbrv: {TextField: 'PA'}
   },
   AgentDetails: {
@@ -2739,7 +2744,6 @@ AA43OK: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Phil'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: 56},
     NmdInsrdStAbrv: {TextField: 'OK'}
   },
   AgentDetails: {
@@ -2778,7 +2782,6 @@ AA52OK: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Phil'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: '56'},
     NmdInsrdStAbrv: {TextField: 'OK'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -3075,7 +3078,6 @@ AA43AZ_ED: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: 56},
     NmdInsrdStAbrv: {TextField: 'AZ'}
   },
   AgentDetails: {
@@ -3193,9 +3195,8 @@ AA52AZ_ED: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdStAbrv: {TextField: 'AZ'},
-    NmdInsrdAge: {TextField: '56'}
-  }, 
+    NmdInsrdStAbrv: {TextField: 'AZ'}
+  },
   CoverageDetails: {
     VehBICovAmt: {TextField: '100000/300000'},
     VehUMCovAmt: [
@@ -3778,9 +3779,8 @@ AA52IN_ED: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Harry'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdStAbrv: {TextField: 'IN'},
-    NmdInsrdAge: {TextField: '56'}
-  }, 
+    NmdInsrdStAbrv: {TextField: 'IN'}
+  },
   CoverageDetails: {
     VehBICovAmt: {TextField: '100000/300000'},
     UMUIMCovAmt: [
@@ -3824,9 +3824,8 @@ AA53IN_ED: {
   },
   NamedInsuredDetails: {
    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
-   NmdInsrdLstNm: {TextField: 'Smith'},
-   NmdInsrdAge: {TextField: '56'}
-  }, 
+   NmdInsrdLstNm: {TextField: 'Smith'}
+  },
   form: {
     PlcyNum: {TextField: ''},
     PlcyGrp: {TextField: 'PERSONAL AUTO'},
@@ -3855,7 +3854,6 @@ AA43IN_ED: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Harry'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: 56},
     NmdInsrdStAbrv: {TextField: 'IN'}
   },
   AgentDetails: {
@@ -4237,7 +4235,6 @@ AA43OK_ED: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Phil'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: 56},
     NmdInsrdStAbrv: {TextField: 'OK'}
   },
   AgentDetails: {
@@ -4276,7 +4273,6 @@ AA52OK_ED: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Phil'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: '56'},
     NmdInsrdStAbrv: {TextField: 'OK'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -4558,7 +4554,6 @@ AA43PA_ED: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Steve'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: 56},
     NmdInsrdStAbrv: {TextField: 'PA'}
   },
   AgentDetails: {

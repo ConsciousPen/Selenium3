@@ -74,6 +74,10 @@ TestData_VehicleOtherTypes_NY: {
   VehicleTab: ['@VehicleTab_1','@VehicleTab_Van_NY','@VehicleTab_2_NY','@VehicleTab_Motor_Home_NY'],
 }
 
+TestData_VehicleOtherTypes_withPPAOther: {
+  VehicleTab: ['@VehicleTab_1', '@VehicleTab_PPAOther', '@VehicleTab_Van', '@VehicleTab_Motor_Home', '@VehicleTab_Trailer', '@VehicleTab_GolfCart', '@VehicleTab_LimitedAntique'],
+}
+
 VehicleTab_1: {
     Add Vehicle: Click,
     Usage: Pleasure,
@@ -141,6 +145,51 @@ VehicleTab_Motor_Home_NY: {
   Other Model: 'Motor',
   Stated Amount: '50000',
   'Less Than 3,000 Miles': 'No'
+}
+
+VehicleTab_PPAOther: {
+  Type: Private Passenger Auto,
+  Usage: Pleasure,
+  VIN: 5FNRWRONG,
+  Make: 'OTHER',
+  Other Make: 'Other Make PPA',
+  Other Model: 'Model PPA',
+  Other Series: 'Series PPA',
+  'Other Body Style': 'Sedan',
+  Stat Code: 'Large car',
+  'Stated Amount': '50000',
+}
+
+VehicleTab_LimitedAntique: {
+  Type: Limited Production/Antique,
+  Usage: Pleasure,
+  VIN: PXL111,
+  Make: 'OTHER',
+  Other Make: 'Other Make Limited',
+  Other Model: 'Model Limited',
+  Other Series: 'Series Limited',
+  'Other Body Style': 'Coupe',
+  'Stated Amount': '50000',
+}
+
+VehicleTab_GolfCart: {
+  Type: Golf Cart,
+  Usage: 'index=1',
+  VIN: ABC1,
+  Other Make: 'Other Make Limited',
+  Other Model: 'Model Limited',
+  'Stated Amount': '5000',
+}
+
+VehicleTab_Trailer: {
+  Type: Trailer,
+  Trailer Type: Travel Trailer,
+  Usage: Pleasure Use - Occupied Less than 30 Days a Year,
+  VIN: XCV2,
+  Other Make: 'Other Make Limited',
+  Other Model: 'Model Limited',
+  Stat Code: 'Recreational Trailer',
+  'Stated Amount': '50000',
 }
 
 #---------------------------------------------
