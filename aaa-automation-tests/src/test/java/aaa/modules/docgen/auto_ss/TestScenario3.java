@@ -4,7 +4,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -14,7 +13,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 /**
@@ -33,14 +31,16 @@ public class TestScenario3 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
-	public void testPolicyCreation(@Optional("") String state) {
-		CustomSoftAssertions.assertSoftly(softly -> {
+	public void testDocGenScenario03(@Optional("") String state) {
+		DocGenHelper.checkPasDocEnabled(getState(),getPolicyType(), false);
+
 			mainApp().open();
 			createCustomerIndividual();
 			policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
 			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 			log.info(getState() + " Policy AutoSS is created: " + policyNumber);
 			TestData tdVerification = getTestSpecificTD("TestData_Verification");
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			switch (getState()) {
 				case "AZ":
 					tdVerification.adjust(TestData.makeKeyPath("AA41XX", "form", "PlcyNum", "TextField"), policyNumber)
@@ -61,7 +61,7 @@ public class TestScenario3 extends AutoSSBaseTest {
 					checkEndorseDocGen(softly);
 					break;
 			}
-		});
+		softly.close();
 	}
 
 	private void checkEndorseDocGen(ETCSCoreSoftAssertions softly) {

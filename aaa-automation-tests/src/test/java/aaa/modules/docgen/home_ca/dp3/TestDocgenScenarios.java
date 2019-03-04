@@ -3,7 +3,6 @@ package aaa.modules.docgen.home_ca.dp3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -13,7 +12,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.utils.StateList;
-import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 /**
  *
@@ -52,13 +51,14 @@ public class TestDocgenScenarios extends HomeCaDP3BaseTest {
 	@StateList(states = States.CA)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testQuoteDocuments(@Optional("") String state) {
-		CustomSoftAssertions.assertSoftly(softly -> {
-			mainApp().open();
 
-			createCustomerIndividual();
-			String quoteNum = createQuote();
+		mainApp().open();
 
-			policy.quoteDocGen().start();
+		createCustomerIndividual();
+		String quoteNum = createQuote();
+
+		policy.quoteDocGen().start();
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			documentActionTab.verify.documentsEnabled(softly,
 					DocGenEnum.Documents._61_6528_DP3,
 					DocGenEnum.Documents.WU11DCA,
@@ -112,7 +112,7 @@ public class TestDocgenScenarios extends HomeCaDP3BaseTest {
 			log.info("==========================================");
 			log.info(getState() + " DP3 Quote Documents Generation is checked, quote: " + quoteNum);
 			log.info("==========================================");
-		});
+		softly.close();
 	}
 
 	/**
@@ -148,11 +148,12 @@ public class TestDocgenScenarios extends HomeCaDP3BaseTest {
 	@StateList(states = States.CA)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testPolicyDocuments(@Optional("") String state) {
-		CustomSoftAssertions.assertSoftly(softly -> {
-			mainApp().open();
 
-			createCustomerIndividual();
-			String policyNum = createPolicy(getPolicyTD());
+		mainApp().open();
+
+		createCustomerIndividual();
+		String policyNum = createPolicy(getPolicyTD());
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			DocGenHelper.verifyDocumentsGenerated(softly, policyNum, DocGenEnum.Documents._61_3000, DocGenEnum.Documents._61_6530, DocGenEnum.Documents._61_5120, DocGenEnum.Documents.DF02CA);
 
 			policy.policyDocGen().start();
@@ -214,7 +215,7 @@ public class TestDocgenScenarios extends HomeCaDP3BaseTest {
 			log.info("==========================================");
 			log.info(getState() + " DP3 Policy Documents Generation is checked, policy: " + policyNum);
 			log.info("==========================================");
-		});
+		softly.close();
 	}
 
 }
