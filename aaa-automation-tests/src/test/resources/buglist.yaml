@@ -481,3 +481,9 @@ PAS-25865:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Errors: Time out. No session available"]
+PAS-26316:
+  summary: "PUP policies from the STUB are not displayed in Other active AAA policies"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.home_ss.ho3.TestAutoInsuranceCarriedOverToHoPolicy.*]
+      messages: ["Wrong list of policies"]

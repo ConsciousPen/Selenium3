@@ -99,6 +99,10 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class CustomerSearch extends MetaData {
+			public static final AssetDescriptor<Button> BTN_CUSTOMER_SEARCH = declare("Customer Search", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:dataGatherView_ListAAAHONamedInsured:0:dataGatherView_List_CustomerSearch"));
+			public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First Name", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last Name", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> DATE_OF_BIRTH = declare("Date of birth", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<Button> BTN_CANCEL = declare("Cancel", Button.class, Waiters.AJAX, false, By.id("customerSearchFrom:cancelSearch"));
 		}
 
@@ -190,6 +194,7 @@ public final class HomeSSMetaData {
 			public static final class OtherActiveAAAPoliciesSearch extends MetaData {
 				public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy type", ComboBox.class, Waiters.AJAX);
 				public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy number", TextBox.class, Waiters.AJAX);
+				public static final AssetDescriptor<Button> BTN_CANCEL = declare("Cancel", Button.class, Waiters.AJAX, false, By.id("policySearchForm_AAAHOOtherOrPriorActivePolicySearch:cancelSearch_AAAHOOtherOrPriorActivePolicySearch"));
 			}
 
 			public static final class OtherActiveAAAPoliciesManual extends MetaData {
