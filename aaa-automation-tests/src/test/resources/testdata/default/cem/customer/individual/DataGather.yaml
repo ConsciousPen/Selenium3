@@ -20,13 +20,13 @@ CustomerGeneralTabAgency: {
 }
 
 GeneralTab: {
-  First Name: '$<rx:Tim-[A-Z]{5}>',
-  Last Name: Smith,
-  Date of Birth: 12/05/1962,
+  First Name: Connemara,
+  Last Name: Morgan,
+  Date of Birth: 2/21/1984,
   Gender: Male,
   Marital Status: Married,
-  Zip Code: '84405',
-  Address Line 1: 3646 MONROE BLVD
+  Zip Code: '84088',
+  Address Line 1: 153 Something Dr
 }
 
 # ------ Test Data for custom states --------

@@ -19,7 +19,6 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
  * @category Generated
  */
 public class MortgageesTab extends Tab {
-	public static StaticElement mortgageeClauseHelpText = new StaticElement(By.id("policyDataGatherForm:sedit_AAAHOMortgageeInfo_legalMortgageeName_helpText"));
 
 	public MortgageesTab() {
         super(HomeSSMetaData.MortgageesTab.class);
