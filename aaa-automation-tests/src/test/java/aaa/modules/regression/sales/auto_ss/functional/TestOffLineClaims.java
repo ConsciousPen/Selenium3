@@ -48,6 +48,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	private static final String CLAIM_NUMBER_5 = "4FAZ44444OHS";
     private static final String CLAIM_NUMBER_6 = "1002-10-8705";
     private static final String COMP_DL_PU_CLAIMS_DATA_MODEL = "comp_dl_pu_claims_data_model.yaml";
+	private static final String PU_CLAIMS_DEFAULTING_DATA_MODEL = "pu_claims_defaulting_data_model.yaml";
     private static final String NAME_DOB_CLAIMS_DATA_MODEL = "name_dob_claims_data_model.yaml";
     private static final String INC_IN_RATING_3RD_RENEWAL_DATA_MODEL = "inc_in_rating_3rd_renewal_data_model.yaml";
     private static final String INC_RATING_CLAIM_1 = "IIRatingClaim1";
@@ -458,5 +459,88 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
 		//Bind Endorsement
 		bindEndorsement();
+	}
+
+	/**
+	 * @author Mantas Garsvinskas
+	 * PAS-25162 - UI-CA-CAS: make sure “MATCHED” FNI claims do not show PU YES unless set by user
+	 * @name Test Offline Claims Permissive Use Indicator defaulting Rules
+	 * @scenario Test Steps:
+	 * 1. Create a Policy with 2 drivers: FNI and 1 additional
+	 * 2. Move time to R-63 and run Renewal Part1 + "renewalClaimOrderAsyncJob"
+	 * 3. Create CAS Response File with required Claims (all claims permissiveUse = Y)
+	 * 3.1. --DL matched Claim
+	 * 3.2. --COMP matched Claim
+	 * 3.3. --LASTNAME_FIRSTNAME_DOB matched Claim
+	 * 3.4. --LASTNAME_FIRSTNAME_YOB matched Claim
+	 * 3.5. --LASTNAME_FIRSTNAME matched Claim
+	 * 3.6. --LASTNAME_FIRSTINITIAL_DOB matched Claim
+	 * 3.7. --NO_MATCH not matched, but permissiveUse = Y, so PERMISSIVE_USE matched Claim;
+	 * 4. Move Time to R-46 and run Renewal Part2 + "claimsRenewBatchReceiveJob"
+	 * 5. Retrieve policy and enter renewal image
+	 * 6. Verify all Claims: 'Permissive Use Loss?' flag is set according to defaulting rules
+	 * 7. Accept a payment and renew the policy
+	 * 8. Move time to R2-63 and run Renewal Part1 + "renewalClaimOrderAsyncJob"
+	 * 9. Create CAS Response File with required Claims
+	 * 9.1. --EXISTING_MATCH matched Claim
+	 * 10. Move Time to R-46 and run Renewal Part2 + "claimsRenewBatchReceiveJob"
+	 * 11. Retrieve policy and enter renewal image
+	 * 12. Verify all Claims: 'Permissive Use Loss?' flag is set according to defaulting rules
+	 * @details Clean Path. Expected Result is that 'Permissive Use Loss' is defaulted to 'Yes' only for PU Claims (Existing Matches as well)
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-25162")
+	public void pas25162_permissiveUseIndicatorDefaulting(@Optional("AZ") @SuppressWarnings("unused") String state) {
+
+		//Adjusted Test Data for: CCInput/CLUE/Internal Claims
+		TestData testDataForPUInd = getTestSpecificTD("TestData_DriverTab_ClaimsWithPUYes_AZ").resolveLinks();
+		TestData td = getPolicyTD().adjust(testDataForPUInd);
+
+		openAppAndCreatePolicy(td);
+		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		mainApp().close();
+
+		//Run Jobs to create and issue 1st Renewal
+		runRenewalClaimOrderJob();
+		createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(policyNumber, PU_CLAIMS_DEFAULTING_DATA_MODEL);
+		runRenewalClaimReceiveJob();
+
+		// Retrieve policy
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		// Enter renewal image and verify claim presence
+		buttonRenewals.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+		verifyPUvalues();
+
+		issueGeneratedRenewalImage(policyNumber);
+
+		//Run Jobs to create 2rd required Renewal and validate the results: EXISTING_MATCH case
+		runRenewalClaimOrderJob();
+
+		// Create Updated CAS Response and Upload
+		createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(policyNumber, INC_IN_RATING_3RD_RENEWAL_DATA_MODEL);
+
+		runRenewalClaimReceiveJob();
+
+		// Retrieve policy and verify claim presence on renewal image
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		if (tableSearchResults.isPresent()) {
+			tableSearchResults.getRow("Eff. Date",
+					TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
+					.getCell(1).controls.links.getFirst().click();
+		}
+
+		buttonRenewals.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+		verifyPUvalues();
 	}
 }
