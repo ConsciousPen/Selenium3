@@ -124,18 +124,18 @@ NamedInsured: {
 }
 
 AAAMembership: {
-  Membership number: '4290050000000001'
+  Membership number: '4290023667710001'
 }
 
 DwellingAddress: {
- Zip code: '84088',
- Street address 1: 153 Something Dr,
+ Zip code: '84405',
+ Street address 1: 3646 MONROE BLVD,
  Validate Address: true,
  Validate Address Dialog: {}
 }
 
 NamedInsuredInformation: {
-  Home Phone Number: '7505551234'
+  Home Phone Number: '1234567890'
 }
 
 OtherActiveAAAPolicies: {
