@@ -2,8 +2,6 @@ package aaa.soap.aaaSSPolicyRate.version1_6.com.exigenservices;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
@@ -23,74 +21,72 @@ import aaa.soap.AAAHTTPConfigurer;
  *
  */
 @WebServiceClient(name = "SSPolicyRateService",
-        wsdlLocation = "http://nvdxpas2agl006.tent.trt.csaa.pri:9095/aaa-admin/services/1.6/aaaSSPolicyRate?wsdl",
-        targetNamespace = "http://exigenservices.com/ipb/policy/integration")
+		wsdlLocation = "http://nvdxpas2agl006.tent.trt.csaa.pri:9095/aaa-admin/services/1.6/aaaSSPolicyRate?wsdl",
+		targetNamespace = "http://exigenservices.com/ipb/policy/integration")
 public class SSPolicyRateService extends Service {
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(SSPolicyRateService.class);
-    public static final URL WSDL_LOCATION;
+	public static final URL WSDL_LOCATION;
+	public static final QName SERVICE = new QName("http://exigenservices.com/ipb/policy/integration", "SSPolicyRateService");
+	public static final QName SSPolicyRatePort = new QName("http://exigenservices.com/ipb/policy/integration", "SSPolicyRatePort");
+	private static final org.slf4j.Logger log = LoggerFactory.getLogger(SSPolicyRateService.class);
 
-    public static final QName SERVICE = new QName("http://exigenservices.com/ipb/policy/integration", "SSPolicyRateService");
-    public static final QName SSPolicyRatePort = new QName("http://exigenservices.com/ipb/policy/integration", "SSPolicyRatePort");
-    static {
-        URL url = null;
-        try {
-            url = new URL(CSAAApplicationFactory.get().adminApp().getUrl().replace("/admin", "").concat("/services/1.6/aaaSSPolicyRate?wsdl"));
-        } catch (MalformedURLException e) {
-            Logger.getLogger(SSPolicyRateService.class.getName())
-                    .log(Level.INFO,
-                            "Can not initialize the default wsdl from {0}", "http://%1$s%2$s/aaa-admin/services/1.6/aaaSSPolicyRate?wsdl");
-        }
-        Bus bus = BusFactory.getThreadDefaultBus();
-        HTTPConduitConfigurer conf = new AAAHTTPConfigurer("qa", "qa");
-        log.info("Logged as : qa");
-        bus.setExtension(conf, HTTPConduitConfigurer.class);
-        WSDL_LOCATION = url;
-    }
+	static {
+		URL url = null;
+		try {
+			url = new URL(CSAAApplicationFactory.get().adminApp().getUrl().replace("/admin", "").concat("/services/1.6/aaaSSPolicyRate?wsdl"));
+		} catch (MalformedURLException e) {
+			log.info("Can not initialize the default wsdl from {0}", "http://%1$s%2$s/aaa-admin/services/1.6/aaaSSPolicyRate?wsdl");
+		}
+		Bus bus = BusFactory.getThreadDefaultBus();
+		HTTPConduitConfigurer conf = new AAAHTTPConfigurer("qa", "qa");
+		log.info("Logged as : qa");
+		bus.setExtension(conf, HTTPConduitConfigurer.class);
+		WSDL_LOCATION = url;
+	}
 
-    public SSPolicyRateService(URL wsdlLocation) {
-        super(wsdlLocation, SERVICE);
-    }
+	public SSPolicyRateService(URL wsdlLocation) {
+		super(wsdlLocation, SERVICE);
+	}
 
-    public SSPolicyRateService(URL wsdlLocation, QName serviceName) {
-        super(wsdlLocation, serviceName);
-    }
+	public SSPolicyRateService(URL wsdlLocation, QName serviceName) {
+		super(wsdlLocation, serviceName);
+	}
 
-    public SSPolicyRateService() {
-        super(WSDL_LOCATION, SERVICE);
-    }
+	public SSPolicyRateService() {
+		super(WSDL_LOCATION, SERVICE);
+	}
 
-    public SSPolicyRateService(WebServiceFeature ... features) {
-        super(WSDL_LOCATION, SERVICE, features);
-    }
+	public SSPolicyRateService(WebServiceFeature... features) {
+		super(WSDL_LOCATION, SERVICE, features);
+	}
 
-    public SSPolicyRateService(URL wsdlLocation, WebServiceFeature ... features) {
-        super(wsdlLocation, SERVICE, features);
-    }
+	public SSPolicyRateService(URL wsdlLocation, WebServiceFeature... features) {
+		super(wsdlLocation, SERVICE, features);
+	}
 
-    public SSPolicyRateService(URL wsdlLocation, QName serviceName, WebServiceFeature ... features) {
-        super(wsdlLocation, serviceName, features);
-    }
+	public SSPolicyRateService(URL wsdlLocation, QName serviceName, WebServiceFeature... features) {
+		super(wsdlLocation, serviceName, features);
+	}
 
-    /**
-     *
-     * @return
-     *     returns SSPolicyRatePort
-     */
-    @WebEndpoint(name = "SSPolicyRatePort")
-    public SSPolicyRatePort getSSPolicyRatePort() {
-        return getPort(SSPolicyRatePort, SSPolicyRatePort.class);
-    }
+	/**
+	 *
+	 * @return
+	 *     returns SSPolicyRatePort
+	 */
+	@WebEndpoint(name = "SSPolicyRatePort")
+	public SSPolicyRatePort getSSPolicyRatePort() {
+		return getPort(SSPolicyRatePort, SSPolicyRatePort.class);
+	}
 
-    /**
-     *
-     * @param features
-     *     A list of {@link WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
-     * @return
-     *     returns SSPolicyRatePort
-     */
-    @WebEndpoint(name = "SSPolicyRatePort")
-    public SSPolicyRatePort getSSPolicyRatePort(WebServiceFeature... features) {
-        return getPort(SSPolicyRatePort, SSPolicyRatePort.class, features);
-    }
+	/**
+	 *
+	 * @param features
+	 *     A list of {@link WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
+	 * @return
+	 *     returns SSPolicyRatePort
+	 */
+	@WebEndpoint(name = "SSPolicyRatePort")
+	public SSPolicyRatePort getSSPolicyRatePort(WebServiceFeature... features) {
+		return getPort(SSPolicyRatePort, SSPolicyRatePort.class, features);
+	}
 
 }
