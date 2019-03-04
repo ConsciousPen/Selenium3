@@ -244,33 +244,22 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 		/**PAS-9774, PAS-10111 - both has the same root cause which is a Base defect EISAAASP-1852 and has been already resolved in Base EIS 8.17.
 		 It will come with next upgrade, until then there's simple workaround - need to run aaa-admin application instead of aaa-app.
 		 Both, manual propose and automated propose should work running under aaa-admin.**/
-		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getEffectiveDateForTimePoint(
-				TimeSetterUtil.getInstance().getPhaseStartTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
-		LocalDateTime renewalBillGenerationDate = getTimePoints().getEffectiveDateForTimePoint(
-				TimeSetterUtil.getInstance().getPhaseStartTime(), TimePoints.TimepointsList.BILL_GENERATION);
+//		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getEffectiveDateForTimePoint(
+//				TimeSetterUtil.getInstance().getPhaseStartTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
 
-		// Create manual entry
+		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getConversionEffectiveDate();
+//		LocalDateTime renewalBillGenerationDate = getTimePoints().getEffectiveDateForTimePoint(
+//				TimeSetterUtil.getInstance().getPhaseStartTime(), TimePoints.TimepointsList.BILL_GENERATION);
+
+		// Create manual entry and verify "Premium Calculated" status
 		String policyNumber = createFormsSpecificManualEntry(testData);
 
-		//Move time to R-20 for bill
-		TimeSetterUtil.getInstance().nextPhase(renewalBillGenerationDate);
-
-		//Propose the policy
+		//Propose policy and generate renewal offer
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalOfferEffectiveDate));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
-//		SearchPage.openPolicy(policyNumber);
-//		policy.dataGather().start();
-//		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-//		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-//		PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
-//		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-//		new BindTab().submitTab();
-
-//		TestData td = getPolicyTD().adjust(AutoSSMetaData.DriverTab.class.getSimpleName(), DataProviderFactory.emptyData());
-		TestData proposeTd = getPolicyTD().adjust(HomeSSMetaData.ReportsTab.class.getSimpleName(), DataProviderFactory.emptyData());
-		policy.calculatePremiumAndPurchase(proposeTd);
-
-		//Verify policy is in proposed status
-		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
+		SearchPage.openPolicy(policyNumber);
+		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
 		//needed for home banking form generation
 		setUpTriggerHomeBankingConversionRenewal(policyNumber);
@@ -282,9 +271,7 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 			billingAccount.update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay"));
 		}
 
-		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
+		//Generate Renewal Bill
 		billGeneration(renewalOfferEffectiveDate);
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
@@ -433,6 +420,8 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 	private void billGeneration(LocalDateTime renewalOfferEffectiveDate) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 	}
 
