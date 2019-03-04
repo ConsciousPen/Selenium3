@@ -22,13 +22,13 @@ public class BackendJobNames {
 		storage.put(GroupJobs.grouprenewalClaimOrderAsyncJob.getJobName(), "renewalClaimOrderAsyncJob");
 		storage.put(GroupJobs.groupaaaMvrRenewBatchOrderAsyncJob.getJobName(), "aaaMvrRenewBatchOrderAsyncJob");
 		storage.put(GroupJobs.groupmembershipRenewalBatchOrderJob.getJobName(), "aaaMembershipRenewalBatchOrderAsyncJob");
-		storage.put(GroupJobs.groupPolicyStatusUpdateJob.getJobName(), "policyStatusUpdateJob");
+		storage.put(GroupJobs.groupPolicyStatusUpdateJob.getJobName(), "PolicyStatusUpdateJob");
 		storage.put(GroupJobs.groupaaaRecurringPaymentsProcessingJob.getJobName(), "aaaRecurringPaymentsAsyncProcessJob");
 		storage.put(GroupJobs.groupapplyPendingTransactionsAsyncJob.getJobName(), "applyPendingTransactionsAsyncJob");
 		storage.put(GroupJobs.groupaaacancellationNoticeGenerationJob.getJobName(), "aaaCancellationNoticeAsyncJob");
 		storage.put(GroupJobs.groupaaacancellationConfirmationGenerationJob.getJobName(), "aaaCancellationConfirmationAsyncJob");
 		storage.put(GroupJobs.groupaaaCollectionCancellDebtBatchJob.getJobName(), "aaaCollectionCancellDebtBatchAsyncJob");
-		storage.put(GroupJobs.grouprefundGenerationJob.getJobName(), "grouprefundGenerationJob");
+		storage.put(GroupJobs.grouprefundGenerationJob.getJobName(), "aaaRefundGenerationAsyncJob");
 		storage.put(GroupJobs.groupoffCycleInvoiceGenerationJob.getJobName(), "aaaOffCycleBillingInvoiceAsyncJob");
 		storage.put(GroupJobs.groupaaaBillingInvoiceGenerationAsyncTaskJob.getJobName(), "aaaBillingInvoiceAsyncTaskJob");
 		storage.put(GroupJobs.groupchangeCancellationPendingPoliciesStatusJob.getJobName(), "ChangeCancellationPendingPoliciesStatusJob");
@@ -37,7 +37,7 @@ public class BackendJobNames {
 		storage.put(GroupJobs.groupaaaRenewalDataRefreshAsyncJob.getJobName(), "aaaRenewalDataRefreshAsyncJob");
 		storage.put(GroupJobs.grouprenewalValidationAsyncTaskJob.getJobName(), "renewalValidationAsyncTaskJob");
 		storage.put(GroupJobs.grouprenewalImageRatingAsyncTaskJob.getJobName(), "renewalImageRatingAsyncTaskJob");
-		storage.put(GroupJobs.grouprenewalOfferAsyncTaskJob.getJobName(), "policyRenewalOfferJob");
+		storage.put(GroupJobs.grouprenewalOfferAsyncTaskJob.getJobName(), "renewalOfferAsyncTaskJob");
 		storage.put(GroupJobs.grouplapsedRenewalProcessJob.getJobName(), "policyLapsedRenewalProcessAsyncJob");
 		storage.put(GroupJobs.groupaaaRenewalReminderGenerationAsyncJob.getJobName(), "aaaRenewalReminderGenerationAsyncJob");
 		storage.put(GroupJobs.groupaaaRenewalNoticeBillAsyncJob.getJobName(), "aaaRenewalNoticeBillAsyncJob");
@@ -47,6 +47,7 @@ public class BackendJobNames {
 		storage.put(GroupJobs.groupaaaMortgageeRenewalReminderAndExpNoticeAsyncJob.getJobName(), "aaaMortgageeRenewalReminderAndExpNoticeAsyncJob");
 		storage.put(GroupJobs.groupaaaRefundDisbursementAsyncJob.getJobName(), "aaaRefundDisbursementAsyncJob");
 		storage.put(GroupJobs.groupAAAEscheatmentProcessAsyncJob.getJobName(), "aaaEscheatmentProcessAsyncJob");
+		storage.put(GroupJobs.groupaaaGenerateEscheatmentReportJob .getJobName(), "aaaGenerateEscheatmentReportJob");
 
 
 		if(storage.containsKey(jobName)){

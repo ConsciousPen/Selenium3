@@ -35,7 +35,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments;
 import org.assertj.core.api.Assertions;
-import org.codehaus.janino.Mod;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -226,18 +225,14 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
 		assertSoftly(softly -> {
-			softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(hasError(rateResponse, "vehOwnerInd", ErrorDxpEnum.Errors.REGISTERED_OWNERS)).isTrue();
-			softly.assertThat(hasError(rateResponse, "vehicleUsageCd", ErrorDxpEnum.Errors.USAGE_IS_BUSINESS)).isTrue();
+			softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.REGISTERED_OWNERS, "vehOwnerInd")).isTrue();
+			softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.USAGE_IS_BUSINESS, "vehicleUsageCd")).isTrue();
 		});
 
 		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "PAS-7147", 422);
 		assertSoftly(softly -> {
-			softly.assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-			softly.assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(hasError(rateResponse, "vehOwnerInd", ErrorDxpEnum.Errors.REGISTERED_OWNERS)).isTrue();
-			softly.assertThat(hasError(rateResponse, "vehicleUsageCd", ErrorDxpEnum.Errors.USAGE_IS_BUSINESS)).isTrue();
+			softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.REGISTERED_OWNERS, "vehOwnerInd")).isTrue();
+			softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.USAGE_IS_BUSINESS, "vehicleUsageCd")).isTrue();
 		});
 	}
 
@@ -271,9 +266,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "PAS-7147", 422);
 		assertSoftly(softly -> {
-			softly.assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-			softly.assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(hasError(bindResponse, "vehOwnerInd", ErrorDxpEnum.Errors.REGISTERED_OWNERS)).isTrue();
+			softly.assertThat(helperMiniServices.hasError(bindResponse, ErrorDxpEnum.Errors.REGISTERED_OWNERS, "vehOwnerInd")).isTrue();
 		});
 	}
 
@@ -343,10 +336,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			String vin2 = "9BWFL61J244023215";
 
 			//add vehicle
-			Vehicle responseAddVehicle =
-					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin2, purchaseDate2), Vehicle.class, 201);
-
-			assertThat(responseAddVehicle.oid).isNotEmpty();
+			addVehicleWithChecks(policyNumber,purchaseDate2,vin2,true);
 
 			//try add the same vehicle one more time
 			ErrorResponseDto errorResponse2 =
@@ -359,14 +349,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			String vin3 = "ZFFCW56A830133118";
 
 			//try add to expensive vehicle
-			ErrorResponseDto errorResponse3 =
-					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin3, purchaseDate3), ErrorResponseDto.class, 422);
-
-			softly.assertThat(errorResponse3.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-			softly.assertThat(errorResponse3.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(errorResponse3.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getCode());
-			softly.assertThat(errorResponse3.errors.get(0).message).contains(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getMessage());
-			softly.assertThat(errorResponse3.errors.get(0).field).isEqualTo("vehTypeCd");
+			addVehicleWithChecks(policyNumber, purchaseDate3, vin3, true);
+			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
 	}
 
@@ -3223,7 +3207,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		return newVehicleOid;
 	}
 
-	private String replaceVehicleWithUpdates(String policyNumber, String vehicleToReplaceOid, String replacedVehicleVin, boolean keepAssignments, boolean keepCoverages) {
+	public String replaceVehicleWithUpdates(String policyNumber, String vehicleToReplaceOid, String replacedVehicleVin, boolean keepAssignments, boolean keepCoverages) {
 		printToLog("policyNumber: " + policyNumber + ", vehicleToReplaceOid: " + vehicleToReplaceOid + ", replacedVehicleVin: " + replacedVehicleVin);
 		printToLog("keepAssignments: "+ keepAssignments + ", keepCoverages: "+ keepCoverages);
 		ReplaceVehicleRequest replaceVehicleRequest = DXPRequestFactory.createReplaceVehicleRequest(replacedVehicleVin, "2013-03-31", keepAssignments, keepCoverages);
@@ -3231,12 +3215,6 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		String replaceVehicleOid = replaceVehicleResponse.oid;
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, replaceVehicleOid);
 		return replaceVehicleOid;
-	}
-
-	private boolean hasError(ErrorResponseDto errorResponseDto, String expectedField, ErrorDxpEnum.Errors expectedError) {
-		return errorResponseDto.errors.stream().anyMatch(error -> expectedField.equals(error.field)
-						&& expectedError.getCode().equals(error.errorCode)
-						&& StringUtils.startsWith(error.message, expectedError.getMessage()));
 	}
 
 	private boolean hasError(List<ValidationError> validations, String expectedMessage) {
