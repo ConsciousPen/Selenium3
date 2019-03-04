@@ -1,27 +1,19 @@
 package aaa.modules.regression.finance.billing.auto_ca.select;
 
 import aaa.common.enums.Constants;
-import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaSelectBaseTest;
-import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.finance.template.FinanceOperations;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -31,17 +23,14 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
 import java.time.LocalDateTime;
-
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestMinDueIsNotRecalculatedAfterRenewals extends FinanceOperations {
 
 	/**
 	 * @author Vilnis Liepins
-	 * @name Test Min Due Is Not Recalculated After Renewals
-	 * @scenario
+	 * Objectives : Min Due Is Not Recalculated After Renewals
 	 * 1. Create Customer
 	 * 2. Create CA Select Auto policy with Standard Monthly plan
 	 * 3. Pay in full
@@ -53,8 +42,7 @@ public class TestMinDueIsNotRecalculatedAfterRenewals extends FinanceOperations 
 	 * 9. At time point R-16 initiate a new Renewal version
 	 * 10. Navigate to P&C tab and process a Renewal that causes a return premium that is smaller than the additional premium (for example decrease coverages)
 	 * 11. Navigate to Bind tab and Propose the Renewal version
-	 * 12. Go to Billing tab and review the Min due
-	 * @details
+	 * 12. Go to Billing tab and review the Min due and check if Renewal Offer was not discarded
 	 */
 
 	@Override
@@ -93,7 +81,7 @@ public class TestMinDueIsNotRecalculatedAfterRenewals extends FinanceOperations 
 		searchForPolicy(policyNumber);
 		renewalAndChangeBodilyInjury("$500,000/$1,000,000");
 
-		// Check that Renewal Proposal Min Due did not change and Bill was not discarded
+		// Check that Renewal Proposal Min Due did not change and Offer was not discarded
 		SearchPage.openBilling(policyNumber);
 		assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS, ProductConstants.PolicyStatus.PROPOSED).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue())).isEqualTo(minDue);
 		assertThat(BillingSummaryPage.tableBillsStatements.getValuesFromRows(BillingConstants.BillingBillsAndStatmentsTable.TYPE)).doesNotContain(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER);
