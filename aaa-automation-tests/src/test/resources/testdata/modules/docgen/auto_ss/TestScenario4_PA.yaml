@@ -26,7 +26,7 @@ TestData: {
       }
     ],
     PremiumAndCoveragesTab: {
-      Payment Plan: 'Eleven Pay - Standard',
+      Payment Plan: 'Semi-Annual',
       Policy Term: Annual,
       Bodily Injury Liability: 'contains=$100,000/$300,000',
       Comprehensive Deductible: 'contains=$750',
@@ -115,7 +115,7 @@ AHRBXX: {
  },
  PaymentDetails: {
    PayTyp: {TextField: 'INSTALLMENT PAYMENT'},
-   PayPln: {TextField: 'Monthly'},
+   PayPln: {TextField: 'Semi-Annual'},
    CurRnwlAmt: {TextField: ''},
    InstlFee: {TextField: ''},
 #   OthrFee: {TextField: '0.00'},

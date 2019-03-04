@@ -1,121 +1,107 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Property Docgen Tests" verbose="1" parallel="tests" thread-count="1024">
-	<listeners>
-		<listener class-name="aaa.helpers.listeners.AlterSuiteListener" />
-		<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
-	</listeners>
-	<parameter name="timeshift-scenario-mode" value="test" />
-	
-	<test name="Docgen Scenarios of Home_SS_HO3">
-        <parameter name="state" value="UT, AZ, NJ, PA" />
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <test name="Docgen Scenarios of Home_SS_HO3" parallel="methods">
+        <parameter name="state" value="UT, AZ, NJ, PA"/>
         <classes>
-            <class name="aaa.modules.docgen.home_ss.ho3.TestDocgenScenarios" />
+            <class name="aaa.modules.docgen.home_ss.ho3.TestDocgenScenarios"/>
         </classes>
     </test>
-
-	<test name="Docgen Scenarios of Home_SS_HO4">
-        <parameter name="state" value="UT, AZ, NJ, PA" />
+    <test name="Docgen Scenarios of Home_SS_HO4" parallel="methods">
+        <parameter name="state" value="UT, AZ, NJ, PA"/>
         <classes>
-            <class name="aaa.modules.docgen.home_ss.ho4.TestDocgenScenarios" />
+            <class name="aaa.modules.docgen.home_ss.ho4.TestDocgenScenarios"/>
         </classes>
     </test>
-    
-	<test name="Docgen Scenarios of Home_SS_HO6">
-        <parameter name="state" value="UT, AZ, NJ, PA" />
+    <test name="Docgen Scenarios of Home_SS_HO6" parallel="methods">
+        <parameter name="state" value="UT, AZ, NJ, PA"/>
         <classes>
-            <class name="aaa.modules.docgen.home_ss.ho6.TestDocgenScenarios" />
+            <class name="aaa.modules.docgen.home_ss.ho6.TestDocgenScenarios"/>
         </classes>
     </test>
-    
-	<test name="Docgen Scenarios of Home_SS_DP3">
-        <parameter name="state" value="UT, AZ, NJ, PA" />
+    <test name="Docgen Scenarios of Home_SS_DP3" parallel="methods">
+        <parameter name="state" value="UT, AZ, NJ, PA"/>
         <classes>
-            <class name="aaa.modules.docgen.home_ss.dp3.TestDocgenScenarios" />
+            <class name="aaa.modules.docgen.home_ss.dp3.TestDocgenScenarios"/>
         </classes>
     </test>
-    
-	<test name="Docgen Scenarios of PUP">
-        <parameter name="state" value="UT, AZ, NJ, PA" />
+    <test name="Docgen Scenarios of PUP" parallel="methods">
+        <parameter name="state" value="UT, AZ, NJ, PA"/>
         <classes>
-            <class name="aaa.modules.docgen.pup.TestDocgenScenarios" />
+            <class name="aaa.modules.docgen.pup.TestDocgenScenarios"/>
         </classes>
     </test>
-    
-	<test name="Docgen Scenarios of Home_CA_HO3">
-        <parameter name="state" value="CA" />
+    <test name="Docgen Scenarios of Home_CA_HO3" parallel="methods">
+        <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.docgen.home_ca.ho3.TestDocgenScenarios" />
+            <class name="aaa.modules.docgen.home_ca.ho3.TestDocgenScenarios"/>
         </classes>
     </test>
-    
-	<test name="Docgen Scenarios of Home_CA_HO4">
-        <parameter name="state" value="CA" />
+    <test name="Docgen Scenarios of Home_CA_HO4" parallel="methods">
+        <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.docgen.home_ca.ho4.TestDocgenScenarios" />
+            <class name="aaa.modules.docgen.home_ca.ho4.TestDocgenScenarios"/>
         </classes>
     </test>
-    
-	<test name="Docgen Scenarios of Home_CA_HO6">
-        <parameter name="state" value="CA" />
+    <test name="Docgen Scenarios of Home_CA_HO6" parallel="methods">
+        <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.docgen.home_ca.ho6.TestDocgenScenarios" />
+            <class name="aaa.modules.docgen.home_ca.ho6.TestDocgenScenarios"/>
         </classes>
     </test>
-    
-	<test name="Docgen Scenarios of Home_CA_DP3">
-        <parameter name="state" value="CA" />
+    <test name="Docgen Scenarios of Home_CA_DP3" parallel="methods">
+        <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.docgen.home_ca.dp3.TestDocgenScenarios" />
+            <class name="aaa.modules.docgen.home_ca.dp3.TestDocgenScenarios"/>
         </classes>
     </test>
-    
-	<test name="Docgen Scenarios of PUP CA">
-        <parameter name="state" value="CA" />
+    <test name="Docgen Scenarios of PUP CA" parallel="methods">
+        <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.docgen.pup.TestDocgenScenariosCA" />
+            <class name="aaa.modules.docgen.pup.TestDocgenScenariosCA"/>
         </classes>
     </test>
-    
-	<test name="Docgen Delta Scenarios - NJ">
-        <parameter name="state" value="NJ" />
+    <test name="Docgen Delta Scenarios - NJ" parallel="methods">
+        <parameter name="state" value="NJ"/>
         <classes>
-            <class name="aaa.modules.docgen.delta.home_ss.dp3.TestNJDocgenScenarios" />
-            <class name="aaa.modules.docgen.delta.home_ss.ho3.TestNJDocgenScenarios" />
+            <class name="aaa.modules.docgen.delta.home_ss.dp3.TestNJDocgenScenarios"/>
+            <class name="aaa.modules.docgen.delta.home_ss.ho3.TestNJDocgenScenarios"/>
         </classes>
     </test>
-    
-	<test name="Docgen Delta Scenarios - VA">
-        <parameter name="state" value="VA" />
+    <test name="Docgen Delta Scenarios - VA" parallel="methods">
+        <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.docgen.delta.home_ss.ho3.TestVADocgenScenarios" />
+            <class name="aaa.modules.docgen.delta.home_ss.ho3.TestVADocgenScenarios"/>
         </classes>
     </test>
-    
-	<test name="Document_Fulfillment_Home_SS_HO3_TestScenario1">
-        <parameter name="state" value="UT, AZ, NJ, PA" />
+    <test name="Document_Fulfillment_Home_SS_HO3_TestScenario1" parallel="methods">
+        <parameter name="state" value="UT, AZ, NJ, PA"/>
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.TestScenario1" />
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.TestScenario1"/>
         </classes>
     </test>
-    
-	<!-- 
-	<test name="Document_Fulfillment_Home_SS_HO3_TestScenario2">
+    <!--
+    <test name="Document_Fulfillment_Home_SS_HO3_TestScenario2">
         <parameter name="state" value="VA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.TestScenario2" />
         </classes>
     </test>
      -->
-    <test name="Document_Fulfillment_Home_SS_HO3_TestEarnedPremiumWriteOff">
+    <test name="Document_Fulfillment_Home_SS_HO3_TestEarnedPremiumWriteOff" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.TestEarnedPremiumWriteOff"/>
         </classes>
     </test>
-	<test name="Document_Fulfillment_Home_SS_HO6_TestScenario1">
-        <parameter name="state" value="UT, AZ, NJ, PA" />
+    <test name="Document_Fulfillment_Home_SS_HO6_TestScenario1" parallel="methods">
+        <parameter name="state" value="UT, AZ, NJ, PA"/>
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.TestScenario1" />
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.TestScenario1"/>
         </classes>
     </test>
 </suite>

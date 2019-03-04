@@ -755,6 +755,11 @@
                     <include name="pas12922_UpdateWildfireScoreNoPrivilegeEndorsement"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.home_ss.ho6.functional.TestOverrideWildfireScore -->
+            <class name="aaa.modules.regression.service.home_ss.ho3.TestAutoInsuranceCarriedOverToHoPolicy">
+                <methods>
+                    <include name="testAutoInsuranceCarriedOverToHoPolicy"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.service.home_ss.ho3.TestAutoInsuranceCarriedOverToHoPolicy -->
         </classes>
     </test> <!-- UT Home -->
     <test name="NY Home" parallel="methods">

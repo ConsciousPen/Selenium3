@@ -438,7 +438,6 @@
                     <include name="pas12852_GaragedInMichigan200020"/>
                     <include name="pas12852_GaragedOutOfState200019"/>
                     <include name="pas12852_DuplicateVin200031"/>
-                    <include name="pas12852_ExpensiveVehicle200022"/>
                     <include name="pas12852_GaragedOutOfStateOnlyOneVeh200018"/>
                     <include name="pas12852_MustHavePPA200016"/>
                 </methods>
@@ -1027,6 +1026,7 @@
                     <include name="pas15288_ViewUpdateCoveragePIPCoverage"/>
                     <include name="pas15286_updateUMPDCoverageDC"/>
                     <include name="pas21421_updateUIMPDCoverageDC"/>
+                    <include name="pas25824_updateUIMBIThenUpdateUMBI"/>
                 </methods>
             </class>
         </classes>
@@ -1126,6 +1126,8 @@
                     <include name="pas15353_viewPIPNonMedExpenseNoNJ"/>
                     <include name="pas19161_viewPIPNonMedExpenseYesNJ"/>
                     <include name="pas19163_viewPipYesAndNonMedExpenseYesNJ"/>
+                    <include name="pas23997_updatePipCoveragesNJ"/>
+                    <include name="pas25531_viewUpdatePipCoveragesIncludesNiAndRrNJ"/>
                     <include name="pas23975_viewUpdatePIPPrimaryInsurerNJ"/>
                 </methods>
             </class>

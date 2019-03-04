@@ -143,10 +143,10 @@ public class HelperMiniServices extends PolicyBaseTest {
 		return orderReportErrorResponse;
 	}
 
-	boolean hasError(ErrorResponseDto errorResponseDto, ErrorDxpEnum.Errors expectedError) {
+	boolean hasError(ErrorResponseDto errorResponseDto, ErrorDxpEnum.Errors expectedError, String field) {
 		assertThat(errorResponseDto.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 		assertThat(errorResponseDto.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-		return errorResponseDto.errors.stream().anyMatch(error -> "attributeForRules".equals(error.field)
+		return errorResponseDto.errors.stream().anyMatch(error -> field.equals(error.field)
 						&& expectedError.getCode().equals(error.errorCode)
 						&& StringUtils.startsWith(error.message, expectedError.getMessage()));
 	}
