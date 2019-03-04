@@ -163,7 +163,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		bindEndorsement(policyNumber, doccId, ErrorEnum.Errors.ERROR_200900.getCode(), ErrorEnum.Errors.ERROR_200900.getMessage(), false);
 		//Verify DB Endorsement xml Signed by field is there
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AACSDC", "ENDORSEMENT_ISSUE");
-		verifyDocInDb(softly, query, DocGenEnum.Documents.AACSDC, false);
+		verifyDocInDb(softly, query, DocGenEnum.Documents.AACSDC, true);
 
 		//Go to pas and and verify
 		goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.DISTRICT_OF_COLUMBIA_COVERAGE_SELECTION_REJECTION_FORM,
@@ -635,7 +635,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 			//Verify Signed by is there in XML
 			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AA52VA", "ENDORSEMENT_ISSUE");
-			verifyDocInDb(softly, query, DocGenEnum.Documents.AA52VA, false);
+			verifyDocInDb(softly, query, DocGenEnum.Documents.AA52VA, true);
 
 			goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE,
 					AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY, "$50,000/$100,000", ErrorEnum.Errors.ERROR_200037_VA, false);
