@@ -5,6 +5,12 @@ TestData_SC2: {
   DocumentsAndBindTab: '@DocumentsAndBindTab_Full' 
 }
 
+TestData_NANO: {
+  GeneralTab: '@GeneralTab_NANO', 
+  VehicleTab: {}, 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_NANO'
+}
+
 TestData_ExcludedDrivers: {
   DriverTab: ['@<auto_ss>@DataGather@DriverTab', '@DriverTab_ExcludedDriver1', '@DriverTab_ExcludedDriver2'], 
   DocumentsAndBindTab: '@DocumentsAndBindTab_ExcludedDrivers' 
@@ -34,6 +40,13 @@ GeneralTab: {
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
 }
 
+GeneralTab_NANO: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  PolicyInformation: '@PolicyInformation_NANO'
+}
+
 NamedInsuredInformation1: {
   Social Security Number: 123456789,
   "Has lived here for less than three years?": 'No',
@@ -49,6 +62,19 @@ NamedInsuredInformation2: {
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
   Residence: Own Home,
+}
+
+PolicyInformation_NANO: {
+  Policy Type: Named Non Owner,
+  Effective Date: '$<today:MM/dd/yyyy>',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'contains=Draper - 500005417 - Draper',
+  Agent: 'House Account Draper',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 # --------- DriverTab ---------
@@ -181,6 +207,14 @@ DocumentsAndBindTab: {
   RequiredToIssue: {
     Proof of Prior Insurance: 'Yes'
   }
+}
+
+DocumentsAndBindTab_NANO: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Non-Owner Automobile Endorsement: Physically Signed
+  }, 
+  Agreement: I agree 
 }
 
 DocumentsAndBindTab_ExcludedDrivers: {

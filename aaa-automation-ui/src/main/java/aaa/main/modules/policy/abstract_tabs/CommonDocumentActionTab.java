@@ -7,6 +7,7 @@ import java.util.Map;
 import org.openqa.selenium.By;
 import aaa.common.ActionTab;
 import aaa.common.Tab;
+import aaa.common.components.Dialog;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -18,6 +19,7 @@ import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
@@ -28,7 +30,10 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 	public Button buttonCancel = new Button(id("policyDataGatherForm:adhocCancel"));
 	public Button buttonPreviewDocuments = new Button(id("policyDataGatherForm:previewDocLink"));
 	public TextBox textboxEmailAddress = new TextBox(By.xpath("//input[@id='policyDataGatherForm:emailAddress' or @id='policyDataGatherForm:emailInputField']"));
-
+	public Dialog dialogError = new Dialog(By.xpath("//div[@id='policyDataGatherForm:errorDialog_content']"));
+	public StaticElement errorMsg = new StaticElement(By.xpath("//div[@id ='policyDataGatherForm:errorDialog_content']/span/table/tbody/tr/td/span"));
+	public Button closeErrorDialogBtn = new Button(id("policyDataGatherForm:cancelBtn"));
+	
 	protected CommonDocumentActionTab(Class<? extends MetaData> mdClass) {
 		super(mdClass);
 	}

@@ -23,6 +23,7 @@ import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.CustomSoftAssertions;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	
@@ -40,9 +41,16 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		log.info("PAS DOC: Policy created with #" + PolicySummaryPage.getPolicyNumber());
 		
 		policy.policyDocGen().start();
-		//TODO 
 		CustomSoftAssertions.assertSoftly(softly -> {
 			softly.assertThat(odd_tab.getAssetList().getAsset(AutoSSMetaData.GenerateOnDemandDocumentActionTab.DELIVERY_METHOD)).isPresent();
+			softly.assertThat(odd_tab.getAssetList().getAsset(AutoSSMetaData.GenerateOnDemandDocumentActionTab.DELIVERY_METHOD))
+				.hasOptions("Email", "Fax", "Central Print", "eSignature",  "Local Print");
+			softly.assertThat(odd_tab.getAssetList().getAsset(AutoSSMetaData.GenerateOnDemandDocumentActionTab.OK_BTN)).isPresent();
+			softly.assertThat(odd_tab.getAssetList().getAsset(AutoSSMetaData.GenerateOnDemandDocumentActionTab.CANCEL_BTN)).isPresent();
+			softly.assertThat(odd_tab.getAssetList().getAsset(AutoSSMetaData.GenerateOnDemandDocumentActionTab.PREVIEW_DOCUMENTS_BTN)).isPresent();
+			odd_tab.getAssetList().getAsset(AutoSSMetaData.GenerateOnDemandDocumentActionTab.PREVIEW_DOCUMENTS_BTN).click(Waiters.AJAX);
+			softly.assertThat(odd_tab.errorMsg.getValue()).isEqualTo("Please select document(s) to be generated.");
+			odd_tab.closeErrorDialogBtn.click();			
 		});		
 		odd_tab.saveAndExit();
 	}
