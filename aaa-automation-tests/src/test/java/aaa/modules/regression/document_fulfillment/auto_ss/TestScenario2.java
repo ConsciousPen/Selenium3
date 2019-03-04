@@ -1,11 +1,10 @@
 package aaa.modules.regression.document_fulfillment.auto_ss;
 
 import java.time.LocalDateTime;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
@@ -18,8 +17,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
-
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 /**
  * @author Ryan Yu
@@ -44,14 +41,9 @@ public class TestScenario2 extends AutoSSBaseTest {
 			NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 			DocumentsAndBindTab.btnGenerateDocuments.click();
 			DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AHEVAXX);
-		} else 
+		} else {
 			DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AARFIXX);
-	}
-	
-	@Parameters({ "state" })
-	@StateList(states = {States.AZ, States.IN, States.OH, States.VA})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC02_RenewOfferGeneration(@Optional("") String state) {
+		}
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
