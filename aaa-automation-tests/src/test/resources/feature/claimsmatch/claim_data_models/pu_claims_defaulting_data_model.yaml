@@ -73,7 +73,7 @@ claimLineItemList:
         claimDateOfLoss: '2019-01-03'
         claimDeductibleAmount: '0.000000000'
         claimDeductibleCurrencyCode: USD
-        claimNumber: PU_DEFAULTING_3
+        claimNumber: PU_DEFAULTING_2
         claimPrefix: ''
         claimOpenDate: '2019-01-03'
         claimPolicyReferenceNumber: CAAC952918598
@@ -104,7 +104,7 @@ claimLineItemList:
         claimDateOfLoss: '2019-01-04'
         claimDeductibleAmount: '0.000000000'
         claimDeductibleCurrencyCode: USD
-        claimNumber: PU_DEFAULTING_4
+        claimNumber: PU_DEFAULTING_3
         claimPrefix: ''
         claimOpenDate: '2019-01-04'
         claimPolicyReferenceNumber: CAAC952918598
@@ -135,7 +135,7 @@ claimLineItemList:
         claimDateOfLoss: '2019-01-05'
         claimDeductibleAmount: '0.000000000'
         claimDeductibleCurrencyCode: USD
-        claimNumber: PU_DEFAULTING_5
+        claimNumber: PU_DEFAULTING_4
         claimPrefix: ''
         claimOpenDate: '2019-01-05'
         claimPolicyReferenceNumber: CAAC952918598
@@ -166,7 +166,7 @@ claimLineItemList:
         claimDateOfLoss: '2019-01-06'
         claimDeductibleAmount: '0.000000000'
         claimDeductibleCurrencyCode: USD
-        claimNumber: PU_DEFAULTING_6
+        claimNumber: PU_DEFAULTING_5
         claimPrefix: ''
         claimOpenDate: '2019-01-06'
         claimPolicyReferenceNumber: CAAC952918598
@@ -197,7 +197,7 @@ claimLineItemList:
         claimDateOfLoss: '2019-01-07'
         claimDeductibleAmount: '0.000000000'
         claimDeductibleCurrencyCode: USD
-        claimNumber: PU_DEFAULTING_7
+        claimNumber: PU_DEFAULTING_6
         claimPrefix: ''
         claimOpenDate: '2019-01-07'
         claimPolicyReferenceNumber: CAAC952918598

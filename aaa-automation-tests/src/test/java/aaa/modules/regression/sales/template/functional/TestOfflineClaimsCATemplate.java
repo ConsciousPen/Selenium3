@@ -442,13 +442,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         }
 
         documentsAndBindTab.submitTab();
-
-        if (errorTab.isVisible()) {
-            errorTab.overrideAllErrors();
-            errorTab.buttonOverride.click();
-            documentsAndBindTab.submitTab();
-        }
-
         payTotalAmtDue(policyNumber);
     }
 
@@ -986,7 +979,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     }
 
     /*
-    Method verifies that PU indicator has coorect defaulted values
+    Method verifies that PU indicator has correct defaulted values: used for pas25162_permissiveUseIndicatorDefaulting
      */
     protected void verifyPUvalues() {
         CustomSoftAssertions.assertSoftly(softly -> {
@@ -994,16 +987,16 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
             // Check 1st driver: Contains 7 Matched Claims (Verifying PU default value)
             softly.assertThat(driverTab.tableActivityInformationList).hasRows(7);
-            // Verifying PU default value for all Claims
 
-            for (int i = 1; i <= 7; i++){
-                driverTab.tableActivityInformationList.selectRow(i);
-                if (i==7){
+            // Verifying PU default value for all Claims
+            for (int i = 0; i <= 6; i++){
+                driverTab.tableActivityInformationList.selectRow(i+1);
+                if (i==6){ //PERMISSIVE_USE match = Yes
                     softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[i]);
                     softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("Yes");
                 } else {
                     softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[i]);
-                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("Yes");
+                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("No");
                 }
 
             }
@@ -1018,7 +1011,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         policyNumber = openAppAndCreatePolicy(td);
         log.info("Policy created successfully. Policy number is " + policyNumber);
 
-        //Run Jobs to create and issue 1st Renewal
+        //Run Jobs to create and issue 1st Renewal: 1st CAS Response
         runRenewalClaimOrderJob();
         createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(policyNumber, PU_CLAIMS_DEFAULTING_DATA_MODEL);
         runRenewalClaimReceiveJob();
@@ -1037,12 +1030,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         issueGeneratedRenewalImage(policyNumber, false);
 
-        //Run Jobs to create 2nd required Renewal and validate the results: EXISTING_MATCH case
+        //Run Jobs to create 2nd required Renewal and validate the results: EXISTING_MATCH case: 2nd CAS Response
         runRenewalClaimOrderJob();
-
-        // Create Updated CAS Response and Upload
         createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(policyNumber, PU_CLAIMS_DEFAULTING_2ND_DATA_MODEL);
-
         runRenewalClaimReceiveJob();
 
         // Retrieve policy and verify claim presence on renewal image
