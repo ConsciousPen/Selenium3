@@ -174,7 +174,7 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 			assertThat(actualDocumentsAfterSecondRenewal.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.HSRNHODPXX.getIdInXml());
 		}
 	}
-	//TODO ADD SWITCH HERE
+
 	protected List<String> getSecondRenewalForms() {
 		switch (getPolicyType().getShortName()) {
 			case "HomeSS_HO3":
@@ -244,12 +244,7 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 		/**PAS-9774, PAS-10111 - both has the same root cause which is a Base defect EISAAASP-1852 and has been already resolved in Base EIS 8.17.
 		 It will come with next upgrade, until then there's simple workaround - need to run aaa-admin application instead of aaa-app.
 		 Both, manual propose and automated propose should work running under aaa-admin.**/
-//		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getEffectiveDateForTimePoint(
-//				TimeSetterUtil.getInstance().getPhaseStartTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
-
 		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getConversionEffectiveDate();
-//		LocalDateTime renewalBillGenerationDate = getTimePoints().getEffectiveDateForTimePoint(
-//				TimeSetterUtil.getInstance().getPhaseStartTime(), TimePoints.TimepointsList.BILL_GENERATION);
 
 		// Create manual entry and verify "Premium Calculated" status
 		String policyNumber = createFormsSpecificManualEntry(testData);
@@ -264,8 +259,8 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 		//needed for home banking form generation
 		setUpTriggerHomeBankingConversionRenewal(policyNumber);
 
+		// Add Credit Card payment method and Enable AutoPayment if applicable
 		if (isOnAutopay){
-			// Add Credit Card payment method and Enable AutoPayment
 			Tab.buttonBack.click();
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 			billingAccount.update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay"));
@@ -276,12 +271,12 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
-
 		assertThat(policyTransactionCode.equals("STMT") || policyTransactionCode.equals("0210")).isTrue();
+
 		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
 		verifyRenewalBillingPackageFormsPresence(policyNumber, getPolicyType(), isOnAutopay);
 
-		// Start PAS-9816 Scenario 1 Issue first renewal
+		// Start PAS-9816 Scenario 1 - Issue first renewal
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		Dollar totalDue = new Dollar(BillingSummaryPage.getTotalDue());
@@ -304,20 +299,16 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 		PolicySummaryPage.buttonRenewals.click();
 		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
-		/**
-		 * https://csaaig.atlassian.net/browse/PAS-9157
-		 * PAS-10256
-		 * Cannot rate Home SS policy with effective date higher or equal to 2020-02-018
-		 */
 		//Generate Bill for the second renewal to verify Home Banking forms
 		billGeneration(secondRenewalExpirationDate);
+
 		// Shouldn't be after second renewal
 		verifyBillingRenewalPackageAbsence(policyNumber);
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		String policyTransactionCode2 = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
-
 		assertThat(policyTransactionCode2.equals("STMT") || policyTransactionCode2.equals("0210")).isTrue();
+
 	}
 
 	/**
