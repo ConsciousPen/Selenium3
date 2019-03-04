@@ -238,7 +238,12 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest {
 		//WebDriverHelper.switchToDefault();
 		DocGenHelper.verifyDocumentsGenerated(softly, policyNum, DocGenEnum.Documents.DS11, DocGenEnum.Documents.AHPNXX);
 
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+		/*mainApp().close();
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
+		policy.policyDocGen().start();*/
+
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(
 				DocGenEnum.Documents.AHRCTXX,

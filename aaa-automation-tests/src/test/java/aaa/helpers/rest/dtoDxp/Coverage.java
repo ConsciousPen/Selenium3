@@ -7,10 +7,7 @@ import com.google.common.collect.ImmutableList;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ApiModel(description = "Coverage Information")
@@ -49,12 +46,14 @@ public class Coverage {
 	@ApiModelProperty(value = "List of sub coverages associated to the coverage")
 	private List<Coverage> subCoverages;
 
-	@ApiModelProperty(value = "Insurer Name", example = "John Smith")
-	private String insurerName; //for PIPPRIMINS coverage
+    @ApiModelProperty(value = "List of relatives included in the coverage")
+    public List<String> relativesCovered;
 
-	private String certNum; //for PIPPRIMINS coverage
+    @ApiModelProperty(value = "Insurer Name", example = "John Smith")
+    public String insurerName;
 
-	private List<String> relativesCovered;
+    @ApiModelProperty(value = "Certificate Number", example = "456785")
+    public String certNum;
 
 	public static Coverage create(CoverageInfo coverageInfo) {
 		Coverage coverage = new Coverage();
@@ -70,6 +69,9 @@ public class Coverage {
 		coverage.coverageType = coverageInfo.getCoverageType();
 		coverage.canChangeCoverage = true;
 		coverage.customerDisplayed = true;
+		if (coverageInfo.equals(CoverageInfo.PIPCOVINCLUDES_NJ)) {
+			coverage.relativesCovered = new ArrayList<>();
+		}
 		return coverage;
 	}
 
@@ -200,15 +202,20 @@ public class Coverage {
 		return subCoverages;
 	}
 
+    public List<String> getRelativesCovered() {
+        return relativesCovered;
+    }
+
+    public Coverage setRelativesCovered(List<String> relativesCovered) {
+        this.relativesCovered = relativesCovered;
+        return this;
+    }
+
 	public String getInsurerName() {
 		return insurerName;
 	}
 	public String getCertNum(){
 		return certNum;
-	}
-
-	public List <String> getRelativesCovered(){
-		return relativesCovered;
 	}
 
 	public Coverage addInsurerName(String insurerName) {
@@ -242,7 +249,9 @@ public class Coverage {
 				Objects.equals(getCurrentlyAddedDrivers(), coverage.getCurrentlyAddedDrivers()) &&
 				Objects.equals(getSubCoverages(), coverage.getSubCoverages()) &&
 				Objects.equals(getInsurerName(), coverage.getInsurerName()) &&
-				Objects.equals(getCertNum(), coverage.getCertNum());
+				Objects.equals(getCertNum(), coverage.getCertNum()) &&
+				Objects.equals(getRelativesCovered(), coverage.getRelativesCovered()) &&
+				Objects.equals(getSubCoverages(), coverage.getSubCoverages());
 	}
 
 	@Override

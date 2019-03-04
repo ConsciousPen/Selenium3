@@ -100,7 +100,7 @@ public class TestNJDocgenScenarios extends HomeSSHO3BaseTest {
 				DocGenEnum.Documents.AHELCXXL,
 				DocGenEnum.Documents.AHELCXXP
 		);
-		documentActionTab.generateDocuments(
+		documentActionTab.generateDocuments(DocGenEnum.DeliveryMethod.CENTRAL_PRINT,
 				DocGenEnum.Documents.HS11.setState(getState()),
 				DocGenEnum.Documents.AHELCXXA,
 				DocGenEnum.Documents.AHELCXXD,

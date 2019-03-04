@@ -15,8 +15,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.SkipException;
-import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.db.DbXmlHelper;
 import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.ssh.RemoteHelper;
@@ -24,15 +24,18 @@ import aaa.helpers.xml.XmlHelper;
 import aaa.helpers.xml.model.*;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
+import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class DocGenHelper {
-	public static final String DOCGEN_SOURCE_FOLDER = "/home/DocGen/";
+	private static final String DOCGEN_JOB_FOLDER = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");
+	private static final String DOCGEN_FOLDER = PropertyProvider.getProperty(CsaaTestProperties.DOCGEN_FOLDER, "/home/");
+	public static final String DOCGEN_SOURCE_FOLDER = DOCGEN_FOLDER + "DocGen/";
 	public static final String DOCGEN_BATCH_SOURCE_FOLDER = DOCGEN_SOURCE_FOLDER + "Batch/";
-	public static final String JOBS_DOCGEN_SOURCE_FOLDER = "/home/mp2/pas/sit/PAS_B_EXGPAS_DCMGMT_6500_D/outbound/";
+	public static final String JOBS_DOCGEN_SOURCE_FOLDER = DOCGEN_JOB_FOLDER + "PAS_B_EXGPAS_DCMGMT_6500_D/outbound/";
 	public static final DateTimeFormatter DATE_TIME_FIELD_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T00:00:00.000'XXX");
 	private static final int DOCUMENT_GENERATION_TIMEOUT = 40;
 
@@ -433,15 +436,6 @@ public class DocGenHelper {
 		return docs;
 	}
 
-	private static List<String> splitToDocuments(String xmlDocData) {
-		List<String> docs = new ArrayList<>();
-		Matcher matcher = Pattern.compile("<doc:Document(.*?)</doc:Document>").matcher(xmlDocData);
-		while (matcher.find()) {
-			docs.add(matcher.group());
-		}
-		return docs;
-	}
-
 	public static DocumentPackage getDocumentPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
 		String xmlDocData = DbXmlHelper.getXmlByPolicyNumber(policyNumber, eventName);
 
@@ -487,15 +481,6 @@ public class DocGenHelper {
 			actualDocumentsListAfterFirstRenewal.addAll(documentPackage.getDocuments());
 		}
 		return actualDocumentsListAfterFirstRenewal;
-	}
-
-	private static boolean isRequestValid(DocumentWrapper dw, String policyNumber, DocGenEnum.Documents[] documents) {
-		if (documents.length > 0) {
-			List<String> expectedDocumentIds = Arrays.stream(documents).map(DocGenEnum.Documents::getIdInXml).collect(Collectors.toList());
-			return dw.getAllDocuments(policyNumber).stream().map(Document::getTemplateId).collect(Collectors.toList()).containsAll(expectedDocumentIds);
-		} else {
-			return dw.getList(SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber)).size() > 0;
-		}
 	}
 
 	public static Boolean isPasDocEnabled(String state, PolicyType pType) {
@@ -555,6 +540,24 @@ public class DocGenHelper {
 		}
 	}
 
+	private static List<String> splitToDocuments(String xmlDocData) {
+		List<String> docs = new ArrayList<>();
+		Matcher matcher = Pattern.compile("<doc:Document(.*?)</doc:Document>").matcher(xmlDocData);
+		while (matcher.find()) {
+			docs.add(matcher.group());
+		}
+		return docs;
+	}
+
+	private static boolean isRequestValid(DocumentWrapper dw, String policyNumber, DocGenEnum.Documents[] documents) {
+		if (documents.length > 0) {
+			List<String> expectedDocumentIds = Arrays.stream(documents).map(DocGenEnum.Documents::getIdInXml).collect(Collectors.toList());
+			return dw.getAllDocuments(policyNumber).stream().map(Document::getTemplateId).collect(Collectors.toList()).containsAll(expectedDocumentIds);
+		} else {
+			return dw.getList(SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber)).size() > 0;
+		}
+	}
+
 	private static Boolean executePasDocQuery(String state, String pType) {
 		assertThat(state).as("State is not defined").isNotEmpty();
 		assertThat(pType).as("Policy Type is not defined").isNotNull();
@@ -571,13 +574,6 @@ public class DocGenHelper {
 			throw new SkipException("Policy number can't be parsed: " + policyNum);
 		}
 		return m.group(1);
-	}
-
-	@Test
-	public void test() {
-		if (isPasDocEnabled("AZSS952415914")) {
-			throw new SkipException(String.format("PasDoc is enabled for product and state combination: " + "AZSS952415914" + ". Test will be skipped."));
-		}
 	}
 
 	private enum ProductCode {

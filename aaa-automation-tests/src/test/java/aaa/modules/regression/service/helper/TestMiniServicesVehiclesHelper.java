@@ -225,14 +225,14 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
 		assertSoftly(softly -> {
-			softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.REGISTERED_OWNERS)).isTrue();
-			softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.USAGE_IS_BUSINESS)).isTrue();
+			softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.REGISTERED_OWNERS, "vehOwnerInd")).isTrue();
+			softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.USAGE_IS_BUSINESS, "vehicleUsageCd")).isTrue();
 		});
 
 		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "PAS-7147", 422);
 		assertSoftly(softly -> {
-			softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.REGISTERED_OWNERS)).isTrue();
-			softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.USAGE_IS_BUSINESS)).isTrue();
+			softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.REGISTERED_OWNERS, "vehOwnerInd")).isTrue();
+			softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.USAGE_IS_BUSINESS, "vehicleUsageCd")).isTrue();
 		});
 	}
 
@@ -266,7 +266,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "PAS-7147", 422);
 		assertSoftly(softly -> {
-			softly.assertThat(helperMiniServices.hasError(bindResponse, ErrorDxpEnum.Errors.REGISTERED_OWNERS)).isTrue();
+			softly.assertThat(helperMiniServices.hasError(bindResponse, ErrorDxpEnum.Errors.REGISTERED_OWNERS, "vehOwnerInd")).isTrue();
 		});
 	}
 
@@ -336,10 +336,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			String vin2 = "9BWFL61J244023215";
 
 			//add vehicle
-			Vehicle responseAddVehicle =
-					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin2, purchaseDate2), Vehicle.class, 201);
-
-			assertThat(responseAddVehicle.oid).isNotEmpty();
+			addVehicleWithChecks(policyNumber,purchaseDate2,vin2,true);
 
 			//try add the same vehicle one more time
 			ErrorResponseDto errorResponse2 =
@@ -352,14 +349,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			String vin3 = "ZFFCW56A830133118";
 
 			//try add to expensive vehicle
-			ErrorResponseDto errorResponse3 =
-					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin3, purchaseDate3), ErrorResponseDto.class, 422);
-
-			softly.assertThat(errorResponse3.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-			softly.assertThat(errorResponse3.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(errorResponse3.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getCode());
-			softly.assertThat(errorResponse3.errors.get(0).message).contains(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getMessage());
-			softly.assertThat(errorResponse3.errors.get(0).field).isEqualTo("vehTypeCd");
+			addVehicleWithChecks(policyNumber, purchaseDate3, vin3, true);
+			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
 	}
 

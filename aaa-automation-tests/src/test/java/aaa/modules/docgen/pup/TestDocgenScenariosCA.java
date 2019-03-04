@@ -5,7 +5,6 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants.States;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum;
@@ -22,8 +21,8 @@ import toolkit.verification.ETCSCoreSoftAssertions;
  */
 public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 
-	String quoteNum;
-	String policyNum;
+	private String quoteNum;
+	private String  policyNum;
 
 	/**
 	 * Create pup policy with underlying ca policy
@@ -96,14 +95,7 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 		goddTab.generateDocuments(true, DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.EMAIL, null, null, _58_4000);
 		DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, _58_4000, AHPNCA);
 		softly.close();
-	}
 
-	public void TC02(@Optional("") String state) {
-
-		mainApp().open();
-		SearchPage.openQuote(quoteNum);
-
-		GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(true, DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.EMAIL, null, getTestSpecificTD("QuoteGenerateHSU"),
 				HSU03XX,
@@ -117,7 +109,7 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 				_58_1027
 		);
 
-		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		softly = new ETCSCoreSoftAssertions();
 		DocGenHelper.verifyDocumentsGenerated(softly, quoteNum,
 				HSU03XX,
 				HSU04XX,
@@ -131,21 +123,13 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 		);
 
 		softly.close();
-	}
-
-	public void TC03(@Optional("") String state) {
-
-		mainApp().open();
-		SearchPage.openQuote(quoteNum);
-
-		GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 
 		policy.purchase(getPolicyTD());
 
 		policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 
 		// Verify the documents for policy
-		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		softly = new ETCSCoreSoftAssertions();
 		DocGenHelper.verifyDocumentsGenerated(softly, policyNum, _61_5120, _58_1500);
 		policy.policyDocGen().start();
 		goddTab.verify.documentsEnabled(softly,
@@ -166,14 +150,6 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 		DocGenHelper.verifyDocumentsGenerated(softly, policyNum, _58_4000, AHPNCA);
 
 		softly.close();
-	}
-
-	public void TC04(@Optional("") String state) {
-
-		mainApp().open();
-		SearchPage.openPolicy(policyNum);
-
-		GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 
 		policy.policyDocGen().start();
 		goddTab.generateDocuments(true, DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.EMAIL, null, getTestSpecificTD("PolicyGenerateHSU"),
@@ -191,7 +167,7 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 				HSU01CA
 		);
 
-		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		softly = new ETCSCoreSoftAssertions();
 		DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
 				HSU04XX,
 				HSU05XX,
