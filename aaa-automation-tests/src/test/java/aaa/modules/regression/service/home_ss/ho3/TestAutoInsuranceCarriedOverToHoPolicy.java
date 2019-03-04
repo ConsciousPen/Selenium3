@@ -126,7 +126,7 @@ public class TestAutoInsuranceCarriedOverToHoPolicy extends HomeSSHO3BaseTest {
 		//Add created Auto policy to list from Mock and compare with list of Other Active policies from UI
 		listOfPoliciesFromMock.add(autoPolicyNum);
 		log.info(String.format("List of policies from UI: %s \n Expected list of policies: %s", listOfPoliciesFromUI.toString(), listOfPoliciesFromMock.toString()));
-		assertThat(new HashSet(listOfPoliciesFromMock).equals(new HashSet(listOfPoliciesFromUI))).isEqualTo(true);
+		assertThat(new HashSet(listOfPoliciesFromMock).equals(new HashSet(listOfPoliciesFromUI))).as("Wrong list of policies").isEqualTo(true);
 	}
 
 }
