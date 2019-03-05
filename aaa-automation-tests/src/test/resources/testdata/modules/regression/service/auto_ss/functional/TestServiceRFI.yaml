@@ -897,6 +897,10 @@ TestData_AddVewhicle: {
   VehicleTab: ['@TestData_VehicleTab'],
 }
 
+TestData_AddVewhicleLessThan7YearsOld: {
+  VehicleTab: ['@TestData_VehicleTabLessThan7YearOld'],
+}
+
 TestData_VehicleTab: {
   Add Vehicle: Click,
   VIN: WAUKJAFM8C6314628,
@@ -904,4 +908,10 @@ TestData_VehicleTab: {
   Existing Damage: None,
   "Salvaged?": 'No',
   Odometer Reading: 3000
+}
+
+TestData_VehicleTabLessThan7YearOld: {
+  Add Vehicle: Click,
+  VIN: 4T1BF1FK0HU761648,
+  Usage: Pleasure,
 }

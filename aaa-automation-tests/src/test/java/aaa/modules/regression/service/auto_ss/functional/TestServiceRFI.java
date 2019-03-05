@@ -46,10 +46,12 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.AbstractEditableStringElement;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import javax.ws.rs.core.Response;
 
 public class TestServiceRFI extends AutoSSBaseTest {
+	private final VehicleTab vehicleTab = new VehicleTab();
 	private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 	private final TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
@@ -601,6 +603,81 @@ public class TestServiceRFI extends AutoSSBaseTest {
 				documentsAndBindTab.saveAndExit();
 			});
 		}
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement in PAS.
+	 * 3. Add/replace vehicle in PAS
+	 * 4. Check that Required for Bind Section does NOT include AAIFNJ3 OR AAIFNJ4
+	 * 5. Required for Issue Section includes the CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver section includes the Newly Added Vehicle
+	 * AND The newly added vehicle is set to YES
+	 * 6. Check check DXP to ensure the documents are not there
+	 */
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23573"})
+	public void pas23573_CARCONotNeededInsidePAS(@Optional("NJ") String state) {
+		TestData td = getPolicyDefaultTD();
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
+				AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel()), "$<today-4y-1d:MM/dd/yyyy>");//Base date is > 4 years from policy eff date
+
+		AssetDescriptor<RadioGroup> carcoVehicle2 = AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.SEPARATE_VEHICLE_2;
+
+		String policyNumber = openAppAndCreatePolicy(td);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
+
+		//Create Endorsement and Replace Vehicle from PAS UI and validate
+		TestData tdEndorsement1 = getPolicyTD("DataGather", "TestData_Plus5Day");
+		policy.getDefaultView().fillFromTo(tdEndorsement1, VehicleTab.class, VehicleTab.class, false);
+		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.LIST_OF_VEHICLE).getTable().
+				getRow(1).getCell(5).controls.links.get("Replace").click();
+		Page.dialogConfirmation.confirm();
+		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).setValue("WAUDGAFL1EA123034");
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		//Verify CARCO in Documents and Bind tab
+		verifyCARCOInDocAndBindTab_pas23573(policyNumber);
+		assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.SEPARATE_VEHICLE_2)).isPresent(false);//just in case
+		documentsAndBindTab.submitTab();
+
+		//Create Endorsement and Add Vehicle from PAS UI and validate
+		TestData tdEndorsement2 = getPolicyTD("DataGather", "TestData_Plus5Day");
+		TestData testData = tdEndorsement2.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleTabLessThan7YearOld").getTestDataList("VehicleTab")).resolveLinks();
+		policy.getDefaultView().fillFromTo(testData, VehicleTab.class, VehicleTab.class, true);
+		premiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		//Verify CARCO in Documents and Bind tab
+		verifyCARCOInDocAndBindTab_pas23573(policyNumber);
+		assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(carcoVehicle2).getValue()).isEqualTo("Yes");
+		documentsAndBindTab.submitTab();
+	}
+
+	private void verifyCARCOInDocAndBindTab_pas23573(String policyNumber) {
+		//RequiredToBind section
+		AssetDescriptor<RadioGroup> aaifnj3Carco = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNUNSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION;//TODO-mstrazds: AAIFNJ3
+		AssetDescriptor<RadioGroup> aaifnj4Carco = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNUNSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION;//TODO-mstrazds: AAIFNJ4
+
+		//RequiredToIssue section
+		AssetDescriptor<StaticElement> carcoVehicleSelection = AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CARCO_VEHICLE_INSPECTION_COMPLETED;
+		AssetDescriptor<RadioGroup> carcoVehicle1 = AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.SEPARATE_VEHICLE_1;
+
+		//Required for Bind Section does NOT include AAIFNJ3 OR AAIFNJ4
+		assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(aaifnj3Carco)).isPresent(false);
+		assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(aaifnj4Carco)).isPresent(false);
+		/*Required for Issue Section includes the CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver section includes the Newly Added Vehicle
+		AND The newly added vehicle is set to YES*/
+		assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(carcoVehicleSelection)).isPresent();
+		assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(carcoVehicle1).getValue()).isEqualTo("Yes");
+
+		//Check that RFI does not contain AAIFNJ3 OR AAIFNJ4
+		checkIfRfiIsEmpty(policyNumber);
 	}
 
 	/**
