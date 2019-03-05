@@ -3,7 +3,9 @@ package aaa.helpers.jobs;
 import aaa.common.enums.Constants;
 import aaa.modules.BaseTest;
 import org.apache.commons.lang.NotImplementedException;
+import java.time.temporal.ChronoUnit;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,6 +18,7 @@ public class SuperJobs {
     public static final String defaultStateKey = "default";
     public static final int jobNotApplicableValue = -1;
     public enum PolicyTerm { Annual, SixMonth }
+    public enum PaymentPlan { Full, Monthly }
     public enum TimePoint { First, Second }
 
     /**
@@ -408,7 +411,7 @@ public class SuperJobs {
         return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SuperJob.PaymentSuperJob makePayment(String state, BaseTest baseTest, String policyNumber) {
+    public static SuperJob.PaymentSuperJob makeLumpSumPayment(String state, BaseTest baseTest, String policyNumber) {
 
         // The actual job is not used for this one. This is a placeholder.
         Job baseJob = Jobs.aaaBatchMarkerJob;
@@ -421,6 +424,49 @@ public class SuperJobs {
 
         return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset).
                 new PaymentSuperJob(baseTest,policyNumber, baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+    }
+
+    public static ArrayList<SuperJob> makeMonthlyPayments(BaseTest baseTest, String policyNumber, PolicyTerm policyTerm,
+                                                          LocalDateTime expirationDate, boolean makeFinalPayment){
+
+        // The actual job is not used for this one. This is a placeholder.
+        Job baseJob = Jobs.aaaBatchMarkerJob;
+
+        ArrayList<SuperJob> jobs = new ArrayList<>();
+
+        int numMonths = policyTerm == PolicyTerm.SixMonth ? 6 : 12;
+
+        int offset = 13;
+
+        // Number of loops is equivalent to number of months.
+        for (int i = 0; i < numMonths; i++){
+
+            // The final payment should only be scheduled if true.
+            if (i == 0 && makeFinalPayment){
+                jobs.add(new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset).
+                        new PaymentSuperJob(baseTest,policyNumber, baseJob, SuperJob.JobOffsetType.Subtract_Days, offset));
+            }
+
+            // If put in place so it will do nothing if final makeFinalPayment == false
+            else if (i > 0){
+
+                // Figure out the proper offset factoring in months of the year.
+                LocalDateTime targetDateTime = expirationDate.minusMonths(i).minusDays(offset);
+
+                int dateSpread = Math.abs((int)ChronoUnit.DAYS.between(expirationDate, targetDateTime));
+
+                jobs.add(new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, dateSpread).
+                        new PaymentSuperJob(baseTest,policyNumber, baseJob, SuperJob.JobOffsetType.Subtract_Days, dateSpread));
+
+                // BONDTODO: Will probably need to take in the renewal date for this one to generate correct payment offsets
+                //           Probably can redo this to be one for loop for both if do it date based.
+                //           renewal.months.subtract(iterator).days.add(13) - I think.
+                // Offset by months.
+            }
+        }
+
+
+        return jobs;
     }
 
     /**

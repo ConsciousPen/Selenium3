@@ -12,6 +12,9 @@ import java.util.TreeMap;
  * Wraps a hashmap with a label to avoid confusion. Map represents Offset date with list of jobs for each date.
  */
 public class JobSchedule {
+    // Debugging switches
+    boolean showWeekendAdjustmentOutput = false;
+
     // Offset Date / Jobs to run on date
     private TreeMap<Integer, ArrayList<SuperJob>> jobScheduleMap = new TreeMap<>();
 
@@ -133,14 +136,20 @@ public class JobSchedule {
         switch (adjustedDate.getDayOfWeek()){
             case SATURDAY:
                 adjustedOffset = offset - 1;
-                log.info("Scheduled Job | " + jobName + " adjusted from Saturday to Previous Friday. Offset: " + offset
-                        + " | Adjusted Offset: " + adjustedOffset);
+
+                if(showWeekendAdjustmentOutput) {
+                    log.info("Scheduled Job | " + jobName + " adjusted from Saturday to Previous Friday. Offset: " + offset
+                            + " | Adjusted Offset: " + adjustedOffset);
+                }
                 return adjustedOffset;
 
             case SUNDAY:
                 adjustedOffset = offset + 1;
-                log.info("Scheduled Job | " + jobName + " adjusted from Sunday to Following Monday. Offset: " + offset
-                        + " | Adjusted Offset: " + adjustedOffset);
+
+                if(showWeekendAdjustmentOutput) {
+                    log.info("Scheduled Job | " + jobName + " adjusted from Sunday to Following Monday. Offset: " + offset
+                            + " | Adjusted Offset: " + adjustedOffset);
+                }
                 return adjustedOffset;
 
             default:

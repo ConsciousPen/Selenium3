@@ -1,10 +1,13 @@
 package aaa.helpers.jobs;
 
 import aaa.common.Tab;
+import aaa.common.pages.LoginPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.modules.BaseTest;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.impl.MainApplication;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -146,11 +149,12 @@ public class SuperJob {
             super(jobToSchedule, jobOffsetOperationType, jobOffsetByDays, jobSameDayDependancies);
             _baseTest = baseTest;
             _policyNumber = policyNumber;
-            jobName = "makePayment SuperJob.PaymentSuperJob";
+            jobName = "SuperJob.PaymentSuperJob";
         }
 
         @Override
         public void executeJob(){
+            MainApplication mainApplication = CSAAApplicationFactory.get().mainApp();
             // Make a payement
             _baseTest.mainApp().open();
             SearchPage.openBilling(_policyNumber);
