@@ -438,14 +438,9 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 	private void verifyBillingRenewalPackageAbsence(String policyNumber) {
 		List<Document> billingDocumentsListAfterSecondRenewal = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 		assertThat(billingDocumentsListAfterSecondRenewal).isNotEmpty().isNotNull();
-		assertThat(billingDocumentsListAfterSecondRenewal).as("Renewal Bill for 2nd Renewal is not generated").isEqualTo(2);
 
-		List<String> billingFormsAfterSecondRenewal = new ArrayList<>();
-		billingDocumentsListAfterSecondRenewal.forEach(doc -> billingFormsAfterSecondRenewal.add(doc.getTemplateId()));
-
-		assertThat(billingFormsAfterSecondRenewal).doesNotContain(
-				DocGenEnum.Documents.HSRNHBXX.getIdInXml(),
-				DocGenEnum.Documents.HSRNHBPUP.getIdInXml());
+		assertThat(billingDocumentsListAfterSecondRenewal.contains("HSRNHBXX")).isFalse();
+		assertThat(billingDocumentsListAfterSecondRenewal.contains("HSRNHBPUP")).isFalse();
 	}
 
 	private void verifyConversionRenewalPackageAbsence(List<String> forms, List<String> listOfFormsAfterSecondRenewal) {
