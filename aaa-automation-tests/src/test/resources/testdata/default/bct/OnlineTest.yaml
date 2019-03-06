@@ -686,3 +686,7 @@ BCT_Empty_Endorsement_Ho4_CA: {
 BCT_Empty_Endorsement_Ho6_CA: {
   SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and productcd = 'AAA_HO_CA' and policyformcd = 'HO6' and timedpolicystatuscd in ('inForce') and effective between '/DATE1/' and '/DATE2/' /AND_ROWNUM_1/"
 }
+
+BCT_HdesRenewConvertedPolicyHO3CA: {
+  SelectPolicy: "SELECT DISTINCT policynumber FROM policysummary WHERE txtype IN ('policy') AND policystatuscd = 'issued' AND timedpolicystatuscd IN ('inForce') AND policyformcd = 'HO3' AND riskstatecd = '/STATE/' AND IMPORTED='CONV' AND IMPORTEDFROM='HDES' /AND_ROWNUM_1/"
+}
