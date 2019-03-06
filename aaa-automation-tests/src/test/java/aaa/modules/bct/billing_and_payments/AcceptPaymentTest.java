@@ -10,6 +10,7 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.BillingAccountMetaData;
+import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
@@ -33,6 +34,7 @@ public class AcceptPaymentTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states =  Constants.States.CA)
 	public void BCT_ONL_030_ProcessAcceptPayment(@Optional("") String state) {
+		AcceptPaymentActionTab paymentTab = new AcceptPaymentActionTab();
 		mainApp().open();
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 

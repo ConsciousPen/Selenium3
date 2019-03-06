@@ -31,6 +31,7 @@ public class DefinePaymentMethodTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = CA)
 	public void BCT_ONL_031_Define_Payment_Method(@Optional("") String state) {
+		AcceptPaymentActionTab paymentTab = new AcceptPaymentActionTab();
 		mainApp().open();
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
