@@ -29,9 +29,9 @@ public class EndorsementTemplate extends BackwardCompatibilityBaseTest {
 			state = PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE);
 			iTestContext.getCurrentXmlTest().addParameter(STATE_PARAM, state);
 		}
-		log.info(" DataProvider got state: {}", state);
+		log.info("DataProvider got state: {}", state);
 		List<String> policyNumbers = getPoliciesForEmptyEndorsementTests(m.getName(), date1, date2, state);
-		log.info(" DataProvider got policies: {}", policyNumbers);
+		log.info("DataProvider got policies: {}", policyNumbers);
 		String finalState = state;
 		List<Object[]> data = policyNumbers.stream().map(policyNumber -> new String[] {finalState, policyNumber}).collect(Collectors.toList());
 		return data.iterator();

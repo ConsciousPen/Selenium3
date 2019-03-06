@@ -640,51 +640,51 @@ BCT_ONL_186_Refund_Validation: {
 }
 
 BCT_ONL_EmptyEndorsementAutoSS: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and productcd = 'AAA_SS' and currentrevisionind = '1' and timedpolicystatuscd in ('inForce') and LOB = 'AUTO' and riskstatecd = '/STATE/' and effective between '/DATE1/' and '/DATE2/' and rownum<=3"
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and productcd = 'AAA_SS' and currentrevisionind = '1' and timedpolicystatuscd in ('inForce') and LOB = 'AUTO' and riskstatecd = '/STATE/' and effective between '/DATE1/' and '/DATE2/' /AND_ROWNUM_3/"
 }
 
 BCT_ONL_EmptyEndorsementPUP: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and productcd = 'AAA_PUP_SS' and currentrevisionind = '1' and timedpolicystatuscd in ('inForce') and riskstatecd = '/STATE/' and effective between '/DATE1/' and '/DATE2/' and rownum<=3"
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and productcd = 'AAA_PUP_SS' and currentrevisionind = '1' and timedpolicystatuscd in ('inForce') and riskstatecd = '/STATE/' and effective between '/DATE1/' and '/DATE2/' /AND_ROWNUM_3/"
 }
 
 BCT_ONL_EmptyEndorsementHomeSSDp3: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and policyformcd = 'DP3' and timedpolicystatuscd in ('inForce') and riskstatecd = '/STATE/' and effective between '/DATE1/' and '/DATE2/' and rownum<=3"
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and policyformcd = 'DP3' and timedpolicystatuscd in ('inForce') and riskstatecd = '/STATE/' and effective between '/DATE1/' and '/DATE2/' /AND_ROWNUM_3/"
 }
 
 BCT_ONL_EmptyEndorsementHomeSSHo3: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and policyformcd = 'HO3' and timedpolicystatuscd in ('inForce') and riskstatecd = '/STATE/' and effective between '/DATE1/' and '/DATE2/' and rownum<=3"
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and policyformcd = 'HO3' and timedpolicystatuscd in ('inForce') and riskstatecd = '/STATE/' and effective between '/DATE1/' and '/DATE2/' /AND_ROWNUM_3/"
 }
 
 BCT_ONL_EmptyEndorsementHomeSSHo4: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and policyformcd = 'HO4' and timedpolicystatuscd in ('inForce') and riskstatecd = '/STATE/' and effective between '/DATE1/' and '/DATE2/' and rownum<=3"
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and policyformcd = 'HO4' and timedpolicystatuscd in ('inForce') and riskstatecd = '/STATE/' and effective between '/DATE1/' and '/DATE2/' /AND_ROWNUM_3/"
 }
 
 BCT_ONL_EmptyEndorsementHomeSSHo6: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and policyformcd = 'HO6' and timedpolicystatuscd in ('inForce') and riskstatecd = '/STATE/' and effective between '/DATE1/' and '/DATE2/' and rownum<=3"
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and policyformcd = 'HO6' and timedpolicystatuscd in ('inForce') and riskstatecd = '/STATE/' and effective between '/DATE1/' and '/DATE2/' /AND_ROWNUM_3/"
 }
 
 BCT_ONL_EmptyEndorsementAutoCAChoice: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and productcd = 'AAA_CSA' and policyformcd = 'CHOICE' and timedpolicystatuscd in ('inForce') and effective between '/DATE1/' and '/DATE2/' and rownum<=3"
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and productcd = 'AAA_CSA' and policyformcd = 'CHOICE' and timedpolicystatuscd in ('inForce') and effective between '/DATE1/' and '/DATE2/' /AND_ROWNUM_3/"
 }
 
 BCT_ONL_EmptyEndorsementAutoCASelect: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and productcd = 'AAA_CSA' and policyformcd is NULL and timedpolicystatuscd in ('inForce') and effective between '/DATE1/' and '/DATE2/' and rownum<=3"
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and productcd = 'AAA_CSA' and policyformcd is NULL and timedpolicystatuscd in ('inForce') and effective between '/DATE1/' and '/DATE2/' /AND_ROWNUM_3/"
 }
 
 BCT_ONL_EmptyEndorsementHomeCADp3: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and productcd = 'AAA_HO_CA' and policyformcd = 'DP3' and timedpolicystatuscd in ('inForce') and effective between '/DATE1/' and '/DATE2/' and rownum<=3"
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and productcd = 'AAA_HO_CA' and policyformcd = 'DP3' and timedpolicystatuscd in ('inForce') and effective between '/DATE1/' and '/DATE2/' /AND_ROWNUM_3/"
 }
 
 BCT_ONL_EmptyEndorsementHomeCAHo3: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and productcd = 'AAA_HO_CA' and policyformcd = 'HO3' and timedpolicystatuscd in ('inForce') and effective between '/DATE1/' and '/DATE2/' and rownum<=3"
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and productcd = 'AAA_HO_CA' and policyformcd = 'HO3' and timedpolicystatuscd in ('inForce') and effective between '/DATE1/' and '/DATE2/' /AND_ROWNUM_3/"
 }
 
 BCT_ONL_EmptyEndorsementHomeCAHo4: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and productcd = 'AAA_HO_CA' and policyformcd = 'HO4' and timedpolicystatuscd in ('inForce') and effective between '/DATE1/' and '/DATE2/' and rownum<=3"
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and productcd = 'AAA_HO_CA' and policyformcd = 'HO4' and timedpolicystatuscd in ('inForce') and effective between '/DATE1/' and '/DATE2/' /AND_ROWNUM_3/"
 }
 
 BCT_ONL_EmptyEndorsementHomeCAHo6: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and productcd = 'AAA_HO_CA' and policyformcd = 'HO6' and timedpolicystatuscd in ('inForce') and effective between '/DATE1/' and '/DATE2/' and rownum <= 3"
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and currentrevisionind = '1' and productcd = 'AAA_HO_CA' and policyformcd = 'HO6' and timedpolicystatuscd in ('inForce') and effective between '/DATE1/' and '/DATE2/' /AND_ROWNUM_3/"
 }
 
 BCT_HdesRenewConvertedPolicyHO3CA: {

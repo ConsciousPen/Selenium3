@@ -1,14 +1,14 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="BCT Online Tests" verbose="1" parallel="tests" thread-count="100" data-provider-thread-count="1" >
+<suite name="BCT Online Tests" verbose="1" parallel="tests" thread-count="1024" data-provider-thread-count="1">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method" />
+    <parameter name="timeshift-scenario-mode" value="test"/>
 
                                  <!-- Billing And Payments -->
 
-    <test name="Billing and payment - BCT_ONL_030" preserve-order="true" parallel="methods">
+    <test name="Billing and payment - BCT_ONL_030" preserve-order="true">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.bct.billing_and_payments.AcceptPaymentTest">
@@ -18,7 +18,7 @@
             </class>
         </classes>
     </test>
-    <test name="Billing and payment - BCT_ONL_031" preserve-order="true" parallel="methods">
+    <test name="Billing and payment - BCT_ONL_031" preserve-order="true">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.bct.billing_and_payments.DefinePaymentMethodTest">
@@ -28,7 +28,7 @@
             </class>
         </classes>
     </test>
-    <test name="Billing and payment - BCT_ONL_032" preserve-order="true" parallel="methods">
+    <test name="Billing and payment - BCT_ONL_032" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
         <classes>
             <class name="aaa.modules.bct.billing_and_payments.ModifyPaymentMethodTest">
@@ -38,7 +38,7 @@
             </class>
         </classes>
     </test>
-    <test name="Billing and payment - BCT_ONL_037" preserve-order="true" parallel="methods">
+    <test name="Billing and payment - BCT_ONL_037" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
         <classes>
             <class name="aaa.modules.bct.billing_and_payments.RefundTransferTest">
@@ -48,7 +48,7 @@
             </class>
         </classes>
     </test>
-    <test name="Billing and payment - BCT_ONL_038" preserve-order="true" parallel="methods">
+    <test name="Billing and payment - BCT_ONL_038" preserve-order="true">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.bct.billing_and_payments.RefundTransferTest">
@@ -58,7 +58,7 @@
             </class>
         </classes>
     </test>
-    <test name="Billing and payment - BCT_ONL_059" preserve-order="true" parallel="methods">
+    <test name="Billing and payment - BCT_ONL_059" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
         <classes>
             <class name="aaa.modules.bct.billing_and_payments.BillingHoldTest">
@@ -68,7 +68,7 @@
             </class>
         </classes>
     </test>
-    <test name="Billing and payment - BCT_ONL_061" preserve-order="true" parallel="methods">
+    <test name="Billing and payment - BCT_ONL_061" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
         <classes>
             <class name="aaa.modules.bct.billing_and_payments.FeesTest">
@@ -78,7 +78,7 @@
             </class>
         </classes>
     </test>
-    <test name="Billing and payment - BCT_ONL_064" preserve-order="true" parallel="methods">
+    <test name="Billing and payment - BCT_ONL_064" preserve-order="true">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.bct.billing_and_payments.BillingHoldTest">
@@ -88,7 +88,7 @@
             </class>
         </classes>
     </test>
-    <test name="Billing and payment - BCT_ONL_076" preserve-order="true" parallel="methods">
+    <test name="Billing and payment - BCT_ONL_076" preserve-order="true">
         <parameter name="state" value="UT, NJ, PA" />
         <classes>
             <class name="aaa.modules.bct.billing_and_payments.DeclinePaymentTest">
@@ -98,7 +98,7 @@
             </class>
         </classes>
     </test>
-    <test name="Billing and payment - BCT_ONL_086" preserve-order="true" parallel="methods">
+    <test name="Billing and payment - BCT_ONL_086" preserve-order="true">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.bct.billing_and_payments.ModifyPaymentPlanTest">
@@ -108,7 +108,7 @@
             </class>
         </classes>
     </test>
-    <test name="Billing and payment - BCT_ONL_097" preserve-order="true" parallel="methods">
+    <test name="Billing and payment - BCT_ONL_097" preserve-order="true">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.bct.billing_and_payments.BillGenerationTest">
@@ -118,7 +118,7 @@
             </class>
         </classes>
     </test>
-    <test name="Billing and payment - BCT_ONL_120" preserve-order="true" parallel="methods">
+    <test name="Billing and payment - BCT_ONL_120" preserve-order="true">
         <parameter name="state" value="AZ" />
         <classes>
             <class name="aaa.modules.bct.billing_and_payments.DeclinePaymentTest">
@@ -128,7 +128,7 @@
             </class>
         </classes>
     </test>
-    <test name="Billing and payment - BCT_ONL_121" preserve-order="true" parallel="methods">
+    <test name="Billing and payment - BCT_ONL_121" preserve-order="true">
         <parameter name="state" value="AZ" />
         <classes>
             <class name="aaa.modules.bct.billing_and_payments.DeclinePaymentTest">
@@ -138,7 +138,7 @@
             </class>
         </classes>
     </test>
-    <test name="Billing and payment - BCT_ONL_122" preserve-order="true" parallel="methods">
+    <test name="Billing and payment - BCT_ONL_122" preserve-order="true">
         <parameter name="state" value="AZ" />
         <classes>
             <class name="aaa.modules.bct.billing_and_payments.DeclinePaymentTest">
@@ -148,7 +148,7 @@
             </class>
         </classes>
     </test>
-    <test name="Billing and payment - BCT_ONL_185" preserve-order="true" parallel="methods">
+    <test name="Billing and payment - BCT_ONL_185" preserve-order="true">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.bct.billing_and_payments.ModifyPaymentPlanTest">
@@ -158,7 +158,7 @@
             </class>
         </classes>
     </test>
-    <test name="Billing and payment - BCT_ONL_186" preserve-order="true" parallel="methods">
+    <test name="Billing and payment - BCT_ONL_186" preserve-order="true">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.bct.billing_and_payments.ModifyPaymentPlanTest">
@@ -171,7 +171,7 @@
 
                                               <!-- Renewal -->
 
-    <test name="Renewal - BCT_ONL_003" preserve-order="true" parallel="methods">
+    <test name="Renewal - BCT_ONL_003" preserve-order="true">
         <parameter name="state" value="AZ, IN, MD, NJ, NV, OH, OK, OR, PA, VA"/>
         <classes>
             <class name="aaa.modules.bct.renewal.ManualRenewalTest">
@@ -181,7 +181,7 @@
             </class>
         </classes>
     </test>
-    <test name="Renewal - BCT_ONL_004" preserve-order="true" parallel="methods">
+    <test name="Renewal - BCT_ONL_004" preserve-order="true">
         <parameter name="state" value="AZ, IN, MD, NJ, NV, OH, OK, OR, PA, VA"/>
         <classes>
             <class name="aaa.modules.bct.renewal.ManualRenewalTest">
@@ -191,7 +191,7 @@
             </class>
         </classes>
     </test>
-    <test name="Renewal - BCT_ONL_047" preserve-order="true" parallel="methods">
+    <test name="Renewal - BCT_ONL_047" preserve-order="true">
         <parameter name="state" value="AZ, IN, MD, NJ, NV, OH, OK, OR, PA, VA"/>
         <classes>
             <class name="aaa.modules.bct.renewal.ManualRenewalTest">
@@ -201,7 +201,7 @@
             </class>
         </classes>
     </test>
-    <test name="Renewal - BCT_ONL_048" preserve-order="true" parallel="methods">
+    <test name="Renewal - BCT_ONL_048" preserve-order="true">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.bct.renewal.DoNotRenewTest">
@@ -211,7 +211,7 @@
             </class>
         </classes>
     </test>
-    <test name="Renewal - BCT_ONL_107" preserve-order="true" parallel="methods">
+    <test name="Renewal - BCT_ONL_107" preserve-order="true">
         <parameter name="state" value="NJ" />
         <classes>
             <class name="aaa.modules.bct.renewal.RenewalTest">
@@ -224,7 +224,7 @@
 
                                                 <!-- Sales -->
 
-    <test name="Sales - BCT_ONL_023" preserve-order="true" parallel="methods">
+    <test name="Sales - BCT_ONL_023" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
         <classes>
             <class name="aaa.modules.bct.sales.auto_ss.CopyQuote">
@@ -234,7 +234,7 @@
             </class>
         </classes>
     </test>
-    <test name="Sales - BCT_ONL_025" preserve-order="true" parallel="methods">
+    <test name="Sales - BCT_ONL_025" preserve-order="true">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.bct.sales.auto_ca.select.CopyQuote">
@@ -244,7 +244,7 @@
             </class>
         </classes>
     </test>
-    <test name="Sales - BCT_ONL_040" preserve-order="true" parallel="methods">
+    <test name="Sales - BCT_ONL_040" preserve-order="true">
         <parameter name="state" value="AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
         <classes>
             <class name="aaa.modules.bct.sales.home_ss.ho3.CopyQuote">
@@ -256,7 +256,7 @@
     </test>
 
                                             <!-- Service -->
-    <test name="Service - BCT_ONL_005" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_005" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
         <classes>
             <class name="aaa.modules.bct.service.auto_ss.CancelPolicy">
@@ -266,7 +266,7 @@
             </class>
         </classes>
     </test>
-    <test name="Service - BCT_ONL_006" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_006" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
         <classes>
             <class name="aaa.modules.bct.service.auto_ss.ReinstatePolicy">
@@ -276,7 +276,7 @@
             </class>
         </classes>
     </test>
-    <test name="Service - BCT_ONL_007" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_007" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
         <classes>
             <class name="aaa.modules.bct.service.auto_ss.ReinstatePolicy">
@@ -286,7 +286,7 @@
             </class>
         </classes>
     </test>
-    <test name="Service - BCT_ONL_008" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_008" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
         <classes>
             <class name="aaa.modules.bct.service.auto_ss.CancelPolicy">
@@ -296,7 +296,7 @@
             </class>
         </classes>
     </test>
-    <test name="Service - BCT_ONL_009" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_009" preserve-order="true">
         <parameter name="state" value="AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
         <classes>
             <class name="aaa.modules.bct.service.home_ss.ho3.CancelPolicy">
@@ -306,7 +306,7 @@
             </class>
         </classes>
     </test>
-    <test name="Service - BCT_ONL_010" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_010" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
         <classes>
             <class name="aaa.modules.bct.service.home_ss.ReinstatePolicy">
@@ -316,7 +316,7 @@
             </class>
         </classes>
     </test>
-    <test name="Service - BCT_ONL_011" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_011" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
         <classes>
             <class name="aaa.modules.bct.service.home_ss.ReinstatePolicy">
@@ -326,7 +326,7 @@
             </class>
         </classes>
     </test>
-    <test name="Service - BCT_ONL_012" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_012" preserve-order="true">
         <parameter name="state" value="AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
         <classes>
             <class name="aaa.modules.bct.service.CancelPolicyTest">
@@ -336,7 +336,7 @@
             </class>
         </classes>
     </test>
-    <test name="Service - BCT_ONL_013" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_013" preserve-order="true">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.bct.service.auto_ca.select.CancelPolicy">
@@ -346,7 +346,7 @@
             </class>
         </classes>
     </test>
-    <test name="Service - BCT_ONL_014" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_014" preserve-order="true">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.bct.service.auto_ca.select.ReinstatePolicyTest">
@@ -356,7 +356,7 @@
             </class>
         </classes>
     </test>
-    <test name="Service - BCT_ONL_015" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_015" preserve-order="true">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.bct.service.CancelPolicyTest">
@@ -366,7 +366,7 @@
             </class>
         </classes>
     </test>
-    <test name="Service - BCT_ONL_016" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_016" preserve-order="true">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.bct.service.auto_ca.select.ReinstatePolicyTest">
@@ -376,7 +376,7 @@
             </class>
         </classes>
     </test>
-    <test name="Service - BCT_ONL_079" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_079" preserve-order="true">
         <parameter name="state" value="NJ" />
         <classes>
             <class name="aaa.modules.bct.service.home_ss.ho4.TestEndorsement">
@@ -386,7 +386,7 @@
             </class>
         </classes>
     </test>
-    <test name="Service - BCT_ONL_112" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_112" preserve-order="true">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.bct.service.auto_ca.select.CancelPolicy">
@@ -397,7 +397,7 @@
         </classes>
     </test>
 
-    <test name="Service - BCT_ONL_EmptyEndorsementAutoCAChoice" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_EmptyEndorsementAutoCAChoice" preserve-order="true">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.bct.service.auto_ca.choice.TestEndorsement">
@@ -407,8 +407,7 @@
             </class>
         </classes>
     </test>
-
-    <test name="Service - BCT_ONL_EmptyEndorsementAutoCASelect" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_EmptyEndorsementAutoCASelect" preserve-order="true">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.bct.service.auto_ca.select.TestEndorsement">
@@ -418,8 +417,7 @@
             </class>
         </classes>
     </test>
-
-    <test name="Service - BCT_ONL_EmptyEndorsementAutoSS" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_EmptyEndorsementAutoSS" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
         <classes>
             <class name="aaa.modules.bct.service.auto_ss.TestEndorsement">
@@ -429,8 +427,7 @@
             </class>
         </classes>
     </test>
-
-    <test name="Service - BCT_ONL_EmptyEndorsementHomeCADp3" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_EmptyEndorsementHomeCADp3" preserve-order="true">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.bct.service.home_ca.dp3.TestEndorsement">
@@ -440,8 +437,7 @@
             </class>
         </classes>
     </test>
-
-    <test name="Service - BCT_ONL_EmptyEndorsementHomeCAHo3" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_EmptyEndorsementHomeCAHo3" preserve-order="true">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.bct.service.home_ca.ho3.TestEndorsement">
@@ -451,8 +447,7 @@
             </class>
         </classes>
     </test>
-
-    <test name="Service - BCT_ONL_EmptyEndorsementHomeCAHo4" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_EmptyEndorsementHomeCAHo4" preserve-order="true">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.bct.service.home_ca.ho4.TestEndorsement">
@@ -462,8 +457,7 @@
             </class>
         </classes>
     </test>
-
-    <test name="Service - BCT_ONL_EmptyEndorsementHomeCAHo6" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_EmptyEndorsementHomeCAHo6" preserve-order="true">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.bct.service.home_ca.ho6.TestEndorsement">
@@ -473,8 +467,7 @@
             </class>
         </classes>
     </test>
-
-    <test name="Service - BCT_ONL_EmptyEndorsementSSDp3" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_EmptyEndorsementSSDp3" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
         <classes>
             <class name="aaa.modules.bct.service.home_ss.dp3.TestEndorsement">
@@ -484,8 +477,7 @@
             </class>
         </classes>
     </test>
-
-    <test name="Service - BCT_ONL_EmptyEndorsementSSHo3" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_EmptyEndorsementSSHo3" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
         <classes>
             <class name="aaa.modules.bct.service.home_ss.ho3.TestEndorsement">
@@ -495,8 +487,7 @@
             </class>
         </classes>
     </test>
-
-    <test name="Service - BCT_ONL_EmptyEndorsementSSHo4" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_EmptyEndorsementSSHo4" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
         <classes>
             <class name="aaa.modules.bct.service.home_ss.ho4.TestEndorsement">
@@ -506,8 +497,7 @@
             </class>
         </classes>
     </test>
-
-    <test name="Service - BCT_ONL_EmptyEndorsementSSHo6" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_EmptyEndorsementSSHo6" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
         <classes>
             <class name="aaa.modules.bct.service.home_ss.ho6.TestEndorsement">
@@ -517,8 +507,7 @@
             </class>
         </classes>
     </test>
-
-    <test name="Service - BCT_ONL_EmptyEndorsementPUP" preserve-order="true" parallel="methods">
+    <test name="Service - BCT_ONL_EmptyEndorsementPUP" preserve-order="true">
         <parameter name="state" value="AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
         <classes>
             <class name="aaa.modules.bct.service.pup.TestEndorsement">
