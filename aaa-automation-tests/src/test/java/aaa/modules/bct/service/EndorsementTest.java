@@ -73,7 +73,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_EmptyEndorsementAutoSS(@Optional("AZ") String state) {
 		mainApp().open();
-		String policyNumber = getPolicy("BCT_Empty_Endorsement_AAA_SS", date1, date2);
+		String policyNumber = getPolicy("BCT_ONL_EmptyEndorsementAutoSS", date1, date2);
 		IPolicy policy = PolicyType.AUTO_SS.get();
 		SearchPage.openPolicy(policyNumber);
 		deletePendingTransaction(policy);
