@@ -1,6 +1,5 @@
 package aaa.helpers.rest.dtoDxp;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import aaa.helpers.rest.RestBodyRequest;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -22,13 +21,5 @@ public class UpdateDriverRequest implements RestBodyRequest {
 
 	@ApiModelProperty(value = "Age First Licensed", example = "15")
 	public Integer ageFirstLicensed;
-
-	@ApiModelProperty(value = "Death and Specific Disability Coverage?", example = "true")
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public Boolean specificDisabilityInd;
-
-	@ApiModelProperty(value = "Total Disability Coverage?", example = "true")
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	public Boolean totalDisabilityInd;
 
 }

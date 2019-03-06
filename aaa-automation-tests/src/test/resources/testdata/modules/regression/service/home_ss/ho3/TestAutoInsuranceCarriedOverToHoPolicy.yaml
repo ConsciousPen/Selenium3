@@ -1,0 +1,42 @@
+TestData: {
+  'AAA Insurance Persistency': 25,
+  'Auto insurance persistency': 3,
+  'Customer': 'Connemara Morgan'
+}
+
+OtherActiveAAAPolicies: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: '@OtherActiveAAAPolicies_ActiveUnderlyingPolicy'
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPolicy:  {
+  Policy type: Auto,
+  Policy number: '11111111'
+}
+
+TestDataEndorsement: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+}
+
+GeneralTab: {}
+
+ApplicantTab: {
+  NamedInsured: '@NamedInsured',
+  OtherActiveAAAPolicies: {
+      ActiveUnderlyingPoliciesSearch: {
+          Cancel: click
+      }
+  }
+}
+
+# ------------- Applicant Tab ----------------
+NamedInsured: {
+  CustomerSearchDialog: {
+      Customer Search: click,
+      First Name: Connemara,
+      Last Name: Morgan,
+      Date of birth: 02/21/1984,
+  }
+}

@@ -3,6 +3,7 @@ package aaa.modules.regression.sales.template;
 import static aaa.helpers.db.queries.MsrpQueries.*;
 import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE;
 import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.tableRatingDetailsVehicles;
+import static org.assertj.core.api.Assertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -223,6 +224,15 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 		PremiumAndCoveragesTab.RatingDetailsView.close();
 	}
 
+	protected void liabilitySymbolCheck_pas866(String biSymbol) {
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		List<String> ratingDetailsTable = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
+		ratingDetailsTable.forEach(f -> assertThat(PremiumAndCoveragesTab
+				.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isNotEqualToIgnoringCase(biSymbol));
+		PremiumAndCoveragesTab.RatingDetailsView.close();
+	}
+
+
 	protected void verifyVehicleInfo_pas2453(ETCSCoreSoftAssertions softly) {
 		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.TYPE)).hasValue("Conversion Van");
 		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED)).hasValue("No");
@@ -235,6 +245,10 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 
 	protected String getCollSymbolFromVRD() {
 		return tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
+	}
+
+	protected String getBISymbolFromVRD() {
+		return tableRatingDetailsVehicles.getRow(1, "BI Symbol").getCell(2).getValue();
 	}
 
 	protected void createAndFillUpTo(TestData testData, Class<? extends Tab> tab) {

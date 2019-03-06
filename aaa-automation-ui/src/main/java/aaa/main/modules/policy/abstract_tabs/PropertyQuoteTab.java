@@ -7,12 +7,11 @@ package aaa.main.modules.policy.abstract_tabs;
 import java.text.DecimalFormat;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import aaa.main.enums.ClaimConstants;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
+import aaa.main.enums.ClaimConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import toolkit.datax.TestData;
@@ -42,6 +41,7 @@ public abstract class PropertyQuoteTab extends Tab {
 	public static Button btnCalculatePremium = new Button(By.xpath("//input[@id='policyDataGatherForm:premiumRecalcCov' "
 			+ "or @id='policyDataGatherForm:actionButton_AAAHORateAction' "
 			+ "or @id='policyDataGatherForm:calculatePremium_AAAHORateAction' "
+			+ "or @id='policyDataGatherForm:actionButton_AAAPUPRateAction' "
 			+ "or @id='policyDataGatherForm:calculatePremium_AAAPUPRateAction']"), Waiters.AJAX);
 	public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:riskItemPremiumInfoTable"));
 	public static Table tableTaxesSurchargesSummary = new Table(By.id("policyDataGatherForm:taxSummaryTable"));
@@ -63,6 +63,8 @@ public abstract class PropertyQuoteTab extends Tab {
 	public static StaticElement lblErrorMessage = new StaticElement(By.xpath("//span[@class='error_message']"));
 	public static Button btnContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
 	public static Table tablePremiumOverrideadjustment = new Table(By.id("premiumOverrideInfoFormAAAPUPPremiumOverride:adjustment_info"));
+	public static StaticElement mortgageeLoanNumberErrorMsg = new StaticElement(By.id("policyDataGatherForm:sedit_AAAHOMortgageeInfo_accountNumber_error"));
+	public static Table tableClaimsHistoryWarningMessages = new Table(By.id("policyDataGatherForm:warningMsg"));
 
 	protected PropertyQuoteTab(Class<? extends MetaData> mdClass) {
 		super(mdClass);

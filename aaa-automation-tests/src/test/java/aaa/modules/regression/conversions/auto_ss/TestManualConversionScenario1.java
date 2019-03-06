@@ -125,8 +125,8 @@ public class TestManualConversionScenario1 extends AutoSSBaseTest {
 		TestData policyTd = getConversionPolicyDefaultTD()
 				.adjust(DriverTab.class.getSimpleName(), getTestSpecificTD("TestData").getTestDataList("DriverTab"))
 				.adjust(RatingDetailReportsTab.class.getSimpleName(), getTestSpecificTD("RatingDetailReportsTab"))
-				.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), "AAAProductOwned"),
-						getTestSpecificTD("AAAProductOwned")).resolveLinks();
+				.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), "AAAMembership"),
+						getTestSpecificTD("AAAMembership")).resolveLinks();
 		TestData renewalTd = getManualConversionInitiationTd();
 		String previousPolicyNum = renewalTd.getValue(CustomerMetaData
 				.InitiateRenewalEntryActionTab.class.getSimpleName(), CustomerMetaData

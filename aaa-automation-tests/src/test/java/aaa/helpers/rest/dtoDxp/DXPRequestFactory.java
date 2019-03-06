@@ -27,13 +27,6 @@ public class DXPRequestFactory {
 		return updateDriverRequest;
 	}
 
-	public static UpdateDriverRequest createUpdateDriverRequest(Boolean specificDisabilityInd, Boolean totalDisabilityInd) {
-		UpdateDriverRequest updateDriverRequest = new UpdateDriverRequest();
-		updateDriverRequest.specificDisabilityInd = specificDisabilityInd;
-		updateDriverRequest.totalDisabilityInd = totalDisabilityInd;
-		return updateDriverRequest;
-	}
-
 	public static RemoveDriverRequest createRemoveDriverRequest(String removalReasonCode) {
 		RemoveDriverRequest removeDriverRequest = new RemoveDriverRequest(); //"RD1001" and "RD1002" for happy path
 		removeDriverRequest.removalReasonCode = removalReasonCode;
@@ -61,6 +54,18 @@ public class DXPRequestFactory {
 		UpdateCoverageRequest updateCoverageRequest = new UpdateCoverageRequest();
 		updateCoverageRequest.coverageCd = coverageCd;
 		updateCoverageRequest.limit = limit;
+		return updateCoverageRequest;
+	}
+
+	/**
+	 For PIPPRIMINS - Primary Insurer coverage that contains fields insurerName (Insurer Name), certNum (Policy / Group # /Certificate #)
+	 */
+	public static UpdateCoverageRequest createUpdatePIPRIMINSCoverageRequest(String coverageCd, String limit, String insurerName, String certNum) {
+		UpdateCoverageRequest updateCoverageRequest = new UpdateCoverageRequest();
+		updateCoverageRequest.coverageCd = coverageCd;
+		updateCoverageRequest.limit = limit;
+		updateCoverageRequest.insurerName = insurerName;
+		updateCoverageRequest.certNum = certNum;
 		return updateCoverageRequest;
 	}
 
