@@ -7,10 +7,13 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.modules.regression.conversions.template.ManualConversionTemplate;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
@@ -52,6 +55,8 @@ public class TestCancelledConversionRewrite extends ManualConversionTemplate {
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData").adjust(TestData.makeKeyPath("CancellationActionTab", "Cancel Date"), effDate.format(DateTimeUtils.MM_DD_YYYY)));
 		policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
 		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
+		new RatingDetailReportsTab().fillTab(getPolicyTD());
 		new PremiumAndCoveragesTab().calculatePremium();
 		assertThat(new PremiumAndCoveragesTab().btnCalculatePremium()).isPresent();
     }
