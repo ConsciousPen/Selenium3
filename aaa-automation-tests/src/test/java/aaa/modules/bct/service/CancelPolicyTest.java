@@ -11,12 +11,10 @@ import aaa.common.pages.SearchPage;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import aaa.modules.policy.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
-import toolkit.datax.TestData;
 
 public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
-	private TestData testDataAcceptPaymentCash = testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash");
 
 	/**
 	 * @author Deloite
@@ -62,7 +60,7 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		Dollar totalDue = BillingSummaryPage.getTotalDue();
-		new BillingAccount().acceptPayment().perform(testDataAcceptPaymentCash, totalDue);
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 		BillingSummaryPage.openPolicy(1);
 
 		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();

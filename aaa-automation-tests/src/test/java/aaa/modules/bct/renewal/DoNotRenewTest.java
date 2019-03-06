@@ -8,7 +8,7 @@ import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import aaa.modules.policy.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
 
 public class DoNotRenewTest extends BackwardCompatibilityBaseTest {

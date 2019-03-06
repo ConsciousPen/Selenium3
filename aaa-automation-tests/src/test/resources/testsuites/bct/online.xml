@@ -309,7 +309,7 @@
     <test name="Service - BCT_ONL_010" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
         <classes>
-            <class name="aaa.modules.bct.service.home_ss.ReinstatePolicy">
+            <class name="aaa.modules.bct.service.home_ss.ho3.ReinstatePolicy">
                 <methods>
                     <include name="BCT_ONL_010_ReinstatePolicy"/>
                 </methods>
@@ -319,7 +319,7 @@
     <test name="Service - BCT_ONL_011" preserve-order="true">
         <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
         <classes>
-            <class name="aaa.modules.bct.service.home_ss.ReinstatePolicy">
+            <class name="aaa.modules.bct.service.home_ss.ho3.ReinstatePolicy">
                 <methods>
                     <include name="BCT_ONL_011_ReinstatePolicy"/>
                 </methods>

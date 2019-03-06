@@ -9,6 +9,7 @@ import org.testng.annotations.DataProvider;
 import aaa.common.Tab;
 import aaa.config.CsaaTestProperties;
 import aaa.main.modules.policy.PolicyType;
+import aaa.modules.policy.BackwardCompatibilityBaseTest;
 import toolkit.config.PropertyProvider;
 
 public class EndorsementTemplate extends BackwardCompatibilityBaseTest {

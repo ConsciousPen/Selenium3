@@ -9,7 +9,7 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.BillingSummaryPage;
-import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import aaa.modules.policy.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
 import toolkit.verification.CustomAssertions;
 
