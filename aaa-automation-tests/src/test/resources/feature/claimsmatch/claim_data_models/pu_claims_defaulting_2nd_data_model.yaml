@@ -4,16 +4,16 @@ claimLineItemList:
     claimList:
       - accidentFault: AT_FAULT #DL matched Claim
         claimCause: cause1
-        claimCloseDate: '2019-02-01'
+        claimCloseDate: '2017-02-01'
         claimCoverageList:
           - {claimCoverageAmount: '2000.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_001,
              coverageName: MEDICAL_PAYMENTS}
-        claimDateOfLoss: '2019-01-01'
+        claimDateOfLoss: '2017-01-01'
         claimDeductibleAmount: '0.000000000'
         claimDeductibleCurrencyCode: USD
         claimNumber: PU_DEFAULTING_1
         claimPrefix: ''
-        claimOpenDate: '2019-01-01'
+        claimOpenDate: '2017-01-01'
         claimPolicyReferenceNumber: CAAC952918598
         claimStatusCode: CLOSED
         claimType: B
@@ -35,16 +35,16 @@ claimLineItemList:
         vehicleSerialNumber: 1FTNF20506ED96616
       - accidentFault: AT_FAULT #COMP matched Claim
         claimCause: cause2
-        claimCloseDate: '2019-02-01'
+        claimCloseDate: '2017-02-01'
         claimCoverageList:
           - {claimCoverageAmount: '200', claimCoverageCurrencyCode: USD, coverageId: COV_002,
              coverageName: COMP_DED_400}
-        claimDateOfLoss: '2019-01-02'
+        claimDateOfLoss: '2017-01-02'
         claimDeductibleAmount: '0'
         claimDeductibleCurrencyCode: USD
         claimNumber: PU_DEFAULTING_CMP
         claimPrefix: ''
-        claimOpenDate: '2019-01-02'
+        claimOpenDate: '2017-01-02'
         claimPolicyReferenceNumber: CAAC952918598
         claimStatusCode: OPEN
         claimType: Comprehensive
@@ -66,16 +66,16 @@ claimLineItemList:
         vehicleDescription: Big truck
       - accidentFault: AT_FAULT #LASTNAME_FIRSTNAME_DOB matched Claim
         claimCause: cause3
-        claimCloseDate: '2019-02-01'
+        claimCloseDate: '2017-02-01'
         claimCoverageList:
           - {claimCoverageAmount: '3500.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
              coverageName: MEDICAL_PAYMENTS}
-        claimDateOfLoss: '2019-01-03'
+        claimDateOfLoss: '2017-01-03'
         claimDeductibleAmount: '0.000000000'
         claimDeductibleCurrencyCode: USD
         claimNumber: PU_DEFAULTING_2
         claimPrefix: ''
-        claimOpenDate: '2019-01-03'
+        claimOpenDate: '2017-01-03'
         claimPolicyReferenceNumber: CAAC952918598
         claimStatusCode: CLOSED
         claimType: B
@@ -97,16 +97,16 @@ claimLineItemList:
         vehicleSerialNumber: 1FTNF20506ED96616
       - accidentFault: AT_FAULT #LASTNAME_FIRSTNAME_YOB matched Claim
         claimCause: cause4
-        claimCloseDate: '2019-02-01'
+        claimCloseDate: '2017-02-01'
         claimCoverageList:
           - {claimCoverageAmount: '3500.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
              coverageName: MEDICAL_PAYMENTS}
-        claimDateOfLoss: '2019-01-04'
+        claimDateOfLoss: '2017-01-04'
         claimDeductibleAmount: '0.000000000'
         claimDeductibleCurrencyCode: USD
         claimNumber: PU_DEFAULTING_3
         claimPrefix: ''
-        claimOpenDate: '2019-01-04'
+        claimOpenDate: '2017-01-04'
         claimPolicyReferenceNumber: CAAC952918598
         claimStatusCode: OPEN
         claimType: B
@@ -128,16 +128,16 @@ claimLineItemList:
         vehicleSerialNumber: 1FTNF20506ED96616
       - accidentFault: AT_FAULT #LASTNAME_FIRSTNAME matched Claim
         claimCause: cause5
-        claimCloseDate: '2019-02-01'
+        claimCloseDate: '2017-02-01'
         claimCoverageList:
           - {claimCoverageAmount: '3500.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
              coverageName: MEDICAL_PAYMENTS}
-        claimDateOfLoss: '2019-01-05'
+        claimDateOfLoss: '2017-01-05'
         claimDeductibleAmount: '0.000000000'
         claimDeductibleCurrencyCode: USD
         claimNumber: PU_DEFAULTING_4
         claimPrefix: ''
-        claimOpenDate: '2019-01-05'
+        claimOpenDate: '2017-01-05'
         claimPolicyReferenceNumber: CAAC952918598
         claimStatusCode: CLOSED
         claimType: B
@@ -159,16 +159,16 @@ claimLineItemList:
         vehicleSerialNumber: 1FTNF20506ED96616
       - accidentFault: AT_FAULT #LASTNAME_FIRSTINITIAL_DOB matched Claim
         claimCause: cause6
-        claimCloseDate: '2019-02-01'
+        claimCloseDate: '2017-02-01'
         claimCoverageList:
           - {claimCoverageAmount: '3500.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
              coverageName: MEDICAL_PAYMENTS}
-        claimDateOfLoss: '2019-01-06'
+        claimDateOfLoss: '2017-01-06'
         claimDeductibleAmount: '0.000000000'
         claimDeductibleCurrencyCode: USD
         claimNumber: PU_DEFAULTING_5
         claimPrefix: ''
-        claimOpenDate: '2019-01-06'
+        claimOpenDate: '2017-01-06'
         claimPolicyReferenceNumber: CAAC952918598
         claimStatusCode: CLOSED
         claimType: B
@@ -190,16 +190,16 @@ claimLineItemList:
         vehicleSerialNumber: 1FTNF20506ED96616
       - accidentFault: AT_FAULT #not matched, but permissiveUse = Y, so PERMISSIVE_USE matched Claim
         claimCause: cause7
-        claimCloseDate: '2019-02-01'
+        claimCloseDate: '2017-02-01'
         claimCoverageList:
           - {claimCoverageAmount: '3500.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
              coverageName: MEDICAL_PAYMENTS}
-        claimDateOfLoss: '2019-01-07'
+        claimDateOfLoss: '2017-01-07'
         claimDeductibleAmount: '0.000000000'
         claimDeductibleCurrencyCode: USD
         claimNumber: PU_DEFAULTING_6
         claimPrefix: ''
-        claimOpenDate: '2019-01-07'
+        claimOpenDate: '2017-01-07'
         claimPolicyReferenceNumber: CAAC952918598
         claimStatusCode: CLOSED
         claimType: B

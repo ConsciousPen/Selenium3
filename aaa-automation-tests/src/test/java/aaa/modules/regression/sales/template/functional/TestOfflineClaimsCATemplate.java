@@ -119,7 +119,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     private static final String COMP_DL_PU_CLAIMS_DATA_MODEL_SELECT = "comp_dl_pu_claims_data_model_select.yaml";
     private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE_SELECT = ImmutableMap.of(CLAIM_NUMBER_1, "D5435433", CLAIM_NUMBER_2, "D5435433");
     private static final String PU_CLAIMS_DEFAULTING_DATA_MODEL = "pu_claims_defaulting_data_model.yaml";
-    private static final String PU_CLAIMS_DEFAULTING_2ND_DATA_MODEL = "pu_claims_defaulting_2nd_data_model.yaml";
+    private static final String PU_CLAIMS_DEFAULTING_2ND_DATA_MODEL = "pu_claims_defaulting_2nd_data_model.yaml"; //TODO: will be used after PAS-26322
     protected boolean updatePUFlag = false;
     protected boolean secondDriverFlag = false;
 
@@ -127,7 +127,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     public void prepare() {
         // Toggle ON PermissiveUse Logic & Set DATEOFLOSS Parameter in DB
         DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
+        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-16"));
         log.info("Updated PU flag in DB");
         try {
             FileUtils.forceDeleteOnExit(Paths.get(CAS_REQUEST_PATH).toFile());
@@ -1028,6 +1028,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //1st Renewal: Verify PU Values in Drivers tab
         verifyPUvalues();
 
+        //TODO: Uncomment after PAS-26322
+        /*
         issueGeneratedRenewalImage(policyNumber, false);
 
         //Run Jobs to create 2nd required Renewal and validate the results: EXISTING_MATCH case: 2nd CAS Response
@@ -1049,8 +1051,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
-        //1st Renewal: Verify PU Values in Drivers tab
-        verifyPUvalues();
+        //2nd Renewal: Verify PU Values in Drivers tab
+        verifyPUvalues(); */
     }
 
 }
