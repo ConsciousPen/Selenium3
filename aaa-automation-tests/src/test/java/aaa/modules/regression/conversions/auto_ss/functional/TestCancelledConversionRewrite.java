@@ -50,6 +50,7 @@ public class TestCancelledConversionRewrite extends ManualConversionTemplate {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-25298")
     public void pas25298_calculatePremiumForRewrittenConversionPolicy(@Optional("WV") String state) {
 
+    	// Days should be the same as in manualRenewalEntryToActivePolicy so that cancelation would work on effective date of the policy
 		LocalDateTime effDate = TimeSetterUtil.getInstance().getPhaseStartTime().plusDays(45);
 		manualRenewalEntryToActivePolicy();
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData").adjust(TestData.makeKeyPath("CancellationActionTab", "Cancel Date"), effDate.format(DateTimeUtils.MM_DD_YYYY)));
