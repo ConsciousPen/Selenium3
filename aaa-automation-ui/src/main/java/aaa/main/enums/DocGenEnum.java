@@ -6,6 +6,8 @@ public final class DocGenEnum {
 	private DocGenEnum() {
 	}
 
+	public static final String EMAIL = "test@csaa.com";
+
 	public enum Documents {
 		AA02AZ("Declaration page"),
 		AA02CA("Declaration page"),
@@ -54,6 +56,7 @@ public final class DocGenEnum {
 		AA11WY("Wyoming Auto Insurance Application"),
 		AA16CO("MEDICAL PAYMENTS REJECTION OF COVERAGE"),
 		AA16NV("Rejection of Medical Payments Coverage"),
+		AA34CTA("Cancellation Warning Notice"),
 		AA41CA("Non-Owner Automobile Endorsement"),
 		AA41PA(""),
 		AA41XX("Non-Owners Endorsement"),
@@ -107,6 +110,7 @@ public final class DocGenEnum {
 		AADNCO("Colorado Private Passenger Automobile Insurance Summary Disclosure Form"),
 		AADNNY1("Identification Card Notice"),
 		AADNNY2("DWI Notice"),
+		AADNPAB("AADNPAB", "Pennsylvania Notice to Named Insured Regarding Tort Options"),
 		AADNPAC(""),
 		AADNPAD(""),
 		AADNPAE(""),
@@ -127,6 +131,7 @@ public final class DocGenEnum {
 		AAMTNY("Multi-tier Disclosure Notice"),
 		AAOANY("Optional Basic Economic Loss (OBEL) Availability Notice"),
 		AAPDXX("Courtesy Coverage Letter"),
+		//AAPDXX("Courtesy Coverage - Permit Driver"),
 		AAPNUBI(""),
 		AAPNXX(""),
 		AAPRN1OR("Pre-Renewal Notice Form"),
@@ -144,6 +149,9 @@ public final class DocGenEnum {
 		AASR26("Cancellation of Financial Responsibility"),
 		AATSXX("Critical Information For Teenage Drivers And Their Parents"),
 		AAVICA("Community Service Survey"),
+		AAUBI("AAA Usage Based Insurance Program Terms and Conditions"),
+		AAUBI1("AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies"),
+		ACPUBI("ACP SMARTtrek Subscription Terms and Conditions"),
 		ACPPNUBI(""),
 		AH34XX("AH34XX", "AH34XX", "Cancellation Notice Document (NonPayment)"),
 		AH35XX("Autopay Schedule Compilation"),

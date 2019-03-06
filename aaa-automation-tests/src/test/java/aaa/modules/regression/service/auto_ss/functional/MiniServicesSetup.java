@@ -3,12 +3,14 @@ package aaa.modules.regression.service.auto_ss.functional;
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.PROPERTY_CONFIGURER_ENTITY_INSERT;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.listeners.AaaTestListener;
 import aaa.modules.regression.service.auto_ss.functional.preconditions.MiniServicesSetupPreconditions;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
+import toolkit.verification.CustomSoftAssertions;
 
 @Listeners({AaaTestListener.class})
 public class MiniServicesSetup extends MiniServicesSetupPreconditions {
@@ -54,5 +56,21 @@ public class MiniServicesSetup extends MiniServicesSetupPreconditions {
 		DBService.get().executeUpdate(MiniServicesSetupPreconditions.AAA_LOOKUP_CONFIG_INSERT_UPDATE_DRIVER);
 		DBService.get().executeUpdate(MiniServicesSetupPreconditions.AAA_LOOKUP_CONFIG_INSERT_UPDATE_VEHICLE);
 		DBService.get().executeUpdate(MiniServicesSetupPreconditions.AAA_LOOKUP_CONFIG_INSERT_UPDATE_COVERAGES);
+	}
+
+	@Test(description = "Enabling 'canChange' for UMBI and UMPD for VA on test environment. This is turned off by default till atleast 19.5", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public static void enableUMBIAndUMPDForVA() {
+		String state = Constants.States.VA;
+		//check that UMBI and UMPD is disabled by default for VA
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(DBService.get().executeUpdate(String.format(AAA_LOOKUP_CONFIG_GET_CANCHANGE_FOR_STATE_COVERAGE, state, "UMBI")))
+					.as("Is (and should) 'canChange' enabled for UMBI and UMPD by default for VA? If so, please remove this precondition method as it is no more needed.").isEqualTo(0);
+			softly.assertThat(DBService.get().executeUpdate(String.format(AAA_LOOKUP_CONFIG_GET_CANCHANGE_FOR_STATE_COVERAGE, state, "UMPD")))
+					.as("Is (and should) 'canChange' enabled for UMBI and UMPD by default for VA? If so, please remove this precondition method as it is no more needed.").isEqualTo(0);
+		});
+
+		//enable UMBI and UMPD for VA
+		DBService.get().executeUpdate(String.format(AAA_LOOKUP_CONFIG_ENABLE_CANCHANGE_FOR_STATE_COVERAGE, state, "UMBI"));
+		DBService.get().executeUpdate(String.format(AAA_LOOKUP_CONFIG_ENABLE_CANCHANGE_FOR_STATE_COVERAGE, state, "UMPD"));
 	}
 }

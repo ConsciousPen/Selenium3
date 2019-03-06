@@ -11,12 +11,15 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.utils.StateList;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.ComboBox;
 
@@ -58,7 +61,17 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
 
         // Advance to order Driver Activity Reports and Order Reports.
         policy.getDefaultView().fillFromTo(_td, PremiumAndCoveragesTab.class, DriverActivityReportsTab.class, true);
+        
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        
+		TestData activity = DataProviderFactory.emptyData()
+                .adjust(AutoCaMetaData.DriverTab.ActivityInformation.OVERRIDE_ACTIVITY_DETAILS.getLabel(), "Yes")
+                .adjust(AutoCaMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), DateTimeUtils.getCurrentDateTime().minusMonths(33).format(DateTimeUtils.MM_DD_YYYY));
 
+		
+        _td.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), activity);
+        new DriverTab().fillTab(_td);
+        
         // Return to PNC Tab. Capture Product Type. Verify it's 'Choice' now.
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         productDetermined = pncTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT.getLabel(), ComboBox.class).getValue();

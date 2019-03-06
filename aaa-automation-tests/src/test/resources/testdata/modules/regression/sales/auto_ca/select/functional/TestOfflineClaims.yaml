@@ -3,7 +3,51 @@ TestData_DriverTab_OfflineClaim_CA: {
   DriverTab: ['@Driver2','@Driver3','@Driver4']
 }
 
-  ######Test Data for 2/3/4 Drivers
+TestData_DriverTab_OfflineClaim_PU_CA: {
+  DriverTab: ['@Driver2','@Driver3','@Driver4']
+}
+
+TestData_DriverTab_ReconcileFNIclaims_PU_CA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ca_select>@DataGather@GeneralTab',
+  DriverTab:  '@Driver1'
+}
+
+TestData_DriverTab_ClueReconcileFNIclaims_PU_CA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ca_select>@DataGather@GeneralTab',
+  DriverTab:  ['@Driver1','@Driver6']
+}
+
+PrefillTab: {
+  First Name: Nicolas,
+  Last Name: Smith,
+  Zip Code: 90255,
+  Address Line 1: 6586 PORCUPINE WAY,
+  City: HUNTINGTON PARK,
+  State: CA,
+  Date of Birth: '10/16/1997',
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+Driver1: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': First Named Insured,
+  Date of Birth: 10/16/1997,
+  Age First Licensed: 18,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D1278999
+}
+
 Driver2: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -25,11 +69,12 @@ Driver2: {
 Driver3: {
   Add Driver: Click,
   DriverSearchDialog:{},
-  Driver Type: Available for Rating,
+  Driver Type: Not Available for Rating,
+  Reason: Unlicensed spouse,
   First Name: Tony,
   Last Name: Stark,
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: 10/16/1997,
+  Date of Birth: 12/12/1987,
   Gender: Male,
   Marital Status: Married,
   Occupation: Architect,
@@ -55,5 +100,60 @@ Driver4: {
   License State: CA,
   Permit Before License: 'Yes',
   "License #": D5435435,
+  Age First Licensed: 18,
+  ActivityInformation: {
+       Activity Source: Company Input,
+       Type: '10-yr Major Violation',
+       Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+       Description: 'Driving under the influence of drugs',
+       Conviction Date: '$<today-3M:MM/dd/yyyy>',
+       "Include in Points and/or YAF?": 'No',
+       Not Included in Points and/or YAF - Reason Codes: 'Report errors',
+      }
+}
+
+Driver5: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Bruce,
+  Last Name: Banerr,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 12/12/1987,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435440,
   Age First Licensed: 18
+}
+
+Driver6: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Tony,
+  Last Name: Stark,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 12/12/1987,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435434,
+  Age First Licensed: 18
+}
+
+############### Add 5th Driver at endorsement
+Add_PU_Claim_Driver_Endorsement_CA: {
+  DriverTab: ['@Driver5']
+}
+################## Add Driver 2 at endorsement CLUE Reconclie################
+Add_Driver2_Endorsement_CA: {
+GeneralTab: {},
+DriverTab: ['@Driver6']
 }

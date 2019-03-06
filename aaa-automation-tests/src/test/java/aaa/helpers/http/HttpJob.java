@@ -236,17 +236,6 @@ public class HttpJob {
 			return splittedRow;
 		}
 
-		public static ArrayList<HashMap<String, String>> gatherAllJobStatistics(String response, String jobName) throws IOException {
-			List<String> allStatistics = getAllProcessedRowsByJob(response, jobName);
-
-			ArrayList<HashMap<String, String>> allData = new ArrayList<>();
-			for (String jobResultStatistics : allStatistics) {
-				allData.add(splitStatisticsRow(jobResultStatistics));
-			}
-
-			return allData;
-		}
-
 		private static List<String> getAllProcessedRowsByJob(String response, String jobName) {
 			String[] rows = response.split(JOB_LOGS_ROW_SPLITTER_REGEX);
 

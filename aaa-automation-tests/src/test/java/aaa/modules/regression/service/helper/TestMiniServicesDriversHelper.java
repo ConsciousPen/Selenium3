@@ -309,6 +309,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		HelperCommon.updateDriverAssignment(policyNumber, vehicle1.oid, Arrays.asList(addedDriver.oid));
 
 		// rate and bind
+		HelperCommon.orderReports(policyNumber, addedDriverResponse.oid, OrderReportsResponse.class, 200);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 		// create 2nd endorsement
@@ -792,6 +793,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(addDriver8.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_DRIVERS.getCode());
 			softly.assertThat(addDriver8.errors.get(0).message).contains(ErrorDxpEnum.Errors.MAX_NUMBER_OF_DRIVERS.getMessage());
 
+			HelperCommon.orderReports(policyNumber, driverOid6, OrderReportsResponse.class, 200);
+			HelperCommon.orderReports(policyNumber, driverOid7, OrderReportsResponse.class, 200);
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 
 			//Check view drivers service response after first endorsement
@@ -822,6 +825,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			UpdateDriverRequest updateDriverRequest3 = DXPRequestFactory.createUpdateDriverRequest("male", "T32325892", 18, "VA", "CH", "SSS");
 			HelperCommon.updateDriver(policyNumber, addDriver10.oid, updateDriverRequest3);
 
+			HelperCommon.orderReports(policyNumber, addDriver10.oid, OrderReportsResponse.class, 200);
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 			policyNumber7Drivers = policyNumber;
 		});
@@ -1199,7 +1203,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			UpdateDriverRequest updateDriverRequest4 = DXPRequestFactory.createUpdateDriverRequest(null, dlDriver3, null, null, null, null);
 			DriverWithRuleSets updateDriverResponse4 = HelperCommon.updateDriver(policyNumber, newDriverOid, updateDriverRequest4);
 			softly.assertThat(updateDriverResponse4.validations.isEmpty()).isTrue();
-
+			HelperCommon.orderReports(policyNumber, newDriverOid, OrderReportsResponse.class, 200);
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
 	}
@@ -1520,6 +1524,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(updateDriverResponse6.validations.isEmpty()).isTrue();
 		});
 
+		HelperCommon.orderReports(policyNumber, driverOid, OrderReportsResponse.class, 200);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
@@ -2025,7 +2030,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		//Remove Driver
 		HelperCommon.removeDriver(policyNumber, driverOid2, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
 
-		checkIfTaskWasCreated(policyNumber, 1, 1, 1);
+		checkIfTaskWasCreated(policyNumber, 1, 1, 1);//BUG: PAS-25868 DXP: Getting Order Clue Error on Bind if newly added driver with ordered reports is removed
 
 		//Check with NI driver
 		helperMiniServices.createEndorsementWithCheck(policyNumber);

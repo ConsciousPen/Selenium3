@@ -478,10 +478,10 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@StateList(states = {Constants.States.AZ, Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
 			Constants.States.MD, Constants.States.NV, Constants.States.OH, Constants.States.OR, Constants.States.CT, Constants.States.KY, Constants.States.SD,
 			Constants.States.WV, Constants.States.UT, Constants.States.DC, Constants.States.CO, Constants.States.ID, Constants.States.MT, Constants.States.OK,
-			Constants.States.PA, Constants.States.WY})
+			Constants.States.PA, Constants.States.WY,Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016", "PAS-19024", "PAS-19044", "PAS-18202", "PAS-19055", "PAS-19052", "PAS-18350", "PAS-23057"})
-	public void pas17646_OrderOfCoverage(@Optional("VA") String state) {
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016", "PAS-19024", "PAS-19044", "PAS-18202", "PAS-19055", "PAS-19052", "PAS-18350", "PAS-23057","PAS-19032"})
+	public void pas17646_OrderOfCoverage(@Optional("NJ") String state) {
 		assertSoftly(softly ->
 				pas17646_OrderOfCoverageBody(softly)
 		);
@@ -1332,6 +1332,23 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	}
 
 	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Update UIMBI to No Coverage ---> UIMBI is updated to No Coverage, UMBI stays the same
+	 * 4. Update UIMBI to other than No Coverage ---> UIMBI is updated, UMBI is also updated to the same limit (or actually stays the same)
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DC})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-25824"})
+	public void pas25824_updateUIMBIThenUpdateUMBI(@Optional("DC") String state) {
+		pas25824_updateUIMBIThenUpdateUMBIBody();
+	}
+
+	/**
 	 * @author RVanover
 	 * @name View/Update PIP Coverage
 	 * @scenario for DC
@@ -1489,6 +1506,111 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	/**
 	 * @author Maris Strazds
+	 * @name View Coverage - PIP in NJ- "Non-Medical Expense" = "No"
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Update PIPPRIMINS coverage with correct/incorrect data and check responses
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23975"})
+	public void pas23975_viewUpdatePIPPrimaryInsurerNJ(@Optional("NJ") String state) {
+		pas23975_viewUpdatePIPPrimaryInsurerNJBody();
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name View Coverage PIP and APIP when "Non-Medical Expense" = "Yes"
+	 * and "Additional Personal Injury Protection Benefit" = NO
+	 * @scenario
+	 * 1. Create policy in PAS with "Non-Medical Expense" = YES
+	 * and "Additional Personal Injury Protection Benefit" = NO
+	 * 2. Run view endorsement coverages service
+	 * 3. Verify PIP, APIP coverage and subCoverages
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19161"})
+	public void pas19161_viewPIPNonMedExpenseYesNJ(@Optional("NJ") String state) {
+		pas19161_viewPIPNonMedExpenseYesNJBody();
+	}
+
+    /**
+     * @author Jovita Pukenaite
+     * @name View Coverage when PIP = YES and "Non-Medical Expense" = "Yes"
+     * @scenario
+     * 1. Create policy in PAS with "Non-Medical Expense" = YES
+     * and "Additional Personal Injury Protection Benefit" = YES
+     * 2. Run view endorsement coverages service
+     * 3. Verify coverages.
+     */
+    @Parameters({"state"})
+    @StateList(states = {Constants.States.NJ})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19163"})
+    public void pas19163_viewPipYesAndNonMedExpenseYesNJ(@Optional("NJ") String state) {
+		pas19163_viewPipYesAndNonMedExpenseYesNJbody();
+    }
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name View/Update Coverages - PIP - New Jersey - Coverage Includes is NI and RR
+	 * @scenario
+	 * 1. Create policy, where Coverage Includes = Named Insureds.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Update Coverage Includes to Named Insureds and Family Members.
+	 * 4. Check response.
+	 * 5. Go in to PAS endorsement.
+	 * 6. Validate that fields are displaying.
+	 * 7. Issue endorsement.
+	 * 8. Create new one outside of PAS.
+	 * 9. Update Coverage Includes = Named Insureds.
+	 * 10. Check response.
+	 * 11. Go in to PAS, check if the fields aren't displaying anymore.
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-25531"})
+	public void pas25531_viewUpdatePipCoveragesIncludesNiAndRrNJ(@Optional("NJ") String state) {
+		pas25531_viewUpdatePipCoveragesIncludesNiAndRrNJBody();
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Update Coverage - PIP - New Jersey
+	 * @scenario
+	 * 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Update Coverages: Medical Expense,
+	 * Medical Expense Deductible and Extended Medical Payments.
+	 * 4. Check response.
+	 * 5. Update Non-Medical Expense = No.
+	 * 6. Check the response.
+	 * 7. Update Non-Medical Expense = Yes and
+	 * Additional Personal Injury Protection Benefit = No
+	 * 8. Check the response
+	 * 9. Return back Additional Personal Injury Protection Benefit = Yes,
+	 * change Weekly Income Continuation Benefits and Length of Income Continuation
+	 * 10. Check response.
+	 *
+	 * Note: "Coverage Includes" coverage was covered with PAS-25531
+	 * and "Primary Insurer" with PAS-23975
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23997"})
+	public void pas23997_updatePipCoveragesNJ(@Optional("NJ") String state) {
+		assertSoftly(softly ->
+				pas23997_updatePipCoveragesNJbody(softly))
+		;}
+
+	/**
+	 * @author Maris Strazds
 	 * @name
 	 * @scenario
 	 * 1. Create policy in PAS with Tort Threshold = Limited Tort
@@ -1582,4 +1704,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas15302_lolCoverageNJ(@Optional("NJ") String state) {
 		pas15302_lolCoverageNJBody();
 	}
+
+
+
 }

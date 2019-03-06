@@ -397,7 +397,7 @@ public class RevisedHomeTierPATemplate extends PolicyBaseTest {
         assertThat(reportsTab.tblInsuranceScoreReport.getRow(2).getCell("Report").controls.links.getFirst()).isPresent(false);
 
         // Bind policy and confirm policy summary page
-        reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.get("Order report").click();
+        reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.get("Re-order report").click();
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.submitTab();
