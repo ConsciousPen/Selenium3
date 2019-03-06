@@ -10,11 +10,11 @@ import toolkit.db.DBService;
 
 public class PreDeployConfigUpdate implements EvalueInsertSetupPreConditions {
 
-	private static void insertConfigForRegularStates(String state) {
+	private void insertConfigForRegularStates(String state) {
 		DBService.get().executeUpdate(String.format(EVALUE_CONFIGURATION_PER_STATE_INSERT, state));
 	}
 
-	private static void insertConfigForLimitsRegularStates(String state) {
+	private void insertConfigForLimitsRegularStates(String state) {
 		DBService.get().executeUpdate(String.format(EVALUE_CURRENT_BI_LIMIT_CONFIGURATION_INSERT, state));
 		DBService.get().executeUpdate(String.format(EVALUE_PRIOR_BI_LIMIT_CONFIGURATION_INSERT, state));
 	}
@@ -30,6 +30,7 @@ public class PreDeployConfigUpdate implements EvalueInsertSetupPreConditions {
 		//	DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_QUERY, PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE)));
 		//	DBService.get().executeUpdate(PENDING_REFUND_CONFIGURATION_UPDATE);
 		DBService.get().executeUpdate(String.format("update propertyconfigurerentity set value = '%s' where propertyname = 'oauth2TokenStore.authTokenEndpointUrl'", PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/as/token.oauth2"));
+		DBService.get().executeUpdate(String.format("update propertyconfigurerentity set value = '%s' where propertyname = 'censusBlockServiceClient.serviceUrl'", PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/eads/census-block"));
 
 		if (servers.stream().anyMatch(s -> HOST.contains(s))) {
 			DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/" + PropertyProvider.getProperty(CsaaTestProperties.APP_HOST) + "/policy/preferences"));
