@@ -27,6 +27,7 @@ import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 
 public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPointsVRDPageAbstract {
@@ -47,7 +48,19 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     protected abstract void reorderClueReport();
     protected abstract String getNamedInsuredLabel();
 
-    private String pas6739WarningMsg = "Underwriting approval is required for claim(s) that have been modified";
+    private String pas25173SSWarningMsg = "Underwriting approval is required for claim(s) that have been modified\n\n"+
+
+                                            "*Claims occurring in the last 60 months are considered for tier and claims discount\n"+
+                                            "*Claims occurring in the last 36 months are considered for claims points and eligibility\n"+
+                                            "*Catastrophe claims are not considered for rating, but are considered for eligibility\n"+
+                                            "*Paid open, subrogated, and closed claims are considered for rating and eligibility";
+
+    private String pas25173CAWarningMsg = "Underwriting approval is required for claim(s) that have been modified\n\n"+
+
+                                            "*Claims occurring in the last 60 months are considered for tier (DP3 policies only)\n"+
+                                            "*Claims occurring in the last 36 months are considered for claims points and eligibility\n"+
+                                            "*Catastrophe claims are not considered for rating, but are considered for eligibility\n"+
+                                            "*Paid open, subrogated, and closed claims are considered for rating and eligibility";
 
     protected void pas6759_AbilityToRemoveManuallyEnteredClaimsNB() {
 
@@ -964,12 +977,13 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     private void validateWarningMessage(){
+        //PAS-25173 [replacing PAS-21557] - a new requirement to update the warning message - disposition 'CAT' or 'IIRE' frm [Yes to No] or [No to Yes]
         if (isStateCA()){
             // Check warning message is fired for CA
-            assertThat(getPropertyInfoTab().getAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(), MultiInstanceAfterAssetList.class).getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.CLAIM_MODIFIED_WARNING_MESSAGE)).hasValue(pas6739WarningMsg);
+            assertThat(PropertyQuoteTab.tableClaimsHistoryWarningMessages.getRow(1).getCell(1).getValue()).isEqualTo(pas25173CAWarningMsg);
         } else {
             // Check warning message is fired for SS
-            assertThat(getPropertyInfoTab().getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(), MultiInstanceAfterAssetList.class).getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CLAIM_MODIFIED_WARNING_MESSAGE)).hasValue(pas6739WarningMsg);
+            assertThat(PropertyQuoteTab.tableClaimsHistoryWarningMessages.getRow(1).getCell(1).getValue()).isEqualTo(pas25173SSWarningMsg);
         }
 
     }

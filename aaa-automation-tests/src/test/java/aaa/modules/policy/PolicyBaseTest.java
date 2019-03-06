@@ -64,6 +64,16 @@ public abstract class PolicyBaseTest extends BaseTest {
 		setDoNotRenewFlag(policyNumber, "1");
 	}
 
+	/**
+	 * See description above.
+	 * @param policyNumber String value representing the policy number
+	 * @param flagValue value you wish to set the DONOTRENEWIND value in DB to.  Possible values include 1, 0, null
+	 *
+	 */
+	protected void setDoNotRenewFlag(String policyNumber, String flagValue) {
+		DBService.get().executeUpdate("update POLICYSUMMARY set DONOTRENEWIND = " + flagValue + " where policyNumber = '" + policyNumber + "'");
+	}
+
 	public void searchForPolicy(String policyNumber) {
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -154,16 +164,6 @@ public abstract class PolicyBaseTest extends BaseTest {
 		for (String docGenId : docGenIds) {
 			assertThat(documentTemplate).doesNotContain(docGenId);
 		}
-	}
-
-	/**
-	 * See description above.
-	 * @param policyNumber String value representing the policy number
-	 * @param flagValue value you wish to set the DONOTRENEWIND value in DB to.  Possible values include 1, 0, null
-	 *
-	 */
-	protected void setDoNotRenewFlag(String policyNumber, String flagValue) {
-		DBService.get().executeUpdate("update POLICYSUMMARY set DONOTRENEWIND = " + flagValue + " where policyNumber = '" + policyNumber + "'");
 	}
 
 	protected String openAppAndCreatePolicy(TestData testData) {

@@ -2,7 +2,7 @@
 <suite name="Scorpions Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!-- Listener commented out for local runs-->
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
     <test name="pas2704_DeclarationPage AA02NY">

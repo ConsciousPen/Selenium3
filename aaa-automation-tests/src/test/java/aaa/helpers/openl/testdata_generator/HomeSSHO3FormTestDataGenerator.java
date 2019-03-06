@@ -528,13 +528,13 @@ public class HomeSSHO3FormTestDataGenerator {
 						"Action", instanceNum == 1 ? isFormAdded("HS2473", policyLevel) ? "Edit" : "Add" : "Add",
 						HomeSSMetaData.EndorsementTab.EndorsementHS2473.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().getZip(),
 						HomeSSMetaData.EndorsementTab.EndorsementHS2473.STREET_ADDRESS_1.getLabel(), String.format("%d", instanceNum) + " Street Address",
-						HomeSSMetaData.EndorsementTab.EndorsementHS2473.TOTAL_ACREAGE.getLabel(), form.getLimit().toString().split("\\.")[0],
-						HomeSSMetaData.EndorsementTab.EndorsementHS2473.IS_THE_BUILDING_PRESENT_ON_THE_FARM_PREMISES.getLabel(), "No",
-						HomeSSMetaData.EndorsementTab.EndorsementHS2473.TOTAL_NUMBER_OF_PERSON_DAYS_WORKED_FOR_ALL_PART_TIME_EMPLOYEES_WHO_WORK_40_DAYS_OR_LESS_PER_YEAR.getLabel(), form.getOptionalValue3().toString().split("\\.")[0],
+						HomeSSMetaData.EndorsementTab.EndorsementHS2473.TOTAL_ACREAGE.getLabel(), "INSOPR".equals(form.getType()) ? form.getLimit().toString().split("\\.")[0] : form.getOptionalValue1().toString().split("\\.")[0],
+						HomeSSMetaData.EndorsementTab.EndorsementHS2473.IS_THE_BUILDING_PRESENT_ON_THE_FARM_PREMISES.getLabel(), form.getCovPercentage() > 0 ? "Yes" : "No",
+						HomeSSMetaData.EndorsementTab.EndorsementHS2473.TOTAL_NUMBER_OF_PERSON_DAYS_WORKED_FOR_ALL_PART_TIME_EMPLOYEES_WHO_WORK_40_DAYS_OR_LESS_PER_YEAR.getLabel(), "0",
 						HomeSSMetaData.EndorsementTab.EndorsementHS2473.NUMBER_OF_PART_TIME_EMPLOYEES_41_179_DAYS_PER_YEAR.getLabel(), form.getOptionalValue4().toString().split("\\.")[0],
 						HomeSSMetaData.EndorsementTab.EndorsementHS2473.NUMBER_OF_FULL_TIME_EMPLOYEES_180_OR_MORE_DAYS_PER_YEAR.getLabel(), form.getOptionalValue5().toString().split("\\.")[0],
 						HomeSSMetaData.EndorsementTab.EndorsementHS2473.TOTAL_ANNUAL_PAYROLL.getLabel(), "100000",
-						HomeSSMetaData.EndorsementTab.EndorsementHS2473.OWNERSHIP_AND_OPERATION_OF_FARM.getLabel(), "index=1",
+						HomeSSMetaData.EndorsementTab.EndorsementHS2473.OWNERSHIP_AND_OPERATION_OF_FARM.getLabel(), "INSOPR".equals(form.getType()) ? "Owned and operated by the Insured" : "Rented by the Insured and operated by the Insured",
 						HomeSSMetaData.EndorsementTab.EndorsementHS2473.IS_ANY_OTHER_BUSINESS_ACTIVITY_CONDUCTED_AT_THE_FARM_LOCATION.getLabel(), "No"
 				));
 				instanceNum++;

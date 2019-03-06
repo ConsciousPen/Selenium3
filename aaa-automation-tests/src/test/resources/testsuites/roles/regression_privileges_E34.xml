@@ -2,7 +2,7 @@
 <suite name="Privileges Tests E34" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
 	<parameter name="timeshift-scenario-mode" value="method"/>
 	<test name="CA Select Auto Regression Tests" parallel="methods">

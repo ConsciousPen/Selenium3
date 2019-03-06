@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Batch Suite  Group 5" verbose="1">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method" />
+
+    <parameter name="state" value="UT"/>
+    <test name="Batch Maintenance Group 5">
+        <classes>
+            <class name="aaa.modules.batch.BatchMaintanance">
+                <methods>
+                   <include name="RUN_37_LEDGERSTATUSUPDATEJOB"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

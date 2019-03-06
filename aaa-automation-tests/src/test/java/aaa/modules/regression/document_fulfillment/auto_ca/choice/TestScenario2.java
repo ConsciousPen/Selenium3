@@ -1,18 +1,22 @@
 package aaa.modules.regression.document_fulfillment.auto_ca.choice;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+
 import java.util.List;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+
 import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.billing.BillingPendingTransactionsVerifier;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
@@ -35,7 +39,8 @@ public class TestScenario2 extends AutoCaChoiceBaseTest {
 		Dollar amount = new Dollar(1234);
 
 		mainApp().open();
-		String policyNum = getCopiedPolicy();
+		createCustomerIndividual();
+		String policyNum = createPolicy();
 		BillingSummaryPage.open();
 		billing.acceptPayment().perform(check_payment, amount);
 		new BillingPaymentsAndTransactionsVerifier().setType("Payment").setSubtypeReason("Manual Payment").setAmount(amount.negate()).setStatus("Issued").verifyPresent();
@@ -44,9 +49,12 @@ public class TestScenario2 extends AutoCaChoiceBaseTest {
 		billing.approveRefund().perform(amount);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Approved").verifyPresent();
 		//billing.issueRefund().perform(amount);
-		JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob, true);
-		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob, true);
-		
+		//TODO aperapecha: DocGen - remove shift after upgrade
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
+		JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
+
+		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Issued").verifyPresent();
 

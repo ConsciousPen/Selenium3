@@ -4,6 +4,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.jobs.BCTJobs;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.modules.bct.BctType;
@@ -18,7 +19,7 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test(description = "batchJob01.xml")
 	public void BCT_BTCH_AAA_BATCH_MARKER(@Optional("") String state) {
-		executeBatchTest(BCTJobs.groupaaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
 	}
 
 	@Parameters({"state"})
@@ -42,7 +43,7 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test(description = "batchJob05.xml")
 	public void BCT_BTCH_POLICY_STATUS_UPDATE(@Optional("") String state) {
-		JobUtils.executeJob(BCTJobs.groupPolicyStatusUpdateJob);
+		executeBatchTest(BCTJobs.groupPolicyStatusUpdateJob);
 	}
 
 	@Parameters({"state"})
@@ -120,7 +121,7 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test(description = "batchJob18.xml")
 	public void BCT_BTCH_RENEWAL_VALIDATION(@Optional("") String state) {
-		JobUtils.executeJob(BCTJobs.grouprenewalValidationAsyncTaskJob);
+		executeBatchTest(BCTJobs.grouprenewalValidationAsyncTaskJob);
 	}
 
 	@Parameters({"state"})

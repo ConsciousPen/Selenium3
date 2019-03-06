@@ -99,6 +99,10 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class CustomerSearch extends MetaData {
+			public static final AssetDescriptor<Button> BTN_CUSTOMER_SEARCH = declare("Customer Search", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:dataGatherView_ListAAAHONamedInsured:0:dataGatherView_List_CustomerSearch"));
+			public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First Name", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last Name", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> DATE_OF_BIRTH = declare("Date of birth", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<Button> BTN_CANCEL = declare("Cancel", Button.class, Waiters.AJAX, false, By.id("customerSearchFrom:cancelSearch"));
 		}
 
@@ -190,6 +194,7 @@ public final class HomeSSMetaData {
 			public static final class OtherActiveAAAPoliciesSearch extends MetaData {
 				public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy type", ComboBox.class, Waiters.AJAX);
 				public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy number", TextBox.class, Waiters.AJAX);
+				public static final AssetDescriptor<Button> BTN_CANCEL = declare("Cancel", Button.class, Waiters.AJAX, false, By.id("policySearchForm_AAAHOOtherOrPriorActivePolicySearch:cancelSearch_AAAHOOtherOrPriorActivePolicySearch"));
 			}
 
 			public static final class OtherActiveAAAPoliciesManual extends MetaData {
@@ -581,7 +586,6 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<TextBox> REASON_CLAIM_IS_NOT_CHARGEABLE = declare("Reason claim is not chargeable", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<AssetListConfirmationDialog> ACTIVITY_REMOVE_CONFIRMATION =
 					declare("Activity remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmEliminateInstance_Dialog_container"));
-			public static final AssetDescriptor<StaticElement> CLAIM_MODIFIED_WARNING_MESSAGE = declare("Underwriting approval is required for claim(s) that have been modified", StaticElement.class, By.id("policyDataGatherForm:warningMsg"));
 		}
 
 		public static final class RentalInformation extends MetaData {
@@ -1933,6 +1937,13 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<AdvancedRadioGroup> DELIVERY_METHOD = declare("Delivery Method", AdvancedRadioGroup.class, Waiters.AJAX, By
 				.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']/table"));
 		public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<DialogAssetList> E_SIGNATURE_EMAIL_DIALOG = declare("ESignatureEmailDialog", DialogAssetList.class, ESignatureEmailDialog.class, By.xpath("//div[@id='emailAddrPopup_container']"));
+
+		public static final class ESignatureEmailDialog extends MetaData {
+			public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, By.id("recipientEmailAddressForm:recpEmailPopUp"));
+			public static final AssetDescriptor<Button> GENERATE_DOCUMENTS =  declare("Submit Popup", Button.class, By.id("recipientEmailAddressForm:generateESignatureButton"));
+			public static final AssetDescriptor<Link> CANCEL =  declare("Close Popup", Link.class, By.id("recipientEmailAddressForm:cancelESignatureButton"));
+		}
 
 		public static final class DocumentRow extends MetaData {
 			public static final AssetDescriptor<CheckBox> SELECT = declare(DocGenConstants.OnDemandDocumentsTable.SELECT, CheckBox.class);

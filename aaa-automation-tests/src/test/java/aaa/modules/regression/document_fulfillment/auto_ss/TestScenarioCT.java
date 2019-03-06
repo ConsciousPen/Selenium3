@@ -3,14 +3,15 @@ package aaa.modules.regression.document_fulfillment.auto_ss;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.BatchJob;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
@@ -36,17 +37,10 @@ public class TestScenarioCT extends AutoSSBaseTest {
 
 		policy.quoteDocGen().start();
 		docgenActionTab.generateDocuments(Documents.AHCAAG);
-		//WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AHCAAG);
-	}
-	
-	@Parameters({ "state" })
-	@StateList(states = States.CT)
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void TC02(@Optional("") String state) {
-		
+
 		mainApp().open();
-		
+
 		SearchPage.openQuote(quoteNumber);
 
 		policy.dataGather().start();
@@ -55,8 +49,10 @@ public class TestScenarioCT extends AutoSSBaseTest {
 		policy.dataGather().getView().getTab(PurchaseTab.class).submitTab();
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		JobUtils.executeJob(BatchJob.aaaCCardExpiryNoticeAsyncJob, true);
-		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(BatchJob.aaaCCardExpiryNoticeAsyncJob);
+		//TODO aperapecha: DocGen - remove shift after upgrade
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._60_5006); //CCEXPIRATION_NOTICE
 	}
 }

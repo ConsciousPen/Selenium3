@@ -454,7 +454,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				throw new NotImplementedException("Test data generation for enabled isHybrid is not implemented since there is no UI field for this attribute.");
 			}
 
-			TestData vehicleData = getVehicleTabInformationData(vehicle);
+			TestData vehicleData = getVehicleTabInformationData(vehicle, openLPolicy.isLegacyConvPolicy());
 			if (Boolean.TRUE.equals(vehicle.isTelematic())) {
 				vehicleData.adjust(getVehicleTabVehicleDetailsData("No Score"));
 			}
@@ -646,7 +646,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		return new SimpleDataProvider(premiumAndCoveragesTabData);
 	}
 
-	private TestData getVehicleTabInformationData(AutoSSOpenLVehicle vehicle) {
+	private TestData getVehicleTabInformationData(AutoSSOpenLVehicle vehicle, boolean isLegacyConvPolicy) {
 		String vin = getVinFromDb(vehicle);
 		Map<String, Object> vehicleInformation = new HashMap<>();
 		String statCode = vehicle.getBiLiabilitySymbol();
@@ -692,7 +692,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.AIR_BAGS.getLabel(), getVehicleTabAirBags(vehicle.getAirbagCode()));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.ANTI_THEFT.getLabel(), getVehicleTabAntiTheft(vehicle.getAntiTheftString()));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + getVehicleTabStatCode(statCode));
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), getOtherBodyStyle(statCode));
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), getOtherBodyStyle(statCode, isLegacyConvPolicy));
 			}
 		}
 
@@ -850,9 +850,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		return new SimpleDataProvider(td);
 	}
 
-	private String getOtherBodyStyle(String statCode) {
-		List<String> otherBodyStyleStates = Arrays.asList(Constants.States.CO, Constants.States.DE, Constants.States.WY, Constants.States.OR, Constants.States.IN, Constants.States.MT);
-		return !isConversionVanType(statCode) || otherBodyStyleStates.contains(getState()) ? AdvancedComboBox.RANDOM_MARK : null;
+	private String getOtherBodyStyle(String statCode, boolean isLegacyConvPolicy) {
+		List<String> otherBodyStyleStates = Arrays.asList(Constants.States.CO, Constants.States.DE, Constants.States.OR, Constants.States.WY, Constants.States.IN, Constants.States.MT);
+		return !isConversionVanType(statCode) || otherBodyStyleStates.contains(getState()) && !isLegacyConvPolicy ? AdvancedComboBox.RANDOM_MARK : null;
 	}
 
 	static class ActivityInformation {

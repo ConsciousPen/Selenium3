@@ -1,0 +1,35 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Batch Suite  Group 3" verbose="1">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method" />
+
+    <parameter name="state" value="UT"/>
+    <test name="Batch Maintenance Group 3">
+        <classes>
+            <class name="aaa.modules.batch.BatchMaintanance">
+                <methods>
+                    <include name="RUN_14_COLLECTIONFEEDBATCHORDERJOB"/>
+                    <include name="RUN_15_EARNEDPREMIUMWRITEOFFPROCESSINGJOB"/>
+                    <include name="RUN_16_AAAOFFCYCLEBILLINGINVOICEASYNCJOB"/>
+                    <include name="RUN_17_AAABILLINGINVOICEASYNCTASKJOB"/>
+                    <include name="RUN_18_AAAREFUNDGENERATIONASYNCJOB"/>
+                    <include name="RUN_19_PRERENEWALREMINDERGENERATIONASYNCJOB"/>
+                    <include name="RUN_20_AAARENEWALNOTICEBILLASYNCJOB"/>
+                    <include name="RUN_21_AAAMORTGAGEERENEWALREMINDERANDEXPNOTICEASYNCJOB"/>
+                    <include name="RUN_22_RENEWALOFFERASYNCTASKJOB"/>
+                    <include name="RUN_23_AAADELAYTRIGGERTOINOTICEASYNCJOB"/>
+                    <include name="RUN_24_POLICYLAPSEDRENEWALPROCESSASYNCJOB"/>
+                    <include name="RUN_25_AAARENEWALREMINDERGENERATIONASYNCJOB"/>
+                    <include name="RUN_26_POLICYTRANSACTIONLEDGERJOB"/>
+                    <include name="RUN_27_AAADATAUPDATEJOB"/>
+                    <include name="RUN_28_ACTIVITYTIMEOUTJOB"/>
+                    <include name="RUN_29_ACTIVITYHISTORYJOB"/>
+                    <include name="RUN_30_ACTIVITYSUMMARIZATIONJOB"/>
+                   </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

@@ -1,7 +1,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Manual Conversion Test" verbose="1" parallel="tests" thread-count="1024">
 	<listeners>
-		<listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+		<listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
 	</listeners>
     <test name="Auto SS Manual Conversion Test" parallel="methods" thread-count="200">

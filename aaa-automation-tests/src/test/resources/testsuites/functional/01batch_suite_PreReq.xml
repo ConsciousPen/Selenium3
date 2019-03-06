@@ -1,0 +1,22 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Batch Suite Pre Requisites" verbose="1">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method" />
+
+    <parameter name="state" value="UT"/>
+    <test name="Batch Maintenance Pre Req">
+        <classes>
+            <class name="aaa.modules.batch.BatchMaintanance">
+                <methods>
+                    <include name="cleanAsynkTasks"/>
+                    <include name="removeError"/>
+                    <include name="checkSchedulerEnabled"/>
+                    <include name="checkAsyncManagerStatus"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

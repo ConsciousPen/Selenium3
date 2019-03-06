@@ -79,8 +79,8 @@
         </classes>
     </test>
     <test name="AutoSS [MD - ACAIC] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="MDTests-ACAIC-20181201_UI_part1.xls"/>
-        <parameter name="policyNumbers" value="1, 2"/>
+        <parameter name="fileName" value="MDTests-ACAIC-20181201_UI_part3.xls"/>
+        <parameter name="policyNumbers" value="1, 921"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
@@ -136,7 +136,7 @@
     </test>
     <test name="AutoSS [OR] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="ORTests-20180601.xls"/>
-        <parameter name="policyNumbers" value="1,2"/>
+        <parameter name="policyNumbers" value="1,23"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>

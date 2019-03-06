@@ -2,7 +2,7 @@
 <suite name="CFT Validation">
 
     <listeners>
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
     <test name="CFT Validation">

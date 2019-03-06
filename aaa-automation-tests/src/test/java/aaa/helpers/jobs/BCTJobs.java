@@ -17,6 +17,7 @@ public class BCTJobs {
 	public static Job grouprenewalValidationAsyncTaskJob = new Job("grouprenewalValidationAsyncTaskJob");
 	public static Job groupaaaMvrRenewBatchOrderAsyncJob = new Job("groupaaaMvrRenewBatchOrderAsyncJob");
 	public static Job groupPolicyStatusUpdateJob = new Job("groupPolicyStatusUpdateJob");
+	public static Job policyStatusUpdateJob = new Job("PolicyStatusUpdateJob");
 	public static Job groupaaaDirectRenewInterruptedPoliciesJob = new Job("groupaaaDirectRenewInterruptedPoliciesJob");
 	public static Job groupaaaRenewalReminderGenerationAsyncJob = new Job("groupaaaRenewalReminderGenerationAsyncJob");
 	public static Job groupaaaRecurringPaymentsResponseProcessAsyncJob = new Job("groupaaaRecurringPaymentsResponseProcessAsyncJob");

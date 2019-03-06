@@ -211,7 +211,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
-	public void BCT_ONL_EmptyEndorsementPUP(@Optional("") String state) {
+	public void BCT_ONL_EmptyEndorsementPUP(@Optional("CA") String state) {
 		mainApp().open();
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_PUP", date1, date2);
 		IPolicy policy = PolicyType.PUP.get();

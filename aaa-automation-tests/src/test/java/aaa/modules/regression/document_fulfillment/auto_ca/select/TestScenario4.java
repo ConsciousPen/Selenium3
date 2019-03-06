@@ -6,12 +6,13 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.eisa.utils.Dollar;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+
 import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.BatchJob;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
@@ -39,26 +40,16 @@ public class TestScenario4 extends AutoCaSelectBaseTest {
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData")));
 		BillingSummaryPage.open();
 		dd6 = BillingSummaryPage.getInstallmentDueDate(2);
-	}
-	
-	@Parameters({ "state" })
-	@StateList(states = States.CA)
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC02_BillGeneration(@Optional("") String state) {
+
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dd6));
 		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
-	}
-	
-	@Parameters({ "state" })
-	@StateList(states = States.CA)
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC03_CancellationNotice(@Optional("") String state) {
+
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(dd6));
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		Dollar totalDue = BillingSummaryPage.getTotalDue();
 		billing.acceptPayment().perform(cash_payment, totalDue);
-		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob, true);
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._550029); // TODO
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._550029);
 	}
 }

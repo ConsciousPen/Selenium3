@@ -4,6 +4,8 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+
     <suite-files>
         <suite-file path="./property_docgen.xml" />
         <suite-file path="./auto_docgen.xml" />

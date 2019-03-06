@@ -10,8 +10,8 @@ import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.BatchJob;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -41,14 +41,9 @@ public class TestScenario2 extends AutoSSBaseTest {
 			NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 			DocumentsAndBindTab.btnGenerateDocuments.click();
 			DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AHEVAXX);
-		} else 
+		} else {
 			DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AARFIXX);
-	}
-	
-	@Parameters({ "state" })
-	@StateList(states = {States.AZ, States.IN, States.OH, States.VA})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC02_RenewOfferGeneration(@Optional("") String state) {
+		}
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);

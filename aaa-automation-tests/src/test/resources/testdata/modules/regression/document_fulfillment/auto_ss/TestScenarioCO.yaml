@@ -58,7 +58,7 @@ FormsTab: {
 }
 
 PremiumAndCoveragesTab: {
-  Payment Plan: 'Eleven Pay - Standard',
+  Payment Plan: 'Annual',
   'Uninsured/Underinsured Motorist Bodily Injury': 'contains=No Coverage'
 }
 

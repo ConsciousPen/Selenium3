@@ -9,6 +9,7 @@
             <class name="aaa.modules.preconditions.CleanCache"/>
             <class name="aaa.modules.preconditions.CleanCacheAdmin"/>
             <class name="aaa.modules.preconditions.DocGenPreconditions"/>
+            <class name="aaa.modules.preconditions.ClearFolders"/>
         </classes>
     </test>
 </suite>

@@ -9,8 +9,8 @@ import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.BatchJob;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -25,27 +25,27 @@ public class TestScenarioManualReinstate extends AutoCaSelectBaseTest {
 	public void testManualReinstate(@Optional("CA") String state) {
 		
 		mainApp().open();
-
-		getCopiedPolicy();
+		createCustomerIndividual();
+		String policyNum = createPolicy();
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-
-		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusDays(1));
 		
-		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber);
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
 		
-		log.info("TEST: Reinstate Policy #" + policyNumber);
+		log.info("TEST: Reinstate Policy #" + policyNum);
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
+		//TODO aperapecha: DocGen - remove shift after upgrade
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._55_5080);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._55_5080);
 		
 		
 	}

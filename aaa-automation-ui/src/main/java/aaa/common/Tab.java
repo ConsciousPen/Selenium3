@@ -163,7 +163,7 @@ public abstract class Tab {
 	}
 
 	public Tab cancel() {
-		return cancel(false);
+		return cancel(true);
 	}
 
 	public Tab cancel(boolean confirmDialog) {

@@ -25,6 +25,9 @@ public class CsaaTestProperties extends TestProperties {
 
 	public static final String DXP_PORT = "dxp.port";
 	public static final String DXP_PROTOCOL = "dxp.protocol";
+	public static final String DOCGEN_FOLDER = "docgen.folder";
+	public static final String REMOTE_DOWNLOAD_FOLDER_PROP = "test.remotefile.location";
+	public static final String LOCAL_DOWNLOAD_FOLDER_PROP = "test.downloadfiles.location";
 	public static final String WIRE_MOCK_STUB_URL_TEMPLATE = "wire.mock.stub.urltemplate";
 	public static final String SCRUM_ENVS_SSH = "scrum.envs.ssh";
 	public static final String TEST_USSTATE = "test.usstate";

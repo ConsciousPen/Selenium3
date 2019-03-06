@@ -8,8 +8,8 @@ import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.BatchJob;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -24,10 +24,10 @@ import toolkit.utils.datetime.DateTimeUtils;
 public class TestScenario5 extends AutoSSBaseTest {
 	private String policyNumber;
 	private LocalDateTime installmentDD1;
-	
-	@Parameters({ "state" })
+
+	@Parameters({"state"})
 	@StateList(states = States.DC)
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
+	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusYears(1));
 		mainApp().open();
@@ -35,20 +35,10 @@ public class TestScenario5 extends AutoSSBaseTest {
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData")));
 		BillingSummaryPage.open();
 		installmentDD1 = BillingSummaryPage.getInstallmentDueDate(2);
-	}
-	
-	@Parameters({ "state" })
-	@StateList(states = States.DC)
-	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC02_GenerateBillingInvoice(@Optional("") String state) {
+
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDD1));
 		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
-	}
-	
-	@Parameters({ "state" })
-	@StateList(states = States.DC)
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC03_CancellationNotice(@Optional("") String state) {
+
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDD1));
 		JobUtils.executeJob(BatchJob.aaaCancellationNoticeAsyncJob);
 		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);

@@ -1,10 +1,5 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -18,7 +13,14 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.utils.StateList;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
+
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
 
 @StateList(statesExcept = Constants.States.CA)
 public class TestCoverageCRangeWithinCoverageA extends HomeSSHO3BaseTest {
@@ -49,10 +51,13 @@ public class TestCoverageCRangeWithinCoverageA extends HomeSSHO3BaseTest {
 	protected void pas20367_TestCoverageCRangeWithinCoverageATemplate(@Optional("") String state){
 
 		String policyNumber = openAppAndCreatePolicy();
-		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());
+		LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
+		setDoNotRenewFlag(policyNumber);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalEffDate));
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
+		policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().perform();
 
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());

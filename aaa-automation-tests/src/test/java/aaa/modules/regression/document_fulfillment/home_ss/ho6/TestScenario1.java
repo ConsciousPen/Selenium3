@@ -1,15 +1,14 @@
 package aaa.modules.regression.document_fulfillment.home_ss.ho6;
 
 import java.time.LocalDateTime;
-import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.BatchJob;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO6BaseTest;
@@ -32,43 +31,23 @@ public class TestScenario1 extends HomeSSHO6BaseTest {
 		createCustomerIndividual();
 		policyNumber = createPolicy();
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
-	}
-	
-	@Parameters({ "state" })
-	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC02_RenewImageGeneration(@Optional("") String state) {
+
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
-
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
-	}
-	
-	@Parameters({ "state" })
-	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC02_RenewaOfferBillGeneration(@Optional("") String state) {
+
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
-	}
-	
-	@Parameters({ "state" })
-	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC03_UpdatePolicyStatus(@Optional("") String state) {
+
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate));
 		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
-	}
-	
-	@Parameters({ "state" })
-	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC04_CancellationNotice(@Optional("") String state) {
+
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(policyExpirationDate));
 		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
 		JobUtils.executeJob(BatchJob.aaaRenewalReminderGenerationAsyncJob);
 		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, DocGenEnum.Documents.AH64XX);
 	}
+	
 }
