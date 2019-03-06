@@ -2,6 +2,10 @@ package aaa.modules.regression.conversions.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
+
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -27,7 +31,7 @@ public class TestCancelledConversionRewrite extends ManualConversionTemplate {
 	}
 
     /**
-     * * @author Dominykas Razgunas
+     * * @author Dominykas Razgunas, Sreekanth Kopparapu
      *
      *@name Test Paperless Preferences properties and Inquiry mode
      *@scenario
@@ -45,14 +49,16 @@ public class TestCancelledConversionRewrite extends ManualConversionTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT}, description = "Test Premium Calculation for a rewritten conversion policy KY/WV")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-25298")
-    public void pas25298_calculatePremiumForRewrittenConversionPolicy(@Optional("WV") String state) {
+    public void pas25298_calculatePremiumForRewrittenConversionPolicy(@Optional("KY") String state) {
 
+    	TestData tdPolicy = getPolicyTD();
 		LocalDateTime effDate = TimeSetterUtil.getInstance().getPhaseStartTime().plusDays(45);
 		manualRenewalEntryToActivePolicy();
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData").adjust(TestData.makeKeyPath("CancellationActionTab", "Cancel Date"), effDate.format(DateTimeUtils.MM_DD_YYYY)));
 		policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
 		policy.dataGather().start();
-		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
+		policy.getDefaultView().fillFromTo(tdPolicy, RatingDetailReportsTab.class, PremiumAndCoveragesTab.class);
 		assertThat(new PremiumAndCoveragesTab().btnCalculatePremium()).isPresent();
     }
 }
