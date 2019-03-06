@@ -45,8 +45,7 @@ public class TestScenario1 extends HomeSSHO3BaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
-		//TODO aperapecha: DocGen - remove shift after upgrade
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
+
 		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, DocGenEnum.Documents.AH62XX);
 	}

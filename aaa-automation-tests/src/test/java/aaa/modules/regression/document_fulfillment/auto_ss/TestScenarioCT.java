@@ -50,8 +50,7 @@ public class TestScenarioCT extends AutoSSBaseTest {
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		JobUtils.executeJob(BatchJob.aaaCCardExpiryNoticeAsyncJob);
-		//TODO aperapecha: DocGen - remove shift after upgrade
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
+
 		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._60_5006); //CCEXPIRATION_NOTICE
 	}
