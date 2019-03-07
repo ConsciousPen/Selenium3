@@ -21,7 +21,7 @@ claimLineItemList:
         driverDateofBirth: '1996-05-05'
         driverName: Matthew James
         driverRelationToInsured: INSURED
-        permissiveUse: N
+        permissiveUse: Y
         drivingLicenseNumber: C1919191
         drivingLicenseState: CA
         lossSummary: IV hit OV while turning.
@@ -52,7 +52,7 @@ claimLineItemList:
         driverDateofBirth: '1996-05-05'
         driverName: Matthew Mitchel
         driverRelationToInsured: INSURED
-        permissiveUse: N
+        permissiveUse: Y
         drivingLicenseNumber: A1919191
         drivingLicenseState: CA
         lossSummary: IV hit OV while turning.
@@ -83,7 +83,7 @@ claimLineItemList:
         driverDateofBirth: '1997-10-16'
         driverName: Matthew Fox
         driverRelationToInsured: INSURED
-        permissiveUse: N
+        permissiveUse: Y
         drivingLicenseNumber: D9999999
         drivingLicenseState: CA
         lossSummary: IV hit OV while parked.
@@ -114,7 +114,7 @@ claimLineItemList:
         driverDateofBirth: '1997-06-09'
         driverName: Matthew Fox
         driverRelationToInsured: INSURED
-        permissiveUse: N
+        permissiveUse: Y
         drivingLicenseNumber: D9999999
         drivingLicenseState: CA
         lossSummary: IV hit OV while parked.
@@ -145,7 +145,7 @@ claimLineItemList:
         driverDateofBirth: '1990-05-15'
         driverName: Matthew Fox
         driverRelationToInsured: INSURED
-        permissiveUse: N
+        permissiveUse: Y
         drivingLicenseNumber: D9999999
         drivingLicenseState: CA
         lossSummary: IV hit OV while parked.
@@ -176,7 +176,7 @@ claimLineItemList:
         driverDateofBirth: '1997-10-16'
         driverName: Michael Fox
         driverRelationToInsured: INSURED
-        permissiveUse: N
+        permissiveUse: Y
         drivingLicenseNumber: D9999999
         drivingLicenseState: CA
         lossSummary: IV hit OV while parked.

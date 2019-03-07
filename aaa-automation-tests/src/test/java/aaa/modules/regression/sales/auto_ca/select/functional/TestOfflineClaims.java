@@ -173,8 +173,8 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * 7. Accept a payment and renew the policy
      * --Next steps will be added after PAS-26322 
      * 8. Move time to R2-63 and run Renewal Part1 + "renewalClaimOrderAsyncJob"
-     * 9. Create CAS Response File with required Claims (all claims permissiveUse = Y)
-     * 9.1. --EXISTING_MATCH matched Claims: Previously was PU = Y, Now PU = N (for all claims)
+     * 9. Create CAS Response File with required Claims
+     * 9.1. --EXISTING_MATCH matched Claims: Previously was PU = Y, Now PU = N, and viceversa
      * 10. Move Time to R-46 and run Renewal Part2 + "claimsRenewBatchReceiveJob"
      * 11. Retrieve policy and enter renewal image
      * 12. Verify all Claims: 'Permissive Use Loss?' flag is set according to defaulting rules (EXISTING_MATCH retaining same value as before)
