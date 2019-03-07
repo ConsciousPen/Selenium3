@@ -1111,7 +1111,34 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<StaticElement> DOCUMENT_NUMBER = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, StaticElement.class, Waiters.AJAX);
 			public static final AssetDescriptor<StaticElement> DOCUMENT_NAME = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, StaticElement.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT = declare("Free Form Text", TextBox.class, Waiters.AJAX, false, By.id("policyDataGatherForm:uwLetterMsg_AU03"));
+			
+			// Fields of AU02
+			public static final AssetDescriptor<CalendarBox> CANCELLATION_DATE = declare("Cancellation Date", CalendarBox.class, Waiters.NONE,  false, By.xpath("//input[@id='policyDataGatherForm:CancelDate_AU02InputDate']"));
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AU02 = declare("Free Form Text AU02", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AU02']"));
+			
+			// Fields of AU03
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AU03 = declare("Free Form Text AU03", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AU03']"));			
+			// Fields of AU04
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AU04 = declare("Free Form Text AU04", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AU04']"));
+			
+			// Fields of AU05
+			public static final AssetDescriptor<TextBox> PREMIUM_AMOUNT_AU05 = declare("Premium Amount", TextBox.class, Waiters.NONE,  false, By.xpath("//input[@id='policyDataGatherForm:PremiumAmount_AU05']"));
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AU05 = declare("Free Form Text AU05", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AU05']"));
+			
+			// Fields of AU06
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AU06 = declare("Free Form Text AU06", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AU06']"));
+			// Fields of AU07
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AU07 = declare("Free Form Text AU07", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AU07']"));
+			// Fields of AU08
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AU08 = declare("Free Form Text AU08", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AU08']"));
+			// Fields of AU09
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AU09 = declare("Free Form Text AU09", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AU09']"));
+			// Fields of AU10
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AU10 = declare("Free Form Text AU10", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AU10']"));
+			// Fields of AA06XX
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AA06XX = declare("Free Form Text AA06XX", TextBox.class, Waiters.NONE, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AA06XX']"));
 		}
+
 	}
 
 	public static final class StartNonPremiumBearingEndorsementActionTab extends MetaData {

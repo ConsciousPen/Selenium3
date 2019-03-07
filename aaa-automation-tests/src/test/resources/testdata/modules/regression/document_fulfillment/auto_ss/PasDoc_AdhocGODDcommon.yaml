@@ -92,7 +92,7 @@ DriverTab_ExcludedDriver1: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
-  License Number: A22345678
+  License Number: A22345688
 }
 
 DriverTab_ExcludedDriver2: {
@@ -250,14 +250,60 @@ DocumentsAndBindTab_FinancialDrivers: {
 
 DocumentsAndBindTab_Full: {
   RequiredToBind: {
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
     Auto Insurance Application: Physically Signed,
     Uninsured and Underinsured Motorist Coverage Selection: Physically Signed, 
-    Named Driver Exclusion: Physically Signed, 
-    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed
+    Named Driver Exclusion: Physically Signed
   }, 
   Agreement: I agree, 
   RequiredToIssue: {
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: 'Yes', 
     Proof of Prior Insurance: 'Yes'
   }, 
   Case Number: '12345'
 }
+
+# ------------------ 
+TestData_AU02: {  
+  Cancellation Date: '$<today:MM/dd/yyyy>',
+  Free Form Text AU02: 'Test Test'
+}
+
+TestData_AU03: { 
+  Free Form Text AU03: 'Test Test'
+}
+
+TestData_AU04: { 
+  Free Form Text AU04: 'Test Test'
+}
+
+TestData_AU05: { 
+  Premium Amount: 1000, 
+  Free Form Text AU05: 'Test Test'
+}
+
+TestData_AU06: { 
+  Free Form Text AU06: 'Test Test'
+}
+
+TestData_AU07: { 
+  Free Form Text AU07: 'Test Test'
+}
+
+TestData_AU08: { 
+  Free Form Text AU08: 'Test Test'
+}
+
+TestData_AU09: { 
+  Free Form Text AU09: 'Test Test'
+}
+
+TestData_AU10: { 
+  Free Form Text AU10: 'Test Test'
+}
+
+TestData_AA06XX: { 
+  Free Form Text AA06XX: 'Test Test'
+}
+
+
