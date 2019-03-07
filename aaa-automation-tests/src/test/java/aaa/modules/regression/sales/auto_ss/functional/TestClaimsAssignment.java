@@ -3,6 +3,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -110,17 +111,17 @@ public class TestClaimsAssignment extends TestOfflineClaimsTemplate {
      * 7. Retrieve the pas-admin AND pas-app logs and combine those in one log content
      * 8. Parse Claims Analytics rows from the log
      * 9. Verify the most important tags and values in JSON claim analytics according to Claim Number and policyNumber
-     *      "policyEffectiveDate": "2021-10-08 00:00:00.0"
-     * 		"coverageId": " COV_001,COV_002",
-     * 		"coverageAmount": " 100,250",
-     * 		"coverageName": " BODILY_INJURY, MEDICAL_PAYMENTS",
-     * 		"dateOfLoss": "2018-05-26",
+     *      "policyEffectiveDate": "10-08-2021"
+     * 		"coverageId": "COV_001,COV_002",
+     * 		"coverageAmount": "100,250",
+     * 		"coverageName": "BODILY_INJURY, MEDICAL_PAYMENTS",
+     * 		"dateOfLoss": "05-26-2018",
      * 		"claimDriverName": "casMATTHEW casFOX",
      * 		"totalAmountPaid": 5000,
      * 		"permissiveUse": "Y",
-     * 		"claimOpenDate": "2018-05-26",
+     * 		"claimOpenDate": "05-26-2018",
      * 		"Accident Fault": "AF",
-     * 		"claimCloseDate": "2018-08-12",
+     * 		"claimCloseDate": "08-12-2018",
      * 		"status": "OPEN"
      * @details
      */
@@ -139,7 +140,7 @@ public class TestClaimsAssignment extends TestOfflineClaimsTemplate {
 
         // Gather Policy details: Policy Number and expiration date (required R eff. date)
         policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-        policyEffectiveDate =  PolicySummaryPage.getEffectiveDate().plusYears(1).toLocalDate().toString();
+        policyEffectiveDate =  PolicySummaryPage.getEffectiveDate().plusYears(1).format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
 
         // Move to R-63, run batch job part 1 and renewalClaimOrderAsyncJob to generate CAS Request
         runRenewalClaimOrderJob();
@@ -154,15 +155,15 @@ public class TestClaimsAssignment extends TestOfflineClaimsTemplate {
         // Verify that Claim Analytics' values are correct according to Claim and Policy Numbers
         CustomSoftAssertions.assertSoftly(softly -> {
             softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, ClaimAnalyticsJSONTags.TagNames.POLICY_EFFECTIVE_DATE))
-                    .as("Policy Eff. date should be equal to: "+policyEffectiveDate+" 00:00:00.0").isEqualTo(policyEffectiveDate+" 00:00:00.0");
+                    .as("Policy Eff. date should be equal to: "+policyEffectiveDate).isEqualTo(policyEffectiveDate);
             softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, ClaimAnalyticsJSONTags.TagNames.COVERAGE_ID))
-                    .as("Coverage IDs should be equal to: COV_001,COV_002").isEqualTo(" COV_001,COV_002");
+                    .as("Coverage IDs should be equal to: COV_001,COV_002").isEqualTo("COV_001,COV_002");
             softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, ClaimAnalyticsJSONTags.TagNames.COVERAGE_AMOUNT))
-                    .as("Coverage Amounts should be equal to: 100,250").isEqualTo(" 100,250");
+                    .as("Coverage Amounts should be equal to: 100,250").isEqualTo("100,250");
             softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, ClaimAnalyticsJSONTags.TagNames.COVERAGE_NAME))
-                    .as("Coverage Names should be equal to: BODILY_INJURY,MEDICAL_PAYMENTS").isEqualTo(" BODILY_INJURY,MEDICAL_PAYMENTS");
+                    .as("Coverage Names should be equal to: BODILY_INJURY,MEDICAL_PAYMENTS").isEqualTo("BODILY_INJURY,MEDICAL_PAYMENTS");
             softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, ClaimAnalyticsJSONTags.TagNames.DATE_OF_LOSS))
-                    .as("Date Of Loss should be equal to: 2018-05-26").isEqualTo("2018-05-26");
+                    .as("Date Of Loss should be equal to: 05-26-2018").isEqualTo("05-26-2018");
             softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, ClaimAnalyticsJSONTags.TagNames.CLAIM_DRIVER_NAME))
                     .as("Claim Driver Name should be equal to: casMATTHEW casFOX").isEqualTo("casMATTHEW casFOX");
             softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, ClaimAnalyticsJSONTags.TagNames.TOTAL_AMOUNT_PAID))
@@ -170,11 +171,11 @@ public class TestClaimsAssignment extends TestOfflineClaimsTemplate {
             softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, ClaimAnalyticsJSONTags.TagNames.PERMISSIVE_USE))
                     .as("Permissive Use should be equal to: Y").isEqualTo("Y");
             softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, ClaimAnalyticsJSONTags.TagNames.CLAIM_OPEN_DATE))
-                    .as("Claim Open Date should be equal to: 2018-05-26").isEqualTo("2018-05-26");
+                    .as("Claim Open Date should be equal to: 05-26-2018").isEqualTo("05-26-2018");
             softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, ClaimAnalyticsJSONTags.TagNames.ACCIDENT_FAULT))
                     .as("Accident Fault should be equal to: AF").isEqualTo("AF");
             softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, ClaimAnalyticsJSONTags.TagNames.CLAIM_CLOSE_DATE))
-                    .as("Claim Close Date should be equal to: 2018-08-12").isEqualTo("2018-08-12");
+                    .as("Claim Close Date should be equal to: 08-12-2018").isEqualTo("08-12-2018");
             softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, ClaimAnalyticsJSONTags.TagNames.STATUS))
                     .as("Status Key should be equal to: OPEN").isEqualTo("OPEN");
         });
