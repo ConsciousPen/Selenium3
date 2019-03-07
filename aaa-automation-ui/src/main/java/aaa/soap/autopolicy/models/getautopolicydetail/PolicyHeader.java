@@ -69,7 +69,8 @@ import java.util.List;
     "termEffectiveDate",
     "termExpirationDate",
     "termAmount",
-    "status",
+        "fullTermAmount",
+           "status",
     "statusDescription",
     "statusReason",
     "statusReasonDescription",
@@ -106,6 +107,7 @@ public class PolicyHeader {
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar termExpirationDate;
     protected BigDecimal termAmount;
+    protected BigDecimal fullTermAmount;
     protected String status;
     protected String statusDescription;
     protected String statusReason;
@@ -370,7 +372,28 @@ public class PolicyHeader {
     public void setTermAmount(BigDecimal value) {
         this.termAmount = value;
     }
-
+    /**
+     * Gets the value of the fullTermAmount property.
+     *
+     * @return
+     *     possible object is
+     *     {@link BigDecimal }
+     *
+     */
+    public BigDecimal getfullTermAmount() {
+        return fullTermAmount;
+    }
+    /**
+     * Sets the value of the fullTermAmount property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link BigDecimal }
+     *
+     */
+    public void setfullTermAmount(BigDecimal value) {
+        this.fullTermAmount = value;
+    }
     /**
      * Gets the value of the status property.
      * 
