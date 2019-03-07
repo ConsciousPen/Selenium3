@@ -9,6 +9,9 @@ import aaa.modules.BaseTest;
 import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.impl.MainApplication;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
+import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -27,6 +30,8 @@ public class SuperJob {
     public String jobName;
 
     public final Job job;
+
+    private static SoapJobActions service = new SoapJobActions();
 
     /**
      * A select few jobs actually do run on weekends. Setting true will ignore the weekend check.
@@ -47,6 +52,10 @@ public class SuperJob {
     public SuperJob(Job jobToSchedule, JobOffsetType jobOffsetOperationType, int jobOffsetByDays, SuperJob ... jobSameDayDependancies){
 
         job = jobToSchedule;
+
+        if (!service.isJobExist(JobGroup.fromSingleJob(job.getJobName()))) {
+            service.createJob(JobGroup.fromSingleJob(job.getJobName()));
+        }
 
         if (jobOffsetByDays == SuperJobs.jobNotApplicableValue){
             offsetType = JobOffsetType.Job_Not_Applicable;
