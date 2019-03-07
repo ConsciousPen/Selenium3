@@ -20,7 +20,6 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
-import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
@@ -223,7 +222,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      */
     public void initiateAddDriverEndorsement(String policyNumber, TestData addDriverTd) {
         mainApp().open();
-       SearchPage.openPolicy(policyNumber);
+        SearchPage.openPolicy(policyNumber);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         if(secondDriverFlag) {
             policy.getDefaultView().fillUpTo(getTestSpecificTD("Add_Driver2_Endorsement"), DriverTab.class, true);
