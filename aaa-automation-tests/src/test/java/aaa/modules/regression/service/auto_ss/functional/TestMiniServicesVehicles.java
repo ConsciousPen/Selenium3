@@ -833,8 +833,8 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@StateList(states = {Constants.States.NJ})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21597"})
+	@StateList(states = {Constants.States.NJ,Constants.States.NY})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21597,PAS-7148"})
 	public void pas21597_addVehicleCheckAntiTheft(@Optional("NJ") String state) {
 
 		assertSoftly(softly -> pas21597_addVehicleCheckAntiTheftBody(softly));

@@ -1,38 +1,41 @@
 package aaa.helpers.docgen;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.SkipException;
+import aaa.common.enums.Constants;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.db.DbXmlHelper;
 import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.helpers.xml.XmlHelper;
 import aaa.helpers.xml.model.*;
 import aaa.main.enums.DocGenEnum;
-import org.apache.commons.collections4.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import aaa.main.modules.policy.PolicyType;
+import toolkit.config.PropertyProvider;
+import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
-import java.text.MessageFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
-import static toolkit.verification.CustomAssertions.assertThat;
-
 public class DocGenHelper {
-	public static final String DOCGEN_SOURCE_FOLDER = "/home/DocGen/";
+	private static final String DOCGEN_JOB_FOLDER = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");
+	private static final String DOCGEN_FOLDER = PropertyProvider.getProperty(CsaaTestProperties.DOCGEN_FOLDER, "/home/");
+	public static final String DOCGEN_SOURCE_FOLDER = DOCGEN_FOLDER + "DocGen/";
 	public static final String DOCGEN_BATCH_SOURCE_FOLDER = DOCGEN_SOURCE_FOLDER + "Batch/";
-	public static final String JOBS_DOCGEN_SOURCE_FOLDER = "/home/mp2/pas/sit/PAS_B_EXGPAS_DCMGMT_6500_D/outbound/";
+	public static final String JOBS_DOCGEN_SOURCE_FOLDER = DOCGEN_JOB_FOLDER + "PAS_B_EXGPAS_DCMGMT_6500_D/outbound/";
 	public static final DateTimeFormatter DATE_TIME_FIELD_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T00:00:00.000'XXX");
 	private static final int DOCUMENT_GENERATION_TIMEOUT = 40;
 
@@ -89,6 +92,11 @@ public class DocGenHelper {
 	 *                        By default strict match check is used, this means exception will be thrown if xml content differs from existing model (e.g. has extra tags)
 	 */
 	public static DocumentWrapper verifyDocumentsGenerated(ETCSCoreSoftAssertions softly, boolean documentsExistence, boolean generatedByJob, String policyNumber, DocGenEnum.Documents... documents) {
+		//checkPasDocEnabled(policyNumber);
+		if (isPasDocEnabled(policyNumber)) {
+			log.error(String.format("PasDoc is enabled for product and state combination: " + policyNumber + ". Verification will be skipped."));
+			return null;
+		}
 		assertThat(documents.length == 0 && !documentsExistence).as("Unable to call method with empty \"documents\" array and false \"documentsExistence\" argument values!").isFalse();
 
 		log.info(String.format("Verifying that document with \"%1$s\" quote/policy number is generated%2$s%3$s.",
@@ -155,7 +163,7 @@ public class DocGenHelper {
 		if (generatedByJob) {
 			standardDocumentRequest = XmlHelper.xmlToModel(content, StandardDocumentRequest.class);
 		} else {
-			standardDocumentRequest = XmlHelper.xmlToModel(content, CreateDocuments.class).getStandardDocumentRequest();
+			standardDocumentRequest = XmlHelper.xmlToModel(content, CreateDocuments.class, false).getStandardDocumentRequest();
 		}
 
 		return new DocumentWrapper(standardDocumentRequest, generatedByJob);
@@ -250,9 +258,9 @@ public class DocGenHelper {
 	 * @param allDocumentPackages getAllDocumentPackages()
 	 * @return List<Document>
 	 */
-	public static List<String> getPackageDataElementsByNameFromDocumentPackageList(List<DocumentPackage> allDocumentPackages, String sectionName, String tag) throws NoSuchFieldException{
+	public static List<String> getPackageDataElementsByNameFromDocumentPackageList(List<DocumentPackage> allDocumentPackages, String sectionName, String tag) throws NoSuchFieldException {
 		List<String> dataElements = new ArrayList<>();
-		for( DocumentPackage documentPackage: allDocumentPackages){
+		for (DocumentPackage documentPackage : allDocumentPackages) {
 			List<DocumentDataSection> documentDataSection = documentPackage.getDocumentPackageData().getDocumentDataSection();
 			dataElements.add(documentDataSection.stream()
 					.filter(a -> a.getSectionName().equals(sectionName))
@@ -298,7 +306,7 @@ public class DocGenHelper {
 	 * @param quoteNumber quote/policy number
 	 * @param eventName   event name of the generated document
 	 */
-	public static Document waitForDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName) 	{
+	public static Document waitForDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName) {
 		return waitForDocumentsAppearanceInDB(docId, quoteNumber, eventName, true);
 	}
 
@@ -309,18 +317,18 @@ public class DocGenHelper {
 	 * @param quoteNumber quote/policy number
 	 * @param eventName   event name of the generated document
 	 */
-	public static List<Document> waitForMultipleDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName) 	{
+	public static List<Document> waitForMultipleDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName) {
 		return waitForMultipleDocumentsAppearanceInDB(docId, quoteNumber, eventName, true);
 	}
 
-		/**
-		 * Wait for document(s) request appearance in database for specific <b>docId</b> with timeout {@link DocGenHelper#DOCUMENT_GENERATION_TIMEOUT}
-		 *
-		 * @param docId       documents ids to be used for waiting xml document.
-		 * @param quoteNumber quote/policy number
-		 * @param eventName   event name of the generated document
-		 * @param assertExists   assert if the generated document exists
-		 */
+	/**
+	 * Wait for document(s) request appearance in database for specific <b>docId</b> with timeout {@link DocGenHelper#DOCUMENT_GENERATION_TIMEOUT}
+	 *
+	 * @param docId       documents ids to be used for waiting xml document.
+	 * @param quoteNumber quote/policy number
+	 * @param eventName   event name of the generated document
+	 * @param assertExists   assert if the generated document exists
+	 */
 	public static Document waitForDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName, boolean assertExists) {
 		long conditionCheckPoolingIntervalInSeconds = 1;
 		log.info(String.format("Waiting for xml document \"%1$s\" request appearance in database.", docId.getId()));
@@ -428,15 +436,6 @@ public class DocGenHelper {
 		return docs;
 	}
 
-	private static List<String> splitToDocuments(String xmlDocData) {
-		List<String> docs = new ArrayList<>();
-		Matcher matcher = Pattern.compile("<doc:Document(.*?)</doc:Document>").matcher(xmlDocData);
-		while (matcher.find()) {
-			docs.add(matcher.group());
-		}
-		return docs;
-	}
-
 	public static DocumentPackage getDocumentPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
 		String xmlDocData = DbXmlHelper.getXmlByPolicyNumber(policyNumber, eventName);
 
@@ -462,7 +461,7 @@ public class DocGenHelper {
 		List<Map<String, String>> allDocs = DbXmlHelper.getXmlsByPolicyNumber(policyNumber, eventName);
 		List<DocumentPackage> listOfDocumentPackages = new ArrayList<>();
 
-		for(Map<String, String> doc: allDocs) {
+		for (Map<String, String> doc : allDocs) {
 			String xmlDoc = doc.get("DATA");
 			DocumentPackage documentPackage = getDocumentPackage(xmlDoc);
 			listOfDocumentPackages.add(documentPackage);
@@ -471,7 +470,6 @@ public class DocGenHelper {
 		return listOfDocumentPackages;
 	}
 
-
 	/**
 	 * Get All Documents from Document Package List
 	 * @param allDocumentPackages getAllDocumentPackages()
@@ -479,10 +477,76 @@ public class DocGenHelper {
 	 */
 	public static List<Document> getDocumentsFromDocumentPackagesList(List<DocumentPackage> allDocumentPackages) {
 		List<Document> actualDocumentsListAfterFirstRenewal = new ArrayList<>();
-		for( DocumentPackage documentPackage: allDocumentPackages){
+		for (DocumentPackage documentPackage : allDocumentPackages) {
 			actualDocumentsListAfterFirstRenewal.addAll(documentPackage.getDocuments());
 		}
 		return actualDocumentsListAfterFirstRenewal;
+	}
+
+	public static Boolean isPasDocEnabled(String state, PolicyType pType) {
+		HashMap<String, ProductCode> pMap = new HashMap<>();
+		pMap.put(PolicyType.HOME_SS_HO3.getName(), ProductCode.AAA_HO_SS);
+		pMap.put(PolicyType.AUTO_SS.getName(), ProductCode.AAA_SS);
+		pMap.put(PolicyType.AUTO_CA_SELECT.getName(), ProductCode.AAA_CSA);
+		pMap.put(PolicyType.HOME_CA_HO3.getName(), ProductCode.AAA_HO_CA);
+		pMap.put(PolicyType.PUP.getName(), ProductCode.AAA_PUP_SS);
+		assertThat(pMap.get(pType.getName()).name()).as("Policy Type " + pType.getName() + " is not in a range").isNotEmpty();
+		return executePasDocQuery(state, pMap.get(pType.getName()).name());
+	}
+
+	public static Boolean isPasDocEnabled(String policyNum) {
+		assertThat(policyNum).as("Policy number is not defined").isNotEmpty();
+		String template = parsePolicyNum(policyNum);
+		String state;
+		ProductCode product = null;
+		if (template.startsWith("CA")) {
+			state = Constants.States.CA;
+			if (template.startsWith("CAH") || template.startsWith("CAD")) {
+				product = ProductCode.AAA_HO_CA;
+			}
+			if (template.startsWith("CAA")) {
+				product = ProductCode.AAA_CSA;
+			}
+			if (template.startsWith("CAPU")) {
+				product = ProductCode.AAA_PUP_SS;
+			}
+		} else {
+			state = template.substring(0, 2);
+			String prodTemp = template.substring(2);
+			if (prodTemp.startsWith("H") || prodTemp.startsWith("D")) {
+				product = ProductCode.AAA_HO_SS;
+			}
+			if (prodTemp.startsWith("SS")) {
+				product = ProductCode.AAA_SS;
+			}
+			if (prodTemp.startsWith("PU")) {
+				product = ProductCode.AAA_PUP_SS;
+			}
+		}
+		return executePasDocQuery(state, product.name());
+	}
+
+	public static void checkPasDocEnabled(String state, PolicyType pType, Boolean expectedValue) {
+		Boolean isEnabled = isPasDocEnabled(state, pType);
+		if (!isEnabled.equals(expectedValue)) {
+			throw new SkipException(String.format("PasDoc for product and state combination doesn't match. PasDoc switching-on expected: '%s', actual: '%s' - for product: '%s' and state: '%s'. Test will be skipped", expectedValue, isEnabled, pType, state));
+		}
+	}
+
+	public static void checkPasDocEnabled(String policyNum, Boolean expectedValue) {
+		Boolean isEnabled = isPasDocEnabled(policyNum);
+		if (!isEnabled.equals(expectedValue)) {
+			throw new SkipException(String.format("PasDoc for product and state combination doesn't match. PasDoc switching-on expected: '%s', actual: '%s' - for policy: '%s'. Test will be skipped", expectedValue, isEnabled, policyNum));
+		}
+	}
+
+	private static List<String> splitToDocuments(String xmlDocData) {
+		List<String> docs = new ArrayList<>();
+		Matcher matcher = Pattern.compile("<doc:Document(.*?)</doc:Document>").matcher(xmlDocData);
+		while (matcher.find()) {
+			docs.add(matcher.group());
+		}
+		return docs;
 	}
 
 	private static boolean isRequestValid(DocumentWrapper dw, String policyNumber, DocGenEnum.Documents[] documents) {
@@ -494,22 +558,26 @@ public class DocGenHelper {
 		}
 	}
 
-	/**
-	 * Used to quickly assert that a generated document contains the provided text string.
-	 * @param in_document The document being searched for.
-	 * @param in_policyNumber The policy number of the document owner.
-	 * @param in_event The document was triggered by this event.
-	 * @param searchString The text to search within the document for.
-	 */
-	public static void DoesDocumentFromDBContainString(DocGenEnum.Documents in_document, String in_policyNumber, AaaDocGenEntityQueries.EventNames in_event, String searchString){
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, in_policyNumber, in_document.getId(), in_event);
-		Document documentCaptured = getDocument(in_document, query);
-
-		if(documentCaptured.toString().contains(searchString)){
-			log.debug(String.format("Searched document: '%s', and found successfully found the text: '%s'", documentCaptured.getTemplateId(), searchString));
-		}
-		else{
-			CustomAssertions.fail(String.format("Captured document: %s, but could not find text: %s", documentCaptured.getTemplateId(), searchString));
-		}
+	private static Boolean executePasDocQuery(String state, String pType) {
+		assertThat(state).as("State is not defined").isNotEmpty();
+		assertThat(pType).as("Policy Type is not defined").isNotNull();
+		final String queryTemplate = "select lv.displayvalue from lookuplist ll inner join lookupvalue lv on lv.lookuplist_id=ll.id where ll.lookupname='AAARolloutEligibilityLookup' and lv.code='PASDoc' and lv.productcd='%s' and lv.riskstatecd='%s'";
+		String value = DBService.get().getValue(String.format(queryTemplate, pType, state)).orElse("false");
+		return value.equalsIgnoreCase("true");
 	}
+
+	private static String parsePolicyNum(String policyNum) {
+		Pattern r = Pattern.compile("Q?([A-Z]*).*");
+		Matcher m = r.matcher(policyNum);
+
+		if (!m.find()) {
+			throw new SkipException("Policy number can't be parsed: " + policyNum);
+		}
+		return m.group(1);
+	}
+
+	private enum ProductCode {
+		AAA_HO_SS, AAA_SS, AAA_CSA, AAA_HO_CA, AAA_PUP_SS
+	}
+
 }
