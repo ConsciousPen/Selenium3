@@ -1,5 +1,56 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static aaa.common.pages.Page.dialogConfirmation;
+import static aaa.common.pages.SearchPage.tableSearchResults;
+import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
+import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Files.contentOf;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.BooleanUtils;
+import org.json.JSONObject;
+import org.testng.annotations.BeforeTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableMap;
+import static aaa.common.pages.SearchPage.tableSearchResults;
+import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
+import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Files.contentOf;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
+import org.apache.commons.io.FileUtils;
+import org.testng.annotations.BeforeTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.PrivilegeEnum;
 import aaa.common.enums.RestRequestMethodTypes;
@@ -11,7 +62,6 @@ import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import aaa.helpers.claim.datamodel.claim.Claim;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.helpers.rest.JsonClient;
 import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
@@ -36,6 +86,7 @@ import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
+
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -79,8 +130,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     @SuppressWarnings("SpellCheckingInspection")
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_hhmmss");
     @SuppressWarnings("SpellCheckingInspection")
-    private static final String PAS_ADMIN_LOG_PATH = System.getProperty("user.dir")
-            + PropertyProvider.getProperty("test.downloadfiles.location") + "pas_admin_log";
     public static final String SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = 'TRUE' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse'";
     public static final String SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS = "UPDATE LOOKUPVALUE SET DATEOFLOSS = '%s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse'";
     private static final String CLAIMS_URL = "https://claims-assignment-master.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1"; //Post-Permissive Use
@@ -529,45 +578,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         String content = contentOf(claimRequestFile, Charset.defaultCharset());
         log.info("Downloaded CAS claim request: {}" + content);
         return content;
-    }
-
-    /**
-     * Method returns content as String of pas-admins wrapper.log file
-     *
-     * @return PAS Admin Log File content
-     */
-    protected String downloadPasAdminLog() {
-        String pasAdminLogFolder = PasAdminLogGrabber.getPasAdminLogFolder();
-        RemoteHelper.get().getListOfFiles(pasAdminLogFolder);
-        RemoteHelper.get().downloadFile("wrapper.log", PAS_ADMIN_LOG_PATH);
-        File pasAdminLogFile = new File(PAS_ADMIN_LOG_PATH + File.separator + "wrapper.log");
-        assertThat(pasAdminLogFile).exists().isFile().canRead().isAbsolute();
-        String content = contentOf(pasAdminLogFile, Charset.defaultCharset());
-        log.info("Downloaded PAS Admin Log File: {}" + content);
-        return content;
-    }
-
-    /**
-     * Method goes though all Claim Analytics items and returns required value according to claimNumber and policyNumber
-     *
-     * @param listOfClaims list Of Claim JSONs as strings;
-     * @param claimNumber  given claim number
-     * @param policyNumber given policy number
-     * @param key          key of value which you want to get
-     */
-    protected String retrieveClaimValueFromAnalytics(List<String> listOfClaims, String claimNumber, String policyNumber, String key) {
-        String claimValue = null;
-
-        for (int i = 0; i <= listOfClaims.size() - 1; i++) {
-            JSONObject specificClaimData = new JSONObject(listOfClaims.get(i)).getJSONObject("claims-assignment");
-            if (specificClaimData.getString("claimNumber").equals(claimNumber) && specificClaimData.getString("policyNumber").equals(policyNumber)) {
-                claimValue = specificClaimData.getString(key);
-            } else {
-                log.info("Moving to the next Claim List Item.. Required Claim in this Claim Analytics JSON Item couldn't be found. Claim Number: "
-                        + claimNumber);
-            }
-        }
-        return claimValue;
     }
 
     /**

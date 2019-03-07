@@ -9,32 +9,35 @@ import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
 
 /**
- * PasAppLogGrabber is used to take pas-app wrapper log
+ * PasLogGrabber is used to take selected (App, Admin, etc.) PAS wrapper log
  * @author Mantas Garsvinskas
  */
-public class PasAppLogGrabber {
+public class PasLogGrabber {
 
-    private static String pasAppLogFolderPrefix = PropertyProvider.getProperty(CsaaTestProperties.PAS_APP_LOG_FOLDER, "/AAA/tcserver/pivotal-tc-server-developer-3.2.8.RELEASE/");
+    private static String pasLogFolderPrefix = PropertyProvider.getProperty(CsaaTestProperties.PAS_LOG_FOLDER, "/AAA/tcserver/pivotal-tc-server-developer-3.2.8.RELEASE/");
     private static final String PAS_APP_LOG = "%Spas-app/logs";
     private static final String PAS_ADMIN_LOG = "%Spas-admin/logs";
 
     public static String getPasAppLogFolder() {
-        //TODO:gunxgar  create an IF to deterirmine which logs system should check
-        return getFormattedFolderPathForPasAppLog(PAS_APP_LOG);
+        return getFormattedFolderPathForPasSelectedLog(PAS_APP_LOG);
     }
 
-    private static String getFormattedFolderPathForPasAppLog(String template) {
-        return String.format(template, pasAppLogFolderPrefix);
+    public static String getPasAdminLogFolder() {
+        return getFormattedFolderPathForPasSelectedLog(PAS_ADMIN_LOG);
+    }
+
+    private static String getFormattedFolderPathForPasSelectedLog(String template) {
+        return String.format(template, pasLogFolderPrefix);
     }
 
     /*
     * Method returns all claims analytics rows as List<String> items from pas-app wrapper log
     */
-    public List<String> retrieveClaimsAnalyticsLogValues(String appLog) {
+    public List<String> retrieveClaimsAnalyticsLogValues(String selectedLog) {
         List<String> matches = new ArrayList<>();
         String regexp = "\\{\"claims-assignment\":(.*)\"}}";
 
-        Matcher m = Pattern.compile(regexp).matcher(appLog);
+        Matcher m = Pattern.compile(regexp).matcher(selectedLog);
 
         while (m.find()) {
             matches.add(m.group(0));
