@@ -10,6 +10,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import aaa.helpers.rest.wiremock.dto.PaperlessPreferencesErrorTemplateData;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterSuite;
