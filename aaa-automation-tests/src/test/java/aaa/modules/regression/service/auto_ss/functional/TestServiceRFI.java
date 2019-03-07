@@ -724,7 +724,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			errorTab.cancel();
 
 			//delete endorsement
-			documentsAndBindTab.cancel();
+			documentsAndBindTab.cancel(false);
 			Page.dialogConfirmation.buttonDeleteEndorsement.click();
 
 			//Create endorsement outside of PAS
@@ -826,7 +826,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	}
 
 	private void deleteEndorsementInPas() {
-		documentsAndBindTab.cancel();
+		documentsAndBindTab.cancel(false);
 		Page.dialogConfirmation.buttonDeleteEndorsement.click();
 	}
 
