@@ -4,6 +4,8 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.jobs.GroupJobs;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.modules.bct.BctType;
 
@@ -17,7 +19,7 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test(description = "batchJob01.xml")
 	public void BCT_BTCH_AAA_BATCH_MARKER(@Optional("") String state) {
-		executeBatchTest(GroupJobs.groupaaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 	}
 
 	@Parameters({"state"})

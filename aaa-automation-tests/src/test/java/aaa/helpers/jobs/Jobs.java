@@ -135,6 +135,10 @@ public class Jobs {
 
 	public static Job aaaCollectionCancelDebtBatchJob = new Job("aaaCollectionCancelDebtBatchJob");
 
+	public static Job aaaCollectionCancelDebtBatchAsyncJob = new Job("aaaCollectionCancelDebtBatchAsyncJob");
+
+	public static Job collectionFeedBatchorderJob = new Job("collectionFeedBatchOrderJob");
+
 	public static Job aaaAutomatedProcessingInitiationJob = new Job("aaaAutomatedProcessingInitiationJob");
 
 	public static Job automatedProcessingStrategyStatusUpdateJob = new Job("automatedProcessingStrategyStatusUpdateJob");
@@ -184,6 +188,28 @@ public class Jobs {
 	public static Job aaaMvrRenewBatchOrderAsyncJob = new Job("aaaMvrRenewBatchOrderAsyncJob");
 
 	public static Job aaaMvrRenewAsyncBatchReceiveJob = new Job("aaaMvrRenewAsyncBatchReceiveJob");
+
+	public static Job bofaRecurringPaymentJob = new Job("bofaRecurringPaymentJob");
+
+	public static Job premiumreceivablesonpolicyeffectivejob = new Job("premiumreceivablesonpolicyeffectivejob");
+
+	public static Job aaaDelayTriggerTOINoticeAsyncJob = new Job("aaaDelayTriggerTOINoticeAsyncJob");
+
+	public static Job policyLapsedRenewalProcessAsyncJob = new Job("policyLapsedRenewalProcessAsyncJob");
+
+	public static Job aaaDataUpdateJob = new Job("aaaDataUpdateJob");
+
+	public static Job activityTimeoutJob = new Job("activityTimeoutJob");
+
+	public static Job activityHistoryJob = new Job("activityHistoryJob");
+
+	public static Job activitySummarizationJob = new Job("activitySummarizationJob");
+
+	public static Job ledgerStatusUpdateJob = new Job("ledgerStatusUpdateJob");
+
+
+
+
 
 	public enum JobState {
 		TRUE, FALSE, FAILED
