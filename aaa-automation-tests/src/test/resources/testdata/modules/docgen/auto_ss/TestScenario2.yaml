@@ -534,6 +534,7 @@ TestData_Endorsement2_AZ: {
   VehicleTab: '@VehicleTab_Add',
   FormsTab: {},
   PremiumAndCoveragesTab: {
+    Payment Plan: Annual,
     Uninsured Motorists Bodily Injury: 'contains=No Coverage',
     Underinsured Motorists Bodily Injury: 'contains=No Coverage',
   },
@@ -561,6 +562,7 @@ TestData_Endorsement2_OK: {
   VehicleTab: '@VehicleTab_Add',
   FormsTab: {},
   PremiumAndCoveragesTab: {
+    Payment Plan: Annual,
     'Uninsured/Underinsured Motorist Bodily Injury': 'contains=No Coverage',
   },
   DriverActivityReportsTab: {},
@@ -586,7 +588,8 @@ TestData_Endorsement2_IN: {
   RatingDetailReportsTab: {},
   VehicleTab: '@VehicleTab_Add',
   FormsTab: {},
-  PremiumAndCoveragesTab: {},
+  PremiumAndCoveragesTab: {  
+       Payment Plan: Annual},
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {},
 }
@@ -3019,7 +3022,7 @@ TestData_AASR26_AZ: {
 
 TestData_VerificationED_AZ: {
   AA43AZ: '@AA43AZ_ED',
-  AH35XX: '@AH35XX_ED_AZ',
+  #AH35XX: '@AH35XX_ED_AZ',
   AA59XX: '@AA59XX_ED_AZ',
   AA52AZ: '@AA52AZ_ED',
   AA10XX: '@AA10XX_ED_AZ',
@@ -3561,7 +3564,7 @@ AA02AZ_ED: {
     {TextField: 'AA01AZ'},
     {TextField: 'AA11AZ'},
     ],
-    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
+    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount;Payment Plan Discount'},
     TermExprDt: {DateTimeField: ''},
     EndrEffDt: {DateTimeField: ''},
     PlcyEndrRsn: {TextField: 'VEH'}
@@ -3575,7 +3578,7 @@ TestData_AASR26_IN: {
 
 TestData_VerificationED_IN: {
   AA43IN: '@AA43IN_ED',
-  AH35XX: '@AH35XX_ED_IN',
+  #AH35XX: '@AH35XX_ED_IN',
   AA59XX: '@AA59XX_ED_IN',
   AA52IN: '@AA52IN_ED',
   AA53IN: '@AA53IN_ED',
@@ -4060,7 +4063,7 @@ AA02IN_ED: {
     {TextField: 'AA01IN'},
     {TextField: 'AA11IN'},
     ],
-    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
+    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount;Payment Plan Discount'},
     TermExprDt: {DateTimeField: ''},
     AmdDecTxt: {TextField: 'Maintain Vehicle(s)'},
     CoNmIN: {TextField: 'Western United Insurance Company dba AAA Insurance Company'},
@@ -4075,7 +4078,7 @@ TestData_AASR26_OK: {
 
 TestData_VerificationED_OK: {
   AA43OK: '@AA43OK_ED',
-  AH35XX: '@AH35XX_ED_OK',
+  #AH35XX: '@AH35XX_ED_OK',
   AA59XX: '@AA59XX_ED_OK',
   AA52OK: '@AA52OK_ED',
   AA10OK: '@AA10OK_ED',
@@ -4521,7 +4524,7 @@ AA02OK_ED: {
     {TextField: 'AA01OK'},
     {TextField: 'AA11OK'},
     ],
-    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
+    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount;Payment Plan Discount'},
     TermExprDt: {DateTimeField: ''},
     EndrEffDt: {DateTimeField: ''}
   }
@@ -5384,7 +5387,7 @@ AA02AZ_Renewal: {
     {TextField: 'AA01AZ'},
     {TextField: 'AA11AZ'},
     ],
-    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
+    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount;Payment Plan Discount'},
     TermExprDt: {DateTimeField: ''},
   }
 }
@@ -5701,7 +5704,7 @@ AA02IN_Renewal: {
     {TextField: 'AA01IN'},
     {TextField: 'AA11IN'},
     ],
-    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
+    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount;Payment Plan Discount'},
     TermExprDt: {DateTimeField: ''},
     AmdDecTxt: {TextField: ''},
     CoNmIN: {TextField: 'Western United Insurance Company dba AAA Insurance Company'},
@@ -6006,7 +6009,7 @@ AA02OK_Renewal: {
     {TextField: 'AA01OK'},
     {TextField: 'AA11OK'},
     ],
-    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
+    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount;Payment Plan Discount'},
     TermExprDt: {DateTimeField: ''}
   }
 }
@@ -6587,7 +6590,7 @@ AA02PA_Renewal: {
 
 # ------------- Documents Verification for Renewal Bill AZ----------
 TestData_VerificationRenewalBill_AZ: {
-  AH35XX: '@AH35XX_Renewal_AZ',
+  #AH35XX: '@AH35XX_Renewal_AZ',
   AHRBXX: '@AHRBXX_Renewal_AZ'
 }
   
@@ -6648,8 +6651,8 @@ form: {
    MVLEFee: {TextField: '0.00'},
  },
  PaymentDetails: {
-   PayTyp: {TextField: 'INSTALLMENT PAYMENT'},
-   PayPln: {TextField: 'Monthly'},
+   PayTyp: {TextField: 'FULL PAYMENT'},
+   PayPln: {TextField: 'Annual'},
    CurRnwlAmt: {TextField: ''},
 #   InstlFee: {TextField: ''},
 #   OthrFee: {TextField: '0.00'},
@@ -6690,7 +6693,7 @@ form: {
 
 # ------------- Documents Verification for Renewal Bill IN----------
 TestData_VerificationRenewalBill_IN: {
-  AH35XX: '@AH35XX_Renewal_IN',
+  #AH35XX: '@AH35XX_Renewal_IN',
   AHRBXX: '@AHRBXX_Renewal_IN'
 }
   
@@ -6751,8 +6754,8 @@ form: {
    MVLEFee: {TextField: '0.00'},
  },
  PaymentDetails: {
-   PayTyp: {TextField: 'INSTALLMENT PAYMENT'},
-   PayPln: {TextField: 'Monthly'},
+   PayTyp: {TextField: 'FULL PAYMENT'},
+   PayPln: {TextField: 'Annual'},
    CurRnwlAmt: {TextField: ''},
 #   InstlFee: {TextField: ''},
 #   OthrFee: {TextField: '0.00'},
@@ -6791,7 +6794,7 @@ form: {
 }
 # ------------- Documents Verification for Renewal Bill OK----------
 TestData_VerificationRenewalBill_OK: {
-  AH35XX: '@AH35XX_Renewal_OK',
+  #AH35XX: '@AH35XX_Renewal_OK',
   AHRBXX: '@AHRBXX_Renewal_OK'
 }
   
@@ -6852,8 +6855,8 @@ form: {
    MVLEFee: {TextField: '0.00'},
  },
  PaymentDetails: {
-   PayTyp: {TextField: 'INSTALLMENT PAYMENT'},
-   PayPln: {TextField: 'Monthly'},
+   PayTyp: {TextField: 'FULL PAYMENT'},
+   PayPln: {TextField: 'Annual'},
    CurRnwlAmt: {TextField: ''},
 #   InstlFee: {TextField: ''},
 #   OthrFee: {TextField: '0.00'},
@@ -6894,7 +6897,7 @@ form: {
 
 # ------------- Documents Verification for Renewal Bill PA----------
 TestData_VerificationRenewalBill_PA: {
-  AH35XX: '@AH35XX_Renewal_PA',
+  #AH35XX: '@AH35XX_Renewal_PA',
   AHRBXX: '@AHRBXX_Renewal_PA'
 }
   
@@ -6955,8 +6958,8 @@ form: {
    MVLEFee: {TextField: '0.00'},
  },
  PaymentDetails: {
-   PayTyp: {TextField: 'INSTALLMENT PAYMENT'},
-   PayPln: {TextField: 'Monthly'},
+   PayTyp: {TextField: 'FULL PAYMENT'},
+   PayPln: {TextField: 'Annual'},
    CurRnwlAmt: {TextField: ''},
 #   InstlFee: {TextField: ''},
 #   OthrFee: {TextField: '0.00'},
