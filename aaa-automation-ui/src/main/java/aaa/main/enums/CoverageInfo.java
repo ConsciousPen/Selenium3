@@ -82,6 +82,7 @@ public enum CoverageInfo {
 	EUIM_MD_TRUE("EUIM", "Enhanced UIM", CoverageLimits.COV_TRUE, AvailableCoverageLimits.EUIM_MD, null),
 	BI("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI, "Per Person/Per Accident"),
 	PD("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD_IN, "Per Accident"),
+	PD_DE("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD_DE, "Per Accident"),
 	PD_VA("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD_VA, "Per Accident"),
 	PD_WV("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD_WV, "Per Accident"),
 	PD_DC("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD_DC, "Per Accident"),
