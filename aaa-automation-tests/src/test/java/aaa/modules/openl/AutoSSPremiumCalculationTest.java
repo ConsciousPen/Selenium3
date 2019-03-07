@@ -9,9 +9,8 @@ import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.AutoSSTestDataGenerator;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 
 public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpenLPolicy> {
@@ -40,14 +39,13 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 
 		policy.get().getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
 		pacTab.getAssetList().fill(quoteRatingData);
-		if (openLPolicy.isCappedPolicy() && !PremiumAndCoveragesTab.buttonViewCappingDetails.isPresent()) {
-			//Sometimes View Capping Details button appears only after premium calculation
+
+		if (openLPolicy.isCappedPolicy()) {
+			if (!openLPolicy.isLegacyConvPolicy()) {
+				policyPurchaseAndRenew(tdGenerator.getPolicyPurchaseData(openLPolicy));
+			}
 			pacTab.calculatePremium();
 			assertThat(PremiumAndCoveragesTab.buttonViewCappingDetails).as("View Capping Details button did not appear after premium calculation").isPresent();
-		}
-
-		// Set capping factor from test if policy is capped or set capping factor = 100% if system sets custom capping itself
-		if (PremiumAndCoveragesTab.buttonViewCappingDetails.isPresent()) {
 			pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.VIEW_CAPPING_DETAILS_DIALOG).fill(cappingData);
 		}
 
@@ -70,5 +68,24 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 				.adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.DATE_OF_BIRTH.getLabel()),
 						AutoSSTestDataGenerator.getDriverTabDateOfBirth(openLPolicy.getDrivers().get(0).getDriverAge(), openLPolicy.getEffectiveDate()));
 		return createCustomerIndividual(td);
+	}
+
+	private void policyPurchaseAndRenew(TestData td) {
+		new PremiumAndCoveragesTab().calculatePremium();
+		PremiumAndCoveragesTab.buttonContinue.click();
+		ErrorTab errorTab = new ErrorTab();
+		if (errorTab.isVisible()) {
+			errorTab.overrideAllErrors();
+			errorTab.override();
+			PremiumAndCoveragesTab.buttonContinue.click();
+		}
+		policy.get().getDefaultView().fillUpTo(td, PurchaseTab.class, false);
+		if (errorTab.isVisible()) {
+			errorTab.overrideAllErrors();
+			errorTab.submitTab();
+		}
+		policy.get().getDefaultView().fill(DataProviderFactory.dataOf(PurchaseTab.class.getSimpleName(), getPolicyTD("DataGather", "PurchaseTab")));
+		policy.get().renew().perform();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 	}
 }

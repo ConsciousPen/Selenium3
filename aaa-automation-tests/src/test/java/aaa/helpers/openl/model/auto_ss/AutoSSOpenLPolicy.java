@@ -117,6 +117,11 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
+	public boolean isNewRenPasCappedPolicy() {
+		return !isLegacyConvPolicy() && isCappedPolicy();
+	}
+
+	@Override
 	public MocksCollection getRequiredMocks() {
 		MocksCollection requiredMocks = new MocksCollection();
 		MockGenerator mockGenerator = new MockGenerator();
@@ -426,7 +431,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 
 	@Override
 	public LocalDate getEffectiveDate() {
-		return effectiveDate;
+		return isNewRenPasCappedPolicy() ? effectiveDate.minusYears(1) : effectiveDate;
 	}
 
 	@Override

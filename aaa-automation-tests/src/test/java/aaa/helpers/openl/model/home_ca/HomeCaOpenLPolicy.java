@@ -126,6 +126,11 @@ public abstract class HomeCaOpenLPolicy<F extends HomeCaOpenLForm, D extends Hom
 		return false;
 	}
 
+	@Override
+	public boolean isNewRenPasCappedPolicy() {
+		return !isLegacyConvPolicy() && isCappedPolicy();
+	}
+
 	public abstract List<F> getForms();
 
 	public abstract D getDwelling();

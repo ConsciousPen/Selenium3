@@ -94,6 +94,15 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.BUTTON_CALCULATE.getLabel(), "click"));
 	}
 
+	public TestData getPolicyPurchaseData(AutoSSOpenLPolicy openLPolicy) {
+		TestData td = getRatingDataPattern();
+		return DataProviderFactory.dataOf(
+				DriverActivityReportsTab.class.getSimpleName(), td.getTestData(DriverActivityReportsTab.class.getSimpleName()),
+				DocumentsAndBindTab.class.getSimpleName(), td.getTestData(DocumentsAndBindTab.class.getSimpleName()),
+				PurchaseTab.class.getSimpleName(), td.getTestData(PurchaseTab.class.getSimpleName())
+		);
+	}
+
 	private TestData getPrefillTabData() {
 		return DataProviderFactory.emptyData();
 	}
