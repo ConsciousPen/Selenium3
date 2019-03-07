@@ -153,7 +153,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         TestData testData = getPolicyTD();
 
         // Create customer and move to general tab. //
-        createQuoteAndFillUpTo(testData, GeneralTab.class, false);//true);
+        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
 
         // Step 2
         _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
