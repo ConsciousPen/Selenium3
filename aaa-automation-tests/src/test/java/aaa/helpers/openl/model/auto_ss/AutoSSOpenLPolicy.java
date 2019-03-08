@@ -125,8 +125,9 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	public MocksCollection getRequiredMocks() {
 		MocksCollection requiredMocks = new MocksCollection();
 		MockGenerator mockGenerator = new MockGenerator();
-		if (!mockGenerator.isMembershipSummaryMockPresent(getEffectiveDate(), getMemberPersistency(), getAvgAnnualERSperMember())) {
-			RetrieveMembershipSummaryMock membershipMock = mockGenerator.getRetrieveMembershipSummaryMock(getEffectiveDate(), getMemberPersistency(), getAvgAnnualERSperMember());
+		int memberPersistency = isNewRenPasCappedPolicy() ? getMemberPersistency() - 1 : getMemberPersistency();
+		if (!mockGenerator.isMembershipSummaryMockPresent(getEffectiveDate(), memberPersistency, getAvgAnnualERSperMember())) {
+			RetrieveMembershipSummaryMock membershipMock = mockGenerator.getRetrieveMembershipSummaryMock(getEffectiveDate(), memberPersistency, getAvgAnnualERSperMember());
 			requiredMocks.add(membershipMock);
 		}
 

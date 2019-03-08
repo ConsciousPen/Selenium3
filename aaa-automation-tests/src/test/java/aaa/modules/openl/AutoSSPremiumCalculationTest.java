@@ -17,7 +17,7 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 
 	@Override
 	protected TestData getRatingDataPattern() {
-		return super.getRatingDataPattern().mask(new DriverTab().getMetaKey(), new VehicleTab().getMetaKey(), new PremiumAndCoveragesTab().getMetaKey());
+		return super.getRatingDataPattern().mask(new VehicleTab().getMetaKey(), new PremiumAndCoveragesTab().getMetaKey());
 	}
 
 	@Override
@@ -64,9 +64,10 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 
 	@Override
 	protected String createCustomerIndividual(AutoSSOpenLPolicy openLPolicy) {
+		int driverAge = openLPolicy.isNewRenPasCappedPolicy() ? openLPolicy.getDrivers().get(0).getDriverAge() - 1 : openLPolicy.getDrivers().get(0).getDriverAge();
 		TestData td = getCustomerIndividualTD("DataGather", "TestData")
 				.adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.DATE_OF_BIRTH.getLabel()),
-						AutoSSTestDataGenerator.getDriverTabDateOfBirth(openLPolicy.getDrivers().get(0).getDriverAge(), openLPolicy.getEffectiveDate()));
+						AutoSSTestDataGenerator.getDriverTabDateOfBirth(driverAge, openLPolicy.getEffectiveDate()));
 		return createCustomerIndividual(td);
 	}
 
