@@ -155,7 +155,7 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
     /**
      * @author Kiruthika Rajendran
      * PAS-25463 - UI-CA: do NOT Show Permissive Use Indicator on Driver Tab (non-"claim" activity) (by source and type)
-     * @name Test Offline STUB/Mock: validate permissive use indicator when driver/named insured is added
+     * @name Test Offline STUB/Mock: validate permissive use indicator when driver/named insure is added
      * @scenario Test Steps:
      * 1. Create a quote with 2 drivers and named insured driver1  has the following activies
      *        - Company and Customer input (Type other than Accident) - PU indicator do not show up
@@ -163,7 +163,7 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      *        - MVR claims - PU indicator do not show up
      * 2. Bind the policy
      * 3. Initiate the first endorsement
-     * 4. Validate the driver 1 named insurance has following activties
+     * 4. Validate the driver 1 named insure has following activties
      *        - Company and Customer input (Type other than Accident) - PU indicator do not show up
      *        - Company and Customer input (Type as Accident) - - PU indicator shows up
      *        - MVR claims - PU indicator do not show up

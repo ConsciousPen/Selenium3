@@ -391,6 +391,15 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         });
     }
 
+    private void overrideErrorTab(){
+        ErrorTab errorTab = new ErrorTab();
+        if (errorTab.isVisible()) {
+            errorTab.overrideAllErrors();
+            errorTab.buttonOverride.click();
+            premiumAndCoveragesTab.submitTab();
+        }
+    }
+
     public void generateClaimRequest() {
         // Download the claim request
         String content = downloadClaimRequest();
@@ -940,12 +949,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //policyNumber = openAppAndCreatePolicy(adjusted);
         createQuoteAndFillUpTo(adjusted, PremiumAndCoveragesTab.class);
         premiumAndCoveragesTab.submitTab();
-        ErrorTab errorTab = new ErrorTab();
-        if (errorTab.isVisible()) {
-            errorTab.overrideAllErrors();
-            errorTab.buttonOverride.click();
-            premiumAndCoveragesTab.submitTab();
-        }
+        overrideErrorTab();
         policy.getDefaultView().fillFromTo(adjusted, DriverActivityReportsTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         policyNumber = labelPolicyNumber.getValue();
@@ -1001,12 +1005,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         driverTab.submitTab();
         policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, PremiumAndCoveragesTab.class,true);
         premiumAndCoveragesTab.submitTab();
-        ErrorTab errorTab = new ErrorTab();
-        if (errorTab.isVisible()) {
-            errorTab.overrideAllErrors();
-            errorTab.buttonOverride.click();
-            premiumAndCoveragesTab.submitTab();
-        }
+        overrideErrorTab();
         new DriverActivityReportsTab().fillTab(adjusted);
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         tableDriverList.selectRow(1);
