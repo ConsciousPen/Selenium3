@@ -241,9 +241,6 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 	 */
 	protected void verifyBillingFormsSequence(TestData testData, Boolean isOnAutopay) throws NoSuchFieldException {
 		/* Start PAS-9816 Scenario 1, Generate forms and check sequence*/
-		/**PAS-9774, PAS-10111 - both has the same root cause which is a Base defect EISAAASP-1852 and has been already resolved in Base EIS 8.17.
-		 It will come with next upgrade, until then there's simple workaround - need to run aaa-admin application instead of aaa-app.
-		 Both, manual propose and automated propose should work running under aaa-admin.**/
 		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getConversionEffectiveDate();
 
 		// Create manual entry and verify "Premium Calculated" status
@@ -257,7 +254,7 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
 		//needed for home banking form generation
-		setUpTriggerHomeBankingConversionRenewal(policyNumber);
+//		setUpTriggerHomeBankingConversionRenewal(policyNumber);
 
 		// Add Credit Card payment method and Enable AutoPayment if applicable
 		if (isOnAutopay){
@@ -271,10 +268,10 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
-//		assertThat(policyTransactionCode.equals("STMT") || policyTransactionCode.equals("0210")).isTrue();
+		assertThat(policyTransactionCode.equals("STMT") || policyTransactionCode.equals("0210")).isTrue();
 
 		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
-		verifyRenewalBillingPackageFormsPresence(policyNumber, getPolicyType(), isOnAutopay);
+//		verifyRenewalBillingPackageFormsPresence(policyNumber, getPolicyType(), isOnAutopay);
 
 		// Start PAS-9816 Scenario 1 - Issue first renewal
 		mainApp().open();
