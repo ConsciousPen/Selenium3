@@ -42,7 +42,7 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 
 		if (openLPolicy.isCappedPolicy()) {
 			if (!openLPolicy.isLegacyConvPolicy()) {
-				policyPurchaseAndRenew(tdGenerator.getPolicyPurchaseData(openLPolicy));
+				policyPurchaseAndRenew(tdGenerator.getPolicyPurchaseData(openLPolicy), tdGenerator.getPolicyRenewData(openLPolicy));
 			}
 			pacTab.calculatePremium();
 			assertThat(PremiumAndCoveragesTab.buttonViewCappingDetails).as("View Capping Details button did not appear after premium calculation").isPresent();
@@ -71,7 +71,7 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 		return createCustomerIndividual(td);
 	}
 
-	private void policyPurchaseAndRenew(TestData td) {
+	private void policyPurchaseAndRenew(TestData tdPurchase, TestData tdRenew) {
 		new PremiumAndCoveragesTab().calculatePremium();
 		PremiumAndCoveragesTab.buttonContinue.click();
 		ErrorTab errorTab = new ErrorTab();
@@ -80,13 +80,15 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 			errorTab.override();
 			PremiumAndCoveragesTab.buttonContinue.click();
 		}
-		policy.get().getDefaultView().fillUpTo(td, PurchaseTab.class, false);
+		policy.get().getDefaultView().fillUpTo(tdPurchase, PurchaseTab.class, false);
 		if (errorTab.isVisible()) {
 			errorTab.overrideAllErrors();
 			errorTab.submitTab();
 		}
-		policy.get().getDefaultView().fill(DataProviderFactory.dataOf(PurchaseTab.class.getSimpleName(), getPolicyTD("DataGather", "PurchaseTab")));
+		policy.get().getDefaultView().fill(DataProviderFactory.dataOf(PurchaseTab.class.getSimpleName(), tdPurchase.getTestData(PurchaseTab.class.getSimpleName())));
 		policy.get().renew().perform();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		policy.get().getDefaultView().fill(DataProviderFactory.dataOf(VehicleTab.class.getSimpleName(), tdRenew.getTestData(VehicleTab.class.getSimpleName())));
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 	}
 }

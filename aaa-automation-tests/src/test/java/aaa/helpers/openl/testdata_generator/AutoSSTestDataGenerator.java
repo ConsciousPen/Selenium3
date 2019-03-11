@@ -99,12 +99,26 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	}
 
 	public TestData getPolicyPurchaseData(AutoSSOpenLPolicy openLPolicy) {
+
 		TestData td = getRatingDataPattern();
 		return DataProviderFactory.dataOf(
 				DriverActivityReportsTab.class.getSimpleName(), td.getTestData(DriverActivityReportsTab.class.getSimpleName()),
 				DocumentsAndBindTab.class.getSimpleName(), td.getTestData(DocumentsAndBindTab.class.getSimpleName()),
-				PurchaseTab.class.getSimpleName(), td.getTestData(PurchaseTab.class.getSimpleName())
-		);
+				PurchaseTab.class.getSimpleName(), td.getTestData(PurchaseTab.class.getSimpleName()));
+	}
+
+	public TestData getPolicyRenewData(AutoSSOpenLPolicy openLPolicy) {
+
+		List<TestData> vehiclesTestData = new ArrayList<>();
+		for (AutoSSOpenLVehicle vehicle : openLPolicy.getVehicles()) {
+			if (StringUtils.isNotBlank(vehicle.getVinCode())) {
+				vehiclesTestData.add(DataProviderFactory.dataOf(
+						AutoSSMetaData.VehicleTab.ListOfVehicleRow.NUM_COLUMN.getLabel(), openLPolicy.getVehicles().indexOf(vehicle) + 1,
+						AutoSSMetaData.VehicleTab.ListOfVehicleRow.ACTION_COLUMN.getLabel(), "View/Edit",
+						AutoSSMetaData.VehicleTab.VIN.getLabel(), vehicle.getVinCode()));
+			}
+		}
+		return DataProviderFactory.dataOf(VehicleTab.class.getSimpleName(), DataProviderFactory.dataOf(AutoSSMetaData.VehicleTab.LIST_OF_VEHICLE.getLabel(), vehiclesTestData));
 	}
 
 	private TestData getPrefillTabData() {
@@ -662,14 +676,16 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	}
 
 	private TestData getVehicleTabInformationData(AutoSSOpenLVehicle vehicle, boolean isLegacyConvPolicy) {
-		String vin = getVinFromDb(vehicle);
+		String vin = covertToValidVin(getVinFromDb(vehicle));
+
 		Map<String, Object> vehicleInformation = new HashMap<>();
 		String statCode = vehicle.getBiLiabilitySymbol();
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), getVehicleTabType(statCode));
 
-		if (StringUtils.isNotBlank(vin)) {
+		if (vin != null) {
 			//vehicleInformation.put(AutoSSMetaData.VehicleTab.VIN.getLabel(), covertToValidVin(vin));
-			vehicleInformation.put(AutoSSMetaData.VehicleTab.VIN.getLabel(), covertToValidVin(vin));
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.VIN.getLabel(), vin);
+			vehicle.setVinCode(vin);
 		} else {
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.YEAR.getLabel(), vehicle.getModelYear());
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), vehicle.getCollSymbol() * 1000);

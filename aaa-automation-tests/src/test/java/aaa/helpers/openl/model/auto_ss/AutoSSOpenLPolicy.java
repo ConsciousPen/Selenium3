@@ -125,9 +125,8 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	public MocksCollection getRequiredMocks() {
 		MocksCollection requiredMocks = new MocksCollection();
 		MockGenerator mockGenerator = new MockGenerator();
-		int memberPersistency = isNewRenPasCappedPolicy() ? getMemberPersistency() - 1 : getMemberPersistency();
-		if (!mockGenerator.isMembershipSummaryMockPresent(getEffectiveDate(), memberPersistency, getAvgAnnualERSperMember())) {
-			RetrieveMembershipSummaryMock membershipMock = mockGenerator.getRetrieveMembershipSummaryMock(getEffectiveDate(), memberPersistency, getAvgAnnualERSperMember());
+		if (!mockGenerator.isMembershipSummaryMockPresent(getEffectiveDate(), getMemberPersistency(), getAvgAnnualERSperMember())) {
+			RetrieveMembershipSummaryMock membershipMock = mockGenerator.getRetrieveMembershipSummaryMock(getEffectiveDate(), getMemberPersistency(), getAvgAnnualERSperMember());
 			requiredMocks.add(membershipMock);
 		}
 
@@ -174,33 +173,25 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.aaaCondoPolicy = aaaCondoPolicy;
 	}
 
-	public Integer getMemberPersistency() {
-		return memberPersistency;
-	}
+	public Integer getMemberPersistency() { return isNewRenPasCappedPolicy() ? memberPersistency - 1 : memberPersistency; }
 
 	public void setMemberPersistency(Integer memberPersistency) {
 		this.memberPersistency = memberPersistency;
 	}
 
-	public Integer getAutoInsurancePersistency() {
-		return autoInsurancePersistency;
-	}
+	public Integer getAutoInsurancePersistency() { return isNewRenPasCappedPolicy() ? autoInsurancePersistency - 1 : autoInsurancePersistency; }
 
 	public void setAutoInsurancePersistency(Integer autoInsurancePersistency) {
 		this.autoInsurancePersistency = autoInsurancePersistency;
 	}
 
-	public Integer getAaaInsurancePersistency() {
-		return aaaInsurancePersistency;
-	}
+	public Integer getAaaInsurancePersistency() {return isNewRenPasCappedPolicy() ? aaaInsurancePersistency - 1 : aaaInsurancePersistency; }
 
 	public void setAaaInsurancePersistency(Integer aaaInsurancePersistency) {
 		this.aaaInsurancePersistency = aaaInsurancePersistency;
 	}
 
-	public Integer getAaaAsdInsurancePersistency() {
-		return aaaAsdInsurancePersistency;
-	}
+	public Integer getAaaAsdInsurancePersistency() { return isNewRenPasCappedPolicy() ? aaaAsdInsurancePersistency - 1 : aaaAsdInsurancePersistency; }
 
 	public void setAaaAsdInsurancePersistency(Integer aaaAsdInsurancePersistency) {
 		this.aaaAsdInsurancePersistency = aaaAsdInsurancePersistency;

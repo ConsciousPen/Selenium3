@@ -47,6 +47,8 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 
 		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy);
 
+		TestData td = tdGenerator.getFormHS0492Data(openLPolicy);
+
 		policy.get().getDefaultView().fillUpTo(quoteRatingData, PremiumsAndCoveragesQuoteTab.class, false);
 		checkFormHS0492(tdGenerator, openLPolicy);
 		checkFormHS0490(tdGenerator, openLPolicy);

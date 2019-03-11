@@ -36,6 +36,8 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 	private Integer maxDriverAge; // VA specific ?
 	private Integer totalVehiclePoint; // VA specific ?
 
+	private String vinCode = "";
+
 	public String getAirbagCode() {
 		return airbagCode;
 	}
@@ -164,4 +166,8 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 	public Boolean isTeenTelematic() {
 		return isTeenTelematic;
 	}
+
+	public String getVinCode() {return vinCode;}
+
+	public void setVinCode(String vinCode) {this.vinCode = vinCode;}
 }
