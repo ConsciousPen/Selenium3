@@ -254,7 +254,7 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
 		//needed for home banking form generation
-//		setUpTriggerHomeBankingConversionRenewal(policyNumber);
+		setUpTriggerHomeBankingConversionRenewal(policyNumber);
 
 		// Add Credit Card payment method and Enable AutoPayment if applicable
 		if (isOnAutopay){
@@ -266,12 +266,13 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 		//Generate Renewal Bill
 		billGeneration(renewalOfferEffectiveDate);
 
+		//TODO: PAS-25907 - Multiple Document Billing Packages are incorrectly sent to MCON
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 		assertThat(policyTransactionCode.equals("STMT") || policyTransactionCode.equals("0210")).isTrue();
 
 		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
-//		verifyRenewalBillingPackageFormsPresence(policyNumber, getPolicyType(), isOnAutopay);
+		verifyRenewalBillingPackageFormsPresence(policyNumber, getPolicyType(), isOnAutopay);
 
 		// Start PAS-9816 Scenario 1 - Issue first renewal
 		mainApp().open();
