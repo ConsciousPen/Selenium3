@@ -266,7 +266,7 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 		//Generate Renewal Bill
 		billGeneration(renewalOfferEffectiveDate);
 
-		//TODO: PAS-25907 - Multiple Document Billing Packages are incorrectly sent to MCON
+		//TODO: PAS-25907 - Multi Document Billing Packages are incorrectly sent to MCON
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 		assertThat(policyTransactionCode.equals("STMT") || policyTransactionCode.equals("0210")).isTrue();
