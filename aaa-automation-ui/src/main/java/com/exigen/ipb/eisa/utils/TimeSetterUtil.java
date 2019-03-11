@@ -21,11 +21,11 @@ public class TimeSetterUtil {
 
 	private static final String TIME_FORMAT = "HH:mm:ss";
 	private static final Boolean isLocalTime = Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.USE_LOCAL_TIME_AS_SERVER, "true"));
+	private static final String TIME_SERVICE_CLASS = PropertyProvider.getProperty("time.service.class");
 	protected static Logger log = LoggerFactory.getLogger(TimeSetterUtil.class);
 	private static Boolean isPEF = false;
 	private static TimeSetterUtil instance;
 	private static TimeSetter timeSetterClient;
-	private static final String TIME_SERVICE_CLASS =   PropertyProvider.getProperty("time.service.class");
 
 	private TimeSetterUtil() {
 	}
@@ -43,7 +43,7 @@ public class TimeSetterUtil {
 		if (!isPEF && timeSetterClient == null) {
 			try {
 				Class clazz = Class.forName(TIME_SERVICE_CLASS);
-				Constructor<? extends TimeSetter> ctor = clazz.getConstructor(String.class);
+				Constructor<? extends TimeSetter> ctor = clazz.getConstructor();
 				timeSetterClient = ctor.newInstance();
 			} catch (ReflectiveOperationException e) {
 				log.error("Can't instatiate TimeSetter from class: " + TIME_SERVICE_CLASS, e);
