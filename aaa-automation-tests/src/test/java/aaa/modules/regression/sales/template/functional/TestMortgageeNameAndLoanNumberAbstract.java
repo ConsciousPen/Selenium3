@@ -29,13 +29,15 @@ public abstract class TestMortgageeNameAndLoanNumberAbstract extends PolicyBaseT
 
         createQuoteAndFillUpTo(getPolicyTD(), getMortgageesTab().getClass(), false);
         validateMortgageeClause();
-        policy.getDefaultView().fillFromTo(getPolicyTD(), getUnderwritingTab().getClass(), getBindTab().getClass());
+        policy.getDefaultView().fillFromTo(getPolicyTD(), getUnderwritingTab().getClass(), getBindTab().getClass(), true);
         getBindTab().submitTab();
         if (isStateCA()) {
-            errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_AAA_HO_CA723000018, ErrorEnum.Errors.ERROR_AAA_HO_CA7230928);
+            errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_AAA_HO_CA723000018,
+                                          ErrorEnum.Errors.ERROR_AAA_HO_CA7230928);
         }
         else {
-            errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12141500);
+            errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS4030518,
+                                          ErrorEnum.Errors.ERROR_AAA_HO_SS12141500);
         }
     }
 
@@ -45,21 +47,20 @@ public abstract class TestMortgageeNameAndLoanNumberAbstract extends PolicyBaseT
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
         navigateToMortgageesTab();
         validateMortgageeClause();
-
     }
+
     protected void pas24699_testMortgageeClauseRenewal(){
 
         openAppAndCreatePolicy(getPolicyTD());
         policy.renew().perform();
         navigateToMortgageesTab();
         validateMortgageeClause();
-
     }
 
     private void validateMortgageeClause(){
 
-        String pas24699MortgageeName =  "CSAA Insurance LLC\n"+
-                                        "5353 W Bell Rd\n"+
+        String pas24699MortgageeName =  "CSAA Insurance LLC\n" +
+                                        "5353 W Bell Rd\n" +
                                         "Glendale AZ 85038";
 
         TestData tdMortgageeTab = testDataManager.getDefault(TestMortgageeNameAndLoanNumberAbstract.class).getTestData("TestData");
@@ -71,8 +72,12 @@ public abstract class TestMortgageeNameAndLoanNumberAbstract extends PolicyBaseT
         Assertions.assertThat(PropertyQuoteTab.mortgageeClauseHelpText.getAttribute("title")).contains(mortgageeHelpText);
         getMortgageeClauseTextBox().setValue(pas24699MortgageeName);
         String mortgageeClauseValue = getMortgageeClauseTextBox().getValue();
-        assertThat(mortgageeClauseValue).isEqualTo(pas24699MortgageeName);
+        String pas24699MortgageeName2 =  "CSAA Insurance LLC\t\n" +
+                "5353 W Bell Rd\t\n" +
+                "Glendale AZ 85038";
+        assertThat(mortgageeClauseValue).isEqualTo(pas24699MortgageeName2);
         getMortgageeClauseTextBox().setValue("");
+        getMortgageesTab().submitTab();
         Assertions.assertThat(PropertyQuoteTab.mortgageeClauseErrorMsg.getValue()).contains("'Mortgagee Clause' is required");
         getMortgageeLoanNumberTextBox().setValue("");
         navigateToUnderwritingTab();

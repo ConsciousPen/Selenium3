@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.dp3.functional;
+package aaa.modules.regression.sales.home_ss.ho6.functional;
 
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -19,11 +19,12 @@ import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 
-public class TestLegalMortgageeName extends TestMortgageeNameAndLoanNumberAbstract {
+@StateList(statesExcept = {Constants.States.CA})
+public class TestLegalMortgageeNameLoanNumber extends TestMortgageeNameAndLoanNumberAbstract {
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.HOME_SS_DP3;
+        return PolicyType.HOME_SS_HO6;
     }
 
     @Override
@@ -76,7 +77,6 @@ public class TestLegalMortgageeName extends TestMortgageeNameAndLoanNumberAbstra
      * @details
      **/
 
-    @StateList(states = {Constants.States.AZ, Constants.States.UT })
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Validate New Mortgagee Clause Text box")
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-24699")
@@ -99,7 +99,7 @@ public class TestLegalMortgageeName extends TestMortgageeNameAndLoanNumberAbstra
 
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Validate New Mortgagee Clause Text box")
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-24699")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-24699")
     public void pas24699_testMortgageeClauseEndTx(@Optional("") String state) {
 
         pas24699_testMortgageeClauseEndTx();
@@ -120,11 +120,10 @@ public class TestLegalMortgageeName extends TestMortgageeNameAndLoanNumberAbstra
 
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Validate New Mortgagee Clause Text box")
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-24699")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-24699")
     public void pas24699_testMortgageeClauseSSRenewal(@Optional("") String state) {
 
         pas24699_testMortgageeClauseRenewal();
 
     }
-
 }

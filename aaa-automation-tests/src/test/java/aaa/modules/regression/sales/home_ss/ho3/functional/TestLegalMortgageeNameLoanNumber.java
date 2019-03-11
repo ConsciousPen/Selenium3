@@ -19,6 +19,7 @@ import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 
+@StateList(statesExcept = {Constants.States.CA})
 public class TestLegalMortgageeNameLoanNumber extends TestMortgageeNameAndLoanNumberAbstract {
 
     @Override
@@ -76,7 +77,6 @@ public class TestLegalMortgageeNameLoanNumber extends TestMortgageeNameAndLoanNu
      * @details
      **/
 
-    @StateList(states = {Constants.States.AZ, Constants.States.UT })
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Validate New Mortgagee Clause Text box")
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-24699")
