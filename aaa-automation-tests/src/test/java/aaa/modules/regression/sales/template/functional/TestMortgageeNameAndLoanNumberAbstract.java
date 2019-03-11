@@ -23,6 +23,7 @@ public abstract class TestMortgageeNameAndLoanNumberAbstract extends PolicyBaseT
     protected abstract Tab getUnderwritingTab();
     protected abstract Tab getBindTab();
     ErrorTab errorTab = new ErrorTab();
+    aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab errorTabSS = new aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab();
 
 
     protected void pas24669_testLegalMortgageeNameNB(){
@@ -36,7 +37,7 @@ public abstract class TestMortgageeNameAndLoanNumberAbstract extends PolicyBaseT
                                           ErrorEnum.Errors.ERROR_AAA_HO_CA7230928);
         }
         else {
-            errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS4030518,
+            errorTabSS.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS4030518,
                                           ErrorEnum.Errors.ERROR_AAA_HO_SS12141500);
         }
     }
