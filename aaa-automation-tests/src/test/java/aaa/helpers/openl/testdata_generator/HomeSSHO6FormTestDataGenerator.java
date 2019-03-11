@@ -18,7 +18,7 @@ import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
 
 public class HomeSSHO6FormTestDataGenerator {
-	
+
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formHS0412DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "HS0412".equals(c.getFormCode())).findFirst().get();
@@ -29,7 +29,7 @@ public class HomeSSHO6FormTestDataGenerator {
 				HomeSSMetaData.EndorsementTab.EndorsementHS0412.IS_THE_BUSINESS_PROPERTY_FOR_SAMPLE_SALE_OR_DELIVERY_AFTER_SALE.getLabel(), "No"));
 		return tdList;
 	};
-	
+
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formHS0420DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		tdList.add(DataProviderFactory.dataOf(
@@ -37,7 +37,7 @@ public class HomeSSHO6FormTestDataGenerator {
 				HomeSSMetaData.EndorsementTab.EndorsementHS0420.AMOUNT_OF_INSURANCE.getLabel(), openLPolicy.getForms().stream().filter(c -> "HS0420".equals(c.getFormCode())).findFirst().get().getCovPercentage() + "%"));
 		return tdList;
 	};
-	
+
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formHS0435DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		int instanceNum = 1;
@@ -200,7 +200,7 @@ public class HomeSSHO6FormTestDataGenerator {
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formHS0490DataFunction = openLPolicy -> {
 		return null;
 	};
-	
+
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formHS0492DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		Integer instanceNum = 1;
@@ -237,6 +237,21 @@ public class HomeSSHO6FormTestDataGenerator {
 		return tdList;
 	};
 
+	private static Function<HomeSSOpenLPolicy, List<TestData>> formHS0546DataFunction = openLPolicy -> {
+		List<TestData> tdList = new ArrayList<>();
+		int instanceNum = 1;
+		for (HomeSSOpenLForm form : openLPolicy.getForms()) {
+			if ("HS0546".equals(form.getFormCode())) {
+				tdList.add(DataProviderFactory.dataOf(
+						"Action", instanceNum == 1 ? "Add" : "Edit",
+						HomeSSMetaData.EndorsementTab.EndorsementHS0546.DESCRIPTION_OF_RENTED_UNIT.getLabel(), "Unit" + String.format("%d", instanceNum),
+						HomeSSMetaData.EndorsementTab.EndorsementHS0546.COVERAGE_AMOUNT.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]));
+				instanceNum++;
+			}
+		}
+		return tdList;
+	};
+
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formHS0614DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		tdList.add(DataProviderFactory.dataOf(
@@ -252,7 +267,7 @@ public class HomeSSHO6FormTestDataGenerator {
 		tdList.add(DataProviderFactory.dataOf("Action", "Add"));
 		return tdList;
 	};
-	
+
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formHS0926DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		tdList.add(DataProviderFactory.dataOf(
@@ -265,11 +280,21 @@ public class HomeSSHO6FormTestDataGenerator {
 		List<TestData> tdList = new ArrayList<>();
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", "Add",
-				HomeSSMetaData.EndorsementTab.EndorsementHS0930.PROPERTY_COVERAGE_LIMIT.getLabel(), new Dollar(openLPolicy.getForms().stream().filter(c -> "HS0930".equals(c.getFormCode())).findFirst().get().getLimit()).toString().split("\\.")[0], 
+				HomeSSMetaData.EndorsementTab.EndorsementHS0930.PROPERTY_COVERAGE_LIMIT.getLabel(), new Dollar(openLPolicy.getForms().stream().filter(c -> "HS0930".equals(c.getFormCode())).findFirst().get().getLimit()).toString().split("\\.")[0],
 				HomeSSMetaData.EndorsementTab.EndorsementHS0930.LIABILITY_COVERAGE_LIMIT.getLabel(), new Dollar(openLPolicy.getForms().stream().filter(c -> "HS0930".equals(c.getFormCode())).findFirst().get().getOptionalValue()).toString().split("\\.")[0]));
 		return tdList;
 	};
-	
+
+	private static Function<HomeSSOpenLPolicy, List<TestData>> formHS0932DataFunction = openLPolicy -> {
+		List<TestData> tdList = new ArrayList<>();
+		tdList.add(DataProviderFactory.dataOf(
+				"Action", "Add",
+				HomeSSMetaData.EndorsementTab.EndorsementHS0932.PROPERTY_COVERAGE_LIMIT.getLabel(), new Dollar(openLPolicy.getForms().stream().filter(c -> "HS0932".equals(c.getFormCode())).findFirst().get().getLimit()).toString().split("\\.")[0],
+				HomeSSMetaData.EndorsementTab.EndorsementHS0932.LIABILITY_COVERAGE_LIMIT.getLabel(), new Dollar(openLPolicy.getForms().stream().filter(c -> "HS0932".equals(c.getFormCode())).findFirst().get().getOptionalValue()).toString().split("\\.")[0]));
+		return tdList;
+	};
+
+
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formHS0934DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		tdList.add(DataProviderFactory.dataOf("Action", "Add"));
@@ -314,7 +339,7 @@ public class HomeSSHO6FormTestDataGenerator {
 		}
 		return tdList;
 	};
-	
+
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formHS1731DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		tdList.add(DataProviderFactory.dataOf("Action", "Add"));
@@ -324,7 +349,7 @@ public class HomeSSHO6FormTestDataGenerator {
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formHS1733DataFunction = openLPolicy -> {
 		return null;
 	};
-	
+
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formHS2443DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
 		tdList.add(DataProviderFactory.dataOf(
@@ -402,21 +427,21 @@ public class HomeSSHO6FormTestDataGenerator {
 		if (numberOfEmpl == 0) {
 			tdList.add(DataProviderFactory.dataOf(
 					"Action", "Add",
-					HomeSSMetaData.EndorsementTab.EndorsementHS2494.IS_THE_EMPLOYEE_A_PRIVATE_RESIDENCE_OR_ESTATE_FULL_TIME_INSERVANT.getLabel(), "No", 
+					HomeSSMetaData.EndorsementTab.EndorsementHS2494.IS_THE_EMPLOYEE_A_PRIVATE_RESIDENCE_OR_ESTATE_FULL_TIME_INSERVANT.getLabel(), "No",
 					HomeSSMetaData.EndorsementTab.EndorsementHS2494.IS_THE_EMPLOYEE_A_PRIVATE_RESIDENCE_FULL_TIME_OUTSERVANT_INCLUDING_DRIVERS.getLabel(), "No",
 					HomeSSMetaData.EndorsementTab.EndorsementHS2494.IS_THE_EMPLOYEE_A_PRIVATE_ESTATE_FULL_TIME_OUTSERVANT_INCLUDING_DRIVERS.getLabel(), "No"));
 		}
 		if (numberOfEmpl >= 1) {
 			tdList.add(DataProviderFactory.dataOf(
 					"Action", "Add",
-					HomeSSMetaData.EndorsementTab.EndorsementHS2494.IS_THE_EMPLOYEE_A_PRIVATE_RESIDENCE_OR_ESTATE_FULL_TIME_INSERVANT.getLabel(), "No", 
+					HomeSSMetaData.EndorsementTab.EndorsementHS2494.IS_THE_EMPLOYEE_A_PRIVATE_RESIDENCE_OR_ESTATE_FULL_TIME_INSERVANT.getLabel(), "No",
 					HomeSSMetaData.EndorsementTab.EndorsementHS2494.IS_THE_EMPLOYEE_A_PRIVATE_RESIDENCE_FULL_TIME_OUTSERVANT_INCLUDING_DRIVERS.getLabel(), "No",
-					HomeSSMetaData.EndorsementTab.EndorsementHS2494.IS_THE_EMPLOYEE_A_PRIVATE_ESTATE_FULL_TIME_OUTSERVANT_INCLUDING_DRIVERS.getLabel(), "Yes", 
+					HomeSSMetaData.EndorsementTab.EndorsementHS2494.IS_THE_EMPLOYEE_A_PRIVATE_ESTATE_FULL_TIME_OUTSERVANT_INCLUDING_DRIVERS.getLabel(), "Yes",
 					HomeSSMetaData.EndorsementTab.EndorsementHS2494.NUMBER_OF_EMPLOYEES_VALUE3.getLabel(), numberOfEmpl.toString()));
 		}
 		return tdList;
 	};
-	
+
 	public static List<TestData> getFormTestData(HomeSSOpenLPolicy openLPolicy, String formCode) {
 		return getFormEnum(formCode).getTestData(openLPolicy);
 	}
@@ -424,11 +449,11 @@ public class HomeSSHO6FormTestDataGenerator {
 	public static String getFormMetaKey(String formCode) {
 		return getFormEnum(formCode).getMetaKey();
 	}
-	
+
 	private static Forms getFormEnum(String formCode) {
 		return Arrays.stream(Forms.values()).filter(f -> f.getFormCode().equals(formCode)).findFirst().orElseThrow(() -> new IstfException("There is no Form enum with form code: " + formCode));
 	}
-	
+
 	public enum Forms {
 		HS0412(HomeSSMetaData.EndorsementTab.HS_04_12.getLabel(), "HS0412", formHS0412DataFunction),
 		HS0420(HomeSSMetaData.EndorsementTab.HS_04_20.getLabel(), "HS0420", formHS0420DataFunction),
@@ -447,10 +472,12 @@ public class HomeSSHO6FormTestDataGenerator {
 		HS0492(HomeSSMetaData.EndorsementTab.HS_04_92.getLabel(), "HS0492", formHS0492DataFunction),
 		HS0495(HomeSSMetaData.EndorsementTab.HS_04_95.getLabel(), "HS0495", formHS0495DataFunction),
 		HS0524(HomeSSMetaData.EndorsementTab.HS_05_24.getLabel(), "HS0524", formHS0524DataFunction),
+		HS0546(HomeSSMetaData.EndorsementTab.HS_05_46.getLabel(), "HS0546", formHS0546DataFunction),
 		HS0614(HomeSSMetaData.EndorsementTab.HS_06_14.getLabel(), "HS0614", formHS0614DataFunction),
 		HS0906(HomeSSMetaData.EndorsementTab.HS_09_06.getLabel(), "HS0906", formHS0906DataFunction),
-		HS0926(HomeSSMetaData.EndorsementTab.HS_09_26.getLabel(), "HS0926", formHS0926DataFunction), 
+		HS0926(HomeSSMetaData.EndorsementTab.HS_09_26.getLabel(), "HS0926", formHS0926DataFunction),
 		HS0930(HomeSSMetaData.EndorsementTab.HS_09_30.getLabel(), "HS0930", formHS0930DataFunction),
+		HS0932(HomeSSMetaData.EndorsementTab.HS_09_32.getLabel(), "HS0932", formHS0932DataFunction),
 		HS0934(HomeSSMetaData.EndorsementTab.HS_09_34.getLabel(), "HS0934", formHS0934DataFunction),
 		HS0965(HomeSSMetaData.EndorsementTab.HS_09_65.getLabel(), "HS0965", formHS0965DataFunction),
 		HS0988(HomeSSMetaData.EndorsementTab.HS_09_88.getLabel(), "HS0988", formHS0988DataFunction),
@@ -459,19 +486,20 @@ public class HomeSSHO6FormTestDataGenerator {
 		HS2443(HomeSSMetaData.EndorsementTab.HS_24_43.getLabel(), "HS2443", formHS2443DataFunction),
 		HS2464(HomeSSMetaData.EndorsementTab.HS_24_64.getLabel(), "HS2464", formHS2464DataFunction),
 		HS2471(HomeSSMetaData.EndorsementTab.HS_24_71.getLabel(), "HS2471", formHS2471DataFunction),
-		HS2472(HomeSSMetaData.EndorsementTab.HS_24_72.getLabel(), "HS2472", formHS2472DataFunction), 
-		HS2494(HomeSSMetaData.EndorsementTab.HS_24_94.getLabel(), "HS2494", formHS2494DataFunction),;
-		
+		HS2472(HomeSSMetaData.EndorsementTab.HS_24_72.getLabel(), "HS2472", formHS2472DataFunction),
+		HS2494(HomeSSMetaData.EndorsementTab.HS_24_94.getLabel(), "HS2494", formHS2494DataFunction),
+		;
+
 		private final String metaKey;
 		private final String formCode;
-		private final Function<HomeSSOpenLPolicy, List<TestData>> testDataFunction; 
-		
+		private final Function<HomeSSOpenLPolicy, List<TestData>> testDataFunction;
+
 		Forms(String metaKey, String formCode, Function<HomeSSOpenLPolicy, List<TestData>> testDataFunction) {
 			this.metaKey = metaKey;
 			this.formCode = formCode;
 			this.testDataFunction = testDataFunction;
-		}	
-		
+		}
+
 		public String getMetaKey() {
 			return metaKey;
 		}
@@ -483,12 +511,12 @@ public class HomeSSHO6FormTestDataGenerator {
 		public Function<HomeSSOpenLPolicy, List<TestData>> getTestDataFunction() {
 			return testDataFunction;
 		}
-		
+
 		public List<TestData> getTestData(HomeSSOpenLPolicy openLPolicy) {
 			List<TestData> tdList = getTestDataFunction().apply(openLPolicy);
 			return tdList;
 		}
-		
+
 	}
 
 }

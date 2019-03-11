@@ -72,11 +72,24 @@
             <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffWhenPolicyUnderpaid"/>
         </classes>
     </test>
+    <test name="CA TestFinanceCancelNoticeFlagVerification" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho4.TestFinanceCancelNoticeFlagVerification"/>
+        </classes>
+    </test>
     <!-- Earned Premium Calculation Changes: PAS-14510 - Renewal-->
     <test name="PAS-14510 Earned Premium Calculation Changes - Renewal" parallel="methods" thread-count="1024">
         <parameter name="state" value="NV"/>
         <classes>
             <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationRenewal"/>
+        </classes>
+    </test>
+    <!-- PAS-22575 - MinDueIsNotRecalculatedAfter_Renewals -->
+    <test name="PAS-22575 test MinDue Is Not Recalculated After Renewals" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ca.select.TestMinDueIsNotRecalculatedAfterRenewals"/>
         </classes>
     </test>
 </suite>

@@ -237,16 +237,6 @@
         </classes>
     </test>
     <!--Disabled the test to check BackwardCompatibility for all states-->
-    <test thread-count="1024" name="pas9489_GreenButtonServiceStateAndProductConfigurationEffective" parallel="methods">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
-                <methods>
-                    <include name="pas9489_GreenButtonServiceStateAndProductConfigurationEffective"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test thread-count="1024" name="UpdateDriverServiceSS" parallel="methods">
         <parameter name="state" value="AZ,NY,VA"/>
         <classes>
@@ -1111,6 +1101,16 @@
                     <include name="pas23301_AA52UPAAFormRFI"/>
                     <include name="pas23301_AA52UPAAFormAddReplaceVehicleTriggerRFI"/>
                     <include name="pas23302_AA52IPAAFormRFI"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas25042_endorsementValidateAllowedForAllStates" parallel="methods">
+        <parameter name="state" value="CA, NY, VA, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas25042_endorsementValidateAllowedForAllStates"/>
                 </methods>
             </class>
         </classes>

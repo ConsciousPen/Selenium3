@@ -236,6 +236,7 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
             <methods>
                 <include name="pas14679_testMSClaimsAssignment_AZ_SS"/>
+                <include name="pas18159_offlineClaimsAnalytics"/>
             </methods>
             </class>
         </classes>

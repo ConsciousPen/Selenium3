@@ -29,12 +29,16 @@ import aaa.common.enums.RestRequestMethodTypes;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.claim.BatchClaimHelper;
+import aaa.helpers.claim.ClaimAnalyticsJSONTags;
 import aaa.helpers.claim.ClaimCASResponseTags;
 import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import aaa.helpers.claim.datamodel.claim.Claim;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.logs.PasAdminLogGrabber;
+import aaa.helpers.logs.PasLogGrabber;
+import aaa.helpers.rest.JsonClient;
+import aaa.helpers.rest.RestRequestInfo;
+import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.helpers.rest.JsonClient;
 import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
@@ -72,8 +76,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     @SuppressWarnings("SpellCheckingInspection")
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_hhmmss");
     @SuppressWarnings("SpellCheckingInspection")
-    private static final String PAS_ADMIN_LOG_PATH = System.getProperty("user.dir")
-            + PropertyProvider.getProperty("test.downloadfiles.location") + "pas_admin_log";
+    private static final String PAS_LOG_DOWNLOAD_PATH = System.getProperty("user.dir")
+            + PropertyProvider.getProperty("test.downloadfiles.location") + "downloaded_pas_log";
     public static final String SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = 'TRUE' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse'";
     public static final String SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS = "UPDATE LOOKUPVALUE SET DATEOFLOSS = '%s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse'";
     private static final String CLAIMS_URL = "https://claims-assignment-master.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1"; //Post-Permissive Use
@@ -88,17 +92,20 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     protected static DriverTab driverTab = new DriverTab();
     protected static PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
     protected static DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+    protected static PasLogGrabber pasLogGrabber = new PasLogGrabber();
 
     @BeforeTest
     public void prepare() {
         try {
             FileUtils.forceDeleteOnExit(Paths.get(CAS_REQUEST_PATH).toFile());
             FileUtils.forceDeleteOnExit(Paths.get(CAS_RESPONSE_PATH).toFile());
+            FileUtils.forceDeleteOnExit(Paths.get(PAS_LOG_DOWNLOAD_PATH).toFile());
             Files.createDirectories(Paths.get(CAS_REQUEST_PATH));
             Files.createDirectories(Paths.get(CAS_RESPONSE_PATH));
+            Files.createDirectories(Paths.get(PAS_LOG_DOWNLOAD_PATH));
         } catch (IOException e) {
             throw new IllegalStateException("Can't delete directories " + CAS_RESPONSE_PATH + " "
-                    + CAS_REQUEST_PATH, e);
+                    + CAS_REQUEST_PATH + " " + PAS_LOG_DOWNLOAD_PATH, e);
         }
     }
 
@@ -370,18 +377,44 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     }
 
     /**
-     * Method returns content as String of pas-admins wrapper.log file
+     * Method returns content as String of pas-app wrapper.log file
+     * @return
+     */
+    protected String downloadPasSelectedLog(String requiredLogFolder) {
+        String pasSelectedLogFolder = requiredLogFolder;
+        RemoteHelper.get().getListOfFiles(pasSelectedLogFolder);
+        RemoteHelper.get().downloadFile("wrapper.log", PAS_LOG_DOWNLOAD_PATH);
+        File downloadedPasLogFile = new File(PAS_LOG_DOWNLOAD_PATH + File.separator + "wrapper.log");
+        assertThat(downloadedPasLogFile).exists().isFile().canRead().isAbsolute();
+        String content = contentOf(downloadedPasLogFile, Charset.defaultCharset());
+        log.info("Downloaded Selected PAS Log File: {}" + content);
+        return content;
+    }
+
+    /**
+     * Method returns content as String of pas-app wrapper.log file
+     * @return
+     */
+    protected String downloadPasAppLog() {
+        String pasAppLogFolder = PasLogGrabber.getPasAppLogFolder();
+        return downloadPasSelectedLog(pasAppLogFolder);
+    }
+
+    /**
+     * Method returns content as String of pas-admin wrapper.log file
      * @return
      */
     protected String downloadPasAdminLog() {
-        String pasAdminLogFolder = PasAdminLogGrabber.getPasAdminLogFolder();
-        RemoteHelper.get().getListOfFiles(pasAdminLogFolder);
-        RemoteHelper.get().downloadFile("wrapper.log", PAS_ADMIN_LOG_PATH);
-        File pasAdminLogFile = new File(PAS_ADMIN_LOG_PATH + File.separator + "wrapper.log");
-        assertThat(pasAdminLogFile).exists().isFile().canRead().isAbsolute();
-        String content = contentOf(pasAdminLogFile, Charset.defaultCharset());
-        log.info("Downloaded PAS Admin Log File: {}" + content);
-        return content;
+        String pasAdminLogFolder = PasLogGrabber.getPasAdminLogFolder();
+        return downloadPasSelectedLog(pasAdminLogFolder);
+    }
+
+    /**
+     * Method returns content as String of combined pas-app & pas-admin log
+     * @return
+     */
+    protected String combinePasAppAndAdminLog() {
+        return downloadPasAdminLog() + downloadPasAppLog();
     }
 
     /**
@@ -397,8 +430,9 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
         for (int i = 0; i <= listOfClaims.size() - 1; i++) {
             JSONObject specificClaimData = new JSONObject(listOfClaims.get(i)).getJSONObject("claims-assignment");
-            if (specificClaimData.getString("claimNumber").equals(claimNumber) && specificClaimData.getString("policyNumber").equals(policyNumber)) {
-                claimValue = specificClaimData.getString(key);
+            if (specificClaimData.getString(ClaimAnalyticsJSONTags.TagNames.CLAIM_NUMBER).equals(claimNumber) && specificClaimData
+                    .getString(ClaimAnalyticsJSONTags.TagNames.POLICY_NUMBER).equals(policyNumber)) {
+                claimValue = specificClaimData.get(key).toString();
             } else {
                 log.info("Moving to the next Claim List Item.. Required Claim in this Claim Analytics JSON Item couldn't be found. Claim Number: "
                         + claimNumber);
@@ -530,5 +564,4 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         log.info("actual match codes: "+actualMatchCodes);
         assertThat(actualMatchCodes).isEqualTo(expectedMatchCodes);
     }
-
 }

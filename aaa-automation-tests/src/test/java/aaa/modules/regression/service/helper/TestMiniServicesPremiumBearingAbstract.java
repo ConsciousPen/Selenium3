@@ -4,8 +4,6 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUN
 import static aaa.main.enums.ProductConstants.PolicyStatus.PREMIUM_CALCULATED;
 import static aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.miniServicesEndorsementDeleteDelayConfigCheck;
 import static aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.myPolicyUserAddedConfigCheck;
-import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.DELETE_INSERT_EFFECTIVE_DATE;
-import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.INSERT_EFFECTIVE_DATE;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.math.BigDecimal;
@@ -117,6 +115,15 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
 			softly.assertThat(response.ruleSets.get(1).errors).isEmpty();
 		});
+	}
+
+	protected void pas25042_endorsementValidateAllowedForAllStatesBody() {
+		String policyNumber = openAppAndCreatePolicy();
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, endorsementDate);
+		assertThat(response.allowedEndorsements.get(0)).isNotEmpty();
 	}
 
 	protected void pas6562_endorsementValidateNotAllowedNano(PolicyType policyType, String state) {
@@ -631,31 +638,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		softly.assertThat(vehicleRd2.garagingAddress.city).isEqualTo(city3);
 	}
 
-	protected void pas9337_CheckStartEndorsementInfoServerResponseErrorForEffectiveDate() {
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy(getPolicyTD());
-
-		assertSoftly(softly -> {
-
-			String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
-			ValidateEndorsementResponse responseNd = HelperCommon.startEndorsement(policyNumber, endorsementDate);
-			assertThat(responseNd.ruleSets.get(0).errors.stream().anyMatch(err -> err.message.startsWith(ErrorDxpEnum.Errors.STATE_DOES_NOT_ALLOW_ENDORSEMENTS.getMessage()))).isTrue();
-
-			DBService.get().executeUpdate(INSERT_EFFECTIVE_DATE);
-
-			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(8));
-			String endorsementDate1 = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-			ValidateEndorsementResponse responseNd1 = HelperCommon.startEndorsement(policyNumber, endorsementDate1);
-
-			softly.assertThat(responseNd1.ruleSets.get(0).errors).isEmpty();
-
-			DBService.get().executeUpdate(DELETE_INSERT_EFFECTIVE_DATE);
-		});
-
-	}
-
 	protected void pas9337_CheckStartEndorsementInfoServerResponseForFuturePolicy(PolicyType policyType) {
 
 		myPolicyUserAddedConfigCheck();
@@ -1082,6 +1064,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyRenewalOfferLapsed.residentialAddress.stateProvCd).isEqualTo(state1);
 		});
 	}
+
+
 
 	protected void pas9716_policySummaryForActiveRenewalBody(String state) {
 		assertSoftly(softly -> {

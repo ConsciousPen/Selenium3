@@ -3055,7 +3055,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 					Arrays.asList("", "None", "Category 1 - Alarm Only", "Category 2 - Non-Passive Alarm", "Category 3 - Passive Alarm, Device or VIN Etching", "Category 4 - Tracking Device", "Category 3 & 4 - Passive Alarm and Tracking Device"));
 		}
 
-		vehicleTab.cancel();
+		vehicleTab.cancel(false);
 		Page.dialogConfirmation.buttonDeleteEndorsement.click();
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);

@@ -21,7 +21,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.logs.PasAdminLogGrabber;
+import aaa.helpers.logs.PasLogGrabber;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
@@ -58,7 +58,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
 	private static String adminLog;
 	private static List<String> listOfClaims;
-	private static PasAdminLogGrabber pasAdminLogGrabber = new PasAdminLogGrabber();
+	private static PasLogGrabber pasLogGrabber = new PasLogGrabber();
 	private static final String pasDriverNameKey = "pasDriverName";
 	private static final String matchCodeKey = "matchCode";
 

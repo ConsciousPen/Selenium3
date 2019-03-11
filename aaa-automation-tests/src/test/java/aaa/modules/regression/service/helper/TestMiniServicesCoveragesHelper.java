@@ -5274,6 +5274,17 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//Update UM/UIM to other than No Coverage
 		updateBiOrUmbiAndValidate_pas16399(policyNumber, CoverageInfo.UMBI_DE, CoverageLimits.COV_2550, false);
 
+		//PAS-26479 when updating PD, UMPD should not be updated
+		//Update PD to higher limit
+		Coverage covPDExpected1 = Coverage.create(CoverageInfo.PD_DE).changeLimit(CoverageLimits.COV_100000);
+		PolicyCoverageInfo policyCoverageInfo = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		Coverage covUMPDNoChange = findCoverage(policyCoverageInfo.policyCoverages, CoverageInfo.UMPD_DE.getCode());
+		updateCoverageAndCheck(policyNumber, covPDExpected1, covPDExpected1, covUMPDNoChange);
+
+		//Update PD to lower limit
+		Coverage covPDExpected2 = Coverage.create(CoverageInfo.PD_DE).changeLimit(CoverageLimits.COV_15000);
+		updateCoverageAndCheck(policyNumber, covPDExpected2, covPDExpected2, covUMPDNoChange);
+
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 	}
