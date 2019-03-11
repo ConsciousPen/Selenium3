@@ -26,8 +26,6 @@ public class TimeSetterUtil {
 	private static TimeSetterUtil instance;
 	private static TimeSetter timeSetterClient;
 	private static final String TIME_SERVICE_CLASS =   PropertyProvider.getProperty("time.service.class");
-	private static final String APP_HOST  =   PropertyProvider.getProperty("app.host");
-	private static final String TIME_SETTER_HOST  =   PropertyProvider.getProperty("timesetter.host", APP_HOST);
 
 	private TimeSetterUtil() {
 	}
@@ -46,7 +44,7 @@ public class TimeSetterUtil {
 			try {
 				Class clazz = Class.forName(TIME_SERVICE_CLASS);
 				Constructor<? extends TimeSetter> ctor = clazz.getConstructor(String.class);
-				timeSetterClient = ctor.newInstance(TIME_SETTER_HOST);
+				timeSetterClient = ctor.newInstance();
 			} catch (ReflectiveOperationException e) {
 				log.error("Can't instatiate TimeSetter from class: " + TIME_SERVICE_CLASS, e);
 				timeSetterClient = new TimeSetterClient();
