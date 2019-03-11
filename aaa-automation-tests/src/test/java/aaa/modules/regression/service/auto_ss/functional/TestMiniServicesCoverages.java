@@ -1442,11 +1442,13 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 10. Update BI (increase) and check
 	 * 11. Update UM/UIM to No Coverage (precondition for next step) (repeated step) and check
 	 * 12. Update UM/UIM to other than No Coverage and check
+	 * @scenario
+	 * 1. Update PD and Check that UMPD is not updated
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.DE})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16399"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16399", "PAS-26479"})
 	public void pas16399_viewUpdateUmpdDE(@Optional("DE") String state) {
 		pas16399_viewUpdateUmpdDEBody();
 	}
