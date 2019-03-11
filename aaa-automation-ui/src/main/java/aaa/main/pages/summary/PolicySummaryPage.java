@@ -98,8 +98,6 @@ public class PolicySummaryPage extends SummaryPage {
 		+ "or @id='productConsolidatedViewForm:pupCoverageDetail' " + "or @id='productConsolidatedViewForm:pupTableTotalPremium']"));
 	public static Table tableTotalStateTaxesProperty = new Table(By.xpath("//table[@id='productConsolidatedViewForm:stateLocalTaxes']"));
 	public static Table tablePupPropertyInformation = new Table(By.id("productConsolidatedViewForm:body_scolumn_PupConsolidatedPropertyInfo"));
-    public static Table tableCoverageSummaryCA = new Table(By.id("productConsolidatedViewForm:coveragesPremiumsTable"));
-    public static Table tableCoveragePremiumSummaryCA = new Table(By.xpath("//table[@id='productConsolidatedViewForm:coveragesPremiumsTable']/following-sibling::table[1]"));
 	// cea
 	public static Table tablePaymentSummary = new Table(By.xpath("//table[@id='productConsolidatedViewForm:billing_transactions_active']"));
 	public static Table tableTransactionSummary = new Table(By.xpath("//table[@id='productConsolidatedViewForm:billing_transactions_active2']"));
