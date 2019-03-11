@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import org.apache.commons.lang3.ArrayUtils;
-import org.mortbay.log.Log;
+
 import org.openqa.selenium.By;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.ComboBox;
@@ -79,7 +79,7 @@ public class AdvancedComboBox extends ComboBox {
 	public void setAnyValueExcept(boolean exceptCurrentValue, boolean exceptValuesByContains, String... exceptValues) {
 		List<String> optionsList = getAllValues();
 		if (1 == optionsList.size()) {
-			Log.warn("Combobox {} has only one option, can't change to another one", this);
+			log.warn("Combobox {} has only one option, can't change to another one", this);
 		} else {
 			if (exceptCurrentValue) {
 				optionsList.remove(getRawValue());

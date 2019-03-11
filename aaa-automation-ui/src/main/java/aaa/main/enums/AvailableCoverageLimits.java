@@ -158,6 +158,16 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_500000,
 			CoverageLimits.COV_1000000
 	)),
+	PD_DE(ImmutableList.of(
+			CoverageLimits.COV_10000,
+			CoverageLimits.COV_15000,
+			CoverageLimits.COV_25000,
+			CoverageLimits.COV_50000,
+			CoverageLimits.COV_100000,
+			CoverageLimits.COV_300000,
+			CoverageLimits.COV_500000,
+			CoverageLimits.COV_1000000
+	)),
 	UIMPD(ImmutableList.of(
 			CoverageLimits.COV_0,
 			CoverageLimits.COV_25000,

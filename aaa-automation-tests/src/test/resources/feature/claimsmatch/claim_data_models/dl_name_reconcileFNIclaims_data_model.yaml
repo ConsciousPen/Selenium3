@@ -1,0 +1,38 @@
+!!aaa.helpers.claim.datamodel.claim.CASClaimResponse
+claimLineItemList:
+- agreementNumber: CAAC952918598
+  claimList:
+  - accidentFault: ADVERSE_PARTY_AT_FAULT
+    claimCause: cause1
+    claimCloseDate: '2018-03-12'
+    claimCoverageList:
+    - {claimCoverageAmount: '65.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_004,
+       coverageName: COLL_GROUP}
+    - {claimCoverageAmount: '4293.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
+       coverageName: MEDICAL_PAYMENTS}
+    claimDateOfLoss: '2017-05-26'
+    claimDeductibleAmount: '0.000000000'
+    claimDeductibleCurrencyCode: USD
+    claimNumber: 1002-10-8704
+    claimPrefix: ''
+    claimOpenDate: '2017-05-26'
+    claimPolicyReferenceNumber: CAAC952918598
+    claimStatusCode: CLOSED
+    claimType: B
+    driverAgeAsOfDateOfLoss: '21'
+    driverDateofBirth: '1996-05-05'
+    driverName: Nicolas Smith
+    driverRelationToInsured: INSURED
+    permissiveUse: N
+    drivingLicenseNumber: D1278999
+    drivingLicenseState: CA
+    lossSummary: IV hit OV while turning.
+    subroFlag: N
+    totalAmountPaid: '4358.250000000'
+    totalAmountPaidCurrencyCode: USD
+    vehicleBodyType: SRW SUPER DUTY
+    vehicleMake: FORD
+    vehicleManufacturedYear: '2006'
+    vehicleDescription: Big truck
+    vehicleSerialNumber: 1FTNF20506ED96616
+  product: AAA_CSA
