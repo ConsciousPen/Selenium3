@@ -1,4 +1,4 @@
-package aaa.modules.docgen.auto_ss.functional;
+package aaa.modules.regression.document_fulfillment.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;

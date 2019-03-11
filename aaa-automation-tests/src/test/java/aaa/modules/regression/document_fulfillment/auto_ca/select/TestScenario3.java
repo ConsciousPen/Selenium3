@@ -36,20 +36,9 @@ public class TestScenario3 extends AutoCaSelectBaseTest {
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
 		BillingSummaryPage.open();
 		dd1 = BillingSummaryPage.getInstallmentDueDate(2);
-	}
-	
-	@Parameters({ "state" })
-	@StateList(states = States.CA)
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC02_BillGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dd1));
 		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
-	}
-	
-	@Parameters({ "state" })
-	@StateList(states = States.CA)
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC03_CancellationNotice(@Optional("") String state) {
+
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(dd1));
 		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);

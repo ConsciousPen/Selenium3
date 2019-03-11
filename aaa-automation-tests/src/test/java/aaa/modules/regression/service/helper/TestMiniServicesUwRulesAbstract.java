@@ -209,42 +209,6 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas12852_ExpensiveVehicle200022Body() {
-		assertSoftly(softly -> {
-			mainApp().open();
-			String policyNumber = getCopiedPolicy();
-
-			helperMiniServices.createEndorsementWithCheck(policyNumber);
-
-			String vin = "ZFFCW56A830133118";
-			SearchPage.openPolicy(policyNumber);
-			PolicySummaryPage.buttonPendedEndorsement.click();
-			policy.dataGather().start();
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-			VehicleTab.buttonAddVehicle.click();
-			vehicleTab.getAssetList().getAsset(VIN).setValue(vin);
-			vehicleTab.getAssetList().getAsset(USAGE).setValue("Pleasure");
-			vehicleTab.saveAndExit();
-
-			ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
-			softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getCode());
-			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getMessage());
-			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("vehTypeCd");
-
-			rateEndorsementInPas(policyNumber);
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getCode(), ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getMessage(), "vehTypeCd");
-
-			SearchPage.openPolicy(policyNumber);
-			testEValueDiscount.simplifiedPendedEndorsementIssue();
-
-			policy.updateRulesOverride().start();
-			CustomAssertions.assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRowContains(RULE_NAME.getLabel(), "200022").getCell(1)).isPresent();
-			UpdateRulesOverrideActionTab.btnCancel.click();
-		});
-	}
-
 	protected void pas12852_GaragedOutOfStateOnlyOneVeh200018Body() {
 		assertSoftly(softly -> {
 			mainApp().open();
