@@ -28,6 +28,13 @@ PAS-0002:
   - tests: [aaa.modules.bct.*]
     messages: ["No policies found by 'SelectPolicy' query"]
 
+PAS-0003:
+  summary: "PasDoc switching-on error"
+  reason: ENV
+  failures:
+    - tests: aaa.*
+      messages: ["PasDoc for product and state combination doesn't match. PasDoc switching-on expected:"]
+
 QC-DOCGENCOMMON:
   summary: "Common dummy ticket for all dependent docgen tests to mark them yellow if they are skipped due to failed 1st policy creation test"
   reason: PROD
@@ -472,3 +479,9 @@ PAS-25865:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Errors: Time out. No session available"]
+PAS-26316:
+  summary: "PUP policies from the STUB are not displayed in Other active AAA policies"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.home_ss.ho3.TestAutoInsuranceCarriedOverToHoPolicy.*]
+      messages: ["Wrong list of policies"]

@@ -38,49 +38,25 @@ public class TestScenario5 extends AutoCaSelectBaseTest {
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		BillingSummaryPage.open();
 		dd6 = BillingSummaryPage.getInstallmentDueDate(2);
-	}
 
-	@Parameters({ "state" })
-	@StateList(states = States.CA)
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC02_BillGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dd6));
 		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
-	}
-	
-	@Parameters({ "state" })
-	@StateList(states = States.CA)
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC03_RenewImageGeneration(@Optional("") String state) {
+
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-	}
-	
-	@Parameters({ "state" })
-	@StateList(states = States.CA)
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC04_RenewOfferGeneration(@Optional("") String state) {
+
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-	}
-	
-	@Parameters({ "state" })
-	@StateList(states = States.CA)
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC05_RenewBillGeneration(@Optional("") String state) {
+
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
-	}
-	
-	@Parameters({ "state" })
-	@StateList(states = States.CA)
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC06_RenewImageGeneration(@Optional("") String state) {
+
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(10));
 		JobUtils.executeJob(Jobs.preRenewalReminderGenerationAsyncJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._55_5100);
 	}
+
 }

@@ -1442,11 +1442,13 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 10. Update BI (increase) and check
 	 * 11. Update UM/UIM to No Coverage (precondition for next step) (repeated step) and check
 	 * 12. Update UM/UIM to other than No Coverage and check
+	 * @scenario
+	 * 1. Update PD and Check that UMPD is not updated
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.DE})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16399"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16399", "PAS-26479"})
 	public void pas16399_viewUpdateUmpdDE(@Optional("DE") String state) {
 		pas16399_viewUpdateUmpdDEBody();
 	}
@@ -1554,6 +1556,60 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
     public void pas19163_viewPipYesAndNonMedExpenseYesNJ(@Optional("NJ") String state) {
 		pas19163_viewPipYesAndNonMedExpenseYesNJbody();
     }
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name View/Update Coverages - PIP - New Jersey - Coverage Includes is NI and RR
+	 * @scenario
+	 * 1. Create policy, where Coverage Includes = Named Insureds.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Update Coverage Includes to Named Insureds and Family Members.
+	 * 4. Check response.
+	 * 5. Go in to PAS endorsement.
+	 * 6. Validate that fields are displaying.
+	 * 7. Issue endorsement.
+	 * 8. Create new one outside of PAS.
+	 * 9. Update Coverage Includes = Named Insureds.
+	 * 10. Check response.
+	 * 11. Go in to PAS, check if the fields aren't displaying anymore.
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-25531"})
+	public void pas25531_viewUpdatePipCoveragesIncludesNiAndRrNJ(@Optional("NJ") String state) {
+		pas25531_viewUpdatePipCoveragesIncludesNiAndRrNJBody();
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Update Coverage - PIP - New Jersey
+	 * @scenario
+	 * 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Update Coverages: Medical Expense,
+	 * Medical Expense Deductible and Extended Medical Payments.
+	 * 4. Check response.
+	 * 5. Update Non-Medical Expense = No.
+	 * 6. Check the response.
+	 * 7. Update Non-Medical Expense = Yes and
+	 * Additional Personal Injury Protection Benefit = No
+	 * 8. Check the response
+	 * 9. Return back Additional Personal Injury Protection Benefit = Yes,
+	 * change Weekly Income Continuation Benefits and Length of Income Continuation
+	 * 10. Check response.
+	 *
+	 * Note: "Coverage Includes" coverage was covered with PAS-25531
+	 * and "Primary Insurer" with PAS-23975
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23997"})
+	public void pas23997_updatePipCoveragesNJ(@Optional("NJ") String state) {
+		assertSoftly(softly ->
+				pas23997_updatePipCoveragesNJbody(softly))
+		;}
 
 	/**
 	 * @author Maris Strazds

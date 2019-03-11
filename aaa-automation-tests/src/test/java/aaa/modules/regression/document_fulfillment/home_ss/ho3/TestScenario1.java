@@ -28,35 +28,28 @@ public class TestScenario1 extends HomeSSHO3BaseTest {
 	
 	@Parameters({"state"})
 	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
+	@Test(groups = { Groups.DOCGEN, Groups.REGRESSION, Groups.CRITICAL })
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData")));
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.HS_04_59);
-	}
 
-	@Parameters({"state"})
-	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC02_CancelPolicy(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(3));
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
-	}
 
-	@Parameters({"state"})
-	@StateList(states = {States.AZ, States.NJ, States.PA, States.UT})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC03_ReinstatePolicy(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(5));
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		//TODO aperapecha: DocGen - remove shift after upgrade
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, DocGenEnum.Documents.AH62XX);
 	}
+
 
 }
