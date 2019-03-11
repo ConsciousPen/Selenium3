@@ -460,9 +460,7 @@ PAS-25866:
   reason: PROD
   failures:
     - tests: [aaa.modules.financials.pup.TestRenewal.*]
-      messages: ["no such element"]
-    - tests: [aaa.modules.financials.pup.TestRenewal.*]
-      messages: ["Error 500. Internal server error occurred"]
+      messages: ["no such element", "Error 500. Internal server error occurred"]
 PT-3481:
   summary: "Regression BCT, 19.3 : \"Address requires validation before proceeding\" appears during Empty endorsement at the Applicant tab"
   reason: PROD
