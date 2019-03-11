@@ -41,12 +41,6 @@ public class MiniServicesSetupPreconditions {
 	public static final String MY_POLICY_USER_CONFIG_CHECK = "SELECT value FROM PROPERTYCONFIGURERENTITY" +
 			" WHERE PROPERTYNAME = 'aaaDigitalValidationService.pasDxpUser' and lower(value) = lower('MyPolicy')";
 
-	public static final String DELETE_INELIGIBLE_FOR_MY_POLICY_STATES_CONFIG = "delete from lookupvalue\n"
-			+ "WHERE LOOKUPLIST_ID IN (\n"
-			+ "SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME LIKE '%Rollout%') \n"
-			+ "AND CODE='EndorsementOutsideOfPAS'\n"
-			+ "and DISPLAYVALUE = 'FALSE'";
-
 	public static final String AAA_LOOKUP_CONFIG_INSERT_UPDATE_DRIVER = "INSERT INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, lookuplist_id)\n"
 			+ "   values\n"
 			+ "    ('AAARolloutEligibilityLookupValue', 'RESTUpdateDriver', 'FALSE', 'AAA_SS', 'DC',\n"
