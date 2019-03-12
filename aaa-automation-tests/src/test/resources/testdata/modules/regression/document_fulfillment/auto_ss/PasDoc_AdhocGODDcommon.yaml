@@ -306,4 +306,16 @@ TestData_AA06XX: {
   Free Form Text AA06XX: 'Test Test'
 }
 
-
+TestData_AllDocs: {
+  Cancellation Date: '$<today:MM/dd/yyyy>',
+  Free Form Text AU02: 'Test Test', 
+  Free Form Text AU04: 'Test Test', 
+  Premium Amount: 1000, 
+  Free Form Text AU05: 'Test Test',
+  Free Form Text AU06: 'Test Test', 
+  Free Form Text AU07: 'Test Test', 
+  Free Form Text AU08: 'Test Test', 
+  Free Form Text AU09: 'Test Test',
+  Free Form Text AU10: 'Test Test', 
+  Free Form Text AA06XX: 'Test Test'
+}

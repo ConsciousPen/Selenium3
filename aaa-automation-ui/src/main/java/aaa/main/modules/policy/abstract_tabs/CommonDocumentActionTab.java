@@ -27,6 +27,7 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 	private static final Object lock = new Object();
 	public Verify verify = new Verify();
 	public Button buttonOk = new Button(By.xpath("//a[@id='policyDataGatherForm:generateDocLink' or @id='policyDataGatherForm:generateEmailDocLink']"));
+	//public Button buttonOk = new Button(By.xpath("//input[@id='policyDataGatherForm:generateDocButton' or @id='policyDataGatherForm:generateEmailDocButton']"));
 	public Button buttonCancel = new Button(id("policyDataGatherForm:adhocCancel"));
 	public Button buttonPreviewDocuments = new Button(id("policyDataGatherForm:previewDocButton"));
 	public TextBox textboxEmailAddress = new TextBox(By.xpath("//input[@id='policyDataGatherForm:emailAddress' or @id='policyDataGatherForm:emailInputField']"));
