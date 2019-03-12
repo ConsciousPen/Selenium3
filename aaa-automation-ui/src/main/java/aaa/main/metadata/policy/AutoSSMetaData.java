@@ -1036,8 +1036,8 @@ public final class AutoSSMetaData {
 					declare("Photos for salvage vehicle with physical damage coverage", RadioGroup.class, Waiters.AJAX);
 			// NJ
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_ANTI_THEFT_RECOVERY_DEVICE = declare("Proof of Anti-Theft Recovery Device", RadioGroup.class, Waiters.AJAX);
-			public static final AssetDescriptor<RadioGroup> CARCO_VEHICLE_INSPECTION_COMPLETED =
-					declare("CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<StaticElement> CARCO_VEHICLE_INSPECTION_COMPLETED =
+					declare("CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver", StaticElement.class, By.id("policyDataGatherForm:supportingDocsContent_MandatorySupportingDocuments_AAIFNJ4_0"));
 			public static final AssetDescriptor<RadioGroup> SEPARATE_VEHICLE_1 = declare("Separate Vehicle 1", RadioGroup.class, By.xpath("//table[@id='policyDataGatherForm:driverName_0']"));
 			public static final AssetDescriptor<RadioGroup> SEPARATE_VEHICLE_2 = declare("Separate Vehicle 2", RadioGroup.class, By.xpath("//table[@id='policyDataGatherForm:driverName_1']"));
 			// OK

@@ -107,7 +107,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL})
 	public void testDocGenScenario02(@Optional("") String state) {
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+		//TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
 		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), false);
 		mainApp().open();
 		createCustomerIndividual();
@@ -453,15 +453,15 @@ public class TestScenario2 extends AutoSSBaseTest {
 
 		switch (getState()) {
 			case "AZ":
-				DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43AZ, AH35XX, AA59XX, AA52AZ, AA10XX, AAPDXX, AA02AZ).verify.mapping(getTestSpecificTD("TestData_VerificationED")
+				DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43AZ, AA59XX, AA52AZ, AA10XX, AAPDXX, AA02AZ).verify.mapping(getTestSpecificTD("TestData_VerificationED")
 								.adjust(TestData.makeKeyPath("AA43AZ", "form", "PlcyNum", "TextField"), policyNumber)
 								.adjust(TestData.makeKeyPath("AA43AZ", "form", "TermEffDt", "DateTimeField"), termEffDt)
 								.adjust(TestData.makeKeyPath("AA43AZ", "form", "EndrEffDt", "DateTimeField"), endrEffDt)
-								.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
-								.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
-								.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
-								.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyEffDt", "DateTimeField"), plcyEffDt)
-								.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyExprDt", "DateTimeField"), plcyExprDt)
+								//.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
+								//.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
+								//.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
+								//.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyEffDt", "DateTimeField"), plcyEffDt)
+								//.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyExprDt", "DateTimeField"), plcyExprDt)
 								.adjust(TestData.makeKeyPath("AA59XX", "form", "PlcyNum", "TextField"), policyNumber)
 								.adjust(TestData.makeKeyPath("AA52AZ", "form", "PlcyNum", "TextField"), policyNumber)
 								.adjust(TestData.makeKeyPath("AA52AZ", "form", "TermEffDt", "DateTimeField"), termEffDt)
@@ -500,15 +500,15 @@ public class TestScenario2 extends AutoSSBaseTest {
 				break;
 
 			case "IN":
-				DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43IN, AH35XX, AA59XX, AA52IN, AA53IN, AA10XX, AAPDXX, AA02IN).verify.mapping(getTestSpecificTD("TestData_VerificationED")
+				DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43IN, AA59XX, AA52IN, AA53IN, AA10XX, AAPDXX, AA02IN).verify.mapping(getTestSpecificTD("TestData_VerificationED")
 								.adjust(TestData.makeKeyPath("AA43IN", "form", "PlcyNum", "TextField"), policyNumber)
 								.adjust(TestData.makeKeyPath("AA43IN", "form", "TermEffDt", "DateTimeField"), termEffDt)
 								.adjust(TestData.makeKeyPath("AA43IN", "form", "EndrEffDt", "DateTimeField"), endrEffDt)
-								.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
-								.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
-								.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
-								.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyEffDt", "DateTimeField"), plcyEffDt)
-								.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyExprDt", "DateTimeField"), plcyExprDt)
+								//.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
+								//.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
+								//.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
+								//.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyEffDt", "DateTimeField"), plcyEffDt)
+								//.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyExprDt", "DateTimeField"), plcyExprDt)
 								.adjust(TestData.makeKeyPath("AA59XX", "form", "PlcyNum", "TextField"), policyNumber)
 								.adjust(TestData.makeKeyPath("AA53IN", "form", "PlcyNum", "TextField"), policyNumber)
 								.adjust(TestData.makeKeyPath("AA52IN", "form", "PlcyNum", "TextField"), policyNumber)
@@ -547,15 +547,15 @@ public class TestScenario2 extends AutoSSBaseTest {
 						policyNumber);
 				break;
 			case "OK":
-				DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43OK, AH35XX, AA59XX, AA52OK, AA10OK, AAPDXX, AA02OK).verify.mapping(getTestSpecificTD("TestData_VerificationED")
+				DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43OK, AA59XX, AA52OK, AA10OK, AAPDXX, AA02OK).verify.mapping(getTestSpecificTD("TestData_VerificationED")
 								.adjust(TestData.makeKeyPath("AA43OK", "form", "PlcyNum", "TextField"), policyNumber)
 								.adjust(TestData.makeKeyPath("AA43OK", "form", "TermEffDt", "DateTimeField"), termEffDt)
 								.adjust(TestData.makeKeyPath("AA43OK", "form", "EndrEffDt", "DateTimeField"), endrEffDt)
-								.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
-								.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
-								.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
-								.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyEffDt", "DateTimeField"), plcyEffDt)
-								.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyExprDt", "DateTimeField"), plcyExprDt)
+								//.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
+								//.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
+								//.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
+								//.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyEffDt", "DateTimeField"), plcyEffDt)
+								//.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyExprDt", "DateTimeField"), plcyExprDt)
 								.adjust(TestData.makeKeyPath("AA59XX", "form", "PlcyNum", "TextField"), policyNumber)
 								.adjust(TestData.makeKeyPath("AA52OK", "form", "PlcyNum", "TextField"), policyNumber)
 								.adjust(TestData.makeKeyPath("AA52OK", "form", "TermEffDt", "DateTimeField"), termEffDt)
@@ -914,9 +914,10 @@ public class TestScenario2 extends AutoSSBaseTest {
 				formatValue(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Renewal - Policy Renewal Proposal")
 						.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
 		Dollar _curRnwlAmt = new Dollar(BillingSummaryPage.tableInstallmentSchedule.getRow(12).getCell(BillingConstants.BillingInstallmentScheduleTable.BILLED_AMOUNT).getValue());
-		Dollar _instlFee = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "EFT Installment Fee")
-				.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
-		curRnwlAmt = _curRnwlAmt.subtract(_instlFee).toString().replace("$", "").replace(",", "");
+		//Dollar _instlFee = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "EFT Installment Fee")
+		//		.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+		//curRnwlAmt = _curRnwlAmt.subtract(_instlFee).toString().replace("$", "").replace(",", "");
+		curRnwlAmt = _curRnwlAmt.toString().replace("$", "").replace(",", "");
 		totNwCrgAmt = formatValue(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
 		plcyPayMinAmt = formatValue(BillingSummaryPage.getMinimumDue().toString());
 		plcyDueDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance()
@@ -929,12 +930,12 @@ public class TestScenario2 extends AutoSSBaseTest {
 		AH35XX
 	    AHRBXX*/
 
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, AH35XX, AHRBXX).verify.mapping(getTestSpecificTD("TestData_VerificationRenewalBill")
-						.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
-						.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
-						.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
-						.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyEffDt", "DateTimeField"), plcyEffDt)
-						.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyExprDt", "DateTimeField"), plcyExprDt)
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, AHRBXX).verify.mapping(getTestSpecificTD("TestData_VerificationRenewalBill")
+						//.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
+						//.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
+						//.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
+						//.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyEffDt", "DateTimeField"), plcyEffDt)
+						//.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyExprDt", "DateTimeField"), plcyExprDt)
 						.adjust(TestData.makeKeyPath("AHRBXX", "form", "PlcyNum", "TextField"), policyNumber)
 						.adjust(TestData.makeKeyPath("AHRBXX", "form", "PlcyEffDt", "DateTimeField"), plcyEffDt)
 						.adjust(TestData.makeKeyPath("AHRBXX", "form", "TermEffDt", "DateTimeField"), termEffDt)
