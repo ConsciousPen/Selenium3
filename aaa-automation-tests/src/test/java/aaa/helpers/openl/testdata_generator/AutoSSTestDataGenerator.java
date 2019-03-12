@@ -118,7 +118,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 						AutoSSMetaData.VehicleTab.VIN.getLabel(), vehicle.getVinCode()));
 			}
 		}
-		return DataProviderFactory.dataOf(VehicleTab.class.getSimpleName(), DataProviderFactory.dataOf(AutoSSMetaData.VehicleTab.LIST_OF_VEHICLE.getLabel(), vehiclesTestData));
+		return DataProviderFactory.dataOf(
+				GeneralTab.class.getSimpleName(), new SimpleDataProvider(),
+				DriverTab.class.getSimpleName(), new SimpleDataProvider(),
+				RatingDetailReportsTab.class.getSimpleName(), DataProviderFactory.dataOf(AutoSSMetaData.RatingDetailReportsTab.ORDER_REPORT.getLabel(), "click"),
+				VehicleTab.class.getSimpleName(), DataProviderFactory.dataOf(AutoSSMetaData.VehicleTab.LIST_OF_VEHICLE.getLabel(), vehiclesTestData));
 	}
 
 	private TestData getPrefillTabData() {
@@ -190,7 +194,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			//TODO-dchubkov: add common method for replacing values from excel?
 			String carrierCode = openLPolicy.getCappingDetails().getCarrierCode().trim().replaceAll("\u00A0", "");
 			currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
-		} else if (openLPolicy.isCappedPolicy()) {
+		} else if (openLPolicy.isCappedPolicy() && openLPolicy.isLegacyConvPolicy()) {
 			String carrierCode;
 			switch (getState()) {
 				//TODO-dchubkov: fill carrier codes for other states, see "Capping" tab -> "Carrier Code" column in algorithm files for each state

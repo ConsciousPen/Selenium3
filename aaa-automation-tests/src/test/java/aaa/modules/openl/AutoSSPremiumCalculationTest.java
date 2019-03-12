@@ -87,8 +87,11 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 		}
 		policy.get().getDefaultView().fill(DataProviderFactory.dataOf(PurchaseTab.class.getSimpleName(), tdPurchase.getTestData(PurchaseTab.class.getSimpleName())));
 		policy.get().renew().perform();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		policy.get().getDefaultView().fill(DataProviderFactory.dataOf(VehicleTab.class.getSimpleName(), tdRenew.getTestData(VehicleTab.class.getSimpleName())));
+
+		policy.get().getDefaultView().fillUpTo(tdRenew, VehicleTab.class, true);
+
+		//		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		//		policy.get().getDefaultView().fill(DataProviderFactory.dataOf(VehicleTab.class.getSimpleName(), tdRenew.getTestData(VehicleTab.class.getSimpleName())));
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 	}
 }
