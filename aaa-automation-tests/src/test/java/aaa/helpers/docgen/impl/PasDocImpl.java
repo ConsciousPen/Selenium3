@@ -117,11 +117,11 @@ public class PasDocImpl extends DocumentWrapper {
 
 			if (softly == null) {
 				assertThat(docPolicyNum).as(errorMessagePolicy).isEqualTo(policyNumber);
-				assertThat(docPolicyNum).as(errorMessageDocId).isEqualTo(document.getIdInXml());
+				assertThat(doc.getTemplateId()).as(errorMessageDocId).isEqualTo(document.getIdInXml());
 
 			} else {
 				softly.assertThat(docPolicyNum).as(errorMessagePolicy).isEqualTo(policyNumber);
-				softly.assertThat(docPolicyNum).as(errorMessageDocId).isEqualTo(document.getIdInXml());
+				softly.assertThat(doc.getTemplateId()).as(errorMessageDocId).isEqualTo(document.getIdInXml());
 
 			}
 		}

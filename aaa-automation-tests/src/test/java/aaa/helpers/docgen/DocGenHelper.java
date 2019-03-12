@@ -19,6 +19,7 @@ import aaa.common.enums.Constants;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.db.DbXmlHelper;
 import aaa.helpers.docgen.impl.DocGenImpl;
+import aaa.helpers.docgen.impl.PasDocImpl;
 import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.helpers.xml.XmlHelper;
@@ -96,7 +97,8 @@ public class DocGenHelper {
 		//checkPasDocEnabled(policyNumber);
 		if (isPasDocEnabled(policyNumber)) {
 			log.info(String.format("PasDoc is enabled for product and state combination: " + policyNumber + "."));
-			return new DocGenImpl();
+			PasDocImpl.verifyDocumentsGenerated(softly, documentsExistence, generatedByJob, policyNumber, documents);
+			return new PasDocImpl();
 		}
 		assertThat(documents.length == 0 && !documentsExistence).as("Unable to call method with empty \"documents\" array and false \"documentsExistence\" argument values!").isFalse();
 
