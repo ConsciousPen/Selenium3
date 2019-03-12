@@ -164,7 +164,7 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 		DocGenHelper.verifyDocumentsGenerated(softly, policyNum, DocGenEnum.Documents._61_3000, DocGenEnum.Documents._61_6530, DocGenEnum.Documents._61_5120, DocGenEnum.Documents._61_1500);
 
-		mainApp().close();
+		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		policy.policyDocGen().start();
 		documentActionTab.verify.documentsEnabled(softly,
