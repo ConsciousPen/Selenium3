@@ -526,10 +526,10 @@ public class DocGenHelper {
 	}
 
 	public static void checkPasDocEnabled(String state, PolicyType pType, Boolean expectedValue) {
-		Boolean isEnabled = isPasDocEnabled(state, pType);
+		/*Boolean isEnabled = isPasDocEnabled(state, pType);
 		if (!isEnabled.equals(expectedValue)) {
 			throw new SkipException(String.format("PasDoc for product and state combination doesn't match. PasDoc switching-on expected: '%s', actual: '%s' - for product: '%s' and state: '%s'. Test will be skipped", expectedValue, isEnabled, pType, state));
-		}
+		}*/
 	}
 
 	public static void checkPasDocEnabled(String policyNum, Boolean expectedValue) {
