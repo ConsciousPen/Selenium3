@@ -18,6 +18,8 @@ import org.testng.SkipException;
 import aaa.common.enums.Constants;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.db.DbXmlHelper;
+import aaa.helpers.docgen.impl.DocGenImpl;
+import aaa.helpers.docgen.impl.PasDocImpl;
 import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.helpers.xml.XmlHelper;
@@ -32,7 +34,7 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class DocGenHelper {
 	private static final String DOCGEN_JOB_FOLDER = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");
-	private static final String DOCGEN_FOLDER = PropertyProvider.getProperty(CsaaTestProperties.DOCGEN_FOLDER, "/home/");
+	private static final String DOCGEN_FOLDER = PropertyProvider.getProperty(CsaaTestProperties.DOCGEN_ROOT_FOLDER, "/home/");
 	public static final String DOCGEN_SOURCE_FOLDER = DOCGEN_FOLDER + "DocGen/";
 	public static final String DOCGEN_BATCH_SOURCE_FOLDER = DOCGEN_SOURCE_FOLDER + "Batch/";
 	public static final String JOBS_DOCGEN_SOURCE_FOLDER = DOCGEN_JOB_FOLDER + "PAS_B_EXGPAS_DCMGMT_6500_D/outbound/";
@@ -94,8 +96,9 @@ public class DocGenHelper {
 	public static DocumentWrapper verifyDocumentsGenerated(ETCSCoreSoftAssertions softly, boolean documentsExistence, boolean generatedByJob, String policyNumber, DocGenEnum.Documents... documents) {
 		//checkPasDocEnabled(policyNumber);
 		if (isPasDocEnabled(policyNumber)) {
-			log.error(String.format("PasDoc is enabled for product and state combination: " + policyNumber + ". Verification will be skipped."));
-			return null;
+			log.info(String.format("PasDoc is enabled for product and state combination: " + policyNumber + "."));
+			PasDocImpl.verifyDocumentsGenerated(softly, documentsExistence, generatedByJob, policyNumber, documents);
+			return new PasDocImpl();
 		}
 		assertThat(documents.length == 0 && !documentsExistence).as("Unable to call method with empty \"documents\" array and false \"documentsExistence\" argument values!").isFalse();
 
@@ -130,10 +133,6 @@ public class DocGenHelper {
 		return documentWrapper;
 	}
 
-	public static DocumentWrapper getDocumentRequest(String policyNumber, DocGenEnum.Documents... documents) {
-		return getDocumentRequest(false, policyNumber, documents);
-	}
-
 	/**
 	 * Search xml document by <b>policyNumber</b> text and get <b>StandardDocumentRequest</b> object model from it.
 	 *
@@ -166,7 +165,7 @@ public class DocGenHelper {
 			standardDocumentRequest = XmlHelper.xmlToModel(content, CreateDocuments.class, false).getStandardDocumentRequest();
 		}
 
-		return new DocumentWrapper(standardDocumentRequest, generatedByJob);
+		return new DocGenImpl(standardDocumentRequest);
 	}
 
 	public static List<String> waitForDocumentsAppearance(String policyNumber, DocGenEnum.Documents... documents) {

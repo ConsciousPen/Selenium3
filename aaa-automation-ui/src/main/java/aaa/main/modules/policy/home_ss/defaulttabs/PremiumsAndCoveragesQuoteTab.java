@@ -11,6 +11,8 @@ import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import org.openqa.selenium.By;
+import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
@@ -18,7 +20,11 @@ import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -46,6 +52,7 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 	public static RatingDetailsTable tableCappedPolicyPremium = new RatingDetailsTable("//div[@id='cappingDetailsPopupPanel:vehicleCapPanel_body']//table");
 	public static Table autoPaySetupSavingMessage = new Table(By.id("policyDataGatherForm:installmentFeeAmountSavedPanel"));
 	public static Table tableCoverages = new Table(By.xpath("//table[@id='policyDataGatherForm:coverageSummaryTable']"));
+	public static Table tableRatingDetailsDiscounts = new Table(By.xpath("//table[@id='horatingDetailsPopupForm_6:ratingDetailsTable']"));
 
 	public static Button buttonViewCappingDetails = new Button(By.id("policyDataGatherForm:viewCappingDetails_Link_1"), Waiters.AJAX);
 
@@ -85,5 +92,26 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 
 	public void openViewRatingDetails() {
 		getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.VIEW_RATING_DETAILS.getLabel()).getWebElement().click();
+	}
+
+	public TestData getRatingDetailsDiscountsData() {
+
+		Map<String, Object> map = new LinkedHashMap<>();
+		List<String> keys = tableRatingDetailsDiscounts.getColumn(1).getValue();
+		List<String> values = tableRatingDetailsDiscounts.getColumn(2).getValue();
+		assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
+
+		for (int i = 0; i < keys.size(); i++) {
+			map.put(keys.get(i), values.get(i));
+		}
+
+		keys = tableRatingDetailsDiscounts.getColumn(3).getValue();
+		values = tableRatingDetailsDiscounts.getColumn(4).getValue();
+		assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
+		for (int i = 0; i < keys.size(); i++) {
+			map.put(keys.get(i), values.get(i));
+		}
+
+		return new SimpleDataProvider(map);
 	}
 }
