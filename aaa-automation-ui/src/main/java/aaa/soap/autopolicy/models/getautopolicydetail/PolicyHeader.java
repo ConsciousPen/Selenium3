@@ -59,35 +59,36 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PolicyHeader", propOrder = {
-    "policyIdentifier",
-    "lineOfBusiness",
-    "productCode",
-    "policyPrefix",
-    "policyNumber",
-    "riskState",
-    "type",
-    "termEffectiveDate",
-    "termExpirationDate",
-    "termAmount",
-    "status",
-    "statusDescription",
-    "statusReason",
-    "statusReasonDescription",
-    "statusReasonDate",
-    "writingCompany",
-    "renewalFlag",
-    "convertedRenewalOffer",
-    "inceptionDate",
-    "dataSource",
-    "months",
-    "quoteId",
-    "customerNumber",
-    "lastUpdated",
-    "address",
-    "insurerName",
-    "agent",
-    "insureds",
-    "policyHeaderExtension"
+        "address",
+        "agent",
+        "convertedRenewalOffer",
+        "customerNumber",
+        "dataSource",
+        "fullTermAmount",
+        "inceptionDate",
+        "insureds",
+        "insurerName",
+        "lastUpdated",
+        "lineOfBusiness",
+        "months",
+        "policyHeaderExtension",
+        "policyIdentifier",
+        "policyNumber",
+        "policyPrefix",
+        "productCode",
+        "quoteId",
+        "renewalFlag",
+        "riskState",
+        "status",
+        "statusDescription",
+        "statusReason",
+        "statusReasonDate",
+        "statusReasonDescription",
+        "termAmount",
+        "termEffectiveDate",
+        "termExpirationDate",
+        "type",
+        "writingCompany"
 })
 @XmlSeeAlso({
     PolicySummary.class
@@ -106,6 +107,7 @@ public class PolicyHeader {
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar termExpirationDate;
     protected BigDecimal termAmount;
+    protected BigDecimal fullTermAmount;
     protected String status;
     protected String statusDescription;
     protected String statusReason;
@@ -370,7 +372,28 @@ public class PolicyHeader {
     public void setTermAmount(BigDecimal value) {
         this.termAmount = value;
     }
-
+    /**
+     * Gets the value of the fullTermAmount property.
+     *
+     * @return
+     *     possible object is
+     *     {@link BigDecimal }
+     *
+     */
+    public BigDecimal getfullTermAmount() {
+        return fullTermAmount;
+    }
+    /**
+     * Sets the value of the fullTermAmount property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link BigDecimal }
+     *
+     */
+    public void setfullTermAmount(BigDecimal value) {
+        this.fullTermAmount = value;
+    }
     /**
      * Gets the value of the status property.
      * 
