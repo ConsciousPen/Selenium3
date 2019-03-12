@@ -131,10 +131,14 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
-		createPolicy();
+		TestData td_sc2 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC2").resolveLinks());
+		createPolicy(td_sc2);
 		log.info("PAS DOC: Policy created with #" + PolicySummaryPage.getPolicyNumber());
 		
 		policy.policyDocGen().start();
+		odd_tab.verify.documentsPresent(null, true, Documents.AA06XX_AUTOSS, Documents.AA10XX, Documents.AA11AZ, Documents.AA43AZ, Documents.AA52AZ, 
+				Documents.AAPDXX, Documents.AASR22, Documents.AAUBI, Documents.AAUBI1, Documents.ACPUBI, Documents.AHAPXX, Documents.AHRCTXXAUTO, 
+				Documents.AU02, Documents.AU04, Documents.AU05, Documents.AU06, Documents.AU07, Documents.AU08, Documents.AU09, Documents.AU10);
 		//TODO 
 		odd_tab.saveAndExit();
 	}
