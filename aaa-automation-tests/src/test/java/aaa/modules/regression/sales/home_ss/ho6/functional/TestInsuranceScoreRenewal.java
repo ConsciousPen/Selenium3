@@ -1,21 +1,21 @@
-package aaa.modules.regression.sales.home_ss.ho3.functional;
+package aaa.modules.regression.sales.home_ss.ho6.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestInsuranceScoreRenewalTemplate;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
+		return PolicyType.HOME_SS_HO6;
 	}
 
 	//	----------------------------------------- Ordering at renewal per customer request ----------------------------
@@ -71,7 +71,7 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	@Parameters({"state"})
 	@StateList(statesExcept = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
 	public void pas25569_SpouseScoreOnRenewalIsHigher(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_SpouseScoreOnRenewalIsHigher",
 				500, 650, 600, 700,
@@ -81,7 +81,7 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	@Parameters({"state"})
 	@StateList(statesExcept = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
 	public void pas25569_PrimaryInsuredScoreOnRenewalIsHigher(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_PrimaryInsuredScoreOnRenewalIsHigher",
 				500, 650, 800, 700,
@@ -91,7 +91,7 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	@Parameters({"state"})
 	@StateList(statesExcept = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
 	public void pas25569_PrimaryInsuredScoreOnRenewalIsHigher2(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_PrimaryInsuredScoreOnRenewalIsHigher2",
 				500, 650, 800, 600,
@@ -101,7 +101,7 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	@Parameters({"state"})
 	@StateList(statesExcept = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
 	public void pas25569_SpouseScoreFromIsHigher(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_SpouseScoreFromNBIsHigher",
 				500, 650, 600, 600,
@@ -111,7 +111,7 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	@Parameters({"state"})
 	@StateList(statesExcept = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
 	public void pas25569_notOrderingForSpouse_SpouseScoreOnRenewalIsHigher(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_SpouseScoreFromNBIsHigher",
 				500, 650, 600, 650,
@@ -121,7 +121,7 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	@Parameters({"state"})
 	@StateList(statesExcept = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
 	public void pas25569_notOrderingForSpouse_PrimaryInsuredScoreOnRenewalIsHigher(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_PrimaryInsuredScoreOnRenewalIsHigher2",
 				500, 650, 800, 650,
@@ -131,7 +131,7 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	@Parameters({"state"})
 	@StateList(statesExcept = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
 	public void pas25569_notOrderingForSpouseandPrimaryInsured(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_PrimaryInsuredScoreOnRenewalIsHigher2",
 				500, 650, 500, 650,
@@ -141,7 +141,7 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CO, Constants.States.MT, Constants.States.NV, Constants.States.OK, Constants.States.VA, Constants.States.WV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
 	public void pas25569_SpouseGotLowestOnRenewal(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_SpouseGotLowestOnRenewal",
 				500, 650, 600, 400,
@@ -188,7 +188,7 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CO, Constants.States.MT, Constants.States.NV, Constants.States.OK, Constants.States.VA, Constants.States.WV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
 	public void pas25569_automaticReorderingAt36Months_SpouseScoreOnRenewalIsHigher(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_SpouseScoreOnRenewalIsHigher",
 				500, 650, 600, 700,
@@ -198,7 +198,7 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CO, Constants.States.MT, Constants.States.NV, Constants.States.OK, Constants.States.VA, Constants.States.WV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
 	public void pas25569_automaticReorderingAt36Months_SpouseGotLowestOnRenewal(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_SpouseGotLowestOnRenewal",
 				500, 650, 600, 400,
@@ -208,7 +208,7 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CO, Constants.States.MT, Constants.States.NV, Constants.States.OK, Constants.States.VA, Constants.States.WV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
 	public void pas25569_automaticReorderingAt36Months_SpouseScoreOnRenewalIsLower(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_PrimaryInsuredScoreOnRenewalIsHigher2",
 				500, 650, 800, 600,
@@ -218,7 +218,7 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CO, Constants.States.MT, Constants.States.NV, Constants.States.OK, Constants.States.VA, Constants.States.WV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
 	public void pas25569_automaticReorderingAt36Months_NBisEqual_takesOlder(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_NBisEqual",
 				650, 650, 650, 700,
@@ -283,7 +283,7 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CO, Constants.States.MT, Constants.States.NV, Constants.States.OK, Constants.States.VA, Constants.States.WV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
 	public void pas25569_ReorderAtRenewal_ReorderAt36Months_SpouseHigherOnRenewal(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_SpouseScoreOnRenewalIsHigher",
 				500, 650, 600, 700,
@@ -293,7 +293,7 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CO, Constants.States.MT, Constants.States.NV, Constants.States.OK, Constants.States.VA, Constants.States.WV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
 	public void pas25569_ReorderAtRenewal_ReorderAt36Months_OnlyReorderForPrimaryInsured(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_SpouseScoreOnRenewalIsHigher",
 				500, 650, 600, 700,
@@ -303,7 +303,7 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CO, Constants.States.MT, Constants.States.NV, Constants.States.OK, Constants.States.VA, Constants.States.WV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
 	public void pas25569_ReorderAtRenewal_ReorderAt36Months_PrimaryInsuredScoreOnRenewalIsHigher(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_PrimaryInsuredScoreOnRenewalIsHigher",
 				500, 650, 800, 700,
@@ -313,7 +313,7 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CO, Constants.States.MT, Constants.States.NV, Constants.States.OK, Constants.States.VA, Constants.States.WV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
 	public void pas25569_BothEqualOnRenewal(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_BothEqualOnRenewal",
 				500, 650, 650, 600,
@@ -323,7 +323,7 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CO, Constants.States.MT, Constants.States.NV, Constants.States.OK, Constants.States.VA, Constants.States.WV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089"})
 	public void pas25569_ReorderAtRenewal__automaticReorderingAt36Months_SpouseScoreOnRenewalIsLower(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_PrimaryInsuredScoreOnRenewalIsHigher2",
 				500, 650, 800, 600,

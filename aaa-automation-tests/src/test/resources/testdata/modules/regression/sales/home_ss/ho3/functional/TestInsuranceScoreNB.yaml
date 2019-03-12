@@ -1,5 +1,9 @@
 ApplicantTab_OneSpouse_OneChild: {
-  NamedInsured: ['@NamedInsured', '@NamedInsuredFirstSpouse', '@NamedInsuredChild'],
+  NamedInsured: ['@NamedInsured', '@NamedInsuredSpouse', '@NamedInsuredChild'],
+}
+
+ApplicantTab_OneSpouse_OneChild_OneParent: {
+  NamedInsured: ['@NamedInsured', '@NamedInsuredSpouse', '@NamedInsuredChild', '@NamedInsuredParent'],
 }
 
 TestData_NamedInsuredOther: {
@@ -8,16 +12,15 @@ TestData_NamedInsuredOther: {
   }
 }
 
-
 NamedInsured: {
   First name: 'FN Primary Insured',
   Relationship to primary named insured:  Primary Insured,
 }
 
-NamedInsuredFirstSpouse: {
+NamedInsuredSpouse: {
   CustomerSearchDialog: {},
-  First name: 'FN Spouse First',
-  Last name: 'LN Spouse First',
+  First name: 'FN Spouse',
+  Last name: 'LN Spouse',
   Relationship to primary named insured: Spouse,
   Marital status: 'Single',
   Date of birth: '09/05/1979',
@@ -25,11 +28,11 @@ NamedInsuredFirstSpouse: {
   Occupation: 'index=1'
 }
 
-NamedInsuredSecondSpouse: {
+NamedInsuredParent: {
  CustomerSearchDialog: {},
- First name: 'FN Spouse Second',
- Last name: 'LN Spouse Second',
- Relationship to primary named insured: Spouse,
+ First name: 'FN Parent',
+ Last name: 'LN Parent',
+ Relationship to primary named insured: Parent,
  Marital status: 'Single',
  Date of birth: '09/05/1979',
  Social security number: '123456789',
