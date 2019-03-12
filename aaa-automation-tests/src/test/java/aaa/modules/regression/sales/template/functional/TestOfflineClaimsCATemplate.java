@@ -12,7 +12,7 @@ import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -902,7 +902,17 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         CLAIM_TO_DRIVER_LICENSE = ImmutableMap.of(CLAIM_NUMBER_1, "D1278222", CLAIM_NUMBER_2, "D1278999");
 
         // Create Customer and Policy with one driver
-        TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_ReconcileFNIclaims_PU").resolveLinks();
+        TestData testDataForFNI;
+
+        //Set correct 'Age First Licensed' to drivers age - ensures product is CA Choice (driving experience is less than 3)
+        if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+            String age = String.valueOf(ChronoUnit.YEARS.between(LocalDate.of(1997, Month.OCTOBER, 16), TimeSetterUtil.getInstance().getCurrentTime()));
+             testDataForFNI = getTestSpecificTD("TestData_DriverTab_ReconcileFNIclaims_PU")
+                    .adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel()), age).resolveLinks();
+        } else {
+             testDataForFNI = getTestSpecificTD("TestData_DriverTab_ReconcileFNIclaims_PU").resolveLinks();
+        }
+
         adjusted = getPolicyTD().adjust(testDataForFNI);
         policyNumber = openAppAndCreatePolicy(adjusted);
         log.info("Policy created successfully. Policy number is " + policyNumber);
@@ -954,7 +964,17 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      */
     public void pas24587_ClueReconcilePUAFRUserFlagged(){
         //Create a policy with 2 drivers
-        TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_ClueReconcileFNIclaims_PU").resolveLinks();
+
+        TestData testDataForFNI;
+        //Set correct 'Age First Licensed' to drivers age - ensures product is CA Choice (driving experience is less than 3)
+        if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+            String age = String.valueOf(ChronoUnit.YEARS.between(LocalDate.of(1997, Month.OCTOBER, 16), TimeSetterUtil.getInstance().getCurrentTime()));
+            testDataForFNI = getTestSpecificTD("TestData_DriverTab_ReconcileFNIclaims_PU")
+                    .adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel()), age).resolveLinks();
+        } else {
+            testDataForFNI = getTestSpecificTD("TestData_DriverTab_ReconcileFNIclaims_PU").resolveLinks();
+        }
+
         adjusted = getPolicyTD().adjust(testDataForFNI);
         //policyNumber = openAppAndCreatePolicy(adjusted);
         createQuoteAndFillUpTo(adjusted, PremiumAndCoveragesTab.class);
