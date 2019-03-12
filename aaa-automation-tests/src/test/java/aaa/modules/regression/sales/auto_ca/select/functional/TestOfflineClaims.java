@@ -153,6 +153,31 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
     }
 
     /**
+     * @author Kiruthika Rajendran
+     * PAS-25463 - UI-CA: do NOT Show Permissive Use Indicator on Driver Tab (non-"claim" activity) (by source and type)
+     * @name Test Offline STUB/Mock: validate permissive use indicator when driver/named insure is added
+     * @scenario Test Steps:
+     * 1. Create a quote with 2 drivers and named insured driver1  has the following activies
+     *        - Company and Customer input (Type other than Accident) - PU indicator do not show up
+     *        - Company and Customer input (Type as Accident) - - PU indicator shows up
+     *        - MVR claims - PU indicator do not show up
+     * 2. Bind the policy
+     * 3. Initiate the first endorsement
+     * 4. Validate the driver 1 named insure has following activties
+     *        - Company and Customer input (Type other than Accident) - PU indicator do not show up
+     *        - Company and Customer input (Type as Accident) - - PU indicator shows up
+     *        - MVR claims - PU indicator do not show up
+     * 5. Bind the endorsement
+     * @details Clean Path. Expected Result is that Permissive Use Indicator on Driver Tab will not show up for non "claim" activity
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-25463")
+    public void pas25463_ViolationsMVRPUIndicatorCheck(@Optional("CA") @SuppressWarnings("unused") String state) {
+        pas25463_ViolationsMVRPUIndicatorCheck();
+    }
+
+    /**
      * @author Mantas Garsvinskas
      * PAS-25162 - UI-CA-CAS: make sure “MATCHED” FNI claims do not show PU YES unless set by user
      * @name Test Offline Claims Permissive Use Indicator defaulting Rules
@@ -171,7 +196,7 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * 5. Retrieve policy and enter renewal image
      * 6. Verify all Claims: 'Permissive Use Loss?' flag is set according to defaulting rules
      * 7. Accept a payment and renew the policy
-     * --Next steps will be added after PAS-26322 
+     * --Next steps will be added after PAS-26322
      * 8. Move time to R2-63 and run Renewal Part1 + "renewalClaimOrderAsyncJob"
      * 9. Create CAS Response File with required Claims
      * 9.1. --EXISTING_MATCH matched Claims: Previously was PU = Y, Now PU = N, and viceversa

@@ -127,6 +127,8 @@ public class Jobs {
 
 	public static Job policyTransactionLedgerJob_NonMonthly = new Job("policyTransactionLedgerJob_NonMonthly");
 
+	public static Job ledgerStatusUpdateJob = new Job("ledgerStatusUpdateJob");
+
 	public static Job cftDcsEodJob = new Job("cftDcsEodJob");
 
 	public static Job aaaCreditDisclosureNoticeJob = new Job("aaaCreditDisclosureNoticeJob");
@@ -198,12 +200,6 @@ public class Jobs {
 	public static Job activityHistoryJob = new Job("activityHistoryJob");
 
 	public static Job activitySummarizationJob = new Job("activitySummarizationJob");
-
-	public static Job ledgerStatusUpdateJob = new Job("ledgerStatusUpdateJob");
-
-
-
-
 
 	public enum JobState {
 		TRUE, FALSE, FAILED
