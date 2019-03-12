@@ -1,16 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Pre Deploy Preconditions" verbose="1" parallel="false">
-    <test name="Evalue Preconditions" preserve-order="true">
+    <test name="Configuration Preconditions" preserve-order="true">
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.EvalueInsertSetup">
-                <methods>
-                    <include name="paperlessPreferencesStubEndpointUpdate"/>
-                    <include name="lastPaymentMethodStubPointUpdate"/>
-                    <include name="refundConfigurationUpdate"/>
-                    <include name="preconditionsForMiniServicesAuthenticationInAws"/>
-                    <include name="eValueConfigInsert"/>
-                </methods>
-            </class>
+            <class name="aaa.modules.preconditions.PreDeployConfigUpdate"/>
         </classes>
     </test>
 </suite>

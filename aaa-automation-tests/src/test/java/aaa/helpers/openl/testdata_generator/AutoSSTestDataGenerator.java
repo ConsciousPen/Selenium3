@@ -104,15 +104,15 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		TestData namedInsuredInformationData = DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(), getGeneralTabResidence(openLPolicy.isHomeOwner()),
-				AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getAaaInsurancePersistency())
-						.format(DateTimeUtils.MM_DD_YYYY));
+				AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel(),
+				Constants.States.MD.equals(openLPolicy.getState()) && openLPolicy.isLegacyConvPolicy() && !openLPolicy.getDrivers().get(0).isCleanDriver() ? openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY) : openLPolicy.getEffectiveDate().minusYears(openLPolicy.getAaaInsurancePersistency()).format(DateTimeUtils.MM_DD_YYYY));    //
 
 		Map<String, Object> currentAAAMembershipData = new HashMap<>();
 		currentAAAMembershipData.put(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()));
 
 		// TODO NEED TO REFACTOR According to changes in UI for Auto SS product for MPD feature.
 		// ownedHome is a temporal fix for NY Auto SS test, should be deleted after MPD Merge to master
-		String ownedHome = "Y".equalsIgnoreCase(openLPolicy.getAaaHomePolicy()) ? "Yes": "No";
+		String ownedHome = "Y".equalsIgnoreCase(openLPolicy.getAaaHomePolicy()) ? "Yes" : "No";
 
 		/*Map<String, Object> aAAProductOwnedData = new HashMap<>();
 		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaHomePolicy()))) {
@@ -142,7 +142,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		} else {
 			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CONDO.getLabel(), "No");
 		}*/
-
 
 		// TODO Refactor section  END
 
@@ -202,7 +201,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				AutoSSMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), DataProviderFactory.emptyData(),
 				AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), new SimpleDataProvider(currentCarrierInformationData),
 				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), new SimpleDataProvider(policyInformationData),
-		        AutoSSMetaData.GeneralTab.HOME.getLabel(), ownedHome);
+				AutoSSMetaData.GeneralTab.HOME.getLabel(), ownedHome);
 	}
 
 	private List<TestData> getDriverTabData(AutoSSOpenLPolicy openLPolicy) {
@@ -455,7 +454,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				throw new NotImplementedException("Test data generation for enabled isHybrid is not implemented since there is no UI field for this attribute.");
 			}
 
-			TestData vehicleData = getVehicleTabInformationData(vehicle);
+			TestData vehicleData = getVehicleTabInformationData(vehicle, openLPolicy.isLegacyConvPolicy());
 			if (Boolean.TRUE.equals(vehicle.isTelematic())) {
 				vehicleData.adjust(getVehicleTabVehicleDetailsData("No Score"));
 			}
@@ -647,7 +646,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		return new SimpleDataProvider(premiumAndCoveragesTabData);
 	}
 
-	private TestData getVehicleTabInformationData(AutoSSOpenLVehicle vehicle) {
+	private TestData getVehicleTabInformationData(AutoSSOpenLVehicle vehicle, boolean isLegacyConvPolicy) {
 		String vin = getVinFromDb(vehicle);
 		Map<String, Object> vehicleInformation = new HashMap<>();
 		String statCode = vehicle.getBiLiabilitySymbol();
@@ -693,7 +692,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.AIR_BAGS.getLabel(), getVehicleTabAirBags(vehicle.getAirbagCode()));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.ANTI_THEFT.getLabel(), getVehicleTabAntiTheft(vehicle.getAntiTheftString()));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + getVehicleTabStatCode(statCode));
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), getOtherBodyStyle(statCode));
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), getOtherBodyStyle(statCode, isLegacyConvPolicy));
 			}
 		}
 
@@ -807,7 +806,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					"TWOYR".equals(openLPolicy.getAaaAPIPLengthIncomeCont()) ? "Two Years" : "Unlimited");
 		}
 		if (openLPolicy.getAaaPIPExtMedPayLimit() != null) {
-			Dollar limit = openLPolicy.getAaaPIPExtMedPayLimit() == 1 ? new Dollar(1000) : new Dollar(10000);
+			Dollar limit = openLPolicy.getAaaPIPExtMedPayLimit() == 0 || openLPolicy.getAaaPIPExtMedPayLimit() == 1 ? new Dollar(1000) : new Dollar(10000);
 			td.put(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.EXTENDED_MEDICAL_PAYMENTS.getLabel(), limit.toString().replaceAll("\\.00", ""));
 		}
 		if (openLPolicy.getAaaPIPMedExpDeductible() != null) {
@@ -851,9 +850,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		return new SimpleDataProvider(td);
 	}
 
-	private String getOtherBodyStyle(String statCode) {
-		List<String> otherBodyStyleStates = Arrays.asList(Constants.States.CO, Constants.States.DE, Constants.States.WY, Constants.States.OR, Constants.States.IN);
-		return !isConversionVanType(statCode) || otherBodyStyleStates.contains(getState()) ? AdvancedComboBox.RANDOM_MARK : null;
+	private String getOtherBodyStyle(String statCode, boolean isLegacyConvPolicy) {
+		List<String> otherBodyStyleStates = Arrays.asList(Constants.States.CO, Constants.States.DE, Constants.States.OR, Constants.States.WY, Constants.States.IN, Constants.States.MT);
+		return !isConversionVanType(statCode) || otherBodyStyleStates.contains(getState()) && !isLegacyConvPolicy ? AdvancedComboBox.RANDOM_MARK : null;
 	}
 
 	static class ActivityInformation {

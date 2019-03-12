@@ -84,6 +84,18 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_150000,
 			CoverageLimits.COV_250000
 	)),
+
+    COV_PIPMAXINCCONT_NJ(ImmutableList.of(
+            CoverageLimits.COV_100,
+            CoverageLimits.COV_125,
+            CoverageLimits.COV_175,
+            CoverageLimits.COV_250,
+            CoverageLimits.COV_400,
+            CoverageLimits.COV_500,
+            CoverageLimits.COV_600,
+            CoverageLimits.COV_700
+    )),
+
 	COV_PIPMEDEXPDED_NJ(ImmutableList.of(
 			CoverageLimits.COV_250,
 			CoverageLimits.COV_500,
@@ -137,6 +149,16 @@ public enum AvailableCoverageLimits {
 	)),
 	PD_NJ(ImmutableList.of(
 			CoverageLimits.COV_5000,
+			CoverageLimits.COV_10000,
+			CoverageLimits.COV_15000,
+			CoverageLimits.COV_25000,
+			CoverageLimits.COV_50000,
+			CoverageLimits.COV_100000,
+			CoverageLimits.COV_300000,
+			CoverageLimits.COV_500000,
+			CoverageLimits.COV_1000000
+	)),
+	PD_DE(ImmutableList.of(
 			CoverageLimits.COV_10000,
 			CoverageLimits.COV_15000,
 			CoverageLimits.COV_25000,
@@ -530,7 +552,15 @@ public enum AvailableCoverageLimits {
 	LOL(ImmutableList.of(
 			CoverageLimits.COV_LOL,
 			CoverageLimits.COV_NO_LOL
-	));
+	)),
+    COV_PIPLENINCCONT_NJ(ImmutableList.of(
+            CoverageLimits.COV_2YR,
+            CoverageLimits.COV_UNL
+    )),
+    COV_PIPCOVINCLUDES_NJ(ImmutableList.of(
+            CoverageLimits.COV_PIPCOVINCLUDES_NI,
+            CoverageLimits.COV_PIPCOVINCLUDES_NIFM
+    ));
 
 	private final List<CoverageLimits> availableLimits;
 

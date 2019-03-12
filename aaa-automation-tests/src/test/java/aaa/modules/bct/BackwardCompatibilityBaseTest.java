@@ -1,21 +1,21 @@
 package aaa.modules.bct;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.io.IOException;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import org.testng.SkipException;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.common.enums.JobResultEnum;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.http.HttpJob;
+import aaa.helpers.http.BackendJobNames;
 import aaa.helpers.jobs.Job;
 import aaa.helpers.jobs.JobUtils;
 import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -28,48 +28,48 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	protected static ConcurrentHashMap<List<String>, List<Map<String, String>>> queryResult = new ConcurrentHashMap<>();
 
 	public static final String SELECT_POLICY_QUERY_TYPE = "SelectPolicy";
+	public static final String ddMMyy = "dd-MMM-yy";
+	public static final String PRE_VALIDATION = "PreValidation";
+	public static final String POST_VALIDATION = "PostValidation";
+
 	public BillingAccount billingAccount = new BillingAccount();
-	public AcceptPaymentActionTab paymentTab = new AcceptPaymentActionTab();
 
 	protected BctType getBctType() {
 		return BctType.ONLINE_TEST;
 	}
 
 	protected void executeBatchTest(Job job){
+		String backEndJobName = BackendJobNames.getBackEndJobNames(job.getJobName());
+		String startDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern(ddMMyy)).toUpperCase();
+
 		JobUtils.executeJob(job);
 
-		String result = null;
-		try {
-			result = HttpJob.JobStatistic.getJobProcessedStatistic(job.getJobName());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		String endedDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern(ddMMyy)).toUpperCase();
 
-		boolean failurePercentage = getFailurePercentage(result);
-
-		assertThat(failurePercentage).as("Percentage of failed to process tasks is more 5").isEqualTo(true);
+		String query = String.format(SELECT_ALL_FROM_JOB_SUMMARY, "%" + backEndJobName + "%", startDate + "%", endedDate + "%");
+		assertThat(getFailurePercentage(backEndJobName, query)).as("Percentage of failed tasks is more 5%").isEqualTo(true);
 	}
 
 	@Deprecated
 	protected void executeBatchTestWithQueries(String name, Job job) {
-		List<String> preKey = Collections.unmodifiableList(Arrays.asList(name, "PreValidation"));
+		List<String> preKey = Collections.unmodifiableList(Arrays.asList(name, PRE_VALIDATION));
 		synchronized (name) {
 			if (!queryResult.containsKey(preKey)) {
-				queryResult.put(preKey, getQueryResult(name, "PreValidation"));
+				queryResult.put(preKey, getQueryResult(name, PRE_VALIDATION));
 			}
 		}
-		List<String> foundPolicies = getPoliciesFromQuery(queryResult.get(preKey), "PreValidation");
+		List<String> foundPolicies = getPoliciesFromQuery(queryResult.get(preKey), PRE_VALIDATION);
 
 //		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		JobUtils.executeJob(job);
 
-		List<String> postKey = Collections.unmodifiableList(Arrays.asList(name, "PostValidation"));
+		List<String> postKey = Collections.unmodifiableList(Arrays.asList(name, POST_VALIDATION));
 		synchronized (name) {
 			if (!queryResult.containsKey(postKey)) {
-				queryResult.put(postKey, getQueryResult(name, "PostValidation"));
+				queryResult.put(postKey, getQueryResult(name, POST_VALIDATION));
 			}
 		}
-		List<String> processedPolicies = getPoliciesFromQuery(queryResult.get(postKey), "PostValidation");
+		List<String> processedPolicies = getPoliciesFromQuery(queryResult.get(postKey), POST_VALIDATION);
 
 		CustomSoftAssertions.assertSoftly(softly -> {
 			foundPolicies.forEach(policy -> assertThat(processedPolicies).as("Policy " + policy + " was processed by " + job.getJobName()).contains(policy));
@@ -85,24 +85,26 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		query = query.replace("/DATE1/", startRangeDate);
 		query = query.replace("/DATE2/", endRangeDate);
 		query = query.replace("/STATE/", getState());
+		query = query.replace("/AND_ROWNUM_1/", "and rownum = 1");
 
 		return getPoliciesFromQuery(DBService.get().getRows(query), SELECT_POLICY_QUERY_TYPE);
 	}
 
 	private List<Map<String, String>> getQueryResult(String testName, String queryName) {
-		String executionDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("dd-MMM-yy"));
+		String executionDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern(ddMMyy));
 		String query = testDataManager.bct.get(getBctType()).getTestData(testName).getValue(queryName);
 		query = query.replace("/EXECDATE/", executionDate);
 		query = query.replace("/STATE/", getState());
 		query = query.replace("pasadm.", "");
 		query = query.replace("PASADM.", "");
+		query = query.replace("/AND_ROWNUM_1/", " and rownum = 1");
 
 		return DBService.get().getRows(query);
 	}
 
 	protected List<String> getPoliciesWithDateRangeByQuery(String testName, String date1, String date2) {
-		String executionDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("dd-MMM-yy"));
-		String query = testDataManager.bct.get(getBctType()).getTestData(testName).getValue("SelectPolicy");
+		String executionDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern(ddMMyy));
+		String query = testDataManager.bct.get(getBctType()).getTestData(testName).getValue(SELECT_POLICY_QUERY_TYPE);
 		query = query.replace("/EXECDATE/", executionDate);
 		query = query.replace("/STATE/", getState());
 		query = query.replace("pasadm.", "");
@@ -118,13 +120,13 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 				.filter(map -> (!map.containsKey("RISKSTATECD") || map.get("RISKSTATECD").equals(getState())) && (!map.containsKey("RISKSTATE") || map.get("RISKSTATE").equals(getState())))
 				.map(map -> map.get("POLICYNUMBER")).collect(Collectors.toList());
 		switch (queryName) {
-			case "PreValidation":
+			case PRE_VALIDATION:
 				if (policies.isEmpty()) {
 					log.error("No policies found by '{}' query", queryName);
 					throw new SkipException("No policies found by '" + queryName + "' query");
 				}
 				break;
-			case "PostValidation":
+			case POST_VALIDATION:
 				assertThat(policies).as("No policies found by '" + queryName + "' query").isEmpty();
 				break;
 			default:
@@ -148,9 +150,14 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	}
 
 	protected void deletePendingTransaction(IPolicy policy) {
-		if (PolicySummaryPage.buttonPendedEndorsement.isEnabled()) {
+		if (PolicySummaryPage.buttonPendedEndorsement.isPresent() && PolicySummaryPage.buttonPendedEndorsement.isEnabled()) {
 			PolicySummaryPage.buttonPendedEndorsement.click();
 			policy.deletePendedTransaction().perform(new SimpleDataProvider());
+		}
+
+		// if policy found and was opened at the Renewals action tab
+		if(PolicySummaryPage.buttonBackFromRenewals.isPresent() && PolicySummaryPage.buttonBackFromRenewals.isEnabled()){
+			PolicySummaryPage.buttonBackFromRenewals.click();
 		}
 	}
 
@@ -174,27 +181,32 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		return Thread.currentThread().getStackTrace()[2].getMethodName();
 	}
 
-	private boolean getFailurePercentage(String result) {
-		HashMap<String, String> preparedStatisticsRow = prepareStatisticsRow(result);
+	private String SELECT_ALL_FROM_JOB_SUMMARY = "Select * from JobSummary WHERE JOBNAME like '%s' AND STARTED like '%s' AND ENDED like '%s' order by ENDED DESC";
 
-		long processedCount = Long.parseLong(preparedStatisticsRow.get(JobResultEnum.JobStatisticsConstants.PROCESSED_COUNT));
-		long successCount = Long.parseLong(preparedStatisticsRow.get(JobResultEnum.JobStatisticsConstants.SUCCESS_COUNT));
-		long errorCount = Long.parseLong(preparedStatisticsRow.get(JobResultEnum.JobStatisticsConstants.ERROR_COUNT));
+	private Boolean getFailurePercentage(String backEndJobName, String sql) {
+		Boolean failurePercentageExceeded;
+		Map<String, String> lastJobResult = DBService.get().getRow(sql);
+		assertThat(lastJobResult).as(String.format("Results for %s were not found in database", backEndJobName)).isNotEmpty();
+
+		long processedCount = Long.parseLong(lastJobResult.get("TOTALITEMS"));
+		long successCount = Long.parseLong(lastJobResult.get("TOTALSUCCESS"));
+		long errorCount = Long.parseLong(lastJobResult.get("TOTALFAIL"));
 
 		if(processedCount == 0){
-			return true;
+			failurePercentageExceeded = true;
 		}
 		else{
-			return isErorrsCountLessOfFivePercents(processedCount, errorCount);
+			failurePercentageExceeded = isErrorsCountLessFivePercents(processedCount, errorCount);
 		}
+		return failurePercentageExceeded;
 	}
 
-	private boolean isErorrsCountLessOfFivePercents(long processedCount, long errorCount) {
+	private boolean isErrorsCountLessFivePercents(long processedCount, long errorCount) {
 		boolean erorrsCountLessOfFivePercents = false;
 		long percentage = 0;
 		if(processedCount > 0){
 			if(errorCount > 0){
-				percentage = errorCount * 100 / processedCount ;
+				percentage = (errorCount * 100)/processedCount ;
 				erorrsCountLessOfFivePercents = percentage > 5; // false if > 5% of errors
 			}
 			erorrsCountLessOfFivePercents = true; // if processed count > 0 and errorCount 0
@@ -202,24 +214,7 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 			erorrsCountLessOfFivePercents = false; // if processed count = 0 or job failed.. or ..
 		}
 
-		log.info("HTTP: Percentage is {}% , \"Error Count\" {} from \"Processed Count\" {}  \n\n",errorCount,processedCount,percentage);
+		log.info("Job processed items count {}\nErrors count {}\nPercent of failed items {}",errorCount,processedCount,percentage);
 		return erorrsCountLessOfFivePercents;
 	}
-
-	private HashMap<String, String> prepareStatisticsRow(String result) {
-		String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
-		HashMap<String, String> splittedRow = HttpJob.JobStatistic.splitStatisticsRow(result);
-
-		for(Map.Entry<String, String> entry : splittedRow.entrySet()){
-			assertThat(entry.getValue()).as(entry.getKey() + " was empty").isNotEmpty();
-		}
-
-		if(!splittedRow.get(JobResultEnum.JobStatisticsConstants.DATE).contains(currentDate)){
-			log.info("HTTP: ERROR LOG COULD BE OUTDATED, PLEASE CHECK DATES, TODAY {}, LOG DATE {}", currentDate, splittedRow.get(JobResultEnum.JobStatisticsConstants.DATE));
-		}
-		return splittedRow;
-	}
-
-
 }

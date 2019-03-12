@@ -20,32 +20,36 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
-
-import aaa.common.enums.RestRequestMethodTypes;
-import aaa.helpers.rest.JsonClient;
-import aaa.helpers.rest.RestRequestInfo;
-import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.RestRequestMethodTypes;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.claim.BatchClaimHelper;
+import aaa.helpers.claim.ClaimAnalyticsJSONTags;
 import aaa.helpers.claim.ClaimCASResponseTags;
 import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import aaa.helpers.claim.datamodel.claim.Claim;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.helpers.logs.PasAdminLogGrabber;
+import aaa.helpers.logs.PasLogGrabber;
+import aaa.helpers.rest.JsonClient;
+import aaa.helpers.rest.RestRequestInfo;
+import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
+import aaa.helpers.rest.JsonClient;
+import aaa.helpers.rest.RestRequestInfo;
+import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import toolkit.config.PropertyProvider;
@@ -72,8 +76,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     @SuppressWarnings("SpellCheckingInspection")
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_hhmmss");
     @SuppressWarnings("SpellCheckingInspection")
-    private static final String PAS_ADMIN_LOG_PATH = System.getProperty("user.dir")
-            + PropertyProvider.getProperty("test.downloadfiles.location") + "pas_admin_log";
+    private static final String PAS_LOG_DOWNLOAD_PATH = System.getProperty("user.dir")
+            + PropertyProvider.getProperty("test.downloadfiles.location") + "downloaded_pas_log";
     public static final String SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = 'TRUE' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse'";
     public static final String SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS = "UPDATE LOOKUPVALUE SET DATEOFLOSS = '%s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse'";
     private static final String CLAIMS_URL = "https://claims-assignment-master.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1"; //Post-Permissive Use
@@ -88,17 +92,20 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     protected static DriverTab driverTab = new DriverTab();
     protected static PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
     protected static DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+    protected static PasLogGrabber pasLogGrabber = new PasLogGrabber();
 
     @BeforeTest
     public void prepare() {
         try {
             FileUtils.forceDeleteOnExit(Paths.get(CAS_REQUEST_PATH).toFile());
             FileUtils.forceDeleteOnExit(Paths.get(CAS_RESPONSE_PATH).toFile());
+            FileUtils.forceDeleteOnExit(Paths.get(PAS_LOG_DOWNLOAD_PATH).toFile());
             Files.createDirectories(Paths.get(CAS_REQUEST_PATH));
             Files.createDirectories(Paths.get(CAS_RESPONSE_PATH));
+            Files.createDirectories(Paths.get(PAS_LOG_DOWNLOAD_PATH));
         } catch (IOException e) {
             throw new IllegalStateException("Can't delete directories " + CAS_RESPONSE_PATH + " "
-                    + CAS_REQUEST_PATH, e);
+                    + CAS_REQUEST_PATH + " " + PAS_LOG_DOWNLOAD_PATH, e);
         }
     }
 
@@ -127,6 +134,38 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         policy.renew().start();
         GeneralTab.buttonSaveAndExit.click();
         mainApp().close();
+    }
+
+
+    /**
+     * Initiates an endorsement, calculates premium, orders CLUE report for newly added driver
+     * @param policyNumber given policy number
+     * @param addDriverTd specific details for the driver being added to the policy
+     */
+    public void initiateAddDriverEndorsement(String policyNumber, TestData addDriverTd) {
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        policy.getDefaultView().fill(addDriverTd);
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.submitTab();
+
+        //Modify default test data to mask unnecessary steps
+	    TestData td = getPolicyTD()
+			    .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()));
+	    new DriverActivityReportsTab().fillTab(td);
+    }
+
+    /**
+     * Binds current endorsement: calculates premium, navigates to bind page, and binds endorsement
+     */
+    public void bindEndorsement() {
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        new DocumentsAndBindTab().submitTab();
     }
 
     // Move to R-63, run batch job part 1 and offline claims batch job
@@ -165,6 +204,27 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         });
     }
 
+    // Assertions for COMP and DL Tests: PAS-22172
+    public void puDropAssertions(String COMP_MATCH, String PU_MATCH) {
+        CustomSoftAssertions.assertSoftly(softly -> {
+            DriverTab driverTab = new DriverTab();
+            ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
+            softly.assertThat(DriverTab.tableDriverList).hasRows(5);
+
+            // Check 1st driver: Contains only one Matched Claim (Verifying that comp claim has not moved)
+            DriverTab.tableDriverList.selectRow(1);
+            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(COMP_MATCH);
+
+            // Check 5th driver: Original Permissive Use claim should be on the newly added driver
+            DriverTab.tableDriverList.selectRow(5);
+            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("CLUE");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(PU_MATCH);
+        });
+    }
+
     // Assertions for Name/DOB Tests
     public void nameDobYobAssertions(String LASTNAME_FIRSTNAME_DOB, String LASTNAME_FIRSTNAME, String LASTNAME_FIRSTINITAL_DOB, String LASTNAME_FIRSTNAME_YOB ) {
         CustomSoftAssertions.assertSoftly(softly -> {
@@ -175,19 +235,21 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             // Check 3rd driver
             // PAS-8310 - LASTNAME_FIRSTNAME_DOB Match
             DriverTab.tableDriverList.selectRow(3);
+            DriverTab.tableActivityInformationList.selectRow(2);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME_DOB);
             // PAS-17894 - LASTNAME_FIRSTNAME & LASTNAME_FIRSTINITAL_DOB //PAS-21435 - Removed LASTNAME_YOB match logic. Claim 8FAZ88888OHS is now unmatched
-            DriverTab.tableActivityInformationList.selectRow(2);
+            DriverTab.tableActivityInformationList.selectRow(3);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME);
-            DriverTab.tableActivityInformationList.selectRow(3);
+            DriverTab.tableActivityInformationList.selectRow(4);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTINITAL_DOB);
 
             // Check 4th driver.
             // PAS-8310 - LASTNAME_FIRSTNAME_YOB Match
             DriverTab.tableDriverList.selectRow(4);
+            DriverTab.tableActivityInformationList.selectRow(2);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME_YOB);
         });
@@ -315,18 +377,44 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     }
 
     /**
-     * Method returns content as String of pas-admins wrapper.log file
+     * Method returns content as String of pas-app wrapper.log file
+     * @return
+     */
+    protected String downloadPasSelectedLog(String requiredLogFolder) {
+        String pasSelectedLogFolder = requiredLogFolder;
+        RemoteHelper.get().getListOfFiles(pasSelectedLogFolder);
+        RemoteHelper.get().downloadFile("wrapper.log", PAS_LOG_DOWNLOAD_PATH);
+        File downloadedPasLogFile = new File(PAS_LOG_DOWNLOAD_PATH + File.separator + "wrapper.log");
+        assertThat(downloadedPasLogFile).exists().isFile().canRead().isAbsolute();
+        String content = contentOf(downloadedPasLogFile, Charset.defaultCharset());
+        log.info("Downloaded Selected PAS Log File: {}" + content);
+        return content;
+    }
+
+    /**
+     * Method returns content as String of pas-app wrapper.log file
+     * @return
+     */
+    protected String downloadPasAppLog() {
+        String pasAppLogFolder = PasLogGrabber.getPasAppLogFolder();
+        return downloadPasSelectedLog(pasAppLogFolder);
+    }
+
+    /**
+     * Method returns content as String of pas-admin wrapper.log file
      * @return
      */
     protected String downloadPasAdminLog() {
-        String pasAdminLogFolder = PasAdminLogGrabber.getPasAdminLogFolder();
-        RemoteHelper.get().getListOfFiles(pasAdminLogFolder);
-        RemoteHelper.get().downloadFile("wrapper.log", PAS_ADMIN_LOG_PATH);
-        File pasAdminLogFile = new File(PAS_ADMIN_LOG_PATH + File.separator + "wrapper.log");
-        assertThat(pasAdminLogFile).exists().isFile().canRead().isAbsolute();
-        String content = contentOf(pasAdminLogFile, Charset.defaultCharset());
-        log.info("Downloaded PAS Admin Log File: {}" + content);
-        return content;
+        String pasAdminLogFolder = PasLogGrabber.getPasAdminLogFolder();
+        return downloadPasSelectedLog(pasAdminLogFolder);
+    }
+
+    /**
+     * Method returns content as String of combined pas-app & pas-admin log
+     * @return
+     */
+    protected String combinePasAppAndAdminLog() {
+        return downloadPasAdminLog() + downloadPasAppLog();
     }
 
     /**
@@ -342,8 +430,9 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
         for (int i = 0; i <= listOfClaims.size() - 1; i++) {
             JSONObject specificClaimData = new JSONObject(listOfClaims.get(i)).getJSONObject("claims-assignment");
-            if (specificClaimData.getString("claimNumber").equals(claimNumber) && specificClaimData.getString("policyNumber").equals(policyNumber)) {
-                claimValue = specificClaimData.getString(key);
+            if (specificClaimData.getString(ClaimAnalyticsJSONTags.TagNames.CLAIM_NUMBER).equals(claimNumber) && specificClaimData
+                    .getString(ClaimAnalyticsJSONTags.TagNames.POLICY_NUMBER).equals(policyNumber)) {
+                claimValue = specificClaimData.get(key).toString();
             } else {
                 log.info("Moving to the next Claim List Item.. Required Claim in this Claim Analytics JSON Item couldn't be found. Claim Number: "
                         + claimNumber);
@@ -475,5 +564,4 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         log.info("actual match codes: "+actualMatchCodes);
         assertThat(actualMatchCodes).isEqualTo(expectedMatchCodes);
     }
-
 }

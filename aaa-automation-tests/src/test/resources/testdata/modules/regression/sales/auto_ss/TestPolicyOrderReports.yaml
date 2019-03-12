@@ -3,7 +3,7 @@
 TestData: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab',
+  DriverTab: '@DriverTab',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
@@ -20,6 +20,14 @@ PrefillTab: {
   Validate Address: click,
   Validate Address Dialog: {},
   Order Prefill: click
+}
+
+DriverTab: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'UT',
+  License Number: 444444774
 }
 
 RatingDetailReportsTab: {
@@ -39,6 +47,7 @@ DriverActivityReportsTab: {
   Validate Driving History: click,
 }
 
+
 #------------- Custom states -----
 
 #-------- AZ -----
@@ -46,12 +55,20 @@ DriverActivityReportsTab: {
 TestData_AZ: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_AZ',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_AZ',
+  DriverTab: '@DriverTab_AZ',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+DriverTab_AZ: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'AZ',
+  License Number: A88888881
 }
 
 #-------- CO -----
@@ -59,7 +76,7 @@ TestData_AZ: {
 TestData_CO: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_CO',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_CO',
+  DriverTab: '@DriverTab_CO',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
@@ -67,12 +84,20 @@ TestData_CO: {
   DriverActivityReportsTab: '@DriverActivityReportsTab'
 }
 
+DriverTab_CO: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'CO',
+  License Number: A555583
+}
+
 #-------- CT -----
 
 TestData_CT: {
   PrefillTab: '@PrefillTab_CT',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_CT',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_CT',
+  DriverTab: '@DriverTab_CT',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
@@ -89,17 +114,33 @@ PrefillTab_CT: {
   Order Prefill: click
 }
 
+DriverTab_CT: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'CT',
+  License Number: 157777734
+}
+
 #-------- DC -----
 
 TestData_DC: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_DC',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_DC',
+  DriverTab: '@DriverTab_DC',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+DriverTab_DC: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'DC',
+  License Number: 9999917
 }
 
 #-------- DE -----
@@ -107,12 +148,20 @@ TestData_DC: {
 TestData_DE: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_DE',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_DE',
+  DriverTab: '@DriverTab_DE',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+DriverTab_DE: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'DE',
+  License Number: 7135555
 }
 
 #-------- ID -----
@@ -120,12 +169,20 @@ TestData_DE: {
 TestData_ID: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_ID',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_ID',
+  DriverTab: '@DriverTab_ID',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+DriverTab_ID: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'ID',
+  License Number: AA222256A
 }
 
 #-------- IN -----
@@ -133,12 +190,20 @@ TestData_ID: {
 TestData_IN: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_IN',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_IN',
+  DriverTab: '@DriverTab_IN',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+DriverTab_IN: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'IN',
+  License Number: 154674444
 }
 
 #-------- KS -----
@@ -146,12 +211,20 @@ TestData_IN: {
 TestData_KS: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_KS',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_KS',
+  DriverTab: '@DriverTab_KS',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+DriverTab_KS: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'KS',
+  License Number: B54674444
 }
 
 #-------- KY -----
@@ -159,12 +232,20 @@ TestData_KS: {
 TestData_KY: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_KY',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_KY',
+  DriverTab: '@DriverTab_KY',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+DriverTab_KY: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'KY',
+  License Number: A13131315
 }
 
 #-------- MD -----
@@ -172,12 +253,20 @@ TestData_KY: {
 TestData_MD: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_MD',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_MD',
+  DriverTab: '@<auto_ss>@DriverTab_MD',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+DriverTab_MD: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'MD',
+  License Number: S123456788889
 }
 
 #-------- MT -----
@@ -185,12 +274,20 @@ TestData_MD: {
 TestData_MT: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_MT',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_MT',
+  DriverTab: '@DriverTab_MT',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+DriverTab_MT: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'MT',
+  License Number: 212792236
 }
 
 #-------- NJ -----
@@ -198,12 +295,20 @@ TestData_MT: {
 TestData_NJ: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_NJ',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_NJ',
+  DriverTab: '@DriverTab_NJ',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+DriverTab_NJ: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'NJ',
+  License Number: A12345778987777
 }
 
 #-------- NV -----
@@ -211,7 +316,7 @@ TestData_NJ: {
 TestData_NV: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_NV',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_NV',
+  DriverTab: '@DriverTab_NV',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
@@ -219,12 +324,20 @@ TestData_NV: {
   DriverActivityReportsTab: '@DriverActivityReportsTab'
 }
 
+DriverTab_NV: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'NV',
+  License Number: 2227902265
+}
+
 #-------- NY -----
 
 TestData_NY: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_NY',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_NY',
+  DriverTab: '@DriverTab_NY',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab_NY',
   AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
@@ -233,17 +346,33 @@ TestData_NY: {
   DriverActivityReportsTab: '@DriverActivityReportsTab'
 }
 
+DriverTab_NY: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'NY',
+  License Number: A5467342118658882
+}
+
 #-------- OH -----
 
 TestData_OH: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_OH',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_OH',
+  DriverTab: '@DriverTab_OH',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+DriverTab_OH: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'OH',
+  License Number: AB555734
 }
 
 #-------- OK -----
@@ -251,12 +380,20 @@ TestData_OH: {
 TestData_OK: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_OK',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_OK',
+  DriverTab: '@DriverTab_OK',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+DriverTab_OK: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'OK',
+  License Number: 123222221
 }
 
 #-------- OR -----
@@ -264,12 +401,20 @@ TestData_OK: {
 TestData_OR: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_OR',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_OR',
+  DriverTab: '@DriverTab_OR',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+DriverTab_OR: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'OR',
+  License Number: 001266667
 }
 
 #-------- PA -----
@@ -277,7 +422,7 @@ TestData_OR: {
 TestData_PA: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_PA',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_PA',
+  DriverTab: '@DriverTab_PA',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
@@ -285,17 +430,33 @@ TestData_PA: {
   DriverActivityReportsTab: '@DriverActivityReportsTab'
 }
 
+DriverTab_PA: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'PA',
+  License Number: 83188880
+}
+
 #-------- SD -----
 
 TestData_SD: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_SD',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_SD',
+  DriverTab: '@DriverTab_SD',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+DriverTab_SD: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'SD',
+  License Number: 112565578
 }
 
 #-------- VA -----
@@ -316,7 +477,7 @@ DriverTab_VA: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
-  License Number: 517788642
+  License Number: 517788882
 }
 
 #-------- WV -----
@@ -324,12 +485,20 @@ DriverTab_VA: {
 TestData_WV: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_WV',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_WV',
+  DriverTab: '@DriverTab_WV',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+DriverTab_WV: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'WV',
+  License Number: S123336
 }
 
 #-------- WY -----
@@ -337,7 +506,7 @@ TestData_WV: {
 TestData_WY: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_WY',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_WY',
+  DriverTab: '@DriverTab_WY',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
@@ -345,5 +514,12 @@ TestData_WY: {
   DriverActivityReportsTab: '@DriverActivityReportsTab'
 }
 
+DriverTab_WY: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'WY',
+  License Number: 4000647777
+}
 
 
