@@ -98,6 +98,8 @@
                 <methods>
                     <include name="pas14679_CompDLMatchMore"/>
                     <include name="pas8310_nameDOBYOBMatchMore"/>
+                    <include name="pas14552_includeClaimsInRatingDetermination"/>
+                    <include name="pas22172_ReconcilePUEndorsementAFRD"/>
                 </methods>
             </class>
         </classes>
@@ -112,6 +114,11 @@
                     <include name="pas14679_CompDLPUMatchMore"/>
                     <include name="pas23269_verifyPermissiveUseIndicator"/>
                     <include name="pas22172_ReconcilePUEndorsementAFRD"/>
+                    <include name="pas18317_verifyPermissiveUseIndicator"/>
+                    <include name="pas24587_CASClueReconcilePUAFRUserFlagged"/>
+                    <include name="pas24587_ClueReconcilePUAFRUserFlagged"/>
+                    <include name="pas25463_ViolationsMVRPUIndicatorCheck"/>
+                    <include name="pas25162_permissiveUseIndicatorDefaulting"/>
                 </methods>
             </class>
         </classes>
@@ -126,6 +133,11 @@
                     <include name="pas14679_CompDLPUMatchMore"/>
                     <include name="pas23269_verifyPermissiveUseIndicator"/>
                     <include name="pas22172_ReconcilePUEndorsementAFRD"/>
+                    <include name="pas18317_verifyPermissiveUseIndicator"/>
+                    <include name="pas24587_CASClueReconcilePUAFRUserFlagged"/>
+                    <include name="pas24587_ClueReconcilePUAFRUserFlagged"/>
+                    <include name="pas25463_ViolationsMVRPUIndicatorCheck"/>
+                    <include name="pas25162_permissiveUseIndicatorDefaulting"/>
                 </methods>
             </class>
         </classes>
