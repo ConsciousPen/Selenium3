@@ -6,6 +6,7 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -197,7 +198,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         SearchPage.openPolicy(policyNumber);
 
 		// Advance time and reinstate policy with lapse
-        performReinstatementWithLapse(effDate, policyNumber);
+        performReinstatementWithLapse(PolicySummaryPage.getEffectiveDate(), policyNumber);
 
         // RST-02 validations
         validateReinstatementTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
@@ -370,7 +371,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                 BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION), policyNumber);
 
         //Advance time and reinstate policy with lapse
-        performReinstatementWithLapse(effDate, policyNumber);
+        performReinstatementWithLapse(PolicySummaryPage.getEffectiveDate(), policyNumber);
 
         //RST-04 validations
         validateReinstatementTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
