@@ -238,16 +238,6 @@
         </classes>
     </test>
     <!--Disabled the test to check BackwardCompatibility for all states-->
-    <test thread-count="1024" name="pas9489_GreenButtonServiceStateAndProductConfigurationEffective" parallel="methods">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
-                <methods>
-                    <include name="pas9489_GreenButtonServiceStateAndProductConfigurationEffective"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test thread-count="1024" name="UpdateDriverServiceSS" parallel="methods">
         <parameter name="state" value="AZ,NY,VA"/>
         <classes>
@@ -438,7 +428,6 @@
                     <include name="pas12852_GaragedInMichigan200020"/>
                     <include name="pas12852_GaragedOutOfState200019"/>
                     <include name="pas12852_DuplicateVin200031"/>
-                    <include name="pas12852_ExpensiveVehicle200022"/>
                     <include name="pas12852_GaragedOutOfStateOnlyOneVeh200018"/>
                     <include name="pas12852_MustHavePPA200016"/>
                 </methods>
@@ -925,7 +914,7 @@
         </classes>
     </test>
     <test thread-count="1024" name="Vehicle Deltas - NJ" parallel="methods">
-        <parameter name="state" value="NJ"/>
+        <parameter name="state" value="NJ,NY"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
@@ -1027,6 +1016,7 @@
                     <include name="pas15288_ViewUpdateCoveragePIPCoverage"/>
                     <include name="pas15286_updateUMPDCoverageDC"/>
                     <include name="pas21421_updateUIMPDCoverageDC"/>
+                    <include name="pas25824_updateUIMBIThenUpdateUMBI"/>
                 </methods>
             </class>
         </classes>
@@ -1116,6 +1106,16 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="pas25042_endorsementValidateAllowedForAllStates" parallel="methods">
+        <parameter name="state" value="CA, NY, VA, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas25042_endorsementValidateAllowedForAllStates"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="NJ Coverages" parallel="methods">
         <parameter name="state" value="NJ"/>
         <classes>
@@ -1126,6 +1126,9 @@
                     <include name="pas15353_viewPIPNonMedExpenseNoNJ"/>
                     <include name="pas19161_viewPIPNonMedExpenseYesNJ"/>
                     <include name="pas19163_viewPipYesAndNonMedExpenseYesNJ"/>
+                    <include name="pas23997_updatePipCoveragesNJ"/>
+                    <include name="pas25531_viewUpdatePipCoveragesIncludesNiAndRrNJ"/>
+                    <include name="pas23975_viewUpdatePIPPrimaryInsurerNJ"/>
                 </methods>
             </class>
         </classes>

@@ -3,7 +3,6 @@ package aaa.modules.docgen.delta.home_ss.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -12,7 +11,7 @@ import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentAction
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.utils.StateList;
-import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 /**
  *
@@ -72,26 +71,28 @@ public class TestVADocgenScenarios extends HomeSSHO3BaseTest {
 	@StateList(states = States.VA)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testDeltaPolicyDocuments(@Optional("") String state) {
-		CustomSoftAssertions.assertSoftly(softly -> {
-			mainApp().open();
 
-			createCustomerIndividual();
-			createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_DeltaPolicyDocuments")));
+		mainApp().open();
 
-			//policy.quoteDocGen().start();
-			//documentActionTab.verify.documentsEnabled(Documents.HSAUDVA);
-			//documentActionTab.verify.documentsPresent(false, Documents.AHAUXX);
-			//documentActionTab.generateDocuments(Documents.HSAUDVA);
-			//WebDriverHelper.switchToDefault();
-			//DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSAUDVA);
+		createCustomerIndividual();
+		createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_DeltaPolicyDocuments")));
 
-			//PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
-			policy.purchase(getPolicyTD());
-			String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
-			DocGenHelper.verifyDocumentsGenerated(softly, policyNum, DocGenEnum.Documents.HS_03_30, DocGenEnum.Documents.HSVAAD, DocGenEnum.Documents.HSINVAP, DocGenEnum.Documents.HSINVA);
+		//policy.quoteDocGen().start();
+		//documentActionTab.verify.documentsEnabled(Documents.HSAUDVA);
+		//documentActionTab.verify.documentsPresent(false, Documents.AHAUXX);
+		//documentActionTab.generateDocuments(Documents.HSAUDVA);
+		//WebDriverHelper.switchToDefault();
+		//DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSAUDVA);
 
-			policy.policyDocGen().start();
-			documentActionTab.verify.documentsPresent(softly, false, DocGenEnum.Documents.HSVAAD, DocGenEnum.Documents.HSINVAP, DocGenEnum.Documents.HSINVA);
-		});
+		//PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+		policy.purchase(getPolicyTD());
+		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		DocGenHelper.verifyDocumentsGenerated(softly, policyNum, DocGenEnum.Documents.HS_03_30, DocGenEnum.Documents.HSVAAD, DocGenEnum.Documents.HSINVAP, DocGenEnum.Documents.HSINVA);
+
+		policy.policyDocGen().start();
+		documentActionTab.verify.documentsPresent(softly, false, DocGenEnum.Documents.HSVAAD, DocGenEnum.Documents.HSINVAP, DocGenEnum.Documents.HSINVA);
+		documentActionTab.cancel();
+		softly.close();
 	}
 }

@@ -1,0 +1,24 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Batch Suite  Group 4" verbose="1">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method" />
+
+    <parameter name="state" value="UT"/>
+    <test name="Batch Maintenance Group 4">
+        <classes>
+            <class name="aaa.modules.batch.BatchMaintanance">
+                <methods>
+                    <include name="RUN_31_AAAAUTOMATEDPROCESSINGINITIATIONJOB"/>
+                    <include name="RUN_32_AUTOMATEDPROCESSINGRUNREPORTSSERVICESJOB"/>
+                    <include name="RUN_33_AUTOMATEDPROCESSINGRATINGJOB"/>
+                    <include name="RUN_34_AUTOMATEDPROCESSINGISSUINGORPROPOSINGJOB"/>
+                    <include name="RUN_35_AUTOMATEDPROCESSINGSTRATEGYSTATUSUPDATEJOB"/>
+                    <include name="RUN_36_AUTOMATEDPROCESSINGBYPASSINGANDERRORSREPORT"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
