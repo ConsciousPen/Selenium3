@@ -2,6 +2,8 @@ package aaa.modules.financials.template;
 
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.financials.FinancialsBaseTest;
@@ -152,10 +154,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         }
 
         // Advance time to policy effective date
-        mainApp().close();
-        TimeSetterUtil.getInstance().nextPhase(effDate);
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
+        advanceTimeAndOpenPolicy(effDate, policyNumber);
 
         // Perform RP endorsement
         Dollar reducedPrem = performRPEndorsement(policyNumber, effDate);
@@ -324,10 +323,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         Dollar reducedPrem = performRPEndorsement(policyNumber, effDate);
 
         //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
-        mainApp().close();
-        TimeSetterUtil.getInstance().nextPhase(effDate);
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
+        advanceTimeAndOpenPolicy(effDate, policyNumber);
         runLedgerStatusUpdateJob();
 
         //END-04 and PMT-05 validations

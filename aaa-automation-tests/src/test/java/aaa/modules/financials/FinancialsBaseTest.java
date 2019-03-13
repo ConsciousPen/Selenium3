@@ -151,6 +151,13 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		BillingSummaryPage.dialogConfirmation.confirm();
 	}
 
+	protected void advanceTimeAndOpenPolicy(LocalDateTime date, String policyNumber) {
+		mainApp().close();
+		TimeSetterUtil.getInstance().nextPhase(date);
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+	}
+
 	protected void runLedgerStatusUpdateJob() {
 		synchronized (lock) {
 			if (!ledgerJobExists) {
