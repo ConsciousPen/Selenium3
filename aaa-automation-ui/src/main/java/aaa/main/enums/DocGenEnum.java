@@ -394,6 +394,7 @@ public final class DocGenEnum {
 		_60_5006("60 5006", ""),
 		_60_5019("60 5019", "Subscriber Agreement"),
 		_605004("605004", "Remove Recurring Payments"),
+		_605004_PasDoc("60 5004", "Remove Recurring Payments"),
 		_605005("605005", "Returning Enclosed Check"),
 		_605005_SELECT("605005", "Returning Payment"),
 		_605019("605019", "Subscriber Agreement"),
