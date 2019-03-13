@@ -6,6 +6,7 @@ import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 @ExcelTableElement(containsSheetName = OpenLFile.VEHICLE_SHEET_NAME, headerRowIndex = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
 public class AutoSSOpenLVehicle extends OpenLVehicle {
@@ -36,6 +37,7 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 	private Integer maxDriverAge; // VA specific ?
 	private Integer totalVehiclePoint; // VA specific ?
 
+	@ExcelTransient
 	private String vinCode = "";
 
 	public String getAirbagCode() {
