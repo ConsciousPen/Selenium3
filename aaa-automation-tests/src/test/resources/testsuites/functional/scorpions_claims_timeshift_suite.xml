@@ -25,7 +25,7 @@
 
     <!-- AUTO CA (Select) Offline Claims Tests -->
 
-    <test name="Offline Claims AUTO CA" >
+    <test name="Offline Claims AUTO CA Select" >
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestOfflineClaims"/>
@@ -41,7 +41,7 @@
     <!-- AUTO CA (Choice) Offline Claims Tests -->
 
     <test name="Offline Claims AUTO CA" >
-        <parameter name="state" value="CA"/>
+        <parameter name="state" value="CA Choice"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestOfflineClaims"/>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestClaimsImpactOnDiscounts"/>

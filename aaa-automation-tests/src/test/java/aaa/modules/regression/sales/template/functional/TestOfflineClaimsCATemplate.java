@@ -32,6 +32,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.PrivilegeEnum;
 import aaa.common.enums.RestRequestMethodTypes;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.claim.BatchClaimHelper;
 import aaa.helpers.claim.ClaimCASResponseTags;
@@ -832,8 +833,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         // Verify GDD during Endorsement Quote Creation
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         validateGDD();
-        premiumAndCoveragesTab.buttonCancel.click();
-        dialogCancelAction.buttonDeleteEndorsement.click();
+        premiumAndCoveragesTab.cancel(false);
+        Page.dialogConfirmation.buttonDeleteEndorsement.click();
 
         // Verify GDD during Rewritten Quote Creation
         buttonRenewals.click();
