@@ -1,0 +1,30 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Batch Suite Group 2" verbose="1">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method" />
+
+    <parameter name="state" value="UT"/>
+    <test name="Batch Maintenance Group 2">
+        <classes>
+            <class name="aaa.modules.batch.BatchMaintanance">
+                <methods>
+                    <include name="RUN_01_AAABATCHMARKERJOB"/>
+                    <include name="RUN_02_POLICYSTATUSUPDATEJOB"/>
+                    <include name="RUN_03_AAAPOLICYAUTOMATEDRENEWALASYNCTASKGENERATIONJOB"/>
+                    <include name="RUN_04_RENEWALVALIDATIONASYNCTASKJOB"/>
+                    <include name="RUN_05_RENEWALIMAGERATINGASYNCTASKJOB"/>
+                    <include name="RUN_06_AAAREMITTANCEFEEDASYNCBATCHRECEIVEJOB"/>
+                    <include name="RUN_07_AAARECURRINGPAYMENTSASYNCPROCESSJOB"/>
+                    <include name="RUN_08_BOFARECURRINGPAYMENTJOB"/>
+                    <include name="RUN_09_PREMIUMRECEIVABLESONPOLICYEFFECTIVEJOB"/>
+                    <include name="RUN_10_CHANGECANCELLATIONPENDINGPOLICIESSTATUSJOB"/>
+                    <include name="RUN_11_AAACANCELLATIONNOTICEASYNCJOB"/>
+                    <include name="RUN_12_AAACANCELLATIONCONFIRMATIONASYNCJOB"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

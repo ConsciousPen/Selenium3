@@ -22,7 +22,7 @@ public class HomeGranularityConstants {
     public static final String EADS_MOCK_CENSUS_BLOCK_AZ = "060290034002";
     public static final String EADS_MOCK_ZIPCODE_AZ = "85118";
     public static final String EADS_MOCK_ADDRESS_AZ = "4101 S LAST CHANCE DR";
-    //AVS Mock (stub service) Lat/Long and Census Block ID for CA Home (All Products) from wiremock
+    //AVS Mock (stub service) Lat/Long and Census Block ID (Default for Dynamic Addresses)
     public static final String DEFAULT_DYNAMIC_LATITUDE = "23.787054";
     public static final String DEFAULT_DYNAMIC_LONGITUDE = "-13.999876";
     public static final String DEFAULT_DYNAMIC_CENSUS_BLOCK = "060290021001";

@@ -21,7 +21,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.helpers.logs.PasAdminLogGrabber;
+import aaa.helpers.logs.PasLogGrabber;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
@@ -48,7 +48,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	private static final String CLAIM_NUMBER_5 = "4FAZ44444OHS";
     private static final String CLAIM_NUMBER_6 = "1002-10-8705";
     private static final String COMP_DL_PU_CLAIMS_DATA_MODEL = "comp_dl_pu_claims_data_model.yaml";
-    private static final String NAME_DOB_CLAIMS_DATA_MODEL = "name_dob_claims_data_model.yaml";
+	private static final String NAME_DOB_CLAIMS_DATA_MODEL = "name_dob_claims_data_model.yaml";
     private static final String INC_IN_RATING_3RD_RENEWAL_DATA_MODEL = "inc_in_rating_3rd_renewal_data_model.yaml";
     private static final String INC_RATING_CLAIM_1 = "IIRatingClaim1";
     private static final String INC_RATING_CLAIM_2 = "IIRatingClaim2";
@@ -58,7 +58,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
 	private static String adminLog;
 	private static List<String> listOfClaims;
-	private static PasAdminLogGrabber pasAdminLogGrabber = new PasAdminLogGrabber();
+	private static PasLogGrabber pasLogGrabber = new PasLogGrabber();
 	private static final String pasDriverNameKey = "pasDriverName";
 	private static final String matchCodeKey = "matchCode";
 

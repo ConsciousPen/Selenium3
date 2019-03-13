@@ -2,19 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.ITestContext;
-import org.testng.annotations.*;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.impl.AdminApplication;
-import com.exigen.ipb.etcsa.base.app.impl.MainApplication;
-import com.exigen.ipb.etcsa.base.app.impl.OperationalReportApplication;
 import aaa.admin.modules.reports.operationalreports.OperationalReportType;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -37,9 +24,24 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.utils.EntityLogger;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.impl.AdminApplication;
+import com.exigen.ipb.etcsa.base.app.impl.MainApplication;
+import com.exigen.ipb.etcsa.base.app.impl.OperationalReportApplication;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.ITestContext;
+import org.testng.annotations.*;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 @Listeners({AaaTestListener.class})
 public class BaseTest {
@@ -204,6 +206,10 @@ public class BaseTest {
 
 	protected boolean isStateCA() {
 		return getPolicyType() != null && getPolicyType().isCaProduct();
+	}
+
+	protected boolean isAutoCA() {
+		return getPolicyType() != null && getPolicyType().isCaProduct() && getPolicyType().isAutoPolicy();
 	}
 
 	protected TestData getManualConversionInitiationTd() {
