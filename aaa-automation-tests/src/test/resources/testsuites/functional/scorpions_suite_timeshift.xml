@@ -14,8 +14,6 @@
                 <methods>
                     <include name="pas11659_Renewal_VersionR46"/>
                     <include name="pas11659_Renewal_VersionR45"/>
-                    <include name="pas12872_VINRefreshNoMatchRenewalTimeline"/>
-                    <include name="pas12872_VINRefreshPartialtoFullMatchRenewaltimeline"/>
                     <include name="pas18969_testRestrictVehicleRefreshOnRenewal"/>
                 </methods>
             </class>
@@ -40,16 +38,12 @@
     </test>
 
     <!-- Auto Ca Select-->
-
     <test name="Update VIN Refresh CA Select" >
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload">
                 <methods>
                     <include name="pas2716_AutomatedRenewal_ExpirationDate"/>
-                    <include name="pas2716_AutomatedRenewal_ExpirationDateMinus35"/>
-                    <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
-                    <include name="pas527_UpdatedVinRenewal"/>
                     <include name="pas12872_VINRefreshNoMatchOnRenewalAutoCA"/>
                     <include name="pas18969_testRestrictVehicleRefreshCAOnRenewal"/>
                 </methods>
@@ -62,7 +56,6 @@
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefreshRegularVehicle">
                 <methods>
                     <include name="pas730_RenewalVehicleTypeRegular"/>
-                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOnRenewal"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestCurrentTermEndAddsVehicle">
@@ -80,13 +73,7 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload">
                 <methods>
-                    <include name="pas2716_AutomatedRenewal_ExpirationDate"/>
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus35"/>
-                    <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
-
-                    <include name="pas527_UpdatedVinRenewal"/>
-                    <include name="pas12872_VINRefreshNoMatchOnRenewalAutoCA"/>
-                    <include name="pas18969_testRestrictVehicleRefreshCAOnRenewal"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefreshNotRegularVehicle">
@@ -94,25 +81,15 @@
                     <include name="pas730_RenewalVehicleTypeNotRegular"/>
                 </methods>
             </class>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefreshRegularVehicle">
-                <methods>
-                    <include name="pas730_RenewalVehicleTypeRegular"/>
-                    <include name="pas730_RenewalVINDoesMatchNBandNoMatchOnRenewal"/>
-                </methods>
-            </class>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestCurrentTermEndAddsVehicle">
                 <methods>
-                    <include name="pas14532_refreshForCurrentAndRenewalTermsVinNotMatched"/>
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinMatched"/>
-                    <include name="pas14532_refreshForCurrentAndRenewalTermsVinStubUpdate"/>
-                    <include name="pas16522_refreshForMSRPVehicleCurrentAndRenewalTerms"/>
                 </methods>
             </class>
         </classes>
     </test>
 
     <!-- AUTO SS (AZ) Offline Claims Tests -->
-
     <test name="Offline Claims AUTO SS" >
         <parameter name="state" value="AZ"/>
         <classes>
@@ -127,7 +104,6 @@
     </test>
 
     <!-- AUTO CA (Select) Offline Claims Tests -->
-
     <test name="Offline Claims AUTO CA" >
         <parameter name="state" value="CA"/>
         <classes>
@@ -142,7 +118,6 @@
     </test>
 
     <!-- AUTO CA (Choice) Offline Claims Tests -->
-
     <test name="Offline Claims AUTO CA" >
         <parameter name="state" value="CA"/>
         <classes>
@@ -155,5 +130,4 @@
             </class>
         </classes>
     </test>
-
 </suite>
