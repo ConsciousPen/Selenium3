@@ -95,7 +95,10 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         });
 
         // Move to renewal timepoint and propose renewal image
-        advanceTimeAndOpenPolicy(renewalEffDate, policyNumber);
+        mainApp().close();
+        TimeSetterUtil.getInstance().nextPhase(renewalEffDate);
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
         policy.renew().performAndFill(getRenewalFillTd());
         Dollar renewalAmt = payTotalAmountDue();
 
@@ -175,7 +178,10 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         // TODO Validate END-05
 
         // Move to renewal offer time point and create renewal image
-        advanceTimeAndOpenPolicy(getTimePoints().getRenewOfferGenerationDate(renewalEffDate), policyNumber);
+        mainApp().close();
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalEffDate));
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
         policy.renew().performAndFill(getRenewalFillTd());
         Dollar renewalAmt = payTotalAmountDue();
 
