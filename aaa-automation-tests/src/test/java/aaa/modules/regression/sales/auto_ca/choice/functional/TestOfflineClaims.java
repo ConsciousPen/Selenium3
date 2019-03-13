@@ -129,6 +129,7 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
         pas24587_CASClueReconcilePUAFRUserFlagged();
     }
 
+
     /**
      * @author Kiruthika Rajendran
      * PAS-24587 - END - User Flagged: reconcile permissive use claims when driver/named insured is added (avail for rating)
