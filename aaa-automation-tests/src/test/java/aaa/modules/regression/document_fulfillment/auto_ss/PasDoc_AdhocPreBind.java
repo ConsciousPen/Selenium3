@@ -451,7 +451,10 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		//Verify generation all docs
 		generateESignatureDocs(getTestSpecificTD("TestData_GenAllDocs"), true);		
+		
 		//Verify generation of separate doc
+		docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTO_INSURANCE_QUOTE).setValue("No");
 		//7.2
 		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAIQAZ"), false);
 		//7.3
@@ -465,7 +468,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		//7.7
 		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AATSXX"), false);
 		//7.8
-		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAUBI"), true);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAUBI"), false);
 		//7.9
 		generateESignatureDocs(getTestSpecificTD("TestData_Gen_ACPUBI"), false);
 		//7.10
@@ -489,7 +492,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AA52AZ"), true);
 		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AA43AZ"), true);
 		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AATSXX"), false);
-		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAUBI"), true);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAUBI"), false);
 		generateESignatureDocs(getTestSpecificTD("TestData_Gen_ACPUBI"), false);
 		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAUBI1"), true);		
 		docsAndBindTab.submitTab();
@@ -508,7 +511,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AA52AZ"), true);
 		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AA43AZ"), true);
 		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AATSXX"), false);
-		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAUBI"), true);
+		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAUBI"), false);
 		generateESignatureDocs(getTestSpecificTD("TestData_Gen_ACPUBI"), false);
 		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAUBI1"), true);
 		docsAndBindTab.submitTab();
