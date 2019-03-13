@@ -35,7 +35,7 @@ import toolkit.utils.TestInfo;
 public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
     private PurchaseTab purchaseTab = new PurchaseTab();
-    File claimResponseFile;
+    private File claimResponseFile;
 
     /**
      * @author Josh Carpenter

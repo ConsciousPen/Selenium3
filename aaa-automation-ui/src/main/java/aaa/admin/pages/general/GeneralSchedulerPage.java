@@ -68,6 +68,7 @@ public class GeneralSchedulerPage extends AdminPage {
 		AAA_PAYMENT_CENTRAL_REJECT_FEED_ASYNC_JOB("aaaPaymentCentralRejectFeedAsyncJob"),
 		AAA_RECURRING_PAYMENTS_RESPONSE_PROCESS_ASYNC_JOB("aaaRecurringPaymentsResponseProcessAsyncJob"),
 		AAA_CLUE_RENEW_BATCH_ORDER_ASYNC_JOB("aaaClueRenewBatchOrderAsyncJob"),
+		LEDGER_STATUS_UPDATE_JOB("ledgerStatusUpdateJob"),
 		AAA_CLUE_RENEW_ASYNC_BATCH_RECEIVE_JOB("aaaClueRenewAsyncBatchReceiveJob");
 		String id;
 

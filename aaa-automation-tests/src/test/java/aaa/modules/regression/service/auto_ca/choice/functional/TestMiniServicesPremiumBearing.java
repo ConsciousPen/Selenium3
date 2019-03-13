@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ca.choice.functional;
 
+import aaa.common.enums.Constants;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -63,6 +65,23 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	public void pas9716_policySummaryForActiveRenewal(@Optional("CA") String state) {
 
 		pas9716_policySummaryForActiveRenewalBody(state);
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Endorsement can be performed through service for all states
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Hit start endorsement info service.
+	 * 4. Check the response.
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-25042"})
+	public void pas25042_endorsementValidateAllowedForAllStates(@Optional("CA") String state) {
+
+		pas25042_endorsementValidateAllowedForAllStatesBody();
 	}
 
 	/**
