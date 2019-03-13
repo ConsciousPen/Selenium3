@@ -39,6 +39,7 @@ import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.rest.wiremock.HelperWireMockStub;
+import aaa.helpers.rest.wiremock.dto.PaperlessPreferencesErrorTemplateData;
 import aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.BillingConstants;
@@ -85,7 +86,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private SSHController sshControllerRemote = new SSHController(PropertyProvider.getProperty(CsaaTestProperties.APP_HOST), PropertyProvider.getProperty(CsaaTestProperties.SSH_USER), PropertyProvider.getProperty(CsaaTestProperties.SSH_PASSWORD));
-
+	private static final String PP_ERROR_MESSAGE_NB15 = "Discount in Jeopardy email sent. Unable to verify Paperless Preferences.";
+	private static final String PP_ERROR_MEMBERSHIPREMOVAL ="Evalue information / Status was updated as : 'INACTIVE' for the policy based on Preferences and Membership logic.";
 	public static void retrieveMembershipSummaryEndpointCheck() {
 		assertThat(DBService.get().getValue(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK).orElse(""))
 				.as("retrieveMembershipSummary doesn't use stub endpoint. Please run retrieveMembershipSummaryStubEndpointUpdate").containsIgnoringCase(APP_HOST);
@@ -125,7 +127,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		}
 	}
 
-	private void settingMembershipEligibilityConfig(String membershipDiscountEligibilitySwitch) {
+	public void settingMembershipEligibilityConfig(String membershipDiscountEligibilitySwitch) {
 		mainApp().open();
 		if ("FALSE".equals(membershipDiscountEligibilitySwitch)) {
 			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
@@ -2138,5 +2140,40 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 				+ "  order by emd.id desc)\n"
 				+ "where rownum = 1";
 		softly.assertThat(DBService.get().getValue(String.format(getEvalueStatusSQL, policyNumber)).orElse("")).isEqualTo(status);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
+	public void pas23992_PaperlessPreferanceScenario1(@Optional("MD") String state) {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		retrieveMembershipSummaryEndpointCheck();
+		testEValueDiscount.eValueQuoteCreation();
+		policy.dataGather().start();
+		setMembershipAndRate("Cancelled", true);
+		String quoteNumber = PolicySummaryPage.getPolicyNumber();
+		HelperWireMockStub stub = createPaperlessPreferencesErrorRequest(quoteNumber);
+		testEValueDiscount.simplifiedQuoteIssue();
+		deleteSinglePaperlessPreferenceRequest(stub);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		HelperWireMockStub stub1 = createPaperlessPreferencesErrorRequest(policyNumber);
+		jobsNBplus15plus30runNoChecks();
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+
+		deleteSinglePaperlessPreferenceRequest(stub1);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB15, true, softly);
+
+		jobsNBplus15plus30runNoChecks();
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MEMBERSHIPREMOVAL, true, softly);
+		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue(" ");
+	}
+	private HelperWireMockStub createPaperlessPreferencesErrorRequest(String policyNumber) {
+		PaperlessPreferencesErrorTemplateData template = PaperlessPreferencesErrorTemplateData.create(policyNumber);
+		HelperWireMockStub stub = HelperWireMockStub.create("paperless-preferences-error", template).mock();
+		stubList.add(stub);
+		return stub;
 	}
 }

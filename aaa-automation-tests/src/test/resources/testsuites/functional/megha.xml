@@ -129,36 +129,6 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="TestPaymentPlanTable" parallel="methods">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaymentPlanTable">
-                <methods>
-                    <include name="pas13787_CheckPremiumInPaymentPlanTable"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test thread-count="1024" name="TestRFI-AutoSS" parallel="methods">
-        <parameter name="state" value="VA, PA, NV, AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
-                <methods>
-                    <include name="pas349_rfiAuto"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test thread-count="1024" name="TestRFI-AutoSSNano" parallel="methods">
-        <parameter name="state" value="AZ, NV"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
-                <methods>
-                    <include name="pas349_rfiNano"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test thread-count="1024" name="TestEValueDiscountDCandVA" parallel="methods">
         <parameter name="state" value="DC, VA"/>
         <classes>
@@ -169,82 +139,6 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="TestRFI-Ho3SS - Part 1" parallel="methods">
-        <parameter name="state" value="VA, PA, NV, AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI">
-                <methods>
-                    <include name="pas349_rfiHO3_1"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test thread-count="1024" name="TestRFI-Ho3SS - Part 2" parallel="methods">
-        <parameter name="state" value="VA, PA, NV, AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI">
-                <methods>
-                    <include name="pas349_rfiHO3_2"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test thread-count="1024" name="TestInstallmentFeesPopUpAndSavingsMsg-AutoSS" parallel="methods">
-        <parameter name="state" value="VA, PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
-        </classes>
-    </test>
-    <test thread-count="1024" name="TestInstallmentFeesPopUpAndSavingsMsg-Ho3SS" parallel="methods">
-        <parameter name="state" value="VA, PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsgMortgagee"/>
-        </classes>
-    </test>
-    <test thread-count="1024" name="TestInstallmentFeesPopUpAndSavingsMsg-AutoCA" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
-        </classes>
-    </test>
-    <test thread-count="1024" name="TestInstallmentFeesPopUpAndSavingsMsg-Ho3CA" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
-        </classes>
-    </test>
-    <test thread-count="1024" name="DiscountPercentageRetrievalCA_HO" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.service.home_ca.ho3.functional.TestRatingServices"/>
-            <class name="aaa.modules.regression.service.home_ca.ho4.functional.TestRatingServices"/>
-            <class name="aaa.modules.regression.service.home_ca.ho6.functional.TestRatingServices"/>
-            <class name="aaa.modules.regression.service.home_ca.dp3.functional.TestRatingServices"/>
-        </classes>
-    </test>
-    <!--Commented out to see how the tests will run in DXP suite-->
-    <!--    <test name="DXP E2E">
-            <parameter name="state" value="VA"/>
-            <classes>
-                <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
-                    <methods>
-                        <include name="pas12866_e2e"/>
-                    </methods>
-                </class>
-            </classes>
-        </test>
-
-        <test name="DXP E2E BCT">
-            <parameter name="state" value="AZ, KY"/>
-            <classes>
-                <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing">
-                    <methods>
-                        <include name="pas12866_e2eBct"/>
-                    </methods>
-                </class>
-            </classes>
-        </test>-->
     <test thread-count="1024" name="pas283_paperlessPreferencesForAllStatesProducts SS" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
@@ -284,66 +178,6 @@
                     <include name="pas283_paperlessPreferencesForAllStatesProducts"/>
                     <include name="pas15994_documentDeliverySectionDuringEndorsement"/>
                     <include name="pas15994_documentDeliverySectionDataGatherMode"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test thread-count="1024" name="pas240_installmentFeesService CA" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestInstallmentFees">
-                <methods>
-                    <include name="pas240_installmentFeesService"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestInstallmentFees">
-                <methods>
-                    <include name="pas240_installmentFeesService"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.service.home_ca.ho3.functional.TestInstallmentFees">
-                <methods>
-                    <include name="pas240_installmentFeesService"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.service.pup.functional.TestInstallmentFees">
-                <methods>
-                    <include name="pas240_installmentFeesService"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test thread-count="1024" name="pas240_installmentFeesService VA PA" parallel="methods">
-        <parameter name="state" value="VA, PA"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestInstallmentFees">
-                <methods>
-                    <include name="pas240_installmentFeesService"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestInstallmentFees">
-                <methods>
-                    <include name="pas240_installmentFeesService"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.service.pup.functional.TestInstallmentFees">
-                <methods>
-                    <include name="pas240_installmentFeesService"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test thread-count="1024" name="pas14156_DecPagePlcyVehInfo" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.functional.TestDecPlcyVehInfo">
-                <methods>
-                    <include name="pas14156_DecPagePlcyVehInfo"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.functional.TestDecPlcyVehInfo">
-                <methods>
-                    <include name="pas14156_DecPagePlcyVehInfo"/>
                 </methods>
             </class>
         </classes>

@@ -6,11 +6,14 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NA
 import static aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData.OPT_IN;
 import static aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData.OPT_OUT;
 import static aaa.main.enums.DocGenEnum.Documents.AHEVAXX;
+import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.helpers.rest.wiremock.dto.PaperlessPreferencesErrorTemplateData;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
@@ -74,8 +77,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440, PAS-235 - rumors have it, that discount might be renamed
 	private static Map<String, Integer> policyCount = new HashMap<>();
 	private static final String PP_ERROR_MESSAGE_NB = "eValue status set to Pending. Unable to verify Paperless Preferences.";
-	private static final String PP_ERROR_MESSAGE_NB15 = "Discount in Jeopardy email sent. Unable to verify Paperless Preferences..";
-
+	private static final String PP_ERROR_MESSAGE_NB15 = "Discount in Jeopardy email sent. Unable to verify Paperless Preferences.";
+	private static final String  PP_ERROR_MESSAGE_NB30="Evalue information / Status was updated as : 'ACTIVE' for the policy based on Preferences and Membership logic. Unable to verify Paperless Preferences.";
 	private static final ImmutableList<String> EXPECTED_BI_LIMITS = ImmutableList.of(
 			"$25,000/$50,000",
 			"$50,000/$100,000",
@@ -149,6 +152,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	private static final String EVALUE_PRIOR_INSURANCE_BLUE_BOX_CHECK =
 			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeValueQualifications", "priorInsurance", "FALSE");
+	private VehicleTab vehicleTab = new VehicleTab();
 
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void paperlessPreferencesStubEndpointConfigCheck() {
@@ -1682,11 +1686,11 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
 	public void pas23992_PaperlessPreferanceScenario1(@Optional("MD") String state) {
-	//	eValueConfigCheck();
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		eValueConfigCheck();
 		//Create evalue quote
 		eValueQuoteCreation();
 		policy.dataGather().start();
-		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
 		new PremiumAndCoveragesTab().calculatePremium();
@@ -1695,12 +1699,19 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		//Set Paperless Preference Error  on quote
 		HelperWireMockStub stub = createPaperlessPreferencesErrorRequest(quoteNumber);
 		simplifiedQuoteIssue();
+//add neb scenario
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB, true);
+		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("Pending");
 		deleteSinglePaperlessPreferenceRequest(stub);
-		// Verify user note for paperless preference
-		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB, true, softly);
-		// Set pp Error on policy
+
 		HelperWireMockStub stub1 = createPaperlessPreferencesErrorRequest(policyNumber);
+				// Verify user note for paperless preference
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB, true);
+		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("Pending");
+
+		// Set pp Error on policy
+		//HelperWireMockStub stub2 = createPaperlessPreferencesErrorRequest(policyNumber);
 		//Chane time NB+15 and run nb 15 Job
 		TestEValueMembershipProcess.jobsNBplus15plus30runNoChecks();
 		mainApp().open();
@@ -1708,8 +1719,210 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		//Verify PP note on NB15
 		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB15, true, softly);
-		deleteSinglePaperlessPreferenceRequest(stub1);
+		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("Pending");
+		//deleteSinglePaperlessPreferenceRequest(stub1);
+
+		//NB30
+		//HelperWireMockStub stubrr = createPaperlessPreferencesErrorRequest(policyNumber);
+		TestEValueMembershipProcess.jobsNBplus15plus30runNoChecks();
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB30, true, softly);
+
+		//deleteSinglePaperlessPreferenceRequest(stub2);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		//HelperWireMockStub stub3 = createPaperlessPreferencesErrorRequest(policyNumber);
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(45));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		//deleteSinglePaperlessPreferenceRequest(stub3);
+
+		//HelperWireMockStub stub4 = createPaperlessPreferencesErrorRequest(policyNumber);
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(35));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		//deleteSinglePaperlessPreferenceRequest(stub4);
+
+		//HelperWireMockStub stub5 = createPaperlessPreferencesErrorRequest(policyNumber);
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(20));
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+
+		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("Active");
+		buttonRenewals.click();
+		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("Active");
+
+
+		//deleteSinglePaperlessPreferenceRequest(stub5);
 	}
+
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
+	public void pas23992_PaperlessPreferanceScenario2(@Optional("MD") String state)
+	{
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		eValueConfigCheck();
+		//Create evalue quote
+		eValueQuoteCreation();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+		String quoteNumber = PolicySummaryPage.getPolicyNumber();
+		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+		//Set Paperless Preference Error  on quote
+		HelperWireMockStub stub = createPaperlessPreferencesErrorRequest(quoteNumber);
+		simplifiedQuoteIssue();
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		deleteSinglePaperlessPreferenceRequest(stub);
+		// Verify user note for paperless preference
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB, true, softly);
+
+		HelperWireMockStub stub2 = createPaperlessPreferencesErrorRequest(policyNumber);
+		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(20));
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		vehicleTab.buttonAddVehicle.click();
+		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE).setValue(getTestSpecificTD("VehicleTab").getValue("Usage"));
+		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).setValue(getTestSpecificTD("VehicleTab").getValue("VIN"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("");
+		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("Pending");
+
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
+	public void pas23992_PaperlessPreferanceScenario3(@Optional("MD") String state)
+	{
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		eValueConfigCheck();
+		//Create evalue quote
+		eValueQuoteCreation();
+		simplifiedQuoteIssue();
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+		// Verify user note for paperless preference
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB, false);
+		HelperWireMockStub stub1 = createPaperlessPreferencesErrorRequest(policyNumber);
+		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(25));
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		new PremiumAndCoveragesTab().calculatePremium();
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		assertThat(errorTab.tableErrors.getRow(1).getCell("Message").getValue()).isEqualTo(PAPERLESS_PREFERENCES_NOT_ENROLLED_2);
+		errorTab.cancel();
+		new DocumentsAndBindTab().saveAndExit();
+		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("");
+		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("");
+
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB, false);
+	}
+
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
+	public void pas23992_PaperlessPreferanceScenarioRenewa1(@Optional("MD") String state) {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		eValueConfigCheck();
+		//Create evalue quote
+		eValueQuoteCreation();
+		simplifiedQuoteIssue();
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		HelperWireMockStub stub2 = createPaperlessPreferencesErrorRequest(policyNumber);
+
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(30));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		vehicleTab.buttonAddVehicle.click();
+		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE).setValue(getTestSpecificTD("VehicleTab").getValue("Usage"));
+		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).setValue(getTestSpecificTD("VehicleTab").getValue("VIN"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+
+		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("");
+
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB, false, softly);
+
+	}
+
+
+
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
+	public void pas23992_PaperlessPreferanceScenario4(@Optional("MD") String state) {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		eValueConfigCheck();
+		//Create evalue quote
+		eValueQuoteCreation();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+		String quoteNumber = PolicySummaryPage.getPolicyNumber();
+		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(quoteNumber, OPT_IN);
+		simplifiedQuoteIssue();
+		deleteSinglePaperlessPreferenceRequest(stub);
+
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		HelperWireMockStub stub1 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN);
+		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(2));
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("Active");
+		deleteSinglePaperlessPreferenceRequest(stub1);
+
+		HelperWireMockStub stub2 = createPaperlessPreferencesErrorRequest(policyNumber);
+		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(25));
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		vehicleTab.buttonAddVehicle.click();
+		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE).setValue(getTestSpecificTD("VehicleTab").getValue("Usage"));
+		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).setValue(getTestSpecificTD("VehicleTab").getValue("VIN"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		deleteSinglePaperlessPreferenceRequest(stub2);
+		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("Active");
+	}
+
 
 	/**
 	 * *@author Viktoriia Lutsenko
