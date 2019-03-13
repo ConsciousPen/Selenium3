@@ -182,4 +182,50 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="Membership Discount and AHDRXX CA" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="pas550_membershipEligibilityConfigurationTrueForActiveMembership"/>
+                    <include name="pas550_membershipEligibilityConfigurationTrueForCancelledMembership"/>
+                    <include name="pas550_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
+                    <include name="pas550_membershipEligibilityConfigurationTrueForPendingMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="Membership Discount and AHDRXX HO SS" parallel="methods">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="pas356_membershipEligibilityConfigurationTrueForActiveMembership"/>
+                    <include name="pas356_membershipEligibilityConfigurationTrueForCancelledMembership"/>
+                    <include name="pas356_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas1451_eValueRemovedByServiceNoAHDRXX VA" parallel="methods">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="pas1451_eValueRemovedByServiceNoAHDRXX"/>
+                    <include name="pas13528_eValueNotRemovedByServiceExpiredPolicy"/>
+                    <include name="pas13528_eValueNotRemovedByServiceLapsedPolicy"/>
+                    <include name="pas13528_eValueNotRemovedByServiceNoAHDRXXforCancelledPolicy"/>
+                    <include name="pas13528_eValueRemovedByServiceCancPendingPolicy"/>
+                    <include name="pas13528_eValueRemovedByServiceForFutureDatedCancelledPolicy"/>
+                    <include name="pas13528_eValueRemovedByServiceForFutureDatedReinstatedPolicy"/>
+                    <include name="pas13528_eValueRemovedByServiceForReinstatedPolicy"/>
+                    <include name="pas13528_eValueRemovedByServiceInForceRenewal"/>
+                    <include name="pas13528_eValueRemovedByServicePendingPolicy"/>
+                    <include name="pas13528_eValueRemovedByServiceProposedRenewal"/>
+                    <include name="pas13528_membershipEligConfTrueForActiveMembershipCancelledPolicy"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
