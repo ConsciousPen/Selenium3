@@ -12,6 +12,8 @@ public final class ErrorEnum {
 		ERROR_200104("200104", "Driver with 2 or more At-fault accidents are unacceptable (200104) [for Drive..."),
 		ERROR_200123("200123", "Delaware Motorists Protection Act form must be received prior to issuing this transaction"),
 		ERROR_200037_VA("200037_VA", "A signed IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE form must be received prior to issuing this transaction"),
+		ERROR_200200_NJ("200200_NJ", "A signed \"Acknowledgement of Carco Inspection Requirements\" must be received prior to completing this transaction. (200200)"),
+		ERROR_200204_NJ("200204_NJ", "200204 Inspection Waiver - Sales Agreement Required must be received prior to issuing this transaction. (200204)"),//TODO-mstrazds: remove 200204
 		ERROR_200304("200304", "If Limited Tort Liability coverage is selected, a signed form must be receive..."),
 		ERROR_200305("200305", "First Party Benefits signed form must be received (200305)"),
 		ERROR_200306("200306", "A signed Uninsured motorist coverage selection form must be received prior to issuing this transaction (200306)"),

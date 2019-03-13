@@ -11,11 +11,10 @@ import java.time.format.DateTimeFormatter;
 import aaa.common.pages.Page;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.main.enums.*;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.common.enums.Constants;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.helpers.xml.model.Document;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.service.helper.*;
 import aaa.utils.StateList;
@@ -31,8 +30,6 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.rest.dtoAdmin.RfiDocumentResponse;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
@@ -46,18 +43,19 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.AbstractEditableStringElement;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import javax.ws.rs.core.Response;
 
 public class TestServiceRFI extends AutoSSBaseTest {
+	private static final String VIN_LESS_THAN_7_YEARS = "WAUDGAFL1EA123034";
+	private static final String VIN_MORE_THAN_7_YEARS = "WBAAD1300J8851614";
 	private final VehicleTab vehicleTab = new VehicleTab();
 	private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 	private final TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private final PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private ErrorTab errorTab = new ErrorTab();
-	private TestMiniServicesVehiclesHelper vehiclesHelper = new TestMiniServicesVehiclesHelper();
+	private static final TestMiniServicesVehiclesHelper VEH_HELPER = new TestMiniServicesVehiclesHelper();
 
 	private ComboBox tortCoverage = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.TORT_THRESHOLD);
 	private ComboBox biCoverage = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY);
@@ -67,6 +65,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private RadioGroup ruuelluuRule = documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE);
 	private RadioGroup aadnde1Rule = documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.DELAWARE_MOTORISTS_PROTECTION_ACT);
 	private RadioGroup aacsdcRule = documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.DISTRICT_OF_COLUMBIA_COVERAGE_SELECTION_REJECTION_FORM);
+	private static final AssetDescriptor<RadioGroup> REQUIRED_TO_BIND_AAIFNJ3 = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.ACNOWLEDGEMENT_OF_REQUIREMENT_FOR_INSURANCE_INSPECTION;
+	private static final AssetDescriptor<RadioGroup> REQUIRED_TO_BIND_AAIFNJ4 = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.INSPECTION_WAIVER_SALES_AGREEMENT_REQUIRED;
 
 	/**
 	 * @author Jovita Pukenaite
@@ -93,9 +93,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
-			RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
-			softly.assertThat(rfiServiceResponse.url).isNull();
-			softly.assertThat(rfiServiceResponse.documents.isEmpty()).isTrue();
+			verifyRFIHasNoDocuments(policyNumber);
 
 			//update UM coverage
 			HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest("UMBI", "25000/50000"), PolicyCoverageInfo.class);
@@ -106,9 +104,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
-			RFIDocuments rfiServiceResponse4 = HelperCommon.rfiViewService(policyNumber, false);
-			softly.assertThat(rfiServiceResponse4.url).isNull();
-			softly.assertThat(rfiServiceResponse4.documents.isEmpty()).isTrue();
+			verifyRFIHasNoDocuments(policyNumber);
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
@@ -510,7 +506,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 		String policyNumber = openAppAndCreatePolicy(td);
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		vehiclesHelper.addVehicleWithChecks(policyNumber, "2013-02-22", "1HGEM21504L055795", true);
+		VEH_HELPER.addVehicleWithChecks(policyNumber, "2013-02-22", "1HGEM21504L055795", true);
 
 		String docId1 = checkDocumentInRfiService(policyNumber, documentAA52UPAA.getId(), documentAA52UPAA.getName());
 		String docId2 = checkDocumentInRfiService(policyNumber, documentAA52IPAA.getId(), documentAA52IPAA.getName());
@@ -613,71 +609,208 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	 * 2. Create endorsement in PAS.
 	 * 3. Add/replace vehicle in PAS
 	 * 4. Check that Required for Bind Section does NOT include AAIFNJ3 OR AAIFNJ4
-	 * 5. Required for Issue Section includes the CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver section includes the Newly Added Vehicle
-	 * AND The newly added vehicle is set to YES
-	 * 6. Check check DXP to ensure the documents are not there
 	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23573"})
+	public void pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC01(@Optional("NJ") String state) {
+		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, false, false, false, false);
+	}
 
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23573"})
-	public void pas23573_CARCONotNeededInsidePAS(@Optional("NJ") String state) {
-		TestData td = getPolicyDefaultTD();
-		td.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
-				AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel()), "$<today-4y-1d:MM/dd/yyyy>");//Base date is > 4 years from policy eff date
-
-		AssetDescriptor<RadioGroup> carcoVehicle2 = AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.SEPARATE_VEHICLE_2;
-
-		String policyNumber = openAppAndCreatePolicy(td);
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
-
-		//Create Endorsement and Replace Vehicle from PAS UI and validate
-		TestData tdEndorsement1 = getPolicyTD("DataGather", "TestData_Plus5Day");
-		policy.getDefaultView().fillFromTo(tdEndorsement1, VehicleTab.class, VehicleTab.class, false);
-		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.LIST_OF_VEHICLE).getTable().
-				getRow(1).getCell(5).controls.links.get("Replace").click();
-		Page.dialogConfirmation.confirm();
-		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).setValue("WAUDGAFL1EA123034");
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		//Verify CARCO in Documents and Bind tab
-		verifyCARCOInDocAndBindTab_pas23573(policyNumber);
-		assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.SEPARATE_VEHICLE_2)).isPresent(false);//just in case
-		documentsAndBindTab.submitTab();
-
-		//Create Endorsement and Add Vehicle from PAS UI and validate
-		TestData tdEndorsement2 = getPolicyTD("DataGather", "TestData_Plus5Day");
-		TestData testData = tdEndorsement2.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleTabLessThan7YearOld").getTestDataList("VehicleTab")).resolveLinks();
-		policy.getDefaultView().fillFromTo(testData, VehicleTab.class, VehicleTab.class, true);
-		premiumAndCoveragesTab.calculatePremium();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		//Verify CARCO in Documents and Bind tab
-		verifyCARCOInDocAndBindTab_pas23573(policyNumber);
-		assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(carcoVehicle2).getValue()).isEqualTo("Yes");
-		documentsAndBindTab.submitTab();
+	public void pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC02(@Optional("NJ") String state) {
+		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, true, false, false, false);
 	}
 
-	private void verifyCARCOInDocAndBindTab_pas23573(String policyNumber) {
-		//RequiredToBind section
-		AssetDescriptor<RadioGroup> aaifnj3Carco = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNUNSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION;//TODO-mstrazds: AAIFNJ3
-		AssetDescriptor<RadioGroup> aaifnj4Carco = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNUNSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION;//TODO-mstrazds: AAIFNJ4
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23573"})
+	public void pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC03(@Optional("NJ") String state) {
+		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, true, true, false, false);
+	}
 
-		//RequiredToIssue section
-		AssetDescriptor<StaticElement> carcoVehicleSelection = AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CARCO_VEHICLE_INSPECTION_COMPLETED;
-		AssetDescriptor<RadioGroup> carcoVehicle1 = AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.SEPARATE_VEHICLE_1;
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement in PAS
+	 * 3. Add/replace qualifying vehicle inside PAS ('Less Than 1,000 miles' = Yes)
+	 * 4. Check that Required for Bind Section includes AAIFNJ4
+	 * 5. Try to bind without signing the document - error is displayed
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-26123"})
+	public void pas26123_CARCOFormAAIFNJ4InsidePASAddReplaceVehicle(@Optional("NJ") String state) {
+		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, true, true, false, true);
+	}
 
-		//Required for Bind Section does NOT include AAIFNJ3 OR AAIFNJ4
-		assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(aaifnj3Carco)).isPresent(false);
-		assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(aaifnj4Carco)).isPresent(false);
-		/*Required for Issue Section includes the CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver section includes the Newly Added Vehicle
-		AND The newly added vehicle is set to YES*/
-		assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(carcoVehicleSelection)).isPresent();
-		assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(carcoVehicle1).getValue()).isEqualTo("Yes");
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement in PAS
+	 * 3. Add/replace qualifying vehicle inside PAS ('Less Than 1,000 miles' = No or not required)
+	 * 4. Check that Required for Bind Section includes AAIFNJ3 and it is reset to Not Signed
+	 * 5. Try to bind without signing the document - error is displayed
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21648"})
+	public void pas21648_CARCOFormAAIFNJ3InsidePASAddReplaceVehicleTC01(@Optional("NJ") String state) {
+		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, true, false, true, false);
+	}
 
-		//Check that RFI does not contain AAIFNJ3 OR AAIFNJ4
-		checkIfRfiIsEmpty(policyNumber);
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21648"})
+	public void pas21648_CARCOFormAAIFNJ3InsidePASAddReplaceVehicleTC02(@Optional("NJ") String state) {
+		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, false, false, false, false);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS with qualifying vehicle ('Less Than 1,000 miles' = No or not required), but without COMPDED
+	 * 2. Create endorsement in PAS
+	 * 3. Update vehicle to have COMPDED
+	 * 4. Check that Required for Bind Section includes AAIFNJ3 and it is reset to Not Signed
+	 * 5. Try to bind without signing the document - error is displayed
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21648"})
+	public void pas21648_CARCOFormAAIFNJ3InsidePASUpdateCompTC01(@Optional("NJ") String state) {
+		carcoUpdateCompScenarios(true, false);
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21648"})
+	public void pas21648_CARCOFormAAIFNJ3InsidePASUpdateCompTC02(@Optional("NJ") String state) {
+		carcoUpdateCompScenarios(false, false);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS with qualifying vehicle ('Less Than 1,000 miles' = Yes), but without COMPDED
+	 * 2. Create endorsement in PAS
+	 * 3. Update vehicle to have COMPDED
+	 * 4. Check that Required for Bind Section includes AAIFNJ4 and it is reset to Not Signed
+	 * 5. Try to bind without signing the document - error is displayed
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-24531"})
+	public void pas24531_CARCOFormAAIFNJ4InsidePASUpdateComp(@Optional("NJ") String state) {
+		carcoUpdateCompScenarios(true, true);
+	}
+
+	//CARCO Outside PAS
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement outside PAS
+	 * 3. Add/replace qualifying vehicle outside PAS ('Less Than 1,000 miles' = No or Not required)
+	 * 4. Run RFI service - AAIFNJ3 is returned
+	 * 5. Try to bind without signed AAIFNJ3 - error is returned
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21648", "PAS-24531"})
+	public void pas21648_CARCOFormAAIFNJ3OutsidePASAddReplaceVehicleTC01(@Optional("NJ") String state) {
+		carcoAddReplaceVehicleOutsidePAS(true, false);
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21648", "PAS-24531"})
+	public void pas21648_CARCOFormAAIFNJ3OutsidePASAddReplaceVehicleTC02(@Optional("NJ") String state) {
+		carcoAddReplaceVehicleOutsidePAS(false, false);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement outside PAS
+	 * 3. Add/replace qualifying vehicle outside PAS ('Less Than 1,000 miles' = Yes)
+	 * 4. Run RFI service - AAIFNJ4 is returned
+	 * 5. Try to bind without signed AAIFNJ4 - error is returned
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-24531"})
+	public void pas24531_CARCOFormAAIFNJ4OutsidePASAddReplaceVehicle(@Optional("NJ") String state) {
+		carcoAddReplaceVehicleOutsidePAS(true, true);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS with qualifying vehicle ('Less Than 1,000 miles' = No or not required), but without COMPDED
+	 * 2. Create endorsement outside PAS
+	 * 3. Update vehicle to have COMPDED
+	 * 4. Run RFI service - AAIFNJ3 is returned
+	 * 5. Try to bind without signed AAIFNJ3 - error is returned
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21648"})
+	public void pas21648_CARCOFormAAIFNJ3OutsidePASUpdateCompTC01(@Optional("NJ") String state) {
+		carcoFormOutsidePASUpdateComp(true, false);
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21648"})
+	public void pas21648_CARCOFormAAIFNJ3OutsidePASUpdateCompTC02(@Optional("NJ") String state) {
+		carcoFormOutsidePASUpdateComp(false, false);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS with qualifying vehicle ('Less Than 1,000 miles' = Yes), but without COMPDED
+	 * 2. Create endorsement outside PAS
+	 * 3. Update vehicle to have COMPDED
+	 * 4. Run RFI service - AAIFNJ4 is returned
+	 * 5. Try to bind without signed AAIFNJ4 - error is returned
+	 */
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-24588"})
+	public void pas24588_CARCOFormAAIFNJ4OutsidePASUpdateComp(@Optional("NJ") String state) {
+		carcoFormOutsidePASUpdateComp(true, true);
 	}
 
 	/**
@@ -1315,5 +1448,351 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).setValue("Physically Signed");
 			documentsAndBindTab.submitTab();
 		}
+	}
+
+	private void carcoNeededNotNeededInsidePASAddReplaceVehicle(boolean baseDateGreaterThan4Years, boolean is1000MilesQuestionRequired, boolean lessThan1000Miles, boolean isAAIFNJ3Expected, boolean isAAIFNJ4Expected) {
+		String replaceVin;
+		String addVin;
+		String baseDate;
+		if (is1000MilesQuestionRequired) {
+			replaceVin = VIN_LESS_THAN_7_YEARS; //vehicle age must be less tha 7 years
+			addVin = "TestData_VehicleTabLessThan7YearOld"; //vehicle age must be less tha 7 years
+		} else {
+			replaceVin = VIN_MORE_THAN_7_YEARS; //vehicle age must be more than 7 years
+			addVin = "TestData_VehicleTabMoreThan7YearOld"; //vehicle age must be more than 7 years
+		}
+
+		if (baseDateGreaterThan4Years) {
+			baseDate = "$<today-4y-1d:MM/dd/yyyy>";
+		} else {
+			baseDate = "$<today-4y:MM/dd/yyyy>";
+		}
+
+		TestData td = getPolicyDefaultTD();
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
+				AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel()), baseDate);
+
+		openAppAndCreatePolicy(td);
+		//Create Endorsement and Replace Vehicle from PAS UI and validate
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.LIST_OF_VEHICLE).getTable().
+				getRow(1).getCell(5).controls.links.get("Replace").click();
+		Page.dialogConfirmation.confirm();
+		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).setValue(replaceVin);
+		if (is1000MilesQuestionRequired) {
+			if (lessThan1000Miles) {
+				vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.LESS_THAN_1000_MILES).setValue("Yes");
+			} else {
+				vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.LESS_THAN_1000_MILES).setValue("No");
+			}
+		}
+
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+
+		//Verify CARCO in Documents and Bind tab
+		verifyCarcoAIFNJ3InDocAndBindTab(isAAIFNJ3Expected);
+		verifyCarcoAIFNJ4InDocAndBindTab(isAAIFNJ4Expected);
+		documentsAndBindTab.submitTab();
+
+		//Create Endorsement and Add Vehicle from PAS UI and validate
+		TestData tdAddVehicle = getPolicyDefaultTD().adjust(new VehicleTab().getMetaKey(), getTestSpecificTD(addVin)).resolveLinks();
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		if (isAAIFNJ3Expected) {
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ3)).hasValue("Physically Signed");
+		} else {
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ3)).isPresent(false);
+		}
+		if (isAAIFNJ4Expected) {
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ4)).hasValue("Physically Signed");
+		} else {
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ4)).isPresent(false);
+		}
+
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		policy.getDefaultView().fillFromTo(tdAddVehicle, VehicleTab.class, VehicleTab.class, true);
+		if (is1000MilesQuestionRequired) {
+			if (lessThan1000Miles) {
+				vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.LESS_THAN_1000_MILES).setValue("Yes");
+			} else {
+				vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.LESS_THAN_1000_MILES).setValue("No");
+			}
+		}
+
+		premiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		//Verify CARCO in Documents and Bind tab
+		verifyCarcoAIFNJ3InDocAndBindTab(isAAIFNJ3Expected);
+		verifyCarcoAIFNJ4InDocAndBindTab(isAAIFNJ4Expected);
+		documentsAndBindTab.submitTab();
+	}
+
+	private void verifyCarcoAIFNJ3InDocAndBindTab(boolean isAAIFNJ3Expected) {
+		if (isAAIFNJ3Expected) {
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ3)).isPresent(true).hasValue("Not Signed");
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ4)).isPresent(false);//just in case
+			documentsAndBindTab.submitTab();
+			errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_200200_NJ);
+			errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_200204_NJ);//just in case
+			errorTab.cancel();
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ3).setValue("Physically Signed");
+		} else {
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ3)).isPresent(false);
+		}
+	}
+
+	private void verifyCarcoAIFNJ4InDocAndBindTab(boolean isAAIFNJ4Expected) {
+		if (isAAIFNJ4Expected) {
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ4)).isPresent(true).hasValue("Not Signed");
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ3)).isPresent(false);//just in case
+			documentsAndBindTab.submitTab();
+			errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_200200_NJ);//just in case
+			errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_200204_NJ);
+			errorTab.cancel();
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ4).setValue("Physically Signed");
+		} else {
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ4)).isPresent(false);
+		}
+	}
+
+	private void carcoUpdateCompScenarios(boolean is1000MilesQuestionRequired, boolean isLessThan1000Miles) {
+		String vin;
+		TestData td = getPolicyDefaultTD();
+		String lessThan1000MilesSelection;
+		if (is1000MilesQuestionRequired) {
+			vin = VIN_LESS_THAN_7_YEARS; //vehicle age must be less than 7 years
+
+		} else {
+			vin = VIN_MORE_THAN_7_YEARS; //vehicle age must be more than 7 years
+		}
+
+		if (isLessThan1000Miles) {
+			lessThan1000MilesSelection = "Yes";
+		} else {
+			lessThan1000MilesSelection = "No";
+		}
+
+		if (is1000MilesQuestionRequired) {
+			td.adjust(TestData.makeKeyPath(AutoSSMetaData.VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.LESS_THAN_1000_MILES.getLabel()), lessThan1000MilesSelection);
+		}
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
+				AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel()), "$<today-4y:MM/dd/yyyy>");
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vin);
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel()), "contains=No Coverage");
+
+		mainApp().open();
+		createCustomerIndividual();
+		createQuoteAndFillUpTo(td, DocumentsAndBindTab.class, true);
+		verifyCarcoAIFNJ4InDocAndBindTab(false);// false, because no comp Coll
+		verifyCarcoAIFNJ3InDocAndBindTab(false);// false, because no comp Coll
+
+		documentsAndBindTab.submitTab();
+		policy.getDefaultView().fillFromTo(td, PurchaseTab.class, PurchaseTab.class, true);
+		new PurchaseTab().submitTab();
+		//		String queryPolicyIssue = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, document.getIdInXml(), AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
+		//		assertSoftly(softly -> {
+		//			verifyDocInDb(softly,queryPolicyIssue,);//TODO-mstrazds: should not have the document in XML as there was no comp coll. For next sprints when we have xml stories
+		//		});
+
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		if (isLessThan1000Miles) {
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ4)).isPresent(false);//.hasValue("Physically Signed");
+		} else {
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ3)).isPresent(false);//.hasValue("Physically Signed");
+		}
+
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "$100");
+		premiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+
+		if (is1000MilesQuestionRequired) {
+			if (isLessThan1000Miles) {
+				verifyCarcoAIFNJ4InDocAndBindTab(true);
+				verifyCarcoAIFNJ3InDocAndBindTab(false);
+			} else {
+				verifyCarcoAIFNJ4InDocAndBindTab(false);
+				verifyCarcoAIFNJ3InDocAndBindTab(true);
+			}
+
+		} else {
+			verifyCarcoAIFNJ4InDocAndBindTab(false);
+			verifyCarcoAIFNJ3InDocAndBindTab(false);
+		}
+
+		documentsAndBindTab.submitTab();
+		//		String queryEndorsement = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, document.getIdInXml(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
+		//		assertSoftly(softly -> {
+		//			verifyDocInDb(softly,queryEndorsement,);
+		//		});
+	}
+
+	private void carcoAddReplaceVehicleOutsidePAS(boolean isQualifyingVehicle, boolean isLessThan1000Miles) {
+		String policyNumber = openAppAndCreatePolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+		if (isQualifyingVehicle) {
+			String addedVehicleOid = VEH_HELPER.addVehicleWithChecks(policyNumber, "2017-02-22", VIN_LESS_THAN_7_YEARS, true);//vehicle age must be less tha 7 years
+			String docId1;
+			if (isLessThan1000Miles) {
+				//Update isLessThan1000Miles to true/yes
+				updateLessThan1000MilesToTrue(policyNumber, addedVehicleOid);
+				docId1 = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AAIFNJ4.getId(), DocGenEnum.Documents.AAIFNJ4.getName());
+				helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_200204_NJ.getCode(), ErrorEnum.Errors.ERROR_200204_NJ.getMessage(), "attributeForRules");
+			} else {
+				docId1 = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AAIFNJ3.getId(), DocGenEnum.Documents.AAIFNJ3.getName());
+				helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_200200_NJ.getCode(), ErrorEnum.Errors.ERROR_200200_NJ.getMessage(), "attributeForRules");
+			}
+			//Bind policy with docId and document is electronically signed
+			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), docId1);
+
+			//			assertSoftly(softly -> {
+			//				String queryAAIFNJ3 = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, documentAAIFNJ3.getIdInXml(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
+			//				verifyDocInDb(softly, queryAAIFNJ3, documentAAIFNJ3, true);//TODO-mstrazds: for next sprints when we have xml story
+			//			});
+			//In PAS go to bind page verify document is electronically signed
+			mainApp().open();
+			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+			policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			if (isLessThan1000Miles) {
+				assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ4).getValue()).isEqualTo("Electronically Signed");
+				assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ3)).isPresent(false);
+			} else {
+				assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ4)).isPresent(false);
+				assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ3).getValue()).isEqualTo("Electronically Signed");
+			}
+			documentsAndBindTab.saveAndExit();
+
+			//Replace Vehicle
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			ViewVehicleResponse viewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
+			String vehicleOid = viewVehicles.vehicleList.get(0).oid;
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			String replacedVehicleVin = "2T1BURHE4JC034340"; //Toyota Corolla 2018
+			String replacedVehicleOid = VEH_HELPER.replaceVehicleWithUpdates(policyNumber, vehicleOid, replacedVehicleVin, true, true);
+			if (isLessThan1000Miles) {
+				//Update isLessThan1000Miles to true/yes
+				updateLessThan1000MilesToTrue(policyNumber, replacedVehicleOid);
+				docId1 = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AAIFNJ4.getId(), DocGenEnum.Documents.AAIFNJ4.getName());
+				helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_200204_NJ.getCode(), ErrorEnum.Errors.ERROR_200204_NJ.getMessage(), "attributeForRules");
+			} else {
+				docId1 = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AAIFNJ3.getId(), DocGenEnum.Documents.AAIFNJ3.getName());
+				helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_200200_NJ.getCode(), ErrorEnum.Errors.ERROR_200200_NJ.getMessage(), "attributeForRules");
+			}
+
+			//Bind policy with docId and document is electronically signed
+			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), docId1);
+			assertSoftly(softly -> {
+				//				String queryAAIFNJ3 = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, documentAAIFNJ3.getIdInXml(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
+				//				verifyDocInDb(softly, queryAAIFNJ3, documentAAIFNJ3, true);//TODO-mstrazds:for next sprints when we have xml story
+			});
+			//create endorsement from, pas go to bind page verify document is electronically signed
+			mainApp().open();
+			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+			policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			if (isLessThan1000Miles) {
+				assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ4).getValue()).isEqualTo("Electronically Signed");
+				assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ3)).isPresent(false);
+			} else {
+				assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ4)).isPresent(false);
+				assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ3).getValue()).isEqualTo("Electronically Signed");
+			}
+			documentsAndBindTab.saveAndExit();
+
+		} else {
+			VEH_HELPER.addVehicleWithChecks(policyNumber, "2017-02-22", VIN_MORE_THAN_7_YEARS, true);//vehicle age must be more than 7 years
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+			verifyRFIHasNoDocuments(policyNumber);
+		}
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	private void updateLessThan1000MilesToTrue(String policyNumber, String addedVehicleOid) {
+		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
+		updateVehicleRequest.isLessThan1000Miles = Boolean.TRUE;
+		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, addedVehicleOid, updateVehicleRequest);
+		assertThat(updateVehicleResponse.isLessThan1000Miles).isTrue();
+	}
+
+	private void carcoFormOutsidePASUpdateComp(boolean is1000MilesQuestionRequired, boolean isLessThan1000Miles) {
+		String vin;
+		String lessThan1000MilesSelection;
+		if (is1000MilesQuestionRequired) {
+			vin = VIN_LESS_THAN_7_YEARS; //vehicle age must be less tha 7 years
+		} else {
+			vin = VIN_MORE_THAN_7_YEARS; //vehicle age must be more than 7 years
+		}
+
+		if (isLessThan1000Miles) {
+			lessThan1000MilesSelection = "Yes";
+		} else {
+			lessThan1000MilesSelection = "No";
+		}
+
+		TestData td = getPolicyDefaultTD();
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vin); //vehicle age < 7 years
+		if (is1000MilesQuestionRequired) {
+			td.adjust(TestData.makeKeyPath(AutoSSMetaData.VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.LESS_THAN_1000_MILES.getLabel()), lessThan1000MilesSelection);
+		}
+
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel()), "contains=No Coverage");
+
+		String policyNumber = openAppAndCreatePolicy(td);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		//Check that RFI doesn't return any document as no changes yet
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		verifyRFIHasNoDocuments(policyNumber);
+
+		//Update coverage
+		String vehicleOid = VEH_HELPER.findVehicleByVin(HelperCommon.viewEndorsementVehicles(policyNumber), vin).oid;
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest("COMPDED", "100"), PolicyCoverageInfo.class);
+		String docId;
+		if (is1000MilesQuestionRequired) {
+			if (isLessThan1000Miles) {
+				docId = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AAIFNJ4.getId(), DocGenEnum.Documents.AAIFNJ4.getName());
+				helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_200204_NJ.getCode(), ErrorEnum.Errors.ERROR_200204_NJ.getMessage(), "attributeForRules");
+			} else {
+				docId = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AAIFNJ3.getId(), DocGenEnum.Documents.AAIFNJ3.getName());
+				helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_200200_NJ.getCode(), ErrorEnum.Errors.ERROR_200200_NJ.getMessage(), "attributeForRules");
+			}
+
+			//Bind policy with docId and document is electronically signed
+			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), docId);
+		} else {
+			HelperCommon.endorsementRate(policyNumber, 200);
+			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", 200);
+		}
+
+		//create endorsement from PAS, go to bind page, verify document is electronically signed
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		if (is1000MilesQuestionRequired) {
+			if (isLessThan1000Miles) {
+				assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ4).getValue()).isEqualTo("Electronically Signed");
+			} else {
+				assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ3).getValue()).isEqualTo("Electronically Signed");
+			}
+		} else {
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ4)).isPresent(false);
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ3)).isPresent(false);
+		}
+
+		documentsAndBindTab.saveAndExit();
+	}
+
+	private void verifyRFIHasNoDocuments(String policyNumber) {
+		assertSoftly(softly -> {
+			RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
+			softly.assertThat(rfiServiceResponse.url).isNull();
+			softly.assertThat(rfiServiceResponse.documents.isEmpty()).isTrue();
+		});
 	}
 }

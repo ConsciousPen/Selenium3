@@ -915,3 +915,9 @@ TestData_VehicleTabLessThan7YearOld: {
   VIN: 4T1BF1FK0HU761648,
   Usage: Pleasure,
 }
+
+TestData_VehicleTabMoreThan7YearOld: {
+  Add Vehicle: Click,
+  VIN: 1ZWFT61L615609832,
+  Usage: Pleasure,
+}
