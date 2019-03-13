@@ -184,11 +184,7 @@ VehicleTab_EnrolledInUBI_2: {
   Usage: Pleasure,
   VIN: 1GNWGPFG8B6548273, 
   'Enroll in Usage Based Insurance?': 'Yes',
-  Get Vehicle Details: click, 
-  #Vehicle Eligibility Response: Vehicle Eligible, 
-  #AAA UBI Device Status: Shipped, 
-  #Device Voucher Number: 12345699, 
-  #Safety Score: 120
+  Get Vehicle Details: click
 }
 
 # ------ PremiumAndCoveragesTab ------- 
@@ -230,11 +226,12 @@ DocumentsAndBindTab_ExcludedDrivers: {
 
 DocumentsAndBindTab_VehiclesWithUBI: {
   RequiredToBind: {
-    Auto Insurance Application: Physically Signed,
-    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed, 
+    Auto Insurance Application: Physically Signed
   }, 
   Agreement: I agree, 
   RequiredToIssue: {
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: 'Yes',
     Proof of Prior Insurance: 'Yes'
   }
 }
@@ -244,8 +241,7 @@ DocumentsAndBindTab_FinancialDrivers: {
     Auto Insurance Application: Physically Signed
   }, 
   Agreement: I agree, 
-  Case Number: '12345',
-  #Case Number: '12346'
+  Case Number: '12345'
 }
 
 DocumentsAndBindTab_Full: {
@@ -263,7 +259,7 @@ DocumentsAndBindTab_Full: {
   Case Number: '12345'
 }
 
-# ------------------ 
+# -------- Generate On Demand Documents Tab ---------- 
 TestData_AU02: {  
   Cancellation Date: '$<today:MM/dd/yyyy>',
   Free Form Text AU02: 'Test Test'
