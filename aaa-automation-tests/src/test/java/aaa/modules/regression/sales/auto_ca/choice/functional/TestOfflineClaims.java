@@ -93,6 +93,12 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * @scenario Test Steps: See Template For Details
      * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver
      */
+    /**
+     * PAS-23977 - END: Reconcile Claim # Formats (CLUE and CAS)
+     * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added and compare of CLUE claim from newly added driver to existing PU Yes claim on FNI .
+     * @scenario Test Steps: See Template For Details
+     * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver and only claim numbers will be compared ignoring the format differences.
+     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-22172")
@@ -122,14 +128,18 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * 15. Validate the Internal claims is dropped from driver1 and assigned to driver2 as CLUE claims
      * @details Clean Path. Expected Result is that internal claims will be move from the FNI to the newly added driver when Agent marks the PU as 'Yes'
      */
+    /**
+     * PAS-23977 - END: Reconcile Claim # Formats (CLUE and CAS)
+     * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added and compare of CLUE claim from newly added driver to existing PU Yes claim on FNI .
+     * @scenario Test Steps: See Template For Details
+     * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver and only claim numbers will be compared ignoring the format differences.
+     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-24587")
     public void pas24587_CASClueReconcilePUAFRUserFlagged(@Optional("CA") @SuppressWarnings("unused") String state) {
         pas24587_CASClueReconcilePUAFRUserFlagged();
     }
-
-
     /**
      * @author Kiruthika Rajendran
      * PAS-24587 - END - User Flagged: reconcile permissive use claims when driver/named insured is added (avail for rating)
