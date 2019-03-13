@@ -1185,6 +1185,19 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), doccId);
 	}
 
+	private String policyCreationForAACSNJ(String coverageId, String newCoverage, TestData td) {
+		//Create Policy
+		String policyNumber = openAppAndCreatePolicy(td);
+
+		//Create endorsement
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		//update coverage
+		HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageId, newCoverage), PolicyCoverageInfo.class);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		//TODO-mstrazds: no document needs to be signed ?
+		return policyNumber;
+	}
+
 	private String policyCreationForAASCDC(String coverageId, String newCoverage, TestData td) {
 		//Create Policy
 		String policyNumber = openAppAndCreatePolicy(td);
@@ -1239,4 +1252,62 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			documentsAndBindTab.submitTab();
 		}
 	}
+
+
+    /**
+     * @author Chaitanya Boyapati
+     * @name RFI AACSNJ Form
+     * @scenario 1. Create policy.
+     * 2. Create endorsement outside of PAS.
+     * 3. Rate. Hit RFI service.
+     * 4. Check the response.
+     * 5. Update Primary Care Selection/PIPMedical coverage. Rate.
+     * 6. Hit RFI service, check if document is displaying.
+     * 7. Run bind service without signing document and verify error. and policy is not bound.
+     * 8. Run bind service with document id verify no error and we can bind the policy.
+     * 9. go to pas UI and verify if policy is bound
+     * 10 Go to document and bind page and verify if document is electronically signed.
+     * 11. go to the DB and verify document signed by is there in xml
+     * 12 .create and endorsement on policy from pas change  primary care selection and rate the policy
+     * 13. go to document and bind page verify if its reset to document not signed
+     * 14 Try to bind policy from pas and verify error.
+     * 14 Select document physically signed
+     * 15 Verify in db that we are not sending document signed by
+     * 16  Bind the policy verify there is no error message.
+     */
+
+    @Parameters({"state"})
+    @StateList(states = {Constants.States.NJ})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21646"})
+    public void pas21646_aacsnjFormRFI(@Optional("NJ") String state) {
+        assertSoftly(softly -> {
+            VerifyAacsnjScenarios(softly, "PIPPRIMINS", "100000");
+
+            VerifyAacsnjScenarios(softly, "PIPMEDEXP", "150000");
+
+        });
+    }
+
+    private void VerifyAacsnjScenarios(ETCSCoreSoftAssertions softly, String pipmedical, String s) {
+        String policyNumber = policyCreationForAACSNJ(pipmedical, s, getPolicyDefaultTD());
+        verifyRateBindPasForAACSNJ(softly, policyNumber);
+    }
+
+    private void verifyRateBindPasForAACSNJ(ETCSCoreSoftAssertions softly, String policyNumber) {
+        //Verify RFI service and verify it returns doccid
+        String doccId = checkDocumentInRfiService(policyNumber, "AACSNJ", "NJ Auto Coverage Selection Form");
+
+        //Verify Bind service
+        bindEndorsement(policyNumber, doccId, ErrorEnum.Errors.ERROR_200900.getCode(), ErrorEnum.Errors.ERROR_200900.getMessage(), false);
+        //Verify DB Endorsement xml Signed by field is there
+        String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AACSNJ", "ENDORSEMENT_ISSUE");
+        verifyDocInDb(softly, query, DocGenEnum.Documents.AACSNJ, true);
+        //Go to pas and and verify
+        goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NJ_AUTO_STANDARD_POLICY_COVERAGE_SELECTION_FORM,
+                AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_EXPENSES, "$150000", ErrorEnum.Errors.ERROR_200900, false);
+    }
 }
+
+
+
