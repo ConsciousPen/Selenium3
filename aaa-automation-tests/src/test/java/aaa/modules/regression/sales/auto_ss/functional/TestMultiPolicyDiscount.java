@@ -451,9 +451,9 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * This test validates that removing named insureds without rating results in error message at bind time.
      * @param state the test will run against.
      * @scenario
-     * 1. Create quote with 2 NI (one of the NI is CUSTOMER_E)
+     * 1. Create quote with 2 NI (one of the NI is ELASTIC_QUOTED)
      * 2. Populate MPD table via refresh
-     * 3. Remove CUSTOMER_E
+     * 3. Remove ELASTIC_QUOTED
      * 4. Re trigger refresh (Table will now be empty)
      * 5. Bind
      * 6. Verify a hard stop error occurs directing user to Re-Rate the policy.
@@ -841,7 +841,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         removeMPDAndRerate(0);
     }
-    
+
     /**
      * Handles looping through editing an mpd element, throwing the rerating error, validating its presence, re-calculating premium, then ensuring the rerate error is gone. <br>
      *     Returns the state of the test to a loopable position so the method can be called again directly, ending on the Documents and Bind Tab.
@@ -1051,7 +1051,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     public void pas23456_MPD_Allow_NBBindWithSystemValidatedPolicy(@Optional("") String state) {
         TestData testData = getPolicyTD();
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-        _generalTab.mpd_SearchCustomerDetails("CUSTOMER_E");
+        _generalTab.mpd_SearchCustomerDetails("ELASTIC_QUOTED");
         _generalTab.mpdSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
         policy.getDefaultView().fillFromTo(testData, GeneralTab.class, PurchaseTab.class, true);
         PurchaseTab.btnApplyPayment.click();
@@ -1066,7 +1066,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         handleEndorsementType(bFlatEndorsement);
 
         // Add MPD Element via Customer Search
-        _generalTab.mpd_SearchCustomerDetails("CUSTOMER_E");
+        _generalTab.mpd_SearchCustomerDetails("ELASTIC_QUOTED");
         _generalTab.mpdSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
 
         fillFromGeneralTabToErrorMsg();
@@ -1105,7 +1105,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         }
 
         // Add MPD Home element.
-        _generalTab.mpd_SearchCustomerDetails("CUSTOMER_E");
+        _generalTab.mpd_SearchCustomerDetails("ELASTIC_QUOTED");
         _generalTab.mpdSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
 
         // Complete Endorsement.
@@ -1296,14 +1296,23 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         String policyNumber = "";
         AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
 
-        // Create AutoSS quote with Unquoted Home Companion Policy added.
+        // Create AutoSS quote with Quoted Home Companion Policy added.
         TestData td = getPolicyDefaultTD();
         createQuoteAndFillUpTo(td, GeneralTab.class, true);
 
-        _generalTab.mpd_SearchCustomerDetails("CUSTOMER_E");
+        _generalTab.mpd_SearchCustomerDetails("ELASTIC_QUOTED");
         _generalTab.mpdSearchTable_addSelected(0);
-        _generalTab.mpd_SearchCustomerDetails("CUSTOMER_E");
+        _generalTab.mpd_SearchCustomerDetails("ELASTIC_QUOTED");
         _generalTab.mpdSearchTable_addSelected(1);
+
+        String policyTypeMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
+        String policyNumberMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_NUMBER.getLabel();
+
+        // Find row in MPD table matching policyType, then pull the policy num / address cell out of it to assert on. Remove address with split.
+        String homeCompanionPolicyNumberColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
+                policyTypeMetaDataLabel,mpdPolicyType.home.toString())
+                .getCell(policyNumberMetaDataLabel)
+                .getValue().split("\\n")[0];
 
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
         _documentsAndBindTab.btnGenerateDocuments.click();
@@ -1311,7 +1320,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
         DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Home)");
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "QAZH3206557376"); //Asserts that the Mockwire Home policy shows up instead of the Renters policy.
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, homeCompanionPolicyNumberColumnValue); //"QAZH3206557376"); //Asserts that the Mockwire Home policy shows up instead of the Renters policy.
     }
 
     /**
@@ -1396,11 +1405,20 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         TestData td = getPolicyDefaultTD();
         createQuoteAndFillUpTo(td, GeneralTab.class, true);
 
-        _generalTab.mpd_SearchCustomerDetails("CUSTOMER_E");
+        _generalTab.mpd_SearchCustomerDetails("ELASTIC_QUOTED");
         _generalTab.mpdSearchTable_addSelected(0);
         _generalTab.mpd_SearchAndAddManually("Motorcycle", "NOT_FOUND");
         _generalTab.mpd_SearchByPolicyNumber("Life", "NOT_FOUND");
         _generalTab.mpd_ManuallyAddPolicyAfterNoResultsFound( "Life", "TestLife");
+
+        String policyTypeMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
+        String policyNumberMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_NUMBER.getLabel();
+
+        // Find row in MPD table matching policyType, then pull the policy num / address cell out of it to assert on. Remove address with split.
+        String homeCompanionPolicyNumberColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
+                policyTypeMetaDataLabel,mpdPolicyType.home.toString())
+                .getCell(policyNumberMetaDataLabel)
+                .getValue().split("\\n")[0];
 
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
         _documentsAndBindTab.btnGenerateDocuments.click();
@@ -1410,7 +1428,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Motorcycle, Life, Home)");
 
         // Checking Affinity Group Section for Listed Policies.
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "QAZH3206557376");
+        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, homeCompanionPolicyNumberColumnValue);
         DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "NOT_FOUND");
         DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "TestLife");
     }
@@ -1444,10 +1462,4 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "TestLifePolicy");
 
     }
-
-    /*@AfterMethod
-    private void postTest(){
-        mainApp().close();
-    }
-    */
 }
