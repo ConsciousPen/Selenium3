@@ -81,7 +81,9 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
-	protected void performReinstatementWithLapse(LocalDateTime effDate, String policyNumber) {
+	protected void performReinstatementWithLapse(String policyNumber) {
+		SearchPage.openPolicy(policyNumber);
+		LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
 		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
 		JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);

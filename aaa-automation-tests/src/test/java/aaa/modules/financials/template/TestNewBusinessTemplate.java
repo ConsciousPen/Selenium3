@@ -195,10 +195,9 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                 softly.assertThat(fraudFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.CA_FRAUD_ASSESSMENT_FEE, "1040"));
             });
         }
-        SearchPage.openPolicy(policyNumber);
 
 		// Advance time and reinstate policy with lapse
-        performReinstatementWithLapse(PolicySummaryPage.getEffectiveDate(), policyNumber);
+        performReinstatementWithLapse(policyNumber);
 
         // RST-02 validations
         validateReinstatementTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
@@ -371,7 +370,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                 BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION), policyNumber);
 
         //Advance time and reinstate policy with lapse
-        performReinstatementWithLapse(PolicySummaryPage.getEffectiveDate(), policyNumber);
+        performReinstatementWithLapse(policyNumber);
 
         //RST-04 validations
         validateReinstatementTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
