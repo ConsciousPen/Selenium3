@@ -1,6 +1,8 @@
 package aaa.modules.openl;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+
+import aaa.helpers.openl.model.auto_ss.AutoSSOpenLVehicle;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -10,6 +12,7 @@ import aaa.helpers.openl.testdata_generator.AutoSSTestDataGenerator;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import org.apache.commons.lang3.StringUtils;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 
@@ -42,7 +45,7 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 
 		if (openLPolicy.isCappedPolicy()) {
 			if (!openLPolicy.isLegacyConvPolicy()) {
-				policyPurchaseAndRenew(tdGenerator.getPolicyPurchaseData(openLPolicy), tdGenerator.getPolicyRenewData(openLPolicy));
+				policyPurchaseAndRenew(tdGenerator.getPolicyPurchaseData(), tdGenerator.getPolicyRenewData(), openLPolicy);
 			}
 			pacTab.calculatePremium();
 			assertThat(PremiumAndCoveragesTab.buttonViewCappingDetails).as("View Capping Details button did not appear after premium calculation").isPresent();
@@ -71,7 +74,9 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 		return createCustomerIndividual(td);
 	}
 
-	private void policyPurchaseAndRenew(TestData tdPurchase, TestData tdRenew) {
+	/** This method issues quote and creates renewal for tests which have capping but are not LegacyConv. **/
+	private void policyPurchaseAndRenew(TestData tdPurchase, TestData tdRenew, AutoSSOpenLPolicy openLPolicy) {
+		VehicleTab vehicleTab = new VehicleTab();
 		new PremiumAndCoveragesTab().calculatePremium();
 		PremiumAndCoveragesTab.buttonContinue.click();
 		ErrorTab errorTab = new ErrorTab();
@@ -88,10 +93,19 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 		policy.get().getDefaultView().fill(DataProviderFactory.dataOf(PurchaseTab.class.getSimpleName(), tdPurchase.getTestData(PurchaseTab.class.getSimpleName())));
 		policy.get().renew().perform();
 
-		policy.get().getDefaultView().fillUpTo(tdRenew, VehicleTab.class, true);
+		policy.get().getDefaultView().fillUpTo(tdRenew, VehicleTab.class, false);
 
-		//		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		//		policy.get().getDefaultView().fill(DataProviderFactory.dataOf(VehicleTab.class.getSimpleName(), tdRenew.getTestData(VehicleTab.class.getSimpleName())));
+		//update VIN codes or you will get error 500 on Premium tab
+		for (AutoSSOpenLVehicle vehicle : openLPolicy.getVehicles()) {
+			if (StringUtils.isNotBlank(vehicle.getVinCode())) {
+				vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.LIST_OF_VEHICLE).getTable().getRow(openLPolicy.getVehicles().indexOf(vehicle)+1).
+						getCell(5).controls.links.get("View/Edit").click();
+				vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).clear();
+				vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).waitForPageUpdate();
+				vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).setValue(vehicle.getVinCode());
+			}
+		}
+
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 	}
 }

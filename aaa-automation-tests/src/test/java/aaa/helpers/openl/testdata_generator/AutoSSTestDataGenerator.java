@@ -98,8 +98,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.BUTTON_CALCULATE.getLabel(), "click"));
 	}
 
-	public TestData getPolicyPurchaseData(AutoSSOpenLPolicy openLPolicy) {
-
+	public TestData getPolicyPurchaseData() {
 		TestData td = getRatingDataPattern();
 		return DataProviderFactory.dataOf(
 				DriverActivityReportsTab.class.getSimpleName(), td.getTestData(DriverActivityReportsTab.class.getSimpleName()),
@@ -107,22 +106,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				PurchaseTab.class.getSimpleName(), td.getTestData(PurchaseTab.class.getSimpleName()));
 	}
 
-	public TestData getPolicyRenewData(AutoSSOpenLPolicy openLPolicy) {
-
-		List<TestData> vehiclesTestData = new ArrayList<>();
-		for (AutoSSOpenLVehicle vehicle : openLPolicy.getVehicles()) {
-			if (StringUtils.isNotBlank(vehicle.getVinCode())) {
-				vehiclesTestData.add(DataProviderFactory.dataOf(
-						AutoSSMetaData.VehicleTab.ListOfVehicleRow.NUM_COLUMN.getLabel(), openLPolicy.getVehicles().indexOf(vehicle) + 1,
-						AutoSSMetaData.VehicleTab.ListOfVehicleRow.ACTION_COLUMN.getLabel(), "View/Edit",
-						AutoSSMetaData.VehicleTab.VIN.getLabel(), vehicle.getVinCode()));
-			}
-		}
+	public TestData getPolicyRenewData() {
 		return DataProviderFactory.dataOf(
 				GeneralTab.class.getSimpleName(), new SimpleDataProvider(),
 				DriverTab.class.getSimpleName(), new SimpleDataProvider(),
 				RatingDetailReportsTab.class.getSimpleName(), DataProviderFactory.dataOf(AutoSSMetaData.RatingDetailReportsTab.ORDER_REPORT.getLabel(), "click"),
-				VehicleTab.class.getSimpleName(), DataProviderFactory.dataOf(AutoSSMetaData.VehicleTab.LIST_OF_VEHICLE.getLabel(), vehiclesTestData));
+				VehicleTab.class.getSimpleName(), new SimpleDataProvider());
 	}
 
 	private TestData getPrefillTabData() {
