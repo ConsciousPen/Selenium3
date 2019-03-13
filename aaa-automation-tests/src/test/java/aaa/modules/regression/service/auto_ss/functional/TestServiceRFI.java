@@ -1627,7 +1627,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		//		String queryEndorsement = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, document.getIdInXml(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
 		//		assertSoftly(softly -> {
 		//			verifyDocInDb(softly,queryEndorsement,);
-		//		});
+		//		});//TODO-mstrazds: for next sprints when have xml stories
 	}
 
 	private void carcoAddReplaceVehicleOutsidePAS(boolean isQualifyingVehicle, boolean isLessThan1000Miles) {
