@@ -7,7 +7,11 @@
     <parameter name="timeshift-scenario-mode" value="method"/>
 
     <test name="Finance Preconditions" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
+        <groups>
+            <run>
+                <include name="FinancePreconditions"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.financials.FinancialsPreconditions"/>
         </classes>
