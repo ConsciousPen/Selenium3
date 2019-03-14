@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.StringUtils;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
@@ -121,8 +121,17 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		return !isLegacyConvPolicy() && isCappedPolicy();
 	}
 
+	public void checkNewRenPasCappedPolicyEffDate() {
+		// if programCode = NewRenPas and termCappingFactor != 1 and effective date from openL test data file precedes current date, current date is used as effective date
+		// it prevents NewRenPas capped policy creating with effective date more than 1 year prior to current date
+		if (isNewRenPasCappedPolicy() && getEffectiveDate().isBefore(TimeSetterUtil.getInstance().getCurrentTime().toLocalDate().minusYears(1))) {
+			setEffectiveDate(TimeSetterUtil.getInstance().getCurrentTime().toLocalDate());
+		}
+	}
+
 	@Override
 	public MocksCollection getRequiredMocks() {
+		checkNewRenPasCappedPolicyEffDate();
 		MocksCollection requiredMocks = new MocksCollection();
 		MockGenerator mockGenerator = new MockGenerator();
 		if (!mockGenerator.isMembershipSummaryMockPresent(getEffectiveDate(), getMemberPersistency(), getAvgAnnualERSperMember())) {
@@ -444,9 +453,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		);
 	}
 
-	public void setEffectiveDate(LocalDate effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
+	public void setEffectiveDate(LocalDate effectiveDate) { this.effectiveDate = effectiveDate; }
 
 	public void setHomeOwner(Boolean homeOwner) {
 		isHomeOwner = homeOwner;

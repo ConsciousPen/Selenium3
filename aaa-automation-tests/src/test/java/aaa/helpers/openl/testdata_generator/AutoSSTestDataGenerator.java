@@ -220,8 +220,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), new SimpleDataProvider(currentAAAMembershipData),
 				AutoSSMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), DataProviderFactory.emptyData(),
 				AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), new SimpleDataProvider(currentCarrierInformationData),
-				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), new SimpleDataProvider(policyInformationData),
-				AutoSSMetaData.GeneralTab.HOME.getLabel(), ownedHome);
+				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), new SimpleDataProvider(policyInformationData));
 	}
 
 	private List<TestData> getDriverTabData(AutoSSOpenLPolicy openLPolicy) {
@@ -264,7 +263,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			driverData.put(AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), martialStatus);
 			driverData.put(AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), driver.getDriverAge() - driver.getTyde());
 			driverData.put(AutoSSMetaData.DriverTab.LICENSE_TYPE.getLabel(), getDriverTabLicenseType(driver.isForeignLicense()));
-			driverData.put(AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel(), licenseNumber.substring(0, licenseNumber.length() - 1) + openLPolicy.getDrivers().indexOf(driver));
+			driverData.put(AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel(), getValidLicenseNumber(licenseNumber, openLPolicy.getDrivers().indexOf(driver)));
 			driverData.put(AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "None");
 			driverData.put(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=First Named Insured|");
 			driverData.put(AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_EMPTY);
@@ -435,6 +434,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		//TODO-dchubkov: check isAtFaultAccidentFreeSet and isAccidentFreeSet is set
 		return driversTestDataList;
+	}
+
+	private String getValidLicenseNumber(String licenseNumber, int indexOfDriver) {
+		int length = licenseNumber.length();
+		return new StringBuilder(licenseNumber.substring(0, length - 2)).append(indexOfDriver).append(licenseNumber.substring(length - 1, length)).toString();
 	}
 
 	private LocalDate getOccurrenceDate(LocalDate effectiveDate) {
