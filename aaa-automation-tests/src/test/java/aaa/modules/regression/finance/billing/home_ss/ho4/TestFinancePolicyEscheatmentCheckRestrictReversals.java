@@ -18,16 +18,15 @@ public class TestFinancePolicyEscheatmentCheckRestrictReversals extends FinanceO
 
 	/**
 	 * @author Vilnis Liepins
-	 * Objectives : check reverse rules of a systematically created escheatment transaction(s).
-	 * Preconditions:
+	 * Objectives : Reverse action is hidden in the next calendar month, following the month in which Escheatment occurs.
 	 * 1. Create Annual Policy
 	 * 2. Pay $25 more than full with check
 	 * 3. Refund 25$ with check - run *aaaRefundGenerationAsyncJob*
 	 * 4. Run *aaaRefundDisbursementAsyncJob* to make refund status to issued
 	 * 5. Turn time for more than a year of Refund
 	 * 6. Run Esheatment async job at the beginning of the month:  *aaaEscheatmentProcessAsyncJob*
-	 * 7. Check that Reverse action exists in Escheatment transaction
-	 * 8. Turn time to the next month and check that Reverse action does not exist in Escheatment transaction
+	 * 7. Check that Reverse action exists on Escheatment transaction date
+	 * 8. Move time forward for a month and check that Reverse action does not exist in Escheatment transaction
 	 */
 
 	@Override
@@ -41,15 +40,15 @@ public class TestFinancePolicyEscheatmentCheckRestrictReversals extends FinanceO
 	public void pas25635_testFinancePolicyEscheatmentCheckRestrictReversals(@Optional("PA") String state) {
 		String policyNumber = createEscheatmentTransaction();
 
-		// Current date plusMonths(13) - Reverse action exists in Escheatment transaction
+		// Check that Reverse action exists on Escheatment transaction date
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		Cell escheatmentActions = BillingSummaryPage.tablePaymentsOtherTransactions
 				.getRowContains("Subtype/Reason", "Escheatment").getCell("Action");
 		assertThat(escheatmentActions.getValue()).contains("Reverse");
 
-		// Set date to the next month - Reverse action does not exist in Escheatment transaction
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(14));
+		// Move time forward for a month and check that Reverse action does not exist
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusMonths(1));
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		assertThat(escheatmentActions.getValue()).doesNotContain("Reverse");
