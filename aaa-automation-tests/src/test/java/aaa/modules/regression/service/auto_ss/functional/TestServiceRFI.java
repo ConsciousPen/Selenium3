@@ -56,6 +56,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private final PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private ErrorTab errorTab = new ErrorTab();
 	private TestMiniServicesVehiclesHelper vehiclesHelper = new TestMiniServicesVehiclesHelper();
+	private static final TestMiniServicesCoveragesHelper COV_HELPER = new TestMiniServicesCoveragesHelper();
 
 	private ComboBox tortCoverage = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.TORT_THRESHOLD);
 	private ComboBox biCoverage = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY);
@@ -1185,19 +1186,6 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), doccId);
 	}
 
-	private String policyCreationForAACSNJ(String coverageId, String newCoverage, TestData td) {
-		//Create Policy
-		String policyNumber = openAppAndCreatePolicy(td);
-
-		//Create endorsement
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		//update coverage
-		HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageId, newCoverage), PolicyCoverageInfo.class);
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		//TODO-mstrazds: no document needs to be signed ?
-		return policyNumber;
-	}
-
 	private String policyCreationForAASCDC(String coverageId, String newCoverage, TestData td) {
 		//Create Policy
 		String policyNumber = openAppAndCreatePolicy(td);
@@ -1205,7 +1193,12 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		//Create endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		//update coverage
-		HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageId, newCoverage), PolicyCoverageInfo.class);
+		if (getState().equals(Constants.States.NJ) && coverageId.equals(CoverageInfo.PIPPRIMINS_NJ.getCode())) {
+			Coverage covToUpdatePIPPRIMINS = Coverage.create(CoverageInfo.PIPPRIMINS_NJ).changeLimit(CoverageLimits.COV_PIPPRIMINS_PERSONAL_HEALTH_INSURANCE).addInsurerName("John"). addCertNum("12345");
+			COV_HELPER.updatePIPPRIMINSCoverage(policyNumber, covToUpdatePIPPRIMINS);
+		} else {
+			HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageId, newCoverage), PolicyCoverageInfo.class);
+		}
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		//TODO-mstrazds: no document needs to be signed ?
 		return policyNumber;
@@ -1237,7 +1230,20 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		//From P&C page change coverage again to verify signed by is resetting to  not signed
-		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(coverageAsset.getLabel(), coverageLimit);
+		if ((getState().equals(Constants.States.NJ) && coverageAsset.equals(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.MEDICAL_EXPENSE)) ||
+				(getState().equals(Constants.States.NJ) && coverageAsset.equals(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.PRIMARY_INSURER))) {
+			premiumAndCoveragesTab.setPolicyPersonalInjuryProtectionCoverageDetailsValue(coverageAsset.getLabel(), coverageLimit);
+		} else {
+			premiumAndCoveragesTab.setPolicyCoverageDetailsValue(coverageAsset.getLabel(), coverageLimit);
+		}
+
+		if (getState().equals(Constants.States.NJ) && coverageAsset.equals(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.PRIMARY_INSURER) && coverageLimit.equals(CoverageLimits.COV_PIPPRIMINS_PERSONAL_HEALTH_INSURANCE.getDisplay())) {
+			premiumAndCoveragesTab.setPolicyPersonalInjuryProtectionCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.INSURER_NAME.getLabel()
+					, "Peter");
+			premiumAndCoveragesTab.setPolicyPersonalInjuryProtectionCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.POLICY_GROUP_NUM_CERTIFICATE_NUM.getLabel()
+					, "658585");
+		}
+
 		premiumAndCoveragesTab.calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		//add line to verify not signed
@@ -1276,37 +1282,22 @@ public class TestServiceRFI extends AutoSSBaseTest {
      * 16  Bind the policy verify there is no error message.
      */
 
-    @Parameters({"state"})
-    @StateList(states = {Constants.States.NJ})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21646"})
-    public void pas21646_aacsnjFormRFI(@Optional("NJ") String state) {
-        assertSoftly(softly -> {
-            VerifyAacsnjScenarios(softly, "PIPPRIMINS", "100000");
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21646"})
+	public void pas21646_aacsnjFormRFI(@Optional("NJ") String state) {
+		assertSoftly(softly -> {
+			DocGenEnum.Documents document = DocGenEnum.Documents.AACSNJ;
+			AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NJ_AUTO_STANDARD_POLICY_COVERAGE_SELECTION_FORM;
+			ErrorEnum.Errors error = ErrorEnum.Errors.ERROR_200900;
+			TestData td = getPolicyDefaultTD();
+			String newPIPPRIMINSLimit = "PHI";
 
-            VerifyAacsnjScenarios(softly, "PIPMEDEXP", "150000");
-
-        });
-    }
-
-    private void VerifyAacsnjScenarios(ETCSCoreSoftAssertions softly, String pipmedical, String s) {
-        String policyNumber = policyCreationForAACSNJ(pipmedical, s, getPolicyDefaultTD());
-        verifyRateBindPasForAACSNJ(softly, policyNumber);
-    }
-
-    private void verifyRateBindPasForAACSNJ(ETCSCoreSoftAssertions softly, String policyNumber) {
-        //Verify RFI service and verify it returns doccid
-        String doccId = checkDocumentInRfiService(policyNumber, "AACSNJ", "NJ Auto Coverage Selection Form");
-
-        //Verify Bind service
-        bindEndorsement(policyNumber, doccId, ErrorEnum.Errors.ERROR_200900.getCode(), ErrorEnum.Errors.ERROR_200900.getMessage(), false);
-        //Verify DB Endorsement xml Signed by field is there
-        String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AACSNJ", "ENDORSEMENT_ISSUE");
-        verifyDocInDb(softly, query, DocGenEnum.Documents.AACSNJ, true);
-        //Go to pas and and verify
-        goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NJ_AUTO_STANDARD_POLICY_COVERAGE_SELECTION_FORM,
-                AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_EXPENSES, "$150000", ErrorEnum.Errors.ERROR_200900, false);
-    }
+			verifyRFIScenarios("PIPMEDEXP", AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.MEDICAL_EXPENSE, CoverageLimits.COV_75000.getLimit(), CoverageLimits.COV_150000.getDisplay(), document, documentAsset, error, td, true, false);
+			verifyRFIScenarios("PIPPRIMINS", AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.PRIMARY_INSURER, CoverageLimits.COV_PIPPRIMINS_PERSONAL_HEALTH_INSURANCE.getLimit(), CoverageLimits.COV_PIPPRIMINS_AUTO_INSURANCE.getDisplay(), document, documentAsset, error, td, true, false);
+		});
+	}
 }
 
 
