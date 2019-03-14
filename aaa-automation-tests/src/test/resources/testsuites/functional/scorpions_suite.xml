@@ -147,78 +147,78 @@
             </class>
         </classes>
     </test>
-    <test name="pas2713 Application Form Stat Code NA All states">
-        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestSymbolsPresenceDeclarationPage">
-                <methods>
-                    <include name="pas2713_ApplicationForm"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas2713_ApplicationFormStatCodeNotNA Select">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestSymbolsPresenceApplicationForm">
-                <methods>
-                    <include name="pas2713_ApplicationFormStatCodeNotNA"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas2713_ApplicationFormStatCodeNotNA Choice">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestSymbolsPresenceApplicationForm">
-                <methods>
-                    <include name="pas2713_ApplicationFormStatCodeNotNA"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas2713_ Application Form NY">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestSymbolsPresenceDeclarationPage">
-                <methods>
-                    <include name="pas2713_ApplicationFormNYStatCodeNotNA"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas9064_MapCompAndCollSymbolsForDCS Select CA">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestSymbolsPresenceApplicationFormForPremCalcQuote">
-                <methods>
-                    <include name="pas9064_MapCompAndCollSymbolsForDCS"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas9064_MapCompAndCollSymbolsForDCS Choice CA">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestSymbolsPresenceApplicationFormForPremCalcQuote">
-                <methods>
-                    <include name="pas9064_MapCompAndCollSymbolsForDCS"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas12476_TestUpdatePayPlanRestrictions Auto SS DE">
-        <parameter name="state" value="DE"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestUpdatePayPlanRestrictions">
-                <methods>
-                    <include name="pas12476_TestUpdatePayPlanRestrictionsWhenCarrierIsYes"/>
-                    <include name="pas12476_TestUpdatePayPlanRestrictionsWhenCarrierIsNO"/>
-                    <include name="pas12476_TestUpdatePayPlanRestrictionsWhenBiLimitIsMoreThen50K"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
+    <!--<test name="pas2713 Application Form Stat Code NA All states">-->
+        <!--<parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.document_fulfillment.auto_ss.TestSymbolsPresenceDeclarationPage">-->
+                <!--<methods>-->
+                    <!--<include name="pas2713_ApplicationForm"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="pas2713_ApplicationFormStatCodeNotNA Select">-->
+        <!--<parameter name="state" value="CA"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestSymbolsPresenceApplicationForm">-->
+                <!--<methods>-->
+                    <!--<include name="pas2713_ApplicationFormStatCodeNotNA"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="pas2713_ApplicationFormStatCodeNotNA Choice">-->
+        <!--<parameter name="state" value="CA"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestSymbolsPresenceApplicationForm">-->
+                <!--<methods>-->
+                    <!--<include name="pas2713_ApplicationFormStatCodeNotNA"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="pas2713_ Application Form NY">-->
+        <!--<parameter name="state" value="NY"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.document_fulfillment.auto_ss.TestSymbolsPresenceDeclarationPage">-->
+                <!--<methods>-->
+                    <!--<include name="pas2713_ApplicationFormNYStatCodeNotNA"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="pas9064_MapCompAndCollSymbolsForDCS Select CA">-->
+        <!--<parameter name="state" value="NY"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestSymbolsPresenceApplicationFormForPremCalcQuote">-->
+                <!--<methods>-->
+                    <!--<include name="pas9064_MapCompAndCollSymbolsForDCS"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="pas9064_MapCompAndCollSymbolsForDCS Choice CA">-->
+        <!--<parameter name="state" value="NY"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestSymbolsPresenceApplicationFormForPremCalcQuote">-->
+                <!--<methods>-->
+                    <!--<include name="pas9064_MapCompAndCollSymbolsForDCS"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="pas12476_TestUpdatePayPlanRestrictions Auto SS DE">-->
+        <!--<parameter name="state" value="DE"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestUpdatePayPlanRestrictions">-->
+                <!--<methods>-->
+                    <!--<include name="pas12476_TestUpdatePayPlanRestrictionsWhenCarrierIsYes"/>-->
+                    <!--<include name="pas12476_TestUpdatePayPlanRestrictionsWhenCarrierIsNO"/>-->
+                    <!--<include name="pas12476_TestUpdatePayPlanRestrictionsWhenBiLimitIsMoreThen50K"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
     <test name="PAS-2247, PAS-2248 - Lock Membership and Auto Ins Persistency, Not at Fault and Comp Claims">
         <parameter name="state" value="CT"/>
         <classes>
