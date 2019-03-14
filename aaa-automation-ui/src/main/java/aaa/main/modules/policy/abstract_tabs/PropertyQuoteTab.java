@@ -64,6 +64,8 @@ public abstract class PropertyQuoteTab extends Tab {
 	public static Button btnContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
 	public static Table tablePremiumOverrideadjustment = new Table(By.id("premiumOverrideInfoFormAAAPUPPremiumOverride:adjustment_info"));
 	public static StaticElement mortgageeLoanNumberErrorMsg = new StaticElement(By.id("policyDataGatherForm:sedit_AAAHOMortgageeInfo_accountNumber_error"));
+	public static StaticElement mortgageeClauseErrorMsg = new StaticElement(By.id("policyDataGatherForm:sedit_AAAHOMortgageeInfo_legalMortgageeName_error"));
+	public static StaticElement mortgageeClauseHelpText = new StaticElement(By.id("policyDataGatherForm:sedit_AAAHOMortgageeInfo_legalMortgageeName_helpText"));
 	public static Table tableClaimsHistoryWarningMessages = new Table(By.id("policyDataGatherForm:warningMsg"));
 
 	protected PropertyQuoteTab(Class<? extends MetaData> mdClass) {
