@@ -6,50 +6,63 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-    <!-- AUTO SS (AZ) Offline Claims Tests -->
+    <!-- AUTO SS (AZ) Offline Claims Timeshift Tests -->
 
-    <test name="Offline Claims AUTO SS" >
+    <test name="Timeshift Offline Claims AUTO SS" >
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestCompClaimsDetermination"/>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestOffLineClaims"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestOffLineClaims">
+                <methods>
+                    <include name="pas14679_CompDLPUMatchMore"/>
+                    <include name="pas14679_CompDLPUMatchMoreManual"/>
+                    <include name="pas8310_nameDOBYOBMatchMore"/>
+                    <include name="pas14679_nameDobYobMatchMoreManual"/>
+                    <include name="pas14552_includeClaimsInRatingDetermination"/>
+                    <include name="pas22172_ReconcilePUEndorsementAFRD"/>
+                </methods>
+            </class>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
                 <methods>
                     <include name="pas18159_offlineClaimsAnalytics"/>
-                    <include name="pas14679_testMSClaimsAssignment_AZ_SS"/>
                 </methods>
             </class>
-
         </classes>
     </test>
 
-    <!-- AUTO CA (Select) Offline Claims Tests -->
+    <!-- AUTO CA (Select) Offline Claims Timeshift Tests -->
 
-    <test name="Offline Claims AUTO CA Select" >
+    <test name="Timeshift Offline Claims AUTO CA Select" >
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestOfflineClaims"/>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestClaimsImpactOnDiscounts"/>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestOfflineClaims">
                 <methods>
-                    <include name="pas14679_testMSClaimsAssignment_CA_Select"/>
+                    <include name="pas14679_CompDLPUMatchMore"/>
+                    <include name="pas22172_ReconcilePUEndorsementAFRD"/>
+                    <include name="pas24587_CASClueReconcilePUAFRUserFlagged"/>
+                    <include name="pas24587_ClueReconcilePUAFRUserFlagged"/>
+                    <include name="pas25162_permissiveUseIndicatorDefaulting"/>
                 </methods>
             </class>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestClaimsImpactOnDiscounts"/>
         </classes>
     </test>
 
-    <!-- AUTO CA (Choice) Offline Claims Tests -->
+    <!-- AUTO CA (Choice) Offline Claims Timeshift Tests -->
 
-    <test name="Offline Claims AUTO CA" >
-        <parameter name="state" value="CA Choice"/>
+    <test name="Timeshift Offline Claims AUTO CA Choice" >
+        <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestOfflineClaims"/>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestClaimsImpactOnDiscounts"/>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestOfflineClaims">
                 <methods>
-                    <include name="pas14679_testMSClaimsAssignment_CA_Choice"/>
+                    <include name="pas14679_CompDLPUMatchMore"/>
+                    <include name="pas22172_ReconcilePUEndorsementAFRD"/>
+                    <include name="pas24587_CASClueReconcilePUAFRUserFlagged"/>
+                    <include name="pas24587_ClueReconcilePUAFRUserFlagged"/>
+                    <include name="pas25162_permissiveUseIndicatorDefaulting"/>
                 </methods>
             </class>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestClaimsImpactOnDiscounts"/>
         </classes>
     </test>
 

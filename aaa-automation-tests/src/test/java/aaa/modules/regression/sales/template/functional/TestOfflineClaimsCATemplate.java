@@ -87,9 +87,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     protected LocalDateTime policyExpirationDate;
     protected LocalDateTime policyEffectiveDate;
     protected String policyNumber;
-    // Claim Dates: For CAS Response
-    protected String claim1_dates_gdd = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
-    protected String claim2_dates_gdd = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(80).toLocalDate().toString();
 
     protected static DriverTab driverTab = new DriverTab();
     protected static PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
@@ -103,8 +100,11 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     private static final String CLAIM_NUMBER_2 = "1002-10-8703";
     private static final String CLAIM_NUMBER_3 = "1002-10-8704";
 
-    protected static final String CLAIM_NUMBER_1_GDD = "Claim-GDD-111";
-    protected static final String CLAIM_NUMBER_2_GDD = "Claim-GDD-222";
+    private static final String CLAIM_NUMBER_1_GDD = "Claim-GDD-111";
+    private static final String CLAIM_NUMBER_2_GDD = "Claim-GDD-222";
+    // Claim Dates: For CAS Response: GDD
+    private static String claim1_dates_gdd = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
+    private static String claim2_dates_gdd = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(80).toLocalDate().toString();
 
     private static final String[] CLAIM_NUMBERS_PU_DEFAULTING = {"PU_DEFAULTING_CMP","PU_DEFAULTING_1","PU_DEFAULTING_2","PU_DEFAULTING_3",
             "PU_DEFAULTING_4","PU_DEFAULTING_5","PU_DEFAULTING_6"};

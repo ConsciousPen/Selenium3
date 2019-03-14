@@ -4,7 +4,6 @@ import static aaa.common.pages.SearchPage.tableSearchResults;
 import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.io.File;
-import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
@@ -21,7 +20,6 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.helpers.logs.PasLogGrabber;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
@@ -54,12 +52,6 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     private static final String INC_RATING_CLAIM_3 = "IIRatingClaim3";
 	private static final String INC_RATING_CLAIM_4 = "IIRatingClaim4";
 	private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE = ImmutableMap.of(CLAIM_NUMBER_1, "A12345222", CLAIM_NUMBER_2, "A12345222");
-
-	private static String adminLog;
-	private static List<String> listOfClaims;
-	private static PasLogGrabber pasLogGrabber = new PasLogGrabber();
-	private static final String pasDriverNameKey = "pasDriverName";
-	private static final String matchCodeKey = "matchCode";
 
     /**
      * @author Andrii Syniagin
