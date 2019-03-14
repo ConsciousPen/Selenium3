@@ -41,7 +41,7 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.TIMEPOINT, Groups.CFT}, dependsOnMethods = "FinancialsPreconditions.createLedgerStatusUpdateJob")
+	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
 	public void testNewBusinessScenario_4(@Optional("CA") String state) {
 		testNewBusinessScenario_4();
