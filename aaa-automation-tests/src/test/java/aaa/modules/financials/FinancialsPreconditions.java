@@ -16,7 +16,7 @@ public class FinancialsPreconditions extends PolicyBaseTest {
      * Any Financials test that runs ledgerStatusUpdateJob needs to depend on successful completion of this.
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.CFT})
+    @Test(groups = {Groups.FINANCE_PRECONDITION})
     public void createLedgerStatusUpdateJob(@Optional("") String state) {
         adminApp().open();
         NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
