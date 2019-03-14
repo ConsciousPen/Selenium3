@@ -6,6 +6,13 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
 
+    <test name="Finance Preconditions" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.financials.FinancialsPreconditions"/>
+        </classes>
+    </test>
+
     <test name="Finance - SS PUP" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>

@@ -323,8 +323,10 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         Dollar reducedPrem = performRPEndorsement(policyNumber, effDate);
 
         //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
-        advanceTimeAndOpenPolicy(effDate, policyNumber);
-        runLedgerStatusUpdateJob();
+        TimeSetterUtil.getInstance().nextPhase(effDate);
+        JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
+        mainApp().open();
+        SearchPage.openBilling(policyNumber);
 
         //END-04 and PMT-05 validations
         assertSoftly(softly -> {

@@ -1,6 +1,5 @@
 package aaa.modules.financials;
 
-import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -28,9 +27,6 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 
 	protected static final String METHOD_CASH = "TestData_Cash";
 	protected static final String METHOD_CHECK = "TestData_Check";
-
-	private static Boolean ledgerJobExists = false;
-	private static final Object lock = new Object();
 
 	protected String createFinancialPolicy() {
 		return createFinancialPolicy(getPolicyTD());
@@ -156,20 +152,6 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		TimeSetterUtil.getInstance().nextPhase(date);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-	}
-
-	protected void runLedgerStatusUpdateJob() {
-		synchronized (lock) {
-			if (!ledgerJobExists) {
-				adminApp().switchPanel();
-				NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
-				boolean created = GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.LEDGER_STATUS_UPDATE_JOB);
-				assertThat(created).isTrue();
-				ledgerJobExists = true;
-				mainApp().switchPanel();
-			}
-		}
-		JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
 	}
 
 }
