@@ -6,22 +6,22 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-    <test name="pas2704_DeclarationPage AA02NY">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestSymbolsPresenceDeclarationPage">
-                <methods>
-                    <include name="pas2704_DeclarationPage"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="PAS-3805, PAS-4244 DE_NJ No Prior Insurance Message and Error">
-        <parameter name="state" value="DE, NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestNoPriorInsuranceError"/>
-        </classes>
-    </test>
+    <!--<test name="pas2704_DeclarationPage AA02NY">-->
+        <!--<parameter name="state" value="NY"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.document_fulfillment.auto_ss.TestSymbolsPresenceDeclarationPage">-->
+                <!--<methods>-->
+                    <!--<include name="pas2704_DeclarationPage"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="PAS-3805, PAS-4244 DE_NJ No Prior Insurance Message and Error">-->
+        <!--<parameter name="state" value="DE, NJ"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestNoPriorInsuranceError"/>-->
+        <!--</classes>-->
+    <!--</test>-->
     <test name="PAS-541 Auto CA Symbols in Policy Details Service">
         <parameter name="state" value="CA"/>
         <classes>
@@ -41,42 +41,42 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidationError"/>
         </classes>
     </test>
-    <test name="PAS-6166-Verify STAT Code Symbol Pre-Ffx is Removed from STAT Code Selections on vehicle page">
-        <parameter name="state" value="UT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVehiclePageStatCodes"/>
-        </classes>
-    </test>
-    <test name="Auto SS PAS-535,PAS-2712,PAS-1904  Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRatingDetailsView">
-                <methods>
-                    <include name="pas535_verifyNewSymbolsPresence"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Auto CA Select AS-535,PAS-2712,PAS-1904 Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRatingDetailsView">
-                <methods>
-                    <include name="pas535_verifyNewSymbolsPresence"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Auto CA Choice PAS-535,PAS-2712,PAS-1904  Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestRatingDetailsView">
-                <methods>
-                    <include name="pas535_verifyNewSymbolsPresence"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
+    <!--<test name="PAS-6166-Verify STAT Code Symbol Pre-Ffx is Removed from STAT Code Selections on vehicle page">-->
+        <!--<parameter name="state" value="UT"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestVehiclePageStatCodes"/>-->
+        <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="Auto SS PAS-535,PAS-2712,PAS-1904  Modifies View Rating Details to display separate comp and coll symbols, split stat code.">-->
+        <!--<parameter name="state" value="AZ"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestRatingDetailsView">-->
+                <!--<methods>-->
+                    <!--<include name="pas535_verifyNewSymbolsPresence"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="Auto CA Select AS-535,PAS-2712,PAS-1904 Modifies View Rating Details to display separate comp and coll symbols, split stat code.">-->
+        <!--<parameter name="state" value="CA"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRatingDetailsView">-->
+                <!--<methods>-->
+                    <!--<include name="pas535_verifyNewSymbolsPresence"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
+    <!--<test name="Auto CA Choice PAS-535,PAS-2712,PAS-1904  Modifies View Rating Details to display separate comp and coll symbols, split stat code.">-->
+        <!--<parameter name="state" value="CA"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestRatingDetailsView">-->
+                <!--<methods>-->
+                    <!--<include name="pas535_verifyNewSymbolsPresence"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
     <test name="Auto SS TestVINUpload tests">
         <parameter name="state" value="UT"/>
         <classes>
