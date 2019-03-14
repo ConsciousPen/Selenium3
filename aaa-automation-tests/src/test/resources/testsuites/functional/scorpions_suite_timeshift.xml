@@ -112,12 +112,10 @@
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestOfflineClaims">
                 <methods>
                     <include name="pas14679_CompDLPUMatchMore"/>
-                    <include name="pas23269_verifyPermissiveUseIndicator"/>
                     <include name="pas22172_ReconcilePUEndorsementAFRD"/>
                     <include name="pas18317_verifyPermissiveUseIndicator"/>
                     <include name="pas24587_CASClueReconcilePUAFRUserFlagged"/>
                     <include name="pas24587_ClueReconcilePUAFRUserFlagged"/>
-                    <include name="pas25463_ViolationsMVRPUIndicatorCheck"/>
                     <include name="pas25162_permissiveUseIndicatorDefaulting"/>
                 </methods>
             </class>
@@ -131,12 +129,9 @@
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestOfflineClaims">
                 <methods>
                     <include name="pas14679_CompDLPUMatchMore"/>
-                    <include name="pas23269_verifyPermissiveUseIndicator"/>
-                    <include name="pas22172_ReconcilePUEndorsementAFRD"/>
                     <include name="pas18317_verifyPermissiveUseIndicator"/>
                     <include name="pas24587_CASClueReconcilePUAFRUserFlagged"/>
                     <include name="pas24587_ClueReconcilePUAFRUserFlagged"/>
-                    <include name="pas25463_ViolationsMVRPUIndicatorCheck"/>
                     <include name="pas25162_permissiveUseIndicatorDefaulting"/>
                 </methods>
             </class>
