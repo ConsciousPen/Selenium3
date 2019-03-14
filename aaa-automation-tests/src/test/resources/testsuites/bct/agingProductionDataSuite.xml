@@ -1,0 +1,30 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Production data aging jobs suite" verbose="1">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test" />
+
+    <parameter name="state" value="UT"/>
+    <test name="Batch Marker">
+        <classes>
+            <class name="aaa.modules.bct.batch.AgingJobs">
+                <methods>
+                    <include name="checkSchedulerEnabled"/>
+
+                </methods>
+            </class>
+            <class name="aaa.modules.batch.BatchMaintanance">
+                <methods>
+                    <include name="checkAsyncManagerStatus"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.bct.batch.AgingJobs">
+                <methods>
+                    <include name="runAgingJobs"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
