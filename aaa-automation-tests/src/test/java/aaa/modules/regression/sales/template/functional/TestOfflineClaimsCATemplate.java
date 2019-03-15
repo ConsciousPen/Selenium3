@@ -98,7 +98,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     private static final String CLAIM_NUMBER_1 = "1002-10-8702";
     private static final String CLAIM_NUMBER_2 = "1002-10-8703";
-    private static final String CLAIM_NUMBER_3 = "1002-10-8704";
+    private static final String CLAIM_NUMBER_3 = "1002.10>8704";
 
     private static final String CLAIM_NUMBER_1_GDD = "Claim-GDD-111";
     private static final String CLAIM_NUMBER_2_GDD = "Claim-GDD-222";
@@ -126,7 +126,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     public void prepare() {
         // Toggle ON PermissiveUse Logic & Set DATEOFLOSS Parameter in DB
         DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-16"));
+        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
         log.info("Updated PU flag in DB");
         try {
             FileUtils.forceDeleteOnExit(Paths.get(CAS_REQUEST_PATH).toFile());
@@ -677,7 +677,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      * 6. Verify all PU claims are assigned to the FNI
      * 7. Accept a payment and renew the policy
      * 8. Initiate an endorsement
-     * 9. Add an AFR driver who's CLUE report will return a claim that matches one of the PU claims on the FNI
+     * 9. Add an AFR driver who's CLUE report will return a claim that matches one of the PU claims on the FNI. Claim numbers are compared and matched ignoring the format differences.
      * 10. Calculate premium and order CLUE report
      * 11. Navigate to the drive tab, and verify the PU claim was moved from the FNI to the newly added driver
      * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver
@@ -731,7 +731,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         //Navigate to Driver page and verify PU claim moved from FNI to newly added driver
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-        puDropAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_3);
+        puDropAssertions(CLAIM_NUMBER_1, CAS_CLUE_CLAIM);
 
         //Bind Endorsement
         bindEndorsement();
@@ -946,6 +946,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Navigate to Driver page and verify PU claim moved from FNI to newly added driver2
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         //Check the Driver 2 has CLUE claim
+        //Claim numbers are compared and matched ignoring the format differences.
         activityAssertions(2, 2, 1, 1, "CLUE", CAS_CLUE_CLAIM,false);
         //Bind Endorsement
         bindEndorsement();

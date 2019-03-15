@@ -81,7 +81,7 @@ claimLineItemList:
     claimDateOfLoss: '2016-11-11' # dateOfLoss of policy = claim's dateOfLoss
     claimDeductibleAmount: '0.000000000'
     claimDeductibleCurrencyCode: USD
-    claimNumber: 1002-10-8704
+    claimNumber: 1002.10>8704
     claimPrefix: ''
     claimOpenDate: '2016-11-11'
     claimPolicyReferenceNumber: CAAC952918598
