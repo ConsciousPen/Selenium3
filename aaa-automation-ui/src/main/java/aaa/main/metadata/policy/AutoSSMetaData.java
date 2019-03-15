@@ -492,6 +492,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<RadioGroup> DAYTIME_RUNNING_LAMPS = declare("Daytime Running Lamps", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> ANTI_LOCK_BRAKES = declare("Anti-Lock Brakes", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> LESS_THAN_3000_MILES = declare("Less Than 3,000 Miles", RadioGroup.class);
+		public static final AssetDescriptor<RadioGroup> LESS_THAN_1000_MILES = declare("Less Than 1,000 Miles", RadioGroup.class);//for NJ
 		public static final AssetDescriptor<RadioGroup> IS_THIS_A_REPLACEMENT_VEHICLE = declare("Is this a Replacement Vehicle?", RadioGroup.class);
 		public static final AssetDescriptor<AdvancedComboBox> SELECT_THE_REPLACED_VEHICLE = declare("Select the Replaced Vehicle", AdvancedComboBox.class);
 		public static final AssetDescriptor<TextBox> MILES_ONE_WAY_TO_WORK_OR_SCHOOL = declare("Miles One-way to Work or School", TextBox.class);
@@ -981,6 +982,8 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> NJ_AUTO_STANDARD_POLICY_COVERAGE_SELECTION_FORM = declare("NJ Auto Standard Policy Coverage Selection Form", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> ACNOWLEDGEMENT_OF_REQUIREMENT_FOR_INSURANCE_INSPECTION =
 					declare("Acknowledgement of Requirement for Insurance Inspection", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> INSPECTION_WAIVER_SALES_AGREEMENT_REQUIRED =
+					declare("Inspection Waiver - Sales Agreement Required", RadioGroup.class);
 			// NY
 			public static final AssetDescriptor<RadioGroup> ACNOWLEDGEMENT_OF_REQUIREMENT_FOR_PHIOTO_INSPECTION = declare("Acknowledgement of Requirement for Photo Inspection", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> NEW_YORK_AUTO_INSURANCE_APPLICATION = declare("New York Auto Insurance Application", RadioGroup.class);
