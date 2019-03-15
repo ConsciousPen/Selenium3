@@ -96,6 +96,10 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
     @BeforeTest
     public void prepare() {
+        // Toggle ON PermissiveUse Logic & Set DATEOFLOSS Parameter in DB
+        DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
+        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-16"));
+
         try {
             FileUtils.forceDeleteOnExit(Paths.get(CAS_REQUEST_PATH).toFile());
             FileUtils.forceDeleteOnExit(Paths.get(CAS_RESPONSE_PATH).toFile());
@@ -136,7 +140,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         mainApp().close();
     }
 
-
     /**
      * Initiates an endorsement, calculates premium, orders CLUE report for newly added driver
      * @param policyNumber given policy number
@@ -154,9 +157,9 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         premiumAndCoveragesTab.submitTab();
 
         //Modify default test data to mask unnecessary steps
-	    TestData td = getPolicyTD()
-			    .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()));
-	    new DriverActivityReportsTab().fillTab(td);
+        TestData td = getPolicyTD()
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()));
+        new DriverActivityReportsTab().fillTab(td);
     }
 
     /**
@@ -192,9 +195,9 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(COMP_MATCH);
 
-	        DriverTab.tableActivityInformationList.selectRow(2);
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(PU_MATCH);
+            DriverTab.tableActivityInformationList.selectRow(2);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(PU_MATCH);
 
             // Check 2nd driver: Has DL match claim
             DriverTab.tableDriverList.selectRow(2);
@@ -226,7 +229,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     }
 
     // Assertions for Name/DOB Tests
-    public void nameDobYobAssertions(String LASTNAME_FIRSTNAME_DOB, String LASTNAME_FIRSTNAME, String LASTNAME_FIRSTINITAL_DOB, String LASTNAME_FIRSTNAME_YOB ) {
+    public void nameDobYobAssertions(String LASTNAME_FIRSTNAME_DOB, String LASTNAME_FIRSTNAME, String LASTNAME_FIRSTINITAL_DOB, String LASTNAME_FIRSTNAME_YOB) {
         CustomSoftAssertions.assertSoftly(softly -> {
             DriverTab driverTab = new DriverTab();
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
@@ -285,11 +288,11 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
-		if (tableSearchResults.isPresent()) {
-			tableSearchResults.getRow("Eff. Date",
-					TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY))
-					.getCell(1).controls.links.getFirst().click();
-		}
+        if (tableSearchResults.isPresent()) {
+            tableSearchResults.getRow("Eff. Date",
+                    TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
+                    .getCell(1).controls.links.getFirst().click();
+        }
 
         buttonRenewals.click();
         policy.dataGather().start();
@@ -478,7 +481,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
      * @param policyNumber - given Policy Number
      * @param dataModelFileName given CAS Response data model
      */
-    public void createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(String policyNumber, String dataModelFileName){
+    public void createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(String policyNumber, String dataModelFileName) {
         createCasClaimResponseAndUpload(policyNumber, dataModelFileName, null, null);
     }
 
@@ -490,7 +493,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
      * @param claimToDriverLicence given Driver License according to Claim Number
      */
     public void createCasClaimResponseAndUploadWithUpdatedDL(String policyNumber, String dataModelFileName,
-            Map<String, String> claimToDriverLicence){
+            Map<String, String> claimToDriverLicence) {
         createCasClaimResponseAndUpload(policyNumber, dataModelFileName, claimToDriverLicence, null);
     }
 
@@ -502,7 +505,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
      * @param claimDatesToUpdate given Claim Dates according to Claim Number
      */
     public void createCasClaimResponseAndUploadWithUpdatedDates(String policyNumber, String dataModelFileName,
-            Map<String, String> claimDatesToUpdate){
+            Map<String, String> claimDatesToUpdate) {
         createCasClaimResponseAndUpload(policyNumber, dataModelFileName, null, claimDatesToUpdate);
     }
 
@@ -526,8 +529,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         //Create a list of all the actual UNMATCHED claim numbers
         ArrayList<String> actualUnmatchedClaims = new ArrayList<>();
         int x = 0;
-        while (x < microServiceResponse.getUnmatchedClaims().size())
-        {
+        while (x < microServiceResponse.getUnmatchedClaims().size()) {
             String claimNumber = microServiceResponse.getUnmatchedClaims().get(x).getClaimNumber();
             actualUnmatchedClaims.add(claimNumber);
             x++;
@@ -535,8 +537,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
         //Verify the actual UNMATCHED claims equal the expected UNMATCHED claims
         //PAS-21435 - Removed LASTNAME_YOB match logic. These claims will now be unmatched
-        log.info("expected: "+expectedUnmatchedClaims);
-        log.info("actual: "+actualUnmatchedClaims);
+        log.info("expected: " + expectedUnmatchedClaims);
+        log.info("actual: " + actualUnmatchedClaims);
         assertThat(actualUnmatchedClaims).isEqualTo(expectedUnmatchedClaims);
 
         //Create a list of all the expected MATCH CODES (Last 3: PERMISSIVE_USE to cover all possible cases of PU)

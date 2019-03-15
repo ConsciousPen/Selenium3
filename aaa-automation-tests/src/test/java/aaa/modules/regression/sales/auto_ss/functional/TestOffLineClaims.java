@@ -43,18 +43,19 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
     private static final String CLAIM_NUMBER_1 = "1002-10-8702";
     private static final String CLAIM_NUMBER_2 = "1002-10-8703";
-    private static final String CLAIM_NUMBER_3 = "1002-10-8704";
+    private static final String CLAIM_NUMBER_3 = "1002.10>8704";
 	private static final String CLAIM_NUMBER_4 = "1FAZ1111OHS";
 	private static final String CLAIM_NUMBER_5 = "4FAZ44444OHS";
     private static final String CLAIM_NUMBER_6 = "1002-10-8705";
     private static final String COMP_DL_PU_CLAIMS_DATA_MODEL = "comp_dl_pu_claims_data_model.yaml";
-    private static final String NAME_DOB_CLAIMS_DATA_MODEL = "name_dob_claims_data_model.yaml";
+	private static final String NAME_DOB_CLAIMS_DATA_MODEL = "name_dob_claims_data_model.yaml";
     private static final String INC_IN_RATING_3RD_RENEWAL_DATA_MODEL = "inc_in_rating_3rd_renewal_data_model.yaml";
     private static final String INC_RATING_CLAIM_1 = "IIRatingClaim1";
     private static final String INC_RATING_CLAIM_2 = "IIRatingClaim2";
     private static final String INC_RATING_CLAIM_3 = "IIRatingClaim3";
 	private static final String INC_RATING_CLAIM_4 = "IIRatingClaim4";
 	private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE = ImmutableMap.of(CLAIM_NUMBER_1, "A12345222", CLAIM_NUMBER_2, "A12345222");
+    private static final String CAS_CLUE_CLAIM = "1002-10-8704";
 
 	private static String adminLog;
 	private static List<String> listOfClaims;
@@ -406,6 +407,12 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	 * 11. Navigate to the drive tab, and verify the PU claim was moved from the FNI to the newly added driver
 	 * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver
 	 */
+    /**
+     * PAS-23977 - END: Reconcile Claim # Formats (CLUE and CAS)
+     * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added and compare of CLUE claim from newly added driver to existing PU Yes claim on FNI .
+     * @scenario Test Steps: See Template For Details
+     * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver and only claim numbers will be compared ignoring the format differences.
+     */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
@@ -454,7 +461,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
 		//Navigate to Driver page and verify PU claim moved from FNI to newly added driver
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-		puDropAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_3);
+		puDropAssertions(CLAIM_NUMBER_1, CAS_CLUE_CLAIM);
 
 		//Bind Endorsement
 		bindEndorsement();

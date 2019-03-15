@@ -3,12 +3,13 @@ package aaa.modules.batch;
 import static aaa.helpers.jobs.BatchJob.*;
 import java.time.format.DateTimeFormatter;
 import org.openqa.selenium.By;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.admin.pages.general.GeneralAsyncTasksPage;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
+import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.modules.BaseTest;
@@ -19,7 +20,7 @@ import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 public class BatchMaintanance extends BaseTest {
-
+    protected static Logger log = LoggerFactory.getLogger(BatchMaintanance.class);
     public static StaticElement schedulerStatus = new StaticElement(By.id("statistics:schedulerTable:0:en_status"));
     public static Link enableScheduler = new Link(By.id("statistics:schedulerTable:0:enable"));
     private static final String VERIFY_ASYNC_MANAGER_STATUS_SQL = "Select count(STATUS) from PASADM.ASYNCTASKMANAGER where Status != 'RUNNING'";
@@ -51,8 +52,9 @@ public class BatchMaintanance extends BaseTest {
     @Test()
     public void checkSchedulerEnabled(@Optional("") String state) {
         adminApp().open();
-        NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
 
+        GeneralSchedulerPage.open();
+        //todo maybe can be replaced with aaa.admin.pages.general.GeneralSchedulerPage.enableScheduler
         int counter = 0;
         while (schedulerStatus.getValue().toString().equals("Disabled") && counter < 200) {
             enableScheduler.click();
@@ -70,16 +72,10 @@ public class BatchMaintanance extends BaseTest {
     @Parameters({"state"})
     @Test()
     public void checkAsyncManagerStatus(@Optional("") String state) {
+        adminApp().open();
 
-        if (DBService.get().getValue("Select count(STATUS) from PASADM.ASYNCTASKMANAGER where Status = 'RUNNING'").get().equals("0")) {
-            adminApp().open();
-            NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_ASYNC_TASKS.get());
-            if (!GeneralAsyncTasksPage.linkStopManager.isPresent()) {
-                GeneralAsyncTasksPage.linkStartAllManager.click();
-            }
-            GeneralAsyncTasksPage.linkStopManager.click();
-            GeneralAsyncTasksPage.linkStartAllManager.click();
-        }
+        GeneralAsyncTasksPage.enableAsyncManager();
+        adminApp().close();
     }
 
     //Execution with dependencies

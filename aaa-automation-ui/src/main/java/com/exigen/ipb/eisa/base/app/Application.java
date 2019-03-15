@@ -73,10 +73,11 @@ public abstract class Application {
 	}
 
 	public void open() {
-		if (!isApplicationOpened) {
-			openSession();
-			getLogin().login();
+		if (isApplicationOpened) {
+			close();
 		}
+		openSession();
+		getLogin().login();
 		switchPanel();
 	}
 

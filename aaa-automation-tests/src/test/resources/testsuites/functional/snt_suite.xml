@@ -52,6 +52,8 @@
                 <methods>
                     <include name="pas24138_validateCensusBlockGroupAndLatLong"/>
                     <include name="pas24030_validateCensusBlockGroupAndLatLongFromEADS"/>
+                    <include name="pas24290_riskAddressChangeDuringRenewal"/>
+                    <include name="pas24290_riskAddressChangeDuringEndorsement"/>
                 </methods>
             </class>
         </classes>

@@ -103,13 +103,18 @@ public class PolicySummaryPage extends SummaryPage {
 	public static Table tableAppliedDiscountsPolicy = new Table(By.xpath("//table[@id='productConsolidatedViewForm:policyDiscountsTable']"));
 	public static Table tableAppliedDiscountsDriver = new Table(By.xpath("//table[@id='productConsolidatedViewForm:driverDiscountsTable']"));
 	public static Table tableAppliedDiscountsVehicle = new Table(By.xpath("//table[@id='productConsolidatedViewForm:vehicleDiscountsTable']"));
+	public static Table tableAmountDue = new Table(By.xpath("//table[@id='productConsolidatedViewForm:amountDueTable']"));
 
 	public static Dialog dialogRemoveSuspense = new Dialog("//div[@id='validateActionPopup_container']");
 
 	public static Dollar getTotalPremiumSummaryForProperty() {
 		return new Dollar(tableTotalPremiumSummaryProperty.getRow(1).getCell(2).getValue());
 	}
-	
+
+	public static Dollar getAmountDueForProperty(){
+		return new Dollar(tableAmountDue.getRow(1).getCell(1).getValue());
+	}
+
 	public static Dollar getTotalStateTaxesForProperty() {
 		return new Dollar(tableTotalStateTaxesProperty.getRow(1).getCell(2).getValue());
 	}

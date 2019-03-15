@@ -189,6 +189,10 @@ public class BaseTest {
 		return getPolicyType() != null && getPolicyType().isCaProduct();
 	}
 
+	protected boolean isAutoCA() {
+		return getPolicyType() != null && getPolicyType().isCaProduct() && getPolicyType().isAutoPolicy();
+	}
+
 	protected TestData getManualConversionInitiationTd() {
 		return getStateTestData(testDataManager.policy.get(getPolicyType()), CustomerActions.InitiateRenewalEntry.class.getSimpleName(), "TestData");
 	}

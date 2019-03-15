@@ -124,6 +124,10 @@ public class TimePoints {
 		return getTimepoint(date, TimepointsList.RENEW_GENERATE_OFFER, true);
 	}
 
+	public LocalDateTime getRenewInsuranceScoreReorderingDate(LocalDateTime date) {
+		return getTimepoint(date, TimepointsList.RENEW_INSURANCE_SCORE_REORDERING, true);
+	}
+
 	public LocalDateTime getPreRenewalLetterGenerationDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.PRERENEWAL_LETTER, true);
 	}
@@ -328,6 +332,7 @@ public class TimePoints {
 		MANUAL_CANCELLATION("Manual cancellation"), //
 		REFUND("Refund"), //
 		INSURANCE_RENEWAL_REMINDER("Insurance renewal reminder"), //
+		RENEW_INSURANCE_SCORE_REORDERING("Renew insurance score reordering"), //
 		;
 		String id;
 
