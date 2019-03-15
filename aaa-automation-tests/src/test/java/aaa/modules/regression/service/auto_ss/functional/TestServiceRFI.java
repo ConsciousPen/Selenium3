@@ -5,6 +5,9 @@ package aaa.modules.regression.service.auto_ss.functional;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -241,7 +244,6 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		verifyRFIScenarios("PIP", AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION, "25000/50000", "$50,000/$100,000", document, documentAsset, error, getPolicyDefaultTD(), true, false);
 		verifyRFIScenarios("PIPDED", AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE, "250", "$500", document, documentAsset, error, getPolicyDefaultTD(), true, false);
 		verifyRFIScenarios("PIPDEDAPPTO", AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_APPLIES_TO_DEDUCTIBLE, "F", "Named Insured Only", document, documentAsset, error, getPolicyDefaultTD(), true, false);
-
 
 		//Override rule at NB
 		TestData td = getPolicyDefaultTD();
@@ -511,7 +513,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		String docId1 = checkDocumentInRfiService(policyNumber, documentAA52UPAA.getId(), documentAA52UPAA.getName());
 		String docId2 = checkDocumentInRfiService(policyNumber, documentAA52IPAA.getId(), documentAA52IPAA.getName());
 
-		if (!isRuleOverridden){
+		if (!isRuleOverridden) {
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error200306.getCode(), error200306.getMessage(), "attributeForRules");
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error200307.getCode(), error200307.getMessage(), "attributeForRules");
 		}
@@ -693,7 +695,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21648"})
 	public void pas21648_CARCOFormAAIFNJ3InsidePASUpdateCompTC01(@Optional("NJ") String state) {
-		carcoUpdateCompScenarios(true, false);
+		carcoUpdateCompScenariosInsidePAS(true, false);
 	}
 
 	@Parameters({"state"})
@@ -701,7 +703,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21648"})
 	public void pas21648_CARCOFormAAIFNJ3InsidePASUpdateCompTC02(@Optional("NJ") String state) {
-		carcoUpdateCompScenarios(false, false);
+		carcoUpdateCompScenariosInsidePAS(false, false);
 	}
 
 	/**
@@ -719,7 +721,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-24531"})
 	public void pas24531_CARCOFormAAIFNJ4InsidePASUpdateComp(@Optional("NJ") String state) {
-		carcoUpdateCompScenarios(true, true);
+		carcoUpdateCompScenariosInsidePAS(true, true);
 	}
 
 	//CARCO Outside PAS
@@ -1131,7 +1133,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			softly.assertThat(rfiDocument.parentOid).isNotEmpty();
 
 			RFIDocuments rfiServiceResponse2 = HelperCommon.rfiViewService(policyNumber, true);
-			softly.assertThat(rfiServiceResponse2.url).isNotEmpty();
+			softly.assertThat(rfiServiceResponse2.url).endsWith(".pdf");
 			softly.assertThat(rfiServiceResponse2.documents).isNotEmpty();
 
 		});
@@ -1495,6 +1497,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		verifyCarcoAIFNJ3InDocAndBindTab(isAAIFNJ3Expected);
 		verifyCarcoAIFNJ4InDocAndBindTab(isAAIFNJ4Expected);
 		documentsAndBindTab.submitTab();
+		// Document does not exist for endorsements inside PAS
+		verifyAAIFNJ3AndAAIFNJ4NotGenerated();
 
 		//Create Endorsement and Add Vehicle from PAS UI and validate
 		TestData tdAddVehicle = getPolicyDefaultTD().adjust(new VehicleTab().getMetaKey(), getTestSpecificTD(addVin)).resolveLinks();
@@ -1527,6 +1531,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		verifyCarcoAIFNJ3InDocAndBindTab(isAAIFNJ3Expected);
 		verifyCarcoAIFNJ4InDocAndBindTab(isAAIFNJ4Expected);
 		documentsAndBindTab.submitTab();
+		// Document does not exist for endorsements inside PAS
+		verifyAAIFNJ3AndAAIFNJ4NotGenerated();
 	}
 
 	private void verifyCarcoAIFNJ3InDocAndBindTab(boolean isAAIFNJ3Expected) {
@@ -1557,7 +1563,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		}
 	}
 
-	private void carcoUpdateCompScenarios(boolean is1000MilesQuestionRequired, boolean isLessThan1000Miles) {
+	private void carcoUpdateCompScenariosInsidePAS(boolean is1000MilesQuestionRequired, boolean isLessThan1000Miles) {
 		String vin;
 		TestData td = getPolicyDefaultTD();
 		String lessThan1000MilesSelection;
@@ -1591,10 +1597,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		documentsAndBindTab.submitTab();
 		policy.getDefaultView().fillFromTo(td, PurchaseTab.class, PurchaseTab.class, true);
 		new PurchaseTab().submitTab();
-		//		String queryPolicyIssue = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, document.getIdInXml(), AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
-		//		assertSoftly(softly -> {
-		//			verifyDocInDb(softly,queryPolicyIssue,);//TODO-mstrazds: should not have the document in XML as there was no comp coll. For next sprints when we have xml stories
-		//		});
+		// Document does not exist for endorsements inside PAS
+		verifyAAIFNJ3AndAAIFNJ4NotGenerated();
 
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
@@ -1624,10 +1628,13 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		}
 
 		documentsAndBindTab.submitTab();
-		//		String queryEndorsement = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, document.getIdInXml(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
-		//		assertSoftly(softly -> {
-		//			verifyDocInDb(softly,queryEndorsement,);
-		//		});//TODO-mstrazds: for next sprints when have xml stories
+		// Document does not exist for endorsements inside PAS
+		verifyAAIFNJ3AndAAIFNJ4NotGenerated();
+	}
+
+	private void verifyAAIFNJ3AndAAIFNJ4NotGenerated() {
+		DocGenHelper.checkDocumentsDoesNotExistInXml(PolicySummaryPage.getPolicyNumber(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE, DocGenEnum.Documents.AAIFNJ3);
+		DocGenHelper.checkDocumentsDoesNotExistInXml(PolicySummaryPage.getPolicyNumber(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE, DocGenEnum.Documents.AAIFNJ4);
 	}
 
 	private void carcoAddReplaceVehicleOutsidePAS(boolean isQualifyingVehicle, boolean isLessThan1000Miles) {
@@ -1637,22 +1644,27 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		if (isQualifyingVehicle) {
 			String addedVehicleOid = VEH_HELPER.addVehicleWithChecks(policyNumber, "2017-02-22", VIN_LESS_THAN_7_YEARS, true);//vehicle age must be less tha 7 years
 			String docId1;
+			DocGenEnum.Documents docAAIFNJ3OrAAINJ4;
+			ErrorEnum.Errors error;
 			if (isLessThan1000Miles) {
+				docAAIFNJ3OrAAINJ4 = DocGenEnum.Documents.AAIFNJ4;
+				error = ErrorEnum.Errors.ERROR_200204_NJ;
 				//Update isLessThan1000Miles to true/yes
 				updateLessThan1000MilesToTrue(policyNumber, addedVehicleOid);
-				docId1 = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AAIFNJ4.getId(), DocGenEnum.Documents.AAIFNJ4.getName());
-				helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_200204_NJ.getCode(), ErrorEnum.Errors.ERROR_200204_NJ.getMessage(), "attributeForRules");
 			} else {
-				docId1 = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AAIFNJ3.getId(), DocGenEnum.Documents.AAIFNJ3.getName());
-				helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_200200_NJ.getCode(), ErrorEnum.Errors.ERROR_200200_NJ.getMessage(), "attributeForRules");
+				docAAIFNJ3OrAAINJ4 = DocGenEnum.Documents.AAIFNJ3;
+				error = ErrorEnum.Errors.ERROR_200200_NJ;
 			}
+			//Try to bind without signing
+			docId1 = checkDocumentInRfiService(policyNumber, docAAIFNJ3OrAAINJ4.getId(), docAAIFNJ3OrAAINJ4.getName());
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error.getCode(), error.getMessage(), "attributeForRules");
 			//Bind policy with docId and document is electronically signed
 			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), docId1);
 
-			//			assertSoftly(softly -> {
-			//				String queryAAIFNJ3 = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, documentAAIFNJ3.getIdInXml(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
-			//				verifyDocInDb(softly, queryAAIFNJ3, documentAAIFNJ3, true);//TODO-mstrazds: for next sprints when we have xml story
-			//			});
+			String queryAAIFNJ3OrAAIFNJ4 = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, docAAIFNJ3OrAAINJ4.getIdInXml(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
+			assertSoftly(softly -> {
+							verifyDocInDb(softly, queryAAIFNJ3OrAAIFNJ4, docAAIFNJ3OrAAINJ4, true);
+			});
 			//In PAS go to bind page verify document is electronically signed
 			mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -1687,10 +1699,9 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			//Bind policy with docId and document is electronically signed
 			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), docId1);
 			assertSoftly(softly -> {
-				//				String queryAAIFNJ3 = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, documentAAIFNJ3.getIdInXml(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
-				//				verifyDocInDb(softly, queryAAIFNJ3, documentAAIFNJ3, true);//TODO-mstrazds:for next sprints when we have xml story
+				verifyDocInDb(softly, queryAAIFNJ3OrAAIFNJ4, docAAIFNJ3OrAAINJ4, true);
 			});
-			//create endorsement from, pas go to bind page verify document is electronically signed
+			//create endorsement from PAS, go to bind page, verify document is electronically signed
 			mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -1708,9 +1719,9 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			VEH_HELPER.addVehicleWithChecks(policyNumber, "2017-02-22", VIN_MORE_THAN_7_YEARS, true);//vehicle age must be more than 7 years
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 			verifyRFIHasNoDocuments(policyNumber);
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+			verifyAAIFNJ3AndAAIFNJ4NotGenerated();
 		}
-
-		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
 	private void updateLessThan1000MilesToTrue(String policyNumber, String addedVehicleOid) {
@@ -1744,6 +1755,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel()), "contains=No Coverage");
 
 		String policyNumber = openAppAndCreatePolicy(td);
+		verifyAAIFNJ3AndAAIFNJ4NotGenerated();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		//Check that RFI doesn't return any document as no changes yet
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
@@ -1753,20 +1765,32 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		String vehicleOid = VEH_HELPER.findVehicleByVin(HelperCommon.viewEndorsementVehicles(policyNumber), vin).oid;
 		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest("COMPDED", "100"), PolicyCoverageInfo.class);
 		String docId;
+		DocGenEnum.Documents docAAIFNJ3OrAAINJ4;
+		ErrorEnum.Errors error;
 		if (is1000MilesQuestionRequired) {
 			if (isLessThan1000Miles) {
-				docId = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AAIFNJ4.getId(), DocGenEnum.Documents.AAIFNJ4.getName());
-				helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_200204_NJ.getCode(), ErrorEnum.Errors.ERROR_200204_NJ.getMessage(), "attributeForRules");
+				docAAIFNJ3OrAAINJ4 = DocGenEnum.Documents.AAIFNJ4;
+				error = ErrorEnum.Errors.ERROR_200204_NJ;
+				docId = checkDocumentInRfiService(policyNumber, docAAIFNJ3OrAAINJ4.getId(), docAAIFNJ3OrAAINJ4.getName());
 			} else {
+				docAAIFNJ3OrAAINJ4 = DocGenEnum.Documents.AAIFNJ3;
+				error = ErrorEnum.Errors.ERROR_200200_NJ;
 				docId = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AAIFNJ3.getId(), DocGenEnum.Documents.AAIFNJ3.getName());
-				helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_200200_NJ.getCode(), ErrorEnum.Errors.ERROR_200200_NJ.getMessage(), "attributeForRules");
 			}
+			//Try to bind without signing the document
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber,error.getCode(), error.getMessage(), "attributeForRules");
 
 			//Bind policy with docId and document is electronically signed
 			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), docId);
+			String queryAAIFNJ3OrAAIFNJ4 = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, docAAIFNJ3OrAAINJ4.getIdInXml(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
+			assertSoftly(softly -> {
+				verifyDocInDb(softly, queryAAIFNJ3OrAAIFNJ4, docAAIFNJ3OrAAINJ4, true);
+			});
+
 		} else {
 			HelperCommon.endorsementRate(policyNumber, 200);
 			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", 200);
+			verifyAAIFNJ3AndAAIFNJ4NotGenerated();
 		}
 
 		//create endorsement from PAS, go to bind page, verify document is electronically signed
