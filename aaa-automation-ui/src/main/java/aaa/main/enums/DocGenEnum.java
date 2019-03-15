@@ -118,6 +118,8 @@ public final class DocGenEnum {
 		AAEUIMMD("AAEUIMMD 07 18", "AAEUIMMD", "Maryland Enhanced Uninsured Motorists Coverage"),
 		AAFPPA("AAFPPA","First Party Benefits Coverage and Limits Selection Form"),
 		AAGCAZ("Golf Cart Coverage Endorsement"),
+		AAIFNJ3("AAIFNJ3", "AAIFNJ3", "Acknowledgement of Requirement for Insurance Inspection"),
+		AAIFNJ4("AAIFNJ4", "AAIFNJ4", "Inspection Waiver - Sales Agreement Required"),
 		AAIFNY2(""),
 		AAIFNYC("Confirmation of Suspension of Physical Damage Coverage"),
 		AAIFNYF(""),

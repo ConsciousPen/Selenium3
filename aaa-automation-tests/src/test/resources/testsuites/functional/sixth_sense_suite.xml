@@ -114,12 +114,21 @@
         </classes>
     </test>
 
-    <test name="Test CA Mortgagee Loan Number is required">
+    <test name="Test CA Mortgagee Loan Number and Mortgagee Clause is required">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestLegalMortgageeNameLoanNumber"/>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestLegalMortgageeNameLoanNumber"/>
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestLegalMortgageeNameLoanNumber"/>
+        </classes>
+    </test>
+
+    <test name="Test SS Mortgagee Loan Number and Mortgagee Clause is required">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestLegalMortgageeNameLoanNumber"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestLegalMortgageeNameLoanNumber"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestLegalMortgageeNameLoanNumber"/>
         </classes>
     </test>
 
@@ -187,6 +196,13 @@
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMonthsWithPriorCarrierVRD"/>
+        </classes>
+    </test>
+
+    <test name="PAS-26291-Test Construction Occupancy Group for CA-HO4 on VRD">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestVRDForConstOccGroup"/>
         </classes>
     </test>
 
