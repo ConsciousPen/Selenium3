@@ -735,7 +735,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			commissionTypeCheck(expectedEvalueCommissionTypeOptions, "Yes", "eValue New Business", softly);
 			pas316_eValueRemovalPopUpCheck();
 			//PAS-306, PAS-320, PAS-323, PAS-289 end
-			generalTab.cancel();
+			generalTab.cancel(false);
 			Page.dialogConfirmation.buttonDeleteEndorsement.click();
 
 			//Renewal doesn't show the field
