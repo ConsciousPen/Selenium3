@@ -49,11 +49,7 @@ public class TestVRDForConstOccGroup extends HomeCaHO4BaseTest {
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus2Month"));
        //CCG - Construction Occupancy Group on VRD
         validateVRDForCOG();
-        policy.getDefaultView().fillFromTo(getPolicyTD(), MortgageesTab.class, BindTab.class, true);
-        new BindTab().submitTab();
-        policy.renew().perform();
-        calculatePremiumAndOpenVRD();
-        new MortgageesTab().saveAndExit();
+        bindAndRenewToValidatedVRD();
     }
 
     /**
@@ -84,7 +80,6 @@ public class TestVRDForConstOccGroup extends HomeCaHO4BaseTest {
         assertThat(propertyInformation.getValueByKey("Construction occupancy group")).isEqualTo("CO1");
         bindAndRenewToValidatedVRD();
     }
-
 
     private void createQuoteAndPolicy(){
 
@@ -117,18 +112,18 @@ public class TestVRDForConstOccGroup extends HomeCaHO4BaseTest {
         premiumsAndCoveragesQuoteTab.calculatePremium();
         PropertyQuoteTab.RatingDetailsView.open();
         assertThat(propertyInformation.getValueByKey("Construction occupancy group")).isEqualTo("CO2");
-        PropertyQuoteTab.RatingDetailsView.close();
-        premiumsAndCoveragesQuoteTab.submitTab();
     }
 
     private void bindAndRenewToValidatedVRD(){
 
         PropertyQuoteTab.RatingDetailsView.close();
         premiumsAndCoveragesQuoteTab.submitTab();
+        bindEnTxAndRenew();
+    }
+    private void bindEnTxAndRenew(){
         policy.getDefaultView().fillFromTo(getPolicyTD(), MortgageesTab.class, BindTab.class, true);
         new BindTab().submitTab();
         policy.renew().perform();
         calculatePremiumAndOpenVRD();
-        new MortgageesTab().saveAndExit();
     }
 }
