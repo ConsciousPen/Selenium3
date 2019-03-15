@@ -130,40 +130,30 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		Map<String, Object> currentAAAMembershipData = new HashMap<>();
 		currentAAAMembershipData.put(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()));
 
-		// TODO NEED TO REFACTOR According to changes in UI for Auto SS product for MPD feature.
-		// ownedHome is a temporal fix for NY Auto SS test, should be deleted after MPD Merge to master
-		String ownedHome = "Y".equalsIgnoreCase(openLPolicy.getAaaHomePolicy()) ? "Yes" : "No";
-
-		/*Map<String, Object> aAAProductOwnedData = new HashMap<>();
+		Map<String, Object> aAAProductOwnedData = new HashMap<>();
 		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaHomePolicy()))) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME_OLD.getLabel(), "Yes");
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME.getLabel(), true);
 		} else {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME_OLD.getLabel(), "No");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME.getLabel(), false);
 		}
 
 		if (Boolean.TRUE.equals(openLPolicy.isAaaLifePolicy())) {
 			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel(), true);
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
 		} else {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.LIFE.getLabel(), "No");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel(), false);
 		}
 
 		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaRentersPolicy()))) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.RENTERS.getLabel(), "Yes");
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.RENTERS_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS.getLabel(), true);
 		} else {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.RENTERS.getLabel(), "No");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS.getLabel(), false);
 		}
 
 		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaCondoPolicy()))) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CONDO.getLabel(), "Yes");
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CONDO_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO.getLabel(), true);
 		} else {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CONDO.getLabel(), "No");
-		}*/
-
-		// TODO Refactor section  END
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO.getLabel(), false);
+		}
 
 		//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.AAAMembership.MOTORCYCLE.getLabel(), openLPolicy.isAaaMotorcyclePolicy()
 
@@ -220,7 +210,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), new SimpleDataProvider(currentAAAMembershipData),
 				AutoSSMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), DataProviderFactory.emptyData(),
 				AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), new SimpleDataProvider(currentCarrierInformationData),
-				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), new SimpleDataProvider(policyInformationData));
+				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), new SimpleDataProvider(policyInformationData),
+				AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED.getLabel(), new SimpleDataProvider(aAAProductOwnedData));
 	}
 
 	private List<TestData> getDriverTabData(AutoSSOpenLPolicy openLPolicy) {
