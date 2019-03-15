@@ -10,19 +10,21 @@ import aaa.common.enums.Constants.UserGroups;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.docgen.AaaDocGenEntityQueries;
+//import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum;
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
+//import toolkit.db.DBService;
 import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -233,25 +235,19 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		TestData td_sc5 = getPolicyTD().adjust(getTestSpecificTD("TestData_ExcludedDrivers").resolveLinks());
 		String policyNumber = createPolicy(td_sc5);
 		log.info("PAS DOC: Scenario 5: Several Excluded Drivers: Created Policy#" + policyNumber);
-		
-		//DocGenHelper.clearDocGenFolders();
+
 		policy.policyDocGen().start();
-		odd_tab.verify.documentsPresent(null, true, AA43AZ);
-		//odd_tab.generateDocuments(Documents.AA43AZ);
-		odd_tab.selectDocuments(AA43AZ);
-		odd_tab.getAssetList().getAsset(AutoSSMetaData.GenerateOnDemandDocumentActionTab.PREVIEW_DOCUMENTS_BTN).click(Waiters.AJAX);
-		DocGenHelper.verifyDocumentsGenerated(true, false, policyNumber, AA43AZ);	
-		/*
-		verifyOneDocumentGenerated(policyNumber, "AA43AZ");
+		odd_tab.verify.documentsPresent(AA43AZ);
+		//5.1
+		//verify document preview
+		verifyPreviewDocument(AA43AZ);	
 		
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AA43AZ", "ADHOC_DOC_ON_DEMAND_GENERATE");
-		CustomSoftAssertions.assertSoftly(softly -> {
-			assertThat(DocGenHelper.getDocumentDataElemByName("DrvrLstNm", Documents.AA43AZ, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()).isEqualTo("Driver1");
-			assertThat(DocGenHelper.getDocumentDataElemByName("DrvrLstNm", Documents.AA43AZ, query).get(0).getDocumentDataElements().get(1).getDataElementChoice().getTextField()).isEqualTo("Driver2");
-			assertThat(DocGenHelper.getDocumentDataElemByName("DrvrFrstNm", Documents.AA43AZ, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()).isEqualTo("Excluded1");
-			assertThat(DocGenHelper.getDocumentDataElemByName("DrvrFrstNm", Documents.AA43AZ, query).get(0).getDocumentDataElements().get(1).getDataElementChoice().getTextField()).isEqualTo("Excluded2");
-		});
-		*/
+		//OR verify document generation
+		//odd_tab.generateDocuments(false, DocGenEnum.DeliveryMethod.LOCAL_PRINT, null, null, null, AA43AZ);
+		//DocGenHelper.verifyDocumentsGenerated(true, false, policyNumber, AA43AZ);
+		
+		//TODO verify one document generated
+		//verifyOneDocumentGenerated(policyNumber, "AA43AZ");		
 	}
 
 	@Parameters({"state"})
@@ -267,13 +263,21 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		log.info("PAS DOC: Scenario 6: Several Vehicles with UBI: Created Policy#" + policyNumber);
 		
 		policy.policyDocGen().start();
-		odd_tab.verify.documentsPresent(null, true, AAUBI, ACPUBI, AAUBI1);
-		odd_tab.generateDocuments(true, DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.EMAIL, null, null,
-				AAUBI, ACPUBI, AAUBI1);
-		DocGenHelper.verifyDocumentsGenerated(true, false, policyNumber, AAUBI, ACPUBI, AAUBI1);
+		odd_tab.verify.documentsPresent(AAUBI, ACPUBI, AAUBI1);
+		//6.1
+		//verify document preview
+		verifyPreviewDocument(AAUBI, ACPUBI, AAUBI1);
+		
+		//or verify document generation
+		//odd_tab.generateDocuments(false, DocGenEnum.DeliveryMethod.LOCAL_PRINT, null, null, null, AAUBI, ACPUBI, AAUBI1);
+		//DocGenHelper.verifyDocumentsGenerated(true, false, policyNumber, AAUBI, ACPUBI, AAUBI1);
+		
+		//TODO verify one document generated
+		/*
 		verifyOneDocumentGenerated(policyNumber, "AAUBI");
 		verifyOneDocumentGenerated(policyNumber, "AAUBI1");
 		verifyOneDocumentGenerated(policyNumber, "ACPUBI");
+		*/
 	}
 	
 	@Parameters({"state"})
@@ -290,9 +294,15 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		
 		policy.policyDocGen().start();
 		odd_tab.verify.documentsPresent(AAPDXX);
-		odd_tab.generateDocuments(true, DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.EMAIL, null, null, AAPDXX);
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, AAPDXX);
-		verifyOneDocumentGenerated(policyNumber, "AAPDXX");
+		//7.1
+		//verify document preview
+		verifyPreviewDocument(AAPDXX);
+		
+		//OR verify document generation
+		//odd_tab.generateDocuments(false, DocGenEnum.DeliveryMethod.LOCAL_PRINT, null, null, null, AAPDXX);
+		//DocGenHelper.verifyDocumentsGenerated(policyNumber, AAPDXX);
+		//TODO verify one document generated
+		//verifyOneDocumentGenerated(policyNumber, "AAPDXX");
 	}
 	
 	@Parameters({"state"})
@@ -303,15 +313,33 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td_sc8 = getPolicyTD().adjust(getTestSpecificTD("TestData_FinancialDrivers").resolveLinks());
-		createPolicy(td_sc8);
+		//createPolicy(td_sc8);
+		//workaround added
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(td_sc8, DocumentsAndBindTab.class, true);
+		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
+		docsAndBindTab.submitTab();
+		if (docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.CASE_NUMBER).isPresent()) {
+			docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.CASE_NUMBER).setValue("12346");
+		}
+		docsAndBindTab.submitTab();
+		new PurchaseTab().fillTab(td_sc8);
+		new PurchaseTab().submitTab();		
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		log.info("PAS DOC: Scenario 8: Several Drivers with Financial Responsibility: Created Policy#" + policyNumber);
 		
 		policy.policyDocGen().start();
-		odd_tab.verify.documentsPresent(null, true, AASR22);
-		odd_tab.generateDocuments(AASR22);
-		DocGenHelper.verifyDocumentsGenerated(true, false, policyNumber, AASR22);	
-		verifyOneDocumentGenerated(policyNumber, "AASR22");
+		odd_tab.verify.documentsPresent(AASR22);
+		//8.1
+		//verify document preview
+		verifyPreviewDocument(AASR22);
+		
+		//OR verify document generation
+		//odd_tab.generateDocuments(false, DocGenEnum.DeliveryMethod.LOCAL_PRINT, null, null, null, AASR22);
+		//DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR22);
+		
+		//TODO verify one document generated
+		//verifyOneDocumentGenerated(policyNumber, "AASR22");
 	}
 
 	private void verifyPreviewDocument(DocGenEnum.Documents...documents) {
@@ -327,8 +355,10 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		odd_tab.unselectDocuments(documents);
 	}
 	
+	/*
 	private void verifyOneDocumentGenerated(String policyNum, String document) {
 		String query = String.format(AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNum, document, "ADHOC_DOC_ON_DEMAND_GENERATE");
 		assertThat(DBService.get().getValue(query).map(Integer::parseInt)).hasValue(1);
 	}
+	*/
 }
