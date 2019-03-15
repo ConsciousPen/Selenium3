@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import aaa.config.CsaaTestProperties;
 import aaa.helpers.docgen.DocumentWrapper;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.helpers.xml.XmlHelper;
@@ -14,17 +13,20 @@ import aaa.helpers.xml.model.StandardDocumentRequest;
 import aaa.helpers.xml.model.pasdoc.Document;
 import aaa.helpers.xml.model.pasdoc.DocumentGenerationRequest;
 import aaa.main.enums.DocGenEnum;
-import toolkit.config.PropertyProvider;
+import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class PasDocImpl extends DocumentWrapper {
-	private static final String DOCGEN_ROOT_FOLDER = PropertyProvider.getProperty(CsaaTestProperties.DOCGEN_ROOT_FOLDER, "/home");
-	public static final String PASDOC_SOURCE_FOLDER = DOCGEN_ROOT_FOLDER + "/DocGen/pasdoc/outbound";
+	private static final String SQL_GET_DOC_GEN_FOLDER = "select  value\n"
+			+ "from PROPERTYCONFIGURERENTITY\n"
+			+ "where propertyname ='aaaDocGenSerializer.exportDocumentLocation'";
+	private static String DOCGEN_ROOT_FOLDER = DBService.get().getValue(SQL_GET_DOC_GEN_FOLDER).orElse("null");
+	public static String PASDOC_SOURCE_FOLDER = DOCGEN_ROOT_FOLDER + "/pasdoc/outbound";
 	private static final int DOCUMENT_GENERATION_TIMEOUT = 40;
 
 	public PasDocImpl(StandardDocumentRequest standardDocumentRequest) {
-		}
+	}
 
 	public PasDocImpl() {
 	}

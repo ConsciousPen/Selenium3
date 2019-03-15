@@ -33,10 +33,12 @@ import toolkit.verification.CustomAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class DocGenHelper {
-	private static final String DOCGEN_JOB_FOLDER = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");
-	private static final String DOCGEN_FOLDER = PropertyProvider.getProperty(CsaaTestProperties.DOCGEN_ROOT_FOLDER, "/home/");
-	public static final String DOCGEN_SOURCE_FOLDER = DOCGEN_FOLDER + "DocGen/";
-	public static final String DOCGEN_BATCH_SOURCE_FOLDER = DOCGEN_SOURCE_FOLDER + "Batch/";
+	private static final String SQL_GET_DOC_GEN_FOLDER = "select  value\n"
+			+ "from PROPERTYCONFIGURERENTITY\n"
+			+ "where propertyname ='aaaDocGenSerializer.exportDocumentLocation'";
+	private static String DOCGEN_ROOT_FOLDER = DBService.get().getValue(SQL_GET_DOC_GEN_FOLDER).orElse("null");
+	private static final String DOCGEN_JOB_FOLDER = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER, "/home/mp2/pas/sit");
+	public static final String DOCGEN_BATCH_SOURCE_FOLDER = DOCGEN_ROOT_FOLDER + "Batch/";
 	public static final String JOBS_DOCGEN_SOURCE_FOLDER = DOCGEN_JOB_FOLDER + "PAS_B_EXGPAS_DCMGMT_6500_D/outbound/";
 	public static final DateTimeFormatter DATE_TIME_FIELD_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T00:00:00.000'XXX");
 	private static final int DOCUMENT_GENERATION_TIMEOUT = 40;
@@ -50,7 +52,7 @@ public class DocGenHelper {
 		try {
 			RemoteHelper.get()
 					.clearFolder(JOBS_DOCGEN_SOURCE_FOLDER)
-					.clearFolder(DOCGEN_SOURCE_FOLDER)
+					.clearFolder(DOCGEN_JOB_FOLDER)
 					.clearFolder(DOCGEN_BATCH_SOURCE_FOLDER);
 		} catch (RuntimeException e) {
 			CustomAssertions.fail("Clearing doc gen folder failed: \n", e);
@@ -182,7 +184,7 @@ public class DocGenHelper {
 	 * @throws AssertionError if no xml document(s) were found within timeout ({@link #DOCUMENT_GENERATION_TIMEOUT} seconds by default)
 	 */
 	public static List<String> waitForDocumentsAppearance(boolean generatedByJob, String policyNumber, DocGenEnum.Documents... documents) {
-		String docGenSourcePath = generatedByJob ? JOBS_DOCGEN_SOURCE_FOLDER : DOCGEN_SOURCE_FOLDER;
+		String docGenSourcePath = generatedByJob ? JOBS_DOCGEN_SOURCE_FOLDER : DOCGEN_ROOT_FOLDER;
 		log.info(String.format("Waiting for xml document file(s) appearance with \"%1$s\" policy number%2$s in \"%3$s\" folder.",
 				policyNumber, documents.length > 0 ? " and documents: " + Arrays.asList(documents) : "", docGenSourcePath));
 
