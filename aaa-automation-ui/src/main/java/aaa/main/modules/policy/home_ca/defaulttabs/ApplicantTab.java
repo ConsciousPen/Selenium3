@@ -42,9 +42,6 @@ public class ApplicantTab extends Tab {
     public AssetList getDwellingAddressAssetList() {
     	return getAssetList().getAsset(HomeCaMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), AssetList.class);
 	}
-    public AddressValidationDialog getValidateAddressDialogAssetList() {
-        return getAssetList().getAsset(HomeCaMetaData.ApplicantTab.DWELLING_ADDRESS).getAsset(HomeCaMetaData.ApplicantTab.DwellingAddress.VALIDATE_ADDRESS_DIALOG);
-    }
     public AssetList getPreviousDwellingAddressAssetList() {
     	return getAssetList().getAsset(HomeCaMetaData.ApplicantTab.PREVIOUS_DWELLING_ADDRESS.getLabel(), AssetList.class);
 	}
