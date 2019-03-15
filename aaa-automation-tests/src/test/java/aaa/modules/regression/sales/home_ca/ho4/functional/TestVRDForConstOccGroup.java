@@ -35,7 +35,7 @@ public class TestVRDForConstOccGroup extends HomeCaHO4BaseTest {
      * 4. Initiate an endorsement, update the dwelling address on Applicant Tab
      * 5. Reorder PPC report and on property Info tab, update Dwelling address - Number of Family units to "61+"
      * 6. calculate Premium and assert value on VRD - Property Information - Construction Occupancy Group to be "CO2"
-     * 7. Bind the endorsement, renew the policy, calculate premium and amke sure the COG is CO2
+     * 7. Bind the endorsement, renew the policy, calculate premium and make sure the COG is CO2
      * * @details
      **/
 
@@ -63,9 +63,9 @@ public class TestVRDForConstOccGroup extends HomeCaHO4BaseTest {
      * 1. Create a Quote for CA HO4 and on Property Info tab - Dwelling Address - Num of Family Units - Single..
      * 2. Navigate to P*C Quote tab, calculate Premium and assert value on VRD - Property Information - Construction Occupancy Group to be "CO1"
      * 3. Bind the policy.
-     * 2. Initiate an endorsement and on property Info tab, update Dwelling address - Number of Family units to "61+"
-     * 4. calculate Premium and assert value on VRD - Property Information - Construction Occupancy Group to be "CO1"
-     * 5. Bind the endorsement, renew the policy, calculate premium and amke sure the COG is CO1
+     * 4. Initiate an endorsement and on property Info tab, update Dwelling address - Number of Family units to "61+"
+     * 5. calculate Premium and assert value on VRD - Property Information - Construction Occupancy Group to be "CO1"
+     * 6. Bind the endorsement, renew the policy, calculate premium and make sure the COG is CO1
      * * @details
      **/
 
