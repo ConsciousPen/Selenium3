@@ -221,6 +221,9 @@ public class VersionsComparisonConstants {
 			//Garaging address
 			//TODO should be returned when Yes/NO vs true/false is fixed
 			/*.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Is Garaging different from Residential?", "Is Garaging different from Residential?")*/
+			//Assignment Tab Information
+			.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Primary Driver", "Primary Driver")
+			//.put("Vehicles.2008, ACURA, MDX.Primary Driver", "Primary Driver")
 			.build();
 
 	//all components/attributes that should be on Comparison page for Named Insured Information section for data gather comparison
@@ -446,6 +449,14 @@ public class VersionsComparisonConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN", "Ownership Type")
 			.put("Vehicles.1998, DODGE, CARAVAN", "First Name")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Vehicle Ownership Address")
+			.build();
+
+
+	//all components/attributes that should be on Comparison page for Assignment section
+	static final Multimap<String, String> ASSIGNMENT = ImmutableListMultimap.<String, String>builder()
+			//Vehicle Information section
+			.put("Vehicles.2003, MERCEDES-BENZ, SL500R", "Primary Driver")
+			.put("Vehicles.2008, ACURA, MDX", "Primary Driver")
 			.build();
 
 }

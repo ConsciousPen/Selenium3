@@ -294,4 +294,23 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	public void pas14145_renewalComparisonVehicleInformation(@Optional("CA") String state) {
 		renewalComparison(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.VEHICLE_INFORMATION, "VehicleTab", "VehicleInformation");
 	}
+
+	//Assignment section
+
+	private TestData getTDNewBusiness() {
+		return getTestSpecificTD("TestData_Multiple_Drivers_Vehicles"); }
+
+	private TestData getTDAssignmentVersion1() {
+		return getTestSpecificTD("TestData_Assignment_Version1"); }
+
+	private TestData getTDAssignmentVersion2() {
+		return getTestSpecificTD("TestData_Assignment_Version2");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-25187"})
+	public void pas25187_dataGatherComparisonAssignment(@Optional("CA") String state) {
+		dataGatherComparison(getTDAssignmentVersion1(), getTDAssignmentVersion2(), VersionsComparisonConstants.ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
+	}
 }
