@@ -31,7 +31,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario1_2(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
+		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		
@@ -64,19 +64,24 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(
 					AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION)).isPresent(false);
 		});
-		DocumentsAndBindTab.btnGenerateDocuments.click();
+		documentsGeneration();
 
+		TestData td_sc2 = getTestSpecificTD("TestData_SC2");
+		if(!DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
+			td_sc2.adjust(getTestSpecificTD("TestData_SC2_NO_PASDOC").resolveLinks());
+		}
+		
 		//2.3 - 2.6
-		fillFromDriverToDocumentsAndBindTab(getTestSpecificTD("TestData_SC2"));		
+		fillFromDriverToDocumentsAndBindTab(td_sc2);		
 		CustomSoftAssertions.assertSoftly(softly -> {
 			verifyDriverDocsPresent(softly);
 			verifyVehicleDocsPresent(softly);
 			verifyCoverageDocPresent(softly);
 		});
-		DocumentsAndBindTab.btnGenerateDocuments.click();
+		documentsGeneration();
 
 		//2.7
-		policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData_SC2"), DocumentsAndBindTab.class, PurchaseTab.class, true);
+		policy.getDefaultView().fillFromTo(td_sc2, DocumentsAndBindTab.class, PurchaseTab.class, true);
 		new PurchaseTab().submitTab();		
 		log.info("TEST: Policy created #" + PolicySummaryPage.getPolicyNumber());
 		
@@ -89,13 +94,15 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		CustomSoftAssertions.assertSoftly(softly -> {
 			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTO_INSURANCE_APPLICATION)).isPresent();
-			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
-					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTO_INSURANCE_QUOTE)).isPresent(false);
+			if(DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
+				softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+						AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTO_INSURANCE_QUOTE)).isPresent(false);
+			}
 			verifyDriverDocsPresent(softly);
 			verifyVehicleDocsPresent(softly);
 			verifyCoverageDocPresent(softly);
 		});
-		DocumentsAndBindTab.btnGenerateDocuments.click();
+		documentsGeneration();
 		
 		//2.9 - 2.12
 		removeAdditionalData(getTestSpecificTD("TestData_Endorsement_SC2"));		
@@ -109,7 +116,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(
 					AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION)).isPresent(false);
 		});
-		DocumentsAndBindTab.btnGenerateDocuments.click();
+		documentsGeneration();
 		
 		//2.13
 		documentsAndBindTab.submitTab();
@@ -119,14 +126,14 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		//2.14
 		policy.renew().perform();	
 		//2.15 - 2.18
-		fillAdditionalData(getTestSpecificTD("TestData_SC2"));		
+		fillAdditionalData(td_sc2);		
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		CustomSoftAssertions.assertSoftly(softly -> {
 			verifyDriverDocsPresent(softly);
 			verifyVehicleDocsPresent(softly);
 			verifyCoverageDocPresent(softly);
 		});
-		DocumentsAndBindTab.btnGenerateDocuments.click();
+		documentsGeneration();
 		
 		//2.19
 		documentsAndBindTab.fillTab(getTestSpecificTD("TestData_Renewal_SC2"));
@@ -144,7 +151,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario3(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
+		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
@@ -170,7 +177,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(
 					AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NON_OWNER_AUTOMOBILE_ENDORSEMENT)).isPresent();
 		});
-		DocumentsAndBindTab.btnGenerateDocuments.click();
+		documentsGeneration();
 		
 		//3.2
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData_SC3"), DocumentsAndBindTab.class, PurchaseTab.class, true);
@@ -188,8 +195,10 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 			//Available for Printing
 			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTO_INSURANCE_APPLICATION)).isPresent();
-			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
-					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTO_INSURANCE_QUOTE)).isPresent(false);
+			if (DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
+				softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+						AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTO_INSURANCE_QUOTE)).isPresent(false);
+			}
 			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTOPAY_AUTHORIZATION_FORM)).isPresent();
 			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
@@ -200,7 +209,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(
 					AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NON_OWNER_AUTOMOBILE_ENDORSEMENT)).isPresent();
 		});
-		DocumentsAndBindTab.btnGenerateDocuments.click();
+		documentsGeneration();
 		documentsAndBindTab.submitTab();
 		log.info("TEST: Endorsement created for policy #" + PolicySummaryPage.getPolicyNumber());
 		
@@ -214,8 +223,10 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 			//Available for Printing
 			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTO_INSURANCE_APPLICATION)).isPresent();
-			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
-					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTO_INSURANCE_QUOTE)).isPresent(false);
+			if (DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
+				softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+						AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTO_INSURANCE_QUOTE)).isPresent(false);
+			}
 			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTOPAY_AUTHORIZATION_FORM)).isPresent();
 			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
@@ -226,7 +237,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(
 					AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NON_OWNER_AUTOMOBILE_ENDORSEMENT)).isPresent();
 		});
-		DocumentsAndBindTab.btnGenerateDocuments.click();
+		documentsGeneration();
 		documentsAndBindTab.submitTab();
 		log.info("TEST: Renewal created for policy #" + PolicySummaryPage.getPolicyNumber());
 	}
@@ -236,18 +247,23 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario4(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
+		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
 		log.info("TEST: Policy created #" + PolicySummaryPage.getPolicyNumber());
+		
+		TestData td_sc4 = getTestSpecificTD("TestData_SC2");
+		if(!DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
+			td_sc4.adjust(getTestSpecificTD("TestData_SC2_NO_PASDOC").resolveLinks());
+		}
 		
 		//Endorsement
 		//4.1
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		
 		//4.2 - 4.5
-		fillAdditionalData(getTestSpecificTD("TestData_SC2"));
+		fillAdditionalData(td_sc4);
 		DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();		
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -255,7 +271,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 			verifyVehicleDocsPresent(softly);
 			verifyCoverageDocPresent(softly);
 		});
-		DocumentsAndBindTab.btnGenerateDocuments.click();
+		documentsGeneration();
 		//4.6
 		documentsAndBindTab.fillTab(getTestSpecificTD("TestData_Renewal_SC2"));
 		//documentsAndBindTab.submitTab();
@@ -282,7 +298,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(
 					AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION)).isPresent(false);
 		});
-		DocumentsAndBindTab.btnGenerateDocuments.click();
+		documentsGeneration();
 		//4.11
 		documentsAndBindTab.submitTab();
 		log.info("TEST: Renewal created for policy #" + PolicySummaryPage.getPolicyNumber());
@@ -293,10 +309,17 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario5(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
+		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
-		TestData td_sc5 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC5").resolveLinks());
+		TestData td_sc5;
+		if(DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
+			td_sc5 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC5").resolveLinks());
+		}
+		else {
+			td_sc5 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC5_NO_PASDOC").resolveLinks());
+		}
+		
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(td_sc5, DocumentsAndBindTab.class, true);
 		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
@@ -386,7 +409,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario6(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
+		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td_sc6 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC3").resolveLinks());	
@@ -436,10 +459,19 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario7(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
+		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
-		TestData td_sc7 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC5").resolveLinks());
+		
+		TestData td_sc7;
+		if(DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
+			td_sc7 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC5").resolveLinks());
+		}
+		else {
+			td_sc7 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC5_NO_PASDOC").resolveLinks());
+		}
+		
+		//TestData td_sc7 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC5").resolveLinks());
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(td_sc7, DocumentsAndBindTab.class, true);
 		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
@@ -522,7 +554,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario8(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
+		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td_sc8 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC3").resolveLinks());	
@@ -569,6 +601,11 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	}
 	*/
 	
+	private void documentsGeneration() {
+		DocumentsAndBindTab.btnGenerateDocuments.click();
+		WebDriverHelper.switchToDefault();
+	}
+	
 	private void generateAndVerifyDoc(TestData td_doc, String policyNum, DocGenEnum.Documents... documents) {
 		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
 		docsAndBindTab.fillTab(td_doc);
@@ -584,17 +621,25 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.BTN_GENERATE_ESIGNATURE_DOCUMENTS)).isPresent(isActiveBtn);
 		if (isActiveBtn) {
 			DocumentsAndBindTab.btnGenerateESignaturaDocuments.click(Waiters.AJAX);
-			CustomAssertions.assertThat(docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
-					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG_PASDOC)).isPresent();
-			//docsAndBindTab.getEnterRecipientEmailAddressDialogAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EnterRecipientEmailAddressDialog.RECIPIENT_EMAIL_ADDRESS).setValue("test@email.com");
-			//docsAndBindTab.getEnterRecipientEmailAddressDialogAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EnterRecipientEmailAddressDialog.BTN_OK).click();
-			docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
-					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG_PASDOC).getAsset(
-					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EnterRecipientEmailAddressDialog.RECIPIENT_EMAIL_ADDRESS).setValue("test@email.com");
-			docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
-					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG_PASDOC).getAsset(
-					AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EnterRecipientEmailAddressDialog.BTN_OK).click();
-			
+			if (DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
+				CustomAssertions.assertThat(docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+						AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG_PASDOC)).isPresent();
+				
+				docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+						AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG_PASDOC).getAsset(
+						AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EnterRecipientEmailAddressDialog.RECIPIENT_EMAIL_ADDRESS).setValue("test@email.com");
+				docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+						AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG_PASDOC).getAsset(
+						AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EnterRecipientEmailAddressDialog.BTN_OK).click();
+			}
+			else {
+				CustomAssertions.assertThat(docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
+						AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG)).isPresent();
+				docsAndBindTab.getEnterRecipientEmailAddressDialogAssetList().getAsset(
+						AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EnterRecipientEmailAddressDialog.RECIPIENT_EMAIL_ADDRESS).setValue("test@email.com");
+				docsAndBindTab.getEnterRecipientEmailAddressDialogAssetList().getAsset(
+						AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EnterRecipientEmailAddressDialog.BTN_OK).click();
+			}			
 			Page.dialogConfirmation.buttonOk.click();
 		}
 	}

@@ -69,7 +69,13 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
-		TestData td_sc2 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC2").resolveLinks());
+		TestData td_sc2; 
+		if (DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
+			td_sc2 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC2").resolveLinks());
+		}
+		else {
+			td_sc2 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC2_NO_PASDOC").resolveLinks());
+		}
 		createPolicy(td_sc2);
 		log.info("PAS DOC: Scenario 2: Policy with specific data created: " + PolicySummaryPage.getPolicyNumber());
 		
@@ -200,7 +206,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
 	public void testScenario4(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
+		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy();

@@ -5,6 +5,13 @@ TestData_SC2: {
   DocumentsAndBindTab: '@DocumentsAndBindTab_Full' 
 }
 
+TestData_SC2_NO_PASDOC: {
+  DriverTab: ['@DriverTab_FinancialDriver1', '@DriverTab_ExcludedDriver1', '@DriverTab_PermitDriver1'], 
+  VehicleTab: ['@<auto_ss>@DataGather@VehicleTab', '@VehicleTab_EnrolledInUBI_1'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMBILessThanBI', 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Full_NO_PASDOC' 
+}
+
 TestData_NANO: {
   GeneralTab: '@GeneralTab_NANO', 
   VehicleTab: {}, 
@@ -254,6 +261,21 @@ DocumentsAndBindTab_Full: {
   Agreement: I agree, 
   RequiredToIssue: {
     AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: 'Yes', 
+    Proof of Prior Insurance: 'Yes'
+  }, 
+  Case Number: '12345'
+}
+
+DocumentsAndBindTab_Full_NO_PASDOC: {
+  RequiredToBind: {
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+    Auto Insurance Application: Physically Signed,
+    Uninsured and Underinsured Motorist Coverage Selection: Physically Signed, 
+    Named Driver Exclusion: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    #AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: 'Yes', 
     Proof of Prior Insurance: 'Yes'
   }, 
   Case Number: '12345'
