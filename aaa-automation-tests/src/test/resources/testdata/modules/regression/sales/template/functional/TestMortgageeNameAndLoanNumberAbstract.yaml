@@ -1,0 +1,13 @@
+TestData: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: 'MortgageeCompany',
+      Zip code: '85249',
+      Street address 1: '4461 E Zion Way',
+      Validate Address: true,
+      Validate Address Dialog: {},
+    }
+  }
+
+}

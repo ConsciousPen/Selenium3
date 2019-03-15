@@ -114,12 +114,21 @@
         </classes>
     </test>
 
-    <test name="Test CA Mortgagee Loan Number is required">
+    <test name="Test CA Mortgagee Loan Number and Mortgagee Clause is required">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestLegalMortgageeNameLoanNumber"/>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestLegalMortgageeNameLoanNumber"/>
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestLegalMortgageeNameLoanNumber"/>
+        </classes>
+    </test>
+
+    <test name="Test SS Mortgagee Loan Number and Mortgagee Clause is required">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestLegalMortgageeNameLoanNumber"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestLegalMortgageeNameLoanNumber"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestLegalMortgageeNameLoanNumber"/>
         </classes>
     </test>
 
