@@ -121,17 +121,8 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		return !isLegacyConvPolicy() && isCappedPolicy();
 	}
 
-	public void checkNewRenPasCappedPolicyEffDate() {
-		// if programCode = NewRenPas and termCappingFactor != 1 and effective date from openL test data file precedes current date, current date is used as effective date
-		// it prevents NewRenPas capped policy creating with effective date more than 1 year prior to current date
-		if (isNewRenPasCappedPolicy() && getEffectiveDate().isBefore(TimeSetterUtil.getInstance().getCurrentTime().toLocalDate().minusYears(1))) {
-			setEffectiveDate(TimeSetterUtil.getInstance().getCurrentTime().toLocalDate());
-		}
-	}
-
 	@Override
 	public MocksCollection getRequiredMocks() {
-		checkNewRenPasCappedPolicyEffDate();
 		MocksCollection requiredMocks = new MocksCollection();
 		MockGenerator mockGenerator = new MockGenerator();
 		if (!mockGenerator.isMembershipSummaryMockPresent(getEffectiveDate(), getMemberPersistency(), getAvgAnnualERSperMember())) {
@@ -432,7 +423,16 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 
 	@Override
 	public LocalDate getEffectiveDate() {
-		return isNewRenPasCappedPolicy() ? effectiveDate.minusYears(1) : effectiveDate;
+		if (isNewRenPasCappedPolicy()) {
+			// If programCode = NewRenPas and termCappingFactor != 1, policy with effective date = effectiveDate - 1 year must be purchased.
+			// If effectiveDate precedes current date, current date is used as effectiveDate,
+			// it prevents NewRenPas capped policy creating with effective date more than 1 year prior to current date.
+			if (effectiveDate.isBefore(TimeSetterUtil.getInstance().getStartTime().toLocalDate())) {
+				return TimeSetterUtil.getInstance().getStartTime().toLocalDate().minusYears(1);
+			}
+			return effectiveDate.minusYears(1);
+		}
+		return effectiveDate;
 	}
 
 	@Override
