@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho4.functional;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -8,6 +9,7 @@ import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.modules.policy.HomeCaHO4BaseTest;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -16,6 +18,7 @@ import toolkit.utils.TestInfo;
 import static aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab.RatingDetailsView.propertyInformation;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@StateList(states = Constants.States.CA)
 public class TestVRDForConstOccGroup extends HomeCaHO4BaseTest {
 
     private ApplicantTab applicantTab = new ApplicantTab();
@@ -76,7 +79,7 @@ public class TestVRDForConstOccGroup extends HomeCaHO4BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.APPLICANT.get());
         policy.getDefaultView().fillFromTo(td, ApplicantTab.class, PropertyInfoTab.class);
         propertyInfoTab.getDwellingAddressAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS).setValue("61+");
-       calculatePremiumAndOpenVRD();
+        calculatePremiumAndOpenVRD();
     }
 
     private void calculatePremiumAndOpenVRD(){
