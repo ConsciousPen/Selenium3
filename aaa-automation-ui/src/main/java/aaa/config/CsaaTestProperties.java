@@ -9,8 +9,10 @@ public class CsaaTestProperties extends TestProperties {
 
 	public static final String BROWSER_SET_HEADLESS = "browser.headless";
 
-	public static final String AD_PORT = "app.ad.port";            //	e.g. "9082"
-	public static final String AD_PATH = "app.ad.path";            //	e.g. "/aaa-admin/admin/login.xhtml"
+	public static final String AD_HOST = "app.ad.host";
+	public static final String AD_PORT = "app.ad.port";		// e.g. "9082"
+	public static final String AD_PATH = "app.ad.path";		// e.g. "/aaa-admin/admin/login.xhtml"
+	public static final String OR_HOST = "app.or.host";
 	public static final String OR_PATH = "app.or.path";
 	public static final String OR_PORT = "app.or.port";
 

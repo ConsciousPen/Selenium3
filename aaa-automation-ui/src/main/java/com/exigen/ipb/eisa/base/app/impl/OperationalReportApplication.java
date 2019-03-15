@@ -9,7 +9,7 @@ import toolkit.config.TestProperties;
 public class OperationalReportApplication extends Application {
 
 	public OperationalReportApplication() {
-		this.host = PropertyProvider.getProperty(TestProperties.APP_HOST);
+		this.host = PropertyProvider.getProperty(CsaaTestProperties.OR_HOST, PropertyProvider.getProperty(TestProperties.APP_HOST));
 		this.name = "OR_APP";
 		this.path = PropertyProvider.getProperty(CsaaTestProperties.OR_PATH, "operational-reports-app/login.xhtml");
 		this.port = PropertyProvider.getProperty(CsaaTestProperties.OR_PORT, 9084);
