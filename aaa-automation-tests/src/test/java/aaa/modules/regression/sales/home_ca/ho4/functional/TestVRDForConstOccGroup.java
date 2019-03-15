@@ -32,16 +32,17 @@ public class TestVRDForConstOccGroup extends HomeCaHO4BaseTest {
      * 1. Create a Quote for CA HO4 and on Property Info tab - Dwelling Address - Num of Family Units - Single..
      * 2. Navigate to P*C Quote tab, calculate Premium and assert value on VRD - Property Information - Construction Occupancy Group to be "CO1"
      * 3. Bind the policy.
-     * 2. Initiate an endorsement and on property Info tab, update Dwelling address - Number of Family units to "61+"
-     * 4. calculate Premium and assert value on VRD - Property Information - Construction Occupancy Group to be "CO2"
-     * 5. Bind the endorsement
+     * 4. Initiate an endorsement, update the dwelling address on Applicant Tab
+     * 5. Reorder PPC report and on property Info tab, update Dwelling address - Number of Family units to "61+"
+     * 6. calculate Premium and assert value on VRD - Property Information - Construction Occupancy Group to be "CO2"
+     * 7. Bind the endorsement
      * * @details
      **/
 
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "26291")
-    public void pas26291_TestVRDForConstOccGroupEndTx(@Optional("CA") String state) {
+    public void pas26291_TestVRDForConstOccGroupEndRenTx(@Optional("CA") String state) {
 
        createQuoteAndPolicy();
         //Endorse the policy to update Number of Family Units to 61+ and validate VRD for Construction Occupancy Group
@@ -54,6 +55,36 @@ public class TestVRDForConstOccGroup extends HomeCaHO4BaseTest {
         calculatePremiumAndOpenVRD();
         new MortgageesTab().saveAndExit();
     }
+
+    /**
+     * @author Sreekanth Kopparapu
+     * @name Test Construction occupancy group on VRD for CA HO4
+     * @scenario
+     * 1. Create a Quote for CA HO4 and on Property Info tab - Dwelling Address - Num of Family Units - Single..
+     * 2. Navigate to P*C Quote tab, calculate Premium and assert value on VRD - Property Information - Construction Occupancy Group to be "CO1"
+     * 3. Bind the policy.
+     * 2. Initiate an endorsement and on property Info tab, update Dwelling address - Number of Family units to "61+"
+     * 4. calculate Premium and assert value on VRD - Property Information - Construction Occupancy Group to be "CO1"
+     * 5. Bind the endorsement
+     * * @details
+     **/
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "26291")
+    public void pas26291_TestVRDForConstOccGroupEndRenTx1(@Optional("CA") String state) {
+
+        createQuoteAndPolicy();
+        //Endorse the policy to update Number of Family Units to 61+ and validate VRD for Construction Occupancy Group
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus2Month"));
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
+        propertyInfoTab.getDwellingAddressAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.DwellingAddress.NUMBER_OF_FAMILY_UNITS).setValue("61+");
+        premiumsAndCoveragesQuoteTab.calculatePremium();
+        PropertyQuoteTab.RatingDetailsView.open();
+        assertThat(propertyInformation.getValueByKey("Construction occupancy group")).isEqualTo("CO1");
+        bindAndRenewToValidatedVRD();
+    }
+
 
     private void createQuoteAndPolicy(){
 
@@ -85,9 +116,19 @@ public class TestVRDForConstOccGroup extends HomeCaHO4BaseTest {
     private void calculatePremiumAndOpenVRD(){
         premiumsAndCoveragesQuoteTab.calculatePremium();
         PropertyQuoteTab.RatingDetailsView.open();
-        assertThat(propertyInformation.getValueByKey("Construction occupancy group")).isEqualTo("CO2");
+        assertThat(propertyInformation.getValueByKey("Construction occupancy group")).isEqualTo("CO1");
         PropertyQuoteTab.RatingDetailsView.close();
         premiumsAndCoveragesQuoteTab.submitTab();
     }
 
+    private void bindAndRenewToValidatedVRD(){
+
+        PropertyQuoteTab.RatingDetailsView.close();
+        premiumsAndCoveragesQuoteTab.submitTab();
+        policy.getDefaultView().fillFromTo(getPolicyTD(), MortgageesTab.class, BindTab.class, true);
+        new BindTab().submitTab();
+        policy.renew().perform();
+        calculatePremiumAndOpenVRD();
+        new MortgageesTab().saveAndExit();
+    }
 }
