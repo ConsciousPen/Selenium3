@@ -163,8 +163,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	protected void dataGatherComparison(TestData tdVersion1, TestData tdVersion2, Multimap<String, String> expectedSectionsAndUIFields, String tabName, String sectionName) {
 		mainApp().open();
 		createCustomerIndividual();
-		//createQuote(getTestSpecificTD("TestData_NB_Quote"));
-		createQuote(getTestSpecificTD("TestData_Multiple_Drivers_Vehicles"));
+		createQuote(getTestSpecificTD("TestData_NB_Quote"));
+		//createQuote(getTestSpecificTD("TestData_Multiple_Drivers_Vehicles"));
 		policy.dataGather().start();
 		getGeneralTab().createVersion();
 		navigateToGeneralTab();
