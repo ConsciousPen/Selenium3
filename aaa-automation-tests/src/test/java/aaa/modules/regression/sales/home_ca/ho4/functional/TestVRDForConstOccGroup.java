@@ -35,7 +35,7 @@ public class TestVRDForConstOccGroup extends HomeCaHO4BaseTest {
      * 4. Initiate an endorsement, update the dwelling address on Applicant Tab
      * 5. Reorder PPC report and on property Info tab, update Dwelling address - Number of Family units to "61+"
      * 6. calculate Premium and assert value on VRD - Property Information - Construction Occupancy Group to be "CO2"
-     * 7. Bind the endorsement
+     * 7. Bind the endorsement, renew the policy, calculate premium and amke sure the COG is CO2
      * * @details
      **/
 
@@ -65,7 +65,7 @@ public class TestVRDForConstOccGroup extends HomeCaHO4BaseTest {
      * 3. Bind the policy.
      * 2. Initiate an endorsement and on property Info tab, update Dwelling address - Number of Family units to "61+"
      * 4. calculate Premium and assert value on VRD - Property Information - Construction Occupancy Group to be "CO1"
-     * 5. Bind the endorsement
+     * 5. Bind the endorsement, renew the policy, calculate premium and amke sure the COG is CO1
      * * @details
      **/
 
@@ -116,7 +116,7 @@ public class TestVRDForConstOccGroup extends HomeCaHO4BaseTest {
     private void calculatePremiumAndOpenVRD(){
         premiumsAndCoveragesQuoteTab.calculatePremium();
         PropertyQuoteTab.RatingDetailsView.open();
-        assertThat(propertyInformation.getValueByKey("Construction occupancy group")).isEqualTo("CO1");
+        assertThat(propertyInformation.getValueByKey("Construction occupancy group")).isEqualTo("CO2");
         PropertyQuoteTab.RatingDetailsView.close();
         premiumsAndCoveragesQuoteTab.submitTab();
     }
