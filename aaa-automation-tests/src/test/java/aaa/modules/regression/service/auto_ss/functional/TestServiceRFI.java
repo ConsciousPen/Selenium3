@@ -1136,6 +1136,21 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			softly.assertThat(rfiServiceResponse2.url).endsWith(".pdf");
 			softly.assertThat(rfiServiceResponse2.documents).isNotEmpty();
 
+			//Verify that URL works
+			HttpURLConnection con = null;
+			try {
+				URL url = new URL(rfiServiceResponse2.url);
+				con = (HttpURLConnection) url.openConnection();
+				con.setRequestMethod("GET");
+				softly.assertThat(con.getResponseCode()).isEqualTo(Response.Status.OK.getStatusCode());
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (con != null) {
+					con.disconnect();
+				}
+			}
+
 		});
 		return rfiDocument.documentId;
 	}
