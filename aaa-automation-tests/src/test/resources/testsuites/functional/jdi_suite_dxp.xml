@@ -1132,4 +1132,29 @@
             </class>
         </classes>
     </test>
+    <!--todo uncomment when Dev branches merged to master-->
+    <!--<test thread-count="1024" name="CARCO NJ" parallel="methods">-->
+        <!--<parameter name="state" value="NJ"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">-->
+                <!--<methods>-->
+                    <!--<include name="pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC01"/>-->
+                    <!--<include name="pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC02"/>-->
+                    <!--<include name="pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC03"/>-->
+                    <!--<include name="pas26123_CARCOFormAAIFNJ4InsidePASAddReplaceVehicle"/>-->
+                    <!--<include name="pas21648_CARCOFormAAIFNJ3InsidePASAddReplaceVehicleTC01"/>-->
+                    <!--<include name="pas21648_CARCOFormAAIFNJ3InsidePASAddReplaceVehicleTC02"/>-->
+                    <!--<include name="pas21648_CARCOFormAAIFNJ3InsidePASUpdateCompTC01"/>-->
+                    <!--<include name="pas21648_CARCOFormAAIFNJ3InsidePASUpdateCompTC02"/>-->
+                    <!--<include name="pas24531_CARCOFormAAIFNJ4InsidePASUpdateComp"/>-->
+                    <!--<include name="pas24531_CARCOFormAAIFNJ4OutsidePASAddReplaceVehicle"/>-->
+                    <!--<include name="pas21648_CARCOFormAAIFNJ3OutsidePASAddReplaceVehicleTC01"/>-->
+                    <!--<include name="pas21648_CARCOFormAAIFNJ3OutsidePASAddReplaceVehicleTC02"/>-->
+                    <!--<include name="pas21648_CARCOFormAAIFNJ3OutsidePASUpdateCompTC01"/>-->
+                    <!--<include name="pas21648_CARCOFormAAIFNJ3OutsidePASUpdateCompTC02"/>-->
+                    <!--<include name="pas24588_CARCOFormAAIFNJ4OutsidePASUpdateComp"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
 </suite>

@@ -70,7 +70,7 @@ public class TestScenario5 extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testDocGenScenario05(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), false);
+		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), false);
 		mainApp().open();
 
 		createCustomerIndividual();

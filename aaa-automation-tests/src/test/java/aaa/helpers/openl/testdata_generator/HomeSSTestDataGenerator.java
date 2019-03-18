@@ -160,7 +160,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		return td;
 	}
 
-	public TestData getPolicyIssueData(HomeSSOpenLPolicy openLPolicy) {
+	public TestData getPolicyPurchaseData(HomeSSOpenLPolicy openLPolicy) {
 		TestData td = getRatingDataPattern();
 		TestData policyIssueData = DataProviderFactory.dataOf(
 				MortgageesTab.class.getSimpleName(), td.getTestData(MortgageesTab.class.getSimpleName()),

@@ -4,7 +4,6 @@ import static aaa.common.pages.SearchPage.tableSearchResults;
 import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.io.File;
-import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
@@ -30,7 +29,6 @@ import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplat
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
@@ -56,12 +54,6 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	private static final String INC_RATING_CLAIM_4 = "IIRatingClaim4";
 	private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE = ImmutableMap.of(CLAIM_NUMBER_1, "A12345222", CLAIM_NUMBER_2, "A12345222");
     private static final String CAS_CLUE_CLAIM = "1002-10-8704";
-
-	private static String adminLog;
-	private static List<String> listOfClaims;
-	private static PasLogGrabber pasLogGrabber = new PasLogGrabber();
-	private static final String pasDriverNameKey = "pasDriverName";
-	private static final String matchCodeKey = "matchCode";
 
     /**
      * @author Andrii Syniagin
@@ -103,12 +95,6 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
     public void pas14679_CompDLPUMatchMore(@Optional("AZ") @SuppressWarnings("unused") String state) {
-
-		// Toggle ON PermissiveUse Logic
-		// Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
-		// Set RISKSTATECD in DB to get policy DATEOFLOSS working
-		DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
 
     	createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
         runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
@@ -153,12 +139,6 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
 	public void pas14679_CompDLPUMatchMoreManual(@Optional("AZ") @SuppressWarnings("unused") String state) {
-
-		// Toggle ON PermissiveUse Logic
-		// Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
-		// Set RISKSTATECD in DB to get policy DATEOFLOSS working
-		DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
 
 		// Create Customer and Policy with 4 drivers
 		createPolicyMultiDrivers();
@@ -304,12 +284,6 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14552")
     public void pas14552_includeClaimsInRatingDetermination(@Optional("AZ") @SuppressWarnings("unused") String state) {
 
-		// Toggle ON PermissiveUse Logic
-		// Set DATEOFLOSS Parameter in DB: NOT greater than Claim4 dateOfLoss
-		// Set RISKSTATECD in DB to get policy DATEOFLOSS working
-		DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "01-NOV-18")); //Set Date which will be before claim dateOfLoss
-
         // Claim Dates: claimDateOfLoss/claimOpenDate/claimCloseDate all are the same
         String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(1).toLocalDate().toString();
         String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).toLocalDate().toString();
@@ -417,12 +391,6 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
 	public void pas22172_ReconcilePUEndorsementAFRD(@Optional("AZ") @SuppressWarnings("unused") String state) {
-
-		// Toggle ON PermissiveUse Logic
-		// Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
-		// Set RISKSTATECD in DB to get policy DATEOFLOSS working
-		DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
 
 		createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
 		runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
