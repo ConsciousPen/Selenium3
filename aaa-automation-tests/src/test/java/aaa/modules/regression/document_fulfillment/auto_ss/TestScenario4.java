@@ -32,7 +32,6 @@ public class TestScenario4 extends AutoSSBaseTest {
 	@StateList(states = {States.AZ, States.IN, States.OH, States.VA})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void TC01_CreatePolicy(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), false);
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
 		createCustomerIndividual();
@@ -107,8 +106,12 @@ public class TestScenario4 extends AutoSSBaseTest {
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AHAPXX);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AHRCTXXAUTO);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AA06XX_AUTOSS);
-				docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
-				docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
+				if(DocGenHelper.isPasDocEnabled(getState(), getPolicyType())){
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004_PasDoc);
+				}else{
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
+				}
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU02);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU07);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU09);
@@ -126,7 +129,11 @@ public class TestScenario4 extends AutoSSBaseTest {
 				docgenActionTab.verify.documentsEnabled(Documents.AHAPXX);
 				docgenActionTab.verify.documentsEnabled(Documents.AHRCTXXAUTO);
 				docgenActionTab.verify.documentsEnabled(Documents.AA06XX_AUTOSS);
-				docgenActionTab.verify.documentsEnabled(Documents._605004);
+				if(DocGenHelper.isPasDocEnabled(getState(), getPolicyType())){
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004_PasDoc);
+				}else{
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
+				}
 				docgenActionTab.verify.documentsEnabled(Documents.AU02);
 				docgenActionTab.verify.documentsEnabled(Documents.AU07);
 				docgenActionTab.verify.documentsEnabled(Documents.AU09);
@@ -145,8 +152,12 @@ public class TestScenario4 extends AutoSSBaseTest {
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AHAPXX);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AHRCTXXAUTO);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AA06XX_AUTOSS);
-				docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
-				docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
+				if(DocGenHelper.isPasDocEnabled(getState(), getPolicyType())){
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004_PasDoc);
+				}else{
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
+				}
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU02);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU07);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU09);
@@ -164,8 +175,12 @@ public class TestScenario4 extends AutoSSBaseTest {
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AHAPXX);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AHRCTXXAUTO);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AA06XX_AUTOSS);
-				docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
-				docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
+				if(DocGenHelper.isPasDocEnabled(getState(), getPolicyType())){
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004_PasDoc);
+				}else{
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
+				}
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU02);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU07);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU09);
@@ -182,8 +197,12 @@ public class TestScenario4 extends AutoSSBaseTest {
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AHAPXX);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AHRCTXXAUTO);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AA06XX_AUTOSS);
-				docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
-				docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
+				if(DocGenHelper.isPasDocEnabled(getState(), getPolicyType())){
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004_PasDoc);
+				}else{
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
+				}
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU02);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU07);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU09);
