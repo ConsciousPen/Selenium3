@@ -26,7 +26,7 @@ import javax.annotation.Nonnull;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.testng.annotations.BeforeTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.PrivilegeEnum;
