@@ -3,9 +3,7 @@ package aaa.modules.financials;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
-import aaa.common.enums.NavigationEnum;
 import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.policy.*;
 import aaa.main.modules.policy.PolicyType;
@@ -14,7 +12,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.exceptions.IstfException;
 
 public class FinancialsTestDataFactory extends PolicyBaseTest {
@@ -33,6 +30,11 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     private static final String HOME_CA_HO6 = "HomeCA_HO6";
     private static final String HOME_CA_DP3 = "HomeCA_DP3";
     private static final String PUP = "PUP";
+
+    private static String underlyingHO3CA;
+    private static String underlyingAutoCA;
+    private static String underlyingHO3SS;
+    private static String underlyingAutoSS;
 
     @Override
     protected TestData getPolicyTD() {
@@ -402,27 +404,43 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
 
     private Map<String, String> getPupUnderlyingPolicies() {
         Map<String, String> policies = new LinkedHashMap<>();
-        PolicyType type;
-        PolicyType typeAuto;
-        String hoPolicy;
-        String autoPolicy;
         String state = getState().intern();
         synchronized (state) {
             if (getState().equals(Constants.States.CA)) {
-                type = PolicyType.HOME_CA_HO3;
-                typeAuto = PolicyType.AUTO_CA_SELECT;
+                if (underlyingHO3CA == null) {
+                    PolicyType.HOME_CA_HO3.get().createPolicy(getStateTestData(testDataManager.policy.get(PolicyType.HOME_CA_HO3), "DataGather", "TestData"));
+                    underlyingHO3CA = PolicySummaryPage.getPolicyNumber();
+                    policies.put("Primary_HO3", underlyingHO3CA);
+                    ALL_POLICIES.add(underlyingHO3CA);
+                } else {
+                    policies.put("Primary_HO3", underlyingHO3CA);
+                }
+                if (underlyingAutoCA == null) {
+                    PolicyType.AUTO_CA_SELECT.get().createPolicy(getStateTestData(testDataManager.policy.get(PolicyType.AUTO_CA_SELECT), "DataGather", "TestData"));
+                    underlyingAutoCA = PolicySummaryPage.getPolicyNumber();
+                    policies.put("Primary_Auto", underlyingAutoCA);
+                    ALL_POLICIES.add(underlyingAutoCA);
+                } else {
+                    policies.put("Primary_Auto", underlyingAutoCA);
+                }
             } else {
-                type = PolicyType.HOME_SS_HO3;
-                typeAuto = PolicyType.AUTO_SS;
+                if (underlyingHO3SS == null) {
+                    PolicyType.HOME_SS_HO3.get().createPolicy(getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO3), "DataGather", "TestData"));
+                    underlyingHO3SS = PolicySummaryPage.getPolicyNumber();
+                    policies.put("Primary_HO3", underlyingHO3SS);
+                    ALL_POLICIES.add(underlyingHO3SS);
+                } else {
+                    policies.put("Primary_HO3", underlyingHO3SS);
+                }
+                if (underlyingAutoSS == null) {
+                    PolicyType.AUTO_SS.get().createPolicy(getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DataGather", "TestData"));
+                    underlyingAutoSS = PolicySummaryPage.getPolicyNumber();
+                    policies.put("Primary_Auto", underlyingAutoSS);
+                    ALL_POLICIES.add(underlyingAutoSS);
+                } else {
+                    policies.put("Primary_Auto", underlyingAutoSS);
+                }
             }
-            type.get().createPolicy(getStateTestData(testDataManager.policy.get(type), "DataGather", "TestData"));
-            hoPolicy = PolicySummaryPage.getPolicyNumber();
-            policies.put("Primary_HO3", hoPolicy);
-            ALL_POLICIES.add(hoPolicy);
-            typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
-            autoPolicy = PolicySummaryPage.getPolicyNumber();
-            policies.put("Primary_Auto", autoPolicy);
-            ALL_POLICIES.add(autoPolicy);
         }
         return policies;
     }
