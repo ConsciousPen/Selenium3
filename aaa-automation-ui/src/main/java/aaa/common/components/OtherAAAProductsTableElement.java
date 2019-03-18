@@ -1,6 +1,6 @@
 package aaa.common.components;
 
-public class MPDTableElement {
+public class OtherAAAProductsTableElement {
     public String POLICY_NUMBER_ADDRESS;
     public String POLICY_TYPE;
     public String CUSTOMER_DOB;
@@ -8,7 +8,7 @@ public class MPDTableElement {
     public String STATUS;
     public String MPD;
 
-    public MPDTableElement(){
+    public OtherAAAProductsTableElement(){
         POLICY_NUMBER_ADDRESS = "";
         POLICY_TYPE = "";
         CUSTOMER_DOB = "";
@@ -17,7 +17,7 @@ public class MPDTableElement {
         MPD = "";
     }
 
-    public MPDTableElement(String policyNumberAddress, String policyType, String customerDOB, String expirationDate, String status, String mpd){
+    public OtherAAAProductsTableElement(String policyNumberAddress, String policyType, String customerDOB, String expirationDate, String status, String mpd){
         POLICY_NUMBER_ADDRESS = policyNumberAddress;
         POLICY_TYPE = policyType;
         CUSTOMER_DOB = customerDOB;
