@@ -1,0 +1,100 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Financials Validation Renewal Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+
+    <test name="Finance - SS PUP" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.financials.pup.TestRenewal"/>
+        </classes>
+    </test>
+
+    <test name="Finance - SS Auto" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.financials.auto_ss.TestRenewal"/>
+        </classes>
+    </test>
+
+    <test name="Finance - SS DP3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.financials.home_ss.dp3.TestRenewal"/>
+        </classes>
+    </test>
+
+    <test name="Finance - SS HO3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.financials.home_ss.ho3.TestRenewal"/>
+        </classes>
+    </test>
+
+    <test name="Finance - SS HO4" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.financials.home_ss.ho4.TestRenewal"/>
+        </classes>
+    </test>
+
+    <test name="Finance - SS HO6" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.financials.home_ss.ho6.TestRenewal"/>
+        </classes>
+    </test>
+
+    <test name="Finance - CA PUP" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.financials.pup.TestRenewal"/>
+        </classes>
+    </test>
+
+    <test name="Finance - CA Choice" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.financials.auto_ca.choice.TestRenewal"/>
+        </classes>
+    </test>
+
+    <test name="Finance - CA Select" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.financials.auto_ca.select.TestRenewal"/>
+        </classes>
+    </test>
+
+    <test name="Finance - CA DP3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.financials.home_ca.dp3.TestRenewal"/>
+        </classes>
+    </test>
+
+    <test name="Finance - CA HO3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.financials.home_ca.ho3.TestRenewal"/>
+        </classes>
+    </test>
+
+    <test name="Finance - CA HO4" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.financials.home_ca.ho4.TestRenewal"/>
+        </classes>
+    </test>
+
+    <test name="Finance - CA HO6" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.financials.home_ca.ho6.TestRenewal"/>
+        </classes>
+    </test>
+
+</suite>
