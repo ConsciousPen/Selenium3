@@ -1028,7 +1028,7 @@
                 <methods>
                     <include name="pas22972_BIAndUMBIAndCanChangeTrue"/>
                     <include name="pas16399_viewUpdateUmpdDE"/>
-                    <include name="pas15272_viewUpdatePipDEBody"/>
+                    <include name="pas15272_viewUpdatePipDE"/>
                 </methods>
             </class>
         </classes>
@@ -1044,7 +1044,7 @@
                     <include name="pas23299_EMBCoveragePA"/>
                     <include name="pas23057_BIAndUMBIAndCanChangeTrue"/>
                     <include name="pas23057_BIAndUIMBIAndCanChangeTrue"/>
-                    <include name="pas16038_umbiUimbiStackedUnstackedBody"/>
+                    <include name="pas16038_umbiUimbiStackedUnstacked"/>
                 </methods>
             </class>
         </classes>
