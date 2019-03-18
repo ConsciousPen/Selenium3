@@ -59,9 +59,6 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<AssetList> AAA_MEMBERSHIP = declare("AAAMembership", AssetList.class, AAAMembership.class, By.xpath(".//table[@id='policyDataGatherForm:formGrid_ExistingPolicies']"));
 		public static final AssetDescriptor<NoSectionsMultiAssetList> OTHER_AAA_PRODUCTS_OWNED = declare("OtherAAAProductsOwned", NoSectionsMultiAssetList.class, OtherAAAProductsOwned.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAutoOtherPoliciesMPD']"));
 
-		//todo: delete this field after MPD feature will be merged to master(temporal fix)
-		public static final AssetDescriptor<RadioGroup> HOME = declare("Home", RadioGroup.class);
-
 		public static final AssetDescriptor<AssetList> POLICY_INFORMATION = declare("PolicyInformation", AssetList.class, PolicyInformation.class);
 
 		public static final AssetDescriptor<MultiInstanceAfterAssetList> NAMED_INSURED_INFORMATION =
@@ -898,7 +895,7 @@ public final class AutoSSMetaData {
 					declare("AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies", RadioGroup.class, Waiters.AJAX);
 			//PAS DOC enabled (NEW control)
 			public static final AssetDescriptor<RadioGroup> AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT =
-					declare("AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies", RadioGroup.class, Waiters.AJAX);
+					declare("AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:adhocDocContent_AAUBI1']"));
 			public static final AssetDescriptor<RadioGroup> ACP_SMARTTRECK_SUBSCRIPTION_TERMS = declare("ACP SMARTtrek Subscription Terms and Conditions", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> AUTO_INSURANCE_APPLICATION = declare("Auto Insurance Application", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> AUTO_INSURANCE_QUOTE = declare("Auto Insurance Quote", RadioGroup.class, Waiters.AJAX);
@@ -910,7 +907,7 @@ public final class AutoSSMetaData {
 			//PAS DOC disabled 
 			public static final AssetDescriptor<RadioGroup> NAMED_DRIVER_EXCLUSION = declare("Named Driver Exclusion", RadioGroup.class, Waiters.AJAX);
 			//PAS DOC enabled (NEW control)
-			public static final AssetDescriptor<RadioGroup> NAMED_DRIVER_EXCLUSION_ELECTION = declare("Named Driver Exclusion Election", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> NAMED_DRIVER_EXCLUSION_ELECTION = declare("Named Driver Exclusion Election", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:adhocDocContent_AA43AZ']"));
 			public static final AssetDescriptor<RadioGroup> CRITICAL_INFORMATION_FOR_TEENAGE_DRIVERS_AND_THEIR_PARENTS =
 					declare("Critical Information for Teenage Drivers and Their Parents", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> STATEMENT_ELECTING_LOWER_LIMITS_FOR_UM_UIM_COVERAGE = declare("Statement Electing Lower Limits for Uninsured/Underinsured Motorists Coverage",
@@ -924,19 +921,14 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<Link> BTN_GENERATE_DOCUMENTS = declare("Generate Documents", Link.class, Waiters.AJAX, By.xpath("//a[@id='policyDataGatherForm:generate_link']"));
 			public static final AssetDescriptor<Link> BTN_GENERATE_ESIGNATURE_DOCUMENTS =
 					declare("Generate eSignature Documents", Link.class, Waiters.AJAX, By.xpath("//a[@id='policyDataGatherForm:generate_link_esign']"));
-			
-			public static final AssetDescriptor<AssetList> ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG =
-					declare("EnterValidRecipientEmailAddress", AssetList.class, EnterRecipientEmailAddressDialog.class, By.xpath("//div[@id='errorDialog1_content_scroller']"));
-			//PAS DOC enabled: temp workaround
-			public static final AssetDescriptor<AssetList> ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG_PASDOC =
-					declare("EnterValidRecipientEmailAddress", AssetList.class, EnterRecipientEmailAddressDialog.class, By.xpath("//div[@id='errorDialog1Pasdoc_content_scroller']"));
-			
+
+			public static final AssetDescriptor<AssetList> ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG = declare("EnterRecipientEmailAddress", AssetList.class, EnterRecipientEmailAddressDialog.class, 
+							By.xpath("//div[(@id='errorDialog1Pasdoc_content_scroller' or @id='errorDialog1_content_scroller') and not(ancestor::*[(@id='errorDialog1' or @id='errorDialog1Pasdoc') and contains(@style, 'hidden')])]"));
 			public static final class EnterRecipientEmailAddressDialog extends MetaData {
 				public static final AssetDescriptor<TextBox> RECIPIENT_EMAIL_ADDRESS = 
 						declare("Recipient Email Address", TextBox.class, Waiters.AJAX, By.xpath(".//input[contains(@id, ':recpEmail')]"));
 				public static final AssetDescriptor<Button> BTN_OK = declare("OK", Button.class, Waiters.AJAX, By.xpath(".//input[contains(@id, ':okButton')]"));
-
-				public static final AssetDescriptor<Link> LINK_CANCEL = declare("Cancel", Link.class, Waiters.AJAX, By.id("recipientEmailAddressForm:cancelBtn1"));
+				public static final AssetDescriptor<Link> LINK_CANCEL = declare("Cancel", Link.class, Waiters.AJAX, By.id(".//a[contains(@id, ':cancelBtn1')]"));
 			}
 
 		}
@@ -1114,7 +1106,34 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<StaticElement> DOCUMENT_NUMBER = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, StaticElement.class, Waiters.AJAX);
 			public static final AssetDescriptor<StaticElement> DOCUMENT_NAME = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, StaticElement.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT = declare("Free Form Text", TextBox.class, Waiters.AJAX, false, By.id("policyDataGatherForm:uwLetterMsg_AU03"));
+			
+			// Fields of AU02
+			public static final AssetDescriptor<CalendarBox> CANCELLATION_DATE = declare("Cancellation Date", CalendarBox.class, Waiters.NONE,  false, By.xpath("//input[@id='policyDataGatherForm:CancelDate_AU02InputDate' or @id='policyDataGatherForm:uwLetterCancDt_AU02InputDate']"));
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AU02 = declare("Free Form Text AU02", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AU02' or @id='policyDataGatherForm:uwLetterMsg_AU02']"));
+			
+			// Fields of AU03
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AU03 = declare("Free Form Text AU03", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AU03' or @id='policyDataGatherForm:uwLetterMsg_AU03']"));			
+			// Fields of AU04
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AU04 = declare("Free Form Text AU04", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AU04' or @id='policyDataGatherForm:uwLetterMsg_AU04']"));
+			
+			// Fields of AU05
+			public static final AssetDescriptor<TextBox> PREMIUM_AMOUNT_AU05 = declare("Premium Amount", TextBox.class, Waiters.AJAX,  false, By.xpath("//input[@id='policyDataGatherForm:PremiumAmount_AU05' or @id='policyDataGatherForm:uwLetterPremium_AU05']"));
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AU05 = declare("Free Form Text AU05", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AU05' or @id='policyDataGatherForm:uwLetterMsg_AU05']"));
+			
+			// Fields of AU06
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AU06 = declare("Free Form Text AU06", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AU06' or @id='policyDataGatherForm:uwLetterMsg_AU06']"));
+			// Fields of AU07
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AU07 = declare("Free Form Text AU07", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AU07' or @id='policyDataGatherForm:uwLetterMsg_AU07']"));
+			// Fields of AU08
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AU08 = declare("Free Form Text AU08", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AU08' or @id='policyDataGatherForm:uwLetterMsg_AU08']"));
+			// Fields of AU09
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AU09 = declare("Free Form Text AU09", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AU09' or @id='policyDataGatherForm:uwLetterMsg_AU09']"));
+			// Fields of AU10 
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AU10 = declare("Free Form Text AU10", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AU10' or @id='policyDataGatherForm:uwLetterMsg_AU10']"));
+			// Fields of AA06XX
+			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT_AA06XX = declare("Free Form Text AA06XX", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:FreeFormText_AA06XX' or @id='policyDataGatherForm:uwMsg_AA06XX']"));
 		}
+
 	}
 
 	public static final class StartNonPremiumBearingEndorsementActionTab extends MetaData {
