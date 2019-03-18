@@ -90,6 +90,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, PurchaseTab.class, true);
 		purchaseTab.submitTab();
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		LocalDateTime reinstatementDate = PolicySummaryPage.getEffectiveDate().plusMonths(2);
 
 		// Cancel Policy
@@ -122,9 +123,11 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		setDoNotRenewFlag(policyNumber);
 
 		// Change system date
-		LocalDateTime renewalEff = reinstatementDate.plusMonths(10);
+		//LocalDateTime renewalEff = reinstatementDate.plusMonths(10);
+		LocalDateTime renewalOfferDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);	
+		
 		mainApp().close();
-		TimeSetterUtil.getInstance().nextPhase(renewalEff);
+		TimeSetterUtil.getInstance().nextPhase(renewalOfferDate);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 
@@ -149,9 +152,13 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 		// Navigate to Renewal
 		PolicySummaryPage.buttonRenewals.click();
+		String renewalEffectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue();
 
 		// Initiate Endorsement and Navigate to P&C Page.
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		//policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		TestData adjustedEndorsementActionData = getPolicyTD("Endorsement", "TestData").getTestData("EndorsementActionTab").adjust("Endorsement Date", renewalEffectiveDate);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData").adjust("EndorsementActionTab", adjustedEndorsementActionData));
+		
 		openVRD();
 
 		// Verify that Total UW points are shown and other UW components are hidden
