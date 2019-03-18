@@ -1285,6 +1285,44 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		});
 	}
 
+	/**
+	 * @author Chaitanya Boyapati
+	 * @name RFI AACSNJ Form
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Rate. Hit RFI service.
+	 * 4. Check the response.
+	 * 5. Update Primary Care Selection/PIPMedical coverage. Rate.
+	 * 6. Hit RFI service, check if document is displaying.
+	 * 7. Run bind service without signing document and verify error. and policy is not bound.
+	 * 8. Run bind service with document id verify no error and we can bind the policy.
+	 * 9. go to pas UI and verify if policy is bound
+	 * 10 Go to document and bind page and verify if document is electronically signed.
+	 * 11. go to the DB and verify document signed by is there in xml
+	 * 12 .create and endorsement on policy from pas change  primary care selection and rate the policy
+	 * 13. go to document and bind page verify if its reset to document not signed
+	 * 14 Try to bind policy from pas and verify error.
+	 * 14 Select document physically signed
+	 * 15 Verify in db that we are not sending document signed by
+	 * 16  Bind the policy verify there is no error message.
+	 */
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21646"})
+	public void pas21646_aacsnjFormRFI(@Optional("NJ") String state) {
+		assertSoftly(softly -> {
+			DocGenEnum.Documents document = DocGenEnum.Documents.AACSNJ;
+			AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NJ_AUTO_STANDARD_POLICY_COVERAGE_SELECTION_FORM;
+			ErrorEnum.Errors error = ErrorEnum.Errors.ERROR_200900;
+			TestData td = getPolicyDefaultTD();
+
+			verifyRFIScenarios("PIPMEDEXP", AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.MEDICAL_EXPENSE, CoverageLimits.COV_75000.getLimit(), CoverageLimits.COV_150000.getDisplay(), document, documentAsset, error, td, true, false);
+			verifyRFIScenarios("PIPPRIMINS", AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.PRIMARY_INSURER, CoverageLimits.COV_PIPPRIMINS_PERSONAL_HEALTH_INSURANCE.getLimit(), CoverageLimits.COV_PIPPRIMINS_AUTO_INSURANCE.getDisplay(), document, documentAsset, error, td, true, false);
+		});
+	}
+
 	private void createQuoteWithCustomData(String state) {
 		assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION)).hasValue("Not Signed");
 		if (!"ID, KS, KY, MT, NV, NY, OR, UT, WY, MD, WV".contains(state)) {
@@ -1467,44 +1505,6 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).setValue("Physically Signed");
 			documentsAndBindTab.submitTab();
 		}
-	}
-
-    /**
-     * @author Chaitanya Boyapati
-     * @name RFI AACSNJ Form
-     * @scenario 1. Create policy.
-     * 2. Create endorsement outside of PAS.
-     * 3. Rate. Hit RFI service.
-     * 4. Check the response.
-     * 5. Update Primary Care Selection/PIPMedical coverage. Rate.
-     * 6. Hit RFI service, check if document is displaying.
-     * 7. Run bind service without signing document and verify error. and policy is not bound.
-     * 8. Run bind service with document id verify no error and we can bind the policy.
-     * 9. go to pas UI and verify if policy is bound
-     * 10 Go to document and bind page and verify if document is electronically signed.
-     * 11. go to the DB and verify document signed by is there in xml
-     * 12 .create and endorsement on policy from pas change  primary care selection and rate the policy
-     * 13. go to document and bind page verify if its reset to document not signed
-     * 14 Try to bind policy from pas and verify error.
-     * 14 Select document physically signed
-     * 15 Verify in db that we are not sending document signed by
-     * 16  Bind the policy verify there is no error message.
-     */
-
-	@Parameters({"state"})
-	@StateList(states = {Constants.States.NJ})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21646"})
-	public void pas21646_aacsnjFormRFI(@Optional("NJ") String state) {
-		assertSoftly(softly -> {
-			DocGenEnum.Documents document = DocGenEnum.Documents.AACSNJ;
-			AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NJ_AUTO_STANDARD_POLICY_COVERAGE_SELECTION_FORM;
-			ErrorEnum.Errors error = ErrorEnum.Errors.ERROR_200900;
-			TestData td = getPolicyDefaultTD();
-
-			verifyRFIScenarios("PIPMEDEXP", AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.MEDICAL_EXPENSE, CoverageLimits.COV_75000.getLimit(), CoverageLimits.COV_150000.getDisplay(), document, documentAsset, error, td, true, false);
-			verifyRFIScenarios("PIPPRIMINS", AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.PRIMARY_INSURER, CoverageLimits.COV_PIPPRIMINS_PERSONAL_HEALTH_INSURANCE.getLimit(), CoverageLimits.COV_PIPPRIMINS_AUTO_INSURANCE.getDisplay(), document, documentAsset, error, td, true, false);
-		});
 	}
 
 	private void carcoNeededNotNeededInsidePASAddReplaceVehicle(boolean baseDateGreaterThan4Years, boolean is1000MilesQuestionRequired, boolean lessThan1000Miles, boolean isAAIFNJ3Expected, boolean isAAIFNJ4Expected) {

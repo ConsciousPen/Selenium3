@@ -5,6 +5,13 @@ TestData_SC2: {
   DocumentsAndBindTab: '@DocumentsAndBindTab_Full' 
 }
 
+TestData_SC2_NO_PASDOC: {
+  DriverTab: ['@DriverTab_FinancialDriver1', '@DriverTab_ExcludedDriver1', '@DriverTab_PermitDriver1'], 
+  VehicleTab: ['@<auto_ss>@DataGather@VehicleTab', '@VehicleTab_EnrolledInUBI_1'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMBILessThanBI', 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Full_NO_PASDOC' 
+}
+
 TestData_NANO: {
   GeneralTab: '@GeneralTab_NANO', 
   VehicleTab: {}, 
@@ -92,7 +99,7 @@ DriverTab_ExcludedDriver1: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
-  License Number: A22345678
+  License Number: A22345688
 }
 
 DriverTab_ExcludedDriver2: {
@@ -184,11 +191,7 @@ VehicleTab_EnrolledInUBI_2: {
   Usage: Pleasure,
   VIN: 1GNWGPFG8B6548273, 
   'Enroll in Usage Based Insurance?': 'Yes',
-  Get Vehicle Details: click, 
-  #Vehicle Eligibility Response: Vehicle Eligible, 
-  #AAA UBI Device Status: Shipped, 
-  #Device Voucher Number: 12345699, 
-  #Safety Score: 120
+  Get Vehicle Details: click
 }
 
 # ------ PremiumAndCoveragesTab ------- 
@@ -230,11 +233,12 @@ DocumentsAndBindTab_ExcludedDrivers: {
 
 DocumentsAndBindTab_VehiclesWithUBI: {
   RequiredToBind: {
-    Auto Insurance Application: Physically Signed,
-    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed, 
+    Auto Insurance Application: Physically Signed
   }, 
   Agreement: I agree, 
   RequiredToIssue: {
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: 'Yes',
     Proof of Prior Insurance: 'Yes'
   }
 }
@@ -244,20 +248,92 @@ DocumentsAndBindTab_FinancialDrivers: {
     Auto Insurance Application: Physically Signed
   }, 
   Agreement: I agree, 
-  Case Number: '12345',
-  #Case Number: '12346'
+  Case Number: '12345'
 }
 
 DocumentsAndBindTab_Full: {
   RequiredToBind: {
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
     Auto Insurance Application: Physically Signed,
     Uninsured and Underinsured Motorist Coverage Selection: Physically Signed, 
-    Named Driver Exclusion: Physically Signed, 
-    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed
+    Named Driver Exclusion: Physically Signed
   }, 
   Agreement: I agree, 
   RequiredToIssue: {
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: 'Yes', 
     Proof of Prior Insurance: 'Yes'
   }, 
   Case Number: '12345'
+}
+
+DocumentsAndBindTab_Full_NO_PASDOC: {
+  RequiredToBind: {
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+    Auto Insurance Application: Physically Signed,
+    Uninsured and Underinsured Motorist Coverage Selection: Physically Signed, 
+    Named Driver Exclusion: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    #AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: 'Yes', 
+    Proof of Prior Insurance: 'Yes'
+  }, 
+  Case Number: '12345'
+}
+
+# -------- Generate On Demand Documents Tab ---------- 
+TestData_AU02: {  
+  Cancellation Date: '$<today:MM/dd/yyyy>',
+  Free Form Text AU02: 'Test Test'
+}
+
+TestData_AU03: { 
+  Free Form Text AU03: 'Test Test'
+}
+
+TestData_AU04: { 
+  Free Form Text AU04: 'Test Test'
+}
+
+TestData_AU05: { 
+  Premium Amount: 1000, 
+  Free Form Text AU05: 'Test Test'
+}
+
+TestData_AU06: { 
+  Free Form Text AU06: 'Test Test'
+}
+
+TestData_AU07: { 
+  Free Form Text AU07: 'Test Test'
+}
+
+TestData_AU08: { 
+  Free Form Text AU08: 'Test Test'
+}
+
+TestData_AU09: { 
+  Free Form Text AU09: 'Test Test'
+}
+
+TestData_AU10: { 
+  Free Form Text AU10: 'Test Test'
+}
+
+TestData_AA06XX: { 
+  Free Form Text AA06XX: 'Test Test'
+}
+
+TestData_AllDocs: {
+  Cancellation Date: '$<today:MM/dd/yyyy>',
+  Free Form Text AU02: 'Test Test', 
+  Free Form Text AU04: 'Test Test', 
+  Premium Amount: 1000, 
+  Free Form Text AU05: 'Test Test',
+  Free Form Text AU06: 'Test Test', 
+  Free Form Text AU07: 'Test Test', 
+  Free Form Text AU08: 'Test Test', 
+  Free Form Text AU09: 'Test Test',
+  Free Form Text AU10: 'Test Test', 
+  Free Form Text AA06XX: 'Test Test'
 }
