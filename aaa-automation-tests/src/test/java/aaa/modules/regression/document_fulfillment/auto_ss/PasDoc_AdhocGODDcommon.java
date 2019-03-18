@@ -66,7 +66,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
 	public void testScenario2(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
+		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td_sc2; 
@@ -87,12 +87,18 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		verifyPreviewDocument(AA11AZ);
 		verifyPreviewDocument(AA43AZ);
 		verifyPreviewDocument(AASR22);
-		verifyPreviewDocument(AA52AZ);
 		verifyPreviewDocument(AAUBI);
-		verifyPreviewDocument(AAUBI1);
 		verifyPreviewDocument(ACPUBI);
 		verifyPreviewDocument(AAPDXX);
-		verifyPreviewDocument(getTestSpecificTD("TestData_AU02"), AU02);		
+		if (DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
+			verifyPreviewDocument(AA52AZ);
+			verifyPreviewDocument(AAUBI1_PASDOC);
+		}
+		else {
+			verifyPreviewDocument(AA52AZ_UPPERCASE);
+			verifyPreviewDocument(AAUBI1);
+		}
+		verifyPreviewDocument(getTestSpecificTD("TestData_AU02"), AU02);
 		verifyPreviewDocument(getTestSpecificTD("TestData_AU04"), AU04);
 		verifyPreviewDocument(getTestSpecificTD("TestData_AU05"), AU05);
 		verifyPreviewDocument(getTestSpecificTD("TestData_AU06"), AU06);
@@ -108,7 +114,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
 	public void testScenario2_Nano(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
+		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td_sc2_nano = getPolicyTD().adjust(getTestSpecificTD("TestData_NANO").resolveLinks());
@@ -125,7 +131,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
 	public void testScenario2_Quote(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
+		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		createQuote();
