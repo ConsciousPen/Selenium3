@@ -6,10 +6,12 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.config.CsaaTestProperties;
+import aaa.helpers.constants.ComponentConstant;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
@@ -29,6 +31,7 @@ import aaa.utils.StateList;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public class EndorsementTest extends BackwardCompatibilityBaseTest {
@@ -404,6 +407,124 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		policy.policyInquiry().getView()
 				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab.class, aaa.main.modules.policy.home_ca.defaulttabs.BindTab.class, false);
 
+
+		assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().btnPurchase.isPresent()).isTrue();
+		new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().cancel();
+
+		TestData td = getTestSpecificTD("TestDataEndorseHomeCA");
+		policy.endorse().perform(td);
+		policy.dataGather().getView()
+				.fillFromTo(td, aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class, false);
+		new aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab().reorderReports();
+		policy.dataGather().getView()
+				.fillFromTo(td, aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class, aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.class, false);
+		aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
+		assertThat(policyPremium).isEqualTo(aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+	}
+
+
+	/**
+	 * Ability to Endorse converted policy
+	 * @param state
+	 */
+	@Parameters({"state"})
+	@Test
+	@StateList(states = CA)
+	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_HO3)
+	public void BCT_AbilityToEndorseHdesHO3Policy(@Optional("CA") String state) {
+		TimeSetterUtil.getInstance().getCurrentTime();
+		IPolicy policy = findAndOpenPolicy("BCT_AbilityToEndorseHdesPolicy_HO3", PolicyType.HOME_CA_HO3);
+
+		deletePendingTransaction(policy);
+		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
+
+		policy.policyInquiry().start();
+		policy.policyInquiry().getView()
+				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.class, false);
+		aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.buttonNext.click(); // workaround, cause javascript clicks calculate premium
+		policy.policyInquiry().getView()
+				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab.class, aaa.main.modules.policy.home_ca.defaulttabs.BindTab.class, false);
+
+
+		assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().btnPurchase.isPresent()).isTrue();
+		new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().cancel();
+
+		TestData td = getTestSpecificTD("TestDataEndorseHomeCA");
+		policy.endorse().perform(td);
+		policy.dataGather().getView()
+				.fillFromTo(td, aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class, false);
+		new aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab().reorderReports();
+		policy.dataGather().getView()
+				.fillFromTo(td, aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class, aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.class, false);
+		aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
+		assertThat(policyPremium).isEqualTo(aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+	}
+
+	/**
+	 * Ability to Endorse converted policy
+	 * @param state
+	 */
+	@Parameters({"state"})
+	@Test
+	@StateList(states = CA)
+	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_HO3)
+	public void BCT_AbilityToEndorseHdesHO4Policy(@Optional("CA") String state) {
+		TimeSetterUtil.getInstance().getCurrentTime();
+		IPolicy policy = findAndOpenPolicy("BCT_AbilityToEndorseHdesPolicy_HO4", PolicyType.HOME_CA_HO3);
+
+		deletePendingTransaction(policy);
+		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
+
+		policy.policyInquiry().start();
+		policy.policyInquiry().getView()
+				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.class, false);
+		aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.buttonNext.click(); // workaround, cause javascript clicks calculate premium
+		policy.policyInquiry().getView()
+				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab.class, aaa.main.modules.policy.home_ca.defaulttabs.BindTab.class, false);
+
+
+		assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().btnPurchase.isPresent()).isTrue();
+		new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().cancel();
+
+		TestData td = getTestSpecificTD("TestDataEndorseHomeCA");
+		policy.endorse().perform(td);
+		policy.dataGather().getView()
+				.fillFromTo(td, aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class, false);
+		new aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab().reorderReports();
+		policy.dataGather().getView()
+				.fillFromTo(td, aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class, aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.class, false);
+		aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
+		assertThat(policyPremium).isEqualTo(aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+	}
+
+	/**
+	 * Ability to Endorse converted policy
+	 * @param state
+	 */
+	@Parameters({"state"})
+	@Test
+	@StateList(states = CA)
+	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_HO3)
+	public void BCT_AbilityToEndorseHdesHO6Policy(@Optional("CA") String state) {
+		TimeSetterUtil.getInstance().getCurrentTime();
+		IPolicy policy = findAndOpenPolicy("BCT_AbilityToEndorseHdesPolicy_HO6", PolicyType.HOME_CA_HO3);
+
+		endorseCAHOPolicy(policy);
+	}
+
+	private void endorseCAHOPolicy(IPolicy policy) {
+		deletePendingTransaction(policy);
+		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
+
+		policy.policyInquiry().start();
+		policy.policyInquiry().getView()
+				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.class, false);
+		aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.buttonNext.click(); // workaround, cause javascript clicks calculate premium
+		policy.policyInquiry().getView()
+				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab.class, aaa.main.modules.policy.home_ca.defaulttabs.BindTab.class, false);
 
 		assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().btnPurchase.isPresent()).isTrue();
 		new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().cancel();
