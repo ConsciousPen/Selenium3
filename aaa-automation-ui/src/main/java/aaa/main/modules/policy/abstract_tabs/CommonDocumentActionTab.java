@@ -26,9 +26,9 @@ import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 public abstract class CommonDocumentActionTab extends ActionTab {
 	private static final Object lock = new Object();
 	public Verify verify = new Verify();
-	public Button buttonOk = new Button(By.xpath("//a[@id='policyDataGatherForm:generateDocLink' or @id='policyDataGatherForm:generateEmailDocLink']"));
+	public Button buttonOk = new Button(By.xpath("//*[(@id='policyDataGatherForm:generateDocLink' or @id='policyDataGatherForm:generateEmailDocLink' or @id='policyDataGatherForm:generateDocButton') and not(contains(@class, 'hidden'))]"));
 	public Button buttonCancel = new Button(id("policyDataGatherForm:adhocCancel"));
-	public Button buttonPreviewDocuments = new Button(id("policyDataGatherForm:previewDocLink"));
+	public Button buttonPreviewDocuments = new Button(By.xpath("//*[(@id='policyDataGatherForm:previewDocButton' or @id='policyDataGatherForm:previewDocLink') and not(contains(@class, 'hidden'))]"));
 	public TextBox textboxEmailAddress = new TextBox(By.xpath("//input[@id='policyDataGatherForm:emailAddress' or @id='policyDataGatherForm:emailInputField']"));
 	public Dialog dialogError = new Dialog(By.xpath("//div[@id='policyDataGatherForm:errorDialog_content']"));
 	public StaticElement errorMsg = new StaticElement(By.xpath("//div[@id ='policyDataGatherForm:errorDialog_content']/span/table/tbody/tr/td/span"));
@@ -61,6 +61,17 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 						DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, doc.getId(),
 						DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, doc.getName(),
 						DocGenConstants.OnDemandDocumentsTable.SELECT, "true"));
+			}
+		}
+	}
+	
+	public void unselectDocuments(DocGenEnum.Documents... documents) {
+		synchronized (lock) {
+			for (DocGenEnum.Documents doc : documents) {
+				getDocumentsControl().fillRow(DataProviderFactory.dataOf(
+						DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, doc.getId(),
+						DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, doc.getName(),
+						DocGenConstants.OnDemandDocumentsTable.SELECT, "false"));
 			}
 		}
 	}
@@ -113,6 +124,20 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 			}
 			WebDriverHelper.switchToDefault();
 		}
+	}
+	
+	public void previewDocuments(TestData expandedDocumentsData,  DocGenEnum.Documents... documents) {
+		if (documents.length > 0) {
+			selectDocuments(documents);
+		} else {
+			selectAllDocuments();
+		}
+
+		if (expandedDocumentsData != null) {
+			getDocumentsControl().fillRow(expandedDocumentsData);
+		}
+		
+		buttonPreviewDocuments.click();
 	}
 
 	public class Verify {

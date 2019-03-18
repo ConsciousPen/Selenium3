@@ -2,7 +2,7 @@
 	<properties>
 		<name>WEBDRIVER</name>
 		<seleniumType>WEBDRIVER</seleniumType>
-		<browserProfile>googlechrome</browserProfile>
+		<browserProfile>${browser.pool.browsertype}</browserProfile>
 		<useXpathLibrary>true</useXpathLibrary>
 		<allowNativeXPath>true</allowNativeXPath>
 		<browserLifetime>0</browserLifetime>

@@ -17,7 +17,8 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
  * @category Generated
  */
 public class MortgageesTab extends Tab {
-    public MortgageesTab() {
+
+	public MortgageesTab() {
         super(HomeSSMetaData.MortgageesTab.class);
     }
 

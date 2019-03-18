@@ -158,14 +158,8 @@ public class TestCurrentTermEndAddsVehicle extends TestCurrentTermEndAddsVehicle
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-16522")
-
 	public void pas16522_refreshForMSRPVehicleCurrentAndRenewalTerms(@Optional("AZ") String state) {
-		pas16522_refreshForMSRPVehicleCurrentAndRenewalTerms();
-	}
-
-	public void pas16522_refreshForMSRPVehicleCurrentAndRenewalTerms() {
 		pas16522_refreshForMSRPVehicleCurrentAndRenewalTerms_initiateEndorsement();
-
 		pas16522_refreshForMSRPVehicleCurrentAndRenewalTerms_bindEndorsement();
 		viewRatingDetails();
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
