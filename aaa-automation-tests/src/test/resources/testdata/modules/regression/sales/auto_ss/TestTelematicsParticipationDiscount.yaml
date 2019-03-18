@@ -1,0 +1,19 @@
+VehicleTab: {
+  Type: 'Private Passenger Auto',
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+  'Enroll in Usage Based Insurance?': 'Yes',
+  'Get Vehicle Details': click,
+  'Grant Participation Discount': click
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed
+  },
+  Agreement: I agree,
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
