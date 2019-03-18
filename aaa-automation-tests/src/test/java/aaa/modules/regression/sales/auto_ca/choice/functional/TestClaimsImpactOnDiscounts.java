@@ -1,24 +1,18 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
-import java.util.Map;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsCATemplate;
 import aaa.utils.StateList;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 @StateList(states = {Constants.States.CA})
 public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
-
-    private static final String GDD_PU_CLAIMS_DATA_MODEL = "gdd_PUClaims_data_model.yaml";
 
     @Override
     protected PolicyType getPolicyType() {
@@ -51,29 +45,6 @@ public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = {"PAS-18303", "PAS-23190", "PAS-18317"})
     public void pas18303_goodDriverDiscountForPUClaims(@Optional("CA") @SuppressWarnings("unused") String state) {
-
-		Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS = ImmutableMap.of(CLAIM_NUMBER_1_GDD, claim1_dates_gdd, CLAIM_NUMBER_2_GDD, claim2_dates_gdd);
-
-        //Adjusted Test Data for: CCInput/CLUE/Internal Claims
-        TestData testDataForCLUE = getTestSpecificTD("TestData_DriverTab_DiscountsGDD_CAC").resolveLinks();
-        TestData td = getPolicyTD().adjust(testDataForCLUE);
-
-        //Adjusted Test Data after assertions
-        TestData tdAfterValidation = getTestSpecificTD("TestData_DriverActivityReportsTab_CAC").resolveLinks();
-        TestData td2 = getPolicyTD().adjust(tdAfterValidation);
-
-        createQuoteAndFillUpTo(td, PremiumAndCoveragesTab.class, true);
-
-		// Verify GDD during NB quote, Also Verify that PU ind is not shown for NON First Named Insured
-		validateGDDAndPUIndicatorOnNB(td, td2);
-
-        // Retrieve Internal Claims
-        runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
-        createCasClaimResponseAndUploadWithUpdatedDates(policyNumber, GDD_PU_CLAIMS_DATA_MODEL, UPDATE_CAS_RESPONSE_DATE_FIELDS);
-        runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
-
-        // Verify GDD during: Renewal Quote, Endorsement Quote, Rewritten Quote
-        validateGDDonRenewalEndorsementRewrittenQuote();
-
+		pas18303_goodDriverDiscountForPUClaims();
     }
 }
