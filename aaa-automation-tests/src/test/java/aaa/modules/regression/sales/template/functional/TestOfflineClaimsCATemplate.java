@@ -44,6 +44,7 @@ import aaa.helpers.rest.JsonClient;
 import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.helpers.ssh.RemoteHelper;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
@@ -450,6 +451,15 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         }
 
         documentsAndBindTab.submitTab();
+
+        // Assert that permissive rule is thrown for CLUE and can be overridden: PAS-22609
+        assertThat(errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE.getCode()));
+        assertThat(errorTab.getErrorMessagesList().contains(ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE.getMessage()));
+        
+        //Overriding for LIFE
+        errorTab.overrideErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER, ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE);
+
+        documentsAndBindTab.submitTab();
         payTotalAmtDue(policyNumber);
     }
 
@@ -798,8 +808,11 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
                 }
             }
 
+            // With this condition CLUE default value in UI will be covered. Test will fail if PU will be null
+            if (activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).getValue().equals("No")) {
+                activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).setValue("Yes");
+            }
             activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_YAF.getLabel(), RadioGroup.class).setValue("Yes");
-            activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).setValue("Yes");
         }
 
         //Verify That Discount is Applied with Permissive Use Claims
@@ -876,9 +889,18 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         validateNonFNIPermissiveUse();
 
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        policy.getDefaultView().fillFromTo(td2, PremiumAndCoveragesTab.class, PurchaseTab.class, true);
-        purchaseTab.submitTab();
+        policy.getDefaultView().fillFromTo(td2, PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
 
+        // Assert that permissive rule is thrown for CLUE and can be overridden: PAS-22609
+        documentsAndBindTab.submitTab();
+        assertThat(errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE.getCode()));
+        assertThat(errorTab.getErrorMessagesList().contains(ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE.getMessage()));
+
+        //Overriding for TERM to be able to check same error on Renewal Term
+        errorTab.overrideErrors(ErrorEnum.Duration.TERM, ErrorEnum.ReasonForOverride.OTHER, ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE);
+
+        policy.getDefaultView().fillFromTo(td2, DocumentsAndBindTab.class, PurchaseTab.class, true);
+        purchaseTab.submitTab();
         policyNumber = labelPolicyNumber.getValue();
         mainApp().close();
     }
