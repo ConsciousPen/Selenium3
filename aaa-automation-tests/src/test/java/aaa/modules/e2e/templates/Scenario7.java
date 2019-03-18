@@ -186,7 +186,7 @@ public class Scenario7 extends ScenarioBaseTest {
 
 		CustomAssertions.assertThat(false).isEqualTo(tableDiscounts.getRow(1).getCell(1).getValue().contains("Payment Plan Discount"));
 
-		premiumTab.cancel();
+		premiumTab.cancel(false);
 		Page.dialogConfirmation.buttonDeleteEndorsement.click();
 
 		CustomAssertions.assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled(false);
