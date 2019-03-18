@@ -126,7 +126,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     public void prepare() {
         // Toggle ON PermissiveUse Logic & Set DATEOFLOSS Parameter in DB
         DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
+        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-16"));
         log.info("Updated PU flag in DB");
         try {
             FileUtils.forceDeleteOnExit(Paths.get(CAS_REQUEST_PATH).toFile());
@@ -957,19 +957,24 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      */
     public void pas24587_ClueReconcilePUAFRUserFlagged(){
         //Create a policy with 2 drivers
-
         TestData testDataForFNI;
+
         //Set correct 'Age First Licensed' to drivers age - ensures product is CA Choice (driving experience is less than 3)
         if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
             String age = String.valueOf(ChronoUnit.YEARS.between(LocalDate.of(1997, Month.OCTOBER, 16), TimeSetterUtil.getInstance().getCurrentTime()));
-            testDataForFNI = getTestSpecificTD("TestData_DriverTab_ReconcileFNIclaims_PU")
-                    .adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel()), age).resolveLinks();
+            testDataForFNI = getTestSpecificTD("TestData_DriverTab_ClueReconcileFNIclaims_PU");
+            TestData driver1Td = testDataForFNI.getTestDataList("DriverTab").get(0);
+            driver1Td.adjust(AutoCaMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), age); //set Age First Licensed to the current age always
+            TestData driver2Td = testDataForFNI.getTestDataList("DriverTab").get(1); //add adjustments needed for driver2 here in future
+            List<TestData> adjustedDrivers = new ArrayList<>();
+            adjustedDrivers.add(driver1Td);
+            adjustedDrivers.add(driver2Td);
+            testDataForFNI = testDataForFNI.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName()), adjustedDrivers).resolveLinks();
         } else {
-            testDataForFNI = getTestSpecificTD("TestData_DriverTab_ReconcileFNIclaims_PU").resolveLinks();
+            testDataForFNI = getTestSpecificTD("TestData_DriverTab_ClueReconcileFNIclaims_PU").resolveLinks();
         }
 
-        adjusted = getPolicyTD().adjust(testDataForFNI);
-        //policyNumber = openAppAndCreatePolicy(adjusted);
+        adjusted = getPolicyTD().adjust(testDataForFNI).resolveLinks();
         createQuoteAndFillUpTo(adjusted, PremiumAndCoveragesTab.class);
         premiumAndCoveragesTab.submitTab();
         overrideErrorTab();
