@@ -427,8 +427,8 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 			// If programCode = NewRenPas and termCappingFactor != 1, policy with effective date = effectiveDate - 1 year must be purchased.
 			// If effectiveDate precedes current date, current date is used as effectiveDate,
 			// it prevents NewRenPas capped policy creating with effective date more than 1 year prior to current date.
-			if (effectiveDate.isBefore(TimeSetterUtil.getInstance().getStartTime().toLocalDate())) {
-				return TimeSetterUtil.getInstance().getStartTime().toLocalDate().minusYears(1);
+			if (effectiveDate.isBefore(LocalDate.now())) {
+				return LocalDate.now().minusYears(1);
 			}
 			return effectiveDate.minusYears(1);
 		}

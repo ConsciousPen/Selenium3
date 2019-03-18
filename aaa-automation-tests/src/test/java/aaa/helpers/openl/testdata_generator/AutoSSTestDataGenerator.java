@@ -189,6 +189,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				//TODO-dchubkov: fill carrier codes for other states, see "Capping" tab -> "Carrier Code" column in algorithm files for each state
 				case Constants.States.KY:
 				case Constants.States.UT:
+				case Constants.States.WV:
 					carrierCode = "Western United";
 					break;
 				case Constants.States.MD:
@@ -286,7 +287,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 
 			if (!isFirstDriver) {
-				String[] firstLastName = driver.getName().split("\\s");
+				String[] firstLastName = driver.getName().split("\\s", 2);
 				String firstName = firstLastName[0];
 				String lastName = firstLastName.length > 1 ? firstLastName[1] : firstName;
 				int driverAge = openLPolicy.isNewRenPasCappedPolicy() ? driver.getDriverAge() - 1 : driver.getDriverAge();
@@ -538,7 +539,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					unverifiableDrivingRecordSurchargeData.put(UnverifiableDrivingRecordSurcharge.DRIVER_SELECTION_BY_CONTAINS_KEY + "Smith", driver.isUnverifiableDrivingRecord());
 					isFirstDriver = false;
 				} else {
-					String[] firstLastName = driver.getName().split("\\s");
+					String[] firstLastName = driver.getName().split("\\s", 2);
 					String firstName = firstLastName[0];
 					String lastName = firstLastName.length > 1 ? firstLastName[1] : firstName;
 					unverifiableDrivingRecordSurchargeData.put(firstName + " " + lastName, driver.isUnverifiableDrivingRecord());
