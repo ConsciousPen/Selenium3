@@ -70,6 +70,28 @@ TestData_EndorsementAP: {
   DocumentsAndBindTab: {},
 }
 
+TestData_EndorsementAP_PA: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1HGFA16526L081415
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: '@DocumentsAndBindTab_PA',
+}
+
+DocumentsAndBindTab_PA: {
+  RequiredToBind: {
+    Uninsured Motorists Coverage Selection/Rejection: Physically Signed,
+    Underinsured Motorists Coverage Selection/Rejection: Physically Signed,
+  }
+}
+
 #---- Endorsement NY ----
 
 TestData_EndorsementPlan_NY: {

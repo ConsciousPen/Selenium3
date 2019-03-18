@@ -34,7 +34,7 @@ public class TestScenario4_OK extends AutoSSBaseTest {
 	@StateList(states = States.OK)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void testDocGenScenario04_OK(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), false);
+		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), false);
 
 		mainApp().open();
 		createCustomerIndividual();
