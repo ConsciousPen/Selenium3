@@ -274,8 +274,7 @@ DocumentsAndBindTab_Full_NO_PASDOC: {
     Named Driver Exclusion: Physically Signed
   }, 
   Agreement: I agree, 
-  RequiredToIssue: {
-    #AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: 'Yes', 
+  RequiredToIssue: { 
     Proof of Prior Insurance: 'Yes'
   }, 
   Case Number: '12345'
