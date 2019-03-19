@@ -47,6 +47,8 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.modules.policy.PolicyType;
@@ -78,7 +80,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private static Map<String, Integer> policyCount = new HashMap<>();
 	private static final String PP_ERROR_MESSAGE_NB = "eValue status set to Pending. Unable to verify Paperless Preferences.";
 	private static final String PP_ERROR_MESSAGE_NB15 = "Discount in Jeopardy email sent. Unable to verify Paperless Preferences.";
-	private static final String  PP_ERROR_MESSAGE_NB30="Evalue information / Status was updated as : 'ACTIVE' for the policy based on Preferences and Membership logic. Unable to verify Paperless Preferences.";
+	private static final String PP_ERROR_MESSAGE_NB30 = "Evalue information / Status was updated as : 'ACTIVE' for the policy based on Preferences and Membership logic. Unable to verify Paperless Preferences.";
 	private static final ImmutableList<String> EXPECTED_BI_LIMITS = ImmutableList.of(
 			"$25,000/$50,000",
 			"$50,000/$100,000",
@@ -1084,7 +1086,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		log.info("Delay end");
 		documentsAndBindTab.saveAndExit();
 		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
-		//BUG INC0655981: summary: "New PAS18.3 Master - AHEVAXX for is not placed in eFolder"
+
 		softly.assertThat(Efolder.isDocumentExist("MISCELLANEOUS", "EVALUE ACKNOWLEDGEMENT FORM")).isTrue();
 		//PAS-264 end
 
@@ -1688,24 +1690,14 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 		eValueConfigCheck();
 		//Create evalue quote
-		eValueQuoteCreation();
-		policy.dataGather().start();
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-		new PremiumAndCoveragesTab().calculatePremium();
-		premiumAndCoveragesTab.saveAndExit();
-		String quoteNumber = PolicySummaryPage.getPolicyNumber();
-		//Set Paperless Preference Error  on quote
-		HelperWireMockStub stub = createPaperlessPreferencesErrorRequest(quoteNumber);
-		simplifiedQuoteIssue();
-//add neb scenario
+		createEvaluePolicyForPPError("Error", "Yes");
+		//add neb scenario
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB, true);
 		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("Pending");
-		deleteSinglePaperlessPreferenceRequest(stub);
 
 		HelperWireMockStub stub1 = createPaperlessPreferencesErrorRequest(policyNumber);
-				// Verify user note for paperless preference
+		// Verify user note for paperless preference
 		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB, true);
 		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("Pending");
 
@@ -1749,36 +1741,53 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		SearchPage.openPolicy(policyNumber);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 
+		Dollar totalDue = BillingSummaryPage.getTotalDue();
+		IBillingAccount billing = new BillingAccount();
+		TestData tdBilling = testDataManager.billingAccount;
+		TestData cashPayment = tdBilling.getTestData("AcceptPayment", "TestData_Cash");
+		billing.acceptPayment().perform(cashPayment, totalDue);
+		SearchPage.openPolicy(policyNumber);
+
 		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("Active");
-		buttonRenewals.click();
 		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("Active");
 
+		buttonRenewals.click();
+		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("Active");
 
 		//deleteSinglePaperlessPreferenceRequest(stub5);
 	}
 
+	private void createEvaluePolicyForPPError(String ppStaus, String eValue) {
+		eValueQuoteCreation();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue(eValue);
+		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+		String quoteNumber = PolicySummaryPage.getPolicyNumber();
+		if (ppStaus.equals("Error")) {
+
+			HelperWireMockStub stub = createPaperlessPreferencesErrorRequest(quoteNumber);
+
+		} else if (ppStaus.equals("OPT_IN")) {
+			HelperWireMockStub stub = createPaperlessPreferencesRequestId(quoteNumber, OPT_IN);
+
+		}
+		simplifiedQuoteIssue();
+
+	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
-	public void pas23992_PaperlessPreferanceScenario2(@Optional("MD") String state)
-	{
+	public void pas23992_PaperlessPreferanceScenario2(@Optional("MD") String state) {
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 		eValueConfigCheck();
-		//Create evalue quote
-		eValueQuoteCreation();
-		policy.dataGather().start();
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-		new PremiumAndCoveragesTab().calculatePremium();
-		premiumAndCoveragesTab.saveAndExit();
-		String quoteNumber = PolicySummaryPage.getPolicyNumber();
+		createEvaluePolicyForPPError("Error", "Yes");
+
 		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-		//Set Paperless Preference Error  on quote
-		HelperWireMockStub stub = createPaperlessPreferencesErrorRequest(quoteNumber);
-		simplifiedQuoteIssue();
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		deleteSinglePaperlessPreferenceRequest(stub);
+
 		// Verify user note for paperless preference
 		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB, true, softly);
 
@@ -1797,18 +1806,17 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		new DocumentsAndBindTab().submitTab();
 		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("");
 		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("Pending");
-
+		deleteSinglePaperlessPreferenceRequest(stub2);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
-	public void pas23992_PaperlessPreferanceScenario3(@Optional("MD") String state)
-	{
+	public void pas23992_PaperlessPreferanceScenario3(@Optional("MD") String state) {
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 		eValueConfigCheck();
-		//Create evalue quote
-		eValueQuoteCreation();
+		//Create evalue eligible policy
+		createEvaluePolicyForPPError("Error", "No");
 		simplifiedQuoteIssue();
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -1830,10 +1838,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		new DocumentsAndBindTab().saveAndExit();
 		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("");
 		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("");
-
 		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB, false);
+		deleteSinglePaperlessPreferenceRequest(stub1);
 	}
-
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -1867,11 +1874,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("");
 
 		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB, false, softly);
-
+		deleteSinglePaperlessPreferenceRequest(stub2);
 	}
-
-
-
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -1879,20 +1883,12 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	public void pas23992_PaperlessPreferanceScenario4(@Optional("MD") String state) {
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 		eValueConfigCheck();
-		//Create evalue quote
-		eValueQuoteCreation();
-		policy.dataGather().start();
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-		new PremiumAndCoveragesTab().calculatePremium();
-		premiumAndCoveragesTab.saveAndExit();
-		String quoteNumber = PolicySummaryPage.getPolicyNumber();
-		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(quoteNumber, OPT_IN);
-		simplifiedQuoteIssue();
-		deleteSinglePaperlessPreferenceRequest(stub);
+
+		createEvaluePolicyForPPError("OPT_IN", "Yes");
 
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+
 		HelperWireMockStub stub1 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN);
 		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(2));
 		mainApp().open();
@@ -1921,7 +1917,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		deleteSinglePaperlessPreferenceRequest(stub2);
 		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("Active");
 	}
-
 
 	/**
 	 * *@author Viktoriia Lutsenko
