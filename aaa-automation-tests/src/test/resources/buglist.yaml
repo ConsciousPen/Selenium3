@@ -159,12 +159,6 @@ PAS-12248:
     - tests: [
     aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas325_eValueCommissionRelatedFields]
       messages: ["expected [eValue Renewal] but found [Renewal]"]
-PAS-18399:
-  summary: "Conversion: XML import is failing when policy has EFT Tags - Billing account creation has failed Caused by: java.lang.RuntimeException: Unexpected exception during import rule validation"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.conversions.*]
-      messages: ["doesn't have Success status. Reason"]
 PAS-11810:
   summary: "View Premium Service - Pended endorsement and renewal not rated"
   reason: PROD
