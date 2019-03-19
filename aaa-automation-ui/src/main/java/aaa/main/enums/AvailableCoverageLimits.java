@@ -465,8 +465,8 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_LIMITED_TORT
 	)),
 	FPB_PA(ImmutableList.of(
-			CoverageLimits.COV_FPB_5K_BASIC,
 			CoverageLimits.COV_FPB_ADDED,
+			CoverageLimits.COV_FPB_5K_BASIC,
 			CoverageLimits.COV_FPB_50K_TOTAL,
 			CoverageLimits.COV_FPB_100K_TOTAL,
 			CoverageLimits.COV_FPB_177_5K_TOTAL
