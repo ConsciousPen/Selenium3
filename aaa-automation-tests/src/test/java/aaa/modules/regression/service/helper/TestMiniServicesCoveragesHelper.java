@@ -1502,6 +1502,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		createCustomerIndividual();
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
+		if (getState().equals(Constants.States.NJ)) {//getting CARCO error on Bind, hence overriding it
+			TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+			testData.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+		}
 		policyType.get().createPolicy(testData);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
