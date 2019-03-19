@@ -160,10 +160,10 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 * @param tabName name of tab where section is located
 	 * @param sectionName section name that is under verification
 	 */
-	protected void dataGatherComparison( TestData tdVersion1, TestData tdVersion2, Multimap<String, String> expectedSectionsAndUIFields, String tabName, String sectionName) {
+	protected void dataGatherComparison(TestData tdVersion, TestData tdVersion1, TestData tdVersion2, Multimap<String, String> expectedSectionsAndUIFields, String tabName, String sectionName) {
 		mainApp().open();
 		createCustomerIndividual();
-		createQuote(getTestSpecificTD("tdVersion"));
+		createPolicy(tdVersion);
 		//createQuote(getTestSpecificTD("TestData_Multiple_Drivers_Vehicles_NB_Quote"));
 		policy.dataGather().start();
 		getGeneralTab().createVersion();
@@ -196,10 +196,10 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 * @param tabName name of tab where section is located
 	 * @param sectionName section name that is under verification
 	 */
-	protected void endorsementComparison(TestData tdVersion1, TestData tdVersion2, Multimap<String, String> expectedSectionsAndUIFields, String tabName, String sectionName) {
+	protected void endorsementComparison(TestData tdVersion, TestData tdVersion1, TestData tdVersion2, Multimap<String, String> expectedSectionsAndUIFields, String tabName, String sectionName) {
 		mainApp().open();
 		createCustomerIndividual();
-		createPolicy(getTestSpecificTD("TestData_NB_Policy"));
+		createPolicy(tdVersion);
 		//createPolicy(getTestSpecificTD("TestData_Multiple_Drivers_Vehicles_NB_Policy"));
 		processPlus20DaysEndorsement(tdVersion1);
 		processPlus25DaysEndorsement(tdVersion2);
@@ -223,10 +223,10 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 * @param tabName name of tab where section is located
 	 * @param sectionName section name that is under verification
 	 */
-	protected void renewalComparison(TestData tdVersion1, TestData tdVersion2, Multimap<String, String> expectedSectionsAndUIFields, String tabName, String sectionName) {
+	protected void renewalComparison(TestData tdVersion, TestData tdVersion1, TestData tdVersion2, Multimap<String, String> expectedSectionsAndUIFields, String tabName, String sectionName) {
 		mainApp().open();
 		createCustomerIndividual();
-		createPolicy(getTestSpecificTD("TestData_NB_Policy"));
+		createPolicy(tdVersion);
 		//createPolicy(getTestSpecificTD("TestData_Multiple_Drivers_Vehicles_NB_Policy"));
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
