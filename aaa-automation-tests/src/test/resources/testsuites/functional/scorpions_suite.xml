@@ -274,4 +274,26 @@
             </class>
         </classes>
     </test>
+    <test name="Offline Claims AUTO CA Select">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestOfflineClaims">
+                <methods>
+                    <include name="pas18317_verifyPermissiveUseIndicator"/>
+                    <include name="pas25463_ViolationsMVRPUIndicatorCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Offline Claims AUTO CA Choice">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestOfflineClaims">
+                <methods>
+                    <include name="pas18317_verifyPermissiveUseIndicator"/>
+                    <include name="pas25463_ViolationsMVRPUIndicatorCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
