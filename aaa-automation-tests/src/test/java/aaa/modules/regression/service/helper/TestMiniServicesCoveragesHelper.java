@@ -6636,7 +6636,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				updateData.getCoverageLimit()), PolicyCoverageInfo.class);
 	}
 
-	private PolicyCoverageInfo updatePIPPRIMINSCoverage(String policyNumber, Coverage updateData) {
+	public PolicyCoverageInfo updatePIPPRIMINSCoverage(String policyNumber, Coverage updateData) {
 		return HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdatePIPRIMINSCoverageRequest(updateData.getCoverageCd(),
 				updateData.getCoverageLimit(), updateData.getInsurerName(), updateData.getCertNum()), PolicyCoverageInfo.class);
 	}
