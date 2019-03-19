@@ -54,6 +54,14 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	@Override
 	protected PolicyType getPolicyType() { return PolicyType.AUTO_CA_CHOICE; }
 
+	private TestData getTDNBQuote() {
+		return getTestSpecificTD("TestData_NB_Quote");
+	}
+
+	private TestData getTDNBPolicy() {
+		return getTestSpecificTD("TestData_NB_Policy");
+	}
+
 	//Named Insured Information section
 
 	private TestData getTDNamedInsuredInformationVersion1() {
@@ -64,6 +72,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 		return getTestSpecificTD("TestData_NamedInsuredInformation_Version2");
 	}
 
+	//getTDNBQuote(),
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-13526"})
@@ -298,7 +307,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	//Assignment section
 
 	private TestData getTDNewBusiness() {
-		return getTestSpecificTD("TestData_Multiple_Drivers_Vehicles"); }
+		return getTestSpecificTD("TestData_Multiple_Drivers_Vehicles_NB_Quote"); }
 
 	private TestData getTDAssignmentVersion1() {
 		return getTestSpecificTD("TestData_Assignment_Version1"); }
@@ -307,10 +316,34 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 		return getTestSpecificTD("TestData_Assignment_Version2");
 	}
 
+	private TestData getTDAssignmentNoChangeVersion() {
+		return getTestSpecificTD("TestData_NoChange");
+	}
+
+	private TestData getTDNewBusinessPolicy() {
+		return getTestSpecificTD("TestData_Multiple_Drivers_Vehicles_NB_Policy"); }
+
+
+
+
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-25187"})
 	public void pas25187_dataGatherComparisonAssignment(@Optional("CA") String state) {
 		dataGatherComparison(getTDAssignmentVersion1(), getTDAssignmentVersion2(), VersionsComparisonConstants.ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-25187"})
+	public void pas25187_endorsementsComparisonAssignment(@Optional("CA") String state) {
+		endorsementComparison(getTDAssignmentNoChangeVersion(), getTDAssignmentVersion2(), VersionsComparisonConstants.ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-25187"})
+	public void pas25187_renewalComparisonAssignment(@Optional("CA") String state) {
+		renewalComparison(getTDAssignmentNoChangeVersion(), getTDAssignmentVersion2(), VersionsComparisonConstants.RENEWAL_ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
 	}
 }

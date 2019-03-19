@@ -95,6 +95,7 @@ public class VersionsComparisonConstants {
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).First Name", "First Name version2","First Name version1")
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).Second Name", "Second Name version2","Second Name version1")
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).Additional Interest Address", "VII interest address 1, VII interest address 2, Red Rock, AZ, 85245","interest address 1, VI interest address 2, Phoenix, AZ, 85085")
+			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Manually assigned driver name", "","NBFirstName NBLastName")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -456,7 +457,13 @@ public class VersionsComparisonConstants {
 	static final Multimap<String, String> ASSIGNMENT = ImmutableListMultimap.<String, String>builder()
 			//Vehicle Information section
 			.put("Vehicles.2003, MERCEDES-BENZ, SL500R", "Primary Driver")
-			.put("Vehicles.2008, ACURA, MDX", "Primary Driver")
+			.build();
+
+	//all components/attributes that should be on Comparison page for Assignment section
+	static final Multimap<String, String> RENEWAL_ASSIGNMENT = ImmutableListMultimap.<String, String>builder()
+			//Vehicle Information section
+			.put("Vehicles.2003, MERCEDES-BENZ, SL500R", "Primary Driver")
+			.put("Vehicles.2003, MERCEDES-BENZ, SL500R", "Manually assigned driver name")
 			.build();
 
 }
