@@ -4,6 +4,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants.States;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum;
@@ -159,9 +160,12 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNum = createPolicy(getPolicyTD());
+		mainApp().close();
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 		DocGenHelper.verifyDocumentsGenerated(softly, policyNum, DocGenEnum.Documents._61_3000, DocGenEnum.Documents._61_6530, DocGenEnum.Documents._61_5120, DocGenEnum.Documents._61_1500);
 
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
 		policy.policyDocGen().start();
 		documentActionTab.verify.documentsEnabled(softly,
 				DocGenEnum.Documents._61_4002,

@@ -3241,7 +3241,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 				.orElseThrow(() -> new IllegalArgumentException("No Vehicle found for oid: " + oid));
 	}
 
-	protected Vehicle findVehicleByVin(ViewVehicleResponse viewVehicleResponse, String vin) {
+	public Vehicle findVehicleByVin(ViewVehicleResponse viewVehicleResponse, String vin) {
 		return viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehicle.vehIdentificationNo.equals(vin)).findFirst()
 				.orElseThrow(() -> new IllegalArgumentException("No Vehicle found for vin: " + vin));
 	}
