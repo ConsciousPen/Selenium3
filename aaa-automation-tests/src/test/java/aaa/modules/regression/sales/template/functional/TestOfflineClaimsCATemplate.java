@@ -449,7 +449,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
             validateGDD();
             NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
 
-            // Assert that permissive rule is thrown for CLUE and can be overridden for LIFE
+            // Assert that permissive rule is thrown for CLUE and can be overridden for LIFE: PAS-22609
             validateOverridableCLUEPPURule(ErrorEnum.Duration.LIFE);
         }
 
@@ -871,10 +871,11 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      */
     protected void validateOverridableCLUEPPURule(ErrorEnum.Duration duration) {
         documentsAndBindTab.submitTab();
+        // Assert CLUE PU Rule Code and Message
         assertThat(errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE.getCode()));
         assertThat(errorTab.getErrorMessagesList().contains(ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE.getMessage()));
 
-        //Overriding for TERM (NB) / LIFE (Renewal)
+        // Overriding for TERM (NB) / LIFE (Renewal)
         errorTab.overrideErrors(duration, ErrorEnum.ReasonForOverride.OTHER, ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE);
     }
 
@@ -898,7 +899,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         policy.getDefaultView().fillFromTo(td2, PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
 
-        // Assert that permissive rule is thrown for CLUE and can be overridden for TERM
+        // Assert that permissive rule is thrown for CLUE and can be overridden for TERM: PAS-22609
         validateOverridableCLUEPPURule(ErrorEnum.Duration.TERM);
 
         policy.getDefaultView().fillFromTo(td2, DocumentsAndBindTab.class, PurchaseTab.class, true);
