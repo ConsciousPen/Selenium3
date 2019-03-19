@@ -448,16 +448,10 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         if (BooleanUtils.isTrue(validateGDD)) {
             validateGDD();
             NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+
+            // Assert that permissive rule is thrown for CLUE and can be overridden for LIFE
+            validateOverridableCLUEPPURule(ErrorEnum.Duration.LIFE);
         }
-
-        documentsAndBindTab.submitTab();
-
-        // Assert that permissive rule is thrown for CLUE and can be overridden: PAS-22609
-        assertThat(errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE.getCode()));
-        assertThat(errorTab.getErrorMessagesList().contains(ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE.getMessage()));
-        
-        //Overriding for LIFE
-        errorTab.overrideErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER, ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE);
 
         documentsAndBindTab.submitTab();
         payTotalAmtDue(policyNumber);
@@ -872,6 +866,19 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     }
 
     /*
+    Method Validates CLUE Permissive Use Overridable Rule: PAS-22609
+    used for pas18303_goodDriverDiscountForPUClaims
+     */
+    protected void validateOverridableCLUEPPURule(ErrorEnum.Duration duration) {
+        documentsAndBindTab.submitTab();
+        assertThat(errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE.getCode()));
+        assertThat(errorTab.getErrorMessagesList().contains(ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE.getMessage()));
+
+        //Overriding for TERM (NB) / LIFE (Renewal)
+        errorTab.overrideErrors(duration, ErrorEnum.ReasonForOverride.OTHER, ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE);
+    }
+
+    /*
    Method Validates NB quote: Good Driver Discount validation & PU indicator visibility on different Drivers:
    used for pas18303_goodDriverDiscountForPUClaims
 	*/
@@ -891,13 +898,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         policy.getDefaultView().fillFromTo(td2, PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
 
-        // Assert that permissive rule is thrown for CLUE and can be overridden: PAS-22609
-        documentsAndBindTab.submitTab();
-        assertThat(errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE.getCode()));
-        assertThat(errorTab.getErrorMessagesList().contains(ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE.getMessage()));
-
-        //Overriding for TERM to be able to check same error on Renewal Term
-        errorTab.overrideErrors(ErrorEnum.Duration.TERM, ErrorEnum.ReasonForOverride.OTHER, ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE);
+        // Assert that permissive rule is thrown for CLUE and can be overridden for TERM
+        validateOverridableCLUEPPURule(ErrorEnum.Duration.TERM);
 
         policy.getDefaultView().fillFromTo(td2, DocumentsAndBindTab.class, PurchaseTab.class, true);
         purchaseTab.submitTab();
