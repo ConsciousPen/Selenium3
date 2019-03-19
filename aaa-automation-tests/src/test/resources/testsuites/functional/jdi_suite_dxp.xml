@@ -914,12 +914,22 @@
         </classes>
     </test>
     <test thread-count="1024" name="Vehicle Deltas - NJ" parallel="methods">
-        <parameter name="state" value="NJ,NY"/>
+        <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
                     <include name="pas21597_addVehicleCheckAntiTheft"/>
                     <include name="pas18408_lessThan1000Miles"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+      <test thread-count="1024" name="Vehicle Deltas - NY" parallel="methods">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas21597_addVehicleCheckAntiTheft"/>
                 </methods>
             </class>
         </classes>
