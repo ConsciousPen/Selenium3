@@ -27,10 +27,8 @@ public class PurchaseMetaData {
 		public static final AssetDescriptor<TextBox> PLIGA_FEE = declare("PLIGA Fee", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> REASON_FOR_CHANGING = declare("Reason for Changing", ComboBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> ADDITIONAL_INFORMATION = declare("Additional Information", TextBox.class, Waiters.AJAX);
-		public static final AssetDescriptor<TextBox> PAYMENT_METHOD_CASH = declare("Cash", TextBox.class, Waiters.AJAX, false,
-				By.xpath(".//input[@id='purchaseForm:amount_0'] | //span[@id='purchaseForm:PaymentDetailsTable']//input[@value='Cash']/../following-sibling::td[1]"));
-		public static final AssetDescriptor<TextBox> PAYMENT_METHOD_CHECK = declare("Check", TextBox.class, Waiters.AJAX, false,
-				By.xpath(".//input[@id='purchaseForm:amount_1'] | //span[@id='purchaseForm:PaymentDetailsTable']//input[@value='Check']/../following-sibling::td[1]"));
+		public static final AssetDescriptor<TextBox> PAYMENT_METHOD_CASH = declare("Cash", TextBox.class, Waiters.AJAX, false, By.xpath(".//input[@id='purchaseForm:amount_0']"));
+		public static final AssetDescriptor<TextBox> PAYMENT_METHOD_CHECK = declare("Check", TextBox.class, Waiters.AJAX, false, By.xpath(".//input[@id='purchaseForm:amount_1']"));
 		public static final AssetDescriptor<RadioGroup> VOICE_SIGNATURE = declare("Bind by Voice Signature", RadioGroup.class, Waiters.AJAX, false, By
 				.xpath(".//table[@id='purchaseForm:voiceBindingSelection']"));
 		public static final AssetDescriptor<PaymentMethodAllocationControl> PAYMENT_ALLOCATION = declare("PaymentAllocation", PaymentMethodAllocationControl.class, MetaData.class, By
