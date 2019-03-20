@@ -2,8 +2,6 @@ package aaa.modules.policy;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,7 +20,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BctType;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
-import toolkit.verification.CustomSoftAssertions;
 
 public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	protected static ConcurrentHashMap<List<String>, List<Map<String, String>>> queryResult = new ConcurrentHashMap<>();
@@ -199,29 +196,4 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		return erorrsCountLessOfFivePercents;
 	}
 
-	@Deprecated
-	protected void executeBatchTestWithQueries(String name, Job job) {
-		List<String> preKey = Collections.unmodifiableList(Arrays.asList(name, PRE_VALIDATION));
-		synchronized (name) {
-			if (!queryResult.containsKey(preKey)) {
-				queryResult.put(preKey, getQueryResult(name, PRE_VALIDATION));
-			}
-		}
-		List<String> foundPolicies = getPoliciesFromQuery(queryResult.get(preKey), PRE_VALIDATION);
-
-		//		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
-		JobUtils.executeJob(job);
-
-		List<String> postKey = Collections.unmodifiableList(Arrays.asList(name, POST_VALIDATION));
-		synchronized (name) {
-			if (!queryResult.containsKey(postKey)) {
-				queryResult.put(postKey, getQueryResult(name, POST_VALIDATION));
-			}
-		}
-		List<String> processedPolicies = getPoliciesFromQuery(queryResult.get(postKey), POST_VALIDATION);
-
-		CustomSoftAssertions.assertSoftly(softly -> {
-			foundPolicies.forEach(policy -> assertThat(processedPolicies).as("Policy " + policy + " was processed by " + job.getJobName()).contains(policy));
-		});
-	}
 }
