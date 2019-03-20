@@ -106,6 +106,9 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 	}
 
 	protected void performAPEndorsement(String policyNumber, LocalDateTime effDate) {
+		if (!PolicySummaryPage.labelPolicyStatus.isPresent()) {
+			SearchPage.openPolicy(policyNumber);
+		}
 		policy.endorse().perform(getEndorsementTD(effDate));
 		policy.getDefaultView().fill(getAddPremiumTD());
 		SearchPage.openPolicy(policyNumber);
@@ -166,6 +169,13 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 
 	protected Map<String, Dollar> getTaxAmountsFromVRD(String policyNumber) {
 		Map<String, Dollar> taxes = new HashMap<>();
+		String hoPolicyStateTaxDescription;
+		if (getState().equals(Constants.States.WV)) {
+			hoPolicyStateTaxDescription = HomeSSConstants.StateAndLocalTaxesTable.STATE_TAX;
+		} else {
+			hoPolicyStateTaxDescription = HomeSSConstants.StateAndLocalTaxesTable.PREMIUM_SURCHARGE;
+		}
+
 		if (!PolicySummaryPage.labelPolicyStatus.isPresent()) {
 			SearchPage.openPolicy(policyNumber);
 		}
@@ -205,7 +215,7 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 			NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 			taxes.put(STATE, new Dollar(PremiumsAndCoveragesQuoteTab.tableTaxes
-					.getRowContains(HomeSSConstants.StateAndLocalTaxesTable.DESCRIPTION, HomeSSConstants.StateAndLocalTaxesTable.PREMIUM_SURCHARGE)
+					.getRowContains(HomeSSConstants.StateAndLocalTaxesTable.DESCRIPTION, hoPolicyStateTaxDescription)
 					.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM).getValue()));
 			if (getState().equals(Constants.States.KY)) {
 				taxes.put(CITY, new Dollar(PremiumsAndCoveragesQuoteTab.tableTaxes

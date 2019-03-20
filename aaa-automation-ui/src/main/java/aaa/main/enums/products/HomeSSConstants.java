@@ -137,6 +137,7 @@ public final class HomeSSConstants {
 		public static final String DESCRIPTION = "Description";
 		public static final String PERCENTAGE = "Percentage";
 		public static final String TERM_PREMIUM = "Term Premium ($)";
+		public static final String STATE_TAX = "State Tax";
 
 	}
 

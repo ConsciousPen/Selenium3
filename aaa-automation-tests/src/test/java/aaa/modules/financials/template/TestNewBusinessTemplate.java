@@ -94,7 +94,6 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                 softly.assertThat(policyFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.POLICY_FEE, "1040"));
             });
         }
-        SearchPage.openPolicy(policyNumber);
 
         // Perform AP endorsement and pay total amount due
         performAPEndorsement(policyNumber);
