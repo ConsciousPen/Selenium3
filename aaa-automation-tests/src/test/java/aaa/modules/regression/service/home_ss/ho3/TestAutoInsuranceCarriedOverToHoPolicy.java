@@ -60,6 +60,8 @@ public class TestAutoInsuranceCarriedOverToHoPolicy extends HomeSSHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testAutoInsuranceCarriedOverToHoPolicy(@Optional("") String state) {
 
+		ApplicantTab applicantTab = new ApplicantTab();
+
 		String autoInsurancePersistency = "Auto insurance persistency";
 		TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DataGather", TEST_DATA_KEY)
 				.adjust("GeneralTab|NamedInsuredInformation[0]|Base Date",
@@ -94,7 +96,7 @@ public class TestAutoInsuranceCarriedOverToHoPolicy extends HomeSSHO3BaseTest {
 						.getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES)
 						.getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_MANUAL)
 						.getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.AUTO_INSURANCE_PERSISTENCY).getValue());
-		new ApplicantTab().submitTab();
+		applicantTab.submitTab();
 		policy.getDefaultView().fillFromTo(tdHome, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
 
 		//Check 'Auto insurance persistency' in Rating Details (Ho3 policy)
@@ -122,8 +124,8 @@ public class TestAutoInsuranceCarriedOverToHoPolicy extends HomeSSHO3BaseTest {
 		List<String> listOfPoliciesFromMock = cm.getPolicies(getTestSpecificTD(TEST_DATA_KEY).getValue("Customer"));
 
 		//Get list of Other active AAA policies from UI
-		new ApplicantTab().otherAAAProductSearchDialog.cancel();
-		List<String> listOfPoliciesFromUI = new ApplicantTab().tblListOfOtherActiveAAAPolicies.getValuesFromRows("Policy Number");
+		applicantTab.otherAAAProductSearchDialog.cancel();
+		List<String> listOfPoliciesFromUI = applicantTab.tblListOfOtherActiveAAAPolicies.getValuesFromRows("Policy Number");
 
 		//Add created Auto policy to list from Mock and compare with list of Other Active policies from UI
 		listOfPoliciesFromMock.add(autoPolicyNum);
