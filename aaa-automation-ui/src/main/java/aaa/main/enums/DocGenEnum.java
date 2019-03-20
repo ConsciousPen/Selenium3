@@ -152,7 +152,8 @@ public final class DocGenEnum {
 		AATSXX("Critical Information For Teenage Drivers And Their Parents"),
 		AAVICA("Community Service Survey"),
 		AAUBI("AAA Usage Based Insurance Program Terms and Conditions"),
-		AAUBI1("AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies"),
+		AAUBI1("AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies"),
+		AAUBI1_PASDOC("AAUBI1", "AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies"),
 		ACPUBI("ACP SMARTtrek Subscription Terms and Conditions"),
 		ACPPNUBI(""),
 		AH34XX("AH34XX", "AH34XX", "Cancellation Notice Document (NonPayment)"),
@@ -417,7 +418,9 @@ public final class DocGenEnum {
 		_61_6530("61 6530", "California Residential Property Insurance Disclosure"),
 		_62_6500("62 6500", "CA Evidence of Property Insurance"),
 		AACSDC("District of Columbia Coverage Selection/Rejection Form"),
-		AADNDE1("AADNDE1", "Delaware Motorists Protection Act");
+		AADNDE1("AADNDE1", "Delaware Motorists Protection Act"),
+		AACSNJ("AACSNJ", "NJ Auto Standard Policy Coverage Selection Form");
+
 
 		private String id;
 		private String idInXml;

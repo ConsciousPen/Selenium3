@@ -294,6 +294,18 @@ public class PremiumAndCoveragesTab extends Tab {
 		}
 	}
 
+	public void setPolicyPersonalInjuryProtectionCoverageDetailsValue(String coverageName, String value) {
+		Row coverageRow = tablePolicyLevelPersonalInjuryProtectionCoverage.getRowContains(1, coverageName);
+		Cell cell = coverageRow.getCell(2);
+		if (cell.controls.comboBoxes.getFirst().isPresent()) {
+			cell.controls.comboBoxes.getFirst().setValueContains(value);
+		} else if (cell.controls.textBoxes.getFirst().isPresent()) {
+			cell.controls.textBoxes.getFirst().setValue(value);
+		} else {
+			cell.controls.radioGroups.getFirst().setValue(value);
+		}
+	}
+
 	public String getPolicyCoverageDetailsTermPremium(String coverageName) {
 		Row coverageRow = tablePolicyLevelLiabilityCoverages.getRowContains(1, coverageName);
 		Cell cell = coverageRow.getCell(3);
