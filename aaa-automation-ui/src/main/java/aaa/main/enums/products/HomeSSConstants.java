@@ -131,6 +131,7 @@ public final class HomeSSConstants {
 	}
 
 	public static final class StateAndLocalTaxesTable {
+		public static final String PREMIUM_SURCHARGE = "Premium Surcharge";
 		public static final String CITY_TAX = "City Tax";
 		public static final String COUNTY_TAX = "County Tax";
 		public static final String DESCRIPTION = "Description";

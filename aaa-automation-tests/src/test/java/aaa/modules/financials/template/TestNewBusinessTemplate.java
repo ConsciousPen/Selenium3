@@ -1,5 +1,6 @@
 package aaa.modules.financials.template;
 
+import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.jobs.JobUtils;
@@ -10,8 +11,8 @@ import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-
 import java.time.LocalDateTime;
+import java.util.Map;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
@@ -27,7 +28,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
      * 6. Validate Cancellation sub-ledger entries
      * 7. Reinstate policy with no lapse (reinstatement eff. date same as cancellation date)
      * 8. Validate Reinstatement sub-ledger entries
-     * @details NBZ-01, PMT-01, END-01, CNL-01, RST-01, FEE-01
+     * @details NBZ-01, PMT-01, TAX-02, TAX-05, END-01, CNL-01, RST-01, FEE-01
      */
 	protected void testNewBusinessScenario_1() {
 
@@ -38,7 +39,6 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		Dollar premTotal = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.POLICY);
 
         // NBZ-01 validations
-
         assertSoftly(softly -> {
             softly.assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1044"));
             softly.assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1021")
@@ -55,6 +55,32 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             softly.assertThat(paymentAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1001"));
             softly.assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1044"));
         });
+
+        // TAX-02/PMT-01 validations (KY only)
+        if (getState().equals(Constants.States.KY)) {
+            Map<String, Dollar> taxes = getTaxAmountsFromVRD(policyNumber);
+            assertSoftly(softly -> {
+                // TAX-02
+                softly.assertThat(taxes.get(STATE)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_KY, "1053"));
+                softly.assertThat(taxes.get(CITY)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CITY_TAX_KY, "1053"));
+                softly.assertThat(taxes.get(COUNTY)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.COUNTY_TAX_KY, "1053"));
+                // PMT-01
+                softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1053"));
+                softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1054"));
+            });
+        }
+
+        // TAX-05/PMT-01 validations (WV only)
+        if (getState().equals(Constants.States.WV)) {
+            Map<String, Dollar> taxes = getTaxAmountsFromVRD(policyNumber);
+            assertSoftly(softly -> {
+                // TAX-05
+                softly.assertThat(taxes.get(STATE)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_WV, "1053"));
+                // PMT-01
+                softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1053"));
+                softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1054"));
+            });
+        }
 
         // FEE-01 validations (CA Choice only)
         if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
@@ -125,7 +151,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         Dollar premTotal = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.POLICY);
         Dollar totalFees = BillingHelper.getFeesValue(today);
 
-        // NB-03 and PMT-04 validations
+        // NBZ-03 and PMT-04 validations
         assertSoftly(softly -> {
             softly.assertThat(premTotal.add(totalFees)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1001"));
             softly.assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1065"));
@@ -133,6 +159,11 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             softly.assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")));
         });
+
+        // TAX-01 and TAX-04 validations
+//        assertSoftly(softly -> {
+//            softly.assertThat()
+//        });
 
         // FEE-15 validations (CA Select only)
         if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
