@@ -52,7 +52,7 @@ public class Jobs {
 
 	public static Job policyStatusUpdateJob = new Job("policyStatusUpdateJob");
 
-	public static Job aaaRecurringPaymentsProcessingJob = new Job("aaaRecurringPaymentsProcessingJob");
+	public static Job aaaRecurringPaymentsProcessingJob = new Job("aaaRecurringPaymentsAsyncProcessJob");
 
 	public static Job lapsedRenewalProcessJob = new Job("policyLapsedRenewalProcessAsyncJob");
 
