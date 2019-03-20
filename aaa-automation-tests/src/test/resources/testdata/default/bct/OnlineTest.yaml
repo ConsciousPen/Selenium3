@@ -43,7 +43,7 @@ BCT_ONL_008_CancelPolicy: {
 }
 
 BCT_ONL_009_CancelPolicy: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd in ('inForce') and currentrevisionind = 1 and LOB = 'HOME' and EXPIRATION > '/EXECDATE/' and riskstatecd = '/STATE/'"
+  SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd in ('inForce') and currentrevisionind = 1 and LOB = 'HOME' and EXPIRATION > '/EXECDATE/' and riskstatecd = '/STATE/' /AND_ROWNUM_1/"
 }
 
 BCT_ONL_010_ReinstatePolicy: {
@@ -130,7 +130,7 @@ BCT_ONL_030_ProcessAcceptPayment: {
   SelectPolicy: "select p.policynumber from pasadm.billablepolicyterm p,pasadm.billingaccount act, pasadm.balanceinfo bi, pasadm.balanceamount ba, pasadm.paymentdetails pd where p.account_id = pd.account_id and p.account_id = act.id and p.balanceinfo_Id = bi.id and bi.minimumdue_id = ba.id and p.productcd not like '%HO%' and p.productcd not like '%PUP%' and p.riskstate = 'CA' and ba.amount > 100 and p.termeffectivedate < '/EXECDATE/' and p.termexpirationdate > '/EXECDATE/' and p.status <> 'held' and act.status <> 'held' and p.billingcycle = 'billing' and pd.dtype like '%CreditCard' /AND_ROWNUM_1/"
 }
 
-BCT_ONL_031_PaymentMethod: {
+BCT_ONL_031_Define_Payment_Method: {
   SelectPolicy: "select policynumber from pasadm.policysummary where LOB = 'AUTO' and riskstatecd = '/STATE/' and txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and expiration > '/EXECDATE/' /AND_ROWNUM_1/"
 }
 
