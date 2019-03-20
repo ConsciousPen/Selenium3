@@ -854,7 +854,7 @@ VehicleInformation_Version2: {
   },
  }
 
-TestData_Multiple_Drivers_Vehicles_NB_Quote: {
+TestData_Multiple_Drivers_NB_Quote: {
   PrefillTab: '@<auto_ca_choice>@DataGather@PrefillTab',
   GeneralTab: '@GeneralTab_Quote',
   DriverTab: ['@DriverInformation_Version1','@DriverInformation_Add_Version'],
@@ -950,7 +950,7 @@ TestData_Assignment_Version2: {
 }
 
 #test data for creation NB in Endorsement/Renewal scenarios with multiple drivers
-TestData_Multiple_Drivers_Vehicles_NB_Policy: {
+TestData_Multiple_Drivers_NB_Policy: {
   PrefillTab: '@<auto_ca_choice>@DataGather@PrefillTab',
   GeneralTab: '@GeneralTab',
   DriverTab: ['@DriverInformation','@DriverInformation_Add_Version'],
@@ -986,7 +986,7 @@ TestData_Multiple_Drivers_Vehicles_NB_Policy: {
 }
 
 
-TestData_NoChange: {
+TestData_Assignment_EndorsementRenewal: {
   GeneralTab: {},
   DriverTab: {},
   MembershipTab: {},

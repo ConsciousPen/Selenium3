@@ -95,6 +95,7 @@ public class VersionsComparisonConstants {
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).First Name", "First Name version2","First Name version1")
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).Second Name", "Second Name version2","Second Name version1")
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).Additional Interest Address", "VII interest address 1, VII interest address 2, Red Rock, AZ, 85245","interest address 1, VI interest address 2, Phoenix, AZ, 85085")
+			//Assignment Tab Information
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Manually assigned driver name", "","NBFirstName NBLastName")
 			.build();
 
@@ -224,7 +225,6 @@ public class VersionsComparisonConstants {
 			/*.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Is Garaging different from Residential?", "Is Garaging different from Residential?")*/
 			//Assignment Tab Information
 			.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Primary Driver", "Primary Driver")
-			//.put("Vehicles.2008, ACURA, MDX.Primary Driver", "Primary Driver")
 			.build();
 
 	//all components/attributes that should be on Comparison page for Named Insured Information section for data gather comparison

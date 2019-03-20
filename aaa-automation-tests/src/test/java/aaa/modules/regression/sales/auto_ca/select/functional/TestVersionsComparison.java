@@ -308,4 +308,48 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	public void pas14145_renewalComparisonVehicleInformation(@Optional("CA") String state) {
 		renewalComparison(getTDNBPolicy(), getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.ENDORSEMENT_RENEWAL_VEHICLE_INFORMATION, "VehicleTab", "VehicleInformation");
 	}
+
+
+	//Assignment section
+
+	private TestData getTDNewBusiness() {
+		return getTestSpecificTD("TestData_Multiple_Drivers_NB_Quote"); }
+
+	private TestData getTDAssignmentVersion1() {
+		return getTestSpecificTD("TestData_Assignment_Version1"); }
+
+	private TestData getTDAssignmentVersion2() {
+		return getTestSpecificTD("TestData_Assignment_Version2");
+	}
+
+	private TestData getTDAssignmentNoChangeVersion() {
+		return getTestSpecificTD("TestData_Assignment_EndorsementRenewal");
+	}
+
+	private TestData getTDNewBusinessPolicy() {
+		return getTestSpecificTD("TestData_Multiple_Drivers_NB_Policy"); }
+
+
+
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-25187"})
+	public void pas25187_dataGatherComparisonAssignment(@Optional("CA") String state) {
+		dataGatherComparison(getTDNewBusiness(), getTDAssignmentVersion1(), getTDAssignmentVersion2(), VersionsComparisonConstants.ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-25187"})
+	public void pas25187_endorsementsComparisonAssignment(@Optional("CA") String state) {
+		endorsementComparison(getTDNewBusinessPolicy(), getTDAssignmentNoChangeVersion(), getTDAssignmentVersion2(), VersionsComparisonConstants.ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-25187"})
+	public void pas25187_renewalComparisonAssignment(@Optional("CA") String state) {
+		renewalComparison(getTDNewBusinessPolicy(), getTDAssignmentNoChangeVersion(), getTDAssignmentVersion2(), VersionsComparisonConstants.ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
+	}
 }

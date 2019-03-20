@@ -307,7 +307,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	//Assignment section
 
 	private TestData getTDNewBusiness() {
-		return getTestSpecificTD("TestData_Multiple_Drivers_Vehicles_NB_Quote"); }
+		return getTestSpecificTD("TestData_Multiple_Drivers_NB_Quote"); }
 
 	private TestData getTDAssignmentVersion1() {
 		return getTestSpecificTD("TestData_Assignment_Version1"); }
@@ -317,11 +317,11 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	}
 
 	private TestData getTDAssignmentNoChangeVersion() {
-		return getTestSpecificTD("TestData_NoChange");
+		return getTestSpecificTD("TestData_Assignment_EndorsementRenewal");
 	}
 
 	private TestData getTDNewBusinessPolicy() {
-		return getTestSpecificTD("TestData_Multiple_Drivers_Vehicles_NB_Policy"); }
+		return getTestSpecificTD("TestData_Multiple_Drivers_NB_Policy"); }
 
 
 

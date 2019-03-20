@@ -164,7 +164,6 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createQuote(tdVersion);
-		//createQuote(getTestSpecificTD("TestData_Multiple_Drivers_Vehicles_NB_Quote"));
 		policy.dataGather().start();
 		getGeneralTab().createVersion();
 		navigateToGeneralTab();
@@ -200,7 +199,6 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(tdVersion);
-		//createPolicy(getTestSpecificTD("TestData_Multiple_Drivers_Vehicles_NB_Policy"));
 		processPlus20DaysEndorsement(tdVersion1);
 		processPlus25DaysEndorsement(tdVersion2);
 
@@ -227,7 +225,6 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(tdVersion);
-		//createPolicy(getTestSpecificTD("TestData_Multiple_Drivers_Vehicles_NB_Policy"));
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 		processRenewalGenerationJob(expirationDate);
