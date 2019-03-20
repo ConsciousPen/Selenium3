@@ -18,9 +18,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -176,7 +174,7 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 			assertThat(actualDocumentsAfterSecondRenewal.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.HSRNHODPXX.getIdInXml());
 		}
 	}
-	//TODO ADD SWITCH HERE
+
 	protected List<String> getSecondRenewalForms() {
 		switch (getPolicyType().getShortName()) {
 			case "HomeSS_HO3":
@@ -243,41 +241,40 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 	 */
 	protected void verifyBillingFormsSequence(TestData testData, Boolean isOnAutopay) throws NoSuchFieldException {
 		/* Start PAS-9816 Scenario 1, Generate forms and check sequence*/
-		/**PAS-9774, PAS-10111 - both has the same root cause which is a Base defect EISAAASP-1852 and has been already resolved in Base EIS 8.17.
-		 It will come with next upgrade, until then there's simple workaround - need to run aaa-admin application instead of aaa-app.
-		 Both, manual propose and automated propose should work running under aaa-admin.**/
-		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getEffectiveDateForTimePoint(
-				TimeSetterUtil.getInstance().getPhaseStartTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
+		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getConversionEffectiveDate();
 
-		// Create manual entry
+		// Create manual entry and verify "Premium Calculated" status
 		String policyNumber = createFormsSpecificManualEntry(testData);
 
+		//Propose policy and generate renewal offer
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalOfferEffectiveDate));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
+		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
 		//needed for home banking form generation
 		setUpTriggerHomeBankingConversionRenewal(policyNumber);
 
+		// Add Credit Card payment method and Enable AutoPayment if applicable
 		if (isOnAutopay){
-			// Add Credit Card payment method and Enable AutoPayment
 			Tab.buttonBack.click();
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 			billingAccount.update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay"));
 		}
 
-		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
+		//Generate Renewal Bill
 		billGeneration(renewalOfferEffectiveDate);
 
+		//TODO: PAS-25907 - Multi Document Billing Packages are incorrectly sent to MCON
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
-
 		assertThat(policyTransactionCode.equals("STMT") || policyTransactionCode.equals("0210")).isTrue();
+
 		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
 		verifyRenewalBillingPackageFormsPresence(policyNumber, getPolicyType(), isOnAutopay);
 
-		// Start PAS-9816 Scenario 1 Issue first renewal
+		// Start PAS-9816 Scenario 1 - Issue first renewal
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		Dollar totalDue = new Dollar(BillingSummaryPage.getTotalDue());
@@ -300,20 +297,16 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 		PolicySummaryPage.buttonRenewals.click();
 		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
-		/**
-		 * https://csaaig.atlassian.net/browse/PAS-9157
-		 * PAS-10256
-		 * Cannot rate Home SS policy with effective date higher or equal to 2020-02-018
-		 */
 		//Generate Bill for the second renewal to verify Home Banking forms
 		billGeneration(secondRenewalExpirationDate);
+
 		// Shouldn't be after second renewal
 		verifyBillingRenewalPackageAbsence(policyNumber);
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		String policyTransactionCode2 = getPackageTag(policyNumber, "PlcyTransCd", AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
-
 		assertThat(policyTransactionCode2.equals("STMT") || policyTransactionCode2.equals("0210")).isTrue();
+
 	}
 
 	/**
@@ -416,6 +409,8 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 	private void billGeneration(LocalDateTime renewalOfferEffectiveDate) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 	}
 
@@ -441,14 +436,9 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 	private void verifyBillingRenewalPackageAbsence(String policyNumber) {
 		List<Document> billingDocumentsListAfterSecondRenewal = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_BILL);
 		assertThat(billingDocumentsListAfterSecondRenewal).isNotEmpty().isNotNull();
-		assertThat(billingDocumentsListAfterSecondRenewal).as("Renewal Bill for 2nd Renewal is not generated").isEqualTo(2);
 
-		List<String> billingFormsAfterSecondRenewal = new ArrayList<>();
-		billingDocumentsListAfterSecondRenewal.forEach(doc -> billingFormsAfterSecondRenewal.add(doc.getTemplateId()));
-
-		assertThat(billingFormsAfterSecondRenewal).doesNotContain(
-				DocGenEnum.Documents.HSRNHBXX.getIdInXml(),
-				DocGenEnum.Documents.HSRNHBPUP.getIdInXml());
+		assertThat(billingDocumentsListAfterSecondRenewal.contains("HSRNHBXX")).isFalse();
+		assertThat(billingDocumentsListAfterSecondRenewal.contains("HSRNHBPUP")).isFalse();
 	}
 
 	private void verifyConversionRenewalPackageAbsence(List<String> forms, List<String> listOfFormsAfterSecondRenewal) {

@@ -16,7 +16,22 @@ TestData_DriverTab_ReconcileFNIclaims_PU_CA: {
 TestData_DriverTab_ClueReconcileFNIclaims_PU_CA: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ca_select>@DataGather@GeneralTab',
-  DriverTab:  ['@Driver1','@Driver6']
+  DriverTab:  ['@Driver1','@Driver6'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+}
+
+TestData_DriverTab_ViolationsMVRFNIclaims_PU_CA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ca_select>@DataGather@GeneralTab',
+  DriverTab:  ['@Driver7','@Driver6'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+}
+
+PremiumAndCoveragesTab: {
+  Product: CA Select,
+  Payment Plan: Annual,
+  Apply eValue Discount: 'Yes',
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
 }
 
 PrefillTab: {
@@ -100,16 +115,7 @@ Driver4: {
   License State: CA,
   Permit Before License: 'Yes',
   "License #": D5435435,
-  Age First Licensed: 18,
-  ActivityInformation: {
-       Activity Source: Company Input,
-       Type: '10-yr Major Violation',
-       Occurrence Date: '$<today-3M:MM/dd/yyyy>',
-       Description: 'Driving under the influence of drugs',
-       Conviction Date: '$<today-3M:MM/dd/yyyy>',
-       "Include in Points and/or YAF?": 'No',
-       Not Included in Points and/or YAF - Reason Codes: 'Report errors',
-      }
+  Age First Licensed: 18
 }
 
 Driver5: {
@@ -148,6 +154,60 @@ Driver6: {
   Age First Licensed: 18
 }
 
+Driver7: {
+Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': First Named Insured,
+  Date of Birth: 10/16/1997,
+  Age First Licensed: 21,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D1278999,
+  ActivityInformation: [
+        {
+         Activity Source: 'Company Input',
+         Type: '10-yr Major Violation',
+         Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+         Description: 'Driving under the influence of drugs',
+         Conviction Date: '$<today-3M:MM/dd/yyyy>',
+         "Include in Points and/or YAF?": 'No',
+         Not Included in Points and/or YAF - Reason Codes: 'Report errors'
+        },
+        {
+        Activity Source: 'Company Input',
+        Type: 'Accident',
+        Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+        Description: 'Fault accident, no injury, damage > $1000',
+        Loss Payment Amount: '1500',
+        Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+        "Include in Points and/or YAF?": 'Yes'
+        },
+        {
+        Activity Source: 'Customer Input',
+        Type: 'Accident',
+        Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+        Description: 'Fault accident, no injury, damage > $1000',
+         Loss Payment Amount: '2000',
+         Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+         "Include in Points and/or YAF?": 'No',
+         Not Included in Points and/or YAF - Reason Codes: 'Report errors'
+        },
+        {
+        Activity Source: 'Customer Input',
+        Type: 'Suspension/Revocation',
+        Description: 'Alcohol Related Suspension',
+        Suspension Date: '$<today-1M:MM/dd/yyyy>',
+        "Include in Points and/or YAF?": 'Yes'
+        }
+     ]
+  }
+
+
 ############### Add 5th Driver at endorsement
 Add_PU_Claim_Driver_Endorsement_CA: {
   DriverTab: ['@Driver5']
@@ -156,4 +216,39 @@ Add_PU_Claim_Driver_Endorsement_CA: {
 Add_Driver2_Endorsement_CA: {
 GeneralTab: {},
 DriverTab: ['@Driver6']
+}
+
+TestData_PUDefaulting: {
+  PrefillTab: '@PrefillTab_PUDefaulting',
+  DriverTab: '@Driver_PUDefaulting_FNI',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_PUDefaulting'
+}
+
+PrefillTab_PUDefaulting: {
+  First Name: 'Matthew',
+  Last Name: 'Fox',
+  Zip Code: 90255,
+  Address Line 1: 6586 PORCUPINE WAY,
+  City: HUNTINGTON PARK,
+  State: CA,
+  Date of Birth: '10/16/1997',
+  Validate Address: click,
+  Validate Address Dialog: {
+  },
+  Order Prefill: click
+}
+
+Driver_PUDefaulting_FNI: {
+  'Rel. to First Named Insured': 'First Named Insured',
+  Occupation: Architect,
+  Age First Licensed: 18,
+  License Type: 'Valid',
+  "License #": C1919191,
+  License State: CA,
+  Permit Before License: 'No'
+}
+
+PremiumAndCoveragesTab_PUDefaulting: {
+  Product: 'CA Select',
+  Payment Plan: Annual
 }

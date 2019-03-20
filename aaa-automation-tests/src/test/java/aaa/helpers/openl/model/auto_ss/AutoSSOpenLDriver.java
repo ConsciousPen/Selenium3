@@ -4,6 +4,7 @@ import aaa.helpers.openl.annotation.MatchingField;
 import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLDriver;
 import aaa.helpers.openl.model.OpenLFile;
+import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 /**

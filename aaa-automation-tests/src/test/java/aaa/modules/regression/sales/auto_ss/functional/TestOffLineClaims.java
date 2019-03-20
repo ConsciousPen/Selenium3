@@ -4,7 +4,6 @@ import static aaa.common.pages.SearchPage.tableSearchResults;
 import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.io.File;
-import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
@@ -21,7 +20,6 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
@@ -30,7 +28,6 @@ import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplat
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
@@ -43,24 +40,19 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
     private static final String CLAIM_NUMBER_1 = "1002-10-8702";
     private static final String CLAIM_NUMBER_2 = "1002-10-8703";
-    private static final String CLAIM_NUMBER_3 = "1002-10-8704";
+    private static final String CLAIM_NUMBER_3 = "1002.10>8704";
 	private static final String CLAIM_NUMBER_4 = "1FAZ1111OHS";
 	private static final String CLAIM_NUMBER_5 = "4FAZ44444OHS";
     private static final String CLAIM_NUMBER_6 = "1002-10-8705";
     private static final String COMP_DL_PU_CLAIMS_DATA_MODEL = "comp_dl_pu_claims_data_model.yaml";
-    private static final String NAME_DOB_CLAIMS_DATA_MODEL = "name_dob_claims_data_model.yaml";
+	private static final String NAME_DOB_CLAIMS_DATA_MODEL = "name_dob_claims_data_model.yaml";
     private static final String INC_IN_RATING_3RD_RENEWAL_DATA_MODEL = "inc_in_rating_3rd_renewal_data_model.yaml";
     private static final String INC_RATING_CLAIM_1 = "IIRatingClaim1";
     private static final String INC_RATING_CLAIM_2 = "IIRatingClaim2";
     private static final String INC_RATING_CLAIM_3 = "IIRatingClaim3";
 	private static final String INC_RATING_CLAIM_4 = "IIRatingClaim4";
 	private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE = ImmutableMap.of(CLAIM_NUMBER_1, "A12345222", CLAIM_NUMBER_2, "A12345222");
-
-	private static String adminLog;
-	private static List<String> listOfClaims;
-	private static PasAdminLogGrabber pasAdminLogGrabber = new PasAdminLogGrabber();
-	private static final String pasDriverNameKey = "pasDriverName";
-	private static final String matchCodeKey = "matchCode";
+    private static final String CAS_CLUE_CLAIM = "1002-10-8704";
 
     /**
      * @author Andrii Syniagin
@@ -102,12 +94,6 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
     public void pas14679_CompDLPUMatchMore(@Optional("AZ") @SuppressWarnings("unused") String state) {
-
-		// Toggle ON PermissiveUse Logic
-		// Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
-		// Set RISKSTATECD in DB to get policy DATEOFLOSS working
-		DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
 
     	createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
         runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
@@ -152,12 +138,6 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
 	public void pas14679_CompDLPUMatchMoreManual(@Optional("AZ") @SuppressWarnings("unused") String state) {
-
-		// Toggle ON PermissiveUse Logic
-		// Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
-		// Set RISKSTATECD in DB to get policy DATEOFLOSS working
-		DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
 
 		// Create Customer and Policy with 4 drivers
 		createPolicyMultiDrivers();
@@ -303,12 +283,6 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14552")
     public void pas14552_includeClaimsInRatingDetermination(@Optional("AZ") @SuppressWarnings("unused") String state) {
 
-		// Toggle ON PermissiveUse Logic
-		// Set DATEOFLOSS Parameter in DB: NOT greater than Claim4 dateOfLoss
-		// Set RISKSTATECD in DB to get policy DATEOFLOSS working
-		DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "01-NOV-18")); //Set Date which will be before claim dateOfLoss
-
         // Claim Dates: claimDateOfLoss/claimOpenDate/claimCloseDate all are the same
         String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(1).toLocalDate().toString();
         String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).toLocalDate().toString();
@@ -406,16 +380,16 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	 * 11. Navigate to the drive tab, and verify the PU claim was moved from the FNI to the newly added driver
 	 * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver
 	 */
+    /**
+     * PAS-23977 - END: Reconcile Claim # Formats (CLUE and CAS)
+     * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added and compare of CLUE claim from newly added driver to existing PU Yes claim on FNI .
+     * @scenario Test Steps: See Template For Details
+     * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver and only claim numbers will be compared ignoring the format differences.
+     */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
 	public void pas22172_ReconcilePUEndorsementAFRD(@Optional("AZ") @SuppressWarnings("unused") String state) {
-
-		// Toggle ON PermissiveUse Logic
-		// Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
-		// Set RISKSTATECD in DB to get policy DATEOFLOSS working
-		DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
 
 		createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
 		runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
@@ -454,7 +428,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
 		//Navigate to Driver page and verify PU claim moved from FNI to newly added driver
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-		puDropAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_3);
+		puDropAssertions(CLAIM_NUMBER_1, CAS_CLUE_CLAIM);
 
 		//Bind Endorsement
 		bindEndorsement();

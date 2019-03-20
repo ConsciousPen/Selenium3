@@ -32,7 +32,6 @@ public class TestScenario4 extends AutoSSBaseTest {
 	@StateList(states = {States.AZ, States.IN, States.OH, States.VA})
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
 	public void TC01_CreatePolicy(@Optional("") String state) {
-		DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), false);
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
 		createCustomerIndividual();
@@ -107,8 +106,12 @@ public class TestScenario4 extends AutoSSBaseTest {
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AHAPXX);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AHRCTXXAUTO);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AA06XX_AUTOSS);
-				docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
-				docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
+				if(DocGenHelper.isPasDocEnabled(getState(), getPolicyType())){
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004_PasDoc);
+				}else{
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
+				}
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU02);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU07);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU09);
@@ -117,7 +120,9 @@ public class TestScenario4 extends AutoSSBaseTest {
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU06);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU04);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU05);
-				docgenActionTab.verify.documentsEnabled(softly, false, Documents.AHFMXX);
+				if(!DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
+					docgenActionTab.verify.documentsEnabled(softly, false, Documents.AHFMXX);
+				}
 				break;
 			case States.OH:
 				docgenActionTab.verify.documentsEnabled(Documents.AA11OH);
@@ -126,7 +131,11 @@ public class TestScenario4 extends AutoSSBaseTest {
 				docgenActionTab.verify.documentsEnabled(Documents.AHAPXX);
 				docgenActionTab.verify.documentsEnabled(Documents.AHRCTXXAUTO);
 				docgenActionTab.verify.documentsEnabled(Documents.AA06XX_AUTOSS);
-				docgenActionTab.verify.documentsEnabled(Documents._605004);
+				if(DocGenHelper.isPasDocEnabled(getState(), getPolicyType())){
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004_PasDoc);
+				}else{
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
+				}
 				docgenActionTab.verify.documentsEnabled(Documents.AU02);
 				docgenActionTab.verify.documentsEnabled(Documents.AU07);
 				docgenActionTab.verify.documentsEnabled(Documents.AU09);
@@ -135,8 +144,9 @@ public class TestScenario4 extends AutoSSBaseTest {
 				docgenActionTab.verify.documentsEnabled(Documents.AU06);
 				docgenActionTab.verify.documentsEnabled(Documents.AU04);
 				docgenActionTab.verify.documentsEnabled(Documents.AU05);
-
-				docgenActionTab.verify.documentsEnabled(softly, false, Documents.AA52OH);
+				if(!DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
+					docgenActionTab.verify.documentsEnabled(softly, false, Documents.AA52OH);
+				}
 				break;
 			case States.IN:
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AA11IN);
@@ -145,8 +155,12 @@ public class TestScenario4 extends AutoSSBaseTest {
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AHAPXX);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AHRCTXXAUTO);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AA06XX_AUTOSS);
-				docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
-				docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
+				if(DocGenHelper.isPasDocEnabled(getState(), getPolicyType())){
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004_PasDoc);
+				}else{
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
+				}
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU02);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU07);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU09);
@@ -155,7 +169,9 @@ public class TestScenario4 extends AutoSSBaseTest {
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU06);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU04);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU05);
-				docgenActionTab.verify.documentsEnabled(softly, false, Documents.AA52IN, Documents.AHFMXX);
+				if(!DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
+					docgenActionTab.verify.documentsEnabled(softly, false, Documents.AA52IN, Documents.AHFMXX);
+				}
 				break;
 			case States.AZ:
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AA11AZ);
@@ -164,8 +180,12 @@ public class TestScenario4 extends AutoSSBaseTest {
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AHAPXX);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AHRCTXXAUTO);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AA06XX_AUTOSS);
-				docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
-				docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
+				if(DocGenHelper.isPasDocEnabled(getState(), getPolicyType())){
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004_PasDoc);
+				}else{
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
+				}
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU02);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU07);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU09);
@@ -174,7 +194,9 @@ public class TestScenario4 extends AutoSSBaseTest {
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU06);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU04);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU05);
-				docgenActionTab.verify.documentsEnabled(softly, false, Documents.AA52AZ_UPPERCASE, Documents.AHFMXX);
+				if(!DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
+					docgenActionTab.verify.documentsEnabled(softly, false, Documents.AA52AZ_UPPERCASE, Documents.AHFMXX);
+				}
 				break;
 			case States.WV:
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AA11WV);
@@ -182,8 +204,12 @@ public class TestScenario4 extends AutoSSBaseTest {
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AHAPXX);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AHRCTXXAUTO);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AA06XX_AUTOSS);
-				docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
-				docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
+				if(DocGenHelper.isPasDocEnabled(getState(), getPolicyType())){
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004_PasDoc);
+				}else{
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605004);
+					docgenActionTab.verify.documentsEnabled(softly, Documents._605005_SELECT);
+				}
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU02);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU07);
 				docgenActionTab.verify.documentsEnabled(softly, Documents.AU09);
@@ -257,23 +283,18 @@ public class TestScenario4 extends AutoSSBaseTest {
 		switch (getState()) {
 			case States.AZ:
 				DocGenHelper.verifyDocumentsGenerated(softly, copiedQuoteNumber, Documents.AA11AZ, Documents.AHAPXX);
-				DocGenHelper.verifyDocumentsGenerated(softly, false, copiedQuoteNumber, Documents.AA43AZ, Documents.AASR22, Documents.AAPNXX, Documents.AA02AZ);
 				break;
 			case States.IN:
 				DocGenHelper.verifyDocumentsGenerated(softly, copiedQuoteNumber, Documents.AA11IN, Documents.AHAPXX);
-				DocGenHelper.verifyDocumentsGenerated(softly, false, copiedQuoteNumber, Documents.AA43IN, Documents.AASR22, Documents.AAPNXX, Documents.AA02IN);
 				break;
 			case States.OH:
 				DocGenHelper.verifyDocumentsGenerated(softly, copiedQuoteNumber, Documents.AA11OH, Documents.AHAPXX);
-				DocGenHelper.verifyDocumentsGenerated(softly, false, copiedQuoteNumber, Documents.AA43OH, Documents.AASR22, Documents.AAPNXX, Documents.AA02OH);
 				break;
 			case States.VA:
 				DocGenHelper.verifyDocumentsGenerated(softly, copiedQuoteNumber, Documents.AA11VA, Documents.AHAPXX);
-				DocGenHelper.verifyDocumentsGenerated(softly, false, copiedQuoteNumber, Documents.AASR22, Documents.AAPNXX, Documents.AA02VA);
 				break;
 			case States.WV:
 				DocGenHelper.verifyDocumentsGenerated(softly, copiedQuoteNumber, Documents.AA11WV, Documents.AHAPXX);
-				DocGenHelper.verifyDocumentsGenerated(softly, false, copiedQuoteNumber, Documents.AA43WV, Documents.AASR22, Documents.AAPNXX, Documents.AA02WV);
 				break;
 		}
 		softly.close();
@@ -295,23 +316,18 @@ public class TestScenario4 extends AutoSSBaseTest {
 		switch (getState()) {
 			case States.AZ:
 				DocGenHelper.verifyDocumentsGenerated(softly, copiedPolicyNumber, Documents.AA02AZ);
-				DocGenHelper.verifyDocumentsGenerated(softly, false, copiedPolicyNumber, Documents.AHAPXX, Documents.AA43AZ, Documents.AASR22, Documents.AAPNXX);
 				break;
 			case States.IN:
 				DocGenHelper.verifyDocumentsGenerated(softly, copiedPolicyNumber, Documents.AA02IN);
-				DocGenHelper.verifyDocumentsGenerated(softly, false, copiedPolicyNumber, Documents.AHAPXX, Documents.AA43IN, Documents.AASR22, Documents.AAPNXX);
 				break;
 			case States.OH:
 				DocGenHelper.verifyDocumentsGenerated(softly, copiedPolicyNumber, Documents.AA02OH);
-				DocGenHelper.verifyDocumentsGenerated(softly, false, copiedPolicyNumber, Documents.AHAPXX, Documents.AA43OH, Documents.AASR22, Documents.AAPNXX);
 				break;
 			case States.VA:
 				DocGenHelper.verifyDocumentsGenerated(softly, copiedPolicyNumber, Documents.AA02VA);
-				DocGenHelper.verifyDocumentsGenerated(softly, false, copiedPolicyNumber, Documents.AHAPXX, Documents.AASR22, Documents.AAPNXX);
 				break;
 			case States.WV:
 				DocGenHelper.verifyDocumentsGenerated(softly, copiedPolicyNumber, Documents.AA02WV);
-				DocGenHelper.verifyDocumentsGenerated(softly, false, copiedPolicyNumber, Documents.AHAPXX, Documents.AA43WV, Documents.AASR22, Documents.AAPNXX);
 				break;
 		}
 		softly.close();

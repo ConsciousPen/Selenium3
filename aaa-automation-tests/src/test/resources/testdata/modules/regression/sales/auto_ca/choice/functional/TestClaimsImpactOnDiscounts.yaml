@@ -1,4 +1,4 @@
-TestData_DriverTab_DiscountsGDD_CAC: {
+TestData_DriverTab_DiscountsGDD: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@GeneralTab',
   DriverTab: ['@Driver_FNI', '@Driver_Second'],
@@ -36,13 +36,15 @@ Driver_FNI: {
   License State: CA,
   Permit Before License: 'No',
   ActivityInformation: {
-    Activity Source: Customer Input,
-    Type: 'Major Violation',
-    Description: 'Hit and run',
+    Activity Source: 'Company Input',
+    Type: 'Accident',
+    Description: 'Fault accident with injury',
     Occurrence Date: '$<today-3M:MM/dd/yyyy>',
     Conviction Date: '$<today-3M:MM/dd/yyyy>',
+    Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
     'Include in Points and/or YAF?': 'Yes',
-    'Permissive Use Loss?': 'Yes'
+    'Permissive Use Loss?': 'Yes',
+     Loss Payment Amount: '3500'
   }
 }
 
@@ -63,17 +65,19 @@ Driver_Second: {
   Age First Licensed: 18,
   Permit Before License: 'No',
   ActivityInformation: {
-    Activity Source: Customer Input,
-    Type: 'Major Violation',
-    Description: 'Hit and run',
+    Activity Source: 'Company Input',
+    Type: 'Accident',
+    Description: 'Fault accident with injury',
     Occurrence Date: '$<today-3M:MM/dd/yyyy>',
     Conviction Date: '$<today-3M:MM/dd/yyyy>',
+    Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
     'Include in Points and/or YAF?': 'Yes',
+    Loss Payment Amount: '3500'
   }
 }
 
 # Test Data for completing quote
-TestData_DriverActivityReportsTab_CAC: {
+TestData_DriverActivityReportsTab: {
   DriverActivityReportsTab: '@DriverActivityReportsTab_2nd'
 
 }

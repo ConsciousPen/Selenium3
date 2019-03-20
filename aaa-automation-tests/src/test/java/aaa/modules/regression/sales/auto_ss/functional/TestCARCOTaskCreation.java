@@ -66,13 +66,11 @@ public class TestCARCOTaskCreation extends AutoSSBaseTest {
 
         // Override CARCO error and bind policy
         documentsAndBindTab.submitTab();
-        if (getState().equals(Constants.States.NJ)) {
-            errorTab.overrideErrors(ErrorEnum.Duration.TERM, ErrorEnum.ReasonForOverride.TEMPORARY_ISSUE, ErrorEnum.Errors.ERROR_AAA_200205);
-        } else if (getState().equals(Constants.States.NY)) {
+        if (getState().equals(Constants.States.NY)) {
             errorTab.overrideErrors(ErrorEnum.Duration.TERM, ErrorEnum.ReasonForOverride.TEMPORARY_ISSUE, ErrorEnum.Errors.ERROR_AAA_200200_NY);
+            errorTab.override();
+            documentsAndBindTab.submitTab();
         }
-        errorTab.override();
-        documentsAndBindTab.submitTab();
         new PurchaseTab().fillTab(td).submitTab();
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 

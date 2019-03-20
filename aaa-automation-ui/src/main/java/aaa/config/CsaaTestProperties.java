@@ -21,7 +21,6 @@ public class CsaaTestProperties extends TestProperties {
 	public static final String APP_STUB_SCRIPT_STOP = "app.stub.script.stop";
 	public static final String DOMAIN_NAME = "domain.name";
 	public static final String JOB_FOLDER = "job.folder";
-	public static final String DOCGEN_FOLDER = "docgen.folder";
 	public static final String REMOTE_DOWNLOAD_FOLDER_PROP = "test.remotefile.location";
 	public static final String USER_DIR_PROP = "user.dir";
 	public static final String LOCAL_DOWNLOAD_FOLDER_PROP = "test.downloadfiles.location";
@@ -46,7 +45,7 @@ public class CsaaTestProperties extends TestProperties {
 	public static final String OPENL_RATING_LOGS_FILENAME_REGEXP = "openl.rating.logs.filename.regexp"; // for openl tests only - regexp which matches with all rating log filenames including initial one (e.g. "aaa-rating-engine-app.log, aaa-rating-engine-app.log.1, etc...")
 	public static final String OPENL_ATTACH_RATING_LOGS = "openl.attach.rating.logs"; // for openl tests only, available values: "true|always|all" to attach logs always and "failed" to attach only if test fails
 	public static final String OPENL_ARCHIVE_RATING_LOGS = "openl.archive.rating.logs"; // for openl tests only - make zip archive of grabbed logs, available values: true, false
-	public static final String PAS_ADMIN_LOG_FOLDER = "pas.admin.logs.folder";
+	public static final String PAS_LOG_FOLDER = "pas.logs.folder";
 	public static final String JIRA_URL = "jira.url";
 	public static final String JIRA_LOGIN = "jira.login";
 	public static final String JIRA_PASSWORD = "jira.password";

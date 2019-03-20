@@ -400,6 +400,11 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 		return !(getCappingDetails().getTermCappingFactor() == null || getCappingDetails().getTermCappingFactor() == 0.0);
 	}
 
+	@Override
+	public boolean isNewRenPasCappedPolicy() {
+		return !isLegacyConvPolicy() && isCappedPolicy();
+	}
+
 	public Boolean isVariationRequest() {
 		return isVariationRequest;
 	}

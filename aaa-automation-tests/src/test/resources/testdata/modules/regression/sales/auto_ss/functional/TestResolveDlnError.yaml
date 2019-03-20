@@ -1,0 +1,301 @@
+# ------- AZ ------
+
+TestData_ErrorLicense_AZ: {
+   DriverTab: '@DriverTabError_AZ'
+}
+
+DriverTabError_AZ: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'AZ',
+  License Number: 40006477345
+}
+
+
+# ------- UT ------
+
+TestData_ErrorLicense_UT: {
+   DriverTab: '@DriverTabError_UT'
+}
+
+DriverTabError_UT: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'UT',
+  License Number: 40006477345
+}
+
+# ------- CO ------
+TestData_ErrorLicense_CO: {
+   DriverTab: '@DriverTabError_CO'
+}
+
+DriverTabError_CO: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'CO',
+  License Number: 40006477
+}
+
+# ------- CT ------
+TestData_ErrorLicense_CT: {
+   DriverTab: '@DriverTabError_CT'
+}
+
+DriverTabError_CT: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'CT',
+  License Number: AAA40006477
+}
+
+# ------- DC ------
+TestData_ErrorLicense_DC: {
+   DriverTab: '@DriverTabError_DC'
+}
+
+DriverTabError_DC: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'DC',
+  License Number: A4000647768
+}
+
+# ------- DE ------
+TestData_ErrorLicense_DE: {
+   DriverTab: '@DriverTabError_DE'
+}
+
+DriverTabError_DE: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'DE',
+  License Number: A400064776890
+}
+
+# ------- ID ------
+TestData_ErrorLicense_ID: {
+   DriverTab: '@DriverTabError_ID'
+}
+
+DriverTabError_ID: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'ID',
+  License Number: A4035647
+}
+
+# ------- IN ------
+TestData_ErrorLicense_IN: {
+   DriverTab: '@DriverTabError_IN'
+}
+
+DriverTabError_IN: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'IN',
+  License Number: A403564709
+}
+
+# ------- KS ------
+TestData_ErrorLicense_KS: {
+   DriverTab: '@DriverTabError_KS'
+}
+
+DriverTabError_KS: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'KS',
+  License Number: A403564568456
+}
+
+# ------- KY ------
+TestData_ErrorLicense_KY: {
+   DriverTab: '@DriverTabError_KY'
+}
+
+DriverTabError_KY: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'KY',
+  License Number: A403564
+}
+
+# ------- MD ------
+TestData_ErrorLicense_MD: {
+   DriverTab: '@DriverTabError_MD'
+}
+
+DriverTabError_MD: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'MD',
+  License Number: A403564890
+}
+
+# ------- MT ------
+TestData_ErrorLicense_MT: {
+   DriverTab: '@DriverTabError_MT'
+}
+
+DriverTabError_MT: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'MT',
+  License Number: A40356489055
+}
+
+# ------- NJ ------
+TestData_ErrorLicense_NJ: {
+   DriverTab: '@DriverTabError_NJ'
+}
+
+DriverTabError_NJ: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'NJ',
+  License Number: A4035648
+}
+
+# ------- NV ------
+TestData_ErrorLicense_NV: {
+   DriverTab: '@DriverTabError_NV'
+}
+
+DriverTabError_NV: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'NV',
+  License Number: A4035648789
+}
+
+# ------- NY ------
+TestData_ErrorLicense_NY: {
+   DriverTab: '@DriverTabError_NY'
+}
+
+DriverTabError_NY: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'NY',
+  License Number: A403564878912
+}
+
+# ------- OH ------
+TestData_ErrorLicense_OH: {
+   DriverTab: '@DriverTabError_OH'
+}
+
+DriverTabError_OH: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'OH',
+  License Number: A4035645
+}
+
+# ------- OK ------
+TestData_ErrorLicense_OK: {
+   DriverTab: '@DriverTabError_OK'
+}
+
+DriverTabError_OK: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'OK',
+  License Number: A4035645890
+}
+
+# ------- OR ------
+TestData_ErrorLicense_OR: {
+   DriverTab: '@DriverTabError_OR'
+}
+
+DriverTabError_OR: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'OR',
+  License Number: ABS403564
+}
+
+# ------- PA ------
+TestData_ErrorLicense_PA: {
+   DriverTab: '@DriverTabError_PA'
+}
+
+DriverTabError_PA: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'PA',
+  License Number: ABS403564789
+}
+
+# ------- SD ------
+TestData_ErrorLicense_SD: {
+   DriverTab: '@DriverTabError_SD'
+}
+
+DriverTabError_SD: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'SD',
+  License Number: ABS40356
+}
+
+# ------- VA ------
+TestData_ErrorLicense_VA: {
+   DriverTab: '@DriverTabError_VA'
+}
+
+DriverTabError_VA: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'VA',
+  License Number: ABS40356789
+}
+
+# ------- WV ------
+TestData_ErrorLicense_WV: {
+   DriverTab: '@DriverTabError_WV'
+}
+
+DriverTabError_WV: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'WV',
+  License Number: ABS40389
+}
+
+# ------- WY ------
+TestData_ErrorLicense_WY: {
+   DriverTab: '@DriverTabError_WY'
+}
+
+DriverTabError_WY: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'WY',
+  License Number: ABS4038976
+}
