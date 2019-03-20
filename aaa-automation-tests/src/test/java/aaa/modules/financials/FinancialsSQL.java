@@ -78,6 +78,8 @@ public final class FinancialsSQL {
 		public static final String STATE_TAX_KY = "PRMS_KY/1002";
 		public static final String CITY_TAX_KY = "PREMT_CITY/2319402000";
 		public static final String COUNTY_TAX_KY = "PREMT_COUNTY/2319402000";
+		public static final String CITY_TAX_KY_FUTURE = "PREMT_CITY/2319402001";
+		public static final String COUNTY_TAX_KY_FUTURE = "PREMT_COUNTY/2319402001";
     }
 
 }

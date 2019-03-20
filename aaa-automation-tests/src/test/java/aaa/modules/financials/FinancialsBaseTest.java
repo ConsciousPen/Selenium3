@@ -189,14 +189,14 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 			NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
 			taxes.put(STATE, new Dollar(PremiumAndCoveragesQuoteTab.tableTaxes
 					.getRowContains(HomeSSConstants.StateAndLocalTaxesTable.DESCRIPTION, HomeSSConstants.StateAndLocalTaxesTable.PREMIUM_SURCHARGE)
-					.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM)));
+					.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM).getValue()));
 			if (getState().equals(Constants.States.KY)) {
 				taxes.put(CITY, new Dollar(PremiumAndCoveragesQuoteTab.tableTaxes
 						.getRowContains(HomeSSConstants.StateAndLocalTaxesTable.DESCRIPTION, HomeSSConstants.StateAndLocalTaxesTable.CITY_TAX)
-						.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM)));
+						.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM).getValue()));
 				taxes.put(COUNTY, new Dollar(PremiumAndCoveragesQuoteTab.tableTaxes
 						.getRowContains(HomeSSConstants.StateAndLocalTaxesTable.DESCRIPTION, HomeSSConstants.StateAndLocalTaxesTable.COUNTY_TAX)
-						.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM)));
+						.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM).getValue()));
 			}
 			new PremiumAndCoveragesQuoteTab().cancel();
 
@@ -206,14 +206,14 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 			NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 			taxes.put(STATE, new Dollar(PremiumsAndCoveragesQuoteTab.tableTaxes
 					.getRowContains(HomeSSConstants.StateAndLocalTaxesTable.DESCRIPTION, HomeSSConstants.StateAndLocalTaxesTable.PREMIUM_SURCHARGE)
-					.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM)));
+					.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM).getValue()));
 			if (getState().equals(Constants.States.KY)) {
 				taxes.put(CITY, new Dollar(PremiumsAndCoveragesQuoteTab.tableTaxes
 						.getRowContains(HomeSSConstants.StateAndLocalTaxesTable.DESCRIPTION, HomeSSConstants.StateAndLocalTaxesTable.CITY_TAX)
-						.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM)));
+						.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM).getValue()));
 				taxes.put(COUNTY, new Dollar(PremiumsAndCoveragesQuoteTab.tableTaxes
 						.getRowContains(HomeSSConstants.StateAndLocalTaxesTable.DESCRIPTION, HomeSSConstants.StateAndLocalTaxesTable.COUNTY_TAX)
-						.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM)));
+						.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM).getValue()));
 			}
 			new PremiumsAndCoveragesQuoteTab().cancel();
 		}

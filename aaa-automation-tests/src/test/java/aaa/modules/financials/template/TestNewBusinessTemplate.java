@@ -153,39 +153,40 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // Get premium and fee amounts from billing tab (if any)
         Dollar premTotal = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.POLICY);
         Dollar totalFees = BillingHelper.getFeesValue(today);
+        Dollar totalTaxes = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1071");
 
         // NBZ-03 and PMT-04 validations
         assertSoftly(softly -> {
             softly.assertThat(premTotal.add(totalFees)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1001"));
-            softly.assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1065"));
-            softly.assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1042"));
-            softly.assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")
+            softly.assertThat(premTotal.subtract(totalTaxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1065"));
+            softly.assertThat(premTotal.subtract(totalTaxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1042"));
+            softly.assertThat(premTotal.subtract(totalTaxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")));
         });
 
-        // TAX-02/PMT-01 validations (KY only)
+        // TAX-01/PMT-04 validations (KY only)
         if (getState().equals(Constants.States.KY)) {
             Map<String, Dollar> taxes = getTaxAmountsFromVRD(policyNumber);
             assertSoftly(softly -> {
-                // TAX-02
-                softly.assertThat(taxes.get(STATE)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_KY, "1053"));
-                softly.assertThat(taxes.get(CITY)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CITY_TAX_KY, "1053"));
-                softly.assertThat(taxes.get(COUNTY)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.COUNTY_TAX_KY, "1053"));
-                // PMT-01
-                softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1053"));
-                softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1054"));
+                // TAX-01
+                softly.assertThat(taxes.get(STATE)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_KY, "1071"));
+                softly.assertThat(taxes.get(CITY)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CITY_TAX_KY_FUTURE, "1071"));
+                softly.assertThat(taxes.get(COUNTY)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.COUNTY_TAX_KY_FUTURE, "1071"));
+                // PMT-04
+                softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1071"));
+                softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1072"));
             });
         }
 
-        // TAX-05/PMT-01 validations (WV only)
+        // TAX-04/PMT-04 validations (WV only)
         if (getState().equals(Constants.States.WV)) {
             Map<String, Dollar> taxes = getTaxAmountsFromVRD(policyNumber);
             assertSoftly(softly -> {
-                // TAX-05
-                softly.assertThat(taxes.get(STATE)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_WV, "1053"));
-                // PMT-01
-                softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1053"));
-                softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1054"));
+                // TAX-04
+                softly.assertThat(taxes.get(STATE)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_WV, "1071"));
+                // PMT-04
+                softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1071"));
+                softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1072"));
             });
         }
 
