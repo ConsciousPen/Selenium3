@@ -336,7 +336,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-25187"})
 	public void pas25187_dataGatherComparisonAssignment(@Optional("CA") String state) {
-		dataGatherComparison(getTDNewBusiness(), getTDAssignmentVersion1(), getTDAssignmentVersion2(), VersionsComparisonConstants.ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
+		dataGatherComparison(getTDNewBusiness(), getTDAssignmentVersion1(), getTDAssignmentVersion2(), VersionsComparisonConstants.DATA_GATHER_ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
 	}
 
 	@Parameters({STATE_PARAM})

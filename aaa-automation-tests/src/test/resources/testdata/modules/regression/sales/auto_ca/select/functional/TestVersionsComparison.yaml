@@ -853,7 +853,7 @@ TestData_Multiple_Drivers_NB_Quote: {
   GeneralTab: '@GeneralTab_Quote',
   DriverTab: ['@DriverInformation_Version1','@DriverInformation_Add_Version'],
   MembershipTab: {},
-  VehicleTab: '@VehicleInformation_Version1',
+  VehicleTab: '@VehicleInformation',
   AssignmentTab: {
     DriverVehicleRelationshipTable: {
           Primary Driver: "VIFirstName VILastName",
@@ -904,7 +904,7 @@ TestData_Assignment_Version1: {
     GeneralTab: {},
     DriverTab: ['@DriverInformation_Version1','@DriverInformation_Add_Version'],
     MembershipTab: {},
-    VehicleTab: '@VehicleInformation_Version1',
+    VehicleTab: '@VehicleInformation',
     AssignmentTab: {
      DriverVehicleRelationshipTable: {
            Primary Driver: "VIFirstName VILastName",
