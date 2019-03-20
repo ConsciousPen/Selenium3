@@ -2,8 +2,8 @@
 <suite name="Regression Tests" verbose="1"  thread-count="1024">
 
     <suite-files>
-        <suite-file path="emptyEndorsementOnline.xml"/>
-        <suite-file path="mixedBctTests.xml"/>
+        <suite-file path="./emptyEndorsementOnline.xml"/>
+        <suite-file path="./mixedBctTests.xml"/>
     </suite-files>
 
 </suite>
