@@ -282,4 +282,9 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	public boolean isCappedPolicy() {
 		return false;
 	}
+
+	@Override
+	public boolean isNewRenPasCappedPolicy() {
+		return !isLegacyConvPolicy() && isCappedPolicy();
+	}
 }

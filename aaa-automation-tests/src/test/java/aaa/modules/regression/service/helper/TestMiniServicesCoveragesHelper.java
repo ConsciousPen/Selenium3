@@ -1502,6 +1502,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		createCustomerIndividual();
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
+		if (getState().equals(Constants.States.NJ)) {//getting CARCO error on Bind, hence overriding it
+			TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+			testData.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+		}
 		policyType.get().createPolicy(testData);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
@@ -2711,6 +2715,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		Coverage umpdNoCoverage = Coverage.create(CoverageInfo.UMPD_NV_WITHCOLL).changeLimit(CoverageLimits.COV_0);
 		Coverage returnedUmpdNoCov = findCoverage(findVehicleCoverages(updateCoverageResponse, vehicleOid).coverages, "UMPD");
 		assertThat(umpdNoCoverage).isEqualTo(returnedUmpdNoCov);
+		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateCoverageResponse);
+		validateVehicleLevelCoverageChangeLog(policyNumber, vehicleOid, umpdNoCoverage);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -2724,6 +2730,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		Coverage umpdNoUM = Coverage.create(CoverageInfo.UMPD_NV_WOUM).changeLimit(CoverageLimits.COV_0).disableCanChange().disableCustomerDisplay();
 		Coverage returnedUmpdNoUM = findCoverage(findVehicleCoverages(viewCoverageNoUMResponse, vehicleOid).coverages, "UMPD");
 		assertThat(umpdNoUM).isEqualTo(returnedUmpdNoUM);
+		validateVehicleLevelCoverageChangeLog(policyNumber, vehicleOid, umpdNoUM);
 
 		HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest("BI", "100000/300000"), PolicyCoverageInfo.class);
 		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest("COLLDED", "-1"), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
@@ -2731,11 +2738,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		Coverage umpdNoColl = Coverage.create(CoverageInfo.UMPD_NV_NOCOLL).changeLimit(CoverageLimits.COV_0);
 		Coverage returnedUmpdNoColl = findCoverage(findVehicleCoverages(viewCoverageNoCollResponse, vehicleOid).coverages, "UMPD");
 		assertThat(umpdNoColl).isEqualTo(returnedUmpdNoColl);
+		validateVehicleLevelCoverageChangeLog(policyNumber, vehicleOid, umpdNoColl);
 
 		PolicyCoverageInfo updateCoverageResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest("UMPD", "3500"), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		Coverage umpdNoCoverage2 = Coverage.create(CoverageInfo.UMPD_NV_NOCOLL).changeLimit(CoverageLimits.COV_3500);
 		Coverage returnedUmpdNoCov2 = findCoverage(findVehicleCoverages(updateCoverageResponse2, vehicleOid).coverages, "UMPD");
 		assertThat(umpdNoCoverage2).isEqualTo(returnedUmpdNoCov2);
+		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateCoverageResponse2);
+		validateVehicleLevelCoverageChangeLog(policyNumber, vehicleOid, umpdNoCoverage2);
 	}
 
 	protected void pas14730_UpdateCoverageUMPDAndPDBody(PolicyType policyType) {
@@ -6632,7 +6642,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				updateData.getCoverageLimit()), PolicyCoverageInfo.class);
 	}
 
-	private PolicyCoverageInfo updatePIPPRIMINSCoverage(String policyNumber, Coverage updateData) {
+	public PolicyCoverageInfo updatePIPPRIMINSCoverage(String policyNumber, Coverage updateData) {
 		return HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdatePIPRIMINSCoverageRequest(updateData.getCoverageCd(),
 				updateData.getCoverageLimit(), updateData.getInsurerName(), updateData.getCertNum()), PolicyCoverageInfo.class);
 	}

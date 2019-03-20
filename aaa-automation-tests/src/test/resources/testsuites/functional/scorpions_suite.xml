@@ -243,7 +243,7 @@
             </class>
         </classes>
     </test>
-    <test name="Offline Claims AUTO CA Select">
+    <test name="Test to Verify Claims Assignment for CA Select">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
@@ -253,7 +253,7 @@
             </class>
         </classes>
     </test>
-    <test name="Offline Claims AUTO CA Choice">
+    <test name="Test to Verify Claims Assignment for CA Choice">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
@@ -270,6 +270,28 @@
                 <methods>
                     <include name="pas14679_CompDLPUMatchMoreManual"/>
                     <include name="pas14679_nameDobYobMatchMoreManual"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Offline Claims AUTO CA Select">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestOfflineClaims">
+                <methods>
+                    <include name="pas18317_verifyPermissiveUseIndicator"/>
+                    <include name="pas25463_ViolationsMVRPUIndicatorCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Offline Claims AUTO CA Choice">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestOfflineClaims">
+                <methods>
+                    <include name="pas18317_verifyPermissiveUseIndicator"/>
+                    <include name="pas25463_ViolationsMVRPUIndicatorCheck"/>
                 </methods>
             </class>
         </classes>

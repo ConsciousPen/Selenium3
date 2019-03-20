@@ -72,18 +72,18 @@ claimLineItemList:
     vehicleDescription: Big truck
   - accidentFault: ADVERSE_PARTY_AT_FAULT
     claimCause: cause3
-    claimCloseDate: '2018-11-30'
+    claimCloseDate: '2016-11-30'
     claimCoverageList:
     - {claimCoverageAmount: '99.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_004,
        coverageName: COLL_GROUP}
     - {claimCoverageAmount: '3500.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
        coverageName: MEDICAL_PAYMENTS}
-    claimDateOfLoss: '2018-11-11' # dateOfLoss of policy = claim's dateOfLoss
+    claimDateOfLoss: '2016-11-11' # dateOfLoss of policy = claim's dateOfLoss
     claimDeductibleAmount: '0.000000000'
     claimDeductibleCurrencyCode: USD
-    claimNumber: 1002-10-8704
+    claimNumber: 1002.10>8704
     claimPrefix: ''
-    claimOpenDate: '2018-11-11'
+    claimOpenDate: '2016-11-11'
     claimPolicyReferenceNumber: CAAC952918598
     claimStatusCode: CLOSED
     claimType: B
@@ -105,18 +105,18 @@ claimLineItemList:
     vehicleSerialNumber: 1FTNF20506ED96616
   - accidentFault: ADVERSE_PARTY_AT_FAULT
     claimCause: cause4
-    claimCloseDate: '2018-11-30'
+    claimCloseDate: '2016-11-30'
     claimCoverageList:
     - {claimCoverageAmount: '99.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_004,
        coverageName: COLL_GROUP}
     - {claimCoverageAmount: '3500.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
        coverageName: MEDICAL_PAYMENTS}
-    claimDateOfLoss: '2018-11-10' # dateOfLoss of policy is greater than claim's dateOfLoss (1 day)
+    claimDateOfLoss: '2016-11-10' # dateOfLoss of policy is greater than claim's dateOfLoss (1 day)
     claimDeductibleAmount: '0.000000000'
     claimDeductibleCurrencyCode: USD
     claimNumber: 1002-10-8704-INVALID-dateOfLoss
     claimPrefix: ''
-    claimOpenDate: '2018-11-11'
+    claimOpenDate: '2016-11-11'
     claimPolicyReferenceNumber: CAAC952918598
     claimStatusCode: CLOSED
     claimType: B

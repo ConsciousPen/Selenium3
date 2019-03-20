@@ -1076,7 +1076,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.NV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15344", "PAS-18198"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15344", "PAS-18198", "PAS-26423"})
 	public void pas15344_ViewUpdateUmpdNV(@Optional("NV") String state) {
 		pas15344_ViewUpdateUMPD_NV();
 	}
