@@ -1,10 +1,10 @@
 package aaa.modules.regression.finance.billing.home_ss.ho4;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -39,7 +39,7 @@ public class TestFinancePolicyEscheatmentCheckRestrictReversals extends FinanceO
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-25635")
-	public void pas25635_testFinancePolicyEscheatmentCheckRestrictReversals(@Optional("PA") String state) {
+	public void pas25635_testFinancePolicyEscheatmentCheckRestrictReversals(@Optional("VA") String state) {
 		String policyNumber = createEscheatmentTransaction();
 
 		// 1. Check that Reverse action exists on Escheatment transaction date
