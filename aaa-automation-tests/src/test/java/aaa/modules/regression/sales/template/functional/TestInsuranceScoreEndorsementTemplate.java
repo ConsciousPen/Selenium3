@@ -5,12 +5,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.TreeMap;
-import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.http.HttpStub;
+import aaa.helpers.jobs.Jobs;
 import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -112,22 +114,22 @@ public abstract class TestInsuranceScoreEndorsementTemplate extends PolicyBaseTe
 
 	private LocalDateTime createRenewal(String policyNumber, LocalDateTime policyExpirationDate) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewInsuranceScoreReorderingDate(policyExpirationDate));
-		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
-		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 
-//		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_CREDIT_SCORE_BATCH);
+		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_CREDIT_SCORE_BATCH);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
-		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
-		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
-		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));
-		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 
 		payTotalAmtDue(policyNumber);
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
