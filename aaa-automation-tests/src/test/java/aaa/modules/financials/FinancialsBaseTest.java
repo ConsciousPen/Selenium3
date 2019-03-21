@@ -185,10 +185,12 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		if (getPolicyType().isAutoPolicy()) {
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			PremiumAndCoveragesTab.RatingDetailsView.open();
-			taxes.put(STATE, new Dollar(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRowContains(3, "Premium Surcharge").getCell(4).getValue()));
 			if (getState().equals(Constants.States.KY)) {
+				taxes.put(STATE, new Dollar(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRowContains(4, "Premium Surcharge").getCell(6).getValue()));
 				taxes.put(CITY, new Dollar(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRowContains(3, "City Tax").getCell(4).getValue()));
 				taxes.put(COUNTY, new Dollar(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRowContains(3, "County Tax").getCell(4).getValue()));
+			} else {
+				taxes.put(STATE, new Dollar(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRowContains(3, "Premium Surcharge").getCell(4).getValue()));
 			}
 			PremiumAndCoveragesTab.RatingDetailsView.close();
 			new PremiumAndCoveragesTab().cancel();
@@ -198,7 +200,7 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
 			NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
 			taxes.put(STATE, new Dollar(PremiumAndCoveragesQuoteTab.tableTaxes
-					.getRowContains(HomeSSConstants.StateAndLocalTaxesTable.DESCRIPTION, HomeSSConstants.StateAndLocalTaxesTable.PREMIUM_SURCHARGE)
+					.getRowContains(HomeSSConstants.StateAndLocalTaxesTable.DESCRIPTION, hoPolicyStateTaxDescription)
 					.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM).getValue()));
 			if (getState().equals(Constants.States.KY)) {
 				taxes.put(CITY, new Dollar(PremiumAndCoveragesQuoteTab.tableTaxes
