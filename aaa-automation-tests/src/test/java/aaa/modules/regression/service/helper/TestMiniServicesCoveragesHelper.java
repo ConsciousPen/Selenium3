@@ -5998,8 +5998,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//Modify list of coverages before checking in PAS UI
 		List<Coverage> covToCheckInUIList = Arrays.stream(expectedCoveragesToCheck).collect(Collectors.toList());
 		covToCheckInUIList.remove(findCoverage(covToCheckInUIList, CoverageInfo.PIPDEDAPPTO_DE.getCode()));//not checking PIPDEDAPPTO in PAS UI as in Inquiry value is not displayed (probably existing defect)//TODO-mstrazds: update to check when have fix of BUG: PIPDEDAPPTO Tort coverage not displayed in Inquiry mode
-		covToCheckInUIList.remove(findCoverage(covToCheckInUIList, CoverageInfo.FUNEXP_DE.getCode()));//Doesn't exist in PAS UI
-		covToCheckInUIList.remove(findCoverage(covToCheckInUIList, CoverageInfo.PROPERTY_DE.getCode()));//Doesn't exist in PAS UI
 		findCoverage(covToCheckInUIList, CoverageInfo.PIP_OTHER_THAN_1530_DE.getCode()).changeDescription(CoverageInfo.PIP_1530_DE.getDescription());//Changing PIP description before check in PAS UI, as it is always the same in PAS UI
 		validateCoverageLimitInPASUI(covToCheckInUIList);
 	}
@@ -6507,7 +6505,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			Coverage modifiedCoverage = findCoverage(findCoverage(endorsementCoverageInfo.policyCoverages, subCoverageOf).getSubCoverages(), coverage.getCoverageCd()).removeAvailableLimitsAll(); //removeAvailableLimitsAll because not showing in change log if it is only difference
 
 			//If coverage has SubCoverage and coverage or SubCoverage is modified, then change log always contains ALL SubCoverages with actual values
-			if (!originalCoverage.equals(modifiedCoverage) || changeLogResponse.policyCoverages.get(subCoverageOf) != null) {
+			if (!originalCoverage.equals(modifiedCoverage)) {
 				assertThat(changeLogResponse.policyCoverages.get(subCoverageOf).subCoverages.get(coverage.getCoverageCd()).data).isEqualToIgnoringGivenFields(coverage, "availableLimits");
 
 				//Additionally just in case check that all subCoverages are the same as in viewEndorsementCoverages response.
