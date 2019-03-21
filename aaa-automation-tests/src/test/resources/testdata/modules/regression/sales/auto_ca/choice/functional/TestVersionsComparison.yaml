@@ -910,9 +910,9 @@ DriverInformation_Add_Version: {
 
 TestData_Assignment_Version1: {
     GeneralTab: {},
-    DriverTab: ['@DriverInformation_Version1','@DriverInformation_Add_Version'],
+    DriverTab: {},
     MembershipTab: {},
-    VehicleTab: '@VehicleInformation_Version1',
+    VehicleTab: {},
     AssignmentTab: {
      DriverVehicleRelationshipTable: {
            Primary Driver: "VIFirstName VILastName",
