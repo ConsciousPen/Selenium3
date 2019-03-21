@@ -2828,38 +2828,39 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		PolicyCoverageInfo viewCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		assertSoftly(softly -> {
-			Coverage filteredCoverageResponseUmpd = viewCoverageResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.getCoverageCd())).findFirst().orElse(null);
+			Coverage filteredCoverageResponseUmpd = findCoverage(viewCoverageResponse.policyCoverages, "UMPD");
 
 			softly.assertThat(filteredCoverageResponseUmpd.getCoverageType()).isEqualTo("Per Accident");
 			softly.assertThat(filteredCoverageResponseUmpd.getCustomerDisplayed()).isEqualTo(true);
 			softly.assertThat(filteredCoverageResponseUmpd.getCanChangeCoverage()).isEqualTo(false);
 		});
-		//To Do uncomment after PAS 15788 Done
-	/*	String coverageCd1 = "PD";
-		String newBILimits1 = "15000";
-
-		PolicyCoverageInfo coverageResponse1 = HelperCommon.updatePolicyLevelCoverageEndorsement(policyNumber, coverageCd1, newBILimits1);
-		assertSoftly(softly -> {
-
-			Coverage filteredCoverageResponseUmpd = coverageResponse1.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.getCoverageCd())).findFirst().orElse(null);
-			Coverage filteredCoverageResponsePD = coverageResponse1.policyCoverages.stream().filter(cov -> "PD".equals(cov.getCoverageCd())).findFirst().orElse(null);
-
-			softly.assertThat(filteredCoverageResponseUmpd.getCoverageLimit()).isEqualTo("25000");
-			softly.assertThat(filteredCoverageResponsePD.getCoverageLimit()).isEqualTo(newBILimits1);
-		}); */
-
+		//Update 1
 		String coverageCd = "PD";
-		String newBILimits = "300000";
+		String newPDLimits1 = "25000";
 
-		PolicyCoverageInfo coverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd, newBILimits), PolicyCoverageInfo.class);
+		PolicyCoverageInfo coverageResponse1 = updateCoverage(policyNumber, coverageCd, newPDLimits1);
+		assertSoftly(softly -> {
+
+			Coverage filteredCoverageResponseUmpd = findCoverage(coverageResponse1.policyCoverages, "UMPD");
+			Coverage filteredCoverageResponsePD = findCoverage(coverageResponse1.policyCoverages, "PD");
+
+			softly.assertThat(filteredCoverageResponseUmpd.getCoverageLimit()).isEqualTo(newPDLimits1);
+			softly.assertThat(filteredCoverageResponsePD.getCoverageLimit()).isEqualTo(newPDLimits1);
+		});
+
+		//Update 2
+		String newPDLimit = "300000";
+
+		PolicyCoverageInfo coverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd, newPDLimit), PolicyCoverageInfo.class);
+		updateCoverage(policyNumber, coverageCd, newPDLimit);
 
 		assertSoftly(softly -> {
 
-			Coverage filteredCoverageResponseUmpd = coverageResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.getCoverageCd())).findFirst().orElse(null);
-			Coverage filteredCoverageResponsePD = coverageResponse.policyCoverages.stream().filter(cov -> "PD".equals(cov.getCoverageCd())).findFirst().orElse(null);
+			Coverage filteredCoverageResponseUmpd = findCoverage(coverageResponse.policyCoverages, "UMPD");
+			Coverage filteredCoverageResponsePD = findCoverage(coverageResponse.policyCoverages, "PD");
 
-			softly.assertThat(filteredCoverageResponseUmpd.getCoverageLimit()).isEqualTo(newBILimits);
-			softly.assertThat(filteredCoverageResponsePD.getCoverageLimit()).isEqualTo(newBILimits);
+			softly.assertThat(filteredCoverageResponseUmpd.getCoverageLimit()).isEqualTo(newPDLimit);
+			softly.assertThat(filteredCoverageResponsePD.getCoverageLimit()).isEqualTo(newPDLimit);
 		});
 
 	}
