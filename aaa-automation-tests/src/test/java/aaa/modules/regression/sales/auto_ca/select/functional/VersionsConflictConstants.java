@@ -101,6 +101,9 @@ public class VersionsConflictConstants {
 			.putAll("Vehicles.2008, ACURA, MDX.Additional Interest.Additional Interest Information.Additional Interest Address", "interest address 1, VI interest address 2, Phoenix, AZ, 85085","")
 			.putAll("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Order Date","","")
 			.putAll("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Receipt Date","","")
+			//Assignment Tab Information
+			.putAll("Vehicles.1998, DODGE, CARAVAN.System Rated Driver", "New Driver Version1","New Driver Version2")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Manually Rated Driver", "New Driver Version1","New Driver Version2")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -211,6 +214,8 @@ public class VersionsConflictConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN.Customer Declared Annual Miles", "Customer Declared Annual Miles")
 			.put("Vehicles.1998, DODGE, CARAVAN.Anti-theft Recovery Device", "Anti-theft Recovery Device")
 			.put("Vehicles.1998, DODGE, CARAVAN.Primary Use", "Primary Use")
+			//Assignment
+			.put("Vehicles.1998, DODGE, CARAVAN.Primary Driver", "Primary Driver")
 			.build();
 
 	/**
@@ -253,6 +258,8 @@ public class VersionsConflictConstants {
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Base Date")
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Residential Address")
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Mailing Address")
+			.put("Vehicles.2008, ACURA, MDX", "Primary Driver")
+			.put("Vehicles.2008, ACURA, MDX", "System Rated Driver")
 			.build();
 
 	//Maps to select added Named insureds in endorsement and OOSE
@@ -598,6 +605,27 @@ public class VersionsConflictConstants {
 			.put("Contact Information", "Mobile Phone Number")
 			.put("Contact Information", "Preferred Phone #")
 			.put("Vehicles", "Vehicle (1998, DODGE, CARAVAN)")
+			.build();
+
+
+	/**
+	 *  Maps full attribute path on conflict page to version to select (Current, Available).
+	 */
+	protected static final ArrayListMultimap<String, String> ASSIGNMENT = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("Vehicles.1998, DODGE, CARAVAN.Primary Driver", CURRENT)
+					.put("Vehicles.1998, DODGE, CARAVAN.Manually Rated Driver", AVAILABLE)
+					.build());
+
+	//all components/attributes that should be on Comparison page  Rolled on/OOSE
+	static final Multimap<String, String> ASSIGNMENT_VERSION_2 = ImmutableListMultimap.<String, String>builder()
+			.put("Vehicles.1998, DODGE, CARAVAN", "System Rated Driver")
+			.put("Vehicles.1998, DODGE, CARAVAN", "Manually Rated Driver")
+			.build();
+
+	//all components/attributes that should be on Comparison page  Rolled on/OOSE
+	static final Multimap<String, String> ASSIGNMENT_VERSION_1 = ImmutableListMultimap.<String, String>builder()
+			.put("Vehicles.1998, DODGE, CARAVAN", "Primary Driver")
 			.build();
 
 }
