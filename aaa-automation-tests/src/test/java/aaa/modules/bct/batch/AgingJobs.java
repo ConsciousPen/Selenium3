@@ -12,7 +12,6 @@ import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.Job;
-import aaa.helpers.jobs.JobUtils;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 
 public class AgingJobs extends BackwardCompatibilityBaseTest {
@@ -28,6 +27,8 @@ public class AgingJobs extends BackwardCompatibilityBaseTest {
 			if (!service.isJobExist(JobGroup.fromSingleJob(job.getJobName()))) {
 				log.info("{} was created", JobGroup.fromSingleJob(job.getJobName()));
 				service.createJob(JobGroup.fromSingleJob(job.getJobName()));
+			}else{
+				log.info("Job exist :  {} ", JobGroup.fromSingleJob(job.getJobName()));
 			}
 		}
 	}
@@ -44,223 +45,223 @@ public class AgingJobs extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test(groups = Groups.PRECONDITION)
 	public void RUN_01_AAABATCHMARKERJOB(@Optional("") String state) {
-		JobUtils.executeJob(aaaBatchMarkerJob);
+		executeAgingJob(aaaBatchMarkerJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_02_POLICYSTATUSUPDATEJOB(@Optional("") String state) {
-		JobUtils.executeJob(policyStatusUpdateJob);
+		executeAgingJob(policyStatusUpdateJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_03_AAAPOLICYAUTOMATEDRENEWALASYNCTASKGENERATIONJOB(@Optional("") String state) {
-		JobUtils.executeJob(policyAutomatedRenewalAsyncTaskGenerationJob);
+		executeAgingJob(policyAutomatedRenewalAsyncTaskGenerationJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_04_RENEWALVALIDATIONASYNCTASKJOB(@Optional("") String state) {
-		JobUtils.executeJob(renewalValidationAsyncTaskJob);
+		executeAgingJob(renewalValidationAsyncTaskJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_05_RENEWALIMAGERATINGASYNCTASKJOB(@Optional("") String state) {
-		JobUtils.executeJob(renewalImageRatingAsyncTaskJob);
+		executeAgingJob(renewalImageRatingAsyncTaskJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_06_AAAREMITTANCEFEEDASYNCBATCHRECEIVEJOB(@Optional("") String state) {
-		JobUtils.executeJob(aaaRemittanceFeedAsyncBatchReceiveJob);
+		executeAgingJob(aaaRemittanceFeedAsyncBatchReceiveJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_07_AAARECURRINGPAYMENTSASYNCPROCESSJOB(@Optional("") String state) {
-		JobUtils.executeJob(aaaRecurringPaymentsProcessingJob);
+		executeAgingJob(aaaRecurringPaymentsProcessingJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_08_BOFARECURRINGPAYMENTJOB(@Optional("") String state) {
-		JobUtils.executeJob(bofaRecurringPaymentJob);
+		executeAgingJob(bofaRecurringPaymentJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_09_PREMIUMRECEIVABLESONPOLICYEFFECTIVEJOB(@Optional("") String state) {
-		JobUtils.executeJob(premiumreceivablesonpolicyeffectivejob);
+		executeAgingJob(premiumReceivablesOnPolicyEffectiveJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_10_CHANGECANCELLATIONPENDINGPOLICIESSTATUSJOB(@Optional("") String state) {
-		JobUtils.executeJob(changeCancellationPendingPoliciesStatus);
+		executeAgingJob(changeCancellationPendingPoliciesStatus);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_11_AAACANCELLATIONNOTICEASYNCJOB(@Optional("") String state) {
-		JobUtils.executeJob(aaaCancellationNoticeAsyncJob);
+		executeAgingJob(aaaCancellationNoticeAsyncJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_12_AAACANCELLATIONCONFIRMATIONASYNCJOB(@Optional("") String state) {
-		JobUtils.executeJob(aaaCancellationConfirmationAsyncJob);
+		executeAgingJob(aaaCancellationConfirmationAsyncJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_13_AAACOLLECTIONCANCELLDEBTBATCHASYNCJOB(@Optional("") String state) {
-		JobUtils.executeJob(aaaCollectionCancelDebtBatchAsyncJob);
+		executeAgingJob(aaaCollectionCancelDebtBatchAsyncJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_14_COLLECTIONFEEDBATCHORDERJOB(@Optional("") String state) {
-		JobUtils.executeJob(collectionFeedBatchorderJob);
+		executeAgingJob(collectionFeedBatchorderJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_15_EARNEDPREMIUMWRITEOFFPROCESSINGJOB(@Optional("") String state) {
-		JobUtils.executeJob(earnedPremiumWriteoffProcessingJob);
+		executeAgingJob(earnedPremiumWriteoffProcessingJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_16_AAAOFFCYCLEBILLINGINVOICEASYNCJOB(@Optional("") String state) {
-		JobUtils.executeJob(offCycleBillingInvoiceAsyncJob);
+		executeAgingJob(offCycleBillingInvoiceAsyncJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_17_AAABILLINGINVOICEASYNCTASKJOB(@Optional("") String state) {
-		JobUtils.executeJob(aaaBillingInvoiceAsyncTaskJob);
+		executeAgingJob(aaaBillingInvoiceAsyncTaskJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_18_AAAREFUNDGENERATIONASYNCJOB(@Optional("") String state) {
-		JobUtils.executeJob(aaaRefundGenerationAsyncJob);
+		executeAgingJob(aaaRefundGenerationAsyncJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_19_PRERENEWALREMINDERGENERATIONASYNCJOB(@Optional("") String state) {
-		JobUtils.executeJob(preRenewalReminderGenerationAsyncJob);
+		executeAgingJob(preRenewalReminderGenerationAsyncJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_20_AAARENEWALNOTICEBILLASYNCJOB(@Optional("") String state) {
-		JobUtils.executeJob(aaaRenewalNoticeBillAsyncJob);
+		executeAgingJob(aaaRenewalNoticeBillAsyncJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_21_AAAMORTGAGEERENEWALREMINDERANDEXPNOTICEASYNCJOB(@Optional("") String state) {
-		JobUtils.executeJob(aaaMortgageeRenewalReminderAndExpNoticeAsyncJob);
+		executeAgingJob(aaaMortgageeRenewalReminderAndExpNoticeAsyncJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_22_RENEWALOFFERASYNCTASKJOB(@Optional("") String state) {
-		JobUtils.executeJob(renewalOfferAsyncTaskJob);
+		executeAgingJob(renewalOfferAsyncTaskJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_23_AAADELAYTRIGGERTOINOTICEASYNCJOB(@Optional("") String state) {
-		JobUtils.executeJob(aaaDelayTriggerTOINoticeAsyncJob);
+		executeAgingJob(aaaDelayTriggerTOINoticeAsyncJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_24_POLICYLAPSEDRENEWALPROCESSASYNCJOB(@Optional("") String state) {
-		JobUtils.executeJob(policyLapsedRenewalProcessAsyncJob);
+		executeAgingJob(policyLapsedRenewalProcessAsyncJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_25_AAARENEWALREMINDERGENERATIONASYNCJOB(@Optional("") String state) {
-		JobUtils.executeJob(aaaRenewalReminderGenerationAsyncJob);
+		executeAgingJob(aaaRenewalReminderGenerationAsyncJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_26_POLICYTRANSACTIONLEDGERJOB(@Optional("") String state) {
-		JobUtils.executeJob(policyTransactionLedgerJob);
+		executeAgingJob(policyTransactionLedgerJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_27_AAADATAUPDATEJOB(@Optional("") String state) {
-		JobUtils.executeJob(aaaDataUpdateJob);
+		executeAgingJob(aaaDataUpdateJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_28_ACTIVITYTIMEOUTJOB(@Optional("") String state) {
-		JobUtils.executeJob(activityTimeoutJob);
+		executeAgingJob(activityTimeoutJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_29_ACTIVITYHISTORYJOB(@Optional("") String state) {
-		JobUtils.executeJob(activityHistoryJob);
+		executeAgingJob(activityHistoryJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_30_ACTIVITYSUMMARIZATIONJOB(@Optional("") String state) {
-		JobUtils.executeJob(activitySummarizationJob);
+		executeAgingJob(activitySummarizationJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_31_AAAAUTOMATEDPROCESSINGINITIATIONJOB(@Optional("") String state) {
-		JobUtils.executeJob(aaaAutomatedProcessingInitiationJob);
+		executeAgingJob(aaaAutomatedProcessingInitiationJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_32_AUTOMATEDPROCESSINGRUNREPORTSSERVICESJOB(@Optional("") String state) {
-		JobUtils.executeJob(automatedProcessingRunReportsServicesJob);
+		executeAgingJob(automatedProcessingRunReportsServicesJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_33_AUTOMATEDPROCESSINGRATINGJOB(@Optional("") String state) {
-		JobUtils.executeJob(automatedProcessingRatingJob);
+		executeAgingJob(automatedProcessingRatingJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_34_AUTOMATEDPROCESSINGISSUINGORPROPOSINGJOB(@Optional("") String state) {
-		JobUtils.executeJob(automatedProcessingIssuingOrProposingJob);
+		executeAgingJob(automatedProcessingIssuingOrProposingJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_35_AUTOMATEDPROCESSINGSTRATEGYSTATUSUPDATEJOB(@Optional("") String state) {
-		JobUtils.executeJob(automatedProcessingStrategyStatusUpdateJob);
+		executeAgingJob(automatedProcessingStrategyStatusUpdateJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_36_AUTOMATEDPROCESSINGBYPASSINGANDERRORSREPORT(@Optional("") String state) {
-		JobUtils.executeJob(automatedProcessingBypassingAndErrorsReportGenerationJob);
+		executeAgingJob(automatedProcessingBypassingAndErrorsReportGenerationJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void RUN_37_LEDGERSTATUSUPDATEJOB(@Optional("") String state) {
-		JobUtils.executeJob(ledgerStatusUpdateJob);
+		executeAgingJob(ledgerStatusUpdateJob);
 	}
 
 	private ArrayList<Job> getAgingJobsLogicalSequence() {
@@ -273,7 +274,7 @@ public class AgingJobs extends BackwardCompatibilityBaseTest {
 		list.add(aaaRemittanceFeedAsyncBatchReceiveJob);
 		list.add(aaaRecurringPaymentsProcessingJob);
 		list.add(bofaRecurringPaymentJob);
-		list.add(premiumreceivablesonpolicyeffectivejob);
+		list.add(premiumReceivablesOnPolicyEffectiveJob);
 		list.add(changeCancellationPendingPoliciesStatus);
 		list.add(aaaCancellationNoticeAsyncJob);
 		list.add(aaaCancellationConfirmationAsyncJob);
