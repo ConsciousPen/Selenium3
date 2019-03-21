@@ -1513,7 +1513,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		verifyCarcoAIFNJ4InDocAndBindTab(isAAIFNJ4Expected);
 		documentsAndBindTab.submitTab();
 		// Document does not exist for endorsements inside PAS
-		verifyAAIFNJ3AndAAIFNJ4NotGenerated();
+		verifyAAIFNJ3AndAAIFNJ4NotGenerated(AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
 
 		//Create Endorsement and Add Vehicle from PAS UI and validate
 		TestData tdAddVehicle = getPolicyDefaultTD().adjust(new VehicleTab().getMetaKey(), getTestSpecificTD(addVin)).resolveLinks();
@@ -1547,7 +1547,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		verifyCarcoAIFNJ4InDocAndBindTab(isAAIFNJ4Expected);
 		documentsAndBindTab.submitTab();
 		// Document does not exist for endorsements inside PAS
-		verifyAAIFNJ3AndAAIFNJ4NotGenerated();
+		verifyAAIFNJ3AndAAIFNJ4NotGenerated(AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
 	}
 
 	private void verifyCarcoAIFNJ3InDocAndBindTab(boolean isAAIFNJ3Expected) {
@@ -1613,7 +1613,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		policy.getDefaultView().fillFromTo(td, PurchaseTab.class, PurchaseTab.class, true);
 		new PurchaseTab().submitTab();
 		// Document does not exist for endorsements inside PAS
-		verifyAAIFNJ3AndAAIFNJ4NotGenerated();
+		verifyAAIFNJ3AndAAIFNJ4NotGenerated(AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
 
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
@@ -1644,12 +1644,12 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 		documentsAndBindTab.submitTab();
 		// Document does not exist for endorsements inside PAS
-		verifyAAIFNJ3AndAAIFNJ4NotGenerated();
+		verifyAAIFNJ3AndAAIFNJ4NotGenerated(AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
 	}
 
-	private void verifyAAIFNJ3AndAAIFNJ4NotGenerated() {
-		DocGenHelper.checkDocumentsDoesNotExistInXml(PolicySummaryPage.getPolicyNumber(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE, DocGenEnum.Documents.AAIFNJ3);
-		DocGenHelper.checkDocumentsDoesNotExistInXml(PolicySummaryPage.getPolicyNumber(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE, DocGenEnum.Documents.AAIFNJ4);
+	private void verifyAAIFNJ3AndAAIFNJ4NotGenerated(AaaDocGenEntityQueries.EventNames eventName) {
+		DocGenHelper.checkDocumentsDoesNotExistInXml(PolicySummaryPage.getPolicyNumber(), eventName, DocGenEnum.Documents.AAIFNJ3);
+		DocGenHelper.checkDocumentsDoesNotExistInXml(PolicySummaryPage.getPolicyNumber(), eventName, DocGenEnum.Documents.AAIFNJ4);
 	}
 
 	private void carcoAddReplaceVehicleOutsidePAS(boolean isQualifyingVehicle, boolean isLessThan1000Miles) {
@@ -1735,7 +1735,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 			verifyRFIHasNoDocuments(policyNumber);
 			helperMiniServices.endorsementRateAndBind(policyNumber);
-			verifyAAIFNJ3AndAAIFNJ4NotGenerated();
+			verifyAAIFNJ3AndAAIFNJ4NotGenerated(AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
 		}
 	}
 
@@ -1770,7 +1770,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel()), "contains=No Coverage");
 
 		String policyNumber = openAppAndCreatePolicy(td);
-		verifyAAIFNJ3AndAAIFNJ4NotGenerated();
+		verifyAAIFNJ3AndAAIFNJ4NotGenerated(AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		//Check that RFI doesn't return any document as no changes yet
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
@@ -1805,7 +1805,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		} else {
 			HelperCommon.endorsementRate(policyNumber, 200);
 			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", 200);
-			verifyAAIFNJ3AndAAIFNJ4NotGenerated();
+			verifyAAIFNJ3AndAAIFNJ4NotGenerated(AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
 		}
 
 		//create endorsement from PAS, go to bind page, verify document is electronically signed
