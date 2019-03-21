@@ -223,4 +223,44 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
     public void pas25162_permissiveUseIndicatorDefaulting(@Optional("CA") @SuppressWarnings("unused") String state) {
         pas25162_permissiveUseIndicatorDefaulting();
     }
+
+    /**
+     * @author Kiruthika Rajendran
+     * PAS-20828 - CA: Product Determination Cannot be Influenced by Permissive Use Claims
+     * @name Test Offline Claims Product Determination for the Permissive Use Claims
+     * @scenario Test Steps:
+     * 1. Create a quote with 1 driver with following condition
+     *         - Change the driving experience as 5 (greater than 3)
+     *         - no activity is added
+     * 2. Navigate to P&C tab and assert the product as 'Select'
+     * 3. Navigate back to driver tab and change to the below data
+     *         - keep the driving experience as 5 (greater than 3)
+     *         - Add one company activity (At fault Injury)
+     *         - Mark PU as 'No' in the above activity
+     * 4. Navigate to P&C tab and assert that product as 'Choice'
+     * 5. Navigate back to driver tab and change to the below data
+     *         - Keep the driving experience as 5 (greater than 3)
+     *         - Update the activity with PU as 'Yes'
+     * 6. Navigate to P&C tab and assert that product as 'Select'
+     * 7. Navigate back to driver tab and change to the below data
+     *         - Change the driving experience as 1 (lesser than 3)
+     *         - Keep the activity with PU as Yes
+     * 8. Navigate to P&C tab and assert the product as 'Choice'
+     * 9. Navigate back to driver tab and change to the below data
+     *         - Change the driving experience as 5 back (greater than 3)
+     *         - Keep the activity with PU as Yes
+     * 10. Navigate to P&C tab and assert the product as 'Select'
+     * 11. Navigate back to driver tab and change to the below data
+     *      *         - Keep the driving experience as 5 back (greater than 3)
+     *      *         - Change the activity with PU as No
+     * 12. Navigate to P&C tab and assert the product as 'Choice'
+     * 13. Save and Exit
+     * @details Clean Path. Expected Result is that Product Determination is not influenced when 'Permissive Use Loss' is defaulted to 'Yes'
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-20828")
+    public void pas20828_productDetermineWithPUClaims(@Optional("CA") @SuppressWarnings("unused") String state) {
+        pas20828_productDetermineWithPUClaims();
+    }
 }

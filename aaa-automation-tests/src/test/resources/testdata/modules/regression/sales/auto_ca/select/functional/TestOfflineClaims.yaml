@@ -252,3 +252,23 @@ PremiumAndCoveragesTab_PUDefaulting: {
   Product: 'CA Select',
   Payment Plan: Annual
 }
+
+TestData_Activity: {
+  DriverTab: '@DriverTab_Activity'
+}
+
+DriverTab_Activity: {
+  ActivityInformation: ['@Activity1']
+}
+
+Activity1: {
+  Activity Source: Company Input,
+  Type: 'Accident',
+  Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+  Description: 'Fault accident with injury',
+  Loss Payment Amount: '2000',
+  Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+  "Permissive Use Loss?": 'No',
+  "Include in Points and/or YAF?": 'Yes'
+}
+

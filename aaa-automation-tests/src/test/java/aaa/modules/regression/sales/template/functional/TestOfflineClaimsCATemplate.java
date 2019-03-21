@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
+
+import aaa.common.Tab;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.testng.annotations.BeforeTest;
@@ -55,7 +57,9 @@ import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssertions;
 import toolkit.verification.CustomSoftAssertions;
+import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 
@@ -1020,6 +1024,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         activityAssertions(2, 2, 1, 1, "CLUE", CLUE_CLAIM,false);
     }
 
+    /**
+     * Method to validate the violations do not show Permissive Use indicator
+     */
     public void pas25463_ViolationsMVRPUIndicatorCheck(){
         //Create a policy with 2 drivers
         TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_ViolationsMVRFNIclaims_PU").resolveLinks();
@@ -1153,4 +1160,51 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         verifyPUvalues(); */
     }
 
+    /*
+	Method for CA Choice & Select: TestOfflineClaims.PAS-20828 Product Determination Cannot by Influenced by Permissive Use Claims
+	 */
+    public void pas20828_productDetermineWithPUClaims(){
+        TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_ReconcileFNIclaims_PU").resolveLinks();
+        adjusted = getPolicyTD().adjust(testDataForFNI);
+        String noAgeChange = "";
+        String age = String.valueOf(ChronoUnit.YEARS.between(LocalDate.of(1997, Month.OCTOBER, 16), TimeSetterUtil.getInstance().getCurrentTime()));
+        String ageMinusFour = Integer.toString(Integer.parseInt(age) - 4);
+
+        createQuoteAndFillUpTo(adjusted, FormsTab.class);
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        String productDetermined = premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT.getLabel(), ComboBox.class).getValue();
+        log.info("product value : "+productDetermined);
+        assertThat(productDetermined).isEqualToIgnoringCase("CA Select"); //System determines as Select with no activity
+
+        productDeterminationAssertions(true,false, noAgeChange, "CA Choice"); //System determines as Choice with one At fault accident and PU as No
+        productDeterminationAssertions(false,true, noAgeChange, "CA Select"); //Product determination is not impacted with this PU loss (PU is Yes) and keeps as Select
+        productDeterminationAssertions(false,true, age, "CA Choice"); //System determines as Choice when driving experience is less than 3 years
+        productDeterminationAssertions(false,true, ageMinusFour, "CA Select"); //System determines as Select when driving experience is greater than 3 years
+        productDeterminationAssertions(false,false, ageMinusFour, "CA Choice"); //System determines as Choice when activity is not a PU loss (PU is No)
+        PremiumAndCoveragesTab.buttonSaveAndExit.click();
+    }
+
+    /*
+	 Method verifies the Product Determination assertion based on various scenarios
+	 */
+    private void productDeterminationAssertions(boolean addActivity, boolean permissiveUse, String age, String product) {
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        if(addActivity) {
+            TestData td_activity = getTestSpecificTD("TestData_Activity");
+            new DriverTab().fillTab(td_activity);
+        }
+        if(permissiveUse) {
+            activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).setValue("Yes");
+        }else {
+            activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).setValue("No");
+        }
+        if(!age.isEmpty()) {
+            driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.AGE_FIRST_LICENSED).setValue(age);
+        }
+        driverTab.submitTab();
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        String productDetermined = premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT.getLabel(), ComboBox.class).getValue();
+        log.info("product value: "+productDetermined);
+        assertThat(productDetermined).isEqualToIgnoringCase(product);
+    }
 }
