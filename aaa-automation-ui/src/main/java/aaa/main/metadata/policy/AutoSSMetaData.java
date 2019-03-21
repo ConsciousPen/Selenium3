@@ -359,6 +359,7 @@ public final class AutoSSMetaData {
 		public static final class ActivityInformation extends MetaData {
 			public static final AssetDescriptor<Button> ADD_ACTIVITY = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addDrivingRecord"));
 			public static final AssetDescriptor<ComboBox> ACTIVITY_SOURCE = declare("Activity Source", ComboBox.class);
+			public static final AssetDescriptor<RadioGroup> PERMISSIVE_USE_LOSS = declare("Permissive Use Loss?", RadioGroup.class);
 			public static final AssetDescriptor<AdvancedComboBox> TYPE = declare("Type", AdvancedComboBox.class);
 			public static final AssetDescriptor<AdvancedComboBox> DESCRIPTION = declare("Description", AdvancedComboBox.class);
 			public static final AssetDescriptor<TextBox> SVC_DESCRIPTION = declare("SVC Description", TextBox.class);
@@ -813,9 +814,11 @@ public final class AutoSSMetaData {
 				declare("Has the customer expressed interest in purchasing the quote?", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> SALES_AGENT_AGREEMENT =
 				declare("Sales Agent Agreement", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:agentAgreesAAASSMvrOrClueReportDisclaimerComponent']"));
+		public static final AssetDescriptor<RadioGroup> HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY = declare("Has the customer expressed interest in purchasing the policy?", RadioGroup.class);
+
+		public static final AssetDescriptor<RadioGroup> SALES_AGENT_AGREEMENT_DMV = declare("Sales Agent Agreement DMV", RadioGroup.class, By.xpath(".//table[@id='policyDataGatherForm:sedit_AAACSADriverReportDisclosureComponent_disclosureAgrees']"));
 
 		// Only needed when a CA license number is used for an SS policy
-		public static final AssetDescriptor<RadioGroup> SALES_AGENT_AGREEMENT_DMV = declare("Sales Agent Agreement DMV", RadioGroup.class, By.xpath(".//table[@id='policyDataGatherForm:sedit_AAASSDriverReportDisclosureComponent_disclosureAgrees']"));
 
 		public static final AssetDescriptor<Button> VALIDATE_DRIVING_HISTORY = declare("Validate Driving History", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:submitReports"));
 
