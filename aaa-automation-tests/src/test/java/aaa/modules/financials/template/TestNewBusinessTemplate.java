@@ -28,7 +28,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
      * 6. Validate Cancellation sub-ledger entries
      * 7. Reinstate policy with no lapse (reinstatement eff. date same as cancellation date)
      * 8. Validate Reinstatement sub-ledger entries
-     * @details NBZ-01, PMT-01, TAX-02, TAX-05, END-01, CNL-01, RST-01, FEE-01
+     * @details NBZ-01, PMT-01, TAX-02, TAX-05, TAX-09, END-01, CNL-01, RST-01, FEE-01
      */
 	protected void testNewBusinessScenario_1() {
 
@@ -153,7 +153,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
      * 6. Advance time one week
      * 6. Reinstate policy with lapse
      * 7. Remove reinstatement lapse
-     * @details NBZ-03, END-02, CNL-03, PMT-04, RST-02, RST-07, RST-09, FEE-04, FEE-15, FEE-18, FEE-19
+     * @details NBZ-03, END-02, CNL-03, PMT-04, TAX-01, TAX-04, RST-02, RST-07, RST-09, FEE-04, FEE-15, FEE-18, FEE-19
      */
 	protected void testNewBusinessScenario_2() {
 
