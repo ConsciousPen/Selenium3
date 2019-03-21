@@ -2,6 +2,13 @@
 TestData_DriverTab_OfflineClaim_AZ: {
   DriverTab: ['@Driver2','@Driver3','@Driver4']
 }
+
+TestData_DriverTab_ViolationsMVRFNIclaims_PU_AZ: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ca_select>@DataGather@GeneralTab',
+  DriverTab:  ['@Driver6','@Driver3'],
+}
+
 #Not to be deleted
   ######Test Data for 2/3/4 Drivers
 #Driver1: {
@@ -96,6 +103,58 @@ Driver5: {
   License State: AZ,
   "License Number": D99999999,
   Age First Licensed: 18
+}
+Driver6: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': First Named Insured,
+  Date of Birth: 12/05/1960,
+  Age First Licensed: 18,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Clergy,
+  License Type: "Valid",
+  License State: AZ,
+  Permit Before License: 'Yes',
+  "License #": A12345111,
+  ActivityInformation: [
+  {
+    Activity Source: 'Company Input',
+    Type: '10-yr Major Violation',
+    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+    Description: 'Driving under the influence of drugs',
+    Conviction Date: '$<today-3M:MM/dd/yyyy>',
+    "Include in Points and/or YAF?": 'No',
+    Not Included in Points and/or YAF - Reason Codes: 'Report errors'
+  },
+  {
+    Activity Source: 'Company Input',
+    Type: 'Accident',
+    Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+    Description: 'Fault accident, no injury, damage > $1000',
+    Loss Payment Amount: '1500',
+    Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    "Include in Points and/or YAF?": 'Yes'
+  },
+  {
+    Activity Source: 'Customer Input',
+    Type: 'Accident',
+    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+    Description: 'Fault accident, no injury, damage > $1000',
+    Loss Payment Amount: '2000',
+    Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    "Include in Points and/or YAF?": 'No',
+    Not Included in Points and/or YAF - Reason Codes: 'Report errors'
+  },
+  {
+    Activity Source: 'Customer Input',
+    Type: 'Suspension/Revocation',
+    Description: 'Alcohol Related Suspension',
+    Suspension Date: '$<today-1M:MM/dd/yyyy>',
+    "Include in Points and/or YAF?": 'Yes'
+  }
+  ]
 }
 
 ############### Add 5th Driver at endorsement

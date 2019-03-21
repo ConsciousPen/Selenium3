@@ -270,6 +270,7 @@
                 <methods>
                     <include name="pas14679_CompDLPUMatchMoreManual"/>
                     <include name="pas14679_nameDobYobMatchMoreManual"/>
+                    <include name="pas18317_verifyPermissiveUseIndicator"/>
                 </methods>
             </class>
         </classes>
@@ -292,16 +293,6 @@
                 <methods>
                     <include name="pas18317_verifyPermissiveUseIndicator"/>
                     <include name="pas25463_ViolationsMVRPUIndicatorCheck"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Verify PU Indicator does not exist in Driver Tab for Non FNI ">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestOffLineClaims">
-                <methods>
-                    <include name="pas18317_verifyPermissiveUseIndicator"/>
                 </methods>
             </class>
         </classes>
