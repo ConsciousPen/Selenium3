@@ -167,7 +167,7 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		SearchPage.openPolicy(policyNumber);
 	}
 
-	protected Map<String, Dollar> getTaxAmountsFromVRD(String policyNumber) {
+	protected Map<String, Dollar> getTaxAmountsForPolicy(String policyNumber) {
 		Map<String, Dollar> taxes = new HashMap<>();
 		String hoPolicyStateTaxDescription;
 		if (getState().equals(Constants.States.WV)) {
@@ -227,7 +227,12 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 			}
 			new PremiumsAndCoveragesQuoteTab().cancel();
 		}
-		taxes.put(TOTAL, taxes.get(STATE).add(taxes.get(CITY)).add(taxes.get(COUNTY)));
+
+		if (getState().equals(Constants.States.KY)) {
+			taxes.put(TOTAL, taxes.get(STATE).add(taxes.get(CITY)).add(taxes.get(COUNTY)));
+		} else {
+			taxes.put(TOTAL, taxes.get(STATE));
+		}
 		return taxes;
 	}
 

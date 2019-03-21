@@ -61,7 +61,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         // TAX-02/PMT-01 validations (KY only)
         if (getState().equals(Constants.States.KY)) {
-            Map<String, Dollar> taxes = getTaxAmountsFromVRD(policyNumber);
+            Map<String, Dollar> taxes = getTaxAmountsForPolicy(policyNumber);
             assertSoftly(softly -> {
                 // TAX-02
                 softly.assertThat(taxes.get(STATE)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_KY, "1053"));
@@ -75,7 +75,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         // TAX-05/PMT-01 validations (WV only)
         if (getState().equals(Constants.States.WV)) {
-            Map<String, Dollar> taxes = getTaxAmountsFromVRD(policyNumber);
+            Map<String, Dollar> taxes = getTaxAmountsForPolicy(policyNumber);
             assertSoftly(softly -> {
                 // TAX-05
                 softly.assertThat(taxes.get(STATE)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_WV, "1053"));
@@ -116,7 +116,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         // TAX-09 validations (KY only)
         if (getState().equals(Constants.States.KY)) {
-            Map<String, Dollar> taxesEnd = getTaxAmountsFromVRD(policyNumber);
+            Map<String, Dollar> taxesEnd = getTaxAmountsForPolicy(policyNumber);
             assertSoftly(softly -> {
                 softly.assertThat(taxesEnd.get(STATE)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_KY, "1053"));
                 softly.assertThat(taxesEnd.get(CITY)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CITY_TAX_KY, "1053"));
@@ -180,7 +180,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         // TAX-01/PMT-04 validations (KY only)
         if (getState().equals(Constants.States.KY)) {
-            Map<String, Dollar> taxes = getTaxAmountsFromVRD(policyNumber);
+            Map<String, Dollar> taxes = getTaxAmountsForPolicy(policyNumber);
             assertSoftly(softly -> {
                 // TAX-01
                 softly.assertThat(taxes.get(STATE)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_KY, "1071"));
@@ -194,7 +194,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         // TAX-04/PMT-04 validations (WV only)
         if (getState().equals(Constants.States.WV)) {
-            Map<String, Dollar> taxes = getTaxAmountsFromVRD(policyNumber);
+            Map<String, Dollar> taxes = getTaxAmountsForPolicy(policyNumber);
             assertSoftly(softly -> {
                 // TAX-04
                 softly.assertThat(taxes.get(STATE)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_WV, "1071"));
