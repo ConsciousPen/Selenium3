@@ -22,7 +22,7 @@ public final class FinancialsSQL {
 							"select ENTRYAMT " +
 				            "from LEDGERENTRY " +
 				            "WHERE PRODUCTNUMBER like '%" + policyNumber + "' " +
-								"and TRANSACTIONTYPE = '" + txType + "' " +
+								"and TRANSACTIONTYPE like '" + txType + "%' " +
 								"and LEDGERACCOUNTNO = '" + account + "' " +
 								"and entrytype = 'DEBIT'";
         if (txDate != null) {
@@ -44,7 +44,7 @@ public final class FinancialsSQL {
 							"select ENTRYAMT " +
 							"from LEDGERENTRY " +
 							"WHERE PRODUCTNUMBER  like '%" + policyNumber + "' " +
-								"and TRANSACTIONTYPE = '" + txType + "' " +
+								"and TRANSACTIONTYPE like '" + txType + "%' " +
 								"and LEDGERACCOUNTNO = '" + account + "' " +
 								"and entrytype = 'CREDIT'";
 		if (txDate != null) {
@@ -74,12 +74,10 @@ public final class FinancialsSQL {
 		public static final String NSF_FEE = "NotSufficientFunds";
 		public static final String NSF_FEE_WAIVED = "NSFFeeWORestriction";
 		public static final String ROLL_BACK_ENDORSEMENT = "retro";
-		public static final String STATE_TAX_WV = "PRMS_WV/1001";
-		public static final String STATE_TAX_KY = "PRMS_KY/1002";
-		public static final String CITY_TAX_KY = "PREMT_CITY/2319402000";
-		public static final String COUNTY_TAX_KY = "PREMT_COUNTY/2319402000";
-		public static final String CITY_TAX_KY_FUTURE = "PREMT_CITY/2319402001";
-		public static final String COUNTY_TAX_KY_FUTURE = "PREMT_COUNTY/2319402001";
+		public static final String STATE_TAX_WV = "PRMS_WV";
+		public static final String STATE_TAX_KY = "PRMS_KY";
+		public static final String CITY_TAX_KY = "PREMT_CITY";
+		public static final String COUNTY_TAX_KY = "PREMT_COUNTY";
     }
 
 }

@@ -12,6 +12,7 @@ import aaa.modules.financials.FinancialsSQL;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
@@ -60,8 +61,10 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         });
 
         // TAX-02/PMT-01 validations (KY only)
+        Map<String, Dollar> taxesKY = new HashMap<>();
         if (getState().equals(Constants.States.KY)) {
             Map<String, Dollar> taxes = getTaxAmountsFromVRD(policyNumber);
+            taxesKY = taxes;
             assertSoftly(softly -> {
                 // TAX-02
                 softly.assertThat(taxes.get(STATE)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_KY, "1053"));
@@ -115,6 +118,17 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         });
 
         // TAX-09 validations (KY only)
+        if (getState().equals(Constants.States.KY)) {
+            Map<String, Dollar> taxesNB = taxesKY;
+            Map<String, Dollar> taxesEnd = getTaxAmountsFromVRD(policyNumber);
+            assertSoftly(softly -> {
+                softly.assertThat(taxesNB.get(STATE).add(taxesEnd.get(STATE))).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_KY, "1053"));
+                softly.assertThat(taxesNB.get(CITY).add(taxesEnd.get(CITY))).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CITY_TAX_KY, "1053"));
+                softly.assertThat(taxesNB.get(COUNTY).add(taxesEnd.get(COUNTY))).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.COUNTY_TAX_KY, "1053"));
+                softly.assertThat(taxesEnd.get(TOTAL).subtract(taxesNB.get(TOTAL))).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1054")
+                        .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1054")));
+            });
+        }
 
 		// Cancel policy
         cancelPolicy(policyNumber);
@@ -174,8 +188,8 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             assertSoftly(softly -> {
                 // TAX-01
                 softly.assertThat(taxes.get(STATE)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_KY, "1071"));
-                softly.assertThat(taxes.get(CITY)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CITY_TAX_KY_FUTURE, "1071"));
-                softly.assertThat(taxes.get(COUNTY)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.COUNTY_TAX_KY_FUTURE, "1071"));
+                softly.assertThat(taxes.get(CITY)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CITY_TAX_KY, "1071"));
+                softly.assertThat(taxes.get(COUNTY)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.COUNTY_TAX_KY, "1071"));
                 // PMT-04
                 softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1071"));
                 softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1072"));
