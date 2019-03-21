@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.helpers.openl.model.OpenLPolicy;
+import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;

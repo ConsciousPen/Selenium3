@@ -15,6 +15,7 @@ TestData: {
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
   AAAMembership: '@AAAMembership',
+  OtherAAAProductsOwned: '@OtherAAAProductsOwned',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
   CurrentCarrierInformation: '@CurrentCarrierInformation'
@@ -26,6 +27,14 @@ CurrentCarrierInformation: {
   Agent Entered Inception Date:  '$<today-3y+1d:MM/dd/yyyy>',
   Agent Entered Expiration Date:  '$<today+9d:MM/dd/yyyy>',
   Agent Entered BI Limits: '$300,000/$500,000',
+}
+
+OtherAAAProductsOwned: {
+  Home: 'true',
+  ListOfProducts:[{
+    'column=7': 'Edit',
+    Policy Number: '123',
+    Save: 'click'}]
 }
 
 AAAMembership: {
