@@ -296,4 +296,14 @@
             </class>
         </classes>
     </test>
+    <test name="Verify PU Indicator does not exist in Driver Tab for Non FNI ">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestOffLineClaims">
+                <methods>
+                    <include name="pas18317_verifyPermissiveUseIndicator"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
