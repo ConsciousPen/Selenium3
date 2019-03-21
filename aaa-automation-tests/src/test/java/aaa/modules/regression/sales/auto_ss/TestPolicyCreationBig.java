@@ -29,7 +29,7 @@ public class TestPolicyCreationBig extends AutoSSBaseTest {
     @StateList(statesExcept = { States.CA })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testPolicyCreationBig(@Optional("MD") String state) {
+    public void testPolicyCreationBig(@Optional("") String state) {
 
     	mainApp().open();
         
