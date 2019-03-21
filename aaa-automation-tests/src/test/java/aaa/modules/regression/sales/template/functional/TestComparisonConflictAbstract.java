@@ -676,9 +676,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			Multimap<String, String> expectedSectionsAndUIFieldsEndorsement, String tabName, String sectionName, Boolean isAutomatic) {
 		mainApp().open();
 		createCustomerIndividual();
-		//createPolicy(getTestSpecificTD("TestData_NB_Policy"));
 		createPolicy(tdVersion);
-		//createPolicy(getTestSpecificTD("TestData_Multiple_Drivers_NB_Policy"));
 		processPlus20DaysEndorsement(tdVersion1);
 		processPlus10DaysOOSEndorsement(tdVersion2);
 		policy.rollOn().openConflictPage(isAutomatic);
@@ -730,7 +728,6 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			String sectionName) {
 		mainApp().open();
 		createCustomerIndividual();
-		//createPolicy(getTestSpecificTD("TestData_NB_Policy"));
 		createPolicy(tdVersion);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
