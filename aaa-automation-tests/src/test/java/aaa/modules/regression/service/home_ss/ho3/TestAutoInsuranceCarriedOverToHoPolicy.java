@@ -119,13 +119,12 @@ public class TestAutoInsuranceCarriedOverToHoPolicy extends HomeSSHO3BaseTest {
 		//Navigate to Applicant page -> select Customer Search in Named Insured section and set 'Connemara Morgan' as insured
 		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestDataEndorsement"), ApplicantTab.class, true);
 
+		//Get list of Other active AAA policies from UI
+		List<String> listOfPoliciesFromUI = applicantTab.tblListOfOtherActiveAAAPolicies.getValuesFromRows("Policy Number");
+
 		//Get list of policies from Mock
 		CustomerMasterMock cm = ApplicationMocksManager.getMock(CustomerMasterMock.class);
 		List<String> listOfPoliciesFromMock = cm.getPolicies(getTestSpecificTD(TEST_DATA_KEY).getValue("Customer"));
-
-		//Get list of Other active AAA policies from UI
-		applicantTab.otherAAAProductSearchDialog.cancel();
-		List<String> listOfPoliciesFromUI = applicantTab.tblListOfOtherActiveAAAPolicies.getValuesFromRows("Policy Number");
 
 		//Add created Auto policy to list from Mock and compare with list of Other Active policies from UI
 		listOfPoliciesFromMock.add(autoPolicyNum);
