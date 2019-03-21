@@ -818,7 +818,6 @@ public final class AutoSSMetaData {
 
 		public static final AssetDescriptor<RadioGroup> SALES_AGENT_AGREEMENT_DMV = declare("Sales Agent Agreement DMV", RadioGroup.class, By.xpath(".//table[@id='policyDataGatherForm:sedit_AAACSADriverReportDisclosureComponent_disclosureAgrees']"));
 
-		// Only needed when a CA license number is used for an SS policy
 
 		public static final AssetDescriptor<Button> VALIDATE_DRIVING_HISTORY = declare("Validate Driving History", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:submitReports"));
 
