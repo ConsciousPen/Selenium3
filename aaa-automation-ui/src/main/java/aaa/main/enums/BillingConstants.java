@@ -146,6 +146,7 @@ public final class BillingConstants {
 		public static final String RECURRING_PAYMENT = "Recurring Payment";
 		public static final String REGULUS_LOCKBOX = "Regulus LockBox";
 		public static final String REGULUS_ONLINE = "Regulus Online";
+		public static final String EFT_INSTALLMENT_FEE = "EFT Installment Fee - ACH";
 		public static final String NON_EFT_INSTALLMENT_FEE = "Non EFT Installment Fee";
 		public static final String NON_EFT_INSTALLMENT_FEE_WAIVED = "Non EFT Installment Fee Waived";
 		public static final String SEISMIC_SAFETY_FEE = "Seismic Safety Fee";
