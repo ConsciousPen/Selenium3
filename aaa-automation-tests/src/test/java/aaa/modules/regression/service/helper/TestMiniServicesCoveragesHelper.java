@@ -3354,17 +3354,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	protected void pas17642_UpdateCoverageADBBody() {
 		assertSoftly(softly -> {
 			TestData td = getPolicyTD("DataGather", "TestData");
-			String state = getState();
-			if (state.equals("DE")) {
-				TestData drivers = getTestSpecificTD("FourDrivers_DE");
-				td.adjust(new DriverTab().getMetaKey(), drivers.getTestDataList("DriverTab")).resolveLinks();
-				td.adjust(new DocumentsAndBindTab().getMetaKey(), getTestSpecificTD("DocumentsAndBindTab")).resolveLinks();
-			} else {
-				TestData drivers = getTestSpecificTD("FourDrivers");
-				td.adjust(new DriverTab().getMetaKey(), drivers.getTestDataList("DriverTab")).resolveLinks();
-				td.adjust(new DocumentsAndBindTab().getMetaKey(), getTestSpecificTD("DocumentsAndBindTab")).resolveLinks();
-
-			}
+			TestData drivers = getTestSpecificTD("FourDrivers");
+			td.adjust(new DriverTab().getMetaKey(), drivers.getTestDataList("DriverTab")).resolveLinks();
+			td.adjust(new DocumentsAndBindTab().getMetaKey(), getTestSpecificTD("DocumentsAndBindTab")).resolveLinks();
 
 			mainApp().open();
 			createCustomerIndividual();
@@ -3403,7 +3395,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			HelperCommon.removeDriver(policyNumber, driverAFR, DXPRequestFactory.createRemoveDriverRequest("RD1004"));
 
-			PolicyCoverageInfo response = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);            //String grossPremiumOnOriginal = validateDriverCoverage(softly, adbCoverageToMatch, policyNumber, false);
+			PolicyCoverageInfo response = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+
 			Coverage adbCoverage = findCoverage(response.driverCoverages, "ADB");
 			assertThat(adbCoverage.getAvailableDrivers()).contains(driverFNI).size().isEqualTo(1);
 			assertThat(adbCoverage.getCurrentlyAddedDrivers()).contains(driverFNI).size().isEqualTo(1);
@@ -5588,10 +5581,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			assertThat(adbCoverage.getCurrentlyAddedDrivers()).doesNotContain(notNISpouse).size().isEqualTo(4);
 
 			// verify removed driver does not have TD
-			Coverage TDCoverage = findCoverage(response.driverCoverages, "TD");
-			assertThat(TDCoverage.getAvailableDrivers()).doesNotContain(notNISpouse).size().isEqualTo(3);
+			Coverage tdCoverage = findCoverage(response.driverCoverages, "TD");
+			assertThat(tdCoverage.getAvailableDrivers()).doesNotContain(notNISpouse).size().isEqualTo(3);
 			//Defect
-			assertThat(TDCoverage.getCurrentlyAddedDrivers()).doesNotContain(notNISpouse).size().isEqualTo(3);
+			assertThat(tdCoverage.getCurrentlyAddedDrivers()).doesNotContain(notNISpouse).size().isEqualTo(3);
 
 			//Validate in PAS UI that TD is updated
 			PolicySummaryPage.buttonPendedEndorsement.click();
