@@ -1097,9 +1097,11 @@ public final class AutoSSMetaData {
 				declare("Delivery Method", AdvancedRadioGroup.class, Waiters.AJAX, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAAdHocOnDemandDocs_body' or @id='policyDataGatherForm:componentView_AAAPasdocAdHocOnDemandDocs_body']/table"));
 		public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, Waiters.AJAX);
 		
-		public static final AssetDescriptor<Button> OK_BTN = declare("OK", Button.class, Waiters.AJAX, By.xpath("//input[@id='policyDataGatherForm:generateDocButton' or @id='policyDataGatherForm:generateEmailDocButton']"));
+		public static final AssetDescriptor<Button> OK_BTN = declare("OK", Button.class, Waiters.AJAX, 
+				By.xpath("//*[(@id='policyDataGatherForm:generateDocLink' or @id='policyDataGatherForm:generateEmailDocLink' or @id='policyDataGatherForm:generateDocButton' or @id='policyDataGatherForm:generateEmailDocButton') and not(contains(@class, 'hidden'))]"));
 		public static final AssetDescriptor<Button> CANCEL_BTN = declare("Cancel", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:adhocCancel"));
-		public static final AssetDescriptor<Button> PREVIEW_DOCUMENTS_BTN = declare("Preview Documents", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:previewDocButton"));
+		public static final AssetDescriptor<Button> PREVIEW_DOCUMENTS_BTN = declare("Preview Documents", Button.class, Waiters.AJAX, 
+				By.xpath("//*[(@id='policyDataGatherForm:previewDocButton' or @id='policyDataGatherForm:previewDocLink') and not(contains(@class, 'hidden'))]"));
 		
 		public static final class DocumentsRow extends MetaData {
 			public static final AssetDescriptor<CheckBox> SELECT = declare(DocGenConstants.OnDemandDocumentsTable.SELECT, CheckBox.class, Waiters.AJAX);
