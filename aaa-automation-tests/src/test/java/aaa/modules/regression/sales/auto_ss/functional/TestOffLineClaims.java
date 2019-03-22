@@ -436,6 +436,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     /**
      * @author Kiruthika Rajendran
      * @author Chris Johns
+     * @author Saranya Hariharan
      * PAS-18317 - UI-CA: do NOT Show Permissive Use Indicator on Driver Tab (non-FNI) - Overrides "PAS-23269"
      * @name Test Clue claims STUB/Mock Data Claims
      * @scenario Test Steps:
@@ -455,4 +456,6 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     public void pas18317_verifyPermissiveUseIndicator(@Optional("AZ") @SuppressWarnings("unused") String state) {
         pas18317_verifyPermissiveUseIndicator();
     }
+
+
 }

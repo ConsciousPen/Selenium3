@@ -1,0 +1,205 @@
+TestData_Full: {
+  DriverTab: ['@DriverTab_FinancialDriver', '@DriverTab_ExcludedDriver', '@DriverTab_LearnersPermitDriver', '@DriverTab_WithActivity'],
+  VehicleTab: ['@VehicleTab_Regular', '@VehicleTab_EnrolledInUBI', '@VehicleTab_GolfCart', '@Vehicle_Trailer', '@Vehicle_withDamage'], 
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Full', 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Full', 
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'
+}
+
+TestData_Nano: {
+  GeneralTab: '@GeneralTab_NANO', 
+  VehicleTab: {}, 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_NANO', 
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+TestData_Quote: {
+  DriverTab: ['@DriverTab_RegularDriver', '@DriverTab_TeenageDriver']
+}
+
+# -------- GeneralTab ---------
+GeneralTab_NANO: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  PolicyInformation: '@PolicyInformation_NANO'
+}
+
+PolicyInformation_NANO: {
+  Policy Type: Named Non Owner,
+  Effective Date: '$<today:MM/dd/yyyy>',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'contains=Draper - 500005417 - Draper',
+  Agent: 'House Account Draper',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
+}
+
+# --------- DriverTab ---------
+DriverTab_RegularDriver: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12345678
+}
+
+# Driver with Financial Responsibility=Yes - it should be a First Named Insured
+DriverTab_FinancialDriver: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12345678, 
+  Financial Responsibility Filing Needed: 'Yes'
+}
+
+DriverTab_ExcludedDriver: {
+  Add Driver: click,
+  DriverSearchDialog: {},
+  Driver Type: Excluded, 
+  Reason: index=1, 
+  'Rel. to First Named Insured': Spouse, 
+  First Name: Excluded,
+  Last Name: Driver,
+  Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A22345678
+}
+
+DriverTab_LearnersPermitDriver: {
+  Add Driver: click,
+  DriverSearchDialog: {},
+  Driver Type: Not Available for Rating, 
+  Reason: Permit Driver, 
+  'Rel. to First Named Insured': Parent, 
+  First Name: Learners,
+  Middle Name: Permit, 
+  Last Name: Driver,
+  Date of Birth: 01/01/1978,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  License Type: Learner's Permit
+}
+
+DriverTab_WithActivity: {
+  Add Driver: click,
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,  
+  'Rel. to First Named Insured': Sibling, 
+  First Name: Chad,
+  Last Name: Blacl,
+  Date of Birth: 02/02/1970,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A88888881
+}
+
+DriverTab_TeenageDriver: {
+  Add Driver: click, 
+  DriverSearchDialog: {},
+  'Rel. to First Named Insured': Child, 
+  First Name: Teenage,
+  Last Name: Driver,
+  Date of Birth: $<today-16y>,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: A32345679,
+  Most Recent GPA: B Student
+}
+
+# -------- VehicleTab ---------
+VehicleTab_Regular: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273
+}
+
+VehicleTab_EnrolledInUBI: {
+  Add Vehicle: click,
+  Type: Private Passenger Auto, 
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451,
+  'Enroll in Usage Based Insurance?': 'Yes',
+  Get Vehicle Details: click, 
+  Vehicle Eligibility Response: Vehicle Eligible, 
+  AAA UBI Device Status: Shipped, 
+  Device Voucher Number: 12345678, 
+  Safety Score: 100
+}
+
+VehicleTab_GolfCart: {
+  Add Vehicle: click, 
+  Type: Golf Cart, 
+  Primary operator: index=1,
+  Usage: index=1, 
+  Year: 2002,
+  Other Make: Golf,
+  Other Model: Cart,
+  Stated Amount: 5000    
+}
+
+Vehicle_Trailer: {
+  Add Vehicle: click, 
+  Type: Trailer, 
+  Primary operator: index=1,
+  Trailer Type: Travel Trailer, 
+  Usage: index=2, 
+  Year: 2002,
+  Other Make: Other,
+  Other Model: Trailer,
+  Stat Code: index=1,
+  Stated Amount: 5000  
+}
+
+Vehicle_withDamage: {
+  Add Vehicle: click, 
+  Type: Private Passenger Auto, 
+  Usage: Pleasure,
+  VIN: 1NXBR32E66Z652451,
+  Existing Damage: Other Body Damages
+}
+
+# ------ PremiumAndCoveragesTab ------- 
+PremiumAndCoveragesTab_Full: {
+  Payment Plan: Eleven Pay - Standard, 
+  Policy Term: Annual, 
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Uninsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
+  Underinsured Motorists Bodily Injury: 'contains=$50,000/$100,000'
+}
+
+# ------- DocumentsAndBindTab --------
+DocumentsAndBindTab_Full: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Uninsured and Underinsured Motorist Coverage Selection: Physically Signed, 
+    Named Driver Exclusion: Physically Signed, 
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: 'Yes',
+    Proof of Prior Insurance: 'Yes'
+  }, 
+  Case Number: '12345'
+}
+
+DocumentsAndBindTab_NANO: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Non-Owner Automobile Endorsement: Physically Signed
+  }, 
+  Agreement: I agree 
+}

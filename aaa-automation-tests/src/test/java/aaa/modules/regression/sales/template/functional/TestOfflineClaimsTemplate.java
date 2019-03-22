@@ -1,8 +1,8 @@
 package aaa.modules.regression.sales.template.functional;
-
 import static aaa.common.pages.SearchPage.tableSearchResults;
-import static aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.tableActivityInformationList;
-import static aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.tableDriverList;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableActivityInformationList;
+import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableDriverList;
 import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
 import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
@@ -46,7 +45,6 @@ import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
@@ -581,11 +579,10 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent()).isFalse();
         });
         driverTab.submitTab();
-        policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class,VehicleTab.class,true);
+        policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class,DriverActivityReportsTab.class,true);
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        driverTab.submitTab();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        policy.getDefaultView().fillFromTo(adjusted, PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        new DocumentsAndBindTab().fillTab(adjusted);
         documentsAndBindTab.submitTab();
         new PurchaseTab().fillTab(adjusted).submitTab();
         policyNumber = PolicySummaryPage.getPolicyNumber();

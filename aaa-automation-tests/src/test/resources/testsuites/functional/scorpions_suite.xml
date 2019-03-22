@@ -1,28 +1,79 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Scorpions Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <!-- Listener commented out for local runs-->
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-    <test name="pas2704_DeclarationPage AA02NY">
-        <parameter name="state" value="NY"/>
+    <!-- SS & CA Claims Assignment and Permissive Use Features -->
+    <test name="Offline Claims AUTO SS">
+        <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestSymbolsPresenceDeclarationPage">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
                 <methods>
-                    <include name="pas2704_DeclarationPage"/>
+                    <include name="pas14679_testMSClaimsAssignment_AZ_SS"/>
+                    <include name="pas18159_offlineClaimsAnalytics"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="PAS-3805, PAS-4244 DE_NJ No Prior Insurance Message and Error">
-        <parameter name="state" value="DE, NJ"/>
+    <test name="Test to Verify Claims Assignment for CA Select">
+        <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestNoPriorInsuranceError"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
+                <methods>
+                    <include name="pas14679_testMSClaimsAssignment_CA_Select"/>
+                </methods>
+            </class>
         </classes>
     </test>
+    <test name="Test to Verify Claims Assignment for CA Choice">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
+                <methods>
+                    <include name="pas14679_testMSClaimsAssignment_CA_Choice"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Offline Claims Match Logic">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestOffLineClaims">
+                <methods>
+                    <include name="pas14679_CompDLPUMatchMoreManual"/>
+                    <include name="pas14679_nameDobYobMatchMoreManual"/>
+                    <include name="pas18317_verifyPermissiveUseIndicator"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Offline Claims AUTO CA Select">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestOfflineClaims">
+                <methods>
+                    <include name="pas18317_verifyPermissiveUseIndicator"/>
+                    <include name="pas25463_ViolationsMVRPUIndicatorCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Offline Claims AUTO CA Choice">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestOfflineClaims">
+                <methods>
+                    <include name="pas18317_verifyPermissiveUseIndicator"/>
+                    <include name="pas25463_ViolationsMVRPUIndicatorCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <!-- SS & CA VIN Refresh Feature -->
     <test name="PAS-541 Auto CA Symbols in Policy Details Service">
         <parameter name="state" value="CA"/>
         <classes>
@@ -40,42 +91,6 @@
         <parameter name="state" value="DE, NJ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidationError"/>
-        </classes>
-    </test>
-    <test name="PAS-6166-Verify STAT Code Symbol Pre-Ffx is Removed from STAT Code Selections on vehicle page">
-        <parameter name="state" value="UT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVehiclePageStatCodes"/>
-        </classes>
-    </test>
-    <test name="Auto SS PAS-535,PAS-2712,PAS-1904  Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRatingDetailsView">
-                <methods>
-                    <include name="pas535_verifyNewSymbolsPresence"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Auto CA Select AS-535,PAS-2712,PAS-1904 Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRatingDetailsView">
-                <methods>
-                    <include name="pas535_verifyNewSymbolsPresence"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Auto CA Choice PAS-535,PAS-2712,PAS-1904  Modifies View Rating Details to display separate comp and coll symbols, split stat code.">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestRatingDetailsView">
-                <methods>
-                    <include name="pas535_verifyNewSymbolsPresence"/>
-                </methods>
-            </class>
         </classes>
     </test>
     <test name="Auto SS TestVINUpload tests">
@@ -148,152 +163,10 @@
             </class>
         </classes>
     </test>
-    <test name="pas2713 Application Form Stat Code NA All states">
-        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestSymbolsPresenceDeclarationPage">
-                <methods>
-                    <include name="pas2713_ApplicationForm"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas2713_ApplicationFormStatCodeNotNA Select">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestSymbolsPresenceApplicationForm">
-                <methods>
-                    <include name="pas2713_ApplicationFormStatCodeNotNA"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas2713_ApplicationFormStatCodeNotNA Choice">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestSymbolsPresenceApplicationForm">
-                <methods>
-                    <include name="pas2713_ApplicationFormStatCodeNotNA"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas2713_ Application Form NY">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestSymbolsPresenceDeclarationPage">
-                <methods>
-                    <include name="pas2713_ApplicationFormNYStatCodeNotNA"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas9064_MapCompAndCollSymbolsForDCS Select CA">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestSymbolsPresenceApplicationFormForPremCalcQuote">
-                <methods>
-                    <include name="pas9064_MapCompAndCollSymbolsForDCS"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas9064_MapCompAndCollSymbolsForDCS Choice CA">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestSymbolsPresenceApplicationFormForPremCalcQuote">
-                <methods>
-                    <include name="pas9064_MapCompAndCollSymbolsForDCS"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="pas12476_TestUpdatePayPlanRestrictions Auto SS DE">
-        <parameter name="state" value="DE"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestUpdatePayPlanRestrictions">
-                <methods>
-                    <include name="pas12476_TestUpdatePayPlanRestrictionsWhenCarrierIsYes"/>
-                    <include name="pas12476_TestUpdatePayPlanRestrictionsWhenCarrierIsNO"/>
-                    <include name="pas12476_TestUpdatePayPlanRestrictionsWhenBiLimitIsMoreThen50K"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="PAS-2247, PAS-2248 - Lock Membership and Auto Ins Persistency, Not at Fault and Comp Claims">
-        <parameter name="state" value="CT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAutoPoliciesLock"/>
-        </classes>
-    </test>
     <test name="PAS-18994 - Test to check that STAT Conversion is not happening for VIN Match Case">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestChoiceStatCodeConversion"/>
-        </classes>
-    </test>
-    <test name="Offline Claims AUTO SS">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
-            <methods>
-                <include name="pas14679_testMSClaimsAssignment_AZ_SS"/>
-                <include name="pas18159_offlineClaimsAnalytics"/>
-            </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Test to Verify Claims Assignment for CA Select">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
-                <methods>
-                    <include name="pas14679_testMSClaimsAssignment_CA_Select"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Test to Verify Claims Assignment for CA Choice">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
-                <methods>
-                    <include name="pas14679_testMSClaimsAssignment_CA_Choice"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Offline Claims Match Logic">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestOffLineClaims">
-                <methods>
-                    <include name="pas14679_CompDLPUMatchMoreManual"/>
-                    <include name="pas14679_nameDobYobMatchMoreManual"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Offline Claims AUTO CA Select">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestOfflineClaims">
-                <methods>
-                    <include name="pas18317_verifyPermissiveUseIndicator"/>
-                    <include name="pas25463_ViolationsMVRPUIndicatorCheck"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Offline Claims AUTO CA Choice">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestOfflineClaims">
-                <methods>
-                    <include name="pas18317_verifyPermissiveUseIndicator"/>
-                    <include name="pas25463_ViolationsMVRPUIndicatorCheck"/>
-                </methods>
-            </class>
         </classes>
     </test>
 </suite>
