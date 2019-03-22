@@ -139,7 +139,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * @scenario
      * Prereqs: enterpriseSearchService.enterpriseCustomersSearchUri setup to return all 3 homeowner types on refresh.
      * 1. Using standard test data, create customer, start auto quote, fill up to general tab with default data.
-     * 2. Click the refresh button.
+     * 2. Add second NI that has correct response pattern to get 3 property policies back. Click the refresh button.
      * 3. Verify the unquoted options that come back from refresh are disabled. (Based on prereqs, should be all HO)
      * 4. Remove all the Disabled policies and make sure checkboxes re-enable.
      * @author Brian Bond - CIO
@@ -156,6 +156,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
 
         // Step 2
+
+        // REFRESH_P will come back with all 3 property types
+        _generalTab.addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+
         _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
                 .click(Waiters.AJAX);
 
@@ -193,7 +197,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * Prereqs: enterpriseSearchService.enterpriseCustomersSearchUri setup to return all 3 homeowner types on refresh.
      * 1. Using standard test data, create customer, start auto quote, fill up to general tab with default data.
      * 2. Check unquoted Home, Condo, and Renters.
-     * 3. Click the refresh button.
+     * 3. Add second NI that has correct response pattern to get 3 property policies back. Click the refresh button.
      * 4. Verify the the MDM returned policies replace the unquoted options. (Based on prereqs, should be all HO)
      * 5. Verify the checkboxes are disabled for Home, Renters, and Condo.
      * @author Brian Bond - CIO
@@ -215,6 +219,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         setUnquotedCheckbox(mpdPolicyType.condo, true);
 
         // Step 3
+
+        // REFRESH_P will come back with all 3 property types
+        _generalTab.addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        
         _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
                 .click(Waiters.AJAX);
 
