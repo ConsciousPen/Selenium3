@@ -1,6 +1,5 @@
 package com.exigen.ipb.eisa.base.app.impl;
 
-import org.apache.http.client.utils.URIBuilder;
 import org.openqa.selenium.By;
 import com.exigen.ipb.eisa.base.app.Application;
 import com.exigen.ipb.eisa.base.app.ILogin;
@@ -34,9 +33,4 @@ public class RatingApplication extends Application {
 		this.login = login;
 	}
 
-	public String getServiceUrl() {
-		URIBuilder builder = new URIBuilder();
-		builder.setScheme(getProtocol()).setHost(getHost()).setPort(getPort()).setPath(getPath());
-		return builder.toString().replace("/login.xhtml", "").replace("/admin", "");
-	}
 }
