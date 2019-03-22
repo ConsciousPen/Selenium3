@@ -117,7 +117,7 @@ public class BatchMaintanance extends BaseTest {
         list.add(aaaCancellationConfirmationAsyncJob);
         list.add(aaaCancellationNoticeAsyncJob);
         list.add(changeCancellationPendingPoliciesStatus);
-        list.add(premiumreceivablesonpolicyeffectivejob);
+        list.add(premiumReceivablesOnPolicyEffectiveJob);
         list.add(bofaRecurringPaymentJob);
         list.add(aaaRecurringPaymentsProcessingJob);
         list.add(aaaRemittanceFeedAsyncBatchReceiveJob);
@@ -188,7 +188,7 @@ public class BatchMaintanance extends BaseTest {
     @Parameters({"state"})
     @Test(dependsOnMethods = "RUN_08_BOFARECURRINGPAYMENTJOB")
     public void RUN_09_PREMIUMRECEIVABLESONPOLICYEFFECTIVEJOB(@Optional("") String state) {
-        JobUtils.executeJob(premiumreceivablesonpolicyeffectivejob);
+        JobUtils.executeJob(premiumReceivablesOnPolicyEffectiveJob);
     }
 
     @Parameters({"state"})

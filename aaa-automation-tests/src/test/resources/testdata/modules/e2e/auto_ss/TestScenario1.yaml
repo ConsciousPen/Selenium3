@@ -18,6 +18,25 @@ TestData_Endorsement: {
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {},
 }
+
+TestData_Endorsement_PA: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: '@DocumentsAndBindTab_PA',
+}
+
+DocumentsAndBindTab_PA: {
+  RequiredToBind: {
+    Uninsured Motorists Coverage Selection/Rejection: Physically Signed,
+    Underinsured Motorists Coverage Selection/Rejection: Physically Signed,
+  }
+}
+
 # ---- workaround ---- remove after PAS-7427 fix
 
 TestData_Endorsement_VA: {

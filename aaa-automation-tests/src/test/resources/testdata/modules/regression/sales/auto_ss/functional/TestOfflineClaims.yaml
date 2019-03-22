@@ -2,6 +2,7 @@
 TestData_DriverTab_OfflineClaim_AZ: {
   DriverTab: ['@Driver2','@Driver3','@Driver4']
 }
+
 #Not to be deleted
   ######Test Data for 2/3/4 Drivers
 #Driver1: {
@@ -12,6 +13,7 @@ TestData_DriverTab_OfflineClaim_AZ: {
 #  'Rel. to First Named Insured': Sibling,
 #  Date of Birth: 12/05/1960,
 #  Gender: Male,
+
 #  Marital Status: Married,
 #  Occupation: Clergy,
 #  License Type: "Licensed (US)",
@@ -55,6 +57,7 @@ Driver3: {
 Driver4: {
   Add Driver: Click,
   DriverSearchDialog:{},
+  Driver Type: Available for Rating,
   First Name: Robin,
   Last Name: Hood,
   'Rel. to First Named Insured': Sibling,
@@ -64,10 +67,20 @@ Driver4: {
   Occupation: Clergy,
   License Type: "Licensed (US)",
   License State: AZ,
+  Permit Before License: 'Yes',
   License Number: A12345444,
-  Age First Licensed: 18
+  Age First Licensed: 18,
+  ActivityInformation:
+    {
+      Activity Source: 'Company Input',
+      Type: 'At-Fault Accident',
+      Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+      Description: 'Accident (Property Damage Only)',
+      Loss Payment Amount: '1500',
+      #Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+      "Include in Points and/or YAF?": 'Yes'
+    }
 }
-
 
 Driver5: {
   Add Driver: Click,

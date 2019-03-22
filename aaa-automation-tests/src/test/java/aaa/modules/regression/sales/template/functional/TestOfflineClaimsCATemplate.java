@@ -102,10 +102,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     private static final String CLAIM_NUMBER_1_GDD = "Claim-GDD-111";
     private static final String CLAIM_NUMBER_2_GDD = "Claim-GDD-222";
-    // Claim Dates: For CAS Response: GDD
-    private static String claim1_dates_gdd = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
-    private static String claim2_dates_gdd = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(80).toLocalDate().toString();
-
     private static final String[] CLAIM_NUMBERS_PU_DEFAULTING = {"PU_DEFAULTING_CMP","PU_DEFAULTING_1","PU_DEFAULTING_2","PU_DEFAULTING_3",
             "PU_DEFAULTING_4","PU_DEFAULTING_5","PU_DEFAULTING_6"};
 
@@ -126,7 +122,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     public void prepare() {
         // Toggle ON PermissiveUse Logic & Set DATEOFLOSS Parameter in DB
         DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
+        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-16"));
         log.info("Updated PU flag in DB");
         try {
             FileUtils.forceDeleteOnExit(Paths.get(CAS_REQUEST_PATH).toFile());
@@ -741,6 +737,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     Method/Test for CA Choice & Select: TestClaimsImpactOnDiscounts.pas18303_goodDriverDiscountForPUClaims
      */
     public void pas18303_goodDriverDiscountForPUClaims(){
+        // Claim Dates: For CAS Response: GDD
+        String claim1_dates_gdd = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
+        String claim2_dates_gdd = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(80).toLocalDate().toString();
 
         Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS = ImmutableMap.of(CLAIM_NUMBER_1_GDD, claim1_dates_gdd, CLAIM_NUMBER_2_GDD, claim2_dates_gdd);
 
@@ -957,19 +956,24 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      */
     public void pas24587_ClueReconcilePUAFRUserFlagged(){
         //Create a policy with 2 drivers
-
         TestData testDataForFNI;
+
         //Set correct 'Age First Licensed' to drivers age - ensures product is CA Choice (driving experience is less than 3)
         if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
             String age = String.valueOf(ChronoUnit.YEARS.between(LocalDate.of(1997, Month.OCTOBER, 16), TimeSetterUtil.getInstance().getCurrentTime()));
-            testDataForFNI = getTestSpecificTD("TestData_DriverTab_ReconcileFNIclaims_PU")
-                    .adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel()), age).resolveLinks();
+            testDataForFNI = getTestSpecificTD("TestData_DriverTab_ClueReconcileFNIclaims_PU");
+            TestData driver1Td = testDataForFNI.getTestDataList("DriverTab").get(0);
+            driver1Td.adjust(AutoCaMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), age); //set Age First Licensed to the current age always
+            TestData driver2Td = testDataForFNI.getTestDataList("DriverTab").get(1); //add adjustments needed for driver2 here in future
+            List<TestData> adjustedDrivers = new ArrayList<>();
+            adjustedDrivers.add(driver1Td);
+            adjustedDrivers.add(driver2Td);
+            testDataForFNI = testDataForFNI.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName()), adjustedDrivers).resolveLinks();
         } else {
-            testDataForFNI = getTestSpecificTD("TestData_DriverTab_ReconcileFNIclaims_PU").resolveLinks();
+            testDataForFNI = getTestSpecificTD("TestData_DriverTab_ClueReconcileFNIclaims_PU").resolveLinks();
         }
 
-        adjusted = getPolicyTD().adjust(testDataForFNI);
-        //policyNumber = openAppAndCreatePolicy(adjusted);
+        adjusted = getPolicyTD().adjust(testDataForFNI).resolveLinks();
         createQuoteAndFillUpTo(adjusted, PremiumAndCoveragesTab.class);
         premiumAndCoveragesTab.submitTab();
         overrideErrorTab();
