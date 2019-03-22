@@ -26,8 +26,8 @@ DriverTab_DataGather: {
   Permit Before License: 'No',
   License State: CA,
   "License #": C1234567,
-  #Employee Benefit Type: 'Active employee',
-  #Employee ID: '12345678'
+  Employee Benefit Type: 'Active employee',
+  Employee ID: '12345678'
 }
 
 PremiumAndCoveragesTab_DataGather: {
