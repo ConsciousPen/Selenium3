@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Financials Validation Test Suite" verbose="1" parallel="tests" thread-count="1024">
+<suite name="Financials Validation Test Suite - New Business" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
@@ -7,50 +7,44 @@
     <parameter name="timeshift-scenario-mode" value="method"/>
 
     <test name="Finance - SS PUP" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
+        <parameter name="state" value="KY, WV"/>
         <classes>
             <class name="aaa.modules.financials.pup.TestNewBusiness"/>
-            <class name="aaa.modules.financials.pup.TestRenewal"/>
         </classes>
     </test>
 
     <test name="Finance - SS Auto" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
+        <parameter name="state" value="KY, WV"/>
         <classes>
             <class name="aaa.modules.financials.auto_ss.TestNewBusiness"/>
-            <class name="aaa.modules.financials.auto_ss.TestRenewal"/>
         </classes>
     </test>
 
     <test name="Finance - SS DP3" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
+        <parameter name="state" value="KY, WV"/>
         <classes>
             <class name="aaa.modules.financials.home_ss.dp3.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ss.dp3.TestRenewal"/>
         </classes>
     </test>
 
     <test name="Finance - SS HO3" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
+        <parameter name="state" value="KY, WV"/>
         <classes>
             <class name="aaa.modules.financials.home_ss.ho3.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ss.ho3.TestRenewal"/>
         </classes>
     </test>
 
     <test name="Finance - SS HO4" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
+        <parameter name="state" value="KY, WV"/>
         <classes>
             <class name="aaa.modules.financials.home_ss.ho4.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ss.ho4.TestRenewal"/>
         </classes>
     </test>
 
     <test name="Finance - SS HO6" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
+        <parameter name="state" value="KY, WV"/>
         <classes>
             <class name="aaa.modules.financials.home_ss.ho6.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ss.ho6.TestRenewal"/>
         </classes>
     </test>
 
@@ -58,7 +52,6 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.pup.TestNewBusiness"/>
-            <class name="aaa.modules.financials.pup.TestRenewal"/>
         </classes>
     </test>
 
@@ -66,7 +59,6 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.auto_ca.choice.TestNewBusiness"/>
-            <class name="aaa.modules.financials.auto_ca.choice.TestRenewal"/>
         </classes>
     </test>
 
@@ -74,7 +66,6 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.auto_ca.select.TestNewBusiness"/>
-            <class name="aaa.modules.financials.auto_ca.select.TestRenewal"/>
         </classes>
     </test>
 
@@ -82,7 +73,6 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.dp3.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ca.dp3.TestRenewal"/>
         </classes>
     </test>
 
@@ -90,7 +80,6 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.ho3.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ca.ho3.TestRenewal"/>
         </classes>
     </test>
 
@@ -98,7 +87,6 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.ho4.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ca.ho4.TestRenewal"/>
         </classes>
     </test>
 
@@ -106,7 +94,6 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.ho6.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ca.ho6.TestRenewal"/>
         </classes>
     </test>
 
