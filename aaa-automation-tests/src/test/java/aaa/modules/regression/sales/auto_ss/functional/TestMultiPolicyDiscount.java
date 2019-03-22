@@ -827,7 +827,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         // Set pre-conditions by creating a quote, rating and filling up to purchase.
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-        _generalTab.OtherAAAProducts_SearchAndAddManually("Home", "NOT_FOUND");
+        _generalTab.otherAAAProducts_SearchAndAddCompanionPolicy("Home", "NOT_FOUND");
 
         // Added MPD element, filling up to purchase point. Includes hacky methods to get around system error.
         policy.getDefaultView().fillFromTo(testData, GeneralTab.class, DocumentsAndBindTab.class, true);
@@ -851,7 +851,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     private void editMPDAndRerate(int index, String in_newPolicyType, String in_newPolicyNumber){
         // Change MPD Policy and Attempt to Purchase
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        _generalTab.OtherAAAProducts_EditPolicyInMPDTable(index, in_newPolicyType, in_newPolicyNumber);
+        _generalTab.otherAAAProducts_EditPolicyInMPDTable(index, in_newPolicyType, in_newPolicyNumber);
         doRerate();
     }
 
@@ -862,7 +862,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     private void removeMPDAndRerate(int index){
         // Change MPD Policy and Attempt to Purchase
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        _generalTab.OtherAAAProductsTable_getRemoveLinkByIndex(0).click();
+        _generalTab.otherAAAProductsTable_getRemoveLinkByIndex(0).click();
         doRerate();
     }
 
@@ -874,7 +874,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     private void addMPDAndRerate(String in_newPolicyType, String in_newPolicyNumber){
         // Change MPD Policy and Attempt to Purchase
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        _generalTab.OtherAAAProducts_SearchAndAddManually(in_newPolicyType, in_newPolicyNumber);
+        _generalTab.otherAAAProducts_SearchAndAddCompanionPolicy(in_newPolicyType, in_newPolicyNumber);
         doRerate();
     }
 
@@ -985,7 +985,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         // Add MPD Element manually (after no results found)
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-        _generalTab.OtherAAAProducts_SearchAndAddManually(in_policyType, "NOT_FOUND");
+        _generalTab.otherAAAProducts_SearchAndAddCompanionPolicy(in_policyType, "NOT_FOUND");
 
         // Continue towards purchase of quote.
         policy.getDefaultView().fillFromTo(testData, GeneralTab.class, DocumentsAndBindTab.class, true);
@@ -1001,7 +1001,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         handleEndorsementType(bFlatEndorsement);
 
-        _generalTab.OtherAAAProducts_SearchAndAddManually(in_policyType, "NOT_FOUND");
+        _generalTab.otherAAAProducts_SearchAndAddCompanionPolicy(in_policyType, "NOT_FOUND");
         fillFromGeneralTabToErrorMsg();
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
@@ -1013,7 +1013,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createPolicyAdvanceToRenewalImage();
 
         // In Renewal Image, Add MPD Element and Bind
-        _generalTab.OtherAAAProducts_SearchAndAddManually(in_policyType, "NOT_FOUND");
+        _generalTab.otherAAAProducts_SearchAndAddCompanionPolicy(in_policyType, "NOT_FOUND");
         fillFromGeneralTabToErrorMsg();
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
@@ -1051,8 +1051,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     public void pas23456_MPD_Allow_NBBindWithSystemValidatedPolicy(@Optional("") String state) {
         TestData testData = getPolicyTD();
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-        _generalTab.OtherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
-        _generalTab.OtherAAAProductsSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
+        _generalTab.otherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
+        _generalTab.otherAAAProductsSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
         policy.getDefaultView().fillFromTo(testData, GeneralTab.class, PurchaseTab.class, true);
         PurchaseTab.btnApplyPayment.click();
         Page.dialogConfirmation.buttonYes.click();
@@ -1066,8 +1066,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         handleEndorsementType(bFlatEndorsement);
 
         // Add MPD Element via Customer Search
-        _generalTab.OtherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
-        _generalTab.OtherAAAProductsSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
+        _generalTab.otherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
+        _generalTab.otherAAAProductsSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
 
         fillFromGeneralTabToErrorMsg();
 
@@ -1082,10 +1082,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         handleEndorsementType(bFlatEndorsement);
 
         // Add MPD Element via Customer Search
-        _generalTab.OtherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_E");
-        _generalTab.OtherAAAProductsSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
-        _generalTab.OtherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_NE");
-        _generalTab.OtherAAAProductsSearchTable_addSelected(1);
+        _generalTab.otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_E");
+        _generalTab.otherAAAProductsSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
+        _generalTab.otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_NE");
+        _generalTab.otherAAAProductsSearchTable_addSelected(1);
 
         fillFromGeneralTabToErrorMsg();
 
@@ -1105,8 +1105,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         }
 
         // Add MPD Home element.
-        _generalTab.OtherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
-        _generalTab.OtherAAAProductsSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
+        _generalTab.otherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
+        _generalTab.otherAAAProductsSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
 
         // Complete Endorsement.
         fillFromGeneralTabToErrorMsg();
@@ -1300,10 +1300,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         TestData td = getPolicyDefaultTD();
         createQuoteAndFillUpTo(td, GeneralTab.class, true);
 
-        _generalTab.OtherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
-        _generalTab.OtherAAAProductsSearchTable_addSelected(0);
-        _generalTab.OtherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
-        _generalTab.OtherAAAProductsSearchTable_addSelected(1);
+        _generalTab.otherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
+        _generalTab.otherAAAProductsSearchTable_addSelected(0);
+        _generalTab.otherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
+        _generalTab.otherAAAProductsSearchTable_addSelected(1);
 
         String policyTypeMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
         String policyNumberMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_NUMBER.getLabel();
@@ -1339,10 +1339,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         TestData td = getPolicyDefaultTD();
         createQuoteAndFillUpTo(td, GeneralTab.class, true);
 
-        _generalTab.OtherAAAProducts_SearchByPolicyNumber("Home", "NOT_FOUND");
-        _generalTab.OtherAAAProducts_ManuallyAddPolicyAfterNoResultsFound("Home", "TestHome_FirstAdded");
-        _generalTab.OtherAAAProducts_SearchByPolicyNumber("Home", "NOT_FOUND");
-        _generalTab.OtherAAAProducts_ManuallyAddPolicyAfterNoResultsFound("Home", "TestHome_SecondAdded");
+        _generalTab.otherAAAProducts_SearchByPolicyNumber("Home", "NOT_FOUND");
+        _generalTab.otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound("Home", "TestHome_FirstAdded");
+        _generalTab.otherAAAProducts_SearchByPolicyNumber("Home", "NOT_FOUND");
+        _generalTab.otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound("Home", "TestHome_SecondAdded");
 
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
         _documentsAndBindTab.btnGenerateDocuments.click();
@@ -1369,12 +1369,12 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         TestData td = getPolicyDefaultTD();
         createQuoteAndFillUpTo(td, GeneralTab.class, true);
 
-        _generalTab.OtherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_NE");
-        _generalTab.OtherAAAProductsSearchTable_addSelected(0);
-        _generalTab.OtherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_NE");
-        _generalTab.OtherAAAProductsSearchTable_addSelected(1);
-        _generalTab.OtherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_NE");
-        _generalTab.OtherAAAProductsSearchTable_addSelected(2);
+        _generalTab.otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_NE");
+        _generalTab.otherAAAProductsSearchTable_addSelected(0);
+        _generalTab.otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_NE");
+        _generalTab.otherAAAProductsSearchTable_addSelected(1);
+        _generalTab.otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_NE");
+        _generalTab.otherAAAProductsSearchTable_addSelected(2);
 
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
         _documentsAndBindTab.btnGenerateDocuments.click();
@@ -1405,11 +1405,11 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         TestData td = getPolicyDefaultTD();
         createQuoteAndFillUpTo(td, GeneralTab.class, true);
 
-        _generalTab.OtherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
-        _generalTab.OtherAAAProductsSearchTable_addSelected(0);
-        _generalTab.OtherAAAProducts_SearchAndAddManually("Motorcycle", "NOT_FOUND");
-        _generalTab.OtherAAAProducts_SearchByPolicyNumber("Life", "NOT_FOUND");
-        _generalTab.OtherAAAProducts_ManuallyAddPolicyAfterNoResultsFound( "Life", "TestLife");
+        _generalTab.otherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
+        _generalTab.otherAAAProductsSearchTable_addSelected(0);
+        _generalTab.otherAAAProducts_SearchAndAddCompanionPolicy("Motorcycle", "NOT_FOUND");
+        _generalTab.otherAAAProducts_SearchByPolicyNumber("Life", "NOT_FOUND");
+        _generalTab.otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound( "Life", "TestLife");
 
         String policyTypeMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
         String policyNumberMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_NUMBER.getLabel();
@@ -1449,9 +1449,9 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         TestData td = getPolicyDefaultTD();
         createQuoteAndFillUpTo(td, GeneralTab.class, true);
 
-        _generalTab.OtherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_NE");
-        _generalTab.OtherAAAProductsSearchTable_addSelected(0);
-        _generalTab.OtherAAAProducts_SearchAndAddManually("Life", "TestLifePolicy");
+        _generalTab.otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_NE");
+        _generalTab.otherAAAProductsSearchTable_addSelected(0);
+        _generalTab.otherAAAProducts_SearchAndAddCompanionPolicy("Life", "TestLifePolicy");
 
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
         _documentsAndBindTab.btnGenerateDocuments.click();
