@@ -3370,7 +3370,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			createCustomerIndividual();
 			createPolicy(td);
 			String policyNumber = PolicySummaryPage.getPolicyNumber();
-			;
 
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
@@ -3412,11 +3411,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 
 		});
-	}
-
-	protected void pas26916_AdbCoverageIndicatorNAFDriver() {
-		mainApp().open();
-
 	}
 
 	@SuppressWarnings("unchecked")
