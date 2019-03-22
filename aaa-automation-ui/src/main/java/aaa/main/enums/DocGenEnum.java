@@ -418,7 +418,9 @@ public final class DocGenEnum {
 		_61_6530("61 6530", "California Residential Property Insurance Disclosure"),
 		_62_6500("62 6500", "CA Evidence of Property Insurance"),
 		AACSDC("District of Columbia Coverage Selection/Rejection Form"),
-		AADNDE1("AADNDE1", "Delaware Motorists Protection Act");
+		AADNDE1("AADNDE1", "Delaware Motorists Protection Act"),
+		AACSNJ("AACSNJ", "NJ Auto Standard Policy Coverage Selection Form");
+
 
 		private String id;
 		private String idInXml;

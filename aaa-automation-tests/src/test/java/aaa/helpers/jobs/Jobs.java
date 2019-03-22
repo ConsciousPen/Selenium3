@@ -52,7 +52,7 @@ public class Jobs {
 
 	public static Job policyStatusUpdateJob = new Job("policyStatusUpdateJob");
 
-	public static Job aaaRecurringPaymentsProcessingJob = new Job("aaaRecurringPaymentsProcessingJob");
+	public static Job aaaRecurringPaymentsProcessingJob = new Job("aaaRecurringPaymentsAsyncProcessJob");
 
 	public static Job lapsedRenewalProcessJob = new Job("policyLapsedRenewalProcessAsyncJob");
 
@@ -98,7 +98,7 @@ public class Jobs {
 
 	public static Job aaaRenewalNoticeBillAsyncJob = new Job("aaaRenewalNoticeBillAsyncJob");
 
-	public static Job changeCancellationPendingPoliciesStatus = new Job("changeCancellationPendingPoliciesStatus");
+	public static Job changeCancellationPendingPoliciesStatus = new Job("changeCancellationPendingPoliciesStatusJob");
 
 	public static Job aaaMembershipRenewalBatchOrderAsyncJob = new Job("aaaMembershipRenewalBatchOrderAsyncJob");
 
@@ -186,7 +186,7 @@ public class Jobs {
 
 	public static Job bofaRecurringPaymentJob = new Job("bofaRecurringPaymentJob");
 
-	public static Job premiumreceivablesonpolicyeffectivejob = new Job("premiumreceivablesonpolicyeffectivejob");
+	public static Job premiumReceivablesOnPolicyEffectiveJob = new Job("premiumReceivablesOnPolicyEffectiveJob");
 
 	public static Job aaaDelayTriggerTOINoticeAsyncJob = new Job("aaaDelayTriggerTOINoticeAsyncJob");
 
