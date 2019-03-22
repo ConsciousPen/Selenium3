@@ -9,6 +9,7 @@ import aaa.main.enums.BillingConstants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
+import toolkit.utils.datetime.DateTimeUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import java.time.LocalDateTime;
@@ -270,7 +271,12 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         SearchPage.openPolicy(policyNumber);
 
 		// Advance time and reinstate policy with lapse
-        performReinstatementWithLapse(effDate, policyNumber);
+        mainApp().close();
+        TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
+        JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
+        TimeSetterUtil.getInstance().nextPhase(effDate.plusDays(20));
+        mainApp().open();
+        performReinstatement(policyNumber);
 
         Dollar totalTaxesReinstatement = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053");
 
@@ -457,7 +463,12 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                 BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION), policyNumber, totalTaxesNB.subtract(totalTaxesEnd));
 
         //Advance time and reinstate policy with lapse
-        performReinstatementWithLapse(effDate, policyNumber);
+        mainApp().close();
+        TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
+        JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
+        TimeSetterUtil.getInstance().nextPhase(effDate.plusDays(20));
+        mainApp().open();
+        performReinstatement(policyNumber);
 
         Dollar totalTaxesReinstatement = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053");
 

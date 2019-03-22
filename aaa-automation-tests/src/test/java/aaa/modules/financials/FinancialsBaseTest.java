@@ -85,17 +85,6 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 			SearchPage.openPolicy(policyNumber);
 		}
 		policy.reinstate().perform(getReinstatementTD());
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-	}
-
-	protected void performReinstatementWithLapse(LocalDateTime effDate, String policyNumber) {
-		mainApp().close();
-		TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
-		JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
-		TimeSetterUtil.getInstance().nextPhase(effDate.plusDays(20));
-		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
-		policy.reinstate().perform(getReinstatementTD());
 		if (Page.dialogConfirmation.buttonYes.isPresent()) {
 			Page.dialogConfirmation.buttonYes.click();
 		}
