@@ -229,7 +229,6 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // Perform RP endorsement
         Dollar reducedPrem = performRPEndorsement(policyNumber, effDate);
 
-
         Dollar totalTaxesEnd = FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053")
                 .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053"));
 
@@ -275,7 +274,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         // RST-02 validations
         validateReinstatementTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
-                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT), policyNumber,  totalTaxesNB.subtract(totalTaxesEnd));
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT), policyNumber,  totalTaxesNB.add(totalTaxesEnd));
 
 		//TODO need to change the reinstatement lapse RST-07, then remove the lapse RST-09 and validations
 
@@ -383,11 +382,12 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         createCustomerIndividual();
         String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(adjustTdPolicyEffDate(getPolicyTD(), effDate)));
         Dollar premTotal = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.POLICY);
+        Dollar totalTaxesNB = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1071");
 
         //NBZ-04 validations
         assertSoftly(softly -> {
-            softly.assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1042"));
-            softly.assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")
+            softly.assertThat(premTotal.subtract(totalTaxesNB)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1042"));
+            softly.assertThat(premTotal.subtract(totalTaxesNB)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")));
         });
         //Employee Benefit discount (CA Auto Only) for NBZ-04 validations
@@ -408,14 +408,17 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         mainApp().open();
         SearchPage.openBilling(policyNumber);
 
+        Dollar totalTaxesEnd = FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053"));
+
         //END-04 and PMT-05 validations
         assertSoftly(softly -> {
-            softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
-            softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")
+            softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
+            softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")));
-            softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")
+            softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")
                     .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")));
-            softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")
+            softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")
                     .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")));
         });
         //END-04 Employee Benefit validations (CA Auto Only)
@@ -449,22 +452,17 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         //CNL-04 validations
         validateCancellationTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
-                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION), policyNumber);
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION), policyNumber, totalTaxesNB.subtract(totalTaxesEnd));
 
         //Advance time and reinstate policy with lapse
         performReinstatementWithLapse(effDate, policyNumber);
 
         //RST-04 validations
         validateReinstatementTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
-                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT), policyNumber);
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT), policyNumber, totalTaxesNB.subtract(totalTaxesEnd));
 
         //TODO need to change the reinstatement lapse RST-08, then remove the lapse RST-10 and validations
 
-    }
-
-    private void validateCancellationTx(Dollar refundAmt, String policyNumber) {
-        Dollar taxes = new Dollar(0.00);
-        validateCancellationTx(refundAmt, policyNumber, taxes);
     }
 
     private void validateCancellationTx(Dollar refundAmt, String policyNumber, Dollar taxes) {
