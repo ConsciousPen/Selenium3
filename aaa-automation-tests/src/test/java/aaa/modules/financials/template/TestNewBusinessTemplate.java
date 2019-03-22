@@ -481,11 +481,6 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         });
     }
 
-    private void validateReinstatementTx(Dollar premAmt, String policyNumber) {
-        Dollar taxes = new Dollar(0.00);
-        validateReinstatementTx(premAmt, policyNumber, taxes);
-    }
-
     private void validateReinstatementTx(Dollar premAmt, String policyNumber, Dollar taxes) {
         assertSoftly(softly -> {
             softly.assertThat(premAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1044"));
