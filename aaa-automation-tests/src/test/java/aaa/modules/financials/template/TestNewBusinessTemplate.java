@@ -366,7 +366,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
      * 6. Advance time one week
      * 6. Reinstate policy with lapse
      * 7. Remove reinstatement lapse
-     * @details NBZ-04, PMT-05, PMT-06, END-04, CNL-04, RST-04, RST-08, RST-10
+     * @details NBZ-04, PMT-05, END-04, CNL-04, RST-04, RST-08, RST-10
      */
     protected void testNewBusinessScenario_4() {
 

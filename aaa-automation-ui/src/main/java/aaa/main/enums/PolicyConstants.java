@@ -139,6 +139,7 @@ public final class PolicyConstants {
     }
 
     public static final class PolicyTaxesPremiumSurchargeDetailsTable {
+        public static final String STATE_LOCAL_TAX_PREMIUM_SURCHARGES = "State and Local Tax & Premium Surcharges";
         public static final String STATE_LOCAL_TAXES_PREMIUM_SURCHARGES = "State and Local Taxes & Premium Surcharges";
         public static final String TERM_PREMIUM = "Term Premium";
         public static final String PREMIUM_SURCHARGE = "Premium Surcharge";
