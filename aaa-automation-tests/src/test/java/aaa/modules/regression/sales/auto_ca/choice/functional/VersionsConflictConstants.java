@@ -505,7 +505,7 @@ public class VersionsConflictConstants {
 			.put("Reports.AAA Clue Order","Order Date")
 			.put("Reports.AAA Clue Order","Receipt Date")
 			.put("Reports.AAA Clue Order","Select")
-			.put("Vehicles.2008, ACURA, MDX", "System Rated Driver")
+			//.put("Vehicles.2008, ACURA, MDX", "System Rated Driver")
 			.build();
 
 	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_MANUAL = ArrayListMultimap.create(
