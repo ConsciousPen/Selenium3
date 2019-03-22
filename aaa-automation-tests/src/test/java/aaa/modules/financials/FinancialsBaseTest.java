@@ -8,6 +8,7 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.products.HomeSSConstants;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -184,15 +185,17 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		// Auto policies
 		if (getPolicyType().isAutoPolicy()) {
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-			PremiumAndCoveragesTab.RatingDetailsView.open();
+			taxes.put(STATE, new Dollar(PremiumAndCoveragesTab.tableStateAndLocalTaxesSummaryDetailed
+					.getRowContains(PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.STATE_LOCAL_TAXES_PREMIUM_SURCHARGES, PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.PREMIUM_SURCHARGE)
+					.getCell(PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.TERM_PREMIUM).getValue()));
 			if (getState().equals(Constants.States.KY)) {
-				taxes.put(STATE, new Dollar(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRowContains(4, "Premium Surcharge").getCell(6).getValue()));
-				taxes.put(CITY, new Dollar(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRowContains(3, "City Tax").getCell(4).getValue()));
-				taxes.put(COUNTY, new Dollar(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRowContains(3, "County Tax").getCell(4).getValue()));
-			} else {
-				taxes.put(STATE, new Dollar(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRowContains(3, "Premium Surcharge").getCell(4).getValue()));
+				taxes.put(CITY, new Dollar(PremiumAndCoveragesTab.tableStateAndLocalTaxesSummaryDetailed
+						.getRowContains(PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.STATE_LOCAL_TAXES_PREMIUM_SURCHARGES, PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.CITY_TAX)
+						.getCell(PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.TERM_PREMIUM).getValue()));
+				taxes.put(COUNTY, new Dollar(PremiumAndCoveragesTab.tableStateAndLocalTaxesSummaryDetailed
+						.getRowContains(PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.STATE_LOCAL_TAXES_PREMIUM_SURCHARGES, PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.COUNTY_TAX)
+						.getCell(PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.TERM_PREMIUM).getValue()));
 			}
-			PremiumAndCoveragesTab.RatingDetailsView.close();
 			new PremiumAndCoveragesTab().cancel();
 
 		// PUP policies
