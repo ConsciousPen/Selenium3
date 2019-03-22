@@ -359,6 +359,7 @@ public final class AutoSSMetaData {
 		public static final class ActivityInformation extends MetaData {
 			public static final AssetDescriptor<Button> ADD_ACTIVITY = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addDrivingRecord"));
 			public static final AssetDescriptor<ComboBox> ACTIVITY_SOURCE = declare("Activity Source", ComboBox.class);
+			public static final AssetDescriptor<RadioGroup> PERMISSIVE_USE_LOSS = declare("Permissive Use Loss?", RadioGroup.class);
 			public static final AssetDescriptor<AdvancedComboBox> TYPE = declare("Type", AdvancedComboBox.class);
 			public static final AssetDescriptor<AdvancedComboBox> DESCRIPTION = declare("Description", AdvancedComboBox.class);
 			public static final AssetDescriptor<TextBox> SVC_DESCRIPTION = declare("SVC Description", TextBox.class);
@@ -813,10 +814,7 @@ public final class AutoSSMetaData {
 				declare("Has the customer expressed interest in purchasing the quote?", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> SALES_AGENT_AGREEMENT =
 				declare("Sales Agent Agreement", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:agentAgreesAAASSMvrOrClueReportDisclaimerComponent']"));
-
-		// Only needed when a CA license number is used for an SS policy
-		public static final AssetDescriptor<RadioGroup> SALES_AGENT_AGREEMENT_DMV = declare("Sales Agent Agreement DMV", RadioGroup.class, By.xpath(".//table[@id='policyDataGatherForm:sedit_AAASSDriverReportDisclosureComponent_disclosureAgrees']"));
-
+		public static final AssetDescriptor<RadioGroup> SALES_AGENT_AGREEMENT_DMV = declare("Sales Agent Agreement DMV", RadioGroup.class, By.xpath(".//table[@id='policyDataGatherForm:sedit_AAACSADriverReportDisclosureComponent_disclosureAgrees']"));
 		public static final AssetDescriptor<Button> VALIDATE_DRIVING_HISTORY = declare("Validate Driving History", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:submitReports"));
 
 		public static final AssetDescriptor<FillableTable> ORDER_CLUE_REPORT =
@@ -1097,9 +1095,11 @@ public final class AutoSSMetaData {
 				declare("Delivery Method", AdvancedRadioGroup.class, Waiters.AJAX, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAAdHocOnDemandDocs_body' or @id='policyDataGatherForm:componentView_AAAPasdocAdHocOnDemandDocs_body']/table"));
 		public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, Waiters.AJAX);
 		
-		public static final AssetDescriptor<Button> OK_BTN = declare("OK", Button.class, Waiters.AJAX, By.xpath("//input[@id='policyDataGatherForm:generateDocButton' or @id='policyDataGatherForm:generateEmailDocButton']"));
+		public static final AssetDescriptor<Button> OK_BTN = declare("OK", Button.class, Waiters.AJAX, 
+				By.xpath("//*[(@id='policyDataGatherForm:generateDocLink' or @id='policyDataGatherForm:generateEmailDocLink' or @id='policyDataGatherForm:generateDocButton' or @id='policyDataGatherForm:generateEmailDocButton') and not(contains(@class, 'hidden'))]"));
 		public static final AssetDescriptor<Button> CANCEL_BTN = declare("Cancel", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:adhocCancel"));
-		public static final AssetDescriptor<Button> PREVIEW_DOCUMENTS_BTN = declare("Preview Documents", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:previewDocButton"));
+		public static final AssetDescriptor<Button> PREVIEW_DOCUMENTS_BTN = declare("Preview Documents", Button.class, Waiters.AJAX, 
+				By.xpath("//*[(@id='policyDataGatherForm:previewDocButton' or @id='policyDataGatherForm:previewDocLink') and not(contains(@class, 'hidden'))]"));
 		
 		public static final class DocumentsRow extends MetaData {
 			public static final AssetDescriptor<CheckBox> SELECT = declare(DocGenConstants.OnDemandDocumentsTable.SELECT, CheckBox.class, Waiters.AJAX);

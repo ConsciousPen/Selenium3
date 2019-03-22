@@ -66,36 +66,36 @@
         </classes>
     </test>
     <test name="AutoSS [KY ACAIC] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="KYTests-ACAIC-20190121_part1.xls"/>
-        <parameter name="policyNumbers" value="2, 23"/>
+        <parameter name="fileName" value="KYTests-ACAIC-20190411.xls"/>
+        <parameter name="policyNumbers" value="19, 69"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
     <test name="AutoSS [KY WUIC] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="KYTests-WUIC-20190121_part1.xls"/>
-        <parameter name="policyNumbers" value="15, 27"/>
+        <parameter name="fileName" value="KYTests-WUIC-20190411.xls"/>
+        <parameter name="policyNumbers" value="18, 92"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
     <test name="AutoSS [MD - ACAIC] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="MDTests-ACAIC-20181201_UI_part3.xls"/>
-        <parameter name="policyNumbers" value="1, 921"/>
+        <parameter name="fileName" value="MDTests-ACAIC-20190426.xls"/>
+        <parameter name="policyNumbers" value="17, 18"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
     <test name="AutoSS [MD - WUIC] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="MDTests-WUIC-20181201_UI_part3.xls"/>
-        <parameter name="policyNumbers" value="903, 922"/>
+        <parameter name="fileName" value="MDTests-WUIC-20190426.xls"/>
+        <parameter name="policyNumbers" value="18, 20"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
     <test name="AutoSS [MT] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="MTTests-20190101_forUI_part1.xls"/>
-        <parameter name="policyNumbers" value="1, 5"/>
+        <parameter name="fileName" value="MTTests-20190421_UI.xls"/>
+        <parameter name="policyNumbers" value="1"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
@@ -157,8 +157,8 @@
         </classes>
     </test>
     <test name="AutoSS [UT] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="UTTests-20190101_UI_part1.xls"/>
-        <parameter name="policyNumbers" value="1, 5"/>
+        <parameter name="fileName" value="UTTests-20190411.xls"/>
+        <parameter name="policyNumbers" value="1, 72"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
