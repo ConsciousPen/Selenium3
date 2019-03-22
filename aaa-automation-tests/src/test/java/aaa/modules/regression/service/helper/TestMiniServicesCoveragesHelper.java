@@ -1615,7 +1615,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		if (getState().equals(Constants.States.NJ)) {
 			//update to PIPNONMEDEXP No
-			updateCoverage(policyNumber,"PIPNONMEDEXP","false");
+			updateCoverage(policyNumber, "PIPNONMEDEXP", "false");
 			List<String> orderOfPolicyLevelCoveragesExpected_1 = getTestSpecificTD("TestData_OrderOfCoverages_NonMedical").getList("PolicyLevelCoverages");
 			List<String> orderOfVehicleLevelCoveragesExpected_1 = getTestSpecificTD("TestData_OrderOfCoverages_NonMedical").getList("VehicleLevelCoverages");
 			List<String> orderOfDriverLevelCoveragesExpected_1 = getTestSpecificTD("TestData_OrderOfCoverages_NonMedical").getList("DriverLevelCoverages");
@@ -2984,7 +2984,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		createCustomerIndividual();
 		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
 		TestData td = getTestSpecificTD("TestData_All_Type_Driver").adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError);
-
 		String policyNumber = createPolicy(td);
 
 		//Perform Endorsement
@@ -3094,7 +3093,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			covBI = covBI.changeLimit(CoverageLimits.COV_2550);
-			covUIMBI = covUIMBI.changeLimit(CoverageLimits.COV_2550).removeAvailableLimitsAbove(CoverageLimits.COV_2550);;
+			covUIMBI = covUIMBI.changeLimit(CoverageLimits.COV_2550).removeAvailableLimitsAbove(CoverageLimits.COV_2550);
+			;
 			covUMBI = covUMBI.changeLimit(CoverageLimits.COV_2550).removeAvailableLimitsAbove(CoverageLimits.COV_2550);
 			covUIMPD = covUIMPD.changeLimit(CoverageLimits.COV_50000);
 			covUMPD = covUMPD.changeLimit(CoverageLimits.COV_50000);
@@ -3358,6 +3358,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			TestData drivers = getTestSpecificTD("FourDrivers");
 			td.adjust(new DriverTab().getMetaKey(), drivers.getTestDataList("DriverTab")).resolveLinks();
 			td.adjust(new DocumentsAndBindTab().getMetaKey(), getTestSpecificTD("DocumentsAndBindTab")).resolveLinks();
+
 			mainApp().open();
 			createCustomerIndividual();
 			createPolicy(td);
@@ -3392,7 +3393,17 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			softly.assertThat(PremiumAndCoveragesTab.tableFormsSummary.getRowContains("Forms", "ADB").isPresent()).isTrue();
 			premiumAndCoveragesTab.saveAndExit();
+
+			HelperCommon.removeDriver(policyNumber, driverAFR, DXPRequestFactory.createRemoveDriverRequest("RD1004"));
+
+			PolicyCoverageInfo response = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+
+			Coverage adbCoverage = findCoverage(response.driverCoverages, "ADB");
+			assertThat(adbCoverage.getAvailableDrivers()).contains(driverFNI).size().isEqualTo(1);
+			assertThat(adbCoverage.getCurrentlyAddedDrivers()).contains(driverFNI).size().isEqualTo(1);
+
 			helperMiniServices.endorsementRateAndBind(policyNumber);
+
 		});
 	}
 
@@ -5556,6 +5567,26 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coverageTDAfterUpdateActual).isEqualToIgnoringGivenFields(coverageTDAfterUpdateExpected, "availableLimits");
 			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
 
+			//Add ADB cov for AFR drivers
+			Coverage adbCoverageToMatch = Coverage.create(CoverageInfo.ADB).addAvailableDrivers(fni, otherNI, otherNotNI, addedSpouseOid, notNISpouse);
+			adbCoverageToMatch.addCurrentlyAddedDrivers(fni, otherNI, otherNotNI, addedSpouseOid, notNISpouse);
+			validateDriverCoverage(softly, adbCoverageToMatch, policyNumber, true);
+
+			// remove driver
+			HelperCommon.removeDriver(policyNumber, notNISpouse, DXPRequestFactory.createRemoveDriverRequest("RD1003"));
+
+			//verify removed driver does not have ADB
+			PolicyCoverageInfo response = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+			Coverage adbCoverage = findCoverage(response.driverCoverages, "ADB");
+			assertThat(adbCoverage.getAvailableDrivers()).doesNotContain(notNISpouse).size().isEqualTo(4);
+			assertThat(adbCoverage.getCurrentlyAddedDrivers()).doesNotContain(notNISpouse).size().isEqualTo(4);
+
+			// verify removed driver does not have TD
+			Coverage tdCoverage = findCoverage(response.driverCoverages, "TD");
+			assertThat(tdCoverage.getAvailableDrivers()).doesNotContain(notNISpouse).size().isEqualTo(3);
+			//Defect
+			assertThat(tdCoverage.getCurrentlyAddedDrivers()).doesNotContain(notNISpouse).size().isEqualTo(3);
+
 			//Validate in PAS UI that TD is updated
 			PolicySummaryPage.buttonPendedEndorsement.click();
 			policy.quoteInquiry().start();
@@ -5563,8 +5594,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(driverTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).getValue()).isEqualTo("Yes");
 			DriverTab.tableDriverList.selectRow(3);
 			softly.assertThat(driverTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).getValue()).isEqualTo("Yes");
-			DriverTab.tableDriverList.selectRow(4);
-			softly.assertThat(driverTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).getValue()).isEqualTo("Yes");
+
 			DriverTab.tableDriverList.selectRow(6);
 			softly.assertThat(driverTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).getValue()).isEqualTo("Yes");
 			driverTab.cancel();
@@ -5727,7 +5757,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		//Update Primary Insurer to Auto
 		Coverage covPIPRIMINSAutoExpected = Coverage.create(CoverageInfo.PIPPRIMINS_NJ).changeLimit(CoverageLimits.COV_PIPPRIMINS_AUTO_INSURANCE);
-		updateCoverageAndCheck_pas23975(policyNumber,covPIPRIMINSAutoExpected,covPIPRIMINSAutoExpected);
+		updateCoverageAndCheck_pas23975(policyNumber, covPIPRIMINSAutoExpected, covPIPRIMINSAutoExpected);
 
 		//Update Primary Insurer back to Personal Health Insurance (without populating CertNum, InsurerName)
 		covPIPRIMINSPersonalExpected.addInsurerName("").addCertNum("");
@@ -5781,7 +5811,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		validatePolicyLevelCoverageChangeLog(policyNumber, CoverageInfo.PIP_NJ.getCode(), covPIPRIMINSAutoExpected);//no changes
 	}
 
-	protected void pas19161_viewPIPNonMedExpenseYesNJBody(){
+	protected void pas19161_viewPIPNonMedExpenseYesNJBody() {
 		TestData td = getPolicyDefaultTD();
 		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
 				AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES.getLabel()),
@@ -5791,77 +5821,77 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		PolicyCoverageInfo viewEndCovResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 
-        Coverage covPIPExpected = Coverage.createWithCdAndDescriptionOnly(CoverageInfo.PIP_NJ);
-        Coverage covPIPPRIMINSExpected = Coverage.create(CoverageInfo.PIPPRIMINS_NJ);//subCoverages +
-        Coverage covPIPNONMEDEXPExpected = Coverage.create(CoverageInfo.PIPNONMEDEXP_NME_NO_NJ);//subCoverages
-        Coverage covPIPMEDEXPExpected = Coverage.create(CoverageInfo.PIPMEDEXP_NJ);//subCoverages
-        Coverage covPIPMEDEXPDEDExpected = Coverage.create(CoverageInfo.PIPMEDEXPDED_NJ);//subCoverages
-        Coverage covPIPEXTMEDPMExpected = Coverage.create(CoverageInfo.PIPEXTMEDPM_NJ);//subCoverages
+		Coverage covPIPExpected = Coverage.createWithCdAndDescriptionOnly(CoverageInfo.PIP_NJ);
+		Coverage covPIPPRIMINSExpected = Coverage.create(CoverageInfo.PIPPRIMINS_NJ);//subCoverages +
+		Coverage covPIPNONMEDEXPExpected = Coverage.create(CoverageInfo.PIPNONMEDEXP_NME_NO_NJ);//subCoverages
+		Coverage covPIPMEDEXPExpected = Coverage.create(CoverageInfo.PIPMEDEXP_NJ);//subCoverages
+		Coverage covPIPMEDEXPDEDExpected = Coverage.create(CoverageInfo.PIPMEDEXPDED_NJ);//subCoverages
+		Coverage covPIPEXTMEDPMExpected = Coverage.create(CoverageInfo.PIPEXTMEDPM_NJ);//subCoverages
 
-        Coverage covAPIPExpected = Coverage.create(CoverageInfo.APIP_NJ).enableCanChange().enableCustomerDisplay();
-        Coverage covPIPMAXINCCONTExpected = Coverage.create(CoverageInfo.PIPMAXINCCONT_NME_NO_NJ).disableCanChange().enableCustomerDisplay();//subCoverages
-        Coverage covESSENSERVExpected = Coverage.create(CoverageInfo.ESSENSERV_NME_YES_NJ).disableCanChange().enableCustomerDisplay();//subCoverages
-        Coverage covFUNEXPExpected = Coverage.create(CoverageInfo.FUNEXP_NME_NO_NJ).disableCanChange().enableCustomerDisplay();//subCoverages
+		Coverage covAPIPExpected = Coverage.create(CoverageInfo.APIP_NJ).enableCanChange().enableCustomerDisplay();
+		Coverage covPIPMAXINCCONTExpected = Coverage.create(CoverageInfo.PIPMAXINCCONT_NME_NO_NJ).disableCanChange().enableCustomerDisplay();//subCoverages
+		Coverage covESSENSERVExpected = Coverage.create(CoverageInfo.ESSENSERV_NME_YES_NJ).disableCanChange().enableCustomerDisplay();//subCoverages
+		Coverage covFUNEXPExpected = Coverage.create(CoverageInfo.FUNEXP_NME_NO_NJ).disableCanChange().enableCustomerDisplay();//subCoverages
 
-        Coverage covPIPActual = findCoverage(viewEndCovResponse.policyCoverages, covPIPExpected.getCoverageCd());
-        List<Coverage> subCoveragesPIPActual = covPIPActual.getSubCoverages();
-        Coverage covPIPPRIMINSActual = findCoverage(subCoveragesPIPActual, covPIPPRIMINSExpected.getCoverageCd());
-        Coverage covPIPNONMEDEXPActual = findCoverage(subCoveragesPIPActual, covPIPNONMEDEXPExpected.getCoverageCd());
-        Coverage covPIPMEDEXPActual = findCoverage(subCoveragesPIPActual, covPIPMEDEXPExpected.getCoverageCd());
-        Coverage covPIPMEDEXPDEDActual = findCoverage(subCoveragesPIPActual, covPIPMEDEXPDEDExpected.getCoverageCd());
-        Coverage covPIPEXTMEDPMEActual = findCoverage(subCoveragesPIPActual, covPIPEXTMEDPMExpected.getCoverageCd());
+		Coverage covPIPActual = findCoverage(viewEndCovResponse.policyCoverages, covPIPExpected.getCoverageCd());
+		List<Coverage> subCoveragesPIPActual = covPIPActual.getSubCoverages();
+		Coverage covPIPPRIMINSActual = findCoverage(subCoveragesPIPActual, covPIPPRIMINSExpected.getCoverageCd());
+		Coverage covPIPNONMEDEXPActual = findCoverage(subCoveragesPIPActual, covPIPNONMEDEXPExpected.getCoverageCd());
+		Coverage covPIPMEDEXPActual = findCoverage(subCoveragesPIPActual, covPIPMEDEXPExpected.getCoverageCd());
+		Coverage covPIPMEDEXPDEDActual = findCoverage(subCoveragesPIPActual, covPIPMEDEXPDEDExpected.getCoverageCd());
+		Coverage covPIPEXTMEDPMEActual = findCoverage(subCoveragesPIPActual, covPIPEXTMEDPMExpected.getCoverageCd());
 
-        Coverage covAPIPActual = findCoverage(viewEndCovResponse.policyCoverages, covAPIPExpected.getCoverageCd());
-        List<Coverage> subCoveragesAPIPActual = covAPIPActual.getSubCoverages();
-        Coverage covPIPMAXINCCONTEActual = findCoverage(subCoveragesAPIPActual, covPIPMAXINCCONTExpected.getCoverageCd());
-        Coverage covESSENSERVActual = findCoverage(subCoveragesAPIPActual, covESSENSERVExpected.getCoverageCd());
-        Coverage covFUNEXPActual = findCoverage(subCoveragesAPIPActual, covFUNEXPExpected.getCoverageCd());
+		Coverage covAPIPActual = findCoverage(viewEndCovResponse.policyCoverages, covAPIPExpected.getCoverageCd());
+		List<Coverage> subCoveragesAPIPActual = covAPIPActual.getSubCoverages();
+		Coverage covPIPMAXINCCONTEActual = findCoverage(subCoveragesAPIPActual, covPIPMAXINCCONTExpected.getCoverageCd());
+		Coverage covESSENSERVActual = findCoverage(subCoveragesAPIPActual, covESSENSERVExpected.getCoverageCd());
+		Coverage covFUNEXPActual = findCoverage(subCoveragesAPIPActual, covFUNEXPExpected.getCoverageCd());
 
-        //Validate PIP and APIP
-        assertThat(covPIPActual).isEqualToIgnoringGivenFields(covPIPExpected, "subCoverages");
-        assertThat(covAPIPActual).isEqualToIgnoringGivenFields(covAPIPExpected, "subCoverages");
-        assertThat(covPIPPRIMINSActual).isEqualToComparingFieldByField(covPIPPRIMINSExpected);
-        assertThat(covPIPNONMEDEXPActual).isEqualToComparingFieldByField(covPIPNONMEDEXPExpected);
-        assertThat(covPIPMEDEXPActual).isEqualToComparingFieldByField(covPIPMEDEXPExpected);
-        assertThat(covPIPMEDEXPDEDActual).isEqualToComparingFieldByField(covPIPMEDEXPDEDExpected);
-        assertThat(covPIPEXTMEDPMEActual).isEqualToComparingFieldByField(covPIPEXTMEDPMExpected);
-        assertThat(covPIPMAXINCCONTEActual).isEqualToComparingFieldByField(covPIPMAXINCCONTExpected);
-        assertThat(covESSENSERVActual).isEqualToComparingFieldByField(covESSENSERVExpected);
-        assertThat(covFUNEXPActual).isEqualToComparingFieldByField(covFUNEXPExpected);
+		//Validate PIP and APIP
+		assertThat(covPIPActual).isEqualToIgnoringGivenFields(covPIPExpected, "subCoverages");
+		assertThat(covAPIPActual).isEqualToIgnoringGivenFields(covAPIPExpected, "subCoverages");
+		assertThat(covPIPPRIMINSActual).isEqualToComparingFieldByField(covPIPPRIMINSExpected);
+		assertThat(covPIPNONMEDEXPActual).isEqualToComparingFieldByField(covPIPNONMEDEXPExpected);
+		assertThat(covPIPMEDEXPActual).isEqualToComparingFieldByField(covPIPMEDEXPExpected);
+		assertThat(covPIPMEDEXPDEDActual).isEqualToComparingFieldByField(covPIPMEDEXPDEDExpected);
+		assertThat(covPIPEXTMEDPMEActual).isEqualToComparingFieldByField(covPIPEXTMEDPMExpected);
+		assertThat(covPIPMAXINCCONTEActual).isEqualToComparingFieldByField(covPIPMAXINCCONTExpected);
+		assertThat(covESSENSERVActual).isEqualToComparingFieldByField(covESSENSERVExpected);
+		assertThat(covFUNEXPActual).isEqualToComparingFieldByField(covFUNEXPExpected);
 	}
 
-    protected void pas19163_viewPipYesAndNonMedExpenseYesNJbody(){
-        String policyNumber = openAppAndCreatePolicy();
-        helperMiniServices.createEndorsementWithCheck(policyNumber);
-        PolicyCoverageInfo viewEndCovResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+	protected void pas19163_viewPipYesAndNonMedExpenseYesNJbody() {
+		String policyNumber = openAppAndCreatePolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		PolicyCoverageInfo viewEndCovResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 
-        Coverage covAPIPExpected = Coverage.create(CoverageInfo.APIP_NME_YES_PIP_YES_NJ).enableCanChange().enableCustomerDisplay();
-        Coverage covPIPMAXINCCONTExpected = Coverage.create(CoverageInfo.PIPMAXINCCONT_NJ);//subCoverages
-        Coverage covPIPLENINCCONTExpected = Coverage.create(CoverageInfo.PIPLENINCCONT_NJ);//subCoverages
-        Coverage covPIPCOVINCLUDESExpected = Coverage.create(CoverageInfo.PIPCOVINCLUDES_NJ);//subCoverages
-        Coverage covDEATHBENEFITExpected = Coverage.create(CoverageInfo.DEATHBENEFIT_NJ).disableCanChange().enableCustomerDisplay();//subCoverages
-        Coverage covESSENSERVExpected = Coverage.create(CoverageInfo.ESSENSERV_NME_YES_PIP_YES_NJ).disableCanChange().enableCustomerDisplay();//subCoverages
-        Coverage covFUNEXPExpected = Coverage.create(CoverageInfo.FUNEXP_NME_YES_PIP_YES__NJ).disableCanChange().enableCustomerDisplay();//subCoverages
+		Coverage covAPIPExpected = Coverage.create(CoverageInfo.APIP_NME_YES_PIP_YES_NJ).enableCanChange().enableCustomerDisplay();
+		Coverage covPIPMAXINCCONTExpected = Coverage.create(CoverageInfo.PIPMAXINCCONT_NJ);//subCoverages
+		Coverage covPIPLENINCCONTExpected = Coverage.create(CoverageInfo.PIPLENINCCONT_NJ);//subCoverages
+		Coverage covPIPCOVINCLUDESExpected = Coverage.create(CoverageInfo.PIPCOVINCLUDES_NJ);//subCoverages
+		Coverage covDEATHBENEFITExpected = Coverage.create(CoverageInfo.DEATHBENEFIT_NJ).disableCanChange().enableCustomerDisplay();//subCoverages
+		Coverage covESSENSERVExpected = Coverage.create(CoverageInfo.ESSENSERV_NME_YES_PIP_YES_NJ).disableCanChange().enableCustomerDisplay();//subCoverages
+		Coverage covFUNEXPExpected = Coverage.create(CoverageInfo.FUNEXP_NME_YES_PIP_YES__NJ).disableCanChange().enableCustomerDisplay();//subCoverages
 
-        Coverage covAPIPActual = findCoverage(viewEndCovResponse.policyCoverages, covAPIPExpected.getCoverageCd());
-        List<Coverage> subCoveragesAPIPActual = covAPIPActual.getSubCoverages();
-        Coverage covPIPCOVINCLUDESActual = findCoverage(subCoveragesAPIPActual, covPIPCOVINCLUDESExpected.getCoverageCd());
-        Coverage covPIPLENINCCONTEXPActual = findCoverage(subCoveragesAPIPActual, covPIPLENINCCONTExpected.getCoverageCd());
-        Coverage covPIPMAXINCCONTActual = findCoverage(subCoveragesAPIPActual, covPIPMAXINCCONTExpected.getCoverageCd());
-        Coverage covDEATHBENEFITActual = findCoverage(subCoveragesAPIPActual, covDEATHBENEFITExpected.getCoverageCd());
-        Coverage covESSENSERVActual = findCoverage(subCoveragesAPIPActual, covESSENSERVExpected.getCoverageCd());
-        Coverage covFUNEXPActual = findCoverage(subCoveragesAPIPActual, covFUNEXPExpected.getCoverageCd());
+		Coverage covAPIPActual = findCoverage(viewEndCovResponse.policyCoverages, covAPIPExpected.getCoverageCd());
+		List<Coverage> subCoveragesAPIPActual = covAPIPActual.getSubCoverages();
+		Coverage covPIPCOVINCLUDESActual = findCoverage(subCoveragesAPIPActual, covPIPCOVINCLUDESExpected.getCoverageCd());
+		Coverage covPIPLENINCCONTEXPActual = findCoverage(subCoveragesAPIPActual, covPIPLENINCCONTExpected.getCoverageCd());
+		Coverage covPIPMAXINCCONTActual = findCoverage(subCoveragesAPIPActual, covPIPMAXINCCONTExpected.getCoverageCd());
+		Coverage covDEATHBENEFITActual = findCoverage(subCoveragesAPIPActual, covDEATHBENEFITExpected.getCoverageCd());
+		Coverage covESSENSERVActual = findCoverage(subCoveragesAPIPActual, covESSENSERVExpected.getCoverageCd());
+		Coverage covFUNEXPActual = findCoverage(subCoveragesAPIPActual, covFUNEXPExpected.getCoverageCd());
 
-        assertThat(covAPIPActual).isEqualToIgnoringGivenFields(covAPIPExpected, "subCoverages");
-        assertThat(covPIPMAXINCCONTActual).isEqualToComparingFieldByField(covPIPMAXINCCONTExpected);
-        assertThat(covPIPLENINCCONTEXPActual).isEqualToComparingFieldByField(covPIPLENINCCONTExpected);
-        assertThat(covPIPCOVINCLUDESActual).isEqualToComparingFieldByField(covPIPCOVINCLUDESExpected);
-        assertThat(covDEATHBENEFITActual).isEqualToComparingFieldByField(covDEATHBENEFITExpected);
-        assertThat(covESSENSERVActual).isEqualToComparingFieldByField(covESSENSERVExpected);
-        assertThat(covFUNEXPActual).isEqualToComparingFieldByField(covFUNEXPExpected);
-    }
+		assertThat(covAPIPActual).isEqualToIgnoringGivenFields(covAPIPExpected, "subCoverages");
+		assertThat(covPIPMAXINCCONTActual).isEqualToComparingFieldByField(covPIPMAXINCCONTExpected);
+		assertThat(covPIPLENINCCONTEXPActual).isEqualToComparingFieldByField(covPIPLENINCCONTExpected);
+		assertThat(covPIPCOVINCLUDESActual).isEqualToComparingFieldByField(covPIPCOVINCLUDESExpected);
+		assertThat(covDEATHBENEFITActual).isEqualToComparingFieldByField(covDEATHBENEFITExpected);
+		assertThat(covESSENSERVActual).isEqualToComparingFieldByField(covESSENSERVExpected);
+		assertThat(covFUNEXPActual).isEqualToComparingFieldByField(covFUNEXPExpected);
+	}
 
-    protected void pas25531_viewUpdatePipCoveragesIncludesNiAndRrNJBody(){
+	protected void pas25531_viewUpdatePipCoveragesIncludesNiAndRrNJBody() {
 		String policyNumber = openAppAndCreatePolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
@@ -5869,10 +5899,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		ViewDriversResponse response = HelperCommon.viewPolicyDrivers(policyNumber);
 		String firstName = response.driverList.get(0).firstName;
 		String lastName = response.driverList.get(0).lastName;
-		List<String> fullName = Arrays.asList(firstName+" "+lastName);
-		String fullNameUi = firstName+" "+lastName;
+		List<String> fullName = Arrays.asList(firstName + " " + lastName);
+		String fullNameUi = firstName + " " + lastName;
 
-        //create
+		//create
 		Coverage covNewPIPCOVINCLUDESnifm = Coverage.create(CoverageInfo.PIPCOVINCLUDES_NJ).changeLimit(CoverageLimits.COV_PIPCOVINCLUDES_NIFM);
 		Coverage covNewPIPCOVINCLUDESni = Coverage.create(CoverageInfo.PIPCOVINCLUDES_NJ).changeLimit(CoverageLimits.COV_PIPCOVINCLUDES_NI);
 
@@ -5909,23 +5939,23 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		checkPasUiPIPCOVINCLUDES(policyNumber, null, false);
 	}
 
-	private void checkPasUiPIPCOVINCLUDES(String policyNumber, String relativesName, Boolean isRelativesNameShouldExist){
+	private void checkPasUiPIPCOVINCLUDES(String policyNumber, String relativesName, Boolean isRelativesNameShouldExist) {
 		SearchPage.openPolicy(policyNumber);
 		openPendedEndorsementInquiryAndNavigateToPC();
 		if (isRelativesNameShouldExist) {
 			assertThat(premiumAndCoveragesTab.getInquiryAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES)
 					.getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.RELATIVES_NAME1.getLabel()).getValue()).isEqualTo(relativesName);
-		}else{
+		} else {
 			assertThat(premiumAndCoveragesTab.getInquiryAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES)
 					.getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.RELATIVES_NAME1.getLabel()).isPresent()).isEqualTo(false);
 		}
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
-	protected void pas23997_updatePipCoveragesNJbody(ETCSCoreSoftAssertions softly){
+	protected void pas23997_updatePipCoveragesNJbody(ETCSCoreSoftAssertions softly) {
 		mainApp().open();
-        String policyNumber = openAppAndCreatePolicy();
-        helperMiniServices.createEndorsementWithCheck(policyNumber);
+		String policyNumber = openAppAndCreatePolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		//expected
 		Coverage covPIPMEDEXPExpected = Coverage.create(CoverageInfo.PIPMEDEXP_NJ).changeLimit(CoverageLimits.COV_250000);
@@ -6590,7 +6620,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private void updateCoverageAndCheck_pas23975(String policyNumber, Coverage covToUpdatePIPPRIMINS, Coverage... expectedCoveragesToCheck) {
 		PolicyCoverageInfo updateCoverageResponse = updatePIPPRIMINSCoverage(policyNumber, covToUpdatePIPPRIMINS);
-		validatePolicyLevelCoverageChangeLog(policyNumber, CoverageInfo.PIP_NJ.getCode() , expectedCoveragesToCheck);//TODO-mstrazds:works?
+		validatePolicyLevelCoverageChangeLog(policyNumber, CoverageInfo.PIP_NJ.getCode(), expectedCoveragesToCheck);//TODO-mstrazds:works?
 		validateCoveragesDXP(updateCoverageResponse.policyCoverages, CoverageInfo.PIP_NJ.getCode(), expectedCoveragesToCheck);//TODO-mstrazds: works?
 		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateCoverageResponse);
 
@@ -6657,7 +6687,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				.filter(cov -> coverageCd.equals(cov.getCoverageCd()))
 				.findFirst()
 				.orElse(null);
-		if(assertCoverageExistence) {
+		if (assertCoverageExistence) {
 			assertThat(coverage).as("Coverage " + coverageCd + " not found.").isNotNull();
 		}
 		return coverage;

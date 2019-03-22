@@ -8,22 +8,30 @@ FourDrivers: {
   DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab4','@DriverTab6'],
 }
 
-FourDrivers_MD: {
-  DriverTab: ['@DriverTab1_MD', '@DriverTab2_MD', '@DriverTab3_MD', '@DriverTab4_MD'],
+FourDrivers_DE: {
+  DriverTab: ['@DriverTab2_DE','@DriverTab3_DE','@DriverTab4_DE','@DriverTab6_DE'],
 }
 
 TestData_All_Type_Driver: '@TestMiniServicesDriver@TestData2'
 
 DriverTab2: {
+           DriverSearchDialog: {},
+           Occupation: Self-Employed,
+           Age First Licensed: 18,
+           License Type: 'Licensed (US)',
+           License State: 'VA',
+           License Number: T60355298
+}
+
+DriverTab2_DE: {
       DriverSearchDialog: {},
       Occupation: Self-Employed,
       Age First Licensed: 18,
       License Type: 'Licensed (US)',
-      License Number: 407378541
+      License Number: 4073785
     }
 
-
-DriverTab3: {
+DriverTab3_DE: {
     Add drivers: 'Yes',
     DriverSearchDialog: {},
     Driver Type: 'Not Available for Rating',
@@ -41,8 +49,49 @@ DriverTab3: {
     Occupation: 'index=1',
     License Type: 'Licensed (US)',
     Age First Licensed: '18',
+    License Number: '8523698',
+    License Status: 'Licensed (US)'
+}
+
+DriverTab3: {
+    Add drivers: 'Yes',
+    DriverSearchDialog: {},
+    Driver Type: 'Not Available for Rating',
+    Reason: 'Insured with another carrier',
+    Carrier: 'index=8',
+    Policy Number: '12345',
+    Rel. to First Named Insured: Child,
+    First Name: 'Laura',
+    Middle Name: 'Sara',
+    Last Name: 'Smith',
+    Suffix: 'III',
+    Date of Birth: '12/12/1991',
+    Gender: 'Female',
+    Marital Status: Divorced,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
     License Number: '603557779',
     License Status: 'Licensed (US)'
+}
+
+DriverTab4_DE: {
+      Add drivers: 'Yes',
+      DriverSearchDialog: {},
+      Rel. to First Named Insured: Sibling,
+      First Name: 'Teena',
+      Middle Name: 'not',
+      Last Name: 'Insured',
+      Suffix: 'III',
+      Date of Birth: '12/12/1993',
+      Gender: 'Female',
+      Marital Status: Single,
+      Occupation: 'index=1',
+      License Type: 'Licensed (US)',
+      Age First Licensed: '18',
+      License Number: '8745896',
+      License Status: 'Licensed (US)',
+      Most Recent GPA: None
 }
 
 DriverTab4: {
@@ -62,6 +111,26 @@ DriverTab4: {
       License Number: '603557752',
       License Status: 'Licensed (US)',
       Most Recent GPA: None
+}
+
+DriverTab6_DE: {
+   Add drivers: 'Yes',
+  DriverSearchDialog: {},
+   Driver Type: Excluded,
+    Reason: Company Request,
+    Rel. to First Named Insured: Employee,
+    First Name: 'John',
+    Middle Name: 'Jonny',
+         Last Name: 'Jeff',
+         Suffix: 'III',
+         Date of Birth: '12/12/1993',
+         Gender: 'Male',
+         Marital Status: Single,
+         Occupation: 'index=1',
+         License Type: 'Licensed (US)',
+         Age First Licensed: '18',
+         License Number: '8745968',
+         License Status: 'Licensed (US)',
 }
 
 DriverTab6: {
@@ -289,8 +358,11 @@ Underinsured Motorist Property Damage: index=1,
 DocumentsAndBindTab: {
  RequiredToBind: {
     Auto Insurance Application: Physically Signed,
-    Named Driver Exclusion: Physically Signed
-  },
+    Named Driver Exclusion Endorsement: Physically Signed,
+    Delaware Motorists Protection Act: Physically Signed,
+    Acknowledgement of Deductible Selections: Physically Signed,
+    Important Information Personal Injury Protection (PIP) - Delaware Understanding (PIP) Deductibles: Physically Signed
+     },
   RequiredToIssue: {
      Proof of Current Insurance for: 'Yes',
      Proof of Prior Insurance: 'Yes'

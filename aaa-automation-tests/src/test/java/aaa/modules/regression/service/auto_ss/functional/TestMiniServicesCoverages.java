@@ -698,10 +698,10 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 5. Update Coverage Service add adb coverage for 2 AFR driver verify Premium should increased
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ, Constants.States.MD})
+	@StateList(states = {Constants.States.AZ, Constants.States.MD,Constants.States.DE})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas17642"})
-	public void pas17642_UpdateCoverageADB(@Optional("MD") String state) {
+	public void pas17642_UpdateCoverageADB(@Optional("DE") String state) {
 		pas17642_UpdateCoverageADBBody();
 	}
 
