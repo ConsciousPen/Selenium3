@@ -687,17 +687,6 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="pas15379_ValidatePUPErrorRelatedWithBiPdLimits" parallel="methods">
-        <!--can run for all states (Except CA)-->
-        <parameter name="state" value="VA, OH"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
-                <methods>
-                    <include name="pas15379_ValidatePUPErrorRelatedWithBiPdLimits"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test thread-count="1024" name="pas18624_CustomisedEquipment" parallel="methods">
         <parameter name="state" value="VA, AZ"/>
         <classes>
