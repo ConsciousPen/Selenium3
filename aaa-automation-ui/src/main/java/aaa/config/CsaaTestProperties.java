@@ -16,6 +16,14 @@ public class CsaaTestProperties extends TestProperties {
 	public static final String OR_PATH = "app.or.path";
 	public static final String OR_PORT = "app.or.port";
 
+	public static final String STUB_HOST = "stub.host";
+	public static final String STUB_PATH = "stub.path";
+	public static final String STUB_PORT = "stub.port";
+
+	public static final String RATING_HOST = "rating.host";
+	public static final String RATING_PATH = "rating.path";
+	public static final String RATING_PORT = "rating.port";
+
 	public static final String IS_CI_MODE = "isCiMode";
 	public static final String DXP_PORT = "dxp.port";
 	public static final String DXP_PROTOCOL = "dxp.protocol";
