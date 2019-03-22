@@ -45,6 +45,7 @@
                 <methods>
                     <include name="pas14679_CompDLPUMatchMoreManual"/>
                     <include name="pas14679_nameDobYobMatchMoreManual"/>
+                    <include name="pas18317_verifyPermissiveUseIndicator"/>
                 </methods>
             </class>
         </classes>
