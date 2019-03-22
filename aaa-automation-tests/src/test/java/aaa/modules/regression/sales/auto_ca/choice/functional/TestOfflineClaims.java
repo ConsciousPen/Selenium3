@@ -140,6 +140,7 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
     public void pas24587_CASClueReconcilePUAFRUserFlagged(@Optional("CA") @SuppressWarnings("unused") String state) {
         pas24587_CASClueReconcilePUAFRUserFlagged();
     }
+
     /**
      * @author Kiruthika Rajendran
      * PAS-24587 - END - User Flagged: reconcile permissive use claims when driver/named insured is added (avail for rating)
@@ -188,7 +189,6 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
         pas25463_ViolationsMVRPUIndicatorCheck();
     }
 
-
     /**
      * @author Mantas Garsvinskas
      * PAS-25162 - UI-CA-CAS: make sure “MATCHED” FNI claims do not show PU YES unless set by user
@@ -222,5 +222,27 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-25162")
     public void pas25162_permissiveUseIndicatorDefaulting(@Optional("CA") @SuppressWarnings("unused") String state) {
         pas25162_permissiveUseIndicatorDefaulting();
+    }
+
+    /**
+     * @author Chris Johns
+     * PAS-24652 - CHANGE FNI - General Tab (CA): move PU Yes claims when FNI changed via "dropdown" (endorsement and quote) (changed to FNI already exists as driver)
+     * @name Test Offline STUB/Mock: validate permissive use claims 'move' to new FNI when FNI is changed
+     * @scenario Test Steps:
+     * 1. Create a quote with
+     * 2.
+     * 3.
+     * 4.
+     * 5.
+     * 6.
+     * 7.
+     * 8.
+     * @details Clean Path.
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-25463")
+    public void pas24652_ChangeFNIGeneralTabNBEndorsement(@Optional("CA") @SuppressWarnings("unused") String state) {
+        pas24652_ChangeFNIGeneralTabNBEndorsement();
     }
 }
