@@ -272,9 +272,11 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		// Advance time and reinstate policy with lapse
         performReinstatementWithLapse(effDate, policyNumber);
 
+        Dollar totalTaxesReinstatement = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053");
+
         // RST-02 validations
         validateReinstatementTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
-                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT), policyNumber,  totalTaxesNB.add(totalTaxesEnd));
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT), policyNumber,  totalTaxesReinstatement);
 
 		//TODO need to change the reinstatement lapse RST-07, then remove the lapse RST-09 and validations
 
