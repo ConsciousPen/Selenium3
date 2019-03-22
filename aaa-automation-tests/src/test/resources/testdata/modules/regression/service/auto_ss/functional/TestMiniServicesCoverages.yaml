@@ -19,7 +19,8 @@ DriverTab2: {
            Occupation: Self-Employed,
            Age First Licensed: 18,
            License Type: 'Licensed (US)',
-           License Number: 407378542
+           License State: 'VA',
+           License Number: T60355298
 }
 
 DriverTab2_DE: {
@@ -57,7 +58,7 @@ DriverTab3: {
     DriverSearchDialog: {},
     Driver Type: 'Not Available for Rating',
     Reason: 'Insured with another carrier',
-    Carrier: 'index=4',
+    Carrier: 'index=8',
     Policy Number: '12345',
     Rel. to First Named Insured: Child,
     First Name: 'Laura',

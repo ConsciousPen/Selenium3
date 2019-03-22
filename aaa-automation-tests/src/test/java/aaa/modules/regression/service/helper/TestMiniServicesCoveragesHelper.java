@@ -2983,7 +2983,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		createCustomerIndividual();
 		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
 		TestData td = getTestSpecificTD("TestData_All_Type_Driver").adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError);
-
 		String policyNumber = createPolicy(td);
 
 		//Perform Endorsement
@@ -3354,10 +3353,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas17642_UpdateCoverageADBBody() {
 		assertSoftly(softly -> {
-			/*TestData td = getPolicyTD("DataGather", "TestData");
+			TestData td = getPolicyTD("DataGather", "TestData");
 			String state = getState();
 			if (state.equals("DE")) {
-				TestData drivers = getTestSpecificTD("FourDrivers");
+				TestData drivers = getTestSpecificTD("FourDrivers_DE");
 				td.adjust(new DriverTab().getMetaKey(), drivers.getTestDataList("DriverTab")).resolveLinks();
 				td.adjust(new DocumentsAndBindTab().getMetaKey(), getTestSpecificTD("DocumentsAndBindTab")).resolveLinks();
 			} else {
@@ -3365,12 +3364,13 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				td.adjust(new DriverTab().getMetaKey(), drivers.getTestDataList("DriverTab")).resolveLinks();
 				td.adjust(new DocumentsAndBindTab().getMetaKey(), getTestSpecificTD("DocumentsAndBindTab")).resolveLinks();
 
-			}*/
+			}
 
 			mainApp().open();
-			//createCustomerIndividual();
-			//createPolicy(td);
-			String policyNumber = "DESS952918571";
+			createCustomerIndividual();
+			createPolicy(td);
+			String policyNumber = PolicySummaryPage.getPolicyNumber();
+			;
 
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
@@ -3402,8 +3402,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(PremiumAndCoveragesTab.tableFormsSummary.getRowContains("Forms", "ADB").isPresent()).isTrue();
 			premiumAndCoveragesTab.saveAndExit();
 
-			DriversDto removeDriver1Response = HelperCommon.removeDriver(policyNumber, driverAFR, DXPRequestFactory.createRemoveDriverRequest("RD1003"));
-			//softly.assertThat(updateCoverageResponse1.driverCoverages.get(1).getCurrentlyAddedDrivers()).containsExactly(oid1);
+			HelperCommon.removeDriver(policyNumber, driverAFR, DXPRequestFactory.createRemoveDriverRequest("RD1004"));
+
+			PolicyCoverageInfo response = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);            //String grossPremiumOnOriginal = validateDriverCoverage(softly, adbCoverageToMatch, policyNumber, false);
+			Coverage adbCoverage = findCoverage(response.driverCoverages, "ADB");
+			assertThat(adbCoverage.getAvailableDrivers()).contains(driverFNI).size().isEqualTo(1);
+			assertThat(adbCoverage.getCurrentlyAddedDrivers()).contains(driverFNI).size().isEqualTo(1);
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 
@@ -3412,7 +3416,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas26916_AdbCoverageIndicatorNAFDriver() {
 		mainApp().open();
-
 
 	}
 
@@ -5576,6 +5579,26 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coverageTDAfterUpdateActual).isEqualToIgnoringGivenFields(coverageTDAfterUpdateExpected, "availableLimits");
 			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
 
+			//Add ADB cov for AFR drivers
+			Coverage adbCoverageToMatch = Coverage.create(CoverageInfo.ADB).addAvailableDrivers(fni, otherNI, otherNotNI, addedSpouseOid, notNISpouse);
+			adbCoverageToMatch.addCurrentlyAddedDrivers(fni, otherNI, otherNotNI, addedSpouseOid, notNISpouse);
+			validateDriverCoverage(softly, adbCoverageToMatch, policyNumber, true);
+
+			// remove driver
+			HelperCommon.removeDriver(policyNumber, notNISpouse, DXPRequestFactory.createRemoveDriverRequest("RD1003"));
+
+			//verify removed driver does not have ADB
+			PolicyCoverageInfo response = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+			Coverage adbCoverage = findCoverage(response.driverCoverages, "ADB");
+			assertThat(adbCoverage.getAvailableDrivers()).doesNotContain(notNISpouse).size().isEqualTo(4);
+			assertThat(adbCoverage.getCurrentlyAddedDrivers()).doesNotContain(notNISpouse).size().isEqualTo(4);
+
+			// verify removed driver does not have TD
+			Coverage TDCoverage = findCoverage(response.driverCoverages, "TD");
+			assertThat(TDCoverage.getAvailableDrivers()).doesNotContain(notNISpouse).size().isEqualTo(3);
+			//Defect
+			assertThat(TDCoverage.getCurrentlyAddedDrivers()).doesNotContain(notNISpouse).size().isEqualTo(3);
+
 			//Validate in PAS UI that TD is updated
 			PolicySummaryPage.buttonPendedEndorsement.click();
 			policy.quoteInquiry().start();
@@ -5583,8 +5606,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(driverTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).getValue()).isEqualTo("Yes");
 			DriverTab.tableDriverList.selectRow(3);
 			softly.assertThat(driverTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).getValue()).isEqualTo("Yes");
-			DriverTab.tableDriverList.selectRow(4);
-			softly.assertThat(driverTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).getValue()).isEqualTo("Yes");
+
 			DriverTab.tableDriverList.selectRow(6);
 			softly.assertThat(driverTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).getValue()).isEqualTo("Yes");
 			driverTab.cancel();
