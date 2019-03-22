@@ -19,6 +19,7 @@ import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
+import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
@@ -1502,8 +1503,7 @@ public final class HomeSSMetaData {
 					false, By.id("cappingDetailsPopupPanel:cappingSave"));
 		}
 
-		public static final AssetDescriptor<Button> VIEW_RATING_DETAILS = declare("View Rating Details", Button.class,
-				By.id("policyDataGatherForm:ratingHODetailsPopup"));
+		public static final AssetDescriptor<JavaScriptLink> VIEW_RATING_DETAILS = declare("View Rating Details", JavaScriptLink.class, Waiters.AJAX, By.id("policyDataGatherForm:ratingHODetailsPopup"));
 
 		public static final class ViewRatingDetailsWindow extends MetaData {
 			public static final AssetDescriptor<TextBox> MEMBERSHIP_INDICATOR = declare("Membership current AAA Member indicator", TextBox.class, By.id("horatingDetailsPopupForm_6:ratingDetailsTable:5:j_id_1_27_5b_j_2_10_7"));
