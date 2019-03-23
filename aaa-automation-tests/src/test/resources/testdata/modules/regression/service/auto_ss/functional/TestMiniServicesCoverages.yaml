@@ -496,7 +496,7 @@ TestData_OrderOfCoverages_MD: {
 }
 
 TestData_OrderOfCoverages_DE: {
-  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "PIP", "PIPDED", "PIPDEDAPPTO", "FUNEXP", "PROPERTY"],
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "PIP", "FUNEXP", "PROPERTY", "PIPDED", "PIPDEDAPPTO"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
   DriverLevelCoverages:["ADB"]
 }
