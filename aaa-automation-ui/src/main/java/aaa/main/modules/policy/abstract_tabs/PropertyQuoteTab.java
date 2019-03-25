@@ -62,7 +62,8 @@ public abstract class PropertyQuoteTab extends Tab {
 			By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHOPreCovInfoMsg_body' or @id='policyDataGatherForm:componentView_AAAPUPPreCovInfoMsg_body']/div[@class='buttonsBlockInline width100 noSurround neutral_background buttons alignLeft']"));
 	public static StaticElement lblErrorMessage = new StaticElement(By.xpath("//span[@class='error_message']"));
 	public static Button btnContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
-	public static Table tablePremiumOverrideadjustment = new Table(By.id("premiumOverrideInfoFormAAAPUPPremiumOverride:adjustment_info"));
+	public static Table tablePremiumOverrideadjustment = new Table(By.xpath("//table[@id = 'premiumOverrideInfoFormAAAPUPPremiumOverride:adjustment_info' "
+			+ "or @id='premiumOverrideInfoFormAAAHOPremiumOverride:adjustment_info']"), Waiters.AJAX);
 	public static StaticElement mortgageeLoanNumberErrorMsg = new StaticElement(By.id("policyDataGatherForm:sedit_AAAHOMortgageeInfo_accountNumber_error"));
 	public static Table tableClaimsHistoryWarningMessages = new Table(By.id("policyDataGatherForm:warningMsg"));
 

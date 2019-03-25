@@ -1,5 +1,6 @@
 TestData_UT: {  
   Renew generate image: [-73, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-45, PREVIOUS],
