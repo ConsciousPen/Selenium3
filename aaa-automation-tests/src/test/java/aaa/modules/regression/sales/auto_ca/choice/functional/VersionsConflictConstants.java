@@ -206,6 +206,7 @@ public class VersionsConflictConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN.Customer Declared Annual Miles", "Customer Declared Annual Miles")
 			.put("Vehicles.1998, DODGE, CARAVAN.Anti-theft Recovery Device", "Anti-theft Recovery Device")
 			.put("Vehicles.1998, DODGE, CARAVAN.Primary Use", "Primary Use")
+			.put("Vehicles.2012, ACURA, TL.Primary Driver", "Primary Driver")
 			.build();
 
 	/**
@@ -579,5 +580,24 @@ public class VersionsConflictConstants {
 			.put("Contact Information", "Mobile Phone Number")
 			.put("Contact Information", "Preferred Phone #")
 			.put("Vehicles", "Vehicle (1998, DODGE, CARAVAN)")
+			.build();
+
+	/**
+	 *  Maps full attribute path on conflict page to version to select (Current, Available).
+	 */
+	protected static final ArrayListMultimap<String, String> ASSIGNMENT = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("AAADriver Vehicle Relationship", CURRENT)
+					.put("AAADriver Vehicle Relationship", AVAILABLE)
+					.put("Vehicles.2012, ACURA, TL.Primary Driver", CURRENT)
+					.build());
+
+	//all components/attributes that should be on Comparison page  Rolled on/OOSE
+	static final Multimap<String, String> ASSIGNMENT_VERSION_2 = ImmutableListMultimap.<String, String>builder()
+			.build();
+
+	//all components/attributes that should be on Comparison page  Rolled on/OOSE
+	static final Multimap<String, String> ASSIGNMENT_VERSION_1 = ImmutableListMultimap.<String, String>builder()
+			.put("Vehicles.2012, ACURA, TL", "Primary Driver")
 			.build();
 }
