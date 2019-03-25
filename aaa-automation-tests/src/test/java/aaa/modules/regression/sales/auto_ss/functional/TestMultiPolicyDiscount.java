@@ -838,7 +838,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         // Set pre-conditions by creating a quote, rating and filling up to purchase.
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-        _generalTab.otherAAAProducts_SearchAndAddCompanionPolicy("Home", "NOT_FOUND");
+        otherAAAProducts_SearchAndAddCompanionPolicy("Home", "NOT_FOUND");
 
         // Added MPD element, filling up to purchase point. Includes hacky methods to get around system error.
         policy.getDefaultView().fillFromTo(testData, GeneralTab.class, DocumentsAndBindTab.class, true);
@@ -885,7 +885,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     private void addMPDAndRerate(String in_newPolicyType, String in_newPolicyNumber){
         // Change MPD Policy and Attempt to Purchase
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        _generalTab.otherAAAProducts_SearchAndAddCompanionPolicy(in_newPolicyType, in_newPolicyNumber);
+        otherAAAProducts_SearchAndAddCompanionPolicy(in_newPolicyType, in_newPolicyNumber);
         doRerate();
     }
 
@@ -996,7 +996,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         // Add MPD Element manually (after no results found)
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-        _generalTab.otherAAAProducts_SearchAndAddCompanionPolicy(in_policyType, "NOT_FOUND");
+        otherAAAProducts_SearchAndAddCompanionPolicy(in_policyType, "NOT_FOUND");
 
         // Continue towards purchase of quote.
         policy.getDefaultView().fillFromTo(testData, GeneralTab.class, DocumentsAndBindTab.class, true);
@@ -1012,7 +1012,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         handleEndorsementType(bFlatEndorsement);
 
-        _generalTab.otherAAAProducts_SearchAndAddCompanionPolicy(in_policyType, "NOT_FOUND");
+        otherAAAProducts_SearchAndAddCompanionPolicy(in_policyType, "NOT_FOUND");
         fillFromGeneralTabToErrorMsg();
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
@@ -1024,7 +1024,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createPolicyAdvanceToRenewalImage();
 
         // In Renewal Image, Add MPD Element and Bind
-        _generalTab.otherAAAProducts_SearchAndAddCompanionPolicy(in_policyType, "NOT_FOUND");
+        otherAAAProducts_SearchAndAddCompanionPolicy(in_policyType, "NOT_FOUND");
         fillFromGeneralTabToErrorMsg();
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
@@ -1425,7 +1425,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         _generalTab.otherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
         _generalTab.otherAAAProductsSearchTable_addSelected(0);
-        _generalTab.otherAAAProducts_SearchAndAddCompanionPolicy("Motorcycle", "NOT_FOUND");
+        otherAAAProducts_SearchAndAddCompanionPolicy("Motorcycle", "NOT_FOUND");
         _generalTab.otherAAAProducts_SearchByPolicyNumber("Life", "NOT_FOUND");
         _generalTab.otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound( "Life", "TestLife");
 
@@ -1470,7 +1470,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         _generalTab.otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_NE");
         _generalTab.otherAAAProductsSearchTable_addSelected(0);
-        _generalTab.otherAAAProducts_SearchAndAddCompanionPolicy("Life", "TestLifePolicy");
+        otherAAAProducts_SearchAndAddCompanionPolicy("Life", "TestLifePolicy");
 
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
         _documentsAndBindTab.btnGenerateDocuments.click();
@@ -1551,5 +1551,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         _generalTab.getNamedInsuredInfoAssetList().
                 getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(),
                         AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getControlClass()).setValue(residence);
+    }
+
+    public void otherAAAProducts_SearchAndAddCompanionPolicy(String policyType, String policyNumber){
+        _generalTab.otherAAAProducts_SearchByPolicyNumber(policyType, policyNumber);
+        _generalTab.otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(policyType);
     }
 }

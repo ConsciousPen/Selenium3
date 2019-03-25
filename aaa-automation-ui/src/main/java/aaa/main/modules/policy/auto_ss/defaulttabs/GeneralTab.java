@@ -119,10 +119,7 @@ public class GeneralTab extends Tab {
 
 
 
-    public void otherAAAProducts_SearchAndAddCompanionPolicy(String policyType, String policyNumber){
-        otherAAAProducts_SearchByPolicyNumber(policyType, policyNumber);
-        otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(policyType);
-    }
+
 
 
 
