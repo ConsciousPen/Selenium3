@@ -22,11 +22,6 @@
             </class>
             <class name="aaa.modules.bct.batch.AgingJobs">
                 <methods>
-                    <include name="createAgingJobs"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.bct.batch.AgingJobs">
-                <methods>
                     <include name="RUN_01_AAABATCHMARKERJOB"/>
                     <include name="RUN_02_POLICYSTATUSUPDATEJOB"/>
                     <include name="RUN_03_AAAPOLICYAUTOMATEDRENEWALASYNCTASKGENERATIONJOB"/>
