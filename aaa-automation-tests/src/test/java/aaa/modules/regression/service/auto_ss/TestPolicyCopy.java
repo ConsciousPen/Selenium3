@@ -23,7 +23,7 @@ public class TestPolicyCopy extends PolicyCopy {
 	@StateList(statesExcept = States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testPolicyCopy(@Optional("VA") String state) {
+	public void testPolicyCopy(@Optional("") String state) {
 		super.testPolicyCopy();
 	}
 
