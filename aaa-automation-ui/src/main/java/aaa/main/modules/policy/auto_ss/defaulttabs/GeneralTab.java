@@ -425,13 +425,4 @@ public class GeneralTab extends Tab {
 		}
 		return i;
 	}
-
-	/**
-	 * Returns Unquoted Checkbox control based on passed in data.
-	 * @param assetDescriptor AssetDescriptor for each checkbox.
-	 * @return Checkbox representing requested control.
-	 */
-	public CheckBox getUnquotedCheckBox(AssetDescriptor<CheckBox> assetDescriptor){
-		return this.getOtherAAAProductOwnedAssetList().getAsset(assetDescriptor);
-	}
 }

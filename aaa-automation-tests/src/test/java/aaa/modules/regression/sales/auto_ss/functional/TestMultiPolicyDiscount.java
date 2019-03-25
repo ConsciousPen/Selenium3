@@ -27,6 +27,8 @@ import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.CheckBox;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.waiters.Waiters;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -166,25 +168,25 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         // Step 3:
         // Note: If following fails on first assert, validate hitting refresh comes back with
         // Home, Renters, and Condo policies. If not, check test pre-reqs have been met.
-        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isFalse();
-        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).isEnabled()).isFalse();
-        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).isEnabled()).isFalse();
-        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE).isEnabled()).isTrue();
+        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isFalse();
+        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).isEnabled()).isFalse();
+        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).isEnabled()).isFalse();
+        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE).isEnabled()).isTrue();
 
         // Only add motorcycle in supported states
         if (motorcycleSupportedStates.contains(getState())){
-            assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE).isEnabled()).isTrue();
+            assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE).isEnabled()).isTrue();
         }
         else{
-            assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE).isPresent()).isFalse();
+            assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE).isPresent()).isFalse();
         }
 
         // Step 4
         _generalTab.removeAllOtherAAAProductsOwnedTablePolicies();
 
-        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isTrue();
-        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).isEnabled()).isTrue();
-        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).isEnabled()).isTrue();
+        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isTrue();
+        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).isEnabled()).isTrue();
+        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).isEnabled()).isTrue();
     }
 
 
@@ -253,9 +255,9 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         assertThat(condoStatusColumnValue).isNotEqualTo(unexpected);
 
         // Step 5
-        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isFalse();
-        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).isEnabled()).isFalse();
-        assertThat(_generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).isEnabled()).isFalse();
+        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isFalse();
+        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).isEnabled()).isFalse();
+        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).isEnabled()).isFalse();
     }
 
     /**
@@ -674,23 +676,23 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         switch (policyType){
             case condo:
-                generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).setValue(fillInCheckbox);
+                getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).setValue(fillInCheckbox);
                 break;
 
             case home:
-                generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).setValue(fillInCheckbox);
+                getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).setValue(fillInCheckbox);
                 break;
 
             case renters:
-                generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).setValue(fillInCheckbox);
+                getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).setValue(fillInCheckbox);
                 break;
 
             case life:
-                generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE).setValue(fillInCheckbox);
+                getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE).setValue(fillInCheckbox);
                 break;
 
             case motorcycle:
-                generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE).setValue(fillInCheckbox);
+                getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE).setValue(fillInCheckbox);
                 break;
         }
     }
@@ -1201,7 +1203,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         // Create AutoSS quote with Unquoted Home Companion Policy added.
         TestData td = getPolicyDefaultTD();
         createQuoteAndFillUpTo(td, GeneralTab.class, true);
-        _generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).setValue(true);
+        getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).setValue(true);
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
         _documentsAndBindTab.btnGenerateDocuments.click();
         policyNumber = Tab.labelPolicyNumber.getValue();
@@ -1227,7 +1229,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         // Create AutoSS quote with Unquoted Home Companion Policy added.
         TestData td = getPolicyDefaultTD();
         createQuoteAndFillUpTo(td, GeneralTab.class, true);
-        _generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).setValue(true);
+        getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).setValue(true);
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
         _documentsAndBindTab.btnGenerateDocuments.click();
         policyNumber = Tab.labelPolicyNumber.getValue();
@@ -1253,7 +1255,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         // Create AutoSS quote with Unquoted Home Companion Policy added.
         TestData td = getPolicyDefaultTD();
         createQuoteAndFillUpTo(td, GeneralTab.class, true);
-        _generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).setValue(true);
+        getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).setValue(true);
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
         _documentsAndBindTab.btnGenerateDocuments.click();
         policyNumber = Tab.labelPolicyNumber.getValue();
@@ -1279,11 +1281,11 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         // Create AutoSS quote with Unquoted Home Companion Policy added.
         TestData td = getPolicyDefaultTD();
         createQuoteAndFillUpTo(td, GeneralTab.class, true);
-        _generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).setValue(true);
-        _generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).setValue(true);
-        _generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).setValue(true);
-        _generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE).setValue(true);
-        _generalTab.getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE).setValue(true);
+        getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).setValue(true);
+        getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).setValue(true);
+        getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).setValue(true);
+        getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE).setValue(true);
+        getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE).setValue(true);
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
         _documentsAndBindTab.btnGenerateDocuments.click();
         policyNumber = Tab.labelPolicyNumber.getValue();
@@ -1477,6 +1479,14 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         //TODO: Add new DocGen assertion methods here.
         //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Life)");
         //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "TestLifePolicy");
+    }
 
+    /**
+     * Returns Unquoted Checkbox control based on passed in data.
+     * @param assetDescriptor AssetDescriptor for each checkbox.
+     * @return Checkbox representing requested control.
+     */
+    public CheckBox getUnquotedCheckBox(AssetDescriptor<CheckBox> assetDescriptor){
+        return _generalTab.getOtherAAAProductOwnedAssetList().getAsset(assetDescriptor);
     }
 }
