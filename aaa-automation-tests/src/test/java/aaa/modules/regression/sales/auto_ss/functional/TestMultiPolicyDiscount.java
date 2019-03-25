@@ -1191,7 +1191,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
     public void pas22193_AH11AZDocGen_QAAC1(@Optional("AZ") String state){
         DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
@@ -1207,8 +1207,9 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         policyNumber = Tab.labelPolicyNumber.getValue();
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Home)");
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "HOME-UNQUOTED");
+        //TODO: Add new DocGen assertion methods here.
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Home)");
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "HOME-UNQUOTED");
     }
 
     /**
@@ -1216,7 +1217,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(enabled = true, groups = {Groups.FUNCTIONAL})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
     public void pas22193_AH11AZDocGen_QAAC1dot1(@Optional("AZ") String state){
         DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
@@ -1232,8 +1233,9 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         policyNumber = Tab.labelPolicyNumber.getValue();
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Renters)");
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "RENTERS-UNQUOTED");
+        //TODO: Add new DocGen assertion methods here.
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Renters)");
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "RENTERS-UNQUOTED");
     }
 
     /**
@@ -1241,7 +1243,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(enabled = true, groups = {Groups.FUNCTIONAL})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
     public void pas22193_AH11AZDocGen_QAAC1dot2(@Optional("AZ") String state){
         DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
@@ -1257,8 +1259,9 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         policyNumber = Tab.labelPolicyNumber.getValue();
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Condo)");
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "CONDO-UNQUOTED");
+        //TODO: Add new DocGen assertion methods here.
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Condo)");
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "CONDO-UNQUOTED");
     }
 
     /**
@@ -1266,7 +1269,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(enabled = true, groups = {Groups.FUNCTIONAL})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
     public void pas22193_AH11AZDocGen_QAAC1dot3(@Optional("AZ") String state){
         DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
@@ -1286,10 +1289,11 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         policyNumber = Tab.labelPolicyNumber.getValue();
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Life, Motorcycle, Home)");
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "HOME-UNQUOTED");
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "LIFE-UNQUOTED");
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "MOTORCYCLE-UNQUOTED");
+        //TODO: Add new DocGen assertion methods here.
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Life, Motorcycle, Home)");
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "HOME-UNQUOTED");
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "LIFE-UNQUOTED");
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "MOTORCYCLE-UNQUOTED");
     }
 
     /**
@@ -1297,7 +1301,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
     public void pas22193_AH11AZDocGen_QAAC2(@Optional("AZ") String state){
         DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
@@ -1327,8 +1331,9 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         policyNumber = Tab.labelPolicyNumber.getValue();
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Home)");
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, homeCompanionPolicyNumberColumnValue); //"QAZH3206557376"); //Asserts that the Mockwire Home policy shows up instead of the Renters policy.
+        //TODO: Add new DocGen assertion methods here.
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Home)");
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, homeCompanionPolicyNumberColumnValue); //"QAZH3206557376"); //Asserts that the Mockwire Home policy shows up instead of the Renters policy.
     }
 
     /**
@@ -1336,7 +1341,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
     public void pas22193_AH11AZDocGen_QAAC3(@Optional("AZ") String state){
         DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
@@ -1357,8 +1362,9 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         policyNumber = Tab.labelPolicyNumber.getValue();
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Home)");
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "TestHome_FirstAdded"); //Asserts that the Mockwire Home policy shows up instead of the Renters policy.
+        //TODO: Add new DocGen assertion methods here.
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Home)");
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "TestHome_FirstAdded"); //Asserts that the Mockwire Home policy shows up instead of the Renters policy.
     }
 
     /**
@@ -1366,7 +1372,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(enabled = true, groups = {Groups.FUNCTIONAL})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
     public void pas22193_AH11AZDocGen_QAAC4(@Optional("AZ") String state){
         DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
@@ -1389,12 +1395,13 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         policyNumber = Tab.labelPolicyNumber.getValue();
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
-        String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, document.getId(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
-        try {
-            CustomAssertions.assertThat(DocGenHelper.getDocument(document, query).toString().contains("Multi-Policy Discount")).isFalse();
-        }catch(NoSuchElementException ex){
-            CustomAssertions.assertThat(ex).hasMessage("No value present");
-        }
+        //TODO: Add new DocGen assertion methods here.
+        //String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, document.getId(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
+        //try {
+        //    CustomAssertions.assertThat(DocGenHelper.getDocument(document, query).toString().contains("Multi-Policy Discount")).isFalse();
+        //}catch(NoSuchElementException ex){
+        //    CustomAssertions.assertThat(ex).hasMessage("No value present");
+        //}
     }
 
     /**
@@ -1402,7 +1409,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
     public void pas22193_AH11AZDocGen_QAAC5(@Optional("AZ") String state){
         DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
@@ -1433,12 +1440,13 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         policyNumber = Tab.labelPolicyNumber.getValue();
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Motorcycle, Life, Home)");
+        //TODO: Add new DocGen assertion methods here.
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Motorcycle, Life, Home)");
 
         // Checking Affinity Group Section for Listed Policies.
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, homeCompanionPolicyNumberColumnValue);
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "NOT_FOUND");
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "TestLife");
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, homeCompanionPolicyNumberColumnValue);
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "NOT_FOUND");
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "TestLife");
     }
 
     /**
@@ -1466,8 +1474,9 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         policyNumber = Tab.labelPolicyNumber.getValue();
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Life)");
-        DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "TestLifePolicy");
+        //TODO: Add new DocGen assertion methods here.
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Life)");
+        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "TestLifePolicy");
 
     }
 }

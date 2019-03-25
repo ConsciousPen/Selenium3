@@ -580,24 +580,4 @@ public class DocGenHelper {
 	private enum ProductCode {
 		AAA_HO_SS, AAA_SS, AAA_CSA, AAA_HO_CA, AAA_PUP_SS
 	}
-
-	/**
-	 * Used to quickly assert that a generated document contains the provided text string.
-	 * @param in_document The document being searched for.
-	 * @param in_policyNumber The policy number of the document owner.
-	 * @param in_event The document was triggered by this event.
-	 * @param searchString The text to search within the document for.
-	 */
-	public static void DoesDocumentFromDBContainString(DocGenEnum.Documents in_document, String in_policyNumber, AaaDocGenEntityQueries.EventNames in_event, String searchString){
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, in_policyNumber, in_document.getId(), in_event);
-		Document documentCaptured = getDocument(in_document, query);
-
-		if(documentCaptured.toString().contains(searchString)){
-			log.debug(String.format("Searched document: '%s', and found successfully found the text: '%s'", documentCaptured.getTemplateId(), searchString));
-		}
-		else{
-			CustomAssertions.fail(String.format("Captured document: %s, but could not find text: %s", documentCaptured.getTemplateId(), searchString));
-		}
-	}
-
 }
