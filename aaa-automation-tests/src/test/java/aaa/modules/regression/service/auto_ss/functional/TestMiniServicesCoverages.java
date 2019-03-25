@@ -698,10 +698,10 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 5. Update Coverage Service add adb coverage for 2 AFR driver verify Premium should increased
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ, Constants.States.MD})
+	@StateList(states = {Constants.States.AZ, Constants.States.MD,Constants.States.DE})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas17642"})
-	public void pas17642_UpdateCoverageADB(@Optional("MD") String state) {
+	public void pas17642_UpdateCoverageADB(@Optional("DE") String state) {
 		pas17642_UpdateCoverageADBBody();
 	}
 
@@ -1441,14 +1441,15 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 1. Create policy in PAS
 	 * 2. Create endorsement through service
 	 * 3. Update PIP, check response, check viewCoverages response, check Change Log response, check in PAS UI
-	 * 3. Update PIPDED, check response, check viewCoverages response, check Change Log response, check in PAS UI
-	 * 3. Update PIPDEDAPPTO, check response, check viewCoverages response, check Change Log response, check in PAS UI
-	 * 3. Check FUNEXP and PROPERTY details
+	 * 4. Update PIPDED, check response, check viewCoverages response, check Change Log response, check in PAS UI
+	 * 5. Update PIPDEDAPPTO, check response, check viewCoverages response, check Change Log response, check in PAS UI
+	 * 6. Check FUNEXP and PROPERTY details
+	 * 7. Check that FUNEXP and PROPERTY are PIP subCoverages
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.DE})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15272"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15272", "PAS-26425"})
 	public void pas15272_viewUpdatePipDE(@Optional("DE") String state) {
 		pas15272_viewUpdatePipDEBody();
 	}
