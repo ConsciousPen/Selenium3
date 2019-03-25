@@ -263,6 +263,7 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
     public void pas20828_productDetermineWithPUClaims(@Optional("CA") @SuppressWarnings("unused") String state) {
         pas20828_productDetermineWithPUClaims();
     }
+
 	/**
 	 * @author Chris Johns
 	 * PAS-24652 - CHANGE FNI - General Tab (CA): move PU Yes claims when FNI changed via "dropdown" (endorsement and quote) (changed to FNI already exists as driver)
@@ -291,7 +292,5 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
 	public void pas24652_ChangeFNIGeneralTabRenewal(@Optional("CA") @SuppressWarnings("unused") String state) {
 		pas24652_ChangeFNIGeneralTabRenewal();
 	}
-
-
 
 }
