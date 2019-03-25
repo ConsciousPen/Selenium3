@@ -278,4 +278,31 @@
         </classes>
     </test>
 
+    <test name="Assignment Tab/Conflict CA Select" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas25188_ooseConflictManualAssignment"/>
+                    <include name="pas25188_ooseConflictAutomaticAssignment"/>
+                    <include name="pas25188_renewalMergeAssignment"/>
+
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Assignment Tab/Conflict CA Choice" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas25188_ooseConflictManualAssignment"/>
+                    <include name="pas25188_ooseConflicAutomaticAssignment"/>
+                    <include name="pas25188_renewalMergeAssignment"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>
