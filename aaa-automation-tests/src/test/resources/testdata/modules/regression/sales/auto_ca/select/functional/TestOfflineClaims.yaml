@@ -28,10 +28,17 @@ TestData_DriverTab_ViolationsMVRFNIclaims_PU_CA: {
 }
 
 
-TestData_Change_FNI_PU_CA: {
+TestData_Change_FNI_NB_Endorsement_PU_CA: {
   PrefillTab:  '@PrefillTab',
   GeneralTab: '@TwoNamedInsuredGeneralTab',
   DriverTab:  ['@Driver8','@Driver9'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+}
+
+TestData_Change_FNI_Renewal_PU_CA: {
+#  PrefillTab:  '@PrefillTab',
+  GeneralTab: '@TwoNamedInsuredGeneralTab',
+  DriverTab:  ['@Driver1','@Driver9'],
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
 }
 
