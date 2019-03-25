@@ -742,7 +742,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     /*
     Method/Test for CA Choice & Select: TestClaimsImpactOnDiscounts.pas18303_goodDriverDiscountForPUClaims
      */
-    public void pas18303_goodDriverDiscountForPUClaims() {
+    public void pas18303_goodDriverDiscountForPUClaims(){
 
         Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS = ImmutableMap.of(CLAIM_NUMBER_1_GDD, claim1_dates_gdd, CLAIM_NUMBER_2_GDD, claim2_dates_gdd);
 
