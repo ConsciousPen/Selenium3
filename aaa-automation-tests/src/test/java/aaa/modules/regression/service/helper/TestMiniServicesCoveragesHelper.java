@@ -6643,7 +6643,11 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private void checkLimitInPAndCTab(List<Coverage> coverageExpected) {
 		for (Coverage coverage : coverageExpected) {
-			assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(coverage.getCoverageDescription())).isEqualTo(coverage.getCoverageLimitDisplay());
+			if(CoverageInfo.WLB_NY.getDescription().equals(coverage.getCoverageDescription())) {
+				assertThat(premiumAndCoveragesTab.getRejectionOfWorkLossBenefitsValue(coverage.getCoverageDescription())).isEqualTo(coverage.getCoverageLimitDisplay());
+			} else {
+				assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(coverage.getCoverageDescription())).isEqualTo(coverage.getCoverageLimitDisplay());
+			}
 		}
 	}
 
