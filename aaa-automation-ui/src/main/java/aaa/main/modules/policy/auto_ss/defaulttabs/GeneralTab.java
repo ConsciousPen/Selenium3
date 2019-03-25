@@ -129,37 +129,37 @@ public class GeneralTab extends Tab {
 		GeneralTab generalTab = new GeneralTab();
 
 		// Click Add Insured Button
-		generalTab.getNamedInsuredInfoAssetList()
+		getNamedInsuredInfoAssetList()
 				.getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADD_INSURED.getLabel(),
 						AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADD_INSURED.getControlClass()).click(Waiters.AJAX);
 
 		// Click cancel on the Named Insured Popup
-		generalTab.getNamedInsuredInfoAssetList()
+		getNamedInsuredInfoAssetList()
 				.getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_SEARCH_DIALOG.getLabel(),
 						AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_SEARCH_DIALOG.getControlClass()).cancel();
 
 		// First Name
-		generalTab.getNamedInsuredInfoAssetList().
+		getNamedInsuredInfoAssetList().
 				getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel(),
 				AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getControlClass()).setValue(firstName);
 
 		// Last Name
-		generalTab.getNamedInsuredInfoAssetList().
+		getNamedInsuredInfoAssetList().
 				getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel(),
 						AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getControlClass()).setValue(lastName);
 
 		// Date of Birth
-		generalTab.getNamedInsuredInfoAssetList().
+		getNamedInsuredInfoAssetList().
 				getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_DATE_OF_BIRTH.getLabel(),
 						AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_DATE_OF_BIRTH.getControlClass()).setValue(dateOfBirth);
 
 		// Lived here less than 3 years
-		generalTab.getNamedInsuredInfoAssetList().
+		getNamedInsuredInfoAssetList().
 				getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS.getLabel(),
 						AutoSSMetaData.GeneralTab.NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS.getControlClass()).setValue(livedHereLessThan3Years);
 
 		// Residence
-		generalTab.getNamedInsuredInfoAssetList().
+		getNamedInsuredInfoAssetList().
 				getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(),
 						AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getControlClass()).setValue(residence);
 	}
@@ -169,20 +169,7 @@ public class GeneralTab extends Tab {
         otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(policyType);
     }
 
-	/**
-	 * Removes all policies from the Other AAA Products Owned table.
-	 */
-	public void removeAllOtherAAAProductsOwnedTablePolicies(){
-		List<Row> rows = this.getOtherAAAProductTable().getRows();
 
-		int zeroBasedRowIterator = rows.size() - 1;
-
-		// Start at end of list since table gets smaller
-		for (int i = zeroBasedRowIterator; i >= 0; i-- ){
-			// Uses cell index due to column not labelled
-			rows.get(i).getCell(7).controls.links.get("Remove").click(Waiters.AJAX);
-		}
-	}
 
 	/**
 	 * Simply conducts a basic search using the input String as a policy number.

@@ -29,6 +29,7 @@ import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.waiters.Waiters;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -182,7 +183,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         }
 
         // Step 4
-        _generalTab.removeAllOtherAAAProductsOwnedTablePolicies();
+        removeAllOtherAAAProductsOwnedTablePolicies();
 
         assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isTrue();
         assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).isEnabled()).isTrue();
@@ -1488,5 +1489,20 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      */
     public CheckBox getUnquotedCheckBox(AssetDescriptor<CheckBox> assetDescriptor){
         return _generalTab.getOtherAAAProductOwnedAssetList().getAsset(assetDescriptor);
+    }
+
+    /**
+     * Removes all policies from the Other AAA Products Owned table.
+     */
+    public void removeAllOtherAAAProductsOwnedTablePolicies(){
+        List<Row> rows = _generalTab.getOtherAAAProductTable().getRows();
+
+        int zeroBasedRowIterator = rows.size() - 1;
+
+        // Start at end of list since table gets smaller
+        for (int i = zeroBasedRowIterator; i >= 0; i-- ){
+            // Uses cell index due to column not labelled
+            rows.get(i).getCell(7).controls.links.get("Remove").click(Waiters.AJAX);
+        }
     }
 }
