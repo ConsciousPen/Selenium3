@@ -453,7 +453,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
             validateOverridableCLUEPPURule(ErrorEnum.Duration.LIFE);
         }
 
-        documentsAndBindTab.submitTab();
         payTotalAmtDue(policyNumber);
     }
 
@@ -758,7 +757,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         createQuoteAndFillUpTo(td, PremiumAndCoveragesTab.class, true);
 
-        // Overriding Errors caused by created ActivityInformation entries (Auto Select Rules)
+        // Overriding Errors caused by created ActivityInformation entries (Auto Select specific Rules)
         premiumAndCoveragesTab.submitTab();
         if (errorTab.isVisible()) {
             errorTab.overrideAllErrors();
@@ -871,12 +870,24 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      */
     protected void validateOverridableCLUEPPURule(ErrorEnum.Duration duration) {
         documentsAndBindTab.submitTab();
+
+        // Overriding Errors caused by created ActivityInformation entries (Auto Select specific Rules)
+        if (errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_10015021_CA_SELECT.getCode())) {
+            errorTab.overrideErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER, ErrorEnum.Errors.ERROR_AAA_10015021_CA_SELECT);
+            errorTab.override();
+            documentsAndBindTab.submitTab();
+        }
+
         // Assert CLUE PU Rule Code and Message
-        assertThat(errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE.getCode()));
-        assertThat(errorTab.getErrorMessagesList().contains(ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE.getMessage()));
+        assertThat(errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_validate_pu_clue_claim_2.getCode()));
+        assertThat(errorTab.getErrorMessagesList().contains(ErrorEnum.Errors.ERROR_AAA_validate_pu_clue_claim_2.getMessage()));
 
         // Overriding for TERM (NB) / LIFE (Renewal)
-        errorTab.overrideErrors(duration, ErrorEnum.ReasonForOverride.OTHER, ErrorEnum.Errors.ERROR_AAA_CLUE_PERMISSIVE_USE);
+        errorTab.overrideErrors(duration, ErrorEnum.ReasonForOverride.OTHER, ErrorEnum.Errors.ERROR_AAA_validate_pu_clue_claim_2);
+        errorTab.override();
+
+        //Submit tab after override
+        documentsAndBindTab.submitTab();
     }
 
     /*
@@ -902,8 +913,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         // Assert that permissive rule is thrown for CLUE and can be overridden for TERM: PAS-22609
         validateOverridableCLUEPPURule(ErrorEnum.Duration.TERM);
 
-        policy.getDefaultView().fillFromTo(td2, DocumentsAndBindTab.class, PurchaseTab.class, true);
-        purchaseTab.submitTab();
+        purchaseTab.fillTab(td2).submitTab();
         policyNumber = labelPolicyNumber.getValue();
         mainApp().close();
     }
@@ -1150,7 +1160,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //1st Renewal: Verify PU Values in Drivers tab
         verifyPUvalues();
 
-        //TODO: Uncomment after PAS-26322
+        //TODO: Mantas Garsvinskas Uncomment after PAS-26322
         /*
         issueGeneratedRenewalImage(policyNumber, false);
 
