@@ -10,7 +10,8 @@ public class DiscountPercentageRuntimeContext implements RestBodyRequest {
 	@JsonProperty("value that will be used in request")
 	public long currentDate;
 
-	@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+	@JsonSerialize
+	@JsonInclude(value = JsonInclude.Include.NON_NULL)
 	public String requestDate;
 
 	public String lob;
@@ -20,22 +21,28 @@ public class DiscountPercentageRuntimeContext implements RestBodyRequest {
 	@JsonInclude
 	public String country;
 
-	@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+	@JsonSerialize
+	@JsonInclude(value = JsonInclude.Include.NON_NULL)
 	public String usRegion;
 
-	@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+	@JsonSerialize
+	@JsonInclude(value = JsonInclude.Include.NON_NULL)
 	public String currency;
 
-	@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+	@JsonSerialize
+	@JsonInclude(value = JsonInclude.Include.NON_NULL)
 	public String lang;
 
-	@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+	@JsonSerialize
+	@JsonInclude(value = JsonInclude.Include.NON_NULL)
 	public String region;
 
-	@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+	@JsonSerialize
+	@JsonInclude(value = JsonInclude.Include.NON_NULL)
 	public String caProvince;
 
-	@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+	@JsonSerialize
+	@JsonInclude(value = JsonInclude.Include.NON_NULL)
 	public String caRegion;
 
 
