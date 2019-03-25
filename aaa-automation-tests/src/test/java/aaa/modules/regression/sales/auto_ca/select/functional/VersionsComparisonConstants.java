@@ -112,6 +112,11 @@ public class VersionsComparisonConstants {
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).First Name", "First Name version2","First Name version1")
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).Second Name", "Second Name version2","Second Name version1")
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).Additional Interest Address", "VII interest address 1, VII interest address 2, Red Rock, AZ, 85245","interest address 1, VI interest address 2, Phoenix, AZ, 85085")
+			//Assignment Tab Information
+			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.System Rated Driver", "New Driver Version2","NBFirstName NBLastName")
+			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Manually Rated Driver", "New Driver Version2","NBFirstName NBLastName")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.System Rated Driver", "New Driver Version2","VIFirstName VILastName")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Manually Rated Driver", "New Driver Version2","VIFirstName VILastName")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -237,6 +242,9 @@ public class VersionsComparisonConstants {
 			//Garaging address
 			//TODO should be returned when Yes/NO vs true/false is fixed
 			/*.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Is Garaging different from Residential?", "Is Garaging different from Residential?")*/
+			//Assignment Tab Information
+			.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Primary Driver", "Primary Driver")
+			.put("Vehicles.1998, DODGE, CARAVAN.Primary Driver", "Primary Driver")
 			.build();
 
 	//all components/attributes that should be on Comparison page for Named Insured Information section for data gather comparison
@@ -510,6 +518,23 @@ public class VersionsComparisonConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN", "Ownership Type")
 			.put("Vehicles.1998, DODGE, CARAVAN", "First Name")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Vehicle Ownership Address")
+			.build();
+
+
+	//all components/attributes that should be on Comparison page for Assignment section
+	static final Multimap<String, String> DATA_GATHER_ASSIGNMENT = ImmutableListMultimap.<String, String>builder()
+			//Assignment Information section
+			.put("Vehicles.1998, DODGE, CARAVAN", "Primary Driver")
+			.put("Vehicles.1998, DODGE, CARAVAN", "System Rated Driver")
+			.put("Vehicles.1998, DODGE, CARAVAN", "Manually Rated Driver")
+			.build();
+
+	//all components/attributes that should be on Comparison page for Assignment section
+	static final Multimap<String, String> ASSIGNMENT = ImmutableListMultimap.<String, String>builder()
+			//Assignment Information section
+			.put("Vehicles.2003, MERCEDES-BENZ, SL500R", "Primary Driver")
+			.put("Vehicles.2003, MERCEDES-BENZ, SL500R", "System Rated Driver")
+			.put("Vehicles.2003, MERCEDES-BENZ, SL500R", "Manually Rated Driver")
 			.build();
 
 }
