@@ -1354,8 +1354,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     }
 
-
-
     //Change FNI Do desired Insured. 'First Named Insured' Index starts at zero
     public void changeFNIGeneralTab(int namedInsuredNumber) {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
@@ -1366,6 +1364,5 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
         generalTab.submitTab();
     }
-
 
 }
