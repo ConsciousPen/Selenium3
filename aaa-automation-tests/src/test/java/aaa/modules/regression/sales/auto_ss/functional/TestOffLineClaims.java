@@ -456,6 +456,12 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     public void pas18317_verifyPermissiveUseIndicator(@Optional("AZ") @SuppressWarnings("unused") String state) {
         pas18317_verifyPermissiveUseIndicator();
     }
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-25463")
+    public void pas25463_ViolationsMVRPUIndicatorCheck(@Optional("AZ") @SuppressWarnings("unused") String state) {
+        pas25463_ViolationsMVRPUIndicatorCheck();
+    }
 
 
 }

@@ -2,6 +2,26 @@
 TestData_DriverTab_OfflineClaim_AZ: {
   DriverTab: ['@Driver2','@Driver3','@Driver4']
 }
+TestData_DriverTab_ViolationsMVRFNIclaims_PU: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab:  ['@Driver6','@Driver3'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+}
+
+
+PrefillTab: {
+  First Name: Nicolas,
+  Last Name: Smith,
+  Zip Code: 85118,
+  Address Line 1: 4101 S LAST CHANCE TRL,
+  City: GOLD CANYON,
+  State: AZ,
+  Date of Birth: '12/05/1960',
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
 
 #Not to be deleted
   ######Test Data for 2/3/4 Drivers
@@ -98,6 +118,72 @@ Driver5: {
   "License Number": D99999999,
   Age First Licensed: 18
 }
+Driver6: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+ 'Rel. to First Named Insured': First Named Insured,
+  Age First Licensed: 21,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Clergy,
+  License Type: "Licensed (US)",
+  License State: AZ,
+  Permit Before License: 'Yes',
+  License Number: A12345111,
+#  Add Driver: Click,
+#  DriverSearchDialog:{},
+#  Driver Type: Available for Rating,
+#  'Rel. to First Named Insured': First Named Insured,
+#  Date of Birth: 12/05/1960,
+#  Gender: Male,
+#  Marital Status: Married,
+#  Occupation: Clergy,
+#  License Type: "Licensed (US)",
+#  License State: AZ,
+#  Permit Before License: 'Yes',
+#  License Number: A876564321,
+#  Age First Licensed: 18,
+  ActivityInformation: [
+  {
+    Activity Source: 'Company Input',
+    Type: 'Major Violation',
+    Occurrence Date: '$<today-2M:MM/dd/yyyy>',
+    Description: 'Driving Under Suspension/Revocation of DL',
+    Loss Payment Amount: '2500',
+    #Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    "Include in Points and/or YAF?": 'No',
+    Not Included in Points and/or YAF - Reason Codes: 'Report errors'
+  },
+  {
+    Activity Source: 'Company Input',
+    Type: 'At-Fault Accident',
+    Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+    Description: 'Accident (Property Damage Only)',
+    Loss Payment Amount: '2000',
+    #Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    "Include in Points and/or YAF?": 'Yes'
+  },
+  {
+    Activity Source: 'Customer Input',
+    Type: 'At-Fault Accident',
+    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+    Description: 'Fault accident, no injury, damage > $1000',
+    Loss Payment Amount: '2000',
+    #Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    "Include in Points and/or YAF?": 'No',
+    Not Included in Points and/or YAF - Reason Codes: 'Report errors'
+  },
+  {
+    Activity Source: 'Customer Input',
+    Type: 'Alcohol-Related Violation',
+    Description: 'Driving Under the Influence of Alcohol',
+    Suspension Date: '$<today-1M:MM/dd/yyyy>',
+    "Include in Points and/or YAF?": 'Yes'
+  }
+  ]
+}
+
 
 ############### Add 5th Driver at endorsement
 Add_PU_Claim_Driver_Endorsement_AZ: {

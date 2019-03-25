@@ -1,5 +1,8 @@
 package aaa.modules.regression.sales.template.functional;
 import static aaa.common.pages.SearchPage.tableSearchResults;
+
+import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableActivityInformationList;
 import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableDriverList;
@@ -49,6 +52,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import toolkit.config.PropertyProvider;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -606,4 +610,87 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent()).isFalse();
         });
     }
+    public void pas25463_ViolationsMVRPUIndicatorCheck(){
+       TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_ViolationsMVRFNIclaims_PU").resolveLinks();
+        adjusted = getPolicyTD().adjust(testDataForFNI);
+        mainApp().open();
+        createCustomerIndividual();
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(adjusted,DriverTab.class, true);
+        DataProviderFactory.dataOf(
+                AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY.getLabel(), "Click");
+      createQuoteAndFillUpTo(adjusted, DriverTab.class);
+        tableDriverList.selectRow(1);
+//        createQuoteAndFillUpTo(adjusted,DriverTab.class);
+//        aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.tableDriverList.selectRow(1);
+//        activityAssertions(2,1,4, 1, "Company Input", "", false); //assert the company input with Type Violations do not show up PU indicator
+//        activityAssertions(2,1,4, 2, "Company Input", "", true); //assert the company input with Type Accident show up PU indicator
+//        activityAssertions(2,1,4, 3, "Customer Input", "", true); //assert the company input with Type  Accident show up PU indicator
+//        activityAssertions(2,1,4, 4, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
+        driverTab.submitTab();
+        policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class,DriverActivityReportsTab.class,true);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        new DocumentsAndBindTab().fillTab(adjusted);
+        documentsAndBindTab.submitTab();
+        new PurchaseTab().fillTab(adjusted).submitTab();
+        policyNumber = PolicySummaryPage.getPolicyNumber();
+        log.info("Policy created successfully. Policy number is " + policyNumber);
+        mainApp().close();
+//        policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.class,true);
+//        premiumAndCoveragesTab.submitTab();
+//        new aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab().fillTab(adjusted);
+//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+//        aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.tableDriverList.selectRow(1);
+//        aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.tableActivityInformationList.selectRow(5);
+//        //assert that the PU indicator do not show up for MVR claims
+//        assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).getValue().equals("MVR"));
+//        assertThat(!activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent());
+//
+//        driverTab.submitTab();
+//        adjusted = getPolicyTD()
+//                .mask(TestData.makeKeyPath(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
+//                .mask(TestData.makeKeyPath(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT.getLabel()))
+//                .mask(TestData.makeKeyPath(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
+//
+//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+//        policy.getDefaultView().fillFromTo(adjusted, aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.class, aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab.class, true);
+//        new aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab().submitTab();
+//        policyNumber = labelPolicyNumber.getValue();
+//        log.info("Policy created successfully. Policy number is " + policyNumber);
+//        mainApp().close();
+//
+//        //Initiate an endorsement
+//        mainApp().open();
+//        SearchPage.openPolicy(policyNumber);
+//        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+//        aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.tableDriverList.selectRow(1);
+//        //asserting the Company/Customer inputs and MVR claims for check the PU indicator
+//        activityAssertions(2,1,5, 1, "Company Input", "", false);
+//        activityAssertions(2,1,5, 2, "Company Input", "", true);
+//        activityAssertions(2,1,5, 3, "Customer Input", "", true);
+//        activityAssertions(2,1,5, 4, "Customer Input", "", false);
+//        activityAssertions(2,1,5, 5, "MVR", "", false);
+//        driverTab.submitTab();
+//
+//        bindEndorsement();
+    }
+    private void activityAssertions(int totalDrivers, int driverRowNo, int totalActivities, int activityRowNo, String activitySource, String claimNumber, boolean checkPU) {
+        CustomSoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.tableDriverList).hasRows(totalDrivers);
+            aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.tableDriverList.selectRow(driverRowNo);
+            softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.tableActivityInformationList).hasRows(totalActivities);
+            aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.tableActivityInformationList.selectRow(activityRowNo);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue(activitySource);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(claimNumber);
+            if (checkPU) {
+                softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
+            }
+            else {
+                softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent()).isFalse();
+            }
+        });
+    }
+
 }
