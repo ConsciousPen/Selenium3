@@ -161,7 +161,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         // Step 2
 
         // REFRESH_P will come back with all 3 property types
-        _generalTab.addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
                 .click(Waiters.AJAX);
@@ -224,7 +224,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         // Step 3
 
         // REFRESH_P will come back with all 3 property types
-        _generalTab.addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
         
         _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
                 .click(Waiters.AJAX);
@@ -434,7 +434,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
 
         // Add second NI
-        _generalTab.addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         // Move to documents and bind tab.
         _generalTab.submitTab();
@@ -482,7 +482,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
 
         // Add second NI
-        _generalTab.addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         // Trigger refresh
         _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
@@ -532,7 +532,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
 
         // Add second NI
-        _generalTab.addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         // Trigger refresh
         _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
@@ -599,7 +599,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
 
         // Add second NI
-        _generalTab.addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         // Trigger refresh
         _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
@@ -1504,5 +1504,52 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
             // Uses cell index due to column not labelled
             rows.get(i).getCell(7).controls.links.get("Remove").click(Waiters.AJAX);
         }
+    }
+
+    /**
+     * Adds another named insured and fills out required data.
+     * @param firstName is named insured's first name.
+     * @param lastName is named insured's last name.
+     * @param dateOfBirth is named insured's date of birth in mm/dd/yyyy format
+     * @param livedHereLessThan3Years is "Yes" or "No" if named insured has lived at location for less than 3 years.
+     * @param residence can be any option in the Residence drop down.
+     */
+    public void addNamedInsured(String firstName, String lastName, String dateOfBirth, String livedHereLessThan3Years, String residence){
+        GeneralTab generalTab = new GeneralTab();
+
+        // Click Add Insured Button
+        _generalTab.getNamedInsuredInfoAssetList()
+                .getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADD_INSURED.getLabel(),
+                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADD_INSURED.getControlClass()).click(Waiters.AJAX);
+
+        // Click cancel on the Named Insured Popup
+        _generalTab.getNamedInsuredInfoAssetList()
+                .getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_SEARCH_DIALOG.getLabel(),
+                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_SEARCH_DIALOG.getControlClass()).cancel();
+
+        // First Name
+        _generalTab.getNamedInsuredInfoAssetList().
+                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel(),
+                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getControlClass()).setValue(firstName);
+
+        // Last Name
+        _generalTab.getNamedInsuredInfoAssetList().
+                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel(),
+                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getControlClass()).setValue(lastName);
+
+        // Date of Birth
+        _generalTab.getNamedInsuredInfoAssetList().
+                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_DATE_OF_BIRTH.getLabel(),
+                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_DATE_OF_BIRTH.getControlClass()).setValue(dateOfBirth);
+
+        // Lived here less than 3 years
+        _generalTab.getNamedInsuredInfoAssetList().
+                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS.getLabel(),
+                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS.getControlClass()).setValue(livedHereLessThan3Years);
+
+        // Residence
+        _generalTab.getNamedInsuredInfoAssetList().
+                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(),
+                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getControlClass()).setValue(residence);
     }
 }
