@@ -86,6 +86,8 @@ public abstract class OpenLPolicy {
 
 	public abstract boolean isCappedPolicy();
 
+	public abstract boolean isNewRenPasCappedPolicy();
+
 	/**
 	 * Returns {@link MocksCollection} with required mocks to be generated and uploaded (if absent) to the application server for OpenL tests which use this OpenL policy object<p>
 	 * Override this method in child classes if this type of policy require specific mocks.

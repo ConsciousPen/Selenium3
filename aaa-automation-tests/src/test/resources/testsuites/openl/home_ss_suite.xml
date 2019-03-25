@@ -78,8 +78,8 @@
         </classes>
     </test>
     <test name="HomeSS [MT] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="MTTests-20170501.xls"/>
-        <parameter name="policyNumbers" value="1510,1520"/>
+        <parameter name="fileName" value="MTTests-20190501.xls"/>
+        <parameter name="policyNumbers" value="2,3"/>
         <classes>
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
@@ -170,8 +170,8 @@
         </classes>
     </test>
     <test name="HomeSS [WY] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="WYTests-20180501.xls"/>
-        <parameter name="policyNumbers" value="1,2"/>
+        <parameter name="fileName" value="WYTests-20190501.xls"/>
+        <parameter name="policyNumbers" value="7,10"/>
         <classes>
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>

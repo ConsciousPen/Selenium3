@@ -38,7 +38,7 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		return BctType.ONLINE_TEST;
 	}
 
-	protected void executeBatchTest(Job job){
+	protected void executeBatchTest(Job job) {
 		String backEndJobName = BackendJobNames.getBackEndJobNames(job.getJobName());
 		String startDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern(ddMMyy)).toUpperCase();
 
@@ -48,6 +48,10 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 
 		String query = String.format(SELECT_ALL_FROM_JOB_SUMMARY, "%" + backEndJobName + "%", startDate + "%", endedDate + "%");
 		assertThat(getFailurePercentage(backEndJobName, query)).as("Percentage of failed tasks is more 5%").isEqualTo(true);
+	}
+
+	protected void executeAgingJob(Job job) {
+		JobUtils.executeJob(job);
 	}
 
 	@Deprecated
@@ -60,7 +64,7 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		}
 		List<String> foundPolicies = getPoliciesFromQuery(queryResult.get(preKey), PRE_VALIDATION);
 
-//		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
+		//		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		JobUtils.executeJob(job);
 
 		List<String> postKey = Collections.unmodifiableList(Arrays.asList(name, POST_VALIDATION));
@@ -156,7 +160,7 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		}
 
 		// if policy found and was opened at the Renewals action tab
-		if(PolicySummaryPage.buttonBackFromRenewals.isPresent() && PolicySummaryPage.buttonBackFromRenewals.isEnabled()){
+		if (PolicySummaryPage.buttonBackFromRenewals.isPresent() && PolicySummaryPage.buttonBackFromRenewals.isEnabled()) {
 			PolicySummaryPage.buttonBackFromRenewals.click();
 		}
 	}
@@ -192,10 +196,9 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		long successCount = Long.parseLong(lastJobResult.get("TOTALSUCCESS"));
 		long errorCount = Long.parseLong(lastJobResult.get("TOTALFAIL"));
 
-		if(processedCount == 0){
+		if (processedCount == 0) {
 			failurePercentageExceeded = true;
-		}
-		else{
+		} else {
 			failurePercentageExceeded = isErrorsCountLessFivePercents(processedCount, errorCount);
 		}
 		return failurePercentageExceeded;
@@ -204,17 +207,17 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	private boolean isErrorsCountLessFivePercents(long processedCount, long errorCount) {
 		boolean erorrsCountLessOfFivePercents = false;
 		long percentage = 0;
-		if(processedCount > 0){
-			if(errorCount > 0){
-				percentage = (errorCount * 100)/processedCount ;
+		if (processedCount > 0) {
+			if (errorCount > 0) {
+				percentage = (errorCount * 100) / processedCount;
 				erorrsCountLessOfFivePercents = percentage > 5; // false if > 5% of errors
 			}
 			erorrsCountLessOfFivePercents = true; // if processed count > 0 and errorCount 0
-		}else {
+		} else {
 			erorrsCountLessOfFivePercents = false; // if processed count = 0 or job failed.. or ..
 		}
 
-		log.info("Job processed items count {}\nErrors count {}\nPercent of failed items {}",errorCount,processedCount,percentage);
+		log.info("Job processed items count {}\nErrors count {}\nPercent of failed items {}", errorCount, processedCount, percentage);
 		return erorrsCountLessOfFivePercents;
 	}
 }

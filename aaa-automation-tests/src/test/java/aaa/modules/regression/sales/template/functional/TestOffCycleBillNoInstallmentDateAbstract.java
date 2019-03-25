@@ -55,7 +55,6 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
 		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.CHANGE_MINIMUM_DOWNPAYMENT).setValue(true);
 		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.MINIMUM_REQUIRED_DOWNPAYMENT).setValue("0.00");
 		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.REASON_FOR_CHANGING).setValue("index=1");
-		getPurchaseTab().getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH).setValue(Purchase.remainingBalanceDueToday.getValue());
 		getPurchaseTab().submitTab();
 		setPolicyInfo();
 

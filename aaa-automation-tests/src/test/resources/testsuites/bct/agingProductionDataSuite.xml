@@ -22,7 +22,43 @@
             </class>
             <class name="aaa.modules.bct.batch.AgingJobs">
                 <methods>
-                    <include name="runAgingJobs"/>
+                    <include name="RUN_01_AAABATCHMARKERJOB"/>
+                    <include name="RUN_02_POLICYSTATUSUPDATEJOB"/>
+                    <include name="RUN_03_AAAPOLICYAUTOMATEDRENEWALASYNCTASKGENERATIONJOB"/>
+                    <include name="RUN_04_RENEWALVALIDATIONASYNCTASKJOB"/>
+                    <include name="RUN_05_RENEWALIMAGERATINGASYNCTASKJOB"/>
+                    <include name="RUN_06_AAAREMITTANCEFEEDASYNCBATCHRECEIVEJOB"/>
+                    <include name="RUN_07_AAARECURRINGPAYMENTSASYNCPROCESSJOB"/>
+                    <include name="RUN_08_BOFARECURRINGPAYMENTJOB"/>
+                    <include name="RUN_09_PREMIUMRECEIVABLESONPOLICYEFFECTIVEJOB"/>
+                    <include name="RUN_10_CHANGECANCELLATIONPENDINGPOLICIESSTATUSJOB"/>
+                    <include name="RUN_11_AAACANCELLATIONNOTICEASYNCJOB"/>
+                    <include name="RUN_12_AAACANCELLATIONCONFIRMATIONASYNCJOB"/>
+                    <include name="RUN_13_AAACOLLECTIONCANCELLDEBTBATCHASYNCJOB"/>
+                    <include name="RUN_14_COLLECTIONFEEDBATCHORDERJOB"/>
+                    <include name="RUN_15_EARNEDPREMIUMWRITEOFFPROCESSINGJOB"/>
+                    <include name="RUN_16_AAAOFFCYCLEBILLINGINVOICEASYNCJOB"/>
+                    <include name="RUN_17_AAABILLINGINVOICEASYNCTASKJOB"/>
+                    <include name="RUN_18_AAAREFUNDGENERATIONASYNCJOB"/>
+                    <include name="RUN_19_PRERENEWALREMINDERGENERATIONASYNCJOB"/>
+                    <include name="RUN_20_AAARENEWALNOTICEBILLASYNCJOB"/>
+                    <include name="RUN_21_AAAMORTGAGEERENEWALREMINDERANDEXPNOTICEASYNCJOB"/>
+                    <include name="RUN_22_RENEWALOFFERASYNCTASKJOB"/>
+                    <include name="RUN_23_AAADELAYTRIGGERTOINOTICEASYNCJOB"/>
+                    <include name="RUN_24_POLICYLAPSEDRENEWALPROCESSASYNCJOB"/>
+                    <include name="RUN_25_AAARENEWALREMINDERGENERATIONASYNCJOB"/>
+                    <include name="RUN_26_POLICYTRANSACTIONLEDGERJOB"/>
+                    <include name="RUN_27_AAADATAUPDATEJOB"/>
+                    <include name="RUN_28_ACTIVITYTIMEOUTJOB"/>
+                    <include name="RUN_29_ACTIVITYHISTORYJOB"/>
+                    <include name="RUN_30_ACTIVITYSUMMARIZATIONJOB"/>
+                    <include name="RUN_31_AAAAUTOMATEDPROCESSINGINITIATIONJOB"/>
+                    <include name="RUN_32_AUTOMATEDPROCESSINGRUNREPORTSSERVICESJOB"/>
+                    <include name="RUN_33_AUTOMATEDPROCESSINGRATINGJOB"/>
+                    <include name="RUN_34_AUTOMATEDPROCESSINGISSUINGORPROPOSINGJOB"/>
+                    <include name="RUN_35_AUTOMATEDPROCESSINGSTRATEGYSTATUSUPDATEJOB"/>
+                    <include name="RUN_36_AUTOMATEDPROCESSINGBYPASSINGANDERRORSREPORT"/>
+                    <include name="RUN_37_LEDGERSTATUSUPDATEJOB"/>
                 </methods>
             </class>
         </classes>

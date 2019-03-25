@@ -489,25 +489,6 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	/**
 	 * @author Maris Strazds
-	 * @scenario validate "Verify PUP Policy" error.
-	 * 1. Create Auto SS policy with companion PUP policy
-	 * 2. Create endorsement through service
-	 * 3. validate for all available BI limits, that error "Verify PUP Policy" is displayed if limit is lower than 500000/500000
-	 * 4. Set BI limit to the higher one so that all PD limits are available
-	 * 5. Validate for all available PD limits, that error "Verify PUP Policy" is displayed if limit is lower than 100000
-	 * 6. Set BI and PD so that the error is displayed, rate and bind the endorsement. (successfully)
-	 */
-	@Parameters({"state"})
-	@StateList(states = {Constants.States.VA, Constants.States.OH})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15379"})
-	public void pas15379_ValidatePUPErrorRelatedWithBiPdLimits(@Optional("VA") String state) {
-		pas15379_ValidatePUPErrorRelatedWithBiPdLimitsBody();
-		//NOTE: This test forks for ALL states. (Except CA)
-	}
-
-	/**
-	 * @author Maris Strazds
 	 * @name Customized Equipment (CUSTEQUIP)
 	 * @scenario for VA
 	 * 1. Create a policy in PAS with one regular vehicle, one VANS/PICKUP without CUSTEQUIP coverage and one VANS/PICKUP with CUSTEQUIP coverage
@@ -717,10 +698,10 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 5. Update Coverage Service add adb coverage for 2 AFR driver verify Premium should increased
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ, Constants.States.MD})
+	@StateList(states = {Constants.States.AZ, Constants.States.MD,Constants.States.DE})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas17642"})
-	public void pas17642_UpdateCoverageADB(@Optional("MD") String state) {
+	public void pas17642_UpdateCoverageADB(@Optional("DE") String state) {
 		pas17642_UpdateCoverageADBBody();
 	}
 
@@ -1076,7 +1057,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.NV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15344", "PAS-18198"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15344", "PAS-18198", "PAS-26423"})
 	public void pas15344_ViewUpdateUmpdNV(@Optional("NV") String state) {
 		pas15344_ViewUpdateUMPD_NV();
 	}
@@ -1460,14 +1441,15 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 1. Create policy in PAS
 	 * 2. Create endorsement through service
 	 * 3. Update PIP, check response, check viewCoverages response, check Change Log response, check in PAS UI
-	 * 3. Update PIPDED, check response, check viewCoverages response, check Change Log response, check in PAS UI
-	 * 3. Update PIPDEDAPPTO, check response, check viewCoverages response, check Change Log response, check in PAS UI
-	 * 3. Check FUNEXP and PROPERTY details
+	 * 4. Update PIPDED, check response, check viewCoverages response, check Change Log response, check in PAS UI
+	 * 5. Update PIPDEDAPPTO, check response, check viewCoverages response, check Change Log response, check in PAS UI
+	 * 6. Check FUNEXP and PROPERTY details
+	 * 7. Check that FUNEXP and PROPERTY are PIP subCoverages
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.DE})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15272"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15272", "PAS-26425"})
 	public void pas15272_viewUpdatePipDE(@Optional("DE") String state) {
 		pas15272_viewUpdatePipDEBody();
 	}

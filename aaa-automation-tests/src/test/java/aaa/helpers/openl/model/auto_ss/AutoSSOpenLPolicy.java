@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.StringUtils;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
@@ -117,6 +116,11 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
+	public boolean isNewRenPasCappedPolicy() {
+		return !isLegacyConvPolicy() && isCappedPolicy();
+	}
+
+	@Override
 	public MocksCollection getRequiredMocks() {
 		MocksCollection requiredMocks = new MocksCollection();
 		MockGenerator mockGenerator = new MockGenerator();
@@ -168,33 +172,25 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.aaaCondoPolicy = aaaCondoPolicy;
 	}
 
-	public Integer getMemberPersistency() {
-		return memberPersistency;
-	}
+	public Integer getMemberPersistency() { return isNewRenPasCappedPolicy() ? memberPersistency - 1 : memberPersistency; }
 
 	public void setMemberPersistency(Integer memberPersistency) {
 		this.memberPersistency = memberPersistency;
 	}
 
-	public Integer getAutoInsurancePersistency() {
-		return autoInsurancePersistency;
-	}
+	public Integer getAutoInsurancePersistency() { return isNewRenPasCappedPolicy() ? autoInsurancePersistency - 1 : autoInsurancePersistency; }
 
 	public void setAutoInsurancePersistency(Integer autoInsurancePersistency) {
 		this.autoInsurancePersistency = autoInsurancePersistency;
 	}
 
-	public Integer getAaaInsurancePersistency() {
-		return aaaInsurancePersistency;
-	}
+	public Integer getAaaInsurancePersistency() {return isNewRenPasCappedPolicy() ? aaaInsurancePersistency - 1 : aaaInsurancePersistency; }
 
 	public void setAaaInsurancePersistency(Integer aaaInsurancePersistency) {
 		this.aaaInsurancePersistency = aaaInsurancePersistency;
 	}
 
-	public Integer getAaaAsdInsurancePersistency() {
-		return aaaAsdInsurancePersistency;
-	}
+	public Integer getAaaAsdInsurancePersistency() { return isNewRenPasCappedPolicy() ? aaaAsdInsurancePersistency - 1 : aaaAsdInsurancePersistency; }
 
 	public void setAaaAsdInsurancePersistency(Integer aaaAsdInsurancePersistency) {
 		this.aaaAsdInsurancePersistency = aaaAsdInsurancePersistency;
@@ -426,6 +422,15 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 
 	@Override
 	public LocalDate getEffectiveDate() {
+		if (isNewRenPasCappedPolicy()) {
+			// If programCode = NewRenPas and termCappingFactor != 1, policy with effective date = effectiveDate - 1 year must be purchased.
+			// If effectiveDate precedes current date, current date is used as effectiveDate,
+			// it prevents NewRenPas capped policy creating with effective date more than 1 year prior to current date.
+			if (effectiveDate.isBefore(LocalDate.now())) {
+				return LocalDate.now().minusYears(1);
+			}
+			return effectiveDate.minusYears(1);
+		}
 		return effectiveDate;
 	}
 
@@ -447,9 +452,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		);
 	}
 
-	public void setEffectiveDate(LocalDate effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
+	public void setEffectiveDate(LocalDate effectiveDate) { this.effectiveDate = effectiveDate; }
 
 	public void setHomeOwner(Boolean homeOwner) {
 		isHomeOwner = homeOwner;
