@@ -28,6 +28,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.testng.annotations.BeforeTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.PrivilegeEnum;
 import aaa.common.enums.RestRequestMethodTypes;
@@ -119,7 +120,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     protected boolean updatePUFlag = false;
     protected boolean secondDriverFlag = false;
 
-    private final GeneralTab generalTab = new GeneralTab();
+//    protected final GeneralTab generalTab = new GeneralTab();
 
     @BeforeTest
     public void prepare() {
@@ -166,6 +167,16 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         GeneralTab.buttonSaveAndExit.click();
         mainApp().close();
     }
+
+    //Change FNI Do desired Insured. 'First Named Insured' Index starts at zero
+    public void changeFNI(int namedInsuredNumber) {
+//        final GeneralTab generalTab = new GeneralTab();
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
+        Tab generalTab = null;
+        generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(namedInsuredNumber);
+        Page.dialogConfirmation.confirm();
+    }
+
 
     protected void pas14679_CompDLPUMatchMore() {
         createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
@@ -1167,21 +1178,19 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 //        activityAssertions(2,1,4, 4, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
 //        driverTab.submitTab();
 
-        //Navigate to the General Tab and change the FNI to the other insured
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
-	    generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(1);
-	    Page.dialogConfirmation.confirm();
+        //Navigate to the General Tab and change the FNI to the other insured. 'First Named Insured' Index starts at zero
+        changeFNI(1);
         generalTab.submitTab();
-
-        //Assert that the PU claims have moved to the new FNI (Steve) and has a total of 3 claims now (one existing)
-        tableDriverList.selectRow(2);
-        activityAssertions(2,2,3, 2, "Company Input", "", true); //assert the company input with Type Accident show up PU indicator
-        activityAssertions(2,2,3, 3, "Customer Input", "", true); //assert the company input with Type  Accident show up PU indicator
-
-        //Assert that old FNI only has 2 Violation claims
-        tableDriverList.selectRow(1);
-        activityAssertions(2,1,2, 1, "Company Input", "", false); //assert the company input with Type Violations do not show up PU indicator
-        activityAssertions(2,1,2, 4, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
+//
+//        //Assert that the PU claims have moved to the new FNI (Steve) and has a total of 3 claims now (one existing)
+//        tableDriverList.selectRow(2);
+//        activityAssertions(2,2,3, 2, "Company Input", "", true); //assert the company input with Type Accident show up PU indicator
+//        activityAssertions(2,2,3, 3, "Customer Input", "", true); //assert the company input with Type  Accident show up PU indicator
+//
+//        //Assert that old FNI only has 2 Violation claims
+//        tableDriverList.selectRow(1);
+//        activityAssertions(2,1,2, 1, "Company Input", "", false); //assert the company input with Type Violations do not show up PU indicator
+//        activityAssertions(2,1,2, 4, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
 
         //Assert that the "Relationship to named insured"
 

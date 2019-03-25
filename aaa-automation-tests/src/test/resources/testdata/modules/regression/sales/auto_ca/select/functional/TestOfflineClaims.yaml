@@ -30,9 +30,8 @@ TestData_DriverTab_ViolationsMVRFNIclaims_PU_CA: {
 
 TestData_Change_FNI_PU_CA: {
   PrefillTab:  '@PrefillTab',
-#  GeneralTab: ['@<auto_ca_select>@DataGather@GeneralTab', '@NamedInsuredInformation2'],
   GeneralTab: '@TwoNamedInsuredGeneralTab',
-  DriverTab:  ['@Driver7','@Driver8'],
+  DriverTab:  ['@Driver8','@Driver9'],
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
 }
 
@@ -60,7 +59,6 @@ TwoNamedInsuredGeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
   AAAProductOwned: '@<auto_ca_select>@DataGather@AAAProductOwned',
   ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation',
-  #CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation'
 }
 
@@ -69,15 +67,9 @@ NamedInsuredInformation1: {
 }
 
 NamedInsuredInformation2: {
-#  Add Insured: Click,
   InsuredSearchDialog: {},
   First Name: Steve,
   Last Name: Rogers
-#  Insured Date of Birth: '$<today-19y:MM/dd/yyyy>',
-#  Base Date: $<today>,
-#  Social Security Number: 223456789,
-#  "Has lived here for less than three years?": 'No',
-#  Residence: Own Home,
 }
 
 Driver1: {
@@ -228,7 +220,6 @@ Add Driver: Click,
         Description: 'Fault accident, no injury, damage > $1000',
         Loss Payment Amount: '1500',
         Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-        Permissive Use: 'Yes',
         "Include in Points and/or YAF?": 'Yes'
         },
         {
@@ -252,6 +243,59 @@ Add Driver: Click,
   }
 
 Driver8: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': First Named Insured,
+  Date of Birth: 10/16/1997,
+  Age First Licensed: 21,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D1278999,
+  ActivityInformation: [
+        {
+          Activity Source: 'Company Input',
+          Type: '10-yr Major Violation',
+          Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+          Description: 'Driving under the influence of drugs',
+          Conviction Date: '$<today-3M:MM/dd/yyyy>',
+          "Include in Points and/or YAF?": 'No',
+          Not Included in Points and/or YAF - Reason Codes: 'Report errors'
+        },
+        {
+          Activity Source: 'Company Input',
+          Type: 'Accident',
+          Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+          Description: 'Fault accident, no injury, damage > $1000',
+          Loss Payment Amount: '1500',
+          Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+          "Include in Points and/or YAF?": 'Yes'
+        },
+        {
+          Activity Source: 'Customer Input',
+          Type: 'Accident',
+          Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+          Description: 'Fault accident, no injury, damage > $1000',
+          Loss Payment Amount: '2000',
+          Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+          "Include in Points and/or YAF?": 'No',
+          Not Included in Points and/or YAF - Reason Codes: 'Report errors'
+        },
+        {
+          Activity Source: 'Customer Input',
+          Type: 'Suspension/Revocation',
+          Description: 'Alcohol Related Suspension',
+          Suspension Date: '$<today-1M:MM/dd/yyyy>',
+          "Include in Points and/or YAF?": 'Yes'
+        }
+    ]
+}
+
+  Driver9: {
   Add Driver: Click,
   DriverSearchDialog:{},
   Driver Type: Available for Rating,
