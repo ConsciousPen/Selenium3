@@ -433,4 +433,29 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 		//Bind Endorsement
 		bindEndorsement();
 	}
+    /**
+     * @author Kiruthika Rajendran
+     * @author Chris Johns
+     * @author Saranya Hariharan
+     * PAS-18317 - UI-CA: do NOT Show Permissive Use Indicator on Driver Tab (non-FNI) - Overrides "PAS-23269"
+     * @name Test Clue claims STUB/Mock Data Claims
+     * @scenario Test Steps:
+     * 1. Create a Quote with 4 drivers
+     * 2. Add Company Input claim for driver4 and validate the PU indicator is NOT present
+     * 3. Bind the policy
+     * 4. Initiate an endorsement
+     * 5. Add driver5
+     * 6. Calculate the Premium and click on Validate Driving History
+     * 7. Go to Driver tab and
+     * 8. Check for the Activity for Clue claims with PU indicator is NOT present
+     * @details Clean Path. Expected Result Permissive Use indicator NOT in Driver Activity
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-18317")
+    public void pas18317_verifyPermissiveUseIndicator(@Optional("AZ") @SuppressWarnings("unused") String state) {
+        pas18317_verifyPermissiveUseIndicator();
+    }
+
+
 }

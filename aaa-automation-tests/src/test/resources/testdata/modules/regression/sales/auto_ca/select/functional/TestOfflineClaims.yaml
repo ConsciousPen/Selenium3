@@ -115,7 +115,17 @@ Driver4: {
   License State: CA,
   Permit Before License: 'Yes',
   "License #": D5435435,
-  Age First Licensed: 18
+  Age First Licensed: 18,
+  ActivityInformation:
+    {
+      Activity Source: 'Company Input',
+      Type: 'Accident',
+      Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+      Description: 'Fault accident, no injury, damage > $1000',
+      Loss Payment Amount: '1500',
+      Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+      "Include in Points and/or YAF?": 'Yes'
+    }
 }
 
 Driver5: {

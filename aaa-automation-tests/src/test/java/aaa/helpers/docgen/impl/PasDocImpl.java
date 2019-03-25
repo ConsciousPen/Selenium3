@@ -116,14 +116,25 @@ public class PasDocImpl extends DocumentWrapper {
 			Document doc = documentGenerationRequest.getDocuments().stream().filter(document1 -> document1.getTemplateId().equals(document.getIdInXml())).findFirst().orElse(null);
 			String errorMessagePolicy = String.format("Policy number in generated document '%s' doesn't match expected '%s'", docPolicyNum, policyNumber);
 			String errorMessageDocId = String.format("Document ID '%s' doesn't match expected '%s'", doc.getTemplateId(), document.getIdInXml());
+			String errorMessageDocIdPresent = String.format("Document ID '%s' is present true, but expected false", document.getIdInXml());
 
 			if (softly == null) {
 				assertThat(docPolicyNum).as(errorMessagePolicy).isEqualTo(policyNumber);
-				assertThat(doc.getTemplateId()).as(errorMessageDocId).isEqualTo(document.getIdInXml());
+				if (!documentsExistence) {
+					assertThat(doc).as(errorMessageDocIdPresent).isNull();
+				} else {
+					assertThat(doc).as(errorMessageDocId).isNotNull();
+					assertThat(doc.getTemplateId()).as(errorMessageDocId).isEqualTo(document.getIdInXml());
+				}
 
 			} else {
 				softly.assertThat(docPolicyNum).as(errorMessagePolicy).isEqualTo(policyNumber);
-				softly.assertThat(doc.getTemplateId()).as(errorMessageDocId).isEqualTo(document.getIdInXml());
+				if (!documentsExistence) {
+					softly.assertThat(doc).as(errorMessageDocIdPresent).isNull();
+				} else {
+					softly.assertThat(doc).as(errorMessageDocId).isNotNull();
+					softly.assertThat(doc.getTemplateId()).as(errorMessageDocId).isEqualTo(document.getIdInXml());
+				}
 
 			}
 		}
