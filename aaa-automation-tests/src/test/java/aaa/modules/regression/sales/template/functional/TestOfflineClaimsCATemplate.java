@@ -1165,13 +1165,27 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 //        activityAssertions(2,1,4, 2, "Company Input", "", true); //assert the company input with Type Accident show up PU indicator
 //        activityAssertions(2,1,4, 3, "Customer Input", "", true); //assert the company input with Type  Accident show up PU indicator
 //        activityAssertions(2,1,4, 4, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
-        driverTab.submitTab();
+//        driverTab.submitTab();
 
         //Navigate to the General Tab and change the FNI to the other insured
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
-        generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(2);
-        Page.dialogConfirmation.confirm();
+	    generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(1);
+	    Page.dialogConfirmation.confirm();
         generalTab.submitTab();
+
+        //Assert that the PU claims have moved to the new FNI (Steve) and has a total of 3 claims now (one existing)
+        tableDriverList.selectRow(2);
+        activityAssertions(2,2,3, 2, "Company Input", "", true); //assert the company input with Type Accident show up PU indicator
+        activityAssertions(2,2,3, 3, "Customer Input", "", true); //assert the company input with Type  Accident show up PU indicator
+
+        //Assert that old FNI only has 2 Violation claims
+        tableDriverList.selectRow(1);
+        activityAssertions(2,1,2, 1, "Company Input", "", false); //assert the company input with Type Violations do not show up PU indicator
+        activityAssertions(2,1,2, 4, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
+
+        //Assert that the "Relationship to named insured"
+
+        driverTab.submitTab();
 
 
         //
@@ -1180,42 +1194,43 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, PremiumAndCoveragesTab.class,true);
         premiumAndCoveragesTab.submitTab();
         overrideErrorTab();
-        new DriverActivityReportsTab().fillTab(adjusted);
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-        tableDriverList.selectRow(1);
-        tableActivityInformationList.selectRow(5);
+//        new DriverActivityReportsTab().fillTab(adjusted);
+//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+//        tableDriverList.selectRow(1);
+//        tableActivityInformationList.selectRow(5);
         //assert that the PU indicator do not show up for MVR claims
-        assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).getValue().equals("MVR"));
-        assertThat(!activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent());
-
-        driverTab.submitTab();
-        adjusted = getPolicyTD()
-                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
-                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT.getLabel()))
-                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
-
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        policy.getDefaultView().fillFromTo(adjusted, PremiumAndCoveragesTab.class, PurchaseTab.class, true);
+//        assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).getValue().equals("MVR"));
+//        assertThat(!activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent());
+//
+//        driverTab.submitTab();
+//        adjusted = getPolicyTD()
+//                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
+//                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT.getLabel()))
+//                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
+//
+//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+//        policy.getDefaultView().fillFromTo(adjusted, PremiumAndCoveragesTab.class, PurchaseTab.class, true);
+        policy.getDefaultView().fillFromTo(adjusted, DriverActivityReportsTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         policyNumber = labelPolicyNumber.getValue();
         log.info("Policy created successfully. Policy number is " + policyNumber);
-        mainApp().close();
-
-        //Initiate an endorsement
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-        tableDriverList.selectRow(1);
-        //asserting the Company/Customer inputs and MVR claims for check the PU indicator
-        activityAssertions(2,1,5, 1, "Company Input", "", false);
-        activityAssertions(2,1,5, 2, "Company Input", "", true);
-        activityAssertions(2,1,5, 3, "Customer Input", "", true);
-        activityAssertions(2,1,5, 4, "Customer Input", "", false);
-        activityAssertions(2,1,5, 5, "MVR", "", false);
-        driverTab.submitTab();
-
-        bindEndorsement();
+//        mainApp().close();
+//
+//        //Initiate an endorsement
+//        mainApp().open();
+//        SearchPage.openPolicy(policyNumber);
+//        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+//        tableDriverList.selectRow(1);
+//        //asserting the Company/Customer inputs and MVR claims for check the PU indicator
+//        activityAssertions(2,1,5, 1, "Company Input", "", false);
+//        activityAssertions(2,1,5, 2, "Company Input", "", true);
+//        activityAssertions(2,1,5, 3, "Customer Input", "", true);
+//        activityAssertions(2,1,5, 4, "Customer Input", "", false);
+//        activityAssertions(2,1,5, 5, "MVR", "", false);
+//        driverTab.submitTab();
+//
+//        bindEndorsement();
     }
 
 }
