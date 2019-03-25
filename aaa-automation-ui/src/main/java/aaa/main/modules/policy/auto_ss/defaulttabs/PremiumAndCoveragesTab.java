@@ -56,6 +56,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table tableeMemberMessageGrid = new Table(By.id("policyDataGatherForm:eMemberMessageGrid"));
 	public static Table tablePolicyLevelLiabilityCoverages = new Table(By.id("policyDataGatherForm:policy_vehicle_detail_coverage"));
 	public static Table tablePolicyLevelPersonalInjuryProtectionCoverage = new Table(By.id("policyDataGatherForm:policy_level_pip_coverage"));
+	public static Table tableRejectionOfWorkLossBenefits = new Table(By.id("policyDataGatherForm:rejectionOfWorkLossBenefit"));
 
 	public static Button buttonViewCappingDetails = new Button(By.id("policyDataGatherForm:viewCappingDetails_Link_1"), Waiters.AJAX);
 	public static Button buttonReturnToPremiumAndCoverages = new Button(By.id("cappingDetailsPopupPanel:cappingReturnTo"), Waiters.AJAX);
@@ -322,6 +323,10 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	public String getPolicyPersonalInjuryProtectionCoverageDetailsValue(String coverageName) {
 		return getCoverageValueFromTable(coverageName, tablePolicyLevelPersonalInjuryProtectionCoverage);
+	}
+
+	public String getRejectionOfWorkLossBenefitsValue(String coverageName) {
+		return getCoverageValueFromTable(coverageName, tableRejectionOfWorkLossBenefits);
 	}
 
 	private String getCoverageValueFromTable(String coverageName, Table coverageTable) {

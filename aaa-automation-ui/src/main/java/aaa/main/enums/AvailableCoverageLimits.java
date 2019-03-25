@@ -213,7 +213,7 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_5000,
 			CoverageLimits.COV_10000
 	)),
-	WLB_UT(ImmutableList.of(
+	WLB(ImmutableList.of(
 			CoverageLimits.COV_FALSE,
 			CoverageLimits.COV_TRUE
 	)),
@@ -560,7 +560,11 @@ public enum AvailableCoverageLimits {
     COV_PIPCOVINCLUDES_NJ(ImmutableList.of(
             CoverageLimits.COV_PIPCOVINCLUDES_NI,
             CoverageLimits.COV_PIPCOVINCLUDES_NIFM
-    ));
+    )),
+	SSL(ImmutableList.of(
+			CoverageLimits.COV_FALSE,
+			CoverageLimits.COV_TRUE
+	));
 
 	private final List<CoverageLimits> availableLimits;
 
