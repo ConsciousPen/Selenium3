@@ -7,6 +7,7 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -463,8 +464,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                 BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION), policyNumber, totalTaxesNB.subtract(totalTaxesEnd));
 
         //Advance time and reinstate policy with lapse
-        mainApp().close();
-        TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
+        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getEffectiveDate().plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
         JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
         TimeSetterUtil.getInstance().nextPhase(effDate.plusDays(20));
         mainApp().open();
