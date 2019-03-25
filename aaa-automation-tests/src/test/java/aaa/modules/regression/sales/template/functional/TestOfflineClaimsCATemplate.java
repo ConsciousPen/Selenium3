@@ -49,7 +49,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
-import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import toolkit.config.PropertyProvider;
@@ -91,6 +91,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     protected String policyNumber;
 
     protected static DriverTab driverTab = new DriverTab();
+    protected static GeneralTab generalTab = new GeneralTab();
     protected static PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
     protected static DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
     protected static PurchaseTab purchaseTab = new PurchaseTab();
@@ -167,16 +168,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         GeneralTab.buttonSaveAndExit.click();
         mainApp().close();
     }
-
-    //Change FNI Do desired Insured. 'First Named Insured' Index starts at zero
-    public void changeFNI(int namedInsuredNumber) {
-//        final GeneralTab generalTab = new GeneralTab();
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
-        Tab generalTab = null;
-        generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(namedInsuredNumber);
-        Page.dialogConfirmation.confirm();
-    }
-
 
     protected void pas14679_CompDLPUMatchMore() {
         createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
@@ -1178,10 +1169,10 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 //        activityAssertions(2,1,4, 4, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
 //        driverTab.submitTab();
 
-        //Navigate to the General Tab and change the FNI to the other insured. 'First Named Insured' Index starts at zero
-        changeFNI(1);
+        //Navigate to the General Tab and change the FNI to the second insured
+        changeFNI(1);  //Index starts at 0
         generalTab.submitTab();
-//
+
 //        //Assert that the PU claims have moved to the new FNI (Steve) and has a total of 3 claims now (one existing)
 //        tableDriverList.selectRow(2);
 //        activityAssertions(2,2,3, 2, "Company Input", "", true); //assert the company input with Type Accident show up PU indicator
@@ -1192,54 +1183,61 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 //        activityAssertions(2,1,2, 1, "Company Input", "", false); //assert the company input with Type Violations do not show up PU indicator
 //        activityAssertions(2,1,2, 4, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
 
-        //Assert that the "Relationship to named insured"
+        //Set 'Named Insured': Second Insured, Steve Rogers
+        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(0);
 
+        //Reset 'Rel. to First Named Insured': Other
+        tableDriverList.selectRow(1);
+        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
         driverTab.submitTab();
 
-
-        //
-        //END OF CONSTRUCTION//
-        //
+        //Continue policy until Driver Activity Reports tab
         policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, PremiumAndCoveragesTab.class,true);
         premiumAndCoveragesTab.submitTab();
         overrideErrorTab();
-//        new DriverActivityReportsTab().fillTab(adjusted);
-//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-//        tableDriverList.selectRow(1);
-//        tableActivityInformationList.selectRow(5);
-        //assert that the PU indicator do not show up for MVR claims
-//        assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).getValue().equals("MVR"));
-//        assertThat(!activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent());
-//
-//        driverTab.submitTab();
-//        adjusted = getPolicyTD()
-//                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
-//                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT.getLabel()))
-//                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
-//
-//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-//        policy.getDefaultView().fillFromTo(adjusted, PremiumAndCoveragesTab.class, PurchaseTab.class, true);
+
+        //Continue to bind the policy and save the policy number
         policy.getDefaultView().fillFromTo(adjusted, DriverActivityReportsTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         policyNumber = labelPolicyNumber.getValue();
         log.info("Policy created successfully. Policy number is " + policyNumber);
-//        mainApp().close();
-//
-//        //Initiate an endorsement
-//        mainApp().open();
-//        SearchPage.openPolicy(policyNumber);
-//        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-//        tableDriverList.selectRow(1);
-//        //asserting the Company/Customer inputs and MVR claims for check the PU indicator
-//        activityAssertions(2,1,5, 1, "Company Input", "", false);
-//        activityAssertions(2,1,5, 2, "Company Input", "", true);
-//        activityAssertions(2,1,5, 3, "Customer Input", "", true);
-//        activityAssertions(2,1,5, 4, "Customer Input", "", false);
-//        activityAssertions(2,1,5, 5, "MVR", "", false);
-//        driverTab.submitTab();
-//
-//        bindEndorsement();
+
+        //Initiate an endorsement
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+
+        //Change FNI back to Nicolas
+        changeFNI(1);
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        tableDriverList.selectRow(1);
+        //asserting the PU claims all move back to original FNI, Nicolas: 3 Violations, 2 PU claims
+        activityAssertions(2,1,5, 1, "Company Input", "", false);
+        activityAssertions(2,1,5, 2, "Customer Input", "", false);
+        activityAssertions(2,1,5, 3, "MVR", "", false);
+        activityAssertions(2,1,5, 4, "Company Input", "", true);
+        activityAssertions(2,1,5, 5, "Customer Input", "", true);
+
+        bindEndorsement();
     }
+
+
+    public void pas24652_ChangeFNIGeneralTabRenewal(){
+        policyNumber = openAppAndCreatePolicy(td);
+        log.info("Policy created successfully. Policy number is " + policyNumber);
+
+    }
+
+
+
+    //Change FNI Do desired Insured. 'First Named Insured' Index starts at zero
+    public void changeFNI(int namedInsuredNumber) {
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
+        generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(namedInsuredNumber);
+        Page.dialogConfirmation.confirm();
+        //Reset Contact Info - blanks out after FNI change
+        generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue("6025557777");
+        generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
+    }
+
 
 }

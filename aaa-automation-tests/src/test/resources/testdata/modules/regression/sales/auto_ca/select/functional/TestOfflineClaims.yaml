@@ -295,7 +295,7 @@ Driver8: {
     ]
 }
 
-  Driver9: {
+Driver9: {
   Add Driver: Click,
   DriverSearchDialog:{},
   Driver Type: Available for Rating,
