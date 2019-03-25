@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.ho3.functional;
+package aaa.modules.regression.sales.home_ss.ho6.functional;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -13,7 +13,7 @@ public class TestSameDayLossWaiverOK extends TestSameDayLossWaiverOKTemplate {
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.HOME_SS_HO3;
+        return PolicyType.HOME_SS_HO6;
     }
 
     /**
@@ -29,7 +29,7 @@ public class TestSameDayLossWaiverOK extends TestSameDayLossWaiverOKTemplate {
      **/
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-25467")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-25467")
     public void pas25467_testFirstLossWaivedClueNB(@Optional("OK") String state) {
         testFirstLossWaivedClueNB();
     }
@@ -47,7 +47,7 @@ public class TestSameDayLossWaiverOK extends TestSameDayLossWaiverOKTemplate {
      **/
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-25467")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-25467")
     public void pas25467_testSameDayWaiverClueNB(@Optional("OK") String state) {
         testSameDayWaiverClueNB();
     }
