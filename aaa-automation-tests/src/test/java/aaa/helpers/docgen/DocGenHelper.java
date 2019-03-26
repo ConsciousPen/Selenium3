@@ -37,7 +37,7 @@ public class DocGenHelper {
 			+ "from PROPERTYCONFIGURERENTITY\n"
 			+ "where propertyname ='aaaDocGenSerializer.exportDocumentLocation'";
 	private static String DOCGEN_ROOT_FOLDER = DBService.get().getValue(SQL_GET_DOC_GEN_FOLDER).orElse("null");
-	private static final String DOCGEN_JOB_FOLDER = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER, "/home/mp2/pas/sit");
+	private static final String DOCGEN_JOB_FOLDER = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");
 	public static final String DOCGEN_BATCH_SOURCE_FOLDER = DOCGEN_ROOT_FOLDER + "Batch/";
 	public static final String JOBS_DOCGEN_SOURCE_FOLDER = DOCGEN_JOB_FOLDER + "PAS_B_EXGPAS_DCMGMT_6500_D/outbound/";
 	public static final DateTimeFormatter DATE_TIME_FIELD_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T00:00:00.000'XXX");
