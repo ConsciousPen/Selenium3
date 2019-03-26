@@ -6,6 +6,7 @@ package aaa.main.modules.policy.auto_ss.defaulttabs;
 
 import aaa.common.components.OtherAAAProductsSearchTableElement;
 import aaa.common.components.OtherAAAProductsTableElement;
+import aaa.toolkit.webdriver.customcontrols.NoSectionsMultiAssetList;
 import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
@@ -15,6 +16,7 @@ import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.SelectSearchDialog;
+import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -38,10 +40,6 @@ public class GeneralTab extends Tab {
 
 	public static Table tblInsuredList = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_Insured_body']//table"));
 
-	public static List<String> _listOfMPDTableColumnNames = Arrays.asList("Policy Number / Address", "Policy Type", "Customer Name/DOB", "Expiration Date", "Status", "MPD");
-
-	public static List<String> _listOfMPDSearchResultsTableColumnNames = Arrays.asList("Customer Name/Address", "Date of Birth", "Policy Type", "Other AAA Products/Policy Address", "Status", "Select");
-
 	public GeneralTab() {
 		super(AutoSSMetaData.GeneralTab.class);
 	}
@@ -59,7 +57,7 @@ public class GeneralTab extends Tab {
 	}
 
 	public AssetList getOtherAAAProductOwnedAssetList() {
-		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED.getLabel(), AssetList.class);
+		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED_ASSET_LIST.getLabel(), AssetList.class);
 	}
 
 	public Table getOtherAAAProductTable() {
@@ -115,253 +113,5 @@ public class GeneralTab extends Tab {
 		if (tblInsuredList.isPresent() && tblInsuredList.getRow(index).isPresent()) {
 			tblInsuredList.getRow(index).getCell(4).controls.links.get("View/Edit").click(Waiters.AJAX);
 		}
-	}
-
-
-
-
-
-
-
-	/**
-	 * Simply conducts a basic search using the input String as a policy number.
-	 * @param inputPolicyNumber
-	 */
-	public void otherAAAProducts_SearchByPolicyNumber(String policyType, String inputPolicyNumber){
-		getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getControlClass()).click();
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BY.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BY.getControlClass()).setValue("Policy Number");
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.POLICY_TYPE.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.POLICY_TYPE.getControlClass()).setValue(policyType);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getControlClass()).setValue(inputPolicyNumber);
-
-		if (!policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
-			getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
-		}
-
-	}
-
-	/**
-	 * This method is used when viewing the Search Other AAA Products popup after searching via Policy Number. <br>
-	 * Will simply click 'Add' button, unless provided instruction to change data.
-	 */
-	public void otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(String policyType){
-	    if(policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME.getLabel()) || policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS.getLabel()) ||
-                policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO.getLabel())){
-
-			getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_HOME_RENTERS_CONDO_BTN.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_HOME_RENTERS_CONDO_BTN.getControlClass()).click();
-
-        }else{
-			getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_MOTOR_OR_LIFE_BTN.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_MOTOR_OR_LIFE_BTN.getControlClass()).click();
-        }
-	}
-
-	/**
-	 * This method is used when viewing the Search Other AAA Products popup after searching via Policy Number. <br>
-	 * Will simply click 'Add' button after changing policy data. <br>
-	 * @param policyType The type of policy being entered.
-	 * @param inputPolicyNumber The policy number to search for. This field also manipulates mockwire response results, if given a mapped string.
-	 */
-	public void otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(String policyType, String inputPolicyNumber){
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.POLICY_TYPE.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.POLICY_TYPE.getControlClass()).setValue(policyType);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getControlClass()).setValue(inputPolicyNumber);
-
-        otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(policyType);
-	}
-
-	/**
-	 * Used to search an MPD policy, via Customer Details. Applies provided string over 'First Name' <br>
-	 * All of the other fields are populated using 'Junk' data, allowing a tester to call the method using only the parameter that controls the wire-mock response.
-	 * @param searchFieldValue This variable is applied to the First Name field of the Customer Details Search and can manipulate response results. <br>
-	 */
-	public void otherAAAProducts_SearchCustomerDetails_UsePrefilledData(String searchFieldValue){
-		otherAAAProducts_SearchCustomerDetails(searchFieldValue, "JunkLastName", "01/01/1980", "JunkAddress", "JunkCity", "AZ", "JunkZip");
-	}
-
-	/**
-	 * Used to search an MPD policy, via Customer Details. <br>
-	 * @param firstName This parameter has been chosen to drive the search results/response. Edit this field with mapped MPD search string to manipulate which response comes back. <br>
-	 * @param lastName Customer Last Name. <br>
-	 * @param dateOfBirth Customer Date of Birth in 'mm/dd/yyyy' format. <br>
-	 * @param address Customer Street Address. <br>
-	 * @param city Customer City. <br>
-	 * @param zipCode Customer Zip Code. <br>
-	 */
-	public void otherAAAProducts_SearchCustomerDetails(String firstName, String lastName, String dateOfBirth, String address, String city, String state, String zipCode){
-		getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getControlClass()).click();
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BY.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BY.getControlClass()).setValue("Customer Details");
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ZIP_CODE.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ZIP_CODE.getControlClass()).setValue(zipCode);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.FIRST_NAME.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.FIRST_NAME.getControlClass()).setValue(firstName);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.LAST_NAME.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.LAST_NAME.getControlClass()).setValue(lastName);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.DATE_OF_BIRTH.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.DATE_OF_BIRTH.getControlClass()).setValue(dateOfBirth);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADDRESS_LINE_1.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADDRESS_LINE_1.getControlClass()).setValue(address);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.CITY.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.CITY.getControlClass()).setValue(city);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.STATE.getLabel(), (AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.STATE.getControlClass())).setValue(state);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
-	}
-
-	public void otherAAAProducts_EditPolicyInMPDTable(int index, String newPolicyType, String newPolicyNumber){
-		otherAAAProductsTable_getEditLinkByIndex(index).click();
-		getListOfProductsRowsAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE_EDIT.getLabel(),
-				AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE_EDIT.getControlClass()).setValue(newPolicyType);
-		getListOfProductsRowsAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.QUOTE_POLICY_NUMBER_EDIT.getLabel(),
-				AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.QUOTE_POLICY_NUMBER_EDIT.getControlClass()).setValue(newPolicyNumber);
-		getListOfProductsRowsAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.SAVE_BTN.getLabel(),
-				AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.SAVE_BTN.getControlClass()).click();
-	}
-
-	public void otherAAAProducts_ClickRefresh() {
-		getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getControlClass()).click();
-	}
-
-	/**
-	 * Returns the 'Remove' link object, given an index. <br>
-	 * @param index Index represents desired Row, where the edit link is contained.
-	 * @return
-	 */
-	public Link otherAAAProductsTable_getRemoveLinkByIndex(int index) {
-		return new Link(By.id("policyDataGatherForm:otherAAAProductsTable:" + String.valueOf(index) + ":removeMPDPolicyLink"));
-	}
-
-	/**
-	 * Returns the 'Edit' link object, given an index. <br>
-	 * @param index Index represents desired Row, where the edit link is contained.
-	 * @return
-	 */
-	public Link otherAAAProductsTable_getEditLinkByIndex(int index){
-		return new Link(By.id("policyDataGatherForm:otherAAAProductsTable:" + String.valueOf(index) + ":editMPDPolicyLink"));
-	}
-
-	/**
-	 * Used to access the selectable checkbox directly.
-	 * @param index
-	 * @return
-	 */
-	public CheckBox otherAAAProductsSearchTable_getSelectBoxByIndex(int index){
-		index = otherAAAProductsTableIndexWatchDog(index);
-		return new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + String.valueOf(index) + ":customerSelected"));
-	}
-
-	/**
-	 * Given an index beginning from 0, this will select and add the chosen system returned policy.
-	 * @param index
-	 */
-	public void otherAAAProductsSearchTable_addSelected(int index){
-		new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + String.valueOf(index) + ":customerSelected")).setValue(true);
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_SELECTED_BTN.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_SELECTED_BTN.getControlClass()).click();
-	}
-
-	/**
-	 * Given a list of indexes, this will iterate through the list, select each index as true, then click the add selected button.
-	 * @param indexList
-	 */
-	public void otherAAAProductsSearchTable_addSelected(int[] indexList){
-		for(int index : indexList)
-		{
-			new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + String.valueOf(index) + ":customerSelected")).setValue(true);
-		}
-		getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_SELECTED_BTN.getLabel(), AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.ADD_SELECTED_BTN.getControlClass()).click();
-	}
-
-	/**
-	 * Returns 'Policy Number / Address', 'Date of Birth', etc. data via the given row index.
-	 * @param index First row of data begins at index 1, not index 0.
-	 * @return
-	 */
-	public String otherAAAProductsTable_viewData(String columnName, int index) {
-		index = otherAAAProductsTableIndexWatchDog(index);
-		return getOtherAAAProductTable().getColumn(columnName).getCell(index).getValue();
-	}
-
-	/**
-	 * Returns 'Policy Number / Address', 'Date of Birth', etc. data via the given row index.
-	 * @param index First row of data begins at index 1, not index 0.
-	 * @return
-	 */
-	public String otherAAAProductsSearchTable_viewData(String columnName, int index) {
-		index = otherAAAProductsTableIndexWatchDog(index);
-		return getManualSearchResultTable().getColumn(columnName).getCell(index).getValue();
-	}
-
-	public ArrayList<String> otherAAAProductsTable_viewAllRowDataByColumn(String columnName) {
-		ArrayList<String> myStringArray = new ArrayList<>();
-		for(int i = 1; i <= getOtherAAAProductTable().getRowsCount(); i++) {
-			myStringArray.add(otherAAAProductsTable_viewData(columnName, i));
-		}
-		return myStringArray;
-	}
-
-	/**
-	 *
-	 * @param index_RowToGet Index begins at 1.
-	 * @return
-	 */
-	public ArrayList<String> otherAAAProductsTable_viewAllColumnDataByRow(int index_RowToGet) {
-		index_RowToGet = otherAAAProductsTableIndexWatchDog(index_RowToGet);
-		ArrayList<String> myStringArray = new ArrayList<>();
-
-		for(String columnName: _listOfMPDTableColumnNames){
-			myStringArray.add(otherAAAProductsTable_viewData(columnName, index_RowToGet));
-		}
-		return myStringArray;
-	}
-
-	/**
-	 *
-	 * @param index_RowToGet Index begins at 1.
-	 * @return
-	 */
-	public ArrayList<String> otherAAAProductsSearchTable_viewAllColumnDataByRow(int index_RowToGet) {
-		index_RowToGet = otherAAAProductsTableIndexWatchDog(index_RowToGet);
-		ArrayList<String> myStringArray = new ArrayList<>();
-
-		for(String columnName: _listOfMPDSearchResultsTableColumnNames){
-			myStringArray.add(otherAAAProductsSearchTable_viewData(columnName, index_RowToGet));
-		}
-		return myStringArray;
-	}
-
-	/**
-	 * Used to create a java object to represent a chosen companion policy, via index. <br>
-	 * This method is used to capture an element on the OtherAAAProducts table on the General Tab.
-	 * @param index_RowToGet Index begins at 1.
-	 * @return
-	 */
-	public OtherAAAProductsTableElement otherAAAProductsTable_getTableRowAsObject(int index_RowToGet) {
-		index_RowToGet = otherAAAProductsTableIndexWatchDog(index_RowToGet);
-		ArrayList<String> dataAsArray = otherAAAProductsTable_viewAllColumnDataByRow(index_RowToGet);
-
-		OtherAAAProductsTableElement _rowAsObject = new OtherAAAProductsTableElement(
-				dataAsArray.get(0), dataAsArray.get(1), dataAsArray.get(2), dataAsArray.get(3), dataAsArray.get(4), dataAsArray.get(5)
-		);
-		return _rowAsObject;
-	}
-
-	/**
-	 * Used to create a java object to represent a chosen companion policy, via index. <br>
-	 * This method is used to capture an element when viewing search results in the OtherAAAProducts search table.
-	 * @param index_RowToGet Index begins at 1.
-	 * @return
-	 */
-	public OtherAAAProductsSearchTableElement otherAAAProductsSearchResultsTable_getTableRowAsObject(int index_RowToGet){
-		index_RowToGet = otherAAAProductsTableIndexWatchDog(index_RowToGet);
-		ArrayList<String> dataAsArray = otherAAAProductsSearchTable_viewAllColumnDataByRow(index_RowToGet);
-
-		OtherAAAProductsSearchTableElement _rowAsObject = new OtherAAAProductsSearchTableElement(
-				dataAsArray.get(0), dataAsArray.get(1), dataAsArray.get(2), dataAsArray.get(3), dataAsArray.get(4)
-		);
-
-		return _rowAsObject;
-	}
-
-	/**
-	 * Used to silently correct improper index input to mpd methods. Some methods that involve MPD tables do not begin with index 0. <br>
-	 *     This method will catch an input of 0 and silently convert it to 1, which should be the row the user intended to access.
-	 * @param i The input integer.
-	 * @return If i = 0, returns 1.
-	 */
-	protected int otherAAAProductsTableIndexWatchDog(int i){
-		if(i==0){
-			i = 1;
-		}
-		return i;
 	}
 }

@@ -57,7 +57,8 @@ public final class AutoSSMetaData {
 				declare("CurrentCarrierInformation", AssetList.class, CurrentCarrierInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_OtherOrPriorPolicy']"));
 
 		public static final AssetDescriptor<AssetList> AAA_MEMBERSHIP = declare("AAAMembership", AssetList.class, AAAMembership.class, By.xpath(".//table[@id='policyDataGatherForm:formGrid_ExistingPolicies']"));
-		public static final AssetDescriptor<AssetList> OTHER_AAA_PRODUCTS_OWNED = declare("OtherAAAProductsOwned", AssetList.class, OtherAAAProductsOwned.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAutoOtherPoliciesMPD']"));
+		public static final AssetDescriptor<NoSectionsMultiAssetList> OTHER_AAA_PRODUCTS_OWNED = declare("OtherAAAProductsOwned", NoSectionsMultiAssetList.class, OtherAAAProductsOwned.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAutoOtherPoliciesMPD']"));
+		public static final AssetDescriptor<AssetList> OTHER_AAA_PRODUCTS_OWNED_ASSET_LIST = declare("OtherAAAProductsOwned", AssetList.class, OtherAAAProductsOwned.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAutoOtherPoliciesMPD']"));
 		public static final AssetDescriptor<AssetList> SEARCH_OTHER_AAA_PRODUCTS = declare("SearchOtherAAAProducts", AssetList.class, SearchOtherAAAProducts.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAutoOtherPoliciesMPD']"));
 		public static final AssetDescriptor<AssetList> LIST_OF_PRODUCT_ROWS = declare("ListOfProductsRows", AssetList.class, OtherAAAProductsOwned.ListOfProductsRows.class);
 
