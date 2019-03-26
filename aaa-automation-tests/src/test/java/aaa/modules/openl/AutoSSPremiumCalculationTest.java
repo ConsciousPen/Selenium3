@@ -45,7 +45,7 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 
 		if (openLPolicy.isCappedPolicy()) {
 			if (!openLPolicy.isLegacyConvPolicy()) {
-				policyPurchaseAndRenew(tdGenerator.getPolicyPurchaseData(), tdGenerator.getPolicyRenewData(), openLPolicy);
+				policyPurchaseAndRenew(tdGenerator.getPolicyPurchaseData(), tdGenerator.getPolicyRenewData(), openLPolicy, quoteRatingData);
 			}
 			pacTab.calculatePremium();
 			assertThat(PremiumAndCoveragesTab.buttonViewCappingDetails).as("View Capping Details button did not appear after premium calculation").isPresent();
@@ -75,9 +75,18 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 	}
 
 	/** This method issues quote and creates renewal for tests which have capping but are not LegacyConv. **/
-	private void policyPurchaseAndRenew(TestData tdPurchase, TestData tdRenew, AutoSSOpenLPolicy openLPolicy) {
+	private void policyPurchaseAndRenew(TestData tdPurchase, TestData tdRenew, AutoSSOpenLPolicy openLPolicy, TestData quoteRatingData) {
 		VehicleTab vehicleTab = new VehicleTab();
-		new PremiumAndCoveragesTab().calculatePremium();
+		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+
+		//set BI coverage = priorBILimit to get correct priorBILimit during renewal
+		String priorBILimit = quoteRatingData.getValue(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(),
+				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS.getLabel());
+		if (!priorBILimit.equals("None")) {
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY).setValue("starts=" + priorBILimit);
+		}
+
+		premiumAndCoveragesTab.calculatePremium();
 		PremiumAndCoveragesTab.buttonContinue.click();
 		ErrorTab errorTab = new ErrorTab();
 		if (errorTab.isVisible()) {
@@ -107,5 +116,11 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 		}
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+		//return original coverage limit from openL during Renewal
+		new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY).
+				setValue(quoteRatingData.getValue(PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel()));
+
 	}
+
 }
