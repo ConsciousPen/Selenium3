@@ -19,6 +19,7 @@ import aaa.modules.regression.document_fulfillment.template.functional.TestCinAb
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
@@ -435,11 +436,14 @@ public class TestCinNewBusinessAutoSS extends TestCinAbstractAutoSS {
 
         String policyNumber = createPolicy(policyTD);
 
-        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
+        //Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE, true);
+        //SoftAssertions.assertSoftly(softly -> {
+        //   softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNotNull();
+        //});
+        
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		DocGenHelper.verifyDocumentsGenerated(softly, true, false, policyNumber, DocGenEnum.Documents.AHAUXX);
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE)).isNotNull();
-        });
     }
 
     /**
