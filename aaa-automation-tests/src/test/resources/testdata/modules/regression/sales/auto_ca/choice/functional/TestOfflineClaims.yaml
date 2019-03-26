@@ -33,7 +33,7 @@ TestData_Change_FNI_NB_Endorsement_PU_CA: {
 
 TestData_Change_FNI_Renewal_PU_CA: {
   GeneralTab: '@TwoNamedInsuredGeneralTab',
-  DriverTab:  ['@Driver1','@Driver9'],
+  DriverTab:  ['@Driver1','@Driver9']
 }
 
 PrefillTab: {

@@ -103,9 +103,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     private static final String CLAIM_NUMBER_1 = "1002-10-8702";
     private static final String CLAIM_NUMBER_2 = "1002-10-8703";
     private static final String CLAIM_NUMBER_3 = "1002.10>8704";
-
     private static final String CLAIM_NUMBER_1_GDD = "Claim-GDD-111";
     private static final String CLAIM_NUMBER_2_GDD = "Claim-GDD-222";
+
     // Claim Dates: For CAS Response: GDD
     private static String claim1_dates_gdd = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
     private static String claim2_dates_gdd = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(80).toLocalDate().toString();
@@ -1307,8 +1307,14 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Set correct 'Age First Licensed' to drivers age - ensures product is CA Choice (driving experience is less than 3)
         if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
             String age = String.valueOf(ChronoUnit.YEARS.between(LocalDate.of(1997, Month.OCTOBER, 16), TimeSetterUtil.getInstance().getCurrentTime()));
-            testDataForFNI = getTestSpecificTD("TestData_Change_FNI_Renewal_PU_CA")
-                    .adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel()), age).resolveLinks();
+            testDataForFNI = getTestSpecificTD("TestData_Change_FNI_Renewal_PU_CA");
+            TestData driver1Td = testDataForFNI.getTestDataList("DriverTab").get(0);
+            driver1Td.adjust(AutoCaMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), age); //set Age First Licensed to the current age always
+            TestData driver2Td = testDataForFNI.getTestDataList("DriverTab").get(1); //add adjustments needed for driver2 here in future
+            List<TestData> adjustedDrivers = new ArrayList<>();
+            adjustedDrivers.add(driver1Td);
+            adjustedDrivers.add(driver2Td);
+            testDataForFNI = testDataForFNI.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName()), adjustedDrivers).resolveLinks();
         } else {
             testDataForFNI = getTestSpecificTD("TestData_Change_FNI_Renewal_PU_CA").resolveLinks();
         }

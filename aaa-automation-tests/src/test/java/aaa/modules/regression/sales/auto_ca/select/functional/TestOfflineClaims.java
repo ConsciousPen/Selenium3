@@ -273,7 +273,7 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-25463")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24652")
 	public void pas24652_ChangeFNIGeneralTabNBEndorsement(@Optional("CA") @SuppressWarnings("unused") String state) {
 		pas24652_ChangeFNIGeneralTabNBEndorsement();
 	}
@@ -288,7 +288,7 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-25463")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24652")
 	public void pas24652_ChangeFNIGeneralTabRenewal(@Optional("CA") @SuppressWarnings("unused") String state) {
 		pas24652_ChangeFNIGeneralTabRenewal();
 	}
