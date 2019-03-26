@@ -1301,17 +1301,17 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      * 7. Navigate to the Driver Tab and verify the new FNI has acquired the PU claims from the previous FNI
      */
     public void pas24652_ChangeFNIGeneralTabRenewal(){
-	    //Set correct 'Age First Licensed' to drivers age - ensures product is CA Choice (driving experience is less than 3)
 	    // Create Customer and Policy with two named insured' and drivers
+        TestData testDataForFNI;
 
-	    TestData testDataForFNI = getTestSpecificTD("TestData_Change_FNI_Renewal_PU_CA").resolveLinks();
-	    if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
-		    String age = String.valueOf(ChronoUnit.YEARS.between(LocalDate.of(1997, Month.OCTOBER, 16), TimeSetterUtil.getInstance().getCurrentTime()));
-		    testDataForFNI = getTestSpecificTD("TestData_Change_FNI_Renewal_PU_CA")
-				    .adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel()), age).resolveLinks();
-	    } else {
-		    testDataForFNI = getTestSpecificTD("TestData_Change_FNI_Renewal_PU_CA").resolveLinks();
-	    }
+        //Set correct 'Age First Licensed' to drivers age - ensures product is CA Choice (driving experience is less than 3)
+        if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+            String age = String.valueOf(ChronoUnit.YEARS.between(LocalDate.of(1997, Month.OCTOBER, 16), TimeSetterUtil.getInstance().getCurrentTime()));
+            testDataForFNI = getTestSpecificTD("TestData_Change_FNI_Renewal_PU_CA")
+                    .adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel()), age).resolveLinks();
+        } else {
+            testDataForFNI = getTestSpecificTD("TestData_Change_FNI_Renewal_PU_CA").resolveLinks();
+        }
 	    adjusted = getPolicyTD().adjust(testDataForFNI);
 	    policyNumber = openAppAndCreatePolicy(adjusted);
 	    log.info("Policy created successfully. Policy number is " + policyNumber);
@@ -1319,13 +1319,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 	    runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
 	    generateClaimRequest();        // Download claim request and assert it
 
-	    // Create the claim response
-	    if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
-		    createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL_SELECT, CLAIM_TO_DRIVER_LICENSE_SELECT);
+	    // Create the claim response - product doesn't matter here, we only need comp and pu claims match
+        createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL_SELECT, CLAIM_TO_DRIVER_LICENSE_SELECT);
 
-	    } else if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
-		    createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL_CHOICE, CLAIM_TO_DRIVER_LICENSE_CHOICE);
-	    }
 	    runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
 
 	    // Retrieve policy
@@ -1344,7 +1340,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Navigate to the General Tab and change the FNI to the second insured (Steve)
         changeFNIGeneralTab(1);  //Index starts at 0
 
-        //TODO: UNCOMMENT OUT IN FEATURE BRANCH
+                    //TODO: Uncomment out in feature branch
 //                Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
 //                tableDriverList.selectRow(2);
 //                activityAssertions(2,2,3, 1, "Customer Input", "", true);
@@ -1356,6 +1352,10 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Save and exit the Renewal
         DriverTab.buttonSaveAndExit.click();
 
+        //TODO: Uncomment if needed
+//        //On Driver Tab, Set 'Named Insured': Second Insured, Steve Rogers
+//        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(0);
+//
 //        //Reset 'Rel. to First Named Insured': Other
 //        tableDriverList.selectRow(1);
 //        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");

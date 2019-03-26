@@ -29,18 +29,29 @@ TestData_Change_FNI_NB_Endorsement_PU_CA: {
   PrefillTab:  '@PrefillTab',
   GeneralTab: '@TwoNamedInsuredGeneralTab',
   DriverTab:  ['@Driver8','@Driver9'],
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
 }
 
 TestData_Change_FNI_Renewal_PU_CA: {
   GeneralTab: '@TwoNamedInsuredGeneralTab',
   DriverTab:  ['@Driver1','@Driver9'],
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
 }
 
 PrefillTab: {
   First Name: Nicolas,
   Last Name: Smith,
+  Zip Code: 90255,
+  Address Line 1: 6586 PORCUPINE WAY,
+  City: HUNTINGTON PARK,
+  State: CA,
+  Date of Birth: '10/16/1997',
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+PrefillTabFNIRenewal: {
+  First Name: Nicol,
+  Last Name: Bolas,
   Zip Code: 90255,
   Address Line 1: 6586 PORCUPINE WAY,
   City: HUNTINGTON PARK,
