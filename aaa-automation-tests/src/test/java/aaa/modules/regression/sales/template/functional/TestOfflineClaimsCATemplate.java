@@ -106,7 +106,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     private static final String CLAIM_NUMBER_1_GDD = "Claim-GDD-111";
     private static final String CLAIM_NUMBER_2_GDD = "Claim-GDD-222";
-    // Claim Dates: For CAS Response: GDD
+    // Claim Dates: For CAS Response
     private static String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
     private static String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(80).toLocalDate().toString();
 
@@ -873,7 +873,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     protected void validateOverridableCLUEPPURule(ErrorEnum.Duration duration) {
         documentsAndBindTab.submitTab();
 
-        // Overriding Errors caused by created ActivityInformation entries (Auto Select specific Rules)
+        // Overriding 1st Error screen caused by created ActivityInformation entries (Auto Select specific Rules)
         if (errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_10015021_CA_SELECT.getCode())) {
             errorTab.overrideErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER, ErrorEnum.Errors.ERROR_AAA_10015021_CA_SELECT);
             errorTab.override();
