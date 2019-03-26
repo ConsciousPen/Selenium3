@@ -613,7 +613,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     public void pas25463_ViolationsMVRPUIndicatorCheck(){
        TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_ViolationsMVRFNIclaims_PU").resolveLinks();
         adjusted = getPolicyTD().adjust(testDataForFNI);
-        createQuoteAndFillUpTo(adjusted, DriverTab.class);
+//        createQuoteAndFillUpTo(adjusted, DriverTab.class);
       //  tableDriverList.selectRow(1);
 //        createQuoteAndFillUpTo(adjusted,DriverTab.class);
 //        aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.tableDriverList.selectRow(1);
@@ -621,20 +621,27 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 //        activityAssertions(2,1,4, 2, "Company Input", "", true); //assert the company input with Type Accident show up PU indicator
 //        activityAssertions(2,1,4, 3, "Customer Input", "", true); //assert the company input with Type  Accident show up PU indicator
 //        activityAssertions(2,1,4, 4, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
+
+        mainApp().open();
+        createCustomerIndividual();
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(adjusted,DriverTab.class, true);
         driverTab.submitTab();
-        adjusted = getPolicyTD()
-              .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()));
-        policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class, PremiumAndCoveragesTab.class,true);
-        premiumAndCoveragesTab.submitTab();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
-        DriverActivityReportsTab driverActivityReportTab = new DriverActivityReportsTab();
-        driverActivityReportTab.fillTab(adjusted);
-        new DriverActivityReportsTab().submitTab();
+       // driverTab.submitTab();
+        policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class,DocumentsAndBindTab.class,true);
+//        adjusted = getPolicyTD()
+//              .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()));
+//        policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class, PremiumAndCoveragesTab.class,true);
+//        premiumAndCoveragesTab.submitTab();
+//        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
+//        DriverActivityReportsTab driverActivityReportTab = new DriverActivityReportsTab();
+//        driverActivityReportTab.fillTab(adjusted);
+        //new DriverActivityReportsTab().submitTab();
         //new DriverActivityReportsTab().fillTab(adjusted);
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        driverTab.submitTab();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().fillTab(adjusted);
+       // NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+       // driverTab.submitTab();
+       // NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        //new DocumentsAndBindTab().fillTab(adjusted);
         documentsAndBindTab.submitTab();
         new PurchaseTab().fillTab(adjusted).submitTab();
         policyNumber = PolicySummaryPage.getPolicyNumber();

@@ -3,16 +3,15 @@ TestData_DriverTab_OfflineClaim_AZ: {
   DriverTab: ['@Driver2','@Driver3','@Driver4']
 }
 TestData_DriverTab_ViolationsMVRFNIclaims_PU: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
-  DriverTab:  ['@Driver6','@Driver3'],
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+ PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab:  ['@Driver6','@Driver3']
 }
 
 
 PrefillTab: {
-  First Name: Nicolas,
-  Last Name: Smith,
+  First Name: Harry,
+  Last Name: Potter,
   Zip Code: 85118,
   Address Line 1: 4101 S LAST CHANCE TRL,
   City: GOLD CANYON,
@@ -130,28 +129,13 @@ Driver6: {
   License Type: "Licensed (US)",
   License State: AZ,
   Permit Before License: 'Yes',
-    License Number: A12345111,
-#  Add Driver: Click,
-#  DriverSearchDialog:{},
-#  Driver Type: Available for Rating,
-#  'Rel. to First Named Insured': First Named Insured,
-#  Date of Birth: 12/05/1960,
-#  Gender: Male,
-#  Marital Status: Married,
-#  Occupation: Clergy,
-#  License Type: "Licensed (US)",
-#  License State: AZ,
-#  Permit Before License: 'Yes',
-#  License Number: A876564321,
-#  Age First Licensed: 18,
+  "License Number":D12789999,
   ActivityInformation: [
   {
     Activity Source: 'Company Input',
-    Type: 'Major Violation',
+    Type: 'Minor Violation',
     Occurrence Date: '$<today-2M:MM/dd/yyyy>',
-    Description: 'Driving Under Suspension/Revocation of DL',
-    #Loss Payment Amount: '2500',
-    #Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    Description: 'Failure to Yield Right-of-Way',
     "Include in Points and/or Tier?": 'No',
     Not Included in Points and/or Tier - Reason Codes: 'Report errors'
   },
@@ -161,7 +145,6 @@ Driver6: {
     Occurrence Date: '$<today-1M:MM/dd/yyyy>',
     Description: 'Accident (Property Damage Only)',
     Loss Payment Amount: '2000',
-    #Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
     "Include in Points and/or Tier?": 'Yes'
   },
   {
@@ -176,8 +159,8 @@ Driver6: {
   },
   {
     Activity Source: 'Customer Input',
-    Type: 'Alcohol-Related Violation',
-    Description: 'Driving Under the Influence of Alcohol',
+    Type: 'Speeding Violation',
+    Description: 'Speeding',
     Occurrence Date: '$<today-1M:MM/dd/yyyy>',
     "Include in Points and/or Tier?": 'Yes'
   }
