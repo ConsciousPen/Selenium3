@@ -125,6 +125,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     private static final String PU_CLAIMS_DEFAULTING_2ND_DATA_MODEL = "pu_claims_defaulting_2nd_data_model.yaml"; //TODO: will be used after PAS-26322
     protected boolean updatePUFlag = false;
     protected boolean secondDriverFlag = false;
+    protected boolean newBusinessFlag = false;
 
     @BeforeTest
     public void prepare() {
@@ -1234,6 +1235,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 //        driverTab.submitTab();
 
         //Navigate to the General Tab and change the FNI to the second insured (Steve)
+        newBusinessFlag = true;
         changeFNIGeneralTab(1);  //Index starts at 0
 
         //TODO: UNCOMMENT OUT IN FEATURE BRANCH
@@ -1366,9 +1368,11 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
         generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(namedInsuredNumber);
         Page.dialogConfirmation.confirm();
-        //Reset Contact Info - blanks out after FNI change
-//        generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue("6025557777");
-//        generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
+        //Reset Contact Info - blanks out after FNI change at New Business
+        if (newBusinessFlag) {
+            generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue("6025557777");
+            generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
+        }
         generalTab.submitTab();
     }
 
