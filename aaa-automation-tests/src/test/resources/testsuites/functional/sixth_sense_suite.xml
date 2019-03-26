@@ -132,15 +132,15 @@
         </classes>
     </test>
 
-    <test name="Test Same Day Loss Waiver OK">
-        <parameter name="state" value="OK"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestSameDayLossWaiverOK"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestSameDayLossWaiverOK"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestSameDayLossWaiverOK"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestSameDayLossWaiverOK"/>
-        </classes>
-    </test>
+    <!--<test name="Test Same Day Loss Waiver OK">-->
+        <!--<parameter name="state" value="OK"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestSameDayLossWaiverOK"/>-->
+            <!--<class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestSameDayLossWaiverOK"/>-->
+            <!--<class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestSameDayLossWaiverOK"/>-->
+            <!--<class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestSameDayLossWaiverOK"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
     <!--Tests for PUP-->
 
