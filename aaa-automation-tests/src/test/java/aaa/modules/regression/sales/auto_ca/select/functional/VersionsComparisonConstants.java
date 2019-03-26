@@ -521,7 +521,7 @@ public class VersionsComparisonConstants {
 			.build();
 
 
-	//all components/attributes that should be on Comparison page for Assignment section
+	//all components/attributes that should be on Comparison page for Assignment section for NB
 	static final Multimap<String, String> DATA_GATHER_ASSIGNMENT = ImmutableListMultimap.<String, String>builder()
 			//Assignment Information section
 			.put("Vehicles.1998, DODGE, CARAVAN", "Primary Driver")
@@ -529,7 +529,7 @@ public class VersionsComparisonConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN", "Manually Rated Driver")
 			.build();
 
-	//all components/attributes that should be on Comparison page for Assignment section
+	//all components/attributes that should be on Comparison page for Assignment section for endorsements and renewal
 	static final Multimap<String, String> ASSIGNMENT = ImmutableListMultimap.<String, String>builder()
 			//Assignment Information section
 			.put("Vehicles.2003, MERCEDES-BENZ, SL500R", "Primary Driver")
