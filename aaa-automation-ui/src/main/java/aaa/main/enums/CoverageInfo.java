@@ -48,7 +48,8 @@ public enum CoverageInfo {
 	FUNEXP_NJ("FUNEXP", "Funeral Expense/Death Benefits", null, null, null),
 	FUNEXP_NME_NO_NJ("FUNEXP", "Funeral Expense/Death Benefits", CoverageLimits.COV_1000, null, null),
 	FUNEXP_NME_YES_PIP_YES__NJ("FUNEXP", "Funeral Expenses", CoverageLimits.COV_2000, null, null),
-	WLB_UT("WLB", "Rejection of Work Loss Benefit", CoverageLimits.COV_FALSE, AvailableCoverageLimits.WLB_UT),
+	WLB_UT("WLB", "Rejection of Work Loss Benefit", CoverageLimits.COV_FALSE, AvailableCoverageLimits.WLB),
+	WLB_NY("WLB", "Work Loss Benefits", CoverageLimits.COV_FALSE, AvailableCoverageLimits.WLB),
 	INCOMELOSS_OR("WORKLOSS", "Income Loss", CoverageLimits.COV_3000, null, "Per Month/Max 52 Weeks"),
 	CHILDEXP_OR("CHILDEXP", "Childcare Expenses", CoverageLimits.COV_25, null, "Per Day/$750 Max"),
 	WORKLOSS_KS_4500("WORKLOSS", "Work Loss", CoverageLimits.COV_900, null, "Per Month/Max 1 Year"),
@@ -138,7 +139,8 @@ public enum CoverageInfo {
 	UMPD_NV_WITHCOLL("UMPD", "Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_WITHCOLL, "Per Accident"),
 	UMPD_NV_WOUM("UMPD", "Uninsured Motorist Property Damage", null, AvailableCoverageLimits.UMPD_NV_WOUM, "Per Accident"),
 	EMB("EMB", "Extraordinary Medical Expense Benefits", CoverageLimits.COV_EMB_0, AvailableCoverageLimits.EMB, null),
-	LOL("LOL", "Limitation on Lawsuit", CoverageLimits.COV_LOL, AvailableCoverageLimits.LOL, null);
+	LOL("LOL", "Limitation on Lawsuit", CoverageLimits.COV_LOL, AvailableCoverageLimits.LOL, null),
+	SSL("SSL", "Supplemental Spousal Liability", CoverageLimits.COV_FALSE, AvailableCoverageLimits.SSL, null),;
 
 	private final String code;
 	private final String description;

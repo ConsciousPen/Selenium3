@@ -6266,6 +6266,51 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
+	protected void pas16040_sslCoverageNYBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		//Check viewEndorsementCoverages response
+		Coverage sslCoverageExpected = Coverage.create(CoverageInfo.SSL).disableCanChange();
+		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, sslCoverageExpected);
+
+		//Update to Yes in PAS and check view response
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.SUPPLEMENTAL_SPOUSAL_LIABILITY.getLabel(), "Yes");
+		premiumAndCoveragesTab.saveAndExit();
+		sslCoverageExpected.changeLimit(CoverageLimits.COV_TRUE);
+		viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, sslCoverageExpected);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	protected void pas16041_wlbCoverageNYBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		//Check viewEndorsementCoverages response
+		Coverage wlbNo = Coverage.create(CoverageInfo.WLB_NY);
+		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, wlbNo);
+
+		//Update to Yes and check
+		Coverage wlbYes = Coverage.create(CoverageInfo.WLB_NY).changeLimit(CoverageLimits.COV_TRUE);
+		updateCoverageAndCheck(policyNumber, wlbYes, wlbYes);
+
+		//Update back to No and check
+		updateCoverageAndCheck(policyNumber, wlbNo, wlbNo);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
 	private void updateCoverageAndCheck_pas24075(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
 		Coverage covFPBAddedExpected = Coverage.create(CoverageInfo.FPB_ADDED_PA);
 
@@ -6598,7 +6643,11 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private void checkLimitInPAndCTab(List<Coverage> coverageExpected) {
 		for (Coverage coverage : coverageExpected) {
-			assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(coverage.getCoverageDescription())).isEqualTo(coverage.getCoverageLimitDisplay());
+			if(CoverageInfo.WLB_NY.getDescription().equals(coverage.getCoverageDescription())) {
+				assertThat(premiumAndCoveragesTab.getRejectionOfWorkLossBenefitsValue(coverage.getCoverageDescription())).isEqualTo(coverage.getCoverageLimitDisplay());
+			} else {
+				assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(coverage.getCoverageDescription())).isEqualTo(coverage.getCoverageLimitDisplay());
+			}
 		}
 	}
 
