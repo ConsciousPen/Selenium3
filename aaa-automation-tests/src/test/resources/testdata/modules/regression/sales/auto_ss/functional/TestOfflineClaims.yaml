@@ -130,7 +130,7 @@ Driver6: {
   License Type: "Licensed (US)",
   License State: AZ,
   Permit Before License: 'Yes',
-  License Number: A12345111,
+    License Number: A12345111,
 #  Add Driver: Click,
 #  DriverSearchDialog:{},
 #  Driver Type: Available for Rating,
@@ -150,10 +150,10 @@ Driver6: {
     Type: 'Major Violation',
     Occurrence Date: '$<today-2M:MM/dd/yyyy>',
     Description: 'Driving Under Suspension/Revocation of DL',
-    Loss Payment Amount: '2500',
+    #Loss Payment Amount: '2500',
     #Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-    "Include in Points and/or YAF?": 'No',
-    Not Included in Points and/or YAF - Reason Codes: 'Report errors'
+    "Include in Points and/or Tier?": 'No',
+    Not Included in Points and/or Tier - Reason Codes: 'Report errors'
   },
   {
     Activity Source: 'Company Input',
@@ -162,24 +162,24 @@ Driver6: {
     Description: 'Accident (Property Damage Only)',
     Loss Payment Amount: '2000',
     #Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-    "Include in Points and/or YAF?": 'Yes'
+    "Include in Points and/or Tier?": 'Yes'
   },
   {
     Activity Source: 'Customer Input',
     Type: 'At-Fault Accident',
     Occurrence Date: '$<today-3M:MM/dd/yyyy>',
-    Description: 'Fault accident, no injury, damage > $1000',
+    Description: 'Accident (Property Damage Only)',
     Loss Payment Amount: '2000',
     #Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-    "Include in Points and/or YAF?": 'No',
-    Not Included in Points and/or YAF - Reason Codes: 'Report errors'
+    "Include in Points and/or Tier?": 'No',
+    Not Included in Points and/or Tier - Reason Codes: 'Report errors'
   },
   {
     Activity Source: 'Customer Input',
     Type: 'Alcohol-Related Violation',
     Description: 'Driving Under the Influence of Alcohol',
-    Suspension Date: '$<today-1M:MM/dd/yyyy>',
-    "Include in Points and/or YAF?": 'Yes'
+    Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+    "Include in Points and/or Tier?": 'Yes'
   }
   ]
 }
