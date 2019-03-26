@@ -187,13 +187,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         }
         runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
 
-        // Retrieve policy
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
-        // Enter renewal image and verify claim presence
-        buttonRenewals.click();
-        policy.dataGather().start();
+        // Retrieve policy and enter renewal image
+        retrieveRenewal(policyNumber);
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
 
         // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
@@ -273,6 +268,33 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         assertThat(updatedTime).isEqualToIgnoringHours(policyExpirationDate.minusDays(63));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
         JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
+    }
+
+    /**
+     * Method changes'First Named Insured' to the desired Insured. First Named Insured index starts at zero
+     * @param namedInsuredNumber - Insured who will become the First Named Insured
+     */
+    public void changeFNIGeneralTab(int namedInsuredNumber) {
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
+        generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(namedInsuredNumber);
+        Page.dialogConfirmation.confirm();
+        //Reset Contact Info - blanks out after FNI change at New Business
+        if (newBusinessFlag) {
+            generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue("6025557777");
+            generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
+        }
+        generalTab.submitTab();
+    }
+
+    /**
+     * Method opens app, retrieves policy, and enters data gathering in renewal image
+     * @param policyNumber
+     */
+    public void retrieveRenewal(String policyNumber) {
+        mainApp().open();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        buttonRenewals.click();
+        policy.dataGather().start();
     }
 
     protected void pas18317_verifyPermissiveUseIndicator() {
@@ -706,13 +728,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
         runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
 
-        // Retrieve policy
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
-        // Enter renewal image and verify claim presence
-        buttonRenewals.click();
-        policy.dataGather().start();
+        // Retrieve policy and enter renewal image
+        retrieveRenewal(policyNumber);
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
 
         // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
@@ -920,13 +937,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, DL_NAME_RECONCILEFNICLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
         runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
 
-        // Retrieve policy
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
-        // Enter renewal image and verify claim presence
-        buttonRenewals.click();
-        policy.dataGather().start();
+        // Retrieve policy and enter renewal image
+        retrieveRenewal(policyNumber);
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         tableDriverList.selectRow(1);
         tableActivityInformationList.selectRow(2);
@@ -1121,13 +1133,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(policyNumber, PU_CLAIMS_DEFAULTING_DATA_MODEL);
         runRenewalClaimReceiveJob();
 
-        // Retrieve policy
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
-        // Enter renewal image and verify claim presence
-        buttonRenewals.click();
-        policy.dataGather().start();
+        // Retrieve policy and enter renewal image
+        retrieveRenewal(policyNumber);
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
         //1st Renewal: Verify PU Values in Drivers tab
@@ -1330,13 +1337,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
 	    runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
 
-	    // Retrieve policy
-	    mainApp().open();
-	    SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
-	    // Enter renewal image and verify claim presence
-	    buttonRenewals.click();
-	    policy.dataGather().start();
+        // Retrieve policy and enter renewal image
+        retrieveRenewal(policyNumber);
 	    NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
 
 	    // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
@@ -1347,7 +1349,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         changeFNIGeneralTab(1);  //Index starts at 0
 
                     //TODO: Uncomment out in feature branch
-//                Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
+//                //Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
 //                tableDriverList.selectRow(2);
 //                activityAssertions(2,2,3, 1, "Customer Input", "", true);
 //                activityAssertions(2,2,3, 2, "Internal Claims", "", true);
@@ -1366,20 +1368,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 //        tableDriverList.selectRow(1);
 //        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
 //        driverTab.submitTab();
-
     }
 
     //Change FNI Do desired Insured. 'First Named Insured' Index starts at zero
-    public void changeFNIGeneralTab(int namedInsuredNumber) {
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
-        generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(namedInsuredNumber);
-        Page.dialogConfirmation.confirm();
-        //Reset Contact Info - blanks out after FNI change at New Business
-        if (newBusinessFlag) {
-            generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue("6025557777");
-            generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
-        }
-        generalTab.submitTab();
-    }
-
 }

@@ -49,19 +49,6 @@ PrefillTab: {
   Order Prefill: click
 }
 
-PrefillTabFNIRenewal: {
-  First Name: Nicol,
-  Last Name: Bolas,
-  Zip Code: 90255,
-  Address Line 1: 6586 PORCUPINE WAY,
-  City: HUNTINGTON PARK,
-  State: CA,
-  Date of Birth: '10/16/1997',
-  Validate Address: click,
-  Validate Address Dialog: {},
-  Order Prefill: click
-}
-
 TwoNamedInsuredGeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
   AAAProductOwned: '@<auto_ca_choice>@DataGather@AAAProductOwned',
