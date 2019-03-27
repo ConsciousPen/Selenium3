@@ -123,7 +123,7 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="CoveragesAZ" parallel="methods">
+    <test thread-count="1024" name="CoveragesDE" parallel="methods">
         <parameter name="state" value="DE"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
