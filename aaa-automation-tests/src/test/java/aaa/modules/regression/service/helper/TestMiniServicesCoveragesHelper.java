@@ -6253,20 +6253,31 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
-		Coverage covUM = Coverage.create(CoverageInfo.UM_SUM);
+		Coverage covUM = Coverage.create(CoverageInfo.UM_SUM_NJ);
 
 		//Check viewEndorsementCoverages response, default should be selected as "Supplementary Uninsured/Underinsured Motorists Bodily Injury" and check
 		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		//Update BI Limits and check for UM Limits
+		for (CoverageLimits coverageBILimit : AvailableCoverageLimits.BI_AZ_PA_NJ.getAvailableLimits()) {
+			Coverage covUMSUMExpected = Coverage.create(CoverageInfo.UM_SUM_NJ).removeAvailableLimitsAbove(coverageBILimit);
+			PolicyCoverageInfo updateBIResponse = updateCoverage(policyNumber, CoverageInfo.BI_AZ_PA_NJ.getCode(), coverageBILimit.getLimit());
+			Coverage coverageUMSUMActual = findCoverage(updateBIResponse.policyCoverages, CoverageInfo.UM_SUM_NJ.getCode());
+			assertThat(coverageUMSUMActual).isEqualToComparingFieldByField(covUMSUMExpected);
+			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateBIResponse);
+		}
+
+
 		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covUM);
 
 		//Update to "Uninsured Motorists Bodily Injury" and check
-		Coverage COV_50100= Coverage.create(CoverageInfo.UM_SUM).changeLimit(CoverageLimits.COV_50100);
+		Coverage COV_50100= Coverage.create(CoverageInfo.UM_SUM_NJ).changeLimit(CoverageLimits.COV_50100);
 		updateCoverageAndCheck(policyNumber, covUM, covUM);
 		//Update back to "Supplementary Uninsured/Underinsured Motorists Bodily Injury" and check
 		updateCoverageAndCheck(policyNumber, covUM, covUM);
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
+
 	protected void pas25824_updateUIMBIThenUpdateUMBIBody() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
