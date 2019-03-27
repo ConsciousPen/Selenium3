@@ -2,11 +2,9 @@ package aaa.modules.bct.service.home_ss.ho4;
 
 import static aaa.common.enums.Constants.States.*;
 import static toolkit.verification.CustomAssertions.assertThat;
-import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -30,22 +28,11 @@ public class TestEndorsement extends EndorsementTemplate {
 	}
 
 	private BindTab bindTab = new BindTab();
-	private GeneralTab generalTab = new GeneralTab();
 
 	@Test(dataProvider = "getPoliciesForEmptyEndorsementTests")
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_EmptyEndorsementHomeSSHo4(String state, String policyNumber) {
-		Dollar policyPremium = getPreEndorsementPremium(getPolicyType().get(), policyNumber);
-
-		checkAbilityToOpenAllTabsInInquiryMode(getPolicyType(), TESTDATA_INQUIRY_HOME_SS, generalTab, bindTab);
-		assertThat(bindTab.btnPurchase.isPresent()).isTrue();
-		bindTab.cancel();
-
-		performNonBearingEndorsement(TESTDATA_NAME_ENDORSE_HOME_SS);
-		PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
-
-		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState())
-				.isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+		emptyEndorsementHomeSS(policyNumber);
 	}
 
 	/**

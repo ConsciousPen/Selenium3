@@ -28,6 +28,7 @@ public class TestEndorsement extends EndorsementTemplate {
 		TestData td = getTestSpecificTD("TestDataEndorsePUP");
 
 		Dollar policyPremium = getPreEndorsementPremium(getPolicyType().get(), policyNumber);
+		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
 
 		checkAbilityToOpenAllTabsInInquiryMode(getPolicyType(),"TestDataInquiryPUP", prefillTab, bindTab);
 		bindTab.cancel();
@@ -37,7 +38,10 @@ public class TestEndorsement extends EndorsementTemplate {
 		assertThat(policyPremium).isEqualTo(PremiumAndCoveragesQuoteTab.getPolicyTermPremium());
 
 		PremiumAndCoveragesQuoteTab.btnCalculatePremium.click();
+		Dollar policyTermPremium = PremiumAndCoveragesQuoteTab.getPolicyActualPremium();
+
+		log.info(String.format("Endorsement Premium: '%s'", policyTermPremium));
 		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState())
-				.isEqualTo(PremiumAndCoveragesQuoteTab.getPolicyActualPremium());
+				.isEqualTo(policyTermPremium);
 	}
 }
