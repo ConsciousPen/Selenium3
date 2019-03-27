@@ -745,7 +745,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
         String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(80).toLocalDate().toString();
 
-
         Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS = ImmutableMap.of(CLAIM_NUMBER_1_GDD, claim1_dates, CLAIM_NUMBER_2_GDD, claim2_dates);
 
         //Adjusted Test Data for: CCInput/CLUE/Internal Claims
