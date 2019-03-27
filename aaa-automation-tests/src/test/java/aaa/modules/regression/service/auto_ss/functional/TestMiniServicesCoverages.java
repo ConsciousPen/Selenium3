@@ -1724,7 +1724,6 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas16041_wlbCoverageNY(@Optional("NY") String state) {
 		pas16041_wlbCoverageNYBody();
 	}
-
 	/**
 	 * @author Chaitanya Boyapati
 	 * @name View/Update UM/SUM Coverage for NY state
