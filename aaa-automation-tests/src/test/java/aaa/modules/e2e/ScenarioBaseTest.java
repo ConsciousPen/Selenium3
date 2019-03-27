@@ -54,7 +54,7 @@ public class ScenarioBaseTest extends BaseTest {
 	}
 	
 	protected void payAndCheckBill(LocalDateTime installmentDueDate) {
-		payAndCheckBill(installmentDueDate, new Dollar(0));
+		payAndCheckBill(installmentDueDate, BillingHelper.DZERO);
 	}
 
 	//used in case needs correct amount due to calculation/round/tax issues
