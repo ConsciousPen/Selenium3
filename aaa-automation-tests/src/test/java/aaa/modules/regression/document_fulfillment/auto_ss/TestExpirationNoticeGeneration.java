@@ -1,4 +1,4 @@
-package aaa.modules.regression.service.auto_ss;
+package aaa.modules.regression.document_fulfillment.auto_ss;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
