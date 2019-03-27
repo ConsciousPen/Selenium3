@@ -135,8 +135,7 @@ public class VersionsComparisonConstants {
 			.put("Named Insureds.VIIFirstName VII VIILastName.Base Date", "Base Date")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Move-In Date", "Move-In Date")
 			//AAA Product Owned
-			.put("AAA Membership" +
-					".Current AAA Member", "Current AAA Member")
+			.put("AAA Membership.Current AAA Member", "Current AAA Member")
 			.put("AAA Membership.Membership Number", "Membership Number")
 			//.put("AAA Products Owned.Last name", "Last name")
 			//TODO Should be return after implementation story - Clean up for AAA Product Owned
