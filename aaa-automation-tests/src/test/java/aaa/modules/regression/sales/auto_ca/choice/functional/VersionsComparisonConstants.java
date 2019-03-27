@@ -97,6 +97,7 @@ public class VersionsComparisonConstants {
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).Additional Interest Address", "VII interest address 1, VII interest address 2, Red Rock, AZ, 85245","interest address 1, VI interest address 2, Phoenix, AZ, 85085")
 			//Assignment Tab Information
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Manually Rated Driver", "","NBFirstName NBLastName")
+			.putAll("Policy Options.Payment Plan","standart6CAC","standartCAC")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -225,6 +226,7 @@ public class VersionsComparisonConstants {
 			/*.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Is Garaging different from Residential?", "Is Garaging different from Residential?")*/
 			//Assignment Tab Information
 			.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Primary Driver", "Primary Driver")
+			.put("Policy Options.Policy Term","Policy Term")
 			.build();
 
 	//all components/attributes that should be on Comparison page for Named Insured Information section for data gather comparison
@@ -466,4 +468,9 @@ public class VersionsComparisonConstants {
 			.put("Vehicles.2003, MERCEDES-BENZ, SL500R", "Manually Rated Driver")
 			.build();
 
+	//all components/attributes that should be on Comparison page for Premium and Coverages section for Quote Compare
+	static final Multimap<String, String> DATA_GATHER_PREMIUM_AND_COVERAGES = ImmutableListMultimap.<String, String>builder()
+			.put("Policy Options","Payment Plan")
+			.put("Policy Options", "Policy Term")
+			.build();
 }
