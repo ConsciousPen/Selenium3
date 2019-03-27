@@ -273,8 +273,8 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	public void pas12469_renewalComparisonVehicleInformation(@Optional("AZ") String state) {
 		renewalComparison(getTDNBPolicy(), getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.ENDORSEMENT_RENEWAL_VEHICLE_INFORMATION, "VehicleTab", "VehicleInformation");
 	}
-
-	private TestData getTDPremiumCoveragesVersion2() {
+//TODO: Uncomment when P&C RM code is merged to master
+/*	private TestData getTDPremiumCoveragesVersion2() {
 		return getTestSpecificTD("TestData_PremiumCoverages_Version2");
 	}
 
@@ -287,6 +287,6 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469", "PAS-14821", "PAS-12929", "PAS-12930", "PAS-12933", "PAS-12932"})
 	public void pas12469_dataGatherComparisonPolicyOptionsInformation(@Optional("AZ") String state) {
 		dataGatherComparison(getTDNBQuote(),getTDPremiumCoveragesVersion1(), getTDPremiumCoveragesVersion2(), VersionsComparisonConstants.DATA_GATHER_PREMIUM_AND_COVERAGES, "PremiumAndCoveragesTab", "PremiumCoveragesInformation");
-	}
+	}*/
 
 }
