@@ -123,6 +123,16 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="CoveragesDE" parallel="methods">
+        <parameter name="state" value="DE"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas17642_UpdateCoverageADB"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="GeneralVA" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
@@ -913,7 +923,7 @@
             </class>
         </classes>
     </test>
-      <test thread-count="1024" name="Vehicle Deltas - NY" parallel="methods">
+    <test thread-count="1024" name="Vehicle Deltas - NY" parallel="methods">
         <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
@@ -1162,6 +1172,17 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
                 <methods>
                     <include name="pas21646_aacsnjFormRFI"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="NY Coverages" parallel="methods">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas16040_sslCoverageNY"/>
+                    <include name="pas16041_wlbCoverageNYBody"/>
                 </methods>
             </class>
         </classes>

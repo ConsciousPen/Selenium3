@@ -39,7 +39,7 @@ public class TestRenewalEffectiveOnRewrite extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.HIGH, Groups.FUNCTIONAL, Groups.TIMEPOINT}, description = "Test Renewal Effective On Rewrite")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22502")
-	public void pas22502_TestRenewalEffectiveOnRewrite(@Optional("AZ") String state) {
+	public void pas22502_TestRenewalEffectiveOnRewrite(@Optional("") String state) {
         ErrorTab errorTab = new ErrorTab();
 
 		String policyNumber = openAppAndCreatePolicy();
