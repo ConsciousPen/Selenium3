@@ -346,7 +346,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	public void pas25187_renewalComparisonAssignment(@Optional("CA") String state) {
 		renewalComparison(getTDNewBusinessPolicy(), getTDAssignmentNoChangeVersion(), getTDAssignmentVersion2(), VersionsComparisonConstants.RENEWAL_ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
 	}
-//TODO: Uncomment when P&C RM code is merged to master
+//Uncomment when P&C RM code is merged to master
 /*	private TestData getTDPremiumCoveragesVersion2() {
 		return getTestSpecificTD("TestData_PremiumCoverages_Version2");
 	}
