@@ -1,10 +1,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="BCT Online Tests" verbose="1" parallel="methods" thread-count="1024" data-provider-thread-count="1">
+<suite name="BCT Online Tests" verbose="1" parallel="tests" thread-count="1024" data-provider-thread-count="1">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method" />
+    <parameter name="timeshift-scenario-mode" value="test" />
 
     <!-- Billing And Payments -->
 
