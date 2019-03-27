@@ -1,5 +1,33 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static aaa.common.pages.SearchPage.tableSearchResults;
+import static aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.*;
+import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
+import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Files.contentOf;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.BooleanUtils;
+import org.testng.annotations.BeforeTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.PrivilegeEnum;
 import aaa.common.enums.RestRequestMethodTypes;
@@ -24,11 +52,6 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableMap;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.BooleanUtils;
-import org.testng.annotations.BeforeTest;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -37,31 +60,6 @@ import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
-
-import javax.annotation.Nonnull;
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static aaa.common.pages.SearchPage.tableSearchResults;
-import static aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.*;
-import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
-import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Files.contentOf;
 
 /**
  * This template is used to test Batch Claim Logic.
@@ -106,9 +104,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     private static final String CLAIM_NUMBER_1_GDD = "Claim-GDD-111";
     private static final String CLAIM_NUMBER_2_GDD = "Claim-GDD-222";
-    // Claim Dates: For CAS Response
-    private static String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
-    private static String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(80).toLocalDate().toString();
 
     private static final String[] CLAIM_NUMBERS_PU_DEFAULTING = {"PU_DEFAULTING_CMP","PU_DEFAULTING_1","PU_DEFAULTING_2","PU_DEFAULTING_3",
             "PU_DEFAULTING_4","PU_DEFAULTING_5","PU_DEFAULTING_6"};
@@ -747,6 +742,10 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      */
     public void pas18303_goodDriverDiscountForPUClaims(){
 
+        String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
+        String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(80).toLocalDate().toString();
+
+
         Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS = ImmutableMap.of(CLAIM_NUMBER_1_GDD, claim1_dates, CLAIM_NUMBER_2_GDD, claim2_dates);
 
         //Adjusted Test Data for: CCInput/CLUE/Internal Claims
@@ -924,6 +923,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      * Method to validate CAS/Clue Reconcile for AFR driver when PU flag is marked as Yes
      */
     public void pas24587_CASClueReconcilePUAFRUserFlagged() {
+
+        String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
         String DL_NAME_RECONCILEFNICLAIMS_DATA_MODEL;
 
         DL_NAME_RECONCILEFNICLAIMS_DATA_MODEL = "dl_name_reconcileFNIclaims_data_model.yaml";
