@@ -44,11 +44,6 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 @StateList(statesExcept = Constants.States.CA)
 public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
-    @AfterMethod
-    public void closeTest(){
-        mainApp().close();
-    }
-
     public enum mpdPolicyType{
         home, renters, condo, life, motorcycle
     }

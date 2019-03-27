@@ -56,8 +56,8 @@ public class GeneralTab extends Tab {
 		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AssetList.class);
 	}
 
-	public AssetList getOtherAAAProductOwnedAssetList() {
-		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED_ASSET_LIST.getLabel(), AssetList.class);
+	public NoSectionsMultiAssetList  getOtherAAAProductOwnedAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED.getLabel(), NoSectionsMultiAssetList .class);
 	}
 
 	public Table getOtherAAAProductTable() {

@@ -32,7 +32,7 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 
 	private GeneralTab generalTab = new GeneralTab();
 	private ErrorTab errorTab = new ErrorTab();
-	private AssetList assetListAAAProductOwned = generalTab.getOtherAAAProductOwnedAssetList();
+	private NoSectionsMultiAssetList  assetListAAAProductOwned = generalTab.getOtherAAAProductOwnedAssetList();
 
 	/**
 	*@author Viktor Petrenko
