@@ -6247,7 +6247,26 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
+	protected void pas15308_UM_SUM_CoverageNJBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
 
+		Coverage covUM = Coverage.create(CoverageInfo.UM_SUM);
+
+		//Check viewEndorsementCoverages response, default should be selected as "Supplementary Uninsured/Underinsured Motorists Bodily Injury" and check
+		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covUM);
+
+		//Update to "Uninsured Motorists Bodily Injury" and check
+		Coverage COV_50100= Coverage.create(CoverageInfo.UM_SUM).changeLimit(CoverageLimits.COV_50100);
+		updateCoverageAndCheck(policyNumber, covUM, covUM);
+		//Update back to "Supplementary Uninsured/Underinsured Motorists Bodily Injury" and check
+		updateCoverageAndCheck(policyNumber, covUM, covUM);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
 	protected void pas25824_updateUIMBIThenUpdateUMBIBody() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
