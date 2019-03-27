@@ -553,6 +553,13 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_LOL,
 			CoverageLimits.COV_NO_LOL
 	)),
+    UM_SUM(ImmutableList.of(
+			CoverageLimits.COV_25_SUM,
+			CoverageLimits.COV_50_SUM,
+			CoverageLimits.COV_100_SUM
+	)),
+
+
     COV_PIPLENINCCONT_NJ(ImmutableList.of(
             CoverageLimits.COV_2YR,
             CoverageLimits.COV_UNL
