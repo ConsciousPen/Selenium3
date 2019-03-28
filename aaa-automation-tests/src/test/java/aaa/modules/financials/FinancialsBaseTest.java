@@ -5,8 +5,6 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
@@ -20,8 +18,8 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.istf.exec.core.TestCoordinatorException;
 import toolkit.datax.TestData;
-import toolkit.utils.datetime.DateTimeUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -155,6 +153,17 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		TimeSetterUtil.getInstance().nextPhase(date);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
+	}
+
+	protected void advanceTime(LocalDateTime localDateTime) {
+		try {
+			TimeSetterUtil.getInstance().nextPhase(localDateTime);
+		} catch (TestCoordinatorException e) {
+			log.info("Timeshift error caught");
+			if (!e.getMessage().contains("Time shifting skipped")) {
+				throw e;
+			}
+		}
 	}
 
 	protected Map<String, Dollar> getTaxAmountsForPolicy(String policyNumber) {
