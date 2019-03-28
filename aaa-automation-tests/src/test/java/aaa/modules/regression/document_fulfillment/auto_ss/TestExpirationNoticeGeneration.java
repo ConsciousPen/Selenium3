@@ -35,7 +35,7 @@ public class TestExpirationNoticeGeneration extends AutoSSBaseTest {
 
 	/**
 	 * @author Denis Semenov
-	 * @name Test Expiration Notice Generation
+	 * @name Test Expiration Notice Generation (C-AU-SS-AZ-435-OH)
 	 * @scenario
 	 * 1. Create customer
 	 * 2. Create police
@@ -70,9 +70,9 @@ public class TestExpirationNoticeGeneration extends AutoSSBaseTest {
 		loginTD.adjust("User", "qa_roles").adjust("Password", "qa_roles");
 
 		mainApp().open(loginTD);
-		//1
+		//Create customer
 		createCustomerIndividual();
-		//2
+		//Create police
 		String policyNumber = createPolicy(policyTd);
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -81,7 +81,7 @@ public class TestExpirationNoticeGeneration extends AutoSSBaseTest {
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		renewalDate = installmentDueDates.get(0).plusYears(1);
 
-		//3
+		//(DD3-20) Run the aaaBillingInvoiceAsyncTaskJob and generate the bill
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(1)));
 		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 
@@ -92,7 +92,7 @@ public class TestExpirationNoticeGeneration extends AutoSSBaseTest {
 		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(1), billGenDate);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 
-		//4
+		//(DD3) Make Payment for the generated bill
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(1)));
 
 		mainApp().open();
@@ -104,7 +104,7 @@ public class TestExpirationNoticeGeneration extends AutoSSBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillDueDate(installmentDueDates.get(1)))
 				.setSubtypeReason("Manual Payment").setAmount(minDue.negate()).verifyPresent();
 
-		//5
+		//(DD6-20) Run the aaaBillingInvoiceAsyncTaskJob and generate the bill
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(2)));
 		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 
@@ -115,7 +115,7 @@ public class TestExpirationNoticeGeneration extends AutoSSBaseTest {
 		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(2), billGenDate);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 
-		//6
+		//(DD6) Make Payment for the generated bill
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(2)));
 
 		mainApp().open();
@@ -125,7 +125,7 @@ public class TestExpirationNoticeGeneration extends AutoSSBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillDueDate(installmentDueDates.get(2)))
 				.setSubtypeReason("Manual Payment").setAmount(minDue.negate()).verifyPresent();
 
-		//7
+		//(DD9-20) Run the aaaBillingInvoiceAsyncTaskJob and generate the bill
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(3)));
 		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 
@@ -136,11 +136,11 @@ public class TestExpirationNoticeGeneration extends AutoSSBaseTest {
 		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(3), billGenDate);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 
-		//8
+		//(R-96) Run the Renewal_Offer_Generation_Part2
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(renewalDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
-		//9
+		//(DD9) Make Payment for the generated bill
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(3)));
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
@@ -148,11 +148,11 @@ public class TestExpirationNoticeGeneration extends AutoSSBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillDueDate(installmentDueDates.get(3)))
 				.setSubtypeReason("Manual Payment").setAmount(minDue.negate()).verifyPresent();
 
-		//10
+		//(R-63) Run the Renewal_Offer_Generation_Part1
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(renewalDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 
-		//11
+		//(R-45) Renewal_Offer_Generation_Part2
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(renewalDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
@@ -162,7 +162,7 @@ public class TestExpirationNoticeGeneration extends AutoSSBaseTest {
 
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 
-		//12
+		//(R-35)  Run the Renewal_Offer_Generation_Part2 and Search for AARNXX form in DB (RENEWAL_OFFER event)
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
@@ -174,7 +174,7 @@ public class TestExpirationNoticeGeneration extends AutoSSBaseTest {
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, DocGenEnum.Documents.AARNXX);
 
-		//13
+		//(R-20) Run the aaaRenewalNoticeBillAsyncJob and generate the bill
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalDate));
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 
@@ -185,7 +185,7 @@ public class TestExpirationNoticeGeneration extends AutoSSBaseTest {
 		new BillingBillsAndStatementsVerifier().verifyBillGenerated(renewalDate, billGenDate);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 
-		//14
+		//(R+1) Run the policyStatusUpdateJob and policyLapsedRenewalProcessAsyncJob
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalDate));
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		JobUtils.executeJob(Jobs.policyLapsedRenewalProcessAsyncJob);
@@ -195,7 +195,7 @@ public class TestExpirationNoticeGeneration extends AutoSSBaseTest {
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_EXPIRED);
 
-		//15
+		//(R+5) Run aaaRenewalReminderGenerationAsyncJob and aaaDocGenBatchJob and Search for AH64XX form in DB (EXPIRATION_NOTICE event)
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(renewalDate));
 
 		JobUtils.executeJob(Jobs.aaaRenewalReminderGenerationAsyncJob);
