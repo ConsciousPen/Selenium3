@@ -2,14 +2,16 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import org.openqa.selenium.By;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.components.Dialog;
 import aaa.common.pages.Page;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.Button;
@@ -18,9 +20,6 @@ import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Abstract tab class.
@@ -164,7 +163,7 @@ public abstract class Tab {
 	}
 
 	public Tab cancel() {
-		return cancel(false);
+		return cancel(true);
 	}
 
 	public Tab cancel(boolean confirmDialog) {

@@ -35,14 +35,4 @@ public class TestMiniServicesNonPremiumBearingAbstractPreconditions {
 			+ "and lookuplist_id = (select id from lookuplist where lookupname = 'AAAeValueQualifyingPaymentPlans')\n"
 			+ "and riskstatecd = 'WY'";
 
-	public static final String INSERT_EFFECTIVE_DATE = "INSERT INTO LOOKUPVALUE\n"
-			+ "(dtype, code, displayValue, productCd, riskStateCd,effective, lookuplist_id)\n"
-			+ "values\n"
-			+ "('AAARolloutEligibilityLookupValue', 'EndorsementOutsideOfPAS', 'TRUE', 'AAA_SS', 'NY',(select to_char(to_date(SYSDATE+5, 'DD-MM-YYYY')) from dual),\n"
-			+ "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
-
-	public static final String DELETE_INSERT_EFFECTIVE_DATE = "delete lookupvalue\n"
-			+ "where 1=1\n"
-			+ "and  EFFECTIVE IS NOT NULL and DISPLAYVALUE='TRUE' and PRODUCTCD='AAA_SS' and  RISKSTATECD='NY'";
-
 }

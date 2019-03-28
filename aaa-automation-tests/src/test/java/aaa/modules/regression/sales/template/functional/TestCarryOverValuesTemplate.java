@@ -47,13 +47,15 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
         // Create Property Policy
         createPolicy(tdHome);
         String policyNumber = PolicySummaryPage.getPolicyNumber();
+        LocalDateTime renewalTime = PolicySummaryPage.getExpirationDate();
+        setDoNotRenewFlag(policyNumber);
 
         // Initiate Renewal
-        LocalDateTime renewalTime = PolicySummaryPage.getExpirationDate();
         mainApp().close();
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalTime));
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
+        policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
         policy.renew().perform();
 
         // Navigate To property Info Tab and Select Replacement cost reason to Renewal
@@ -91,13 +93,15 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
         // Create Property Policy
         createPolicy(tdHome);
         String policyNumber = PolicySummaryPage.getPolicyNumber();
+        LocalDateTime renewalTime = PolicySummaryPage.getExpirationDate();
+        setDoNotRenewFlag(policyNumber);
 
         // Change system date Initiate Renewal
-        LocalDateTime renewalTime = PolicySummaryPage.getExpirationDate();
         mainApp().close();
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalTime));
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
+        policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
         policy.renew().perform();
 
         // Navigate To property Info Tab and Select Replacement cost reason to Renewal

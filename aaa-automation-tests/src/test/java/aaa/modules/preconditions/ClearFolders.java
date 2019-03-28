@@ -9,6 +9,7 @@ public class ClearFolders {
 	public void clearFolders() {
 		RemoteHelper.get().clearFolder("/home/ipb/import", true, true);
 		RemoteHelper.get().clearFolder("/home/ipb/result", true, true);
-		RemoteHelper.get().clearFolder("/home/mp2", true, true);
+		RemoteHelper.get().clearFolder("/home/mp2/sit", true, true);
+		RemoteHelper.get().clearFolder("/home/DocGen", true, true);
 	}
 }
