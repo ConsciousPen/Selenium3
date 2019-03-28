@@ -1,6 +1,7 @@
 package aaa.modules.financials.template;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -38,7 +39,11 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         String policyNumber = createFinancialPolicy(adjustTdMonthlyPaymentPlan(getPolicyTD()));
         LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
         LocalDateTime dueDate = PolicySummaryPage.getEffectiveDate().plusMonths(1);
-        Map<String, Dollar> taxesNB = getTaxAmountsForPolicy(policyNumber);
+
+        Map<String, Dollar> taxesNB = new HashMap<>();
+        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+            taxesNB = getTaxAmountsForPolicy(policyNumber);
+        }
 
         // Advance time 1 month, generate and pay first installment bill
         LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(dueDate);
@@ -82,9 +87,14 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         performAPEndorsement(policyNumber, dueDate.plusDays(5));
         policy.rollOn().perform(false, true);
         Dollar addedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT);
-        Dollar totalTaxesEnd = getTaxAmountsForPolicy(policyNumber).get(TOTAL).subtract(taxesNB.get(TOTAL));
+
+        Dollar taxes = new Dollar(0.00);
+        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+            taxes = getTaxAmountsForPolicy(policyNumber).get(TOTAL).subtract(taxesNB.get(TOTAL));
+        }
 
         // END-07 Validations
+        Dollar totalTaxesEnd = taxes;
         assertSoftly(softly -> {
             softly.assertThat(addedPrem.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")));
@@ -133,7 +143,12 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
             PolicySummaryPage.buttonRenewals.click();
             assertThat(renewalEffDate).isEqualToIgnoringHours(PolicySummaryPage.getEffectiveDate());
         }
-        Dollar totalTaxesRenewal = getTaxAmountsForPolicy(policyNumber).get(TOTAL);
+
+        taxes = new Dollar(0.00);
+        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+            taxes = getTaxAmountsForPolicy(policyNumber).get(TOTAL);
+        }
+        Dollar totalTaxesRenewal = taxes;
 
         // Validations for RNW-01
         assertSoftly(softly -> {
