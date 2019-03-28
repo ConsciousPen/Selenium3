@@ -1348,27 +1348,25 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Navigate to the General Tab and change the FNI to the second insured (Steve)
         changeFNIGeneralTab(1);  //Index starts at 0
 
-                    //TODO: Uncomment out in feature branch
-//                //Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
-//                tableDriverList.selectRow(2);
-//                activityAssertions(2,2,3, 1, "Customer Input", "", true);
-//                activityAssertions(2,2,3, 2, "Internal Claims", "", true);
-                //Assert that old FNI only has 1 Internal Claims
-        //        tableDriverList.selectRow(1);
-//        activityAssertions(2, 1, 1, 1, "Internal Claims", CLAIM_NUMBER_1, true);
+
+        //Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
+        tableDriverList.selectRow(2);
+        activityAssertions(2,2,3, 1, "Customer Input", "", true);
+        activityAssertions(2,2,3, 2, "Internal Claims", "", true);
+        //Assert that old FNI only has 1 Internal Claims
+        tableDriverList.selectRow(1);
+        activityAssertions(2, 1, 1, 1, "Internal Claims", CLAIM_NUMBER_1, true);
 
         //Save and exit the Renewal
         DriverTab.buttonSaveAndExit.click();
 
-        //TODO: Uncomment if needed
-//        //On Driver Tab, Set 'Named Insured': Second Insured, Steve Rogers
-//        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(0);
-//
-//        //Reset 'Rel. to First Named Insured': Other
-//        tableDriverList.selectRow(1);
-//        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
-//        driverTab.submitTab();
+        //On Driver Tab, Set 'Named Insured': Second Insured, Steve Rogers
+        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(0);
+
+        //Reset 'Rel. to First Named Insured': Other
+        tableDriverList.selectRow(1);
+        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
+        driverTab.submitTab();
     }
 
-    //Change FNI Do desired Insured. 'First Named Insured' Index starts at zero
 }
