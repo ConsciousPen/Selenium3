@@ -59,7 +59,7 @@ public class SelectSearchDialog extends AbstractDialogSingleSearch {
 
 	@Override
 	public void select() {
-		//need to see table example
+		//Fillable Table can be filled from test data.
 	}
 
 	@Override
@@ -79,7 +79,12 @@ public class SelectSearchDialog extends AbstractDialogSingleSearch {
 				entry.getValue().fill(data);
 			}
 			search();
-			select();
+			if(!data.containsKey(RESULT_TABLE_NAME)) {
+				select();
+			}
+			if(!data.containsKey(DEFAULT_POPUP_SUBMITTER_NAME)) {
+				submit();
+			}
 		} else {
 			cancel();
 		}
@@ -98,9 +103,9 @@ public class SelectSearchDialog extends AbstractDialogSingleSearch {
 	@Override
 	public void submit() {
 		if (getAssetCollection().containsKey(DEFAULT_POPUP_SUBMITTER_NAME)) {
-			AbstractClickableStringElement buttonClosePopup = getAsset(DEFAULT_POPUP_SUBMITTER_NAME, AbstractClickableStringElement.class);
-			if (buttonClosePopup != null) {
-				buttonClosePopup.click();
+			AbstractClickableStringElement buttonSubmit = getAsset(DEFAULT_POPUP_SUBMITTER_NAME, AbstractClickableStringElement.class);
+			if (buttonSubmit != null) {
+				buttonSubmit.click();
 			}
 		}
 	}

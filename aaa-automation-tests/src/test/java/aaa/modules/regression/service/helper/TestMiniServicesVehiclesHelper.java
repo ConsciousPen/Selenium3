@@ -135,7 +135,6 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		String stateDefault = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
 				.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.STATE).getValue();
 
-
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		String vin1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN).getValue();
 		mainApp().close();
@@ -336,7 +335,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			String vin2 = "9BWFL61J244023215";
 
 			//add vehicle
-			addVehicleWithChecks(policyNumber,purchaseDate2,vin2,true);
+			addVehicleWithChecks(policyNumber, purchaseDate2, vin2, true);
 
 			//try add the same vehicle one more time
 			ErrorResponseDto errorResponse2 =
@@ -3161,6 +3160,35 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			printToLog("ChangeLog OK for: " + vehicle.vehTypeCd);
 		}
 
+	}
+
+	protected void pas15334viewUpdateVehicleDaytimeRunningAntilockBrakesBody(ETCSCoreSoftAssertions softly) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		//Add Vehicle
+		String purchaseDate = "2013-01-20";
+		String vin = "1C4BJWDG0JL847133"; //jeep wrangler 2018
+		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
+
+		updateVehicleRequest.antiLockBreaks = true;
+		updateVehicleRequest.daytimeRunningLight = true;
+
+		Vehicle response1 =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
+		String newVehicleOid = response1.oid;
+
+		softly.assertThat(response1.daytimeRunningLight.equals(false));
+		softly.assertThat(response1.antiLockBreaks.equals(false));
+
+		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleRequest);
+		softly.assertThat(updateVehicleResponse.daytimeRunningLight.equals(true));
+		softly.assertThat(updateVehicleResponse.antiLockBreaks.equals(true));
+
+		//Assert Metadata
+		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, newVehicleOid);
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "antiLockBreaks", true, true, true, null, "Boolean");
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "daytimeRunningLight", true, true, true, null, "Boolean");
 	}
 
 	private void validateLessThan1000Miles_ExistingVehicles(String policyNumber, String vin, boolean isLessThan1000Expected,

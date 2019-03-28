@@ -852,5 +852,157 @@ VehicleInformation_Version2: {
     Validate Address: true,
     Validate Address Dialog: {},
   },
+ }
+
+TestData_Multiple_Drivers_NB_Quote: {
+  PrefillTab: '@<auto_ca_choice>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_Quote',
+  DriverTab: ['@DriverInformation_Version1','@DriverInformation_Add_Version'],
+  MembershipTab: {},
+  VehicleTab: '@VehicleInformation_Version1',
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+          Primary Driver: "VIFirstName VILastName",
+          Manually Rated Driver: "VIFirstName VILastName"
+        },
+  },
+  FormsTab: {
+  },
+  PremiumAndCoveragesTab: {
+        Product: CA Choice,
+      },
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: {
+  },
+
 }
+
+
+DriverInformation_Add_Version: {
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Spouse,
+  First Name: 'New Driver',
+  Last Name: 'Version2',
+  Date of Birth: $<today-18y>,
+  Gender: Female,
+  Marital Status: Single,
+  Occupation: 'Student',
+  Age First Licensed: 16,
+  Permit Before License: 'Yes',
+  "Licensed in US/Canada for 18 or More Months?": 'No',
+  "First US/Canada License Date": $<today-1M>,
+  License Type: 'Valid',
+  License State: CA,
+  "License #": A3333333,
+  Employee Benefit Type: Surviving spouse,
+  #should be No always
+  #ADB Coverage: 'No',
+  Most Recent GPA: 'A Student',
+  New Driver Course Completed: 'Yes',
+  New Driver Course Completion Date: $<today>,
+  New Driver Certification Number: 33333,
+  "Smoker: Cigarettes, cigars or pipes": 'Yes',
+  Financial Responsibility Filling Needed: 'No',
+  Ridesharing Coverage: 'Yes',
+  "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
+}
+
+TestData_Assignment_Version1: {
+    GeneralTab: {},
+    DriverTab: {},
+    MembershipTab: {},
+    VehicleTab: {},
+    AssignmentTab: {
+     DriverVehicleRelationshipTable: {
+           Primary Driver: "VIFirstName VILastName",
+           Manually Rated Driver: "VIFirstName VILastName"
+         }
+    },
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+    DriverActivityReportsTab: {},
+    DocumentsAndBindTab: {
+      RequiredToBind: {
+        AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+      },
+    },
+}
+
+TestData_Assignment_Version2: {
+    GeneralTab: {},
+    DriverTab: {},
+    MembershipTab: {},
+    VehicleTab: {},
+    AssignmentTab: {
+         DriverVehicleRelationshipTable: {
+               Primary Driver: "New Driver Version2"
+             }
+       },
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+    DriverActivityReportsTab: {},
+    DocumentsAndBindTab: {
+     # RequiredToIssue: {
+       # Photos showing all 4 sides of Salvaged Vehicle(s): 'Yes'
+     # }
+    },
+}
+
+#test data for creation NB in Endorsement/Renewal scenarios with multiple drivers
+TestData_Multiple_Drivers_NB_Policy: {
+  PrefillTab: '@<auto_ca_choice>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverInformation','@DriverInformation_Add_Version'],
+  MembershipTab: {
+    Order Report: click,
+  },
+ VehicleTab: '@VehicleInformation_Version1',
+   AssignmentTab: {
+     DriverVehicleRelationshipTable: {
+           Primary Driver: "NBFirstName NBLastName",
+           Manually Rated Driver: "NBFirstName NBLastName"
+         }
+   },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Product: CA Choice,
+  },
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Personal Auto Application: Physically Signed,
+      Deleting Uninsured Motorist Property Damage Coverage: Physically Signed,
+    },
+    RequiredToIssue: {
+      Proof of Good Student Discount: 'Yes',
+      Proof of Anti-Theft Recovery Device: 'Yes',
+    },
+    VehicleInformation:{
+      "Are there any additional interest(s)?": 'No',
+    },
+  },
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
+}
+
+
+TestData_Assignment_EndorsementRenewal: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {
+       DriverVehicleRelationshipTable: {
+             Primary Driver: "NBFirstName NBLastName",
+           }
+      },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+
+
+
 

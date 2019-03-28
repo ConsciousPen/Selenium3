@@ -1090,3 +1090,106 @@ VehicleInformation_Version2: {
   },
 }
 
+TestData_Multiple_Drivers_NB_Policy: {
+  PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverInformation','@DriverInformation_Add_Version','@DriverInformation_Add_Version2'],
+  MembershipTab: {},
+  VehicleTab: '@VehicleInformation_Version2',
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+           Primary Driver: "NBFirstName NBLastName",
+           Manually Rated Driver: "NBFirstName NBLastName"
+         }
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000',
+  },
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the policy?": 'Yes',
+    Sales Agent Agreement: I Agree,
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      California Car Policy Application: Physically Signed,
+      Subscriber Agreement: Physically Signed,
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Policy Application: 'Yes',
+      Proof of Good Student Discount: 'Yes',
+      Auto Billing Plan Explanation: 'Yes',
+      Proof of New Driver Course Completion: 'Yes',
+      Proof of Mature Driver Course Completion: 'Yes',
+    }
+  },
+  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+}
+
+DriverInformation_Add_Version: {
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Spouse,
+  First Name: 'New Driver',
+  Last Name: 'Version1',
+  Date of Birth: $<today-55y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: 'Dentist',
+  Age First Licensed: 17,
+  Permit Before License: 'No',
+  "Licensed in US/Canada for 18 or More Months?": 'Yes',
+  License Type: 'Valid',
+  "First US/Canada License Date": $<today-1y>,
+  License State: AZ,
+  "License #": A12345678,
+  Employee Benefit Type: None,
+  ADB Coverage: 'Yes',
+  Mature driver course completed within 36 months: 'Yes',
+  Mature Driver Course Completion Date: $<today-2M>,
+  "Smoker: Cigarettes, cigars or pipes": 'No',
+  Financial Responsibility Filling Needed: 'No',
+  Ridesharing Coverage: 'No',
+}
+
+TestData_Assignment_Version1: {
+    GeneralTab: {},
+    DriverTab: {},
+    MembershipTab: {},
+    VehicleTab: {},
+    AssignmentTab: {
+     DriverVehicleRelationshipTable: {
+           Primary Driver: "New Driver Version1",
+           Manually Rated Driver: "New Driver Version1"
+         }
+   },
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+    DriverActivityReportsTab: {},
+    DocumentsAndBindTab: {
+      RequiredToBind: {
+        AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+      },
+    },
+}
+
+
+TestData_Assignment_Version2: {
+    GeneralTab: {},
+    DriverTab: {},
+    MembershipTab: {},
+    VehicleTab: {},
+    AssignmentTab: {
+         DriverVehicleRelationshipTable: {
+               Primary Driver: "New Driver Version2",
+               Manually Rated Driver: "New Driver Version2"
+             }
+       },
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+    DriverActivityReportsTab: {},
+    DocumentsAndBindTab: {},
+}
