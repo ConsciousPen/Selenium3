@@ -1735,7 +1735,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas15824_UmpdDelimiterBody() {
 		mainApp().open();
-		createCustomerIndividual();
+		//createCustomerIndividual();
 		String policyNumber = createPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		assertSoftly(softly -> {
@@ -1743,7 +1743,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			Coverage filteredPolicyCoverageResponseUMPD = findPolicyCoverage(policyCoverageResponse, "UMPD");
 			//BUG: PAS-15829 UMPD not returned from viewPolicyCoverages for NJ (for Policy and Endorsement)
 			softly.assertThat(filteredPolicyCoverageResponseUMPD.getCoverageType()).isEqualTo("Per Accident");
-
 			//cancHangeCoverage = true for VA, false for other states
 			boolean canChangeCOverageUMPD = false;
 			if (Constants.States.VA.equals(getState()) || Constants.States.NJ.equals(getState())) {
@@ -1755,6 +1754,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			Coverage filteredEndorsementCoverageResponseUMPD = findPolicyCoverage(coverageEndorsementResponse, "UMPD");
 			softly.assertThat(filteredEndorsementCoverageResponseUMPD.getCoverageType()).isEqualTo("Per Accident");
 			softly.assertThat(filteredEndorsementCoverageResponseUMPD.getCanChangeCoverage()).isEqualTo(canChangeCOverageUMPD);
+			if (Constants.States.IN.equals(getState())) {
+				softly.assertThat(filteredPolicyCoverageResponseUMPD.getCoverageDescription()).isEqualTo("Uninsured Motorist Property Damage");
+			}
 		});
 	}
 

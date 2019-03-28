@@ -186,7 +186,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@StateList(states = {Constants.States.AZ, Constants.States.ID, Constants.States.KY, Constants.States.PA, Constants.States.UT, Constants.States.WV, Constants.States.MT, //applicable states for PAS-15254
 			Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS, Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR}) //applicable states for PAS-14733
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15254", "PAS-14733"})
-	public void pas15254_14733_UpdateCoveragesBI_UM_UIM(@Optional("VA") String state) {
+	public void pas15254_14733_UpdateCoveragesBI_UM_UIM(@Optional("IN") String state) {
 		pas15254_14733_UpdateCoveragesUM_UIM_Body(getPolicyType(), getState());
 	}
 
@@ -357,10 +357,10 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @name Check UMPD delimiter
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.DE, Constants.States.MD, Constants.States.VA, Constants.States.NJ})
+	@StateList(states = {Constants.States.DE, Constants.States.MD, Constants.States.VA, Constants.States.NJ, Constants.States.IN})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15824"})
-	public void pas15824_UmpdDelimiter(@Optional("NJ") String state) {
+	public void pas15824_UmpdDelimiter(@Optional("MD") String state) {
 		pas15824_UmpdDelimiterBody();
 	}
 

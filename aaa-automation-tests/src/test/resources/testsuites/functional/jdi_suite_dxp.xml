@@ -465,7 +465,7 @@
         </classes>
     </test>
     <test thread-count="1024" name="pas15824_UmpdDelimiter" parallel="methods">
-        <parameter name="state" value="DE, MD, VA, NJ"/>
+        <parameter name="state" value="DE, MD, VA, NJ, IN"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
