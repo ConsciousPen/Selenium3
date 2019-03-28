@@ -132,7 +132,6 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		// CNL-01 validations
         validateCancellationTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
                 BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION), policyNumber, totalTaxesNB.add(totalTaxesEnd));
-        SearchPage.openPolicy(policyNumber);
 
 		// Reinstate policy without lapse
         performReinstatement(policyNumber);
@@ -223,14 +222,12 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             });
         }
 
-        SearchPage.openPolicy(policyNumber);
         Dollar reducedPrem = performRPEndorsement(policyNumber, effDate);
 
         //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
         advanceTime(effDate);
         JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
         mainApp().open();
-        SearchPage.openBilling(policyNumber);
 
         // Validate NBZ-03 transactions that are recorded at effective date
         validateNewBusinessTxAtEffDAte(premTotal.subtract(totalTaxesNB), policyNumber, effDate);
