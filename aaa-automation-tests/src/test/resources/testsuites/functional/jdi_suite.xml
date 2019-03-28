@@ -74,6 +74,18 @@
             </class>
         </classes>
     </test>
+
+    <test thread-count="1024" name="TestEValueDiscountMD" parallel="methods">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
+                    <include name="pas23992_PaperlessPreferanceScenarioOutsidePas"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test thread-count="1024" name="TestEValueDiscountPA" parallel="methods">
         <parameter name="state" value="PA"/>
         <classes>

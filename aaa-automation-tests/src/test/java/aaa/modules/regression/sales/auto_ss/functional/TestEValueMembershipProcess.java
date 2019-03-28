@@ -2142,10 +2142,19 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		softly.assertThat(DBService.get().getValue(String.format(getEvalueStatusSQL, policyNumber)).orElse("")).isEqualTo(status);
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name: paperless Preferences Time Out - What to do?
+	 * @scenario 1. Create new eValue policy With PP Opt_in and evalue selected yes and membership cancelled.
+	 * 2. Bind Policy, check NB note is not there
+	 * 3. got to nb15 run job verify Jeopardy email for membership
+	 * 4. go to nb30 and run job verify evalue got removed.
+	 * @details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
-	public void pas23992_PaperlessPreferanceScenario1(@Optional("MD") String state) {
+	public void pas23992_PaperlessPreferanceScenarioMembership(@Optional("MD") String state) {
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 		retrieveMembershipSummaryEndpointCheck();
 		testEValueDiscount.eValueQuoteCreation();

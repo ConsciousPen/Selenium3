@@ -1686,6 +1686,16 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		softly.close();
 	}
 
+
+	/**
+	 * @author Megha Gubbala
+	 * @name: Paperless Preferences Time Out - What to do?
+	 * @scenario 1. Create new eValue policy With PP service down.(ERROR)
+	 * 2. Bind Policy, check eValueDiscount is there and its pending
+	 * 3. Update Preferences from outside of pas
+	 * 4. Open policy in pas and verify the error message.
+	 * @details
+	 */
 	/// Outside pas
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -1706,10 +1716,20 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_UPDATED_OUTSIDE_OF_THE_PAS, true);
 		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("Pending");
+
+		deleteSinglePaperlessPreferenceRequest(stub);
 	}
 
-
-
+	/**
+	 * @author Megha Gubbala
+	 * @name: Paperless Preferences Time Out - What to do?
+	 * @scenario 1. Create new eValue policy With PP service down.(ERROR)
+	 * 2. Bind Policy, check eValueDiscount is there and its pending and verify note "eValue status set to Pending. Unable to verify Paperless Preferences."
+	 * 3. Run NB+15 job Verify PP note on NB15
+	 * 4. run nb 30 Run NB+30 job and Verify PP note on NB30 make sure evalue is still there
+	 * 4. go to the renewal and renew policy and verify evalue is still there in active status for renewal
+	 * @details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
@@ -1729,7 +1749,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("Pending");
 
 		// Set pp Error on policy
-		//HelperWireMockStub stub2 = createPaperlessPreferencesErrorRequest(policyNumber);
 		//Chane time NB+15 and run nb 15 Job
 		TestEValueMembershipProcess.jobsNBplus15plus30runNoChecks();
 		mainApp().open();
@@ -1743,7 +1762,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB30, true, softly);
-
 
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
@@ -1774,6 +1792,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		buttonRenewals.click();
 		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("Active");
 
+		deleteSinglePaperlessPreferenceRequest(stub1);
 	}
 
 	private void createEvaluePolicyForPPError(String ppStaus, String eValue) {
@@ -1796,6 +1815,14 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name: paperless Preferences Time Out - What to do?
+	 * @scenario 1. Create new eValue policy With PP service down.(ERROR) and evalue selected yes.
+	 * 2. Bind Policy, check NB note is not there
+	 * 3. Create endorsement to add vehicle and verify evalue is still there and pending
+	 * @details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
@@ -1828,6 +1855,16 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		deleteSinglePaperlessPreferenceRequest(stub2);
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name: paperless Preferences Time Out - What to do?
+	 * @scenario 1. Create new eValue policy With PP service down.(ERROR) and evalue selected no.
+	 * 2. Bind Policy, check NB note is not there
+	 * 3. Create an endorsement to opt in for evalue bind policy
+	 * 4.verify pp error that you need PP for Evalue cancle error
+	 * 5. Evalue staus is blank
+	 * @details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
@@ -1861,6 +1898,17 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		deleteSinglePaperlessPreferenceRequest(stub1);
 	}
 
+
+	/**
+	 * @author Megha Gubbala
+	 * @name: paperless Preferences Time Out - What to do?
+	 * @scenario 1. Create new eValue policy With PP service down.(ERROR) and evalue selected yes.
+	 * 2. Bind Policy, check NB note is not there
+	 * 3. generate renewal image create endorsement on renewal add vehicle
+	 * 4.we should be able to bind renwal without Error message
+	 * 5. Evalue staus is blank
+	 * @details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
@@ -1896,6 +1944,15 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		deleteSinglePaperlessPreferenceRequest(stub2);
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name: paperless Preferences Time Out - What to do?
+	 * @scenario 1. Create new eValue policy With PP Opt_in and evalue selected yes.
+	 * 2. Bind Policy, check NB note is not there
+	 * 3. create endorsement after 2 days verify evalue status is active not pending
+	 * 4.create one more endorsement to add the car and we should be able to bind endorsement with no error
+	 * @details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
