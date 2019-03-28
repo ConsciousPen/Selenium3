@@ -28,7 +28,7 @@ TestData_NB_Policy: {
    }
   }
  },
- PremiumAndCoveragesTab: {},
+ PremiumAndCoveragesTab: '@PremiumCoveragesInformation',
  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
  DocumentsAndBindTab: {
   RequiredToBind: {
@@ -67,7 +67,7 @@ TestData_NB_Quote: {
    }
   }
  },
- PremiumAndCoveragesTab: {},
+ PremiumAndCoveragesTab: '@PremiumCoveragesInformation',
  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
@@ -799,4 +799,86 @@ RatingDetailReportsTab_Order: {
  Order Report: click,
 }
 
+TestData_PremiumCoverages_Version1: {
+ GeneralTab: {},
+ DriverTab: {},
+ RatingDetailReportsTab: {},
+ VehicleTab: {},
+ AssignmentTab: {},
+ FormsTab: {},
+ PremiumAndCoveragesTab: '@PremiumCoveragesInformation_Version1',
+ DriverActivityReportsTab: {},
+ DocumentsAndBindTab: {
+  RequiredToIssue: {
+   Coverage Acceptance Statement: Physically Signed,
+  }
+ },
+}
+
+TestData_PremiumCoverages_Version2: {
+ GeneralTab: {},
+ DriverTab: {},
+ RatingDetailReportsTab: {},
+ VehicleTab: {},
+ AssignmentTab: {},
+ FormsTab: {},
+ PremiumAndCoveragesTab: '@PremiumCoveragesInformation_Version2',
+ DriverActivityReportsTab: {},
+ DocumentsAndBindTab: {
+  RequiredToIssue: {
+   Coverage Acceptance Statement: Physically Signed,
+  }
+ },
+}
+
+PremiumCoveragesInformation: {
+ Payment Plan: Annual,
+ Policy Term: Annual,
+  #Bodily Injury Liability: 'contains=$100,000/$300,000',
+  #Property Damage Liability: 'contains=$50,000',
+  #Uninsured Motorists Bodily Injury: 'contains=$100,000/$300,000',
+  #Underinsured Motorists Bodily Injury: 'contains=$100,000/$300,000',
+  #Basic Personal Injury Protection Coverage: 'contains=$10,000',
+  #Additional Personal Injury Protection Coverage: 'contains=No Coverage',
+  #Personal Injury Protection Deductible: 'contains=$0',
+  #Comprehensive Deductible: 'contains=$750',
+  #Special Equipment Coverage: 1000,
+  #Collision Deductible: 'contains=$500',
+  #Rental Reimbursement: 'contains=No Coverage',
+  #Towing and Labor Coverage: 'contains=No Coverage'
+}
+
+PremiumCoveragesInformation_Version1: {
+ Payment Plan: Annual,
+ Policy Term: Annual,
+  #Bodily Injury Liability: 'contains=$100,000/$300,000',
+  #Property Damage Liability: 'contains=$50,000',
+  #Uninsured Motorists Bodily Injury: 'contains=$100,000/$300,000',
+  #Underinsured Motorists Bodily Injury: 'contains=$100,000/$300,000',
+  #Basic Personal Injury Protection Coverage: 'contains=$10,000',
+  #Additional Personal Injury Protection Coverage: 'contains=No Coverage',
+  #Personal Injury Protection Deductible: 'contains=$0',
+  #Comprehensive Deductible: 'contains=$750',
+  #Special Equipment Coverage: 1000,
+  #Collision Deductible: 'contains=$500',
+  #Rental Reimbursement: 'contains=No Coverage',
+  #Towing and Labor Coverage: 'contains=No Coverage'
+}
+
+PremiumCoveragesInformation_Version2: {
+ Policy Term: 'Semi-annual',
+ Payment Plan: 'Semi-Annual',
+ #Bodily Injury Liability: 'contains=$250,000/$500,000',
+ #Property Damage Liability: 'contains=$100,000',
+ #Uninsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
+ #Underinsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
+ #Basic Personal Injury Protection Coverage: 'contains=$10,000',
+ #Additional Personal Injury Protection Coverage: 'contains=No Coverage',
+ #Personal Injury Protection Deductible: 'contains=$0',
+ #Comprehensive Deductible: 'contains=$750',
+ #Special Equipment Coverage: 1500,
+ #Collision Deductible: 'contains=$500',
+ #Rental Reimbursement: 'contains=$30/$900',
+ #Towing and Labor Coverage: 'contains=$50/$300'
+}
 

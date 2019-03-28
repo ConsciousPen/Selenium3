@@ -117,6 +117,7 @@ public class VersionsComparisonConstants {
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Manually Rated Driver", "New Driver Version2","NBFirstName NBLastName")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.System Rated Driver", "New Driver Version2","VIFirstName VILastName")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Manually Rated Driver", "New Driver Version2","VIFirstName VILastName")
+			.putAll("Policy Options.Payment Plan","semiAnnualCA","standartCA")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -537,4 +538,8 @@ public class VersionsComparisonConstants {
 			.put("Vehicles.2003, MERCEDES-BENZ, SL500R", "Manually Rated Driver")
 			.build();
 
+	//all components/attributes that should be on Comparison page for Premium and Coverages section for Quote Compare
+	static final Multimap<String, String> DATA_GATHER_PREMIUM_AND_COVERAGES = ImmutableListMultimap.<String, String>builder()
+			.put("Policy Options","Payment Plan")
+			.build();
 }
