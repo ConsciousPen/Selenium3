@@ -161,8 +161,8 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         // Tax Validations for RNW-01
         if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
             assertSoftly(softly -> {
-                softly.assertThat(renewalPrem.subtract(totalTaxesRenewal)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1053"));
-                softly.assertThat(renewalPrem.subtract(totalTaxesRenewal)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1054"));
+                softly.assertThat(totalTaxesRenewal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1053"));
+                softly.assertThat(totalTaxesRenewal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1054"));
             });
         }
 

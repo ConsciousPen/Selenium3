@@ -156,9 +156,7 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 			TimeSetterUtil.getInstance().nextPhase(localDateTime);
 		} catch (TestCoordinatorException e) {
 			log.info("Timeshift error caught");
-			if (!e.getMessage().contains("Time shifting skipped")) {
-				throw e;
-			}
+			log.error(e.getMessage());
 		}
 	}
 
