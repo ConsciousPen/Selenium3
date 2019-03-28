@@ -278,6 +278,7 @@ Driver8: {
           Description: 'Fault accident, no injury, damage > $1000',
           Loss Payment Amount: '1500',
           Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+          "Permissive Use Loss?":'Yes',
           "Include in Points and/or YAF?": 'Yes'
         },
         {
@@ -288,6 +289,7 @@ Driver8: {
           Loss Payment Amount: '2000',
           Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
           "Include in Points and/or YAF?": 'No',
+          "Permissive Use Loss?":'Yes',
           Not Included in Points and/or YAF - Reason Codes: 'Report errors'
         },
         {
@@ -303,9 +305,8 @@ Driver8: {
 Driver9: {
   Add Driver: Click,
   DriverSearchDialog:{},
+  Named Insured: "Steve Rogers",
   Driver Type: Available for Rating,
-  First Name: Steve,
-  Last Name: Rogers,
   'Rel. to First Named Insured': Sibling,
   Date of Birth: 07/04/1918,
   Gender: Male,

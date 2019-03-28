@@ -1247,6 +1247,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         log.info("product value: " + productDetermined);
         assertThat(productDetermined).isEqualToIgnoringCase(product);
     }
+
     /**
      * @author Chris Johns
      * PAS-22172 - END - CAS: reconcile permissive use claims when driver/named insured is added (avail for rating)
@@ -1278,22 +1279,17 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         newBusinessFlag = true;
         changeFNIGeneralTab(1);  //Index starts at 0
 
-        //TODO: UNCOMMENT OUT IN FEATURE BRANCH
-//        //Assert that the PU claims have moved to the new FNI (Steve) and has a total of 3 claims now (one existing)
-//        tableDriverList.selectRow(2);
-//        activityAssertions(2,2,3, 2, "Company Input", "", true); //assert the company input with Type Accident show up PU indicator
-//        activityAssertions(2,2,3, 3, "Customer Input", "", true); //assert the company input with Type  Accident show up PU indicator
-//
-//        //Assert that old FNI only has 2 Violation claims
-//        tableDriverList.selectRow(1);
-//        activityAssertions(2,1,2, 1, "Company Input", "", false); //assert the company input with Type Violations do not show up PU indicator
-//        activityAssertions(2,1,2, 4, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
-
-        //On Driver Tab, Set 'Named Insured': Second Insured, Steve Rogers
-        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(0);
-
-        //Reset 'Rel. to First Named Insured': Other
+        //Assert that the PU claims have moved to the new FNI (Steve) and has a total of 3 claims now (one existing)
         tableDriverList.selectRow(1);
+        activityAssertions(2,1,3, 2, "Company Input", "", true); //assert the company input with Type Accident show up PU indicator
+        activityAssertions(2,1,3, 3, "Customer Input", "", true); //assert the company input with Type  Accident show up PU indicator
+
+        //Assert that old FNI only has 2 Violation claims
+        tableDriverList.selectRow(2);
+        activityAssertions(2,2,2, 1, "Company Input", "", false); //assert the company input with Type Violations do not show up PU indicator
+        activityAssertions(2,2,2, 2, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
+
+        //Set 'Rel. to First Named Insured': Other
         driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
         driverTab.submitTab();
 
@@ -1309,10 +1305,10 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         log.info("Policy created successfully. Policy number is " + policyNumber);
 
         //Initiate an endorsement
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"
-        ));
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
         //Change FNI back to First Insured (Nicolas)
+        newBusinessFlag = false;
         changeFNIGeneralTab(1);
 
         //On Driver tab, assert the PU claims all move back to original FNI, Nicolas: 3 Violations, 2 PU claims
@@ -1323,9 +1319,15 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         activityAssertions(2,1,5, 4, "Company Input", "", true);
         activityAssertions(2,1,5, 5, "Customer Input", "", true);
 
+        //Verify the other insured only has one claim now
+        tableDriverList.selectRow(2);
+        activityAssertions(2,2,1, 1, "Customer Input", "", false);
+
+        //Set 'Rel. to First Named Insured': Other
+        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
+
         bindEndorsement();
     }
-
 
     /**
      * @author Chris Johns
@@ -1375,20 +1377,21 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 	    NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
 
 	    // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
+        tableDriverList.selectRow(1);
         activityAssertions(2, 1, 2, 1, "Internal Claims", CLAIM_NUMBER_1, true);
         activityAssertions(2, 1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
 
         //Navigate to the General Tab and change the FNI to the second insured (Steve)
         changeFNIGeneralTab(1);  //Index starts at 0
 
-
         //Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
-        tableDriverList.selectRow(2);
-        activityAssertions(2,2,3, 1, "Customer Input", "", true);
-        activityAssertions(2,2,3, 2, "Internal Claims", "", true);
-        //Assert that old FNI only has 1 Internal Claims
         tableDriverList.selectRow(1);
-        activityAssertions(2, 1, 1, 1, "Internal Claims", CLAIM_NUMBER_1, true);
+        activityAssertions(2,1,3, 1, "Customer Input", "", true);
+        activityAssertions(2,1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
+
+        //Assert that old FNI only has 1 Internal Claims
+        tableDriverList.selectRow(2);
+        activityAssertions(2, 2, 1, 1, "Internal Claims", CLAIM_NUMBER_1, true);
 
         //Save and exit the Renewal
         DriverTab.buttonSaveAndExit.click();
