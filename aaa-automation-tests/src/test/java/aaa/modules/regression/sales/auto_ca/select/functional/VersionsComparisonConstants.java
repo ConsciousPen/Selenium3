@@ -135,8 +135,8 @@ public class VersionsComparisonConstants {
 			.put("Named Insureds.VIIFirstName VII VIILastName.Base Date", "Base Date")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Move-In Date", "Move-In Date")
 			//AAA Product Owned
-			.put("AAA Products Owned.Current AAA Member", "Current AAA Member")
-			.put("AAA Products Owned.Membership Number", "Membership Number")
+			.put("AAA Membership.Current AAA Member", "Current AAA Member")
+			.put("AAA Membership.Membership Number", "Membership Number")
 			//.put("AAA Products Owned.Last name", "Last name")
 			//TODO Should be return after implementation story - Clean up for AAA Product Owned
 			/*			.put("AAA Products Owned.Override Type", "Override Type")
@@ -278,10 +278,10 @@ public class VersionsComparisonConstants {
 
 	//all components/attributes that should be on Comparison page for AAA Product Owned section
 	static final Multimap<String, String> AAA_PRODUCT_OWNED = ImmutableListMultimap.<String, String>builder()
-			.put("AAA Products Owned", "Current AAA Member")
+			.put("AAA Membership", "Current AAA Member")
 			//TODO should be returned after Clean up stories for AAA Product Owned section
 			/*			.put("AAA Products Owned", "Override Type")*/
-			.put("AAA Products Owned", "Membership Number")
+			.put("AAA Membership", "Membership Number")
 			.put("AAA Products Owned", "Motorcycle Policy #")
 			.put("AAA Products Owned", "Life Policy #")
 			.put("AAA Products Owned", "Home Policy #")
@@ -521,7 +521,7 @@ public class VersionsComparisonConstants {
 			.build();
 
 
-	//all components/attributes that should be on Comparison page for Assignment section
+	//all components/attributes that should be on Comparison page for Assignment section for NB
 	static final Multimap<String, String> DATA_GATHER_ASSIGNMENT = ImmutableListMultimap.<String, String>builder()
 			//Assignment Information section
 			.put("Vehicles.1998, DODGE, CARAVAN", "Primary Driver")
@@ -529,7 +529,7 @@ public class VersionsComparisonConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN", "Manually Rated Driver")
 			.build();
 
-	//all components/attributes that should be on Comparison page for Assignment section
+	//all components/attributes that should be on Comparison page for Assignment section for endorsements and renewal
 	static final Multimap<String, String> ASSIGNMENT = ImmutableListMultimap.<String, String>builder()
 			//Assignment Information section
 			.put("Vehicles.2003, MERCEDES-BENZ, SL500R", "Primary Driver")

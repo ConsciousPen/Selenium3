@@ -258,8 +258,8 @@ public class VersionsConflictConstants {
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Base Date")
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Residential Address")
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Mailing Address")
-			//.put("Vehicles.2008, ACURA, MDX", "Primary Driver")
-			//.put("Vehicles.2008, ACURA, MDX", "System Rated Driver")
+			.put("Vehicles.2008, ACURA, MDX", "Primary Driver")
+			.put("Vehicles.2008, ACURA, MDX", "System Rated Driver")
 			.build();
 
 	//Maps to select added Named insureds in endorsement and OOSE
@@ -613,6 +613,8 @@ public class VersionsConflictConstants {
 	 */
 	protected static final ArrayListMultimap<String, String> ASSIGNMENT = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
+					.put("AAADriver Vehicle Relationship", AVAILABLE)
+					.put("AAADriver Vehicle Relationship", CURRENT)
 					.put("Vehicles.1998, DODGE, CARAVAN.Primary Driver", CURRENT)
 					.put("Vehicles.1998, DODGE, CARAVAN.Manually Rated Driver", AVAILABLE)
 					.build());

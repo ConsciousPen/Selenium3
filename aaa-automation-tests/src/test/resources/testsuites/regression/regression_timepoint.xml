@@ -1028,4 +1028,19 @@
             </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestGoodStudentDiscount -->
         </classes>
     </test> <!-- CT Auto -->
+    <test name="OH Auto" parallel="methods">
+        <parameter name="timeshift-scenario-mode" value="method"/>
+        <parameter name="state" value="OH"/>
+        <groups>
+            <run>
+                <include name="TimePoint"/>
+                <include name="Regression"/>
+                <include name="Medium"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestExpirationNoticeGeneration"/>
+            <!-- aaa.modules.regression.document_fulfillment.auto_ss.TestExpirationNoticeGeneration -->
+        </classes>
+    </test><!-- OH Auto -->
 </suite> <!-- Regression Tests Timepoint -->
