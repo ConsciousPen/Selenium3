@@ -224,10 +224,10 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
             softly.assertThat(nsfFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NSF_FEE_WAIVED, "1040"));
         });
 
-        // Perform Endorsement effective today+2days and RP OOS Endorsement effective today+1day (can't use performRPEndorsement method here)
+        // Perform Endorsement effective today+6days and RP OOS Endorsement effective today+5day (can't use performRPEndorsement method here)
         SearchPage.openPolicy(policyNumber);
-        performNonPremBearingEndorsement(policyNumber, dueDate.plusDays(2));
-        policy.endorse().perform(getEndorsementTD(dueDate.plusDays(1)));
+        performNonPremBearingEndorsement(policyNumber, dueDate.plusDays(6));
+        policy.endorse().perform(getEndorsementTD(dueDate.plusDays(5)));
         policy.getDefaultView().fill(getReducePremiumTD());
         policy.rollOn().perform(false, true);
         Dollar reducedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT);
