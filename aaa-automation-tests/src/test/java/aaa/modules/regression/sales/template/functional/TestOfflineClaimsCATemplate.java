@@ -1386,23 +1386,15 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         //Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
         tableDriverList.selectRow(1);
-        activityAssertions(2,1,3, 1, "Customer Input", "", true);
+        activityAssertions(2,1,2, 1, "Customer Input", "", true);
         activityAssertions(2,1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
 
         //Assert that old FNI only has 1 Internal Claims
         tableDriverList.selectRow(2);
-        activityAssertions(2, 2, 1, 1, "Internal Claims", CLAIM_NUMBER_1, true);
+        activityAssertions(2, 2, 1, 1, "Internal Claims", CLAIM_NUMBER_1, false);
 
         //Save and exit the Renewal
         DriverTab.buttonSaveAndExit.click();
-
-        //On Driver Tab, Set 'Named Insured': Second Insured, Steve Rogers
-        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(0);
-
-        //Reset 'Rel. to First Named Insured': Other
-        tableDriverList.selectRow(1);
-        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
-        driverTab.submitTab();
     }
 
 }
