@@ -7,7 +7,6 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -285,14 +284,9 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                 softly.assertThat(fraudFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.CA_FRAUD_ASSESSMENT_FEE, "1040"));
             });
         }
-        SearchPage.openPolicy(policyNumber);
 
 		// Advance time and reinstate policy with lapse
-        advanceTime(PolicySummaryPage.getEffectiveDate().plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
-        JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
-        advanceTime(effDate.plusDays(20));
-        mainApp().open();
-        performReinstatement(policyNumber);
+        performReinstatementWithLapse(effDate, policyNumber);
 
         Dollar totalTaxesReinstatement = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053");
 
@@ -467,12 +461,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                 BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION), policyNumber, totalTaxesNB.subtract(totalTaxesEnd));
 
         //Advance time and reinstate policy with lapse
-        SearchPage.openPolicy(policyNumber);
-        advanceTime(PolicySummaryPage.getEffectiveDate().plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
-        JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
-        advanceTime(effDate.plusDays(20));
-        mainApp().open();
-        performReinstatement(policyNumber);
+        performReinstatementWithLapse(effDate, policyNumber);
 
         Dollar totalTaxesReinstatement = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053");
 
@@ -523,6 +512,15 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                     .subtract(FinancialsSQL.getCreditsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")));
             softly.assertThat(expectedValue).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1042"));
         });
+
+    }
+
+    private void performReinstatementWithLapse(LocalDateTime effDate, String policyNumber) {
+        advanceTime(effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
+        JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
+        advanceTime(effDate.plusDays(20));
+        mainApp().open();
+        performReinstatement(policyNumber);
 
     }
 
