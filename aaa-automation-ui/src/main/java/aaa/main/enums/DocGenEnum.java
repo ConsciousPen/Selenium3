@@ -3,10 +3,10 @@ package aaa.main.enums;
 import org.apache.commons.lang.StringUtils;
 
 public final class DocGenEnum {
+	public static final String EMAIL = "test@csaa.com";
+
 	private DocGenEnum() {
 	}
-
-	public static final String EMAIL = "test@csaa.com";
 
 	public enum Documents {
 		AA02AZ("Declaration page"),
@@ -59,7 +59,7 @@ public final class DocGenEnum {
 		AA34CTA("Cancellation Warning Notice"),
 		AA41CA("Non-Owner Automobile Endorsement"),
 		AA41PA(""),
-		AA41XX("Non-Owners Endorsement"),
+		AA41XX("Non-Owner Automobile Endorsement"),
 		AA43AZ("Named Driver Exclusion Election"),
 		AA43CA("Named Driver(s) Exclusion"),
 		AA43CAB(""),
@@ -74,7 +74,7 @@ public final class DocGenEnum {
 		AA43WV("Named Driver Exclusion Endorsement"),
 		AA47CA(""),
 		AA49CA(""),
-		AA52AZ("Uninsured and Underinsured Motorist Coverage selection form"),
+		AA52AZ("Uninsured and Underinsured Motorist Coverage Selection"),
 		AA52AZ_UPPERCASE("AA52AZ", "UNINSURED AND UNDERINSURED MOTORIST COVERAGE SELECTION FORM"),
 		AA52CA("Agreement Deleting Uninsured/ Underinsured Motorist Bodily Injury Coverage"),
 		AA52COA(""),
@@ -94,7 +94,7 @@ public final class DocGenEnum {
 		AA52UPAA("RUUELLUU", "AA52UPAA", "Uninsured Motorists Coverage Selection/Rejection"),
 		AA52VA("IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE"),
 		AA52WV("Uninsured/Underinsured Motorists Coverage Offer"),
-		AA52IPAA("UIMCRELL", "AA52IPAA","Underinsured Motorists Coverage Selection/Rejection"),
+		AA52IPAA("UIMCRELL", "AA52IPAA", "Underinsured Motorists Coverage Selection/Rejection"),
 		AA53CA("Agreement Deleting Uninsured Motorist Property Damage Coverage"),
 		AA53IN("Rejection of Uninsured Motorist Property Damage Coverage"),
 		AA57CA(""),
@@ -116,8 +116,10 @@ public final class DocGenEnum {
 		AADNPAE(""),
 		AADNUBI(""),
 		AAEUIMMD("AAEUIMMD 07 18", "AAEUIMMD", "Maryland Enhanced Uninsured Motorists Coverage"),
-		AAFPPA("AAFPPA","First Party Benefits Coverage and Limits Selection Form"),
+		AAFPPA("AAFPPA", "First Party Benefits Coverage and Limits Selection Form"),
 		AAGCAZ("Golf Cart Coverage Endorsement"),
+		AAIFNJ3("AAIFNJ3", "AAIFNJ3", "Acknowledgement of Requirement for Insurance Inspection"),
+		AAIFNJ4("AAIFNJ4", "AAIFNJ4", "Inspection Waiver - Sales Agreement Required"),
 		AAIFNY2(""),
 		AAIFNYC("Confirmation of Suspension of Physical Damage Coverage"),
 		AAIFNYF(""),
@@ -130,8 +132,8 @@ public final class DocGenEnum {
 		AALTPA(""),
 		AAMTNY("Multi-tier Disclosure Notice"),
 		AAOANY("Optional Basic Economic Loss (OBEL) Availability Notice"),
-		AAPDXX("Courtesy Coverage Letter"),
-		//AAPDXX("Courtesy Coverage - Permit Driver"),
+		//AAPDXX("Courtesy Coverage Letter"),
+		AAPDXX("Courtesy Coverage - Permit Driver"),
 		AAPNUBI(""),
 		AAPNXX(""),
 		AAPRN1OR("Pre-Renewal Notice Form"),
@@ -151,6 +153,7 @@ public final class DocGenEnum {
 		AAVICA("Community Service Survey"),
 		AAUBI("AAA Usage Based Insurance Program Terms and Conditions"),
 		AAUBI1("AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies"),
+		AAUBI1_PASDOC("AAUBI1", "AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies"),
 		ACPUBI("ACP SMARTtrek Subscription Terms and Conditions"),
 		ACPPNUBI(""),
 		AH34XX("AH34XX", "AH34XX", "Cancellation Notice Document (NonPayment)"),
@@ -282,16 +285,16 @@ public final class DocGenEnum {
 		HSIQXX4("Renters Insurance Quote Page"),
 		HSIQXX6("Condominium Owners Insurance Quote Page"),
 		HSPISKY("Policy Information Sheet (KY)"),
-		HSPIMDA("HSPIMDA", "Notice of Increased/Decreased Recalculated Premium"), 
+		HSPIMDA("HSPIMDA", "Notice of Increased/Decreased Recalculated Premium"),
 		HSPRNMXX("Pre-Renewal letter (Mortgagee)"),
-		HSPRNXX("HSPRNXX","Pre-Renewal letter"),
+		HSPRNXX("HSPRNXX", "Pre-Renewal letter"),
 		HSRNMXX("Renewal Cover Letter (Mortgagee)"),
 		HSRNPUPXX("Renewal Cover Letter PUP"),
 		HSRNHODPXX("Renewal Cover Letter"),
 		HSRRXX("Mortgagee Bill First Renewal Reminder"),
 		HSRR2XX("Mortgagee Bill Final Expiration Notice"),
-		HSRNHBXX("HSRNHBXX","Renewal Reminder (Home Banking)"),
-		HSRNHBPUP("HSRNHBPUP","Renewal Reminder (Home Banking PUP)"),
+		HSRNHBXX("HSRNHBXX", "Renewal Reminder (Home Banking)"),
+		HSRNHBPUP("HSRNHBPUP", "Renewal Reminder (Home Banking PUP)"),
 		HSRFIXX("Request for Information"),
 		HSRFIXXPUP("HSRFIXX", "Request For Information"),
 		HSRMXX(""),
@@ -320,7 +323,7 @@ public final class DocGenEnum {
 		HSAOCMDC("Maryland Statement of Additional Optional Coverages (Condominium Owner's)"),
 		HSSNMDC("Annual Summary of Maryland Condominium Owner’s Coverages and Exclusions including Availability of Windstorm Mitigation Discount"),
 		HSSNMDB("Annual Summary of Maryland Renter’s Coverages and Exclusions including Availability of Windstorm Mitigation Discount"),
-		IL_09_10("IL 09 10","IL 09 10","Pennsylvania Notice"),
+		IL_09_10("IL 09 10", "IL 09 10", "Pennsylvania Notice"),
 		HSSCCOA("HSSCCOA", "Summary of Coverage"),
 		HSSCCOB("HSSCCOB", "Summary of Coverage"),
 		HSSCCOC("HSSCCOC", "Summary of Coverage"),
@@ -394,6 +397,7 @@ public final class DocGenEnum {
 		_60_5006("60 5006", ""),
 		_60_5019("60 5019", "Subscriber Agreement"),
 		_605004("605004", "Remove Recurring Payments"),
+		_605004_PasDoc("60 5004", "Remove Recurring Payments"),
 		_605005("605005", "Returning Enclosed Check"),
 		_605005_SELECT("605005", "Returning Payment"),
 		_605019("605019", "Subscriber Agreement"),
@@ -414,8 +418,8 @@ public final class DocGenEnum {
 		_61_6530("61 6530", "California Residential Property Insurance Disclosure"),
 		_62_6500("62 6500", "CA Evidence of Property Insurance"),
 		AACSDC("District of Columbia Coverage Selection/Rejection Form"),
-		AADNDE1("AADNDE1", "Delaware Motorists Protection Act");
-
+		AADNDE1("AADNDE1", "Delaware Motorists Protection Act"),
+		AACSNJ("AACSNJ", "NJ Auto Standard Policy Coverage Selection Form");
 
 
 		private String id;
@@ -523,23 +527,6 @@ public final class DocGenEnum {
 		}
 	}
 
-	public static class DataElementChoiceTag {
-		public static final String TEXTFIELD = "TextField";
-		public static final String DATETIMEFIELD = "DateTimeField";
-	}
-
-	public static class XmlnsNamespaces {
-		public static final String DOC_PREFIX = "doc";
-		public static final String DOC_URI = "http://www.aaancnuie.com/DCS/2012/01/DocumentCreation";
-		public static final String DOC_URI2 = "http://www.aaancnuie.com/DCS/2012/01/DocumentDistribution";
-
-		public static final String AAAN_PREFIX = "aaan";
-		public static final String AAAN_URI = "http://www.aaancnuit.com.AAANCNU_IDocumentCreation_version1";
-
-		public static final String XSI_PREFIX = "xsi";
-		public static final String XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
-	}
-
 	public enum XmlnsDbFormat {
 		DOC("xmlns:doc=\"http://www.aaancnuie.com/DCS/2012/01/DocumentCreation\""),
 		AAAN("xmlns:aaan=\"http://www.aaancnuit.com.AAANCNU_IDocumentCreation_version1\"");
@@ -553,5 +540,24 @@ public final class DocGenEnum {
 		public String getXmlns() {
 			return xmlns;
 		}
+	}
+
+	public static class DataElementChoiceTag {
+		public static final String TEXTFIELD = "TextField";
+		public static final String DATETIMEFIELD = "DateTimeField";
+	}
+
+	public static class XmlnsNamespaces {
+		public static final String DOC_PREFIX = "doc";
+		public static final String DOC_URI = "http://www.aaancnuie.com/DCS/2012/01/DocumentCreation";
+		public static final String DOC_URI2 = "http://www.aaancnuie.com/DCS/2012/01/DocumentDistribution";
+		public static final String PAS_DOC_URI = "http://www.aaancnuie.com/DCS/2018/01/DocumentCreation";
+		public static final String PAS_DOC_URI2 = "http://www.aaancnuie.com/DCS/2018/01/DocumentDistribution";
+
+		public static final String AAAN_PREFIX = "aaan";
+		public static final String AAAN_URI = "http://www.aaancnuit.com.AAANCNU_IDocumentCreation_version1";
+
+		public static final String XSI_PREFIX = "xsi";
+		public static final String XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
 	}
 }

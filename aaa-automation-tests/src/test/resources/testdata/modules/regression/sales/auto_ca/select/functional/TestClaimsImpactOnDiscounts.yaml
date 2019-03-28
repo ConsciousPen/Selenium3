@@ -1,4 +1,4 @@
-TestData_DriverTab_DiscountsGDD_CAS: {
+TestData_DriverTab_DiscountsGDD: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@GeneralTab',
   DriverTab: ['@Driver_FNI', '@Driver_Second'],
@@ -36,39 +36,43 @@ Driver_FNI: {
   "License #": D1278222,
   Permit Before License: 'No',
   ActivityInformation: {
-    Activity Source: Customer Input,
-    Type: 'Major Violation',
-    Description: 'Hit and run',
-    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
-    Conviction Date: '$<today-3M:MM/dd/yyyy>',
+    Activity Source: 'Company Input',
+    Type: 'Accident',
+    Description: 'Fault accident with injury',
+    Occurrence Date: '$<today-4M:MM/dd/yyyy>',
+    Conviction Date: '$<today-4M:MM/dd/yyyy>',
+    Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
     'Include in Points and/or YAF?': 'Yes',
-    'Permissive Use Loss?': 'Yes'
+    'Permissive Use Loss?': 'Yes',
+    Loss Payment Amount: '3500'
   }
 }
 
 Driver_Second: {
   Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: pasMATTHEW,
-  Last Name: pasFOX,
+  First Name: Bruce,
+  Last Name: Banerr,
   Driver Type: 'Available for Rating',
   'Rel. to First Named Insured': Spouse,
-  Date of Birth: '12/12/1980',
+  Date of Birth: '12/12/1987',
   Gender: Male,
   Marital Status: Married,
   Occupation: Self Employed,
   License Type: "Valid",
   License State: CA,
-  "License #": D1234567,
+  "License #": D9999999,
   Age First Licensed: 18,
   Permit Before License: 'No',
   ActivityInformation: {
-    Activity Source: Customer Input,
-    Type: 'Major Violation',
-    Description: 'Hit and run',
-    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
-    Conviction Date: '$<today-3M:MM/dd/yyyy>',
-    'Include in Points and/or YAF?': 'Yes'
+    Activity Source: 'Company Input',
+    Type: 'Accident',
+    Description: 'Fault accident with injury',
+    Occurrence Date: '$<today-4M:MM/dd/yyyy>',
+    Conviction Date: '$<today-4M:MM/dd/yyyy>',
+    Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    'Include in Points and/or YAF?': 'Yes',
+    Loss Payment Amount: '3500'
   }
 }
 
@@ -78,7 +82,7 @@ PremiumAndCoveragesTab: {
   Payment Plan: Annual
 }
 
-TestData_DriverActivityReportsTab_CAS: {
+TestData_DriverActivityReportsTab: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_2nd',
   DriverActivityReportsTab: '@DriverActivityReportsTab_2nd'
 }

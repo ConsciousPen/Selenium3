@@ -58,7 +58,7 @@ public class TestCARCOTaskCreation extends AutoSSBaseTest {
             td.adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(),
                     AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.ACNOWLEDGEMENT_OF_REQUIREMENT_FOR_INSURANCE_INSPECTION.getLabel()), PolicyConstants.SignatureStatus.PHYSICALLY_SIGNED);
         } else if (getState().equals(Constants.States.NY)) {
-            td.adjust(TestData.makeKeyPath(AutoSSMetaData.VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.LESS_THAN_3000_MILES.getLabel()), "No");
+            td.adjust(TestData.makeKeyPath(AutoSSMetaData.VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.LESS_THAN_1000_MILES.getLabel()), "No");
         }
 
         // Create policy and fill up to Documents & Bind, select 'No' for vehicle under 'Required to Issue' for CARCO
@@ -66,13 +66,11 @@ public class TestCARCOTaskCreation extends AutoSSBaseTest {
 
         // Override CARCO error and bind policy
         documentsAndBindTab.submitTab();
-        if (getState().equals(Constants.States.NJ)) {
-            errorTab.overrideErrors(ErrorEnum.Duration.TERM, ErrorEnum.ReasonForOverride.TEMPORARY_ISSUE, ErrorEnum.Errors.ERROR_AAA_200205);
-        } else if (getState().equals(Constants.States.NY)) {
+        if (getState().equals(Constants.States.NY)) {
             errorTab.overrideErrors(ErrorEnum.Duration.TERM, ErrorEnum.ReasonForOverride.TEMPORARY_ISSUE, ErrorEnum.Errors.ERROR_AAA_200200_NY);
+            errorTab.override();
+            documentsAndBindTab.submitTab();
         }
-        errorTab.override();
-        documentsAndBindTab.submitTab();
         new PurchaseTab().fillTab(td).submitTab();
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 

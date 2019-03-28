@@ -1,13 +1,12 @@
 package aaa.helpers.jobs;
 
-import aaa.config.CsaaTestProperties;
-import toolkit.config.PropertyProvider;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import aaa.config.CsaaTestProperties;
+import toolkit.config.PropertyProvider;
 
 public class Jobs {
 	private static String jobFolderPrefix = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");
@@ -53,7 +52,7 @@ public class Jobs {
 
 	public static Job policyStatusUpdateJob = new Job("policyStatusUpdateJob");
 
-	public static Job aaaRecurringPaymentsProcessingJob = new Job("aaaRecurringPaymentsProcessingJob");
+	public static Job aaaRecurringPaymentsProcessingJob = new Job("aaaRecurringPaymentsAsyncProcessJob");
 
 	public static Job lapsedRenewalProcessJob = new Job("policyLapsedRenewalProcessAsyncJob");
 
@@ -127,6 +126,8 @@ public class Jobs {
 
 	public static Job policyTransactionLedgerJob_NonMonthly = new Job("policyTransactionLedgerJob_NonMonthly");
 
+	public static Job ledgerStatusUpdateJob = new Job("ledgerStatusUpdateJob");
+
 	public static Job cftDcsEodJob = new Job("cftDcsEodJob");
 
 	public static Job aaaCreditDisclosureNoticeJob = new Job("aaaCreditDisclosureNoticeJob");
@@ -135,7 +136,7 @@ public class Jobs {
 
 	public static Job aaaCollectionCancelDebtBatchJob = new Job("aaaCollectionCancelDebtBatchJob");
 
-	public static Job aaaCollectionCancelDebtBatchAsyncJob = new Job("aaaCollectionCancelDebtBatchAsyncJob");
+	public static Job aaaCollectionCancelDebtBatchAsyncJob = new Job("aaaCollectionCancellDebtBatchAsyncJob");
 
 	public static Job collectionFeedBatchorderJob = new Job("collectionFeedBatchOrderJob");
 
@@ -185,7 +186,7 @@ public class Jobs {
 
 	public static Job bofaRecurringPaymentJob = new Job("bofaRecurringPaymentJob");
 
-	public static Job premiumreceivablesonpolicyeffectivejob = new Job("premiumreceivablesonpolicyeffectivejob");
+	public static Job premiumReceivablesOnPolicyEffectiveJob = new Job("premiumReceivablesOnPolicyEffectiveJob");
 
 	public static Job aaaDelayTriggerTOINoticeAsyncJob = new Job("aaaDelayTriggerTOINoticeAsyncJob");
 
@@ -198,12 +199,6 @@ public class Jobs {
 	public static Job activityHistoryJob = new Job("activityHistoryJob");
 
 	public static Job activitySummarizationJob = new Job("activitySummarizationJob");
-
-	public static Job ledgerStatusUpdateJob = new Job("ledgerStatusUpdateJob");
-
-
-
-
 
 	public enum JobState {
 		TRUE, FALSE, FAILED

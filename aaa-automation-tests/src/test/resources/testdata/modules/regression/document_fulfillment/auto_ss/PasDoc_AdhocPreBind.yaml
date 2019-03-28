@@ -5,8 +5,12 @@ TestData_SC2: {
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMBILessThanBI', 
   DriverActivityReportsTab: '@DriverActivityReportsTab', 
-  DocumentsAndBindTab: '@DocumentsAndBindTab', 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Full', 
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+TestData_SC2_NO_PASDOC: {
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Full_NO_PASDOC' 
 }
 
 TestData_SC3: { 
@@ -28,7 +32,14 @@ TestData_SC5: {
   DriverTab: ['@<auto_ss>@DataGather@DriverTab', '@DriverTab_ExcludedDriver', '@DriverTab_TeenageDriver'], 
   VehicleTab: ['@<auto_ss>@DataGather@VehicleTab', '@VehicleTab_EnrolledInUBI'],
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMBILessThanBI', 
-  DocumentsAndBindTab: '@DocumentsAndBindTab'
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Full'
+}
+
+TestData_SC5_NO_PASDOC: {
+  DriverTab: ['@<auto_ss>@DataGather@DriverTab', '@DriverTab_ExcludedDriver', '@DriverTab_TeenageDriver'], 
+  VehicleTab: ['@<auto_ss>@DataGather@VehicleTab', '@VehicleTab_EnrolledInUBI'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMBILessThanBI', 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Full_NO_PASDOC'
 }
 
 # -------- GeneralTab ---------
@@ -119,7 +130,7 @@ DriverActivityReportsTab: {
 }
 
 # -------- DocumentsAndBindTab ---------
-DocumentsAndBindTab: {
+DocumentsAndBindTab_Full: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed,
     Uninsured and Underinsured Motorist Coverage Selection: Physically Signed, 
@@ -129,7 +140,6 @@ DocumentsAndBindTab: {
   Agreement: I agree, 
   RequiredToIssue: {
     Proof of Prior Insurance: 'Yes', 
-    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: 'Yes'
   }
 }
 
@@ -166,6 +176,18 @@ DocumentsAndBindTab_SC5: {
   }
 }
 
+DocumentsAndBindTab_Full_NO_PASDOC: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Uninsured and Underinsured Motorist Coverage Selection: Physically Signed, 
+    Named Driver Exclusion: Physically Signed, 
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
 
 # ---------------
 TestData_GenAllDocs_Quote: {

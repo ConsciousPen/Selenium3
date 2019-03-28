@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.jcraft.jsch.ChannelSftp;
@@ -244,6 +245,32 @@ public final class RemoteHelper {
 
 		assertThat(commandOutput).as("No files have been found%s", searchParams).isNotEmpty();
 		List<String> foundFiles = Arrays.asList(commandOutput.split("\n"));
+		log.info("Found file(s): {} after {} milliseconds", foundFiles, searchTime);
+		return foundFiles;
+	}
+
+	public List<String> waitForFilesAppearance(String sourceFolder, int timeoutInSeconds, String policyNum, String timeFormat) {
+		log.info("Searching for file(s) {}", policyNum, timeFormat);
+		long searchStart = System.currentTimeMillis();
+		long timeout = searchStart + timeoutInSeconds * 1000L;
+		List<String> files;
+		long conditionCheckPoolingIntervalInSeconds = 1;
+		List<String> foundFiles;
+		do {
+			files = getListOfFiles(sourceFolder);
+			foundFiles =  files.stream().filter(s -> s.contains(policyNum) && s.contains(timeFormat)).collect(Collectors.toList());
+			if (!foundFiles.isEmpty()) {
+				break;
+			}
+			try {
+				TimeUnit.SECONDS.sleep(conditionCheckPoolingIntervalInSeconds);
+			} catch (InterruptedException e) {
+				log.debug(e.getMessage());
+			}
+		}
+		while (timeout > System.currentTimeMillis());
+		long searchTime = System.currentTimeMillis() - searchStart;
+
 		log.info("Found file(s): {} after {} milliseconds", foundFiles, searchTime);
 		return foundFiles;
 	}
