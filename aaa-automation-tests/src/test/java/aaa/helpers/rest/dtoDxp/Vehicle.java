@@ -90,6 +90,13 @@ public class Vehicle implements RestBodyRequest {
 	@ApiModelProperty(value = "List of vehicle related validation errors")
 	public List<ValidationError> validations;
 
+	@ApiModelProperty(value = "Has Daytime Running Lights?", example = "true")
+	public Boolean daytimeRunningLight;
+
+	@ApiModelProperty(value = "Has Antilock Breaks?", example = "true")
+	public Boolean antiLockBreaks;
+
+
 	public static final Comparator<Vehicle> ACTIVE_POLICY_COMPARATOR = (vehicle1, vehicle2) -> ComparisonChain.start()
 			.compareTrueFirst(VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO.equals(vehicle1.vehTypeCd),
 					VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO.equals(vehicle2.vehTypeCd))
