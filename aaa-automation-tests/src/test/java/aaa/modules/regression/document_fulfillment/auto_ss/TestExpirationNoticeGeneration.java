@@ -56,7 +56,7 @@ public class TestExpirationNoticeGeneration extends AutoSSBaseTest {
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.OH})
-	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 
 	public void testExpirationNoticeGeneration(@Optional("OH") String state) {

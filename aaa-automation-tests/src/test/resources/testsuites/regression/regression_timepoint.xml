@@ -1035,6 +1035,7 @@
             <run>
                 <include name="TimePoint"/>
                 <include name="Regression"/>
+                <include name="Medium"/>
             </run>
         </groups>
         <classes>
