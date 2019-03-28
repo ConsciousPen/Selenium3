@@ -6253,27 +6253,28 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
-		Coverage covUM = Coverage.create(CoverageInfo.UM_SUM_NJ);
+		Coverage covUM = Coverage.create(CoverageInfo.UM_SUM_NY).removeAvailableLimitsAbove(CoverageLimits.COV_100_SUM);
 
 		//Check viewEndorsementCoverages response, default should be selected as "Supplementary Uninsured/Underinsured Motorists Bodily Injury" and check
 		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covUM);
 		//Update BI Limits and check for UM Limits
-		for (CoverageLimits coverageBILimit : AvailableCoverageLimits.BI_AZ_PA_NJ.getAvailableLimits()) {
-			Coverage covUMSUMExpected = Coverage.create(CoverageInfo.UM_SUM_NJ).removeAvailableLimitsAbove(coverageBILimit);
-			PolicyCoverageInfo updateBIResponse = updateCoverage(policyNumber, CoverageInfo.BI_AZ_PA_NJ.getCode(), coverageBILimit.getLimit());
-			Coverage coverageUMSUMActual = findCoverage(updateBIResponse.policyCoverages, CoverageInfo.UM_SUM_NJ.getCode());
-			assertThat(coverageUMSUMActual).isEqualToComparingFieldByField(covUMSUMExpected);
+		updateCoverage(policyNumber, "BI", CoverageLimits.COV_2550.getLimit());
+		updateCoverage(policyNumber, "UM/SUM", CoverageLimits.COV_25_SUM.getLimit());
+		for (CoverageLimits coverageBILimit : AvailableCoverageLimits.BI_NY.getAvailableLimits()) {
+			Coverage covUMSUMExpected;
+
+			if (coverageBILimit.getLimit().equals(CoverageLimits.COV_2550.getLimit())) {
+				covUMSUMExpected = Coverage.create(CoverageInfo.UI_NY).removeAvailableLimitsAbove(coverageBILimit).changeLimit(coverageBILimit);
+			} else {
+				covUMSUMExpected = Coverage.create(CoverageInfo.UM_SUM_NY).removeAvailableLimitsAbove(coverageBILimit).changeLimit(coverageBILimit);
+			}
+			PolicyCoverageInfo updateBIResponse = updateCoverage(policyNumber, "BI", coverageBILimit.getLimit());
+			Coverage coverageUMSUMActual = findCoverage(updateBIResponse.policyCoverages, CoverageInfo.UI_NY.getCode());
+			assertThat(coverageUMSUMActual).isEqualToIgnoringGivenFields(covUMSUMExpected, "coverageLimitDisplay");
 			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateBIResponse);
 		}
 
-
-		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covUM);
-
-		//Update to "Uninsured Motorists Bodily Injury" and check
-		Coverage COV_50100= Coverage.create(CoverageInfo.UM_SUM_NJ).changeLimit(CoverageLimits.COV_50100);
-		updateCoverageAndCheck(policyNumber, covUM, covUM);
-		//Update back to "Supplementary Uninsured/Underinsured Motorists Bodily Injury" and check
-		updateCoverageAndCheck(policyNumber, covUM, covUM);
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
@@ -6734,7 +6735,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private PolicyCoverageInfo updateCoverageAndCheckResponses(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
 		PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber, covToUpdate);
-		validatePolicyLevelCoverageChangeLog(policyNumber, expectedCoveragesToCheck);
+		//validatePolicyLevelCoverageChangeLog(policyNumber, expectedCoveragesToCheck);
 		validateCoveragesDXP(updateCoverageResponse.policyCoverages, expectedCoveragesToCheck);
 		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateCoverageResponse);
 		return updateCoverageResponse;

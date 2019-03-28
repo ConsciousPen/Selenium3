@@ -1744,6 +1744,5 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 
 
-
 }
 
