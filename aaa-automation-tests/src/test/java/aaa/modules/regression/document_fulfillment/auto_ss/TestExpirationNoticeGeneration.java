@@ -54,7 +54,6 @@ public class TestExpirationNoticeGeneration extends AutoSSBaseTest {
 	 * 15. (R+5) Run aaaRenewalReminderGenerationAsyncJob and aaaDocGenBatchJob and Search for AH64XX form in DB (EXPIRATION_NOTICE event)
 	 * @details
 	 */
-
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.OH})
 	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})

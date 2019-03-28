@@ -1039,6 +1039,7 @@
         </groups>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestExpirationNoticeGeneration"/>
+            <!-- aaa.modules.regression.document_fulfillment.auto_ss.TestExpirationNoticeGeneration -->
         </classes>
     </test><!-- OH Auto -->
 </suite> <!-- Regression Tests Timepoint -->
