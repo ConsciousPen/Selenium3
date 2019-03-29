@@ -18,8 +18,8 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.exigen.istf.exec.core.TestCoordinatorException;
 import toolkit.datax.TestData;
+import toolkit.utils.datetime.DateTimeUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -129,6 +129,11 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		Dollar rollBackAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ROLL_BACK_ENDORSEMENT);
 		SearchPage.openPolicy(policyNumber);
 		return rollBackAmount;
+	}
+
+	protected LocalDateTime getCancellationEffectiveDate() {
+		return TimeSetterUtil.getInstance().parse(PolicySummaryPage.tableGeneralInformation.getRow(1)
+				.getCell(PolicyConstants.PolicyGeneralInformationTable.CANCELLATION_EFFECTIVE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
 	}
 
 	protected Dollar getBillingAmountByType(String type, String subtype) {
