@@ -1206,7 +1206,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         String productDetermined = premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT.getLabel(), ComboBox.class).getValue();
         log.info("product value : " + productDetermined);
-        assertThat(productDetermined).isEqualToIgnoringCase("CA Select"); //System determines as Select with no activity
+        assertThat(productDetermined).isEqualToIgnoringCase("CA Select"); //System determines as Choice with no activity
 
         productDeterminationAssertions(true, false, noAgeChange, "CA Choice"); //System determines as Choice with one At fault accident and PU as No
         productDeterminationAssertions(false, true, noAgeChange, "CA Select"); //Product determination is not impacted with this PU loss (PU is Yes) and keeps as Select
@@ -1226,8 +1226,14 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
             new DriverTab().fillTab(td_activity);
         }
         if (permissiveUse) {
+            tableActivityInformationList.selectRow(1);
+            activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).setValue("Yes");
+            tableActivityInformationList.selectRow(2);
             activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).setValue("Yes");
         } else {
+            tableActivityInformationList.selectRow(1);
+            activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).setValue("No");
+            tableActivityInformationList.selectRow(2);
             activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).setValue("No");
         }
         if (!age.isEmpty()) {

@@ -268,7 +268,7 @@ TestData_Activity: {
 }
 
 DriverTab_Activity: {
-  ActivityInformation: ['@Activity1']
+  ActivityInformation: ['@Activity1', '@Activity2']
 }
 
 Activity1: {
@@ -276,6 +276,17 @@ Activity1: {
   Type: 'Accident',
   Occurrence Date: '$<today-1M:MM/dd/yyyy>',
   Description: 'Fault accident with injury',
+  Loss Payment Amount: '2000',
+  Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+  "Permissive Use Loss?": 'No',
+  "Include in Points and/or YAF?": 'Yes'
+}
+
+Activity2: {
+  Activity Source: Company Input,
+  Type: 'Accident',
+  Occurrence Date: '$<today-2M:MM/dd/yyyy>',
+  Description: 'Fault accident, no injury, damage > $1000',
   Loss Payment Amount: '2000',
   Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
   "Permissive Use Loss?": 'No',

@@ -75,6 +75,7 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
         // Return to PNC Tab. Capture Product Type. Verify it's 'Choice' now.
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         productDetermined = pncTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT.getLabel(), ComboBox.class).getValue();
+
         CustomAssertions.assertThat(productDetermined).isEqualToIgnoringCase("CA Choice");
 
         // Calculate Premium. Verify Product Hasn't Changed.
