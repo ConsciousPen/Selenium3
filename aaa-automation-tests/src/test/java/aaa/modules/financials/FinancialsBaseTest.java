@@ -137,12 +137,19 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 	}
 
 	protected Dollar getBillingAmountByType(String type, String subtype) {
+		return getBillingAmountByType(type, subtype, null);
+	}
+
+	protected Dollar getBillingAmountByType(String type, String subtype, LocalDateTime effDate) {
 		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		}
 		Map<String, String> query = new HashMap<>();
 		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, type);
 		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, subtype);
+		if (effDate != null) {
+			query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.EFF_DATE, effDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+		}
 		return new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).abs();
 	}
 

@@ -1,6 +1,7 @@
 package aaa.modules.financials.template;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -86,7 +87,8 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         performNonPremBearingEndorsement(policyNumber, dueDate.plusDays(6));
         performAPEndorsement(policyNumber, dueDate.plusDays(5));
         policy.rollOn().perform(false, true);
-        Dollar addedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT);
+        Dollar addedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT, dueDate.plusDays(5));
 
         Dollar taxes = new Dollar(0.00);
         if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
