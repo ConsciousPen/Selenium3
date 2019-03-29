@@ -1724,4 +1724,18 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas16041_wlbCoverageNY(@Optional("NY") String state) {
 		pas16041_wlbCoverageNYBody();
 	}
+
+
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-27201"})
+	public void pas27201_SpEquipmentUpdatedWhenCollisionDeclined(@Optional("AZ") String state) {
+		assertSoftly(softly ->
+				pas27201_SpEquipmentUpdatedWhenCollisionDeclinedBody(getPolicyType(), state, softly)
+		);
+	}
+
+
 }
