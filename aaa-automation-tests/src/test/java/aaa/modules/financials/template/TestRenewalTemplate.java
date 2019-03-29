@@ -131,7 +131,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         });
 
         // Move to renewal time point and propose renewal image
-        advanceTime(renewalEffDate);
+        TimeSetterUtil.getInstance().nextPhase(renewalEffDate);
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         policy.renew().performAndFill(getRenewalFillTd());
@@ -243,7 +243,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         // TODO Validate END-05
 
         // Move to renewal offer time point and create renewal image
-        advanceTime(getTimePoints().getRenewOfferGenerationDate(renewalEffDate));
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalEffDate));
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         policy.renew().performAndFill(getRenewalFillTd());

@@ -151,15 +151,6 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		BillingSummaryPage.dialogConfirmation.confirm();
 	}
 
-	protected void advanceTime(LocalDateTime localDateTime) {
-		try {
-			TimeSetterUtil.getInstance().nextPhase(localDateTime);
-		} catch (TestCoordinatorException e) {
-			log.info("Timeshift error caught");
-			log.error(e.getMessage());
-		}
-	}
-
 	protected Map<String, Dollar> getTaxAmountsForPolicy(String policyNumber) {
 		Map<String, Dollar> taxes = new HashMap<>();
 		String hoPolicyStateTaxDescription;
