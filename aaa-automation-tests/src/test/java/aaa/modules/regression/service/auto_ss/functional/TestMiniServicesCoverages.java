@@ -1738,8 +1738,8 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@StateList(states = {Constants.States.NY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15308"})
-	public void pas15308_UM_SUM_CoverageNJ(@Optional("NY") String state) {
-		pas15308_UM_SUM_CoverageNJBody();
+	public void pas15308_UM_SUM_CoverageNY(@Optional("NY") String state) {
+		pas15308_UM_SUM_CoverageNYBody();
 	}
 
 
