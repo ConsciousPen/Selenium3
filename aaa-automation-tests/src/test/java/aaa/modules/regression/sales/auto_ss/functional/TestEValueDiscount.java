@@ -1766,11 +1766,12 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
-		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(45));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
-		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(35));
+
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
