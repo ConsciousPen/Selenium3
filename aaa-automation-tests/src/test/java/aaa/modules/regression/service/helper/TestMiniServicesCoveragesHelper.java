@@ -6253,24 +6253,27 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
-		Coverage covUM = Coverage.create(CoverageInfo.UM_SUM_NY).removeAvailableLimitsAbove(CoverageLimits.COV_100_SUM);
+		Coverage covUM = Coverage.create(CoverageInfo.UM_SUM_NY).removeAvailableLimitsAbove(CoverageLimits.COV_100300_SUM);
 
 		//Check viewEndorsementCoverages response, default should be selected as "Supplementary Uninsured/Underinsured Motorists Bodily Injury" and check
 		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covUM);
 		//Update BI Limits and check for UM Limits
 		updateCoverage(policyNumber, "BI", CoverageLimits.COV_2550.getLimit());
-		updateCoverage(policyNumber, "UM/SUM", CoverageLimits.COV_25_SUM.getLimit());
+		updateCoverage(policyNumber, "UM/SUM", CoverageLimits.COV_2550_SUM.getLimit());
+		int covUMSUMLimitIndex= 0;
 		for (CoverageLimits coverageBILimit : AvailableCoverageLimits.BI_NY.getAvailableLimits()) {
 			Coverage covUMSUMExpected;
+			CoverageLimits covUMSUMLimit = AvailableCoverageLimits. UM_SUM.getAvailableLimits().get(covUMSUMLimitIndex);
+			covUMSUMLimitIndex++;
 
 			if (coverageBILimit.getLimit().equals(CoverageLimits.COV_2550.getLimit())) {
-				covUMSUMExpected = Coverage.create(CoverageInfo.UI_NY).removeAvailableLimitsAbove(coverageBILimit).changeLimit(coverageBILimit);
+				covUMSUMExpected = Coverage.create(CoverageInfo.UM_SUM_2550_NY).removeAvailableLimitsAbove(coverageBILimit).changeLimit(coverageBILimit);
 			} else {
 				covUMSUMExpected = Coverage.create(CoverageInfo.UM_SUM_NY).removeAvailableLimitsAbove(coverageBILimit).changeLimit(coverageBILimit);
 			}
 			PolicyCoverageInfo updateBIResponse = updateCoverage(policyNumber, "BI", coverageBILimit.getLimit());
-			Coverage coverageUMSUMActual = findCoverage(updateBIResponse.policyCoverages, CoverageInfo.UI_NY.getCode());
+			Coverage coverageUMSUMActual = findCoverage(updateBIResponse.policyCoverages, CoverageInfo.UM_SUM_2550_NY.getCode());
 			assertThat(coverageUMSUMActual).isEqualToIgnoringGivenFields(covUMSUMExpected, "coverageLimitDisplay");
 			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateBIResponse);
 		}
