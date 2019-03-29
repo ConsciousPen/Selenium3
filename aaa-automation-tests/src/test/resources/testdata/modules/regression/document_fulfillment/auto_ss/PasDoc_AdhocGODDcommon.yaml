@@ -243,7 +243,6 @@ DocumentsAndBindTab_VehiclesWithUBI: {
   }, 
   Agreement: I agree, 
   RequiredToIssue: {
-    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: 'Yes',
     Proof of Prior Insurance: 'Yes'
   }
 }
@@ -277,7 +276,6 @@ DocumentsAndBindTab_Full: {
   }, 
   Agreement: I agree, 
   RequiredToIssue: {
-    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: 'Yes', 
     Proof of Prior Insurance: 'Yes'
   }, 
   Case Number: '12345'
