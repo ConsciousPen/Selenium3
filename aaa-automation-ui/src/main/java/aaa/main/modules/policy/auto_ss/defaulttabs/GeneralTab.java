@@ -69,7 +69,7 @@ public class GeneralTab extends Tab {
 	}
 
 	public Table getManualSearchResultTable() {
-		return getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.RESULT_TABLE.getLabel(), FillableTable.class).getTable();
+		return getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.RESULT_TABLE.getLabel(), FillableTable.class).getTable();
 	}
 
 	public SelectSearchDialog getSearchOtherAAAProducts() {

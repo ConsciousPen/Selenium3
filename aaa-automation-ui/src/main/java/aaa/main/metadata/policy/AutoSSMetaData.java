@@ -208,9 +208,9 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<Button> SEARCH_BTN = declare("Search", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:cmdButtonSearch']"));
 			public static final AssetDescriptor<Button> CLEAR_BTN = declare("Clear", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:cmdButtonClear']"));
 			public static final AssetDescriptor<Button> CLOSE_BTN = declare("Close", Button.class, By.xpath("//div[@id = 'autoOtherPolicySearchPopup_header_controls']/child::img"));
-			public static final AssetDescriptor<StaticElement> ERROR_MESSAGE = declare("Error Message", StaticElement.class, By.xpath(".//span[@id='autoOtherPolicySearchForm:noResults']"));
-
-			public static final AssetDescriptor<FillableTable> RESULT_TABLE = declare("Result Table", FillableTable.class, ResultsTableRows.class, By.xpath(".//table[@id=’ autoOtherPolicySearchForm:elasticSearchResponseTable’]"));
+			public static final AssetDescriptor<StaticElement> ERROR_MESSAGE = declare("Error Message", StaticElement.class, By.xpath(".//span[@id= 'autoOtherPolicySearchForm:noResults']"));
+			public static final AssetDescriptor<StaticElement> EXCEEDED_LIMIT_MESSAGE = declare("Exceeded Limit Message", StaticElement.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:maxresultReached']"));
+			public static final AssetDescriptor<FillableTable> RESULT_TABLE = declare("Result Table", FillableTable.class, ResultsTableRows.class, By.xpath("*//tbody[@id='autoOtherPolicySearchForm:elasticSearchResponseTable_data']"));
 
 			public static final AssetDescriptor<Button> ADD_MOTOR_OR_LIFE_BTN = declare("Add Motor/Life", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:addMotorOrLife']"));
 			public static final AssetDescriptor<Button> ADD_HOME_RENTERS_CONDO_BTN = declare("Add Home/Renters/Condo", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:addHomeRenterCondo']"));

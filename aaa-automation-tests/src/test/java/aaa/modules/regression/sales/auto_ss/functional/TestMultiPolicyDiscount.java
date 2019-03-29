@@ -23,12 +23,15 @@ import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.*;
 import org.testng.annotations.Optional;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
+import toolkit.webdriver.BrowserController;
+import toolkit.webdriver.WebDriverFactory;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.Link;
@@ -50,6 +53,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
     public static List<String> _listOfMPDTableColumnNames = Arrays.asList("Policy Number / Address", "Policy Type", "Customer Name/DOB", "Expiration Date", "Status", "MPD");
     public static List<String> _listOfMPDSearchResultsTableColumnNames = Arrays.asList("Customer Name/Address", "Date of Birth", "Policy Type", "Other AAA Products/Policy Address", "Status", "Select");
+    public static final String _XPATH_TO_ALL_SEARCH_RESULT_CHECKBOXES = "*//input[contains(@id, 'customerSelected')]";
 
     // Add more states here if they get MC policy support.
     private ArrayList<String> motorcycleSupportedStates = new ArrayList<>(Arrays.asList(Constants.States.AZ));
@@ -672,7 +676,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         // Set pre-conditions by creating a quote, rating and filling up to purchase.
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-        otherAAAProducts_SearchAndAddCompanionPolicy("Home", "NOT_FOUND");
+        otherAAAProducts_SearchAndManuallyAddCompanionPolicy("Home", "NOT_FOUND");
 
         // Added MPD element, filling up to purchase point. Includes hacky methods to get around system error.
         policy.getDefaultView().fillFromTo(testData, GeneralTab.class, DocumentsAndBindTab.class, true);
@@ -1020,7 +1024,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         otherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
         otherAAAProductsSearchTable_addSelected(0);
-        otherAAAProducts_SearchAndAddCompanionPolicy("Motorcycle", "NOT_FOUND");
+        otherAAAProducts_SearchAndManuallyAddCompanionPolicy("Motorcycle", "NOT_FOUND");
         otherAAAProducts_SearchByPolicyNumber("Life", "NOT_FOUND");
         otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound( "Life", "TestLife");
 
@@ -1065,7 +1069,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_NE");
         otherAAAProductsSearchTable_addSelected(0);
-        otherAAAProducts_SearchAndAddCompanionPolicy("Life", "TestLifePolicy");
+        otherAAAProducts_SearchAndManuallyAddCompanionPolicy("Life", "TestLifePolicy");
 
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
         _documentsAndBindTab.btnGenerateDocuments.click();
@@ -1076,6 +1080,37 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Life)");
         //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "TestLifePolicy");
     }
+
+    /**
+     *
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(enabled = true, groups = {Groups.FUNCTIONAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27241")
+    public void pas27241_MPDPagination(@Optional("AZ") String state){
+
+        int numberOfResultsRequiredForSuccessfulValidation = 6;
+        // Handles getting us a policy and moves us up to our testing point, on the General Tab.
+        createQuoteAndFillUpTo(getPolicyDefaultTD(), GeneralTab.class, false);
+
+        // Test Results > 50 display error on UI.
+        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMERS_51");
+
+        // Validate Error appears and count the number of results on the page.
+        CustomAssertions.assertThat(_generalTab.getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.EXCEEDED_LIMIT_MESSAGE)).isPresent();
+        CustomAssertions.assertThat(getSearchResultsCount()).isEqualTo(numberOfResultsRequiredForSuccessfulValidation);
+        otherAAAProductsSearchTable_addSelected(new int[]{0, 1, 2, 3, 4, 5});
+
+        // Test Results <= 50 DO NOT display error on UI.
+        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMERS_50");
+
+        // Validate Error does NOT appear and count the number of results on the page.
+        CustomAssertions.assertThat(_generalTab.getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.EXCEEDED_LIMIT_MESSAGE)).isAbsent();
+        CustomAssertions.assertThat(getSearchResultsCount()).isEqualTo(numberOfResultsRequiredForSuccessfulValidation);
+    }
+
+    // CLASS METHODS
 
     /**
      * Returns Unquoted Checkbox control based on passed in data.
@@ -1148,7 +1183,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
                         AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getControlClass()).setValue(residence);
     }
 
-    public void otherAAAProducts_SearchAndAddCompanionPolicy(String policyType, String policyNumber){
+    public void otherAAAProducts_SearchAndManuallyAddCompanionPolicy(String policyType, String policyNumber){
         otherAAAProducts_SearchByPolicyNumber(policyType, policyNumber);
         otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(policyType);
     }
@@ -1601,7 +1636,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     private void addMPDAndRerate(String in_newPolicyType, String in_newPolicyNumber){
         // Change MPD Policy and Attempt to Purchase
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        otherAAAProducts_SearchAndAddCompanionPolicy(in_newPolicyType, in_newPolicyNumber);
+        otherAAAProducts_SearchAndManuallyAddCompanionPolicy(in_newPolicyType, in_newPolicyNumber);
         doRerate();
     }
 
@@ -1660,7 +1695,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         // Add MPD Element manually (after no results found)
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-        otherAAAProducts_SearchAndAddCompanionPolicy(in_policyType, "NOT_FOUND");
+        otherAAAProducts_SearchAndManuallyAddCompanionPolicy(in_policyType, "NOT_FOUND");
 
         // Continue towards purchase of quote.
         policy.getDefaultView().fillFromTo(testData, GeneralTab.class, DocumentsAndBindTab.class, true);
@@ -1676,7 +1711,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         handleEndorsementType(bFlatEndorsement);
 
-        otherAAAProducts_SearchAndAddCompanionPolicy(in_policyType, "NOT_FOUND");
+        otherAAAProducts_SearchAndManuallyAddCompanionPolicy(in_policyType, "NOT_FOUND");
         fillFromGeneralTabToErrorMsg();
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
@@ -1688,7 +1723,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createPolicyAdvanceToRenewalImage();
 
         // In Renewal Image, Add MPD Element and Bind
-        otherAAAProducts_SearchAndAddCompanionPolicy(in_policyType, "NOT_FOUND");
+        otherAAAProducts_SearchAndManuallyAddCompanionPolicy(in_policyType, "NOT_FOUND");
         fillFromGeneralTabToErrorMsg();
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
@@ -1812,5 +1847,15 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         }else{
             policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
         }
+    }
+
+    /***
+     * This method will use an open-ended xpath to capture the total number of checkboxes visible in search results. <br>
+     *     This value can be used to count the total number of results returned, due to the difficulty of navigating the MPD Table DOM.
+     * @return
+     */
+    public int getSearchResultsCount(){
+        List<WebElement> arrayOfCheckboxesFound = BrowserController.get().driver().findElements(By.xpath(_XPATH_TO_ALL_SEARCH_RESULT_CHECKBOXES));
+        return arrayOfCheckboxesFound.size();
     }
 }
