@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import org.testng.SkipException;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
+import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.http.BackendJobNames;
 import aaa.helpers.jobs.Job;
@@ -54,6 +56,18 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		String query = String.format(SELECT_ALL_FROM_JOB_SUMMARY, "%" + backEndJobName + "%", startDate + "%", endedDate + "%");
 		// Verify that failure % is below 5%
 		assertThat(getFailurePercentage(backEndJobName, query)).as("Percentage of failed tasks is more 5%").isEqualTo(true);
+	}
+
+	protected void executeAgingJob(Job job){
+		SoapJobActions service = new SoapJobActions();
+
+		if (!service.isJobExist(JobGroup.fromSingleJob(job.getJobName()))) {
+			log.info("{} was created", JobGroup.fromSingleJob(job.getJobName()));
+			service.createJob(JobGroup.fromSingleJob(job.getJobName()));
+		}else{
+			log.info("Job exist :  {} ", JobGroup.fromSingleJob(job.getJobName()));
+		}
+		service.startJob(JobGroup.fromSingleJob(job.getJobName()));
 	}
 
 	protected List<String> getPoliciesByQuery(String testName, String queryName) {

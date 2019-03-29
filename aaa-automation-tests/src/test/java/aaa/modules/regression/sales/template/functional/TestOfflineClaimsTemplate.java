@@ -1,6 +1,8 @@
 package aaa.modules.regression.sales.template.functional;
-
 import static aaa.common.pages.SearchPage.tableSearchResults;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableActivityInformationList;
+import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableDriverList;
 import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
 import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
+import aaa.main.pages.summary.PolicySummaryPage;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeTest;
@@ -42,10 +45,6 @@ import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
@@ -89,6 +88,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     protected static PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
     protected static DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
     protected static PasLogGrabber pasLogGrabber = new PasLogGrabber();
+    protected static PurchaseTab purchaseTab = new PurchaseTab();
+    protected static ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
 
     @BeforeTest
     public void prepare() {
@@ -248,7 +249,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             // Check 4th driver.
             // PAS-8310 - LASTNAME_FIRSTNAME_YOB Match
             DriverTab.tableDriverList.selectRow(4);
-            DriverTab.tableActivityInformationList.selectRow(2);
+            DriverTab.tableActivityInformationList.selectRow(3);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME_YOB);
         });
@@ -551,7 +552,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             actualMatchCodes.add(matchcode);
             y++;
         }
-
         //Verify the actual MATCH CODES equal the expected MATCH CODES
         //PAS-14679 - Match Logic: DL Number
         //PAS-14058 - Match Logic: COMP
@@ -561,5 +561,49 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         log.info("expected match codes: "+expectedMatchCodes);
         log.info("actual match codes: "+actualMatchCodes);
         assertThat(actualMatchCodes).isEqualTo(expectedMatchCodes);
+    }
+    protected void pas18317_verifyPermissiveUseIndicator() {
+        TestData testData = getPolicyTD();
+        List<TestData> testDataDriverData = new ArrayList<>();// Merged driver tab with 4 drivers
+        testDataDriverData.add(testData.getTestData("DriverTab"));
+        testDataDriverData.addAll(getTestSpecificTD("TestData_DriverTab_OfflineClaim_AZ").resolveLinks().getTestDataList("DriverTab"));
+        adjusted = testData.adjust("DriverTab", testDataDriverData).resolveLinks();
+        mainApp().open();
+        createCustomerIndividual();
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(adjusted,DriverTab.class, true);
+        //Assert to check the PU indicator for company input in quote level
+         CustomSoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Company Input");
+            //PAS-18317: PU indicator will NOT show for NON FNI drivers
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent()).isFalse();
+        });
+        driverTab.submitTab();
+        policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class,DriverActivityReportsTab.class,true);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        new DocumentsAndBindTab().fillTab(adjusted);
+        documentsAndBindTab.submitTab();
+        new PurchaseTab().fillTab(adjusted).submitTab();
+        policyNumber = PolicySummaryPage.getPolicyNumber();
+        log.info("Policy created successfully. Policy number is " + policyNumber);
+        mainApp().close();
+       //Initiate endorsement
+        TestData addDriverTd = getTestSpecificTD("Add_PU_Claim_Driver_Endorsement_AZ");
+        initiateAddDriverEndorsement(policyNumber, addDriverTd);
+       //Navigate to Driver page and verify the clue claim is added to driver5
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        puIndicatorAssertions();       // Assert to check PU indicator check for clue claims in endorsement
+        bindEndorsement();
+    }
+    // Assertions for clue claims  Tests
+    //PAS-18317: PU indicator will NOT show for NON FNI drivers
+    public void puIndicatorAssertions() {
+        CustomSoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(tableDriverList).hasRows(5);
+            softly.assertThat(tableActivityInformationList).hasRows(1);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("CLUE");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent()).isFalse();
+        });
     }
 }

@@ -270,14 +270,14 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		return DataProviderFactory.emptyData();
 	}
 
-	public TestData getCappingData(HomeSSOpenLPolicy openLPolicy) {
-		double manualCappingFactor = openLPolicy.isCappedPolicy() ? openLPolicy.getCappingDetails().getTermCappingFactor() * 100 : 100;
-		return DataProviderFactory.dataOf(AutoSSMetaData.PremiumAndCoveragesTab.VIEW_CAPPING_DETAILS_DIALOG.getLabel(), DataProviderFactory.dataOf(
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.MANUAL_CAPPING_FACTOR.getLabel(), manualCappingFactor,
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.CAPPING_OVERRIDE_REASON.getLabel(), "index=1",
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.BUTTON_CALCULATE.getLabel(), "click",
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.BUTTON_SAVE_AND_RETURN_TO_PREMIUM_AND_COVERAGES.getLabel(), "click"));
-	}
+    public TestData getCappingData(HomeSSOpenLPolicy openLPolicy) {
+        double manualCappingFactor = openLPolicy.isCappedPolicy() ? Math.round(openLPolicy.getCappingDetails().getTermCappingFactor() * 100) : 100;
+        return DataProviderFactory.dataOf(AutoSSMetaData.PremiumAndCoveragesTab.VIEW_CAPPING_DETAILS_DIALOG.getLabel(), DataProviderFactory.dataOf(
+                HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.MANUAL_CAPPING_FACTOR.getLabel(), manualCappingFactor,
+                HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.CAPPING_OVERRIDE_REASON.getLabel(), "index=1",
+                HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.BUTTON_CALCULATE.getLabel(), "click",
+                HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.BUTTON_SAVE_AND_RETURN_TO_PREMIUM_AND_COVERAGES.getLabel(), "click"));
+    }
 
 	public TestData getOverrideErrorData(HomeSSOpenLPolicy openLPolicy) {
 		return DataProviderFactory.emptyData();
@@ -897,7 +897,10 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				return DataProviderFactory.dataOf(
 						HomeSSMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCode())).findFirst().get().getLimit(),
 						HomeSSMetaData.PropertyInfoTab.PropertyValue.ISO_REPLACEMENT_COST.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCode())).findFirst().get().getLimit(),
-						HomeSSMetaData.PropertyInfoTab.PropertyValue.PURCHASE_DATE_OF_HOME.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDiscountInformation().getNoOfYrsSinceLoanInception()).format(DateTimeUtils.MM_DD_YYYY),
+						//for noOfYrsSinceLoanInception = 999 we have UI errors, doesn't affect rating but blocks testing
+						HomeSSMetaData.PropertyInfoTab.PropertyValue.PURCHASE_DATE_OF_HOME.getLabel(), openLPolicy.getPolicyDiscountInformation().getNoOfYrsSinceLoanInception() < 400 ?
+								openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDiscountInformation().getNoOfYrsSinceLoanInception()).format(DateTimeUtils.MM_DD_YYYY) :
+								openLPolicy.getEffectiveDate().minusYears(20).format(DateTimeUtils.MM_DD_YYYY),
 						HomeSSMetaData.PropertyInfoTab.PropertyValue.NEW_LOAN.getLabel(), true);
 			case "HO4":
 				return DataProviderFactory.dataOf(

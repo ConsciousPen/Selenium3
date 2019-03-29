@@ -1,21 +1,25 @@
 package aaa.modules.financials;
 
-import aaa.admin.pages.general.GeneralSchedulerPage;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
+import aaa.main.enums.products.HomeSSConstants;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.istf.exec.core.TestCoordinatorException;
 import toolkit.datax.TestData;
-import toolkit.utils.datetime.DateTimeUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,9 +32,10 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 
 	protected static final String METHOD_CASH = "TestData_Cash";
 	protected static final String METHOD_CHECK = "TestData_Check";
-
-	private static Boolean ledgerJobExists = false;
-	private static final Object lock = new Object();
+	protected static final String CITY = "city";
+	protected static final String STATE = "state";
+	protected static final String COUNTY = "county";
+	protected static final String TOTAL = "total";
 
 	protected String createFinancialPolicy() {
 		return createFinancialPolicy(getPolicyTD());
@@ -78,17 +83,6 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 			SearchPage.openPolicy(policyNumber);
 		}
 		policy.reinstate().perform(getReinstatementTD());
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-	}
-
-	protected void performReinstatementWithLapse(LocalDateTime effDate, String policyNumber) {
-		mainApp().close();
-		TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
-		JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
-		TimeSetterUtil.getInstance().nextPhase(effDate.plusDays(20));
-		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
-		policy.reinstate().perform(getReinstatementTD());
 		if (Page.dialogConfirmation.buttonYes.isPresent()) {
 			Page.dialogConfirmation.buttonYes.click();
 		}
@@ -100,12 +94,18 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 	}
 
 	protected void performAPEndorsement(String policyNumber, LocalDateTime effDate) {
+		if (!PolicySummaryPage.labelPolicyStatus.isPresent()) {
+			SearchPage.openPolicy(policyNumber);
+		}
 		policy.endorse().perform(getEndorsementTD(effDate));
 		policy.getDefaultView().fill(getAddPremiumTD());
 		SearchPage.openPolicy(policyNumber);
 	}
 
 	protected Dollar performRPEndorsement(String policyNumber, LocalDateTime effDate) {
+		if (!PolicySummaryPage.labelPolicyStatus.isPresent()) {
+			SearchPage.openPolicy(policyNumber);
+		}
 		policy.endorse().perform(getEndorsementTD(effDate));
 		policy.getDefaultView().fill(getReducePremiumTD());
 		Dollar reducedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT);
@@ -151,25 +151,81 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		BillingSummaryPage.dialogConfirmation.confirm();
 	}
 
-	protected void advanceTimeAndOpenPolicy(LocalDateTime date, String policyNumber) {
-		mainApp().close();
-		TimeSetterUtil.getInstance().nextPhase(date);
-		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
-	}
-
-	protected void runLedgerStatusUpdateJob() {
-		synchronized (lock) {
-			if (!ledgerJobExists) {
-				adminApp().switchPanel();
-				NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
-				boolean created = GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.LEDGER_STATUS_UPDATE_JOB);
-				assertThat(created).isTrue();
-				ledgerJobExists = true;
-				mainApp().switchPanel();
-			}
+	protected Map<String, Dollar> getTaxAmountsForPolicy(String policyNumber) {
+		Map<String, Dollar> taxes = new HashMap<>();
+		String hoPolicyStateTaxDescription;
+		if (getState().equals(Constants.States.WV)) {
+			hoPolicyStateTaxDescription = HomeSSConstants.StateAndLocalTaxesTable.STATE_TAX;
+		} else {
+			hoPolicyStateTaxDescription = HomeSSConstants.StateAndLocalTaxesTable.PREMIUM_SURCHARGE;
 		}
-		JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
+
+		if (!PolicySummaryPage.labelPolicyStatus.isPresent()) {
+			SearchPage.openPolicy(policyNumber);
+		}
+		policy.policyInquiry().start();
+
+		// Auto policies
+		if (getPolicyType().isAutoPolicy()) {
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			if (getState().equals(Constants.States.KY)) {
+				taxes.put(STATE, new Dollar(PremiumAndCoveragesTab.tableStateAndLocalTaxesSummaryDetailed
+						.getRowContains(PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.STATE_LOCAL_TAXES_PREMIUM_SURCHARGES, PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.PREMIUM_SURCHARGE)
+						.getCell(PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.TERM_PREMIUM).getValue()));
+				taxes.put(CITY, new Dollar(PremiumAndCoveragesTab.tableStateAndLocalTaxesSummaryDetailed
+						.getRowContains(PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.STATE_LOCAL_TAXES_PREMIUM_SURCHARGES, PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.CITY_TAX)
+						.getCell(PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.TERM_PREMIUM).getValue()));
+				taxes.put(COUNTY, new Dollar(PremiumAndCoveragesTab.tableStateAndLocalTaxesSummaryDetailed
+						.getRowContains(PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.STATE_LOCAL_TAXES_PREMIUM_SURCHARGES, PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.COUNTY_TAX)
+						.getCell(PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.TERM_PREMIUM).getValue()));
+			} else {
+				taxes.put(STATE, new Dollar(PremiumAndCoveragesTab.tableStateAndLocalTaxesSummaryDetailed
+						.getRowContains(PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.STATE_LOCAL_TAX_PREMIUM_SURCHARGES, PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.PREMIUM_SURCHARGE)
+						.getCell(PolicyConstants.PolicyTaxesPremiumSurchargeDetailsTable.TERM_PREMIUM).getValue()));
+			}
+			new PremiumAndCoveragesTab().cancel();
+
+		// PUP policies
+		} else if (getPolicyType().equals(PolicyType.PUP)) {
+			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
+			NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
+			taxes.put(STATE, new Dollar(PremiumAndCoveragesQuoteTab.tableTaxes
+					.getRowContains(HomeSSConstants.StateAndLocalTaxesTable.DESCRIPTION, hoPolicyStateTaxDescription)
+					.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM).getValue()));
+			if (getState().equals(Constants.States.KY)) {
+				taxes.put(CITY, new Dollar(PremiumAndCoveragesQuoteTab.tableTaxes
+						.getRowContains(HomeSSConstants.StateAndLocalTaxesTable.DESCRIPTION, HomeSSConstants.StateAndLocalTaxesTable.CITY_TAX)
+						.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM).getValue()));
+				taxes.put(COUNTY, new Dollar(PremiumAndCoveragesQuoteTab.tableTaxes
+						.getRowContains(HomeSSConstants.StateAndLocalTaxesTable.DESCRIPTION, HomeSSConstants.StateAndLocalTaxesTable.COUNTY_TAX)
+						.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM).getValue()));
+			}
+			new PremiumAndCoveragesQuoteTab().cancel();
+
+		// HO policies
+		} else {
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+			NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+			taxes.put(STATE, new Dollar(PremiumsAndCoveragesQuoteTab.tableTaxes
+					.getRowContains(HomeSSConstants.StateAndLocalTaxesTable.DESCRIPTION, hoPolicyStateTaxDescription)
+					.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM).getValue()));
+			if (getState().equals(Constants.States.KY)) {
+				taxes.put(CITY, new Dollar(PremiumsAndCoveragesQuoteTab.tableTaxes
+						.getRowContains(HomeSSConstants.StateAndLocalTaxesTable.DESCRIPTION, HomeSSConstants.StateAndLocalTaxesTable.CITY_TAX)
+						.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM).getValue()));
+				taxes.put(COUNTY, new Dollar(PremiumsAndCoveragesQuoteTab.tableTaxes
+						.getRowContains(HomeSSConstants.StateAndLocalTaxesTable.DESCRIPTION, HomeSSConstants.StateAndLocalTaxesTable.COUNTY_TAX)
+						.getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM).getValue()));
+			}
+			new PremiumsAndCoveragesQuoteTab().cancel();
+		}
+
+		if (getState().equals(Constants.States.KY)) {
+			taxes.put(TOTAL, taxes.get(STATE).add(taxes.get(CITY)).add(taxes.get(COUNTY)));
+		} else {
+			taxes.put(TOTAL, taxes.get(STATE));
+		}
+		return taxes;
 	}
 
 }

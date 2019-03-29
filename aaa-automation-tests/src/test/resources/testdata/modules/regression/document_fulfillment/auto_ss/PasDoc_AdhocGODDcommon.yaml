@@ -28,6 +28,11 @@ TestData_VehiclesWithUBI: {
   DocumentsAndBindTab: '@DocumentsAndBindTab_VehiclesWithUBI' 
 }
 
+TestData_VehiclesWithUBI_NO_PASDOC: {
+  VehicleTab: ['@VehicleTab_EnrolledInUBI_2', '@VehicleTab_EnrolledInUBI_1'], 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_VehiclesWithUBI_NO_PASDOC' 
+}
+
 TestData_PermitDrivers: {
   DriverTab: ['@<auto_ss>@DataGather@DriverTab', '@DriverTab_PermitDriver1', '@DriverTab_PermitDriver2'], 
   DocumentsAndBindTab: '@DocumentsAndBindTab' 
@@ -238,7 +243,18 @@ DocumentsAndBindTab_VehiclesWithUBI: {
   }, 
   Agreement: I agree, 
   RequiredToIssue: {
-    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: 'Yes',
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+DocumentsAndBindTab_VehiclesWithUBI_NO_PASDOC: {
+  RequiredToBind: {
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed, 
+    Auto Insurance Application: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    #AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: 'Yes',
     Proof of Prior Insurance: 'Yes'
   }
 }
@@ -260,7 +276,6 @@ DocumentsAndBindTab_Full: {
   }, 
   Agreement: I agree, 
   RequiredToIssue: {
-    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: 'Yes', 
     Proof of Prior Insurance: 'Yes'
   }, 
   Case Number: '12345'
@@ -335,4 +350,18 @@ TestData_AllDocs: {
   Free Form Text AU09: 'Test Test',
   Free Form Text AU10: 'Test Test', 
   Free Form Text AA06XX: 'Test Test'
+}
+
+TestData_AllDocs_withoutAA06XX: {
+  Cancellation Date: '$<today:MM/dd/yyyy>',
+  Free Form Text AU02: 'Test Test', 
+  Free Form Text AU04: 'Test Test', 
+  Premium Amount: 1000, 
+  Free Form Text AU05: 'Test Test',
+  Free Form Text AU06: 'Test Test', 
+  Free Form Text AU07: 'Test Test', 
+  Free Form Text AU08: 'Test Test', 
+  Free Form Text AU09: 'Test Test',
+  Free Form Text AU10: 'Test Test', 
+  #Free Form Text AA06XX: 'Test Test'
 }

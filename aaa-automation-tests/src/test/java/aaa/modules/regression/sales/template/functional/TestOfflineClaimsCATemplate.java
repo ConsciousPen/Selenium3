@@ -44,6 +44,7 @@ import aaa.helpers.rest.JsonClient;
 import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.helpers.ssh.RemoteHelper;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
@@ -56,6 +57,7 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
+import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 
@@ -102,9 +104,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     private static final String CLAIM_NUMBER_1_GDD = "Claim-GDD-111";
     private static final String CLAIM_NUMBER_2_GDD = "Claim-GDD-222";
-    // Claim Dates: For CAS Response: GDD
-    private static String claim1_dates_gdd = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
-    private static String claim2_dates_gdd = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(80).toLocalDate().toString();
 
     private static final String[] CLAIM_NUMBERS_PU_DEFAULTING = {"PU_DEFAULTING_CMP","PU_DEFAULTING_1","PU_DEFAULTING_2","PU_DEFAULTING_3",
             "PU_DEFAULTING_4","PU_DEFAULTING_5","PU_DEFAULTING_6"};
@@ -226,16 +225,16 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        if(secondDriverFlag) {
+        if (secondDriverFlag) {
             policy.getDefaultView().fillUpTo(getTestSpecificTD("Add_Driver2_Endorsement"), DriverTab.class, true);
         } else {
             NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         }
-        if(updatePUFlag) {
+        if (updatePUFlag) {
             log.info("Updating first driver with PU as yes");
             tableDriverList.selectRow(1);
             tableActivityInformationList.selectRow(2);
-            log.info("Current PU value"+ activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).getValue());
+            log.info("Current PU value" + activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).getValue());
             activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).setValue("Yes");
         }
 
@@ -386,14 +385,13 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
             softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(claimNumber);
             if (checkPU) {
                 softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
-            }
-            else {
+            } else {
                 softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent()).isFalse();
             }
         });
     }
 
-    private void overrideErrorTab(){
+    private void overrideErrorTab() {
         ErrorTab errorTab = new ErrorTab();
         if (errorTab.isVisible()) {
             errorTab.overrideAllErrors();
@@ -447,9 +445,11 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         if (BooleanUtils.isTrue(validateGDD)) {
             validateGDD();
             NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+
+            // Assert that permissive rule is thrown for CLUE and can be overridden for LIFE: PAS-22609
+            validateOverridableCLUEPPURule(ErrorEnum.Duration.LIFE);
         }
 
-        documentsAndBindTab.submitTab();
         payTotalAmtDue(policyNumber);
     }
 
@@ -742,7 +742,10 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      */
     public void pas18303_goodDriverDiscountForPUClaims(){
 
-        Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS = ImmutableMap.of(CLAIM_NUMBER_1_GDD, claim1_dates_gdd, CLAIM_NUMBER_2_GDD, claim2_dates_gdd);
+        String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
+        String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(80).toLocalDate().toString();
+
+        Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS = ImmutableMap.of(CLAIM_NUMBER_1_GDD, claim1_dates, CLAIM_NUMBER_2_GDD, claim2_dates);
 
         //Adjusted Test Data for: CCInput/CLUE/Internal Claims
         TestData testDataForCLUE = getTestSpecificTD("TestData_DriverTab_DiscountsGDD").resolveLinks();
@@ -754,7 +757,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         createQuoteAndFillUpTo(td, PremiumAndCoveragesTab.class, true);
 
-        // Overriding Errors caused by created ActivityInformation entries (Auto Select Rules)
+        // Overriding Errors caused by created ActivityInformation entries (Auto Select specific Rules)
         premiumAndCoveragesTab.submitTab();
         if (errorTab.isVisible()) {
             errorTab.overrideAllErrors();
@@ -798,8 +801,11 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
                 }
             }
 
+            // With this condition CLUE default value in UI will be covered. Test will fail if PU will be null
+            if (activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).getValue().equals("No")) {
+                activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).setValue("Yes");
+            }
             activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_YAF.getLabel(), RadioGroup.class).setValue("Yes");
-            activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).setValue("Yes");
         }
 
         //Verify That Discount is Applied with Permissive Use Claims
@@ -859,6 +865,32 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     }
 
     /*
+    Method Validates CLUE Permissive Use Overridable Rule: PAS-22609
+    used for pas18303_goodDriverDiscountForPUClaims
+     */
+    protected void validateOverridableCLUEPPURule(ErrorEnum.Duration duration) {
+        documentsAndBindTab.submitTab();
+
+        // Overriding 1st Error screen caused by created ActivityInformation entries (Auto Select specific Rules)
+        if (errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_10015021_CA_SELECT.getCode())) {
+            errorTab.overrideErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER, ErrorEnum.Errors.ERROR_AAA_10015021_CA_SELECT);
+            errorTab.override();
+            documentsAndBindTab.submitTab();
+        }
+
+        // Assert CLUE PU Rule Code and Message
+        assertThat(errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_validate_pu_clue_claim_2.getCode()));
+        assertThat(errorTab.getErrorMessagesList().contains(ErrorEnum.Errors.ERROR_AAA_validate_pu_clue_claim_2.getMessage()));
+
+        // Overriding for TERM (NB) / LIFE (Renewal)
+        errorTab.overrideErrors(duration, ErrorEnum.ReasonForOverride.OTHER, ErrorEnum.Errors.ERROR_AAA_validate_pu_clue_claim_2);
+        errorTab.override();
+
+        //Submit tab after override
+        documentsAndBindTab.submitTab();
+    }
+
+    /*
    Method Validates NB quote: Good Driver Discount validation & PU indicator visibility on different Drivers:
    used for pas18303_goodDriverDiscountForPUClaims
 	*/
@@ -876,9 +908,12 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         validateNonFNIPermissiveUse();
 
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        policy.getDefaultView().fillFromTo(td2, PremiumAndCoveragesTab.class, PurchaseTab.class, true);
-        purchaseTab.submitTab();
+        policy.getDefaultView().fillFromTo(td2, PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
 
+        // Assert that permissive rule is thrown for CLUE and can be overridden for TERM: PAS-22609
+        validateOverridableCLUEPPURule(ErrorEnum.Duration.TERM);
+
+        purchaseTab.fillTab(td2).submitTab();
         policyNumber = labelPolicyNumber.getValue();
         mainApp().close();
     }
@@ -886,12 +921,13 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     /**
      * Method to validate CAS/Clue Reconcile for AFR driver when PU flag is marked as Yes
      */
-    public void pas24587_CASClueReconcilePUAFRUserFlagged(){
+    public void pas24587_CASClueReconcilePUAFRUserFlagged() {
+
+        String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
         String DL_NAME_RECONCILEFNICLAIMS_DATA_MODEL;
-        Map<String, String> CLAIM_TO_DRIVER_LICENSE;
 
         DL_NAME_RECONCILEFNICLAIMS_DATA_MODEL = "dl_name_reconcileFNIclaims_data_model.yaml";
-        CLAIM_TO_DRIVER_LICENSE = ImmutableMap.of(CLAIM_NUMBER_1, "D1278222", CLAIM_NUMBER_2, "D1278999");
+        Map<String, String> CAS_RESPONSE_DATE_FIELDS = ImmutableMap.of(CLAIM_NUMBER_3, claim1_dates);
 
         // Create Customer and Policy with one driver
         TestData testDataForFNI;
@@ -899,10 +935,10 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Set correct 'Age First Licensed' to drivers age - ensures product is CA Choice (driving experience is less than 3)
         if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
             String age = String.valueOf(ChronoUnit.YEARS.between(LocalDate.of(1997, Month.OCTOBER, 16), TimeSetterUtil.getInstance().getCurrentTime()));
-             testDataForFNI = getTestSpecificTD("TestData_DriverTab_ReconcileFNIclaims_PU")
+            testDataForFNI = getTestSpecificTD("TestData_DriverTab_ReconcileFNIclaims_PU")
                     .adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel()), age).resolveLinks();
         } else {
-             testDataForFNI = getTestSpecificTD("TestData_DriverTab_ReconcileFNIclaims_PU").resolveLinks();
+            testDataForFNI = getTestSpecificTD("TestData_DriverTab_ReconcileFNIclaims_PU").resolveLinks();
         }
 
         adjusted = getPolicyTD().adjust(testDataForFNI);
@@ -913,7 +949,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         generateClaimRequest();        // Download claim request and assert it
 
         // Create the claim response
-        createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, DL_NAME_RECONCILEFNICLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
+        createCasClaimResponseAndUploadWithUpdatedDates(policyNumber, DL_NAME_RECONCILEFNICLAIMS_DATA_MODEL, CAS_RESPONSE_DATE_FIELDS);
         runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
 
         // Retrieve policy
@@ -947,7 +983,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         //Check the Driver 2 has CLUE claim
         //Claim numbers are compared and matched ignoring the format differences.
-        activityAssertions(2, 2, 1, 1, "CLUE", CAS_CLUE_CLAIM,false);
+        activityAssertions(2, 2, 1, 1, "CLUE", CAS_CLUE_CLAIM, false);
         //Bind Endorsement
         bindEndorsement();
     }
@@ -955,7 +991,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     /**
      * Method to validate Clue Reconcile for AFR driver when PU flag is marked as Yes
      */
-    public void pas24587_ClueReconcilePUAFRUserFlagged(){
+    public void pas24587_ClueReconcilePUAFRUserFlagged() {
         //Create a policy with 2 drivers
         TestData testDataForFNI;
 
@@ -1017,21 +1053,24 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         initiateAddDriverEndorsement(policyNumber, addSecondDriverTd);
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         //Check driver2 is assigned back with CLUE claim from driver1
-        activityAssertions(2, 2, 1, 1, "CLUE", CLUE_CLAIM,false);
+        activityAssertions(2, 2, 1, 1, "CLUE", CLUE_CLAIM, false);
     }
 
-    public void pas25463_ViolationsMVRPUIndicatorCheck(){
+    /**
+     * Method to validate the violations do not show Permissive Use indicator
+     */
+    public void pas25463_ViolationsMVRPUIndicatorCheck() {
         //Create a policy with 2 drivers
         TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_ViolationsMVRFNIclaims_PU").resolveLinks();
         adjusted = getPolicyTD().adjust(testDataForFNI);
         createQuoteAndFillUpTo(adjusted, DriverTab.class);
         tableDriverList.selectRow(1);
-        activityAssertions(2,1,4, 1, "Company Input", "", false); //assert the company input with Type Violations do not show up PU indicator
-        activityAssertions(2,1,4, 2, "Company Input", "", true); //assert the company input with Type Accident show up PU indicator
-        activityAssertions(2,1,4, 3, "Customer Input", "", true); //assert the company input with Type  Accident show up PU indicator
-        activityAssertions(2,1,4, 4, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
+        activityAssertions(2, 1, 4, 1, "Company Input", "", false); //assert the company input with Type Violations do not show up PU indicator
+        activityAssertions(2, 1, 4, 2, "Company Input", "", true); //assert the company input with Type Accident show up PU indicator
+        activityAssertions(2, 1, 4, 3, "Customer Input", "", true); //assert the company input with Type  Accident show up PU indicator
+        activityAssertions(2, 1, 4, 4, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
         driverTab.submitTab();
-        policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, PremiumAndCoveragesTab.class,true);
+        policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, PremiumAndCoveragesTab.class, true);
         premiumAndCoveragesTab.submitTab();
         overrideErrorTab();
         new DriverActivityReportsTab().fillTab(adjusted);
@@ -1062,11 +1101,11 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         tableDriverList.selectRow(1);
         //asserting the Company/Customer inputs and MVR claims for check the PU indicator
-        activityAssertions(2,1,5, 1, "Company Input", "", false);
-        activityAssertions(2,1,5, 2, "Company Input", "", true);
-        activityAssertions(2,1,5, 3, "Customer Input", "", true);
-        activityAssertions(2,1,5, 4, "Customer Input", "", false);
-        activityAssertions(2,1,5, 5, "MVR", "", false);
+        activityAssertions(2, 1, 5, 1, "Company Input", "", false);
+        activityAssertions(2, 1, 5, 2, "Company Input", "", true);
+        activityAssertions(2, 1, 5, 3, "Customer Input", "", true);
+        activityAssertions(2, 1, 5, 4, "Customer Input", "", false);
+        activityAssertions(2, 1, 5, 5, "MVR", "", false);
         driverTab.submitTab();
 
         bindEndorsement();
@@ -1084,9 +1123,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
             softly.assertThat(driverTab.tableActivityInformationList).hasRows(7);
 
             // Verifying PU default value for all Claims
-            for (int i = 0; i <= 6; i++){
-                driverTab.tableActivityInformationList.selectRow(i+1);
-                if (i==6){ //PERMISSIVE_USE match = Yes
+            for (int i = 0; i <= 6; i++) {
+                driverTab.tableActivityInformationList.selectRow(i + 1);
+                if (i == 6) { //PERMISSIVE_USE match = Yes
                     softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[i]);
                     softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("Yes");
                 } else {
@@ -1098,10 +1137,10 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         });
     }
 
-	/*
-	Method/Test for CA Choice & Select: TestOfflineClaims.pas25162_permissiveUseIndicatorDefaulting
-	 */
-    public void pas25162_permissiveUseIndicatorDefaulting(){
+    /*
+    Method/Test for CA Choice & Select: TestOfflineClaims.pas25162_permissiveUseIndicatorDefaulting
+     */
+    public void pas25162_permissiveUseIndicatorDefaulting() {
         //Adjusted Test Data for: Internal Claims
         TestData testDataForPUInd = getTestSpecificTD("TestData_PUDefaulting").resolveLinks();
         TestData td = getPolicyTD().adjust(testDataForPUInd);
@@ -1126,7 +1165,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //1st Renewal: Verify PU Values in Drivers tab
         verifyPUvalues();
 
-        //TODO: Uncomment after PAS-26322
+        //TODO: Mantas Garsvinskas Uncomment after PAS-26322
         /*
         issueGeneratedRenewalImage(policyNumber, false);
 
@@ -1153,4 +1192,51 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         verifyPUvalues(); */
     }
 
+    /*
+	Method for CA Choice & Select: TestOfflineClaims.PAS-20828 Product Determination Cannot by Influenced by Permissive Use Claims
+	 */
+    public void pas20828_productDetermineWithPUClaims() {
+        TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_ReconcileFNIclaims_PU").resolveLinks();
+        adjusted = getPolicyTD().adjust(testDataForFNI);
+        String noAgeChange = "";
+        String age = String.valueOf(ChronoUnit.YEARS.between(LocalDate.of(1997, Month.OCTOBER, 16), TimeSetterUtil.getInstance().getCurrentTime()));
+        String ageMinusFour = Integer.toString(Integer.parseInt(age) - 4);
+
+        createQuoteAndFillUpTo(adjusted, FormsTab.class);
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        String productDetermined = premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT.getLabel(), ComboBox.class).getValue();
+        log.info("product value : " + productDetermined);
+        assertThat(productDetermined).isEqualToIgnoringCase("CA Select"); //System determines as Select with no activity
+
+        productDeterminationAssertions(true, false, noAgeChange, "CA Choice"); //System determines as Choice with one At fault accident and PU as No
+        productDeterminationAssertions(false, true, noAgeChange, "CA Select"); //Product determination is not impacted with this PU loss (PU is Yes) and keeps as Select
+        productDeterminationAssertions(false, true, age, "CA Choice"); //System determines as Choice when driving experience is less than 3 years
+        productDeterminationAssertions(false, true, ageMinusFour, "CA Select"); //System determines as Select when driving experience is greater than 3 years
+        productDeterminationAssertions(false, false, ageMinusFour, "CA Choice"); //System determines as Choice when activity is not a PU loss (PU is No)
+        PremiumAndCoveragesTab.buttonSaveAndExit.click();
+    }
+
+    /*
+	 Method verifies the Product Determination assertion based on various scenarios
+	 */
+    private void productDeterminationAssertions(boolean addActivity, boolean permissiveUse, String age, String product) {
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        if (addActivity) {
+            TestData td_activity = getTestSpecificTD("TestData_Activity");
+            new DriverTab().fillTab(td_activity);
+        }
+        if (permissiveUse) {
+            activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).setValue("Yes");
+        } else {
+            activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).setValue("No");
+        }
+        if (!age.isEmpty()) {
+            driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.AGE_FIRST_LICENSED).setValue(age);
+        }
+        driverTab.submitTab();
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        String productDetermined = premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT.getLabel(), ComboBox.class).getValue();
+        log.info("product value: " + productDetermined);
+        assertThat(productDetermined).isEqualToIgnoringCase(product);
+    }
 }
