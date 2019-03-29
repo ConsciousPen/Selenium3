@@ -16,19 +16,6 @@ GeneralTab: {
   }
 }
 
-TestDataInquiryHomeCA: {
-  GeneralTab: {},
-  ApplicantTab: {},
-  ReportsTab: {},
-  PropertyInfoTab: {},
-  EndorsementTab: {},
-  PremiumsAndCoveragesQuoteTab: {},
-  MortgageesTab: {},
-  UnderwritingAndApprovalTab: {},
-  DocumentsTab: {},
-  BindTab: {},
-}
-
 TestDataEndorseHomeCA: {
   EndorsementActionTab: {
     Endorsement Date: $<today>,

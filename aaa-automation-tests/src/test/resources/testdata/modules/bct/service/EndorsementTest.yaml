@@ -128,6 +128,7 @@ TestDataEndorseHomeSS: {
   ApplicantTab: '@GeneralTab',
   ReportsTab: {},
   PropertyInfoTab: {},
+  ProductOfferingTab: {},
   EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: {}
 }
@@ -184,19 +185,6 @@ TestDataEndorseAutoCA: {
   AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {}
-}
-
-TestDataInquiryHomeCA: {
-  GeneralTab: {},
-  ApplicantTab: {},
-  ReportsTab: {},
-  PropertyInfoTab: {},
-  EndorsementTab: {},
-  PremiumsAndCoveragesQuoteTab: {},
-  MortgageesTab: {},
-  UnderwritingAndApprovalTab: {},
-  DocumentsTab: {},
-  BindTab: {},
 }
 
 TestDataEndorseHomeCA: {

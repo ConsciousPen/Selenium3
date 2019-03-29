@@ -65,7 +65,7 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		query = query.replace("/DATE1/", startRangeDate);
 		query = query.replace("/DATE2/", endRangeDate);
 		query = query.replace("/STATE/", state);
-		query = query.replace("/AND_ROWNUM_3/", "AND ROWNUM <=3");
+		query = query.replace("/AND_ROWNUM_3/", "AND ROWNUM <=1");
 
 		return getPoliciesFromQuery(DBService.get().getRows(query), SELECT_POLICY_QUERY_TYPE);
 	}

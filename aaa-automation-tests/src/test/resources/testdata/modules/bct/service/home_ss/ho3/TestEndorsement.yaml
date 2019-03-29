@@ -16,18 +16,18 @@ GeneralTab: {
   }
 }
 
-TestDataInquirySSHo3: {
+TestDataEndorseHomeSS: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today>,
+    Endorsement Reason: Property/Exposures
+  },
   GeneralTab: {},
-  ApplicantTab: {},
+  ApplicantTab: '@GeneralTab',
   ReportsTab: {},
   PropertyInfoTab: {},
   ProductOfferingTab: {},
   EndorsementTab: {},
-  PremiumsAndCoveragesQuoteTab: {},
-  MortgageesTab: {},
-  UnderwritingAndApprovalTab: {},
-  DocumentsTab: {},
-  BindTab: {}
+  PremiumsAndCoveragesQuoteTab: {}
 }
 
 TestDataEndorseSSHo3: {
