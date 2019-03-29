@@ -292,7 +292,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         // Validate RST-07 and RST-09 (only applicable for property)
 
-        if (!getPolicyType().isAutoPolicy() || !getPolicyType().equals(PolicyType.PUP)) {
+        if (!getPolicyType().isAutoPolicy() && !getPolicyType().equals(PolicyType.PUP)) {
             // Change reinstatement lapse
             SearchPage.openPolicy(policyNumber);
             policy.changeReinstatementLapse().perform(getPolicyTD("ReinstatementChangeLapse", "TestData_Plus5Days"));
