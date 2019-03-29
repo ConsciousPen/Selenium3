@@ -16,18 +16,6 @@ GeneralTab: {
   }
 }
 
-TestDataInquiryAutoCA: {
-  GeneralTab: {},
-  DriverTab: {},
-  MembershipTab: {},
-  VehicleTab: {},
-  AssignmentTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {},
-}
-
 TestDataEndorseAutoCA: {
   EndorsementActionTab: {
     Endorsement Date: $<today>,

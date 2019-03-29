@@ -10,20 +10,6 @@ TestData: {
   BindTab: '',
 }
 
-TestDataInquiryPUP: {
-  PrefillTab: {},
-  GeneralTab: {},
-  UnderlyingRisksPropertyTab: {},
-  UnderlyingRisksAutoTab: {},
-  UnderlyingRisksOtherVehiclesTab: {},
-  ClaimsTab: {},
-  EndorsementsTab: {},
-  PremiumAndCoveragesQuoteTab: {},
-  UnderwritingAndApprovalTab: {},
-  DocumentsTab: {},
-  BindTab: {}
-}
-
 TestDataEndorsePUP: {
   EndorsementActionTab: {
     Endorsement Date: $<today>,

@@ -12,17 +12,6 @@ TestData: {
   BindTab: '',
 }
 
-TestDataInquiryAutoSS: {
-  GeneralTab: {},
-  DriverTab: {},
-  RatingDetailReportsTab: {},
-  VehicleTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {},
-}
-
 TestDataInquiryAutoSS_NY: {
    GeneralTab: {},
    DriverTab: {},
