@@ -6247,7 +6247,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
-	protected void pas15308_UM_SUM_CoverageNJBody() {
+	protected void pas15308_UM_SUM_CoverageNYBody() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
