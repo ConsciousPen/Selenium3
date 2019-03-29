@@ -33,6 +33,13 @@ TestData_Plus10Day: {
   }
 }
 
+TestData_Plus15Day: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today+15d>,
+    Endorsement Reason: Maintain Vehicle(s)
+  }
+}
+
 TestData_Plus5Day: {
   EndorsementActionTab: {
     Endorsement Date: $<today+5d>,
