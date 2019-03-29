@@ -9,8 +9,6 @@ TestData_EndorsementRemoveCoverage: {
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
-    RequiredToBind: {
-      Uninsured and Underinsured Motorist Coverage Selection: Physically Signed,
-    },
+    RequiredToBind: {},
   }
 }

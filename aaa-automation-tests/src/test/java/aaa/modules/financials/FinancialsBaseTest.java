@@ -5,8 +5,6 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
@@ -20,8 +18,8 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.istf.exec.core.TestCoordinatorException;
 import toolkit.datax.TestData;
-import toolkit.utils.datetime.DateTimeUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -105,6 +103,9 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 	}
 
 	protected Dollar performRPEndorsement(String policyNumber, LocalDateTime effDate) {
+		if (!PolicySummaryPage.labelPolicyStatus.isPresent()) {
+			SearchPage.openPolicy(policyNumber);
+		}
 		policy.endorse().perform(getEndorsementTD(effDate));
 		policy.getDefaultView().fill(getReducePremiumTD());
 		Dollar reducedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT);
@@ -148,13 +149,6 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query)
 				.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(BillingConstants.PaymentsAndOtherTransactionAction.WAIVE).click();
 		BillingSummaryPage.dialogConfirmation.confirm();
-	}
-
-	protected void advanceTimeAndOpenPolicy(LocalDateTime date, String policyNumber) {
-		mainApp().close();
-		TimeSetterUtil.getInstance().nextPhase(date);
-		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
 	}
 
 	protected Map<String, Dollar> getTaxAmountsForPolicy(String policyNumber) {
