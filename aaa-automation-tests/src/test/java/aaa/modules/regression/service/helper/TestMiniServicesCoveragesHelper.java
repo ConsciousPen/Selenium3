@@ -6268,13 +6268,13 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			covUMSUMLimitIndex++;
 
 			if (coverageBILimit.getLimit().equals(CoverageLimits.COV_2550.getLimit())) {
-				covUMSUMExpected = Coverage.create(CoverageInfo.UM_SUM_2550_NY).removeAvailableLimitsAbove(coverageBILimit).changeLimit(coverageBILimit);
+				covUMSUMExpected = Coverage.create(CoverageInfo.UM_SUM_2550_NY).removeAvailableLimitsAbove(coverageBILimit).changeLimit(covUMSUMLimit);
 			} else {
-				covUMSUMExpected = Coverage.create(CoverageInfo.UM_SUM_NY).removeAvailableLimitsAbove(coverageBILimit).changeLimit(coverageBILimit);
+				covUMSUMExpected = Coverage.create(CoverageInfo.UM_SUM_NY).removeAvailableLimitsAbove(coverageBILimit).changeLimit(covUMSUMLimit);
 			}
 			PolicyCoverageInfo updateBIResponse = updateCoverage(policyNumber, "BI", coverageBILimit.getLimit());
 			Coverage coverageUMSUMActual = findCoverage(updateBIResponse.policyCoverages, CoverageInfo.UM_SUM_2550_NY.getCode());
-			assertThat(coverageUMSUMActual).isEqualToIgnoringGivenFields(covUMSUMExpected, "coverageLimitDisplay");
+			assertThat(coverageUMSUMActual).isEqualTo(covUMSUMExpected);
 			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateBIResponse);
 		}
 
