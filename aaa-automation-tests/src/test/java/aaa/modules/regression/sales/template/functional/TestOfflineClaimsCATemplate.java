@@ -1268,12 +1268,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         TestData testDataForFNI = getTestSpecificTD("TestData_Change_FNI_NB_Endorsement_PU_CA").resolveLinks();
         adjusted = getPolicyTD().adjust(testDataForFNI);
         createQuoteAndFillUpTo(adjusted, DriverTab.class);
-//        tableDriverList.selectRow(1);
-//        activityAssertions(2,1,4, 1, "Company Input", "", false); //assert the company input with Type Violations do not show up PU indicator
-//        activityAssertions(2,1,4, 2, "Company Input", "", true); //assert the company input with Type Accident show up PU indicator
-//        activityAssertions(2,1,4, 3, "Customer Input", "", true); //assert the company input with Type  Accident show up PU indicator
-//        activityAssertions(2,1,4, 4, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
-//        driverTab.submitTab();
 
         //Navigate to the General Tab and change the FNI to the second insured (Steve)
         newBusinessFlag = true;
@@ -1345,21 +1339,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     public void pas24652_ChangeFNIGeneralTabRenewal(){
 	    // Create Customer and Policy with two named insured' and drivers
         TestData testDataForFNI;
-
-        //Set correct 'Age First Licensed' to drivers age - ensures product is CA Choice (driving experience is less than 3)
-        if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
-            String age = String.valueOf(ChronoUnit.YEARS.between(LocalDate.of(1997, Month.OCTOBER, 16), TimeSetterUtil.getInstance().getCurrentTime()));
-            testDataForFNI = getTestSpecificTD("TestData_Change_FNI_Renewal_PU_CA");
-            TestData driver1Td = testDataForFNI.getTestDataList("DriverTab").get(0);
-            driver1Td.adjust(AutoCaMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), age); //set Age First Licensed to the current age always
-            TestData driver2Td = testDataForFNI.getTestDataList("DriverTab").get(1); //add adjustments needed for driver2 here in future
-            List<TestData> adjustedDrivers = new ArrayList<>();
-            adjustedDrivers.add(driver1Td);
-            adjustedDrivers.add(driver2Td);
-            testDataForFNI = testDataForFNI.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName()), adjustedDrivers).resolveLinks();
-        } else {
-            testDataForFNI = getTestSpecificTD("TestData_Change_FNI_Renewal_PU_CA").resolveLinks();
-        }
+	    testDataForFNI = getTestSpecificTD("TestData_Change_FNI_Renewal_PU_CA").resolveLinks();
 	    adjusted = getPolicyTD().adjust(testDataForFNI);
 	    policyNumber = openAppAndCreatePolicy(adjusted);
 	    log.info("Policy created successfully. Policy number is " + policyNumber);

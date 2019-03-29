@@ -33,6 +33,7 @@ TestData_Change_FNI_NB_Endorsement_PU_CA: {
 
 TestData_Change_FNI_Renewal_PU_CA: {
   GeneralTab: '@TwoNamedInsuredGeneralTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_PUDefaulting',
   DriverTab:  ['@Driver1','@Driver9']
 }
 
@@ -244,7 +245,6 @@ Driver8: {
     Description: 'Driving under the influence of drugs',
     Conviction Date: '$<today-3M:MM/dd/yyyy>',
     "Include in Points and/or YAF?": 'No',
-    "Permissive Use Loss?":'Yes',
     Not Included in Points and/or YAF - Reason Codes: 'Report errors'
   },
   {
@@ -254,6 +254,7 @@ Driver8: {
     Description: 'Fault accident, no injury, damage > $1000',
     Loss Payment Amount: '1500',
     Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    "Permissive Use Loss?":'Yes',
     "Include in Points and/or YAF?": 'Yes'
   },
   {
