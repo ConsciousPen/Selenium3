@@ -2,6 +2,7 @@ package aaa.helpers.jobs;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class Job{
 
@@ -28,5 +29,13 @@ public class Job{
 
 	public String getJobName(){
 		return jobName;
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+				.append("jobFolders", jobFolders)
+				.append("jobName", jobName)
+				.toString();
 	}
 }
