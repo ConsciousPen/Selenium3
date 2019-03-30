@@ -3,9 +3,7 @@ package aaa.modules.financials;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
-import aaa.common.enums.NavigationEnum;
 import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.policy.*;
 import aaa.main.modules.policy.PolicyType;
@@ -14,7 +12,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.exceptions.IstfException;
 
 public class FinancialsTestDataFactory extends PolicyBaseTest {
@@ -465,7 +462,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     private TestData getSSHomeAddPremiumTd() {
         TestData td = getEmptyTestDataSSHome().adjust(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
                 HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), "contains=$1,000,000",
-                HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), "contains=$250"));
+                HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), "contains=$500"));
         if (getPolicyType().equals(PolicyType.HOME_SS_HO3) || getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
             td.adjust(TestData.makeKeyPath(HomeSSMetaData.UnderwritingAndApprovalTab.class.getSimpleName(),
                     HomeSSMetaData.UnderwritingAndApprovalTab.UNDERWRITER_SELECTED_INSPECTION_TYPE.getLabel()), "index=1");

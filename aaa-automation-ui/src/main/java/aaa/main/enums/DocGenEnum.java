@@ -102,6 +102,7 @@ public final class DocGenEnum {
 		AA59XX("EXISTING DAMAGE ENDORSEMENT"),
 		AA71COA(""),
 		AA74CAA(""),
+		AAAEAZ2(""),
 		AAACNY("Accident Prevention Course List - Notice To Policyholders"),
 		AAAEOK(""),
 		AAAUVA(""),

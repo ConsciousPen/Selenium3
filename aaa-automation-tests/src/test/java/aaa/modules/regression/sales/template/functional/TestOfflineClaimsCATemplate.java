@@ -1,43 +1,11 @@
 package aaa.modules.regression.sales.template.functional;
 
-import aaa.common.enums.NavigationEnum;
-import aaa.common.enums.PrivilegeEnum;
-import aaa.common.enums.RestRequestMethodTypes;
-import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
-import aaa.common.pages.SearchPage;
-import aaa.helpers.claim.BatchClaimHelper;
-import aaa.helpers.claim.ClaimCASResponseTags;
-import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
-import aaa.helpers.claim.datamodel.claim.Claim;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.helpers.rest.JsonClient;
-import aaa.helpers.rest.RestRequestInfo;
-import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
-import aaa.helpers.ssh.RemoteHelper;
-import aaa.main.enums.SearchEnum;
-import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.*;
-import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableMap;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.BooleanUtils;
-import org.testng.annotations.BeforeTest;
-import toolkit.config.PropertyProvider;
-import toolkit.datax.TestData;
-import toolkit.db.DBService;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomSoftAssertions;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.TextBox;
-
-import javax.annotation.Nonnull;
+import static aaa.common.pages.SearchPage.tableSearchResults;
+import static aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.*;
+import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
+import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Files.contentOf;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -54,13 +22,44 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static aaa.common.pages.SearchPage.tableSearchResults;
-import static aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.*;
-import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
-import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Files.contentOf;
+import javax.annotation.Nonnull;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.BooleanUtils;
+import org.testng.annotations.BeforeTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableMap;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.PrivilegeEnum;
+import aaa.common.enums.RestRequestMethodTypes;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
+import aaa.common.pages.SearchPage;
+import aaa.helpers.claim.BatchClaimHelper;
+import aaa.helpers.claim.ClaimCASResponseTags;
+import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
+import aaa.helpers.claim.datamodel.claim.Claim;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
+import aaa.helpers.rest.JsonClient;
+import aaa.helpers.rest.RestRequestInfo;
+import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
+import aaa.helpers.ssh.RemoteHelper;
+import aaa.main.enums.ErrorEnum;
+import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
+import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
+import toolkit.config.PropertyProvider;
+import toolkit.datax.TestData;
+import toolkit.db.DBService;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.TextBox;
 
 /**
  * This template is used to test Batch Claim Logic.
@@ -105,12 +104,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     private static final String CLAIM_NUMBER_1_GDD = "Claim-GDD-111";
     private static final String CLAIM_NUMBER_2_GDD = "Claim-GDD-222";
-    // Claim Dates: For CAS Response: GDD
-    private static String claim1_dates_gdd = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
-    private static String claim2_dates_gdd = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(80).toLocalDate().toString();
 
-    private static final String[] CLAIM_NUMBERS_PU_DEFAULTING = {"PU_DEFAULTING_CMP", "PU_DEFAULTING_1", "PU_DEFAULTING_2", "PU_DEFAULTING_3",
-            "PU_DEFAULTING_4", "PU_DEFAULTING_5", "PU_DEFAULTING_6"};
+    private static final String[] CLAIM_NUMBERS_PU_DEFAULTING = {"PU_DEFAULTING_CMP","PU_DEFAULTING_1","PU_DEFAULTING_2","PU_DEFAULTING_3",
+            "PU_DEFAULTING_4","PU_DEFAULTING_5","PU_DEFAULTING_6"};
 
     private static final String CAS_CLUE_CLAIM = "1002-10-8704";
     private static final String CLUE_CLAIM = "1002-10-8799";
@@ -449,9 +445,11 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         if (BooleanUtils.isTrue(validateGDD)) {
             validateGDD();
             NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+
+            // Assert that permissive rule is thrown for CLUE and can be overridden for LIFE: PAS-22609
+            validateOverridableCLUEPPURule(ErrorEnum.Duration.LIFE);
         }
 
-        documentsAndBindTab.submitTab();
         payTotalAmtDue(policyNumber);
     }
 
@@ -744,7 +742,10 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      */
     public void pas18303_goodDriverDiscountForPUClaims(){
 
-        Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS = ImmutableMap.of(CLAIM_NUMBER_1_GDD, claim1_dates_gdd, CLAIM_NUMBER_2_GDD, claim2_dates_gdd);
+        String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
+        String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(80).toLocalDate().toString();
+
+        Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS = ImmutableMap.of(CLAIM_NUMBER_1_GDD, claim1_dates, CLAIM_NUMBER_2_GDD, claim2_dates);
 
         //Adjusted Test Data for: CCInput/CLUE/Internal Claims
         TestData testDataForCLUE = getTestSpecificTD("TestData_DriverTab_DiscountsGDD").resolveLinks();
@@ -756,7 +757,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         createQuoteAndFillUpTo(td, PremiumAndCoveragesTab.class, true);
 
-        // Overriding Errors caused by created ActivityInformation entries (Auto Select Rules)
+        // Overriding Errors caused by created ActivityInformation entries (Auto Select specific Rules)
         premiumAndCoveragesTab.submitTab();
         if (errorTab.isVisible()) {
             errorTab.overrideAllErrors();
@@ -800,8 +801,11 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
                 }
             }
 
+            // With this condition CLUE default value in UI will be covered. Test will fail if PU will be null
+            if (activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).getValue().equals("No")) {
+                activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).setValue("Yes");
+            }
             activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_YAF.getLabel(), RadioGroup.class).setValue("Yes");
-            activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).setValue("Yes");
         }
 
         //Verify That Discount is Applied with Permissive Use Claims
@@ -861,6 +865,32 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     }
 
     /*
+    Method Validates CLUE Permissive Use Overridable Rule: PAS-22609
+    used for pas18303_goodDriverDiscountForPUClaims
+     */
+    protected void validateOverridableCLUEPPURule(ErrorEnum.Duration duration) {
+        documentsAndBindTab.submitTab();
+
+        // Overriding 1st Error screen caused by created ActivityInformation entries (Auto Select specific Rules)
+        if (errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_10015021_CA_SELECT.getCode())) {
+            errorTab.overrideErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER, ErrorEnum.Errors.ERROR_AAA_10015021_CA_SELECT);
+            errorTab.override();
+            documentsAndBindTab.submitTab();
+        }
+
+        // Assert CLUE PU Rule Code and Message
+        assertThat(errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_validate_pu_clue_claim_2.getCode()));
+        assertThat(errorTab.getErrorMessagesList().contains(ErrorEnum.Errors.ERROR_AAA_validate_pu_clue_claim_2.getMessage()));
+
+        // Overriding for TERM (NB) / LIFE (Renewal)
+        errorTab.overrideErrors(duration, ErrorEnum.ReasonForOverride.OTHER, ErrorEnum.Errors.ERROR_AAA_validate_pu_clue_claim_2);
+        errorTab.override();
+
+        //Submit tab after override
+        documentsAndBindTab.submitTab();
+    }
+
+    /*
    Method Validates NB quote: Good Driver Discount validation & PU indicator visibility on different Drivers:
    used for pas18303_goodDriverDiscountForPUClaims
 	*/
@@ -878,9 +908,12 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         validateNonFNIPermissiveUse();
 
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        policy.getDefaultView().fillFromTo(td2, PremiumAndCoveragesTab.class, PurchaseTab.class, true);
-        purchaseTab.submitTab();
+        policy.getDefaultView().fillFromTo(td2, PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
 
+        // Assert that permissive rule is thrown for CLUE and can be overridden for TERM: PAS-22609
+        validateOverridableCLUEPPURule(ErrorEnum.Duration.TERM);
+
+        purchaseTab.fillTab(td2).submitTab();
         policyNumber = labelPolicyNumber.getValue();
         mainApp().close();
     }
@@ -889,11 +922,12 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      * Method to validate CAS/Clue Reconcile for AFR driver when PU flag is marked as Yes
      */
     public void pas24587_CASClueReconcilePUAFRUserFlagged() {
+
+        String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
         String DL_NAME_RECONCILEFNICLAIMS_DATA_MODEL;
-        Map<String, String> CLAIM_TO_DRIVER_LICENSE;
 
         DL_NAME_RECONCILEFNICLAIMS_DATA_MODEL = "dl_name_reconcileFNIclaims_data_model.yaml";
-        CLAIM_TO_DRIVER_LICENSE = ImmutableMap.of(CLAIM_NUMBER_1, "D1278222", CLAIM_NUMBER_2, "D1278999");
+        Map<String, String> CAS_RESPONSE_DATE_FIELDS = ImmutableMap.of(CLAIM_NUMBER_3, claim1_dates);
 
         // Create Customer and Policy with one driver
         TestData testDataForFNI;
@@ -915,7 +949,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         generateClaimRequest();        // Download claim request and assert it
 
         // Create the claim response
-        createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, DL_NAME_RECONCILEFNICLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
+        createCasClaimResponseAndUploadWithUpdatedDates(policyNumber, DL_NAME_RECONCILEFNICLAIMS_DATA_MODEL, CAS_RESPONSE_DATE_FIELDS);
         runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
 
         // Retrieve policy
@@ -1131,7 +1165,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //1st Renewal: Verify PU Values in Drivers tab
         verifyPUvalues();
 
-        //TODO: Uncomment after PAS-26322
+        //TODO: Mantas Garsvinskas Uncomment after PAS-26322
         /*
         issueGeneratedRenewalImage(policyNumber, false);
 

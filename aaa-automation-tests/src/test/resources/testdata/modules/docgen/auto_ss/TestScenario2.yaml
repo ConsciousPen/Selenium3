@@ -393,6 +393,13 @@ ErrorTab_PA: {
     Approval: 'true',
     Duration: Life,
     Reason for override: index=1
+   },
+   {
+    Code: 'AAA_SS190125',
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
    }
    ]  
 }

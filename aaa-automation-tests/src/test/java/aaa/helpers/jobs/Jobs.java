@@ -98,7 +98,7 @@ public class Jobs {
 
 	public static Job aaaRenewalNoticeBillAsyncJob = new Job("aaaRenewalNoticeBillAsyncJob");
 
-	public static Job changeCancellationPendingPoliciesStatus = new Job("changeCancellationPendingPoliciesStatusJob");
+	public static Job changeCancellationPendingPoliciesStatus = new Job("changeCancellationPendingPoliciesStatus");
 
 	public static Job aaaMembershipRenewalBatchOrderAsyncJob = new Job("aaaMembershipRenewalBatchOrderAsyncJob");
 
