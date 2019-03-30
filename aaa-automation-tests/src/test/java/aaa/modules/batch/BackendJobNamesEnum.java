@@ -1,4 +1,4 @@
-package aaa.modules.bct.batch;
+package aaa.modules.batch;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import aaa.helpers.jobs.GroupJobs;

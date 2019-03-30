@@ -200,6 +200,8 @@ public class HttpJob {
 
 
 
+	@Deprecated
+	//todo verify
 	public static class JobStatistic {
 
 		public static String getLastProcessedStatistic(String response, Job job) {
@@ -246,7 +248,7 @@ public class HttpJob {
 			for (String row : rows) {
 				if (row.contains("Job processed")) {
 					try {
-						String backendJobName = String.format(JOB_LOGS_STATISTICS_REGEX, BackendJobNames.getBackEndJobNames(job));
+						String backendJobName = String.format(JOB_LOGS_STATISTICS_REGEX, BackendJobNames.getBackendJobNames(job));
 						allStatistics.add(HttpHelper.find(row, backendJobName));
 					} catch (IOException e) {
 						e.printStackTrace();

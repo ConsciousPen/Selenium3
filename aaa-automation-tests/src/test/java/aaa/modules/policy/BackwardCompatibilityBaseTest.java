@@ -45,7 +45,7 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	 */
 	protected void executeBatchTest(Job job){
 		// Get sql compatible job name, based on parameter
-		String backEndJobName = BackendJobNames.getBackEndJobNames(job);
+		String backEndJobName = BackendJobNames.getBackendJobNames(job);
 		// Get job start date
 		String startDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern(ddMMyy)).toUpperCase();
 
