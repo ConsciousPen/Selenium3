@@ -14,13 +14,13 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
 import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.http.BackendJobNames;
 import aaa.helpers.jobs.Job;
 import aaa.helpers.jobs.JobUtils;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.bct.batch.BackendJobNames;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
@@ -41,7 +41,7 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	}
 
 	protected void executeBatchTest(Job job){
-		String backEndJobName = BackendJobNames.getBackEndJobNames(job.getJobName());
+		String backEndJobName = BackendJobNames.getBackEndJobNames(job);
 		String startDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern(ddMMyy)).toUpperCase();
 
 		JobUtils.executeJob(job);
@@ -52,7 +52,7 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		assertThat(getFailurePercentage(backEndJobName, query)).as("Percentage of failed tasks is more 5%").isEqualTo(true);
 	}
 
-	protected void executeAgingJob(Job job){
+	protected void createAndExecuteJob(Job job){
 		SoapJobActions service = new SoapJobActions();
 
 		if (!service.isJobExist(JobGroup.fromSingleJob(job.getJobName()))) {
