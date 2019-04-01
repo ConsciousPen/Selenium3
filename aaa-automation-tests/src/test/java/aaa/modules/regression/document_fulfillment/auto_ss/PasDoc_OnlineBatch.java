@@ -29,7 +29,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		TestData td_driverWithActivity = getPolicyTD().adjust(getTestSpecificTD("TestData_DriverWithActivity").resolveLinks());
 		String policy_driverWithActivity = createPolicy(td_driverWithActivity);
 		log.info("PAS DOC: Scenario 1: Policy with driver with chargeable activity created: " + policy_driverWithActivity);
-		DocGenHelper.verifyDocumentsGenerated(true, false, policy_driverWithActivity, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2); //AAAEAZ2
+		DocGenHelper.verifyDocumentsGenerated(true, false, policy_driverWithActivity, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2);
 		
 		//Scenario 1b: Add all types of vehicles
 		TestData td_allTypeVehicles = getPolicyTD().adjust(getTestSpecificTD("TestData_AllTypeVehicles").resolveLinks());
@@ -85,7 +85,8 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		TestData td_financialDriver = getPolicyTD().adjust(getTestSpecificTD("TestData_FinancialDriver").resolveLinks());
 		String policy_financialDriver = createPolicy(td_financialDriver);
 		log.info("PAS DOC: Scenario 4: Policy with financial driver created: " + policy_financialDriver);
-		DocGenHelper.verifyDocumentsGenerated(true, false, policy_financialDriver, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AASR22); //AASR22
+		DocGenHelper.verifyDocumentsGenerated(true, false, policy_financialDriver, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2);
+		DocGenHelper.verifyDocumentsGenerated(true, false, policy_financialDriver, AASR22); 
 		
 		//Scenario 4b: 2 Drivers with Financial Responsibility = Yes
 		TestData td_2financialDrivers = getPolicyTD().adjust(getTestSpecificTD("TestData_2FinancialDrivers").resolveLinks());
@@ -102,7 +103,8 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		new PurchaseTab().submitTab();			
 		String policy_2financialDrivers = PolicySummaryPage.getPolicyNumber();
 		log.info("PAS DOC: Scenario 4b: Policy with 2 financial drivers created: " + policy_2financialDrivers);
-		DocGenHelper.verifyDocumentsGenerated(true, false, policy_2financialDrivers, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AASR22); //AASR22
+		DocGenHelper.verifyDocumentsGenerated(true, false, policy_2financialDrivers, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2);
+		DocGenHelper.verifyDocumentsGenerated(true, false, policy_2financialDrivers, AASR22);
 	}
 
 	@Parameters({"state"})
