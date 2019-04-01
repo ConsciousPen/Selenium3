@@ -6,10 +6,7 @@ import aaa.common.pages.Page;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.*;
-import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
-import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
-import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
-import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
+import aaa.toolkit.webdriver.customcontrols.dialog.*;
 import aaa.toolkit.webdriver.customcontrols.endorsements.HomeSSEndorsementsMultiAssetList;
 import com.exigen.ipb.etcsa.controls.PartySearchTextBox;
 import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
@@ -19,7 +16,6 @@ import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
-import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
@@ -79,7 +75,7 @@ public final class HomeSSMetaData {
 		// Named Insured
 		public static final class NamedInsured extends MetaData {
 			public static final AssetDescriptor<Button> BTN_ADD_INSURED = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHONamedInsured"));
-			public static final AssetDescriptor<SingleSelectSearchDialog> CUSTOMER_SEARCH = declare("CustomerSearchDialog", SingleSelectSearchDialog.class, CustomerSearch.class, By
+			public static final AssetDescriptor<CustomerSearchSingleSelectDialog> CUSTOMER_SEARCH = declare("CustomerSearchDialog", CustomerSearchSingleSelectDialog.class, CustomerSearch.class, By
 					.xpath(".//form[@id='customerSearchFrom']"));
 			public static final AssetDescriptor<ComboBox> PREFIX = declare("Prefix", ComboBox.class);
 			public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First name", TextBox.class, Waiters.AJAX);
