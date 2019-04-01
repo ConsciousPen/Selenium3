@@ -132,6 +132,10 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 	}
 
 	protected LocalDateTime getCancellationEffectiveDate() {
+		if (getPolicyType().isAutoPolicy()) {
+			return TimeSetterUtil.getInstance().parse(PolicySummaryPage.tableGeneralInformation.getRow(1)
+					.getCell(PolicyConstants.PolicyGeneralInformationTable.CANCELLATION_EFF_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+		}
 		return TimeSetterUtil.getInstance().parse(PolicySummaryPage.tableGeneralInformation.getRow(1)
 				.getCell(PolicyConstants.PolicyGeneralInformationTable.CANCELLATION_EFFECTIVE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
 	}
