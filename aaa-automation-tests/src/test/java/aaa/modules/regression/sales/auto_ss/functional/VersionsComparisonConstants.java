@@ -102,6 +102,7 @@ public class VersionsComparisonConstants {
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version1, Second Name version1).First Name", "First Name version2","First Name version1")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version1, Second Name version1).Second Name", "Second Name version2","Second Name version1")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version1, Second Name version1).Additional Interest Address", "VII interest address 1, VII interest address 2, Red Rock, AZ, 85245","interest address 1, VI interest address 2, Phoenix, AZ, 85085")
+			.putAll("Policy Options.Payment Plan","semiAnnual6SS","annualSS")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -240,6 +241,7 @@ public class VersionsComparisonConstants {
 			//Garaging address
 			//TODO should be returned when Yes/NO vs true/false is fixed
 			/*.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Is Garaging different from Residential?", "Is Garaging different from Residential?")*/
+			.put("Policy Options.Policy Term","Policy Term")
 			.build();
 
 	//all components/attributes that should be on Comparison page for Named Insured Information section for data gather comparison
@@ -476,4 +478,11 @@ public class VersionsComparisonConstants {
 		endorsementModified.remove("Vehicles.1998, DODGE, CARAVAN", "Safety Score Date");
 		ENDORSEMENT_RENEWAL_VEHICLE_INFORMATION = ImmutableListMultimap.copyOf(endorsementModified);
 	}
+
+	//all components/attributes that should be on Comparison page for Premium and Coverages section for Quote Compare
+	static final Multimap<String, String> DATA_GATHER_PREMIUM_AND_COVERAGES = ImmutableListMultimap.<String, String>builder()
+			.put("Policy Options","Payment Plan")
+			.put("Policy Options", "Policy Term")
+			.build();
+
 }
