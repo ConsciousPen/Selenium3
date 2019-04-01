@@ -1,4 +1,4 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="JDI Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!-- Listener commented out for local runs-->
@@ -74,6 +74,18 @@
             </class>
         </classes>
     </test>
+
+    <test thread-count="1024" name="TestEValueDiscountMD" parallel="methods">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
+                    <include name="pas23992_PaperlessPreferanceScenarioOutsidePas"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test thread-count="1024" name="TestEValueDiscountPA" parallel="methods">
         <parameter name="state" value="PA"/>
         <classes>
