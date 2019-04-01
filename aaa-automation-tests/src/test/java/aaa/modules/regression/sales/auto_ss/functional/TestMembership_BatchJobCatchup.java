@@ -32,7 +32,7 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
     LocalDateTime thresholdMaxDate = null;
 
     @Parameters({"state"})
-    @Test(dataProvider = "ThresholdTestData_STG1_NoCatchup")
+    @Test(dataProvider = "ThresholdTestData_STG1")
     public void STG1orSTG2_TestThreshold(@Optional String state, eThresholdTests typeOfThresholdTest, Integer nb15or30, Integer daysAfterNB) {
         // Creating Policy using Default Test Data
         mainApp().open();
