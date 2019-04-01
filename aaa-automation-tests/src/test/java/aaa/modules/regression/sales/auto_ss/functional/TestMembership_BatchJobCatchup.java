@@ -72,7 +72,6 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
 
         // Validate policyNumber is picked up by batch job at STG1.
         CustomAssertions.assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(policyNumber).toString()).isEqualToIgnoringCase("FOUND");
-        // Manually open job logs and search for policyNumber in newly generated log.
     }
 
     // Use this to capture a screenshot in the event of an error, or at will.
