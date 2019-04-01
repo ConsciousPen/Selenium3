@@ -259,6 +259,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
 		// Cancel policy on effective date (flat cancellation)
         cancelPolicy(policyNumber);
+        LocalDateTime cxEffDate = getCancellationEffectiveDate();
 
         // CNL-03 validations
         validateCancellationTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
@@ -311,7 +312,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
             // Remove reinstatement lapse
             SearchPage.openPolicy(policyNumber);
-            policy.changeReinstatementLapse().perform(getRemoveReinstatementLapseTd(getCancellationEffectiveDate()));
+            policy.changeReinstatementLapse().perform(getRemoveReinstatementLapseTd(cxEffDate));
 
             Dollar lapseRemovalPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT);
             Dollar lapseRemovalTaxes = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053")
