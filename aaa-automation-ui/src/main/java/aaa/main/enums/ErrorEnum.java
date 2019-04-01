@@ -192,6 +192,9 @@ public final class ErrorEnum {
 		ERROR_AAA_200200_NY("200200_NY", "Vehicles with Physical Damage Coverage require a CARCO Inspection or Proof o..."),
 		ERROR_AAA_200203("200203", "If Uninsured/Underinsured Motorist (UM/UIM) Coverage is rejected. A signed Un..."),
 		ERROR_AAA_10006002_CA("10006002", "Do not bind the endorsement more than 30 days in advance. (10006002) [for Pol..."),
+		ERROR_AAA_10004001_CA("10004001", "Driver must possess a valid license status (10004001) [for Driver.attributeFo..." ),
+		ERROR_AAA_CAC7100525_CA_CHOICE("AAA_CAC7100525_CA_CHOICE","Any Driver on the policy with an out-of-state U.S., Canadian, or Foreign lice..."),
+		ERROR_AAA_200108_1_CA_SELECT("200108_1", "Driver with a Foreign or International License is unacceptable (200108_1) [fo..."),
 
 		//MEMBERSHIP Errors
 		ERROR_AAA_AUTO_SS_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm..."),
