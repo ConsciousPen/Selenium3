@@ -23,16 +23,16 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
         return new Object[][] {{"AZ", eThresholdTests.BEFORE, 15, 4}, {"AZ", eThresholdTests.ON, 15, 5}, {"AZ", eThresholdTests.AFTER, 15, 6}};
     }
 
-    @DataProvider(name = "ThresholdTestData_STG2")
+    @DataProvider(name = "ThresholdTestData_STG1_NoCatchup")
     public static Object[][] data2() {
-        return new Object[][] {{"AZ", eThresholdTests.BEFORE, 30, 4}, {"AZ", eThresholdTests.ON, 30, 5}, {"AZ", eThresholdTests.AFTER, 30, 6}};
+        return new Object[][] {{"AZ", eThresholdTests.ON, 15, 0}};
     }
 
-    Integer _thresholdValue = 5;
+    Integer _thresholdValue = 0;
     LocalDateTime thresholdMaxDate = null;
 
     @Parameters({"state"})
-    @Test(dataProvider = "ThresholdTestData_STG1")
+    @Test(dataProvider = "ThresholdTestData_STG1_NoCatchup")
     public void STG1orSTG2_TestThreshold(@Optional String state, eThresholdTests typeOfThresholdTest, Integer nb15or30, Integer daysAfterNB) {
         // Creating Policy using Default Test Data
         mainApp().open();
@@ -64,6 +64,7 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
                 CustomAssertions.assertThat(rightNow).isAfter(thresholdMaxDate);
                 break;
             default:
+                CustomAssertions.fail("Unexpected value for 'typeOfThresholdTest'. Force failing test.");
                 break;
         }
 
