@@ -121,27 +121,27 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     protected boolean updatePUFlag = false;
     protected boolean secondDriverFlag = false;
 
-    @BeforeTest
-    public void prepare() {
-        // Toggle ON PermissiveUse Logic & Set DATEOFLOSS Parameter in DB
-        DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-16"));
-        log.info("Updated PU flag in DB");
-        try {
-            FileUtils.forceDeleteOnExit(Paths.get(CAS_REQUEST_PATH).toFile());
-            FileUtils.forceDeleteOnExit(Paths.get(CAS_RESPONSE_PATH).toFile());
-        } catch (IOException e) {
-            throw new IllegalStateException("Cannot delete directories " + CAS_RESPONSE_PATH + " "
-                    + CAS_REQUEST_PATH, e);
-        }
-        try {
-            Files.createDirectories(Paths.get(CAS_REQUEST_PATH));
-            Files.createDirectories(Paths.get(CAS_RESPONSE_PATH));
-        } catch (IOException e) {
-            throw new IllegalStateException("Cannot create directories " + CAS_RESPONSE_PATH + " "
-                    + CAS_REQUEST_PATH, e);
-        }
-    }
+//    @BeforeTest
+//    public void prepare() {
+//        // Toggle ON PermissiveUse Logic & Set DATEOFLOSS Parameter in DB
+//        DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
+//        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-16"));
+//        log.info("Updated PU flag in DB");
+//        try {
+//            FileUtils.forceDeleteOnExit(Paths.get(CAS_REQUEST_PATH).toFile());
+//            FileUtils.forceDeleteOnExit(Paths.get(CAS_RESPONSE_PATH).toFile());
+//        } catch (IOException e) {
+//            throw new IllegalStateException("Cannot delete directories " + CAS_RESPONSE_PATH + " "
+//                    + CAS_REQUEST_PATH, e);
+//        }
+//        try {
+//            Files.createDirectories(Paths.get(CAS_REQUEST_PATH));
+//            Files.createDirectories(Paths.get(CAS_RESPONSE_PATH));
+//        } catch (IOException e) {
+//            throw new IllegalStateException("Cannot create directories " + CAS_RESPONSE_PATH + " "
+//                    + CAS_REQUEST_PATH, e);
+//        }
+//    }
 
     public String createPolicyMultiDrivers() {
         TestData testData = getPolicyTD();
