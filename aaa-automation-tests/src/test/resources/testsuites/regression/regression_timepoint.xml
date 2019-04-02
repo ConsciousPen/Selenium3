@@ -760,6 +760,11 @@
                     <include name="testAutoInsuranceCarriedOverToHoPolicy"/>
                 </methods>
             </class> <!-- aaa.modules.regression.service.home_ss.ho3.TestAutoInsuranceCarriedOverToHoPolicy -->
+            <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyReinstatementAdditionalEndorsements">
+                <methods>
+                    <include name="testPolicyReinstatementAdditionalEndorsements"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.service.home_ss.ho3.TestPolicyReinstatementAdditionalEndorsements -->
         </classes>
     </test> <!-- UT Home -->
     <test name="NY Home" parallel="methods">

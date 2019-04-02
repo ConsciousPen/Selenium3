@@ -38,8 +38,9 @@ public class TestScenario7 extends Scenario7 {
 			generateSecondBill(softly);
 			payTotalDue();
 			generateThirdBill();
-			generateTenthBill();
 			renewalImageGeneration();
+			generateTenthBill();
+			//renewalImageGeneration();
 			renewalPreviewGeneration();
 			endorsementRPBeforeRenewal();
 			endorsementAPBeforeRenewal();
