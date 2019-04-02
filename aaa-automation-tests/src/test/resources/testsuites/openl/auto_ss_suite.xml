@@ -94,7 +94,7 @@
     </test>
     <test name="AutoSS [MT] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="MTTests-20190421_UI.xls"/>
-        <parameter name="policyNumbers" value="1"/>
+        <parameter name="policyNumbers" value="1, 62"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>

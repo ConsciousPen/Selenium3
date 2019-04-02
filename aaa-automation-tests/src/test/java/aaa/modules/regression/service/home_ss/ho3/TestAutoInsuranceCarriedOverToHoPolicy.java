@@ -60,6 +60,8 @@ public class TestAutoInsuranceCarriedOverToHoPolicy extends HomeSSHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testAutoInsuranceCarriedOverToHoPolicy(@Optional("") String state) {
 
+		ApplicantTab applicantTab = new ApplicantTab();
+
 		String autoInsurancePersistency = "Auto insurance persistency";
 		TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DataGather", TEST_DATA_KEY)
 				.adjust("GeneralTab|NamedInsuredInformation[0]|Base Date",
@@ -94,7 +96,7 @@ public class TestAutoInsuranceCarriedOverToHoPolicy extends HomeSSHO3BaseTest {
 						.getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES)
 						.getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.ACTIVE_UNDERLYING_POLICIES_MANUAL)
 						.getAsset(HomeSSMetaData.ApplicantTab.OtherActiveAAAPolicies.OtherActiveAAAPoliciesManual.AUTO_INSURANCE_PERSISTENCY).getValue());
-		new ApplicantTab().submitTab();
+		applicantTab.submitTab();
 		policy.getDefaultView().fillFromTo(tdHome, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
 
 		//Check 'Auto insurance persistency' in Rating Details (Ho3 policy)
@@ -118,11 +120,12 @@ public class TestAutoInsuranceCarriedOverToHoPolicy extends HomeSSHO3BaseTest {
 		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestDataEndorsement"), ApplicantTab.class, true);
 
 		//Get list of Other active AAA policies from UI
-		List<String> listOfPoliciesFromUI = new ApplicantTab().tblListOfOtherActiveAAAPolicies.getValuesFromRows("Policy Number");
+		List<String> listOfPoliciesFromUI = applicantTab.tblListOfOtherActiveAAAPolicies.getValuesFromRows("Policy Number");
 
 		//Get list of policies from Mock
 		CustomerMasterMock cm = ApplicationMocksManager.getMock(CustomerMasterMock.class);
 		List<String> listOfPoliciesFromMock = cm.getPolicies(getTestSpecificTD(TEST_DATA_KEY).getValue("Customer"));
+
 		//Add created Auto policy to list from Mock and compare with list of Other Active policies from UI
 		listOfPoliciesFromMock.add(autoPolicyNum);
 		log.info(String.format("List of policies from UI: %s \n Expected list of policies: %s", listOfPoliciesFromUI.toString(), listOfPoliciesFromMock.toString()));

@@ -415,7 +415,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(BatchJob.cftDcsEodJob);
 		mainApp().open();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		billingAccount.approveRefund().perform(1);
+		//billingAccount.approveRefund().perform(1);
 		new BillingPaymentsAndTransactionsVerifier()
 				.setTransactionDate(refundDate)
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)

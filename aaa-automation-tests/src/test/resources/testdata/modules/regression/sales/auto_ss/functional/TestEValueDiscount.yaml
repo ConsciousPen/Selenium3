@@ -163,4 +163,9 @@ TestData_DebitCard: {
     Payment Method: 'contains=Visa',
     Amount: 100
   }
+
+}
+VehicleTab: {
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451
 }

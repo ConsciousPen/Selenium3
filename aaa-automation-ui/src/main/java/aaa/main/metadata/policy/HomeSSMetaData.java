@@ -10,10 +10,7 @@ import aaa.common.pages.Page;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.*;
-import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
-import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
-import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
-import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
+import aaa.toolkit.webdriver.customcontrols.dialog.*;
 import aaa.toolkit.webdriver.customcontrols.endorsements.HomeSSEndorsementsMultiAssetList;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -78,7 +75,7 @@ public final class HomeSSMetaData {
 		// Named Insured
 		public static final class NamedInsured extends MetaData {
 			public static final AssetDescriptor<Button> BTN_ADD_INSURED = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHONamedInsured"));
-			public static final AssetDescriptor<SingleSelectSearchDialog> CUSTOMER_SEARCH = declare("CustomerSearchDialog", SingleSelectSearchDialog.class, CustomerSearch.class, By
+			public static final AssetDescriptor<CustomerSearchSingleSelectDialog> CUSTOMER_SEARCH = declare("CustomerSearchDialog", CustomerSearchSingleSelectDialog.class, CustomerSearch.class, By
 					.xpath(".//form[@id='customerSearchFrom']"));
 			public static final AssetDescriptor<ComboBox> PREFIX = declare("Prefix", ComboBox.class);
 			public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First name", TextBox.class, Waiters.AJAX);
@@ -104,6 +101,12 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last Name", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> DATE_OF_BIRTH = declare("Date of birth", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<Button> BTN_CANCEL = declare("Cancel", Button.class, Waiters.AJAX, false, By.id("customerSearchFrom:cancelSearch"));
+		}
+
+		public static final class OtherAAAProductSearch extends MetaData {
+			public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<Button> BTN_CANCEL = declare("Cancel", Button.class, Waiters.AJAX, false, By.id("policySearchForm_AAAHOOtherOrPriorActivePolicySearch:cancelSearch_AAAHOOtherOrPriorActivePolicySearch"));
 		}
 
 		public static final class AAAMembership extends MetaData {
@@ -1496,8 +1499,7 @@ public final class HomeSSMetaData {
 					false, By.id("cappingDetailsPopupPanel:cappingSave"));
 		}
 
-		public static final AssetDescriptor<Button> VIEW_RATING_DETAILS = declare("View Rating Details", Button.class,
-				By.id("policyDataGatherForm:ratingHODetailsPopup"));
+		public static final AssetDescriptor<JavaScriptLink> VIEW_RATING_DETAILS = declare("View Rating Details", JavaScriptLink.class, Waiters.AJAX, By.id("policyDataGatherForm:ratingHODetailsPopup"));
 
 		public static final class ViewRatingDetailsWindow extends MetaData {
 			public static final AssetDescriptor<TextBox> MEMBERSHIP_INDICATOR = declare("Membership current AAA Member indicator", TextBox.class, By.id("horatingDetailsPopupForm_6:ratingDetailsTable:5:j_id_1_27_5b_j_2_10_7"));

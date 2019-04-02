@@ -10,31 +10,6 @@ public final class FinancialsSQL {
 
 	private FinancialsSQL() {}
 
-	public static String getMonthlyNetPremiumForPolicyQuery(String policyNum, String renewalCycle) {
-		return String.format(
-				"select monthlyamt " +
-						"from POLICYSUMMARY p " +
-						"join PREMIUMENTRY e on p.id = e.POLICYSUMMARY_ID " +
-						"where policynumber = '%s' " +
-							"and premiumcd = 'NWT' " +
-							"and renewalcycle = %s",
-				policyNum,
-				renewalCycle);
-	}
-
-	public static String getMonthlyNetPremiumSumQuery() {
-		return "select SUM(monthlyamt) " +
-					"from (select monthlyamt " +
-					"from POLICYSUMMARY p join PREMIUMENTRY e on p.id = e.POLICYSUMMARY_ID " +
-					"where premiumcd = 'NWT' " +
-						"and txtype = 'policy' " +
-						"and renewalcycle = 0)";
-	}
-
-	public static String getTotalEntryAmtForAcct(String account) {
-		return String.format("select SUM(ENTRYAMT) from LEDGERENTRY where LEDGERACCOUNTNO = '%s'", account);
-	}
-
 	public static Dollar getDebitsForAccountByPolicy(String policyNumber, String txType, String account) {
 		return getDebitsForAccountByPolicy(null, policyNumber, txType, account);
 	}
@@ -46,7 +21,7 @@ public final class FinancialsSQL {
 							"select ENTRYAMT " +
 				            "from LEDGERENTRY " +
 				            "WHERE PRODUCTNUMBER like '%" + policyNumber + "' " +
-								"and TRANSACTIONTYPE = '" + txType + "' " +
+								"and TRANSACTIONTYPE like '" + txType + "%' " +
 								"and LEDGERACCOUNTNO = '" + account + "' " +
 								"and entrytype = 'DEBIT'";
         if (txDate != null) {
@@ -68,7 +43,7 @@ public final class FinancialsSQL {
 							"select ENTRYAMT " +
 							"from LEDGERENTRY " +
 							"WHERE PRODUCTNUMBER  like '%" + policyNumber + "' " +
-								"and TRANSACTIONTYPE = '" + txType + "' " +
+								"and TRANSACTIONTYPE like '" + txType + "%' " +
 								"and LEDGERACCOUNTNO = '" + account + "' " +
 								"and entrytype = 'CREDIT'";
 		if (txDate != null) {
@@ -98,6 +73,11 @@ public final class FinancialsSQL {
 		public static final String NSF_FEE = "NotSufficientFunds";
 		public static final String NSF_FEE_WAIVED = "NSFFeeWORestriction";
 		public static final String ROLL_BACK_ENDORSEMENT = "retro";
+		public static final String STATE_TAX_WV = "PRMS_WV";
+		public static final String STATE_TAX_KY = "PRMS_KY";
+		public static final String CITY_TAX_KY = "PREMT_CITY";
+		public static final String COUNTY_TAX_KY = "PREMT_COUNTY";
+		public static final String RENEWAL = "renewal";
     }
 
 }

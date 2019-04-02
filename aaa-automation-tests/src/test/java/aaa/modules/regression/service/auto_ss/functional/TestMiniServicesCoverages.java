@@ -1689,6 +1689,39 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas15302_lolCoverageNJBody();
 	}
 
+	/**
+	 * @author Nauris Ivanans
+	 * @name View Supplemental Spousal Liability
+	 * @scenario
+	 * 1. Create policy in PAS with Supplemental Spousal Liability = No
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsementCoverages service and validate response
+	 * 4. Update Supplemental Spousal Liability to Yes in PAS and run viewEndorsementCoverages service and validate response
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NY})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16040"})
+	public void pas16040_sslCoverageNY(@Optional("NY") String state) {
+		pas16040_sslCoverageNYBody();
+	}
 
 
+	/**
+	 * @author Nauris Ivanans
+	 * @name View/Update Workplace Loss Benefits
+	 * @scenario
+	 * 1. Create policy in PAS with Workplace Loss Benefits = No
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsementCoverages service and validate response
+	 * 4. Update Workplace Loss Benefits to Yes, check update, view, change log responses and in PAS UI
+	 * 5. Update Workplace Loss Benefits back to No, check update, view, change log responses and in PAS UI
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NY})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16040"})
+	public void pas16041_wlbCoverageNY(@Optional("NY") String state) {
+		pas16041_wlbCoverageNYBody();
+	}
 }

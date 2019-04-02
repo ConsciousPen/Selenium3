@@ -276,7 +276,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
      * 5.1 Claim3: claimNumber3 - INCLUDED IN RATING dateOfLoss = Current Date (R3-46)
 	 * 5.1 Claim4: claimNumber4 - INCLUDED IN RATING dateOfLoss = Current Date (R3-46) PERMISSIVE_USE Match Assigned to FNI
      *
-     * //TODO:gunxgar add one more claim on 1st Renewal for Existing match, will be implemented in other Story: PAS-22026
+     * //TODO: Mantas Garsvinskas add one more claim on 1st Renewal for Existing match, will be implemented in other Story: PAS-22026
      * @details
      */
     @Parameters({"state"})

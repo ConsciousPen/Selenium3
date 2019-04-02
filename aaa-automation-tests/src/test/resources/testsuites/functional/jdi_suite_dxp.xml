@@ -122,7 +122,7 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="CoveragesAZ" parallel="methods">
+    <test thread-count="1024" name="CoveragesDE" parallel="methods">
         <parameter name="state" value="DE"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -928,6 +928,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
                     <include name="pas21597_addVehicleCheckAntiTheft"/>
+                    <include name="pas15334viewUpdateVehicleDaytimeRunningAntilockBrakes"/>
                 </methods>
             </class>
         </classes>
@@ -1141,37 +1142,47 @@
             </class>
         </classes>
     </test>
-    <!--todo uncomment when Dev branches merged to master-->
-    <!--<test thread-count="1024" name="CARCO NJ" parallel="methods">-->
-    <!--<parameter name="state" value="NJ"/>-->
-    <!--<classes>-->
-    <!--<class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">-->
-    <!--<methods>-->
-    <!--<include name="pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC01"/>-->
-    <!--<include name="pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC02"/>-->
-    <!--<include name="pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC03"/>-->
-    <!--<include name="pas26123_CARCOFormAAIFNJ4InsidePASAddReplaceVehicle"/>-->
-    <!--<include name="pas21648_CARCOFormAAIFNJ3InsidePASAddReplaceVehicleTC01"/>-->
-    <!--<include name="pas21648_CARCOFormAAIFNJ3InsidePASAddReplaceVehicleTC02"/>-->
-    <!--<include name="pas21648_CARCOFormAAIFNJ3InsidePASUpdateCompTC01"/>-->
-    <!--<include name="pas21648_CARCOFormAAIFNJ3InsidePASUpdateCompTC02"/>-->
-    <!--<include name="pas24531_CARCOFormAAIFNJ4InsidePASUpdateComp"/>-->
-    <!--<include name="pas24531_CARCOFormAAIFNJ4OutsidePASAddReplaceVehicle"/>-->
-    <!--<include name="pas21648_CARCOFormAAIFNJ3OutsidePASAddReplaceVehicleTC01"/>-->
-    <!--<include name="pas21648_CARCOFormAAIFNJ3OutsidePASAddReplaceVehicleTC02"/>-->
-    <!--<include name="pas21648_CARCOFormAAIFNJ3OutsidePASUpdateCompTC01"/>-->
-    <!--<include name="pas21648_CARCOFormAAIFNJ3OutsidePASUpdateCompTC02"/>-->
-    <!--<include name="pas24588_CARCOFormAAIFNJ4OutsidePASUpdateComp"/>-->
-    <!--</methods>-->
-    <!--</class>-->
-    <!--</classes>-->
-    <!--</test>-->
+    <test thread-count="1024" name="CARCO NJ" parallel="methods">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC01"/>
+                    <include name="pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC02"/>
+                    <include name="pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC03"/>
+                    <include name="pas26123_CARCOFormAAIFNJ4InsidePASAddReplaceVehicle"/>
+                    <include name="pas21648_CARCOFormAAIFNJ3InsidePASAddReplaceVehicleTC01"/>
+                    <include name="pas21648_CARCOFormAAIFNJ3InsidePASAddReplaceVehicleTC02"/>
+                    <include name="pas21648_CARCOFormAAIFNJ3InsidePASUpdateCompTC01"/>
+                    <include name="pas21648_CARCOFormAAIFNJ3InsidePASUpdateCompTC02"/>
+                    <include name="pas24531_CARCOFormAAIFNJ4InsidePASUpdateComp"/>
+                    <include name="pas24531_CARCOFormAAIFNJ4OutsidePASAddReplaceVehicle"/>
+                    <include name="pas21648_CARCOFormAAIFNJ3OutsidePASAddReplaceVehicleTC01"/>
+                    <include name="pas21648_CARCOFormAAIFNJ3OutsidePASAddReplaceVehicleTC02"/>
+                    <include name="pas21648_CARCOFormAAIFNJ3OutsidePASUpdateCompTC01"/>
+                    <include name="pas21648_CARCOFormAAIFNJ3OutsidePASUpdateCompTC02"/>
+                    <include name="pas24588_CARCOFormAAIFNJ4OutsidePASUpdateComp"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="NJ RFI Forms" parallel="methods">
         <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
                 <methods>
                     <include name="pas21646_aacsnjFormRFI"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="NY Coverages" parallel="methods">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas16040_sslCoverageNY"/>
+                    <include name="pas16041_wlbCoverageNYBody"/>
                 </methods>
             </class>
         </classes>

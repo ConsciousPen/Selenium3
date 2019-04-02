@@ -49,8 +49,9 @@ public class TestScenario2 extends Scenario2 {
 			payEighthBill();
 			generateNinthBill(softly);
 			payNinthBill();
-			generateTenthBill();
 			renewalImageGeneration();
+			generateTenthBill();
+			//renewalImageGeneration();
 			payTenthBill();
 			renewalPreviewGeneration();
 			renewalOfferGeneration(softly);

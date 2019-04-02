@@ -897,7 +897,10 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				return DataProviderFactory.dataOf(
 						HomeSSMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCode())).findFirst().get().getLimit(),
 						HomeSSMetaData.PropertyInfoTab.PropertyValue.ISO_REPLACEMENT_COST.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCode())).findFirst().get().getLimit(),
-						HomeSSMetaData.PropertyInfoTab.PropertyValue.PURCHASE_DATE_OF_HOME.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDiscountInformation().getNoOfYrsSinceLoanInception()).format(DateTimeUtils.MM_DD_YYYY),
+						//for noOfYrsSinceLoanInception = 999 we have UI errors, doesn't affect rating but blocks testing
+						HomeSSMetaData.PropertyInfoTab.PropertyValue.PURCHASE_DATE_OF_HOME.getLabel(), openLPolicy.getPolicyDiscountInformation().getNoOfYrsSinceLoanInception() < 400 ?
+								openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDiscountInformation().getNoOfYrsSinceLoanInception()).format(DateTimeUtils.MM_DD_YYYY) :
+								openLPolicy.getEffectiveDate().minusYears(20).format(DateTimeUtils.MM_DD_YYYY),
 						HomeSSMetaData.PropertyInfoTab.PropertyValue.NEW_LOAN.getLabel(), true);
 			case "HO4":
 				return DataProviderFactory.dataOf(

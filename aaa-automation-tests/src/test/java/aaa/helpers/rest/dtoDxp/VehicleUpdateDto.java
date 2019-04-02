@@ -38,4 +38,10 @@ public class VehicleUpdateDto  implements RestBodyRequest {
 
 	@ApiModelProperty(value = "Is Less Than 1,000 Miles?", example = "true")
 	public Boolean isLessThan1000Miles;
+
+	@ApiModelProperty(value = "Has Daytime Running Lights?", example = "true")
+	public Boolean daytimeRunningLight;
+
+	@ApiModelProperty(value = "Has Antilock Breaks?", example = "true")
+	public Boolean antiLockBreaks;
 }

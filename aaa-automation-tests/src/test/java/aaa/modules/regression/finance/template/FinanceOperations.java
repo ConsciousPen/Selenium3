@@ -72,7 +72,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
 		JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob);
 
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusMonths(13));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusMonths(13).withDayOfMonth(1));
 
 		JobUtils.executeJob(BatchJob.aaaEscheatmentProcessAsyncJob);
 

@@ -16,10 +16,10 @@
             <class name="aaa.modules.cft.home_ss.ho3.TestCFTScenario22"/>
         </classes>
     </test>
-    <test name="AutoCA Select Scenario 22 CFT" parallel="none">
+    <!--<test name="AutoCA Select Scenario 22 CFT" parallel="none">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.cft.auto_ca.select.TestCFTScenario22"/>
         </classes>
-    </test>
+    </test>-->
 </suite>

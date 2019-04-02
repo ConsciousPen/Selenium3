@@ -52,14 +52,19 @@ public class ScenarioBaseTest extends BaseTest {
 		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDate, billGenDate, effectiveDate, pligaOrMvleFee);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
-
+	
 	protected void payAndCheckBill(LocalDateTime installmentDueDate) {
+		payAndCheckBill(installmentDueDate, BillingHelper.DZERO);
+	}
+
+	//used in case needs correct amount due to calculation/round/tax issues
+	protected void payAndCheckBill(LocalDateTime installmentDueDate, Dollar correctionAmount) {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDate);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
 		JobUtils.executeJob(BatchJob.aaaRecurringPaymentsProcessingJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
+		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE)).add(correctionAmount);
 		new BillingPaymentsAndTransactionsVerifier().verifyAutoPaymentGenerated(DateTimeUtils.getCurrentDateTime(), minDue.negate());
 	}
 

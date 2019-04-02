@@ -3,13 +3,11 @@
 	<listeners>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
 	</listeners>
+
     <suite-files>
-		<suite-file path="./hdes_ho3_conversion.xml"/>
-		<suite-file path="./hdes_ho4_conversion.xml"/>
-		<suite-file path="./hdes_ho6_conversion.xml"/>
-		<suite-file path="./sis_conversion.xml"/>
-		<suite-file path="./pup_conversion.xml"/>
-		<suite-file path="./manual_conversion.xml"/>
-		<suite-file path="./hybrid_conversion.xml"/>
-	</suite-files>
+        <suite-file path="./sis_conversion.xml"/>
+        <suite-file path="./pup_conversion.xml"/>
+        <suite-file path="./manual_conversion.xml"/>
+        <suite-file path="./hybrid_conversion.xml"/>
+    </suite-files>
 </suite>
