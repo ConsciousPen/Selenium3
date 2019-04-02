@@ -123,6 +123,16 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="CoveragesDE" parallel="methods">
+        <parameter name="state" value="DE"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas17642_UpdateCoverageADB"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="GeneralVA" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
@@ -238,16 +248,6 @@
         </classes>
     </test>
     <!--Disabled the test to check BackwardCompatibility for all states-->
-    <test thread-count="1024" name="pas9489_GreenButtonServiceStateAndProductConfigurationEffective" parallel="methods">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
-                <methods>
-                    <include name="pas9489_GreenButtonServiceStateAndProductConfigurationEffective"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test thread-count="1024" name="UpdateDriverServiceSS" parallel="methods">
         <parameter name="state" value="AZ,NY,VA"/>
         <classes>
@@ -697,17 +697,6 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="pas15379_ValidatePUPErrorRelatedWithBiPdLimits" parallel="methods">
-        <!--can run for all states (Except CA)-->
-        <parameter name="state" value="VA, OH"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
-                <methods>
-                    <include name="pas15379_ValidatePUPErrorRelatedWithBiPdLimits"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test thread-count="1024" name="pas18624_CustomisedEquipment" parallel="methods">
         <parameter name="state" value="VA, AZ"/>
         <classes>
@@ -934,6 +923,17 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="Vehicle Deltas - NY" parallel="methods">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas21597_addVehicleCheckAntiTheft"/>
+                    <include name="pas15334viewUpdateVehicleDaytimeRunningAntilockBrakes"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="pas15499_RegisteredOwner" parallel="methods">
         <parameter name="state" value="CT, WV"/>
         <classes>
@@ -1038,7 +1038,7 @@
                 <methods>
                     <include name="pas22972_BIAndUMBIAndCanChangeTrue"/>
                     <include name="pas16399_viewUpdateUmpdDE"/>
-                    <include name="pas15272_viewUpdatePipDEBody"/>
+                    <include name="pas15272_viewUpdatePipDE"/>
                 </methods>
             </class>
         </classes>
@@ -1054,7 +1054,7 @@
                     <include name="pas23299_EMBCoveragePA"/>
                     <include name="pas23057_BIAndUMBIAndCanChangeTrue"/>
                     <include name="pas23057_BIAndUIMBIAndCanChangeTrue"/>
-                    <include name="pas16038_umbiUimbiStackedUnstackedBody"/>
+                    <include name="pas16038_umbiUimbiStackedUnstacked"/>
                 </methods>
             </class>
         </classes>
@@ -1116,6 +1116,16 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="pas25042_endorsementValidateAllowedForAllStates" parallel="methods">
+        <parameter name="state" value="CA, NY, VA, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas25042_endorsementValidateAllowedForAllStates"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="NJ Coverages" parallel="methods">
         <parameter name="state" value="NJ"/>
         <classes>
@@ -1129,6 +1139,51 @@
                     <include name="pas23997_updatePipCoveragesNJ"/>
                     <include name="pas25531_viewUpdatePipCoveragesIncludesNiAndRrNJ"/>
                     <include name="pas23975_viewUpdatePIPPrimaryInsurerNJ"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="CARCO NJ" parallel="methods">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC01"/>
+                    <include name="pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC02"/>
+                    <include name="pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC03"/>
+                    <include name="pas26123_CARCOFormAAIFNJ4InsidePASAddReplaceVehicle"/>
+                    <include name="pas21648_CARCOFormAAIFNJ3InsidePASAddReplaceVehicleTC01"/>
+                    <include name="pas21648_CARCOFormAAIFNJ3InsidePASAddReplaceVehicleTC02"/>
+                    <include name="pas21648_CARCOFormAAIFNJ3InsidePASUpdateCompTC01"/>
+                    <include name="pas21648_CARCOFormAAIFNJ3InsidePASUpdateCompTC02"/>
+                    <include name="pas24531_CARCOFormAAIFNJ4InsidePASUpdateComp"/>
+                    <include name="pas24531_CARCOFormAAIFNJ4OutsidePASAddReplaceVehicle"/>
+                    <include name="pas21648_CARCOFormAAIFNJ3OutsidePASAddReplaceVehicleTC01"/>
+                    <include name="pas21648_CARCOFormAAIFNJ3OutsidePASAddReplaceVehicleTC02"/>
+                    <include name="pas21648_CARCOFormAAIFNJ3OutsidePASUpdateCompTC01"/>
+                    <include name="pas21648_CARCOFormAAIFNJ3OutsidePASUpdateCompTC02"/>
+                    <include name="pas24588_CARCOFormAAIFNJ4OutsidePASUpdateComp"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="NJ RFI Forms" parallel="methods">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas21646_aacsnjFormRFI"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="NY Coverages" parallel="methods">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas16040_sslCoverageNY"/>
+                    <include name="pas16041_wlbCoverageNYBody"/>
                 </methods>
             </class>
         </classes>

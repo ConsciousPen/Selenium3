@@ -1100,3 +1100,121 @@ VehicleInformation_Version2: {
   "Are there any additional interest(s)?": 'No',
 }
 
+#test data for creation NB in Endorsement/Renewal scenarios
+TestData_Multiple_Drivers_NB_Policy: {
+  PrefillTab: '@<auto_ca_choice>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverInformation','@DriverInformation_Add_Version','@DriverInformation_Add_Version2'],
+  MembershipTab: {},
+  VehicleTab: '@VehicleInformation_version',
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+     Primary Driver: "NBFirstName NBLastName",
+     Manually Rated Driver: "NBFirstName NBLastName"
+    }
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Product: CA Choice,
+  },
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Personal Auto Application: Physically Signed,
+      Deleting Uninsured Motorist Property Damage Coverage: Physically Signed,
+    },
+    RequiredToIssue: {
+      Proof of Good Student Discount: 'Yes',
+      Proof of Mature Driver Course Completion: 'Yes',
+      Proof of Anti-Theft Recovery Device: 'Yes',
+    },
+    VehicleInformation:{
+      "Are there any additional interest(s)?": 'No',
+    },
+  },
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
+}
+
+DriverInformation_Add_Version: {
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Spouse,
+  First Name: 'New Driver',
+  Last Name: 'Version1',
+  Date of Birth: $<today-55y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: 'Dentist',
+  Age First Licensed: 17,
+  Permit Before License: 'No',
+  "Licensed in US/Canada for 18 or More Months?": 'Yes',
+  License Type: 'Valid',
+  "First US/Canada License Date": $<today-1y>,
+  License State: CA,
+  "License #": C1235678,
+  Employee Benefit Type: None,
+  ADB Coverage: 'Yes',
+  Mature driver course completed within 36 months: 'Yes',
+  Mature Driver Course Completion Date: $<today-2M>,
+  "Smoker: Cigarettes, cigars or pipes": 'No',
+  Financial Responsibility Filling Needed: 'No',
+  Ridesharing Coverage: 'No',
+}
+
+VehicleInformation_version: {
+  #Vehicle Information section
+  Type: 'Regular',
+  VIN: 19UUA8F23CA014786,
+  Primary Use: 'Pleasure (recreational driving only)',
+  Anti-theft Recovery Device: Vehicle Recovery Device,
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 15,
+  Odometer Reading: 80,
+  Odometer Reading Date: $<today-2y>,
+  Customer Declared Annual Miles: 10000,
+  #Garaging Address
+  "Is Garaging different from Residential?": 'No',
+  #Ownership Information
+  Ownership: {
+    Ownership Type: Owned,
+  },
+}
+
+TestData_Assignment_Version1: {
+    GeneralTab: {},
+    DriverTab: {},
+    MembershipTab: {},
+    VehicleTab: {},
+    AssignmentTab: {
+     DriverVehicleRelationshipTable: {
+           Primary Driver: "New Driver Version1"
+         }
+   },
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+    DriverActivityReportsTab: {},
+    DocumentsAndBindTab: {
+      RequiredToBind: {
+        AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+      },
+    },
+}
+
+
+TestData_Assignment_Version2: {
+    GeneralTab: {},
+    DriverTab: {},
+    MembershipTab: {},
+    VehicleTab: {},
+    AssignmentTab: {
+         DriverVehicleRelationshipTable: {
+               Primary Driver: "New Driver Version2",
+             }
+       },
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+    DriverActivityReportsTab: {},
+    DocumentsAndBindTab: {},
+}
+

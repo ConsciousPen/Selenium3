@@ -1,12 +1,12 @@
 package aaa.modules.docgen.auto_ss;
 
+import static aaa.main.enums.DocGenEnum.Documents.AA10OK;
+import static aaa.main.enums.DocGenEnum.Documents.AA41XX;
 import static toolkit.verification.CustomAssertions.assertThat;
-import static aaa.main.enums.DocGenEnum.Documents.*;
 import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -15,7 +15,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestScenario4_OK extends AutoSSBaseTest {
 
@@ -33,28 +33,30 @@ public class TestScenario4_OK extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = States.OK)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
-	public void TC01_EndorsementOne(@Optional("") String state) {
-		CustomSoftAssertions.assertSoftly(softly -> {
-			mainApp().open();
-			createCustomerIndividual();
-			String policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
-			LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-			log.info("Policy Effective date" + policyEffectiveDate);
-			log.info("Make first endorsement for Policy #" + policyNumber);
+	public void testDocGenScenario04_OK(@Optional("") String state) {
+		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), false);
 
-			TestData tdEndorsement = getTestSpecificTD("TestData_EndorsementOne");
-			policy.createEndorsement(tdEndorsement.adjust(getPolicyTD("Endorsement", "TestData")));
-			assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
-			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
+		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+		log.info("Policy Effective date" + policyEffectiveDate);
+		log.info("Make first endorsement for Policy #" + policyNumber);
 
-			String termEffDt = DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
+		TestData tdEndorsement = getTestSpecificTD("TestData_EndorsementOne");
+		policy.createEndorsement(tdEndorsement.adjust(getPolicyTD("Endorsement", "TestData")));
+		assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-			// verify the xml file AA41XX and AA10OK
+		String termEffDt = DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
+
+		// verify the xml file AA41XX and AA10OK
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			DocGenHelper.verifyDocumentsGenerated(softly, policyNumber, AA41XX, AA10OK).verify.mapping(getTestSpecificTD("TestData_Verification2")
 					.adjust(TestData.makeKeyPath("AA41XX", "form", "PlcyNum", "TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AA41XX", "form", "TermEffDt", "DateTimeField"), termEffDt)
 					.adjust(TestData.makeKeyPath("AA10OK", "form", "PlcyNum", "TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AA10OK", "form", "TermEffDt", "DateTimeField"), termEffDt), policyNumber, softly);
-		});
+		softly.close();
 	}
 }

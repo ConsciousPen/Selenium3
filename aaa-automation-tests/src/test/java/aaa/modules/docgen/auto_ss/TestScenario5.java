@@ -22,7 +22,7 @@ import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.utils.StateList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Button;
 
 public class TestScenario5 extends AutoSSBaseTest {
@@ -69,28 +69,28 @@ public class TestScenario5 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
-	public void TC01_GenerateQuoteDocuments(@Optional("") String state) {
+	public void testDocGenScenario05(@Optional("") String state) {
+		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), false);
+		mainApp().open();
 
-		CustomSoftAssertions.assertSoftly(softly -> {
-			mainApp().open();
+		createCustomerIndividual();
+		TestData tdpolicy = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(tdpolicy, PremiumAndCoveragesTab.class, true);
 
-			createCustomerIndividual();
-			TestData tdpolicy = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
-			policy.initiate();
-			policy.getDefaultView().fillUpTo(tdpolicy, PremiumAndCoveragesTab.class, true);
+		storeCoveragesData();
+		premiumAndCoveragesTab.submitTab();
 
-			storeCoveragesData();
-			premiumAndCoveragesTab.submitTab();
+		policy.getDefaultView().fillFromTo(tdpolicy, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
+		buttongenerate.click();
+		WebDriverHelper.switchToDefault();
+		Tab.buttonSaveAndExit.click();
+		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		plcyEffDt = DocGenHelper.convertToZonedDateTime(PolicySummaryPage.getEffectiveDate());
+		log.info("Create the quote" + policyNumber);
 
-			policy.getDefaultView().fillFromTo(tdpolicy, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
-			buttongenerate.click();
-			WebDriverHelper.switchToDefault();
-			Tab.buttonSaveAndExit.click();
-			policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-			plcyEffDt = DocGenHelper.convertToZonedDateTime(PolicySummaryPage.getEffectiveDate());
-			log.info("Create the quote" + policyNumber);
-
-			//		Verify the document AAIQAZ,AATSXX
+		//		Verify the document AAIQAZ,AATSXX
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			DocGenHelper.verifyDocumentsGenerated(softly, policyNumber, AAIQAZ, AATSXX).verify.mapping(getTestSpecificTD("TestData_Verification")
 							.adjust(TestData.makeKeyPath("AAIQAZ", "form", "PlcyNum", "TextField"), policyNumber)
 							.adjust(TestData.makeKeyPath("AAIQAZ", "form", "PlcyEffDt", "DateTimeField"), plcyEffDt)
@@ -118,7 +118,7 @@ public class TestScenario5 extends AutoSSBaseTest {
 							.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehTotPrem"), vehTotPrem),
 					//				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehSpclEqpmtPrem"), vehSpclEqpmtPrem)
 					policyNumber, softly);
-		});
+		softly.close();
 	}
 
 	private void storeCoveragesData() {
@@ -134,7 +134,7 @@ public class TestScenario5 extends AutoSSBaseTest {
 			vehSpclEqpmtDed.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Special Equipment Limit"))));
 		}
 
-		 PremiumAndCoveragesTab.RatingDetailsView.close();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 
 		for (TestData td : premiumAndCoveragesTab.getTermPremiumByVehicleData()) {
 			vehBdyInjPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Bodily Injury Liability"))));

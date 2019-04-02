@@ -4,7 +4,9 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
@@ -17,25 +19,25 @@ public class TestScenario3 extends AutoCaChoiceBaseTest {
 	@Parameters({"state"})
 	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void testAH61XX(@Optional("CA") String state) {
+	public void testAH61XX_AH62XX(@Optional("CA") String state) {
 		mainApp().open();
-		String policyNum = getCopiedPolicy();
+		createCustomerIndividual();
+		String policyNum = createPolicy();
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData_SubstantialIncrease"));
-		
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH61XX);
-	}
 
-	@Parameters({"state"})
-	@StateList(states = States.CA)
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void testAH62XX(@Optional("CA") String state) {
+		//TODO aperapecha: DocGen - remove shift after upgrade
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH61XX);
+
 		mainApp().open();
-		String policyNum = getCopiedPolicy();
+		SearchPage.openPolicy(policyNum);
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
 		policy.reinstate().perform(getTestSpecificTD("TestData_Reinstate"));
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		//TODO aperapecha: DocGen - remove shift after upgrade
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH62XX);
 	}
 }

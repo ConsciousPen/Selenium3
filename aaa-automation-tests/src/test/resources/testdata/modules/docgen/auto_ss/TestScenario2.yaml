@@ -393,6 +393,13 @@ ErrorTab_PA: {
     Approval: 'true',
     Duration: Life,
     Reason for override: index=1
+   },
+   {
+    Code: 'AAA_SS190125',
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
    }
    ]  
 }
@@ -534,6 +541,7 @@ TestData_Endorsement2_AZ: {
   VehicleTab: '@VehicleTab_Add',
   FormsTab: {},
   PremiumAndCoveragesTab: {
+    Payment Plan: Annual,
     Uninsured Motorists Bodily Injury: 'contains=No Coverage',
     Underinsured Motorists Bodily Injury: 'contains=No Coverage',
   },
@@ -561,6 +569,7 @@ TestData_Endorsement2_OK: {
   VehicleTab: '@VehicleTab_Add',
   FormsTab: {},
   PremiumAndCoveragesTab: {
+    Payment Plan: Annual,
     'Uninsured/Underinsured Motorist Bodily Injury': 'contains=No Coverage',
   },
   DriverActivityReportsTab: {},
@@ -586,7 +595,8 @@ TestData_Endorsement2_IN: {
   RatingDetailReportsTab: {},
   VehicleTab: '@VehicleTab_Add',
   FormsTab: {},
-  PremiumAndCoveragesTab: {},
+  PremiumAndCoveragesTab: {  
+       Payment Plan: Annual},
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {},
 }
@@ -747,7 +757,7 @@ AA43AZ: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: 56},
+    #NmdInsrdAge: {TextField: 56},
     NmdInsrdStAbrv: {TextField: 'AZ'}
   },
   AgentDetails: {
@@ -949,9 +959,8 @@ AA52AZ: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdStAbrv: {TextField: 'AZ'},
-    NmdInsrdAge: {TextField: '56'}
-  }, 
+    NmdInsrdStAbrv: {TextField: 'AZ'}
+  },
   CoverageDetails: {
     VehBICovAmt: {TextField: '100000/300000'},
     VehUMCovAmt: [
@@ -1397,7 +1406,6 @@ AA43IN: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Harry'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: 56},
     NmdInsrdStAbrv: {TextField: 'IN'}
   },
   AgentDetails: {
@@ -1557,9 +1565,8 @@ AA52IN: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Harry'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdStAbrv: {TextField: 'IN'},
-    NmdInsrdAge: {TextField: '56'}
-  }, 
+    NmdInsrdStAbrv: {TextField: 'IN'}
+  },
   CoverageDetails: {
     VehBICovAmt: {TextField: '100000/300000'},
     UMUIMCovAmt: [
@@ -1603,9 +1610,8 @@ AA53IN: {
   },
   NamedInsuredDetails: {
    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
-   NmdInsrdLstNm: {TextField: 'Smith'},
-   NmdInsrdAge: {TextField: '56'}
-  }, 
+   NmdInsrdLstNm: {TextField: 'Smith'}
+  },
   form: {
     PlcyNum: {TextField: ''},
     PlcyGrp: {TextField: 'PERSONAL AUTO'},
@@ -2144,7 +2150,6 @@ AA43PA: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Steve'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: 56},
     NmdInsrdStAbrv: {TextField: 'PA'}
   },
   AgentDetails: {
@@ -2749,7 +2754,6 @@ AA43OK: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Phil'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: 56},
     NmdInsrdStAbrv: {TextField: 'OK'}
   },
   AgentDetails: {
@@ -2788,7 +2792,6 @@ AA52OK: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Phil'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: '56'},
     NmdInsrdStAbrv: {TextField: 'OK'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -3025,8 +3028,7 @@ TestData_AASR26_AZ: {
 }
 
 TestData_VerificationED_AZ: {
-  AA43AZ: '@AA43AZ_ED',
-  AH35XX: '@AH35XX_ED_AZ',
+  #AH35XX: '@AH35XX_ED_AZ',
   AA59XX: '@AA59XX_ED_AZ',
   AA52AZ: '@AA52AZ_ED',
   AA10XX: '@AA10XX_ED_AZ',
@@ -3068,42 +3070,6 @@ AASR26_AZ: {
     SSNum: {TextField: '6789'},
     SR22YN: {TextField: 'Y'},
     SR23YN: {TextField: 'N'}
-  }
-}
-
-AA43AZ_ED: {
-  CompanyDetails: {
-    CoBrandNm: {TextField: ''},
-    CoNm: {TextField: 'AAA Members Insurance Company'},
-    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
-    CoAddlAddr2: {TextField: ''},
-    CoCityNm: {TextField: 'Oakland'},
-    CoStAbrv: {TextField: 'CA'},
-    CoZipPls4: {TextField: '946239865'},
-    CoPhnNum: {TextField: '(800) 207-3618'}
-  },
-  NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
-    NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: 56},
-    NmdInsrdStAbrv: {TextField: 'AZ'}
-  },
-  AgentDetails: {
-    AgntNum: {TextField: '500001004'}
-  },
-  DriverDetails: {
-    DrvrTyp: {TextField: 'E'},
-    DrvrFrstNm: {TextField: 'Maria'},
-    DrvrLstNm: {TextField: 'Jefferson'},
-    RlatToNmdInsrd: {TextField: 'Sibling'}
-  },
-  form: {
-    PlcyNum: {TextField: ''},
-    PlcyTransCd: {TextField: '0100'},
-    PlcyStAbrv: {TextField: AZ},
-    TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: ''},
-    SgntrOnFile: {TextField: ''}
   }
 }
 
@@ -3203,9 +3169,8 @@ AA52AZ_ED: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdStAbrv: {TextField: 'AZ'},
-    NmdInsrdAge: {TextField: '56'}
-  }, 
+    NmdInsrdStAbrv: {TextField: 'AZ'}
+  },
   CoverageDetails: {
     VehBICovAmt: {TextField: '100000/300000'},
     VehUMCovAmt: [
@@ -3570,7 +3535,7 @@ AA02AZ_ED: {
     {TextField: 'AA01AZ'},
     {TextField: 'AA11AZ'},
     ],
-    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
+    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount;Payment Plan Discount'},
     TermExprDt: {DateTimeField: ''},
     EndrEffDt: {DateTimeField: ''},
     PlcyEndrRsn: {TextField: 'VEH'}
@@ -3583,8 +3548,7 @@ TestData_AASR26_IN: {
 }
 
 TestData_VerificationED_IN: {
-  AA43IN: '@AA43IN_ED',
-  AH35XX: '@AH35XX_ED_IN',
+  #AH35XX: '@AH35XX_ED_IN',
   AA59XX: '@AA59XX_ED_IN',
   AA52IN: '@AA52IN_ED',
   AA53IN: '@AA53IN_ED',
@@ -3788,9 +3752,8 @@ AA52IN_ED: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Harry'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdStAbrv: {TextField: 'IN'},
-    NmdInsrdAge: {TextField: '56'}
-  }, 
+    NmdInsrdStAbrv: {TextField: 'IN'}
+  },
   CoverageDetails: {
     VehBICovAmt: {TextField: '100000/300000'},
     UMUIMCovAmt: [
@@ -3834,9 +3797,8 @@ AA53IN_ED: {
   },
   NamedInsuredDetails: {
    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
-   NmdInsrdLstNm: {TextField: 'Smith'},
-   NmdInsrdAge: {TextField: '56'}
-  }, 
+   NmdInsrdLstNm: {TextField: 'Smith'}
+  },
   form: {
     PlcyNum: {TextField: ''},
     PlcyGrp: {TextField: 'PERSONAL AUTO'},
@@ -3848,54 +3810,6 @@ AA53IN_ED: {
       {TextField: ''},
       {TextField: ''}
     ]
-  }
-}
-
-AA43IN_ED: {
-  CompanyDetails: {
-    CoBrandNm: {TextField: ''},
-    CoNm: {TextField: 'AAA Insurance Company'},
-    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
-    CoAddlAddr2: {TextField: ''},
-    CoCityNm: {TextField: 'Oakland'},
-    CoStAbrv: {TextField: 'CA'},
-    CoZipPls4: {TextField: '946239865'},
-    CoPhnNum: {TextField: '(800) 207-3618'}
-  },
-  NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
-    NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: 56},
-    NmdInsrdStAbrv: {TextField: 'IN'}
-  },
-  AgentDetails: {
-    AgntNum: {TextField: '500016292'}
-  },
-  DriverDetails: {
-    DrvrTyp: [
-      {TextField: 'E'},
-      {TextField: 'E'}
-    ],
-    DrvrFrstNm: [
-       {TextField: 'Maria'},
-       {TextField: 'Julia'}
-    ],
-    DrvrLstNm: [
-      {TextField: 'Jefferson'},
-      {TextField: 'Woodman'}
-    ],
-    RlatToNmdInsrd: [
-      {TextField: 'Spouse'},
-      {TextField: 'Spouse'}
-    ],
-  },
-  form: {
-    PlcyNum: {TextField: ''},
-    PlcyTransCd: {TextField: '0100'},
-    PlcyStAbrv: {TextField: IN},
-    TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: ''},
-    SgntrOnFile: {TextField: ''}
   }
 }
 
@@ -4072,7 +3986,7 @@ AA02IN_ED: {
     {TextField: 'AA01IN'},
     {TextField: 'AA11IN'},
     ],
-    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
+    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount;Payment Plan Discount'},
     TermExprDt: {DateTimeField: ''},
     AmdDecTxt: {TextField: 'Maintain Vehicle(s)'},
     CoNmIN: {TextField: 'Western United Insurance Company dba AAA Insurance Company'},
@@ -4086,8 +4000,7 @@ TestData_AASR26_OK: {
 }
 
 TestData_VerificationED_OK: {
-  AA43OK: '@AA43OK_ED',
-  AH35XX: '@AH35XX_ED_OK',
+  #AH35XX: '@AH35XX_ED_OK',
   AA59XX: '@AA59XX_ED_OK',
   AA52OK: '@AA52OK_ED',
   AA10OK: '@AA10OK_ED',
@@ -4233,42 +4146,6 @@ AAPDXX_ED_OK: {
   }
 }
 
-AA43OK_ED: {
-  CompanyDetails: {
-    CoBrandNm: {TextField: 'DBA AAA insurance Company'},
-    CoNm: {TextField: 'AAA Insurance Company'},
-    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
-    CoAddlAddr2: {TextField: ''},
-    CoCityNm: {TextField: 'Oakland'},
-    CoStAbrv: {TextField: 'CA'},
-    CoZipPls4: {TextField: '946239865'},
-    CoPhnNum: {TextField: '(800) 259-8008'}
-  },
-  NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
-    NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: 56},
-    NmdInsrdStAbrv: {TextField: 'OK'}
-  },
-  AgentDetails: {
-    AgntNum: {TextField: '500001020'}
-  },
-  DriverDetails: {
-    DrvrTyp: {TextField: 'E'},
-    DrvrFrstNm: {TextField: 'Maria'},
-    DrvrLstNm: {TextField: 'Jefferson'},
-    RlatToNmdInsrd: {TextField: 'Sibling'}
-  },
-  form: {
-    PlcyNum: {TextField: ''},
-    PlcyTransCd: {TextField: '0100'},
-    PlcyStAbrv: {TextField: 'OK'},
-    TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: ''},
-    SgntrOnFile: {TextField: ''}
-  }
-}
-
 AA52OK_ED: {
  CompanyDetails: {
    CoBrandNm: {TextField: 'DBA AAA insurance Company'},
@@ -4286,7 +4163,6 @@ AA52OK_ED: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Phil'},
     NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: '56'},
     NmdInsrdStAbrv: {TextField: 'OK'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -4535,7 +4411,7 @@ AA02OK_ED: {
     {TextField: 'AA01OK'},
     {TextField: 'AA11OK'},
     ],
-    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
+    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount;Payment Plan Discount'},
     TermExprDt: {DateTimeField: ''},
     EndrEffDt: {DateTimeField: ''}
   }
@@ -4543,7 +4419,6 @@ AA02OK_ED: {
 
 #----------Document Verification for Endorsement of PA state----------------
 TestData_VerificationED_PA: {
-  AA43PA: '@AA43PA_ED',
   AH35XX: '@AH35XX_ED_PA',
   AA59XX: '@AA59XX_ED_PA',
   AA52IPAB: '@AA52IPAB',
@@ -4552,42 +4427,6 @@ TestData_VerificationED_PA: {
   AA02PA: '@AA02PA_ED',
   AAPDXX: '@AAPDXX_ED_PA',
   AAFPPA: '@AAFPPA'
-}
-
-AA43PA_ED: {
- CompanyDetails: {
-    CoBrandNm: {TextField: 'AAA Insurance'},
-    CoNm: {TextField: 'underwritten by Western United Insurance Company'},
-    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
-    CoAddlAddr2: {TextField: ''},
-    CoCityNm: {TextField: 'Oakland'},
-    CoStAbrv: {TextField: 'CA'},
-    CoZipPls4: {TextField: '946239865'},
-    CoPhnNum: {TextField: '(888) 222-0094'}
-  },
-  NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
-    NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdAge: {TextField: 56},
-    NmdInsrdStAbrv: {TextField: 'PA'}
-  },
-  AgentDetails: {
-    AgntNum: {TextField: '500017173'}
-  },
-  DriverDetails: {
-    DrvrTyp: {TextField: 'E'},
-    DrvrFrstNm: {TextField: 'Valya'},
-    DrvrLstNm: {TextField: 'Woodman'},
-    RlatToNmdInsrd: {TextField: 'Sibling'}
-  },
-  form: {
-    PlcyNum: {TextField: ''},
-    PlcyTransCd: {TextField: '0100'},
-    PlcyStAbrv: {TextField: PA},
-    TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: ''},
-    SgntrOnFile: {TextField: ''}
-  }
 }
 
 AH35XX_ED_PA: {
@@ -5399,7 +5238,7 @@ AA02AZ_Renewal: {
     {TextField: 'AA01AZ'},
     {TextField: 'AA11AZ'},
     ],
-    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
+    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount;Payment Plan Discount'},
     TermExprDt: {DateTimeField: ''},
   }
 }
@@ -5716,7 +5555,7 @@ AA02IN_Renewal: {
     {TextField: 'AA01IN'},
     {TextField: 'AA11IN'},
     ],
-    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
+    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount;Payment Plan Discount'},
     TermExprDt: {DateTimeField: ''},
     AmdDecTxt: {TextField: ''},
     CoNmIN: {TextField: 'Western United Insurance Company dba AAA Insurance Company'},
@@ -6021,7 +5860,7 @@ AA02OK_Renewal: {
     {TextField: 'AA01OK'},
     {TextField: 'AA11OK'},
     ],
-    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
+    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount;Payment Plan Discount'},
     TermExprDt: {DateTimeField: ''}
   }
 }
@@ -6602,7 +6441,7 @@ AA02PA_Renewal: {
 
 # ------------- Documents Verification for Renewal Bill AZ----------
 TestData_VerificationRenewalBill_AZ: {
-  AH35XX: '@AH35XX_Renewal_AZ',
+  #AH35XX: '@AH35XX_Renewal_AZ',
   AHRBXX: '@AHRBXX_Renewal_AZ'
 }
   
@@ -6663,8 +6502,8 @@ form: {
    MVLEFee: {TextField: '0.00'},
  },
  PaymentDetails: {
-   PayTyp: {TextField: 'INSTALLMENT PAYMENT'},
-   PayPln: {TextField: 'Monthly'},
+   PayTyp: {TextField: 'FULL PAYMENT'},
+   PayPln: {TextField: 'Annual'},
    CurRnwlAmt: {TextField: ''},
 #   InstlFee: {TextField: ''},
 #   OthrFee: {TextField: '0.00'},
@@ -6705,7 +6544,7 @@ form: {
 
 # ------------- Documents Verification for Renewal Bill IN----------
 TestData_VerificationRenewalBill_IN: {
-  AH35XX: '@AH35XX_Renewal_IN',
+  #AH35XX: '@AH35XX_Renewal_IN',
   AHRBXX: '@AHRBXX_Renewal_IN'
 }
   
@@ -6766,8 +6605,8 @@ form: {
    MVLEFee: {TextField: '0.00'},
  },
  PaymentDetails: {
-   PayTyp: {TextField: 'INSTALLMENT PAYMENT'},
-   PayPln: {TextField: 'Monthly'},
+   PayTyp: {TextField: 'FULL PAYMENT'},
+   PayPln: {TextField: 'Annual'},
    CurRnwlAmt: {TextField: ''},
 #   InstlFee: {TextField: ''},
 #   OthrFee: {TextField: '0.00'},
@@ -6806,7 +6645,7 @@ form: {
 }
 # ------------- Documents Verification for Renewal Bill OK----------
 TestData_VerificationRenewalBill_OK: {
-  AH35XX: '@AH35XX_Renewal_OK',
+  #AH35XX: '@AH35XX_Renewal_OK',
   AHRBXX: '@AHRBXX_Renewal_OK'
 }
   
@@ -6867,8 +6706,8 @@ form: {
    MVLEFee: {TextField: '0.00'},
  },
  PaymentDetails: {
-   PayTyp: {TextField: 'INSTALLMENT PAYMENT'},
-   PayPln: {TextField: 'Monthly'},
+   PayTyp: {TextField: 'FULL PAYMENT'},
+   PayPln: {TextField: 'Annual'},
    CurRnwlAmt: {TextField: ''},
 #   InstlFee: {TextField: ''},
 #   OthrFee: {TextField: '0.00'},
@@ -6909,7 +6748,7 @@ form: {
 
 # ------------- Documents Verification for Renewal Bill PA----------
 TestData_VerificationRenewalBill_PA: {
-  AH35XX: '@AH35XX_Renewal_PA',
+  #AH35XX: '@AH35XX_Renewal_PA',
   AHRBXX: '@AHRBXX_Renewal_PA'
 }
   
@@ -6970,8 +6809,8 @@ form: {
    MVLEFee: {TextField: '0.00'},
  },
  PaymentDetails: {
-   PayTyp: {TextField: 'INSTALLMENT PAYMENT'},
-   PayPln: {TextField: 'Monthly'},
+   PayTyp: {TextField: 'FULL PAYMENT'},
+   PayPln: {TextField: 'Annual'},
    CurRnwlAmt: {TextField: ''},
 #   InstlFee: {TextField: ''},
 #   OthrFee: {TextField: '0.00'},

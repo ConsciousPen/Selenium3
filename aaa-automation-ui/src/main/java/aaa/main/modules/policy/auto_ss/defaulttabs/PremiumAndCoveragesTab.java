@@ -56,6 +56,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table tableeMemberMessageGrid = new Table(By.id("policyDataGatherForm:eMemberMessageGrid"));
 	public static Table tablePolicyLevelLiabilityCoverages = new Table(By.id("policyDataGatherForm:policy_vehicle_detail_coverage"));
 	public static Table tablePolicyLevelPersonalInjuryProtectionCoverage = new Table(By.id("policyDataGatherForm:policy_level_pip_coverage"));
+	public static Table tableRejectionOfWorkLossBenefits = new Table(By.id("policyDataGatherForm:rejectionOfWorkLossBenefit"));
 
 	public static Button buttonViewCappingDetails = new Button(By.id("policyDataGatherForm:viewCappingDetails_Link_1"), Waiters.AJAX);
 	public static Button buttonReturnToPremiumAndCoverages = new Button(By.id("cappingDetailsPopupPanel:cappingReturnTo"), Waiters.AJAX);
@@ -294,6 +295,18 @@ public class PremiumAndCoveragesTab extends Tab {
 		}
 	}
 
+	public void setPolicyPersonalInjuryProtectionCoverageDetailsValue(String coverageName, String value) {
+		Row coverageRow = tablePolicyLevelPersonalInjuryProtectionCoverage.getRowContains(1, coverageName);
+		Cell cell = coverageRow.getCell(2);
+		if (cell.controls.comboBoxes.getFirst().isPresent()) {
+			cell.controls.comboBoxes.getFirst().setValueContains(value);
+		} else if (cell.controls.textBoxes.getFirst().isPresent()) {
+			cell.controls.textBoxes.getFirst().setValue(value);
+		} else {
+			cell.controls.radioGroups.getFirst().setValue(value);
+		}
+	}
+
 	public String getPolicyCoverageDetailsTermPremium(String coverageName) {
 		Row coverageRow = tablePolicyLevelLiabilityCoverages.getRowContains(1, coverageName);
 		Cell cell = coverageRow.getCell(3);
@@ -310,6 +323,10 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	public String getPolicyPersonalInjuryProtectionCoverageDetailsValue(String coverageName) {
 		return getCoverageValueFromTable(coverageName, tablePolicyLevelPersonalInjuryProtectionCoverage);
+	}
+
+	public String getRejectionOfWorkLossBenefitsValue(String coverageName) {
+		return getCoverageValueFromTable(coverageName, tableRejectionOfWorkLossBenefits);
 	}
 
 	private String getCoverageValueFromTable(String coverageName, Table coverageTable) {

@@ -31,8 +31,8 @@
             <class name="aaa.modules.e2e.home_ca.ho3.TestScenario13"/>
         </classes>
     </test>
-    <test name="UT Auto E2E" parallel="methods">
-        <parameter name="state" value="UT"/>
+    <test name="AZ Auto E2E" parallel="methods">
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.e2e.auto_ss.TestScenario2"/>
             <class name="aaa.modules.e2e.auto_ss.TestScenario4"/>

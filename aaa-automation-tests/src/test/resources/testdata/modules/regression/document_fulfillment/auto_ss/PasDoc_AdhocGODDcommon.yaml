@@ -1,0 +1,367 @@
+TestData_SC2: {
+  DriverTab: ['@DriverTab_FinancialDriver1', '@DriverTab_ExcludedDriver1', '@DriverTab_PermitDriver1'], 
+  VehicleTab: ['@<auto_ss>@DataGather@VehicleTab', '@VehicleTab_EnrolledInUBI_1'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMBILessThanBI', 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Full' 
+}
+
+TestData_SC2_NO_PASDOC: {
+  DriverTab: ['@DriverTab_FinancialDriver1', '@DriverTab_ExcludedDriver1', '@DriverTab_PermitDriver1'], 
+  VehicleTab: ['@<auto_ss>@DataGather@VehicleTab', '@VehicleTab_EnrolledInUBI_1'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMBILessThanBI', 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Full_NO_PASDOC' 
+}
+
+TestData_NANO: {
+  GeneralTab: '@GeneralTab_NANO', 
+  VehicleTab: {}, 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_NANO'
+}
+
+TestData_ExcludedDrivers: {
+  DriverTab: ['@<auto_ss>@DataGather@DriverTab', '@DriverTab_ExcludedDriver1', '@DriverTab_ExcludedDriver2'], 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_ExcludedDrivers' 
+}
+
+TestData_VehiclesWithUBI: {
+  VehicleTab: ['@VehicleTab_EnrolledInUBI_2', '@VehicleTab_EnrolledInUBI_1'], 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_VehiclesWithUBI' 
+}
+
+TestData_VehiclesWithUBI_NO_PASDOC: {
+  VehicleTab: ['@VehicleTab_EnrolledInUBI_2', '@VehicleTab_EnrolledInUBI_1'], 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_VehiclesWithUBI_NO_PASDOC' 
+}
+
+TestData_PermitDrivers: {
+  DriverTab: ['@<auto_ss>@DataGather@DriverTab', '@DriverTab_PermitDriver1', '@DriverTab_PermitDriver2'], 
+  DocumentsAndBindTab: '@DocumentsAndBindTab' 
+}
+
+TestData_FinancialDrivers: {
+  GeneralTab: '@GeneralTab', 
+  DriverTab: ['@DriverTab_FinancialDriver1', '@DriverTab_FinancialDriver2'],
+  DocumentsAndBindTab: '@DocumentsAndBindTab_FinancialDrivers'
+}
+
+# -------- GeneralTab ---------
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
+}
+
+GeneralTab_NANO: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  PolicyInformation: '@PolicyInformation_NANO'
+}
+
+NamedInsuredInformation1: {
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+NamedInsuredInformation2: {
+  InsuredSearchDialog: {},
+  First Name: Jenny,
+  Last Name: Smith,
+  Insured Date of Birth: 12/05/1962,
+  Base Date: $<today>,
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+PolicyInformation_NANO: {
+  Policy Type: Named Non Owner,
+  Effective Date: '$<today:MM/dd/yyyy>',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'contains=Draper - 500005417 - Draper',
+  Agent: 'House Account Draper',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
+}
+
+# --------- DriverTab ---------
+DriverTab_ExcludedDriver1: {
+  Add Driver: click,
+  DriverSearchDialog: {},
+  Driver Type: Excluded, 
+  Reason: index=1, 
+  'Rel. to First Named Insured': Spouse, 
+  First Name: Excluded1,
+  Last Name: Driver1,
+  Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A22345688
+}
+
+DriverTab_ExcludedDriver2: {
+  Add Driver: click,
+  DriverSearchDialog: {},
+  Driver Type: Excluded, 
+  Reason: index=1, 
+  'Rel. to First Named Insured': Sibling, 
+  First Name: Excluded2,
+  Last Name: Driver2,
+  Date of Birth: 01/03/1983,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A22355678
+}
+
+DriverTab_PermitDriver1: {
+  Add Driver: click,
+  DriverSearchDialog: {},
+  Driver Type: Not Available for Rating, 
+  Reason: Permit Driver, 
+  'Rel. to First Named Insured': Parent, 
+  First Name: Permit1, 
+  Last Name: Driver1,
+  Date of Birth: 01/01/1978,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  License Type: Learner's Permit
+}
+
+DriverTab_PermitDriver2: {
+  Add Driver: click,
+  DriverSearchDialog: {},
+  Driver Type: Not Available for Rating, 
+  Reason: Permit Driver, 
+  'Rel. to First Named Insured': Spouse, 
+  First Name: Permit2, 
+  Last Name: Driver2,
+  Date of Birth: 03/01/1982,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  License Type: Learner's Permit
+}
+
+DriverTab_FinancialDriver1: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A22345678, 
+  Financial Responsibility Filing Needed: 'Yes', 
+  Filing State: Arizona
+}
+
+DriverTab_FinancialDriver2: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A22345679, 
+  Financial Responsibility Filing Needed: 'Yes', 
+  Filing State: Arizona
+}
+
+# -------- VehicleTab ---------
+VehicleTab_EnrolledInUBI_1: {
+  Add Vehicle: click,
+  Type: Private Passenger Auto, 
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451,
+  'Enroll in Usage Based Insurance?': 'Yes',
+  Get Vehicle Details: click, 
+  Vehicle Eligibility Response: Vehicle Eligible, 
+  AAA UBI Device Status: Shipped, 
+  Device Voucher Number: 12345678, 
+  Safety Score: 100
+}
+
+VehicleTab_EnrolledInUBI_2: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273, 
+  'Enroll in Usage Based Insurance?': 'Yes',
+  Get Vehicle Details: click
+}
+
+# ------ PremiumAndCoveragesTab ------- 
+PremiumAndCoveragesTab_UMBILessThanBI: {
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Uninsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
+  Underinsured Motorists Bodily Injury: 'contains=$50,000/$100,000'
+}
+
+# ------- DocumentsAndBindTab --------
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+DocumentsAndBindTab_NANO: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Non-Owner Automobile Endorsement: Physically Signed
+  }, 
+  Agreement: I agree 
+}
+
+DocumentsAndBindTab_ExcludedDrivers: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Named Driver Exclusion: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+DocumentsAndBindTab_VehiclesWithUBI: {
+  RequiredToBind: {
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed, 
+    Auto Insurance Application: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+DocumentsAndBindTab_VehiclesWithUBI_NO_PASDOC: {
+  RequiredToBind: {
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed, 
+    Auto Insurance Application: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    #AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: 'Yes',
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+DocumentsAndBindTab_FinancialDrivers: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed
+  }, 
+  Agreement: I agree, 
+  Case Number: '12345'
+}
+
+DocumentsAndBindTab_Full: {
+  RequiredToBind: {
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+    Auto Insurance Application: Physically Signed,
+    Uninsured and Underinsured Motorist Coverage Selection: Physically Signed, 
+    Named Driver Exclusion: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }, 
+  Case Number: '12345'
+}
+
+DocumentsAndBindTab_Full_NO_PASDOC: {
+  RequiredToBind: {
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+    Auto Insurance Application: Physically Signed,
+    Uninsured and Underinsured Motorist Coverage Selection: Physically Signed, 
+    Named Driver Exclusion: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: { 
+    Proof of Prior Insurance: 'Yes'
+  }, 
+  Case Number: '12345'
+}
+
+# -------- Generate On Demand Documents Tab ---------- 
+TestData_AU02: {  
+  Cancellation Date: '$<today:MM/dd/yyyy>',
+  Free Form Text AU02: 'Test Test'
+}
+
+TestData_AU03: { 
+  Free Form Text AU03: 'Test Test'
+}
+
+TestData_AU04: { 
+  Free Form Text AU04: 'Test Test'
+}
+
+TestData_AU05: { 
+  Premium Amount: 1000, 
+  Free Form Text AU05: 'Test Test'
+}
+
+TestData_AU06: { 
+  Free Form Text AU06: 'Test Test'
+}
+
+TestData_AU07: { 
+  Free Form Text AU07: 'Test Test'
+}
+
+TestData_AU08: { 
+  Free Form Text AU08: 'Test Test'
+}
+
+TestData_AU09: { 
+  Free Form Text AU09: 'Test Test'
+}
+
+TestData_AU10: { 
+  Free Form Text AU10: 'Test Test'
+}
+
+TestData_AA06XX: { 
+  Free Form Text AA06XX: 'Test Test'
+}
+
+TestData_AllDocs: {
+  Cancellation Date: '$<today:MM/dd/yyyy>',
+  Free Form Text AU02: 'Test Test', 
+  Free Form Text AU04: 'Test Test', 
+  Premium Amount: 1000, 
+  Free Form Text AU05: 'Test Test',
+  Free Form Text AU06: 'Test Test', 
+  Free Form Text AU07: 'Test Test', 
+  Free Form Text AU08: 'Test Test', 
+  Free Form Text AU09: 'Test Test',
+  Free Form Text AU10: 'Test Test', 
+  Free Form Text AA06XX: 'Test Test'
+}
+
+TestData_AllDocs_withoutAA06XX: {
+  Cancellation Date: '$<today:MM/dd/yyyy>',
+  Free Form Text AU02: 'Test Test', 
+  Free Form Text AU04: 'Test Test', 
+  Premium Amount: 1000, 
+  Free Form Text AU05: 'Test Test',
+  Free Form Text AU06: 'Test Test', 
+  Free Form Text AU07: 'Test Test', 
+  Free Form Text AU08: 'Test Test', 
+  Free Form Text AU09: 'Test Test',
+  Free Form Text AU10: 'Test Test', 
+  #Free Form Text AA06XX: 'Test Test'
+}

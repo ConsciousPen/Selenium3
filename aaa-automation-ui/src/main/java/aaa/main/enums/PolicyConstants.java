@@ -139,6 +139,15 @@ public final class PolicyConstants {
         public static final String ACTION = "Action";
     }
 
+    public static final class PolicyTaxesPremiumSurchargeDetailsTable {
+        public static final String STATE_LOCAL_TAX_PREMIUM_SURCHARGES = "State and Local Tax & Premium Surcharges";
+        public static final String STATE_LOCAL_TAXES_PREMIUM_SURCHARGES = "State and Local Taxes & Premium Surcharges";
+        public static final String TERM_PREMIUM = "Term Premium";
+        public static final String PREMIUM_SURCHARGE = "Premium Surcharge";
+        public static final String CITY_TAX = "City Tax";
+        public static final String COUNTY_TAX = "County Tax";
+    }
+
     public static final class PolicyFormsTable {
         public static final String FORM_ID = "Form ID";
     }

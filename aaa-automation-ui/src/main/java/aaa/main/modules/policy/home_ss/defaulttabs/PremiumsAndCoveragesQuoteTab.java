@@ -91,6 +91,7 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 	}
 
 	public void openViewRatingDetails() {
+		btnCalculatePremium().mouseOver();
 		getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.VIEW_RATING_DETAILS.getLabel()).getWebElement().click();
 	}
 

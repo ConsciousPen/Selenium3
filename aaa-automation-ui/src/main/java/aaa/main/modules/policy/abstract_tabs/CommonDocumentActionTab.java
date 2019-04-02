@@ -1,15 +1,17 @@
 package aaa.main.modules.policy.abstract_tabs;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import static org.openqa.selenium.By.id;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.Map;
 import org.openqa.selenium.By;
 import aaa.common.ActionTab;
 import aaa.common.Tab;
+import aaa.common.components.Dialog;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -17,17 +19,23 @@ import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
 public abstract class CommonDocumentActionTab extends ActionTab {
 	private static final Object lock = new Object();
 	public Verify verify = new Verify();
-	public Button buttonOk = new Button(By.xpath("//a[@id='policyDataGatherForm:generateDocLink' or @id='policyDataGatherForm:generateEmailDocLink']"));
+	public Button buttonOk = new Button(By.xpath("//*[(@id='policyDataGatherForm:generateDocLink' or @id='policyDataGatherForm:generateEmailDocLink' or @id='policyDataGatherForm:generateDocButton' or @id='policyDataGatherForm:generateEmailDocButton') and not(contains(@class, 'hidden'))]"));
 	public Button buttonCancel = new Button(id("policyDataGatherForm:adhocCancel"));
-	public Button buttonPreviewDocuments = new Button(id("policyDataGatherForm:previewDocLink"));
-	public TextBox textboxEmailAddress = new TextBox(id("policyDataGatherForm:emailAddress"));
-
+	public Button buttonPreviewDocuments = new Button(By.xpath("//*[(@id='policyDataGatherForm:previewDocButton' or @id='policyDataGatherForm:previewDocLink') and not(contains(@class, 'hidden'))]"));
+	public TextBox textboxEmailAddress = new TextBox(By.xpath("//input[@id='policyDataGatherForm:emailAddress' or @id='policyDataGatherForm:emailInputField']"));
+	public Dialog dialogError = new Dialog(By.xpath("//div[@id='policyDataGatherForm:errorDialog_content']"));
+	public StaticElement errorMsg = new StaticElement(By.xpath("//div[@id ='policyDataGatherForm:errorDialog_content']/span/table/tbody/tr/td/span"));
+	public Button closeErrorDialogBtn = new Button(id("policyDataGatherForm:cancelBtn"));
+	public TextBox eSignatureEmail = new TextBox(By.xpath("//input[@id='recipientEmailAddressFormPasdoc:recpEmail' or @id='recipientEmailAddressForm:recpEmail']"));
+	public Button eSignatureOkBtn = new Button(By.xpath("//input[@id='recipientEmailAddressFormPasdoc:okButton' or @id='recipientEmailAddressForm:okButton']"));
+	
 	protected CommonDocumentActionTab(Class<? extends MetaData> mdClass) {
 		super(mdClass);
 	}
@@ -58,27 +66,38 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 			}
 		}
 	}
+	
+	public void unselectDocuments(DocGenEnum.Documents... documents) {
+		synchronized (lock) {
+			for (DocGenEnum.Documents doc : documents) {
+				getDocumentsControl().fillRow(DataProviderFactory.dataOf(
+						DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, doc.getId(),
+						DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, doc.getName(),
+						DocGenConstants.OnDemandDocumentsTable.SELECT, "false"));
+			}
+		}
+	}
 
 	public void generateDocuments(DocGenEnum.Documents... documents) {
-		generateDocuments(DocGenEnum.DeliveryMethod.CENTRAL_PRINT, documents);
+		generateDocuments(DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.EMAIL, null, null, documents);
 	}
 
 	public void generateDocuments(DocGenEnum.DeliveryMethod deliveryMethod, DocGenEnum.Documents... documents) {
-		generateDocuments(deliveryMethod, null, documents);
+		if (deliveryMethod.equals(DocGenEnum.DeliveryMethod.EMAIL)) {
+			generateDocuments(deliveryMethod, DocGenEnum.EMAIL, null, null, documents);
+		} else {
+			generateDocuments(deliveryMethod, null, null, null, documents);
+		}
 	}
 
 	public void generateDocuments(TestData expandedDocumentsData, DocGenEnum.Documents... documents) {
-		generateDocuments(DocGenEnum.DeliveryMethod.CENTRAL_PRINT, expandedDocumentsData, documents);
-	}
-
-	public void generateDocuments(DocGenEnum.DeliveryMethod deliveryMethod, TestData expandedDocumentsData, DocGenEnum.Documents... documents) {
-		generateDocuments(deliveryMethod, null, null, expandedDocumentsData, documents);
+		generateDocuments(DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.EMAIL, null, expandedDocumentsData, documents);
 	}
 
 	public void generateDocuments(DocGenEnum.DeliveryMethod deliveryMethod, String emailAddress, String fax, TestData expandedDocumentsData, DocGenEnum.Documents... documents) {
-		generateDocuments(true, deliveryMethod, null, null, expandedDocumentsData, documents);
+		generateDocuments(true, deliveryMethod, emailAddress, fax, expandedDocumentsData, documents);
 	}
-	
+
 	public void generateDocuments(Boolean waitForPolicy, DocGenEnum.DeliveryMethod deliveryMethod, String emailAddress, String fax, TestData expandedDocumentsData, DocGenEnum.Documents... documents) {
 		synchronized (lock) {
 			if (documents.length > 0) {
@@ -94,18 +113,39 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 			getAssetList().getAsset("Delivery Method", RadioGroup.class).setValue(deliveryMethod.get());
 
 			if (emailAddress != null) {
-				textboxEmailAddress.setValue(emailAddress);
+				if (eSignatureEmail.isPresent()) {
+					eSignatureEmail.setValue(emailAddress);
+					eSignatureOkBtn.click();
+				}
+				else {
+					textboxEmailAddress.setValue(emailAddress);
+				}
 			}
 			if (fax != null) {
 				getAssetList().getAsset("Fax", TextBox.class).setValue(fax);
 			}
 
 			submitTab();
-			
-			if (waitForPolicy == true) 
-			 PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
-			
+
+			if (waitForPolicy == true) {
+				PolicySummaryPage.labelPolicyNumber.waitForAccessible(30000);
+			}
+			WebDriverHelper.switchToDefault();
 		}
+	}
+	
+	public void previewDocuments(TestData expandedDocumentsData,  DocGenEnum.Documents... documents) {
+		if (documents.length > 0) {
+			selectDocuments(documents);
+		} else {
+			selectAllDocuments();
+		}
+
+		if (expandedDocumentsData != null) {
+			getDocumentsControl().fillRow(expandedDocumentsData);
+		}
+		
+		buttonPreviewDocuments.click();
 	}
 
 	public class Verify {

@@ -1,64 +1,31 @@
 package aaa.helpers.docgen;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.xml.model.Document;
-import aaa.helpers.xml.model.DocumentPackage;
 import aaa.helpers.xml.model.StandardDocumentRequest;
 import aaa.main.enums.DocGenEnum;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
-public class DocumentWrapper {
+public abstract class DocumentWrapper {
 	public Verify verify = new Verify();
 	private StandardDocumentRequest standardDocumentRequest;
-	private boolean generatedByJob;
 
 	public DocumentWrapper(StandardDocumentRequest standardDocumentRequest) {
-		this(standardDocumentRequest, false);
-	}
-
-	public DocumentWrapper(StandardDocumentRequest standardDocumentRequest, boolean generatedByJob) {
 		this.standardDocumentRequest = standardDocumentRequest;
-		this.generatedByJob = generatedByJob;
 	}
 
-	public DocumentWrapper(Document document) {
-		this(document, false);
-	}
-
-	public DocumentWrapper(Document document, boolean generatedByJob) {
-		StandardDocumentRequest standardDocumentRequest = new StandardDocumentRequest();
-		DocumentPackage documentPackage = new DocumentPackage();
-		documentPackage.setDocuments(Arrays.asList(document));
-		standardDocumentRequest.setDocumentPackages(Arrays.asList(documentPackage));
-		this.standardDocumentRequest = standardDocumentRequest;
-		this.generatedByJob = generatedByJob;
-	}
-
-	public boolean isGeneratedByJob() {
-		return generatedByJob;
+	public DocumentWrapper() {
+		this.standardDocumentRequest = null;
 	}
 
 	public StandardDocumentRequest getStandardDocumentRequest() {
 		return this.standardDocumentRequest;
-	}
-
-	public List<DocumentPackage> getAllDocumentPackages() {
-		return getStandardDocumentRequest().getDocumentPackages();
-	}
-
-	public List<Document> getAllDocuments() {
-		List<Document> allDocuments = new ArrayList<>();
-		for (DocumentPackage documentPackage : getAllDocumentPackages()) {
-			allDocuments.addAll(documentPackage.getDocuments());
-		}
-		return allDocuments;
 	}
 
 	public List<Document> getAllDocuments(String policyNumber) {
@@ -120,6 +87,10 @@ public class DocumentWrapper {
 		 * @param policyNumber Policy/Quote Number
 		 */
 		public void mapping(boolean expectedValue, TestData td, String policyNumber, ETCSCoreSoftAssertions softly) {
+			if(DocGenHelper.isPasDocEnabled(policyNumber)){
+				return;
+			}
+
 			for (String docKey : td.getKeys()) {
 				DocGenEnum.Documents document = null;
 				if (!"DocumentPackageData".equals(docKey)) {

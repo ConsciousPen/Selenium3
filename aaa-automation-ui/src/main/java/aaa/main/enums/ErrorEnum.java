@@ -12,6 +12,8 @@ public final class ErrorEnum {
 		ERROR_200104("200104", "Driver with 2 or more At-fault accidents are unacceptable (200104) [for Drive..."),
 		ERROR_200123("200123", "Delaware Motorists Protection Act form must be received prior to issuing this transaction"),
 		ERROR_200037_VA("200037_VA", "A signed IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE form must be received prior to issuing this transaction"),
+		ERROR_200200_NJ("200200_NJ", "A signed \"Acknowledgement of Carco Inspection Requirements\" must be received prior to completing this transaction. (200200)"),
+		ERROR_200204_NJ("200204_NJ", "Inspection Waiver - Sales Agreement Required must be received prior to issuing this transaction. (200204)"),
 		ERROR_200304("200304", "If Limited Tort Liability coverage is selected, a signed form must be receive..."),
 		ERROR_200305("200305", "First Party Benefits signed form must be received (200305)"),
 		ERROR_200306("200306", "A signed Uninsured motorist coverage selection form must be received prior to issuing this transaction (200306)"),
@@ -98,7 +100,11 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_SS3281092("AAA_HO_SS3281092", "Dwellings with more than 3 detached building structures on the residence prem..."),
 		ERROR_AAA_HO_SS3230162("AAA_HO_SS3230162", "More than 2 additional Insureds require Underwriting approval"),
 		ERROR_AAA_HO_SS3230756("AAA_HO_SS3230756", "More than 2 additional Interests require Underwriting approval"),
+		ERROR_AAA_HO_UWApp_HS0988_endorsement("AAA_HO_UWApp_HS0988_endorsement", "Underwriting approval is required to add Additional Insured - Special Event e..."),
 		ERROR_AAA_HO_SS67cbad46("AAA_HO_SS67cbad46", "All named insureds must have an insurance score ordered."),
+		ERROR_AAA_HO_SS11200000("(AAA_HO_SS11200000", "'Mortgagee Clause' is required (AAA_HO_SS11200000) [for AAAHOMortgageeInfo.legalMortgageeName]"),
+		ERROR_AAA_HO_SS12141500("AAA_HO_SS12141500", "'Loan number' is required (AAA_HO_SS12141500) [for AAAHOMortgageeInfo.account..."),
+		ERROR_AAA_HO_SS4030518("AAA_HO_SS4030518", "Legal mortgagee name is required for bind. (AAA_HO_SS4030518) [for AAAHOMortg..."),
 		ERROR_AAA_PUP_SS1263335("AAA_PUP_SS1263335", "Applicants with any liability claims in the past 3 years are ineligible."),
 		ERROR_AAA_PUP_SS2260177("AAA_PUP_SS2260177", "Risk is ineligible because applicant does not have a valid license."),
 		ERROR_AAA_PUP_SS2220189("AAA_PUP_SS2220189", "Risks with a property liability limit less than $300,000 are ineligible."),
@@ -159,6 +165,7 @@ public final class ErrorEnum {
 		ERROR_AAA_CA_HOCN0400("AAA_CA_HOCN0400", "A high level premium variance has been detected between the legacy renewal pr..."),
 		ERROR_AAA_HO_SS_MAIG_IS_REPORT("AAA_HO_SS_MAIG_IS_REPORT", "A valid insurance score report for at least one named insured or insurance sc..."),
 		ERROR_AAA_HO_CA7230928("AAA_HO_CA7230928", "'Loan number' is required (AAA_HO_CA7230928) [for AAAHOMortgageeInfo.accountN..."),
+		ERROR_AAA_HO_AAA_HO_CA723000018("AAA_HO_CA723000018", "Legal mortgagee name is required for bind. (AAA_HO_CA723000018) [for AAAHOMor..."),
 
 		// Auto Errors
 		ERROR_AAA_200307("200307", "A signed Underinsured motorist coverage selection form must be received prior to issuing this transaction (200307)"),
@@ -186,6 +193,8 @@ public final class ErrorEnum {
 		ERROR_AAA_200200_NY("200200_NY", "Vehicles with Physical Damage Coverage require a CARCO Inspection or Proof o..."),
 		ERROR_AAA_200203("200203", "If Uninsured/Underinsured Motorist (UM/UIM) Coverage is rejected. A signed Un..."),
 		ERROR_AAA_10006002_CA("10006002", "Do not bind the endorsement more than 30 days in advance. (10006002) [for Pol..."),
+		ERROR_AAA_validate_pu_clue_claim_2("AAA_validate_pu_clue_claim_2", "Confirm CLUE activity is a permissive use claim based on a CLUE report or oth..."),
+		ERROR_AAA_10015021_CA_SELECT("10015021", "Driver with more than 1 At-fault injury accident is unacceptable (10015021) [..."),
 
 		//MEMBERSHIP Errors
 		ERROR_AAA_AUTO_SS_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm..."),

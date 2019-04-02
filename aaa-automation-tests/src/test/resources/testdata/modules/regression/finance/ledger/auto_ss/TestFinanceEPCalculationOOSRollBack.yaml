@@ -27,9 +27,7 @@ TestData_Endorsement2: {
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
-    RequiredToBind: {
-      Uninsured and Underinsured Motorist Coverage Selection: Physically Signed,
-    },
+    RequiredToBind: {},
   }
 }
 

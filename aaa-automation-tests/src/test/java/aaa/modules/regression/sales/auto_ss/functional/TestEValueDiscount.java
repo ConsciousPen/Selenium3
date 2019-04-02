@@ -6,10 +6,15 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NA
 import static aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData.OPT_IN;
 import static aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData.OPT_OUT;
 import static aaa.main.enums.DocGenEnum.Documents.AHEVAXX;
+import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
+import aaa.helpers.rest.wiremock.dto.PaperlessPreferencesErrorTemplateData;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterSuite;
@@ -42,14 +47,18 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.BillingSummaryPage;
+import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueDiscountPreConditions;
+import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.config.PropertyProvider;
@@ -70,6 +79,10 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private static final String PAPERLESS_WIRE_MOCK_STUB_URL = PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/" + PropertyProvider.getProperty(CsaaTestProperties.APP_HOST) + "/policy/preferences";
 	private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440, PAS-235 - rumors have it, that discount might be renamed
 	private static Map<String, Integer> policyCount = new HashMap<>();
+	private static final String PP_ERROR_MESSAGE_NB = "eValue status set to Pending. Unable to verify Paperless Preferences.";
+	private static final String PP_ERROR_MESSAGE_NB15 = "Discount in Jeopardy email sent. Unable to verify Paperless Preferences.";
+	private static final String PP_ERROR_MESSAGE_NB30 = "Evalue information / Status was updated as : 'ACTIVE' for the policy based on Preferences and Membership logic. Unable to verify Paperless Preferences.";
+	private static final String PP_UPDATED_OUTSIDE_OF_THE_PAS="Preferences Updated. Unable to verify Paperless Preferences for eValue.";
 
 	private static final ImmutableList<String> EXPECTED_BI_LIMITS = ImmutableList.of(
 			"$25,000/$50,000",
@@ -144,6 +157,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	private static final String EVALUE_PRIOR_INSURANCE_BLUE_BOX_CHECK =
 			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeValueQualifications", "priorInsurance", "FALSE");
+	private VehicleTab vehicleTab = new VehicleTab();
 
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void paperlessPreferencesStubEndpointConfigCheck() {
@@ -735,7 +749,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			commissionTypeCheck(expectedEvalueCommissionTypeOptions, "Yes", "eValue New Business", softly);
 			pas316_eValueRemovalPopUpCheck();
 			//PAS-306, PAS-320, PAS-323, PAS-289 end
-			generalTab.cancel();
+			generalTab.cancel(false);
 			Page.dialogConfirmation.buttonDeleteEndorsement.click();
 
 			//Renewal doesn't show the field
@@ -1588,13 +1602,19 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		return stub;
 	}
 
+	private HelperWireMockStub createPaperlessPreferencesErrorRequest(String policyNumber) {
+		PaperlessPreferencesErrorTemplateData template = PaperlessPreferencesErrorTemplateData.create(policyNumber);
+		HelperWireMockStub stub = HelperWireMockStub.create("paperless-preferences-error", template).mock();
+		stubList.add(stub);
+		return stub;
+	}
+
 	private void deleteMultiplePaperlessPreferencesRequests() {
 		for (HelperWireMockStub stub : stubList) {
 			stub.cleanUp();
 		}
 		stubList.clear();
 	}
-
 
 	private void deleteSinglePaperlessPreferenceRequest(HelperWireMockStub stub) {
 		stub.cleanUp();
@@ -1607,8 +1627,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	public void pas3693_eValueConfiguration3(@Optional("OR") String state) {
 		eValueAcknowledgementConfigCheck();
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-			pas3685_verifyEvalueAcknowledgement(18, "Y", "Y", "N", "Y", "Y", softly);
-			checkBlueBoxMessagesWithDiffData(18, MESSAGE_INFO_4, PAY_PLAN_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "membership", softly);
+		pas3685_verifyEvalueAcknowledgement(18, "Y", "Y", "N", "Y", "Y", softly);
+		checkBlueBoxMessagesWithDiffData(18, MESSAGE_INFO_4, PAY_PLAN_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "membership", softly);
 		softly.close();
 	}
 
@@ -1620,8 +1640,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	public void pas3693_eValueConfiguration4(@Optional("OR") String state) {
 		eValueAcknowledgementConfigCheck();
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-			pas3685_verifyEvalueAcknowledgement(15, "Y", "Y", "Y", "Y", "N", softly);
-			checkBlueBoxMessagesWithDiffData(15, MESSAGE_INFO_4, PAPERLESS_AND_PRIOR_INS_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "priorCarior", softly);
+		pas3685_verifyEvalueAcknowledgement(15, "Y", "Y", "Y", "Y", "N", softly);
+		checkBlueBoxMessagesWithDiffData(15, MESSAGE_INFO_4, PAPERLESS_AND_PRIOR_INS_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "priorCarior", softly);
 		softly.close();
 	}
 
@@ -1631,8 +1651,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	public void pas3693_eValueConfiguration5(@Optional("OR") String state) {
 		eValueAcknowledgementConfigCheck();
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-			pas3685_verifyEvalueAcknowledgement(3, "N", "N", "N", "Y", "N", softly);
-			checkBlueBoxMessagesWithDiffData(3, MESSAGE_INFO_4, ALL_FALSE, MESSAGE_INFO_4, ALL_FALSE, "priorCarior", softly);
+		pas3685_verifyEvalueAcknowledgement(3, "N", "N", "N", "Y", "N", softly);
+		checkBlueBoxMessagesWithDiffData(3, MESSAGE_INFO_4, ALL_FALSE, MESSAGE_INFO_4, ALL_FALSE, "priorCarior", softly);
 		softly.close();
 	}
 
@@ -1665,6 +1685,314 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		softly.assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).isEnabled(true);
 		softly.close();
+	}
+
+
+	/**
+	 * @author Megha Gubbala
+	 * @name: Paperless Preferences Time Out - What to do?
+	 * @scenario 1. Create new eValue policy With PP service down.(ERROR)
+	 * 2. Bind Policy, check eValueDiscount is there and its pending
+	 * 3. Update Preferences from outside of pas
+	 * 4. Open policy in pas and verify the error message.
+	 * @details
+	 */
+	/// Outside pas
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
+	public void pas23992_PaperlessPreferanceScenarioOutsidePas(@Optional("MD") String state) {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		eValueConfigCheck();
+		//Create evalue quote
+		createEvaluePolicyForPPError("Error", "Yes");
+		//add neb scenario
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		HelperWireMockStub stub = createPaperlessPreferencesErrorRequest(policyNumber);
+
+		HelperCommon.updatePolicyPreferences(policyNumber, 200);
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_UPDATED_OUTSIDE_OF_THE_PAS, true);
+		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("Pending");
+
+		deleteSinglePaperlessPreferenceRequest(stub);
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name: Paperless Preferences Time Out - What to do?
+	 * @scenario 1. Create new eValue policy With PP service down.(ERROR)
+	 * 2. Bind Policy, check eValueDiscount is there and its pending and verify note "eValue status set to Pending. Unable to verify Paperless Preferences."
+	 * 3. Run NB+15 job Verify PP note on NB15
+	 * 4. run nb 30 Run NB+30 job and Verify PP note on NB30 make sure evalue is still there
+	 * 4. go to the renewal and renew policy and verify evalue is still there in active status for renewal
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
+	public void pas23992_PaperlessPreferanceScenario1(@Optional("MD") String state) {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		eValueConfigCheck();
+		//Create evalue quote
+		createEvaluePolicyForPPError("Error", "Yes");
+		//add neb scenario
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB, true);
+		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("Pending");
+
+		HelperWireMockStub stub1 = createPaperlessPreferencesErrorRequest(policyNumber);
+		// Verify user note for paperless preference
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB, true);
+		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("Pending");
+
+		// Set pp Error on policy
+		//Chane time NB+15 and run nb 15 Job
+		TestEValueMembershipProcess.jobsNBplus15plus30runNoChecks();
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+
+		//Verify PP note on NB15
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB15, true, softly);
+		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("Pending");
+
+		TestEValueMembershipProcess.jobsNBplus15plus30runNoChecks();
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB30, true, softly);
+
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(20));
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+
+		Dollar totalDue = BillingSummaryPage.getTotalDue();
+		IBillingAccount billing = new BillingAccount();
+		TestData tdBilling = testDataManager.billingAccount;
+		TestData cashPayment = tdBilling.getTestData("AcceptPayment", "TestData_Cash");
+		billing.acceptPayment().perform(cashPayment, totalDue);
+		SearchPage.openPolicy(policyNumber);
+
+		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("Active");
+		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("Active");
+
+		buttonRenewals.click();
+		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("Active");
+
+		deleteSinglePaperlessPreferenceRequest(stub1);
+	}
+
+	private void createEvaluePolicyForPPError(String ppStaus, String eValue) {
+		eValueQuoteCreation();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue(eValue);
+		new PremiumAndCoveragesTab().calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+		String quoteNumber = PolicySummaryPage.getPolicyNumber();
+		if (ppStaus.equals("Error")) {
+
+			HelperWireMockStub stub = createPaperlessPreferencesErrorRequest(quoteNumber);
+
+		} else if (ppStaus.equals("OPT_IN")) {
+			HelperWireMockStub stub = createPaperlessPreferencesRequestId(quoteNumber, OPT_IN);
+
+		}
+		simplifiedQuoteIssue();
+
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name: paperless Preferences Time Out - What to do?
+	 * @scenario 1. Create new eValue policy With PP service down.(ERROR) and evalue selected yes.
+	 * 2. Bind Policy, check NB note is not there
+	 * 3. Create endorsement to add vehicle and verify evalue is still there and pending
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
+	public void pas23992_PaperlessPreferanceScenario2(@Optional("MD") String state) {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		eValueConfigCheck();
+		createEvaluePolicyForPPError("Error", "Yes");
+
+		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		// Verify user note for paperless preference
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB, true, softly);
+
+		HelperWireMockStub stub2 = createPaperlessPreferencesErrorRequest(policyNumber);
+		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(20));
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		vehicleTab.buttonAddVehicle.click();
+		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE).setValue(getTestSpecificTD("VehicleTab").getValue("Usage"));
+		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).setValue(getTestSpecificTD("VehicleTab").getValue("VIN"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("");
+		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("Pending");
+		deleteSinglePaperlessPreferenceRequest(stub2);
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name: paperless Preferences Time Out - What to do?
+	 * @scenario 1. Create new eValue policy With PP service down.(ERROR) and evalue selected no.
+	 * 2. Bind Policy, check NB note is not there
+	 * 3. Create an endorsement to opt in for evalue bind policy
+	 * 4.verify pp error that you need PP for Evalue cancle error
+	 * 5. Evalue staus is blank
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
+	public void pas23992_PaperlessPreferanceScenario3(@Optional("MD") String state) {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		eValueConfigCheck();
+		//Create evalue eligible policy
+		createEvaluePolicyForPPError("Error", "No");
+
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+		// Verify user note for paperless preference
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB, false);
+		HelperWireMockStub stub1 = createPaperlessPreferencesErrorRequest(policyNumber);
+		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(25));
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		new PremiumAndCoveragesTab().calculatePremium();
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		assertThat(errorTab.tableErrors.getRow(1).getCell("Message").getValue()).isEqualTo(PAPERLESS_PREFERENCES_NOT_ENROLLED_2);
+		errorTab.cancel();
+		new DocumentsAndBindTab().saveAndExit();
+		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("");
+		softly.assertThat(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber))).hasValue("");
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB, false);
+		deleteSinglePaperlessPreferenceRequest(stub1);
+	}
+
+
+	/**
+	 * @author Megha Gubbala
+	 * @name: paperless Preferences Time Out - What to do?
+	 * @scenario 1. Create new eValue policy With PP service down.(ERROR) and evalue selected yes.
+	 * 2. Bind Policy, check NB note is not there
+	 * 3. generate renewal image create endorsement on renewal add vehicle
+	 * 4.we should be able to bind renwal without Error message
+	 * 5. Evalue staus is blank
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
+	public void pas23992_PaperlessPreferanceScenarioRenewa1(@Optional("MD") String state) {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		eValueConfigCheck();
+		//Create evalue quote
+		eValueQuoteCreation();
+		simplifiedQuoteIssue();
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		HelperWireMockStub stub2 = createPaperlessPreferencesErrorRequest(policyNumber);
+
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(30));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		vehicleTab.buttonAddVehicle.click();
+		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE).setValue(getTestSpecificTD("VehicleTab").getValue("Usage"));
+		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).setValue(getTestSpecificTD("VehicleTab").getValue("VIN"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+
+		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("");
+
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(PP_ERROR_MESSAGE_NB, false, softly);
+		deleteSinglePaperlessPreferenceRequest(stub2);
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name: paperless Preferences Time Out - What to do?
+	 * @scenario 1. Create new eValue policy With PP Opt_in and evalue selected yes.
+	 * 2. Bind Policy, check NB note is not there
+	 * 3. create endorsement after 2 days verify evalue status is active not pending
+	 * 4.create one more endorsement to add the car and we should be able to bind endorsement with no error
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23992")
+	public void pas23992_PaperlessPreferanceScenario4(@Optional("MD") String state) {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		eValueConfigCheck();
+
+		createEvaluePolicyForPPError("OPT_IN", "Yes");
+
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+
+		HelperWireMockStub stub1 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN);
+		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(2));
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("Active");
+		deleteSinglePaperlessPreferenceRequest(stub1);
+
+		HelperWireMockStub stub2 = createPaperlessPreferencesErrorRequest(policyNumber);
+		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(25));
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		vehicleTab.buttonAddVehicle.click();
+		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE).setValue(getTestSpecificTD("VehicleTab").getValue("Usage"));
+		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).setValue(getTestSpecificTD("VehicleTab").getValue("VIN"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		deleteSinglePaperlessPreferenceRequest(stub2);
+		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status")).hasValue("Active");
 	}
 
 	/**
@@ -2085,17 +2413,16 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private void testEvalueDiscount(String membershipStatus, String currentCarrier, boolean evalueIsSelected, boolean evalueIsPresent, String evalueStatus) {
 		prefillEvalueTestData(membershipStatus, currentCarrier);
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-			fillPremiumAndCoveragesTab(evalueIsSelected, softly);
-			fillDriverActivityReportsTab();
-			fillDocumentAndBindTab(evalueIsPresent);
-			Tab.buttonSaveAndExit.click();
-			simplifiedQuoteIssue();
+		fillPremiumAndCoveragesTab(evalueIsSelected, softly);
+		fillDriverActivityReportsTab();
+		fillDocumentAndBindTab(evalueIsPresent);
+		Tab.buttonSaveAndExit.click();
+		simplifiedQuoteIssue();
 
-
-			softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1)
-					.getCell("eValue Status")).as("Invalid eValue status").valueMatches(evalueStatus);
-			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-			log.info("TEST: Policy created with #{}", PolicySummaryPage.labelPolicyNumber.getValue());
+		softly.assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1)
+				.getCell("eValue Status")).as("Invalid eValue status").valueMatches(evalueStatus);
+		softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		log.info("TEST: Policy created with #{}", PolicySummaryPage.labelPolicyNumber.getValue());
 		softly.close();
 	}
 

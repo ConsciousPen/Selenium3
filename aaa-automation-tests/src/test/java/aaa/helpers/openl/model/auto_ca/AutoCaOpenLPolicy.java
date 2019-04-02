@@ -45,6 +45,11 @@ public abstract class AutoCaOpenLPolicy<D extends AutoCaOpenLDriver, V extends O
 	}
 
 	@Override
+	public boolean isNewRenPasCappedPolicy() {
+		return !isLegacyConvPolicy() && isCappedPolicy();
+	}
+
+	@Override
 	public String getState() {
 		return Constants.States.CA;
 	}

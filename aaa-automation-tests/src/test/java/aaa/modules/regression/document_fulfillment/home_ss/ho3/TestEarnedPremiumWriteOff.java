@@ -70,12 +70,12 @@ public class TestEarnedPremiumWriteOff extends HomeSSHO3BaseTest {
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillThirdManualCancellation(policyCancellationDate));
-		JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchJob, true);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchJob);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, DocGenEnum.Documents._55_6103);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumWriteOffManualCancellation(policyCancellationDate));
-		JobUtils.executeJob(Jobs.collectionFeedBatch_earnedPremiumWriteOff, true);
+		JobUtils.executeJob(Jobs.collectionFeedBatch_earnedPremiumWriteOff);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 

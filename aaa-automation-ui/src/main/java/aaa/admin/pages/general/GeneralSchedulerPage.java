@@ -15,10 +15,13 @@ import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.table.Table;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 public class GeneralSchedulerPage extends AdminPage {
 
 	public static Table tableScheduledJobs = new Table(By.xpath("//div[@id='jobs:jobsTable']//table"));
+	public static Table tableScheduler = new Table(By.xpath("//div[@id='statistics:schedulerTable']//table"));
+
 	private static final int MAX_JOB_RUN_RETRIES = 500;
 	private static final int MAX_JOB_RUN_TIMEOUT = 1200000;
 	private static final int JOB_RUN_RETRIES_SLEEP = 5;
@@ -68,6 +71,7 @@ public class GeneralSchedulerPage extends AdminPage {
 		AAA_PAYMENT_CENTRAL_REJECT_FEED_ASYNC_JOB("aaaPaymentCentralRejectFeedAsyncJob"),
 		AAA_RECURRING_PAYMENTS_RESPONSE_PROCESS_ASYNC_JOB("aaaRecurringPaymentsResponseProcessAsyncJob"),
 		AAA_CLUE_RENEW_BATCH_ORDER_ASYNC_JOB("aaaClueRenewBatchOrderAsyncJob"),
+		LEDGER_STATUS_UPDATE_JOB("ledgerStatusUpdateJob"),
 		AAA_CLUE_RENEW_ASYNC_BATCH_RECEIVE_JOB("aaaClueRenewAsyncBatchReceiveJob");
 		String id;
 
@@ -165,6 +169,26 @@ public class GeneralSchedulerPage extends AdminPage {
 	public static void eliminateJob(Job jobName) {
 		new Table(By.xpath(String.format(JOB_RESULT_XPATH_TEMPLATE, jobName.get()))).getRow(3).getCell(4).controls.links.getFirst().click();
 		Page.dialogConfirmation.confirm();
+	}
+
+	/**
+	 * Enable scheduler if disabled. If enabled - break;
+	 */
+	public static void enableScheduler() {
+		while (tableScheduler.getRow(1).getCell("Status").getValue().equalsIgnoreCase("Disabled")) {
+			tableScheduler.getRow(1).getCell("Scheduler Actions").controls.buttons.get("Enable").click(Waiters.AJAX);
+
+			if (tableScheduler.getRow(1).getCell("Status").getValue().equalsIgnoreCase("Enabled")) {
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Click on AdminAppLeftMenu.General_Scheduler tab.
+	 */
+	public static void open() {
+		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
 	}
 
 	//TODO(vmarkouski): workaround for EISDEV-119304

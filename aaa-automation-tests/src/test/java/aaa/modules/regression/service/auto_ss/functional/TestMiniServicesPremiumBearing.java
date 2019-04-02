@@ -87,6 +87,23 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	}
 
 	/**
+	 * @author Jovita Pukenaite
+	 * @name Endorsement can be performed through service for all states
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Hit start endorsement info service.
+	 * 4. Check the response.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.NY})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-25042"})
+	public void pas25042_endorsementValidateAllowedForAllStates(@Optional("NY") String state) {
+
+		pas25042_endorsementValidateAllowedForAllStatesBody();
+	}
+
+	/**
 	 * @author Oleg Stasyuk
 	 * @name Endorsement can be performed through service when there is another User created Pended endorsement
 	 * @scenario 1. Create customer
@@ -334,26 +351,6 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	public void pas9337_StartEndorsementInfoServerResponseForFuturePolicy(@Optional("VA") String state) {
 
 		pas9337_CheckStartEndorsementInfoServerResponseForFuturePolicy(getPolicyType());
-	}
-
-	/**
-	 * @author Megha Gubbala
-	 * @name Check Start Endorsement info server response for allow endorsements
-	 * @scenario 1. Create active policy for NJ.
-	 * 2. Hit dxp start-endorsement-info.
-	 * 3. Verify the response State does not allow endorsements.
-	 * 4. Hit "start endorsement info" dxp server.
-	 * 5. Update the configuration from DB with effective date (6 days future).
-	 * 6. change the server date to the 6 days future .
-	 * 7. Hit "start endorsement info" dxp server.
-	 * 8.Verify the response we should not see this message State does not allow endorsements.
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-9489"})
-	public void pas9489_GreenButtonServiceStateAndProductConfigurationEffective(@Optional("NY") String state) {
-
-		pas9337_CheckStartEndorsementInfoServerResponseErrorForEffectiveDate();
 	}
 
 	/**
