@@ -15,8 +15,10 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.AdvancedRadioGroup;
 import aaa.utils.StateList;
@@ -46,7 +48,7 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-26666", "PAS-26664", "PAS-26665", "PAS-27606"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-26666", "PAS-26664", "PAS-26665", "PAS-27606", "PAS-27615", "PAS-27828"})
 	public void pas26664_CARCOInspectionOrWaiverRequiredSection(@Optional("NJ") String state) {
 		TestData td = getPolicyDefaultTD();
 		td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_AddMultipleVewhicleLessThan7YearsOld").getTestDataList("VehicleTab")).resolveLinks();
@@ -59,7 +61,6 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 		premiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.submitTab();
 		policy.getDefaultView().fillFromTo(td, DriverActivityReportsTab.class, DocumentsAndBindTab.class, false);
-		printToLog("Sd");
 
 		verifyCARCOVehicle("1", "2017, AUDI, TTS", NO_DOCUMENT_RECEIVED, false, false, false);
 		verifyCARCOVehicle("2", "2017, CHEVROLET, CAMARO", NO_DOCUMENT_RECEIVED, true, false, false);
@@ -70,6 +71,9 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_1).setValue(CARCO_RADIOGROUP_OPTIONS.get(2));
 		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_2).setValue(CARCO_RADIOGROUP_OPTIONS.get(1));
 		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_3).setValue(CARCO_RADIOGROUP_OPTIONS.get(0));
+
+		//Make sure that after selecting Agreement, 'Inspection or Waiver Required' section is not reset (PAS-27828)
+		documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).setValue("I agree");
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(3);//2017, AUDI, TTS
@@ -261,6 +265,34 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 		documentsAndBindTab.submitTab();
 		errorTab.overrideAllErrors();
 		errorTab.submitTab();
+
+		//PAS-27615 - Create endorsement and remove COMP from carco vehicles. Then create another endorsement and put COMP back to the same Vehicles. ---> 'Inspection or Waiver Required' section should be reset to 'No Document Received'
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(3, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "No Coverage");//2017, FIAT, 500
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(4, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "No Coverage");//2017, FORD, EXPLORER
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(5, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "No Coverage");//2017, SUBARU, CROSSTREK
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(6, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "No Coverage");//2017, BUICK, ENCORE
+		premiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		documentsAndBindTab.submitTab();
+
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(3, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "$1,000");//2017, FIAT, 500
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(4, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "$1,000");//2017, FORD, EXPLORER
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(5, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "$1,000");//2017, SUBARU, CROSSTREK
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(6, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "$1,000");//2017, BUICK, ENCORE
+		premiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+
+		verifyCARCOVehicle("1", "2017, FIAT, 500", NO_DOCUMENT_RECEIVED, true, true, false);
+		verifyCARCOVehicle("2", "2017, FORD, EXPLORER", NO_DOCUMENT_RECEIVED, false, true, false);
+		verifyCARCOVehicle("3", "2017, SUBARU, CROSSTREK", NO_DOCUMENT_RECEIVED, true, true, false);
+		verifyCARCOVehicle("4", "2017, BUICK, ENCORE", NO_DOCUMENT_RECEIVED, false, true, false);
+		assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_NAME_5)).isPresent(false);
+		documentsAndBindTab.submitTab();
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);//makes sure that endorsement is bound
 	}
 
 	private void verifyCARCOVehicle(String vehicleNumber, String vehicleName, String expectedValue, boolean isLessThan1000Miles, boolean isEndorsement, boolean shouldAllOptionsBeDisabled) {
