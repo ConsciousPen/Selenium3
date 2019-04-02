@@ -868,6 +868,8 @@ public final class AutoSSMetaData {
 				declare("RequiredToBind", AssetList.class, RequiredToBind.class, By.xpath("//div[@id='policyDataGatherForm:componentView_OptionalSupportingDocuments']"));
 		public static final AssetDescriptor<AssetList> REQUIRED_TO_ISSUE =
 				declare("RequiredToIssue", AssetList.class, RequiredToIssue.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_MandatorySupportingDocuments']"));
+		public static final AssetDescriptor<AssetList> INSPECTION_OR_WAIVER_RREQUIRED =
+				declare("InspectionOrWaiverRequiredSection", AssetList.class, InspectionOrWaiverRequired.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAACarcoInformation']"));
 		public static final AssetDescriptor<AssetList> GENERAL_INFORMATION =
 				declare("GeneralInformation", AssetList.class, GeneralInformation.class, By.id("policyDataGatherForm:componentView_AAAInsuredBindInformation"));
 		public static final AssetDescriptor<AssetList> PAPERLESS_PREFERENCES =
@@ -1049,6 +1051,25 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> CANADIAN_MVR_FOR_DRIVER = declare("Canadian MVR for (driver)", RadioGroup.class, Waiters.AJAX);
 			//PAS DOC enabled: NEW control
 			public static final AssetDescriptor<RadioGroup> AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT = declare("AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies", RadioGroup.class, Waiters.NONE);
+		}
+
+		public static final class InspectionOrWaiverRequired extends MetaData {
+			public static final AssetDescriptor<StaticElement> CARCO_VEHICLE_NAME_1 = declare("CARCO Vehicle Name 1", StaticElement.class, By.xpath("//div[(@class='rf-p-b ') and starts-with(@id, 'policyDataGatherForm:carcoVehicleInformation:0:')]"));
+			public static final AssetDescriptor<StaticElement> CARCO_VEHICLE_NAME_2 = declare("CARCO Vehicle Name 2", StaticElement.class, By.xpath("//div[(@class='rf-p-b ') and starts-with(@id, 'policyDataGatherForm:carcoVehicleInformation:1:')]"));
+			public static final AssetDescriptor<StaticElement> CARCO_VEHICLE_NAME_3 = declare("CARCO Vehicle Name 3", StaticElement.class, By.xpath("//div[(@class='rf-p-b ') and starts-with(@id, 'policyDataGatherForm:carcoVehicleInformation:2:')]"));
+			public static final AssetDescriptor<StaticElement> CARCO_VEHICLE_NAME_4 = declare("CARCO Vehicle Name 4", StaticElement.class, By.xpath("//div[(@class='rf-p-b ') and starts-with(@id, 'policyDataGatherForm:carcoVehicleInformation:3:')]"));
+			public static final AssetDescriptor<StaticElement> CARCO_VEHICLE_NAME_5 = declare("CARCO Vehicle Name 5", StaticElement.class, By.xpath("//div[(@class='rf-p-b ') and starts-with(@id, 'policyDataGatherForm:carcoVehicleInformation:4:')]"));
+			public static final AssetDescriptor<StaticElement> CARCO_VEHICLE_NAME_6 = declare("CARCO Vehicle Name 6", StaticElement.class, By.xpath("//div[(@class='rf-p-b ') and starts-with(@id, 'policyDataGatherForm:carcoVehicleInformation:5:')]"));
+			public static final AssetDescriptor<StaticElement> CARCO_VEHICLE_NAME_7 = declare("CARCO Vehicle Name 7", StaticElement.class, By.xpath("//div[(@class='rf-p-b ') and starts-with(@id, 'policyDataGatherForm:carcoVehicleInformation:6:')]"));
+
+			public static final AssetDescriptor<AdvancedRadioGroup> CARCO_VEHICLE_RADIOGROUP_1 = declare("CARCO Vehicle RadioGroup 1", AdvancedRadioGroup.class, By.xpath("//table[@id='policyDataGatherForm:carcoVehicleInformation:0:carcoDocumentsReceived']"));
+			public static final AssetDescriptor<AdvancedRadioGroup> CARCO_VEHICLE_RADIOGROUP_2 = declare("CARCO Vehicle RadioGroup 2", AdvancedRadioGroup.class, By.xpath("//table[@id='policyDataGatherForm:carcoVehicleInformation:1:carcoDocumentsReceived']"));
+			public static final AssetDescriptor<AdvancedRadioGroup> CARCO_VEHICLE_RADIOGROUP_3 = declare("CARCO Vehicle RadioGroup 3", AdvancedRadioGroup.class, By.xpath("//table[@id='policyDataGatherForm:carcoVehicleInformation:2:carcoDocumentsReceived']"));
+			public static final AssetDescriptor<AdvancedRadioGroup> CARCO_VEHICLE_RADIOGROUP_4 = declare("CARCO Vehicle RadioGroup 4", AdvancedRadioGroup.class, By.xpath("//table[@id='policyDataGatherForm:carcoVehicleInformation:3:carcoDocumentsReceived']"));
+			public static final AssetDescriptor<AdvancedRadioGroup> CARCO_VEHICLE_RADIOGROUP_5 = declare("CARCO Vehicle RadioGroup 5", AdvancedRadioGroup.class, By.xpath("//table[@id='policyDataGatherForm:carcoVehicleInformation:4:carcoDocumentsReceived']"));
+			public static final AssetDescriptor<AdvancedRadioGroup> CARCO_VEHICLE_RADIOGROUP_6 = declare("CARCO Vehicle RadioGroup 6", AdvancedRadioGroup.class, By.xpath("//table[@id='policyDataGatherForm:carcoVehicleInformation:5:carcoDocumentsReceived']"));
+			public static final AssetDescriptor<AdvancedRadioGroup> CARCO_VEHICLE_RADIOGROUP_7 = declare("CARCO Vehicle RadioGroup 7", AdvancedRadioGroup.class, By.xpath("//table[@id='policyDataGatherForm:carcoVehicleInformation:6:carcoDocumentsReceived']"));
+
 		}
 
 		public static final class GeneralInformation extends MetaData {
