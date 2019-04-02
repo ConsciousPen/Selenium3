@@ -225,28 +225,28 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String policyNumber = membershipEligibilityPolicyCreation("Error", true);
 
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-			jobsNBplus15plus30runNoChecks();
-			//implementEmailCheck from Admin Log?
+		jobsNBplus15plus30runNoChecks();
+		//implementEmailCheck from Admin Log?
 		mainApp().open();
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			eValueDiscountStatusCheck(policyNumber, "PENDING", softly);
-			//Start PAS-12822
-			//BUG PAS-13891 Jeopardy Email is generated for Policy which has Membership order response = Error
-			NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false, softly);
-			//End PAS-12822
-			membershipLogicActivitiesAndNotesCheck(false, "", softly);
-			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
-			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "PENDING", softly);
+		//Start PAS-12822
+		//BUG PAS-13891 Jeopardy Email is generated for Policy which has Membership order response = Error
+		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false, softly);
+		//End PAS-12822
+		membershipLogicActivitiesAndNotesCheck(false, "", softly);
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
+		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
 
-			jobsNBplus15plus30runNoChecks();
+		jobsNBplus15plus30runNoChecks();
 		mainApp().open();
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			//BUG PAS-15479 EValue remains Pending after NB+30 if Membership Status = Erred
-			eValueDiscountStatusCheck(policyNumber, "ACTIVE", softly);
-			membershipLogicActivitiesAndNotesCheck(true, "ACTIVE", softly);
-			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "", softly);
-			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
-			checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false, softly);
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		//BUG PAS-15479 EValue remains Pending after NB+30 if Membership Status = Erred
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE", softly);
+		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE", softly);
+		PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "", softly);
+		latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
+		checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false, softly);
 		softly.close();
 	}
 

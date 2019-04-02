@@ -152,13 +152,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	public static void eValueConfigCheck() {
-		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-			List<String> configForStates = Arrays.asList("VA", "MD", "DC", "OR");
-			for (String configForState : configForStates) {
-				softly.assertThat(DBService.get().getValue(String.format(EVALUE_CONFIGURATION_PER_STATE_CHECK, configForState)))
-						.as("eValue is not configured for " + configForState + ". Insert configuration (run eValueConfigInsert) and restart the env").isPresent();
-			}
-		softly.close();
+		assertThat(DBService.get().getValue(String.format(EVALUE_CONFIGURATION_PER_STATE_CHECK, getState())))
+				.as("eValue is not configured for " + getState() + ". Insert configuration (run eValueConfigInsert) and restart the env").isPresent();
 	}
 
 	public static void eValuePriorBiConfigCheck() {
