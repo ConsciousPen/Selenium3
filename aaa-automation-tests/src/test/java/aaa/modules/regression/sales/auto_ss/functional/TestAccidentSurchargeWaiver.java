@@ -41,12 +41,14 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     private static final String TEST_DRIVER = "TestDriver";
 
     // Activity Types
+    private static final String NAF_ACCIDENT = "Non-Fault Accident";
     private static final String AF_ACCIDENT = "At-Fault Accident";
     private static final String MAJOR_VIOLATION = "Major Violation";
 
     // Activity Descriptions
     private static final String PROPERTY_DAMAGE = "Accident (Property Damage Only)";
     private static final String BODILY_INJURY = "Accident (Resulting in Bodily Injury)";
+    private static final String NOT_AT_FAULT = "Accident (Not-At-Fault)";
     private static final String DRAG_RACING = "Drag Racing or Speed Contest";
     private static final String HIT_AND_RUN = "Hit and Run";
 
@@ -266,6 +268,153 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
      * @name Test SDW and ASW hierarchy during NB
      * @scenario
      * 1.  Initiate SS quote with one driver and 4 years with a prior AAA carrier on General tab
+     * 2.  Add 1 AF accident and 1 NAF accident
+     * 3.  Navigate to P & C tab, calculate premium
+     * 4.  Navigate back to Driver tab
+     * 5.  Validate AF accident receives ASW
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27346")
+    public void pas24673_oneAFAndOneNAFAccidentNB(@Optional("") String state) {
+
+        List<TestData> tdActivity = new ArrayList<>();
+        tdActivity.add(getActivityInfoTd(AF_ACCIDENT, PROPERTY_DAMAGE));
+        tdActivity.add(getActivityInfoTd(NAF_ACCIDENT, NOT_AT_FAULT).adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-23M>"));
+
+        TestData td = getDefaultASWTd().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), tdActivity);
+        createQuoteAndFillUpTo(td, PremiumAndCoveragesTab.class);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+
+    }
+
+    /**
+     * @author Josh Carpenter
+     * @name Test SDW and ASW hierarchy during NB
+     * @scenario
+     * 1.  Initiate SS quote with two drivers and 4 years with a prior AAA carrier on General tab
+     * 2.  Add 1 AF accident to each driver
+     * 3.  Navigate to P & C tab, calculate premium
+     * 4.  Navigate back to Driver tab
+     * 5.  Validate ASW is not given to either driver
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27346")
+    public void pas24673_testTwoDriversEachWithAFAccidentNB(@Optional("") String state) {
+
+        List<TestData> tdDriverTab = new ArrayList<>();
+        tdDriverTab.add(getPolicyTD().getTestData(AutoSSMetaData.DriverTab.class.getSimpleName())
+                .adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), getActivityInfoTd(AF_ACCIDENT, PROPERTY_DAMAGE)));
+        tdDriverTab.add(getSecondDriverTd().adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY)
+                .adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-6M>")));
+
+        createQuoteAndFillUpTo(getDefaultASWTd().adjust(DriverTab.class.getSimpleName(), tdDriverTab), PremiumAndCoveragesTab.class);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+        DriverTab.viewDriver(1);
+        validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
+        DriverTab.viewDriver(2);
+        validateIncludeInPoints(BODILY_INJURY, "Yes");
+
+    }
+
+    /**
+     * @author Josh Carpenter
+     * @name Test SDW and ASW hierarchy during NB
+     * @scenario
+     * 1.  Initiate SS quote with two drivers and 4 years with a prior AAA carrier on General tab
+     * 2.  Add 1 AF accident to each driver
+     * 3.  Navigate to P & C tab, calculate premium
+     * 4.  Navigate back to Driver tab
+     * 5.  Validate ASW is not given to either driver
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27346")
+    public void pas24673_testASWRemainsDuringEndorsement(@Optional("") String state) {
+
+        TestData tdEndorsementFill = DataProviderFactory.dataOf(
+                GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData(),
+                DriverTab.class.getSimpleName(), getSecondDriverTd().adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(),
+                        getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY).adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-6M>")));
+
+        createQuoteAndFillUpTo(getDefaultASWTd(), DriverActivityReportsTab.class);
+        addActivityDriverTab(getActivityInfoTd());
+        calculatePremiumAndNavigateToDriverTab();
+
+        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        policy.getDefaultView().fillFromTo(getPolicyTD(), DocumentsAndBindTab.class, PurchaseTab.class, true);
+        new PurchaseTab().submitTab();
+
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        policy.getDefaultView().fill(tdEndorsementFill);
+        calculatePremiumAndNavigateToDriverTab();
+
+        DriverTab.viewDriver(1);
+        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+        DriverTab.viewDriver(2);
+        validateIncludeInPoints(BODILY_INJURY, "Yes");
+    }
+
+    /**
+     * @author Josh Carpenter
+     * @name Test SDW and ASW hierarchy during NB
+     * @scenario
+     * 1.  Initiate SS quote with two drivers and 4 years with a prior AAA carrier on General tab
+     * 2.  Add 1 AF accident to each driver
+     * 3.  Navigate to P & C tab, calculate premium
+     * 4.  Navigate back to Driver tab
+     * 5.  Validate ASW is not given to either driver
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27346")
+    public void pas24673_testNoASWForBothDriversDuringRenewal(@Optional("") String state) {
+
+        List<TestData> tdDriverTab = new ArrayList<>();
+        tdDriverTab.add(getPolicyTD().getTestData(AutoSSMetaData.DriverTab.class.getSimpleName()));
+        tdDriverTab.add(getSecondDriverTd());
+
+        openAppAndCreatePolicy(getDefaultASWTd().adjust(DriverTab.class.getSimpleName(), tdDriverTab));
+
+        policy.renew().perform();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+        DriverTab.viewDriver(1);
+        driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), DataProviderFactory.emptyData())
+                .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), getActivityInfoTd()));
+
+        DriverTab.viewDriver(2);
+        driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), DataProviderFactory.emptyData())
+                .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()),
+                        getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY).adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-6M>")));
+
+        calculatePremiumAndNavigateToDriverTab();
+        DriverTab.viewDriver(1);
+        validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
+        DriverTab.viewDriver(2);
+        validateIncludeInPoints(BODILY_INJURY, "Yes");
+
+    }
+
+    /**
+     * @author Josh Carpenter
+     * @name Test SDW and ASW hierarchy during NB
+     * @scenario
+     * 1.  Initiate SS quote with one driver and 4 years with a prior AAA carrier on General tab
      * 2.  Add 2 AF accidents and 2 violations on the driver tab
      * 3.  Navigate to P & C tab, calculate premium
      * 4.  Navigate back to Driver tab
@@ -319,7 +468,8 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
                 DriverTab.class.getSimpleName(), getSecondDriverTd().adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), tdActivity));
 
         openAppAndCreatePolicy(getDefaultASWTd());
-        policy.endorse().performAndFill(tdEndorsementFill);
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        policy.getDefaultView().fill(tdEndorsementFill);
         calculatePremiumAndNavigateToDriverTab();
         validateMultipleActivitiesOnSameDay();
 
@@ -384,7 +534,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         return DataProviderFactory.dataOf(
                 AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), type,
                 AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), description,
-                AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-25M>",
+                AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-10M>",
                 AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), "3000");
     }
 
@@ -399,7 +549,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
     private void addActivityDriverTab(TestData td) {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        new DriverTab().fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), DataProviderFactory.emptyData())
+        driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), DataProviderFactory.emptyData())
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), td));
     }
 
@@ -414,9 +564,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     }
 
     private void validateMultipleActivitiesOnSameDay() {
-        if (!driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.LAST_NAME).getValue().equals(TEST_DRIVER)) {
-            DriverTab.tableDriverList.getRow(PolicyConstants.PolicyDriversTable.LAST_NAME, TEST_DRIVER).getCell(5).controls.links.get("View/Edit").click();
-        }
+        DriverTab.viewDriver(2);
         validateIncludeInPoints(PROPERTY_DAMAGE, "No");
         validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_SDW);
 
