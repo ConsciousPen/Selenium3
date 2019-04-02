@@ -26,22 +26,28 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
 
     @DataProvider(name = "ThresholdTestData_STG1")
     public static Object[][] ThresholdTestData_STG1() {
-        return new Object[][] {/*{"AZ", eThresholdTests.BEFORE, 15, THRESHOLD_VALUE - 1}, */{"AZ", eThresholdTests.ON, 15, THRESHOLD_VALUE}, {"AZ", eThresholdTests.AFTER, 15, THRESHOLD_VALUE + 1}};
+        return new Object[][]{
+                {"AZ", eThresholdTests.BEFORE, 15, THRESHOLD_VALUE - 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit},
+                {"AZ", eThresholdTests.ON, 15, THRESHOLD_VALUE, AAAMembershipQueries.AAAMembershipStatus.No_Hit},
+                {"AZ", eThresholdTests.AFTER, 15, THRESHOLD_VALUE + 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit}};
     }
 
     @DataProvider(name = "ThresholdTestData_STG2")
     public static Object[][] ThresholdTestData_STG2() {
-        return new Object[][] {{"AZ", eThresholdTests.BEFORE, 30, THRESHOLD_VALUE - 1}, {"AZ", eThresholdTests.ON, 30, THRESHOLD_VALUE}, {"AZ", eThresholdTests.AFTER, 30, THRESHOLD_VALUE + 1}};
+        return new Object[][] {
+                {"AZ", eThresholdTests.BEFORE, 30, THRESHOLD_VALUE - 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit},
+                {"AZ", eThresholdTests.ON, 30, THRESHOLD_VALUE, AAAMembershipQueries.AAAMembershipStatus.No_Hit},
+                {"AZ", eThresholdTests.AFTER, 30, THRESHOLD_VALUE + 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit}};
     }
 
     @DataProvider(name = "ThresholdTestData_STG1_NoCatchup")
     public static Object[][] ThresholdTestData_STG1_NoCatchup() {
-        return new Object[][] {{"AZ", eThresholdTests.ON, 15, 0}};
+        return new Object[][] {{"AZ", eThresholdTests.ON, 15, 0, AAAMembershipQueries.AAAMembershipStatus.No_Hit}};
     }
 
     @DataProvider(name = "ThresholdTestData_STG2_NoCatchup")
     public static Object[][] ThresholdTestData_STG2_NoCatchup() {
-        return new Object[][] {{"AZ", eThresholdTests.ON, 30, 0}};
+        return new Object[][] {{"AZ", eThresholdTests.ON, 30, 0, AAAMembershipQueries.AAAMembershipStatus.No_Hit}};
     }
 
     // Combines STG1 and STG2 test data for ability to test everything using this one method.
@@ -55,7 +61,7 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
 
     @Parameters({"state"})
     @Test(dataProvider = "ThresholdTestData_STG1")
-    public void STG1orSTG2_TestThreshold(@Optional String state, eThresholdTests typeOfThresholdTest, Integer nb15or30, Integer daysAfterNB) {
+    public void STG1orSTG2_TestThreshold(@Optional String state, eThresholdTests typeOfThresholdTest, Integer nb15or30, Integer daysAfterNB, AAAMembershipQueries.AAAMembershipStatus membershipStatusAtTimeOfMembershipValidation) {
         // Creating Policy using Default Test Data
         mainApp().open();
         createCustomerIndividual();
@@ -94,7 +100,9 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
         }
 
         // Force MembershipStatus != ACTIVE. ACTIVE policies will not be processed!
-        AAAMembershipQueries.updateAAAMembershipStatusInSQL(policyNumber, AAAMembershipQueries.AAAMembershipStatus.CANCELED);
+        AAAMembershipQueries.updateAAAMembershipStatusInSQL(policyNumber, membershipStatusAtTimeOfMembershipValidation);
+        java.util.Optional<AAAMembershipQueries.AAAMembershipStatus> membershipStatus = AAAMembershipQueries.getAAAMembershipStatusFromSQL(policyNumber);
+        CustomAssertions.assertThat(membershipStatus.toString()).isEqualToIgnoringCase(membershipStatus.toString());
 
         // If doing NB+30, force aaaBestMembershipStatus to FOUND
         if(nb15or30==30){
@@ -105,11 +113,16 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
         JobUtils.executeJob(Jobs.membershipValidationJob);
 
         // Validate policyNumber is picked up by batch job at STG1.
-        CustomAssertions.assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(policyNumber).toString()).isEqualToIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG1.toString());
-    }
+        java.util.Optional<AAAMembershipQueries.AAABestMembershipStatus> bestMembershipStatus = AAAMembershipQueries.getAAABestMembershipStatusFromSQL(policyNumber);
+        if(nb15or30==15){
+            CustomAssertions.assertThat(bestMembershipStatus.toString()).isEqualToIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG1.toString());
+        }else{
+            if(nb15or30==30) {
+                CustomAssertions.assertThat(bestMembershipStatus.toString()).isEqualToIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG2.toString());
+            }else{
+                CustomAssertions.fail(String.format("Variable 'nb15or30' == something other than 15 or 30 (Actual: %s). Double check data-provider object.", nb15or30.toString()));
+            }
+        }
 
-    // Use this to capture a screenshot in the event of an error, or at will.
-    private void doScreenshot(String testName, String fileName, String extraNotes){
-        ScreenshotManager.getInstance().makeScreenshot(String.format("%s_%s_%s", testName, fileName, extraNotes));
     }
 }
