@@ -6316,13 +6316,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas27201_SpEquipmentUpdatedWhenCollisionDeclinedBody(PolicyType policyType, String state, ETCSCoreSoftAssertions softly) {
 		mainApp().open();
-		createCustomerIndividual();
-		mainApp().open();
-		String policyNumber = getCopiedPolicy();
-		//TestData td = getPolicyTD("DataGather", "TestData");
-		//TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
-		//policyType.get().createPolicy(testData);
-		//String policyNumber = PolicySummaryPage.getPolicyNumber();
+		/*createCustomerIndividual();
+
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
+		policyType.get().createPolicy(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();*/
+
+		String policyNumber = "KYSS952918567";
 
 		//Perform Endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -6334,20 +6335,52 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		String newBILimits = "-1";
 
 		PolicyCoverageInfo updateCoverageResponse1 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd, newBILimits), PolicyCoverageInfo.class);
-		List<Coverage> coveragesV1 = updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages;
-		coverageXproperties(softly, 0, coveragesV1, "COMPDED", "Other Than Collision", "-1", "No Coverage", "Deductible", true, true);
-		coverageXproperties(softly, 6, coveragesV1, "SPECEQUIP", "Special Equipment Coverage", "1000", "$1,000.00", null, false, false);
+		Coverage filteredCoverageResponseComp3 = updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		Coverage filteredCoverageResponseComp2 = updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "SPECEQUIP".equals(cov.getCoverageCd())).findFirst().orElse(null);
+
+		softly.assertThat(filteredCoverageResponseComp3.getCoverageLimit()).isEqualTo("-1");
+		softly.assertThat(filteredCoverageResponseComp3.getCoverageLimitDisplay()).isEqualTo("No Coverage");
+
+		softly.assertThat(filteredCoverageResponseComp2.getCoverageLimit()).isEqualTo("1000");
+		softly.assertThat(filteredCoverageResponseComp2.getCoverageLimitDisplay()).isEqualTo("$1,000.00");
+		softly.assertThat(filteredCoverageResponseComp2.getCustomerDisplayed()).isEqualTo(false);
+		softly.assertThat(filteredCoverageResponseComp2.getCanChangeCoverage()).isEqualTo(false);
 
 		String coverageCd1 = "COMPDED";
 		String newBILimits2 = "500";
 
 		PolicyCoverageInfo updateCoverageResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd1, newBILimits2), PolicyCoverageInfo.class);
-		List<Coverage> coveragesV2 = updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages;
-		coverageXproperties(softly, 0, coveragesV2, "COMPDED", "Other Than Collision", "500", "$500", "Deductible", true, true);
-		coverageXproperties(softly, 6, coveragesV2, "SPECEQUIP", "Special Equipment Coverage", "1000", "$1,000.00", null, true, false);
+		Coverage filteredCoverageResponseComp5 = updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "SPECEQUIP".equals(cov.getCoverageCd())).findFirst().orElse(null);
 
+		if ("AZ, IN, NV, OH, OK".contains(getState())) {
+			softly.assertThat(filteredCoverageResponseComp5.getCoverageLimit()).isEqualTo("1000");
+			softly.assertThat(filteredCoverageResponseComp5.getCoverageLimitDisplay()).isEqualTo("$1,000.00");
+		} else {
+			softly.assertThat(filteredCoverageResponseComp5.getCoverageLimit()).isEqualTo("1500");
+			softly.assertThat(filteredCoverageResponseComp5.getCoverageLimitDisplay()).isEqualTo("$1,500.00");
+		}
+		softly.assertThat(filteredCoverageResponseComp5.getCustomerDisplayed()).isEqualTo(true);
+		softly.assertThat(filteredCoverageResponseComp5.getCanChangeCoverage()).isEqualTo(false);
 
 	}
+
+	protected void pas27134_UpdateCoveragesOregonPdAndUmpdBody(PolicyType policyType, String state, ETCSCoreSoftAssertions softly) {
+		mainApp().open();
+		createCustomerIndividual();
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		ViewVehicleResponse viewVehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
+		String oid = viewVehicleResponse.vehicleList.get(0).oid;
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		//	PolicyCoverageInfo endorsementCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+		updateUmpdAndVerify(softly, policyNumber, oid, CoverageLimits.COV_50000);
+
+	}
+
 	private void updateCoverageAndCheck_pas24075(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
 		Coverage covFPBAddedExpected = Coverage.create(CoverageInfo.FPB_ADDED_PA);
 
@@ -6680,7 +6713,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private void checkLimitInPAndCTab(List<Coverage> coverageExpected) {
 		for (Coverage coverage : coverageExpected) {
-			if(CoverageInfo.WLB_NY.getDescription().equals(coverage.getCoverageDescription())) {
+			if (CoverageInfo.WLB_NY.getDescription().equals(coverage.getCoverageDescription())) {
 				assertThat(premiumAndCoveragesTab.getRejectionOfWorkLossBenefitsValue(coverage.getCoverageDescription())).isEqualTo(coverage.getCoverageLimitDisplay());
 			} else {
 				assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(coverage.getCoverageDescription())).isEqualTo(coverage.getCoverageLimitDisplay());

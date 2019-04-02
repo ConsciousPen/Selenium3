@@ -1728,14 +1728,23 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ})
+	@StateList(states = {Constants.States.AZ,Constants.States.KY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-27201"})
-	public void pas27201_SpEquipmentUpdatedWhenCollisionDeclined(@Optional("AZ") String state) {
+	public void pas27201_SpEquipmentUpdatedWhenCollisionDeclined(@Optional("KY") String state) {
 		assertSoftly(softly ->
 				pas27201_SpEquipmentUpdatedWhenCollisionDeclinedBody(getPolicyType(), state, softly)
 		);
 	}
 
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.OR})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-27134"})
+	public void pas27134_UpdateCoveragesOregonPdAndUmpd(@Optional("OR") String state) {
+		assertSoftly(softly ->
+		pas27134_UpdateCoveragesOregonPdAndUmpdBody(getPolicyType(), getState(),softly)
+		);
+	}
 
 }
