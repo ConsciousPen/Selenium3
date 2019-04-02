@@ -306,4 +306,11 @@ public final class PolicyConstants {
         public static final String TOTAL_UNDERWRITER_POINTS_USED_IN_TIER = "Total Underwriter Points Used in Tier";
     }
 
+    public static final class InspectionOrWaiverRequiredSection {
+        public static final String INSPECTION_RECEIVED = "Inspection Received";
+        public static final String SALES_AGREEMENT_RECEIVED = "Sales Agreement Received";
+        public static final String PRIOR_DECLARATION_RECEIVED = "Prior Declaration Received";
+        public static final String NO_DOCUMENT_RECEIVED = "No Document Received";
+    }
+
 }
