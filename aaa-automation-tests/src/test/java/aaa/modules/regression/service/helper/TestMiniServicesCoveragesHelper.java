@@ -6316,14 +6316,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas27201_SpEquipmentUpdatedWhenCollisionDeclinedBody(PolicyType policyType, String state, ETCSCoreSoftAssertions softly) {
 		mainApp().open();
-		/*createCustomerIndividual();
+		createCustomerIndividual();
 
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
 		policyType.get().createPolicy(testData);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();*/
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		String policyNumber = "KYSS952918567";
+		//String policyNumber = "KYSS952918567";
 
 		//Perform Endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
