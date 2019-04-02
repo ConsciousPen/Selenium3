@@ -4,6 +4,8 @@ import static org.assertj.core.util.Files.contentOf;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -25,6 +27,7 @@ import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplate;
 import aaa.utils.StateList;
 import toolkit.datax.DataProviderFactory;
@@ -34,8 +37,18 @@ import toolkit.utils.TestInfo;
 @StateList(statesExcept = Constants.States.CA)
 public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
-    private PurchaseTab purchaseTab = new PurchaseTab();
     private File claimResponseFile;
+    private static final String TEST_DRIVER = "TestDriver";
+
+    // Activity Types
+    private static final String AF_ACCIDENT = "At-Fault Accident";
+    private static final String MAJOR_VIOLATION = "Major Violation";
+
+    // Activity Descriptions
+    private static final String PROPERTY_DAMAGE = "Accident (Property Damage Only)";
+    private static final String BODILY_INJURY = "Accident (Resulting in Bodily Injury)";
+    private static final String DRAG_RACING = "Drag Racing or Speed Contest";
+    private static final String HIT_AND_RUN = "Hit and Run";
 
     /**
      * @author Josh Carpenter
@@ -110,15 +123,19 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
         TestData td = adjustTdBaseDate(getPolicyTD());
         createQuoteAndFillUpTo(td, RatingDetailReportsTab.class);
-        addActivityDriverTab(getAccidentInfoTd());
+        addActivityDriverTab(getActivityInfoTd());
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
         policy.getDefaultView().fillFromTo(td, VehicleTab.class, PurchaseTab.class, true);
         purchaseTab.submitTab();
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
-        addActivityDriverTab(getAccidentInfoTd().adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-8M>"));
-        validateIncludedInPoints("No", "Yes");
+        addActivityDriverTab(getActivityInfoTd().adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-8M>"));
+        calculatePremiumAndNavigateToDriverTab();
+
+        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_SDW);
+        assertThat(DriverTab.tableActivityInformationList.getRow(1).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
 
     }
 
@@ -207,9 +224,10 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         SearchPage.openPolicy(policyNumber);
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
-        validateIncludedInPoints("Yes");
+        calculatePremiumAndNavigateToDriverTab();
+        assertThat(DriverTab.tableActivityInformationList.getRow(1).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
         assertThat(driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).getValue()).contains("5000");
-        new PremiumAndCoveragesTab().calculatePremium();
+        premiumAndCoveragesTab.calculatePremium();
 
         // Bind policy and make active
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
@@ -237,13 +255,111 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         SearchPage.openPolicy(policyNumber);
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
-        validateIncludedInPoints("Yes");
+        calculatePremiumAndNavigateToDriverTab();
+        assertThat(DriverTab.tableActivityInformationList.getRow(1).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
         assertThat(driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).getValue()).contains("4000");
 
     }
 
-    private TestData adjustTdBaseDate(TestData td) {
+    /**
+     * @author Josh Carpenter
+     * @name Test SDW and ASW hierarchy during NB
+     * @scenario
+     * 1.  Initiate SS quote with one driver and 4 years with a prior AAA carrier on General tab
+     * 2.  Add 2 AF accidents and 2 violations on the driver tab
+     * 3.  Navigate to P & C tab, calculate premium
+     * 4.  Navigate back to Driver tab
+     * 5.  Validate both violations and the accident with the least points receives SDW
+     * 6.  Validate the last accident with the most points receives ASW
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27346")
+    public void pas27346_testMultipleActivitiesOnSameDayNB(@Optional("") String state) {
 
+        List<TestData> tdActivity = new ArrayList<>();
+        tdActivity.add(getActivityInfoTd(AF_ACCIDENT, PROPERTY_DAMAGE));
+        tdActivity.add(getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY));
+        tdActivity.add(getActivityInfoTd(MAJOR_VIOLATION, HIT_AND_RUN).mask(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel()));
+        tdActivity.add(getActivityInfoTd(MAJOR_VIOLATION, DRAG_RACING).mask(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel()));
+
+        TestData td = getDefaultASWTd().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), tdActivity);
+        createQuoteAndFillUpTo(td, PremiumAndCoveragesTab.class);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        validateMultipleActivitiesOnSameDay();
+
+    }
+
+    /**
+     * @author Josh Carpenter
+     * @name Test SDW and ASW hierarchy during endorsement
+     * @scenario
+     * 1.  Create SS policy with one driver and 4 years with a prior AAA carrier on General tab
+     * 2.  Initiate endorsement and add new driver with 2 AF accidents and 2 violations on the driver tab
+     * 3.  Navigate to P & C tab, calculate premium
+     * 4.  Navigate back to Driver tab
+     * 5.  Validate both violations and the accident with the least points receives SDW
+     * 6.  Validate the last accident with the most points receives ASW
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27346")
+    public void pas27346_testMultipleActivitiesOnSameDayEndorsement(@Optional("") String state) {
+
+        List<TestData> tdActivity = new ArrayList<>();
+        tdActivity.add(getActivityInfoTd(MAJOR_VIOLATION, DRAG_RACING).mask(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel()));
+        tdActivity.add(getActivityInfoTd(MAJOR_VIOLATION, HIT_AND_RUN).mask(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel()));
+        tdActivity.add(getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY));
+        tdActivity.add(getActivityInfoTd(AF_ACCIDENT, PROPERTY_DAMAGE));
+
+        TestData tdEndorsementFill = DataProviderFactory.dataOf(
+                GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData(),
+                DriverTab.class.getSimpleName(), getSecondDriverTd().adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), tdActivity));
+
+        openAppAndCreatePolicy(getDefaultASWTd());
+        policy.endorse().performAndFill(tdEndorsementFill);
+        calculatePremiumAndNavigateToDriverTab();
+        validateMultipleActivitiesOnSameDay();
+
+    }
+
+    /**
+     * @author Josh Carpenter
+     * @name Test SDW and ASW hierarchy during Renewal
+     * @scenario
+     * 1.  Create SS policy with one driver and 4 years with a prior AAA carrier on General tab
+     * 2.  During renewal add second driver with 2 AF accidents and 2 violations all on same day
+     * 3.  Navigate to P & C tab, calculate premium
+     * 4.  Navigate back to Driver tab
+     * 5.  Validate both violations and the accident with the least points receives SDW
+     * 6.  Validate the last accident with the most points receives ASW
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27346")
+    public void pas27346_testMultipleActivitiesOnSameDayRenewal(@Optional("") String state) {
+
+        List<TestData> tdActivity = new ArrayList<>();
+        tdActivity.add(getActivityInfoTd(MAJOR_VIOLATION, HIT_AND_RUN).mask(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel()));
+        tdActivity.add(getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY));
+        tdActivity.add(getActivityInfoTd(MAJOR_VIOLATION, DRAG_RACING).mask(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel()));
+        tdActivity.add(getActivityInfoTd(AF_ACCIDENT, PROPERTY_DAMAGE));
+
+        TestData tdRenewalFill = DataProviderFactory.dataOf(
+                GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData(),
+                DriverTab.class.getSimpleName(), getSecondDriverTd().adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), tdActivity));
+
+        openAppAndCreatePolicy(getDefaultASWTd());
+        policy.renew().performAndFill(tdRenewalFill);
+        calculatePremiumAndNavigateToDriverTab();
+        validateMultipleActivitiesOnSameDay();
+
+    }
+
+    private TestData adjustTdBaseDate(TestData td) {
         return td.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
                         AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel()), "$<today-2y>")
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(),
@@ -252,27 +368,96 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
                         AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel()), "$<today-1y>");
     }
 
+    private TestData getDefaultASWTd() {
+        return getPolicyTD()
+                .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(),
+                        AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel()), "$<today-5y>")
+                .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(),
+                        AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel()), "$<today-1y>");
+    }
+
+    private TestData getActivityInfoTd() {
+        return getActivityInfoTd(AF_ACCIDENT, PROPERTY_DAMAGE);
+    }
+
+    private TestData getActivityInfoTd(String type, String description) {
+        return DataProviderFactory.dataOf(
+                AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), type,
+                AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), description,
+                AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-25M>",
+                AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), "3000");
+    }
+
+    private TestData getSecondDriverTd() {
+        return getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName()).get(1)
+                .mask(AutoSSMetaData.DriverTab.NAMED_INSURED.getLabel())
+                .adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), "SDW")
+                .adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), TEST_DRIVER)
+                .adjust(AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), "05/05/1981")
+                .adjust(AutoSSMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click");
+    }
+
+    private void addActivityDriverTab(TestData td) {
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        new DriverTab().fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), DataProviderFactory.emptyData())
+                .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), td));
+    }
+
+    private void validateIncludeInPoints(String description, String expectedValue) {
+        assertThat(DriverTab.tableActivityInformationList.getRowContains(PolicyConstants.ActivityInformationTable.DESCRIPTION, description)
+                .getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo(expectedValue);
+    }
+
+    private void validateReasonCode(String description, String expectedValue) {
+        assertThat(DriverTab.tableActivityInformationList.getRowContains(PolicyConstants.ActivityInformationTable.DESCRIPTION, description)
+                .getCell(PolicyConstants.ActivityInformationTable.NOT_INCLUDED_REASON_CODES).getValue()).isEqualTo(expectedValue);
+    }
+
+    private void validateMultipleActivitiesOnSameDay() {
+        if (!driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.LAST_NAME).getValue().equals(TEST_DRIVER)) {
+            DriverTab.tableDriverList.getRow(PolicyConstants.PolicyDriversTable.LAST_NAME, TEST_DRIVER).getCell(5).controls.links.get("View/Edit").click();
+        }
+        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_SDW);
+
+        validateIncludeInPoints(BODILY_INJURY, "No");
+        validateReasonCode(BODILY_INJURY, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+
+        validateIncludeInPoints(HIT_AND_RUN, "No");
+        validateReasonCode(HIT_AND_RUN, PolicyConstants.ActivityInformationTable.REASON_CODE_SDW);
+
+        validateIncludeInPoints(DRAG_RACING, "No");
+        validateReasonCode(DRAG_RACING, PolicyConstants.ActivityInformationTable.REASON_CODE_SDW);
+    }
+
     private void validateAFW(TestData policyTd) {
 
         // Add AF accident
-        addActivityDriverTab(getAccidentInfoTd());
+        addActivityDriverTab(getActivityInfoTd());
 
         // Validate AFW is given
-        validateIncludedInPoints("No");
+        calculatePremiumAndNavigateToDriverTab();
+        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
 
         // Add a second AF accident in past 33 months and validate
-        addActivityDriverTab(getAccidentInfoTd().adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-8M>"));
-        validateIncludedInPoints("Yes", "Yes");
+        addActivityDriverTab(getActivityInfoTd().adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-8M>"));
+        calculatePremiumAndNavigateToDriverTab();
+        assertThat(DriverTab.tableActivityInformationList.getRow(1).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
+        assertThat(DriverTab.tableActivityInformationList.getRow(2).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
 
         // Remove second claim and validate AFW is given
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         DriverTab.tableActivityInformationList.removeRow(2);
-        validateIncludedInPoints("No");
+        calculatePremiumAndNavigateToDriverTab();
+        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
 
         // Change Prior Carrier to non-AAA (Progressive) and validate no AFW for both
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
         new GeneralTab().getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER).setValue("Progressive");
-        validateIncludedInPoints("Yes");
+        calculatePremiumAndNavigateToDriverTab();
+        assertThat(DriverTab.tableActivityInformationList.getRow(1).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
 
@@ -282,35 +467,9 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
     }
 
-    private void validateIncludedInPoints(String... expectedValues) {
-        new PremiumAndCoveragesTab().calculatePremium();
+    private void calculatePremiumAndNavigateToDriverTab() {
+        premiumAndCoveragesTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        for (int i = 1; i <= expectedValues.length; i++) {
-            String value = expectedValues[i - 1];
-            assertThat(DriverTab.tableActivityInformationList.getRow(i).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue())
-                    .contains(value);
-            if ("No".equals(value)) {
-                assertThat(DriverTab.tableActivityInformationList.getRow(i).getCell(PolicyConstants.ActivityInformationTable.NOT_INCLUDED_REASON_CODES).getValue())
-                        .contains(PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
-            } else {
-                assertThat(DriverTab.tableActivityInformationList.getRow(i).getCell(PolicyConstants.ActivityInformationTable.NOT_INCLUDED_REASON_CODES).getValue()).isEmpty();
-            }
-        }
-    }
-
-    private void addActivityDriverTab(TestData td) {
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        new DriverTab().fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), td));
-    }
-
-    private TestData getAccidentInfoTd() {
-        return DataProviderFactory.dataOf(
-                AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY.getLabel(), "Click",
-                AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), "At-Fault Accident",
-                AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), "Accident (Property Damage Only)",
-                AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-10M>",
-                AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), "3000");
     }
 
     private void runRenewalAndOrderJobs() {
