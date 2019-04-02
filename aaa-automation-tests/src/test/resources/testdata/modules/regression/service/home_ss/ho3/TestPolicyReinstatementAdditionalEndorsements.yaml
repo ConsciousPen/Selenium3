@@ -1,0 +1,100 @@
+TestData_UT: {
+  EndorsementTab: {
+    'HS 09 88': {
+      Name of person or organization: Test Name,
+      Zip code: 84003,
+      Street address 1: 111 Test street,
+      Description of insurable interest: Description of insurable interest,
+      Description of event: Description of event,
+      Event zip code: 84003,
+      Event street address 1: 265 chipman Ave,
+      Event city: TestCity,
+      Event state: UT,
+      Effective date: '$<today+10d:MM/dd/yyyy>',
+      Expiration date: '$<today+12d:MM/dd/yyyy>',
+      Additional comments about the event: Additional comments about the event,
+      "Will there be alcoholic beverages at the event?": 'No',
+      "Will there be a swimming pool, bounce house, or trampoline at the event location?": 'No',
+      "Will there be hired or volunteer staff at the event?": 'No',
+      Event location: index=1,
+      "Is a permit or license required for the event?": 'No',
+      "Is the event being held for business purposes?": 'No',
+      "Is the event being held for compensation or to raise donations or money? (charity events, political fundraisers, etc)": 'No'
+    }
+  },
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Semi-Annual,
+    Recurring payment: true
+  },
+  PurchaseTab: {
+    PaymentMethods: [
+    {
+      Payment Method: 'Checking/Savings (ACH)',
+      Bank Name: 'TestName',
+      "Transit #": '124302150',
+      "Account #": '1346574869'
+    }
+    ],
+    Activate Autopay: true,
+    Autopay Selection: 'contains=ACH',
+    PaymentAllocation: {
+      ACH: '/rest'
+    },
+    Signature on File Indicator: 'Yes'
+  }
+}
+
+TestData_FinishEndorsement: {
+  EndorsementTab: {
+    'HS 09 04': {
+      "Is this an extension of a prior Structural Alteration Coverage endorsement?": 'Yes',
+      "Reason for extension": 'Some reason'
+    }
+  },
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_AddEndorsementAndBind: {
+  EndorsementTab: {
+    HS 04 59: {
+      Name of relative: Test,
+      'Does the facility provide living services such as dining, therapy, medical supervision, housekeeping and social activities?': 'Yes',
+      Name of facility: Test,
+      Zip code: 85118,
+      Street address 1: Test,
+      Coverage C limit: 10000
+    }
+  },
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_Empty_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_Override: {
+  PremiumsAndCoveragesQuoteTab: {
+    'Override Premium': {
+      Remarks: 'Test Remark',
+      'Override Premium By Flat Amount': '101.01'
+    }
+  }
+}

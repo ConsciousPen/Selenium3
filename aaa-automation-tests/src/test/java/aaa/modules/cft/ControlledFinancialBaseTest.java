@@ -2,15 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.cft;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import java.io.File;
-import java.time.LocalDateTime;
-import java.util.*;
-
-import aaa.main.modules.billing.paymentsmaintenance.actiontabs.ReverseSuspenseActionTab;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.reports.operationalreports.OperationalReport;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
@@ -36,6 +27,7 @@ import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.OtherTransactionsActionTab;
 import aaa.main.modules.billing.paymentsmaintenance.PaymentsMaintenance;
+import aaa.main.modules.billing.paymentsmaintenance.actiontabs.ReverseSuspenseActionTab;
 import aaa.main.modules.billing.paymentsmaintenance.actiontabs.SearchSuspenseActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
@@ -45,9 +37,18 @@ import aaa.modules.cft.details.BillingAccountDetails;
 import aaa.modules.cft.details.BillingAccountInformationHolder;
 import aaa.modules.cft.details.PolicyDetails;
 import aaa.modules.policy.PolicyBaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
+
+import java.io.File;
+import java.time.LocalDateTime;
+import java.util.*;
+
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
@@ -411,7 +412,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().open();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		billingAccount.approveRefund().perform(1);
+		//billingAccount.approveRefund().perform(1);
 		new BillingPaymentsAndTransactionsVerifier()
 				.setTransactionDate(refundDate)
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
