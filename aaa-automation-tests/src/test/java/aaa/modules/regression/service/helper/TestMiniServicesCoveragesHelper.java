@@ -6315,15 +6315,13 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas27201_SpEquipmentUpdatedWhenCollisionDeclinedBody(PolicyType policyType, String state, ETCSCoreSoftAssertions softly) {
+
+
+
 		mainApp().open();
-		createCustomerIndividual();
+		String policyNumber = "KYSS952918570";
 
-		TestData td = getPolicyTD("DataGather", "TestData");
-		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
-		policyType.get().createPolicy(testData);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		//String policyNumber = "KYSS952918567";
 
 		//Perform Endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -6341,8 +6339,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		softly.assertThat(filteredCoverageResponseComp3.getCoverageLimit()).isEqualTo("-1");
 		softly.assertThat(filteredCoverageResponseComp3.getCoverageLimitDisplay()).isEqualTo("No Coverage");
 
-		softly.assertThat(filteredCoverageResponseComp2.getCoverageLimit()).isEqualTo("1000");
-		softly.assertThat(filteredCoverageResponseComp2.getCoverageLimitDisplay()).isEqualTo("$1,000.00");
+		softly.assertThat(filteredCoverageResponseComp2.getCoverageLimit()).isEqualTo("0");
+		softly.assertThat(filteredCoverageResponseComp2.getCoverageLimitDisplay()).isEqualTo("$0.00");
 		softly.assertThat(filteredCoverageResponseComp2.getCustomerDisplayed()).isEqualTo(false);
 		softly.assertThat(filteredCoverageResponseComp2.getCanChangeCoverage()).isEqualTo(false);
 
