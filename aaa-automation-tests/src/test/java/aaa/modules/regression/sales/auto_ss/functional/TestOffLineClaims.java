@@ -482,6 +482,4 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     public void pas25463_ViolationsMVRPUIndicatorCheck(@Optional("AZ") @SuppressWarnings("unused") String state) {
         pas25463_ViolationsMVRPUIndicatorCheck();
     }
-
-
 }

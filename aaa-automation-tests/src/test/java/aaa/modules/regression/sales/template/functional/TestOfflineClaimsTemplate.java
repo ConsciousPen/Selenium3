@@ -2,7 +2,6 @@ package aaa.modules.regression.sales.template.functional;
 import static aaa.common.pages.SearchPage.tableSearchResults;
 
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableActivityInformationList;
 import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableDriverList;
@@ -611,32 +610,33 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         });
     }
     public void pas25463_ViolationsMVRPUIndicatorCheck(){
-       TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_ViolationsMVRFNIclaims_PU").resolveLinks();
-       adjusted = getPolicyTD().adjust(testDataForFNI);
-       mainApp().open();
-       createCustomerIndividual();
-       policy.initiate();
-       policy.getDefaultView().fillUpTo(adjusted,DriverTab.class, true);
-       tableDriverList.selectRow(1);
+        TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_ViolationsMVRFNIclaims_PU").resolveLinks();
+        adjusted = getPolicyTD().adjust(testDataForFNI);
+        createQuoteAndFillUpTo(adjusted, DriverTab.class);
+        tableDriverList.selectRow(1);
        //Assertions to verify PU Indicator does not show up for any type of Activity .
-       activityAssertions(2,1,4, 1, "Company Input", "", false);
-       activityAssertions(2,1,4, 2, "Company Input", "", false);
-       activityAssertions(2,1,4, 3, "Customer Input", "", false);
-       activityAssertions(2,1,4, 4, "Customer Input", "", false);
-       driverTab.submitTab();
-       policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class, PremiumAndCoveragesTab.class,true);
-       premiumAndCoveragesTab.submitTab();
-       DriverActivityReportsTab driverActivityReportTab = new DriverActivityReportsTab();
-       driverActivityReportTab.fillTab(adjusted);
-       NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-       driverTab.submitTab();
-       adjusted = getPolicyTD().mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()));
-       NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-       policy.getDefaultView().fillFromTo(adjusted, PremiumAndCoveragesTab.class, PurchaseTab.class, true);
-       new PurchaseTab().submitTab();
-       policyNumber = PolicySummaryPage.getPolicyNumber();
-       log.info("Policy created successfully. Policy number is " + policyNumber);
-       mainApp().close();
+        activityAssertions(2,1,4, 1, "Company Input", "", false);
+        activityAssertions(2,1,4, 2, "Company Input", "", false);
+        activityAssertions(2,1,4, 3, "Customer Input", "", false);
+        activityAssertions(2,1,4, 4, "Customer Input", "", false);
+        driverTab.submitTab();
+        policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class, PremiumAndCoveragesTab.class,true);
+        premiumAndCoveragesTab.submitTab();
+        DriverActivityReportsTab driverActivityReportTab = new DriverActivityReportsTab();
+        driverActivityReportTab.fillTab(adjusted);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        tableDriverList.selectRow(1);
+        tableActivityInformationList.selectRow(5);
+        assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).getValue().equals("MVR"));
+        assertThat(!activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent());
+        driverTab.submitTab();
+        adjusted = getPolicyTD().mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()));
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        policy.getDefaultView().fillFromTo(adjusted, PremiumAndCoveragesTab.class, PurchaseTab.class, true);
+        new PurchaseTab().submitTab();
+        policyNumber = PolicySummaryPage.getPolicyNumber();
+        log.info("Policy created successfully. Policy number is " + policyNumber);
+        mainApp().close();
         //Initiate an endorsement
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
@@ -655,11 +655,11 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     private void activityAssertions(int totalDrivers, int driverRowNo, int totalActivities, int activityRowNo, String activitySource, String claimNumber, boolean checkPU) {
         CustomSoftAssertions.assertSoftly(softly -> {
             softly.assertThat(tableDriverList).hasRows(totalDrivers);
-           tableDriverList.selectRow(driverRowNo);
+            tableDriverList.selectRow(driverRowNo);
             softly.assertThat(tableActivityInformationList).hasRows(totalActivities);
-           tableActivityInformationList.selectRow(activityRowNo);
+            tableActivityInformationList.selectRow(activityRowNo);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue(activitySource);
-            //softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(claimNumber);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(claimNumber);
             if (checkPU) {
                 softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
             }
