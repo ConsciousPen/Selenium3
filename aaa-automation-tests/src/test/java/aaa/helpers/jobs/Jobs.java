@@ -80,6 +80,8 @@ public class Jobs {
 
 	public static Job refundGenerationJob = new Job("refundGenerationJob");
 
+    public static Job aaaBalancingReallocationJob = new Job("aaaBalancingReallocationJob");
+
 	// public static Job automatedProcessingInitiationJob = new Job("automatedProcessingInitiationJob"); BASE job not used anymore, aaaAutomatedProcessingInitiationJob is used instead
 
 	public static Job automatedProcessingRunReportsServicesJob = new Job("automatedProcessingRunReportsServicesJob");
