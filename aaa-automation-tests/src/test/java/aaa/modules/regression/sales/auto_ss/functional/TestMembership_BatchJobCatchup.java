@@ -26,7 +26,7 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
 
     @DataProvider(name = "ThresholdTestData_STG1")
     public static Object[][] ThresholdTestData_STG1() {
-        return new Object[][] {{"AZ", eThresholdTests.BEFORE, 15, THRESHOLD_VALUE - 1}, {"AZ", eThresholdTests.ON, 15, THRESHOLD_VALUE}, {"AZ", eThresholdTests.AFTER, 15, THRESHOLD_VALUE + 1}};
+        return new Object[][] {/*{"AZ", eThresholdTests.BEFORE, 15, THRESHOLD_VALUE - 1}, */{"AZ", eThresholdTests.ON, 15, THRESHOLD_VALUE}, {"AZ", eThresholdTests.AFTER, 15, THRESHOLD_VALUE + 1}};
     }
 
     @DataProvider(name = "ThresholdTestData_STG2")
@@ -54,7 +54,7 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
     }
 
     @Parameters({"state"})
-    @Test(dataProvider = "ThresholdTestData_STG1_STG2")
+    @Test(dataProvider = "ThresholdTestData_STG1")
     public void STG1orSTG2_TestThreshold(@Optional String state, eThresholdTests typeOfThresholdTest, Integer nb15or30, Integer daysAfterNB) {
         // Creating Policy using Default Test Data
         mainApp().open();
@@ -75,20 +75,26 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
             case BEFORE:
                 CustomAssertions.assertThat(rightNow).isAfter(nbDate);
                 CustomAssertions.assertThat(rightNow).isBefore(thresholdMaxDate);
-                System.out.println(String.format("QALOGS -> Completed batch execution for %s on %s (NB+%s+%s). FIND IN LOGS.", policyNumber, rightNow, nb15or30.toString(), daysAfterNB.toString()));
+                log.debug(String.format("QALOGS -> VALIDATED SYSTEM DATE (%s) IS AFTER NB+%s (%s) and BEFORE the threshold (%s days) cut off on %s.",
+                        rightNow.toLocalDate().toString(), nb15or30.toString(), nbDate.toLocalDate().toString(), THRESHOLD_VALUE, thresholdMaxDate.toLocalDate().toString()));
                 break;
             case ON:
-                System.out.println(String.format("QALOGS -> Completed batch execution for %s on %s (NB+%s+%s). FIND IN LOGS.", policyNumber, rightNow, nb15or30.toString(), daysAfterNB.toString()));
                 CustomAssertions.assertThat(rightNow).isEqualToIgnoringHours(thresholdMaxDate);
+                log.debug(String.format("QALOGS -> VALIDATED SYSTEM DATE (%s) IS ON NB+%s+%s",
+                        rightNow.toLocalDate().toString(), nb15or30.toString(), THRESHOLD_VALUE));
                 break;
             case AFTER:
-                System.out.println(String.format("QALOGS -> Completed batch execution for %s on %s (NB+%s+%s). SHOULD NOT BE IN LOGS", policyNumber, rightNow, nb15or30.toString(), daysAfterNB.toString()));
                 CustomAssertions.assertThat(rightNow).isAfter(thresholdMaxDate);
+                log.debug(String.format("QALOGS -> VALIDATED SYSTEM DATE (%s) IS AFTER NB+%s+%s",
+                        rightNow.toLocalDate().toString(), nb15or30.toString(), THRESHOLD_VALUE));
                 break;
             default:
                 CustomAssertions.fail("Unexpected value for 'typeOfThresholdTest'. Force failing test.");
                 break;
         }
+
+        // Force MembershipStatus != ACTIVE. ACTIVE policies will not be processed!
+        AAAMembershipQueries.updateAAAMembershipStatusInSQL(policyNumber, AAAMembershipQueries.AAAMembershipStatus.CANCELED);
 
         // If doing NB+30, force aaaBestMembershipStatus to FOUND
         if(nb15or30==30){
