@@ -347,24 +347,24 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 		assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup)).hasOptions(carcoRadioGroupOptions);
 
 		if (shouldAllOptionsBeDisabled) {
-			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(CARCO_RADIOGROUP_OPTIONS_NJ.get(0))).isDisabled();
-			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(CARCO_RADIOGROUP_OPTIONS_NJ.get(1))).isDisabled();
+			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(INSPECTION_RECEIVED)).isDisabled();
+			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(SALES_AGREEMENT_RECEIVED)).isDisabled();
 			if (getState().equals(Constants.States.NJ)) {
-				assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(CARCO_RADIOGROUP_OPTIONS_NJ.get(2))).isDisabled();
+				assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(PRIOR_DECLARATION_RECEIVED)).isDisabled();
 			} else {
-				assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(CARCO_RADIOGROUP_OPTIONS_NJ.get(2))).isPresent(false);//NY doesn't have this option
+				assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(PRIOR_DECLARATION_RECEIVED)).isPresent(false);//NY doesn't have this option
 			}
-			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(CARCO_RADIOGROUP_OPTIONS_NJ.get(3))).isDisabled();
+			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(NO_DOCUMENT_RECEIVED)).isDisabled();
 		} else {
-			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(CARCO_RADIOGROUP_OPTIONS_NJ.get(0))).isEnabled();
-			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(CARCO_RADIOGROUP_OPTIONS_NJ.get(1))).isEnabled(isLessThan1000Miles);
+			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(INSPECTION_RECEIVED)).isEnabled();
+			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(SALES_AGREEMENT_RECEIVED)).isEnabled(isLessThan1000Miles);
 			if (getState().equals(Constants.States.NJ)) {
-				assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(CARCO_RADIOGROUP_OPTIONS_NJ.get(2))).isEnabled(!isEndorsement);
+				assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(PRIOR_DECLARATION_RECEIVED)).isEnabled(!isEndorsement);
 			} else {
-				assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(CARCO_RADIOGROUP_OPTIONS_NJ.get(2))).isPresent(false);//NY doesn't have this option
+				assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(PRIOR_DECLARATION_RECEIVED)).isPresent(false);//NY doesn't have this option
 
 			}
-			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(CARCO_RADIOGROUP_OPTIONS_NJ.get(3))).isEnabled();
+			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(NO_DOCUMENT_RECEIVED)).isEnabled();
 		}
 	}
 }
