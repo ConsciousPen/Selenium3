@@ -6315,9 +6315,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas27201_SpEquipmentUpdatedWhenCollisionDeclinedBody(PolicyType policyType, String state, ETCSCoreSoftAssertions softly) {
-
 		mainApp().open();
-		String policyNumber =  getCopiedPolicy();
+		String policyNumber = getCopiedPolicy();
 
 		//Perform Endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -6360,19 +6359,34 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas27134_UpdateCoveragesOregonPdAndUmpdBody(PolicyType policyType, String state, ETCSCoreSoftAssertions softly) {
 		mainApp().open();
-		createCustomerIndividual();
-		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		ViewVehicleResponse viewVehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
+
+		ViewVehicleResponse viewVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
 		String oid = viewVehicleResponse.vehicleList.get(0).oid;
 
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		//	PolicyCoverageInfo endorsementCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		//Check viewEndorsementCoverages response
+		Coverage UMPD = Coverage.create(CoverageInfo.UMPD_OR);
+		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateCoveragesDXP(viewEndorsementCoveragesResponse.vehicleLevelCoverages.get(0).coverages, UMPD);
+
+		String purchaseDate = "2013-02-22";
+		String vin = "4S4BSBNC3G3204605"; //2016 Subaru Impreza
+		String newVehicleOid = helperMiniServices.vehicleAddRequestWithCheck(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate));
+
+		Coverage UMPD1 = Coverage.create(CoverageInfo.UMPD_OR);
+		PolicyCoverageInfo viewEndorsementCoveragesResponse1 = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, PolicyCoverageInfo.class);
+		validateCoveragesDXP(viewEndorsementCoveragesResponse1.vehicleLevelCoverages.get(0).coverages, UMPD1);
 
 		updateUmpdAndVerify(softly, policyNumber, oid, CoverageLimits.COV_50000);
 
+		Coverage covPDchange = Coverage.create(CoverageInfo.PD).changeLimit(CoverageLimits.COV_25000);
+		updateCoverage(policyNumber, covPDchange);
+
+		PolicyCoverageInfo viewEndorsementCoveragesResponse2 = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, oid, PolicyCoverageInfo.class);
+		softly.assertThat(viewEndorsementCoveragesResponse2.vehicleLevelCoverages.get(0).coverages.get(2).getCoverageLimit()).isEqualTo("25000");
+		softly.assertThat(viewEndorsementCoveragesResponse2.vehicleLevelCoverages.get(1).coverages.get(2).getCoverageLimit()).isEqualTo("0");
 	}
 
 	private void updateCoverageAndCheck_pas24075(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {

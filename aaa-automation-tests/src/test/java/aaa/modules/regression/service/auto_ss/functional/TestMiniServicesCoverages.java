@@ -1728,7 +1728,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ,Constants.States.KY, Constants.States.VA,  Constants.States.CO,  Constants.States.CT,  Constants.States.DC , Constants.States.DE, Constants.States.ID, Constants.States.IN,Constants.States.KS,Constants.States.MD,Constants.States.MT,Constants.States.NV,Constants.States.NY,Constants.States.OH,Constants.States.OK,Constants.States.OR,Constants.States.SD,Constants.States.WV,Constants.States.WY,Constants.States.PA,Constants.States.NJ})
+	@StateList(states = {Constants.States.AZ,Constants.States.KY, Constants.States.CO,  Constants.States.CT,  Constants.States.DC , Constants.States.DE, Constants.States.ID, Constants.States.IN,Constants.States.KS,Constants.States.MD,Constants.States.MT,Constants.States.NV,Constants.States.NY,Constants.States.OH,Constants.States.OK,Constants.States.OR,Constants.States.SD,Constants.States.WV,Constants.States.WY,Constants.States.PA,Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-27201"})
 	public void pas27201_SpEquipmentUpdatedWhenCollisionDeclined(@Optional("KY") String state) {
