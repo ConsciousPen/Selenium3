@@ -730,7 +730,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			commissionTypeCheck(expectedEvalueCommissionTypeOptions, "Yes", "eValue New Business", softly);
 			pas316_eValueRemovalPopUpCheck();
 			//PAS-306, PAS-320, PAS-323, PAS-289 end
-			generalTab.cancel();
+			generalTab.cancel(false);
 			Page.dialogConfirmation.buttonDeleteEndorsement.click();
 
 			//Renewal doesn't show the field
@@ -1052,7 +1052,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 			documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EVALUE_ACKNOWLEDGEMENT).setValue("Yes");
 
-			//BUG  PAS-9361 Generate eSignature Document button doesnt open email popup
 			documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.BTN_GENERATE_ESIGNATURE_DOCUMENTS)
 					.click(Waiters.DEFAULT.then(Waiters.SLEEP(2000)));
 			documentsAndBindTab.getEnterRecipientEmailAddressDialogAssetList()
