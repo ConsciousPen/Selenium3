@@ -1,0 +1,48 @@
+TestData: {
+  EndorsementActionTab: {
+    Endorsement Reason: 'index=2'
+  },
+  GeneralTab: '',
+  ApplicantTab: '',
+  ReportsTab: '',
+  PropertyInfoTab: '',
+  PremiumsAndCoveragesQuoteTab: '',
+  BindTab: '',
+}
+
+TestDataEndorsePUP: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today>,
+    Endorsement Reason: Property/Exposures
+  },
+  PrefillTab: {},
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {},
+  UnderlyingRisksOtherVehiclesTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {}
+}
+
+TestDataEndorsePUP_CA: {
+  EndorsementActionTab: {
+      Endorsement Date: $<today>,
+      Endorsement Reason: Property/Exposures
+    },
+  PrefillTab: {},
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {},
+  UnderlyingRisksOtherVehiclesTab: {},
+  UnderlyingRisksAllResidentsTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {}
+}
+
+GeneralTab: {
+  ContactInformation: {
+    Home Phone Number: 1234567890
+  }
+}

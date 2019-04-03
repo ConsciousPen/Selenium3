@@ -1,128 +1,141 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="BCT Empty Endorsement Suite" verbose="1" parallel="tests" thread-count="1024">
+<suite name="BCT Empty Endorsement Suite" verbose="1" parallel="tests" thread-count="1024" data-provider-thread-count="1">
     <listeners>
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
-    <test name="Service - BCT_ONL_EmptyEndorsementAutoSS" preserve-order="true">
-        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
-        <classes>
-            <class name="aaa.modules.bct.service.EndorsementTest">
-                <methods>
-                    <include name="BCT_ONL_EmptyEndorsementAutoSS"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Service - BCT_ONL_EmptyEndorsementSSDp3" preserve-order="true">
-        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
-        <classes>
-            <class name="aaa.modules.bct.service.EndorsementTest">
-                <methods>
-                    <include name="BCT_ONL_EmptyEndorsementHomeSSDp3"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Service - BCT_ONL_EmptyEndorsementSSHo3" preserve-order="true">
-        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
-        <classes>
-            <class name="aaa.modules.bct.service.EndorsementTest">
-                <methods>
-                    <include name="BCT_ONL_EmptyEndorsementHomeSSHo3"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Service - BCT_ONL_EmptyEndorsementSSHo4" preserve-order="true">
-        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
-        <classes>
-            <class name="aaa.modules.bct.service.EndorsementTest">
-                <methods>
-                    <include name="BCT_ONL_EmptyEndorsementHomeSSHo4"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Service - BCT_ONL_EmptyEndorsementSSHo6" preserve-order="true">
-        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
-        <classes>
-            <class name="aaa.modules.bct.service.EndorsementTest">
-                <methods>
-                    <include name="BCT_ONL_EmptyEndorsementHomeSSHo6"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Service - BCT_ONL_EmptyEndorsementPUP" preserve-order="true">
-        <parameter name="state" value="AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
-        <classes>
-            <class name="aaa.modules.bct.service.EndorsementTest">
-                <methods>
-                    <include name="BCT_ONL_EmptyEndorsementPUP"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
+
     <test name="Service - BCT_ONL_EmptyEndorsementAutoCAChoice" preserve-order="true">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.bct.service.EndorsementTest">
+            <class name="aaa.modules.bct.service.auto_ca.choice.TestEndorsement">
                 <methods>
                     <include name="BCT_ONL_EmptyEndorsementAutoCAChoice"/>
                 </methods>
             </class>
         </classes>
     </test>
+
     <test name="Service - BCT_ONL_EmptyEndorsementAutoCASelect" preserve-order="true">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.bct.service.EndorsementTest">
+            <class name="aaa.modules.bct.service.auto_ca.select.TestEndorsement">
                 <methods>
                     <include name="BCT_ONL_EmptyEndorsementAutoCASelect"/>
                 </methods>
             </class>
         </classes>
     </test>
+
+    <test name="Service - BCT_ONL_EmptyEndorsementAutoSS" preserve-order="true">
+        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
+        <classes>
+            <class name="aaa.modules.bct.service.auto_ss.TestEndorsement">
+                <methods>
+                    <include name="BCT_ONL_EmptyEndorsementAutoSS"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test name="Service - BCT_ONL_EmptyEndorsementHomeCADp3" preserve-order="true">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.bct.service.EndorsementTest">
+            <class name="aaa.modules.bct.service.home_ca.dp3.TestEndorsement">
                 <methods>
                     <include name="BCT_ONL_EmptyEndorsementHomeCADp3"/>
                 </methods>
             </class>
         </classes>
     </test>
+
     <test name="Service - BCT_ONL_EmptyEndorsementHomeCAHo3" preserve-order="true">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.bct.service.EndorsementTest">
+            <class name="aaa.modules.bct.service.home_ca.ho3.TestEndorsement">
                 <methods>
                     <include name="BCT_ONL_EmptyEndorsementHomeCAHo3"/>
                 </methods>
             </class>
         </classes>
     </test>
+
     <test name="Service - BCT_ONL_EmptyEndorsementHomeCAHo4" preserve-order="true">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.bct.service.EndorsementTest">
+            <class name="aaa.modules.bct.service.home_ca.ho4.TestEndorsement">
                 <methods>
                     <include name="BCT_ONL_EmptyEndorsementHomeCAHo4"/>
                 </methods>
             </class>
         </classes>
     </test>
+
     <test name="Service - BCT_ONL_EmptyEndorsementHomeCAHo6" preserve-order="true">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.bct.service.EndorsementTest">
+            <class name="aaa.modules.bct.service.home_ca.ho6.TestEndorsement">
                 <methods>
                     <include name="BCT_ONL_EmptyEndorsementHomeCAHo6"/>
                 </methods>
             </class>
         </classes>
     </test>
+
+    <test name="Service - BCT_ONL_EmptyEndorsementSSDp3" preserve-order="true">
+        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
+        <classes>
+            <class name="aaa.modules.bct.service.home_ss.dp3.TestEndorsement">
+                <methods>
+                    <include name="BCT_ONL_EmptyEndorsementHomeSSDp3"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Service - BCT_ONL_EmptyEndorsementSSHo3" preserve-order="true">
+        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
+        <classes>
+            <class name="aaa.modules.bct.service.home_ss.ho3.TestEndorsement">
+                <methods>
+                    <include name="BCT_ONL_EmptyEndorsementHomeSSHo3"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Service - BCT_ONL_EmptyEndorsementSSHo4" preserve-order="true">
+        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
+        <classes>
+            <class name="aaa.modules.bct.service.home_ss.ho4.TestEndorsement">
+                <methods>
+                    <include name="BCT_ONL_EmptyEndorsementHomeSSHo4"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Service - BCT_ONL_EmptyEndorsementSSHo6" preserve-order="true">
+        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
+        <classes>
+            <class name="aaa.modules.bct.service.home_ss.ho6.TestEndorsement">
+                <methods>
+                    <include name="BCT_ONL_EmptyEndorsementHomeSSHo6"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Service - BCT_ONL_EmptyEndorsementPUP" preserve-order="true">
+        <parameter name="state" value="AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
+        <classes>
+            <class name="aaa.modules.bct.service.pup.TestEndorsement">
+                <methods>
+                    <include name="BCT_ONL_EmptyEndorsementPUP"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>

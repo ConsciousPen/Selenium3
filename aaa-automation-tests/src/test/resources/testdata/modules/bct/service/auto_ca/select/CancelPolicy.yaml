@@ -1,17 +1,3 @@
-Cancellation_005: {
-  CancellationActionTab: {
-    Cancellation Reason: 'index=12',
-    Authorized By: QA
-  }
-}
-
-Cancellation_009: {
-  CancellationActionTab: {
-    Cancellation effective date: "$<today>",
-    Cancellation reason: "New Business Rescission - NSF on Down Payment"
-  }
-}
-
 Cancellation_013: {
   CancellationActionTab: {
     Cancel Date: "$<today>",
