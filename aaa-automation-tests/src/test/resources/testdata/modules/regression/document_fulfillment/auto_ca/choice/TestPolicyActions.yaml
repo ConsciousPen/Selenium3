@@ -1,0 +1,64 @@
+# -- Test data for CA state ---
+
+TestData: {
+  PrefillTab: '@<auto_ca_choice>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ca_choice>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ca_choice>@DataGather@DriverTab',
+  MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab',
+  VehicleTab: '@<auto_ca_choice>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ca_choice>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ca_choice>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab',
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
+}
+
+
+PremiumAndCoveragesTab: {
+  Payment Plan: Quarterly,
+  Policy term: Annual
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Personal Auto Application: Not Signed,
+    Deleting Uninsured Motorist Property Damage Coverage: Not Signed
+  },
+  #RequiredToIssue: { },
+  VehicleInformation: '@Vehicle1'
+}
+
+Vehicle1: {
+  "Are there any additional interest(s)?": 'No'
+}
+
+
+
+ErrorTab: {
+  ErrorsOverride: [{
+                     #Message: "contains=California Car Policy Application",
+                     Override: 'true',
+                     Approval: 'true',
+                     Duration: Term,
+                     Reason for override: 'Other',
+                   },
+                   {
+                     #Message: "contains=A signed Subscriber Agreement must be received prior to issuing this transaction"
+                     Override: 'true',
+                     Approval: 'true',
+                     Duration: Term,
+                     Reason for override: 'Other',
+
+                   }]
+}
+
+TestData_Plus33Days: {
+  CancelNoticeActionTab: '@CancelNoticeActionTab_Plus33Days'
+}
+
+CancelNoticeActionTab_Plus33Days: {
+  Cancellation effective date: '$<today+33d>',
+}
+
