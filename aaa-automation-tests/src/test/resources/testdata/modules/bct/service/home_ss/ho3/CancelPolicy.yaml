@@ -1,0 +1,6 @@
+Cancellation_009: {
+  CancellationActionTab: {
+    Cancellation effective date: "$<today>",
+    Cancellation reason: "New Business Rescission - NSF on Down Payment"
+  }
+}
