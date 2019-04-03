@@ -285,7 +285,9 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         // Create test data for one AF and one NAF accident
         List<TestData> tdActivity = new ArrayList<>();
         tdActivity.add(getActivityInfoTd(AF_ACCIDENT, PROPERTY_DAMAGE));
-        tdActivity.add(getActivityInfoTd(NAF_ACCIDENT, NOT_AT_FAULT).adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-23M>"));
+        tdActivity.add(getActivityInfoTd(NAF_ACCIDENT, NOT_AT_FAULT)
+                .mask(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel())
+                .adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-23M>"));
 
         // Initiate quote, fill up to P & C tab, and navigate to driver tab
         TestData td = getDefaultASWTd().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), tdActivity);
@@ -748,16 +750,17 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         calculatePremiumAndNavigateToDriverTab();
         validateIncludeInPoints(PROPERTY_DAMAGE, "No");
         validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+        DriverTab.tableActivityInformationList.resetAllFilters();
 
         // Add a second AF accident in past 33 months and validate
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        fillActivityDriverTab(getActivityInfoTd().adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-8M>"));
+        fillActivityDriverTab(getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY)
+                .adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-8M>")
+                .adjust(AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY.getLabel(), "click"));
         calculatePremiumAndNavigateToDriverTab();
         assertThat(DriverTab.tableActivityInformationList.getRow(1).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
         assertThat(DriverTab.tableActivityInformationList.getRow(2).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
 
         // Remove second claim and validate AFW is given
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         DriverTab.tableActivityInformationList.removeRow(2);
         calculatePremiumAndNavigateToDriverTab();
         validateIncludeInPoints(PROPERTY_DAMAGE, "No");
@@ -767,7 +770,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
         new GeneralTab().getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER).setValue("Progressive");
         calculatePremiumAndNavigateToDriverTab();
-        assertThat(DriverTab.tableActivityInformationList.getRow(1).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
+        validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
 
