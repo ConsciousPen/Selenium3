@@ -393,6 +393,13 @@ ErrorTab_PA: {
     Approval: 'true',
     Duration: Life,
     Reason for override: index=1
+   },
+   {
+    Code: 'AAA_SS190125',
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
    }
    ]  
 }
@@ -1479,7 +1486,7 @@ AASR22_IN: {
   VehicleDetails:  {
    VehItemNum: {TextField: '1'},
    VehManufactureYear: {TextField: '2011'},
-   VehMdelNm: {TextField: 'EXPRESS VAN'},
+   #VehMdelNm: {TextField: 'EXPRESS VAN'},
    VehManfrNm: {TextField: 'CHEVROLET'},
    VehTyp: {TextField: 'PPA'},
    VehIdNum: {TextField: '1GNWGPFG8B6548273'}
@@ -5390,7 +5397,7 @@ AA02IN_Renewal: {
     VehTyp: {TextField: 'PPA'},
     VehManufactureYear: {TextField: '2011'},
     VehManfrNm: {TextField: 'CHEVROLET'},
-    VehMdelNm: {TextField: 'EXPRESS VAN SPORT VAN'},
+    #VehMdelNm: {TextField: 'EXPRESS VAN SPORT VAN'},
     VehIdNum: {TextField: '1GNWGPFG8B6548273'},
     VehUnitNum: {TextField: '1'},
     VehDiscDesc: {TextField: 'Hybrid Discount; Multi-Vehicle Discount; Passive Restraint Discount'},

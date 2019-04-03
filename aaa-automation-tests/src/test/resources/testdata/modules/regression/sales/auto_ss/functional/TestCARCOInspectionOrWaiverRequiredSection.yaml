@@ -1,0 +1,68 @@
+TestData_AddMultipleVewhicleLessThan7YearsOld: {
+  VehicleTab: ['@TestData_VehicleTabMoreThan7YearOld', '@TestData_VehicleTabLessThan7YearOld', '@TestData_VehicleTabLessThan7YearOld1', '@TestData_VehicleTabLessThan7YearOld2', '@TestData_VehicleTabLessThan7YearOld3', '@TestData_VehicleTabLessThan7YearOld4', '@TestData_VehicleTabLessThan7YearOld5'],
+}
+TestData_VehicleTabMoreThan7YearOld: {
+  Add Vehicle: Click,
+  VIN: 1ZWFT61L615609832,
+  Usage: Pleasure,
+}
+
+TestData_VehicleTabLessThan7YearOld: {
+  Add Vehicle: Click,
+  VIN: 4T1BF1FK0HU761648,
+  Usage: Pleasure,
+  "Less Than 1,000 Miles": 'No'
+}
+
+TestData_VehicleTabLessThan7YearOld1: {
+  Add Vehicle: Click,
+  VIN: TRUC1AFV4H1007807,
+  Usage: Pleasure,
+  "Less Than 1,000 Miles": 'No'
+}
+
+TestData_VehicleTabLessThan7YearOld2: {
+  Add Vehicle: Click,
+  VIN: WAUG8AFC9HN061809,
+  Usage: Pleasure,
+  "Less Than 1,000 Miles": 'Yes'
+}
+
+TestData_VehicleTabLessThan7YearOld3: {
+  Add Vehicle: Click,
+  VIN: 1G1FA3DX5H0135768,
+  Usage: Pleasure,
+  "Less Than 1,000 Miles": 'Yes'
+}
+
+TestData_VehicleTabLessThan7YearOld4: {
+  Add Vehicle: Click,
+  VIN: WMWLU5C30H2E84398,
+  Usage: Pleasure,
+  "Less Than 1,000 Miles": 'Yes'
+}
+
+TestData_VehicleTabLessThan7YearOld5: {
+  Add Vehicle: Click,
+  VIN: 5N1DR2MM3HC630424,
+  Usage: Pleasure,
+  "Less Than 1,000 Miles": 'No'
+}
+
+TestData_addVehiclesEndorsement: {
+  VehicleTab: ['@TestData_addVehicleLessThan1000Miles_No', '@TestData_addVehicleLessThan1000Miles_Yes'],
+}
+
+TestData_addVehicleLessThan1000Miles_No: {
+  Add Vehicle: Click,
+  VIN: JF2GPAKC4HH227326, #2017, SUBARU, CROSSTREK
+  Usage: Pleasure,
+  "Less Than 1,000 Miles": 'No'
+}
+
+TestData_addVehicleLessThan1000Miles_Yes: {
+  Add Vehicle: Click,
+  VIN: KL4CJGSBXHB157286, #2017, BUICK, ENCORE
+  Usage: Pleasure,
+  "Less Than 1,000 Miles": 'Yes'
+}

@@ -1762,4 +1762,25 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		);
 	}
 
+	/**
+	 * @author Chaitanya Boyapati
+	 * @name View/Update UM/SUM Coverage for NY state
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsementCoverages service and validate response
+	 * 4. Update UM/SUM to "25/50", check update, view, change log responses and in PAS UI
+	 * 5. Update "50/100"  back to "25/50", check update, view, change log responses and in PAS UI
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NY})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15308"})
+	public void pas15308_UM_SUM_CoverageNY(@Optional("NY") String state) {
+		pas15308_UM_SUM_CoverageNYBody();
+	}
+
+
+
 }
+
