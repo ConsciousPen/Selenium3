@@ -76,7 +76,7 @@ public class JobUtils {
 	}
 
 	private static void executeJobLocally(JobGroup job) {
-		clearFolders(job);
+	//	clearFolders(job);
 		executeJobImpl(job);
 	}
 
