@@ -44,8 +44,7 @@ public class AppLogGrabber {
 	}
 
 	private URL getUrl(String testClassName, String typeUrl) throws MalformedURLException {
-		URL url = new URL(appUrl + typeUrl + testClassName + logFilePostfix);
-		return url;
+		return new URL(appUrl + typeUrl + testClassName + logFilePostfix);
 	}
 
 	public String grabAppLog(ITestResult result) {
