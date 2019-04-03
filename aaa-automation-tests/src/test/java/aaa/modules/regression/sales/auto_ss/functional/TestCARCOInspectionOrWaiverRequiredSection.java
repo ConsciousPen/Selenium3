@@ -87,7 +87,7 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_3).setValue(INSPECTION_RECEIVED);
 
 		//Make sure that after selecting Agreement, 'Inspection or Waiver Required' section is not reset (PAS-27828)
-		//documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).setValue("I agree");
+		documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).setValue("I agree");
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(3);//2017, AUDI, TTS
