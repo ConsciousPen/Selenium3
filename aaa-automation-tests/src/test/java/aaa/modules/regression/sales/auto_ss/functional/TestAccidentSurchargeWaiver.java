@@ -135,12 +135,14 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        fillActivityDriverTab(getActivityInfoTd().adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-8M>"));
+        fillActivityDriverTab(getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY)
+                .adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-8M>")
+                .adjust(AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY.getLabel(), "click"));
         calculatePremiumAndNavigateToDriverTab();
 
         validateIncludeInPoints(PROPERTY_DAMAGE, "No");
-        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_SDW);
-        assertThat(DriverTab.tableActivityInformationList.getRow(1).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+        validateIncludeInPoints(BODILY_INJURY, "Yes");
 
     }
 
@@ -629,6 +631,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         calculatePremiumAndNavigateToDriverTab();
 
         // Validate both violations and lowest point value accident receive SDW, other accident receives ASW
+        DriverTab.viewDriver(2);
         validateMultipleActivitiesOnSameDay();
 
     }
@@ -668,6 +671,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         calculatePremiumAndNavigateToDriverTab();
 
         // Validate both violations and lowest point value accident receive SDW, other accident receives ASW
+        DriverTab.viewDriver(2);
         validateMultipleActivitiesOnSameDay();
 
     }
@@ -726,7 +730,6 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     }
 
     private void validateMultipleActivitiesOnSameDay() {
-        DriverTab.viewDriver(2);
         validateIncludeInPoints(PROPERTY_DAMAGE, "No");
         validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_SDW);
 
