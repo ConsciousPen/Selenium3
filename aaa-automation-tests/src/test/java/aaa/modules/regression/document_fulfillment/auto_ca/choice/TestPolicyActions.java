@@ -25,7 +25,6 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
-import toolkit.utils.datetime.DateTimeUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -70,11 +69,10 @@ public class TestPolicyActions extends AutoCaChoiceBaseTest {
         installmentDueDates = BillingHelper.getInstallmentDueDates();
         renewalDate = installmentDueDates.get(0).plusYears(1);
         billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1));
+        cancellationDate = installmentDueDates.get(1).plusMonths(1);
 
 
-        JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-
-
+        // !!!   JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
         DocGenHelper.verifyDocumentsGenerated(true, false, policyNumber, DocGenEnum.Documents.AARFIXX);
 
 
@@ -107,7 +105,7 @@ public class TestPolicyActions extends AutoCaChoiceBaseTest {
 
 
         //DD4-20
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(1).plusMonths(1)));
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(cancellationDate));
 
         mainApp().open();
         SearchPage.openBilling(policyNumber);
@@ -123,7 +121,7 @@ public class TestPolicyActions extends AutoCaChoiceBaseTest {
 
 
         //DD4
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(1).plusMonths(1)));
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(cancellationDate));
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
 
@@ -144,14 +142,18 @@ public class TestPolicyActions extends AutoCaChoiceBaseTest {
         //DD4+33 (CED)
 
 
-        //IMPORTANT!!! IT NOT RIGHT - Expected correction
-        cancellationDate = getTimePoints().getCancellationDate(DateTimeUtils.getCurrentDateTime().plusDays(33));
-        TimeSetterUtil.getInstance().nextPhase(cancellationDate);
+        //IMPORTANT!!! IT'S NOT RIGHT - Expected correction
+
+        log.info("Policy Cancellation Started...");
+
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(cancellationDate.plusDays(33)));
         JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
         JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+        log.info("Assert is successful");
 
 
         //DD6-20
@@ -159,9 +161,18 @@ public class TestPolicyActions extends AutoCaChoiceBaseTest {
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(2)));
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
-        policy.reinstate().perform(getPolicyTD("ReinStateement", "Testdata"));
+        policy.reinstate().start();
+        policy.reinstate().getView().fill(getPolicyTD("Reinstatement", "TestData"));
+        policy.reinstate().submit();
 
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+        SearchPage.openBilling(policyNumber);
+
+        billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(2));
+        new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(2), billGenDate);
+        new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 
         //DD6
 
