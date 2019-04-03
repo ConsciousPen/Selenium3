@@ -105,6 +105,9 @@ public class TestPolicyActions extends AutoCaChoiceBaseTest {
 
 
         //DD4-20
+
+        log.info("DD4-20");
+
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(cancellationDate));
 
         mainApp().open();
@@ -121,6 +124,9 @@ public class TestPolicyActions extends AutoCaChoiceBaseTest {
 
 
         //DD4
+
+        log.info("DD4");
+
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(cancellationDate));
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
@@ -142,7 +148,8 @@ public class TestPolicyActions extends AutoCaChoiceBaseTest {
         //DD4+33 (CED)
 
 
-        //IMPORTANT!!! IT'S NOT RIGHT - Expected correction
+        log.info("DD4+33");
+
 
         log.info("Policy Cancellation Started...");
 
@@ -153,15 +160,22 @@ public class TestPolicyActions extends AutoCaChoiceBaseTest {
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-        log.info("Assert is successful");
+
 
 
         //DD6-20
 
+        log.info("DD6-20");
+
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(2)));
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
+
+        //delete
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+
         policy.reinstate().start();
+        //    int reinstateday_plus1 = Integer.parseInt(policy.cancelNotice().getView().getTab(ReinstatementActionTab.class).getAssetList().getAsset(AutoCaMetaData.ReinstatementActionTab.REINSTATE_DATE.getLabel(), TextBox.class).getValue());
         policy.reinstate().getView().fill(getPolicyTD("Reinstatement", "TestData"));
         policy.reinstate().submit();
 
@@ -176,6 +190,8 @@ public class TestPolicyActions extends AutoCaChoiceBaseTest {
 
         //DD6
 
+        log.info("DD6");
+
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(2)));
         mainApp().open();
         SearchPage.openBilling(policyNumber);
@@ -183,10 +199,16 @@ public class TestPolicyActions extends AutoCaChoiceBaseTest {
 
         //DD9-20
 
+
+        log.info("DD9-20");
+
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(3)));
         JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
         mainApp().open();
         SearchPage.openBilling(policyNumber);
+
+
+        //Required fix
 
         billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(3));
         new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(3), billGenDate);
@@ -194,6 +216,8 @@ public class TestPolicyActions extends AutoCaChoiceBaseTest {
 
 
         //DD9
+
+        log.info("DD9");
 
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(3)));
         mainApp().open();
