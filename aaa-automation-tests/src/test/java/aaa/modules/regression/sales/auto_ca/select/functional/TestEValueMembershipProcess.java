@@ -270,6 +270,7 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 
 	private String membershipPolicyCreation(String status) {
 		mainApp().open();
+		createCustomerIndividual();
 		createQuote();
 		policy.dataGather().start();
 		setMembershipAndRate(status, false);
