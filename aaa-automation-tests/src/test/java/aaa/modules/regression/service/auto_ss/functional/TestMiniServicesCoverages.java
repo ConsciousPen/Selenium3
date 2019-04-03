@@ -1706,7 +1706,6 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas16040_sslCoverageNYBody();
 	}
 
-
 	/**
 	 * @author Nauris Ivanans
 	 * @name View/Update Workplace Loss Benefits
@@ -1725,8 +1724,14 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas16041_wlbCoverageNYBody();
 	}
 
-
-
+	/**
+	 * @author Megha Gubbala
+	 * @name SpEquipmentUpdatedWhenCollisionDeclined
+	 * @scenario
+	 * 1. Create policy in PAS create an endorsement
+	 * 2. update COMPDED -1 verify Special Equipment
+	 * 3. Update COMPDED to 500 verify Special Equipment go back to default value
+	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.AZ,Constants.States.KY, Constants.States.CO,  Constants.States.CT,  Constants.States.DC , Constants.States.DE, Constants.States.ID, Constants.States.IN,Constants.States.KS,Constants.States.MD,Constants.States.MT,Constants.States.NV,Constants.States.NY,Constants.States.OH,Constants.States.OK,Constants.States.OR,Constants.States.SD,Constants.States.WV,Constants.States.WY,Constants.States.PA,Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -1737,6 +1742,16 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		);
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name pas27134_UpdateCoveragesOregonPdAndUmpd
+	 * @scenario
+	 * 1. Create policy in PAS create an endorsement
+	 * 2. verify UMPD is no coverage
+	 * 3. add vehicle verify UMPD for new vehicle is No coverage
+	 * 4. Update UMPD on one vehicle to match PD
+	 * 5. Update PD lower verify Umpd also change
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@StateList(states = {Constants.States.OR})

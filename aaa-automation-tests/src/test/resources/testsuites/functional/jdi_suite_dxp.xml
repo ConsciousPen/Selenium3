@@ -119,6 +119,7 @@
                     <include name="pas14693_updateCoverageRentalReimbursement"/>
                     <include name="pas17642_UpdateCoverageADB"/>
                     <include name="pas20344_trailerMotorHomeAndGolfCartViewCoverage"/>
+                    <include name="pas27201_SpEquipmentUpdatedWhenCollisionDeclined"/>
                 </methods>
             </class>
         </classes>
@@ -129,6 +130,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas17642_UpdateCoverageADB"/>
+                    <include name="pas27201_SpEquipmentUpdatedWhenCollisionDeclined"/>
                 </methods>
             </class>
         </classes>
@@ -877,6 +879,7 @@
                 <methods>
                     <include name="pas15365_viewUpdatePIPCoverage_OR"/>
                     <include name="pas16112_umpdOregonViewCoverage"/>
+                    <include name="pas27134_UpdateCoveragesOregonPdAndUmpd"/>
                 </methods>
             </class>
         </classes>
