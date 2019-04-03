@@ -3,6 +3,7 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import static aaa.main.enums.ErrorEnum.Errors.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.io.IOException;
@@ -71,6 +72,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private RadioGroup aacsdcRule = documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.DISTRICT_OF_COLUMBIA_COVERAGE_SELECTION_REJECTION_FORM);
 	private static final AssetDescriptor<RadioGroup> REQUIRED_TO_BIND_AAIFNJ3 = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.ACNOWLEDGEMENT_OF_REQUIREMENT_FOR_INSURANCE_INSPECTION;
 	private static final AssetDescriptor<RadioGroup> REQUIRED_TO_BIND_AAIFNJ4 = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.INSPECTION_WAIVER_SALES_AGREEMENT_REQUIRED;
+	private static final AssetDescriptor<RadioGroup> REQUIRED_TO_BIND_AAIFNYD = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.ACNOWLEDGEMENT_OF_REQUIREMENT_FOR_PHIOTO_INSPECTION;
+	private static final AssetDescriptor<RadioGroup> REQUIRED_TO_BIND_AAIFNYE = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.COPY_OF_SALES_AGREEMENT;
 
 	/**
 	 * @author Jovita Pukenaite
@@ -618,7 +621,9 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23573", "PAS-24605"})
 	public void pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC01(@Optional("NJ") String state) {
-		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, false, false, false, false);
+		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, 4,false, false,
+                false, false, REQUIRED_TO_BIND_AAIFNJ3, REQUIRED_TO_BIND_AAIFNJ4,
+                ERROR_200200_NJ, ERROR_200204_NJ);
 	}
 
 	@Parameters({"state"})
@@ -626,7 +631,9 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23573", "PAS-24605"})
 	public void pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC02(@Optional("NJ") String state) {
-		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, true, false, false, false);
+		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, 4, true, false,
+                false, false, REQUIRED_TO_BIND_AAIFNJ3, REQUIRED_TO_BIND_AAIFNJ4,
+                ERROR_200200_NJ, ERROR_200204_NJ);
 	}
 
 	@Parameters({"state"})
@@ -634,7 +641,48 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23573", "PAS-24605"})
 	public void pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC03(@Optional("NJ") String state) {
-		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, true, true, false, false);
+		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, 4, true, true,
+                false, false, REQUIRED_TO_BIND_AAIFNJ3, REQUIRED_TO_BIND_AAIFNJ4,
+                ERROR_200200_NJ, ERROR_200204_NJ);
+	}
+
+	/**
+	 * @author Sabra Domeika
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement in PAS.
+	 * 3. Add/replace vehicle in PAS
+	 * 4. Check that Required for Bind Section does NOT include AAIFNYD OR AAIFNYE
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NY})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-25024", "PAS-27414"})
+	public void pas25024_CARCONotNeededInsidePASAddReplaceVehicleTC01(@Optional("NY") String state) {
+		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, 2,false, false,
+				false, false, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE,
+                ERROR_200200_NY, ERROR_200200_NY);
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NY})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-25024", "PAS-27414"})
+	public void pas25024_CARCONotNeededInsidePASAddReplaceVehicleTC02(@Optional("NY") String state) {
+		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, 2, true, false,
+				false, false, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE,
+				ERROR_200200_NY, ERROR_200200_NY);
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NY})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-25024", "PAS-27414"})
+	public void pas25024_CARCONotNeededInsidePASAddReplaceVehicleTC03(@Optional("NY") String state) {
+		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, 2, true, true,
+				false, false, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE,
+				ERROR_200200_NY, ERROR_200200_NY);
 	}
 
 	/**
@@ -652,7 +700,9 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-26123", "PAS-24605"})
 	public void pas26123_CARCOFormAAIFNJ4InsidePASAddReplaceVehicle(@Optional("NJ") String state) {
-		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, true, true, false, true);
+		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, 4, true, true,
+				false, true, REQUIRED_TO_BIND_AAIFNJ3, REQUIRED_TO_BIND_AAIFNJ4,
+				ERROR_200200_NJ, ERROR_200204_NJ);
 	}
 
 	/**
@@ -670,7 +720,9 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21648", "PAS-24605"})
 	public void pas21648_CARCOFormAAIFNJ3InsidePASAddReplaceVehicleTC01(@Optional("NJ") String state) {
-		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, true, false, true, false);
+		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, 4, true, false,
+				true, false, REQUIRED_TO_BIND_AAIFNJ3, REQUIRED_TO_BIND_AAIFNJ4,
+				ERROR_200200_NJ, ERROR_200204_NJ);
 	}
 
 	@Parameters({"state"})
@@ -678,7 +730,9 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21648", "PAS-24605"})
 	public void pas21648_CARCOFormAAIFNJ3InsidePASAddReplaceVehicleTC02(@Optional("NJ") String state) {
-		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, false, false, false, false);
+		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, 4, false, false,
+				false, false, REQUIRED_TO_BIND_AAIFNJ3, REQUIRED_TO_BIND_AAIFNJ4,
+				ERROR_200200_NJ, ERROR_200204_NJ);
 	}
 
 	/**
@@ -1524,7 +1578,10 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		}
 	}
 
-	private void carcoNeededNotNeededInsidePASAddReplaceVehicle(boolean baseDateGreaterThan4Years, boolean is1000MilesQuestionRequired, boolean lessThan1000Miles, boolean isAAIFNJ3Expected, boolean isAAIFNJ4Expected) {
+	private void carcoNeededNotNeededInsidePASAddReplaceVehicle(boolean baseDateGreaterThanThreshold, int baseDateRange, boolean is1000MilesQuestionRequired,
+																boolean lessThan1000Miles, boolean isSalesAgreementExpected, boolean isInspectionExpected,
+																AssetDescriptor<RadioGroup> salesAgreementFormName, AssetDescriptor<RadioGroup> inspectionFormName,
+                                                                ErrorEnum.Errors salesAgreementError, ErrorEnum.Errors inspectionError) {
 		String replaceVin;
 		String addVin;
 		String baseDate;
@@ -1536,10 +1593,10 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			addVin = "TestData_VehicleTabMoreThan7YearOld"; //vehicle age must be more than 7 years
 		}
 
-		if (baseDateGreaterThan4Years) {
-			baseDate = "$<today-4y-1d:MM/dd/yyyy>";
+		if (baseDateGreaterThanThreshold) {
+			baseDate = "$<today-" + baseDateRange + "y-1d:MM/dd/yyyy>";
 		} else {
-			baseDate = "$<today-4y:MM/dd/yyyy>";
+			baseDate = "$<today-" + baseDateRange + "y:MM/dd/yyyy>";
 		}
 
 		TestData td = getPolicyDefaultTD();
@@ -1566,8 +1623,10 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
 		//Verify CARCO in Documents and Bind tab
-		verifyCarcoAIFNJ3InDocAndBindTab(isAAIFNJ3Expected);
-		verifyCarcoAIFNJ4InDocAndBindTab(isAAIFNJ4Expected);
+        verifyCarcoDocumentsInDocAndBindTab(isSalesAgreementExpected, salesAgreementFormName, inspectionFormName,
+                salesAgreementError, salesAgreementError.equals(inspectionError) ? null : inspectionError);
+        verifyCarcoDocumentsInDocAndBindTab(isInspectionExpected, inspectionFormName, salesAgreementFormName,
+                inspectionError, inspectionError.equals(salesAgreementError) ? null : salesAgreementError);
 		documentsAndBindTab.submitTab();
 		// Document does not exist for endorsements inside PAS
 		verifyAAIFNJ3AndAAIFNJ4NotGenerated(AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
@@ -1576,15 +1635,15 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		TestData tdAddVehicle = getPolicyDefaultTD().adjust(new VehicleTab().getMetaKey(), getTestSpecificTD(addVin)).resolveLinks();
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		if (isAAIFNJ3Expected) {
-			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ3)).hasValue("Physically Signed");
+		if (isSalesAgreementExpected) {
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(salesAgreementFormName)).hasValue("Physically Signed");
 		} else {
-			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ3)).isPresent(false);
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(salesAgreementFormName)).isPresent(false);
 		}
-		if (isAAIFNJ4Expected) {
-			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ4)).hasValue("Physically Signed");
+		if (isInspectionExpected) {
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(inspectionFormName)).hasValue("Physically Signed");
 		} else {
-			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(REQUIRED_TO_BIND_AAIFNJ4)).isPresent(false);
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(inspectionFormName)).isPresent(false);
 		}
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
@@ -1600,12 +1659,35 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		premiumAndCoveragesTab.calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		//Verify CARCO in Documents and Bind tab
-		verifyCarcoAIFNJ3InDocAndBindTab(isAAIFNJ3Expected);
-		verifyCarcoAIFNJ4InDocAndBindTab(isAAIFNJ4Expected);
+        verifyCarcoDocumentsInDocAndBindTab(isSalesAgreementExpected, salesAgreementFormName, inspectionFormName,
+                salesAgreementError, salesAgreementError.equals(inspectionError) ? null : inspectionError);
+        verifyCarcoDocumentsInDocAndBindTab(isInspectionExpected, inspectionFormName, salesAgreementFormName,
+                inspectionError, inspectionError.equals(salesAgreementError) ? null : salesAgreementError);
 		documentsAndBindTab.submitTab();
 		// Document does not exist for endorsements inside PAS
-		verifyAAIFNJ3AndAAIFNJ4NotGenerated(AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
+		if (salesAgreementFormName.equals(REQUIRED_TO_BIND_AAIFNJ3) || inspectionFormName.equals(REQUIRED_TO_BIND_AAIFNJ4)) {
+			verifyAAIFNJ3AndAAIFNJ4NotGenerated(AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
+		}
 	}
+
+	private void verifyCarcoDocumentsInDocAndBindTab(boolean expectDocument, AssetDescriptor<RadioGroup> documentToValidate,
+                                                     AssetDescriptor<RadioGroup> documentNotExpected,
+                                                     ErrorEnum.Errors errorExpected,
+                                                     ErrorEnum.Errors errorNotExpected) {
+	    if (expectDocument) {
+            assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentToValidate)).isPresent(true).hasValue("Not Signed");
+            assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentNotExpected)).isPresent(false);//just in case
+            documentsAndBindTab.submitTab();
+            errorTab.verify.errorsPresent(true, errorExpected);
+            if (errorNotExpected != null) {
+                errorTab.verify.errorsPresent(false, errorNotExpected);//just in case
+            }
+            errorTab.cancel();
+            documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentToValidate).setValue("Physically Signed");
+        } else {
+            assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentToValidate)).isPresent(false);
+        }
+    }
 
 	private void verifyCarcoAIFNJ3InDocAndBindTab(boolean isAAIFNJ3Expected) {
 		if (isAAIFNJ3Expected) {
@@ -1704,7 +1786,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		verifyAAIFNJ3AndAAIFNJ4NotGenerated(AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
 	}
 
-	private void verifyAAIFNJ3AndAAIFNJ4NotGenerated(AaaDocGenEntityQueries.EventNames eventName) {
+	private void verifyAAIFNJ3AndAAIFNJ4NotGenerated(AaaDocGenEntityQueries.EventNames eventName, DocGenEnum.Documents... documents) {
 		DocGenHelper.checkDocumentsDoesNotExistInXml(PolicySummaryPage.getPolicyNumber(), eventName, DocGenEnum.Documents.AAIFNJ3);
 		DocGenHelper.checkDocumentsDoesNotExistInXml(PolicySummaryPage.getPolicyNumber(), eventName, DocGenEnum.Documents.AAIFNJ4);
 	}
@@ -1720,12 +1802,12 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			ErrorEnum.Errors error;
 			if (isLessThan1000Miles) {
 				docAAIFNJ3OrAAINJ4 = DocGenEnum.Documents.AAIFNJ4;
-				error = ErrorEnum.Errors.ERROR_200204_NJ;
+				error = ERROR_200204_NJ;
 				//Update isLessThan1000Miles to true/yes
 				updateLessThan1000MilesToTrue(policyNumber, addedVehicleOid);
 			} else {
 				docAAIFNJ3OrAAINJ4 = DocGenEnum.Documents.AAIFNJ3;
-				error = ErrorEnum.Errors.ERROR_200200_NJ;
+				error = ERROR_200200_NJ;
 			}
 			//Try to bind without signing
 			docId1 = checkDocumentInRfiService(policyNumber, docAAIFNJ3OrAAINJ4.getId(), docAAIFNJ3OrAAINJ4.getName());
@@ -1762,10 +1844,10 @@ public class TestServiceRFI extends AutoSSBaseTest {
 				//Update isLessThan1000Miles to true/yes
 				updateLessThan1000MilesToTrue(policyNumber, replacedVehicleOid);
 				docId1 = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AAIFNJ4.getId(), DocGenEnum.Documents.AAIFNJ4.getName());
-				helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_200204_NJ.getCode(), ErrorEnum.Errors.ERROR_200204_NJ.getMessage(), "attributeForRules");
+				helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ERROR_200204_NJ.getCode(), ERROR_200204_NJ.getMessage(), "attributeForRules");
 			} else {
 				docId1 = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AAIFNJ3.getId(), DocGenEnum.Documents.AAIFNJ3.getName());
-				helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_200200_NJ.getCode(), ErrorEnum.Errors.ERROR_200200_NJ.getMessage(), "attributeForRules");
+				helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ERROR_200200_NJ.getCode(), ERROR_200200_NJ.getMessage(), "attributeForRules");
 			}
 
 			//Bind policy with docId and document is electronically signed
@@ -1842,11 +1924,11 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		if (is1000MilesQuestionRequired) {
 			if (isLessThan1000Miles) {
 				docAAIFNJ3OrAAINJ4 = DocGenEnum.Documents.AAIFNJ4;
-				error = ErrorEnum.Errors.ERROR_200204_NJ;
+				error = ERROR_200204_NJ;
 				docId = checkDocumentInRfiService(policyNumber, docAAIFNJ3OrAAINJ4.getId(), docAAIFNJ3OrAAINJ4.getName());
 			} else {
 				docAAIFNJ3OrAAINJ4 = DocGenEnum.Documents.AAIFNJ3;
-				error = ErrorEnum.Errors.ERROR_200200_NJ;
+				error = ERROR_200200_NJ;
 				docId = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AAIFNJ3.getId(), DocGenEnum.Documents.AAIFNJ3.getName());
 			}
 			//Try to bind without signing the document
