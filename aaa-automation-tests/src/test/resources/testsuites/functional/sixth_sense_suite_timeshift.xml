@@ -72,7 +72,6 @@
                 <methods>
                     <include name="pas23995_testAccidentSurchargeWaiverAgedRenewalCAS"/>
                     <include name="pas24673_testASWForTwoDriversWhenOneAccidentAgesOut"/>
-                    <include name="pas24673_testASWForSecondAccidentAfterFirstAgesOut"/>
                 </methods>
             </class>
         </classes>

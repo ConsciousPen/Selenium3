@@ -44,7 +44,6 @@
                 <methods>
                     <exclude name="pas23995_testAccidentSurchargeWaiverAgedRenewalCAS"/>
                     <exclude name="pas24673_testASWForTwoDriversWhenOneAccidentAgesOut"/>
-                    <exclude name="pas24673_testASWForSecondAccidentAfterFirstAgesOut"/>
                 </methods>
             </class>
         </classes>
