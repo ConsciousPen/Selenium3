@@ -12,7 +12,7 @@ import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.Job;
-import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import aaa.modules.policy.BackwardCompatibilityBaseTest;
 
 public class AgingJobs extends BackwardCompatibilityBaseTest {
 

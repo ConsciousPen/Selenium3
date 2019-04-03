@@ -1,3 +1,5 @@
+# Probably not used anywhere
+
 TestData: {
   EndorsementActionTab: {
     Endorsement Reason: 'index=2'
@@ -8,17 +10,6 @@ TestData: {
   PropertyInfoTab: '',
   PremiumsAndCoveragesQuoteTab: '',
   BindTab: '',
-}
-
-TestDataInquiryAutoSS: {
-  GeneralTab: {},
-  DriverTab: {},
-  RatingDetailReportsTab: {},
-  VehicleTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {},
 }
 
 TestDataInquiryAutoSS_NY: {
@@ -126,6 +117,7 @@ TestDataEndorseHomeSS: {
   ApplicantTab: '@GeneralTab',
   ReportsTab: {},
   PropertyInfoTab: {},
+  ProductOfferingTab: {},
   EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: {}
 }
@@ -182,19 +174,6 @@ TestDataEndorseAutoCA: {
   AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {}
-}
-
-TestDataInquiryHomeCA: {
-  GeneralTab: {},
-  ApplicantTab: {},
-  ReportsTab: {},
-  PropertyInfoTab: {},
-  EndorsementTab: {},
-  PremiumsAndCoveragesQuoteTab: {},
-  MortgageesTab: {},
-  UnderwritingAndApprovalTab: {},
-  DocumentsTab: {},
-  BindTab: {},
 }
 
 TestDataEndorseHomeCA: {

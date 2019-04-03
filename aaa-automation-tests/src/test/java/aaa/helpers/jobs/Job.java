@@ -38,4 +38,12 @@ public class Job{
 	public String getJobName(){
 		return jobName;
 	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+				.append("jobFolders", jobFolders)
+				.append("jobName", jobName)
+				.toString();
+	}
 }

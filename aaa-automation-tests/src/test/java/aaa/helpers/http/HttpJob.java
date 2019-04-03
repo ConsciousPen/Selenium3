@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import aaa.common.enums.JobResultEnum;
 import aaa.helpers.http.impl.*;
 import aaa.helpers.jobs.Job;
-import aaa.modules.bct.batch.BackendJobNames;
+import aaa.modules.batch.BackendJobNames;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 
@@ -200,6 +200,8 @@ public class HttpJob {
 
 
 
+	@Deprecated
+	//todo verify
 	public static class JobStatistic {
 
 		public static String getLastProcessedStatistic(String response, Job job) {
@@ -246,7 +248,7 @@ public class HttpJob {
 			for (String row : rows) {
 				if (row.contains("Job processed")) {
 					try {
-						String backendJobName = String.format(JOB_LOGS_STATISTICS_REGEX, BackendJobNames.getBackEndJobNames(job));
+						String backendJobName = String.format(JOB_LOGS_STATISTICS_REGEX, BackendJobNames.getBackendJobNames(job));
 						allStatistics.add(HttpHelper.find(row, backendJobName));
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -317,7 +319,7 @@ public class HttpJob {
 		} catch (IOException io) { // if it never started, block with data is not present
 			result = 0;
 		}
-		log.info("HTTP: Job executed {} times, detailed job runs statistic: {}", result, jobRunStatistic);
+		//log.info("HTTP: Job executed {} times, detailed job runs statistic: {}", result, jobRunStatistic);
 		return result;
 	}
 
@@ -334,7 +336,7 @@ public class HttpJob {
 				break;
 			}
 		}
-		log.info("HTTP: Current {} run status: {}", jobName, status);
+		//log.info("HTTP: Current {} run status: {}", jobName, status);
 		return status;
 	}
 

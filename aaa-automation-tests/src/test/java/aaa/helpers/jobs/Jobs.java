@@ -210,7 +210,6 @@ public class Jobs {
 
 	public static Job aaaGenerateEscheatmentReportJob = new Job("aaaGenerateEscheatmentReportJob");
 
-
 	public enum JobState {
 		TRUE, FALSE, FAILED
 	}
