@@ -39,8 +39,6 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
     private File claimResponseFile;
 
-    private PurchaseTab purchaseTab = new PurchaseTab();
-
     private static final String TEST_DRIVER = "TestDriver";
 
     // Activity Types
@@ -622,7 +620,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
                 GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData(),
                 DriverTab.class.getSimpleName(), getSecondDriverTd().adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), tdActivity));
 
-        // Create policy and add endorssement with activity
+        // Create policy and add endorsement with activity
         openAppAndCreatePolicy(getDefaultASWTd());
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         policy.getDefaultView().fill(tdEndorsementFill);
