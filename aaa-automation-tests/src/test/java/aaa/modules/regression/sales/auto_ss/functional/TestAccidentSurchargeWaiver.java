@@ -38,6 +38,9 @@ import toolkit.utils.TestInfo;
 public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
     private File claimResponseFile;
+
+    private PurchaseTab purchaseTab = new PurchaseTab();
+
     private static final String TEST_DRIVER = "TestDriver";
 
     // Activity Types
@@ -369,7 +372,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         policy.getDefaultView().fillFromTo(getPolicyTD(), DocumentsAndBindTab.class, PurchaseTab.class, true);
-        new PurchaseTab().submitTab();
+        purchaseTab.submitTab();
 
         // Initiate endorsement and add second driver with AF accident in past 33 months
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -478,7 +481,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         policy.getDefaultView().fillFromTo(getPolicyTD(), DocumentsAndBindTab.class, PurchaseTab.class, true);
-        new PurchaseTab().submitTab();
+        purchaseTab.submitTab();
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 
         // Advance time to renewal reports order date and create renewal image
@@ -538,7 +541,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         policy.getDefaultView().fillFromTo(getPolicyTD(), DocumentsAndBindTab.class, PurchaseTab.class, true);
-        new PurchaseTab().submitTab();
+        purchaseTab.submitTab();
 
         // Initiate renewal and add second AF accident for driver
         policy.renew().perform();
