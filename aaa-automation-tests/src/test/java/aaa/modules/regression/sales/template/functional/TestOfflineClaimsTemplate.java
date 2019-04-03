@@ -620,10 +620,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         activityAssertions(2,1,4, 3, "Customer Input", "", false);
         activityAssertions(2,1,4, 4, "Customer Input", "", false);
         driverTab.submitTab();
-        policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class, PremiumAndCoveragesTab.class,true);
-        premiumAndCoveragesTab.submitTab();
-        DriverActivityReportsTab driverActivityReportTab = new DriverActivityReportsTab();
-        driverActivityReportTab.fillTab(adjusted);
+        policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class, DriverActivityReportsTab.class,true);
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         tableDriverList.selectRow(1);
         tableActivityInformationList.selectRow(5);
@@ -636,9 +633,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         new PurchaseTab().submitTab();
         policyNumber = PolicySummaryPage.getPolicyNumber();
         log.info("Policy created successfully. Policy number is " + policyNumber);
-        mainApp().close();
         //Initiate an endorsement
-        mainApp().open();
         SearchPage.openPolicy(policyNumber);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
