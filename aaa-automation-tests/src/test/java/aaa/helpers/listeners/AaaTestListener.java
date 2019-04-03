@@ -51,7 +51,7 @@ public class AaaTestListener extends TestngTestListener2 implements IExecutionLi
 	@Override
 	protected void createAuxAttachments(ITestResult result) {
 		if (result.getTestContext().getAttribute("attachment") != null) {
-			createAttachment(result, result.getTestContext().getAttribute("attachment").toString(), Attachment.Type.OTHER);
+			createAttachment(result, result.getTestContext().getAttribute("attachment").toString(), Attachment.Type.OTHER, null, null);
 		}
 
 		createRatingEngineLogAttachment(result, RatingEngineLogsGrabber.RATING_REQUEST_TEST_CONTEXT_ATTR_NAME);
@@ -59,7 +59,7 @@ public class AaaTestListener extends TestngTestListener2 implements IExecutionLi
 
 		String appLogPath = new AppLogGrabber().grabAppLog(result);
 		if (appLogPath != null) {
-			createAttachment(result, appLogPath, Attachment.Type.APP_LOG);
+			createAttachment(result, appLogPath, Attachment.Type.APP_LOG, null, null);
 		}
 	}
 
@@ -111,7 +111,7 @@ public class AaaTestListener extends TestngTestListener2 implements IExecutionLi
 	private void createRatingEngineLogAttachment(ITestResult result, String ratingTestContextAttrName) {
 		ITestContext context = result.getTestContext();
 		if (context.getAttribute(ratingTestContextAttrName) != null) {
-			createAttachment(result, context.getAttribute(ratingTestContextAttrName).toString(), Attachment.Type.OTHER);
+			createAttachment(result, context.getAttribute(ratingTestContextAttrName).toString(), Attachment.Type.OTHER, null, null);
 			context.removeAttribute(ratingTestContextAttrName); // needed to prevent wrong log attachment if rating log gathering will fail for next test
 		}
 	}
