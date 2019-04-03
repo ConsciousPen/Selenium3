@@ -312,7 +312,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-25887"})
 	public void pas25887_dataGatherComparisonAssignment(@Optional("NY") String state) {
-		dataGatherComparison(getTDNewBusiness(), getTDAssignmentVersion1(), getTDAssignmentVersion2(), VersionsComparisonConstants.CONTACT_INFORMATION, "AssignmentTab", "DriverVehicleRelationshipTable");
+		dataGatherComparison(getTDNewBusiness(), getTDAssignmentVersion1(), getTDAssignmentVersion2(), VersionsComparisonConstants.ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
 	}
 
 	@Parameters({STATE_PARAM})
@@ -320,7 +320,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-25887"})
 	public void pas25887_endorsementsComparisonAssignment(@Optional("NY") String state) {
-		endorsementComparison(getTDNewBusiness(), getTDAssignmentNoChangeVersion(), getTDAssignmentVersion2(), VersionsComparisonConstants.CONTACT_INFORMATION, "AssignmentTab", "DriverVehicleRelationshipTable");
+		endorsementComparison(getTDNewBusiness(), getTDAssignmentNoChangeVersion(), getTDAssignmentVersion2(), VersionsComparisonConstants.ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
 	}
 
 	@Parameters({STATE_PARAM})
@@ -328,7 +328,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-25887"})
 	public void pas25887_renewalComparisonAssignment(@Optional("NY") String state) {
-		renewalComparison(getTDNewBusiness(), getTDAssignmentNoChangeVersion(), getTDAssignmentVersion2(), VersionsComparisonConstants.CONTACT_INFORMATION, "AssignmentTab", "DriverVehicleRelationshipTable");
+		renewalComparison(getTDNewBusiness(), getTDAssignmentNoChangeVersion(), getTDAssignmentVersion2(), VersionsComparisonConstants.ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
 	}
 
 }

@@ -1077,7 +1077,6 @@ GeneralTab_NY: {
 
 NamedInsuredInformation_NY: {
   First Name: NBFirstName,
-  Middle Name: NB,
   Last Name: NBLastName,
   Social Security Number: 123456789,
   "Has lived here for less than three years?": 'No',
@@ -1128,15 +1127,69 @@ Vehicle_Add_version1: {
 
 AssignedDriver1: {
     Driver: 'contains=NBFirstName',
-    Select Vehicle: 'index=1'
+    Select Vehicle: '2011, CHEVROLET, EXPRESS VAN'
 }
 
 AssignedDriver2: {
     Driver: 'contains=New Driver2',
-    Select Vehicle: 'index=2'
+    Select Vehicle: '2011, MERCEDES-BENZ, G55AMG'
 }
 
 AssignedDriver3: {
     Driver: 'contains=New Driver3',
-    Select Vehicle: 'index=3'
+    Select Vehicle: '1996, MAZDA, MX-5 MIATA'
+}
+
+TestData_Assignment_Version1: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: [
+      {
+        Driver: 'contains=NBFirstName',
+        Select Vehicle: '1996, MAZDA, MX-5 MIATA'
+      },
+      {
+          Driver: 'contains=New Driver2',
+          Select Vehicle: '2011, CHEVROLET, EXPRESS VAN'
+      },
+      {
+          Driver: 'contains=New Driver3',
+          Select Vehicle: '2011, MERCEDES-BENZ, G55AMG'
+      }
+    ]
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+TestData_Assignment_Version2: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {
+      DriverVehicleRelationshipTable: [
+        {
+          Driver: 'contains=NBFirstName',
+          Select Vehicle: '2011, MERCEDES-BENZ, G55AMG'
+        },
+        {
+            Driver: 'contains=New Driver2',
+            Select Vehicle: '1996, MAZDA, MX-5 MIATA'
+        },
+        {
+            Driver: 'contains=New Driver3',
+            Select Vehicle: '2011, CHEVROLET, EXPRESS VAN'
+        }
+      ]
+    },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
 }
