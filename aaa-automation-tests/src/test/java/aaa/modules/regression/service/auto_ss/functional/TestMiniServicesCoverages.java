@@ -264,6 +264,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		);
 	}
 
+
 	/**
 	 * @author Jovita Pukenaite
 	 * @name Add new vehicle when you had Vehicle, without Transportation Expense before.
