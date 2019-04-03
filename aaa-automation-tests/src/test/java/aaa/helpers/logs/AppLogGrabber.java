@@ -26,7 +26,7 @@ public class AppLogGrabber {
 	private String logFilePostfix = ".log";
 
 	private List<String> urlParts = Arrays.asList(
-			"/user-logs/e2e/");
+			PropertyProvider.getProperty("e2e.logs","/user-logs/e2e/"));
 
 	private String getTestLogName(ITestResult result) {
 		String methodName = result.getTestClass().getName() + "." + result.getMethod().getMethodName();
