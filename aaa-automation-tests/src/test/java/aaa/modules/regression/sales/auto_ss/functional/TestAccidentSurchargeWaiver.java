@@ -270,17 +270,20 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27346")
     public void pas24673_oneAFAndOneNAFAccidentNB(@Optional("") String state) {
 
-        // Create test data for one AF and one NAF accident
-        List<TestData> tdActivity = new ArrayList<>();
-        tdActivity.add(getActivityInfoTd(AF_ACCIDENT, PROPERTY_DAMAGE));
-        tdActivity.add(getActivityInfoTd(NAF_ACCIDENT, NOT_AT_FAULT)
-                .mask(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel())
-                .adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-23M>"));
+        // Create test data for driver that returns NAF accidents from CLUE
+        TestData td = getDefaultASWTd()
+                .adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
+                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel()), "Two")
+                .adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
+                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel()), "NotAtFault")
+                .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel()), "AZ")
+                .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "B15383001");
 
         // Initiate quote, fill up to P & C tab, and navigate to driver tab
-        TestData td = getDefaultASWTd().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), tdActivity);
-        createQuoteAndFillUpTo(td, PremiumAndCoveragesTab.class);
+        createQuoteAndFillUpTo(td, DriverActivityReportsTab.class);
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        fillActivityDriverTab(getActivityInfoTd(AF_ACCIDENT, PROPERTY_DAMAGE).adjust(AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY.getLabel(), "Click"));
+        calculatePremiumAndNavigateToDriverTab();
 
         // Validate AF accident receives ASW
         validateIncludeInPoints(PROPERTY_DAMAGE, "No");
