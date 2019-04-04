@@ -38,23 +38,20 @@ public class TestAgentAuthorityToOverrideDLRule extends AutoCaChoiceBaseTest {
      */
 
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "PAS-26653 Validate Agent Authority to Override Rule for DL 10004001")
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PAS-26653 Validate Agent Authority to Override Rule for DL 10004001")
     @TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = "PAS-26653")
 
     public void pas26653_testAgentAuthorityToOverrideDLRuleNB(@Optional("CA") String state) {
 
-        TestData baseTd = getPolicyTD();
-        TestData requiredToIssue = DataProviderFactory.dataOf(AutoCaMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER.getLabel(),"Yes");
-        TestData td = baseTd.adjust(TestData.makeKeyPath(driverTab.getMetaKey(), AutoCaMetaData.DriverTab.LICENSE_TYPE.getLabel()), "Licensed (Canadian)")
+        TestData td = getPolicyTD().adjust(TestData.makeKeyPath(driverTab.getMetaKey(), AutoCaMetaData.DriverTab.LICENSE_TYPE.getLabel()), "Licensed (Canadian)")
                 .mask(TestData.makeKeyPath(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()))
-                .adjust(TestData.makeKeyPath(AutoCaMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoCaMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()), requiredToIssue);
+                .adjust(TestData.makeKeyPath(AutoCaMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoCaMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()),
+                        DataProviderFactory.dataOf(AutoCaMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER.getLabel(),"Yes"));
 
         openAppNonPrivilegedUser(PrivilegeEnum.Privilege.A30);
         createCustomerIndividual();
         policy.initiate();
-        policy.getDefaultView().fillUpTo(td, DriverTab.class, true);
-        driverTab.submitTab();
-        policy.getDefaultView().fillFromTo(baseTd, MembershipTab.class, DriverActivityReportsTab.class);
+        policy.getDefaultView().fillUpTo(td, DriverActivityReportsTab.class);
         overrideErrorTab();
         policy.getDefaultView().fillFromTo(td, DriverActivityReportsTab.class, PurchaseTab.class, true);
     }
@@ -72,7 +69,7 @@ public class TestAgentAuthorityToOverrideDLRule extends AutoCaChoiceBaseTest {
      */
 
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "PAS-26653 Validate Agent Authority to Override Rule for DL 10004001")
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PAS-26653 Validate Agent Authority to Override Rule for DL 10004001")
     @TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = "PAS-26653")
 
     public void pas26653_testAgentAuthorityToOverrideDLRuleEnd(@Optional("CA") String state) {
@@ -101,7 +98,7 @@ public class TestAgentAuthorityToOverrideDLRule extends AutoCaChoiceBaseTest {
      */
 
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "PAS-26653 Validate Agent Authority to Override Rule for DL 10004001")
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PAS-26653 Validate Agent Authority to Override Rule for DL 10004001")
     @TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = "PAS-26653")
 
     public void pas26653_testAgentAuthorityToOverrideDLRuleRen(@Optional("CA") String state) {
