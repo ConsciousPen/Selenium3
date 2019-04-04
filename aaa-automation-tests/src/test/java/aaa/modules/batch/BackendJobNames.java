@@ -16,8 +16,12 @@ public class BackendJobNames {
 	public static String getBackendJobNames(Job job) {
 		String backendJobName = null;
 		for (BackendJobNamesEnum item : BackendJobNamesEnum.values()) {
-			backendJobName = item.getGroupJobsName().equals(job) || item.getJobName().equals(job) ? item.getBackendJobName() : "";
-			log.info("UI jobname {} : Backend jobname: {}", job, backendJobName);
+			if(item.getGroupJobsName().equals(job) || item.getJobName().equals(job)){
+				backendJobName = item.getBackendJobName();
+				break;
+			}else{
+				backendJobName = "";
+			}
 		}
 
 		if(backendJobName==null || backendJobName.isEmpty()){

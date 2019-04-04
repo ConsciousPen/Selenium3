@@ -44,15 +44,14 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	 * @param job
 	 */
 	protected void executeBatchTest(Job job){
-		// Get sql compatible job name, based on parameter
-		String backEndJobName = BackendJobNames.getBackendJobNames(job);
 		// Get job start date
 		String startDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern(ddMMyy)).toUpperCase();
 
 		JobUtils.executeJob(job);
-
 		// Get job finish date
 		String endedDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern(ddMMyy)).toUpperCase();
+		// Get sql compatible job name, based on parameter
+		String backEndJobName = BackendJobNames.getBackendJobNames(job);
 		String query = String.format(SELECT_ALL_FROM_JOB_SUMMARY, "%" + backEndJobName + "%", startDate + "%", endedDate + "%");
 		// Verify that failure % is below 5%
 		assertThat(getFailurePercentage(backEndJobName, query)).as("Percentage of failed tasks is more 5%").isEqualTo(true);

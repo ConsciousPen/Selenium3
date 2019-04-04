@@ -116,7 +116,17 @@ public enum CoverageLimits {
 	COV_2YR("2YR", "Two Years"),
 	COV_UNL("UNL", "Unlimited"),
 	COV_PIPCOVINCLUDES_NIFM("NIFM", "Named Insureds and Family Members"),
-	COV_PIPCOVINCLUDES_NI("NI", "Named Insureds");
+	COV_PIPCOVINCLUDES_NI("NI", "Named Insureds"),
+	COV_2550_SUM("25000/50000", "$25,000/$50,000 (NO SUM)"),
+	COV_50100_SUM("50000/100000", "$50,000/$100,000 (SUM)"),
+	COV_100300_SUM("100000/300000", "$100,000/$300,000 (SUM)"),
+	COV_250500_SUM("250000/500000", "$250,000/$500,000 (SUM)"),
+	COV_300500_SUM("300000/500000", "$300,000/$500,000 (SUM)"),
+	COV_500500_SUM("500000/500000", "$500,000/$500,000 (SUM)"),
+	COV_5001000_SUM("500000/1000000", "$500,000/$1,000,000 (SUM)"),
+	COV_10001000_SUM("1000000/1000000", "$1,000,000/$1,000,000 (SUM)");
+
+
 
 	private final String limit;
 	private final String display;
