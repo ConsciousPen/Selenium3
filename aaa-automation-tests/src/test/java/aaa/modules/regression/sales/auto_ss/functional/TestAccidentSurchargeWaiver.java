@@ -49,7 +49,6 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     // Activity Descriptions
     private static final String PROPERTY_DAMAGE = "Accident (Property Damage Only)";
     private static final String BODILY_INJURY = "Accident (Resulting in Bodily Injury)";
-    private static final String NOT_AT_FAULT = "Accident (Not-At-Fault)";
     private static final String DRAG_RACING = "Drag Racing or Speed Contest";
     private static final String HIT_AND_RUN = "Hit and Run";
 
