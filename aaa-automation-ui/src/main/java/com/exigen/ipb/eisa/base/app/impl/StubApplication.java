@@ -14,9 +14,10 @@ public class StubApplication extends Application {
 		this.host = PropertyProvider.getProperty(CsaaTestProperties.STUB_HOST, PropertyProvider.getProperty(TestProperties.APP_HOST));
 		this.name = "STUB_APP";
 		this.path = PropertyProvider.getProperty(CsaaTestProperties.STUB_PATH, "aaa-external-stub-services-app");
-		this.port = PropertyProvider.getProperty(CsaaTestProperties.STUB_PORT, 0000);
+		this.port = PropertyProvider.getProperty(CsaaTestProperties.STUB_PORT, 9083);
 		this.protocol = PropertyProvider.getProperty(TestProperties.APP_PROTOCOL, "http");
 		this.url = formatUrl();
+		this.login = null;
 	}
 
 	@Override

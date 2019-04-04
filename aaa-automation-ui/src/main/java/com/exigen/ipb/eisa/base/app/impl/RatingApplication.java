@@ -17,6 +17,7 @@ public class RatingApplication extends Application {
 		this.port = PropertyProvider.getProperty(CsaaTestProperties.RATING_PORT, 0000);
 		this.protocol = PropertyProvider.getProperty(TestProperties.APP_PROTOCOL, "http");
 		this.url = formatUrl();
+		this.login = null;
 	}
 
 	@Override

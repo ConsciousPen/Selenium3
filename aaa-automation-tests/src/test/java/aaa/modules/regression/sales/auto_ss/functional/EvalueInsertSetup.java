@@ -1,18 +1,18 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import java.util.Arrays;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.modules.BaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.annotations.Test;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class EvalueInsertSetup extends BaseTest implements EvalueInsertSetupPreConditions {
 	private static Logger log = LoggerFactory.getLogger(DocGenHelper.class);
@@ -32,12 +32,12 @@ public class EvalueInsertSetup extends BaseTest implements EvalueInsertSetupPreC
 
 	@Test(description = "setting Agent/Agency check against Zip to stub", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void channelIdResolverStubEndpointUpdate() {
-		DBService.get().executeUpdate(String.format(CHANNEL_ID_RESOLVER_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
+		DBService.get().executeUpdate(String.format(CHANNEL_ID_RESOLVER_STUB_POINT_UPDATE, CSAAApplicationFactory.get().stubApp().formatUrl()));
 	}
 
 	@Test(description = "Precondition updating Membership Summary Endpoint to Stub", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void retrieveMembershipSummaryStubEndpointUpdate() {
-		DBService.get().executeUpdate(String.format(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
+		DBService.get().executeUpdate(String.format(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE, CSAAApplicationFactory.get().stubApp().formatUrl()));
 	}
 
 	//AHDRXX is not currently turned on for all states and products
@@ -105,7 +105,7 @@ public class EvalueInsertSetup extends BaseTest implements EvalueInsertSetupPreC
 
 	@Test(description = "Precondition for to be able to Add Payment methods, Payment Central is stubbed", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void paymentCentralStubEndPointUpdate() {
-		DBService.get().executeUpdate(String.format(PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE, APP_HOST, APP_STUB_URL));
+		DBService.get().executeUpdate(String.format(PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE, CSAAApplicationFactory.get().stubApp().formatUrl()));
 	}
 
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
@@ -141,7 +141,7 @@ public class EvalueInsertSetup extends BaseTest implements EvalueInsertSetupPreC
 
 	@Test(description = "Precondition updating Authentication stub end points", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void authenticationStubPointUpdate() {
-		DBService.get().executeUpdate(String.format(AUTHENTICATION_STUB_POINT_UPDATE, APP_HOST, APP_STUB_URL));
+		DBService.get().executeUpdate(String.format(AUTHENTICATION_STUB_POINT_UPDATE, CSAAApplicationFactory.get().stubApp().formatUrl()));
 	}
 
 	@Test(description = "delete unnecessary privilege from all roles", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})

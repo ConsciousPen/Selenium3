@@ -10,7 +10,7 @@ public interface TestRefundProcessPreConditions {
 			+ "where id = (select id from BILLINGREFUNDPAYMENTMETHOD)";
 
 	String AUTHENTICATION_STUB_END_POINT_CHECK = "SELECT value FROM PROPERTYCONFIGURERENTITY" +
-			" WHERE PROPERTYNAME = 'oAuthClient.oAuthPingUri' and lower(value) = lower('http://%s%sws/local/authentication')";
+			" WHERE PROPERTYNAME = 'oAuthClient.oAuthPingUri' and lower(value) = lower('%s/ws/local/authentication')";
 }
 
 

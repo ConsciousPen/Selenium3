@@ -27,7 +27,6 @@ public class CsaaTestProperties extends TestProperties {
 	public static final String IS_CI_MODE = "isCiMode";
 	public static final String DXP_PORT = "dxp.port";
 	public static final String DXP_PROTOCOL = "dxp.protocol";
-	public static final String APP_STUB_URL_TEMPLATE = "app.stub.urltemplate";
 	public static final String APP_STUB_FOLDER_TEMPLATE = "app.stub.foldertemplate";
 	public static final String APP_STUB_SCRIPT_WORKDIR = "app.stub.script.workdir";
 	public static final String APP_STUB_SCRIPT_START = "app.stub.script.start";
