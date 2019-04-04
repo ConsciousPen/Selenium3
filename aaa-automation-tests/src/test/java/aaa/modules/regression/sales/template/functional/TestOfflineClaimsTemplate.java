@@ -94,24 +94,24 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     protected static PurchaseTab purchaseTab = new PurchaseTab();
     protected static ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
 
-//    @BeforeTest
-//    public void prepare() {
-//        // Toggle ON PermissiveUse Logic & Set DATEOFLOSS Parameter in DB
-//        DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-//        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-16"));
-//
-//        try {
-//            FileUtils.forceDeleteOnExit(Paths.get(CAS_REQUEST_PATH).toFile());
-//            FileUtils.forceDeleteOnExit(Paths.get(CAS_RESPONSE_PATH).toFile());
-//            FileUtils.forceDeleteOnExit(Paths.get(PAS_LOG_DOWNLOAD_PATH).toFile());
-//            Files.createDirectories(Paths.get(CAS_REQUEST_PATH));
-//            Files.createDirectories(Paths.get(CAS_RESPONSE_PATH));
-//            Files.createDirectories(Paths.get(PAS_LOG_DOWNLOAD_PATH));
-//        } catch (IOException e) {
-//            throw new IllegalStateException("Can't delete directories " + CAS_RESPONSE_PATH + " "
-//                    + CAS_REQUEST_PATH + " " + PAS_LOG_DOWNLOAD_PATH, e);
-//        }
-//    }
+    @BeforeTest
+    public void prepare() {
+        // Toggle ON PermissiveUse Logic & Set DATEOFLOSS Parameter in DB
+        DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
+        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-16"));
+
+        try {
+            FileUtils.forceDeleteOnExit(Paths.get(CAS_REQUEST_PATH).toFile());
+            FileUtils.forceDeleteOnExit(Paths.get(CAS_RESPONSE_PATH).toFile());
+            FileUtils.forceDeleteOnExit(Paths.get(PAS_LOG_DOWNLOAD_PATH).toFile());
+            Files.createDirectories(Paths.get(CAS_REQUEST_PATH));
+            Files.createDirectories(Paths.get(CAS_RESPONSE_PATH));
+            Files.createDirectories(Paths.get(PAS_LOG_DOWNLOAD_PATH));
+        } catch (IOException e) {
+            throw new IllegalStateException("Can't delete directories " + CAS_RESPONSE_PATH + " "
+                    + CAS_REQUEST_PATH + " " + PAS_LOG_DOWNLOAD_PATH, e);
+        }
+    }
 
     public String createPolicyMultiDrivers() {
         TestData testData = getPolicyTD();
