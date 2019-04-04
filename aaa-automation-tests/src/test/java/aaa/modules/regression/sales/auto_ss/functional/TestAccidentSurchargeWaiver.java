@@ -125,24 +125,10 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     public void pas14738_testAccidentSurchargeWaiverEndorsement(@Optional("") String state) {
 
         TestData td = adjustTdBaseDate(getPolicyTD());
-        createQuoteAndFillUpTo(td, RatingDetailReportsTab.class);
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        fillActivityDriverTab(getActivityInfoTd());
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-        policy.getDefaultView().fillFromTo(td, VehicleTab.class, PurchaseTab.class, true);
-        purchaseTab.submitTab();
+        openAppAndCreatePolicy(td);
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        validateAFW(td);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        fillActivityDriverTab(getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY)
-                .adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-8M>")
-                .adjust(AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY.getLabel(), "click"));
-        calculatePremiumAndNavigateToDriverTab();
-
-        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
-        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
-        validateIncludeInPoints(BODILY_INJURY, "Yes");
 
     }
 
@@ -580,8 +566,8 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
         // Create test data for 2 AF accidents and 2 violations
         List<TestData> tdActivity = new ArrayList<>();
-        tdActivity.add(getActivityInfoTd(AF_ACCIDENT, PROPERTY_DAMAGE));
         tdActivity.add(getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY));
+        tdActivity.add(getActivityInfoTd(AF_ACCIDENT, PROPERTY_DAMAGE));
         tdActivity.add(getActivityInfoTd(MAJOR_VIOLATION, HIT_AND_RUN).mask(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel()));
         tdActivity.add(getActivityInfoTd(MAJOR_VIOLATION, DRAG_RACING).mask(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel()));
 
@@ -614,10 +600,10 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
         // Create test data for 2 AF accidents and 2 violations
         List<TestData> tdActivity = new ArrayList<>();
+        tdActivity.add(getActivityInfoTd(AF_ACCIDENT, PROPERTY_DAMAGE));
+        tdActivity.add(getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY));
         tdActivity.add(getActivityInfoTd(MAJOR_VIOLATION, DRAG_RACING).mask(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel()));
         tdActivity.add(getActivityInfoTd(MAJOR_VIOLATION, HIT_AND_RUN).mask(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel()));
-        tdActivity.add(getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY));
-        tdActivity.add(getActivityInfoTd(AF_ACCIDENT, PROPERTY_DAMAGE));
 
         // Create test data to fill endorsement with activity
         TestData tdEndorsementFill = DataProviderFactory.dataOf(
@@ -768,6 +754,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         calculatePremiumAndNavigateToDriverTab();
         validateIncludeInPoints(PROPERTY_DAMAGE, "No");
         validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+        DriverTab.tableActivityInformationList.resetAllFilters();
 
         // Change Prior Carrier to non-AAA (Progressive) and validate no AFW for both
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
