@@ -11,9 +11,9 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.utils.screenshots.ScreenshotManager;
 import toolkit.verification.CustomAssertions;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -21,31 +21,31 @@ import java.util.List;
 public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
     enum eThresholdTests {BEFORE, ON, AFTER}
 
-    static final Integer THRESHOLD_VALUE = 4;
+    static final Integer MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE = 4;
     static LocalDateTime thresholdMaxDate = null;
 
     @DataProvider(name = "ThresholdTestData_STG1")
     public static Object[][] ThresholdTestData_STG1() {
         return new Object[][]{
-                {"AZ", eThresholdTests.BEFORE, 15, THRESHOLD_VALUE - 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
-                {"AZ", eThresholdTests.ON, 15, THRESHOLD_VALUE, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
-                {"AZ", eThresholdTests.AFTER, 15, THRESHOLD_VALUE + 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, false}};
+                {"AZ", eThresholdTests.BEFORE, 15, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE - 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
+                {"AZ", eThresholdTests.ON, 15, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
+                {"AZ", eThresholdTests.AFTER, 15, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE + 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, false}};
     }
 
     @DataProvider(name = "ThresholdTestData_STG2")
     public static Object[][] ThresholdTestData_STG2() {
         return new Object[][] {
-                {"AZ", eThresholdTests.BEFORE, 30, THRESHOLD_VALUE - 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
-                {"AZ", eThresholdTests.ON, 30, THRESHOLD_VALUE, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
-                {"AZ", eThresholdTests.AFTER, 30, THRESHOLD_VALUE + 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, false}}; //FAILS. status == FOUND_STG2
+                {"AZ", eThresholdTests.BEFORE, 30, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE - 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
+                {"AZ", eThresholdTests.ON, 30, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
+                {"AZ", eThresholdTests.AFTER, 30, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE + 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, false}};
     }
 
     @DataProvider(name = "ThresholdTestData_STG2_SkipSTG1")
     public static Object[][] ThresholdTestData_STG2_SkipSTG1() {
         return new Object[][] {
-                {"AZ", eThresholdTests.BEFORE, 30, THRESHOLD_VALUE - 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, true, true},
-                {"AZ", eThresholdTests.ON, 30, THRESHOLD_VALUE, AAAMembershipQueries.AAAMembershipStatus.No_Hit, true, true},
-                {"AZ", eThresholdTests.AFTER, 30, THRESHOLD_VALUE + 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, true, false}};
+                {"AZ", eThresholdTests.BEFORE, 30, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE - 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, true, true},
+                {"AZ", eThresholdTests.ON, 30, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE, AAAMembershipQueries.AAAMembershipStatus.No_Hit, true, true},
+                {"AZ", eThresholdTests.AFTER, 30, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE + 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, true, false}};
     }
 
     // Combines STG1 and STG2 test data for ability to test everything using this one method.
@@ -60,12 +60,17 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
 
     @DataProvider(name = "ThresholdTestData_STG1_NoCatchup")
     public static Object[][] ThresholdTestData_STG1_NoCatchup() {
-        return new Object[][] {{"AZ", eThresholdTests.ON, 15, 0, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true}};
+        return new Object[][] {
+                {"AZ", eThresholdTests.ON, 15, 0, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
+                {"AZ", eThresholdTests.AFTER, 15, 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, false}};
     }
 
     @DataProvider(name = "ThresholdTestData_STG2_NoCatchup")
     public static Object[][] ThresholdTestData_STG2_NoCatchup() {
-        return new Object[][] {{"AZ", eThresholdTests.ON, 30, 0, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true}};
+        return new Object[][] {
+                {"AZ", eThresholdTests.ON, 30, 0, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
+                {"AZ", eThresholdTests.AFTER, 30, 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, false},
+                {"AZ", eThresholdTests.ON, 30, 0, AAAMembershipQueries.AAAMembershipStatus.No_Hit, true, true}}; // Test feature is off, where bestMemNumber = null (skipped STG1).
     }
 
     @DataProvider(name = "ThresholdTestData_STG1_STG2_NoCatchup")
@@ -88,7 +93,7 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
         String policyNumber = PolicySummaryPage.getPolicyNumber();
         LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
         LocalDateTime nbDate = policyEffectiveDate.plusDays(nb15or30);
-        thresholdMaxDate = nbDate.plusDays(THRESHOLD_VALUE);
+        thresholdMaxDate = nbDate.plusDays(MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE);
         mainApp().close();
 
         // Moving JVM to NB+15+testedDay and use Switch to assert system is inside of Catch-Up window.
@@ -99,17 +104,17 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
                 CustomAssertions.assertThat(rightNow).isAfter(nbDate);
                 CustomAssertions.assertThat(rightNow).isBefore(thresholdMaxDate);
                 log.debug(String.format("QALOGS -> VALIDATED SYSTEM DATE (%s) IS AFTER NB+%s (%s) and BEFORE the threshold (%s days) cut off on %s.",
-                        rightNow.toLocalDate().toString(), nb15or30.toString(), nbDate.toLocalDate().toString(), THRESHOLD_VALUE, thresholdMaxDate.toLocalDate().toString()));
+                        rightNow.toLocalDate().toString(), nb15or30.toString(), nbDate.toLocalDate().toString(), MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE, thresholdMaxDate.toLocalDate().toString()));
                 break;
             case ON:
                 CustomAssertions.assertThat(rightNow).isEqualToIgnoringHours(thresholdMaxDate);
                 log.debug(String.format("QALOGS -> VALIDATED SYSTEM DATE (%s) IS ON NB+%s+%s",
-                        rightNow.toLocalDate().toString(), nb15or30.toString(), THRESHOLD_VALUE));
+                        rightNow.toLocalDate().toString(), nb15or30.toString(), MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE));
                 break;
             case AFTER:
                 CustomAssertions.assertThat(rightNow).isAfter(thresholdMaxDate);
                 log.debug(String.format("QALOGS -> VALIDATED SYSTEM DATE (%s) IS AFTER NB+%s+%s",
-                        rightNow.toLocalDate().toString(), nb15or30.toString(), THRESHOLD_VALUE));
+                        rightNow.toLocalDate().toString(), nb15or30.toString(), MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE));
                 break;
             default:
                 CustomAssertions.fail("Unexpected value for 'typeOfThresholdTest'. Force failing test.");
@@ -130,40 +135,47 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
         JobUtils.executeJob(Jobs.membershipValidationJob);
 
         // Validate policyNumber is picked up by batch job at STG1.
-        doValidation(nb15or30, policyNumber, bRunningNB30SkipSTG1, bExpectingPolicyToBeProcessed);
+        doValidation(policyEffectiveDate, rightNow, nb15or30, policyNumber, bRunningNB30SkipSTG1, bExpectingPolicyToBeProcessed);
     }
 
-    public void doValidation(Integer in_nb15or30, String in_policyNumber, Boolean in_bRunningNB30SkipSTG1, Boolean bExpectedPolicyWasProcessed) {
+    public void doValidation(LocalDateTime in_policyEffectiveDate, LocalDateTime in_currentTime, Integer in_nb15or30, String in_policyNumber, Boolean in_bRunningNB30SkipSTG1, Boolean bExpectedPolicyWasProcessed) {
         //Get the value to assert against.
         java.util.Optional<AAAMembershipQueries.AAABestMembershipStatus> bestMembershipStatus = AAAMembershipQueries.getAAABestMembershipStatusFromSQL(in_policyNumber);
 
-        // Next, is this a positive or negative scenario test?
-        if (bExpectedPolicyWasProcessed) {
-            // GIVEN a positive scenario...
-            if (in_nb15or30 == 15) {
-                CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG1.toString());
-            } else {
-                if (in_nb15or30 == 30) {
-                    CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG2.toString());
+        // Try Catch to handle edge case. If Policy is made on Sunday and the membershipValidation attempts to run on a Sunday, 1 Day AFTER the cut-off date...
+        /// ...THEN the policy is still picked up when we're not expecting it to. This is acceptable because the policyEffectiveDate is Sunday.
+        // This Try-Catch should inform us quickly of the policy effective date and the date the job attempted to run on. If we see Sunday and Sunday, it should mean we hit the edge case and can disregard the failure.
+        try {
+            // Next, is this a positive or negative scenario test?
+            if (bExpectedPolicyWasProcessed) {
+                // GIVEN a positive scenario...
+                if (in_nb15or30 == 15) {
+                    CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG1.toString());
                 } else {
-                    CustomAssertions.fail(String.format("Variable 'nb15or30' == something other than 15 or 30 (Actual nb15or30: %s). (Actual membershipStatus: %s).", in_nb15or30.toString(), bestMembershipStatus.toString()));
-                }
-            }
-        }else{
-            //GIVEN a negative scenario...
-            if (in_nb15or30 == 15) {
-                CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase("Empty");
-            } else {
-                if (in_bRunningNB30SkipSTG1 && in_nb15or30==30) {
-                    CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase("Empty");
-                } else {
-                    if (!in_bRunningNB30SkipSTG1 && in_nb15or30==30){
-                        CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.NOHIT_STG1.toString());
-                    }else {
+                    if (in_nb15or30 == 30) {
+                        CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG2.toString());
+                    } else {
                         CustomAssertions.fail(String.format("Variable 'nb15or30' == something other than 15 or 30 (Actual nb15or30: %s). (Actual membershipStatus: %s).", in_nb15or30.toString(), bestMembershipStatus.toString()));
                     }
                 }
+            } else {
+                //GIVEN a negative scenario...
+                if (in_nb15or30 == 15) {
+                    CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase("Empty");
+                } else {
+                    if (in_bRunningNB30SkipSTG1 && in_nb15or30 == 30) {
+                        CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase("Empty");
+                    } else {
+                        if (!in_bRunningNB30SkipSTG1 && in_nb15or30 == 30) {
+                            CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.NOHIT_STG1.toString());
+                        } else {
+                            CustomAssertions.fail(String.format("Variable 'nb15or30' == something other than 15 or 30 (Actual nb15or30: %s). (Actual membershipStatus: %s).", in_nb15or30.toString(), bestMembershipStatus.toString()));
+                        }
+                    }
+                }
             }
+        } catch (AssertionError ex) {
+            CustomAssertions.fail("TEST FAILURE!! PolicyEffectiveDate = %s(%s); BatchRunDate = %s(%s).", in_policyEffectiveDate, in_policyEffectiveDate.getDayOfWeek(), in_currentTime, in_currentTime.getDayOfWeek());
         }
     }
 }
