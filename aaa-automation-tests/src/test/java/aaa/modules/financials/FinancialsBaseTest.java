@@ -5,8 +5,6 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
@@ -105,6 +103,9 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 	}
 
 	protected Dollar performRPEndorsement(String policyNumber, LocalDateTime effDate) {
+		if (!PolicySummaryPage.labelPolicyStatus.isPresent()) {
+			SearchPage.openPolicy(policyNumber);
+		}
 		policy.endorse().perform(getEndorsementTD(effDate));
 		policy.getDefaultView().fill(getReducePremiumTD());
 		Dollar reducedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT);
@@ -130,13 +131,29 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		return rollBackAmount;
 	}
 
+	protected LocalDateTime getCancellationEffectiveDate() {
+		if (getPolicyType().isAutoPolicy()) {
+			return TimeSetterUtil.getInstance().parse(PolicySummaryPage.tableGeneralInformation.getRow(1)
+					.getCell(PolicyConstants.PolicyGeneralInformationTable.CANCELLATION_EFF_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+		}
+		return TimeSetterUtil.getInstance().parse(PolicySummaryPage.tableGeneralInformation.getRow(1)
+				.getCell(PolicyConstants.PolicyGeneralInformationTable.CANCELLATION_EFFECTIVE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+	}
+
 	protected Dollar getBillingAmountByType(String type, String subtype) {
+		return getBillingAmountByType(type, subtype, null);
+	}
+
+	protected Dollar getBillingAmountByType(String type, String subtype, LocalDateTime effDate) {
 		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		}
 		Map<String, String> query = new HashMap<>();
 		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, type);
 		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, subtype);
+		if (effDate != null) {
+			query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.EFF_DATE, effDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+		}
 		return new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).abs();
 	}
 
@@ -148,13 +165,6 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query)
 				.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(BillingConstants.PaymentsAndOtherTransactionAction.WAIVE).click();
 		BillingSummaryPage.dialogConfirmation.confirm();
-	}
-
-	protected void advanceTimeAndOpenPolicy(LocalDateTime date, String policyNumber) {
-		mainApp().close();
-		TimeSetterUtil.getInstance().nextPhase(date);
-		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
 	}
 
 	protected Map<String, Dollar> getTaxAmountsForPolicy(String policyNumber) {

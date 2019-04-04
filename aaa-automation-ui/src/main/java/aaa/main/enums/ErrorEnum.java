@@ -100,6 +100,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_SS3281092("AAA_HO_SS3281092", "Dwellings with more than 3 detached building structures on the residence prem..."),
 		ERROR_AAA_HO_SS3230162("AAA_HO_SS3230162", "More than 2 additional Insureds require Underwriting approval"),
 		ERROR_AAA_HO_SS3230756("AAA_HO_SS3230756", "More than 2 additional Interests require Underwriting approval"),
+		ERROR_AAA_HO_UWApp_HS0988_endorsement("AAA_HO_UWApp_HS0988_endorsement", "Underwriting approval is required to add Additional Insured - Special Event e..."),
 		ERROR_AAA_HO_SS67cbad46("AAA_HO_SS67cbad46", "All named insureds must have an insurance score ordered."),
 		ERROR_AAA_HO_SS11200000("(AAA_HO_SS11200000", "'Mortgagee Clause' is required (AAA_HO_SS11200000) [for AAAHOMortgageeInfo.legalMortgageeName]"),
 		ERROR_AAA_HO_SS12141500("AAA_HO_SS12141500", "'Loan number' is required (AAA_HO_SS12141500) [for AAAHOMortgageeInfo.account..."),
