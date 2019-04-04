@@ -42,7 +42,6 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     private static final String TEST_DRIVER = "TestDriver";
 
     // Activity Types
-    private static final String NAF_ACCIDENT = "Non-Fault Accident";
     private static final String AF_ACCIDENT = "At-Fault Accident";
     private static final String MAJOR_VIOLATION = "Major Violation";
 
