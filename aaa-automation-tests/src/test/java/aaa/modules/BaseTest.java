@@ -6,7 +6,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
@@ -53,7 +52,6 @@ public class BaseTest {
 	private static TestData tdOperationalReports;
 	private static ThreadLocal<String> state = new ThreadLocal<>();
 	private static String usState = PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE);
-	private static Map<String, Integer> policyCount = new HashMap<>();
 	public String customerNumber;
 	protected Customer customer = new Customer();
 	protected TestDataManager testDataManager;
@@ -100,10 +98,10 @@ public class BaseTest {
 		Map<String, String> returnValue = new LinkedHashMap<>();
 		synchronized (state) {
 			if (state.equals(Constants.States.CA)) {
-				returnValue.put("Primary_HO3", getDefaultPolicy(PolicyType.HOME_CA_HO3, false));
-				returnValue.put("Primary_Auto", getDefaultPolicy(PolicyType.AUTO_CA_SELECT, false));
+				returnValue.put("Primary_HO3", getDefaultPolicy(PolicyType.HOME_CA_HO3));
+				returnValue.put("Primary_Auto", getDefaultPolicy(PolicyType.AUTO_CA_SELECT));
 			} else {
-				returnValue.put("Primary_HO3", getDefaultPolicy(PolicyType.HOME_SS_HO3, false));
+				returnValue.put("Primary_HO3", getDefaultPolicy(PolicyType.HOME_SS_HO3));
 			}
 		}
 		//open Customer if it was created in test
@@ -130,14 +128,7 @@ public class BaseTest {
 	 * @return Copied quote number
 	 */
 	protected String getCopiedQuote() {
-		String policyNumber = getDefaultPolicy(getPolicyType(), true);
-		synchronized (EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState())) {
-			mainApp().open();
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			getPolicyType().get().policyCopy().perform(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
-			log.info("Quote copied {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
-		}
-		return PolicySummaryPage.labelPolicyNumber.getValue();
+		return createQuote();
 	}
 
 	/**
@@ -147,14 +138,7 @@ public class BaseTest {
 	 * @return policy number
 	 */
 	protected String getCopiedPolicy() {
-		String policyNumber = getDefaultPolicy(getPolicyType(), true);
-		synchronized (EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState())) {
-			mainApp().open();
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			getPolicyType().get().copyPolicy(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
-			log.info("Policy copied {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
-		}
-		return PolicySummaryPage.labelPolicyNumber.getValue();
+		return createPolicy();
 
 	}
 
@@ -483,29 +467,20 @@ public class BaseTest {
 		return loginUsers.getTestData(userGroups.get()).adjust(LoginPageMeta.STATES.getLabel(), getState());
 	}
 
-	private String getDefaultPolicy(PolicyType policyType, boolean forCopyAction) {
+	private String getDefaultPolicy(PolicyType policyType) {
 		assertThat(policyType).as("PolicyType is not set").isNotNull();
 		String key = EntitiesHolder.makeDefaultPolicyKey(policyType, getState());
 		String policyNumber = "";
 		mainApp().close();
 		synchronized (key) {
-			Integer count = policyCount.get(key);
-			if (count == null) {
-				count = 1;
-			}
-			if (EntitiesHolder.isEntityPresent(key) && count < 10) {
-				if (forCopyAction) {
-					count++;
-				}
+			if (EntitiesHolder.isEntityPresent(key)) {
 				policyNumber = EntitiesHolder.getEntity(key);
 
 			} else {
-				count = 1;
 				mainApp().open();
 				policyNumber = createNewDefaultPolicy(policyType);
 				mainApp().close();
 			}
-			policyCount.put(key, count);
 		}
 		return policyNumber;
 	}
