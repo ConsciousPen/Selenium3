@@ -10,6 +10,7 @@ public class ClaimAnalyticsJSONTags {
 		public static final String COVERAGE_NAME = "coverageName";
 		public static final String MATCH_CODE = "matchCode";
 		public static final String DATE_OF_LOSS = "dateOfLoss";
+		public static final String DRIVING_LICENSE_INDICATOR = "drivingLicenseInd";
 		public static final String CLAIM_DRIVER_NAME = "claimDriverName";
 		public static final String POLICY_NUMBER = "policyNumber";
 		public static final String CLAIM_CAUSE = "claimCause";
