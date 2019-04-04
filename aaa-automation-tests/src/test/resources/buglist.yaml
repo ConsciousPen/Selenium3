@@ -96,12 +96,6 @@ PAS-9157:
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
     - tests: [aaa.modules.e2e.pup.TestScenario12.TC01_createPolicy]
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
-PAS-9361:
-  summary: "Generate eSignature Document button doesnt open email popup"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
-      messages: ["Email"]
 PAS-10661:
   summary: "AAA_HO_SS1290786 Error A valid insurance score report for at least one named insured is required to propose firing inspite of overriding Insurance Score"
   reason: PROD
@@ -159,12 +153,6 @@ PAS-12248:
     - tests: [
     aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas325_eValueCommissionRelatedFields]
       messages: ["expected [eValue Renewal] but found [Renewal]"]
-PAS-18399:
-  summary: "Conversion: XML import is failing when policy has EFT Tags - Billing account creation has failed Caused by: java.lang.RuntimeException: Unexpected exception during import rule validation"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.conversions.*]
-      messages: ["doesn't have Success status. Reason"]
 PAS-11810:
   summary: "View Premium Service - Pended endorsement and renewal not rated"
   reason: PROD

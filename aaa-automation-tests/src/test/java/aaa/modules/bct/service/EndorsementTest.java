@@ -26,14 +26,14 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import aaa.modules.policy.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-
+@Deprecated
 public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 	private String date1 = "Date1 isn't specified";
@@ -74,14 +74,14 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
-	public void BCT_ONL_EmptyEndorsementAutoSS(@Optional("") String state) {
+	public void BCT_ONL_EmptyEndorsementAutoSS(@Optional("AZ") String state) {
 		mainApp().open();
-		String policyNumber = getPolicy("BCT_Empty_Endorsement_AAA_SS", date1, date2);
+		String policyNumber = getPolicy("BCT_ONL_EmptyEndorsementAutoSS", date1, date2);
 		IPolicy policy = PolicyType.AUTO_SS.get();
 		SearchPage.openPolicy(policyNumber);
 		deletePendingTransaction(policy);
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
-		log.info(String.format("Policy premium on Policy Summary page: '%s'", policyPremium));
+		log.info(String.format("Pohttp://etcs-influx-analytic-postgres-passonar.apps.ocpdemo.tent.trt.csaa.pri/runs/bc626084-284c-11e9-bd2d-f98434f9c45d?exclude=PASSEDlicy premium on Policy Summary page: '%s'", policyPremium));
 
 		policy.policyInquiry().start();
 		policy.policyInquiry().getView().fillFromTo(getTestSpecificTD("TestDataInquiryAutoSS"), GeneralTab.class, DocumentsAndBindTab.class, false);
@@ -545,6 +545,6 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 			date1 = PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE1);
 			date2 = PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE2);
 		}
-		return getEmptyEndorsementPolicies(testName, date1, date2).get(0);
+		return getEmptyEndorsementPolicies(testName, date1, date2,getState()).get(0);
 	}
 }

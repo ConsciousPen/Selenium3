@@ -16,27 +16,17 @@ OtherActiveAAAPolicies_ActiveUnderlyingPolicy:  {
 }
 
 TestDataEndorsement: {
-  GeneralTab: '@GeneralTab',
-  ApplicantTab: '@ApplicantTab',
+  GeneralTab: {},
+  ApplicantTab: '@ApplicantTab'
 }
-
-GeneralTab: {}
 
 ApplicantTab: {
-  NamedInsured: '@NamedInsured',
-  OtherActiveAAAPolicies: {
-      ActiveUnderlyingPoliciesSearch: {
-          Cancel: click
-      }
-  }
-}
-
-# ------------- Applicant Tab ----------------
-NamedInsured: {
-  CustomerSearchDialog: {
+  NamedInsured: {
+    CustomerSearchDialog: {
       Customer Search: click,
       First Name: Connemara,
       Last Name: Morgan,
-      Date of birth: 02/21/1984,
+      Date of birth: 02/21/1984
+    }
   }
 }
