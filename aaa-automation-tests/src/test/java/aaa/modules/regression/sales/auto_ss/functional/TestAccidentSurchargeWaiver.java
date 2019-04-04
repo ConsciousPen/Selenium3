@@ -73,7 +73,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
         TestData td = adjustTdBaseDate(getConversionPolicyDefaultTD());
         createConversionQuoteAndFillUpTo(td, DocumentsAndBindTab.class);
-        validateAFW(td);
+        validateASW(td);
         assertThat(PolicySummaryPage.tableRenewals).isPresent();
 
     }
@@ -100,7 +100,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
         TestData td = adjustTdBaseDate(getPolicyTD());
         createQuoteAndFillUpTo(td, DocumentsAndBindTab.class);
-        validateAFW(td);
+        validateASW(td);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
     }
@@ -125,7 +125,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         TestData td = adjustTdBaseDate(getPolicyTD());
         openAppAndCreatePolicy(td);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        validateAFW(td);
+        validateASW(td);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
     }
@@ -153,7 +153,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         TestData td = adjustTdBaseDate(getPolicyTD());
         openAppAndCreatePolicy(td);
         policy.renew().perform();
-        validateAFW(td);
+        validateASW(td);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
     }
@@ -730,13 +730,13 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         validateReasonCode(DRAG_RACING, PolicyConstants.ActivityInformationTable.REASON_CODE_SDW);
     }
 
-    private void validateAFW(TestData policyTd) {
+    private void validateASW(TestData policyTd) {
 
         // Add AF accident
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         fillActivityDriverTab(getActivityInfoTd());
 
-        // Validate AFW is given
+        // Validate ASW is given
         calculatePremiumAndNavigateToDriverTab();
         validateIncludeInPoints(PROPERTY_DAMAGE, "No");
         validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
@@ -750,14 +750,14 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         assertThat(DriverTab.tableActivityInformationList.getRow(1).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
         assertThat(DriverTab.tableActivityInformationList.getRow(2).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
 
-        // Remove second claim and validate AFW is given
+        // Remove second claim and validate ASW is given
         DriverTab.tableActivityInformationList.removeRow(2);
         calculatePremiumAndNavigateToDriverTab();
         validateIncludeInPoints(PROPERTY_DAMAGE, "No");
         validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
         DriverTab.tableActivityInformationList.resetAllFilters();
 
-        // Change Prior Carrier to non-AAA (Progressive) and validate no AFW for both
+        // Change Prior Carrier to non-AAA (Progressive) and validate no ASW for both
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
         new GeneralTab().getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER).setValue("Progressive");
         calculatePremiumAndNavigateToDriverTab();
