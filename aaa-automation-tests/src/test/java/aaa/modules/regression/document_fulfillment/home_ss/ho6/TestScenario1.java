@@ -7,6 +7,7 @@ import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.BatchJob;
 import aaa.main.enums.DocGenEnum;
@@ -34,6 +35,7 @@ public class TestScenario1 extends HomeSSHO6BaseTest {
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		HttpStub.executeAllBatches();
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));
@@ -49,5 +51,5 @@ public class TestScenario1 extends HomeSSHO6BaseTest {
 		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, DocGenEnum.Documents.AH64XX);
 	}
-	
+
 }

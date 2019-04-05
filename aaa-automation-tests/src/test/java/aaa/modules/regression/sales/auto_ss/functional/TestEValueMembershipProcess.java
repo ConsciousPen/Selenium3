@@ -32,6 +32,7 @@ import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.rest.wiremock.HelperWireMockStub;
@@ -1794,6 +1795,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		}*/
 		TimeSetterUtil.getInstance().nextPhase(renewReportOrderingDate);
 		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
+		Waiters.SLEEP(5000).go();
+		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
+		Waiters.SLEEP(5000).go();
 		/*try {
 			sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound" + "/*.*"));
 		} catch (JSchException | SftpException e) {

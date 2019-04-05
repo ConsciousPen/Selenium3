@@ -20,6 +20,7 @@ import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.product.ProductRenewalsVerifier;
@@ -258,7 +259,7 @@ public class TestManualConversionScenario1 extends AutoSSBaseTest {
 		//34, 35. (2R-63)  Run the following jobs: renewalOfferGenerationPart1, aaaMembershipRenewalBatchOrderAsyncJob
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(secondRenewalDate));
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
-
+		HttpStub.executeAllBatches();
 		//36. Open active Policy. Click Renewal link and in Inquiry mode Navigate to Rating Details Reports tab. Validate membership report
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
