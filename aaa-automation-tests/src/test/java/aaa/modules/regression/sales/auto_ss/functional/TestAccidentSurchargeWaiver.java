@@ -32,6 +32,7 @@ import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplat
 import aaa.utils.StateList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
 
 @StateList(statesExcept = Constants.States.CA)
@@ -707,13 +708,24 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     }
 
     private void validateIncludeInPoints(String description, String expectedValue) {
-        assertThat(DriverTab.tableActivityInformationList.getRowContains(PolicyConstants.ActivityInformationTable.DESCRIPTION, description)
-                .getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo(expectedValue);
+        // Try twice due to intermittent failures caused by performance issues
+        try {
+            assertThat(DriverTab.tableActivityInformationList.getRowContains(PolicyConstants.ActivityInformationTable.DESCRIPTION, description)
+                    .getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo(expectedValue);
+        } catch (IstfException e) {
+            assertThat(DriverTab.tableActivityInformationList.getRowContains(PolicyConstants.ActivityInformationTable.DESCRIPTION, description)
+                    .getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo(expectedValue);
+        }
     }
 
     private void validateReasonCode(String description, String expectedValue) {
-        assertThat(DriverTab.tableActivityInformationList.getRowContains(PolicyConstants.ActivityInformationTable.DESCRIPTION, description)
-                .getCell(PolicyConstants.ActivityInformationTable.NOT_INCLUDED_REASON_CODES).getValue()).isEqualTo(expectedValue);
+        try {
+            assertThat(DriverTab.tableActivityInformationList.getRowContains(PolicyConstants.ActivityInformationTable.DESCRIPTION, description)
+                    .getCell(PolicyConstants.ActivityInformationTable.NOT_INCLUDED_REASON_CODES).getValue()).isEqualTo(expectedValue);
+        } catch (IstfException e) {
+            assertThat(DriverTab.tableActivityInformationList.getRowContains(PolicyConstants.ActivityInformationTable.DESCRIPTION, description)
+                    .getCell(PolicyConstants.ActivityInformationTable.NOT_INCLUDED_REASON_CODES).getValue()).isEqualTo(expectedValue);
+        }
     }
 
     private void validateMultipleActivitiesOnSameDay() {
