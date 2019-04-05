@@ -1173,6 +1173,9 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
                 <methods>
                     <include name="pas21646_aacsnjFormRFI"/>
+                    <include name="pas24562_AA52NY_BIUpdateInDXP"/>
+                    <include name="pas24562_AA52NY_BIUpdateInPAS"/>
+                    <include name="pas24562_AA52NY_UMSU"/>
                 </methods>
             </class>
         </classes>
@@ -1184,15 +1187,6 @@
                 <methods>
                     <include name="pas16040_sslCoverageNY"/>
                     <include name="pas16041_wlbCoverageNYBody"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test thread-count="1024" name="NY Supplementary Coverages" parallel="methods">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
-                <methods>
                     <include name="pas15308_UM_SUM_CoverageNY"/>
                 </methods>
             </class>
