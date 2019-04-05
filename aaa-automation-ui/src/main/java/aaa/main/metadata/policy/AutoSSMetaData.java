@@ -280,9 +280,14 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<TextBox> TOLLFREE_NUMBER = declare("TollFree Number", TextBox.class);
 			public static final AssetDescriptor<ComboBox> LEAD_SOURCE = declare("Lead Source", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> SUPPRESS_PRINT = declare("Suppress Print", ComboBox.class);
-			public static final AssetDescriptor<AssetListConfirmationDialog> CHANGE_POLICY_TYPE_CONFIRMATION =
-					declare("Change Policy Type Confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By
-							.xpath(".//div[@id='policyDataGatherForm:switchToNanoConfirmDialog_container']"));
+			public static final AssetDescriptor<AssetList> CHANGE_POLICY_TYPE_CONFIRMATION =
+					declare("Change Policy Type Confirmation", AssetList.class, ChangePolicyTypeConfirmationDialog.class, By
+							.xpath("//div[@id='policyDataGatherForm:switchToNanoConfirmDialog_container']"));
+			
+			public static final class ChangePolicyTypeConfirmationDialog extends MetaData {
+				public static final AssetDescriptor<Button> CONTINUE_BTN = declare("Continue", Button.class, By.xpath("//input[@id='policyDataGatherForm:swichtToNano_okBtn']"));
+				public static final AssetDescriptor<Button> CANCEL_BTN = declare("Cancel", Button.class, By.xpath("//input[@id='policyDataGatherForm:cancelSwichtToNanoBtn']"));
+			}
 
 		}
 	}
