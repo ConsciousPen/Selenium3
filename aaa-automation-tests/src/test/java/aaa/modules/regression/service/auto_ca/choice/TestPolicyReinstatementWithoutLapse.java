@@ -1,4 +1,4 @@
-package aaa.modules.regression.document_fulfillment.auto_ca.choice;
+package aaa.modules.regression.service.auto_ca.choice;
 
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
@@ -9,9 +9,12 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
+import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
@@ -25,6 +28,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
+import toolkit.utils.datetime.DateTimeUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,235 +36,212 @@ import java.util.List;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 
-public class TestPolicyActions extends AutoCaChoiceBaseTest {
+public class TestPolicyReinstatementWithoutLapse extends AutoCaChoiceBaseTest {
 
-
+    /**
+     * @author Denis Semenov
+     * @name C-AU-CAC-CA-244
+     * @scenario 1. Initiate Auto quote. Select Product as 'CA Choice
+     * 2. Run aaaDocgen batch job. Search for AARFIXX form in POLICY_ISSUE event in DB
+     * 3. Run aaaBillingInvoiceAsyncTaskJob to generate the Installment Bill
+     * 4. Run aaaCancellationNoticeAsyncJob and aaaDocGen
+     * 5. Search for AH34XX form in CANCEL_NOTICE event in DB
+     * 6. Make payment
+     * 6. Select 'Cancel Notice' action
+     * 7. Run aaaDocGenBatchJob
+     * 8. Search for AH61XX form in CANCEL_NOTICE event in DB
+     * 9. Run aaaCancellationConfirmationAsyncJob and policyStatusUpdateJob
+     * 10. Select 'Reinstatement' action
+     * 11. Run aaaBillingInvoiceAsyncTaskJob to generate the Installment Bill
+     * 12. Make Payment
+     * 13. Run aaaBillingInvoiceAsyncTaskJob to generate the Installment Bill
+     * 14. Make Payment
+     * 15. Run the following jobs: Renewal_Offer_Generation_Part2, Renewal_Offer_Generation_Part1, Renewal_Offer_Generation_Part2, Renewal_Offer_Generation_Part2
+     * 16. Make payment for renewal term
+     * 17. Run PolicyStatusUpdateJob and policyLapsedRenewalProcessAsyncJob
+     * @details
+     */
     @Parameters({"state"})
     @StateList(states = Constants.States.CA)
     @Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
-    public void testPolicyActions(@Optional("") String state) {
+    public void testPolicyReinstatementWithoutLapse(@Optional("") String state) {
 
+        TestData td = getTestSpecificTD("TestData");
         List<LocalDateTime> installmentDueDates;
         LocalDateTime billGenDate;
         LocalDateTime renewalDate;
         LocalDateTime cancellationDate;
         Dollar minDue;
 
-        TestData td = getTestSpecificTD("TestData");
-//     TestData td_plus33days = getTestSpecificTD("TestData_Plus33Days");
-
-
+        //Initiate Auto quote. Select Product as 'CA Choice
         mainApp().open();
         createCustomerIndividual();
-
         log.info("Policy Creation Started...");
-
-
         policy.initiate();
         policy.getDefaultView().fillUpTo(td, aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab.class, true);
         new ErrorTab().submitTab();
         new PurchaseTab().payRemainingBalance(BillingConstants.AcceptPaymentMethod.CASH).submitTab();
-
-
         String policyNumber = PolicySummaryPage.getPolicyNumber();
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
         SearchPage.openBilling(policyNumber);
         installmentDueDates = BillingHelper.getInstallmentDueDates();
         renewalDate = installmentDueDates.get(0).plusYears(1);
-        billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1));
         cancellationDate = installmentDueDates.get(1).plusMonths(1);
 
+        //Search for AARFIXX form in POLICY_ISSUE event in DB
 
-        // !!!   JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-        DocGenHelper.verifyDocumentsGenerated(true, false, policyNumber, DocGenEnum.Documents.AARFIXX);
+        DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.AARFIXX);
 
-
-        //DD3-20
+        //(DD3-20) Run aaaBillingInvoiceAsyncTaskJob to generate the Installment Bill
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(1)));
         JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
-
         mainApp().open();
         SearchPage.openBilling(policyNumber);
-
+        billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1));
         new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(1), billGenDate);
         new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 
-
-        //DD3
+        //(DD3) Don't make payment
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(1)));
 
-        //DD3+5
+        //(DD3+5) Run aaaCancellationNoticeAsyncJob and aaaDocGen
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDates.get(1)));
-
         JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
         JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         PolicySummaryPage.verifyCancelNoticeFlagPresent();
-
-
+        //Search for AH34XX form in CANCEL_NOTICE event in DB
         DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, DocGenEnum.Documents.AH34XX);
 
-
-        //DD4-20
-
-        log.info("DD4-20");
-
+        //(DD4-20) Make payment
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(cancellationDate));
+        mainApp().open();
+        SearchPage.openBilling(policyNumber);
+        minDue = new Dollar(BillingSummaryPage.getMinimumDue());
+        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+        new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillGenerationDate(installmentDueDates.get(1).plusMonths(1)))
+                .setSubtypeReason("Manual Payment").setAmount(minDue.negate()).verifyPresent();
+        SearchPage.openPolicy(policyNumber);
+        PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
+
+        //(DD4) Select 'Cancel Notice' action
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(cancellationDate));
+
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        log.info("Cancel Notice for Policy #" + policyNumber);
+        policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
+
+        assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
+
+        //Run aaaDocGenBatchJob
+        JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+        //Search for AH61XX form in CANCEL_NOTICE event in DB
+        DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, DocGenEnum.Documents.AH61XX);
+
+        //(DD4+33) (CED) Run aaaCancellationConfirmationAsyncJob and policyStatusUpdateJob
+        log.info("Policy Cancellation Started...");
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(cancellationDate.plusDays(33)));
+        String cancelationNoticeDueDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
+        JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
+        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+
+        //(DD6-20) Select 'Reinstatement' action
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(2)));
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+
+        policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData")
+                .adjust(TestData.makeKeyPath(AutoCaMetaData.ReinstatementActionTab.class.getSimpleName(), "Reinstate Date"), cancelationNoticeDueDate));
+
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+        //Run aaaBillingInvoiceAsyncTaskJob to generate the Installment Bill
+        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+        SearchPage.openBilling(policyNumber);
+        billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(2));
+        new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(2), billGenDate);
+        new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
+
+        //(DD6) Make Payment
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(2)));
 
         mainApp().open();
         SearchPage.openBilling(policyNumber);
 
         minDue = new Dollar(BillingSummaryPage.getMinimumDue());
         new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
-        new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillGenerationDate(installmentDueDates.get(1).plusMonths(1)))
+        new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillDueDate(installmentDueDates.get(2)))
                 .setSubtypeReason("Manual Payment").setAmount(minDue.negate()).verifyPresent();
 
-
-        SearchPage.openPolicy(policyNumber);
-        PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
-
-
-        //DD4
-
-        log.info("DD4");
-
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(cancellationDate));
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
-
-        log.info("Cancel Notice for Policy #" + policyNumber);
-
-
-        policy.cancelNotice().start();
-        policy.cancelNotice().getView().fill(getPolicyTD("CancelNotice", "TestData"));
-        // int daysOfNotice = Integer.parseInt(policy.cancelNotice().getView().getTab(CancelNoticeActionTab.class).getAssetList().getAsset(AutoCaMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE.getLabel(), TextBox.class).getValue());
-        policy.cancelNotice().submit();
-
-        assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
-
-        JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-        DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, DocGenEnum.Documents.AH61XX);
-
-
-        //DD4+33 (CED)
-
-
-        log.info("DD4+33");
-
-
-        log.info("Policy Cancellation Started...");
-
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(cancellationDate.plusDays(33)));
-        JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-
-
-
-        //DD6-20
-
-        log.info("DD6-20");
-
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(2)));
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
-
-        //delete
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-
-        policy.reinstate().start();
-        //    int reinstateday_plus1 = Integer.parseInt(policy.cancelNotice().getView().getTab(ReinstatementActionTab.class).getAssetList().getAsset(AutoCaMetaData.ReinstatementActionTab.REINSTATE_DATE.getLabel(), TextBox.class).getValue());
-        policy.reinstate().getView().fill(getPolicyTD("Reinstatement", "TestData"));
-        policy.reinstate().submit();
-
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
-        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
-        SearchPage.openBilling(policyNumber);
-
-        billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(2));
-        new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(2), billGenDate);
-        new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
-
-        //DD6
-
-        log.info("DD6");
-
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(2)));
-        mainApp().open();
-        SearchPage.openBilling(policyNumber);
-
-
-        //DD9-20
-
-
-        log.info("DD9-20");
-
+        //(DD9-20) Run aaaBillingInvoiceAsyncTaskJob to generate the Installment Bill
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(3)));
         JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
         mainApp().open();
         SearchPage.openBilling(policyNumber);
-
-
-        //Required fix
-
         billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(3));
         new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(3), billGenDate);
         new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 
-
-        //DD9
-
-        log.info("DD9");
-
+        //(DD9) Make Payment
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(3)));
         mainApp().open();
         SearchPage.openBilling(policyNumber);
-
+        minDue = new Dollar(BillingSummaryPage.getMinimumDue());
         new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
         new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillDueDate(installmentDueDates.get(3)))
                 .setSubtypeReason("Manual Payment").setAmount(minDue.negate()).verifyPresent();
 
-
-        //R-81
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(renewalDate));
+        //Run the following jobs: Renewal_Offer_Generation_Part2, Renewal_Offer_Generation_Part1, Renewal_Offer_Generation_Part2, Renewal_Offer_Generation_Part2
+        //(R-81)
+        log.info("R-81");
+        TimeSetterUtil.getInstance().nextPhase(renewalDate.minusDays(81));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
-
-        //R-63
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCheckUWRules(installmentDueDates.get(3)));
+        //(R-63)
+        TimeSetterUtil.getInstance().nextPhase(renewalDate.minusDays(63));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 
-
-        //R-57
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(renewalDate));
+        //(R-57)
+        TimeSetterUtil.getInstance().nextPhase(renewalDate.minusDays(57));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
+        PolicySummaryPage.buttonRenewals.click();
 
+        new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 
-        //R-35
+        //(R-35)
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalDate));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        PolicySummaryPage.buttonRenewals.click();
 
+        new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
-        //R
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalDate));
+        //(R) Make payment for renewal term
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(renewalDate));
+        mainApp().open();
+        SearchPage.openBilling(policyNumber);
+        minDue = new Dollar(BillingSummaryPage.getMinimumDue());
+        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+        new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillDueDate(renewalDate))
+                .setSubtypeReason("Manual Payment").setAmount(minDue.negate()).verifyPresent();
 
-
-        //R+1
+        //(R+1) Run PolicyStatusUpdateJob and policyLapsedRenewalProcessAsyncJob
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalDate));
         JobUtils.executeJob(Jobs.policyStatusUpdateJob);
         JobUtils.executeJob(Jobs.policyLapsedRenewalProcessAsyncJob);
-
         mainApp().open();
-        SearchPage.openBilling(policyNumber);
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+        assertThat(SearchPage.tableSearchResults.getRow("Status", "Policy Active").isPresent());
+        assertThat(SearchPage.tableSearchResults.getRow("Status", "Policy Expired").isPresent());
     }
 }
