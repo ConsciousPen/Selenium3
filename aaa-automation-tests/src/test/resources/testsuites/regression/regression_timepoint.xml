@@ -285,11 +285,6 @@
                     <include name="pas2571_renewalCoverLetterHSRNPUPXXHO3"/>
                 </methods>
             </class> <!-- aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup -->
-            <class name="aaa.modules.regression.sales.pup.functional.TestExpiredDriversLicenceError">
-                <methods>
-                    <include name="pas4270_VerifyExpiredDriversLicenceError"/>
-                </methods>
-            </class> <!-- aaa.modules.regression.sales.pup.functional.TestExpiredDriversLicenceError -->
         </classes>
     </test> <!-- VA PUP -->
     <test name="CA Home" parallel="methods">

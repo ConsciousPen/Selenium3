@@ -1206,4 +1206,14 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="NY Supplementary Coverages" parallel="methods">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15308_UM_SUM_CoverageNY"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

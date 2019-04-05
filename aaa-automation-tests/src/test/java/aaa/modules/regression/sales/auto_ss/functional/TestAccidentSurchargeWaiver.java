@@ -59,7 +59,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
         TestData td = adjustTdBaseDate(getConversionPolicyDefaultTD());
         createConversionQuoteAndFillUpTo(td, DocumentsAndBindTab.class);
-        validateAFW(td);
+        validateASW(td);
         assertThat(PolicySummaryPage.tableRenewals).isPresent();
 
     }
@@ -86,7 +86,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
         TestData td = adjustTdBaseDate(getPolicyTD());
         createQuoteAndFillUpTo(td, DocumentsAndBindTab.class);
-        validateAFW(td);
+        validateASW(td);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
     }
@@ -145,7 +145,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         TestData td = adjustTdBaseDate(getPolicyTD());
         openAppAndCreatePolicy(td);
         policy.renew().perform();
-        validateAFW(td);
+        validateASW(td);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
     }
@@ -252,24 +252,24 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
                         AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel()), "$<today-1y>");
     }
 
-    private void validateAFW(TestData policyTd) {
+    private void validateASW(TestData policyTd) {
 
         // Add AF accident
         addActivityDriverTab(getAccidentInfoTd());
 
-        // Validate AFW is given
+        // Validate ASW is given
         validateIncludedInPoints("No");
 
         // Add a second AF accident in past 33 months and validate
         addActivityDriverTab(getAccidentInfoTd().adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-8M>"));
         validateIncludedInPoints("Yes", "Yes");
 
-        // Remove second claim and validate AFW is given
+        // Remove second claim and validate ASW is given
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         DriverTab.tableActivityInformationList.removeRow(2);
         validateIncludedInPoints("No");
 
-        // Change Prior Carrier to non-AAA (Progressive) and validate no AFW for both
+        // Change Prior Carrier to non-AAA (Progressive) and validate no ASW for both
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
         new GeneralTab().getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER).setValue("Progressive");
         validateIncludedInPoints("Yes");

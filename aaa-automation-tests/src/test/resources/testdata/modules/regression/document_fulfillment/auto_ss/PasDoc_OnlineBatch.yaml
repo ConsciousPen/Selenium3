@@ -112,6 +112,159 @@ TestData_Nano: {
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
+# ----- Scenario 11
+TestData_Endorsement_AddVehicle: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab_Regular2',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_Endorsement_AddTrailer: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab_Trailer',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+# ----- Scenario 12
+TestData_Endorsement_UMandUIMLessThanBI: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMandUIMLessThanBI', 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Endorsement_UMandUIMLessThanBI'
+}
+
+TestData_Endorsement_UMLessThanBI: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMLessThanBI', 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Endorsement_UMandUIMLessThanBI'
+}
+
+TestData_Endorsement_UIMLessThanBI: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UIMLessThanBI', 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Endorsement_UMandUIMLessThanBI'
+}
+
+# ------ Scenario 13
+TestData_Endorsement_AddExcludedDriver: {
+  GeneralTab: {}, 
+  DriverTab: '@DriverTab_ExcludedDriver',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {}, 
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Endorsement_ExcludedDriver' 
+}
+
+# ------ Scenario 14
+TestData_Endorsement_Nano: {
+  GeneralTab: '@GeneralTab_Endorse_NANO', 
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {}, 
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Endorse_NANO' 
+}
+
+# ------ Scenario 15
+TestData_Endorsement_setDamage: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab_setDamage',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_Endorsement_addDamageVehicle: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@Vehicle2_withDamage',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_Endorsement_removeDamage: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab_removeDamage',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+# ------- Scenario 16
+TestData_Endorsement_addGolfCart: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab_GolfCart',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+# ----- Scenario 17
+TestData_Endorsement_addFinDriver: {
+  GeneralTab: {},
+  DriverTab: '@DriverTab_addFinancialResponsibility',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+# ----- Scenario 18
+
+# ----- Scenario 19
+TestData_Endorsement_addPermitDriver: {
+  GeneralTab: {},
+  DriverTab: '@DriverTab_LearnersPermitDriver',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
 # -------- GeneralTab ---------
 GeneralTab_OverrideCurrentCarrier: {
   NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
@@ -174,6 +327,17 @@ PolicyInformation_NANO: {
   Lead Source: AAA Magazines
 }
 
+GeneralTab_Endorse_NANO: {
+  PolicyInformation: '@PolicyInformation_Endorse_NANO'
+}
+
+PolicyInformation_Endorse_NANO: {
+  Policy Type: Named Non Owner,
+  Change Policy Type Confirmation: {
+    Continue: click
+  }
+}
+
 # --------- DriverTab ---------
 DriverTab_RegularDriver: {
   Occupation: Self-Employed,
@@ -201,6 +365,10 @@ DriverTab_FinancialDriver2: {
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
   License Number: 400064774, 
+  Financial Responsibility Filing Needed: 'Yes'
+}
+
+DriverTab_addFinancialResponsibility: {
   Financial Responsibility Filing Needed: 'Yes'
 }
 
@@ -386,6 +554,7 @@ VehicleTab_GolfCart: {
   Type: Golf Cart, 
   Primary operator: contains=Fernando,
   Usage: index=1, 
+  VIN: 123456789,
   Year: 2002,
   Other Make: Golf,
   Other Model: Cart,
@@ -409,6 +578,7 @@ VehicleTab_Trailer: {
   Primary operator: contains=Fernando,
   Trailer Type: Travel Trailer, 
   Usage: index=2, 
+  VIN: 123456789,
   Year: 2002,
   Other Make: Other,
   Other Model: Trailer,
@@ -454,6 +624,14 @@ Vehicle2_withDamage: {
   Usage: Pleasure,
   VIN: 5NPEB4AC7C7443856,
   Existing Damage: Other Body Damages
+}
+
+VehicleTab_setDamage: {
+  Existing Damage: Other Body Damages
+}
+
+VehicleTab_removeDamage: {
+  Existing Damage: None
 }
 
 # ------ PremiumAndCoveragesTab ------- 
@@ -513,6 +691,12 @@ DocumentsAndBindTab_NANO: {
   Agreement: I agree 
 }
 
+DocumentsAndBindTab_Endorse_NANO: {
+  RequiredToBind: {
+    Non-Owner Automobile Endorsement: Physically Signed
+  }
+}
+
 DocumentsAndBindTab_FinancialDriver: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed
@@ -535,6 +719,11 @@ DocumentsAndBindTab_ExcludedDriver: {
   }
 }
 
+DocumentsAndBindTab_Endorsement_ExcludedDriver: {
+  RequiredToBind: {
+    Named Driver Exclusion: Physically Signed
+  }
+}
 
 DocumentsAndBindTab_UMandUIMLessThanBI: {
   RequiredToBind: {
@@ -545,6 +734,17 @@ DocumentsAndBindTab_UMandUIMLessThanBI: {
   RequiredToIssue: { 
     Proof of Prior Insurance: 'Yes'
   }
+}
+
+DocumentsAndBindTab_Endorsement_UMandUIMLessThanBI: {
+  RequiredToBind: {
+    #Auto Insurance Application: Physically Signed,
+    Uninsured and Underinsured Motorist Coverage Selection: Physically Signed, 
+  }, 
+  #Agreement: I agree, 
+  #RequiredToIssue: { 
+  #  Proof of Prior Insurance: 'Yes'
+  #}
 }
 
 DocumentsAndBindTab_DocNotSigned: {

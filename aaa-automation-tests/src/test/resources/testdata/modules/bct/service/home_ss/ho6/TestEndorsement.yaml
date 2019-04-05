@@ -1,0 +1,30 @@
+TestData: {
+  EndorsementActionTab: {
+    Endorsement Reason: 'index=2'
+  },
+  GeneralTab: '',
+  ApplicantTab: '',
+  ReportsTab: '',
+  PropertyInfoTab: '',
+  PremiumsAndCoveragesQuoteTab: '',
+  BindTab: '',
+}
+
+GeneralTab: {
+  ContactInformation: {
+    Home Phone Number: 1234567890
+  }
+}
+
+TestDataEndorseHomeSS: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today>,
+    Endorsement Reason: Property/Exposures
+  },
+  GeneralTab: {},
+  ApplicantTab: '@GeneralTab',
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {}
+}

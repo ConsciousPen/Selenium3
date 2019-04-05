@@ -127,6 +127,15 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         return td;
     }
 
+    protected TestData getRemoveReinstatementLapseTd(LocalDateTime cxDate) {
+        if (isStateCA()) {
+            return getPolicyTD("ReinstatementChangeLapse", "TestData").adjust(TestData.makeKeyPath(HomeCaMetaData.ChangeReinstatementLapsePeriodActionTab.class.getSimpleName(),
+                    HomeCaMetaData.ChangeReinstatementLapsePeriodActionTab.REVISED_REINSTATEMENT_DATE.getLabel()), cxDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+        }
+        return getPolicyTD("ReinstatementChangeLapse", "TestData").adjust(TestData.makeKeyPath(HomeSSMetaData.ChangeReinstatementLapseActionTab.class.getSimpleName(),
+                HomeSSMetaData.ChangeReinstatementLapseActionTab.REVISED_REINSTATEMENT_DATE.getLabel()), cxDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+    }
+
     protected TestData adjustTdPolicyEffDate(TestData td, LocalDateTime date) {
         String type = getPolicyType().getShortName();
         String sDate = date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
