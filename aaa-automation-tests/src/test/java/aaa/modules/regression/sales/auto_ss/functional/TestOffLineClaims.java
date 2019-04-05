@@ -482,4 +482,19 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     public void pas25463_ViolationsMVRPUIndicatorCheck(@Optional("AZ") @SuppressWarnings("unused") String state) {
         pas25463_ViolationsMVRPUIndicatorCheck();
     }
+
+    /**
+     * @author Chris Johns
+     * PAS-22172 - END - CAS: reconcile permissive use claims when driver/named insured is added (avail for rating)
+     * PAS-24652 - CHANGE FNI - General Tab (CA): move PU Yes claims when FNI changed via "dropdown" (endorsement and quote) (changed to FNI already exists as driver)
+     * @name Test Offline STUB/Mock: validate permissive use claims 'move' to new FNI when FNI is changed to existing FNI on general tab
+     * @scenario Renewal: See Template For Details and steps
+     * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24652")
+    public void pas24652_ChangeFNIGeneralTabRenewal(@Optional("CA") @SuppressWarnings("unused") String state) {
+        pas24652_ChangeFNIGeneralTabRenewal();
+    }
 }

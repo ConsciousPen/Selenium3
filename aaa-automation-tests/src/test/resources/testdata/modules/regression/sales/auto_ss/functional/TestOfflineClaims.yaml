@@ -7,7 +7,24 @@ TestData_DriverTab_ViolationsMVRFNIclaims_PU: {
 #  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
   DriverTab:  ['@Driver6','@Driver3']
 }
+  TestData_Change_FNI_Renewal_PU_AZ: {
+    GeneralTab: '@TwoNamedInsuredGeneralTab',
+    DriverTab:  ['@Driver1','@Driver7']
+  }
+  TwoNamedInsuredGeneralTab: {
+    NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+    AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+    ContactInformation: '@<auto_ss@DataGather@ContactInformation',
+    PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
+  }
+  NamedInsuredInformation1: {
+  }
 
+  NamedInsuredInformation2: {
+    InsuredSearchDialog: {},
+    First Name: Steve,
+    Last Name: Rogers
+  }
 
 PrefillTab: {
   First Name: Harry,
@@ -32,7 +49,7 @@ PrefillTab: {
 #  'Rel. to First Named Insured': Sibling,
 #  Date of Birth: 12/05/1960,
 #  Gender: Male,
-
+#
 #  Marital Status: Married,
 #  Occupation: Clergy,
 #  License Type: "Licensed (US)",
@@ -40,13 +57,27 @@ PrefillTab: {
 #  License Number: A12345111,
 #  Age First Licensed: 18
 #}
+Driver1: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': First Named Insured,
+  Age First Licensed: 21,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Clergy,
+  License Type: "Licensed (US)",
+  License State: AZ,
+  Permit Before License: 'Yes',
+  "License Number":D12789999
+}
 
 Driver2: {
   Add Driver: Click,
   DriverSearchDialog:{},
   First Name: JOSHUA,
   Last Name: FUSSELL,
-  'Rel. to First Named Insured': Sibling,
+  'Rel. to First Named Insured': First Named Insured,
   Date of Birth: 12/05/1970,
   Gender: Male,
   Marital Status: Married,
@@ -166,7 +197,34 @@ Driver6: {
   }
   ]
 }
-
+Driver7: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Named Insured: "Steve Rogers",
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 07/04/1918,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Clergy,
+  License Type: "Valid",
+  License State: AZ,
+  Permit Before License: 'Yes',
+  "License #": D54377777,
+  Age First Licensed: 18,
+  ActivityInformation: [
+  {
+    Activity Source: 'Customer Input',
+    Type: 'At-Fault Accident',
+    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+    Description: 'Accident (Property Damage Only)',
+    Loss Payment Amount: '2000',
+    #Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    "Include in Points and/or Tier?": 'No',
+    Not Included in Points and/or Tier - Reason Codes: 'Report errors'
+  }
+  ]
+}
 
 ############### Add 5th Driver at endorsement
 Add_PU_Claim_Driver_Endorsement_AZ: {
