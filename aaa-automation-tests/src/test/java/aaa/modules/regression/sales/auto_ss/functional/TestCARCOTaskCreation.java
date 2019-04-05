@@ -50,15 +50,15 @@ public class TestCARCOTaskCreation extends AutoSSBaseTest {
         ErrorTab errorTab = new ErrorTab();
 
         TestData td  = getPolicyTD()
-                .adjust(TestData.makeKeyPath(AutoSSMetaData.VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "JTNKARJE1JJ566521")
-                .adjust(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(),
-                        AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.SEPARATE_VEHICLE_1.getLabel()), "No");
+                .adjust(TestData.makeKeyPath(AutoSSMetaData.VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "JTNKARJE1JJ566521");
 
         if (getState().equals(Constants.States.NJ)) {
             td.adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(),
                     AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.ACNOWLEDGEMENT_OF_REQUIREMENT_FOR_INSURANCE_INSPECTION.getLabel()), PolicyConstants.SignatureStatus.PHYSICALLY_SIGNED);
         } else if (getState().equals(Constants.States.NY)) {
-            td.adjust(TestData.makeKeyPath(AutoSSMetaData.VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.LESS_THAN_1000_MILES.getLabel()), "No");
+            td.adjust(TestData.makeKeyPath(AutoSSMetaData.VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.LESS_THAN_1000_MILES.getLabel()), "No")
+                    .adjust(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(),
+                            AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.SEPARATE_VEHICLE_1.getLabel()), "No");
         }
 
         // Create policy and fill up to Documents & Bind, select 'No' for vehicle under 'Required to Issue' for CARCO

@@ -96,12 +96,6 @@ PAS-9157:
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
     - tests: [aaa.modules.e2e.pup.TestScenario12.TC01_createPolicy]
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
-PAS-9361:
-  summary: "Generate eSignature Document button doesnt open email popup"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
-      messages: ["Email"]
 PAS-10661:
   summary: "AAA_HO_SS1290786 Error A valid insurance score report for at least one named insured is required to propose firing inspite of overriding Insurance Score"
   reason: PROD
@@ -159,12 +153,6 @@ PAS-12248:
     - tests: [
     aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas325_eValueCommissionRelatedFields]
       messages: ["expected [eValue Renewal] but found [Renewal]"]
-PAS-18399:
-  summary: "Conversion: XML import is failing when policy has EFT Tags - Billing account creation has failed Caused by: java.lang.RuntimeException: Unexpected exception during import rule validation"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.conversions.*]
-      messages: ["doesn't have Success status. Reason"]
 PAS-11810:
   summary: "View Premium Service - Pended endorsement and renewal not rated"
   reason: PROD
@@ -367,12 +355,6 @@ PT-3048:
     messages: ["Errors: Time out. No session available", "no such element: Unable to locate element"]
   - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestCinNewBusinessHomeHO4.testCinHomeSSCluePropertyViolation]
     messages: ["Errors: Time out. No session available", "no such element: Unable to locate element"]
-PAS-22575:
-  summary: "Test Min Due Is Not Recalculated After Endorsements"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements.pas22575_testMinDueIsNotRecalculatedAfterEndorsements]
-    messages: ["expected:"]
 PAS-21588:
   summary: "(AH64XX) Expiration Notice - PAS is sending incorrect trans code in doc gen XML for renewal conversion documents - Auto"
   reason: PROD
@@ -455,12 +437,6 @@ PAS-25174:
       messages: ['Coverages should be rounded to dollar value']
     - tests: [aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater.*]
       messages: ['String index out of range: -1']
-PAS-25866:
-  summary: "Error 500 when rolling on changes for OOS endorsement on PUP policy"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.financials.pup.TestRenewal.*]
-      messages: ["no such element", "Error 500. Internal server error occurred"]
 PT-3481:
   summary: "Regression BCT, 19.3 : \"Address requires validation before proceeding\" appears during Empty endorsement at the Applicant tab"
   reason: PROD

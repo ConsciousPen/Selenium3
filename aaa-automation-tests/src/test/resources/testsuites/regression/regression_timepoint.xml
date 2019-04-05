@@ -285,11 +285,6 @@
                     <include name="pas2571_renewalCoverLetterHSRNPUPXXHO3"/>
                 </methods>
             </class> <!-- aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup -->
-            <class name="aaa.modules.regression.sales.pup.functional.TestExpiredDriversLicenceError">
-                <methods>
-                    <include name="pas4270_VerifyExpiredDriversLicenceError"/>
-                </methods>
-            </class> <!-- aaa.modules.regression.sales.pup.functional.TestExpiredDriversLicenceError -->
         </classes>
     </test> <!-- VA PUP -->
     <test name="CA Home" parallel="methods">
@@ -760,6 +755,11 @@
                     <include name="testAutoInsuranceCarriedOverToHoPolicy"/>
                 </methods>
             </class> <!-- aaa.modules.regression.service.home_ss.ho3.TestAutoInsuranceCarriedOverToHoPolicy -->
+            <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyReinstatementAdditionalEndorsements">
+                <methods>
+                    <include name="testPolicyReinstatementAdditionalEndorsements"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.service.home_ss.ho3.TestPolicyReinstatementAdditionalEndorsements -->
         </classes>
     </test> <!-- UT Home -->
     <test name="NY Home" parallel="methods">

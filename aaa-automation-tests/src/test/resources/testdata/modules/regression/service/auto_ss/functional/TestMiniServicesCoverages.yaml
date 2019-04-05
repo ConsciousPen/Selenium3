@@ -8,6 +8,10 @@ FourDrivers: {
   DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab4','@DriverTab6'],
 }
 
+FourDrivers_MD: {
+  DriverTab: ['@DriverTab1_MD', '@DriverTab2_MD', '@DriverTab3_MD', '@DriverTab4_MD'],
+}
+
 FourDrivers_DE: {
   DriverTab: ['@DriverTab2_DE','@DriverTab3_DE','@DriverTab4_DE','@DriverTab6_DE'],
 }
@@ -356,6 +360,18 @@ Underinsured Motorist Property Damage: index=1,
 }
 
 DocumentsAndBindTab: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Named Driver Exclusion: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Current Insurance for: 'Yes',
+    Proof of Prior Insurance: 'Yes'
+  },
+  Agreement: I agree
+}
+
+DocumentsAndBindTab_DE: {
  RequiredToBind: {
     Auto Insurance Application: Physically Signed,
     Named Driver Exclusion Endorsement: Physically Signed,
