@@ -24,6 +24,7 @@ import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.TestData;
+import toolkit.utils.datetime.DateTimeUtils;
 
 public class FinancialsBaseTest extends FinancialsTestDataFactory {
 
@@ -128,13 +129,29 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		return rollBackAmount;
 	}
 
+	protected LocalDateTime getCancellationEffectiveDate() {
+		if (getPolicyType().isAutoPolicy()) {
+			return TimeSetterUtil.getInstance().parse(PolicySummaryPage.tableGeneralInformation.getRow(1)
+					.getCell(PolicyConstants.PolicyGeneralInformationTable.CANCELLATION_EFF_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+		}
+		return TimeSetterUtil.getInstance().parse(PolicySummaryPage.tableGeneralInformation.getRow(1)
+				.getCell(PolicyConstants.PolicyGeneralInformationTable.CANCELLATION_EFFECTIVE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+	}
+
 	protected Dollar getBillingAmountByType(String type, String subtype) {
+		return getBillingAmountByType(type, subtype, null);
+	}
+
+	protected Dollar getBillingAmountByType(String type, String subtype, LocalDateTime effDate) {
 		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		}
 		Map<String, String> query = new HashMap<>();
 		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, type);
 		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, subtype);
+		if (effDate != null) {
+			query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.EFF_DATE, effDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+		}
 		return new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).abs();
 	}
 

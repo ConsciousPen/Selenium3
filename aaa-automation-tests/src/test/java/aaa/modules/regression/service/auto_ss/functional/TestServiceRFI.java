@@ -1477,6 +1477,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			String currentDate = DateTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 			softly.assertThat(name).isEqualTo("Megha Gubbala");
 			softly.assertThat(date).startsWith(currentDate);
+			softly.assertThat(date).endsWith("-07:00"); // validates that the document's DocSignedDate ends with an AZ timestamp
 		} else {
 			validateDocSignTagsNotExist(document, query);
 		}

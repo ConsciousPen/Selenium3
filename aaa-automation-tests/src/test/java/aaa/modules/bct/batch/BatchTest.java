@@ -6,8 +6,8 @@ import org.testng.annotations.Test;
 import aaa.helpers.jobs.BCTJobs;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.modules.bct.BctType;
+import aaa.modules.policy.BackwardCompatibilityBaseTest;
 
 public class BatchTest extends BackwardCompatibilityBaseTest {
 

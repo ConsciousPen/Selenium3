@@ -18,12 +18,13 @@ import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.actiontabs.ReinstatementActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import aaa.modules.policy.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 
-public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
+@Deprecated
+public class ReinstatePolicy extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test

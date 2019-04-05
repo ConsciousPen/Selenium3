@@ -57,6 +57,7 @@
                     <include name="pas18317_verifyPermissiveUseIndicator"/>
                     <include name="pas25463_ViolationsMVRPUIndicatorCheck"/>
                     <include name="pas20828_productDetermineWithPUClaims"/>
+                    <include name="pas24652_ChangeFNIGeneralTabNBEndorsement"/>
                 </methods>
             </class>
         </classes>
@@ -68,6 +69,7 @@
                 <methods>
                     <include name="pas18317_verifyPermissiveUseIndicator"/>
                     <include name="pas25463_ViolationsMVRPUIndicatorCheck"/>
+                    <include name="pas24652_ChangeFNIGeneralTabNBEndorsement"/>
                 </methods>
             </class>
         </classes>

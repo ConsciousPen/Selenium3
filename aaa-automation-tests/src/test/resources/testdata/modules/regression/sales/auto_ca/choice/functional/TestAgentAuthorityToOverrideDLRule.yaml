@@ -1,0 +1,41 @@
+Driver2: {
+    Add Driver: Click,
+    DriverSearchDialog:{},
+    Driver Type: Available for Rating,
+    First Name: Jennifer,
+    Last Name: Lopez,
+    'Rel. to First Named Insured': Spouse,
+    Date of Birth: 12/12/1987,
+    Gender: Female,
+    Marital Status: Married,
+    Occupation: Architect,
+    License Type: "Permanently Suspended",
+    License State: CA,
+    Permit Before License: 'Yes',
+    "License #": D5435484,
+    Age First Licensed: 18
+  }
+
+Driver3: {
+    Add Driver: Click,
+    DriverSearchDialog:{},
+    Driver Type: Available for Rating,
+    First Name: LeoNardo,
+    Last Name: DeCaprio,
+    'Rel. to First Named Insured': Sibling,
+    Date of Birth: 12/12/1983,
+    Gender: Female,
+    Marital Status: Married,
+    Occupation: Architect,
+    License Type: "Permanently Revoked",
+    License State: CA,
+    Permit Before License: 'Yes',
+    "License #": D5484435,
+    Age First Licensed: 18
+  }
+
+############### Add 1st Driver at endorsement
+Add_Driver_Endorsement_CA: {
+    GeneralTab: {},
+    DriverTab: ['@Driver2', '@Driver3']
+  }

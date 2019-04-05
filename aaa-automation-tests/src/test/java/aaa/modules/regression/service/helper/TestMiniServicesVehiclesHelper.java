@@ -3093,8 +3093,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 			RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
 			String docId = rfiServiceResponse.documents.get(0).documentId;
-			String docId2 = rfiServiceResponse.documents.get(1).documentId;
-			HelperCommon.endorsementBind(policyNumber, "Madam Jovita", Response.Status.OK.getStatusCode(), docId, docId2);
+			HelperCommon.endorsementBind(policyNumber, "Madam Jovita", Response.Status.OK.getStatusCode(), docId);
 
 			//Check PAS side
 			SearchPage.openPolicy(policyNumber);

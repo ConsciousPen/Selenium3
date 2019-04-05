@@ -10,25 +10,37 @@ import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
-import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import aaa.modules.policy.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
 import toolkit.verification.CustomSoftAssertions;
 
 public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
+	private BillingAccountPoliciesVerifier billingAccountPoliciesVerifier = new BillingAccountPoliciesVerifier();
 
+	/**
+	 * @author Deloite
+	 * @name Decline Payment with Fee and Restriction
+	 * @scenario
+	 * 1. Retrieve a Policy and navigate to billing page
+	 * 2. Make a payment of $100 and decline the payment by clicking on decline payment Link
+	 * 3. Validate if Check payment  be returned from bank is NSF by rejecting the payment
+	 * that was made through check by declining in payments & Transactions section with the reason : "Fee+ No Restriction "
+	 *
+	 * Check:
+	 * 1. Payment should be declined by selecting "Fee+ No Restriction " decline reason
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {UT, NJ, PA})
 	public void BCT_ONL_076_Decline_Payment(@Optional("") String state) {
-		//TODO Test moved from Deloite's code as is, probably some additional steps should be added
 		mainApp().open();
-		String policyNumber = getPoliciesByQuery("BCT_ONL_076_Decline_Payment", "SelectPolicy").get(0);
-		BillingAccount billingAccount = new BillingAccount();
-
+		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
+		//TODO Test moved from Deloite's code as is, probably some additional steps should be added
 		SearchPage.openBilling(policyNumber);
-		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
+		billingAccountPoliciesVerifier.setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
+
 		Dollar initialMinDue = BillingSummaryPage.getMinimumDue();
 		Dollar initialTotalDue = BillingSummaryPage.getTotalDue();
 		Dollar feeAmount = new Dollar(10);
@@ -43,16 +55,29 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue.add(feeAmount));
 	}
 
+	/**
+	 * @author Deloite
+	 * @name Decline-Fee+ No Restriction
+	 * @scenario
+	 * 1. Retrieve a Policy and navigate to billing page
+	 * 2. Make a payment of $100 and decline the payment by clicking on decline payment Link
+	 * 3. Validate if Check payment  be returned from bank is NSF by rejecting the payment
+	 * that was made through check by declining in payments & Transactions section with the reason : "Fee+ No Restriction "
+	 *
+	 * Check:
+	 * 1. Payment should be declined by selecting "Fee+ No Restriction " decline reason
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states = AZ)
 	public void BCT_ONL_120_Payments(@Optional("") String state) {
 		mainApp().open();
-		String policyNumber = getPoliciesByQuery("BCT_ONL_120_Payments", "SelectPolicy").get(0);
-		BillingAccount billingAccount = new BillingAccount();
+		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
 		SearchPage.openBilling(policyNumber);
-		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
+		billingAccountPoliciesVerifier.setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
+
 		Dollar initialTotalDue = BillingSummaryPage.getTotalDue();
 		Dollar initialTotalPaid = BillingSummaryPage.getTotalPaid();
 		Dollar amount = new Dollar(100);
@@ -79,16 +104,29 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 		});
 	}
 
+	/**
+	 * @author Deloite
+	 * @name Decline Fee+Restriction
+	 * @scenario
+	 * 1. Retrieve a Policy and navigate to billing page
+	 * 2. Make a payment of $100 and decline the payment by clicking on decline payment Link
+	 * 3. Validate if Check payment  be returned from bank as Rejected by rejecting the payment that was made through check by declining in payments & Transactions section with the reason : Fee+Restriction:
+	 * 4. Verify the declined reason by selecting  declined payment link
+	 * 5. Validate  e_folder and review the Payment Restriction Notice_ check(60 5000)
+	 * Check:
+	 * 1. Payment should be declined by selecting "Fee+ Restriction " decline reason
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states = AZ)
 	public void BCT_ONL_121_Payments(@Optional("") String state) {
 		mainApp().open();
-		String policyNumber = getPoliciesByQuery("BCT_ONL_121_Payments", "SelectPolicy").get(0);
-		BillingAccount billingAccount = new BillingAccount();
+		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
 		SearchPage.openBilling(policyNumber);
-		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
+		billingAccountPoliciesVerifier.setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
+
 		Dollar initialTotalDue = BillingSummaryPage.getTotalDue();
 		Dollar initialTotalPaid = BillingSummaryPage.getTotalPaid();
 		Dollar amount = new Dollar(100);
@@ -117,16 +155,29 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 		});
 	}
 
+	/**
+	 * @author Deloite
+	 * @name Decline Fee+Restriction
+	 * @scenario
+	 * 1. Retrieve a Policy and navigate to billing page
+	 * 2. Make a payment of $100 and decline the payment by clicking on decline payment Link
+	 * 3. Validate if Check payment  be returned from bank as Rejected by rejecting the payment that was made through check by declining in payments & Transactions section with the reason :NO Fee+ NO Restriction:
+	 * 4. Verify the declined reason by selecting  declined payment link
+	 * 5. Validate  e_folder and review the NSF notice in e_folder(605002)
+	 * Check:
+	 * 1. Payment should be declined by selecting "NO Fee+NO  Restriction " decline reason
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states = AZ)
 	public void BCT_ONL_122_Payments(@Optional("") String state) {
 		mainApp().open();
-		String policyNumber = getPoliciesByQuery("BCT_ONL_122_Payments", "SelectPolicy").get(0);
-		BillingAccount billingAccount = new BillingAccount();
+		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
 		SearchPage.openBilling(policyNumber);
-		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
+		billingAccountPoliciesVerifier.setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
+
 		Dollar initialTotalDue = BillingSummaryPage.getTotalDue();
 		Dollar initialTotalPaid = BillingSummaryPage.getTotalPaid();
 		Dollar amount = new Dollar(100);

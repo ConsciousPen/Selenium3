@@ -164,6 +164,8 @@ public class TestClaimsAssignment extends TestOfflineClaimsTemplate {
                     .as("Coverage Names should be equal to: BODILY_INJURY,MEDICAL_PAYMENTS").isEqualTo("BODILY_INJURY,MEDICAL_PAYMENTS");
             softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, ClaimAnalyticsJSONTags.TagNames.DATE_OF_LOSS))
                     .as("Date Of Loss should be equal to: 05-26-2018").isEqualTo("05-26-2018");
+            softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, ClaimAnalyticsJSONTags.TagNames.DRIVING_LICENSE_INDICATOR))
+                    .as("CAS Driving License Indicator should be equal to: Y").isEqualTo("Y");
             softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, ClaimAnalyticsJSONTags.TagNames.CLAIM_DRIVER_NAME))
                     .as("Claim Driver Name should be equal to: casMATTHEW casFOX").isEqualTo("casMATTHEW casFOX");
             softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, ClaimAnalyticsJSONTags.TagNames.TOTAL_AMOUNT_PAID))

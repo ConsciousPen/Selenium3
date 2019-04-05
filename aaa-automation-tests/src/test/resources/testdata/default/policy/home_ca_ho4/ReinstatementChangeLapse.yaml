@@ -1,0 +1,20 @@
+TestData: {
+  ChangeReinstatementLapsePeriodActionTab: {
+    Revised Reinstatement Date: $<today>,
+    Lapse Change Reason: 'Lapse Removed: management decision'
+  }
+}
+
+TestData_Plus5Days: {
+  ChangeReinstatementLapsePeriodActionTab: {
+    Revised Reinstatement Date: $<today+5d>,
+    Lapse Change Reason: 'Lapse Removed: management decision'
+  }
+}
+
+TestData_Plus10Days: {
+  ChangeReinstatementLapsePeriodActionTab: {
+    Revised Reinstatement Date: $<today+10d>,
+    Lapse Change Reason: 'Lapse Removed: management decision'
+  }
+}

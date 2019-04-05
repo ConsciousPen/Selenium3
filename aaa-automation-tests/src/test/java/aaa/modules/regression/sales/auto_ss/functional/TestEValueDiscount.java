@@ -164,13 +164,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	public static void eValueConfigCheck() {
-		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-			List<String> configForStates = Arrays.asList("VA", "MD", "DC", "OR");
-			for (String configForState : configForStates) {
-				softly.assertThat(DBService.get().getValue(String.format(EVALUE_CONFIGURATION_PER_STATE_CHECK, configForState)))
-						.as("eValue is not configured for " + configForState + ". Insert configuration (run eValueConfigInsert) and restart the env").isPresent();
-			}
-		softly.close();
+		assertThat(DBService.get().getValue(String.format(EVALUE_CONFIGURATION_PER_STATE_CHECK, getState())))
+				.as("eValue is not configured for " + getState() + ". Insert configuration (run eValueConfigInsert) and restart the env").isPresent();
 	}
 
 	public static void eValuePriorBiConfigCheck() {
@@ -1067,7 +1062,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 			documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.EVALUE_ACKNOWLEDGEMENT).setValue("Yes");
 
-			//BUG  PAS-9361 Generate eSignature Document button doesnt open email popup
 			documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.BTN_GENERATE_ESIGNATURE_DOCUMENTS)
 					.click(Waiters.DEFAULT.then(Waiters.SLEEP(2000)));
 			documentsAndBindTab.getEnterRecipientEmailAddressDialogAssetList()

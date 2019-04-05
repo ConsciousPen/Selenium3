@@ -457,6 +457,30 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     public void pas18317_verifyPermissiveUseIndicator(@Optional("AZ") @SuppressWarnings("unused") String state) {
         pas18317_verifyPermissiveUseIndicator();
     }
-
-
+    /**
+     * @author Kiruthika Rajendran
+     * @author Saranya Hariharan
+     * PAS-25463 - UI-CA: do NOT Show Permissive Use Indicator on Driver Tab (non-"claim" activity) (by source and type)
+     * @name Test Offline STUB/Mock: validate permissive use indicator when driver/named insure is added
+     * @scenario Test Steps:
+     * 1. Create a quote with 2 drivers and named insured driver1  has the following activies
+     *        - Company and Customer input (Type other than Accident) - PU indicator do not show up
+     *        - Company and Customer input (Type as Accident) - - PU indicator shows up
+     *        - MVR claims - PU indicator do not show up
+     * 2. Bind the policy
+     * 3. Initiate the first endorsement
+     * 4. Validate the driver 1 named insure has following activties
+     *        - Company and Customer input (Type other than Accident) - PU indicator do not show up
+     *        - Company and Customer input (Type as Accident) - - PU indicator shows up
+     *        - MVR claims - PU indicator do not show up
+     * 5. Bind the endorsement
+     * @details Clean Path. Expected Result is that Permissive Use Indicator on Driver Tab will not show up for non "claim" activity
+     *  // TODO: Once PU Indicator is TOGGLED ON for SS Auto , Assertions needs to be changed to verify the presence of PU Indicator for Activity Type "Accident".
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-25463")
+    public void pas25463_ViolationsMVRPUIndicatorCheck(@Optional("AZ") @SuppressWarnings("unused") String state) {
+        pas25463_ViolationsMVRPUIndicatorCheck();
+    }
 }
