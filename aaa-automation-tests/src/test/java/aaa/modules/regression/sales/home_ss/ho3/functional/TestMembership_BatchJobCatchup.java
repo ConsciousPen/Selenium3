@@ -1,10 +1,11 @@
-package aaa.modules.regression.sales.auto_ss.functional;
+package aaa.modules.regression.sales.home_ss.ho3.functional;
 
 import aaa.helpers.db.queries.AAAMembershipQueries;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.modules.policy.AutoSSBaseTest;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.Lists;
 import org.testng.annotations.DataProvider;
@@ -14,12 +15,12 @@ import org.testng.annotations.Test;
 import toolkit.verification.CustomAssertions;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
-public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
+public class TestMembership_BatchJobCatchup extends HomeSSHO3BaseTest {
     enum eThresholdTests {BEFORE, ON, AFTER}
 
     static final Integer MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE = 4;
@@ -88,10 +89,9 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
         // Creating Policy using Default Test Data
         mainApp().open();
         createCustomerIndividual();
-        createPolicy(getPolicyDefaultTD());
+        String policyNumber = createPolicy(getPolicyDefaultTD());
 
         // Saving policy data from summary page and closing App.
-        String policyNumber = PolicySummaryPage.getPolicyNumber();
         LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
         LocalDateTime nbDate = policyEffectiveDate.plusDays(nb15or30);
         thresholdMaxDate = nbDate.plusDays(MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE);
