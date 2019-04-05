@@ -9,7 +9,6 @@ import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.Test;
 import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
 
 public class HttpStub {
@@ -71,10 +70,5 @@ public class HttpStub {
 		public String getName() {
 			return name;
 		}
-	}
-
-	@Test
-	public void testMVR() {
-		executeAllBatches();
 	}
 }

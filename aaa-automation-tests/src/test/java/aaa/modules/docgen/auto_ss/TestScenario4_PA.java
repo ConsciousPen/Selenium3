@@ -19,6 +19,7 @@ import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.product.ProductRenewalsVerifier;
@@ -120,7 +121,7 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 		log.info("Policy Renewal Image Generation Date: " + renewImageGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
-
+		HttpStub.executeAllBatches();
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();

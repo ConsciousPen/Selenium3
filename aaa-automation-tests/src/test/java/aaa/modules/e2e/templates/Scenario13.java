@@ -14,6 +14,7 @@ import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
+import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.product.PolicyHelper;
@@ -303,7 +304,7 @@ public class Scenario13 extends ScenarioBaseTest {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
-
+		HttpStub.executeAllBatches();
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
