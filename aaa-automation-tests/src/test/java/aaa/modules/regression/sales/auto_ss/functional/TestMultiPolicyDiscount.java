@@ -1295,7 +1295,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     }
 
     /**
-     * Used to access the selectable checkbox directly.
+     * Used to access the selectable checkbox directly
      * @param index
      * @return
      */
