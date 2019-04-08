@@ -361,5 +361,31 @@
         </classes>
     </test>
 
+    <test name="Assignment Tab/Comparison SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas25887_dataGatherComparisonAssignment"/>
+                    <include name="pas25887_endorsementsComparisonAssignment"/>
+                    <include name="pas25887_renewalComparisonAssignment"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Assignment Tab/Conflict SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas25889_ooseConflictManualAssignment"/>
+                    <include name="pas25889_ooseConflictAutomaticAssignment"/>
+                    <include name="pas25889_renewalMergePolicyInformation"/>
+
+                </methods>
+            </class>
+        </classes>
+    </test>
 
 </suite>
