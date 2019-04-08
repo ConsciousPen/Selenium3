@@ -166,12 +166,24 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         policy.rollOn().perform(false, true);
         Dollar reducedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT);
 
-        // TODO Validate END-07
+        //Validate END-07
+        assertSoftly(softly -> {
+            softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
+            softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")
+                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")));
+            softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")
+                    .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")));
+            softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")
+                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")));
+        });
 
         // Roll back endorsement
         Dollar rollBackAmount = rollBackEndorsement(policyNumber);
 
         // TODO Validate END-05
+        assertSoftly(softly -> {
+            softly.assertThat(rollBackAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
+        });
 
         // Move to renewal offer time point and create renewal image
         advanceTimeAndOpenPolicy(getTimePoints().getRenewOfferGenerationDate(renewalEffDate), policyNumber);
@@ -179,6 +191,9 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         Dollar renewalAmt = payTotalAmountDue();
 
         // TODO Validate RNW-03
+        assertSoftly(softly -> {
+            softly.assertThat(renewalAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1044"));
+        });
 
     }
 

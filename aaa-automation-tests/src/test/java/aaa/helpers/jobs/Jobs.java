@@ -201,11 +201,6 @@ public class Jobs {
 
 	public static Job activitySummarizationJob = new Job("activitySummarizationJob");
 
-	public static Job ledgerStatusUpdateJob = new Job("ledgerStatusUpdateJob");
-
-
-
-
 
 	public enum JobState {
 		TRUE, FALSE, FAILED
