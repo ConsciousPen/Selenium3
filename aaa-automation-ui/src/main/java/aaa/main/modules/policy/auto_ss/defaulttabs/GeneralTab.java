@@ -69,15 +69,11 @@ public class GeneralTab extends Tab {
 	}
 
 	public Table getManualSearchResultTable() {
-		return getSearchOtherAAAProductsAssetList().getAsset(AutoSSMetaData.GeneralTab.SearchOtherAAAProducts.RESULT_TABLE.getLabel(), FillableTable.class).getTable();
+		return getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.RESULT_TABLE.getLabel(), FillableTable.class).getTable();
 	}
 
 	public SelectSearchDialog getSearchOtherAAAProducts() {
-		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.SEARCH_OTHER_AAA_PRODUCTS.getLabel(), SelectSearchDialog.class);
-	}
-
-	public AssetList getSearchOtherAAAProductsAssetList() {
-		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.SEARCH_OTHER_AAA_PRODUCTS.getLabel(), AssetList.class);
+		return getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_OTHER_AAA_PRODUCTS.getLabel(), SelectSearchDialog.class);
 	}
 
 	public AssetList getCurrentCarrierInfoAssetList() {
