@@ -1961,6 +1961,11 @@ public final class HomeCaMetaData {
 		public static final AssetDescriptor<TextBox> OTHER = declare("Other", TextBox.class, Waiters.AJAX);
 	}
 
+	public static final class ManualRenewActionTab extends MetaData {
+		public static final AssetDescriptor<StaticElement> RENEWAL_DATE = declare("Renewal Date", StaticElement.class);
+		public static final AssetDescriptor<TextBox> AUTHORIZED_BY = declare("Authorized By", TextBox.class);
+	}
+
 	public static final class ManualRenewalWithOrWithoutLapseActionTab extends MetaData {
 		public static final AssetDescriptor<TextBox> EXPIRATION_DATE = declare("Expiration Date", TextBox.class);
 		public static final AssetDescriptor<TextBox> RENEWAL_LAPSE_DATE = declare("Renewal Lapse Date", TextBox.class);
