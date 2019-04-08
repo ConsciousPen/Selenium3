@@ -252,6 +252,16 @@ TestData_Endorsement_addFinDriver: {
 }
 
 # ----- Scenario 18
+TestData_Endorsement_removeFinDriver: {
+  GeneralTab: {},
+  DriverTab: '@DriverTab_removeFinancialResponsibility',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
 
 # ----- Scenario 19
 TestData_Endorsement_addPermitDriver: {
@@ -370,6 +380,10 @@ DriverTab_FinancialDriver2: {
 
 DriverTab_addFinancialResponsibility: {
   Financial Responsibility Filing Needed: 'Yes'
+}
+
+DriverTab_removeFinancialResponsibility: {
+  Financial Responsibility Filing Needed: 'No'
 }
 
 DriverTab_ExcludedDriver: {
