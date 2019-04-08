@@ -335,6 +335,7 @@ public final class DocGenEnum {
 		PSIQXX("Personal Umbrella Liability Insurance Quote Page"),
 		SR22SR1P("California Insurance Proof Certificate"),
 		WU11DCA("California Application for Rental Property Insurance"),
+		WU65CA("Non-Renewal Notice"),
 		WUAECA(""),
 		WUAUCA("Consumer Information Notice"),
 		WURFICA("Request for Information"),
