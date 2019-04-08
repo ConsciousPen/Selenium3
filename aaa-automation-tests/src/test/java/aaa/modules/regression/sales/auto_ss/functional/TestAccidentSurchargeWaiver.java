@@ -359,14 +359,60 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
 
         // Bind policy
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        policy.getDefaultView().fillFromTo(getPolicyTD(), DocumentsAndBindTab.class, PurchaseTab.class, true);
-        purchaseTab.submitTab();
+        bindPolicy();
 
         // Initiate endorsement and add second driver with AF accident in past 33 months
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         policy.getDefaultView().fill(tdEndorsementFill);
+        calculatePremiumAndNavigateToDriverTab();
+
+        // Validate ASW is retained for first driver, accident for second driver is chargeable
+        DriverTab.viewDriver(1);
+        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+        DriverTab.viewDriver(2);
+        validateIncludeInPoints(BODILY_INJURY, "Yes");
+    }
+
+    /**
+     * @author Josh Carpenter
+     * @name Test ASW is retained during Endorsement
+     * @scenario
+     * 1.  Initiate SS quote with one driver and 4 years with a prior AAA carrier on General tab
+     * 2.  Add 1 AF accident that receives ASW to driver and bind policy
+     * 3.  Initiate endorsement, add 2nd driver with AF accident
+     * 4.  Navigate to P & C tab, calculate premium
+     * 5.  Navigate back to Driver tab
+     * 6.  Validate ASW is retained for first driver, second driver accident is chargeable
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27346")
+    public void pas24673_testASWRemainsDuringRenewal(@Optional("") String state) {
+
+        // Create test data for endorsement to add a second driver with AF accident during endorsement
+        TestData tdRenewalFill = DataProviderFactory.dataOf(
+                GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData(),
+                DriverTab.class.getSimpleName(), getSecondDriverTd().adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(),
+                        getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY).adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-6M>")));
+
+        // Initiate quote, fill up to DAR tab, add AF accident for driver
+        createQuoteAndFillUpTo(getDefaultASWTd(), DriverActivityReportsTab.class);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        fillActivityDriverTab(getActivityInfoTd());
+
+        // Validate AF accident receives ASW
+        calculatePremiumAndNavigateToDriverTab();
+        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+
+        // Bind policy
+        bindPolicy();
+
+        // Create renewal image and add second driver with AF accident in past 33 months
+        policy.renew().perform();
+        policy.getDefaultView().fill(tdRenewalFill);
         calculatePremiumAndNavigateToDriverTab();
 
         // Validate ASW is retained for first driver, accident for second driver is chargeable
@@ -468,10 +514,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
 
         // Bind quote
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        policy.getDefaultView().fillFromTo(getPolicyTD(), DocumentsAndBindTab.class, PurchaseTab.class, true);
-        purchaseTab.submitTab();
+        bindPolicy();
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 
         // Advance time to renewal reports order date and create renewal image
@@ -528,10 +571,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
 
         // Bind quote
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        policy.getDefaultView().fillFromTo(getPolicyTD(), DocumentsAndBindTab.class, PurchaseTab.class, true);
-        purchaseTab.submitTab();
+        bindPolicy();
 
         // Initiate renewal and add second AF accident for driver
         policy.renew().perform();
@@ -786,6 +826,13 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     private void calculatePremiumAndNavigateToDriverTab() {
         premiumAndCoveragesTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+    }
+
+    private void bindPolicy() {
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        policy.getDefaultView().fillFromTo(getPolicyTD(), DocumentsAndBindTab.class, PurchaseTab.class, true);
+        purchaseTab.submitTab();
     }
 
     private void runRenewalAndOrderJobs() {
