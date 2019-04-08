@@ -1,7 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="JDI Time Shift Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
@@ -119,6 +118,30 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
                     <include name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas23992_PaperlessPreferanceScenarioEvalue" parallel="methods">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
+                    <include name="pas23992_PaperlessPreferanceScenario1"/>
+                    <include name="pas23992_PaperlessPreferanceScenario2"/>
+                    <include name="pas23992_PaperlessPreferanceScenario3"/>
+                    <include name="pas23992_PaperlessPreferanceScenarioRenewa1"/>
+                    <include name="pas23992_PaperlessPreferanceScenario4"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas23992_PaperlessPreferanceScenarioEvalueAndMembership" parallel="methods">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="pas23992_PaperlessPreferanceScenarioMembership"/>
                 </methods>
             </class>
         </classes>

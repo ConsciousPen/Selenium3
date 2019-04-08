@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.common.enums.JobResultEnum;
 import aaa.helpers.http.impl.*;
+import aaa.helpers.jobs.Job;
+import aaa.modules.batch.BackendJobNames;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 
@@ -198,25 +200,28 @@ public class HttpJob {
 
 
 
+	@Deprecated
+	//todo verify
 	public static class JobStatistic {
 
-		public static String getLastProcessedStatistic(String response, String jobName) {
+		public static String getLastProcessedStatistic(String response, Job job) {
 			log.info("HTTP: Gathering Statistics");
-			List<String> allStatistics = getAllProcessedRowsByJob(response, jobName);
+			List<String> allStatistics = getAllProcessedRowsByJob(response, job);
 
 			return allStatistics.get(allStatistics.size() - 1);
 		}
 
-		public static String getJobProcessedStatistic(String jobName) throws IOException {
+		public static String getJobProcessedStatistic(Job job) throws IOException {
 			log.info("HTTP: Starting login");
 			HttpAAARequestor httpRequestor = HttpLogin.loginAd();
 			log.info("HTTP: Open SCHEDULER_SUMMARY_FLOW");
 			getSchedulerSummaryPage(httpRequestor, SCHEDULER_SUMMARY_FLOW);
+			String jobName = job.getJobName();
 			log.info("HTTP: Open {} statistic page", jobName);
 			String getStatisticsParams = getLastRunLinkParameters(httpRequestor.getResponse(), jobName);
 			httpRequestor.sendPostRequest(HtmlParser.getFlowUrl(httpRequestor.getResponse()), getStatisticsParams);
 
-			return JobStatistic.getLastProcessedStatistic(httpRequestor.getResponse(), jobName);
+			return JobStatistic.getLastProcessedStatistic(httpRequestor.getResponse(), job);
 		}
 
 		public static HashMap<String, String> splitStatisticsRow(String result) {
@@ -236,14 +241,14 @@ public class HttpJob {
 			return splittedRow;
 		}
 
-		private static List<String> getAllProcessedRowsByJob(String response, String jobName) {
+		private static List<String> getAllProcessedRowsByJob(String response, Job job) {
 			String[] rows = response.split(JOB_LOGS_ROW_SPLITTER_REGEX);
 
 			List<String> allStatistics = new ArrayList<>();
 			for (String row : rows) {
 				if (row.contains("Job processed")) {
 					try {
-						String backendJobName = String.format(JOB_LOGS_STATISTICS_REGEX, BackendJobNames.getBackEndJobNames(jobName));
+						String backendJobName = String.format(JOB_LOGS_STATISTICS_REGEX, BackendJobNames.getBackendJobNames(job));
 						allStatistics.add(HttpHelper.find(row, backendJobName));
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -252,7 +257,7 @@ public class HttpJob {
 			}
 
 			if(allStatistics.isEmpty()){
-				throw new IstfException(String.format("HTTP: Log for %s is not available", jobName));
+				throw new IstfException(String.format("HTTP: Log for %s is not available", job.getJobName()));
 			}
 			return allStatistics;
 		}
@@ -314,7 +319,7 @@ public class HttpJob {
 		} catch (IOException io) { // if it never started, block with data is not present
 			result = 0;
 		}
-		log.info("HTTP: Job executed {} times, detailed job runs statistic: {}", result, jobRunStatistic);
+		//log.info("HTTP: Job executed {} times, detailed job runs statistic: {}", result, jobRunStatistic);
 		return result;
 	}
 
@@ -331,7 +336,7 @@ public class HttpJob {
 				break;
 			}
 		}
-		log.info("HTTP: Current {} run status: {}", jobName, status);
+		//log.info("HTTP: Current {} run status: {}", jobName, status);
 		return status;
 	}
 

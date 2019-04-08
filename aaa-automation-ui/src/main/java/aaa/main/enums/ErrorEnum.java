@@ -100,6 +100,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_SS3281092("AAA_HO_SS3281092", "Dwellings with more than 3 detached building structures on the residence prem..."),
 		ERROR_AAA_HO_SS3230162("AAA_HO_SS3230162", "More than 2 additional Insureds require Underwriting approval"),
 		ERROR_AAA_HO_SS3230756("AAA_HO_SS3230756", "More than 2 additional Interests require Underwriting approval"),
+		ERROR_AAA_HO_UWApp_HS0988_endorsement("AAA_HO_UWApp_HS0988_endorsement", "Underwriting approval is required to add Additional Insured - Special Event e..."),
 		ERROR_AAA_HO_SS67cbad46("AAA_HO_SS67cbad46", "All named insureds must have an insurance score ordered."),
 		ERROR_AAA_HO_SS11200000("(AAA_HO_SS11200000", "'Mortgagee Clause' is required (AAA_HO_SS11200000) [for AAAHOMortgageeInfo.legalMortgageeName]"),
 		ERROR_AAA_HO_SS12141500("AAA_HO_SS12141500", "'Loan number' is required (AAA_HO_SS12141500) [for AAAHOMortgageeInfo.account..."),
@@ -194,6 +195,9 @@ public final class ErrorEnum {
 		ERROR_AAA_10006002_CA("10006002", "Do not bind the endorsement more than 30 days in advance. (10006002) [for Pol..."),
 		ERROR_AAA_validate_pu_clue_claim_2("AAA_validate_pu_clue_claim_2", "Confirm CLUE activity is a permissive use claim based on a CLUE report or oth..."),
 		ERROR_AAA_10015021_CA_SELECT("10015021", "Driver with more than 1 At-fault injury accident is unacceptable (10015021) [..."),
+		ERROR_AAA_10004001_CA("10004001", "Driver must possess a valid license status (10004001) [for Driver.attributeFo..." ),
+		ERROR_AAA_CAC7100525_CA_CHOICE("AAA_CAC7100525_CA_CHOICE","Any Driver on the policy with an out-of-state U.S., Canadian, or Foreign lice..."),
+		ERROR_AAA_200108_1_CA_SELECT("200108_1", "Driver with a Foreign or International License is unacceptable (200108_1) [fo..."),
 
 		//MEMBERSHIP Errors
 		ERROR_AAA_AUTO_SS_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm..."),

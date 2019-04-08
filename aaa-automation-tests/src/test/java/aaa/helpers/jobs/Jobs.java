@@ -80,6 +80,8 @@ public class Jobs {
 
 	public static Job refundGenerationJob = new Job("refundGenerationJob");
 
+    public static Job aaaBalancingReallocationJob = new Job("aaaBalancingReallocationJob");
+
 	// public static Job automatedProcessingInitiationJob = new Job("automatedProcessingInitiationJob"); BASE job not used anymore, aaaAutomatedProcessingInitiationJob is used instead
 
 	public static Job automatedProcessingRunReportsServicesJob = new Job("automatedProcessingRunReportsServicesJob");
@@ -199,6 +201,16 @@ public class Jobs {
 	public static Job activityHistoryJob = new Job("activityHistoryJob");
 
 	public static Job activitySummarizationJob = new Job("activitySummarizationJob");
+
+	public static Job aaaMvrRenewBatchOrderAsyncJob = new Job("aaaMvrRenewBatchOrderAsyncJob");
+
+	public static Job aaaRecurringPaymentsAsyncProcessJob = new Job("aaaRecurringPaymentsAsyncProcessJob");
+
+	public static Job applyPendingTransactionsAsyncJob = new Job("applyPendingTransactionsAsyncJob");
+
+	public static Job aaaPolicyAutomatedRenewalAsyncTaskGenerationJob = new Job("aaaPolicyAutomatedRenewalAsyncTaskGenerationJob");
+
+	public static Job aaaGenerateEscheatmentReportJob = new Job("aaaGenerateEscheatmentReportJob");
 
 	public enum JobState {
 		TRUE, FALSE, FAILED

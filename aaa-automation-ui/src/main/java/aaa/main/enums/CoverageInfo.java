@@ -140,7 +140,10 @@ public enum CoverageInfo {
 	UMPD_NV_WOUM("UMPD", "Uninsured Motorist Property Damage", null, AvailableCoverageLimits.UMPD_NV_WOUM, "Per Accident"),
 	EMB("EMB", "Extraordinary Medical Expense Benefits", CoverageLimits.COV_EMB_0, AvailableCoverageLimits.EMB, null),
 	LOL("LOL", "Limitation on Lawsuit", CoverageLimits.COV_LOL, AvailableCoverageLimits.LOL, null),
-	SSL("SSL", "Supplemental Spousal Liability", CoverageLimits.COV_FALSE, AvailableCoverageLimits.SSL, null),;
+	SSL("SSL", "Supplemental Spousal Liability", CoverageLimits.COV_FALSE, AvailableCoverageLimits.SSL, null),
+	UM_SUM_NY("UM/SUM", "Supplementary Uninsured/Underinsured Motorists Bodily Injury", CoverageLimits.COV_100300_SUM, AvailableCoverageLimits.UM_SUM, "Per Person/Per Accident"),
+	UM_SUM_2550_NY("UM/SUM", "Uninsured Motorists Bodily Injury", CoverageLimits.COV_2550_SUM, AvailableCoverageLimits.UM_SUM, "Per Person/Per Accident");
+
 
 	private final String code;
 	private final String description;
@@ -179,6 +182,7 @@ public enum CoverageInfo {
 	public CoverageLimits getDefaultLimit() {
 		return defaultLimit;
 	}
+
 
 	public List<CoverageLimits> getAvailableLimits() {
 		return availableLimits;

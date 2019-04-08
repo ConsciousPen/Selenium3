@@ -25,8 +25,7 @@ public class AppLogGrabber {
 
 	private String logFilePostfix = ".log";
 
-	private List<String> urlParts = Arrays.asList(
-			"/user-logs/e2e/");
+	private List<String> urlParts = Arrays.asList("/user-logs/e2e/", ":9999/batchjob-logs/e2e/");
 
 	private String getTestLogName(ITestResult result) {
 		String methodName = result.getTestClass().getName() + "." + result.getMethod().getMethodName();
@@ -50,20 +49,26 @@ public class AppLogGrabber {
 
 	public String grabAppLog(ITestResult result) {
 		String methodName = getTestLogName(result);
-		try {
-			File testAppLogFile = Paths.get(CustomLogger.getLogDirectory(), "app", methodName + logFilePostfix).toFile();
-			if (testAppLogFile.getParentFile().mkdirs()) {
-				log.info("Directory '" + testAppLogFile.getAbsolutePath() + "' was created");
-			}
-			for (String urlPart : urlParts) {
-				if (getResponseCode(getUrl(methodName, urlPart)) != 404) {
+
+		File testAppLogFile = Paths.get(CustomLogger.getLogDirectory(), "app", methodName + logFilePostfix).toFile();
+		if (testAppLogFile.getParentFile().mkdirs()) {
+			log.info("Directory '{}' was created", testAppLogFile.getAbsolutePath());
+		}
+
+		URL url = null;
+		for (String urlPart : urlParts) {
+			try {
+				url = getUrl(methodName, urlPart);
+				if (getResponseCode(url) != 404) {
+					log.info("Able to retrieve application log: {}", url);
 					FileUtils.copyURLToFile(getUrl(methodName, urlPart), testAppLogFile);
 					return testAppLogFile.getAbsolutePath();
 				}
+			}catch(IOException e){
+				log.info("Can't retrieve application log: {}", url);
 			}
-		} catch (IOException e) {
-			log.info(String.format("Can't retrieve %s application log: %s", methodName, e));
 		}
+
 		return null;
 	}
 }
