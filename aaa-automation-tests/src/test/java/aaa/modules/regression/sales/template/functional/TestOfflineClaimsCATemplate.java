@@ -18,7 +18,6 @@ import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,7 +29,6 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.PrivilegeEnum;
-import aaa.common.enums.RestRequestMethodTypes;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
@@ -40,9 +38,6 @@ import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import aaa.helpers.claim.datamodel.claim.Claim;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.helpers.rest.JsonClient;
-import aaa.helpers.rest.RestRequestInfo;
-import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.SearchEnum;
@@ -628,63 +623,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     public void createCasClaimResponseAndUploadWithUpdatedDates(String policyNumber, String dataModelFileName,
                                                                 Map<String, String> claimDatesToUpdate) {
         createCasClaimResponseAndUpload(policyNumber, dataModelFileName, null, claimDatesToUpdate);
-    }
-
-    //Method to send JSON Request to Claims Matching Micro Service
-    public static ClaimsAssignmentResponse runJsonRequestPostClaims(String claimsRequest) {
-        RestRequestInfo<ClaimsAssignmentResponse> restRequestInfo = new RestRequestInfo<>();
-        restRequestInfo.url = CLAIMS_URL;
-        restRequestInfo.bodyRequest = claimsRequest;
-        restRequestInfo.responseType = ClaimsAssignmentResponse.class;
-        return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
-    }
-
-    protected void testClaimsAssigmentAssertion(ClaimsAssignmentResponse microServiceResponse) {
-        //Throw the microServiceResponse to log - assists with debugging
-        log.info(microServiceResponse.toString());
-        //Create a list of all the expected UNMATCHED claim numbers
-        String[] expectedClaimNumbers = {"1TAZ1111OHS", "17894-2222OHS", "17894-3333OHS", "17894-55555OHS", "17894-66666OHS", "17894-77777OHS", "17894-88888OHS", "17894-99999OHS", "18431-44444OHS", "18431-55555OHS"};
-        ArrayList<String> expectedUnmatchedClaims = new ArrayList<>();
-        expectedUnmatchedClaims.addAll(Arrays.asList(expectedClaimNumbers));
-
-        //Create a list of all the actual UNMATCHED claim numbers
-        ArrayList<String> actualUnmatchedClaims = new ArrayList<>();
-        int x = 0;
-        while (x < microServiceResponse.getUnmatchedClaims().size()) {
-            String claimNumber = microServiceResponse.getUnmatchedClaims().get(x).getClaimNumber();
-            actualUnmatchedClaims.add(claimNumber);
-            x++;
-        }
-
-        //Verify the actual UNMATCHED claims equal the expected UNMATCHED claims
-        //PAS-21435 - Removed LASTNAME_YOB match logic. These claims will now be unmatched
-        log.info("expected: " + expectedUnmatchedClaims);
-        log.info("actual: " + actualUnmatchedClaims);
-        assertThat(actualUnmatchedClaims).isEqualTo(expectedUnmatchedClaims);
-
-        //Create a list of all the expected MATCH CODES (Last 3: PERMISSIVE_USE to cover all possible cases of PU)
-        String[] expectedCodes = {"EXISTING_MATCH", "COMP", "DL", "LASTNAME_FIRSTNAME_DOB", "LASTNAME_FIRSTNAME_YOB", "LASTNAME_FIRSTNAME", "LASTNAME_FIRSTINITAL_DOB", "PERMISSIVE_USE", "PERMISSIVE_USE", "PERMISSIVE_USE"};
-        ArrayList<String> expectedMatchCodes = new ArrayList<>();
-        expectedMatchCodes.addAll(Arrays.asList(expectedCodes));
-
-        //Create a list of all the actual MATCH CODES
-        ArrayList<String> actualMatchCodes = new ArrayList<>();
-        int y = 0;
-        while (y < microServiceResponse.getMatchedClaims().size()) {
-            String matchcode = microServiceResponse.getMatchedClaims().get(y).getMatchCode();
-            actualMatchCodes.add(matchcode);
-            y++;
-        }
-
-        //Verify the actual MATCH CODES equal the expected MATCH CODES
-        //PAS-14679 - Match Logic: DL Number
-        //PAS-14058 - Match Logic: COMP
-        //PAS-8310  - Match Logic: LASTNAME_FIRSTNAME_DOB, LASTNAME_FIRSTNAME_YOB
-        //PAS-17894 - Match Logic: LASTNAME_FIRSTNAME, LASTNAME_FIRSTINITAL_DOB, & LASTNAME_YOB
-        //PAS-18300 - Match Logic: PERMISSIVE_USE
-        log.info("expected match codes: " + expectedMatchCodes);
-        log.info("actual match codes: " + actualMatchCodes);
-        assertThat(actualMatchCodes).isEqualTo(expectedMatchCodes);
     }
 
     /**
