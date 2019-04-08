@@ -15,7 +15,6 @@ TestData: {
   PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
 }
 
-
 PremiumAndCoveragesTab: {
   Payment Plan: Quarterly,
   Policy term: Annual
@@ -34,8 +33,6 @@ Vehicle1: {
   "Are there any additional interest(s)?": 'No'
 }
 
-
-
 ErrorTab: {
   ErrorsOverride: [{
                      #Message: "contains=California Car Policy Application",
@@ -50,7 +47,6 @@ ErrorTab: {
                      Approval: 'true',
                      Duration: Term,
                      Reason for override: 'Other',
-
                    }]
 }
 
