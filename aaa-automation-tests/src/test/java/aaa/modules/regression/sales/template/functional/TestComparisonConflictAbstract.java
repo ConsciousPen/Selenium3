@@ -331,8 +331,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			log.debug("EXPECTED RESULT (draft to create expected result from): ");
 			prettyPrintDraftSections(actualSectionsAndUIFields);
 		}
-		ListMultimap<String, String> expectedUIFieldsAndValuesFromTDV1 = createExpectedResultFromTD(tdVersion1, tabName, "");
-		ListMultimap<String, String> expectedUIFieldsAndValuesFromTDV2 = createExpectedResultFromTD(tdVersion2, tabName, "");
+		ListMultimap<String, String> expectedUIFieldsAndValuesFromTDV1 = createExpectedResultFromTD(tdVersion1, tabName, sectionName);
+		ListMultimap<String, String> expectedUIFieldsAndValuesFromTDV2 = createExpectedResultFromTD(tdVersion2, tabName, sectionName);
 
 		Multimap<String, String> actualSectionsAndUIFieldsMap = toMultimap(actualSectionsAndUIFields);
 		verificationComparisonPage(expectedSectionsAndUIFields, expectedUIFieldsAndValuesFromTDV1, actualSectionsAndUIFieldsMap, toMultimap(actualUIFieldsAndValuesV1), 1); //version1
