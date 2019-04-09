@@ -29,7 +29,7 @@ public class TestFinancePolicyReallocationWhenTotalsPremiumToZero extends Financ
 	 * 3. Decline deposit payment;
 	 * Verify that Mind due and Prepaid amounts are not equal to zero
 	 and Total due aamount is equal to zero.
-	 * 4. Run aaaRefundGenerationAsyncJob
+	 * 4. Run aaaBalancingReallocationJob
 	 * 5. Verify that Reallocation move funds from NetPremium to Fee.
 	 Min due, Prepaid and Total due is equal to zero.
 	 */
@@ -43,7 +43,7 @@ public class TestFinancePolicyReallocationWhenTotalsPremiumToZero extends Financ
 	@StateList(states = {Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-25275")
-	public void pas252755_testFinancePolicyReallocationWhenTotalsPremiumToZero(@Optional("NJ") String state) {
+	public void pas25275_pas26255_testFinancePolicyReallocationWhenTotalsPremiumToZero(@Optional("NJ") String state) {
 		Dollar totalPayment;
 
 		String policyNumber = openAppAndCreatePolicy();
@@ -66,7 +66,7 @@ public class TestFinancePolicyReallocationWhenTotalsPremiumToZero extends Financ
 		assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM,
 				policyNumber).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue())).isEqualTo(new Dollar(0));
 
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(Jobs.aaaBalancingReallocationJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 

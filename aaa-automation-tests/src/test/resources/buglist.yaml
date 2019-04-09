@@ -461,3 +461,10 @@ PAS-26316:
   failures:
     - tests: [aaa.modules.regression.service.home_ss.ho3.TestAutoInsuranceCarriedOverToHoPolicy.*]
       messages: ["Wrong list of policies"]
+PAS-28080:
+  summary: "ASW is not being given to new activity when previous activity with ASW ages out of eligibility window"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver.pas24673_testASWForTwoDriversWhenOneAccidentAgesOut,
+              aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver.pas24673_testASWForSecondAccidentAfterFirstAgesOut]
+      messages: ["expected:<\"[No]\"> but was:<\"[Yes]\">"]
