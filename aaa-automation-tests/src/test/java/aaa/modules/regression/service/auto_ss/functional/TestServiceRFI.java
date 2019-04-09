@@ -776,10 +776,10 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	}
 
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.NJ})
+	@StateList(states = {Constants.States.NY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-25029"})
-	public void pas25029_CARCOFormAAIFNYDInsidePASAddReplaceVehicleTC02(@Optional("NJ") String state) {
+	public void pas25029_CARCOFormAAIFNYDInsidePASAddReplaceVehicleTC02(@Optional("NY") String state) {
 		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, 2, false, false,
 				false, false, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE,
 				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY);
