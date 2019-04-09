@@ -2,9 +2,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.main.enums.PolicyConstants.InspectionOrWaiverRequiredSection.*;
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -15,11 +13,14 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.AdvancedRadioGroup;
 import aaa.utils.StateList;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.StaticElement;
@@ -31,7 +32,7 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 	private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 	private final PurchaseTab purchaseTab = new PurchaseTab();
 	private final ErrorTab errorTab = new ErrorTab();
-	private static final List<String> CARCO_RADIOGROUP_OPTIONS = ImmutableList.of(INSPECTION_RECEIVED, SALES_AGREEMENT_RECEIVED, PRIOR_DECLARATION_RECEIVED, NO_DOCUMENT_RECEIVED);
+	private static final List<String> CARCO_RADIOGROUP_OPTIONS_NJ = ImmutableList.of(INSPECTION_RECEIVED, SALES_AGREEMENT_RECEIVED, PRIOR_DECLARATION_RECEIVED, NO_DOCUMENT_RECEIVED);
 
 	/**
 	 * @author Maris Strazds
@@ -44,14 +45,29 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 	 */
 
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.NJ})
+	@StateList(states = {Constants.States.NJ, Constants.States.NY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-26666", "PAS-26664", "PAS-26665", "PAS-27606"})
-	public void pas26664_CARCOInspectionOrWaiverRequiredSection(@Optional("NJ") String state) {
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-26666", "PAS-26664", "PAS-26665", "PAS-27606", "PAS-27615", "PAS-27828", "PAS-27366"})
+	public void pas26664_CARCOInspectionOrWaiverRequiredSection(@Optional("NY") String state) {
+		//Using INSPECTION_RECEIVED for NY in places, where using PRIOR_DECLARATION_RECEIVED for NJ (as NY doesn't have this option)
+		String selectionForNJOrNY;
+		if (getState().equals(Constants.States.NJ)) {
+			selectionForNJOrNY = PRIOR_DECLARATION_RECEIVED;
+		} else {
+			selectionForNJOrNY = INSPECTION_RECEIVED;
+		}
+
 		TestData td = getPolicyDefaultTD();
 		td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_AddMultipleVewhicleLessThan7YearsOld").getTestDataList("VehicleTab")).resolveLinks();
-		td.adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.ACNOWLEDGEMENT_OF_REQUIREMENT_FOR_INSURANCE_INSPECTION.getLabel()), "Physically Signed");
-		td.adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.INSPECTION_WAIVER_SALES_AGREEMENT_REQUIRED.getLabel()), "Physically Signed");
+		if (getState().equals(Constants.States.NJ)) {//possibly will need adjustments also for NY when the documents are implemented
+			td.adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.ACNOWLEDGEMENT_OF_REQUIREMENT_FOR_INSURANCE_INSPECTION.getLabel()), "Physically Signed");
+			td.adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.INSPECTION_WAIVER_SALES_AGREEMENT_REQUIRED.getLabel()), "Physically Signed");
+		}
+
+		if (getState().equals(Constants.States.NY)) {//possibly will need to remove later
+			TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+			td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError);
+		}
 
 		createQuoteAndFillUpTo(td, PremiumAndCoveragesTab.class, true);
 		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(2, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "No Coverage");//2017, TOYOTA, CAMRY
@@ -59,7 +75,6 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 		premiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.submitTab();
 		policy.getDefaultView().fillFromTo(td, DriverActivityReportsTab.class, DocumentsAndBindTab.class, false);
-		printToLog("Sd");
 
 		verifyCARCOVehicle("1", "2017, AUDI, TTS", NO_DOCUMENT_RECEIVED, false, false, false);
 		verifyCARCOVehicle("2", "2017, CHEVROLET, CAMARO", NO_DOCUMENT_RECEIVED, true, false, false);
@@ -67,9 +82,12 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 		verifyCARCOVehicle("4", "2017, NISSAN, PATHFINDER", NO_DOCUMENT_RECEIVED, false, false, false);
 		assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_NAME_5)).isPresent(false);
 
-		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_1).setValue(CARCO_RADIOGROUP_OPTIONS.get(2));
-		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_2).setValue(CARCO_RADIOGROUP_OPTIONS.get(1));
-		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_3).setValue(CARCO_RADIOGROUP_OPTIONS.get(0));
+		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_1).setValue(selectionForNJOrNY);//Leaving as NO_DOCUMENT_RECEIVED for NY as NY does not have PRIOR_DECLARATION_RECEIVED option.
+		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_2).setValue(SALES_AGREEMENT_RECEIVED);
+		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_3).setValue(INSPECTION_RECEIVED);
+
+		//Make sure that after selecting Agreement, 'Inspection or Waiver Required' section is not reset (PAS-27828)
+		documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).setValue("I agree");
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(3);//2017, AUDI, TTS
@@ -87,7 +105,7 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
-		verifyCARCOVehicle("1", "2017, AUDI, TTS", PRIOR_DECLARATION_RECEIVED, true, false, false);
+		verifyCARCOVehicle("1", "2017, AUDI, TTS", selectionForNJOrNY, true, false, false);//NY doesn't have option PRIOR_DECLARATION_RECEIVED.
 		verifyCARCOVehicle("2", "2017, CHEVROLET, CAMARO", NO_DOCUMENT_RECEIVED, false, false, false);
 		verifyCARCOVehicle("3", "2017, MINI, COOPER", INSPECTION_RECEIVED, false, false, false);
 		verifyCARCOVehicle("4", "2017, NISSAN, PATHFINDER", NO_DOCUMENT_RECEIVED, true, false, false);
@@ -101,14 +119,14 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
 		//Endorsement AC#5
-		verifyCARCOVehicle("1", "2017, AUDI, TTS", PRIOR_DECLARATION_RECEIVED, true, true, true);
+		verifyCARCOVehicle("1", "2017, AUDI, TTS", selectionForNJOrNY, true, true, true);//NY doesn't have option PRIOR_DECLARATION_RECEIVED
 		verifyCARCOVehicle("2", "2017, CHEVROLET, CAMARO", NO_DOCUMENT_RECEIVED, false, true, false);
 		verifyCARCOVehicle("3", "2017, MINI, COOPER", INSPECTION_RECEIVED, false, true, true);
 		verifyCARCOVehicle("4", "2017, NISSAN, PATHFINDER", NO_DOCUMENT_RECEIVED, true, true, false);
 		assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_NAME_5)).isPresent(false);
 
-		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_2).setValue(CARCO_RADIOGROUP_OPTIONS.get(0));//2017, CHEVROLET, CAMARO
-		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_4).setValue(CARCO_RADIOGROUP_OPTIONS.get(1));//2017, NISSAN, PATHFINDER
+		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_2).setValue(INSPECTION_RECEIVED);//2017, CHEVROLET, CAMARO
+		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_4).setValue(SALES_AGREEMENT_RECEIVED);//2017, NISSAN, PATHFINDER
 		documentsAndBindTab.submitTab();
 
 		//Endorsement
@@ -116,7 +134,7 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
-		verifyCARCOVehicle("1", "2017, AUDI, TTS", PRIOR_DECLARATION_RECEIVED, true, true, true);
+		verifyCARCOVehicle("1", "2017, AUDI, TTS", selectionForNJOrNY, true, true, true);//NY doesn't have option PRIOR_DECLARATION_RECEIVED.
 		verifyCARCOVehicle("2", "2017, CHEVROLET, CAMARO", INSPECTION_RECEIVED, false, true, true);
 		verifyCARCOVehicle("3", "2017, MINI, COOPER", INSPECTION_RECEIVED, false, true, true);
 		verifyCARCOVehicle("4", "2017, NISSAN, PATHFINDER", SALES_AGREEMENT_RECEIVED, true, true, true);
@@ -131,15 +149,15 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
 		verifyCARCOVehicle("1", "2017, TOYOTA, CAMRY", NO_DOCUMENT_RECEIVED, false, true, false);//new
-		verifyCARCOVehicle("2", "2017, AUDI, TTS", PRIOR_DECLARATION_RECEIVED, true, true, true);
+		verifyCARCOVehicle("2", "2017, AUDI, TTS", selectionForNJOrNY, true, true, true);//NY doesn't have option PRIOR_DECLARATION_RECEIVED.
 		verifyCARCOVehicle("3", "2017, AUDI, A6", NO_DOCUMENT_RECEIVED, true, true, false);//new
 		verifyCARCOVehicle("4", "2017, CHEVROLET, CAMARO", INSPECTION_RECEIVED, false, true, true);
 		verifyCARCOVehicle("5", "2017, MINI, COOPER", INSPECTION_RECEIVED, false, true, true);
 		verifyCARCOVehicle("6", "2017, NISSAN, PATHFINDER", SALES_AGREEMENT_RECEIVED, true, true, true);
 		assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_NAME_7)).isPresent(false);
 
-		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_1).setValue(CARCO_RADIOGROUP_OPTIONS.get(0));
-		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_3).setValue(CARCO_RADIOGROUP_OPTIONS.get(1));
+		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_1).setValue(INSPECTION_RECEIVED);
+		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_3).setValue(SALES_AGREEMENT_RECEIVED);
 
 		//ENDORSEMENT AC#4 - change from yes to no
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
@@ -164,14 +182,16 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		verifyCARCOVehicle("1", "2017, TOYOTA, CAMRY", INSPECTION_RECEIVED, true, true, false);//new
-		verifyCARCOVehicle("2", "2017, AUDI, TTS", PRIOR_DECLARATION_RECEIVED, true, true, true);
+		verifyCARCOVehicle("2", "2017, AUDI, TTS", selectionForNJOrNY, true, true, true);//NY doesn't have option PRIOR_DECLARATION_RECEIVED.
 		verifyCARCOVehicle("3", "2017, AUDI, A6", NO_DOCUMENT_RECEIVED, false, true, false);//new
 		verifyCARCOVehicle("4", "2017, CHEVROLET, CAMARO", INSPECTION_RECEIVED, false, true, true);
 		verifyCARCOVehicle("5", "2017, MINI, COOPER", INSPECTION_RECEIVED, false, true, true);
 		verifyCARCOVehicle("6", "2017, NISSAN, PATHFINDER", SALES_AGREEMENT_RECEIVED, true, true, true);
 		assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_NAME_7)).isPresent(false);
-		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.ACNOWLEDGEMENT_OF_REQUIREMENT_FOR_INSURANCE_INSPECTION).setValue("Physically Signed");//to not get error on bind
-		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.INSPECTION_WAIVER_SALES_AGREEMENT_REQUIRED).setValue("Physically Signed");//to not get error on bind
+		if (getState().equals(Constants.States.NJ)) {//currently not needed for NY, might need later
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.ACNOWLEDGEMENT_OF_REQUIREMENT_FOR_INSURANCE_INSPECTION).setValue("Physically Signed");//to not get error on bind
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.INSPECTION_WAIVER_SALES_AGREEMENT_REQUIRED).setValue("Physically Signed");//to not get error on bind
+		}
 		documentsAndBindTab.submitTab();
 
 		//Endorsement
@@ -180,7 +200,7 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
 		verifyCARCOVehicle("1", "2017, TOYOTA, CAMRY", INSPECTION_RECEIVED, true, true, true);//new
-		verifyCARCOVehicle("2", "2017, AUDI, TTS", PRIOR_DECLARATION_RECEIVED, true, true, true);
+		verifyCARCOVehicle("2", "2017, AUDI, TTS", selectionForNJOrNY, true, true, true);//NY doesn't have option PRIOR_DECLARATION_RECEIVED.
 		verifyCARCOVehicle("3", "2017, AUDI, A6", NO_DOCUMENT_RECEIVED, false, true, false);//new
 		verifyCARCOVehicle("4", "2017, CHEVROLET, CAMARO", INSPECTION_RECEIVED, false, true, true);
 		verifyCARCOVehicle("5", "2017, MINI, COOPER", INSPECTION_RECEIVED, false, true, true);
@@ -231,10 +251,10 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 		verifyCARCOVehicle("4", "2017, BUICK, ENCORE", NO_DOCUMENT_RECEIVED, true, true, false);
 		assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_NAME_5)).isPresent(false);
 
-		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_1).setValue(CARCO_RADIOGROUP_OPTIONS.get(0));
-		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_2).setValue(CARCO_RADIOGROUP_OPTIONS.get(1));
-		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_3).setValue(CARCO_RADIOGROUP_OPTIONS.get(0));
-		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_4).setValue(CARCO_RADIOGROUP_OPTIONS.get(0));
+		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_1).setValue(INSPECTION_RECEIVED);
+		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_2).setValue(SALES_AGREEMENT_RECEIVED);
+		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_3).setValue(INSPECTION_RECEIVED);
+		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_4).setValue(INSPECTION_RECEIVED);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(3);//2017, FIAT, 500
@@ -259,8 +279,38 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 		assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_NAME_5)).isPresent(false);
 
 		documentsAndBindTab.submitTab();
-		errorTab.overrideAllErrors();
-		errorTab.submitTab();
+		if (getState().equals(Constants.States.NJ)) {//Currently no errors for NY. Might change later.
+			errorTab.overrideAllErrors();
+			errorTab.submitTab();
+		}
+
+		//PAS-27615 - Create endorsement and remove COMP from carco vehicles. Then create another endorsement and put COMP back to the same Vehicles. ---> 'Inspection or Waiver Required' section should be reset to 'No Document Received'
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(3, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "No Coverage");//2017, FIAT, 500
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(4, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "No Coverage");//2017, FORD, EXPLORER
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(5, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "No Coverage");//2017, SUBARU, CROSSTREK
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(6, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "No Coverage");//2017, BUICK, ENCORE
+		premiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		documentsAndBindTab.submitTab();
+
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(3, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "$1,000");//2017, FIAT, 500
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(4, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "$1,000");//2017, FORD, EXPLORER
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(5, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "$1,000");//2017, SUBARU, CROSSTREK
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(6, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "$1,000");//2017, BUICK, ENCORE
+		premiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+
+		verifyCARCOVehicle("1", "2017, FIAT, 500", NO_DOCUMENT_RECEIVED, true, true, false);
+		verifyCARCOVehicle("2", "2017, FORD, EXPLORER", NO_DOCUMENT_RECEIVED, false, true, false);
+		verifyCARCOVehicle("3", "2017, SUBARU, CROSSTREK", NO_DOCUMENT_RECEIVED, true, true, false);
+		verifyCARCOVehicle("4", "2017, BUICK, ENCORE", NO_DOCUMENT_RECEIVED, false, true, false);
+		assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_NAME_5)).isPresent(false);
+		documentsAndBindTab.submitTab();
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);//makes sure that endorsement is bound
 	}
 
 	private void verifyCARCOVehicle(String vehicleNumber, String vehicleName, String expectedValue, boolean isLessThan1000Miles, boolean isEndorsement, boolean shouldAllOptionsBeDisabled) {
@@ -285,19 +335,36 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 		AssetDescriptor<AdvancedRadioGroup> vehicleRadioGroup = vehicleRadioGroupMap.get(vehicleNumber);
 
 		assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleNameMap.get(vehicleNumber)).getValue()).isEqualTo(vehicleName);
+
 		assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getValue()).isEqualTo(expectedValue);
-		assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup)).hasOptions(CARCO_RADIOGROUP_OPTIONS);
+
+		List<String> carcoRadioGroupOptions;
+		if (getState().equals(Constants.States.NJ)) {
+			carcoRadioGroupOptions = CARCO_RADIOGROUP_OPTIONS_NJ;
+		} else {
+			carcoRadioGroupOptions = ImmutableList.of(INSPECTION_RECEIVED, SALES_AGREEMENT_RECEIVED, NO_DOCUMENT_RECEIVED);//NY does not have option PRIOR_DECLARATION_RECEIVED
+		}
+		assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup)).hasOptions(carcoRadioGroupOptions);
 
 		if (shouldAllOptionsBeDisabled) {
-			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(CARCO_RADIOGROUP_OPTIONS.get(0))).isDisabled();
-			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(CARCO_RADIOGROUP_OPTIONS.get(1))).isDisabled();
-			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(CARCO_RADIOGROUP_OPTIONS.get(2))).isDisabled();
-			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(CARCO_RADIOGROUP_OPTIONS.get(3))).isDisabled();
+			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(INSPECTION_RECEIVED)).isDisabled();
+			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(SALES_AGREEMENT_RECEIVED)).isDisabled();
+			if (getState().equals(Constants.States.NJ)) {
+				assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(PRIOR_DECLARATION_RECEIVED)).isDisabled();
+			} else {
+				assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(PRIOR_DECLARATION_RECEIVED)).isPresent(false);//NY doesn't have this option
+			}
+			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(NO_DOCUMENT_RECEIVED)).isDisabled();
 		} else {
-			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(CARCO_RADIOGROUP_OPTIONS.get(0))).isEnabled();
-			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(CARCO_RADIOGROUP_OPTIONS.get(1))).isEnabled(isLessThan1000Miles);
-			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(CARCO_RADIOGROUP_OPTIONS.get(2))).isEnabled(!isEndorsement);
-			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(CARCO_RADIOGROUP_OPTIONS.get(3))).isEnabled();
+			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(INSPECTION_RECEIVED)).isEnabled();
+			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(SALES_AGREEMENT_RECEIVED)).isEnabled(isLessThan1000Miles);
+			if (getState().equals(Constants.States.NJ)) {
+				assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(PRIOR_DECLARATION_RECEIVED)).isEnabled(!isEndorsement);
+			} else {
+				assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(PRIOR_DECLARATION_RECEIVED)).isPresent(false);//NY doesn't have this option
+
+			}
+			assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(vehicleRadioGroup).getRadioButton(NO_DOCUMENT_RECEIVED)).isEnabled();
 		}
 	}
 }
