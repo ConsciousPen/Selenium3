@@ -369,11 +369,11 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 		return getTestSpecificTD("TestData_Multiple_Drivers_Vehicles_NB_Policy");
 	}
 
-	private TestData getRemoveDriverVehicleVersion1() {
+	private TestData getRemoveComponentVersion1() {
 		return getTestSpecificTD("TestData_Plus20Days");
 	}
 
-	private TestData getRemoveDriverVehicleVersion2() {
+	private TestData getRemoveComponentVersion2() {
 		return getTestSpecificTD("TestData_Plus10Days");
 	}
 
@@ -381,7 +381,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-19838", "PAS-19839", "PAS-19840", "PAS-19841"})
 	public void pas19839_ooseConflictAutomaticRemoveVehicleAndDriver(@Optional("CA") String state) {
-		ooseConflictRemoveComponent(getNBPolicyForMultipleDriversVehicles(), getRemoveDriverVehicleVersion1(), getRemoveDriverVehicleVersion2(), VersionsConflictConstants.REMOVE_DRIVER_VEHICLE_INFORMATION,  VersionsConflictConstants.REMOVE_DRIVER_VEHICLE_INFORMATION_VERSION_2, VersionsConflictConstants.REMOVE_DRIVER_VEHICLE_INFORMATION_VERSION_1,  "EndorsementActionTab", "", true);
+		ooseConflictRemoveComponent(getNBPolicyForMultipleDriversVehicles(), getRemoveComponentVersion1(), getRemoveComponentVersion2(), VersionsConflictConstants.REMOVE_DRIVER_VEHICLE_INFORMATION,  VersionsConflictConstants.REMOVE_DRIVER_VEHICLE_INFORMATION_VERSION_2, VersionsConflictConstants.REMOVE_DRIVER_VEHICLE_INFORMATION_VERSION_1,  "EndorsementActionTab", "", true);
 	}
 
 
@@ -389,7 +389,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-19838", "PAS-19839", "PAS-19840", "PAS-19841"})
 	public void pas19839_ooseConflictManualRemoveVehicleAndDriver(@Optional("CA") String state) {
-		ooseConflictRemoveComponent(getNBPolicyForMultipleDriversVehicles(), getRemoveDriverVehicleVersion1(), getRemoveDriverVehicleVersion2(), VersionsConflictConstants.REMOVE_DRIVER_VEHICLE_INFORMATION,  VersionsConflictConstants.REMOVE_DRIVER_VEHICLE_INFORMATION_VERSION_2, VersionsConflictConstants.REMOVE_DRIVER_VEHICLE_INFORMATION_VERSION_1,  "EndorsementActionTab", "", false);
+		ooseConflictRemoveComponent(getNBPolicyForMultipleDriversVehicles(), getRemoveComponentVersion1(), getRemoveComponentVersion2(), VersionsConflictConstants.REMOVE_DRIVER_VEHICLE_INFORMATION,  VersionsConflictConstants.REMOVE_DRIVER_VEHICLE_INFORMATION_VERSION_2, VersionsConflictConstants.REMOVE_DRIVER_VEHICLE_INFORMATION_VERSION_1,  "EndorsementActionTab", "", false);
 	}
 
 	private TestData getNBPolicyForMultipleNamedInsureds() {
@@ -400,6 +400,6 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-19838", "PAS-19839", "PAS-19840", "PAS-19841"})
 	public void pas19839_renewalMergeAutomaticRemoveNamedInsured(@Optional("CA") String state) {
-		renewalMergeRemoveComponent(getNBPolicyForMultipleNamedInsureds(), getRemoveDriverVehicleVersion1(), getRemoveDriverVehicleVersion2(), VersionsConflictConstants.REMOVE_NAMED_INSURED,  VersionsConflictConstants.REMOVE_NAMED_INSUREDS_RENEWAL_VERSION_1,  "EndorsementActionTab", "");
+		renewalMergeRemoveComponent(getNBPolicyForMultipleNamedInsureds(), getRemoveComponentVersion1(), getRemoveComponentVersion2(), VersionsConflictConstants.REMOVE_NAMED_INSURED,  VersionsConflictConstants.REMOVE_NAMED_INSUREDS_RENEWAL_VERSION_1,  "EndorsementActionTab", "");
 	}
 }
