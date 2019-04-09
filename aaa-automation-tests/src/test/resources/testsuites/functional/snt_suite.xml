@@ -381,7 +381,7 @@
                 <methods>
                     <include name="pas25889_ooseConflictManualAssignment"/>
                     <include name="pas25889_ooseConflictAutomaticAssignment"/>
-                    <include name="pas25889_renewalMergePolicyInformation"/>
+                    <include name="pas25889_renewalMergeAssignment"/>
 
                 </methods>
             </class>
