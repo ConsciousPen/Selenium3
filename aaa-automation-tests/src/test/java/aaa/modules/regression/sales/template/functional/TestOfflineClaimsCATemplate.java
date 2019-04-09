@@ -745,10 +745,10 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         //Making sure that PU = Yes, and its included in rating.
         ActivityInformationMultiAssetList activityInformationAssetList = new DriverTab().getActivityInformationAssetList();
-        DriverTab.viewDriver(1);
+        viewDriver(1);
 
-        for (int i = 1; i <= DriverTab.tableActivityInformationList.getAllRowsCount(); i++) {
-            DriverTab.tableActivityInformationList.selectRow(i);
+        for (int i = 1; i <= tableActivityInformationList.getAllRowsCount(); i++) {
+            tableActivityInformationList.selectRow(i);
 
             if (activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OVERRIDE_ACTIVITY_DETAILS.getLabel(), RadioGroup.class).isPresent()) {
                 if (activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OVERRIDE_ACTIVITY_DETAILS.getLabel(), RadioGroup.class).getValue().equals("No")) {
@@ -771,7 +771,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         //Negative Case: Make One Claimas non PU
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-        DriverTab.tableActivityInformationList.selectRow(1);
+        tableActivityInformationList.selectRow(1);
         activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS.getLabel(), RadioGroup.class).setValue("No");
 
         //Verify That Discount is NOT Applied when one Claim is not PU Claim
@@ -812,7 +812,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      */
     protected void validateNonFNIPermissiveUse() {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-        DriverTab.viewDriver(2);
+        viewDriver(2);
 
         //Verify that 'Permissive Use Loss?' is not visible for Non First Named Insured
         CustomSoftAssertions.assertSoftly(softly -> {
