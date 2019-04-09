@@ -1183,7 +1183,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas16040_sslCoverageNY"/>
-                    <include name="pas16041_wlbCoverageNYBody"/>
+                    <include name="pas16041_wlbCoverageNY"/>
                     <include name="pas16042_viewUpdateMEENY"/>
                 </methods>
             </class>
