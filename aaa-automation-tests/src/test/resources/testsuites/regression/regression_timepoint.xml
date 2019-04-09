@@ -310,6 +310,11 @@
                 <methods>
                     <include name="pas8786_TestEndorsementRateWithPendingAutoSelectCompanion"/>
                 </methods>
+            </class> <!-- aaa.modules.regression.service.home_ca.ho3.TestPolicyCancellationManualRenew -->
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancellationManualRenew">
+                <methods>
+                    <include name="testPolicyCancelNoticeAddDelete"/>
+                </methods>
             </class> <!-- aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementWithAutoSelectCompanion -->
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementWithAutoSelectCompanion">
                 <methods>

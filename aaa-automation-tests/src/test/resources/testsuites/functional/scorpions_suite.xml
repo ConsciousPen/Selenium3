@@ -89,12 +89,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestGetAutoPolicyDetails"/>
         </classes>
     </test>
-    <test name="PAS-3794,PAS-3795 New Business NJ_DE: Non-Member Message and validation error">
-        <parameter name="state" value="DE, NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidationError"/>
-        </classes>
-    </test>
     <test name="Auto SS TestVINUpload tests">
         <parameter name="state" value="UT"/>
         <classes>

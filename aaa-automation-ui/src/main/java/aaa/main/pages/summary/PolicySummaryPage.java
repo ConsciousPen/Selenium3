@@ -218,6 +218,10 @@ public class PolicySummaryPage extends SummaryPage {
 		assertThat(labelDoNotRenew).hasValue("Do Not Renew");
 	}
 
+	public static void verifyDoNotRenewFlagNotPresent() {
+		assertThat(labelDoNotRenew).as("'Do Not Renew' flag is present").isPresent(false);
+	}
+
 	public static void verifyManualRenewFlagPresent() {
 		assertThat(labelManualRenew).as("'Manual Renew' flag is present").isPresent();
 		assertThat(labelManualRenew).hasValue("Manual Renew");

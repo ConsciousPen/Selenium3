@@ -233,8 +233,8 @@ public final class BillingHelper {
 		return totalAmount.divide(installmentsCount);
 	}
 	
-	/*  PLIGA fee calculation based on old algorithm
-	public static Dollar calculatePligaFee(LocalDateTime transactionDate) {
+	//  PLIGA fee calculation based on old algorithm. Now used for current transaction 
+	public static Dollar calculatePligaFeeCurrentTransaction(LocalDateTime transactionDate) {
 		Map<String, String> premiumRowSearchQuery = new HashMap<>();
 		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
 		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PREMIUM);
@@ -249,7 +249,7 @@ public final class BillingHelper {
 		}
 		return calculatePligaFee(transactionDate, totalPremiumAmount);
 	}
-	*/
+	
 	
 	/**
 	 * PLIGA fee current value gets from screen. PLIGA fee verified based on new algorithm (PASBB-703)

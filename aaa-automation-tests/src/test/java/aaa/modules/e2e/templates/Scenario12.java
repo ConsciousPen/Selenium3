@@ -257,9 +257,13 @@ public class Scenario12 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewDateOffer)
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 
-		if (verifyPligaOrMvleFee(renewDateOffer, policyTerm, totalVehiclesNumber)) {
+		if (getState().equals(Constants.States.NJ) && verifyPligaFeeCurrentTransaction(renewDateOffer, policyTerm)) {
 			pligaOrMvleFeeLastTransactionDate = renewDateOffer;
-		}
+		} else {
+			if (verifyPligaOrMvleFee(renewDateOffer, policyTerm, totalVehiclesNumber)) {
+				pligaOrMvleFeeLastTransactionDate = renewDateOffer;
+			}
+		}	
 	}
 
 	//Skip this step for CA
@@ -272,8 +276,13 @@ public class Scenario12 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Semi-Annual").verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).setPaymentPlan("Semi-Annual (Renewal)").verifyRowWithEffectiveDate(policyExpirationDate);
-
-		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
+		
+		Dollar pligaOrMvleFee = BillingHelper.DZERO;
+		if (getState().equals(Constants.States.NJ)) {
+			pligaOrMvleFee = getPligaFeeCurrentTransaction(policyNum, pligaOrMvleFeeLastTransactionDate);
+		} else {
+			pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
+		}
 		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billGenDate, pligaOrMvleFee, installmentsCount);
 
 		verifyRenewPremiumNotice(policyExpirationDate, billGenDate, pligaOrMvleFee);
@@ -434,8 +443,12 @@ public class Scenario12 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewDateOffer)
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 
-		if (verifyPligaOrMvleFee(renewDateOffer, policyTerm, totalVehiclesNumber)) {
+		if (getState().equals(Constants.States.NJ) && verifyPligaFeeCurrentTransaction(renewDateOffer, policyTerm)) {
 			pligaOrMvleFeeLastTransactionDate = renewDateOffer;
+		} else {
+			if (verifyPligaOrMvleFee(renewDateOffer, policyTerm, totalVehiclesNumber)) {
+				pligaOrMvleFeeLastTransactionDate = renewDateOffer;
+			}
 		}
 	}
 
@@ -515,7 +528,12 @@ public class Scenario12 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).setPaymentPlan("Semi-Annual (Renewal)")
 				.verifyRowWithEffectiveDate(policyExpirationDate_FirstRenewal);
 
-		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
+		Dollar pligaOrMvleFee = BillingHelper.DZERO;
+		if (getState().equals(Constants.States.NJ)) {
+			pligaOrMvleFee = getPligaFeeCurrentTransaction(policyNum, pligaOrMvleFeeLastTransactionDate);
+		} else {
+			pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
+		}
 
 		verifyRenewPremiumNotice(policyExpirationDate_FirstRenewal, billDate, pligaOrMvleFee);
 	}

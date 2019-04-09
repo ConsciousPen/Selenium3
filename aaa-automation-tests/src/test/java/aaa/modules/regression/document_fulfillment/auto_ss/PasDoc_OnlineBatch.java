@@ -405,6 +405,22 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		DocGenHelper.verifyDocumentsGenerated(true, false, policy_endorse_addFinDriver, AA02AZ);
 		DocGenHelper.verifyDocumentsGenerated(true, false, policy_endorse_addFinDriver, AASR22);
 	}
+	
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	public void testScenario18(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_FinancialDriver").resolveLinks()));
+		//Scenario 18a: Endorsement: change Financial Responsibility to No
+		TestData td_endorse_removeFinDriver = getTestSpecificTD("TestData_Endorsement_removeFinDriver").adjust(getPolicyTD("Endorsement", "TestData"));
+		policy.endorse().performAndFill(td_endorse_removeFinDriver);
+		String policy_endorse_removeFinDriver = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 18a: Endorsement: change Financial Responsibility to No: " + policy_endorse_removeFinDriver);
+		DocGenHelper.verifyDocumentsGenerated(true, false, policy_endorse_removeFinDriver, AA02AZ);
+		DocGenHelper.verifyDocumentsGenerated(true, false, policy_endorse_removeFinDriver, AASR26);
+	}
 
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
