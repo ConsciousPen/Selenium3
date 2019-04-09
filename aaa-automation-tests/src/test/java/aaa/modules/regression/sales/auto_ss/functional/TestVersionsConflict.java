@@ -306,6 +306,8 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
         renewalMerge(getTDNBPolicy(), getAddDriverAndActivityInformationVersion1(), getAddDriverAndActivityInformationVersion2(), VersionsConflictConstants.ADD_DRIVER_INFORMATION_AUTOMATIC,  VersionsConflictConstants.ADD_DRIVER_INFORMATION_VERSION_1,  "GeneralTab", "ContactInformation");
     }
 
+	//Assignment Tab section
+
 	private TestData getTDNewBusinessPolicy() {
 		return getTestSpecificTD("TestData_NB_Policy_NY"); }
 
@@ -337,8 +339,8 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	@StateList(states = {Constants.States.NY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-25889"})
-	public void pas25889_renewalMergePolicyInformation(@Optional("NY") String state) {
-		renewalMerge(getTDNewBusinessPolicy(), getTDAssignmentVersion1(), getTDAssignmentVersion2(), VersionsConflictConstants.ASSIGNMENT, VersionsConflictConstants.ASSIGNMENT_VERSION_1, "AssignmentTab", "DriverVehicleRelationshipTable");
+	public void pas25889_renewalMergeAssignment(@Optional("NY") String state) {
+		renewalMerge(getTDNewBusinessPolicy(), getTDAssignmentVersion1(), getTDAssignmentVersion2(), VersionsConflictConstants.ASSIGNMENT,  VersionsConflictConstants.ASSIGNMENT_VERSION_1,  "AssignmentTab", "DriverVehicleRelationshipTable");
 	}
 
 	private TestData getNBPolicyForMultipleDriversVehicles() {
