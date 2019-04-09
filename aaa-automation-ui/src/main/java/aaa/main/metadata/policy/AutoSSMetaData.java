@@ -155,8 +155,8 @@ public final class AutoSSMetaData {
 
 		public static final class AAAMembership extends MetaData {
 			public static final AssetDescriptor<ComboBox> CURRENT_AAA_MEMBER = declare("Current AAA Member", ComboBox.class);
-			public static final AssetDescriptor<StaticElement> EXISTING_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK =
-					declare("ExistingMembershipNo_NJ_DE_WarningBlock", StaticElement.class, By.xpath("//*[contains(@id, 'NJ_DE_WarningBlock')]"));
+			public static final AssetDescriptor<StaticElement> NO_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK = declare("existingMembershipCdWarningLbl2", StaticElement.class, By.id("policyDataGatherForm:existingMembershipCdWarningLbl2"));
+			public static final AssetDescriptor<StaticElement> PENDING_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK = declare("existingMembershipCdWarningLbl4", StaticElement.class, By.id("policyDataGatherForm:existingMembershipCdWarningLbl4"));
 			public static final AssetDescriptor<ComboBox> OVERRIDE_TYPE = declare("Override Type", ComboBox.class);
 			public static final AssetDescriptor<TextBox> MEMBER_SINCE_DATE = declare("Member Since Date", TextBox.class);
 			public static final AssetDescriptor<TextBox> MEMBERSHIP_NUMBER = declare("Membership Number", TextBox.class);
@@ -280,9 +280,14 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<TextBox> TOLLFREE_NUMBER = declare("TollFree Number", TextBox.class);
 			public static final AssetDescriptor<ComboBox> LEAD_SOURCE = declare("Lead Source", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> SUPPRESS_PRINT = declare("Suppress Print", ComboBox.class);
-			public static final AssetDescriptor<AssetListConfirmationDialog> CHANGE_POLICY_TYPE_CONFIRMATION =
-					declare("Change Policy Type Confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By
-							.xpath(".//div[@id='policyDataGatherForm:switchToNanoConfirmDialog_container']"));
+			public static final AssetDescriptor<AssetList> CHANGE_POLICY_TYPE_CONFIRMATION =
+					declare("Change Policy Type Confirmation", AssetList.class, ChangePolicyTypeConfirmationDialog.class, By
+							.xpath("//div[@id='policyDataGatherForm:switchToNanoConfirmDialog_container']"));
+			
+			public static final class ChangePolicyTypeConfirmationDialog extends MetaData {
+				public static final AssetDescriptor<Button> CONTINUE_BTN = declare("Continue", Button.class, By.xpath("//input[@id='policyDataGatherForm:swichtToNano_okBtn']"));
+				public static final AssetDescriptor<Button> CANCEL_BTN = declare("Cancel", Button.class, By.xpath("//input[@id='policyDataGatherForm:cancelSwichtToNanoBtn']"));
+			}
 
 		}
 	}
@@ -981,7 +986,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> ACNOWLEDGEMENT_OF_REQUIREMENT_FOR_PHIOTO_INSPECTION = declare("Acknowledgement of Requirement for Photo Inspection", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> NEW_YORK_AUTO_INSURANCE_APPLICATION = declare("New York Auto Insurance Application", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> SUPPLEMENTARY_UNINSURED_MOTORISTS_COVERAGE_REJECTION = declare(
-					"Supplementary Uninsured/Underinsured Motorists Coverage�Rejection or Election of Lower Limits", RadioGroup.class);
+					"Supplementary Uninsured/Underinsured Motorists Coverage¿Rejection or Election of Lower Limits", RadioGroup.class);
 			// NV
 			public static final AssetDescriptor<RadioGroup> UNINSURED_MOTORIST_COVERAGE_AND_UNDERINSURED_MOTORIST_COVERAGE = declare("Uninsured Motorist Coverage and Underinsured Motorist Coverage -" +
 					" Election of Lower Limits / Rejection of Coverage", RadioGroup.class);

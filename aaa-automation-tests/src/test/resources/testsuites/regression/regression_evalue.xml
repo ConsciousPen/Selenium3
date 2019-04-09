@@ -236,7 +236,6 @@
                     <include name="pas10229_membershipEligibilityConfigurationTrueForActiveMembershipActiveEValueRenewal"/>
                     <include name="pas10229_membershipEligibilityConfigurationTrueForActiveMembershipInActiveEValueRenewal"/>
                     <include name="pas331_membershipEligibilityConfigurationTrueForErredMembership"/>
-                    <include name="xAsyncTaskCheck"/>
                 </methods>
             </class>
         </classes>

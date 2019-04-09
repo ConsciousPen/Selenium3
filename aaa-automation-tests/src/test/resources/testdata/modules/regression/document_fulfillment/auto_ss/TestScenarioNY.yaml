@@ -24,8 +24,11 @@ TestData_Purchase: {
       New York Auto Insurance Application: Physically Signed
     },
     RequiredToIssue: {
-      Separate Vehicle 1: 'Yes',
+      #Separate Vehicle 1: 'Yes',
       Proof of Prior Insurance: 'Yes'
+    },
+    InspectionOrWaiverRequired: {
+      CARCO Vehicle Name 1: Inspection Received,
     },
     Agreement: I agree
   }
