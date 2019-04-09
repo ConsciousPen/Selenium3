@@ -1,12 +1,13 @@
 package aaa.helpers.xml.model.pasdoc;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DocumentData {
@@ -104,9 +105,9 @@ public class DocumentData {
 	@XmlElement(name = "Driver")
 	private List<String> driver = new LinkedList<>();
 
-	@XmlElementWrapper(name = "Vehicle")
+	@XmlElementWrapper(name = "Vehicles")
 	@XmlElement(name = "Vehicle")
-	private List<String> vehicle = new LinkedList<>();
+	private List<Vehicle> vehicles = new ArrayList<>();
 
 	public String getPolicyNumber() {
 		return policyNumber;
@@ -369,12 +370,12 @@ public class DocumentData {
 		return this;
 	}
 
-	public List<String> getVehicle() {
-		return vehicle;
+	public List<Vehicle> getVehicles() {
+		return vehicles;
 	}
 
-	public DocumentData setVehicle(List<String> vehicle) {
-		this.vehicle = vehicle;
+	public DocumentData setVehicles(List<Vehicle> vehicles) {
+		this.vehicles = vehicles;
 		return this;
 	}
 
@@ -410,7 +411,7 @@ public class DocumentData {
 				", premium=" + premium +
 				", billing='" + billing + '\'' +
 				", driver=" + driver +
-				", vehicle=" + vehicle +
+				", vehicle=" + vehicles +
 				'}';
 	}
 
@@ -452,13 +453,13 @@ public class DocumentData {
 				premium.equals(that.premium) &&
 				billing.equals(that.billing) &&
 				driver.equals(that.driver) &&
-				vehicle.equals(that.vehicle);
+				vehicles.equals(that.vehicles);
 	}
 
 	@Override
 	public int hashCode() {
 		return Objects
-				.hash(policyNumber, productType, state, transactionCode, transactionEffectiveDate, transactionReason, transactionDate, effectiveDate, expiredDate, termDurationInMonths, namedNonOwnerPolicy, companyCode, aaaInsuredSince, renewalCycle, cancellationEffectiveDate, insured, agent, agency, insuranceScore, otherOrPriorPolicy, priorCarrier, alternateCoverage, endorsement, discount, selectedPaymentPlan, paymentPlan, premium, billing, driver, vehicle);
+				.hash(policyNumber, productType, state, transactionCode, transactionEffectiveDate, transactionReason, transactionDate, effectiveDate, expiredDate, termDurationInMonths, namedNonOwnerPolicy, companyCode, aaaInsuredSince, renewalCycle, cancellationEffectiveDate, insured, agent, agency, insuranceScore, otherOrPriorPolicy, priorCarrier, alternateCoverage, endorsement, discount, selectedPaymentPlan, paymentPlan, premium, billing, driver, vehicles);
 	}
 
 }

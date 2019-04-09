@@ -497,6 +497,11 @@
                     <include name="pas14738_testAccidentSurchargeWaiverNB"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver -->
+            <class name="aaa.modules.regression.sales.auto_ss.TestTelematicsParticipationDiscount">
+                <methods>
+                    <include name="testTelematicsParticipationDiscount"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.TestTelematicsParticipationDiscount -->
         </classes>
     </test> <!-- AZ Auto -->
     <test name="PA Auto" parallel="methods">
