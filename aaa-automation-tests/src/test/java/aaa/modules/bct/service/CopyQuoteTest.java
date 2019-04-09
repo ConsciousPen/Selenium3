@@ -1,4 +1,4 @@
-package aaa.modules.bct.sales;
+package aaa.modules.bct.service;
 
 import static aaa.common.enums.Constants.States.*;
 import static toolkit.verification.CustomAssertions.assertThat;
@@ -11,10 +11,11 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import aaa.modules.policy.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 
+@Deprecated
 public class CopyQuoteTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})

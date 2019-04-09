@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.*;
@@ -70,7 +71,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"AA59 Existing Damage Endorsement Form",
 			"AAADriver Vehicle Relationship",
 			"Vehicles.2008, ACURA, MDX.Primary Driver",
-			"Vehicles.2008, ACURA, MDX.System Rated Driver"
+			"Vehicles.2008, ACURA, MDX.System Rated Driver",
+			"AAANYDriver Vehicle Relationship"
 	);
 
 	private static final List<String> NOT_IMPLEMENTED_YET_FIELDS = ImmutableList.of(
@@ -104,7 +106,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Receipt Date",
 			"AAADriver Vehicle Relationship",
 			"Vehicles.2008, ACURA, MDX.Primary Driver",
-			"Vehicles.2008, ACURA, MDX.System Rated Driver"
+			"Vehicles.2008, ACURA, MDX.System Rated Driver",
+			"AAANYDriver Vehicle Relationship"
 	);
 	private final ErrorTab errorTab = new ErrorTab();
 

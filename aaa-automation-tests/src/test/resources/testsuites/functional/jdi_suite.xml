@@ -360,4 +360,14 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="CARCO Inspection or Waiver Required Section" parallel="methods">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestCARCOInspectionOrWaiverRequiredSection">
+                <methods>
+                    <include name="pas26664_CARCOInspectionOrWaiverRequiredSection"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
