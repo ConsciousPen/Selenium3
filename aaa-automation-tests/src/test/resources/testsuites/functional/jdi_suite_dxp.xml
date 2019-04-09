@@ -930,6 +930,7 @@
                 <methods>
                     <include name="pas21597_addVehicleCheckAntiTheft"/>
                     <include name="pas15334viewUpdateVehicleDaytimeRunningAntilockBrakes"/>
+                    <include name="pas18408_lessThan1000Miles"/>
                 </methods>
             </class>
         </classes>

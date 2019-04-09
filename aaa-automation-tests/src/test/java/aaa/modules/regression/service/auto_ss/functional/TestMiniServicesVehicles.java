@@ -864,7 +864,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@StateList(states = {Constants.States.NJ, Constants.States.NY})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18408"})
-	public void pas18408_lessThan1000Miles(@Optional("NY") String state) {
+	public void pas18408_lessThan1000Miles(@Optional("NJ") String state) {
 		assertSoftly(this::pas18408_validateLessThan1000Miles);
 	}
 
