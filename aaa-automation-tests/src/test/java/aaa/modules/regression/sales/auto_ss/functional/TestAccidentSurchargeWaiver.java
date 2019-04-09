@@ -522,7 +522,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 
         // Advance time to renewal reports order date and create renewal image
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(PolicySummaryPage.getExpirationDate()));
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(PolicySummaryPage.getExpirationDate()));
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         policy.renew().perform();
