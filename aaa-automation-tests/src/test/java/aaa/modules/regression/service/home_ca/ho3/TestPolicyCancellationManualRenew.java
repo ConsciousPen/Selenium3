@@ -40,7 +40,7 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author tsaltsevich
- * @name TestPolicyReinstatementAdditionalEndorsements ("CL-CP-101")
+ * @name TestPolicyCancellationManualRenew ("CL-CP-101")
  *
  * Test Case Description:
  * 1. Generate Cancellation Notice due to Nonpayment of Premium on the state specific number of days after bill due date (Cancellation Notice generation date)
@@ -319,7 +319,7 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 
 		assertThat(manualRenewActionTab.getAssetList().getAsset(HomeCaMetaData.ManualRenewActionTab.RENEWAL_DATE).getValue())
 				.isEqualTo(renewalDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
-		manualRenewActionTab.fillTab(getTestSpecificTD("TestData"));
+		manualRenewActionTab.fillTab(getPolicyTD("ManualRenew", "TestData_ManualRenew"));
 		manualRenewActionTab.submitTab();
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);

@@ -155,8 +155,8 @@ public final class AutoSSMetaData {
 
 		public static final class AAAMembership extends MetaData {
 			public static final AssetDescriptor<ComboBox> CURRENT_AAA_MEMBER = declare("Current AAA Member", ComboBox.class);
-			public static final AssetDescriptor<StaticElement> EXISTING_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK =
-					declare("ExistingMembershipNo_NJ_DE_WarningBlock", StaticElement.class, By.xpath("//*[contains(@id, 'NJ_DE_WarningBlock')]"));
+			public static final AssetDescriptor<StaticElement> NO_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK = declare("existingMembershipCdWarningLbl2", StaticElement.class, By.id("policyDataGatherForm:existingMembershipCdWarningLbl2"));
+			public static final AssetDescriptor<StaticElement> PENDING_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK = declare("existingMembershipCdWarningLbl4", StaticElement.class, By.id("policyDataGatherForm:existingMembershipCdWarningLbl4"));
 			public static final AssetDescriptor<ComboBox> OVERRIDE_TYPE = declare("Override Type", ComboBox.class);
 			public static final AssetDescriptor<TextBox> MEMBER_SINCE_DATE = declare("Member Since Date", TextBox.class);
 			public static final AssetDescriptor<TextBox> MEMBERSHIP_NUMBER = declare("Membership Number", TextBox.class);
