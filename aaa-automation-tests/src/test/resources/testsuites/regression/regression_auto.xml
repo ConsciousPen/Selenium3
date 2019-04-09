@@ -549,7 +549,6 @@
                     <exclude name="pas6668_pas8815_ScenarioAC2_Dummy_Numbers_Automatic_Renewal"/>
                 </methods>
             </class>
-            <class name="aaa.modules.regression.service.auto_ca.choice.TestPolicyReinstatementWithoutLapse"/>
             <class name="aaa.modules.regression.sales.auto_ca.choice.TestSpecialHazardSurcharge"/>
         </classes>
     </test>
