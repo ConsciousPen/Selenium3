@@ -89,6 +89,8 @@ public class VersionsConflictConstants {
 			.putAll("Vehicles.2008, ACURA, MDX.Additional Interest.Additional Interest Information.Additional Interest Address", "interest address 1, VI interest address 2, Phoenix, AZ, 85085","")
 			.putAll("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Order Date","","")
 			.putAll("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Receipt Date","","")
+			.putAll("Drivers.New Driver2 Version2.Assigned Vehicle", "2011, CHEVROLET, EXPRESS VAN","1996, MAZDA, MX-5 MIATA")
+			.putAll("Drivers.New Driver3 Version3.Assigned Vehicle", "2011, MERCEDES-BENZ, G55AMG","2011, CHEVROLET, EXPRESS VAN")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -187,6 +189,9 @@ public class VersionsConflictConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN.Business Use Description", "Business Use Description")
 			.put("Vehicles.1998, DODGE, CARAVAN.Miles One-way to Work or School", "Miles One-way to Work or School")
 			.put("Vehicles.1998, DODGE, CARAVAN.Anti-theft", "Anti-theft")
+			//Assignment
+			.put("Drivers.NBFirstName NBLastName.Assigned Vehicle", "Select Vehicle")
+
 			.build();
 
 	/**
@@ -584,4 +589,37 @@ public class VersionsConflictConstants {
 			.put("Vehicles", "Vehicle (1998, DODGE, CARAVAN)")
 			.build();
 
+
+	/**
+	 *  Maps full attribute path on conflict page to version to select (Current, Available).
+	 */
+	protected static final ArrayListMultimap<String, String> ASSIGNMENT = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("AAANYDriver Vehicle Relationship", CURRENT)
+					.put("AAANYDriver Vehicle Relationship", CURRENT)
+					.put("AAANYDriver Vehicle Relationship", AVAILABLE)
+					.put("AAANYDriver Vehicle Relationship", AVAILABLE)
+					.put("AAANYDriver Vehicle Relationship", CURRENT)
+					.put("AAANYDriver Vehicle Relationship", AVAILABLE)
+					.put("Reports.AAA Membership report.Order Date", CURRENT)
+					.put("Drivers.NBFirstName NBLastName.Assigned Vehicle", AVAILABLE)
+					.put("Drivers.New Driver2 Version2.Assigned Vehicle", AVAILABLE)
+					.put("Drivers.New Driver3 Version3.Assigned Vehicle", AVAILABLE)
+					.build());
+
+	//all components/attributes that should be on Comparison page  Rolled on/endorsement
+	static final Multimap<String, String> ASSIGNMENT_VERSION_2 = ImmutableListMultimap.<String, String>builder()
+			.put("Drivers.NBFirstName NBLastName", "Assigned Vehicle")
+			.put("Drivers.New Driver2 Version2", "Assigned Vehicle")
+			.put("Drivers.New Driver3 Version3", "Assigned Vehicle")
+			.build();
+
+	//all components/attributes that should be on Comparison page  Rolled on/OOSE
+	static final Multimap<String, String> ASSIGNMENT_VERSION_1 = ImmutableListMultimap.<String, String>builder()
+			.build();
+
+
+
 }
+
+
