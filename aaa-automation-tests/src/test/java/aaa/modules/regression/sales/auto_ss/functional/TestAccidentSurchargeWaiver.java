@@ -34,7 +34,6 @@ import aaa.toolkit.webdriver.customcontrols.TableWithPages;
 import aaa.utils.StateList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
 
 @StateList(statesExcept = Constants.States.CA)
