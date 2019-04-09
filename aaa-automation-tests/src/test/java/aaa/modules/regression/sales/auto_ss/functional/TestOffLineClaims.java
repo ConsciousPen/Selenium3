@@ -493,8 +493,8 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24652")
-    public void pas24652_ChangeFNIGeneralTabRenewal(@Optional("CA") @SuppressWarnings("unused") String state) {
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24652")
+    public void pas24652_ChangeFNIGeneralTabRenewal(@Optional("AZ") @SuppressWarnings("unused") String state) {
         pas24652_ChangeFNIGeneralTabRenewal();
     }
 }
