@@ -6,6 +6,7 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import org.openqa.selenium.By;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -29,6 +30,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplate;
+import aaa.toolkit.webdriver.customcontrols.TableWithPages;
 import aaa.utils.StateList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -39,6 +41,7 @@ import toolkit.utils.TestInfo;
 public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
     private File claimResponseFile;
+    private TableWithPages tableActivityInformationList = new TableWithPages(By.id("policyDataGatherForm:dataGatherView_ListDrivingRecord"));
 
     private static final String TEST_DRIVER = "TestDriver";
 
@@ -218,7 +221,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
         calculatePremiumAndNavigateToDriverTab();
-        assertThat(DriverTab.tableActivityInformationList.getRow(1).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
+        assertThat(tableActivityInformationList.getRow(1).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
         assertThat(driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).getValue()).contains("5000");
         premiumAndCoveragesTab.calculatePremium();
 
@@ -249,7 +252,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
         calculatePremiumAndNavigateToDriverTab();
-        assertThat(DriverTab.tableActivityInformationList.getRow(1).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
+        assertThat(tableActivityInformationList.getRow(1).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
         assertThat(driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).getValue()).contains("4000");
 
     }
@@ -758,26 +761,14 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     }
 
     private void validateIncludeInPoints(String description, String expectedValue) {
-        // Try twice due to intermittent failures caused by performance issues
-        try {
-            assertThat(DriverTab.tableActivityInformationList.getRowContains(PolicyConstants.ActivityInformationTable.DESCRIPTION, description)
-                    .getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo(expectedValue);
-        } catch (IstfException e) {
-            DriverTab.tableActivityInformationList.resetAllFilters();
-            assertThat(DriverTab.tableActivityInformationList.getRowContains(PolicyConstants.ActivityInformationTable.DESCRIPTION, description)
-                    .getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo(expectedValue);
-        }
+        assertThat(tableActivityInformationList.getRowContains(PolicyConstants.ActivityInformationTable.DESCRIPTION, description)
+                .getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo(expectedValue);
+
     }
 
     private void validateReasonCode(String description, String expectedValue) {
-        try {
-            assertThat(DriverTab.tableActivityInformationList.getRowContains(PolicyConstants.ActivityInformationTable.DESCRIPTION, description)
-                    .getCell(PolicyConstants.ActivityInformationTable.NOT_INCLUDED_REASON_CODES).getValue()).isEqualTo(expectedValue);
-        } catch (IstfException e) {
-            DriverTab.tableActivityInformationList.resetAllFilters();
-            assertThat(DriverTab.tableActivityInformationList.getRowContains(PolicyConstants.ActivityInformationTable.DESCRIPTION, description)
-                    .getCell(PolicyConstants.ActivityInformationTable.NOT_INCLUDED_REASON_CODES).getValue()).isEqualTo(expectedValue);
-        }
+        assertThat(tableActivityInformationList.getRowContains(PolicyConstants.ActivityInformationTable.DESCRIPTION, description)
+                .getCell(PolicyConstants.ActivityInformationTable.NOT_INCLUDED_REASON_CODES).getValue()).isEqualTo(expectedValue);
     }
 
     private void validateMultipleActivitiesOnSameDay() {
@@ -804,22 +795,22 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         calculatePremiumAndNavigateToDriverTab();
         validateIncludeInPoints(PROPERTY_DAMAGE, "No");
         validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
-        DriverTab.tableActivityInformationList.resetAllFilters();
+        //DriverTab.tableActivityInformationList.resetAllFilters();
 
         // Add a second AF accident in past 33 months and validate
         fillActivityDriverTab(getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY)
                 .adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-8M>")
                 .adjust(AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY.getLabel(), "click"));
         calculatePremiumAndNavigateToDriverTab();
-        assertThat(DriverTab.tableActivityInformationList.getRow(1).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
-        assertThat(DriverTab.tableActivityInformationList.getRow(2).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
+        assertThat(tableActivityInformationList.getRow(1).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
+        assertThat(tableActivityInformationList.getRow(2).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
 
         // Remove second claim and validate ASW is given
         DriverTab.tableActivityInformationList.removeRow(2);
         calculatePremiumAndNavigateToDriverTab();
         validateIncludeInPoints(PROPERTY_DAMAGE, "No");
         validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
-        DriverTab.tableActivityInformationList.resetAllFilters();
+        //DriverTab.tableActivityInformationList.resetAllFilters();
 
         // Change Prior Carrier to non-AAA (Progressive) and validate no ASW for both
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
