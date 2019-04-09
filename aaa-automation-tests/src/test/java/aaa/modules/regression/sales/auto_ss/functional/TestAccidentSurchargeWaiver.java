@@ -194,6 +194,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         TestData tdPolicy = adjustTdBaseDate(getPolicyTD())
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
                         AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel()), "$<today>")
+                .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel()), Constants.States.AZ)
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "D99155622");
 
         // Create policy
@@ -700,7 +701,16 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
         // Validate both violations and lowest point value accident receive SDW, other accident receives ASW
         DriverTab.viewDriver(2);
-        validateMultipleActivitiesOnSameDay();
+        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_SDW);
+
+        validateIncludeInPoints(BODILY_INJURY, "No");
+        validateReasonCode(BODILY_INJURY, PolicyConstants.ActivityInformationTable.REASON_CODE_SDW);
+
+        validateIncludeInPoints(HIT_AND_RUN, "No");
+        validateReasonCode(HIT_AND_RUN, PolicyConstants.ActivityInformationTable.REASON_CODE_SDW);
+
+        validateIncludeInPoints(DRAG_RACING, "Yes");
 
     }
 
@@ -753,6 +763,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
             assertThat(DriverTab.tableActivityInformationList.getRowContains(PolicyConstants.ActivityInformationTable.DESCRIPTION, description)
                     .getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo(expectedValue);
         } catch (IstfException e) {
+            DriverTab.tableActivityInformationList.resetAllFilters();
             assertThat(DriverTab.tableActivityInformationList.getRowContains(PolicyConstants.ActivityInformationTable.DESCRIPTION, description)
                     .getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo(expectedValue);
         }
@@ -763,6 +774,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
             assertThat(DriverTab.tableActivityInformationList.getRowContains(PolicyConstants.ActivityInformationTable.DESCRIPTION, description)
                     .getCell(PolicyConstants.ActivityInformationTable.NOT_INCLUDED_REASON_CODES).getValue()).isEqualTo(expectedValue);
         } catch (IstfException e) {
+            DriverTab.tableActivityInformationList.resetAllFilters();
             assertThat(DriverTab.tableActivityInformationList.getRowContains(PolicyConstants.ActivityInformationTable.DESCRIPTION, description)
                     .getCell(PolicyConstants.ActivityInformationTable.NOT_INCLUDED_REASON_CODES).getValue()).isEqualTo(expectedValue);
         }
