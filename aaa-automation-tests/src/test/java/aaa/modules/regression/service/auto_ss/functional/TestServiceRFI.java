@@ -739,6 +739,56 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	 * @author Maris Strazds
 	 * @name
 	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement in PAS
+	 * 3. Add/replace qualifying vehicle inside PAS ('Less Than 1,000 miles' = Yes)
+	 * 4. Check that Required for Bind Section includes AAIFNYE
+	 * 5. Try to bind without signing the document - error is displayed
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NY})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-25027"})
+	public void pas25027_CARCOFormAAIFNYEInsidePASAddReplaceVehicle(@Optional("NY") String state) {
+		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, 2, true, true,
+				false, true, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE,
+				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement in PAS
+	 * 3. Add/replace qualifying vehicle inside PAS ('Less Than 1,000 miles' = No or not required)
+	 * 4. Check that Required for Bind Section includes AAIFNYD and it is reset to Not Signed
+	 * 5. Try to bind without signing the document - error is displayed
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NY})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-25029"})
+	public void pas25029_CARCOFormAAIFNYDInsidePASAddReplaceVehicleTC01(@Optional("NY") String state) {
+		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, 2, true, false,
+				true, false, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE,
+				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY);
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-25029"})
+	public void pas25029_CARCOFormAAIFNYDInsidePASAddReplaceVehicleTC02(@Optional("NJ") String state) {
+		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, 2, false, false,
+				false, false, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE,
+				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
 	 * 1. Create policy in PAS with qualifying vehicle ('Less Than 1,000 miles' = No or not required), but without COMPDED
 	 * 2. Create endorsement in PAS
 	 * 3. Update vehicle to have COMPDED
