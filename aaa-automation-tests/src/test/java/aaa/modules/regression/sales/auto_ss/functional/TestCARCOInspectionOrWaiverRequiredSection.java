@@ -83,7 +83,7 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 		assertThat(documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_NAME_5)).isPresent(false);
 
 		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_1).setValue(selectionForNJOrNY);//Leaving as NO_DOCUMENT_RECEIVED for NY as NY does not have PRIOR_DECLARATION_RECEIVED option.
-		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_2).setValue(SALES_AGREEMENT_RECEIVED);//TODO-mstrazds: use 'enum'
+		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_2).setValue(SALES_AGREEMENT_RECEIVED);
 		documentsAndBindTab.getInspectionOrWaiverRequiredAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.InspectionOrWaiverRequired.CARCO_VEHICLE_RADIOGROUP_3).setValue(INSPECTION_RECEIVED);
 
 		//Make sure that after selecting Agreement, 'Inspection or Waiver Required' section is not reset (PAS-27828)
