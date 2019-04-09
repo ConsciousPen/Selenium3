@@ -210,6 +210,7 @@ VehicleTab_2018_Leased: {
 VehicleTab_2018_New: {
     Usage: Pleasure,
     VIN: 1FADP3J2XJL222680, #Ford Focus 2018
+    'Less Than 1,000 Miles': 'Yes'
 }
 
 PremiumAndCoveragesTab_2018: {
