@@ -165,14 +165,14 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		String doccId = checkDocumentInRfiService(policyNumber, "AACSDC", "District of Columbia Coverage Selection/Rejection Form");
 
 		//Verify Bind service
-		bindEndorsement(policyNumber, doccId, ErrorEnum.Errors.ERROR_200900.getCode(), ErrorEnum.Errors.ERROR_200900.getMessage(), false);
+		bindEndorsement(policyNumber, doccId, ERROR_200900.getCode(), ERROR_200900.getMessage(), false);
 		//Verify DB Endorsement xml Signed by field is there
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AACSDC", "ENDORSEMENT_ISSUE");
 		verifyDocInDb(softly, query, DocGenEnum.Documents.AACSDC, true);
 
 		//Go to pas and and verify
 		goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.DISTRICT_OF_COLUMBIA_COVERAGE_SELECTION_REJECTION_FORM,
-				AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY, "$50,000/$100,000", ErrorEnum.Errors.ERROR_200900, false);
+				AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY, "$50,000/$100,000", ERROR_200900, false);
 	}
 
 	/**
@@ -240,7 +240,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 		DocGenEnum.Documents document = DocGenEnum.Documents.AADNDE1;
 		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.DELAWARE_MOTORISTS_PROTECTION_ACT;
-		ErrorEnum.Errors error = ErrorEnum.Errors.ERROR_200123;
+		ErrorEnum.Errors error = ERROR_200123;
 
 		verifyRFIScenarios("BI", AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY, "25000/50000", "$50,000/$100,000", document, documentAsset, error, getPolicyDefaultTD(), true, false);
 		verifyRFIScenarios("PD", AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY, "15000", "$25,000", document, documentAsset, error, getPolicyDefaultTD(), true, false);
@@ -293,7 +293,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas23300_AAFPPAFormRFI(@Optional("PA") String state) {
 		DocGenEnum.Documents document = DocGenEnum.Documents.AAFPPA;
 		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.FIRST_PARTY_BENEFITS_COVERAGE_AND_LIMITS_SELECTION_FORM;
-		ErrorEnum.Errors error = ErrorEnum.Errors.ERROR_200305;
+		ErrorEnum.Errors error = ERROR_200305;
 
 		TestData td = getPolicyDefaultTD();
 		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.TORT_THRESHOLD.getLabel()), "contains=Full Tort");//to not get TORT rule
@@ -353,7 +353,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas23301_AA52UPAAFormRFI(@Optional("PA") String state) {
 		DocGenEnum.Documents document = DocGenEnum.Documents.AA52UPAA;
 		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNUNSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION;
-		ErrorEnum.Errors error = ErrorEnum.Errors.ERROR_200306;
+		ErrorEnum.Errors error = ERROR_200306;
 
 		// scenario 1
 		TestData td = getPolicyDefaultTD();
@@ -433,7 +433,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas23302_AA52IPAAFormRFI(@Optional("PA") String state) {
 		DocGenEnum.Documents document = DocGenEnum.Documents.AA52IPAA;
 		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNDERINSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION;
-		ErrorEnum.Errors error = ErrorEnum.Errors.ERROR_AAA_200307;
+		ErrorEnum.Errors error = ERROR_AAA_200307;
 
 		TestData td = getPolicyDefaultTD();
 		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.TORT_THRESHOLD.getLabel()), "contains=Full Tort");//do not get TORT rule
@@ -507,8 +507,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		DocGenEnum.Documents documentAA52IPAA = DocGenEnum.Documents.AA52IPAA;
 		AssetDescriptor<RadioGroup> documentAssetUninsured = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNUNSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION;
 		AssetDescriptor<RadioGroup> documentAssetUnderinsured = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNDERINSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION;
-		ErrorEnum.Errors error200306 = ErrorEnum.Errors.ERROR_200306;
-		ErrorEnum.Errors error200307 = ErrorEnum.Errors.ERROR_AAA_200307;
+		ErrorEnum.Errors error200306 = ERROR_200306;
+		ErrorEnum.Errors error200307 = ERROR_AAA_200307;
 
 		String policyNumber = openAppAndCreatePolicy(td);
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -662,7 +662,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas25024_CARCONotNeededInsidePASAddReplaceVehicleTC01(@Optional("NY") String state) {
 		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, 2,false, false,
 				false, false, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE,
-                ERROR_200200_NY, ERROR_200200_NY);
+				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY);
 	}
 
 	@Parameters({"state"})
@@ -672,7 +672,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas25024_CARCONotNeededInsidePASAddReplaceVehicleTC02(@Optional("NY") String state) {
 		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, 2, true, false,
 				false, false, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE,
-				ERROR_200200_NY, ERROR_200200_NY);
+				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY);
 	}
 
 	@Parameters({"state"})
@@ -682,7 +682,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas25024_CARCONotNeededInsidePASAddReplaceVehicleTC03(@Optional("NY") String state) {
 		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, 2, true, true,
 				false, false, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE,
-				ERROR_200200_NY, ERROR_200200_NY);
+				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY);
 	}
 
 	/**
@@ -794,7 +794,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21648", "PAS-24605"})
 	public void pas25027_CARCOFormAAIFNYDInsidePASUpdateCompTC01(@Optional("NY") String state) {
-		carcoUpdateCompScenariosInsidePAS(2, true, false, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE, ERROR_200200_NY, ERROR_200200_NY);
+		carcoUpdateCompScenariosInsidePAS(2, true, false, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE, ERROR_AAA_200200_NY, ERROR_AAA_200200_NY);
 	}
 
 	@Parameters({"state"})
@@ -802,7 +802,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21648", "PAS-24605"})
 	public void pas25027_CARCOFormAAIFNYDInsidePASUpdateCompTC02(@Optional("NY") String state) {
-		carcoUpdateCompScenariosInsidePAS(2, false, false, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE, ERROR_200200_NY, ERROR_200200_NY);
+		carcoUpdateCompScenariosInsidePAS(2, false, false, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE, ERROR_AAA_200200_NY, ERROR_AAA_200200_NY);
 	}
 
 	/**
@@ -820,7 +820,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-24531", "PAS-24605"})
 	public void pas25027_CARCOFormAAIFNYEInsidePASUpdateComp(@Optional("NY") String state) {
-		carcoUpdateCompScenariosInsidePAS(2, true, true, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE, ERROR_200200_NY, ERROR_200200_NY);
+		carcoUpdateCompScenariosInsidePAS(2, true, true, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE, ERROR_AAA_200200_NY, ERROR_AAA_200200_NY);
 	}
 
 	//CARCO Outside PAS
@@ -1029,7 +1029,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 			String doccId = checkDocumentInRfiService(policyNumber, "RUUELLUU", "IMPORTANT NOTICE - Uninsured Motorist Coverage");
 
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_200037_VA.getCode(), ErrorEnum.Errors.ERROR_200037_VA.getMessage(), "attributeForRules");
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ERROR_200037_VA.getCode(), ERROR_200037_VA.getMessage(), "attributeForRules");
 
 			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), doccId);
 
@@ -1038,7 +1038,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			verifyDocInDb(softly, query, DocGenEnum.Documents.AA52VA, true);
 
 			goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE,
-					AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY, "$50,000/$100,000", ErrorEnum.Errors.ERROR_200037_VA, false);
+					AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY, "$50,000/$100,000", ERROR_200037_VA, false);
 
 			//Verify Signed by is not there in XML
 			String query1 = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AA52VA", "ENDORSEMENT_ISSUE");
@@ -1120,7 +1120,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 					.getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.PA_NOTICE_NAMED_INSURED_REGARDING_TORT_OPTIONS)).hasValue("Not Signed");
 			documentsAndBindTab.submitTab();
 			//On bind check error message
-			errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_SS190125);
+			errorTab.verify.errorsPresent(true, ERROR_AAA_SS190125);
 			errorTab.cancel();
 
 			//delete endorsement
@@ -1252,7 +1252,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest("TORT", tortCoverageValue), PolicyCoverageInfo.class);
 		String docId = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AADNPAB.getId(), DocGenEnum.Documents.AADNPAB.getName());
 
-		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_AAA_SS190125.getCode(), ErrorEnum.Errors.ERROR_AAA_SS190125.getMessage(), "attributeForRules");
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ERROR_AAA_SS190125.getCode(), ERROR_AAA_SS190125.getMessage(), "attributeForRules");
 		HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), docId);
 
 		assertSoftly(softly -> {
@@ -1519,7 +1519,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		assertSoftly(softly -> {
 			DocGenEnum.Documents document = DocGenEnum.Documents.AACSNJ;
 			AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NJ_AUTO_STANDARD_POLICY_COVERAGE_SELECTION_FORM;
-			ErrorEnum.Errors error = ErrorEnum.Errors.ERROR_200900;
+			ErrorEnum.Errors error = ERROR_200900;
 			TestData td = getPolicyDefaultTD();
 
 			verifyRFIScenarios("PIPMEDEXP", AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.MEDICAL_EXPENSE, CoverageLimits.COV_75000.getLimit(), CoverageLimits.COV_150000.getDisplay(), document, documentAsset, error, td, true, false);
@@ -1927,7 +1927,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 				} else {
 					expectedDocument = DocGenEnum.Documents.AAIFNYD;
 				}
-				error = ERROR_200200_NY;
+				error = ERROR_AAA_200200_NY;
 			}
 
 			//Try to bind without signing
@@ -2052,10 +2052,10 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			} else {//for NY
 				if (isLessThan1000Miles) {
 					expectedDocument = DocGenEnum.Documents.AAIFNYE;
-					error = ERROR_200200_NY;
+					error = ERROR_AAA_200200_NY;
 				} else {
 					expectedDocument = DocGenEnum.Documents.AAIFNYD;
-					error = ERROR_200200_NY;
+					error = ERROR_AAA_200200_NY;
 				}
 			}
 			docId = checkDocumentInRfiService(policyNumber, expectedDocument.getId(), expectedDocument.getName());
