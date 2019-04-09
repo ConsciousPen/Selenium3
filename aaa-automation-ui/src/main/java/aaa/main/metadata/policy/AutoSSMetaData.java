@@ -983,7 +983,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> INSPECTION_WAIVER_SALES_AGREEMENT_REQUIRED =
 					declare("Inspection Waiver - Sales Agreement Required", RadioGroup.class);
 			// NY
-			public static final AssetDescriptor<RadioGroup> ACNOWLEDGEMENT_OF_REQUIREMENT_FOR_PHOTO_INSPECTION = declare("Acknowledgement of Requirement for Photo Inspection", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> ACKNOWLEDGEMENT_OF_REQUIREMENT_FOR_PHOTO_INSPECTION = declare("Acknowledgement of Requirement for Photo Inspection", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> NEW_YORK_AUTO_INSURANCE_APPLICATION = declare("New York Auto Insurance Application", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> SUPPLEMENTARY_UNINSURED_MOTORISTS_COVERAGE_REJECTION = declare(
 					"Supplementary Uninsured/Underinsured Motorists Coverage�Rejection or Election of Lower Limits", RadioGroup.class);

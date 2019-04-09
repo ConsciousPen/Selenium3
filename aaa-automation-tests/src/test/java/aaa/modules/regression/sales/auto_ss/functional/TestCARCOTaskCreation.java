@@ -54,7 +54,7 @@ public class TestCARCOTaskCreation extends AutoSSBaseTest {
         } else if (getState().equals(Constants.States.NY)) {
             td.adjust(TestData.makeKeyPath(AutoSSMetaData.VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.LESS_THAN_1000_MILES.getLabel()), "No")
                     .adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(),
-                            AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.ACNOWLEDGEMENT_OF_REQUIREMENT_FOR_PHOTO_INSPECTION.getLabel()), PolicyConstants.SignatureStatus.PHYSICALLY_SIGNED);
+                            AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.ACKNOWLEDGEMENT_OF_REQUIREMENT_FOR_PHOTO_INSPECTION.getLabel()), PolicyConstants.SignatureStatus.PHYSICALLY_SIGNED);
         }
 
         // Create policy and fill up to Documents & Bind, select 'No Document Received' for vehicle
