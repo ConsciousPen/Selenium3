@@ -583,6 +583,13 @@ public enum AvailableCoverageLimits {
             CoverageLimits.COV_PIPCOVINCLUDES_NI,
             CoverageLimits.COV_PIPCOVINCLUDES_NIFM
     )),
+
+	MEE_NY(ImmutableList.of(
+			CoverageLimits.COV_MEE_NONE,
+			CoverageLimits.COV_MEE_NAMED_INSURED_ONLY,
+			CoverageLimits.COV_MEE_NAMED_INSURED_AND_RELATIVES
+	)),
+
 	SSL(ImmutableList.of(
 			CoverageLimits.COV_FALSE,
 			CoverageLimits.COV_TRUE

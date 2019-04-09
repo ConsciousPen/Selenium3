@@ -1184,6 +1184,7 @@
                 <methods>
                     <include name="pas16040_sslCoverageNY"/>
                     <include name="pas16041_wlbCoverageNYBody"/>
+                    <include name="pas16042_viewUpdateMEENY"/>
                 </methods>
             </class>
         </classes>
