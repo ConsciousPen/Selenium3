@@ -4558,8 +4558,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		Map<String, CoverageInfo> mapBIAndState = new LinkedHashMap<>();
 		mapBIAndState.put(Constants.States.DE, CoverageInfo.BI_WV_VA_KS_DC_DE);
 		mapBIAndState.put(Constants.States.VA, CoverageInfo.BI_WV_VA_KS_DC_DE);
-		mapBIAndState.put(Constants.States.PA, CoverageInfo.BI_AZ_PA_NJ);
-		mapBIAndState.put(Constants.States.NJ, CoverageInfo.BI_AZ_PA_NJ);
+		mapBIAndState.put(Constants.States.PA, CoverageInfo.BI_PA);
+		mapBIAndState.put(Constants.States.NJ, CoverageInfo.BI_AZ_NJ);
 
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
@@ -4708,7 +4708,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	protected void pas21364_PDAndUMPDAndCanChangeTrueBody() {
 		Map<String, CoverageInfo> mapBIAndState = new LinkedHashMap<>();
 		mapBIAndState.put(Constants.States.VA, CoverageInfo.BI_WV_VA_KS_DC_DE);
-		mapBIAndState.put(Constants.States.NJ, CoverageInfo.BI_AZ_PA_NJ);
+		mapBIAndState.put(Constants.States.NJ, CoverageInfo.BI_AZ_NJ);
 
 		Map<String, CoverageInfo> mapPDAndState = new LinkedHashMap<>();
 		mapPDAndState.put(Constants.States.VA, CoverageInfo.PD_VA);
