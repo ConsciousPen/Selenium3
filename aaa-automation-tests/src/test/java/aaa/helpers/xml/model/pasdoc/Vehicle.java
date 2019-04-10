@@ -6,7 +6,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -32,15 +31,15 @@ public class Vehicle {
 
 	@XmlElementWrapper(name = "Coverages")
 	@XmlElement(name = "Coverage")
-	private List<Coverage> coverages = new ArrayList<>();
+	private List<Coverage> coverages = new LinkedList<>();
 
 	@XmlElementWrapper(name = "Discounts")
 	@XmlElement(name = "Discount")
-	private List<Discount> discounts = new ArrayList<>();
+	private List<Discount> discounts = new LinkedList<>();
 
 	@XmlElementWrapper(name = "Endorsements")
 	@XmlElement(name = "Endorsement")
-	private List<Discount> endorsements = new ArrayList<>();
+	private List<Endorsement> endorsements = new LinkedList<>();
 
 	@XmlElement(name = "ExistingDamage")
 	private String existingDamage;
@@ -150,11 +149,11 @@ public class Vehicle {
 		return this;
 	}
 
-	public List<Discount> getEndorsements() {
+	public List<Endorsement> getEndorsements() {
 		return endorsements;
 	}
 
-	public Vehicle setEndorsements(List<Discount> endorsements) {
+	public Vehicle setEndorsements(List<Endorsement> endorsements) {
 		this.endorsements = endorsements;
 		return this;
 	}
@@ -299,7 +298,7 @@ public class Vehicle {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if (!(o instanceof Vehicle)) {
 			return false;
 		}
 		Vehicle vehicle = (Vehicle) o;

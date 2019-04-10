@@ -1,9 +1,9 @@
 package aaa.helpers.xml.model.pasdoc;
 
-import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Document {
@@ -13,14 +13,19 @@ public class Document {
 
 	@XmlElement(name = "IsThirdPartyForm")
 	private String isThirdPartyForm;
+
 	@XmlElement(name = "Sequence")
 	private String sequence;
+
 	@XmlElement(name = "SignatureType")
 	private String signatureType;
+
 	@XmlElement(name = "TemplateId")
 	private String templateId;
+
 	@XmlElement(name = "TemplateVersion")
 	private String templateVersion;
+
 	@XmlElement(name = "XPathInfo")
 	private String xPathInfo;
 

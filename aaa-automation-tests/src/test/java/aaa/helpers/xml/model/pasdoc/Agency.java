@@ -1,19 +1,24 @@
 package aaa.helpers.xml.model.pasdoc;
 
-import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Agency {
 
 	@XmlElement(name = "Name")
 	private String name;
+
 	@XmlElement(name = "Number")
 	private String number;
+
 	@XmlElement(name = "Phone")
-	private String lastName;
+	private Phone phone;
+
+	@XmlElement(name = "Address")
+	private Address address;
 
 	public String getName() {
 		return name;
@@ -33,22 +38,22 @@ public class Agency {
 		return this;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public Phone getPhone() {
+		return phone;
 	}
 
-	public Agency setLastName(String lastName) {
-		this.lastName = lastName;
+	public Agency setPhone(Phone phone) {
+		this.phone = phone;
 		return this;
 	}
 
-	@Override
-	public String toString() {
-		return "Agency{" +
-				"name='" + name + '\'' +
-				", number='" + number + '\'' +
-				", lastName='" + lastName + '\'' +
-				'}';
+	public Address getAddress() {
+		return address;
+	}
+
+	public Agency setAddress(Address address) {
+		this.address = address;
+		return this;
 	}
 
 	@Override
@@ -56,18 +61,28 @@ public class Agency {
 		if (this == o) {
 			return true;
 		}
-		if (!(o instanceof Agency)) {
+		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
 		Agency agency = (Agency) o;
-		return name.equals(agency.name) &&
-				number.equals(agency.number) &&
-				lastName.equals(agency.lastName);
+		return Objects.equals(name, agency.name) &&
+				Objects.equals(number, agency.number) &&
+				Objects.equals(phone, agency.phone) &&
+				Objects.equals(address, agency.address);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(name, number, lastName);
+		return Objects.hash(name, number, phone, address);
 	}
 
+	@Override
+	public String toString() {
+		return "Agency{" +
+				"name='" + name + '\'' +
+				", number='" + number + '\'' +
+				", phone=" + phone +
+				", address=" + address +
+				'}';
+	}
 }

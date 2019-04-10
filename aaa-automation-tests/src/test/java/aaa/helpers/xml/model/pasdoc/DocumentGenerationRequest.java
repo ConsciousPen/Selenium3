@@ -1,13 +1,14 @@
 package aaa.helpers.xml.model.pasdoc;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import aaa.main.enums.DocGenEnum;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
-import aaa.main.enums.DocGenEnum;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DocumentGenerationRequest {

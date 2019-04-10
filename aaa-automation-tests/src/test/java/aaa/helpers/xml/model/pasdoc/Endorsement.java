@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,7 +13,7 @@ public class Endorsement {
 
 	@XmlElementWrapper(name = "AdditionalData")
 	@XmlElement(name = "AdditionalData")
-	private List<DataElement> additionalData = new ArrayList<>();
+	private List<DataElement> additionalData = new LinkedList<>();
 
 	@XmlElement(name = "FormNumber")
 	private String formNumber;

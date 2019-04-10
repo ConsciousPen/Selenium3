@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ss;
+package aaa.modules.regression.service.auto_ss;
 
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
@@ -91,16 +91,8 @@ public class TestTelematicsParticipationDiscount extends AutoSSBaseTest {
 
 		int countsOfRenewals = 3;
 		String expectedTelematicsDiscountText = "Safety Score is now set to 'No Score' and telematics participation discount will be granted per auto tier, if available";
-		String SQL_UPDATE = String.format(
-				"update lookupvalue set DISPLAYVALUE = '%s' where lookuplist_id = (select id from lookuplist where lookupname='AAAUBIParticipationDiscountLookup') and code = 'ANNUALTERM'", countsOfRenewals);
-		String SQL_SELECT = "select displayvalue from lookupvalue where lookuplist_id = (select id from lookuplist where lookupname='AAAUBIParticipationDiscountLookup')";
 
-		if (Integer.parseInt(DBService.get().getValue(SQL_SELECT).get()) != countsOfRenewals) {
-			DBService.get().executeUpdate(SQL_UPDATE);
-			log.info("DB update +++++ To decrease counts of renewals that will be performed for verification Telematics Participation Discount ++++++\n");
-			//Shift date forward to apply new setting for AAAUBIParticipationDiscountLookup
-			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
-		}
+		setValueForAAAUBIParticipationDiscountLookup(countsOfRenewals);
 		//1-4. Initiate Auto Signature Series and proceed to Vehicle tab
 		TestData tdAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DataGather", TEST_DATA_KEY)
 				.adjust("VehicleTab", getTestSpecificTD("VehicleTab")).adjust("DocumentsAndBindTab", getTestSpecificTD("DocumentsAndBindTab"));
@@ -174,6 +166,21 @@ public class TestTelematicsParticipationDiscount extends AutoSSBaseTest {
 		//25 Validate that field Telematics Participation Discount in the Motor Vehicle Information section should not be displayed
 		checkDiscount(getDocumentRequest(policyNum, AA02AZ), false);
 		checkDiscount(getDocumentRequest(quoteNum, AA11AZ), false);
+
+		setValueForAAAUBIParticipationDiscountLookup(50);
+	}
+
+	private void setValueForAAAUBIParticipationDiscountLookup(int value) {
+		String sqlUpdate = String.format(
+				"update lookupvalue set DISPLAYVALUE = '%s' where lookuplist_id = (select id from lookuplist where lookupname='AAAUBIParticipationDiscountLookup') and code = 'ANNUALTERM'", value);
+		String sqlSelect = "select displayvalue from lookupvalue where lookuplist_id = (select id from lookuplist where lookupname='AAAUBIParticipationDiscountLookup')";
+
+		if (Integer.parseInt(DBService.get().getValue(sqlSelect).get()) != value) {
+			DBService.get().executeUpdate(sqlUpdate);
+			log.info("DB update +++++ To set counts of renewals that can be performed with enable Telematics Participation Discount ++++++\n");
+			//Shift date forward to apply new setting for AAAUBIParticipationDiscountLookup
+			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
+		}
 	}
 
 	private void checkDiscount(DocumentGenerationRequest document, boolean isDiscountExist) {
