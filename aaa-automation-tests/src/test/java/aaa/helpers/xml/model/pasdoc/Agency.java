@@ -61,7 +61,7 @@ public class Agency {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if (!(o instanceof Agency)) {
 			return false;
 		}
 		Agency agency = (Agency) o;

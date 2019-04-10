@@ -49,7 +49,7 @@ public class DataElement {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if (!(o instanceof DataElement)) {
 			return false;
 		}
 		DataElement that = (DataElement) o;

@@ -109,7 +109,7 @@ public class Address {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if (!(o instanceof Address)) {
 			return false;
 		}
 		Address address = (Address) o;

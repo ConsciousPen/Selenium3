@@ -65,7 +65,7 @@ public class Endorsement {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if (!(o instanceof Endorsement)) {
 			return false;
 		}
 		Endorsement that = (Endorsement) o;

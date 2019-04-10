@@ -109,7 +109,7 @@ public class Coverage {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if (!(o instanceof Coverage)) {
 			return false;
 		}
 		Coverage coverage = (Coverage) o;

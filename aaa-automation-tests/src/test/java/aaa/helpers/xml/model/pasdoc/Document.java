@@ -93,6 +93,29 @@ public class Document {
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Document)) {
+			return false;
+		}
+		Document document = (Document) o;
+		return Objects.equals(additionalData, document.additionalData) &&
+				Objects.equals(isThirdPartyForm, document.isThirdPartyForm) &&
+				Objects.equals(sequence, document.sequence) &&
+				Objects.equals(signatureType, document.signatureType) &&
+				Objects.equals(templateId, document.templateId) &&
+				Objects.equals(templateVersion, document.templateVersion) &&
+				Objects.equals(xPathInfo, document.xPathInfo);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(additionalData, isThirdPartyForm, sequence, signatureType, templateId, templateVersion, xPathInfo);
+	}
+
+	@Override
 	public String toString() {
 		return "Document{" +
 				"additionalData=" + additionalData +
@@ -103,28 +126,5 @@ public class Document {
 				", templateVersion='" + templateVersion + '\'' +
 				", xPathInfo='" + xPathInfo + '\'' +
 				'}';
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof Document)) {
-			return false;
-		}
-		Document document = (Document) o;
-		return additionalData.equals(document.additionalData) &&
-				isThirdPartyForm.equals(document.isThirdPartyForm) &&
-				sequence.equals(document.sequence) &&
-				signatureType.equals(document.signatureType) &&
-				templateId.equals(document.templateId) &&
-				templateVersion.equals(document.templateVersion) &&
-				xPathInfo.equals(document.xPathInfo);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(additionalData, isThirdPartyForm, sequence, signatureType, templateId, templateVersion, xPathInfo);
 	}
 }

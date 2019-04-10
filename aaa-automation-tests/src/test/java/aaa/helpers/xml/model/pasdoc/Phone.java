@@ -37,7 +37,7 @@ public class Phone {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if (!(o instanceof Phone)) {
 			return false;
 		}
 		Phone phone = (Phone) o;

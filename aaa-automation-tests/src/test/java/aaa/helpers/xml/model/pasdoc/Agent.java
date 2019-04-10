@@ -85,7 +85,7 @@ public class Agent {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if (!(o instanceof Agent)) {
 			return false;
 		}
 		Agent agent = (Agent) o;

@@ -61,7 +61,7 @@ public class AdditionalInterest {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if (!(o instanceof AdditionalInterest)) {
 			return false;
 		}
 		AdditionalInterest that = (AdditionalInterest) o;

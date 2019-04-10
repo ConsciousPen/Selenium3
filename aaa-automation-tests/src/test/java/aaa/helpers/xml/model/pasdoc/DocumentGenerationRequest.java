@@ -64,16 +64,6 @@ public class DocumentGenerationRequest {
 	}
 
 	@Override
-	public String toString() {
-		return "DocumentGenerationRequest{" +
-				"requestContext='" + requestContext + '\'' +
-				", distributionChannels=" + distributionChannels +
-				", documentData='" + documentData + '\'' +
-				", documents=" + documents +
-				'}';
-	}
-
-	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
@@ -82,14 +72,24 @@ public class DocumentGenerationRequest {
 			return false;
 		}
 		DocumentGenerationRequest that = (DocumentGenerationRequest) o;
-		return requestContext.equals(that.requestContext) &&
-				distributionChannels.equals(that.distributionChannels) &&
-				documentData.equals(that.documentData) &&
-				documents.equals(that.documents);
+		return Objects.equals(requestContext, that.requestContext) &&
+				Objects.equals(distributionChannels, that.distributionChannels) &&
+				Objects.equals(documentData, that.documentData) &&
+				Objects.equals(documents, that.documents);
 	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(requestContext, distributionChannels, documentData, documents);
+	}
+
+	@Override
+	public String toString() {
+		return "DocumentGenerationRequest{" +
+				"requestContext=" + requestContext +
+				", distributionChannels=" + distributionChannels +
+				", documentData=" + documentData +
+				", documents=" + documents +
+				'}';
 	}
 }

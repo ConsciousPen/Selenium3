@@ -380,6 +380,53 @@ public class DocumentData {
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof DocumentData)) {
+			return false;
+		}
+		DocumentData that = (DocumentData) o;
+		return Objects.equals(policyNumber, that.policyNumber) &&
+				Objects.equals(productType, that.productType) &&
+				Objects.equals(state, that.state) &&
+				Objects.equals(transactionCode, that.transactionCode) &&
+				Objects.equals(transactionEffectiveDate, that.transactionEffectiveDate) &&
+				Objects.equals(transactionReason, that.transactionReason) &&
+				Objects.equals(transactionDate, that.transactionDate) &&
+				Objects.equals(effectiveDate, that.effectiveDate) &&
+				Objects.equals(expiredDate, that.expiredDate) &&
+				Objects.equals(termDurationInMonths, that.termDurationInMonths) &&
+				Objects.equals(namedNonOwnerPolicy, that.namedNonOwnerPolicy) &&
+				Objects.equals(companyCode, that.companyCode) &&
+				Objects.equals(aaaInsuredSince, that.aaaInsuredSince) &&
+				Objects.equals(renewalCycle, that.renewalCycle) &&
+				Objects.equals(cancellationEffectiveDate, that.cancellationEffectiveDate) &&
+				Objects.equals(insured, that.insured) &&
+				Objects.equals(agent, that.agent) &&
+				Objects.equals(agency, that.agency) &&
+				Objects.equals(insuranceScore, that.insuranceScore) &&
+				Objects.equals(otherOrPriorPolicy, that.otherOrPriorPolicy) &&
+				Objects.equals(priorCarrier, that.priorCarrier) &&
+				Objects.equals(alternateCoverage, that.alternateCoverage) &&
+				Objects.equals(endorsement, that.endorsement) &&
+				Objects.equals(discount, that.discount) &&
+				Objects.equals(selectedPaymentPlan, that.selectedPaymentPlan) &&
+				Objects.equals(paymentPlan, that.paymentPlan) &&
+				Objects.equals(premium, that.premium) &&
+				Objects.equals(billing, that.billing) &&
+				Objects.equals(driver, that.driver) &&
+				Objects.equals(vehicles, that.vehicles);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects
+				.hash(policyNumber, productType, state, transactionCode, transactionEffectiveDate, transactionReason, transactionDate, effectiveDate, expiredDate, termDurationInMonths, namedNonOwnerPolicy, companyCode, aaaInsuredSince, renewalCycle, cancellationEffectiveDate, insured, agent, agency, insuranceScore, otherOrPriorPolicy, priorCarrier, alternateCoverage, endorsement, discount, selectedPaymentPlan, paymentPlan, premium, billing, driver, vehicles);
+	}
+
+	@Override
 	public String toString() {
 		return "DocumentData{" +
 				"policyNumber='" + policyNumber + '\'' +
@@ -411,55 +458,7 @@ public class DocumentData {
 				", premium=" + premium +
 				", billing='" + billing + '\'' +
 				", driver=" + driver +
-				", vehicle=" + vehicles +
+				", vehicles=" + vehicles +
 				'}';
 	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof DocumentData)) {
-			return false;
-		}
-		DocumentData that = (DocumentData) o;
-		return policyNumber.equals(that.policyNumber) &&
-				productType.equals(that.productType) &&
-				state.equals(that.state) &&
-				transactionCode.equals(that.transactionCode) &&
-				transactionEffectiveDate.equals(that.transactionEffectiveDate) &&
-				transactionReason.equals(that.transactionReason) &&
-				transactionDate.equals(that.transactionDate) &&
-				effectiveDate.equals(that.effectiveDate) &&
-				expiredDate.equals(that.expiredDate) &&
-				termDurationInMonths.equals(that.termDurationInMonths) &&
-				namedNonOwnerPolicy.equals(that.namedNonOwnerPolicy) &&
-				companyCode.equals(that.companyCode) &&
-				aaaInsuredSince.equals(that.aaaInsuredSince) &&
-				renewalCycle.equals(that.renewalCycle) &&
-				cancellationEffectiveDate.equals(that.cancellationEffectiveDate) &&
-				insured.equals(that.insured) &&
-				agent.equals(that.agent) &&
-				agency.equals(that.agency) &&
-				insuranceScore.equals(that.insuranceScore) &&
-				otherOrPriorPolicy.equals(that.otherOrPriorPolicy) &&
-				priorCarrier.equals(that.priorCarrier) &&
-				alternateCoverage.equals(that.alternateCoverage) &&
-				endorsement.equals(that.endorsement) &&
-				discount.equals(that.discount) &&
-				selectedPaymentPlan.equals(that.selectedPaymentPlan) &&
-				paymentPlan.equals(that.paymentPlan) &&
-				premium.equals(that.premium) &&
-				billing.equals(that.billing) &&
-				driver.equals(that.driver) &&
-				vehicles.equals(that.vehicles);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects
-				.hash(policyNumber, productType, state, transactionCode, transactionEffectiveDate, transactionReason, transactionDate, effectiveDate, expiredDate, termDurationInMonths, namedNonOwnerPolicy, companyCode, aaaInsuredSince, renewalCycle, cancellationEffectiveDate, insured, agent, agency, insuranceScore, otherOrPriorPolicy, priorCarrier, alternateCoverage, endorsement, discount, selectedPaymentPlan, paymentPlan, premium, billing, driver, vehicles);
-	}
-
 }

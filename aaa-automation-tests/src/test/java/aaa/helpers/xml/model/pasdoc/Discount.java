@@ -49,7 +49,7 @@ public class Discount {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if (!(o instanceof Discount)) {
 			return false;
 		}
 		Discount discount = (Discount) o;
