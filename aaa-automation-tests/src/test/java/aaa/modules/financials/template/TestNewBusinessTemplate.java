@@ -330,13 +330,17 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             // Validations for RST-09
             assertSoftly(softly -> {
                 softly.assertThat(lapseRemovalPrem.subtract(lapseRemovalTaxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1015")
-                        .subtract(rstPrem.subtract(rstTaxes)));
+                        .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1015"))
+                        .subtract(rstPrem.subtract(rstTaxes).subtract(rstChangePrem.subtract(lapseChangeTaxes))));
                 softly.assertThat(lapseRemovalPrem.subtract(lapseRemovalTaxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1021")
-                        .subtract(rstPrem.subtract(rstTaxes)));
+                        .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1021"))
+                        .subtract(rstPrem.subtract(rstTaxes).subtract(rstChangePrem.subtract(lapseChangeTaxes))));
                 softly.assertThat(lapseRemovalPrem.subtract(lapseRemovalTaxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022")
-                        .subtract(rstPrem.subtract(rstTaxes)));
+                        .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022"))
+                        .subtract(rstPrem.subtract(rstTaxes).subtract(rstChangePrem.subtract(lapseChangeTaxes))));
                 softly.assertThat(lapseRemovalPrem.subtract(lapseRemovalTaxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1044")
-                        .subtract(rstPrem.subtract(rstTaxes)));
+                        .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1044"))
+                        .subtract(rstPrem.subtract(rstTaxes).subtract(rstChangePrem.subtract(lapseChangeTaxes))));
             });
         }
 
