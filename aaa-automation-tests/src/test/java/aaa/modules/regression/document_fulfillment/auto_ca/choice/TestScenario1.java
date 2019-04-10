@@ -10,6 +10,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.NavigationEnum.AutoCaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum.Documents;
@@ -123,7 +124,7 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 		policy.dataGather().getView().getTab(PurchaseTab.class).submitTab();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
-
+		mainApp().open();
 		// 6
 		DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
 				Documents.AA74CAA,
@@ -141,6 +142,8 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 		);
 
 		// 7
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
 		policy.policyDocGen().start();
 		docgenActionTab.verify.documentsEnabled(softly, Documents.AA11CA);
 		docgenActionTab.verify.documentsEnabled(softly, Documents.AA43CA);

@@ -108,6 +108,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		//PAS-266 start
 		getPaperlessPreferencesAssetList().getAsset(getButtonManagePaperlessPreferences()).click();
 		Waiters.SLEEP(5000).go();
+		while(getPaperlessPreferencesAssetList().getAsset(getEditPaperlessPreferencesButtonDone()).isPresent())
 		getPaperlessPreferencesAssetList().getAsset(getEditPaperlessPreferencesButtonDone()).click();
 		//PAS-282, PAS-268, PAS-266 end
 

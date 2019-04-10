@@ -95,6 +95,9 @@ public class VersionsComparisonConstants {
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).First Name", "First Name version2","First Name version1")
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).Second Name", "Second Name version2","Second Name version1")
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).Additional Interest Address", "VII interest address 1, VII interest address 2, Red Rock, AZ, 85245","interest address 1, VI interest address 2, Phoenix, AZ, 85085")
+			//Assignment Tab Information
+			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Manually Rated Driver", "","NBFirstName NBLastName")
+			.putAll("Policy Options.Payment Plan","standart6CAC","standartCAC")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -113,8 +116,8 @@ public class VersionsComparisonConstants {
 			.put("Named Insureds.VIIFirstName VII VIILastName.Base Date", "Base Date")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Move-In Date", "Move-In Date")
 			//AAA Product Owned
-			.put("AAA Products Owned.Current AAA Member", "Current AAA Member")
-			.put("AAA Products Owned.Membership Number", "Membership Number")
+			.put("AAA Membership.Current AAA Member", "Current AAA Member")
+			.put("AAA Membership.Membership Number", "Membership Number")
 			//.put("AAA Products Owned.Last name", "Last name")
 			//TODO Should be return after implementation story - Clean up for AAA Product Owned
 			/*			.put("AAA Products Owned.Override Type", "Override Type")
@@ -221,6 +224,9 @@ public class VersionsComparisonConstants {
 			//Garaging address
 			//TODO should be returned when Yes/NO vs true/false is fixed
 			/*.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Is Garaging different from Residential?", "Is Garaging different from Residential?")*/
+			//Assignment Tab Information
+			.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Primary Driver", "Primary Driver")
+			.put("Policy Options.Policy Term","Policy Term")
 			.build();
 
 	//all components/attributes that should be on Comparison page for Named Insured Information section for data gather comparison
@@ -254,7 +260,7 @@ public class VersionsComparisonConstants {
 	//all components/attributes that should be on Comparison page for AAA Product Owned section
 	static final Multimap<String, String> AAA_PRODUCT_OWNED = ImmutableListMultimap.<String, String>builder()
 			.put("AA59 Existing Damage Endorsement Form", "Last Name")
-			.put("AAA Products Owned", "Current AAA Member")
+			.put("AAA Membership", "Current AAA Member")
 			//TODO should be returned after Clean up stories for AAA Product Owned section
 			/*			.put("AAA Products Owned", "Override Type")*/
 			.put("AAA Products Owned", "Motorcycle Policy #")
@@ -448,4 +454,23 @@ public class VersionsComparisonConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN", "Vehicle Ownership Address")
 			.build();
 
+
+	//all components/attributes that should be on Comparison page for Assignment section for NB and endorsements
+	static final Multimap<String, String> ASSIGNMENT = ImmutableListMultimap.<String, String>builder()
+			//Vehicle Information section
+			.put("Vehicles.2003, MERCEDES-BENZ, SL500R", "Primary Driver")
+			.build();
+
+	//all components/attributes that should be on Comparison page for Assignment section
+	static final Multimap<String, String> RENEWAL_ASSIGNMENT = ImmutableListMultimap.<String, String>builder()
+			//Vehicle Information section
+			.put("Vehicles.2003, MERCEDES-BENZ, SL500R", "Primary Driver")
+			.put("Vehicles.2003, MERCEDES-BENZ, SL500R", "Manually Rated Driver")
+			.build();
+
+	//all components/attributes that should be on Comparison page for Premium and Coverages section for Quote Compare
+	static final Multimap<String, String> DATA_GATHER_PREMIUM_AND_COVERAGES = ImmutableListMultimap.<String, String>builder()
+			.put("Policy Options","Payment Plan")
+			.put("Policy Options", "Policy Term")
+			.build();
 }

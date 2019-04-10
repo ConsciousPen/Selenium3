@@ -538,7 +538,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	String getDbRestraintsCode(String openlAirbagCode) {
 		switch (openlAirbagCode) {
 			case "N":
-				return "is null OR RESTRAINTSCODE = '000A'";
+				return "is null OR RESTRAINTSCODE = '000A' OR RESTRAINTSCODE = '000P' OR RESTRAINTSCODE = '0000'";
 			case "0":
 				return "= '0002' OR RESTRAINTSCODE = 'AUTOSB'";
 			case "1":

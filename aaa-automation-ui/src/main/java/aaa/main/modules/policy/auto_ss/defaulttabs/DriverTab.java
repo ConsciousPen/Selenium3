@@ -12,6 +12,7 @@ import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -54,5 +55,12 @@ public class DriverTab extends Tab {
 
 	public static void viewDriver(int index) {
 		tableDriverList.selectRow(index);
+	}
+	
+	public void removeDriver(int index) {
+		if (tableDriverList.isPresent() && tableDriverList.getRow(index).isPresent()) {
+			tableDriverList.getRow(index).getCell(5).controls.links.get("Remove").click(Waiters.AJAX);
+			Page.dialogConfirmation.confirm();
+		}
 	}
 }

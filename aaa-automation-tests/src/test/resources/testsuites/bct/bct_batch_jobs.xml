@@ -1,0 +1,50 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Production data aging jobs suite" verbose="1">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test" />
+
+    <parameter name="state" value="UT"/>
+    <test name="United BCT Jobs suite" preserve-order="true">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.bct.batch.BatchTest">
+                <methods>
+                    <include name="BCT_BTCH_AAA_BATCH_MARKER"/>
+                    <include name="BCT_BTCH_Automated_Renewal_Reports_Ordering_005"/>
+                    <include name="BCT_BTCH_Automated_Renewal_Reports_Ordering_004"/>
+                    <include name="BCT_BTCH_Automated_Renewal_Reports_Ordering_003"/>
+                    <include name="BCT_BTCH_POLICY_STATUS_UPDATE"/>
+                    <include name="BCT_BTCH_Process_AcceptPayments_RecurringPayments_034"/>
+                    <include name="BCT_BTCH_Manage_Payment_Exceptions_Payment_033"/>
+                    <include name="BCT_BTCH_Cancellation_Cancellation_Notice_Bill_023"/>
+                    <include name="BCT_BTCH_Cancellation_Legal_Notice_028"/>
+                    <include name="BCT_BTCH_Cancellation_Earned_Premium_025"/>
+                    <include name="BCT_BTCH_Process_Refunds_Process_Refunds_032"/>
+                    <include name="BCT_BTCH_Manage_OffcycleBill_031"/>
+                    <include name="BCT_BTCH_Generate_Bill_Generate_Installment_Bill_029"/>
+                    <include name="BCT_BTCH_Cancellation_Future_Effective_Cancellation_024"/>
+                    <include name="BCT_BTCH_Automated_Renewal_DoNotRenew_030"/>
+                    <include name="BCT_BTCH_Automated_Renewal_Image_Data_Gather_001"/>
+                    <include name="BCT_BTCH_Automated_Renewal_Image_Data_Gather_002"/>
+                    <include name="BCT_BTCH_RENEWAL_VALIDATION"/>
+                    <include name="BCT_BTCH_Automated_Renewal_Premium_Calculation_007"/>
+                    <include name="BCT_BTCH_Automated_Renewal_Proposed_Offer_009"/>
+                    <include name="BCT_BTCH_Automated_NonRenewal_CustomerDeclined_Rewrite_017"/>
+                    <include name="BCT_BTCH_Automated_Renewal_General_Renewal_Reminder_Notices_020"/>
+                    <include name="BCT_BTCH_Automated_Renewal_Generate_Renewal_Bill_010"/>
+                    <include name="BCT_BTCH_Automated_Renewal_Preconversion_Renewal_Notice_022"/>
+                    <include name="BCT_BTCH_aaaAutomatedProcessingInitiationJob"/>
+                    <include name="BCT_BTCH_automatedProcessingRatingJob"/>
+                    <include name="BCT_BTCH_Automated_Renewal_Generate_Mortgagee_Bill_Reminder_Notice_018"/>
+                    <include name="BCT_BTCH_aaaRefundDisbursementAsyncJob"/>
+                    <include name="BCT_BTCH_aaaScheatmentProcessAsyncJob"/>
+                    <include name="BCT_BTCH_aaaGenerateEscheatmentReportJob"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>

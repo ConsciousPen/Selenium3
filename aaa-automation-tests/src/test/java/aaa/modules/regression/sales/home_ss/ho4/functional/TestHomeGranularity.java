@@ -81,6 +81,23 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     }
 
     /**
+     * @name test: ReCapture Latitude and Longitude (after validating address)Census Block Group(e.g. after Calculating Premium)
+     * @scenario
+     * 1. Create policy
+     * 2. Initiate Renewal. Change address on Applicant Tab
+     * 3. Validate address and continue up to Premium & Coverages Tab and Calculate Premium
+     * 4. Verify lat/long and census block are refreshed in the db
+     *
+     * @details
+     */
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-24290")
+    public void pas24290_riskAddressChangeDuringRenewal(@Optional("AZ") String state) {
+        riskAddressChangeDuringRenewal(getTDAddressChange());
+    }
+
+    /**
      * @name test: ReCapture Latitude and Longitude (after validating address)Census Block Group(e.g. after Calculating Premium) when address changed during Endorsement
      * @scenario
      * 1. Create policy
@@ -88,12 +105,12 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
      * 3. Validate address and continue up to Premium & Coverages Tab and Calculate Premium
      * 4. Verify lat/long and census block are refreshed in the db
      *
-     * @details  **** TO UNCOMMENT WHEN SS HO4 ENDORSEMENT STORY IS COMPLETE *********
+     * @details
      */
-   /* @Parameters({STATE_PARAM})
+    @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-xxxxx")
-    public void pas23218_riskAddressChangeDuringEndorsement(@Optional("AZ") String state) {
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-24290")
+    public void pas24290_riskAddressChangeDuringEndorsement(@Optional("AZ") String state) {
         riskAddressChangeDuringEndorsement(getTDAddressChange());
-    }*/
+    }
 }

@@ -1090,3 +1090,306 @@ VehicleInformation_Version2: {
   },
 }
 
+TestData_Multiple_Drivers_NB_Policy: {
+  PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverInformation','@DriverInformation_Add_Version','@DriverInformation_Add_Version2'],
+  MembershipTab: {},
+  VehicleTab: '@VehicleInformation_Version2',
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+           Primary Driver: "NBFirstName NBLastName",
+           Manually Rated Driver: "NBFirstName NBLastName"
+         }
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000',
+  },
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the policy?": 'Yes',
+    Sales Agent Agreement: I Agree,
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      California Car Policy Application: Physically Signed,
+      Subscriber Agreement: Physically Signed,
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Policy Application: 'Yes',
+      Proof of Good Student Discount: 'Yes',
+      Auto Billing Plan Explanation: 'Yes',
+      Proof of New Driver Course Completion: 'Yes',
+      Proof of Mature Driver Course Completion: 'Yes',
+    }
+  },
+  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+}
+
+DriverInformation_Add_Version: {
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Spouse,
+  First Name: 'New Driver',
+  Last Name: 'Version1',
+  Date of Birth: $<today-55y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: 'Dentist',
+  Age First Licensed: 17,
+  Permit Before License: 'No',
+  "Licensed in US/Canada for 18 or More Months?": 'Yes',
+  License Type: 'Valid',
+  "First US/Canada License Date": $<today-1y>,
+  License State: AZ,
+  "License #": A12345678,
+  Employee Benefit Type: None,
+  ADB Coverage: 'Yes',
+  Mature driver course completed within 36 months: 'Yes',
+  Mature Driver Course Completion Date: $<today-2M>,
+  "Smoker: Cigarettes, cigars or pipes": 'No',
+  Financial Responsibility Filling Needed: 'No',
+  Ridesharing Coverage: 'No',
+}
+
+TestData_Assignment_Version1: {
+    GeneralTab: {},
+    DriverTab: {},
+    MembershipTab: {},
+    VehicleTab: {},
+    AssignmentTab: {
+     DriverVehicleRelationshipTable: {
+           Primary Driver: "New Driver Version1",
+           Manually Rated Driver: "New Driver Version1"
+         }
+   },
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+    DriverActivityReportsTab: {},
+    DocumentsAndBindTab: {
+      RequiredToBind: {
+        AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+      },
+    },
+}
+
+
+TestData_Assignment_Version2: {
+    GeneralTab: {},
+    DriverTab: {},
+    MembershipTab: {},
+    VehicleTab: {},
+    AssignmentTab: {
+         DriverVehicleRelationshipTable: {
+               Primary Driver: "New Driver Version2",
+               Manually Rated Driver: "New Driver Version2"
+             }
+       },
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+    DriverActivityReportsTab: {},
+    DocumentsAndBindTab: {},
+}
+
+TestData_Multiple_Drivers_Vehicles_NB_Policy: {
+  PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverInformation','@DriverTab1','@DriverTab2'],
+  MembershipTab: {},
+  VehicleTab: ['@VehicleInformation','@VehicleTab1','@VehicleTab2'],
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: ['@DriverVehicleRelationship1','@DriverVehicleRelationship2','@DriverVehicleRelationship3'],
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000',
+  },
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the policy?": 'Yes',
+    Sales Agent Agreement: I Agree,
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      California Car Policy Application: Physically Signed,
+      Subscriber Agreement: Physically Signed,
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Policy Application: 'Yes',
+      Proof of Good Student Discount: 'Yes',
+      Auto Billing Plan Explanation: 'Yes',
+      Proof of New Driver Course Completion: 'Yes',
+      Proof of Mature Driver Course Completion: 'Yes',
+    }
+  },
+  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+}
+
+DriverTab1: {
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Spouse,
+  First Name: 'Second Driver',
+  Last Name: 'Version1',
+  Date of Birth: $<today-55y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: 'Dentist',
+  Age First Licensed: 17,
+  Permit Before License: 'No',
+  "Licensed in US/Canada for 18 or More Months?": 'No',
+  License Type: 'Valid',
+  "First US/Canada License Date": $<today-1y>,
+  License State: CA,
+  "License #": C1234568,
+  Employee Benefit Type: None,
+  ADB Coverage: 'Yes',
+  Mature driver course completed within 36 months: 'Yes',
+  Mature Driver Course Completion Date: $<today-2M>,
+  "Smoker: Cigarettes, cigars or pipes": 'No',
+  Financial Responsibility Filling Needed: 'No',
+  Ridesharing Coverage: 'No',
+}
+
+DriverTab2: {
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Spouse,
+  First Name: 'Third Driver',
+  Last Name: 'Version2',
+  Date of Birth: $<today-18y>,
+  Gender: Female,
+  Marital Status: Single,
+  Occupation: 'Student',
+  Age First Licensed: 16,
+  Permit Before License: 'No',
+  "Licensed in US/Canada for 18 or More Months?": 'No',
+  "First US/Canada License Date": $<today-1M>,
+  License Type: 'Valid',
+  License State: CA,
+  "License #": C1234569,
+  Employee Benefit Type: None,
+  ADB Coverage: 'No',
+  Most Recent GPA: 'A Student',
+  New Driver Course Completed: 'Yes',
+  New Driver Course Completion Date: $<today>,
+  New Driver Certification Number: 33333,
+  "Smoker: Cigarettes, cigars or pipes": 'Yes',
+  Financial Responsibility Filling Needed: 'No',
+  Ridesharing Coverage: 'Yes',
+  "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
+}
+
+VehicleTab1: {
+  VIN: 1GNWGPFG8B6548273,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 10,
+  Odometer Reading: 3000
+}
+
+VehicleTab2: {
+  VIN: WDCYC7BB0B6729451,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 10,
+  Odometer Reading: 3000
+}
+
+DriverVehicleRelationship1: {
+  Primary Driver: "NBFirstName NBLastName",
+  Manually Rated Driver: "NBFirstName NBLastName"
+}
+
+DriverVehicleRelationship2: {
+  Primary Driver: "Second Driver Version1",
+  Manually Rated Driver: "Second Driver Version1"
+}
+
+DriverVehicleRelationship3: {
+  Primary Driver: "Third Driver Version2",
+  Manually Rated Driver: "Third Driver Version2"
+}
+
+TestData_Multiple_Named_Insureds_NB_Policy: {
+  PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_MultipleNamedInsureds',
+  DriverTab: '@DriverInformation',
+  MembershipTab: {},
+  VehicleTab: '@VehicleInformation',
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Primary Driver: index=1,
+    }
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000',
+  },
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the policy?": 'Yes',
+    Sales Agent Agreement: I Agree,
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      California Car Policy Application: Physically Signed,
+      Subscriber Agreement: Physically Signed,
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Policy Application: 'Yes',
+      Auto Billing Plan Explanation: 'Yes',
+    }
+  },
+  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+}
+
+GeneralTab_MultipleNamedInsureds: {
+  NamedInsuredInformation: ['@NamedInsuredInformation','@NamedInsuredInformation_RenewalVersion1','@NamedInsuredInformation_Version2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation',
+  'Is there any Third Party Designee?': 'Yes',
+  ThirdPartyDesigneeInformation: '@ThirdPartyDesigneeInformation',
+}
+
+NamedInsuredInformation_RenewalVersion1: {
+  InsuredSearchDialog: {},
+  Title: MRS,
+  First Name: Second,
+  Middle Name: VI,
+  Last Name: Insured,
+  Suffix: 'SR.',
+  Base Date: $<today-1M>,
+  Zip Code: 90255,
+  Address Line 1: VI residence address 1,
+  Address Line 2: VI residence address 2,
+  City: HUNTINGTON PARK,
+  State: CA,
+  "Has lived here for less than three years?": 'Yes',
+  Move-In Date: $<today-10M>,
+  Prior Zip Code: 90255,
+  Prior Address Line 1: VI prior address 1,
+  Prior Address Line 2: VI prior address 2,
+  Prior City: HUNTINGTON PARK,
+  Prior State: CA,
+  "Is residential address different from mailing address?":'Yes',
+  Mailing Zip Code: 90255,
+  Mailing Address Line 1: VI mailing address 1,
+  Mailing Address Line 2: VI mailing address 2,
+  Mailing City: HUNTINGTON PARK,
+  Mailing State: CA,
+  Validate Address: true,
+  Validate Address Dialog: {
+  }
+}

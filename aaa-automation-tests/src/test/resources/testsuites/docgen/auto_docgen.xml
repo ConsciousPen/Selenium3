@@ -212,11 +212,7 @@
     <test name="PasDoc_AdhocGODDCommon_Scenarios" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocGODDcommon">
-            <methods>
-            	<include name="testScenario4"/>
-            </methods>
-            </class>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocGODDcommon"/>
         </classes>
     </test>
 </suite>

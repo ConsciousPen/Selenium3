@@ -101,6 +101,7 @@ public final class BillingConstants {
 		public static final String MANUAL_REFUND = "Manual Refund";
 		public static final String AUTOMATED_REFUND = "Automated Refund";
 		public static final String INSTALLMENT_FEE = "Installment Fee";
+		public static final String EMPLOYEE_BENEFIT = "Employee Benefit";
 		public static final String ENDORSEMENT = "Endorsement";
 		public static final String NOT_SUFFICIENT_FUNDS_FEE = "Not Sufficient Funds Fee";
 		public static final String CANCELLATION_NOTICE_FEE = "Cancellation Notice Fee";
@@ -108,11 +109,13 @@ public final class BillingConstants {
 		public static final String CANCELLATION_FEE_WAIVED = "Cancellation Fee Waived";
 		public static final String CANCELLATION_NOTICE = "Cancellation Notice";
 		public static final String CANCELLATION = "Cancellation";
+		public static final String CA_FRAUD_ASSESSMENT_FEE = "CA Fraud Assessment Fee";
 		public static final String CANCELLATION_NON_PAYMENT_OF_PREMIUM = "Cancellation - Non Payment of Premium";
 		public static final String CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM = "Cancellation - Insured Non-Payment Of Premium";
 		public static final String CANCELLATION_INSURED_REQUEST_DUE_TO_HIGH_PREMIUM = "Cancellation - Insured Request - Due To High Premium";
 		public static final String PAYMENT_DECLINED = "Payment Declined";
 		public static final String PAYMENT_DISAPPROVED = "Payment Disapproved";
+		public static final String POLICY_FEE = "Policy Fee";
 		public static final String WRITE_OFF = "Write-off";
 		public static final String SERVICE_FEE = "Service Fee";
 		public static final String SERVICE_FEE_WAIVED = "Service Fee Waived";
@@ -131,6 +134,7 @@ public final class BillingConstants {
 		public static final String REINSTATEMENT_WITHOUT_LAPSE = "Reinstatement - Without Lapse: payment received within grace period";
 		public static final String REINSTATEMENT_WITH_LAPSE = "Reinstatement - Lapse: payment received within the lapse period";
 		public static final String REINSTATEMENT_RESCIND_CANCELLATION = "Reinstatement - Rescind Cancellation";
+		public static final String ROLL_BACK_ENDORSEMENT = "Roll Back Endorsement";
 		public static final String CROSS_POLICY_TRANSFER = "Cross Policy Transfer";
 		public static final String OFFER_WITHOUT_LAPSE = "Offer without Lapse";
 		public static final String SUSPENSE = "Suspense";
@@ -142,6 +146,7 @@ public final class BillingConstants {
 		public static final String RECURRING_PAYMENT = "Recurring Payment";
 		public static final String REGULUS_LOCKBOX = "Regulus LockBox";
 		public static final String REGULUS_ONLINE = "Regulus Online";
+		public static final String EFT_INSTALLMENT_FEE = "EFT Installment Fee - ACH";
 		public static final String NON_EFT_INSTALLMENT_FEE = "Non EFT Installment Fee";
 		public static final String NON_EFT_INSTALLMENT_FEE_WAIVED = "Non EFT Installment Fee Waived";
 		public static final String SEISMIC_SAFETY_FEE = "Seismic Safety Fee";

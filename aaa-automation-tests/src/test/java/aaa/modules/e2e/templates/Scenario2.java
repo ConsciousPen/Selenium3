@@ -268,7 +268,7 @@ public class Scenario2 extends ScenarioBaseTest {
 		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
 
 		// verify using installment amount in separate cases
-		if (getState().equals(States.KY) && getPolicyType().equals(PolicyType.AUTO_SS)) {
+		if (getState().equals(States.KY) && (getPolicyType().equals(PolicyType.AUTO_SS) || getPolicyType().equals(PolicyType.HOME_SS_HO3))) {
 			verifyRenewalOfferPaymentAmountByIntallmentAmount(policyExpirationDate, billGenDate);
 		} else {
 			verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billGenDate, pligaOrMvleFee, installmentsCount);

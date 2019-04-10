@@ -9,7 +9,7 @@ TestData: {
     Other Body Style: Sedan,
     Stat Code: 'contains=Small car',
     Stated Amount: 1000,
-    'Less Than 3,000 Miles': 'No'
+    'Less Than 1,000 Miles': 'No'
   }
 }
 
@@ -24,8 +24,11 @@ TestData_Purchase: {
       New York Auto Insurance Application: Physically Signed
     },
     RequiredToIssue: {
-      Separate Vehicle 1: 'Yes',
+      #Separate Vehicle 1: 'Yes',
       Proof of Prior Insurance: 'Yes'
+    },
+    InspectionOrWaiverRequired: {
+      CARCO Vehicle Name 1: Inspection Received,
     },
     Agreement: I agree
   }

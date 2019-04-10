@@ -285,11 +285,6 @@
                     <include name="pas2571_renewalCoverLetterHSRNPUPXXHO3"/>
                 </methods>
             </class> <!-- aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup -->
-            <class name="aaa.modules.regression.sales.pup.functional.TestExpiredDriversLicenceError">
-                <methods>
-                    <include name="pas4270_VerifyExpiredDriversLicenceError"/>
-                </methods>
-            </class> <!-- aaa.modules.regression.sales.pup.functional.TestExpiredDriversLicenceError -->
         </classes>
     </test> <!-- VA PUP -->
     <test name="CA Home" parallel="methods">
@@ -314,6 +309,11 @@
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementWithAutoSelectCompanion">
                 <methods>
                     <include name="pas8786_TestEndorsementRateWithPendingAutoSelectCompanion"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.service.home_ca.ho3.TestPolicyCancellationManualRenew -->
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancellationManualRenew">
+                <methods>
+                    <include name="testPolicyCancelNoticeAddDelete"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementWithAutoSelectCompanion -->
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementWithAutoSelectCompanion">
@@ -497,6 +497,11 @@
                     <include name="pas14738_testAccidentSurchargeWaiverNB"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver -->
+            <class name="aaa.modules.regression.service.auto_ss.TestTelematicsParticipationDiscount">
+                <methods>
+                    <include name="testTelematicsParticipationDiscount"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.service.auto_ss.TestTelematicsParticipationDiscount -->
         </classes>
     </test> <!-- AZ Auto -->
     <test name="PA Auto" parallel="methods">
@@ -760,6 +765,11 @@
                     <include name="testAutoInsuranceCarriedOverToHoPolicy"/>
                 </methods>
             </class> <!-- aaa.modules.regression.service.home_ss.ho3.TestAutoInsuranceCarriedOverToHoPolicy -->
+            <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyReinstatementAdditionalEndorsements">
+                <methods>
+                    <include name="testPolicyReinstatementAdditionalEndorsements"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.service.home_ss.ho3.TestPolicyReinstatementAdditionalEndorsements -->
         </classes>
     </test> <!-- UT Home -->
     <test name="NY Home" parallel="methods">
@@ -1028,4 +1038,19 @@
             </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestGoodStudentDiscount -->
         </classes>
     </test> <!-- CT Auto -->
+    <test name="OH Auto" parallel="methods">
+        <parameter name="timeshift-scenario-mode" value="method"/>
+        <parameter name="state" value="OH"/>
+        <groups>
+            <run>
+                <include name="TimePoint"/>
+                <include name="Regression"/>
+                <include name="Medium"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestExpirationNoticeGeneration"/>
+            <!-- aaa.modules.regression.document_fulfillment.auto_ss.TestExpirationNoticeGeneration -->
+        </classes>
+    </test><!-- OH Auto -->
 </suite> <!-- Regression Tests Timepoint -->

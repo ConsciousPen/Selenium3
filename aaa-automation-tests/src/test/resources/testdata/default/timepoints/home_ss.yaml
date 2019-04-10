@@ -1,5 +1,7 @@
 TestData_UT: {  
   Renew generate image: [-73, NONE],
+  Renew reports: [-63, NONE],
+  Renew insurance score reordering: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-45, PREVIOUS],
@@ -25,6 +27,7 @@ TestData_UT: {
 
 TestData_AZ: {
   Renew generate image: [-73, NONE],
+  Renew insurance score reordering: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-45, PREVIOUS],
@@ -50,6 +53,7 @@ TestData_AZ: {
 
 TestData_CO: {
   Renew generate image: [-73, NONE],
+  Renew insurance score reordering: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-45, PREVIOUS],
@@ -75,6 +79,7 @@ TestData_CO: {
 
 TestData_CT: {
   Renew generate image: [-101, NONE],
+  Renew insurance score reordering: [-91, NONE],
   Renew check uw rules: [-85, NONE],
   Renew generate preview: [-73, NONE],
   Pre-renewal letter: [-45, PREVIOUS],
@@ -100,6 +105,7 @@ TestData_CT: {
 
 TestData_DC: {
   Renew generate image: [-73, NONE],
+  Renew insurance score reordering: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-45, PREVIOUS],
@@ -125,6 +131,7 @@ TestData_DC: {
 
 TestData_DE: {
   Renew generate image: [-73, NONE],
+  Renew insurance score reordering: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-40, PREVIOUS],
@@ -150,6 +157,7 @@ TestData_DE: {
 
 TestData_ID: {
   Renew generate image: [-73, NONE],
+  Renew insurance score reordering: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-45, PREVIOUS],
@@ -175,6 +183,7 @@ TestData_ID: {
 
 TestData_IN: {
   Renew generate image: [-73, NONE],
+  Renew insurance score reordering: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-45, PREVIOUS],
@@ -200,6 +209,7 @@ TestData_IN: {
 
 TestData_KS: { 
   Renew generate image: [-73, NONE],
+  Renew insurance score reordering: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-45, PREVIOUS],
@@ -225,6 +235,7 @@ TestData_KS: {
 
 TestData_KY: {
   Renew generate image: [-108, NONE],
+  Renew insurance score reordering: [-98, NONE],
   Renew check uw rules: [-92, NONE],
   Renew generate preview: [-80, NONE],
   Pre-renewal letter: [-45, PREVIOUS],
@@ -250,6 +261,7 @@ TestData_KY: {
 
 TestData_MD: {
   Renew generate image: [-88, NONE],
+  Renew insurance score reordering: [-78, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-60, NEXT],
   Pre-renewal letter: [-55, PREVIOUS],
@@ -275,6 +287,7 @@ TestData_MD: {
 
 TestData_MT: {
   Renew generate image: [-85, NONE],
+  Renew insurance score reordering: [-75, NONE],
   Renew check uw rules: [-75, NONE],
   Renew generate preview: [-57, NONE],
   Renew generate offer: [-47, PREVIOUS],
@@ -300,6 +313,7 @@ TestData_MT: {
 
 TestData_NJ: {
   Renew generate image: [-73, NONE],
+  Renew insurance score reordering: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-40, PREVIOUS],
@@ -325,7 +339,8 @@ TestData_NJ: {
 
 TestData_NV: {
   Renew generate image: [-73, NONE],
-  Renew check uw rules: [-57, NONE],
+  Renew insurance score reordering: [-63, NONE],
+  Renew check uw rules: [-63, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-45, PREVIOUS],
   Renew generate offer: [-35, PREVIOUS],
@@ -350,6 +365,7 @@ TestData_NV: {
 
 TestData_NY: {
   Renew generate image: [-88, NONE],
+  Renew insurance score reordering: [-63, NONE],
   Renew check uw rules: [-63, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-45, PREVIOUS],
@@ -375,6 +391,7 @@ TestData_NY: {
 
 TestData_OH: {
   Renew generate image: [-73, NONE],
+  Renew insurance score reordering: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-45, PREVIOUS],
@@ -400,6 +417,7 @@ TestData_OH: {
 
 TestData_OK: {
   Renew generate image: [-73, NONE],
+  Renew insurance score reordering: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-45, PREVIOUS],
@@ -425,6 +443,7 @@ TestData_OK: {
 
 TestData_OR: {
   Renew generate image: [-73, NONE],
+  Renew insurance score reordering: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-45, PREVIOUS],
@@ -450,6 +469,7 @@ TestData_OR: {
 
 TestData_PA: {
   Renew generate image: [-73, NONE],
+  Renew insurance score reordering: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-45, PREVIOUS],
@@ -475,6 +495,7 @@ TestData_PA: {
 
 TestData_SD: {
   Renew generate image: [-73, NONE],
+  Renew insurance score reordering: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-45, PREVIOUS],
@@ -500,6 +521,7 @@ TestData_SD: {
 
 TestData_VA: {
   Renew generate image: [-73, NONE],
+  Renew insurance score reordering: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-40, PREVIOUS],
@@ -525,6 +547,7 @@ TestData_VA: {
 
 TestData_WV: {
   Renew generate image: [-73, NONE],
+  Renew insurance score reordering: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-45, PREVIOUS],
@@ -550,6 +573,7 @@ TestData_WV: {
 
 TestData_WY: {
   Renew generate image: [-85, NONE],
+  Renew insurance score reordering: [-75, NONE],
   Renew check uw rules: [-75, NONE],
   Renew generate preview: [-57, NONE],
   Renew generate offer: [-47, PREVIOUS],

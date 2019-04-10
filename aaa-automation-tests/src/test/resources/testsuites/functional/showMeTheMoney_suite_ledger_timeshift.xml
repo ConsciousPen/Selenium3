@@ -63,10 +63,11 @@
             <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinancePolicyEscheatmentCheckReversals"/>
         </classes>
     </test>
-    <test name="CA TestFinanceCheckPermissionForReversal" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
+    <!-- Policy Escheatment Restrict Reversals: PAS-25635-->
+    <test name="Test Finance Policy Escheatment Check Restrict Reversals" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceCheckPermissionForReversal"/>
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho4.TestFinancePolicyEscheatmentCheckRestrictReversals"/>
         </classes>
     </test>
 </suite>

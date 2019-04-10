@@ -1,0 +1,222 @@
+!!aaa.helpers.claim.datamodel.claim.CASClaimResponse
+claimLineItemList:
+  - agreementNumber: CAAC952918598
+    claimList:
+      - accidentFault: AT_FAULT #DL matched Claim
+        claimCause: cause1
+        claimCloseDate: '2017-02-01'
+        claimCoverageList:
+          - {claimCoverageAmount: '2000.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_001,
+             coverageName: MEDICAL_PAYMENTS}
+        claimDateOfLoss: '2017-01-01'
+        claimDeductibleAmount: '0.000000000'
+        claimDeductibleCurrencyCode: USD
+        claimNumber: PU_DEFAULTING_1
+        claimPrefix: ''
+        claimOpenDate: '2017-01-01'
+        claimPolicyReferenceNumber: CAAC952918598
+        claimStatusCode: CLOSED
+        claimType: B
+        driverAgeAsOfDateOfLoss: '21'
+        driverDateofBirth: '1996-05-05'
+        driverName: Matthew James
+        driverRelationToInsured: INSURED
+        permissiveUse: Y
+        drivingLicenseNumber: C1919191
+        drivingLicenseState: CA
+        lossSummary: IV hit OV while turning.
+        subroFlag: Y
+        totalAmountPaid: '3500.000000000'
+        totalAmountPaidCurrencyCode: USD
+        vehicleBodyType: SRW SUPER DUTY
+        vehicleMake: FORD
+        vehicleManufacturedYear: '2006'
+        vehicleDescription: Big truck
+        vehicleSerialNumber: 1FTNF20506ED96616
+      - accidentFault: AT_FAULT #COMP matched Claim
+        claimCause: cause2
+        claimCloseDate: '2017-02-01'
+        claimCoverageList:
+          - {claimCoverageAmount: '200', claimCoverageCurrencyCode: USD, coverageId: COV_002,
+             coverageName: COMP_DED_400}
+        claimDateOfLoss: '2017-01-02'
+        claimDeductibleAmount: '0'
+        claimDeductibleCurrencyCode: USD
+        claimNumber: PU_DEFAULTING_CMP
+        claimPrefix: ''
+        claimOpenDate: '2017-01-02'
+        claimPolicyReferenceNumber: CAAC952918598
+        claimStatusCode: OPEN
+        claimType: Comprehensive
+        driverAgeAsOfDateOfLoss: '21'
+        driverDateofBirth: '1996-05-05'
+        driverName: Matthew Mitchel
+        driverRelationToInsured: INSURED
+        permissiveUse: Y
+        drivingLicenseNumber: A1919191
+        drivingLicenseState: CA
+        lossSummary: IV hit OV while turning.
+        subroFlag: Y
+        totalAmountPaid: '5000'
+        totalAmountPaidCurrencyCode: USD
+        vehicleBodyType: SRW SUPER DUTY
+        vehicleMake: FORD
+        vehicleManufacturedYear: '2006'
+        vehicleSerialNumber: 1FTNF20506ED96616
+        vehicleDescription: Big truck
+      - accidentFault: AT_FAULT #LASTNAME_FIRSTNAME_DOB matched Claim
+        claimCause: cause3
+        claimCloseDate: '2017-02-01'
+        claimCoverageList:
+          - {claimCoverageAmount: '3500.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
+             coverageName: MEDICAL_PAYMENTS}
+        claimDateOfLoss: '2017-01-03'
+        claimDeductibleAmount: '0.000000000'
+        claimDeductibleCurrencyCode: USD
+        claimNumber: PU_DEFAULTING_2
+        claimPrefix: ''
+        claimOpenDate: '2017-01-03'
+        claimPolicyReferenceNumber: CAAC952918598
+        claimStatusCode: CLOSED
+        claimType: B
+        driverAgeAsOfDateOfLoss: '31'
+        driverDateofBirth: '1997-10-16'
+        driverName: Matthew Fox
+        driverRelationToInsured: INSURED
+        permissiveUse: Y
+        drivingLicenseNumber: D9999999
+        drivingLicenseState: CA
+        lossSummary: IV hit OV while parked.
+        subroFlag: Y
+        totalAmountPaid: '3500.000000000'
+        totalAmountPaidCurrencyCode: USD
+        vehicleBodyType: SRW SUPER DUTY
+        vehicleMake: FORD
+        vehicleManufacturedYear: '2006'
+        vehicleDescription: Big truck
+        vehicleSerialNumber: 1FTNF20506ED96616
+      - accidentFault: AT_FAULT #LASTNAME_FIRSTNAME_YOB matched Claim
+        claimCause: cause4
+        claimCloseDate: '2017-02-01'
+        claimCoverageList:
+          - {claimCoverageAmount: '3500.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
+             coverageName: MEDICAL_PAYMENTS}
+        claimDateOfLoss: '2017-01-04'
+        claimDeductibleAmount: '0.000000000'
+        claimDeductibleCurrencyCode: USD
+        claimNumber: PU_DEFAULTING_3
+        claimPrefix: ''
+        claimOpenDate: '2017-01-04'
+        claimPolicyReferenceNumber: CAAC952918598
+        claimStatusCode: OPEN
+        claimType: B
+        driverAgeAsOfDateOfLoss: '31'
+        driverDateofBirth: '1997-06-09'
+        driverName: Matthew Fox
+        driverRelationToInsured: INSURED
+        permissiveUse: Y
+        drivingLicenseNumber: D9999999
+        drivingLicenseState: CA
+        lossSummary: IV hit OV while parked.
+        subroFlag: Y
+        totalAmountPaid: '3500.000000000'
+        totalAmountPaidCurrencyCode: USD
+        vehicleBodyType: SRW SUPER DUTY
+        vehicleMake: FORD
+        vehicleManufacturedYear: '2006'
+        vehicleDescription: Big truck
+        vehicleSerialNumber: 1FTNF20506ED96616
+      - accidentFault: AT_FAULT #LASTNAME_FIRSTNAME matched Claim
+        claimCause: cause5
+        claimCloseDate: '2017-02-01'
+        claimCoverageList:
+          - {claimCoverageAmount: '3500.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
+             coverageName: MEDICAL_PAYMENTS}
+        claimDateOfLoss: '2017-01-05'
+        claimDeductibleAmount: '0.000000000'
+        claimDeductibleCurrencyCode: USD
+        claimNumber: PU_DEFAULTING_4
+        claimPrefix: ''
+        claimOpenDate: '2017-01-05'
+        claimPolicyReferenceNumber: CAAC952918598
+        claimStatusCode: CLOSED
+        claimType: B
+        driverAgeAsOfDateOfLoss: '31'
+        driverDateofBirth: '1990-05-15'
+        driverName: Matthew Fox
+        driverRelationToInsured: INSURED
+        permissiveUse: Y
+        drivingLicenseNumber: D9999999
+        drivingLicenseState: CA
+        lossSummary: IV hit OV while parked.
+        subroFlag: Y
+        totalAmountPaid: '3500.000000000'
+        totalAmountPaidCurrencyCode: USD
+        vehicleBodyType: SRW SUPER DUTY
+        vehicleMake: FORD
+        vehicleManufacturedYear: '2006'
+        vehicleDescription: Big truck
+        vehicleSerialNumber: 1FTNF20506ED96616
+      - accidentFault: AT_FAULT #LASTNAME_FIRSTINITIAL_DOB matched Claim
+        claimCause: cause6
+        claimCloseDate: '2017-02-01'
+        claimCoverageList:
+          - {claimCoverageAmount: '3500.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
+             coverageName: MEDICAL_PAYMENTS}
+        claimDateOfLoss: '2017-01-06'
+        claimDeductibleAmount: '0.000000000'
+        claimDeductibleCurrencyCode: USD
+        claimNumber: PU_DEFAULTING_5
+        claimPrefix: ''
+        claimOpenDate: '2017-01-06'
+        claimPolicyReferenceNumber: CAAC952918598
+        claimStatusCode: CLOSED
+        claimType: B
+        driverAgeAsOfDateOfLoss: '31'
+        driverDateofBirth: '1997-10-16'
+        driverName: Michael Fox
+        driverRelationToInsured: INSURED
+        permissiveUse: Y
+        drivingLicenseNumber: D9999999
+        drivingLicenseState: CA
+        lossSummary: IV hit OV while parked.
+        subroFlag: Y
+        totalAmountPaid: '3500.000000000'
+        totalAmountPaidCurrencyCode: USD
+        vehicleBodyType: SRW SUPER DUTY
+        vehicleMake: FORD
+        vehicleManufacturedYear: '2006'
+        vehicleDescription: Big truck
+        vehicleSerialNumber: 1FTNF20506ED96616
+      - accidentFault: AT_FAULT #not matched, but permissiveUse = Y, so PERMISSIVE_USE matched Claim
+        claimCause: cause7
+        claimCloseDate: '2017-02-01'
+        claimCoverageList:
+          - {claimCoverageAmount: '3500.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
+             coverageName: MEDICAL_PAYMENTS}
+        claimDateOfLoss: '2017-01-07'
+        claimDeductibleAmount: '0.000000000'
+        claimDeductibleCurrencyCode: USD
+        claimNumber: PU_DEFAULTING_6
+        claimPrefix: ''
+        claimOpenDate: '2017-01-07'
+        claimPolicyReferenceNumber: CAAC952918598
+        claimStatusCode: CLOSED
+        claimType: B
+        driverAgeAsOfDateOfLoss: '31'
+        driverDateofBirth: '1990-05-17'
+        driverName: Name One
+        driverRelationToInsured: INSURED
+        permissiveUse: Y
+        drivingLicenseNumber: D9999999
+        drivingLicenseState: CA
+        lossSummary: IV hit OV while parked.
+        subroFlag: Y
+        totalAmountPaid: '3500.000000000'
+        totalAmountPaidCurrencyCode: USD
+        vehicleBodyType: SRW SUPER DUTY
+        vehicleMake: FORD
+        vehicleManufacturedYear: '2006'
+        vehicleDescription: Big truck
+        vehicleSerialNumber: 1FTNF20506ED96616
+    product: AAA_CSA

@@ -125,7 +125,11 @@ public class Scenario1 extends ScenarioBaseTest {
 	}
 
 	protected void payFirstBill() {
-		payAndCheckBill(installmentDueDates.get(1));
+		Dollar correctionAmount = BillingHelper.DZERO;
+		if (getState().equals(Constants.States.KY) && getPolicyType().equals(PolicyType.AUTO_SS)) {
+			correctionAmount = new Dollar(-7.28); //correction due to tax
+		} 
+		payAndCheckBill(installmentDueDates.get(1), correctionAmount);
 	}
 
 	protected void generateSecondBill(ETCSCoreSoftAssertions softly) {
