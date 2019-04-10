@@ -686,9 +686,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
      */
     public void pas24652_ChangeFNIGeneralTabRenewal(){
         // Create Customer and Policy with two named insured' and drivers
-        TestData testDataForFNI;
-        testDataForFNI = getTestSpecificTD("TestData_Change_FNI_Renewal_PU_AZ").resolveLinks();
-        adjusted = getPolicyTD().adjust(testDataForFNI);
+        adjusted = getPolicyTD().adjust(getTestSpecificTD("TestData_Change_FNI_Renewal_PU_AZ").resolveLinks());
         policyNumber = openAppAndCreatePolicy(adjusted);
         log.info("Policy created successfully. Policy number is " + policyNumber);
         runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
