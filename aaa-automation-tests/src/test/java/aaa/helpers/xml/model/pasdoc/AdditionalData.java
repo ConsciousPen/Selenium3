@@ -1,9 +1,9 @@
 package aaa.helpers.xml.model.pasdoc;
 
-import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AdditionalData {
@@ -36,12 +36,11 @@ public class AdditionalData {
 			return false;
 		}
 		AdditionalData that = (AdditionalData) o;
-		return dataElement.equals(that.dataElement);
+		return Objects.equals(dataElement, that.dataElement);
 	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(dataElement);
 	}
-
 }
