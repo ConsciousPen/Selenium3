@@ -361,5 +361,70 @@
         </classes>
     </test>
 
+    <test name="Assignment Tab/Comparison SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas25887_dataGatherComparisonAssignment"/>
+                    <include name="pas25887_endorsementsComparisonAssignment"/>
+                    <include name="pas25887_renewalComparisonAssignment"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Assignment Tab/Conflict SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas25889_ooseConflictManualAssignment"/>
+                    <include name="pas25889_ooseConflictAutomaticAssignment"/>
+                    <include name="pas25889_renewalMergeAssignment"/>
+
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Remove Components AutoSS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas19839_ooseConflictAutomaticRemoveVehicleAndDriver"/>
+                    <include name="pas19839_ooseConflictManualRemoveVehicleAndDriver"/>
+                    <include name="pas19839_renewalMergeAutomaticRemoveNamedInsured"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Remove Components AutoCASelect" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas19839_ooseConflictAutomaticRemoveVehicleAndDriver"/>
+                    <include name="pas19839_ooseConflictManualRemoveVehicleAndDriver"/>
+                    <include name="pas19839_renewalMergeAutomaticRemoveNamedInsured"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Remove Components AutoCA Choice" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas19839_ooseConflictAutomaticRemoveVehicleAndDriver"/>
+                    <include name="pas19839_ooseConflictManualRemoveVehicleAndDriver"/>
+                    <include name="pas19839_renewalMergeAutomaticRemoveNamedInsured"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
 </suite>

@@ -45,13 +45,7 @@ VehicleTab: {
 
 
 TestData_EndorsementTwo: {
-    GeneralTab: {
-     PolicyInformation: {
-       Authorized by: QA,
-       Policy Type: Named Non Owner,
-       Change Policy Type Confirmation: 'Continue'
-     }
-    },
+    GeneralTab: '@GeneralTab_NANO',
     DriverTab: {},
     RatingDetailReportsTab: {},
     VehicleTab: {},
@@ -61,10 +55,19 @@ TestData_EndorsementTwo: {
     DocumentsAndBindTab: {
     RequiredToBind: {
        Non-Owner Automobile Endorsement: Physically Signed
-    }  
+      }  
     }
 }
 
+GeneralTab_NANO: {
+    PolicyInformation: {
+      Authorized by: QA,
+      Policy Type: Named Non Owner,
+      Change Policy Type Confirmation: {
+          Continue: click
+      }
+   }
+}
 
 
 # ------------- Documents Verification ----------

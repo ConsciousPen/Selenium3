@@ -25,6 +25,7 @@ public final class ErrorEnum {
 		ERROR_AAA_CLUE_order_validation_SS("AAA_CLUE_order_validation_SS", "Current CLUE must be ordered"),
 		ERROR_AAA_SS10240324("AAA_SS10240324", "At least one phone number must be provided."),
 		ERROR_AAA_SS190125("AAA_SS190125", "Pennsylvania Notice to Named Insureds Regarding Tort Options must be received prior to issuing this transaction."),
+		ERROR_200115_NY("200115_NY", "Supplementary Uninsured/Underinsured Coverage Waiver must be signed."),
 
 
 		// Property errors
