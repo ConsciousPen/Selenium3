@@ -94,7 +94,7 @@ VehicleTab_2_NY: {
   Add Vehicle: Click,
   Usage: Pleasure,
   VIN: 1GAZG1FG7D1145543,
-  'Less Than 3,000 Miles': 'No'
+  'Less Than 1,000 Miles': 'No'
 }
 
 VehicleTab_Van: {
@@ -144,7 +144,7 @@ VehicleTab_Motor_Home_NY: {
   Other Make: 'Motor',
   Other Model: 'Motor',
   Stated Amount: '50000',
-  'Less Than 3,000 Miles': 'No'
+  'Less Than 1,000 Miles': 'No'
 }
 
 VehicleTab_PPAOther: {
