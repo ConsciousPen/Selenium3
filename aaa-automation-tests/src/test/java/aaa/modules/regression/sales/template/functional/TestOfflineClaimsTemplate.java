@@ -1,10 +1,6 @@
 package aaa.modules.regression.sales.template.functional;
 import static aaa.common.pages.SearchPage.tableSearchResults;
-
 import aaa.common.pages.Page;
-import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableActivityInformationList;
 import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableDriverList;
@@ -18,9 +14,7 @@ import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -57,7 +51,6 @@ import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import toolkit.config.PropertyProvider;
-import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -199,22 +192,22 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         CustomSoftAssertions.assertSoftly(softly -> {
             DriverTab driverTab = new DriverTab();
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-            softly.assertThat(DriverTab.tableDriverList).hasRows(4);
+            softly.assertThat(tableDriverList).hasRows(4);
 
             // Check 1st driver: Contains only Two Matched Claims (Verifying that PermissiveUse Claim with wrong dateOfLoss is not displayed)
-            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(2);
+            softly.assertThat(tableActivityInformationList).hasRows(2);
 
             // Check 1st driver: FNI, has COMP and Permissive Use matched claims (2nd PermissiveUse Claim is not displayed, because of dateOfLoss Param > Claim dateOfLoss)
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(COMP_MATCH);
 
-            DriverTab.tableActivityInformationList.selectRow(2);
+            tableActivityInformationList.selectRow(2);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(PU_MATCH);
 
             // Check 2nd driver: Has DL match claim
-            DriverTab.tableDriverList.selectRow(2);
-            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
+            tableDriverList.selectRow(2);
+            softly.assertThat(tableActivityInformationList).hasRows(1);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(DL_MATCH);
         });
@@ -225,17 +218,17 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         CustomSoftAssertions.assertSoftly(softly -> {
             DriverTab driverTab = new DriverTab();
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-            softly.assertThat(DriverTab.tableDriverList).hasRows(5);
+            softly.assertThat(tableDriverList).hasRows(5);
 
             // Check 1st driver: Contains only one Matched Claim (Verifying that comp claim has not moved)
-            DriverTab.tableDriverList.selectRow(1);
-            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
+            tableDriverList.selectRow(1);
+            softly.assertThat(tableActivityInformationList).hasRows(1);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(COMP_MATCH);
 
             // Check 5th driver: Original Permissive Use claim should be on the newly added driver
-            DriverTab.tableDriverList.selectRow(5);
-            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
+            tableDriverList.selectRow(5);
+            softly.assertThat(tableActivityInformationList).hasRows(1);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("CLUE");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(PU_MATCH);
         });
@@ -246,26 +239,26 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         CustomSoftAssertions.assertSoftly(softly -> {
             DriverTab driverTab = new DriverTab();
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-            softly.assertThat(DriverTab.tableDriverList).hasRows(4);
+            softly.assertThat(tableDriverList).hasRows(4);
 
             // Check 3rd driver
             // PAS-8310 - LASTNAME_FIRSTNAME_DOB Match
-            DriverTab.tableDriverList.selectRow(3);
-            DriverTab.tableActivityInformationList.selectRow(2);
+            tableDriverList.selectRow(3);
+            tableActivityInformationList.selectRow(2);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME_DOB);
             // PAS-17894 - LASTNAME_FIRSTNAME & LASTNAME_FIRSTINITAL_DOB //PAS-21435 - Removed LASTNAME_YOB match logic. Claim 8FAZ88888OHS is now unmatched
-            DriverTab.tableActivityInformationList.selectRow(3);
+            tableActivityInformationList.selectRow(3);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME);
-            DriverTab.tableActivityInformationList.selectRow(4);
+            tableActivityInformationList.selectRow(4);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTINITAL_DOB);
 
             // Check 4th driver.
             // PAS-8310 - LASTNAME_FIRSTNAME_YOB Match
-            DriverTab.tableDriverList.selectRow(4);
-            DriverTab.tableActivityInformationList.selectRow(3);
+            tableDriverList.selectRow(4);
+            tableActivityInformationList.selectRow(3);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME_YOB);
         });
