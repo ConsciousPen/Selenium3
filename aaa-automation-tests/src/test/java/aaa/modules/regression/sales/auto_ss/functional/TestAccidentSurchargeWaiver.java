@@ -42,8 +42,6 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     private File claimResponseFile;
     private TableWithPages tableActivityInformationList = new TableWithPages(By.id("policyDataGatherForm:dataGatherView_ListDrivingRecord"));
 
-    private static final String TEST_DRIVER = "TestDriver";
-
     // Activity Types
     private static final String AF_ACCIDENT = "At-Fault Accident";
     private static final String MAJOR_VIOLATION = "Major Violation";
@@ -519,11 +517,13 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         // Bind quote
         bindPolicy();
         String policyNumber = PolicySummaryPage.getPolicyNumber();
+        setDoNotRenewFlag(policyNumber);
 
         // Advance time to renewal reports order date and create renewal image
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(PolicySummaryPage.getExpirationDate()));
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
+        policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
         policy.renew().perform();
 
         // Add AF accident for second driver
@@ -749,7 +749,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         return getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName()).get(1)
                 .mask(AutoSSMetaData.DriverTab.NAMED_INSURED.getLabel())
                 .adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), "SDW")
-                .adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), TEST_DRIVER)
+                .adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), "TestDriver")
                 .adjust(AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), "05/05/1981")
                 .adjust(AutoSSMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click");
     }
