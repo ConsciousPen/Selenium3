@@ -679,6 +679,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     }
     /**
      * @author Chris Johns
+     * @author Saranya Hariharan
      * PAS-22172 - END - CAS: reconcile permissive use claims when driver/named insured is added (avail for rating)
      * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added
      * @scenario Test Steps:
@@ -697,39 +698,31 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         adjusted = getPolicyTD().adjust(testDataForFNI);
         policyNumber = openAppAndCreatePolicy(adjusted);
         log.info("Policy created successfully. Policy number is " + policyNumber);
-
         runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
         generateClaimRequest();        // Download claim request and assert it
-
         // Create the claim response - product doesn't matter here, we only need comp and pu claims match
         createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE );
-
         runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
-
         // Retrieve policy and enter renewal image
         retrieveRenewal(policyNumber);
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-
-        // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
+        // Check 1st driver: FNI, has the MVR ,COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
+        //TODO: PU Indicator Shows up in UI for Internal claims after PAS-22608 is merged to Master Branch. Assertions needs to be modified.
         tableDriverList.selectRow(1);
         activityAssertions(2, 1, 3, 1, "MVR", "", false);
         activityAssertions(2, 1, 3, 2, "Internal Claims", CLAIM_NUMBER_1, false);
         activityAssertions(2, 1, 3, 3, "Internal Claims", CLAIM_NUMBER_3, false);
-
         //Navigate to the General Tab and change the FNI to the second insured (Steve)
-       changeFNIGeneralTab(1);  //Index starts at 0
-
+        changeFNIGeneralTab(1);  //Index starts at 0
         //Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
         tableDriverList.selectRow(1);
-//        activityAssertions(2,1,2, 1, "Customer Input", "", true);
-//        activityAssertions(2,1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
-//
-//        //Assert that old FNI only has 1 Internal Claims
-//        tableDriverList.selectRow(2);
-//        activityAssertions(2, 2, 1, 1, "Internal Claims", CLAIM_NUMBER_1, false);
-//
-//        //Save and exit the Renewal
-//       DriverTab.buttonSaveAndExit.click();
+        activityAssertions(2,1,2, 1, "Customer Input", "", false);
+        activityAssertions(2,1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, false);
+        //Assert that old FNI  has 1 Internal Claims and 1 existing MVR claim
+        tableDriverList.selectRow(2);
+        activityAssertions(2, 2, 2, 2, "Internal Claims", CLAIM_NUMBER_1, false);
+        //Save and exit the Renewal
+        DriverTab.buttonSaveAndExit.click();
     }
     /**
      * Method changes'First Named Insured' to the desired Insured. First Named Insured index starts at zero

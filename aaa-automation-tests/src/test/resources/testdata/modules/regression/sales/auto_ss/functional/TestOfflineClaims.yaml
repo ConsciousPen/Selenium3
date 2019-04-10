@@ -207,9 +207,6 @@ Driver7: {
   Named Insured: "Steve Rogers",
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': Sibling,
-#  First Name: Steve,
-#  Last Name: Rogers,
-#  Date of Birth: 12/12/1987,
   Gender: Male,
   Marital Status: Married,
   Occupation: Clergy,
@@ -228,34 +225,6 @@ Driver7: {
     #Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
     "Include in Points and/or Tier?": 'No',
     Not Included in Points and/or Tier - Reason Codes: 'Report errors'
-  }
-  ]
-}
-Driver9: {
-  Add Driver: Click,
-  DriverSearchDialog:{},
-#  Named Insured: "Steve Rogers",
-  Driver Type: Available for Rating,
-  'Rel. to First Named Insured': Sibling,
-  Date of Birth: 07/04/1918,
-  Gender: Male,
-  Marital Status: Married,
-  Occupation: Military,
-  License Type: "Licensed (US)",
-  License State: AZ,
-  Permit Before License: 'Yes',
-  "License Number": D54377777,
-  Age First Licensed: 18,
-  ActivityInformation: [
-  {
-    Activity Source: 'Customer Input',
-    Type: 'Accident',
-    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
-    Description: 'Fault accident, no injury, damage > $1000',
-    Loss Payment Amount: '2000',
-    Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-    "Include in Points and/or YAF?": 'No',
-    Not Included in Points and/or YAF - Reason Codes: 'Report errors'
   }
   ]
 }
