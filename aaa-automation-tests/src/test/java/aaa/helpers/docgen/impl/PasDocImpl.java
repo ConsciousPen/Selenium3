@@ -32,9 +32,13 @@ public class PasDocImpl extends DocumentWrapper {
 	}
 
 	private static Logger log = LoggerFactory.getLogger(PasDocImpl.class);
-
+	
 	public static DocumentGenerationRequest getDocumentRequest(String policyNumber, DocGenEnum.Documents... documents) {
-		List<String> documentsFilePaths = waitForDocumentsAppearance(policyNumber, documents);
+		return getDocumentRequest(policyNumber, null, documents);
+	}
+
+	public static DocumentGenerationRequest getDocumentRequest(String policyNumber, DocGenEnum.EventName eventName, DocGenEnum.Documents... documents) {
+		List<String> documentsFilePaths = waitForDocumentsAppearance(policyNumber, eventName, documents);
 		if (documentsFilePaths.size() > 1) {
 			log.warn(String
 					.format("More than one (%1$s) xml document files were found with quote/policy number \"%2$s\"%3$s:\n%4$s.\nNewest one (last modified) will be used for getting CreateDocuments model.",
@@ -53,12 +57,20 @@ public class PasDocImpl extends DocumentWrapper {
 		return documentGenerationRequest;
 	}
 
-	public static List<String> waitForDocumentsAppearance(String policyNumber, DocGenEnum.Documents... documents) {
-		String[] textsToSearchPatterns = new String[documents.length + 1];
+	public static List<String> waitForDocumentsAppearance(String policyNumber, DocGenEnum.EventName eventName, DocGenEnum.Documents... documents) {
+		int index = 1;
+		if (eventName != null) {
+			index = 2;
+		}
+		String[] textsToSearchPatterns = new String[documents.length + index];
 
 		textsToSearchPatterns[0] = String.format("<%1$s:PolicyNumber>%2$s</%1$s:PolicyNumber>", DocGenEnum.XmlnsNamespaces.DOC_PREFIX, policyNumber);
+		if (eventName != null) {
+			textsToSearchPatterns[1] = String.format("<%1$s:EventName>%2$s</%1$s:EventName>", DocGenEnum.XmlnsNamespaces.DOC_PREFIX, eventName);
+		}
+		
 		for (int i = 0; i < documents.length; i++) {
-			textsToSearchPatterns[i + 1] = String.format("<%1$s:TemplateId>%2$s</%1$s:TemplateId>", DocGenEnum.XmlnsNamespaces.DOC_PREFIX, documents[i].getIdInXml());
+			textsToSearchPatterns[i + index] = String.format("<%1$s:TemplateId>%2$s</%1$s:TemplateId>", DocGenEnum.XmlnsNamespaces.DOC_PREFIX, documents[i].getIdInXml());
 		}
 		log.info(String.format("Waiting for xml document file(s) appearance with \"%1$s\" policy number%2$s in \"%3$s\" folder.",
 				policyNumber, documents.length > 0 ? " and documents: " + Arrays.asList(documents) : "", PASDOC_SOURCE_FOLDER));
@@ -103,25 +115,48 @@ public class PasDocImpl extends DocumentWrapper {
 	 *                        By default strict match check is used, this means exception will be thrown if xml content differs from existing model (e.g. has extra tags)
 	 */
 	public static DocumentGenerationRequest verifyDocumentsGenerated(ETCSCoreSoftAssertions softly, boolean documentsExistence, boolean generatedByJob, String policyNumber, DocGenEnum.Documents... documents) {
+		return verifyDocumentsGenerated(softly, documentsExistence, generatedByJob, policyNumber, null, documents);
+	}
+	
+	
+	/**
+	 * Verifies that all <b>documents</b> exist (or not exist if <b>documentsExistece</b> is false) in found xml file with <b>policyNumber</b> and <b>EventName</b> inside after documents generation
+	 * (generation should be performed before this method call). 
+	 * 
+	 * @param softly             defines using of soft assertions
+	 * @param documentsExistence defines expected documents presence or absence verification
+	 * @param generatedByJob     if true then file search will be performed in appropriate jobs generation folder location
+	 * @param policyNumber       quote or policy number to be used for finding xml document for further documents searching. 
+	 *                           If more than one file with <b>policyNumber</b> is found then newest one (last modified) will be used for documents searching
+	 * @param eventName          expected EventName tag value in generated xml file
+	 * @param documents          array of documents to be searched in found xml file. If array is empty then only existence of <b>policyNumber</b> will be verified
+	 * @return DocumentWrapper   object with StandardDocumentRequest object unmarshalled from xml document and search/verification helper methods
+	 */
+	public static DocumentGenerationRequest verifyDocumentsGenerated(ETCSCoreSoftAssertions softly, boolean documentsExistence, boolean generatedByJob, String policyNumber, DocGenEnum.EventName eventName, DocGenEnum.Documents... documents) {
 		assertThat(documents.length == 0 && !documentsExistence).as("Unable to call method with empty \"documents\" array and false \"documentsExistence\" argument values!").isFalse();
 
 		log.info(String.format("Verifying that document with \"%1$s\" quote/policy number is generated%2$s%3$s.",
 				policyNumber, generatedByJob ? " by job" : "",
 				documents.length > 0 ? String.format(" and %1$s documents: %2$s", documentsExistence ? "contains all" : "does not contain", Arrays.asList(documents)) : ""));
 
-		DocumentGenerationRequest documentGenerationRequest = getDocumentRequest(policyNumber, documentsExistence ? documents : new DocGenEnum.Documents[0]);
+		DocumentGenerationRequest documentGenerationRequest = getDocumentRequest(policyNumber, eventName, documentsExistence ? documents : new DocGenEnum.Documents[0]);
 
 		for (DocGenEnum.Documents document : documents) {
 			String docPolicyNum = documentGenerationRequest.getDocumentData().getPolicyNumber();
 			Document doc = documentGenerationRequest.getDocuments().stream().filter(document1 -> document1.getTemplateId().equals(document.getIdInXml())).findFirst().orElse(null);
 			String errorMessagePolicy = String.format("Policy number in generated document '%s' doesn't match expected '%s'", docPolicyNum, policyNumber);
-			String errorMessageDocId = String.format("Document ID '%s' doesn't match expected '%s'", doc.getTemplateId(), document.getIdInXml());
-			String errorMessageDocIdPresent = String.format("Document ID '%s' is present true, but expected false", document.getIdInXml());
+			String errorMessageDocId;
+			if (doc != null) {
+				errorMessageDocId = String.format("Document ID '%s' doesn't match expected '%s'", doc.getTemplateId(), document.getIdInXml());
+			}
+			else {
+				errorMessageDocId = String.format("Document ID '%s' is present true, but expected false", document.getIdInXml());
+			}
 
 			if (softly == null) {
 				assertThat(docPolicyNum).as(errorMessagePolicy).isEqualTo(policyNumber);
 				if (!documentsExistence) {
-					assertThat(doc).as(errorMessageDocIdPresent).isNull();
+					assertThat(doc).as(errorMessageDocId).isNull();
 				} else {
 					assertThat(doc).as(errorMessageDocId).isNotNull();
 					assertThat(doc.getTemplateId()).as(errorMessageDocId).isEqualTo(document.getIdInXml());
@@ -130,7 +165,7 @@ public class PasDocImpl extends DocumentWrapper {
 			} else {
 				softly.assertThat(docPolicyNum).as(errorMessagePolicy).isEqualTo(policyNumber);
 				if (!documentsExistence) {
-					softly.assertThat(doc).as(errorMessageDocIdPresent).isNull();
+					softly.assertThat(doc).as(errorMessageDocId).isNull();
 				} else {
 					softly.assertThat(doc).as(errorMessageDocId).isNotNull();
 					softly.assertThat(doc.getTemplateId()).as(errorMessageDocId).isEqualTo(document.getIdInXml());

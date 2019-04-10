@@ -1,6 +1,7 @@
 package aaa.modules.bct.billing_and_payments;
 
 import static aaa.common.enums.Constants.States.*;
+import static aaa.main.pages.summary.PolicySummaryPage.tableDifferences;
 import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -53,6 +54,9 @@ public class ModifyPaymentMethodTest extends BackwardCompatibilityBaseTest {
 		policy.endorse().performAndFill(getTestSpecificTD("TestData"));
 		if (new ErrorTab().buttonOverride.isPresent()) {
 			policy.dataGather().getView().fillFromTo(getTestSpecificTD("TestData_Override"), ErrorTab.class, PurchaseTab.class, false);
+		}
+		if (tableDifferences.isPresent()) { // workaround for payment plan : when policy has ANNUAL and our test data change it to monthly
+			policy.rollOn().perform(true);
 		}
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 

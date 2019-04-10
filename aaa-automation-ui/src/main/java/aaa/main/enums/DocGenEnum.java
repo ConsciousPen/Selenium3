@@ -545,6 +545,27 @@ public final class DocGenEnum {
 			return xmlns;
 		}
 	}
+	
+	public enum EventName {
+		POLICY_ISSUE("POLICY_ISSUE"),
+		ENDORSEMENT_ISSUE("ENDORSEMENT_ISSUE"),
+		ADHOC_DOC_ON_DEMAND_PREVIEW("ADHOC_DOC_ON_DEMAND_PREVIEW"),
+		ADHOC_DOC_ON_DEMAND_GENERATE("ADHOC_DOC_ON_DEMAND_GENERATE");
+
+		private String id;
+
+		EventName(String id) {
+			set(id);
+		}
+
+		public String get() {
+			return id;
+		}
+
+		public void set(String id) {
+			this.id = id;
+		}
+	}
 
 	public static class DataElementChoiceTag {
 		public static final String TEXTFIELD = "TextField";
