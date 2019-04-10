@@ -33,8 +33,7 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.PUP)
-	public void testNewBusinessScenario_3(@Optional("") String state) {
-		testNewBusinessScenario_3();
+	public void testNewBusinessScenario_3(@Optional("") String state) { testNewBusinessScenario_3();
 	}
 
 	@Parameters({"state"})
