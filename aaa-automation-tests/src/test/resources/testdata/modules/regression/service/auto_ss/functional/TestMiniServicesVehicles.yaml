@@ -94,7 +94,7 @@ VehicleTab_2_NY: {
   Add Vehicle: Click,
   Usage: Pleasure,
   VIN: 1GAZG1FG7D1145543,
-  'Less Than 3,000 Miles': 'No'
+  'Less Than 1,000 Miles': 'No'
 }
 
 VehicleTab_Van: {
@@ -121,7 +121,7 @@ VehicleTab_Van_NY: {
   'Other Body Style': 'Sedan',
   Stat Code: 'Cargo Van',
   'Stated Amount': '50000',
-  'Less Than 3,000 Miles': 'No'
+  'Less Than 1,000 Miles': 'No'
 }
 
 VehicleTab_Motor_Home: {
@@ -144,7 +144,7 @@ VehicleTab_Motor_Home_NY: {
   Other Make: 'Motor',
   Other Model: 'Motor',
   Stated Amount: '50000',
-  'Less Than 3,000 Miles': 'No'
+  'Less Than 1,000 Miles': 'No'
 }
 
 VehicleTab_PPAOther: {
@@ -210,7 +210,12 @@ VehicleTab_2018_Leased: {
 VehicleTab_2018_New: {
     Usage: Pleasure,
     VIN: 1FADP3J2XJL222680, #Ford Focus 2018
-    'Less Than 1,000 Miles': 'No'
+}
+
+VehicleTab_2018_New_NY: {
+  Usage: Pleasure,
+  VIN: 1FADP3J2XJL222680, #Ford Focus 2018
+ 'Less Than 1,000 Miles': 'No'
 }
 
 PremiumAndCoveragesTab_2018: {
@@ -295,6 +300,10 @@ PremiumAndCoveragesTab_OneVeh: {
 #----------------------------------------------
 TestData_1000MilesVeh: {
   VehicleTab: ['@VehicleTab_2018_New', '@VehicleTab_2003Vehicle'],
+}
+
+TestData_1000MilesVeh_NY: {
+  VehicleTab: ['@VehicleTab_2018_New_NY', '@VehicleTab_2003Vehicle'],
 }
 
 VehicleTab_2003Vehicle: {
