@@ -15,32 +15,32 @@ import aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData;
 import toolkit.config.PropertyProvider;
 
 public class HelperWireMockLastPaymentMethod {
-	private static final String WIRE_MOCK_URL = PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/__admin/mappings";
 
-	public HelperWireMockStub getHelperWireMockStubACH(String policyNumber, String refundAmountACH) throws IllegalAccessException {
+	public HelperWireMockStub getHelperWireMockStubACH(String policyNumber, String refundAmountACH) {
 		LastPaymentTemplateData dataACH = LastPaymentTemplateData.create(policyNumber, refundAmountACH, REFUNDABLE, "refundable", EFT, null, null, "1542", null);
-		HelperWireMockStub stubRequestACH = HelperWireMockStub.create("last-payment-200", dataACH).mock();
-		return stubRequestACH;
+		return HelperWireMockStub.create("last-payment-200", dataACH).mock();
 	}
 
-	public HelperWireMockStub getHelperWireMockStubCC(String policyNumber, String refundAmountCC) throws IllegalAccessException {
+	public HelperWireMockStub getHelperWireMockStubCC(String policyNumber, String refundAmountCC) {
 		LastPaymentTemplateData dataCC = LastPaymentTemplateData.create(policyNumber, refundAmountCC, REFUNDABLE, "refundable", CRDC, VISA, CREDIT, "4113", "01-2022");
-		HelperWireMockStub stubRequestCC = HelperWireMockStub.create("last-payment-200", dataCC).mock();
-		return stubRequestCC;
+		return HelperWireMockStub.create("last-payment-200", dataCC).mock();
 	}
 
-	public HelperWireMockStub getHelperWireMockStubDC(String policyNumber, String refundAmountDC) throws IllegalAccessException {
+	public HelperWireMockStub getHelperWireMockStubDC(String policyNumber, String refundAmountDC) {
 		LastPaymentTemplateData dataDC = LastPaymentTemplateData.create(policyNumber, refundAmountDC, REFUNDABLE, "refundable", CRDC, MC, DEBIT, "4444", "05-2020");
-		HelperWireMockStub stubRequestDC = HelperWireMockStub.create("last-payment-200", dataDC).mock();
-		return stubRequestDC;
+		return HelperWireMockStub.create("last-payment-200", dataDC).mock();
+	}
+
+	public HelperWireMockStub stub404NotFound(String policyNumber) {
+		LastPaymentTemplateData templateData = LastPaymentTemplateData.create(policyNumber, null, null, null, null, null, null, null, null);
+		return HelperWireMockStub.create("last-payment-error", templateData).mock();
 	}
 
 
 	/**The test is used to check LastPaymentMethod stub functionality and availability
-	 * @throws IllegalAccessException
 	 */
 	@Test(groups = {Groups.FUNCTIONAL, Groups.LOW})
-	public void pas111_wireMockExampleTest() throws IllegalAccessException {
+	public void pas111_wireMockExampleTest() {
 
 		String policyNumber = "VASS952918785";
 		String approvedRefundAmount = "500";

@@ -339,7 +339,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	@StateList(states = {Constants.States.NY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-25889"})
-	public void pas25889_renewalMergePolicyInformation(@Optional("NY") String state) {
+	public void pas25889_renewalMergeAssignment(@Optional("NY") String state) {
 		renewalMerge(getTDNewBusinessPolicy(), getTDAssignmentVersion1(), getTDAssignmentVersion2(), VersionsConflictConstants.ASSIGNMENT,  VersionsConflictConstants.ASSIGNMENT_VERSION_1,  "AssignmentTab", "DriverVehicleRelationshipTable");
 	}
 }
