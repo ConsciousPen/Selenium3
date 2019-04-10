@@ -103,6 +103,7 @@ public class VersionsComparisonConstants {
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version1, Second Name version1).Second Name", "Second Name version2","Second Name version1")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version1, Second Name version1).Additional Interest Address", "VII interest address 1, VII interest address 2, Red Rock, AZ, 85245","interest address 1, VI interest address 2, Phoenix, AZ, 85085")
 			.putAll("Policy Options.Payment Plan","semiAnnual6SS","annualSS")
+			.putAll("Drivers.New Driver Version2.Assigned Vehicle", "2011, CHEVROLET, EXPRESS VAN","2011, MERCEDES-BENZ, G55AMG")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -242,6 +243,8 @@ public class VersionsComparisonConstants {
 			//TODO should be returned when Yes/NO vs true/false is fixed
 			/*.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Is Garaging different from Residential?", "Is Garaging different from Residential?")*/
 			.put("Policy Options.Policy Term","Policy Term")
+			//Assignment
+			.put("Drivers.NBFirstName NBLastName.Assigned Vehicle", "Select Vehicle")
 			.build();
 
 	//all components/attributes that should be on Comparison page for Named Insured Information section for data gather comparison
@@ -483,6 +486,13 @@ public class VersionsComparisonConstants {
 	static final Multimap<String, String> DATA_GATHER_PREMIUM_AND_COVERAGES = ImmutableListMultimap.<String, String>builder()
 			.put("Policy Options","Payment Plan")
 			.put("Policy Options", "Policy Term")
+			.build();
+
+	//all components/attributes that should be on Comparison page for Assignment section for NB and endorsements
+	static final Multimap<String, String> ASSIGNMENT = ImmutableListMultimap.<String, String>builder()
+			//Driver Information section
+			.put("Drivers.NBFirstName NBLastName", "Assigned Vehicle")
+			.put("Drivers.New Driver Version2", "Assigned Vehicle")
 			.build();
 
 }

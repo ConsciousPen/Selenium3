@@ -26,12 +26,13 @@ import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 
 public class TestMembershipValidationError extends AutoSSBaseTest {
 
 	private GeneralTab generalTab = new GeneralTab();
 	private ErrorTab errorTab = new ErrorTab();
-	private NoSectionsMultiAssetList assetListAAAProductOwned = generalTab.getOtherAAAProductOwnedAssetList();
+	private AssetList assetListAAAProductOwned = generalTab.getAAAMembershipAssetList();
 
 	/**
 	*@author Viktor Petrenko
@@ -70,12 +71,11 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 		CustomSoftAssertions.assertSoftly(softly -> {
 			// Start of PAS-3794 New Business DE & NJ: Non-Member Message
 			generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("No");
-			softly.assertThat(assetListAAAProductOwned.getAsset(AutoSSMetaData.GeneralTab.AAAMembership.EXISTING_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK)).hasValue(ErrorEnum.Errors.ERROR_AAA_SS171018
-					.getMessage());
+			softly.assertThat(assetListAAAProductOwned.getAsset(AutoSSMetaData.GeneralTab.AAAMembership.NO_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK).getValue()).isEqualTo(ErrorEnum.Errors.ERROR_AAA_SS171018.getMessage());
 
 			generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Membership Pending");
-			softly.assertThat(assetListAAAProductOwned.getAsset(AutoSSMetaData.GeneralTab.AAAMembership.EXISTING_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK)).hasValue(ErrorEnum.Errors.ERROR_AAA_SS171018
-					.getMessage());
+			softly.assertThat(assetListAAAProductOwned.getAsset(AutoSSMetaData.GeneralTab.AAAMembership.PENDING_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK).getValue()).isEqualTo(ErrorEnum.Errors.ERROR_AAA_SS171018.getMessage());
+
 			// End of PAS-3794 New Business DE & NJ: Non-Member Message
 			policy.getDefaultView().fillFromTo(getAdjustedTestData(), GeneralTab.class, PremiumAndCoveragesTab.class, true);
 

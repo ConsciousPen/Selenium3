@@ -43,6 +43,7 @@ TestDataInquiryAutoSS: {
   DriverTab: {},
   RatingDetailReportsTab: {},
   VehicleTab: {},
+  AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
