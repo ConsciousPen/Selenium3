@@ -210,7 +210,12 @@ VehicleTab_2018_Leased: {
 VehicleTab_2018_New: {
     Usage: Pleasure,
     VIN: 1FADP3J2XJL222680, #Ford Focus 2018
-    'Less Than 1,000 Miles': 'No'
+}
+
+VehicleTab_2018_New_NY: {
+  Usage: Pleasure,
+  VIN: 1FADP3J2XJL222680, #Ford Focus 2018
+ 'Less Than 1,000 Miles': 'No'
 }
 
 PremiumAndCoveragesTab_2018: {
@@ -295,6 +300,10 @@ PremiumAndCoveragesTab_OneVeh: {
 #----------------------------------------------
 TestData_1000MilesVeh: {
   VehicleTab: ['@VehicleTab_2018_New', '@VehicleTab_2003Vehicle'],
+}
+
+TestData_1000MilesVeh_NY: {
+  VehicleTab: ['@VehicleTab_2018_New_NY', '@VehicleTab_2003Vehicle'],
 }
 
 VehicleTab_2003Vehicle: {
