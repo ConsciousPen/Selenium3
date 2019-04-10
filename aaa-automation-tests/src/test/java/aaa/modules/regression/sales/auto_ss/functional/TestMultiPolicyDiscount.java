@@ -788,7 +788,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
 
     /**
-     * This test validates that adding an unquoted HOME companion product appears on a generated AH11AZ document.
+     * This test validates that adding an unquoted HOME companion product appears on a generated AH11AZ document. <br>
+     *     This test has been disabled until new DOCGEN process has been implemented.
      * @param state
      */
     @Parameters({"state"})
@@ -814,7 +815,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     }
 
     /**
-     * This test validates that adding an unquoted RENTERS companion product appears on a generated AH11AZ document.
+     * This test validates that adding an unquoted RENTERS companion product appears on a generated AH11AZ document. <br>
+     *      *     This test has been disabled until new DOCGEN process has been implemented.
      * @param state
      */
     @Parameters({"state"})
@@ -840,7 +842,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     }
 
     /**
-     * This test validates that adding an unquoted CONDO companion product appears on a generated AH11AZ document.
+     * This test validates that adding an unquoted CONDO companion product appears on a generated AH11AZ document. <br>
+     *      *     This test has been disabled until new DOCGEN process has been implemented.
      * @param state
      */
     @Parameters({"state"})
@@ -866,7 +869,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     }
 
     /**
-     * This test validates that adding multiple unquoted companion product appears on a generated AH11AZ document.
+     * This test validates that adding multiple unquoted companion product appears on a generated AH11AZ document. <br>
+     *      *     This test has been disabled until new DOCGEN process has been implemented.
      * @param state
      */
     @Parameters({"state"})
@@ -898,7 +902,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     }
 
     /**
-     * This test validates that two quoted companion products of different types appear on a generated AH11AZ document.
+     * This test validates that two quoted companion products of different types appear on a generated AH11AZ document. <br>
+     *      *     This test has been disabled until new DOCGEN process has been implemented.
      * @param state
      */
     @Parameters({"state"})
@@ -938,7 +943,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     }
 
     /**
-     * This test validates that two agent entered companion products of same types appear on a generated AH11AZ document.
+     * This test validates that two agent entered companion products of same types appear on a generated AH11AZ document. <br>
+     *      *     This test has been disabled until new DOCGEN process has been implemented.
      * @param state
      */
     @Parameters({"state"})
@@ -969,7 +975,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     }
 
     /**
-     * This test validates that ineligible companion products do not appear on a generated AH11AZ document.
+     * This test validates that ineligible companion products do not appear on a generated AH11AZ document. <br>
+     *      *     This test has been disabled until new DOCGEN process has been implemented.
      * @param state
      */
     @Parameters({"state"})
@@ -1006,7 +1013,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     }
 
     /**
-     * This test validates that an eligible home, life and motorcycle companion products appear on a generated AH11AZ document.
+     * This test validates that an eligible home, life and motorcycle companion products appear on a generated AH11AZ document. <br>
+     *      *     This test has been disabled until new DOCGEN process has been implemented.
      * @param state
      */
     @Parameters({"state"})
@@ -1051,7 +1059,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     }
 
     /**
-     * This test validates that an ineligible companion product does not appear on a generated AH11AZ document, but the life policy does.
+     * This test validates that an ineligible companion product does not appear on a generated AH11AZ document, but the life policy does. <br>
+     *      *     This test has been disabled until new DOCGEN process has been implemented.
      * @param state
      */
     @Parameters({"state"})
