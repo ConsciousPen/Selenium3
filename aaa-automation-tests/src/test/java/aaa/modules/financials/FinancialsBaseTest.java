@@ -167,6 +167,10 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		BillingSummaryPage.dialogConfirmation.confirm();
 	}
 
+	protected boolean isTaxState() {
+		return getState().equals(Constants.States.KY) || getState().equals(Constants.States.WV);
+	}
+
 	protected Map<String, Dollar> getTaxAmountsForPolicy(String policyNumber) {
 		Map<String, Dollar> taxes = new HashMap<>();
 		String hoPolicyStateTaxDescription;
