@@ -118,6 +118,20 @@ public class PasDocImpl extends DocumentWrapper {
 		return verifyDocumentsGenerated(softly, documentsExistence, generatedByJob, policyNumber, null, documents);
 	}
 	
+	
+	/**
+	 * Verifies that all <b>documents</b> exist (or not exist if <b>documentsExistece</b> is false) in found xml file with <b>policyNumber</b> and <b>EventName</b> inside after documents generation
+	 * (generation should be performed before this method call). 
+	 * 
+	 * @param softly             defines using of soft assertions
+	 * @param documentsExistence defines expected documents presence or absence verification
+	 * @param generatedByJob     if true then file search will be performed in appropriate jobs generation folder location
+	 * @param policyNumber       quote or policy number to be used for finding xml document for further documents searching. 
+	 *                           If more than one file with <b>policyNumber</b> is found then newest one (last modified) will be used for documents searching
+	 * @param eventName          expected EventName tag value in generated xml file
+	 * @param documents          array of documents to be searched in found xml file. If array is empty then only existence of <b>policyNumber</b> will be verified
+	 * @return DocumentWrapper   object with StandardDocumentRequest object unmarshalled from xml document and search/verification helper methods
+	 */
 	public static DocumentGenerationRequest verifyDocumentsGenerated(ETCSCoreSoftAssertions softly, boolean documentsExistence, boolean generatedByJob, String policyNumber, DocGenEnum.EventName eventName, DocGenEnum.Documents... documents) {
 		assertThat(documents.length == 0 && !documentsExistence).as("Unable to call method with empty \"documents\" array and false \"documentsExistence\" argument values!").isFalse();
 
@@ -138,12 +152,10 @@ public class PasDocImpl extends DocumentWrapper {
 			else {
 				errorMessageDocId = String.format("Document ID '%s' is present true, but expected false", document.getIdInXml());
 			}
-			//String errorMessageDocIdPresent = String.format("Document ID '%s' is present true, but expected false", document.getIdInXml());
 
 			if (softly == null) {
 				assertThat(docPolicyNum).as(errorMessagePolicy).isEqualTo(policyNumber);
 				if (!documentsExistence) {
-					//assertThat(doc).as(errorMessageDocIdPresent).isNull();
 					assertThat(doc).as(errorMessageDocId).isNull();
 				} else {
 					assertThat(doc).as(errorMessageDocId).isNotNull();
@@ -153,7 +165,6 @@ public class PasDocImpl extends DocumentWrapper {
 			} else {
 				softly.assertThat(docPolicyNum).as(errorMessagePolicy).isEqualTo(policyNumber);
 				if (!documentsExistence) {
-					//softly.assertThat(doc).as(errorMessageDocIdPresent).isNull();
 					softly.assertThat(doc).as(errorMessageDocId).isNull();
 				} else {
 					softly.assertThat(doc).as(errorMessageDocId).isNotNull();

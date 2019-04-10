@@ -12,7 +12,10 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.docgen.impl.PasDocImpl;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.enums.DocGenEnum.EventName;
+
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -76,37 +79,37 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		else {
 			td_sc2 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC2_NO_PASDOC").resolveLinks());
 		}
-		createPolicy(td_sc2);
-		log.info("PAS DOC: Scenario 2: Policy with specific data created: " + PolicySummaryPage.getPolicyNumber());
+		String policyNumber_sc2 = createPolicy(td_sc2);
+		log.info("PAS DOC: Scenario 2: Policy with specific data created: " + policyNumber_sc2);
 		
 		policy.policyDocGen().start();
 		//2.1 - 2.21
-		verifyPreviewDocument(AA10XX);
-		verifyPreviewDocument(AHRCTXXAUTO);
-		verifyPreviewDocument(AHAPXX);
-		verifyPreviewDocument(AA11AZ);
-		verifyPreviewDocument(AA43AZ);
-		verifyPreviewDocument(AASR22);
-		verifyPreviewDocument(AAUBI);
-		verifyPreviewDocument(ACPUBI);
-		verifyPreviewDocument(AAPDXX);
+		verifyPreviewDocument(policyNumber_sc2, AA10XX);
+		verifyPreviewDocument(policyNumber_sc2, AHRCTXXAUTO);
+		verifyPreviewDocument(policyNumber_sc2, AHAPXX);
+		verifyPreviewDocument(policyNumber_sc2, AA11AZ);
+		verifyPreviewDocument(policyNumber_sc2, AA43AZ);
+		verifyPreviewDocument(policyNumber_sc2, AASR22);
+		verifyPreviewDocument(policyNumber_sc2, AAUBI);
+		verifyPreviewDocument(policyNumber_sc2, ACPUBI);
+		verifyPreviewDocument(policyNumber_sc2, AAPDXX);
 		if (DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
-			verifyPreviewDocument(AA52AZ);
-			verifyPreviewDocument(AAUBI1_PASDOC);
+			verifyPreviewDocument(policyNumber_sc2, AA52AZ);
+			verifyPreviewDocument(policyNumber_sc2, AAUBI1_PASDOC);
 		}
 		else {
-			verifyPreviewDocument(AA52AZ_UPPERCASE);
-			verifyPreviewDocument(AAUBI1);
+			verifyPreviewDocument(policyNumber_sc2, AA52AZ_UPPERCASE);
+			verifyPreviewDocument(policyNumber_sc2, AAUBI1);
 		}
-		verifyPreviewDocument(getTestSpecificTD("TestData_AU02"), AU02);
-		verifyPreviewDocument(getTestSpecificTD("TestData_AU04"), AU04);
-		verifyPreviewDocument(getTestSpecificTD("TestData_AU05"), AU05);
-		verifyPreviewDocument(getTestSpecificTD("TestData_AU06"), AU06);
-		verifyPreviewDocument(getTestSpecificTD("TestData_AU07"), AU07);
-		verifyPreviewDocument(getTestSpecificTD("TestData_AU08"), AU08);
-		verifyPreviewDocument(getTestSpecificTD("TestData_AU09"), AU09);
-		verifyPreviewDocument(getTestSpecificTD("TestData_AU10"), AU10);
-		verifyPreviewDocument(getTestSpecificTD("TestData_AA06XX"), AA06XX_AUTOSS);
+		verifyPreviewDocument(policyNumber_sc2, getTestSpecificTD("TestData_AU02"), AU02);
+		verifyPreviewDocument(policyNumber_sc2, getTestSpecificTD("TestData_AU04"), AU04);
+		verifyPreviewDocument(policyNumber_sc2, getTestSpecificTD("TestData_AU05"), AU05);
+		verifyPreviewDocument(policyNumber_sc2, getTestSpecificTD("TestData_AU06"), AU06);
+		verifyPreviewDocument(policyNumber_sc2, getTestSpecificTD("TestData_AU07"), AU07);
+		verifyPreviewDocument(policyNumber_sc2, getTestSpecificTD("TestData_AU08"), AU08);
+		verifyPreviewDocument(policyNumber_sc2, getTestSpecificTD("TestData_AU09"), AU09);
+		verifyPreviewDocument(policyNumber_sc2, getTestSpecificTD("TestData_AU10"), AU10);
+		verifyPreviewDocument(policyNumber_sc2, getTestSpecificTD("TestData_AA06XX"), AA06XX_AUTOSS);
 		odd_tab.saveAndExit();		
 	}
 	
@@ -118,12 +121,12 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td_sc2_nano = getPolicyTD().adjust(getTestSpecificTD("TestData_NANO").resolveLinks());
-		createPolicy(td_sc2_nano);
-		log.info("PAS DOC: Scenario 2: Non-owner Policy created: " + PolicySummaryPage.getPolicyNumber());
+		String policyNum_sc2_nano = createPolicy(td_sc2_nano);
+		log.info("PAS DOC: Scenario 2: Non-owner Policy created: " + policyNum_sc2_nano);
 		
 		policy.policyDocGen().start();
 		//2.22
-		verifyPreviewDocument(AA41XX);
+		verifyPreviewDocument(policyNum_sc2_nano, AA41XX);
 		odd_tab.saveAndExit();		
 	}
 	
@@ -134,14 +137,14 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
-		createQuote();
-		log.info("PAS DOC: Scenario 2: Quote created: " + PolicySummaryPage.getPolicyNumber());
+		String quoteNumber_sc2 = createQuote();
+		log.info("PAS DOC: Scenario 2: Quote created: " + quoteNumber_sc2);
 		
 		policy.policyDocGen().start();
 		//2.23 - 2.25
-		verifyPreviewDocument(getTestSpecificTD("TestData_AU03"), AU03);
-		verifyPreviewDocument(AHFMXX);
-		verifyPreviewDocument(AAIQAZ);
+		verifyPreviewDocument(quoteNumber_sc2, getTestSpecificTD("TestData_AU03"), AU03);
+		verifyPreviewDocument(quoteNumber_sc2, AHFMXX);
+		verifyPreviewDocument(quoteNumber_sc2, AAIQAZ);
 		odd_tab.saveAndExit();	
 	}
 	
@@ -160,22 +163,22 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 			td_sc3 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC2_NO_PASDOC").resolveLinks());
 		}
 		createPolicy(td_sc3);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = createPolicy(td_sc3);
 		log.info("PAS DOC: Scenario 3: Policy created with #" + policyNumber);
 		
 		//3.1
 		policy.policyDocGen().start();
 		if (DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
-			verifyPreviewDocument(getTestSpecificTD("TestData_AllDocs"), AA06XX_AUTOSS, AA10XX, AA11AZ, AA43AZ, AA52AZ, AAPDXX, AASR22, 
+			verifyPreviewDocument(policyNumber, getTestSpecificTD("TestData_AllDocs"), AA06XX_AUTOSS, AA10XX, AA11AZ, AA43AZ, AA52AZ, AAPDXX, AASR22, 
 					AAUBI, AAUBI1_PASDOC, ACPUBI, AHAPXX, AHRCTXXAUTO, AU02, AU04, AU05, AU06, AU07, AU08, AU09, AU10);
 		}	
 		else {
-			verifyPreviewDocument(getTestSpecificTD("TestData_AllDocs_withoutAA06XX"), //AA06XX_AUTOSS,
+			verifyPreviewDocument(policyNumber, getTestSpecificTD("TestData_AllDocs_withoutAA06XX"), //AA06XX_AUTOSS,
 					AA10XX, AA11AZ, AA43AZ, AA52AZ_UPPERCASE, AAPDXX, AASR22, 
 					AAUBI, AAUBI1, ACPUBI, AHAPXX, AHRCTXXAUTO, AU02, AU04, AU05, AU06, AU07, AU08, AU09, AU10);
 		}
 		//3.2
-		verifyPreviewDocument(AA10XX, AA11AZ);
+		verifyPreviewDocument(policyNumber,  AA10XX, AA11AZ);
 		odd_tab.saveAndExit();
 		
 		//3.3
@@ -287,7 +290,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		//5.1
 		if (DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
 			//verify document preview
-			verifyPreviewDocument(AA43AZ);				
+			verifyPreviewDocument(policyNumber, AA43AZ);				
 			//OR verify document generation
 			//odd_tab.generateDocuments(false, DocGenEnum.DeliveryMethod.LOCAL_PRINT, null, null, null, AA43AZ);
 			//DocGenHelper.verifyDocumentsGenerated(true, false, policyNumber, AA43AZ);		
@@ -323,7 +326,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		if (DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
 			odd_tab.verify.documentsPresent(AAUBI, ACPUBI, AAUBI1_PASDOC);
 			//verify document preview
-			verifyPreviewDocument(AAUBI, ACPUBI, AAUBI1_PASDOC);			
+			verifyPreviewDocument(policyNumber, AAUBI, ACPUBI, AAUBI1_PASDOC);			
 			//or verify document generation
 			//odd_tab.generateDocuments(false, DocGenEnum.DeliveryMethod.LOCAL_PRINT, null, null, null, AAUBI, ACPUBI, AAUBI1_PASDOC);
 			//DocGenHelper.verifyDocumentsGenerated(true, false, policyNumber, AAUBI, ACPUBI, AAUBI1_PASDOC);			
@@ -356,7 +359,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		//7.1
 		if (DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
 			//verify document preview
-			verifyPreviewDocument(AAPDXX);			
+			verifyPreviewDocument(policyNumber, AAPDXX);			
 			//OR verify document generation
 			//odd_tab.generateDocuments(false, DocGenEnum.DeliveryMethod.LOCAL_PRINT, null, null, null, AAPDXX);
 			//DocGenHelper.verifyDocumentsGenerated(policyNumber, AAPDXX);
@@ -398,7 +401,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		//8.1
 		if (DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
 			//verify document preview
-			verifyPreviewDocument(AASR22);			
+			verifyPreviewDocument(policyNumber, AASR22);			
 			//OR verify document generation
 			//odd_tab.generateDocuments(false, DocGenEnum.DeliveryMethod.LOCAL_PRINT, null, null, null, AASR22);
 			//DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR22);			
@@ -411,16 +414,15 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		}
 	}
 
-	private void verifyPreviewDocument(DocGenEnum.Documents...documents) {
-		verifyPreviewDocument(null, documents);
+	private void verifyPreviewDocument(String policyNumber, DocGenEnum.Documents...documents) {
+		verifyPreviewDocument(policyNumber, null, documents);
 	}
 	
-	private void verifyPreviewDocument(TestData td, DocGenEnum.Documents...documents) {
+	private void verifyPreviewDocument(String policyNumber, TestData td, DocGenEnum.Documents...documents) {
 		odd_tab.previewDocuments(td, documents);
 		WebDriverHelper.switchToDefault();
-		//TODO verify generated doc contains <doc:EventName>ADHOC_DOC_ON_DEMAND_PREVIEW</doc:EventName>		
-		
-		odd_tab.unselectDocuments(documents);
+		odd_tab.unselectDocuments(documents);	
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policyNumber, EventName.ADHOC_DOC_ON_DEMAND_PREVIEW, documents);
 	}
 
 	private void verifyOneDocumentGenerated(String policyNum, String document) {
