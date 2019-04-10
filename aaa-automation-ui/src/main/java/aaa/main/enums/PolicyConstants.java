@@ -122,6 +122,7 @@ public final class PolicyConstants {
 
     public static final class PolicyRenewalsTable {
         public static final String PREMIUM = "Premium";
+        public static final String STATUS = "Status";
     }
 
     public static final class PolicyCoveragesTable {
