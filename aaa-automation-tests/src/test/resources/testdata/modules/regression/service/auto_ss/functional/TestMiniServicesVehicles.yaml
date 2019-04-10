@@ -121,7 +121,7 @@ VehicleTab_Van_NY: {
   'Other Body Style': 'Sedan',
   Stat Code: 'Cargo Van',
   'Stated Amount': '50000',
-  'Less Than 3,000 Miles': 'No'
+  'Less Than 1,000 Miles': 'No'
 }
 
 VehicleTab_Motor_Home: {
