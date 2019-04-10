@@ -3,6 +3,7 @@ package aaa.modules.bct.service.home_ss.ho3;
 import static aaa.common.enums.Constants.States.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -51,7 +52,7 @@ public class ReinstatePolicy extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
-	public void BCT_ONL_010_ReinstatePolicy(@Optional("AZ") String state) {
+	public void BCT_ONL_010_ReinstatePolicy(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
@@ -76,8 +77,12 @@ public class ReinstatePolicy extends BackwardCompatibilityBaseTest {
 
 		PolicySummaryPage.buttonTransactionHistory.click();
 
-		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1)).exists();
-		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type")).hasValue("Reinstatement with Lapse");
+		assertThat(PolicySummaryPage.tableTransactionHistory.getRowsCount()).as("Transaction History table should have 1 or more rows").isGreaterThanOrEqualTo(1);
+		HashMap<String, String> map = new HashMap<>();
+		map.put(PolicyConstants.PolicyTransactionHistoryTable.TRANSACTION_DATE, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
+		map.put(PolicyConstants.PolicyTransactionHistoryTable.TYPE, "Reinstatement with Lapse");
+
+		assertThat(PolicySummaryPage.tableTransactionHistory.getRowContains(map)).isPresent();
 	}
 
 	/**
@@ -118,12 +123,15 @@ public class ReinstatePolicy extends BackwardCompatibilityBaseTest {
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		assertThat(PolicySummaryPage.labelLapseExist).isPresent(false);
-		PolicySummaryPage.buttonTransactionHistory.click();
 
 		PolicySummaryPage.buttonTransactionHistory.click();
 
-		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1)).exists();
-		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type")).hasValue("Reinstatement");
+		assertThat(PolicySummaryPage.tableTransactionHistory.getRowsCount()).as("Transaction History table should have 1 or more rows").isGreaterThanOrEqualTo(1);
+		HashMap<String, String> map = new HashMap<>();
+		map.put(PolicyConstants.PolicyTransactionHistoryTable.TRANSACTION_DATE, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
+		map.put(PolicyConstants.PolicyTransactionHistoryTable.TYPE, "Reinstatement");
+
+		assertThat(PolicySummaryPage.tableTransactionHistory.getRowContains(map)).isPresent();
 	}
 
 }

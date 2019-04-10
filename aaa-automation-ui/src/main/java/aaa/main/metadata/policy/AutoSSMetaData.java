@@ -682,6 +682,8 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<ComboBox> ADDITIONAL_PIP = declare("Additional PIP", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> GUEST_PIP = declare("Guest PIP", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> MEDICAL_EXPENSE_ELIMINATION = declare("Medical Expense Elimination", ComboBox.class);
+		public static final AssetDescriptor<TextBox> INSURER_NAME = declare("Insurer Name", TextBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<TextBox> POLICY_GROUP_NUM_CERTIFICATE_NUM = declare("Policy / Group # /Certificate #", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<AdvancedComboBox> OPTIONAL_BASIC_ECONOMIC_LOSS = declare("Optional Basic Economic Loss", AdvancedComboBox.class);
 		// public static final AssetDescriptor<StaticElement>
 		// POLICY_LEVEL_LIABILITY_COVERAGES = declare("Policy Level Liability
@@ -983,10 +985,10 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> INSPECTION_WAIVER_SALES_AGREEMENT_REQUIRED =
 					declare("Inspection Waiver - Sales Agreement Required", RadioGroup.class);
 			// NY
-			public static final AssetDescriptor<RadioGroup> ACNOWLEDGEMENT_OF_REQUIREMENT_FOR_PHIOTO_INSPECTION = declare("Acknowledgement of Requirement for Photo Inspection", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> ACKNOWLEDGEMENT_OF_REQUIREMENT_FOR_PHOTO_INSPECTION = declare("Acknowledgement of Requirement for Photo Inspection", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> NEW_YORK_AUTO_INSURANCE_APPLICATION = declare("New York Auto Insurance Application", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> SUPPLEMENTARY_UNINSURED_MOTORISTS_COVERAGE_REJECTION = declare(
-					"Supplementary Uninsured/Underinsured Motorists Coverage�Rejection or Election of Lower Limits", RadioGroup.class);
+					"Supplementary Uninsured/Underinsured Motorists Coverage¿Rejection or Election of Lower Limits", RadioGroup.class);
 			// NV
 			public static final AssetDescriptor<RadioGroup> UNINSURED_MOTORIST_COVERAGE_AND_UNDERINSURED_MOTORIST_COVERAGE = declare("Uninsured Motorist Coverage and Underinsured Motorist Coverage -" +
 					" Election of Lower Limits / Rejection of Coverage", RadioGroup.class);

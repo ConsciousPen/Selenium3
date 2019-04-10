@@ -124,7 +124,8 @@ public enum CoverageInfo {
 	COMPDED_AZ_PPA("COMPDED", "Comprehensive Deductible", CoverageLimits.COV_250, AvailableCoverageLimits.COMPDEDNONPPA, "Deductible"),
 	COLLDED_AZ_PPA("COLLDED", "Collision Deductible", CoverageLimits.COV_500, AvailableCoverageLimits.COLLDEDNONPPA, "Deductible"),
 	SPECEQUIP_NONPPA("SPECEQUIP", "Special Equipment Coverage", CoverageLimits.SP_EQ_0, null,null),
-	BI_AZ_PA_NJ("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI_AZ_PA_NJ, "Per Person/Per Accident"),
+	BI_AZ_NJ("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI_AZ_PA_NJ, "Per Person/Per Accident"),
+	BI_PA("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI_PA, "Per Person/Per Accident"),
 	COMPDED_AZ("COMPDED", "Comprehensive Deductible", CoverageLimits.COV_750, AvailableCoverageLimits.COMPDED, "Deductible"),
 	COLLDED_AZ("COLLDED", "Collision Deductible", CoverageLimits.COV_500, AvailableCoverageLimits.COLLDED, "Deductible"),
 	FPB_BASIC_PA("FPB", "Basic First Party Benefits", CoverageLimits.COV_FPB_5K_BASIC,  AvailableCoverageLimits.FPB_PA, null),
@@ -141,6 +142,7 @@ public enum CoverageInfo {
 	EMB("EMB", "Extraordinary Medical Expense Benefits", CoverageLimits.COV_EMB_0, AvailableCoverageLimits.EMB, null),
 	LOL("LOL", "Limitation on Lawsuit", CoverageLimits.COV_LOL, AvailableCoverageLimits.LOL, null),
 	SSL("SSL", "Supplemental Spousal Liability", CoverageLimits.COV_FALSE, AvailableCoverageLimits.SSL, null),
+	MEE_NY("MEE", "Medical Expense Elimination", CoverageLimits.COV_MEE_NONE, AvailableCoverageLimits.MEE_NY, null),
 	UM_SUM_NY("UM/SUM", "Supplementary Uninsured/Underinsured Motorists Bodily Injury", CoverageLimits.COV_100300_SUM, AvailableCoverageLimits.UM_SUM, "Per Person/Per Accident"),
 	UM_SUM_2550_NY("UM/SUM", "Uninsured Motorists Bodily Injury", CoverageLimits.COV_2550_SUM, AvailableCoverageLimits.UM_SUM, "Per Person/Per Accident");
 

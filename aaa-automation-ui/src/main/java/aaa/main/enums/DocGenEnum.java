@@ -84,7 +84,7 @@ public final class DocGenEnum {
 		AA52IPAB(""),
 		AA52IPAC(""),
 		AA52MT("UM UIM Reject/Elect Lower Limits"),
-		AA52NY("UM UIM Reject Elect Lower Limits"),
+		AA52NY("Supplementary Uninsured/Underinsured Motorists Coverage¿Rejection or Election of Lower Limits"),
 		AA52OH("Rejection of Uninsured/Underinsured Motorist Bodily Injury Coverage"),
 		AA52OK(""),
 		AA52KS(""),
@@ -541,6 +541,27 @@ public final class DocGenEnum {
 
 		public String getXmlns() {
 			return xmlns;
+		}
+	}
+	
+	public enum EventName {
+		POLICY_ISSUE("POLICY_ISSUE"),
+		ENDORSEMENT_ISSUE("ENDORSEMENT_ISSUE"),
+		ADHOC_DOC_ON_DEMAND_PREVIEW("ADHOC_DOC_ON_DEMAND_PREVIEW"),
+		ADHOC_DOC_ON_DEMAND_GENERATE("ADHOC_DOC_ON_DEMAND_GENERATE");
+
+		private String id;
+
+		EventName(String id) {
+			set(id);
+		}
+
+		public String get() {
+			return id;
+		}
+
+		public void set(String id) {
+			this.id = id;
 		}
 	}
 

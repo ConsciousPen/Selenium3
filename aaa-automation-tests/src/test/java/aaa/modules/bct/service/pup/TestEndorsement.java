@@ -35,7 +35,6 @@ public class TestEndorsement extends EndorsementTemplate {
 
 		getPolicyType().get().endorse().perform(td);
 		getPolicyType().get().dataGather().getView().fillFromTo(td, PrefillTab.class, PremiumAndCoveragesQuoteTab.class, false);
-		assertThat(policyPremium).isEqualTo(PremiumAndCoveragesQuoteTab.getPolicyTermPremium());
 
 		PremiumAndCoveragesQuoteTab.btnCalculatePremium.click();
 		Dollar policyTermPremium = PremiumAndCoveragesQuoteTab.getPolicyActualPremium();

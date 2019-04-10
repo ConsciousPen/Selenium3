@@ -1505,6 +1505,22 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	}
 
 	/**
+	 * @author Maris Strazds
+	 * @name MEE NY
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Update MEE coverage with correct/incorrect data and check responses
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NY})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16042"})
+	public void pas16042_viewUpdateMEENY(@Optional("NY") String state) {
+		pas16042_viewUpdateMEENYBody();
+	}
+
+	/**
 	 * @author Jovita Pukenaite
 	 * @name View Coverage PIP and APIP when "Non-Medical Expense" = "Yes"
 	 * and "Additional Personal Injury Protection Benefit" = NO

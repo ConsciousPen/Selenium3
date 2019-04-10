@@ -1,58 +1,66 @@
 package aaa.helpers.xml.model.pasdoc;
 
-import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SelectedPaymentPlan {
 
 	@XmlElement(name = "DownPayment")
-	private String downPayment;
+	private Double downPayment;
+
 	@XmlElement(name = "DownPaymentPercent")
-	private String downPaymentPercent;
+	private Double downPaymentPercent;
+
 	@XmlElement(name = "InstallmentAmount")
-	private String installmentAmount;
+	private Double installmentAmount;
+
 	@XmlElement(name = "InstallmentNumber")
-	private String installmentNumber;
+	private Integer installmentNumber;
+
 	@XmlElement(name = "PlanType")
 	private String planType;
-	@XmlElement(name = "TermPremium")
-	private String termPremium;
 
-	public String getDownPayment() {
+	@XmlElement(name = "TermPremium")
+	private Double termPremium;
+
+	@XmlElement(name = "Restricted")
+	private Boolean restricted;
+
+	public Double getDownPayment() {
 		return downPayment;
 	}
 
-	public SelectedPaymentPlan setDownPayment(String downPayment) {
+	public SelectedPaymentPlan setDownPayment(Double downPayment) {
 		this.downPayment = downPayment;
 		return this;
 	}
 
-	public String getDownPaymentPercent() {
+	public Double getDownPaymentPercent() {
 		return downPaymentPercent;
 	}
 
-	public SelectedPaymentPlan setDownPaymentPercent(String downPaymentPercent) {
+	public SelectedPaymentPlan setDownPaymentPercent(Double downPaymentPercent) {
 		this.downPaymentPercent = downPaymentPercent;
 		return this;
 	}
 
-	public String getInstallmentAmount() {
+	public Double getInstallmentAmount() {
 		return installmentAmount;
 	}
 
-	public SelectedPaymentPlan setInstallmentAmount(String installmentAmount) {
+	public SelectedPaymentPlan setInstallmentAmount(Double installmentAmount) {
 		this.installmentAmount = installmentAmount;
 		return this;
 	}
 
-	public String getInstallmentNumber() {
+	public Integer getInstallmentNumber() {
 		return installmentNumber;
 	}
 
-	public SelectedPaymentPlan setInstallmentNumber(String installmentNumber) {
+	public SelectedPaymentPlan setInstallmentNumber(Integer installmentNumber) {
 		this.installmentNumber = installmentNumber;
 		return this;
 	}
@@ -66,25 +74,22 @@ public class SelectedPaymentPlan {
 		return this;
 	}
 
-	public String getTermPremium() {
+	public Double getTermPremium() {
 		return termPremium;
 	}
 
-	public SelectedPaymentPlan setTermPremium(String termPremium) {
+	public SelectedPaymentPlan setTermPremium(Double termPremium) {
 		this.termPremium = termPremium;
 		return this;
 	}
 
-	@Override
-	public String toString() {
-		return "SelectedPaymentPlan{" +
-				"downPayment='" + downPayment + '\'' +
-				", downPaymentPercent='" + downPaymentPercent + '\'' +
-				", installmentAmount='" + installmentAmount + '\'' +
-				", installmentNumber='" + installmentNumber + '\'' +
-				", planType='" + planType + '\'' +
-				", termPremium='" + termPremium + '\'' +
-				'}';
+	public Boolean getRestricted() {
+		return restricted;
+	}
+
+	public SelectedPaymentPlan setRestricted(Boolean restricted) {
+		this.restricted = restricted;
+		return this;
 	}
 
 	@Override
@@ -96,17 +101,30 @@ public class SelectedPaymentPlan {
 			return false;
 		}
 		SelectedPaymentPlan that = (SelectedPaymentPlan) o;
-		return downPayment.equals(that.downPayment) &&
-				downPaymentPercent.equals(that.downPaymentPercent) &&
-				installmentAmount.equals(that.installmentAmount) &&
-				installmentNumber.equals(that.installmentNumber) &&
-				planType.equals(that.planType) &&
-				termPremium.equals(that.termPremium);
+		return Objects.equals(downPayment, that.downPayment) &&
+				Objects.equals(downPaymentPercent, that.downPaymentPercent) &&
+				Objects.equals(installmentAmount, that.installmentAmount) &&
+				Objects.equals(installmentNumber, that.installmentNumber) &&
+				Objects.equals(planType, that.planType) &&
+				Objects.equals(termPremium, that.termPremium) &&
+				Objects.equals(restricted, that.restricted);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(downPayment, downPaymentPercent, installmentAmount, installmentNumber, planType, termPremium);
+		return Objects.hash(downPayment, downPaymentPercent, installmentAmount, installmentNumber, planType, termPremium, restricted);
 	}
 
+	@Override
+	public String toString() {
+		return "SelectedPaymentPlan{" +
+				"downPayment=" + downPayment +
+				", downPaymentPercent=" + downPaymentPercent +
+				", installmentAmount=" + installmentAmount +
+				", installmentNumber=" + installmentNumber +
+				", planType='" + planType + '\'' +
+				", termPremium=" + termPremium +
+				", restricted=" + restricted +
+				'}';
+	}
 }
