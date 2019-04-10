@@ -486,3 +486,10 @@ PAS-28080:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver.pas24673_testASWForTwoDriversWhenOneAccidentAgesOut,
               aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver.pas24673_testASWForSecondAccidentAfterFirstAgesOut]
       messages: ["expected:<\"[No]\"> but was:<\"[Yes]\">"]
+PAS-27421:
+  summary: "Error 500 when attempting to renew a rewritten CA Auto policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ca.select.functional.TestRenewalEffectiveOnRewrite.*,
+              aaa.modules.regression.sales.auto_ca.choice.functional.TestRenewalEffectiveOnRewrite.*]
+      messages: ["Error 500", "Cannot get value of TextBox"]
