@@ -828,15 +828,20 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
 
         // PAS-27609: Change Prior Carrier dates so days lapsed is 0 but the expiration date overlaps, i.e. is past the base date.
-        String inceptDate = TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-        String expDate = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        String inceptDate = TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).minusMonths(6).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        String expDate = TimeSetterUtil.getInstance().getCurrentTime().plusMonths(6).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
         generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE).setValue(inceptDate);
-        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE).setValue(expDate);
+        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE).setValue(expDate);
         calculatePremiumAndNavigateToDriverTab();
         validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
 
-        // Change Prior Carrier to non-AAA (Progressive) and validate no ASW for both
+        // Change Prior Carrier dates back to having 30 days lapse and validate ASW is applied
+        setPriorCarrierDaysLapsed(30);
+        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+
+        // Change Prior Carrier to non-AAA (Progressive) and validate no ASW
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
         generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER).setValue("Progressive");
         calculatePremiumAndNavigateToDriverTab();
