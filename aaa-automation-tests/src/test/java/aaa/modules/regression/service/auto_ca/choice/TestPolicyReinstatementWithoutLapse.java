@@ -2,6 +2,7 @@ package aaa.modules.regression.service.auto_ca.choice;
 
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
@@ -58,7 +59,7 @@ public class TestPolicyReinstatementWithoutLapse extends AutoCaChoiceBaseTest {
      * 15. Run the following jobs: Renewal_Offer_Generation_Part2, Renewal_Offer_Generation_Part1,
      * Renewal_Offer_Generation_Part2, Renewal_Offer_Generation_Part2
      * 16. Make payment for renewal term
-     * 17. Run PolicyStatusUpdateJob and policyLapsedRenewalProcessAsyncJob
+     * 17. Run policyStatusUpdateJob
      * @details
      */
     @Parameters({"state"})
@@ -231,15 +232,14 @@ public class TestPolicyReinstatementWithoutLapse extends AutoCaChoiceBaseTest {
         new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillDueDate(renewalDate))
                 .setSubtypeReason("Manual Payment").setAmount(minDue.negate()).verifyPresent();
 
-        //(R+1) Run PolicyStatusUpdateJob and policyLapsedRenewalProcessAsyncJob
+        //(R+1) Run policyStatusUpdateJob
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalDate));
         JobUtils.executeJob(Jobs.policyStatusUpdateJob);
         mainApp().open();
+        SearchPage.openBilling(policyNumber);
+        BillingSummaryPage.showPriorTerms();
 
-        SearchPage.openPolicy(policyNumber, "Policy Active");
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
-        SearchPage.openPolicy(policyNumber, "Policy Expired");
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_EXPIRED);
+        new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
+        new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_EXPIRED).verify(2);
     }
 }
