@@ -89,18 +89,6 @@ public class TimePoints {
 		return getTimepoint(date, TimepointsList.MEMBERSHIP_VALIDATION_TP2, true);
 	}
 
-	public LocalDateTime getMembershipTp3(LocalDateTime date) {
-		return getTimepoint(date, TimepointsList.MEMBERSHIP_VALIDATION_TP1, true);
-	}
-	public LocalDateTime getMembershipTp4(LocalDateTime date) {
-		return getTimepoint(date, TimepointsList.MEMBERSHIP_VALIDATION_TP2, true);
-	}
-
-
-	public LocalDateTime getMembershipValidationTP1(LocalDateTime date) {
-		return getTimepoint(date, TimepointsList.RENEW_GENERATE_IMAGE, true);
-	}
-
 	private boolean isWorkingDay(LocalDateTime date, TimepointsList timePointName) {
 		LocalDateTime d = getTimepoint(date, timePointName, false);
 		// analogue of DateTimeUtils.isWorkingDay() which is private

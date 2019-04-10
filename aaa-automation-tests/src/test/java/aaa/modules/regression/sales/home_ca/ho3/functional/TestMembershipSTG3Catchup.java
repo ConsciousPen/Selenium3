@@ -5,9 +5,10 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.AAAMembershipQueries;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
-import aaa.modules.policy.HomeSSHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -15,151 +16,202 @@ import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-
 import java.time.LocalDateTime;
-
+import java.time.format.DateTimeFormatter;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestMembershipSTG3Catchup extends HomeCaHO3BaseTest {
     /**
      * @author Rajesh Nayak, Robert Boles
      * @name PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time (AC#1)
-     * @scenario Precondition: Bind Product Eligible for Membership
+     * @scenario Precondition: Bind Product NOT Eligible for Membership (Membership = No)
      * 1. Create Customer.
-     * 2. Create Home CA Policy without Membership
-     * 3. Run Membership Validation Batch Jobs at Renewal Time point 1 and Time point 2
-     * //TODO: we are not doing any MS discount validation - can this be done via DB?
-     * 4. Retrieve Renewal image and verify that Membership discount is provided
+     * 2. Create Home CA Policy
+     * 3. Run Membership Validation Batch Jobs at Time point 3 (STG3)
+     * 4. Retrieve BestMembershipStatus from DB to confirm policy was picked up during catchup logic (NOTFOUND_STG3)
      * @details
      */
-    //TODO: WORKING
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-27116-1")
     public void pas27611_MembershipValidationNoMinus1(@Optional("") String state) {
-        TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData_TestMembershipSTG3").resolveLinks());
-        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG3(testData, -1))).isEmpty();
-
+         assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG3(getNonAAAMemberPolicyTestData(), -1))).isEmpty();
     }
-    //TODO: WORKING
+
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-27116-2")
     public void pas27611_MembershipValidationNo_Zero(@Optional("") String state) {
-        TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData_TestMembershipSTG3").resolveLinks());
-        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG3(testData,0)))
+        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG3(getNonAAAMemberPolicyTestData(),0)))
                 .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.NOTFOUND_STG3);
     }
-    //TODO: WORKING
+
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-27116-3")
     public void pas27611_MembershipValidationNo_One(@Optional("") String state) {
-        TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData_TestMembershipSTG3").resolveLinks());
-        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG3(testData,1)))
+        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG3(getNonAAAMemberPolicyTestData(),1)))
                 .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.NOTFOUND_STG3);
     }
-    //TODO: WORKING
+
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-27116-4")
     public void pas27611_MembershipValidationNo_Four(@Optional("") String state) {
-        TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData_TestMembershipSTG3").resolveLinks());
-        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG3(testData,4)))
+        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG3(getNonAAAMemberPolicyTestData(),4)))
                 .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.NOTFOUND_STG3);
     }
-//
-    //TODO: WORKING
+
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-27116-5")
     public void pas27611_MembershipValidationNo_Five(@Optional("") String state) {
-        TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData_TestMembershipSTG3").resolveLinks());
-        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG3(testData,5))).isEmpty();
+        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG3(getNonAAAMemberPolicyTestData(),5))).isEmpty();
     }
 
     /**
      * @author Rajesh Nayak, Robert Boles
      * @name PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time (AC#1)
-     * @scenario Precondition: Bind Product Eligible for Membership
+     * @scenario Precondition: Bind Product Eligible for Membership (Membership = Yes)
      * 1. Create Customer.
-     * 2. Create Home CA Policy with a Membership
-     * 3. Run Membership Validation Batch Jobs at Renewal Time point 1 and Time point 2
-     * //TODO: we are not doing any MS discount validation - can this be done via DB?
-     * 4. Retrieve Renewal image and verify that Membership discount is provided
+     * 2. Create Home CA Policy
+     * 3. Run Membership Validation Batch Jobs at Time point 4 (STG4)
+     * 4. Retrieve BestMembershipStatus from DB to confirm policy was picked up during catchup logic (FOUND_STG4)
      * @details
      */
-    //TODO: WORKING
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-27116-1")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-27116-6")
     public void pas27611_MembershipValidationYesMinus1(@Optional("") String state) {
         assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG3(getPolicyTD(), -1))).isEmpty();
     }
-    //TODO:  WORKING
+
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-27116-1")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-27116-7")
     public void pas27611_MembershipValidationYes_Zero(@Optional("") String state) {
         assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG3(getPolicyTD(),0)))
                 .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG3);
     }
-    //TODO: WORKING
+
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-27116-1")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-27116-8")
     public void pas27611_MembershipValidationYes_One(@Optional("") String state) {
         assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG3(getPolicyTD(),1)))
                 .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG3);
     }
-    //TODO: WORKING
+
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-27116-1")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-27116-9")
     public void pas27611_MembershipValidationYes_Four(@Optional("") String state) {
        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG3(getPolicyTD(),4)))
                 .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG3);
     }
-    //TODO: WORKING
+
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-27116-1")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-27116-10")
     public void pas27611_MembershipValidationYes_Five(@Optional("") String state) {
         assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG3(getPolicyTD(),5))).isEmpty();
     }
-//TODO: need override?
-//
-//    @Parameters({"state"})
-//    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
-//    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-27116-3")
-//    public void pas6654_MembershipValidationOverride_Life(@Optional("AZ") String state) {
-//
-//        TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData_TestMembershipSTG3_Override_Life").resolveLinks());
-//        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(MembershipSTG3(testData,0)))
-//          .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG3);
-//    }
-//TODO: need pending?
 
-//    @Parameters({"state"})
-//    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
-//    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-27116-3")
-//    public void pas14048_AC1_Pending_STG3(@Optional("AZ") String state) {
-//
-//        TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData_TestMembershipSTG3_Membership_Pending").resolveLinks());
-//        MembershipSTG3STG4(testData,0);
-//
-//TODO: Nonworking STG4 test
+    //START OF STG4 tests
+    /**
+     * @author Rajesh Nayak, Robert Boles
+     * @name PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time (AC#1)
+     * @scenario Precondition: Bind Product NOT Eligible for Membership (Membership = No)
+     * 1. Create Customer.
+     * 2. Create Home CA Policy
+     * 3. Run Membership Validation Batch Jobs at Time point 4 (STG4)
+     * 4. Retrieve BestMembershipStatus from DB to confirm policy was picked up during catchup logic (NOTFOUND_STG4)
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27116-11")
+    public void pas27611_MembershipValidationNoSGT4Minus1(@Optional("") String state) {
+        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG4(getNonAAAMemberPolicyTestData(), -5))).isEmpty();
+    }
 
-//    @Parameters({"state"})
-//    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
-//    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-27116-1")
-//    public void pas27611_MembershipValidationNo_STG4_Four(@Optional("") String state) {
-//        TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData_TestMembershipSTG3_No").resolveLinks());
-//        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG4(testData, 2)))
-//                .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.NOTFOUND_STG4);
-//    }
-//
-//    }
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27116-12")
+    public void pas27611_MembershipValidationNoSGT4_Zero(@Optional("") String state) {
+        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG4(getNonAAAMemberPolicyTestData(), 0)))
+                .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.NOTFOUND_STG4);
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27116-13")
+    public void pas27611_MembershipValidationNoSGT4_One(@Optional("") String state) {
+        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG4(getNonAAAMemberPolicyTestData(), 1)))
+                .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.NOTFOUND_STG4);
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27116-14")
+    public void pas27611_MembershipValidationNoSGT4_Two(@Optional("") String state) {
+        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG4(getNonAAAMemberPolicyTestData(), 2)))
+                .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.NOTFOUND_STG4);
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27116-15")
+    public void pas27611_MembershipValidationNoSGT4_Three(@Optional("") String state) {
+        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG4(getNonAAAMemberPolicyTestData(), 3))).isEmpty();
+    }
+    /**
+     * @author Rajesh Nayak, Robert Boles
+     * @name PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time (AC#1)
+     * @scenario Precondition: Bind Product Eligible for Membership (Membership = Yes)
+     * 1. Create Customer.
+     * 2. Create Home CA Policy
+     * 3. Run Membership Validation Batch Jobs at Time point 2 (STG4)
+     * 4. Retrieve BestMembershipStatus from DB to confirm policy was picked up during catchup logic (FOUND_STG4)
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27116-16")
+    public void pas27611_MembershipValidationYesMinus1_STG4(@Optional("") String state) {
+        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG4(getPolicyTD(), -5))).isEmpty();
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27116-17")
+    public void pas27611_MembershipValidationYes_Zero_STG4(@Optional("") String state) {
+        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG4(getPolicyTD(),0)))
+                .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG4);
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27116-18")
+    public void pas27611_MembershipValidationYes_One_STG4(@Optional("") String state) {
+        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG4(getPolicyTD(),1)))
+                .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG4);
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27116-19")
+    public void pas27611_MembershipValidationYes_Two_STG4(@Optional("") String state) {
+        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG4(getPolicyTD(),2)))
+                .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG4);
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-27116 Update Renewal Logic so that policies without an active membership still go through the membership validation at renewal time")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27116-20")
+    public void pas27611_MembershipValidationYes_Three_STG4(@Optional("") String state) {
+        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(membershipSTG4(getPolicyTD(),3))).isEmpty();
+    }
 
     private String membershipSTG3(TestData testData, int catchup) {
         mainApp().open();
@@ -175,8 +227,6 @@ public class TestMembershipSTG3Catchup extends HomeCaHO3BaseTest {
         TimeSetterUtil.getInstance().nextPhase(init);
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
-        log.info("XXXXXXXXXXXXXXXXXXXX current BMS " + AAAMembershipQueries.getAAABestMembershipStatusFromSQL(policyNumber));
-        log.info("XXXXXXXXXXXXXXXXXXXX current MS # " + AAAMembershipQueries.getAAAOrderMembershipNumberFromSQL(policyNumber));
 
         //R-63 Membership Tp1
         LocalDateTime membershipTp1 = getTimePoints().getMembershipTp1(policyExpirationDate).plusDays(catchup);
@@ -184,7 +234,7 @@ public class TestMembershipSTG3Catchup extends HomeCaHO3BaseTest {
         TimeSetterUtil.getInstance().nextPhase(membershipTp1);
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
-
+        setTimeToToday();
         return policyNumber;
     }
 
@@ -205,101 +255,49 @@ public class TestMembershipSTG3Catchup extends HomeCaHO3BaseTest {
 
         //reportServices = R-48 Membership Tp2
         LocalDateTime membershipTp2 = getTimePoints().getMembershipTp2(policyExpirationDate).plusDays(catchup);
-        log.info("R-63 Membership Tp1 " + membershipTp2);
         TimeSetterUtil.getInstance().nextPhase(membershipTp2);
         log.info("R-48 Membership Tp2 " + membershipTp2);
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
-
-        //rate R-45
-//        LocalDateTime ratePolicy = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
-//        log.info("rate R-45" + ratePolicy);
-//        TimeSetterUtil.getInstance().nextPhase(ratePolicy);
-//        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-//        JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
-//
-//        //offerIssue R-35
-//        LocalDateTime offerIssue = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
-//        TimeSetterUtil.getInstance().nextPhase(offerIssue);
-//        log.info("offerIssue R-35" + offerIssue);
-//        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-//        JobUtils.executeJob(Jobs.renewalOfferAsyncTaskJob);
-//        //Adjust Time to current time.
-//        TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
-//        log.info("policyNumber"+policyNumber);
+        setTimeToToday();
         return policyNumber;
     }
 
-    private String MembershipSTG3STG4(TestData testData, int catchup) {
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber = createPolicy(testData);
+    /**
+     * Used to get test data that will set No to Membership status.
+     * @return TestData that ensures Current AAA Member to No.
+     */
+    private TestData getNonAAAMemberPolicyTestData() {
 
-        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-        TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
+        String keypathCurrentMember;
+        String keypathMemberNum;
+        String keypathOrderMembershipReports = ""; // This is only used for HO products.
 
-        //init R-73
-        LocalDateTime init = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
-        log.info(" init R-73 Policy Renewal Image Generation Date " + init);
-        TimeSetterUtil.getInstance().nextPhase(init);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+        // keypathTabSection Result: "ApplicantTab|AAAMembership"
+        String keypathTabSection = TestData.makeKeyPath(ApplicantTab.class.getSimpleName(),
+                HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel());
 
-        //R-63 Membership Tp1
-        LocalDateTime membershipTp1 = getTimePoints().getMembershipTp1(policyExpirationDate).plusDays(catchup);
-        log.info("R-63 Membership Tp1 " + membershipTp1);
-        TimeSetterUtil.getInstance().nextPhase(membershipTp1);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+        // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
+        keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
+                HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel());
 
-        //rate R-45
-        //TODO: STG4 has to have a catchup logic for 2 days
-        LocalDateTime ratePolicy = getTimePoints().getMembershipTp1(policyExpirationDate).plusDays(catchup);
-        //.getMembershipTp1(policyExpirationDate).plusDays(catchup);
-        //.getRenewPreviewGenerationDate(policyExpirationDate);
-        log.info("rate R-45" + ratePolicy);
-        TimeSetterUtil.getInstance().nextPhase(ratePolicy);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
+        // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
+        keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
+                HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
 
-//        //offerIssue R-35
-//        LocalDateTime offerIssue = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
-//        TimeSetterUtil.getInstance().nextPhase(offerIssue);
-//        log.info("offerIssue R-35" + offerIssue);
-//        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-//        JobUtils.executeJob(Jobs.renewalOfferAsyncTaskJob);
-//        //Adjust Time to current time.
-//        TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
-//        log.info("policyNumber"+policyNumber);
+        TestData testData =  getPolicyTD()
+                .adjust(keypathCurrentMember, "No")
+                .mask(keypathMemberNum);
 
-        return policyNumber;
+        // Skip ordering the membership report if a keypath provided
+        if(!keypathOrderMembershipReports.isEmpty()){
+            testData.mask(keypathOrderMembershipReports);
+        }
+        return testData;
     }
 
-
-//    public void handleBillGenerationAndPayment() {
-//        // Do below chunk if state is not California
-//        if (!_policyState.equalsIgnoreCase("CA")){
-//            TimeSetterUtil.getInstance().nextPhase(_renewalBillGenDate);
-//            JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-//            JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
-//            JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
-//
-//            mainApp().open();
-//            SearchPage.openBilling(_policyNumber);
-//            new BillingAccount().acceptPayment().start();
-//            new AcceptPaymentActionTab().setCheckNumber(123);
-//            Tab.buttonOk.click();
-//            mainApp().close();
-//        }
-//
-//        // Move forward two days. Update status.
-//        TimeSetterUtil.getInstance().nextPhase(_renewalBillGenDate.plusDays(2));
-//        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-//        JobUtils.executeJob(Jobs.policyStatusUpdateJob); //POLICY SHOULD BE RENEWED NOW.
-//
-//        // Manually ZERO OUT aaaTimelineRenewalInd
-//        AAAMembershipQueries.updateAaaRenewalTimelineIndicatorValue(_policyNumber, "0");
-//    }
-
-
+    public void setTimeToToday() {
+        log.info("Current application date: " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")));
+        TimeSetterUtil.getInstance().adjustTime();
+    }
 }
