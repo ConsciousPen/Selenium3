@@ -518,4 +518,38 @@
         </classes>
     </test>
 
+    <test name="Endorse CONV HDES Policies" preserve-order="true">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.bct.service.home_ca.ho3.TestEndorsement">
+                <methods>
+                    <include name="BCT_AbilityToEndorseHdesHO3Policy"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.bct.service.home_ca.ho4.TestEndorsement">
+                <methods>
+                    <include name="BCT_AbilityToEndorseHdesHO4Policy"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.bct.service.home_ca.ho6.TestEndorsement">
+                <methods>
+                    <include name="BCT_AbilityToEndorseHdesHO6Policy"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Renew CONV HDES Policies" preserve-order="true">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.bct.renewal.RenewalTest">
+                <methods>
+                    <include name="BCT_AbilityToRenewHdesHO3Policy"/>
+                    <include name="BCT_AbilityToRenewHdesHO4Policy"/>
+                    <include name="BCT_AbilityToRenewHdesHO6Policy"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>
