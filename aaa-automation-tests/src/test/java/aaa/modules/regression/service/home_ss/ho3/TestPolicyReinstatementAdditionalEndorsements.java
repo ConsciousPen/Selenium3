@@ -176,7 +176,7 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info("TEST: #V - Cancellation Notice Withdrawn AHCWXX document is archived");
 		log.info("TEST: in Fast lane and available in the Policy E-folder under Cancellation & Rescission and Reinstatement folder");
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dd3).plusHours(1));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHCWXX);
 		mainApp().open();
@@ -197,7 +197,7 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		log.info("TEST: #L Policy is reinstated with lapse and status = Active");
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info("TEST: #V Reinstatement Notice Lapse AH62XX 0316 is archived in Fastlane and available in the Policy E-folder.");
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(dd3).plusHours(1));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH62XX);
 

@@ -125,7 +125,7 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
 		log.info("TEST: #L Cancel notice is removed from the policy");
 		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDates.get(2)).plusHours(1));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		log.info("TEST: #V3 Cancellation Notice Withdrawn AHCWXX is archived and available in the Billing E-folder under Cancellation & Rescission & Reinstatement folder");
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHCWXX);
