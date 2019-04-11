@@ -38,7 +38,7 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
      *     @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "17328: Inaccurate rating at NB caused by Include in Points and/or YAF not systematically included in rating")
+    @Test(groups = Groups.FUNCTIONAL, description = "Inaccurate rating at NB caused by Include in Points and/or YAF not systematically included in rating")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-17328")
     public void pas17328_Scenario1_SelectToChoice(@Optional("") String state) {
         // Build Test Data
@@ -75,7 +75,6 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
         // Return to PNC Tab. Capture Product Type. Verify it's 'Select' now.
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         productDetermined = pncTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT.getLabel(), ComboBox.class).getValue();
-        //PAS-27328 PAS is updating product from CA select to CA choice due to good driver discount not applying even though driver is assigned less than 3 points.
         //Changed the assertion to Select for 2 dsr points
         CustomAssertions.assertThat(productDetermined).isEqualToIgnoringCase("CA Select");
 
@@ -92,5 +91,64 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
         pncTab.calculatePremium();
         //PAS-27328 Changed the assertion to Select for 2 dsr points
         CustomAssertions.assertThat(productDetermined).isEqualToIgnoringCase("CA Select");
+    }
+
+    /**
+     * This test will become outdated around 2 months after it was first created. <br>
+     *    Created April 10th, 2019. STUB Data will grow stale around June 10th, 2019. <br>
+     *    Location of Test Data to Update (ON VDM): D:\AAA\Build_to_deploy\aaa-external-stub-services-app\WEB-INF\classes\META-INF\mock\ChoicePointClueMockData.xls <br>
+     *    Location of Test Data: TAB = 'CLUE_RESPONSE'; ID = 'YEARS_ACCIDENT_FREE'; <br>
+     *        Update CLAIM 1 : Occurrence Date = PolicyEffectiveDate - 32 months. <br>
+     *        Update CLAIM 2 : Occurrence Date = PolicyEffectiveDate - 35 months. <br>
+     *        Update CLAIM 3 : Occurrence Date = PolicyEffectiveDate - 80 months.
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(groups = Groups.FUNCTIONAL, description = "Inaccurate rating at NB caused by Include in Points and/or YAF not systematically included in rating")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-28101")
+    public void testRatingAtNewBusiness(@Optional("") String state){
+        // Build Test Data
+        TestData _td = buildTestData("JOHN", "J", "SHEPARD", "01/01/1980", "404 MASS ST", "90029", "LOS ANGELES", "C7654321");
+
+        // Open App, Create Customer, Initiate Quote, Fill Up To Driver Tab.
+        createQuoteAndFillUpTo(_td, DriverTab.class);
+
+        setADBCoverage(true);
+
+        orderReportsAndValidateDrivingHistory(_td);
+    }
+
+    /**
+     * Create the test data to be used in testing.
+     * @return
+     */
+    private TestData buildTestData(String firstName, String middleName, String lastName, String DOB, String address, String zip, String city, String licenseNumber){
+        TestData td = getPolicyDefaultTD();
+        _tdHelper.adjustTD(td, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), firstName);
+        _tdHelper.adjustTD(td, PrefillTab.class, AutoCaMetaData.PrefillTab.MIDDLE_NAME.getLabel(), middleName);
+        _tdHelper.adjustTD(td, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), lastName);
+        _tdHelper.adjustTD(td, PrefillTab.class, AutoCaMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), DOB);
+        _tdHelper.adjustTD(td, PrefillTab.class, AutoCaMetaData.PrefillTab.ADDRESS_LINE_1.getLabel(), address);
+        _tdHelper.adjustTD(td, PrefillTab.class, AutoCaMetaData.PrefillTab.ZIP_CODE.getLabel(), zip);
+        _tdHelper.adjustTD(td, PrefillTab.class, AutoCaMetaData.PrefillTab.CITY.getLabel(), city);
+        _tdHelper.adjustTD(td, DriverTab.class, AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel(), licenseNumber);
+        _tdHelper.adjustTD(td, PremiumAndCoveragesTab.class, AutoCaMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel(), "$100,000/$300,000 (+$0.00)"); //This line is required to satisfy some of the policy creation requirements in PAS.
+
+        return td;
+    }
+
+    private void setADBCoverage(Boolean bCoverageEnabled){
+        DriverTab dt = new DriverTab();
+        if(bCoverageEnabled){ dt.getAssetList().getAsset(AutoCaMetaData.DriverTab.ADB_COVERAGE).setValue("Yes");}
+        else{ dt.getAssetList().getAsset(AutoCaMetaData.DriverTab.ADB_COVERAGE).setValue("No");}
+    }
+
+    /**
+     * Fills up to the Driver Activity Report Page. <br>
+     * Orders all reports.
+     */
+    private void orderReportsAndValidateDrivingHistory(TestData testDataToUse){
+        policy.getDefaultView().fillFromTo(testDataToUse, DriverTab.class, DriverActivityReportsTab.class, true);
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
     }
 }
