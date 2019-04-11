@@ -286,7 +286,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         // Claim Dates: claimDateOfLoss/claimOpenDate/claimCloseDate all are the same
         String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(1).toLocalDate().toString();
         String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).toLocalDate().toString();
-        String claim3_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(3).toLocalDate().toString();
+        String claim3_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(3).minusDays(46).toLocalDate().toString();
 
         Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS =
                 ImmutableMap.of(INC_RATING_CLAIM_1, claim1_dates, INC_RATING_CLAIM_2, claim2_dates, INC_RATING_CLAIM_3, claim3_dates, INC_RATING_CLAIM_4, claim3_dates);
@@ -336,7 +336,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 			// Check that Policy Contains 3 Claims
             softly.assertThat(DriverTab.tableActivityInformationList.getAllRowsCount()).isEqualTo(4);
 
-			// PAS14552 - Assert that Claim IS NOT Included In Rating because Date of Loss is older than two terms
+			// PAS14552 - Assert that Claim IS NOT Included In Rating because Date of Loss is older than two terms //36 months
             DriverTab.tableActivityInformationList.selectRow(1);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_1);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
@@ -348,7 +348,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
 
-			// PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to current system date
+			// PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to current system date //Will get waived after Premium calculation
             DriverTab.tableActivityInformationList.selectRow(3);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_3);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
