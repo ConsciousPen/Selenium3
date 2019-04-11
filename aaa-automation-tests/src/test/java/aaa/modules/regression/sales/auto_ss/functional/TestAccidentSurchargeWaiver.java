@@ -818,6 +818,22 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         validateIncludeInPoints(PROPERTY_DAMAGE, "No");
         validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
 
+        // Change Prior Carrier to non-AAA (Progressive) and validate no ASW
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER).setValue("Progressive");
+        calculatePremiumAndNavigateToDriverTab();
+        validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        new DocumentsAndBindTab().submitTab();
+
+        if (PurchaseTab.remainingBalanceDueToday.isPresent()) {
+            purchaseTab.fillTab(policyTd).submitTab();
+        }
+
+    }
+
+    private void pas27609_validateDaysLapsed() {
+
         // PAS-27609: Change Prior Carrier dates so days lapsed is now 31 but total prior carrier time is still 2 years and validate no ASW
         setPriorCarrierDaysLapsed(31);
         validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
@@ -840,18 +856,6 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         setPriorCarrierDaysLapsed(30);
         validateIncludeInPoints(PROPERTY_DAMAGE, "No");
         validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
-
-        // Change Prior Carrier to non-AAA (Progressive) and validate no ASW
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER).setValue("Progressive");
-        calculatePremiumAndNavigateToDriverTab();
-        validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().submitTab();
-
-        if (PurchaseTab.remainingBalanceDueToday.isPresent()) {
-            purchaseTab.fillTab(policyTd).submitTab();
-        }
 
     }
 
