@@ -67,7 +67,7 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 	@StateList(states = Constants.States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
-	public void testPolicyCancelNoticeAddDelete(@Optional("CA") String state) {
+	public void testPolicyCancellationManualRenew(@Optional("CA") String state) {
 		List<LocalDateTime> installmentDueDates;
 
 		//DD0
@@ -123,9 +123,10 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 		SearchPage.openBilling(policyNum);
 		minDue = new Dollar(BillingSummaryPage.getMinimumDue());
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		log.info("TEST: #L Cancel notice is removed from the policy");
 		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDates.get(2)).plusHours(1));
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		log.info("TEST: #V3 Cancellation Notice Withdrawn AHCWXX is archived and available in the Billing E-folder under Cancellation & Rescission & Reinstatement folder");
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHCWXX);
 

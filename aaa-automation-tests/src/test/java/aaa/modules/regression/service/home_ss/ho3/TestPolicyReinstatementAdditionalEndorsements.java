@@ -176,8 +176,11 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info("TEST: #V - Cancellation Notice Withdrawn AHCWXX document is archived");
 		log.info("TEST: in Fast lane and available in the Policy E-folder under Cancellation & Rescission and Reinstatement folder");
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dd3).plusHours(1));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHCWXX);
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
 		log.info("TEST: select 'Cancellation' from move to drop down");
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		log.info("TEST: Run policyStatusUpdateJob");
@@ -194,6 +197,7 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		log.info("TEST: #L Policy is reinstated with lapse and status = Active");
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info("TEST: #V Reinstatement Notice Lapse AH62XX 0316 is archived in Fastlane and available in the Policy E-folder.");
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(dd3).plusHours(1));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH62XX);
 
@@ -342,6 +346,7 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalDate));
 		log.info("TEST: Run the Batch Job aaaRenewalNoticeBillAsyncJob");
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		//3. Navigate to the Billing Tab.
@@ -368,7 +373,6 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED).verifyPresent();
 		//Navigate back to the Policy consolidated view and validate the Renewal E-folder under Fast lane.
 		log.info("TEST: #V Renewal Bill AHRBXX 03 16 is archived in Fastlane and available in the Policy E-folder under Renewal");
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHRBXX);
 
 		//16.(R-10)
@@ -402,7 +406,7 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		new BillingAccountPoliciesVerifier()
 				.setTotalDue(new Dollar(0))
 				.setTotalPaid(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(2).getCell(BillingConstants.BillingAccountPoliciesTable.BILLABLE_AMOUNT).getValue()))
-						.verifyPresent();
+				.verifyPresent();
 
 		//17.(R+1)
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalDate));
