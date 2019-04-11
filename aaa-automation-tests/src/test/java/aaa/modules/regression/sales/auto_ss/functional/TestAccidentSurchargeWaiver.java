@@ -163,6 +163,59 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
     /**
      * @author Josh Carpenter
+     * @name Test that prior carrier is considered for ASW eligibility only if days lapsed is <= 30 days
+     * @scenario
+     * 1. Initiate Auto SS quote with AAA prior carrier time = 2 years with 30 days lapse in coverage, base date today minus 2 years
+     * 2. Fill quote up to P & C tab with one AF accident that qualifies for ASW
+     * 3. Navigate to Driver tab and validate ASW is applied
+     * 4. Change Prior Carrier dates so days lapsed is now 31 but total prior carrier time is still 2 years and validate no ASW
+     * 5. Calculate premium and validate ASW is NOT applied
+     * 6. Change Prior Carrier dates so days lapsed is now 0
+     * 7. Calculate premium and validate ASW is applied
+     * 8. Change Prior Carrier dates so days lapsed is 0 but the expiration date overlaps, i.e. is past the base date.
+     * 9. Calculate premium and validate ASW is NOT applied
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27609")
+    public void pas27609_testAccidentSurchargeWaiverEligibilityDaysLapsedNB(@Optional("") String state) {
+
+        TestData td = adjustTdBaseDate(getPolicyTD()).adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), getActivityInfoTd());
+        createQuoteAndFillUpTo(td, FormsTab.class);
+
+        // Validate ASW is given
+        calculatePremiumAndNavigateToDriverTab();
+        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+
+        // Change Prior Carrier dates so days lapsed is now 31 but total prior carrier time is still 2 years and validate no ASW
+        setPriorCarrierDaysLapsed(31);
+        validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
+
+        // Change Prior Carrier dates so days lapsed is now 0 and validate ASW given
+        setPriorCarrierDaysLapsed(0);
+        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+
+        // Change Prior Carrier dates so days lapsed is 0 but the expiration date overlaps, i.e. is past the base date.
+        String inceptDate = TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).minusMonths(6).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        String expDate = TimeSetterUtil.getInstance().getCurrentTime().plusMonths(6).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE).setValue(inceptDate);
+        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE).setValue(expDate);
+        calculatePremiumAndNavigateToDriverTab();
+        validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
+
+        // Change Prior Carrier dates back to having 30 days lapse and validate ASW is applied
+        setPriorCarrierDaysLapsed(30);
+        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+
+    }
+
+    /**
+     * @author Josh Carpenter
      * @name Test that ASW is given properly during an aged renewal (ASW not eligible in NB policy)
      * @scenario
      * 1.  Create Auto SS policy with the following attributes:
@@ -829,33 +882,6 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         if (PurchaseTab.remainingBalanceDueToday.isPresent()) {
             purchaseTab.fillTab(policyTd).submitTab();
         }
-
-    }
-
-    private void pas27609_validateDaysLapsed() {
-
-        // PAS-27609: Change Prior Carrier dates so days lapsed is now 31 but total prior carrier time is still 2 years and validate no ASW
-        setPriorCarrierDaysLapsed(31);
-        validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
-
-        // PAS-27609: Change Prior Carrier dates so days lapsed is now 0 and validate ASW given
-        setPriorCarrierDaysLapsed(0);
-        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
-        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
-
-        // PAS-27609: Change Prior Carrier dates so days lapsed is 0 but the expiration date overlaps, i.e. is past the base date.
-        String inceptDate = TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).minusMonths(6).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-        String expDate = TimeSetterUtil.getInstance().getCurrentTime().plusMonths(6).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE).setValue(inceptDate);
-        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE).setValue(expDate);
-        calculatePremiumAndNavigateToDriverTab();
-        validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
-
-        // Change Prior Carrier dates back to having 30 days lapse and validate ASW is applied
-        setPriorCarrierDaysLapsed(30);
-        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
-        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
 
     }
 
