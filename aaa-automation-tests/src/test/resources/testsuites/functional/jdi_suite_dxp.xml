@@ -1198,6 +1198,15 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
                 <methods>
                     <include name="pas21646_aacsnjFormRFI"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="NY RFI Forms" parallel="methods">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
                     <include name="pas24562_AA52NY_BIUpdateInDXP"/>
                     <include name="pas24562_AA52NY_BIUpdateInPAS"/>
                     <include name="pas24562_AA52NY_UMSU"/>
