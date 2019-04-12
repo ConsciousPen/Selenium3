@@ -6350,8 +6350,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas27201_SpEquipmentUpdatedWhenCollisionDeclinedBody(String state, ETCSCoreSoftAssertions softly) {
 		mainApp().open();
-		//String policyNumber = getCopiedPolicy();
-		String policyNumber = "NVSS952918564";
+		String policyNumber = getCopiedPolicy();
+
 		//Perform Endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
