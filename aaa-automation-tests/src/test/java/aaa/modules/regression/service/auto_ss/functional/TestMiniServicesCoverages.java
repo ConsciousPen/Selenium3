@@ -1740,6 +1740,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas16041_wlbCoverageNY(@Optional("NY") String state) {
 		pas16041_wlbCoverageNYBody();
 	}
+
 	/**
 	 * @author Chaitanya Boyapati
 	 * @name View/Update UM/SUM Coverage for NY state
@@ -1758,7 +1759,21 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas15308_UM_SUM_CoverageNYBody();
 	}
 
-
+	/**
+	 * @author Maris Strazds
+	 * @name NY PIP Coverages
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsementCoverages service and validate PIP Coverages
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NY})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15363"})
+	public void pas15363_viewUpdatePIPCoverageNY(@Optional("NY") String state) {
+		pas15363_viewUpdatePIPCoverageNYBody();
+	}
 
 }
 

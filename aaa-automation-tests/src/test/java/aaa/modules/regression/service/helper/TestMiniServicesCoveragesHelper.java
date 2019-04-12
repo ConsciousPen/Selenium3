@@ -36,6 +36,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static aaa.main.enums.CoverageLimits.COV_50000;
 import static aaa.main.enums.CoverageLimits.COV_FPB_ADDED_PAS_UI_DISPLAY;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
@@ -6426,6 +6427,50 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		updateCoverageAndCheck(policyNumber, wlbNo, wlbNo);
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	protected void pas15363_viewUpdatePIPCoverageNYBody(){
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+		PolicyCoverageInfo viewEndCovResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+
+		Coverage covPIPExpected = Coverage.create(CoverageInfo.PIP_NY);
+		Coverage covPIPDEDExpected = Coverage.create(CoverageInfo.PIPDED_NY);
+		Coverage covOBELExpected = Coverage.create(CoverageInfo.OBEL_NY);
+		Coverage covAPIPExpected = Coverage.create(CoverageInfo.APIP_NY);
+		Coverage covAGGPIPExpected = Coverage.create(CoverageInfo.AGGPIP_NY).disableCanChange();
+		Coverage covWLBExpected = Coverage.create(CoverageInfo.WLB_NY);
+		Coverage covMNDPIPExpected = Coverage.create(CoverageInfo.MNDPIP_NY).disableCanChange();
+		Coverage covMMWLExpected = Coverage.create(CoverageInfo.MMWL_WHEN_APIP_EQUAL_NO_COV_NY).disableCanChange();
+		Coverage covONEExpected = Coverage.create(CoverageInfo.ONE_NY).disableCanChange();
+		Coverage covDBExpected = Coverage.create(CoverageInfo.DB_NY).disableCanChange();
+
+		//Validate PIP
+		validateCoveragesDXP(viewEndCovResponse.policyCoverages, covPIPExpected);
+		//Validate PIP subCoverages
+		validateCoveragesDXP(viewEndCovResponse.policyCoverages, covPIPExpected.getCoverageCd(), covPIPDEDExpected, covOBELExpected, covAPIPExpected, covAGGPIPExpected, covWLBExpected);
+		//Validate AGGPIP subCoverages
+		Coverage covAGGPIPActual = findCoverage(viewEndCovResponse.policyCoverages, covAGGPIPExpected.getCoverageCd());
+		validateCoveragesDXP(covAGGPIPActual.getSubCoverages(), covMNDPIPExpected, covMMWLExpected, covONEExpected, covDBExpected);
+
+		//Update ADDITIONAL_PIP //TODO-mstrazds: update through DXP when working on update story
+		openPendedEndorsementDataGatherAndNavigateToPC();
+		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PIP.getLabel(), COV_50000.getLimit());
+		premiumAndCoveragesTab.saveAndExit();
+
+		covAPIPExpected.changeLimit(COV_50000);
+		covMMWLExpected = Coverage.create(CoverageInfo.MMWL_WHEN_APIP_OTHER_THAN_NO_COV_NY).disableCanChange();
+		covONEExpected.changeLimit(CoverageLimits.COV_50);
+
+		//Validate PIP
+		validateCoveragesDXP(viewEndCovResponse.policyCoverages, covPIPExpected);
+		//Validate PIP subCoverages
+		validateCoveragesDXP(viewEndCovResponse.policyCoverages, covPIPExpected.getCoverageCd(), covPIPDEDExpected, covOBELExpected, covAPIPExpected, covAGGPIPExpected, covWLBExpected);
+		//Validate AGGPIP subCoverages
+		covAGGPIPActual = findCoverage(viewEndCovResponse.policyCoverages, covAGGPIPExpected.getCoverageCd());
+		validateCoveragesDXP(covAGGPIPActual.getSubCoverages(), covMNDPIPExpected, covMMWLExpected, covONEExpected, covDBExpected);
 	}
 
 	private void updateCoverageAndCheck_pas24075(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {

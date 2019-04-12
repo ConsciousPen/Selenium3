@@ -59,6 +59,19 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.DED_1000,
 			CoverageLimits.DED_10000
 	)),
+	PIPDED_NY(ImmutableList.of(
+			CoverageLimits.DED_0,
+			CoverageLimits.DED_200
+	)),
+	OBEL_NY(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_25000
+	)),
+	APIP_NY(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_50000,
+			CoverageLimits.COV_100000
+	)),
 	COV_PIPDEDAPPTO_DE(ImmutableList.of(
 			CoverageLimits.COV_PIPDEDAPPTO_NIO,
 			CoverageLimits.COV_PIPDEDAPPTO_NIAHF
