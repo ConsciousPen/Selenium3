@@ -81,7 +81,6 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
                 CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), "$<today>"));
         policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesTab.class, true);
         validateASW(td);
-        assertThat(PolicySummaryPage.tableRenewals).isPresent();
 
     }
 
@@ -108,7 +107,6 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         TestData td = adjustTdBaseDate(getPolicyTD());
         createQuoteAndFillUpTo(td, DocumentsAndBindTab.class);
         validateASW(td);
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
     }
 
@@ -133,7 +131,6 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         openAppAndCreatePolicy(td);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         validateASW(td);
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
     }
 
@@ -161,7 +158,6 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         openAppAndCreatePolicy(td);
         policy.renew().perform();
         validateASW(td);
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
     }
 
@@ -976,12 +972,6 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER).setValue("Progressive");
         calculatePremiumAndNavigateToDriverTab();
         validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().submitTab();
-
-        if (PurchaseTab.remainingBalanceDueToday.isPresent()) {
-            purchaseTab.fillTab(policyTd).submitTab();
-        }
 
     }
 
