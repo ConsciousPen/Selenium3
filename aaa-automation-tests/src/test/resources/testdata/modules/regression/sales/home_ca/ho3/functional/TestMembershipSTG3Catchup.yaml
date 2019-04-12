@@ -1,0 +1,36 @@
+TestData_TestMembershipSTG3: {
+  GeneralTab: '@<home_ca_ho3>@DataGather@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@<home_ca_ho3>@DataGather@PropertyInfoTab',
+  EndorsementTab: '@<home_ca_ho3>@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<home_ca_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@<home_ca_ho3>@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@<home_ca_ho3>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<home_ca_ho3>@DataGather@DocumentsTab',
+  BindTab: '@<home_ca_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ca_ho3>@DataGather@PurchaseTab'
+}
+
+ApplicantTab: {
+  NamedInsured: '@<home_ca_ho3>@DataGather@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@<home_ca_ho3>@DataGather@DwellingAddress',
+  PreviousDwellingAddress: '@<home_ca_ho3>@DataGather@PreviousDwellingAddress',
+  MailingAddress: '@<home_ca_ho3>@DataGather@MailingAddress',
+  NamedInsuredInformation: '@<home_ca_ho3>@DataGather@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@<home_ca_ho3>@DataGather@OtherActiveAAAPolicies',
+  AgentInfo: '@<home_ca_ho3>@DataGather@AgentInfo'
+}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  #AAAMembershipReport: [{Report: 'Order report'}],
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+AAAMembership: {
+  Current AAA Member: 'No',
+}

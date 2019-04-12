@@ -1,4 +1,6 @@
 TestData_CA: {
+  Membership TP1: [-73, NONE],
+  Membership TP2: [-59, NONE],
   Renew generate image: [-83, NONE],
   Renew reports: [-73, NONE],
   Renew check uw rules: [-67, NONE],
