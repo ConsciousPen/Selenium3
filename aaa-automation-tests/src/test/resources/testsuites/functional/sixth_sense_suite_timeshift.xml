@@ -69,6 +69,7 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver">
                 <methods>
                     <include name="pas23995_testAccidentSurchargeWaiverAgedRenewalCAS"/>
+                    <include name="pas24673_testASWForTwoDriversWhenOneAccidentAgesOut"/>
                 </methods>
             </class>
         </classes>

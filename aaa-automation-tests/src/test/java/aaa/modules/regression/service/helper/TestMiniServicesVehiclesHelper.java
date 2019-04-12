@@ -3113,6 +3113,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		String policyNumber = openAppAndCreatePolicy(testData);
 		ViewVehicleResponse policyResponse = HelperCommon.viewPolicyVehicles(policyNumber);
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
 		validateLessThan1000Miles_ExistingVehicles(policyNumber, "1FADP3J2XJL222680", true, policyResponse, softly);
 		validateLessThan1000Miles_ExistingVehicles(policyNumber, "1G8AZ54F531234567", false, policyResponse, softly);
 
@@ -3193,7 +3194,13 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	private void validateLessThan1000Miles_ExistingVehicles(String policyNumber, String vin, boolean isLessThan1000Expected,
 			ViewVehicleResponse policyResponse, ETCSCoreSoftAssertions softly) {
 		Vehicle returnedVehicle = findVehicleByVin(policyResponse, vin);
-		softly.assertThat(returnedVehicle.isLessThan1000Miles).isFalse();
+
+		if (getState().equals(Constants.States.NJ) || isLessThan1000Expected) {
+			softly.assertThat(returnedVehicle.isLessThan1000Miles).isFalse();
+		} else {
+			softly.assertThat(returnedVehicle.isLessThan1000Miles).isNull();
+		}
+
 		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, returnedVehicle.oid);
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "isLessThan1000Miles",
 				true, isLessThan1000Expected, isLessThan1000Expected, null, "Boolean");
@@ -3204,7 +3211,13 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		Vehicle responseAddVehicle =
 				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, "2018-01-01"), Vehicle.class, 201);
-		softly.assertThat(responseAddVehicle.isLessThan1000Miles).isFalse();
+
+		if (getState().equals(Constants.States.NJ)) {
+			softly.assertThat(responseAddVehicle.isLessThan1000Miles).isFalse();
+		} else {
+			softly.assertThat(responseAddVehicle.isLessThan1000Miles).isNull();
+		}
+
 		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, responseAddVehicle.oid);
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "isLessThan1000Miles", true,
 				isLessThan1000Expected, isLessThan1000Expected, null, "Boolean");

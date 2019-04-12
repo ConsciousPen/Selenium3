@@ -10,6 +10,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.google.common.collect.*;
@@ -18,7 +21,6 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.main.enums.ErrorEnum;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.VersionsComparisonConstants;
@@ -78,6 +80,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	private static final List<String> NOT_IMPLEMENTED_YET_FIELDS = ImmutableList.of(
 			"Reports.AAA Membership report.Order Date",
 			"Reports.AAA Membership report.Receipt Date",
+			"Reports.AAA Membership report.Select",
 			"Current Carrier Information.Days Lapsed",
 			"Policy Information.Renewal Term Premium - Old Rater",
 
@@ -333,7 +336,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 
 		Multimap<String, String> actualSectionsAndUIFieldsMap = toMultimap(actualSectionsAndUIFields);
 		verificationComparisonPage(expectedSectionsAndUIFields, expectedUIFieldsAndValuesFromTDV1, actualSectionsAndUIFieldsMap, toMultimap(actualUIFieldsAndValuesV1), 1); //version1
-		verificationComparisonPage(expectedSectionsAndUIFields, expectedUIFieldsAndValuesFromTDV2, actualSectionsAndUIFieldsMap, toMultimap(actualUIFieldsAndValuesV2), 0); //version2
+        verificationComparisonPage(expectedSectionsAndUIFields, expectedUIFieldsAndValuesFromTDV2, actualSectionsAndUIFieldsMap, toMultimap(actualUIFieldsAndValuesV2), 0); //version2
 	}
 
 	/**
@@ -454,16 +457,16 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 */
 	private void verifyWithPredefinedValues(ArrayListMultimap<String, String> actualUIFieldsAndValues, int comparisonVersion, String uiFieldsPath) {
 		//looking for Section.UIFields in predefined expected values
-		List<String> predefinedExpectedValues = getPredefinedExpectedValues().get(uiFieldsPath);
+        List<String> predefinedExpectedValues = getPredefinedExpectedValues().get(uiFieldsPath);
 		//getting value based on needed version (current or available)
 		log.debug("Check predefined field: [{}]", uiFieldsPath);
 		String expectedValue = predefinedExpectedValues.get(comparisonVersion);
 		assertSoftly(softly -> {
 			softly.assertThat(predefinedExpectedValues).as("UI field path %1$s not found in TestData or predefined values.", uiFieldsPath).isNotEmpty();
 			softly.assertThat(expectedValue).as("Expected values for ui field path %1$s not found in TestData or predefined values.", uiFieldsPath).isNotNull();
-			if (!predefinedExpectedValues.isEmpty() && expectedValue != null && !NOT_IMPLEMENTED_YET_FIELDS.contains(uiFieldsPath)) {
+            if (!predefinedExpectedValues.isEmpty() && expectedValue != null && !NOT_IMPLEMENTED_YET_FIELDS.contains(uiFieldsPath)) {
 				//comparison actual and expected value of UI field
-				softly.assertThat(actualUIFieldsAndValues.get(uiFieldsPath).get(0)).as("Problem in %1$s.", uiFieldsPath).isEqualTo(expectedValue);
+               softly.assertThat(actualUIFieldsAndValues.get(uiFieldsPath).get(0)).as("Problem in %1$s.", uiFieldsPath).isEqualTo(expectedValue);
 			}
 		});
 	}
@@ -765,6 +768,122 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		//Tab.buttonCancel.click();
 		//buttonQuoteOverview.click();
 		//renewalBlankVersionCreation();
+	}
+
+    protected void ooseConflictRemoveComponent(TestData tdVersion, TestData tdVersion1, TestData tdVersion2, ArrayListMultimap<String, String> conflictLinks, Multimap<String, String> expectedSectionsAndUIFieldsOOSE,
+                                               Multimap<String, String> expectedSectionsAndUIFieldsEndorsement, String tabName, String sectionName, Boolean isAutomatic) {
+        mainApp().open();
+        createCustomerIndividual();
+        createPolicy(tdVersion);
+       	processPlus20DaysEndorsementForRemove(tdVersion1);
+        processPlus10DaysOOSEndorsementForRemove(tdVersion2);
+
+        policy.rollOn().openConflictPage(isAutomatic);
+        if (tableDifferences.isPresent()) {
+            resolveConflict(conflictLinks);
+            policy.rollOn().submit();
+        }
+
+		PolicySummaryPage.buttonTransactionHistory.click();
+        verifyTransactionHistoryType(1, ROLLED_ON_ENORSEMENT);
+        verifyTransactionHistoryType(2, OOS_ENDORSEMENT);
+        verifyTransactionHistoryType(3, BACKED_OFF_ENDORSEMENT);
+        verifyTransactionHistoryType(4, ISSUE);
+
+        selectTransactionType(1, true);
+        selectTransactionType(2, true);
+        PolicySummaryPage.buttonCompareVersions.click();
+        checkComparisonPage(tdVersion2, tdVersion1, expectedSectionsAndUIFieldsOOSE, tabName, sectionName);
+        Tab.buttonCancel.click();
+
+        /*selectTransactionType(1, true);
+        selectTransactionType(2, false);
+        selectTransactionType(3, true);
+        PolicySummaryPage.buttonCompareVersions.click();
+        checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFieldsEndorsement, tabName, sectionName); //TODO Uncomment after implementing PAS-27123,PAS-27800,PAS-27842
+        Tab.buttonCancel.click();*/
+    }
+
+
+    protected void processPlus20DaysEndorsementForRemove(TestData td) {
+        policy.endorse().performAndFill(td);
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        new DriverTab().tableDriverList.removeRow(3);
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+        new VehicleTab().tableVehicleList.removeRow(3);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        new PremiumAndCoveragesTab().calculatePremium();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        new DocumentsAndBindTab().submitTab();
+    }
+
+    protected void processPlus10DaysOOSEndorsementForRemove(TestData td) {
+        policy.endorse().performAndFill(td);
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        new DriverTab().tableDriverList.removeRow(2);
+        NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.VEHICLE.get());
+        new VehicleTab().tableVehicleList.removeRow(2);
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        new PremiumAndCoveragesTab().calculatePremium();
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+        new DocumentsAndBindTab().submitTab();
+	}
+
+	protected void renewalMergeRemoveComponent(TestData tdVersion, TestData tdVersion1, TestData tdVersion2, ArrayListMultimap<String, String> conflictLinks, Multimap<String, String> expectedSectionsAndUIFieldsRenewal, String tabName,
+								String sectionName) {
+		mainApp().open();
+		createCustomerIndividual();
+		createPolicy(tdVersion);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
+		processRenewalGenerationJob(expirationDate);
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		renewalVersionRemoveComponent();
+		processMinus1MonthEndorsementRemoveComponent(tdVersion2);
+		//Todo solve this issue with error for effective date
+		if (errorTab.isVisible()) {
+			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_200011);
+			errorTab.submitTab();
+		}
+
+		if (tableDifferences.isPresent()) {
+			resolveConflict(conflictLinks);
+			policy.rollOn().submit();
+		}
+
+		PolicySummaryPage.buttonRenewalQuoteVersion.click();
+		verifyTransactionHistoryType(1, RENEWAL);
+		verifyTransactionHistoryType(2, RENEWAL);
+		verifyTransactionHistoryType(3, RENEWAL);
+
+		selectTransactionType(1, true);
+		selectTransactionType(2, true);
+		PolicySummaryPage.buttonCompare.click();
+
+		checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFieldsRenewal, tabName, sectionName);
+	}
+
+	protected void renewalVersionRemoveComponent() {
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		policy.getDefaultView();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		new GeneralTab().removeInsured(3);
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+	}
+
+	protected void processMinus1MonthEndorsementRemoveComponent(TestData td) {
+		policy.endorse().performAndFill(td);
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		new GeneralTab().removeInsured(2);
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
 	}
 
 	/**

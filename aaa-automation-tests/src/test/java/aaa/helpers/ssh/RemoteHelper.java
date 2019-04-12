@@ -5,14 +5,15 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
@@ -213,52 +214,20 @@ public final class RemoteHelper {
 	 * @return list of absolute paths of found files in chronological order (latest one comes first)
 	 * @throws AssertionError if no files where found within provided timeout
 	 */
-	public List<String> waitForFilesAppearance(String sourceFolder, String fileExtension, int timeoutInSeconds, String... textsToSearchPatterns) {
+	public List<String> waitForFilesAppearance(String sourceFolder, String fileExtension, int timeoutInSeconds, List<String> textsToSearchPatterns) {
 		long conditionCheckPoolingIntervalInSeconds = 1;
-		StringBuilder grepCmd = new StringBuilder();
-		for (String textToSearch : textsToSearchPatterns) {
-			grepCmd.append(" | xargs -r grep -li '").append(textToSearch).append("'");
-		}
-		String cmd = String.format("cd %1$s; find . -type f -iname '*.%2$s' -print%3$s | xargs -r ls -t | xargs -r readlink -f", sourceFolder,
-				fileExtension == null ? "*" : fileExtension, grepCmd.toString());
+
 		String searchParams = String.format("%1$s%2$s in \"%3$s\" folder with %4$s seconds timeout.",
 				fileExtension != null ? String.format(" with file extension \"%s\"", fileExtension) : "",
-				textsToSearchPatterns.length > 0 ? String.format(" containing text pattern(s): %s", Arrays.asList(textsToSearchPatterns)) : "",
+				textsToSearchPatterns.size() > 0 ? String.format(" containing text pattern(s): %s", textsToSearchPatterns) : "",
 				sourceFolder, timeoutInSeconds);
 
 		log.info("Searching for file(s) {}", searchParams);
 		long searchStart = System.currentTimeMillis();
 		long timeout = searchStart + timeoutInSeconds * 1000L;
-		String commandOutput;
-		do {
-			if (!(commandOutput = executeCommand(cmd).getOutput()).isEmpty()) {
-				break;
-			}
-			try {
-				TimeUnit.SECONDS.sleep(conditionCheckPoolingIntervalInSeconds);
-			} catch (InterruptedException e) {
-				log.debug(e.getMessage());
-			}
-		}
-		while (timeout > System.currentTimeMillis());
-		long searchTime = System.currentTimeMillis() - searchStart;
-
-		assertThat(commandOutput).as("No files have been found%s", searchParams).isNotEmpty();
-		List<String> foundFiles = Arrays.asList(commandOutput.split("\n"));
-		log.info("Found file(s): {} after {} milliseconds", foundFiles, searchTime);
-		return foundFiles;
-	}
-
-	public List<String> waitForFilesAppearance(String sourceFolder, int timeoutInSeconds, String policyNum, String timeFormat) {
-		log.info("Searching for file(s) {}", policyNum, timeFormat);
-		long searchStart = System.currentTimeMillis();
-		long timeout = searchStart + timeoutInSeconds * 1000L;
-		List<String> files;
-		long conditionCheckPoolingIntervalInSeconds = 1;
 		List<String> foundFiles;
 		do {
-			files = getListOfFiles(sourceFolder);
-			foundFiles =  files.stream().filter(s -> s.contains(policyNum) && s.contains(timeFormat)).collect(Collectors.toList());
+			foundFiles = getFilesListBySearchPattern(sourceFolder, fileExtension, textsToSearchPatterns);
 			if (!foundFiles.isEmpty()) {
 				break;
 			}
@@ -271,6 +240,50 @@ public final class RemoteHelper {
 		while (timeout > System.currentTimeMillis());
 		long searchTime = System.currentTimeMillis() - searchStart;
 
+		assertThat(foundFiles).as("No files have been found%s", searchParams).isNotEmpty();
+		log.info("Found file(s): {} after {} milliseconds", foundFiles, searchTime);
+		return foundFiles;
+	}
+
+	public List<String> waitForFilesAppearance(String sourceFolder, String fileExtension, int timeoutInSeconds, String... textsToSearchPatterns) {
+		return waitForFilesAppearance(sourceFolder, fileExtension, timeoutInSeconds, Arrays.asList(textsToSearchPatterns));
+	}
+
+	/**
+	 * Wait for file(s) appearance with <b>fileExtension</b> containing all text patterns from <b>textsToSearchPatterns</b> array and sorted by modification date (latest one comes first)
+	 *
+	 * @param sourceFolder          folder where file(s) search will be performed
+	 * @param textsToSearchPatterns texts to be searched patterns. If array is empty then search by file extension only.
+	 *                              If <b>fileExtension</b> is also not provided (value is null) then method will return all existing files from <b>sourceFolder</b> sorted by modification date
+	 * @param timeoutInSeconds      timeout in seconds
+	 * @return list of absolute paths of found files in chronological order (latest one comes first)
+	 * @throws AssertionError if no files where found within provided timeout
+	 */
+	public List<String> waitForDocAppearance(String sourceFolder, int timeoutInSeconds, String policyNum, List<String> textsToSearchPatterns) {
+		log.info("Searching for file(s) for {}", policyNum);
+		long searchStart = System.currentTimeMillis();
+		long timeout = searchStart + timeoutInSeconds * 1000L;
+		long conditionCheckPoolingIntervalInSeconds = 1;
+		List<String> foundFiles;
+		List<String> interimList;
+		String searchParams = String.format("%1$s in \"%2$s\" folder with %3$s seconds timeout.",
+				textsToSearchPatterns.size() > 0 ? String.format(" containing text pattern(s): %s", textsToSearchPatterns) : "",
+				sourceFolder, timeoutInSeconds);
+		do {
+			interimList = getFilesListBySearchPattern(sourceFolder, "xml", textsToSearchPatterns);
+			foundFiles = interimList.stream().filter(s -> s.contains(policyNum) && isTimeDiffMatch(s)).collect(Collectors.toList());
+			if (!foundFiles.isEmpty()) {
+				break;
+			}
+			try {
+				TimeUnit.SECONDS.sleep(conditionCheckPoolingIntervalInSeconds);
+			} catch (InterruptedException e) {
+				log.error(e.getMessage());
+			}
+		}
+		while (timeout > System.currentTimeMillis());
+		long searchTime = System.currentTimeMillis() - searchStart;
+		assertThat(foundFiles).as("No files have been found%s", searchParams).isNotEmpty();
 		log.info("Found file(s): {} after {} milliseconds", foundFiles, searchTime);
 		return foundFiles;
 	}
@@ -278,5 +291,31 @@ public final class RemoteHelper {
 	public LocalDateTime getLastModifiedTime(String path) {
 		log.info("SSH: Getting last modified time for \"{}\"", path);
 		return ssh.getLastModifiedTime(path);
+	}
+
+	public List<String> getFilesListBySearchPattern(String sourceFolder, String fileExtension, List<String> textsToSearchPatterns) {
+		StringBuilder grepCmd = new StringBuilder();
+		for (String textToSearch : textsToSearchPatterns) {
+			grepCmd.append(" | xargs -r grep -li '").append(textToSearch).append("'");
+		}
+		String cmd = String.format("cd %1$s; find . -type f -iname '*.%2$s' -print%3$s | xargs -r ls -t | xargs -r readlink -f", sourceFolder,
+				fileExtension == null ? "*" : fileExtension, grepCmd.toString());
+		String commandOutput = executeCommand(cmd).getOutput();
+		return !commandOutput.isEmpty() ? Arrays.asList(commandOutput.split("\n")) : new ArrayList<>();
+	}
+
+	private Boolean isTimeDiffMatch(String fileName) {
+		long delta = 180000;
+		String timestampRegex = "[A-Z]*\\d*_(\\d*)_\\d*.*.xml";
+		Pattern r = Pattern.compile(timestampRegex);
+		Matcher m = r.matcher(fileName);
+
+		if (!m.find()) {
+			throw new IstfException(String.format("Cannot extract regex '%1$s' from string %2$s", timestampRegex, fileName));
+		}
+
+		long date = TimeSetterUtil.getInstance().getCurrentTime().atZone(ZoneId.systemDefault()).toEpochSecond();
+
+		return date - Long.parseLong(m.group(1)) < delta;
 	}
 }

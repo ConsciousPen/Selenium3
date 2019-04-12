@@ -36,11 +36,12 @@
     </test>
 
     <test name="Test Accident Surcharge Waiver">
-        <parameter name="state" value="AZ, NY"/>
+        <parameter name="state" value="AZ, OH, UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver">
                 <methods>
                     <exclude name="pas23995_testAccidentSurchargeWaiverAgedRenewalCAS"/>
+                    <exclude name="pas24673_testASWForTwoDriversWhenOneAccidentAgesOut"/>
                 </methods>
             </class>
         </classes>

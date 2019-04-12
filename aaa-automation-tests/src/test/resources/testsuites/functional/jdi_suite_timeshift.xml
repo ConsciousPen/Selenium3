@@ -23,6 +23,7 @@
                     <include name="pas6144_AutomatedRefundUnissuedIssuedProcessedCreditCard"/>
                     <include name="pas455_ManualRefundVoidedWithAllocationCreditCard"/>
                     <include name="pas456_AutomatedRefundVoidedWithAllocationCreditCard"/>
+                    <include name="pas26580_ManualRefundAnd404Response"/>
                 </methods>
             </class>
         </classes>

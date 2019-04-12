@@ -53,13 +53,7 @@ FormsTab: {
 }
 
 TestData_EndorsementTwo_IN: {
-  GeneralTab: {
-    PolicyInformation: {
-      Authorized by: QA,
-      Policy Type: Named Non Owner,
-      Change Policy Type Confirmation: 'Continue'
-    }
-  },
+  GeneralTab: '@GeneralTab_NANO',
   DriverTab: {},
   RatingDetailReportsTab: {},
   VehicleTab: {},
@@ -82,7 +76,15 @@ TestData_EndorsementTwo_IN: {
   }
 }
 
-
+GeneralTab_NANO: {
+    PolicyInformation: {
+      Authorized by: QA,
+      Policy Type: Named Non Owner,
+      Change Policy Type Confirmation: {
+          Continue: click
+      }
+   }
+}
 
 # ------------- Documents Verification ----------
 TestData_VerificationEDOne_IN: {

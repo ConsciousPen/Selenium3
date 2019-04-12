@@ -11,6 +11,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
@@ -48,7 +49,7 @@ public class TestCancelledConversionRewrite extends ManualConversionTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT}, description = "Test Premium Calculation for a rewritten conversion policy KY/WV")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-25298")
-    public void pas25298_calculatePremiumForRewrittenConversionPolicy(@Optional("WV") String state) {
+    public void pas25298_calculatePremiumForRewrittenConversionPolicy(@Optional("") String state) {
 
     	// Days should be the same as in manualRenewalEntryToActivePolicy so that cancelation would work on effective date of the policy
 		LocalDateTime effDate = TimeSetterUtil.getInstance().getPhaseStartTime().plusDays(45);
@@ -58,6 +59,8 @@ public class TestCancelledConversionRewrite extends ManualConversionTemplate {
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
 		new RatingDetailReportsTab().fillTab(getPolicyTD());
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN).setValue("Annual");
 		new PremiumAndCoveragesTab().calculatePremium();
 		assertThat(new PremiumAndCoveragesTab().btnCalculatePremium()).isPresent();
     }

@@ -599,5 +599,4 @@ public class DocGenHelper {
 	private enum ProductCode {
 		AAA_HO_SS, AAA_SS, AAA_CSA, AAA_HO_CA, AAA_PUP_SS
 	}
-
 }
