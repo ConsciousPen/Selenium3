@@ -1,10 +1,5 @@
 package aaa.modules.financials.template;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
@@ -18,9 +13,11 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestRenewalTemplate extends FinancialsBaseTest {
 
@@ -264,7 +261,9 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         payTotalAmountDue();
 
         // Move to renewal offer time point and create renewal image
-        advanceTimeAndOpenPolicy(getTimePoints().getRenewOfferGenerationDate(renewalEffDate), policyNumber);
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalEffDate));
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
         policy.renew().performAndFill(getRenewalFillTd());
         //Dollar renewalAmt = payTotalAmountDue();
         payTotalAmountDue();
@@ -279,8 +278,10 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         // TODO 1071/1072 Ledger Account ID: State/ Municipality Tax Amount (if applicable)
 
         //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
-        advanceTimeAndOpenPolicy(renewalEffDate, policyNumber);
-        runLedgerStatusUpdateJob();
+        TimeSetterUtil.getInstance().nextPhase(renewalEffDate);
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
 
         //Continued RNW-03 Validations recorded at effective date
         assertSoftly(softly -> {
