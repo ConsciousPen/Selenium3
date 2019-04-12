@@ -16,20 +16,26 @@ public class SingleSelectSearchDialog extends AbstractDialogSingleSearch {
 
 	private static final By RESULT_TABLE_LOCATOR = By.xpath(".//table[contains(@id,'SearchTabel') or contains(@id, 'SearchTable') or contains(@id, 'PriorActivePolicySearch') or (contains(@id, 'SearchFrom') and not(contains(@id, 'birthDate')))]");
 	private static final By ERROR_MESSAGE_LOCATOR = By.xpath(".//form[@id='customerSearchFrom']/span[2]");
-	public ResultTable tableSearchResults = new ResultTable(POPUP_PARENT, RESULT_TABLE_LOCATOR);
-	Button buttonSearch = new Button(POPUP_PARENT, By.xpath(".//input[@value = 'Search'] | .//button[contains(. , 'Search')]"), Waiters.AJAX);
-	Button buttonCancel = new Button(POPUP_PARENT, By.xpath(".//input[@value = 'cancel' or @value = 'Cancel']"), Waiters.AJAX.then(Waiters.AJAX));
-	Button buttonClear = new Button(POPUP_PARENT, By.xpath(".//input[@value = 'Clear' or @value = 'clear']"), Waiters.SLEEP(1000));
-	public StaticElement labelErrorMessage = new StaticElement(POPUP_PARENT,ERROR_MESSAGE_LOCATOR);
+	public ResultTable tableSearchResults;
+	public Button buttonSearch;
+	public Button buttonCancel;
+	public Button buttonClear;
+	public StaticElement labelErrorMessage;
+	private static final String CANCEL = "Cancel";
 
 	public SingleSelectSearchDialog(By locator) {
 		super(locator);
+		initializeControls(locator);
 	}
+
 	public SingleSelectSearchDialog(By locator, Class<? extends MetaData> metaDataClass) {
 		super(locator, metaDataClass);
+		initializeControls(locator);
 	}
+
 	public SingleSelectSearchDialog(BaseElement<?, ?> parent, By locator, Class<? extends MetaData> metaDataClass) {
 		super(parent, locator, metaDataClass);
+		initializeControls(locator);
 	}
 
 	// ResultTable tableSearchResults = new ResultTable(POPUP_PARENT,
@@ -51,7 +57,7 @@ public class SingleSelectSearchDialog extends AbstractDialogSingleSearch {
 	}
 
 	@Override
-	public void clear(){
+	public void clear() {
 		if (buttonClear.isPresent() && buttonClear.isVisible()) {
 			buttonClear.click();
 		}
@@ -66,11 +72,16 @@ public class SingleSelectSearchDialog extends AbstractDialogSingleSearch {
 			search();
 			select();
 		} else {
-			cancel();
+			if (getAssetCollection().containsKey(CANCEL)) {
+				getAsset(CANCEL, AbstractClickableStringElement.class).click();
+			} else {
+				cancel();
+			}
 		}
 	}
 
 	public void cancel() {
+
 		if (buttonCancel.isPresent()) {
 			buttonCancel.click();
 		}
@@ -96,6 +107,15 @@ public class SingleSelectSearchDialog extends AbstractDialogSingleSearch {
 			return null;
 		}
 		return null;
+	}
+
+	private void initializeControls(By locator){
+		this.POPUP_PARENT = new StaticElement(locator);
+		tableSearchResults = new ResultTable(POPUP_PARENT, RESULT_TABLE_LOCATOR);
+		buttonSearch = new Button(POPUP_PARENT, By.xpath(".//input[@value = 'Search'] | .//button[contains(. , 'Search')]"), Waiters.AJAX);
+		buttonCancel = new Button(POPUP_PARENT, By.xpath(".//input[@value = 'cancel' or @value = 'Cancel']"), Waiters.AJAX.then(Waiters.AJAX));
+		buttonClear = new Button(POPUP_PARENT, By.xpath(".//input[@value = 'Clear' or @value = 'clear']"));
+		labelErrorMessage = new StaticElement(POPUP_PARENT, ERROR_MESSAGE_LOCATOR);
 	}
 
 }

@@ -2,20 +2,19 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.modules.policy;
 
+import static aaa.main.pages.summary.PolicySummaryPage.tableDifferences;
+import org.openqa.selenium.By;
 import aaa.common.AbstractAction;
 import aaa.common.Tab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.main.modules.policy.auto_ss.actiontabs.UpdateRulesOverrideActionTab;
-import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.table.Table;
-
-import static aaa.main.pages.summary.PolicySummaryPage.tableDifferences;
 
 /**
  * Set of abstract classes describing all actions available for the product entities of each type.
@@ -26,6 +25,7 @@ import static aaa.main.pages.summary.PolicySummaryPage.tableDifferences;
 public final class PolicyActions {
 	public static Button buttonPurchase = new Button(By.xpath("//input[@value = 'Purchase' and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 	public static Button buttonRollOnChanges = new Button(By.xpath("//input[@value = 'Roll On Changes' and not(@class = 'hidden') and not(contains(@style,'none'))]"));
+	public static Button buttonOk = new Button(By.xpath("//*[@id='headerForm']//input[contains(@value, 'OK')]"));
 
 	private PolicyActions() {
 	}
@@ -49,7 +49,7 @@ public final class PolicyActions {
 
 		@Override
 		public AbstractAction submit() {
-			Tab.buttonOk.click();
+			buttonOk.click();
 			if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
 				Page.dialogConfirmation.confirm();
 			}
@@ -96,7 +96,7 @@ public final class PolicyActions {
 
 		@Override
 		public AbstractAction submit() {
-			Tab.buttonOk.click();
+			buttonOk.click();
 			if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
 				Page.dialogConfirmation.confirm();
 			}
@@ -152,7 +152,7 @@ public final class PolicyActions {
 
 		@Override
 		public AbstractAction submit() {
-			Tab.buttonOk.click();
+			buttonOk.click();
 			// Renew with lapse
 			if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
 				Page.dialogConfirmation.confirm();
@@ -216,7 +216,7 @@ public final class PolicyActions {
 
 		@Override
 		public AbstractAction submit() {
-			Tab.buttonOk.click();
+			buttonOk.click();
 			return this;
 		}
 	}
@@ -229,7 +229,7 @@ public final class PolicyActions {
 
 		@Override
 		public AbstractAction submit() {
-			Tab.buttonOk.click();
+			buttonOk.click();
 			return this;
 		}
 	}
@@ -380,7 +380,7 @@ public final class PolicyActions {
 
 		@Override
 		public AbstractAction submit() {
-			Tab.buttonOk.click();
+			buttonOk.click();
 			return this;
 		}
 	}
@@ -414,7 +414,7 @@ public final class PolicyActions {
 
 		@Override
 		public AbstractAction submit() {
-			Tab.buttonOk.click();
+			buttonOk.click();
 			return this;
 		}
 	}
@@ -427,7 +427,7 @@ public final class PolicyActions {
 
 		@Override
 		public AbstractAction submit() {
-			Tab.buttonOk.click();
+			buttonOk.click();
 			return this;
 		}
 	}
@@ -613,7 +613,7 @@ public final class PolicyActions {
 
 		@Override
 		public AbstractAction submit() {
-			Tab.buttonOk.click();
+			buttonOk.click();
 			return this;
 		}
 	}
@@ -626,7 +626,7 @@ public final class PolicyActions {
 
 		@Override
 		public AbstractAction submit() {
-			Tab.buttonOk.click();
+			buttonOk.click();
 			return this;
 		}
 	}
@@ -639,7 +639,7 @@ public final class PolicyActions {
 
 		@Override
 		public AbstractAction submit() {
-			Tab.buttonOk.click();
+			buttonOk.click();
 			return this;
 		}
 	}

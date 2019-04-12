@@ -50,57 +50,52 @@ import toolkit.verification.CustomSoftAssertions;
 public class TestPolicyEndorsement extends HomeSSHO3BaseTest {
 
 	@Parameters({"state"})
-	@StateList(statesExcept = { States.CA })
+	@StateList(statesExcept = {States.CA})
 	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
 	public void testPolicyEndorsement(@Optional("") String state) {
-		
+
 		if (getUserGroup().equals(UserGroups.B31.get())) {
 			mainApp().open(getLoginTD(UserGroups.QA));
-			getCopiedPolicy();
+			createCustomerIndividual();
+			createPolicy();
 			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 			String policyNumber = PolicySummaryPage.getPolicyNumber();
 			mainApp().close();
-			
+
 			//re-login with B31 user
 			mainApp().open(getLoginTD(UserGroups.B31));
 			MainPage.QuickSearch.buttonSearchPlus.click();
 			SearchPage.openPolicy(policyNumber);
 			log.info("Verifying 'Endorsement' action");
 			assertThat(NavigationPage.comboBoxListAction).as("Action 'Endorsement' is available").doesNotContainOption("Endorsement");
+		} else {
+			mainApp().open();
+			createCustomerIndividual();
+			createPolicy();
 		}
-		else {
-			mainApp().open();		
-			if (getUserGroup().equals(UserGroups.F35.get())||getUserGroup().equals(UserGroups.G36.get())) {
-	        	createCustomerIndividual();
-	            createPolicy();
-	        }
-	        else {
-	        	getCopiedPolicy();
-	        }
 
-			Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
-			log.info("TEST: Endorsement for HSS Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
+		log.info("TEST: Endorsement for HSS Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
-			TestData td = getTestSpecificTD("TestData").adjust(getPolicyTD("Endorsement", "TestData"));
-			policy.endorse().perform(td);
+		TestData td = getTestSpecificTD("TestData").adjust(getPolicyTD("Endorsement", "TestData"));
+		policy.endorse().perform(td);
 
-			policy.getDefaultView().fillUpTo(td, ApplicantTab.class, true);
+		policy.getDefaultView().fillUpTo(td, ApplicantTab.class, true);
 
-			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
 
-			policy.getDefaultView().fillFromTo(td, ReportsTab.class, BindTab.class);
-			new BindTab().submitTab();
+		policy.getDefaultView().fillFromTo(td, ReportsTab.class, BindTab.class);
+		new BindTab().submitTab();
 
-			CustomSoftAssertions.assertSoftly(softly -> {
-				softly.assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
-				softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-				softly.assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(2);
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(2);
 
-				softly.assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
-			});
-		}
+			softly.assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
+		});
 	}
 }

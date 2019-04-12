@@ -1,5 +1,6 @@
 package com.exigen.ipb.eisa.base.app;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -47,6 +48,16 @@ public class CSAACapabilityModifier extends OptionsModifier {
 	@Override
 	public InternetExplorerOptions iexplore(InternetExplorerOptions options) {
 		options.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+		options.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, true);
+		options.setCapability(CapabilityType.HAS_NATIVE_EVENTS, false);
+		options.setCapability("name", ReportingContext.get().getCurrentTestName());
+		options.setCapability("enableVNC", true);
+		options.usePerProcessProxy();
+		options.setCapability("requireWindowFocus", false);
+		options.setCapability("ie.ensureCleanSession", true);
+		options.setCapability("ie.browserCommandLineSwitches", Arrays.asList("-private"));
+		options.takeFullPageScreenshot();
+		options.ignoreZoomSettings();
 		return allBrowsers(options);
 	}
 }
