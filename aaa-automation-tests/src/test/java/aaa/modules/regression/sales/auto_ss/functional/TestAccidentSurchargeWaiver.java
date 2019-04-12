@@ -75,7 +75,11 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     public void pas14738_testAccidentSurchargeWaiverConversion(@Optional("") String state) {
 
         TestData td = adjustTdBaseDate(getConversionPolicyDefaultTD());
-        createConversionQuoteAndFillUpTo(td, DocumentsAndBindTab.class);
+        mainApp().open();
+        createCustomerIndividual();
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd().adjust(TestData.makeKeyPath(CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(),
+                CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), "$<today>"));
+        policy.getDefaultView().fillUpTo(td, DocumentsAndBindTab.class);
         validateASW(td);
         assertThat(PolicySummaryPage.tableRenewals).isPresent();
 
