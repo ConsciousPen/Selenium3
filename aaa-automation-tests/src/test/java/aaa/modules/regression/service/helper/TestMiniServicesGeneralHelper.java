@@ -363,9 +363,21 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		ValidateEndorsementResponse responseValidateEndorse = HelperCommon.startEndorsement(policyNumber, endorsementDate);
 
-		softly.assertThat(responseValidateEndorse.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
-		softly.assertThat(responseValidateEndorse.allowedEndorsements.get(1)).isEqualTo("UpdateDriver");
-		softly.assertThat(responseValidateEndorse.allowedEndorsements.get(2)).isEqualTo("UpdateCoverages");
+		//View driver assignment if VA
+		if ("AZ".contains(state)) {
+			softly.assertThat(responseValidateEndorse.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");//Precondition AAA_LOOKUP_CONFIG_INSERT_UPDATE_COVERAGES
+			softly.assertThat(responseValidateEndorse.allowedEndorsements.get(1)).isEqualTo("UpdateDriver");
+		} else if ("MD".contains(state)){
+			softly.assertThat(responseValidateEndorse.allowedEndorsements.get(0)).isEqualTo("UpdateDriver");//Precondition AAA_LOOKUP_CONFIG_INSERT_UPDATE_VEHICLE
+			softly.assertThat(responseValidateEndorse.allowedEndorsements.get(1)).isEqualTo("UpdateCoverages");
+		} else if ("DC".contains(state)) {
+			softly.assertThat(responseValidateEndorse.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");//Precondition AAA_LOOKUP_CONFIG_INSERT_UPDATE_DRIVER
+			softly.assertThat(responseValidateEndorse.allowedEndorsements.get(1)).isEqualTo("UpdateCoverages");
+		} else {
+			softly.assertThat(responseValidateEndorse.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
+			softly.assertThat(responseValidateEndorse.allowedEndorsements.get(1)).isEqualTo("UpdateDriver");
+			softly.assertThat(responseValidateEndorse.allowedEndorsements.get(2)).isEqualTo("UpdateCoverages");
+		}
 
 		//Lock the policy
 /*		PolicyLockUnlockDto responseLock = HelperCommon.executePolicyLockService(policyNumber, Response.Status.OK.getStatusCode(), SESSION_ID_1);
