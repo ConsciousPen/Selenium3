@@ -177,7 +177,8 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		}
 
 		if (!PolicySummaryPage.labelPolicyStatus.isPresent()) {
-			SearchPage.openPolicy(policyNumber);
+			//SearchPage.openPolicy(policyNumber);
+			SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_PENDING);
 		}
 		policy.policyInquiry().start();
 
