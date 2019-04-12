@@ -79,7 +79,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         createCustomerIndividual();
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd().adjust(TestData.makeKeyPath(CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(),
                 CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), "$<today>"));
-        policy.getDefaultView().fillUpTo(td, DocumentsAndBindTab.class);
+        policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesTab.class, true);
         validateASW(td);
         assertThat(PolicySummaryPage.tableRenewals).isPresent();
 
