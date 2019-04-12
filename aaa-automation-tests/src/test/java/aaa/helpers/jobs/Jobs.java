@@ -212,6 +212,8 @@ public class Jobs {
 
 	public static Job aaaGenerateEscheatmentReportJob = new Job("aaaGenerateEscheatmentReportJob");
 
+	//public static Job aaaMPDBatchJob = new Job("aaaMPDBatchJob");
+
 	public enum JobState {
 		TRUE, FALSE, FAILED
 	}

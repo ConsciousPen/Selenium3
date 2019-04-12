@@ -11,7 +11,7 @@ import java.util.Optional;
 public class AAAMultiPolicyDiscountQueries {
     //Select ps.txtype from policysummary ps where ps.policynumber in ('AZSS952918557');
     //  Select ps.mpdvalidationstatus, Ps.txtype from policysummary ps where ps.policynumber in ('AZSS952918557');
-    private static String SELECT_MPD_STATUS = "SELECT ps.mpdvalidationstatus, Ps.txtype from policysummary ps where ps.= '%s' " ;
+    private static String SELECT_MPD_STATUS = "SELECT ps.mpdvalidationstatus, Ps.txtype from policysummary ps where ps.policynumber in '%s' " ;
     //TODO: THIS query needs fixed for the escape characters
     private static String SELECT_MPD_COUNT = "Select count(*)\n" +
             "from policysummary ps  LEFT JOIN OtherOrPriorPolicy o\n" +

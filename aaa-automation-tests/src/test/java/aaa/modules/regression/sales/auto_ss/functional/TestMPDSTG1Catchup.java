@@ -57,10 +57,11 @@ public class TestMPDSTG1Catchup extends AutoSSBaseTest {
         generalTab.submitTab();
         policy.getDefaultView().fillFromTo(testData, DriverTab.class, PurchaseTab.class, true);
         PurchaseTab purchaseTab = new PurchaseTab();
-        String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         purchaseTab.submitTab();
+        String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         mpdSTG1(0);
-        assertThat(AAAMultiPolicyDiscountQueries.getMPDVStatusandTxTypeFromDB(policyNumber).contains("0"));
+        assertThat(AAAMultiPolicyDiscountQueries.getMPDVStatusandTxTypeFromDB(policyNumber).contains("STG1"));
+        //assertThat(AAAMultiPolicyDiscountQueries.getMPDVStatusandTxTypeFromDB(policyNumber).contains("0"));
 
     }
 //    @Parameters({"state"})
