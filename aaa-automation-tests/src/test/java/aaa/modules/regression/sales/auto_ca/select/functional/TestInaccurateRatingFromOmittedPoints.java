@@ -1,5 +1,11 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import aaa.common.Tab;
+import aaa.main.enums.ErrorEnum;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
+import aaa.main.pages.summary.PolicySummaryPage;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -10,10 +16,6 @@ import aaa.helpers.TestDataHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PrefillTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.DataProviderFactory;
@@ -26,8 +28,25 @@ import toolkit.webdriver.controls.ComboBox;
 @StateList(states = Constants.States.CA)
 public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest {
 
+    @DataProvider(name = "newBusinessTest")
+    private static Object[][] newBusinessTest(){
+        return new Object[][]{
+                {"CA", "JOHN", "J", "SHEPARD", "01/01/1980", "404 MASS ST", "C7654321", "CA Choice"}/*, //Scenario: Product Evaluates to CHOICE
+                {"CA", "JANE", "B", "DRAPEHS", "02/02/1980", "100 EDI LN", "C1234789", "CA Select", true} //Scenario: Product Evaluates to SELECT */
+        };
+    }
+
     PremiumAndCoveragesTab pncTab = new PremiumAndCoveragesTab();
     TestDataHelper _tdHelper = new TestDataHelper();
+    ErrorTab et = new ErrorTab();
+    DriverActivityReportsTab dart =  new DriverActivityReportsTab();
+    DocumentsAndBindTab dabt = new DocumentsAndBindTab();
+    PurchaseTab pt = new PurchaseTab();
+    TestDataHelper tdHelper = new TestDataHelper();
+    DriverTab dt = new DriverTab();
+    String _productTypeExpectedThroughoutNewBusiness = null;
+    String _productDetermined = null;
+
 
     /**
      *      Claim Data: <br>
@@ -38,7 +57,7 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
      *     @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = Groups.FUNCTIONAL, description = "Inaccurate rating at NB caused by Include in Points and/or YAF not systematically included in rating")
+    @Test(groups = {Groups.FUNCTIONAL}, description = "Inaccurate rating at NB caused by Include in Points and/or YAF not systematically included in rating")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-17328")
     public void pas17328_Scenario1_SelectToChoice(@Optional("") String state) {
         // Build Test Data
@@ -104,18 +123,24 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = Groups.FUNCTIONAL, description = "Inaccurate rating at NB caused by Include in Points and/or YAF not systematically included in rating")
+    @Test(dataProvider = "newBusinessTest")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-28101")
-    public void testRatingAtNewBusiness(@Optional("") String state){
-        // Build Test Data
-        TestData _td = buildTestData("JOHN", "J", "SHEPARD", "01/01/1980", "404 MASS ST", "90029", "LOS ANGELES", "C7654321");
+    public void testRatingAtNewBusiness(@Optional String state, String firstName, String middleName, String lastName, String DOB, String address, String licenseNumber, String expectedProduct){
+        // Prepare Data
+        _productTypeExpectedThroughoutNewBusiness = expectedProduct;
+        TestData _td = buildTestData(firstName, middleName, lastName, DOB, address, "90029", "LOS ANGELES", licenseNumber);
 
-        // Open App, Create Customer, Initiate Quote, Fill Up To Driver Tab.
+        // Begin Test
         createQuoteAndFillUpTo(_td, DriverTab.class);
-
-        setADBCoverage(true);
-
-        orderReportsAndValidateDrivingHistory(_td);
+        setForeignLicenseIfScenarioRequires();
+        assertFirstProductDetermination(_td); //AC1, AC2
+        recalculatePremiumAssertPolicyType(); //AC3, AC5
+        orderReportsAndEvaluateProductType(_td, PremiumAndCoveragesTab.class);
+        //validateActivityInformation();
+        updateActivityToChangeProductTypes(1);
+        String newPolicyType = calculatePremiumAndValidatePolicyHasChanged(); //AC4, AC6
+        completePolicyBind(_td, newPolicyType);
+        //startEndorsementCalculatePremiumValidateUnchanged() //AC7, AC8
     }
 
     /**
@@ -137,18 +162,126 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
         return td;
     }
 
-    private void setADBCoverage(Boolean bCoverageEnabled){
+    private void setForeignLicenseIfScenarioRequires(){
         DriverTab dt = new DriverTab();
-        if(bCoverageEnabled){ dt.getAssetList().getAsset(AutoCaMetaData.DriverTab.ADB_COVERAGE).setValue("Yes");}
-        else{ dt.getAssetList().getAsset(AutoCaMetaData.DriverTab.ADB_COVERAGE).setValue("No");}
+        if(_productTypeExpectedThroughoutNewBusiness.equalsIgnoreCase("CA Choice")){
+            dt.getAssetList().getAsset(AutoCaMetaData.DriverTab.LICENSE_TYPE).setValue("Foreign");
+        }
     }
 
     /**
      * Fills up to the Driver Activity Report Page. <br>
-     * Orders all reports.
+     * Orders DriverTab.tableActivityInformationList.getRow(1).getCell("Points").getValue()all reports.
      */
-    private void orderReportsAndValidateDrivingHistory(TestData testDataToUse){
-        policy.getDefaultView().fillFromTo(testDataToUse, DriverTab.class, DriverActivityReportsTab.class, true);
+    private void orderReportsAndEvaluateProductType(TestData in_data, Class<? extends Tab> fromTab){
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+
+        //If Foreign License, Handle Error with Override
+        if(_productTypeExpectedThroughoutNewBusiness.equalsIgnoreCase("CA Choice")){
+            et.overrideAllErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.SYSTEM_ISSUE);
+            et.buttonOverride.click();
+        }
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+        dart.getAssetList().getAsset(AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY).setValue("Yes");
+        dart.getAssetList().getAsset(AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).setValue("I Agree");
+        dart.getAssetList().getAsset(AutoCaMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY).click();
+
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+
+        // Capture Product Type.
+        _productDetermined = pncTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT.getLabel(), ComboBox.class).getValue();
+        CustomAssertions.assertThat(_productDetermined).isEqualToIgnoringCase(_productTypeExpectedThroughoutNewBusiness);
+    }
+
+    private void assertFirstProductDetermination(TestData in_data){
+        //Go to calculate premium for the First Product Determination
+        policy.getDefaultView().fillFromTo(in_data, DriverTab.class, PremiumAndCoveragesTab.class, true);
+
+        // Capture Product Type.
+        _productDetermined = pncTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT.getLabel(), ComboBox.class).getValue();
+        CustomAssertions.assertThat(_productDetermined).isEqualToIgnoringCase(_productTypeExpectedThroughoutNewBusiness);
+    }
+
+    private void recalculatePremiumAssertPolicyType(){
+        // Recalculate Premium. Assert unchanged.
+        new PremiumAndCoveragesTab().calculatePremium();
+        _productDetermined = pncTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT.getLabel(), ComboBox.class).getValue();
+        CustomAssertions.assertThat(_productDetermined).isEqualToIgnoringCase(_productTypeExpectedThroughoutNewBusiness);
+    }
+
+    private void validateActivityInformation(){
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+
+        if(_productTypeExpectedThroughoutNewBusiness.equalsIgnoreCase("CA Choice")){
+            // Validate Points
+            CustomAssertions.assertThat(DriverTab.tableActivityInformationList.getRow(1).getCell("Points").getValue()).isEqualToIgnoringCase(Integer.toString(2));
+            CustomAssertions.assertThat(DriverTab.tableActivityInformationList.getRow(2).getCell("Points").getValue()).isEqualToIgnoringCase(Integer.toString(1));
+            CustomAssertions.assertThat(DriverTab.tableActivityInformationList.getRow(3).getCell("Points").getValue()).isEqualToIgnoringCase(Integer.toString(1));
+
+            // Validate Include in Points and/or YAF?
+            CustomAssertions.assertThat(DriverTab.tableActivityInformationList.getRow(1).getCell("Include in Points and/or YAF?").getValue()).isEqualToIgnoringCase("Yes");
+            CustomAssertions.assertThat(DriverTab.tableActivityInformationList.getRow(2).getCell("Include in Points and/or YAF?").getValue()).isEqualToIgnoringCase("Yes");
+            CustomAssertions.assertThat(DriverTab.tableActivityInformationList.getRow(3).getCell("Include in Points and/or YAF?").getValue()).isEqualToIgnoringCase("Yes");
+        }
+        else
+            {
+            // Validate Points
+            CustomAssertions.assertThat(DriverTab.tableActivityInformationList.getRow(1).getCell("Points").getValue()).isEqualToIgnoringCase(Integer.toString(2));
+            CustomAssertions.assertThat(DriverTab.tableActivityInformationList.getRow(2).getCell("Points").getValue()).isEqualToIgnoringCase(Integer.toString(1));
+            CustomAssertions.assertThat(DriverTab.tableActivityInformationList.getRow(3).getCell("Points").getValue()).isEqualToIgnoringCase(Integer.toString(1));
+
+            // Validate Include in Points and/or YAF?
+            CustomAssertions.assertThat(DriverTab.tableActivityInformationList.getRow(1).getCell("Include in Points and/or YAF?").getValue()).isEqualToIgnoringCase("Yes");
+            CustomAssertions.assertThat(DriverTab.tableActivityInformationList.getRow(2).getCell("Include in Points and/or YAF?").getValue()).isEqualToIgnoringCase("Yes");
+            CustomAssertions.assertThat(DriverTab.tableActivityInformationList.getRow(3).getCell("Include in Points and/or YAF?").getValue()).isEqualToIgnoringCase("Yes");
+        }
+    }
+
+    private String completePolicyBind(TestData in_data, String currentPolicyType){
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+        if(currentPolicyType.equalsIgnoreCase("CA Select")){
+            dabt.getRequiredToBindAssetList().getAsset(AutoCaMetaData.DocumentsAndBindTab.RequiredToBind.CALIFORNIA_CAR_POLICY_APPLICATION).setValue("Physically Signed");
+            dabt.getRequiredToBindAssetList().getAsset(AutoCaMetaData.DocumentsAndBindTab.RequiredToBind.SUBSCRIBER_AGGREEMENT).setValue("Physically Signed");
+        }else {
+            dabt.getRequiredToBindAssetList().getAsset(AutoCaMetaData.DocumentsAndBindTab.RequiredToBind.PERSONAL_AUTO_APPLICATION).setValue("Physically Signed");
+            dabt.getRequiredToBindAssetList().getAsset(AutoCaMetaData.DocumentsAndBindTab.RequiredToBind.DELETING_UNINSURED_MOTORIST_PROPERTY_DAMAGE_COVERAGE).setValue("Physically Signed");
+            dabt.getAssetList().getAsset(AutoCaMetaData.DocumentsAndBindTab.VEHICLE_INFORMATION).getAsset(AutoCaMetaData.DocumentsAndBindTab.VehicleInformation.ARE_THERE_ANY_ADDITIONAL_INTERESTS).setValue("Yes");
+        }
+        dabt.btnPurchase.click();
+        et.overrideAllErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.SYSTEM_ISSUE);
+        et.buttonOverride.click();
+        dabt.submitTab();
+        pt.fillTab(this.getPolicyDefaultTD());
+        pt.submitTab();
+        return PolicySummaryPage.getPolicyNumber();
+    }
+
+    private void updateActivityToChangeProductTypes(Integer row){
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        removeActivityFromIncludedInPointsAndYAF(row);
+    }
+
+    private void removeActivityFromIncludedInPointsAndYAF(Integer rowIndex){
+        DriverTab.tableActivityInformationList.getRow(rowIndex).getCell(8).controls.links.get("View/Edit").click();
+        dt.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OVERRIDE_ACTIVITY_DETAILS).setValue("Yes");
+        dt.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_YAF).setValue("No");
+        dt.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.NOT_INCLUDED_IN_POINTS_AND_OR_YAF_REASON_CODES).setValue("Company Error");
+
+        // Also remove foreign license if still present.
+        if(_productTypeExpectedThroughoutNewBusiness.equalsIgnoreCase("CA Choice")){
+            dt.getAssetList().getAsset(AutoCaMetaData.DriverTab.LICENSE_TYPE).setValue("Valid");
+            new DriverTab().getAssetList().getAsset(AutoCaMetaData.DriverTab.FIRST_US_CANADA_LICENSE_DATE).setValue("01/01/2000");
+            new DriverTab().getAssetList().getAsset(AutoCaMetaData.DriverTab.LICENSE_STATE).setValue("CA");
+        }
+    }
+
+    private String calculatePremiumAndValidatePolicyHasChanged(){
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        String policyTypeAfterActivityUpdates = pncTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT.getLabel(), ComboBox.class).getValue();
+        pncTab.calculatePremium();
+        CustomAssertions.assertThat(policyTypeAfterActivityUpdates).isNotEqualToIgnoringCase(_productTypeExpectedThroughoutNewBusiness);
+        return policyTypeAfterActivityUpdates;
     }
 }
