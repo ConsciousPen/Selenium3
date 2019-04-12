@@ -17,7 +17,7 @@
         <isba.version>10.1</isba.version>
         <istf.version>3.7.5</istf.version>
         <webdriver.version>3.8.1</webdriver.version>
-        <testanalytics.version>2.18.1</testanalytics.version>
+        <testanalytics.version>2.18.2</testanalytics.version>
         <!--<product>ALL</product> -->
     </properties>
     <build>

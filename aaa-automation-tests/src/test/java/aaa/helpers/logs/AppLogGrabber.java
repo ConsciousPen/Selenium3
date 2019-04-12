@@ -12,8 +12,7 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITestResult;
-import toolkit.config.PropertyProvider;
-import toolkit.config.TestProperties;
+import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
 import toolkit.utils.logging.CustomLogger;
 import toolkit.utils.teststoragex.utils.TestNGUtils;
 
@@ -21,7 +20,7 @@ public class AppLogGrabber {
 
 	private static Logger log = LoggerFactory.getLogger(com.exigen.ipb.eisa.utils.listener.AppLogGrabber.class);
 
-	private String appUrl = "http://" + PropertyProvider.getProperty(TestProperties.APP_HOST);
+	private String envURL = String.format("%1$s://%2$s", CSAAApplicationFactory.get().mainApp().getProtocol(), CSAAApplicationFactory.get().mainApp().getHost());
 
 	private String logFilePostfix = ".log";
 
@@ -44,7 +43,7 @@ public class AppLogGrabber {
 	}
 
 	private URL getUrl(String testClassName, String typeUrl) throws MalformedURLException {
-		return new URL(appUrl + typeUrl + testClassName + logFilePostfix);
+		return new URL(envURL + typeUrl + testClassName + logFilePostfix);
 	}
 
 	public String grabAppLog(ITestResult result) {
@@ -64,11 +63,10 @@ public class AppLogGrabber {
 					FileUtils.copyURLToFile(getUrl(methodName, urlPart), testAppLogFile);
 					return testAppLogFile.getAbsolutePath();
 				}
-			}catch(IOException e){
-				log.info("Can't retrieve application log: {}", url);
+			} catch (IOException e) {
+
 			}
 		}
-
 		return null;
 	}
 }
