@@ -180,7 +180,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         // Roll back endorsement
         Dollar rollBackAmount = rollBackEndorsement(policyNumber);
 
-        // TODO Validate END-05
+        // Validate END-05
         assertSoftly(softly -> {
             softly.assertThat(rollBackAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
         });
@@ -191,22 +191,23 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         // Move to renewal offer time point and create renewal image
         advanceTimeAndOpenPolicy(getTimePoints().getRenewOfferGenerationDate(renewalEffDate), policyNumber);
         policy.renew().performAndFill(getRenewalFillTd());
-        Dollar renewalAmt = payTotalAmountDue();
+        //Dollar renewalAmt = payTotalAmountDue();
+        payTotalAmountDue();
+        Dollar renewalAmt = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL);
 
-        // TODO Validate RNW-03
-        // TODO 1071/1072 Ledger Account ID: State/ Municipality Tax Amount (if applicable)
-        //Note: Seismic and Non EFT installment fee are not included in the DB query which results in failure
+        // Validate RNW-03
         assertSoftly(softly -> {
             softly.assertThat(renewalAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1042"));
             softly.assertThat(renewalAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1043")
                 .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1043")));
         });
+        // TODO 1071/1072 Ledger Account ID: State/ Municipality Tax Amount (if applicable)
 
         //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
         advanceTimeAndOpenPolicy(renewalEffDate, policyNumber);
         runLedgerStatusUpdateJob();
 
-        //TODO Continued RNW-03 Validations recorded at effective date
+        //Continued RNW-03 Validations recorded at effective date
         assertSoftly(softly -> {
             softly.assertThat(renewalAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1044")
                     .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1044")));
@@ -216,21 +217,9 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
                     .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1021")));
             softly.assertThat(renewalAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1015")
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1015")));
-            softly.assertThat(renewalAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1043")
-                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1043")));
-            softly.assertThat(renewalAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1042")
-                    .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1042")));
-            //Taxes if applicable
-            /*softly.assertThat(renewalAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1053")
-                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1053")));
-            softly.assertThat(renewalAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1054")
-                    .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1054")));
-            softly.assertThat(renewalAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1072")
-                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1072")));
-            softly.assertThat(renewalAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1071")
-                    .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1071")));*/
         });
 
+        // TODO 1053/1054/1071/1072 recorded at effective date
     }
 
 }
