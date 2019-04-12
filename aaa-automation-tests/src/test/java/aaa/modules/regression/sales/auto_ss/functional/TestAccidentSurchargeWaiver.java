@@ -235,23 +235,27 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
                 GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData(),
                 DriverTab.class.getSimpleName(), getSecondDriverTd().adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), getActivityInfoTd()));
 
-        // Create policies with 30 and 31 days lapse with prior carrier
-        String policy30Days = openAppAndCreatePolicy(getDefaultASWTd(30));
-        String policy31Days = createPolicy(getDefaultASWTd(31));
+        // Create policies with 30 days lapse with prior carrier
+        openAppAndCreatePolicy(getDefaultASWTd(30));
 
-        // Initiate endorsement on first policy, add driver with AF Accident
-        SearchPage.openPolicy(policy30Days);
+        // Initiate endorsement, add driver with AF Accident
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        policy.getDefaultView().fillUpTo(tdEndorsementFill, DriverTab.class);
+        policy.getDefaultView().fill(tdEndorsementFill);
         calculatePremiumAndNavigateToDriverTab();
+
+        // Validate ASW is applied
         validateIncludeInPoints(PROPERTY_DAMAGE, "No");
         validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
 
-        // Initiate endorsement on second policy, add driver with AF Accident
-        SearchPage.openPolicy(policy31Days);
+        // Create policies with 31 days lapse with prior carrier
+        openAppAndCreatePolicy(getDefaultASWTd(31));
+
+        // Initiate endorsement, add driver with AF Accident
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        policy.getDefaultView().fillUpTo(tdEndorsementFill, DriverTab.class);
+        policy.getDefaultView().fill(tdEndorsementFill);
         calculatePremiumAndNavigateToDriverTab();
+
+        // Validate ASW is NOT applied
         validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
 
     }
@@ -277,23 +281,27 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
                 GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData(),
                 DriverTab.class.getSimpleName(), getSecondDriverTd().adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), getActivityInfoTd()));
 
-        // Create policies with 30 and 31 days lapse with prior carrier
-        String policy30Days = openAppAndCreatePolicy(getDefaultASWTd(30));
-        String policy31Days = createPolicy(getDefaultASWTd(31));
+        // Create policies with 30 days lapse with prior carrier
+        openAppAndCreatePolicy(getDefaultASWTd(30));
 
-        // Initiate endorsement on first policy, add driver with AF Accident
-        SearchPage.openPolicy(policy30Days);
+        // Initiate endorsement, add driver with AF Accident
         policy.renew().perform();
-        policy.getDefaultView().fillUpTo(tdRenewalFill, DriverTab.class);
+        policy.getDefaultView().fill(tdRenewalFill);
         calculatePremiumAndNavigateToDriverTab();
+
+        // Validate ASW is applied
         validateIncludeInPoints(PROPERTY_DAMAGE, "No");
         validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
 
-        // Initiate endorsement on second policy, add driver with AF Accident
-        SearchPage.openPolicy(policy31Days);
+        // Create policies with 31 days lapse with prior carrier
+        openAppAndCreatePolicy(getDefaultASWTd(31));
+
+        // Initiate endorsement, add driver with AF Accident
         policy.renew().perform();
-        policy.getDefaultView().fillUpTo(tdRenewalFill, DriverTab.class);
+        policy.getDefaultView().fill(tdRenewalFill);
         calculatePremiumAndNavigateToDriverTab();
+
+        // Validate ASW is NOT applied
         validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
 
     }
