@@ -10,6 +10,10 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.docgen.impl.PasDocImpl;
+import aaa.helpers.xml.model.pasdoc.DataElement;
+import aaa.helpers.xml.model.pasdoc.Document;
+import aaa.helpers.xml.model.pasdoc.DocumentGenerationRequest;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.DocGenEnum.EventName;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
@@ -23,6 +27,8 @@ import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import static aaa.main.enums.DocGenEnum.Documents.*;
+//import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	
@@ -73,13 +79,15 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		TestData td_excludedDriver = getPolicyTD().adjust(getTestSpecificTD("TestData_ExcludedDriver").resolveLinks());
 		String policy_excludedDriver = createPolicy(td_excludedDriver);
 		log.info("PAS DOC: Scenario 3: Policy with excluded driver created: " + policy_excludedDriver);
-		DocGenHelper.verifyDocumentsGenerated(true, false, policy_excludedDriver, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AA43AZ);
+		DocGenHelper.verifyDocumentsGenerated(true, false, policy_excludedDriver, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AA43AZ);		
+		verifyAA02AZcontainsForm(policy_excludedDriver, "AA43AZ", true);
 		
 		//Scenario 3b: Add 2 Excluded Drivers
 		TestData td_2excludedDrivers = getPolicyTD().adjust(getTestSpecificTD("TestData_2ExcludedDrivers").resolveLinks());
 		String policy_2excludedDrivers = createPolicy(td_2excludedDrivers);
 		log.info("PAS DOC: Scenario 3b: Policy with 2 excluded drivers created: " + policy_2excludedDrivers);
-		DocGenHelper.verifyDocumentsGenerated(true, false, policy_excludedDriver, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AA43AZ);		
+		DocGenHelper.verifyDocumentsGenerated(true, false, policy_2excludedDrivers, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AA43AZ);	
+		verifyAA02AZcontainsForm(policy_2excludedDrivers, "AA43AZ", true);
 	}
 	
 	@Parameters({"state"})
@@ -163,18 +171,21 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		String policy_UMLessThanBI = createPolicy(td_UMLessThanBI);
 		log.info("PAS DOC: Scenario 7: Policy with Uninsured Motorist BI limits (UM) < BI limits created: " + policy_UMLessThanBI);
 		DocGenHelper.verifyDocumentsGenerated(true, false, policy_UMLessThanBI, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AA52AZ); 
+		verifyAA02AZcontainsForm(policy_UMLessThanBI, "AA52AZ", true);
 		
 		//Scenario 7b: Underinsured Motorists Bodily Injury limits (UIM) < BI Liability Limits
 		TestData td_UIMLessThanBI = getPolicyTD().adjust(getTestSpecificTD("TestData_UIMLessThanBI").resolveLinks());
 		String policy_UIMLessThanBI = createPolicy(td_UIMLessThanBI);
 		log.info("PAS DOC: Scenario 7: Policy with Underinsured Motorist BI limits (UIM) < BI limits created: " + policy_UIMLessThanBI);
 		DocGenHelper.verifyDocumentsGenerated(true, false, policy_UIMLessThanBI, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AA52AZ); 
+		verifyAA02AZcontainsForm(policy_UIMLessThanBI, "AA52AZ", true);
 		
 		//Scenario 7c: both UM and UIM limits < BI Liability limits
 		TestData td_UMandUIMLessThanBI = getPolicyTD().adjust(getTestSpecificTD("TestData_UMandUIMLessThanBI").resolveLinks());
 		String policy_UMandUIMLessThanBI = createPolicy(td_UMandUIMLessThanBI);
 		log.info("PAS DOC: Scenario 7: Policy with both UM and UIM limits < BI limits created: " + policy_UMandUIMLessThanBI);
-		DocGenHelper.verifyDocumentsGenerated(true, false, policy_UMandUIMLessThanBI, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AA52AZ); 
+		DocGenHelper.verifyDocumentsGenerated(true, false, policy_UMandUIMLessThanBI, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AA52AZ);
+		verifyAA02AZcontainsForm(policy_UMandUIMLessThanBI, "AA52AZ", true);
 	}
 	
 	@Parameters({"state"})
@@ -230,6 +241,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		String policyNumber = createPolicy(td_nano);
 		log.info("PAS DOC: Scenario 10: Non-Owner policy created" + policyNumber);
 		DocGenHelper.verifyDocumentsGenerated(true, false, policyNumber, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AA41XX); 
+		verifyAA02AZcontainsForm(policyNumber, "AA41XX", true);
 	}
 	
 	@Parameters({"state"})
@@ -271,6 +283,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		String policy_UMandUIMlessThanBI = PolicySummaryPage.getPolicyNumber();
 		log.info("PAS DOC: Scenario 12a: Endorsement with UM and UIM limits < BI limits created: " + policy_UMandUIMlessThanBI);
 		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_UMandUIMlessThanBI, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA52AZ); 
+		verifyAA02AZcontainsForm(policy_UMandUIMlessThanBI, EventName.ENDORSEMENT_ISSUE, "AA52AZ", true);
 		
 		//Scenario 12b: Endorsement: set UIM limits < BI limits
 		createPolicy();
@@ -279,6 +292,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		String policy_UIMlessThanBI = PolicySummaryPage.getPolicyNumber();
 		log.info("PAS DOC: Scenario 12b: Endorsement with UIM limit < BI limits created: " + policy_UIMlessThanBI);
 		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_UIMlessThanBI, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA52AZ);
+		verifyAA02AZcontainsForm(policy_UIMlessThanBI, EventName.ENDORSEMENT_ISSUE, "AA52AZ", true);
 		
 		//Scenario 12c: Endorsement: set UM limits < BI limits
 		createPolicy();
@@ -287,6 +301,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		String policy_UMlessThanBI = PolicySummaryPage.getPolicyNumber();
 		log.info("PAS DOC: Scenario 12b: Endorsement with UM limit < BI limits created: " + policy_UMlessThanBI);
 		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_UMlessThanBI, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA52AZ);
+		verifyAA02AZcontainsForm(policy_UMlessThanBI, EventName.ENDORSEMENT_ISSUE, "AA52AZ", true);
 		
 		//Scenario 12e: Endorsement: set both UM and UIM limits = BI limits
 		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_UMandUIMLessThanBI").resolveLinks()));
@@ -295,6 +310,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		String policy_UMandUIMequalToBI = PolicySummaryPage.getPolicyNumber();
 		log.info("PAS DOC: Scenario 12e: Endorsement with UM and UIM limits = BI limits created: " + policy_UMandUIMequalToBI);		
 		PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_UMandUIMequalToBI, EventName.ENDORSEMENT_ISSUE, AA52AZ);
+		verifyAA02AZcontainsForm(policy_UMandUIMequalToBI, EventName.ENDORSEMENT_ISSUE, "AA52AZ", false);
 		
 	}
 	
@@ -312,6 +328,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		String policy_addExcludedDriver = PolicySummaryPage.getPolicyNumber();
 		log.info("PAS DOC: Scenario 13a: Endorsement: add Excluded Driver: " + policy_addExcludedDriver);
 		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_addExcludedDriver, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA43AZ);
+		verifyAA02AZcontainsForm(policy_addExcludedDriver, EventName.ENDORSEMENT_ISSUE, "AA43AZ", true);
 
 		//Scenario 13e: Endorsement: remove Excluded Driver
 		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_ExcludedDriver").resolveLinks()));
@@ -324,7 +341,8 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		new DocumentsAndBindTab().submitTab();
 		String policy_removeExcludedDriver = PolicySummaryPage.getPolicyNumber();
 		log.info("PAS DOC: Scenario 13e: Endorsement: remove Excluded Driver: " + policy_removeExcludedDriver);
-		PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_removeExcludedDriver, EventName.ENDORSEMENT_ISSUE, AA43AZ);
+		PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_removeExcludedDriver, EventName.ENDORSEMENT_ISSUE, AA43AZ); 
+		verifyAA02AZcontainsForm(policy_removeExcludedDriver, EventName.ENDORSEMENT_ISSUE, "AA43AZ", false);
 	}
 	
 	@Parameters({"state"})
@@ -340,6 +358,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		String policy_endorse_nano = PolicySummaryPage.getPolicyNumber();
 		log.info("PAS DOC: Scenario 14: Endorsement: set Policy Type = Non-Owner: " + policy_endorse_nano);
 		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_nano, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA10XX, AA41XX);
+		verifyAA02AZcontainsForm(policy_endorse_nano, EventName.ENDORSEMENT_ISSUE, "AA41XX", true);
 	}
 	
 	@Parameters({"state"})
@@ -386,7 +405,8 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		policy.endorse().performAndFill(td_endorse_addGolfCart);
 		String policy_endorse_addGolfCart = PolicySummaryPage.getPolicyNumber();
 		log.info("PAS DOC: Scenario 16a: Endorsement: add Vehicle with Type = Golf Cart: " + policy_endorse_addGolfCart);
-		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_addGolfCart, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA10XX, AAGCAZ);	
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_addGolfCart, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA10XX, AAGCAZ);
+		verifyAA02AZcontainsForm(policy_endorse_addGolfCart, EventName.ENDORSEMENT_ISSUE, "AAGCAZ", true);
 		
 		//Scenario 16d: Endorsement: remove Golf Cart
 		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_GolfCart").resolveLinks()));
@@ -399,7 +419,8 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		new DocumentsAndBindTab().submitTab();
 		String policy_endorse_removeGolfCart = PolicySummaryPage.getPolicyNumber();
 		log.info("PAS DOC: Scenario 16a: Endorsement: add Vehicle with Type = Golf Cart: " + policy_endorse_removeGolfCart);	
-		PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_endorse_removeGolfCart, EventName.ENDORSEMENT_ISSUE, AAGCAZ);	
+		PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_endorse_removeGolfCart, EventName.ENDORSEMENT_ISSUE, AAGCAZ);
+		verifyAA02AZcontainsForm(policy_endorse_removeGolfCart, EventName.ENDORSEMENT_ISSUE, "AAGCAZ", false);
 	}
 	
 	@Parameters({"state"})
@@ -471,6 +492,29 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(td_quote, DocumentsAndBindTab.class, true);
 		new DocumentsAndBindTab().saveAndExit();
 		log.info("TEST: Standard Quote: Created quote# " + PolicySummaryPage.getPolicyNumber());
+	}
+	
+	private void verifyAA02AZcontainsForm(String policyNumber, String form, boolean expectedPresent) {
+		verifyAA02AZcontainsForm(policyNumber, null, form, expectedPresent);
+	}
+	
+	private void verifyAA02AZcontainsForm(String policyNumber, DocGenEnum.EventName eventName, String form, boolean expectedPresent) {
+		DocumentGenerationRequest doc = PasDocImpl.getDocumentRequest(policyNumber, eventName, AA02AZ);
+		Document AA02AZ = doc.getDocuments().stream().filter(c -> "AA02AZ".equals(c.getTemplateId())).findFirst().get();		
+		boolean isFormPresent = false;
+		for (DataElement dataElement: AA02AZ.getAdditionalData().getDataElement()) {
+			log.info("DataElement is " + dataElement.getValue());
+			if (dataElement.getValue().contains(form)) {
+				isFormPresent = true;
+			}
+		}
+		
+		String err_msg = "Document AA02AZ does not contain form ";
+		if (!expectedPresent) {
+			err_msg = "Document AA02AZ contains form ";
+		}
+
+		assertThat(isFormPresent).as(err_msg + form).isEqualTo(expectedPresent);
 	}
 	
 }
