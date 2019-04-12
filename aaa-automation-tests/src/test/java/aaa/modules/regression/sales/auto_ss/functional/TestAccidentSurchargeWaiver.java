@@ -277,32 +277,24 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27609")
     public void pas27609_testAccidentSurchargeWaiverEligibilityDaysLapsedRenewal(@Optional("") String state) {
 
-        TestData tdRenewalFill = DataProviderFactory.dataOf(
-                GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData(),
-                DriverTab.class.getSimpleName(), getSecondDriverTd().adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), getActivityInfoTd()));
-
         // Create policies with 30 days lapse with prior carrier
         openAppAndCreatePolicy(getDefaultASWTd(30));
 
-        // Initiate endorsement, add driver with AF Accident
-        policy.renew().perform();
-        policy.getDefaultView().fill(tdRenewalFill);
-        calculatePremiumAndNavigateToDriverTab();
+        // Create renewal image, add driver with AF Accident
+        createRenewalAddAccident();
 
         // Validate ASW is applied
-        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
-        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+        validateIncludeInPoints(BODILY_INJURY, "No");
+        validateReasonCode(BODILY_INJURY, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
 
         // Create policies with 31 days lapse with prior carrier
         openAppAndCreatePolicy(getDefaultASWTd(31));
 
-        // Initiate endorsement, add driver with AF Accident
-        policy.renew().perform();
-        policy.getDefaultView().fill(tdRenewalFill);
-        calculatePremiumAndNavigateToDriverTab();
+        // Create renewal image, add driver with AF Accident
+        createRenewalAddAccident();
 
         // Validate ASW is NOT applied
-        validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
+        validateIncludeInPoints(BODILY_INJURY, "Yes");
 
     }
 
@@ -539,7 +531,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27346")
     public void pas24673_testASWRemainsDuringRenewal(@Optional("") String state) {
 
-        // Create test data for endorsement to add a second driver with AF accident during endorsement
+        // Create test data for endorsement to add a second driver with AF accident during renewal
         TestData tdRenewalFill = DataProviderFactory.dataOf(
                 GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData(),
                 DriverTab.class.getSimpleName(), getSecondDriverTd().adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(),
@@ -725,12 +717,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         bindPolicy();
 
         // Initiate renewal and add second AF accident for driver
-        policy.renew().perform();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        fillActivityDriverTab(getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY)
-                .adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-6M>")
-                .adjust(AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY.getLabel(), "click"));
-        calculatePremiumAndNavigateToDriverTab();
+        createRenewalAddAccident();
 
         // Validate both accidents receive ASW
         validateIncludeInPoints(BODILY_INJURY, "No");
@@ -914,6 +901,15 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
                 .adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), "TestDriver")
                 .adjust(AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), "05/05/1981")
                 .adjust(AutoSSMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click");
+    }
+
+    private void createRenewalAddAccident() {
+        policy.renew().perform();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        fillActivityDriverTab(getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY)
+                .adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-6M>")
+                .adjust(AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY.getLabel(), "click"));
+        calculatePremiumAndNavigateToDriverTab();
     }
 
     private void fillActivityDriverTab(TestData td) {
