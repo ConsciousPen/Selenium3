@@ -6250,6 +6250,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
+
 	protected void pas15308_UM_SUM_CoverageNYBody() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
@@ -6264,10 +6265,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//Update BI Limits and check for UM Limits
 		updateCoverage(policyNumber, "BI", CoverageLimits.COV_2550.getLimit());
 		updateCoverage(policyNumber, "UM/SUM", CoverageLimits.COV_2550_SUM.getLimit());
-		int covUMSUMLimitIndex= 0;
+		int covUMSUMLimitIndex = 0;
 		for (CoverageLimits coverageBILimit : AvailableCoverageLimits.BI_NY.getAvailableLimits()) {
 			Coverage covUMSUMExpected;
-			CoverageLimits covUMSUMLimit = AvailableCoverageLimits. UM_SUM.getAvailableLimits().get(covUMSUMLimitIndex);
+			CoverageLimits covUMSUMLimit = AvailableCoverageLimits.UM_SUM.getAvailableLimits().get(covUMSUMLimitIndex);
 			covUMSUMLimitIndex++;
 
 			if (coverageBILimit.getLimit().equals(CoverageLimits.COV_2550.getLimit())) {
@@ -6280,7 +6281,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			assertThat(coverageUMSUMActual).isEqualTo(covUMSUMExpected);
 			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateBIResponse);
 		}
-
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
@@ -6351,7 +6351,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	protected void pas27201_SpEquipmentUpdatedWhenCollisionDeclinedBody(String state, ETCSCoreSoftAssertions softly) {
 		mainApp().open();
 		//String policyNumber = getCopiedPolicy();
-		String policyNumber ="NVSS952918564";
+		String policyNumber = "NVSS952918564";
 		//Perform Endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
@@ -6362,8 +6362,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		String newBILimits = "-1";
 
 		PolicyCoverageInfo updateCoverageResponse1 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd, newBILimits), PolicyCoverageInfo.class);
-		Coverage filteredCoverageResponseComp3 = updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.getCoverageCd())).findFirst().orElse(null);
-		Coverage filteredCoverageResponseComp2 = updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "SPECEQUIP".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		Coverage filteredCoverageResponseComp3 = findCoverage(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages, "COMPDED");
+		Coverage filteredCoverageResponseComp2 = findCoverage(updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages, "SPECEQUIP");
 
 		softly.assertThat(filteredCoverageResponseComp3.getCoverageLimit()).isEqualTo("-1");
 		softly.assertThat(filteredCoverageResponseComp3.getCoverageLimitDisplay()).isEqualTo("No Coverage");
