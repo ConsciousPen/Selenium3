@@ -18,6 +18,8 @@ import org.testng.SkipException;
 import aaa.common.enums.Constants;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.db.DbXmlHelper;
+import aaa.helpers.docgen.impl.DocGenImpl;
+import aaa.helpers.docgen.impl.PasDocImpl;
 import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.helpers.xml.XmlHelper;
@@ -31,10 +33,12 @@ import toolkit.verification.CustomAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class DocGenHelper {
+	private static final String SQL_GET_DOC_GEN_FOLDER = "select  value\n"
+			+ "from PROPERTYCONFIGURERENTITY\n"
+			+ "where propertyname ='aaaDocGenSerializer.exportDocumentLocation'";
+	private static String DOCGEN_ROOT_FOLDER = DBService.get().getValue(SQL_GET_DOC_GEN_FOLDER).orElse("null");
 	private static final String DOCGEN_JOB_FOLDER = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");
-	private static final String DOCGEN_FOLDER = PropertyProvider.getProperty(CsaaTestProperties.DOCGEN_FOLDER, "/home/");
-	public static final String DOCGEN_SOURCE_FOLDER = DOCGEN_FOLDER + "DocGen/";
-	public static final String DOCGEN_BATCH_SOURCE_FOLDER = DOCGEN_SOURCE_FOLDER + "Batch/";
+	public static final String DOCGEN_BATCH_SOURCE_FOLDER = DOCGEN_ROOT_FOLDER + "Batch/";
 	public static final String JOBS_DOCGEN_SOURCE_FOLDER = DOCGEN_JOB_FOLDER + "PAS_B_EXGPAS_DCMGMT_6500_D/outbound/";
 	public static final DateTimeFormatter DATE_TIME_FIELD_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T00:00:00.000'XXX");
 	private static final int DOCUMENT_GENERATION_TIMEOUT = 40;
@@ -48,7 +52,7 @@ public class DocGenHelper {
 		try {
 			RemoteHelper.get()
 					.clearFolder(JOBS_DOCGEN_SOURCE_FOLDER)
-					.clearFolder(DOCGEN_SOURCE_FOLDER)
+					.clearFolder(DOCGEN_JOB_FOLDER)
 					.clearFolder(DOCGEN_BATCH_SOURCE_FOLDER);
 		} catch (RuntimeException e) {
 			CustomAssertions.fail("Clearing doc gen folder failed: \n", e);
@@ -94,8 +98,9 @@ public class DocGenHelper {
 	public static DocumentWrapper verifyDocumentsGenerated(ETCSCoreSoftAssertions softly, boolean documentsExistence, boolean generatedByJob, String policyNumber, DocGenEnum.Documents... documents) {
 		//checkPasDocEnabled(policyNumber);
 		if (isPasDocEnabled(policyNumber)) {
-			log.error(String.format("PasDoc is enabled for product and state combination: " + policyNumber + ". Verification will be skipped."));
-			return null;
+			log.info(String.format("PasDoc is enabled for product and state combination: " + policyNumber + "."));
+			PasDocImpl.verifyDocumentsGenerated(softly, documentsExistence, generatedByJob, policyNumber, documents);
+			return new PasDocImpl();
 		}
 		assertThat(documents.length == 0 && !documentsExistence).as("Unable to call method with empty \"documents\" array and false \"documentsExistence\" argument values!").isFalse();
 
@@ -130,10 +135,6 @@ public class DocGenHelper {
 		return documentWrapper;
 	}
 
-	public static DocumentWrapper getDocumentRequest(String policyNumber, DocGenEnum.Documents... documents) {
-		return getDocumentRequest(false, policyNumber, documents);
-	}
-
 	/**
 	 * Search xml document by <b>policyNumber</b> text and get <b>StandardDocumentRequest</b> object model from it.
 	 *
@@ -166,7 +167,7 @@ public class DocGenHelper {
 			standardDocumentRequest = XmlHelper.xmlToModel(content, CreateDocuments.class, false).getStandardDocumentRequest();
 		}
 
-		return new DocumentWrapper(standardDocumentRequest, generatedByJob);
+		return new DocGenImpl(standardDocumentRequest);
 	}
 
 	public static List<String> waitForDocumentsAppearance(String policyNumber, DocGenEnum.Documents... documents) {
@@ -183,7 +184,7 @@ public class DocGenHelper {
 	 * @throws AssertionError if no xml document(s) were found within timeout ({@link #DOCUMENT_GENERATION_TIMEOUT} seconds by default)
 	 */
 	public static List<String> waitForDocumentsAppearance(boolean generatedByJob, String policyNumber, DocGenEnum.Documents... documents) {
-		String docGenSourcePath = generatedByJob ? JOBS_DOCGEN_SOURCE_FOLDER : DOCGEN_SOURCE_FOLDER;
+		String docGenSourcePath = generatedByJob ? JOBS_DOCGEN_SOURCE_FOLDER : DOCGEN_ROOT_FOLDER;
 		log.info(String.format("Waiting for xml document file(s) appearance with \"%1$s\" policy number%2$s in \"%3$s\" folder.",
 				policyNumber, documents.length > 0 ? " and documents: " + Arrays.asList(documents) : "", docGenSourcePath));
 
@@ -200,6 +201,7 @@ public class DocGenHelper {
 		return date.atZone(ZoneId.of(zoneId)).format(DATE_TIME_FIELD_FORMAT);
 	}
 
+
 	/**
 	 * Extracts data from Document model
 	 * Extract only Data Sections which have corresponding sectionName Tag
@@ -208,6 +210,7 @@ public class DocGenHelper {
 	 * @param docId            generated Document Id
 	 * @param selectPolicyData query which returns CLOB data
 	 */
+	@Deprecated
 	public static List<DocumentDataSection> getDocumentDataSectionsByName(String sectionName, DocGenEnum.Documents docId, String selectPolicyData) {
 		Document doc = getDocument(docId, selectPolicyData);
 		return doc.getDocumentDataSections().stream().
@@ -223,6 +226,7 @@ public class DocGenHelper {
 	 * @param docId            generated Document Id
 	 * @param selectPolicyData query which returns CLOB data
 	 */
+	@Deprecated
 	public static List<DocumentDataSection> getDocumentDataElemByName(String dataElemName, DocGenEnum.Documents docId, String selectPolicyData) {
 		Document doc = getDocument(docId, selectPolicyData);
 		doc.getDocumentDataSections().forEach(v1 -> v1.setDocumentDataElements(v1.getDocumentDataElements().stream().
@@ -242,6 +246,7 @@ public class DocGenHelper {
 	 * @param eventName - event name which triggered the document
 	 * @return tag value
 	 */
+	@Deprecated
 	public static String getPackageDataElemByName(String policyNumber, String sectionName, String tag, AaaDocGenEntityQueries.EventNames eventName) throws NoSuchFieldException {
 		List<DocumentDataSection> documentDataSection = getDocumentPackage(policyNumber, eventName).getDocumentPackageData().getDocumentDataSection();
 		return documentDataSection.stream()
@@ -258,6 +263,7 @@ public class DocGenHelper {
 	 * @param allDocumentPackages getAllDocumentPackages()
 	 * @return List<Document>
 	 */
+	@Deprecated
 	public static List<String> getPackageDataElementsByNameFromDocumentPackageList(List<DocumentPackage> allDocumentPackages, String sectionName, String tag) throws NoSuchFieldException {
 		List<String> dataElements = new ArrayList<>();
 		for (DocumentPackage documentPackage : allDocumentPackages) {
@@ -279,6 +285,7 @@ public class DocGenHelper {
 	 * @param policyNumber
 	 * @param eventName    {@link AaaDocGenEntityQueries.EventNames} event that triggered document generation
 	 */
+	@Deprecated
 	public static List<Document> getDocumentsList(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
 		DocumentPackage docPackage = getDocumentPackage(policyNumber, eventName);
 		return docPackage.getDocuments();
@@ -290,6 +297,7 @@ public class DocGenHelper {
 	 * @param dataElemName elem Name which will be in the section
 	 * @param document     generated Document
 	 */
+	@Deprecated
 	public static DocumentDataElement getDocumentDataElemByName(String dataElemName, Document document) {
 		List<DocumentDataSection> sections = document.getDocumentDataSections().stream()
 				.filter(section -> section.getDocumentDataElements().stream()
@@ -306,6 +314,7 @@ public class DocGenHelper {
 	 * @param quoteNumber quote/policy number
 	 * @param eventName   event name of the generated document
 	 */
+	@Deprecated
 	public static Document waitForDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName) {
 		return waitForDocumentsAppearanceInDB(docId, quoteNumber, eventName, true);
 	}
@@ -317,6 +326,7 @@ public class DocGenHelper {
 	 * @param quoteNumber quote/policy number
 	 * @param eventName   event name of the generated document
 	 */
+	@Deprecated
 	public static List<Document> waitForMultipleDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName) {
 		return waitForMultipleDocumentsAppearanceInDB(docId, quoteNumber, eventName, true);
 	}
@@ -329,6 +339,7 @@ public class DocGenHelper {
 	 * @param eventName   event name of the generated document
 	 * @param assertExists   assert if the generated document exists
 	 */
+	@Deprecated
 	public static Document waitForDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName, boolean assertExists) {
 		long conditionCheckPoolingIntervalInSeconds = 1;
 		log.info(String.format("Waiting for xml document \"%1$s\" request appearance in database.", docId.getId()));
@@ -372,6 +383,7 @@ public class DocGenHelper {
 	 * @param eventName   event name of the generated document(s)
 	 * @param assertExists   assert if the generated documents exist
 	 */
+	@Deprecated
 	public static List<Document> waitForMultipleDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, AaaDocGenEntityQueries.EventNames eventName, boolean assertExists) {
 		long conditionCheckPoolingIntervalInSeconds = 1;
 		log.info(String.format("Waiting for xml document \"%1$s\" request appearance in database.", docId.getId()));
@@ -412,6 +424,7 @@ public class DocGenHelper {
 	 * @param eventName - event name on which documents are suppose to be generated
 	 * @param docs - documents
 	 */
+	@Deprecated
 	public static void checkDocumentsDoesNotExistInXml(String policyNumber, AaaDocGenEntityQueries.EventNames eventName, DocGenEnum.Documents... docs) {
 		List<Document> policyDocuments = getDocumentsList(policyNumber, eventName);
 		Object[] documentTemplate = policyDocuments.stream().map(Document::getTemplateId).toArray();
@@ -419,12 +432,13 @@ public class DocGenHelper {
 			assertThat(documentTemplate).doesNotContain(doc.getIdInXml());
 		}
 	}
-
+	@Deprecated
 	public static Document getDocument(DocGenEnum.Documents value, String query) {
 		String xmlDocData = DbXmlHelper.getXmlByDocName(value, query);
 		return XmlHelper.xmlToModelByPartOfXml(xmlDocData, Document.class);
 	}
 
+	@Deprecated
 	public static List<Document> getDocuments(DocGenEnum.Documents value, String query) {
 		String xmlDocData = DbXmlHelper.getXmlByDocName(value, query);
 		List<Document> docs = new ArrayList<>();
@@ -436,6 +450,7 @@ public class DocGenHelper {
 		return docs;
 	}
 
+	@Deprecated
 	public static DocumentPackage getDocumentPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
 		String xmlDocData = DbXmlHelper.getXmlByPolicyNumber(policyNumber, eventName);
 
@@ -444,6 +459,7 @@ public class DocGenHelper {
 		return getDocumentPackage(xmlDocData);
 	}
 
+	@Deprecated
 	public static DocumentPackage getDocumentPackage(String xmlDocData) {
 		DocumentPackage documentPackage;
 		boolean callDCSInstantly = !xmlDocData.startsWith("<doc:CreateDocuments");
@@ -457,6 +473,7 @@ public class DocGenHelper {
 		return documentPackage;
 	}
 
+	@Deprecated
 	public static List<DocumentPackage> getAllDocumentPackages(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
 		List<Map<String, String>> allDocs = DbXmlHelper.getXmlsByPolicyNumber(policyNumber, eventName);
 		List<DocumentPackage> listOfDocumentPackages = new ArrayList<>();
@@ -475,6 +492,7 @@ public class DocGenHelper {
 	 * @param allDocumentPackages getAllDocumentPackages()
 	 * @return List<Document>
 	 */
+	@Deprecated
 	public static List<Document> getDocumentsFromDocumentPackagesList(List<DocumentPackage> allDocumentPackages) {
 		List<Document> actualDocumentsListAfterFirstRenewal = new ArrayList<>();
 		for (DocumentPackage documentPackage : allDocumentPackages) {
@@ -579,5 +597,4 @@ public class DocGenHelper {
 	private enum ProductCode {
 		AAA_HO_SS, AAA_SS, AAA_CSA, AAA_HO_CA, AAA_PUP_SS
 	}
-
 }

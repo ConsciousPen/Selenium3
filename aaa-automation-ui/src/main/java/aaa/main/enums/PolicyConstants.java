@@ -109,7 +109,9 @@ public final class PolicyConstants {
     }
 
     public static final class PolicyDriversTable {
-        public static final String NAME = "Name";
+        public static final String FIRST_NAME = "First Name";
+        public static final String LAST_NAME = "Last Name";
+        public static final String BIRTH_DATE = "Birth Date";
     }
 
     public static final class PolicyVehiclesTable {
@@ -120,6 +122,7 @@ public final class PolicyConstants {
 
     public static final class PolicyRenewalsTable {
         public static final String PREMIUM = "Premium";
+        public static final String STATUS = "Status";
     }
 
     public static final class PolicyCoveragesTable {
@@ -136,6 +139,15 @@ public final class PolicyConstants {
         public static final String AP_RP = "AP/RP";
         public static final String TERM_PREMIUM = "Term Premium";
         public static final String ACTION = "Action";
+    }
+
+    public static final class PolicyTaxesPremiumSurchargeDetailsTable {
+        public static final String STATE_LOCAL_TAX_PREMIUM_SURCHARGES = "State and Local Tax & Premium Surcharges";
+        public static final String STATE_LOCAL_TAXES_PREMIUM_SURCHARGES = "State and Local Taxes & Premium Surcharges";
+        public static final String TERM_PREMIUM = "Term Premium";
+        public static final String PREMIUM_SURCHARGE = "Premium Surcharge";
+        public static final String CITY_TAX = "City Tax";
+        public static final String COUNTY_TAX = "County Tax";
     }
 
     public static final class PolicyFormsTable {
@@ -286,12 +298,20 @@ public final class PolicyConstants {
         public static final String INCLUDE_IN_POINTS_TIER = "Include in Points and/or Tier?";
         public static final String NOT_INCLUDED_REASON_CODES = "Not Included in Points and/or Tier - Reason Codes";
         public static final String REASON_CODE_ASW = "Waived - Accident Surcharge Waiver";
+        public static final String REASON_CODE_SDW = "Waived - Same Day";
     }
 
     public static final class ViewRatingDetailsAuto {
         public static final String MONTHS_WITH_PRIOR_INSURANCE_CARRIER = "Months With Prior Insurance Carrier";
         public static final String CUSTOMERS_TIER = "Customer's Tier";
         public static final String TOTAL_UNDERWRITER_POINTS_USED_IN_TIER = "Total Underwriter Points Used in Tier";
+    }
+
+    public static final class InspectionOrWaiverRequiredSection {
+        public static final String INSPECTION_RECEIVED = "Inspection Received";
+        public static final String SALES_AGREEMENT_RECEIVED = "Sales Agreement Received";
+        public static final String PRIOR_DECLARATION_RECEIVED = "Prior Declaration Received";
+        public static final String NO_DOCUMENT_RECEIVED = "No Document Received";
     }
 
 }

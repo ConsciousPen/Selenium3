@@ -36,13 +36,7 @@ TestData: {
 }
 
 TestData_EndorsementOne: {
-    GeneralTab: {
-      PolicyInformation: {
-        Authorized by: QA,
-        Policy Type: Named Non Owner,
-        Change Policy Type Confirmation: 'Continue'
-      }
-    },
+    GeneralTab: '@GeneralTab_NANO',
     DriverTab: {},
     RatingDetailReportsTab: {},
     VehicleTab: {},
@@ -54,6 +48,16 @@ TestData_EndorsementOne: {
          'Uninsured Motorists Coverage Selection/Rejection': Physically Signed,
          'Underinsured Motorists Coverage Selection/Rejection': Physically Signed,
          First Party Benefits Coverage and Limits Selection Form: Physically Signed,}
+   }
+}
+
+GeneralTab_NANO: {
+    PolicyInformation: {
+      Authorized by: QA,
+      Policy Type: Named Non Owner,
+      Change Policy Type Confirmation: {
+          Continue: click
+      }
    }
 }
 # ------------- Documents Verification ----------

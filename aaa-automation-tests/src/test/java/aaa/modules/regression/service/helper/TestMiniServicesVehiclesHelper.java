@@ -135,7 +135,6 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		String stateDefault = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
 				.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.STATE).getValue();
 
-
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		String vin1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN).getValue();
 		mainApp().close();
@@ -336,7 +335,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			String vin2 = "9BWFL61J244023215";
 
 			//add vehicle
-			addVehicleWithChecks(policyNumber,purchaseDate2,vin2,true);
+			addVehicleWithChecks(policyNumber, purchaseDate2, vin2, true);
 
 			//try add the same vehicle one more time
 			ErrorResponseDto errorResponse2 =
@@ -3094,8 +3093,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 			RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
 			String docId = rfiServiceResponse.documents.get(0).documentId;
-			String docId2 = rfiServiceResponse.documents.get(1).documentId;
-			HelperCommon.endorsementBind(policyNumber, "Madam Jovita", Response.Status.OK.getStatusCode(), docId, docId2);
+			HelperCommon.endorsementBind(policyNumber, "Madam Jovita", Response.Status.OK.getStatusCode(), docId);
 
 			//Check PAS side
 			SearchPage.openPolicy(policyNumber);
@@ -3115,6 +3113,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		String policyNumber = openAppAndCreatePolicy(testData);
 		ViewVehicleResponse policyResponse = HelperCommon.viewPolicyVehicles(policyNumber);
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
 		validateLessThan1000Miles_ExistingVehicles(policyNumber, "1FADP3J2XJL222680", true, policyResponse, softly);
 		validateLessThan1000Miles_ExistingVehicles(policyNumber, "1G8AZ54F531234567", false, policyResponse, softly);
 
@@ -3163,10 +3162,45 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 	}
 
+	protected void pas15334viewUpdateVehicleDaytimeRunningAntilockBrakesBody(ETCSCoreSoftAssertions softly) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		//Add Vehicle
+		String purchaseDate = "2013-01-20";
+		String vin = "1C4BJWDG0JL847133"; //jeep wrangler 2018
+		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
+
+		updateVehicleRequest.antiLockBreaks = true;
+		updateVehicleRequest.daytimeRunningLight = true;
+
+		Vehicle response1 =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
+		String newVehicleOid = response1.oid;
+
+		softly.assertThat(response1.daytimeRunningLight.equals(false));
+		softly.assertThat(response1.antiLockBreaks.equals(false));
+
+		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleRequest);
+		softly.assertThat(updateVehicleResponse.daytimeRunningLight.equals(true));
+		softly.assertThat(updateVehicleResponse.antiLockBreaks.equals(true));
+
+		//Assert Metadata
+		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, newVehicleOid);
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "antiLockBreaks", true, true, true, null, "Boolean");
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "daytimeRunningLight", true, true, true, null, "Boolean");
+	}
+
 	private void validateLessThan1000Miles_ExistingVehicles(String policyNumber, String vin, boolean isLessThan1000Expected,
 			ViewVehicleResponse policyResponse, ETCSCoreSoftAssertions softly) {
 		Vehicle returnedVehicle = findVehicleByVin(policyResponse, vin);
-		softly.assertThat(returnedVehicle.isLessThan1000Miles).isFalse();
+
+		if (getState().equals(Constants.States.NJ) || isLessThan1000Expected) {
+			softly.assertThat(returnedVehicle.isLessThan1000Miles).isFalse();
+		} else {
+			softly.assertThat(returnedVehicle.isLessThan1000Miles).isNull();
+		}
+
 		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, returnedVehicle.oid);
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "isLessThan1000Miles",
 				true, isLessThan1000Expected, isLessThan1000Expected, null, "Boolean");
@@ -3177,7 +3211,13 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		Vehicle responseAddVehicle =
 				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, "2018-01-01"), Vehicle.class, 201);
-		softly.assertThat(responseAddVehicle.isLessThan1000Miles).isFalse();
+
+		if (getState().equals(Constants.States.NJ)) {
+			softly.assertThat(responseAddVehicle.isLessThan1000Miles).isFalse();
+		} else {
+			softly.assertThat(responseAddVehicle.isLessThan1000Miles).isNull();
+		}
+
 		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, responseAddVehicle.oid);
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "isLessThan1000Miles", true,
 				isLessThan1000Expected, isLessThan1000Expected, null, "Boolean");
@@ -3241,7 +3281,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 				.orElseThrow(() -> new IllegalArgumentException("No Vehicle found for oid: " + oid));
 	}
 
-	protected Vehicle findVehicleByVin(ViewVehicleResponse viewVehicleResponse, String vin) {
+	public Vehicle findVehicleByVin(ViewVehicleResponse viewVehicleResponse, String vin) {
 		return viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehicle.vehIdentificationNo.equals(vin)).findFirst()
 				.orElseThrow(() -> new IllegalArgumentException("No Vehicle found for vin: " + vin));
 	}

@@ -1,5 +1,6 @@
 package aaa.toolkit.webdriver;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
@@ -95,5 +96,15 @@ public class WebDriverHelper {
 		WebDriver driver = BrowserController.get().driver();
 		return driver.findElements(By.xpath(String.format("//*[contains(text(), '%s') and not(self::script) and not(@class='hidden' or @class='invisible') and not(ancestor-or-self::*[contains(@style,'display')"
 				+ " and contains(@style,'none')]) and not(ancestor-or-self::*[contains(@style,'visibility') and contains(@style,'hidden')])]", text)));
+	}
+
+	/**
+	 * Gets list of open window handles and change the web driver's focus based on tab index.
+	 * @param index
+	 */
+	public static void switchToBrowserTab(Integer index){
+		Set<String> _set = BrowserController.get().driver().getWindowHandles();
+		List<String> _list = new ArrayList<>(_set);
+		BrowserController.get().driver().switchTo().window(_list.get(index));
 	}
 }

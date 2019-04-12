@@ -1,0 +1,72 @@
+VehicleTab: {
+  Type: 'Private Passenger Auto',
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+  'Enroll in Usage Based Insurance?': 'Yes',
+  'Get Vehicle Details': click,
+  'Grant Participation Discount': click
+}
+
+VehicleTabEndorsement: {
+  Type: 'Private Passenger Auto',
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+  'Enroll in Usage Based Insurance?': 'Yes'
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed
+  },
+  Agreement: I agree,
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+TestDataEndorsement: {
+   GeneralTab: {},
+   DriverTab: {},
+   RatingDetailReportsTab: {},
+   VehicleTab: {
+      Type: 'Private Passenger Auto',
+      Usage: Pleasure,
+      VIN: 1GNWGPFG8B6548273,
+      'Enroll in Usage Based Insurance?': 'Yes',
+      Safety Score:
+   },
+   FormsTab: {},
+   PremiumAndCoveragesTab: {},
+   DriverActivityReportsTab: {},
+   DocumentsAndBindTab: {},
+}
+
+TestDataForBindRewrittenPolicy: {
+  PrefillTab: {},
+  GeneralTab: {
+     PolicyInformation: { Authorized by: QA}
+   },
+  DriverTab: {},
+  RatingDetailReportsTab: {
+     Customer Agreement: Customer Agrees,
+     Order Report: click
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+      Payment Plan: Annual,
+  },
+  DriverActivityReportsTab: {
+     "Has the customer expressed interest in purchasing the quote?": 'Yes',
+      Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Auto Insurance Application: 'Physically Signed'
+    },
+    RequiredToIssue: {
+      Proof of Prior Insurance: 'Yes'
+    },
+  }
+}

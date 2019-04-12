@@ -393,6 +393,13 @@ ErrorTab_PA: {
     Approval: 'true',
     Duration: Life,
     Reason for override: index=1
+   },
+   {
+    Code: 'AAA_SS190125',
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
    }
    ]  
 }
@@ -832,7 +839,7 @@ AASR22_AZ: {
   {
    VehItemNum: {TextField: '1'},
    VehManufactureYear: {TextField: '2011'},
-   VehMdelNm: {TextField: 'EXPRESS VAN'},
+   #VehMdelNm: {TextField: 'EXPRESS VAN'},
    VehManfrNm: {TextField: 'CHEVROLET'},
    VehTyp: {TextField: 'PPA'},
    VehIdNum: {TextField: '1GNWGPFG8B6548273'}
@@ -1479,7 +1486,7 @@ AASR22_IN: {
   VehicleDetails:  {
    VehItemNum: {TextField: '1'},
    VehManufactureYear: {TextField: '2011'},
-   VehMdelNm: {TextField: 'EXPRESS VAN'},
+   #VehMdelNm: {TextField: 'EXPRESS VAN'},
    VehManfrNm: {TextField: 'CHEVROLET'},
    VehTyp: {TextField: 'PPA'},
    VehIdNum: {TextField: '1GNWGPFG8B6548273'}
@@ -2576,7 +2583,7 @@ AASR22_OK: {
   VehicleDetails:  {
    VehItemNum: {TextField: '1'},
    VehManufactureYear: {TextField: '2011'},
-   VehMdelNm: {TextField: 'EXPRESS VAN'},
+  # VehMdelNm: {TextField: 'EXPRESS VAN'},
    VehManfrNm: {TextField: 'CHEVROLET'},
    VehTyp: {TextField: 'PPA'},
    VehIdNum: {TextField: '1GNWGPFG8B6548273'}
@@ -2657,7 +2664,7 @@ AA59XX_OK: {
   VehicleDetails: {
     VehManfrNm: {TextField: 'CHEVROLET'},
     VehManufactureYear: {TextField: '2011'},
-    VehMdelNm: {TextField: 'EXPRESS VAN'}
+    #VehMdelNm: {TextField: 'EXPRESS VAN'}
   },
   form: {
     PlcyNum: {TextField: ''},
@@ -3021,7 +3028,6 @@ TestData_AASR26_AZ: {
 }
 
 TestData_VerificationED_AZ: {
-  AA43AZ: '@AA43AZ_ED',
   #AH35XX: '@AH35XX_ED_AZ',
   AA59XX: '@AA59XX_ED_AZ',
   AA52AZ: '@AA52AZ_ED',
@@ -3064,41 +3070,6 @@ AASR26_AZ: {
     SSNum: {TextField: '6789'},
     SR22YN: {TextField: 'Y'},
     SR23YN: {TextField: 'N'}
-  }
-}
-
-AA43AZ_ED: {
-  CompanyDetails: {
-    CoBrandNm: {TextField: ''},
-    CoNm: {TextField: 'AAA Members Insurance Company'},
-    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
-    CoAddlAddr2: {TextField: ''},
-    CoCityNm: {TextField: 'Oakland'},
-    CoStAbrv: {TextField: 'CA'},
-    CoZipPls4: {TextField: '946239865'},
-    CoPhnNum: {TextField: '(800) 207-3618'}
-  },
-  NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
-    NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdStAbrv: {TextField: 'AZ'}
-  },
-  AgentDetails: {
-    AgntNum: {TextField: '500001004'}
-  },
-  DriverDetails: {
-    DrvrTyp: {TextField: 'E'},
-    DrvrFrstNm: {TextField: 'Maria'},
-    DrvrLstNm: {TextField: 'Jefferson'},
-    RlatToNmdInsrd: {TextField: 'Sibling'}
-  },
-  form: {
-    PlcyNum: {TextField: ''},
-    PlcyTransCd: {TextField: '0100'},
-    PlcyStAbrv: {TextField: AZ},
-    TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: ''},
-    SgntrOnFile: {TextField: ''}
   }
 }
 
@@ -3577,7 +3548,6 @@ TestData_AASR26_IN: {
 }
 
 TestData_VerificationED_IN: {
-  AA43IN: '@AA43IN_ED',
   #AH35XX: '@AH35XX_ED_IN',
   AA59XX: '@AA59XX_ED_IN',
   AA52IN: '@AA52IN_ED',
@@ -3843,53 +3813,6 @@ AA53IN_ED: {
   }
 }
 
-AA43IN_ED: {
-  CompanyDetails: {
-    CoBrandNm: {TextField: ''},
-    CoNm: {TextField: 'AAA Insurance Company'},
-    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
-    CoAddlAddr2: {TextField: ''},
-    CoCityNm: {TextField: 'Oakland'},
-    CoStAbrv: {TextField: 'CA'},
-    CoZipPls4: {TextField: '946239865'},
-    CoPhnNum: {TextField: '(800) 207-3618'}
-  },
-  NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
-    NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdStAbrv: {TextField: 'IN'}
-  },
-  AgentDetails: {
-    AgntNum: {TextField: '500016292'}
-  },
-  DriverDetails: {
-    DrvrTyp: [
-      {TextField: 'E'},
-      {TextField: 'E'}
-    ],
-    DrvrFrstNm: [
-       {TextField: 'Maria'},
-       {TextField: 'Julia'}
-    ],
-    DrvrLstNm: [
-      {TextField: 'Jefferson'},
-      {TextField: 'Woodman'}
-    ],
-    RlatToNmdInsrd: [
-      {TextField: 'Spouse'},
-      {TextField: 'Spouse'}
-    ],
-  },
-  form: {
-    PlcyNum: {TextField: ''},
-    PlcyTransCd: {TextField: '0100'},
-    PlcyStAbrv: {TextField: IN},
-    TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: ''},
-    SgntrOnFile: {TextField: ''}
-  }
-}
-
 AA02IN_ED: {
   CompanyDetails: {
     CoNm: {TextField: 'AAA Insurance Company'},
@@ -3930,7 +3853,7 @@ AA02IN_ED: {
     VehMdelNm: {TextField: 'EXPRESS VAN SPORT VAN'},
     VehIdNum: {TextField: '1GNWGPFG8B6548273'},
     VehUnitNum: {TextField: '1'},
-    VehDiscDesc: {TextField: 'Multi-Vehicle Discount; Passive Restraint Discount'},
+    #VehDiscDesc: {TextField: 'Multi-Vehicle Discount; Passive Restraint Discount'},
     VehDiscNum: {TextField: '1'},
     VehGarZipPls4: {TextField: '47714'}
    },
@@ -4077,7 +4000,6 @@ TestData_AASR26_OK: {
 }
 
 TestData_VerificationED_OK: {
-  AA43OK: '@AA43OK_ED',
   #AH35XX: '@AH35XX_ED_OK',
   AA59XX: '@AA59XX_ED_OK',
   AA52OK: '@AA52OK_ED',
@@ -4221,41 +4143,6 @@ AAPDXX_ED_OK: {
     PlcyTransCd: {TextField: '0100'},
     PrmtEffDt: {TextField: ''},
     PrmtNum: {TextField: ''}
-  }
-}
-
-AA43OK_ED: {
-  CompanyDetails: {
-    CoBrandNm: {TextField: 'DBA AAA insurance Company'},
-    CoNm: {TextField: 'AAA Insurance Company'},
-    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
-    CoAddlAddr2: {TextField: ''},
-    CoCityNm: {TextField: 'Oakland'},
-    CoStAbrv: {TextField: 'CA'},
-    CoZipPls4: {TextField: '946239865'},
-    CoPhnNum: {TextField: '(800) 259-8008'}
-  },
-  NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
-    NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdStAbrv: {TextField: 'OK'}
-  },
-  AgentDetails: {
-    AgntNum: {TextField: '500001020'}
-  },
-  DriverDetails: {
-    DrvrTyp: {TextField: 'E'},
-    DrvrFrstNm: {TextField: 'Maria'},
-    DrvrLstNm: {TextField: 'Jefferson'},
-    RlatToNmdInsrd: {TextField: 'Sibling'}
-  },
-  form: {
-    PlcyNum: {TextField: ''},
-    PlcyTransCd: {TextField: '0100'},
-    PlcyStAbrv: {TextField: 'OK'},
-    TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: ''},
-    SgntrOnFile: {TextField: ''}
   }
 }
 
@@ -4532,7 +4419,6 @@ AA02OK_ED: {
 
 #----------Document Verification for Endorsement of PA state----------------
 TestData_VerificationED_PA: {
-  AA43PA: '@AA43PA_ED',
   AH35XX: '@AH35XX_ED_PA',
   AA59XX: '@AA59XX_ED_PA',
   AA52IPAB: '@AA52IPAB',
@@ -4541,41 +4427,6 @@ TestData_VerificationED_PA: {
   AA02PA: '@AA02PA_ED',
   AAPDXX: '@AAPDXX_ED_PA',
   AAFPPA: '@AAFPPA'
-}
-
-AA43PA_ED: {
- CompanyDetails: {
-    CoBrandNm: {TextField: 'AAA Insurance'},
-    CoNm: {TextField: 'underwritten by Western United Insurance Company'},
-    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
-    CoAddlAddr2: {TextField: ''},
-    CoCityNm: {TextField: 'Oakland'},
-    CoStAbrv: {TextField: 'CA'},
-    CoZipPls4: {TextField: '946239865'},
-    CoPhnNum: {TextField: '(888) 222-0094'}
-  },
-  NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
-    NmdInsrdLstNm: {TextField: 'Smith'},
-    NmdInsrdStAbrv: {TextField: 'PA'}
-  },
-  AgentDetails: {
-    AgntNum: {TextField: '500017173'}
-  },
-  DriverDetails: {
-    DrvrTyp: {TextField: 'E'},
-    DrvrFrstNm: {TextField: 'Valya'},
-    DrvrLstNm: {TextField: 'Woodman'},
-    RlatToNmdInsrd: {TextField: 'Sibling'}
-  },
-  form: {
-    PlcyNum: {TextField: ''},
-    PlcyTransCd: {TextField: '0100'},
-    PlcyStAbrv: {TextField: PA},
-    TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: ''},
-    SgntrOnFile: {TextField: ''}
-  }
 }
 
 AH35XX_ED_PA: {
@@ -5546,10 +5397,10 @@ AA02IN_Renewal: {
     VehTyp: {TextField: 'PPA'},
     VehManufactureYear: {TextField: '2011'},
     VehManfrNm: {TextField: 'CHEVROLET'},
-    VehMdelNm: {TextField: 'EXPRESS VAN SPORT VAN'},
+    #VehMdelNm: {TextField: 'EXPRESS VAN SPORT VAN'},
     VehIdNum: {TextField: '1GNWGPFG8B6548273'},
     VehUnitNum: {TextField: '1'},
-    VehDiscDesc: {TextField: 'Hybrid Discount; Multi-Vehicle Discount; Passive Restraint Discount'},
+    #VehDiscDesc: {TextField: 'Hybrid Discount; Multi-Vehicle Discount; Passive Restraint Discount'},
     VehDiscNum: {TextField: '1'},
     VehGarZipPls4: {TextField: '47714'}
    },

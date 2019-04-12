@@ -28,7 +28,7 @@ TestData_NB_Policy: {
    }
   }
  },
- PremiumAndCoveragesTab: {},
+ PremiumAndCoveragesTab: '@PremiumCoveragesInformation',
  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
  DocumentsAndBindTab: {
   RequiredToBind: {
@@ -67,7 +67,7 @@ TestData_NB_Quote: {
    }
   }
  },
- PremiumAndCoveragesTab: {},
+ PremiumAndCoveragesTab: '@PremiumCoveragesInformation',
  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
@@ -799,4 +799,205 @@ RatingDetailReportsTab_Order: {
  Order Report: click,
 }
 
+TestData_PremiumCoverages_Version1: {
+ GeneralTab: {},
+ DriverTab: {},
+ RatingDetailReportsTab: {},
+ VehicleTab: {},
+ AssignmentTab: {},
+ FormsTab: {},
+ PremiumAndCoveragesTab: '@PremiumCoveragesInformation_Version1',
+ DriverActivityReportsTab: {},
+ DocumentsAndBindTab: {
+  RequiredToIssue: {
+   Coverage Acceptance Statement: Physically Signed,
+  }
+ },
+}
 
+TestData_PremiumCoverages_Version2: {
+ GeneralTab: {},
+ DriverTab: {},
+ RatingDetailReportsTab: {},
+ VehicleTab: {},
+ AssignmentTab: {},
+ FormsTab: {},
+ PremiumAndCoveragesTab: '@PremiumCoveragesInformation_Version2',
+ DriverActivityReportsTab: {},
+ DocumentsAndBindTab: {
+  RequiredToIssue: {
+   Coverage Acceptance Statement: Physically Signed,
+  }
+ },
+}
+
+PremiumCoveragesInformation: {
+ Payment Plan: Annual,
+ Policy Term: Annual,
+  #Bodily Injury Liability: 'contains=$100,000/$300,000',
+  #Property Damage Liability: 'contains=$50,000',
+  #Uninsured Motorists Bodily Injury: 'contains=$100,000/$300,000',
+  #Underinsured Motorists Bodily Injury: 'contains=$100,000/$300,000',
+  #Basic Personal Injury Protection Coverage: 'contains=$10,000',
+  #Additional Personal Injury Protection Coverage: 'contains=No Coverage',
+  #Personal Injury Protection Deductible: 'contains=$0',
+  #Comprehensive Deductible: 'contains=$750',
+  #Special Equipment Coverage: 1000,
+  #Collision Deductible: 'contains=$500',
+  #Rental Reimbursement: 'contains=No Coverage',
+  #Towing and Labor Coverage: 'contains=No Coverage'
+}
+
+PremiumCoveragesInformation_Version1: {
+ Payment Plan: Annual,
+ Policy Term: Annual,
+  #Bodily Injury Liability: 'contains=$100,000/$300,000',
+  #Property Damage Liability: 'contains=$50,000',
+  #Uninsured Motorists Bodily Injury: 'contains=$100,000/$300,000',
+  #Underinsured Motorists Bodily Injury: 'contains=$100,000/$300,000',
+  #Basic Personal Injury Protection Coverage: 'contains=$10,000',
+  #Additional Personal Injury Protection Coverage: 'contains=No Coverage',
+  #Personal Injury Protection Deductible: 'contains=$0',
+  #Comprehensive Deductible: 'contains=$750',
+  #Special Equipment Coverage: 1000,
+  #Collision Deductible: 'contains=$500',
+  #Rental Reimbursement: 'contains=No Coverage',
+  #Towing and Labor Coverage: 'contains=No Coverage'
+}
+
+PremiumCoveragesInformation_Version2: {
+ Policy Term: 'Semi-annual',
+ Payment Plan: 'Semi-Annual',
+ #Bodily Injury Liability: 'contains=$250,000/$500,000',
+ #Property Damage Liability: 'contains=$100,000',
+ #Uninsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
+ #Underinsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
+ #Basic Personal Injury Protection Coverage: 'contains=$10,000',
+ #Additional Personal Injury Protection Coverage: 'contains=No Coverage',
+ #Personal Injury Protection Deductible: 'contains=$0',
+ #Comprehensive Deductible: 'contains=$750',
+ #Special Equipment Coverage: 1500,
+ #Collision Deductible: 'contains=$500',
+ #Rental Reimbursement: 'contains=$30/$900',
+ #Towing and Labor Coverage: 'contains=$50/$300'
+}
+
+#test data for creation NB in Data Gather scenarios for NY
+TestData_NB_Policy_NY: {
+ PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+ GeneralTab: '@GeneralTab_NY',
+ DriverTab: ['@<auto_ss>@DataGather@DriverTab_NY', '@DriverInformation_Add_Version'],
+ RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+ VehicleTab: ['@<auto_ss>@DataGather@VehicleTab_NY', '@VehicleTab_1'],
+ AssignmentTab: {
+     DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2']
+  },
+ FormsTab: {},
+ PremiumAndCoveragesTab: {},
+ DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+ DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab_NY',
+ PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+
+GeneralTab_NY: {
+  NamedInsuredInformation: ['@NamedInsuredInformation_NY'],
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_NY'
+}
+
+NamedInsuredInformation_NY: {
+  First Name: NBFirstName,
+  Last Name: NBLastName,
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+AssignedDriver1: {
+  Driver: 'contains=NBFirstName',
+  Select Vehicle: '2011, CHEVROLET, EXPRESS VAN'
+}
+
+AssignedDriver2: {
+  Driver: 'contains=New Driver',
+  Select Vehicle: '2011, MERCEDES-BENZ, G55AMG'
+}
+
+DriverInformation_Add_Version: {
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Spouse,
+  First Name: 'New Driver',
+  Last Name: 'Version2',
+  Date of Birth: $<today-35y>,
+  Gender: Female,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 407378541
+}
+
+VehicleTab_1: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: WDCYC7BB0B6729451
+}
+
+TestData_Assignment_Version1: {
+ GeneralTab: {},
+ DriverTab: {},
+ RatingDetailReportsTab: {},
+ VehicleTab: {},
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [
+    {
+      Select Vehicle: '2011, CHEVROLET, EXPRESS VAN'
+    },
+    {
+      Select Vehicle: '2011, MERCEDES-BENZ, G55AMG'
+    },
+  ]
+},
+ FormsTab: {},
+ PremiumAndCoveragesTab: {},
+ DriverActivityReportsTab: {},
+ DocumentsAndBindTab: {}
+}
+
+TestData_Assignment_Version2: {
+ GeneralTab: {},
+ DriverTab: {},
+ RatingDetailReportsTab: {},
+ VehicleTab: {},
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [
+    {
+      Select Vehicle: '2011, MERCEDES-BENZ, G55AMG'
+    },
+    {
+      Select Vehicle: '2011, CHEVROLET, EXPRESS VAN'
+    },
+  ]
+},
+ FormsTab: {},
+ PremiumAndCoveragesTab: {},
+ DriverActivityReportsTab: {},
+ DocumentsAndBindTab: {}
+}
+TestData_Assignment_EndorsementRenewal_NY: {
+ GeneralTab: {},
+ DriverTab: {},
+ RatingDetailReportsTab: {},
+ VehicleTab: {},
+ AssignmentTab: {
+     DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2']
+  },
+ FormsTab: {},
+ PremiumAndCoveragesTab: {},
+ DriverActivityReportsTab: {},
+ DocumentsAndBindTab: {}
+}

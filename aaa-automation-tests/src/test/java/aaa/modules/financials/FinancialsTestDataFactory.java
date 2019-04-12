@@ -3,7 +3,6 @@ package aaa.modules.financials;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.policy.*;
@@ -13,7 +12,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.exceptions.IstfException;
 
 public class FinancialsTestDataFactory extends PolicyBaseTest {
@@ -127,6 +125,15 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                     AutoCaMetaData.ReinstatementActionTab.REINSTATE_DATE.getLabel()), "$<today:MM/dd/yyyy>");
         }
         return td;
+    }
+
+    protected TestData getRemoveReinstatementLapseTd(LocalDateTime cxDate) {
+        if (isStateCA()) {
+            return getPolicyTD("ReinstatementChangeLapse", "TestData").adjust(TestData.makeKeyPath(HomeCaMetaData.ChangeReinstatementLapsePeriodActionTab.class.getSimpleName(),
+                    HomeCaMetaData.ChangeReinstatementLapsePeriodActionTab.REVISED_REINSTATEMENT_DATE.getLabel()), cxDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+        }
+        return getPolicyTD("ReinstatementChangeLapse", "TestData").adjust(TestData.makeKeyPath(HomeSSMetaData.ChangeReinstatementLapseActionTab.class.getSimpleName(),
+                HomeSSMetaData.ChangeReinstatementLapseActionTab.REVISED_REINSTATEMENT_DATE.getLabel()), cxDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
     }
 
     protected TestData adjustTdPolicyEffDate(TestData td, LocalDateTime date) {
@@ -464,7 +471,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     private TestData getSSHomeAddPremiumTd() {
         TestData td = getEmptyTestDataSSHome().adjust(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
                 HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), "contains=$1,000,000",
-                HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), "contains=$250"));
+                HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), "contains=$500"));
         if (getPolicyType().equals(PolicyType.HOME_SS_HO3) || getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
             td.adjust(TestData.makeKeyPath(HomeSSMetaData.UnderwritingAndApprovalTab.class.getSimpleName(),
                     HomeSSMetaData.UnderwritingAndApprovalTab.UNDERWRITER_SELECTED_INSPECTION_TYPE.getLabel()), "index=1");
@@ -564,80 +571,34 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     }
 
     private TestData getEmptyTestDataCaAuto() {
-        return DataProviderFactory.emptyData()
-                .adjust(AutoCaMetaData.GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(AutoCaMetaData.DriverTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(AutoCaMetaData.MembershipTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(AutoCaMetaData.VehicleTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(AutoCaMetaData.AssignmentTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(AutoCaMetaData.FormsTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(AutoCaMetaData.DocumentsAndBindTab.class.getSimpleName(), DataProviderFactory.emptyData());
+        return getPolicyTD("Endorsement", "TestData_Empty_Endorsement").resolveLinks()
+                .mask(AutoCaMetaData.PrefillTab.class.getSimpleName());
     }
 
     private TestData getEmptyTestDataSSAuto() {
-        return DataProviderFactory.emptyData()
-                .adjust(AutoSSMetaData.GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(AutoSSMetaData.DriverTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(AutoSSMetaData.RatingDetailReportsTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(AutoSSMetaData.VehicleTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(AutoSSMetaData.FormsTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(AutoSSMetaData.DriverActivityReportsTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), DataProviderFactory.emptyData());
+        return getPolicyTD("Endorsement", "TestData_Empty_Endorsement").resolveLinks()
+                .mask(AutoSSMetaData.PrefillTab.class.getSimpleName())
+                .mask(AutoSSMetaData.AssignmentTab.class.getSimpleName());
     }
 
     private TestData getEmptyTestDataCaHome() {
-        return DataProviderFactory.emptyData()
-                .adjust(HomeCaMetaData.GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(HomeCaMetaData.ApplicantTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(HomeCaMetaData.ReportsTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(HomeCaMetaData.EndorsementTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(HomeCaMetaData.MortgageesTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(HomeCaMetaData.UnderwritingAndApprovalTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(HomeCaMetaData.DocumentsTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(HomeCaMetaData.BindTab.class.getSimpleName(), DataProviderFactory.emptyData());
+        return getPolicyTD("Endorsement", "TestData_Empty_Endorsement").resolveLinks();
     }
 
     private TestData getEmptyTestDataSSHome() {
-        TestData td = DataProviderFactory.emptyData()
-                .adjust(HomeSSMetaData.GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(HomeSSMetaData.ApplicantTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(HomeSSMetaData.ReportsTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(HomeSSMetaData.PropertyInfoTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(HomeSSMetaData.EndorsementTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(HomeSSMetaData.MortgageesTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(HomeSSMetaData.UnderwritingAndApprovalTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(HomeSSMetaData.DocumentsTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(HomeSSMetaData.BindTab.class.getSimpleName(), DataProviderFactory.emptyData());
+        TestData td = getPolicyTD("Endorsement", "TestData_Empty_Endorsement").resolveLinks();
         if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
             td.adjust(HomeSSMetaData.ProductOfferingTab.class.getSimpleName(), DataProviderFactory.emptyData());
         }
         return td;
     }
 
-    private TestData getEmptyTestDataCAPup() {
-        return DataProviderFactory.emptyData()
-                .adjust(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(PersonalUmbrellaMetaData.GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(PersonalUmbrellaMetaData.UnderlyingRisksAllResidentsTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(PersonalUmbrellaMetaData.ClaimsTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(PersonalUmbrellaMetaData.EndorsementsTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(PersonalUmbrellaMetaData.UnderwritingAndApprovalTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(PersonalUmbrellaMetaData.DocumentsTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(PersonalUmbrellaMetaData.BindTab.class.getSimpleName(), DataProviderFactory.emptyData());
+    private TestData getEmptyTestDataSSPup() {
+        return getPolicyTD("Endorsement", "TestData_Empty_Endorsement").resolveLinks();
     }
 
-    private TestData getEmptyTestDataSSPup() {
-        return getEmptyTestDataCAPup().mask(PersonalUmbrellaMetaData.UnderlyingRisksAllResidentsTab.class.getSimpleName());
+    private TestData getEmptyTestDataCAPup() {
+        return getEmptyTestDataSSPup().adjust(PersonalUmbrellaMetaData.UnderlyingRisksAllResidentsTab.class.getSimpleName(), DataProviderFactory.emptyData());
     }
 
 }

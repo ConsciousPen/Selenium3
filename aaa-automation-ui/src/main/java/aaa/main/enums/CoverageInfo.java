@@ -31,8 +31,8 @@ public enum CoverageInfo {
 	PIPNONMEDEXP_NJ("PIPNONMEDEXP", "Non-Medical Expense", CoverageLimits.COV_FALSE, AvailableCoverageLimits.COV_PIPNONMEDEXP_NJ, null),
 	PIPNONMEDEXP_NME_NO_NJ("PIPNONMEDEXP", "Non-Medical Expense", CoverageLimits.COV_TRUE, AvailableCoverageLimits.COV_PIPNONMEDEXP_NJ, null),
 	PIPMEDEXP_NJ("PIPMEDEXP", "Medical Expense", CoverageLimits.COV_150000, AvailableCoverageLimits.COV_PIPMEDEXP_NJ, null),
-	PIPMAXINCCONT_NJ("PIPMAXINCCONT", "Weekly Income Continuation Benefits", CoverageLimits.COV_100, AvailableCoverageLimits.COV_PIPMAXINCCONT_NJ, "Per Week"),
-    PIPMAXINCCONT_NME_NO_NJ("PIPMAXINCCONT", "Income Continuation", CoverageLimits.COV_5200, AvailableCoverageLimits.COV_PIPMAXINCCONT_NJ, "Weekly/Maximum"),
+	PIPMAXINCCONT_NJ("PIPMAXINCCONT", "Weekly Income Continuation Benefits", CoverageLimits.COV_100, AvailableCoverageLimits.COV_PIPMAXINCCONT_NJ, null),
+    PIPMAXINCCONT_NME_NO_NJ("PIPMAXINCCONT", "Income Continuation", CoverageLimits.COV_5200, AvailableCoverageLimits.COV_PIPMAXINCCONT_NJ, null),
 	PIPMEDEXPDED_NJ("PIPMEDEXPDED", "Medical Expense Deductible", CoverageLimits.COV_1000, AvailableCoverageLimits.COV_PIPMEDEXPDED_NJ, "Deductible"),
 	PIPEXTMEDPM_NJ("PIPEXTMEDPM", "Extended Medical Payments", CoverageLimits.COV_1000, AvailableCoverageLimits.COV_PIPEXTMEDPM_NJ, null),
 	PIPLENINCCONT_NJ("PIPLENINCCONT", "Length of Income Continuation", CoverageLimits.COV_2YR, AvailableCoverageLimits.COV_PIPLENINCCONT_NJ, null),
@@ -43,12 +43,13 @@ public enum CoverageInfo {
 	APIP_NME_YES_PIP_YES_NJ("APIP", "Added Personal Injury Protection", CoverageLimits.COV_TRUE, AvailableCoverageLimits.COV_APIP_NJ, null),
 	INCCONT_NJ("PIPMAXINCCONT", "Income Continuation", null, null, null),
 	ESSENSERV_NJ("ESSENSERV", "Essential Services", null, null, null),
-	ESSENSERV_NME_YES_NJ("ESSENSERV", "Essential Services", CoverageLimits.COV_4380, null, "Day/Maximum"),
-	ESSENSERV_NME_YES_PIP_YES_NJ("ESSENSERV", "Essential Services", CoverageLimits.COV_8760, null, "Day/Maximum"),
+	ESSENSERV_NME_YES_NJ("ESSENSERV", "Essential Services", CoverageLimits.COV_4380, null, null),
+	ESSENSERV_NME_YES_PIP_YES_NJ("ESSENSERV", "Essential Services", CoverageLimits.COV_8760, null, null),
 	FUNEXP_NJ("FUNEXP", "Funeral Expense/Death Benefits", null, null, null),
 	FUNEXP_NME_NO_NJ("FUNEXP", "Funeral Expense/Death Benefits", CoverageLimits.COV_1000, null, null),
 	FUNEXP_NME_YES_PIP_YES__NJ("FUNEXP", "Funeral Expenses", CoverageLimits.COV_2000, null, null),
-	WLB_UT("WLB", "Rejection of Work Loss Benefit", CoverageLimits.COV_FALSE, AvailableCoverageLimits.WLB_UT),
+	WLB_UT("WLB", "Rejection of Work Loss Benefit", CoverageLimits.COV_FALSE, AvailableCoverageLimits.WLB),
+	WLB_NY("WLB", "Work Loss Benefits", CoverageLimits.COV_FALSE, AvailableCoverageLimits.WLB),
 	INCOMELOSS_OR("WORKLOSS", "Income Loss", CoverageLimits.COV_3000, null, "Per Month/Max 52 Weeks"),
 	CHILDEXP_OR("CHILDEXP", "Childcare Expenses", CoverageLimits.COV_25, null, "Per Day/$750 Max"),
 	WORKLOSS_KS_4500("WORKLOSS", "Work Loss", CoverageLimits.COV_900, null, "Per Month/Max 1 Year"),
@@ -123,7 +124,8 @@ public enum CoverageInfo {
 	COMPDED_AZ_PPA("COMPDED", "Comprehensive Deductible", CoverageLimits.COV_250, AvailableCoverageLimits.COMPDEDNONPPA, "Deductible"),
 	COLLDED_AZ_PPA("COLLDED", "Collision Deductible", CoverageLimits.COV_500, AvailableCoverageLimits.COLLDEDNONPPA, "Deductible"),
 	SPECEQUIP_NONPPA("SPECEQUIP", "Special Equipment Coverage", CoverageLimits.SP_EQ_0, null,null),
-	BI_AZ_PA_NJ("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI_AZ_PA_NJ, "Per Person/Per Accident"),
+	BI_AZ_NJ("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI_AZ_PA_NJ, "Per Person/Per Accident"),
+	BI_PA("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI_PA, "Per Person/Per Accident"),
 	COMPDED_AZ("COMPDED", "Comprehensive Deductible", CoverageLimits.COV_750, AvailableCoverageLimits.COMPDED, "Deductible"),
 	COLLDED_AZ("COLLDED", "Collision Deductible", CoverageLimits.COV_500, AvailableCoverageLimits.COLLDED, "Deductible"),
 	FPB_BASIC_PA("FPB", "Basic First Party Benefits", CoverageLimits.COV_FPB_5K_BASIC,  AvailableCoverageLimits.FPB_PA, null),
@@ -134,11 +136,16 @@ public enum CoverageInfo {
 	FUNERAL_PA("FUNERAL", "Funeral Expense Benefit", CoverageLimits.COV_0,  AvailableCoverageLimits.FUNERAL_PA, null),
 	ADBC_PA("ADBC", "Accidental Death Benefit", CoverageLimits.COV_0,  AvailableCoverageLimits.ADBC_PA, null),
 	GLASS_AZ("GLASS", "Full Safety Glass", CoverageLimits.COV_FALSE_NO_COVERAGE, AvailableCoverageLimits.GLASS_AZ,"None"),
-	UMPD_NV_NOCOLL("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_NOCOLL, "Per Accident"),
-	UMPD_NV_WITHCOLL("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_WITHCOLL, "Per Accident"),
-	UMPD_NV_WOUM("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_WOUM, "Per Accident"),
+	UMPD_NV_NOCOLL("UMPD", "Uninsured Motorist Property Damage", null, AvailableCoverageLimits.UMPD_NV_NOCOLL, "Per Accident"),
+	UMPD_NV_WITHCOLL("UMPD", "Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_WITHCOLL, "Per Accident"),
+	UMPD_NV_WOUM("UMPD", "Uninsured Motorist Property Damage", null, AvailableCoverageLimits.UMPD_NV_WOUM, "Per Accident"),
 	EMB("EMB", "Extraordinary Medical Expense Benefits", CoverageLimits.COV_EMB_0, AvailableCoverageLimits.EMB, null),
-	LOL("LOL", "Limitation on Lawsuit", CoverageLimits.COV_LOL, AvailableCoverageLimits.LOL, null);
+	LOL("LOL", "Limitation on Lawsuit", CoverageLimits.COV_LOL, AvailableCoverageLimits.LOL, null),
+	SSL("SSL", "Supplemental Spousal Liability", CoverageLimits.COV_FALSE, AvailableCoverageLimits.SSL, null),
+	MEE_NY("MEE", "Medical Expense Elimination", CoverageLimits.COV_MEE_NONE, AvailableCoverageLimits.MEE_NY, null),
+	UM_SUM_NY("UM/SUM", "Supplementary Uninsured/Underinsured Motorists Bodily Injury", CoverageLimits.COV_100300_SUM, AvailableCoverageLimits.UM_SUM, "Per Person/Per Accident"),
+	UM_SUM_2550_NY("UM/SUM", "Uninsured Motorists Bodily Injury", CoverageLimits.COV_2550_SUM, AvailableCoverageLimits.UM_SUM, "Per Person/Per Accident");
+
 
 	private final String code;
 	private final String description;
@@ -177,6 +184,7 @@ public enum CoverageInfo {
 	public CoverageLimits getDefaultLimit() {
 		return defaultLimit;
 	}
+
 
 	public List<CoverageLimits> getAvailableLimits() {
 		return availableLimits;

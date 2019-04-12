@@ -1,5 +1,5 @@
 TestData_NewVehicle: {
-VehicleTab: ['@VehicleTab_2018'],
+  VehicleTab: ['@VehicleTab_2018'],
 }
 
 TestData3: '@TestMiniServicesDriver@TestData3'
@@ -12,313 +12,401 @@ FourDrivers_MD: {
   DriverTab: ['@DriverTab1_MD', '@DriverTab2_MD', '@DriverTab3_MD', '@DriverTab4_MD'],
 }
 
+FourDrivers_DE: {
+  DriverTab: ['@DriverTab2_DE','@DriverTab3_DE','@DriverTab4_DE','@DriverTab6_DE'],
+}
+
 TestData_All_Type_Driver: '@TestMiniServicesDriver@TestData2'
 
 DriverTab2: {
-      DriverSearchDialog: {},
-      Occupation: Self-Employed,
-      Age First Licensed: 18,
-      License Type: 'Licensed (US)',
-      License Number: 407378541
-    }
+  DriverSearchDialog: {},
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'VA',
+  License Number: T60355298
+}
 
+DriverTab2_DE: {
+  DriverSearchDialog: {},
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 4073785
+}
+
+DriverTab3_DE: {
+  Add drivers: 'Yes',
+  DriverSearchDialog: {},
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Insured with another carrier',
+  Carrier: 'index=4',
+  Policy Number: '12345',
+  Rel. to First Named Insured: Child,
+  First Name: 'Laura',
+  Middle Name: 'Sara',
+  Last Name: 'Smith',
+  Suffix: 'III',
+  Date of Birth: '12/12/1991',
+  Gender: 'Female',
+  Marital Status: Divorced,
+  Occupation: 'index=1',
+  License Type: 'Licensed (US)',
+  Age First Licensed: '18',
+  License Number: '8523698',
+  License Status: 'Licensed (US)'
+}
 
 DriverTab3: {
-    Add drivers: 'Yes',
-    DriverSearchDialog: {},
-    Driver Type: 'Not Available for Rating',
-    Reason: 'Insured with another carrier',
-    Carrier: 'index=4',
-    Policy Number: '12345',
-    Rel. to First Named Insured: Child,
-    First Name: 'Laura',
-    Middle Name: 'Sara',
-    Last Name: 'Smith',
-    Suffix: 'III',
-    Date of Birth: '12/12/1991',
-    Gender: 'Female',
-    Marital Status: Divorced,
-    Occupation: 'index=1',
-    License Type: 'Licensed (US)',
-    Age First Licensed: '18',
-    License Number: '603557779',
-    License Status: 'Licensed (US)'
+  Add drivers: 'Yes',
+  DriverSearchDialog: {},
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Insured with another carrier',
+  Carrier: 'index=8',
+  Policy Number: '12345',
+  Rel. to First Named Insured: Child,
+  First Name: 'Laura',
+  Middle Name: 'Sara',
+  Last Name: 'Smith',
+  Suffix: 'III',
+  Date of Birth: '12/12/1991',
+  Gender: 'Female',
+  Marital Status: Divorced,
+  Occupation: 'index=1',
+  License Type: 'Licensed (US)',
+  Age First Licensed: '18',
+  License Number: '603557779',
+  License Status: 'Licensed (US)'
+}
+
+DriverTab4_DE: {
+  Add drivers: 'Yes',
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Sibling,
+  First Name: 'Teena',
+  Middle Name: 'not',
+  Last Name: 'Insured',
+  Suffix: 'III',
+  Date of Birth: '12/12/1993',
+  Gender: 'Female',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Licensed (US)',
+  Age First Licensed: '18',
+  License Number: '8745896',
+  License Status: 'Licensed (US)',
+  Most Recent GPA: None
 }
 
 DriverTab4: {
-      Add drivers: 'Yes',
-      DriverSearchDialog: {},
-      Rel. to First Named Insured: Sibling,
-      First Name: 'Teena',
-      Middle Name: 'not',
-      Last Name: 'Insured',
-      Suffix: 'III',
-      Date of Birth: '12/12/1993',
-      Gender: 'Female',
-      Marital Status: Single,
-      Occupation: 'index=1',
-      License Type: 'Licensed (US)',
-      Age First Licensed: '18',
-      License Number: '603557752',
-      License Status: 'Licensed (US)',
-      Most Recent GPA: None
+  Add drivers: 'Yes',
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Sibling,
+  First Name: 'Teena',
+  Middle Name: 'not',
+  Last Name: 'Insured',
+  Suffix: 'III',
+  Date of Birth: '12/12/1993',
+  Gender: 'Female',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Licensed (US)',
+  Age First Licensed: '18',
+  License Number: '603557752',
+  License Status: 'Licensed (US)',
+  Most Recent GPA: None
+}
+
+DriverTab6_DE: {
+  Add drivers: 'Yes',
+  DriverSearchDialog: {},
+  Driver Type: Excluded,
+  Reason: Company Request,
+  Rel. to First Named Insured: Employee,
+  First Name: 'John',
+  Middle Name: 'Jonny',
+  Last Name: 'Jeff',
+  Suffix: 'III',
+  Date of Birth: '12/12/1993',
+  Gender: 'Male',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Licensed (US)',
+  Age First Licensed: '18',
+  License Number: '8745968',
+  License Status: 'Licensed (US)',
 }
 
 DriverTab6: {
-   Add drivers: 'Yes',
+  Add drivers: 'Yes',
   DriverSearchDialog: {},
-   Driver Type: Excluded,
-    Reason: Company Request,
-    Rel. to First Named Insured: Employee,
-    First Name: 'John',
-    Middle Name: 'Jonny',
-         Last Name: 'Jeff',
-         Suffix: 'III',
-         Date of Birth: '12/12/1993',
-         Gender: 'Male',
-         Marital Status: Single,
-         Occupation: 'index=1',
-         License Type: 'Licensed (US)',
-         Age First Licensed: '18',
-         License Number: '603557789',
-         License Status: 'Licensed (US)',
+  Driver Type: Excluded,
+  Reason: Company Request,
+  Rel. to First Named Insured: Employee,
+  First Name: 'John',
+  Middle Name: 'Jonny',
+  Last Name: 'Jeff',
+  Suffix: 'III',
+  Date of Birth: '12/12/1993',
+  Gender: 'Male',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Licensed (US)',
+  Age First Licensed: '18',
+  License Number: '603557789',
+  License Status: 'Licensed (US)',
 }
 
 DriverTab1_MD: {
-      DriverSearchDialog: {},
-      Occupation: Self-Employed,
-      Age First Licensed: 18,
-      License Type: 'Licensed (US)',
-      License Number: S123456789999
+  DriverSearchDialog: {},
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: S123456789999
 }
 
 DriverTab2_MD: {
-    Add drivers: 'Yes',
-    DriverSearchDialog: {},
-    Driver Type: 'Not Available for Rating',
-    Reason: 'Insured with another carrier',
-    Carrier: 'index=10',
-    Policy Number: '12345',
-    Rel. to First Named Insured: Child,
-    First Name: 'Laura',
-    Middle Name: 'Sara',
-    Last Name: 'Smith',
-    Suffix: 'III',
-    Date of Birth: '12/12/1991',
-    Gender: 'Female',
-    Marital Status: Divorced,
-    Occupation: 'index=1',
-    License Type: 'Licensed (US)',
-    Age First Licensed: '18',
-    License Number: 'S123456789998',
-    License Status: 'Licensed (US)'
+  Add drivers: 'Yes',
+  DriverSearchDialog: {},
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Insured with another carrier',
+  Carrier: 'index=10',
+  Policy Number: '12345',
+  Rel. to First Named Insured: Child,
+  First Name: 'Laura',
+  Middle Name: 'Sara',
+  Last Name: 'Smith',
+  Suffix: 'III',
+  Date of Birth: '12/12/1991',
+  Gender: 'Female',
+  Marital Status: Divorced,
+  Occupation: 'index=1',
+  License Type: 'Licensed (US)',
+  Age First Licensed: '18',
+  License Number: 'S123456789998',
+  License Status: 'Licensed (US)'
 }
 
 DriverTab3_MD: {
-      Add drivers: 'Yes',
-      DriverSearchDialog: {},
-      Rel. to First Named Insured: Sibling,
-      First Name: 'Teena',
-      Middle Name: 'not',
-      Last Name: 'Insured',
-      Suffix: 'III',
-      Date of Birth: '$<today-25y:MM/dd/yyyy>',
-      Gender: 'Female',
-      Marital Status: Single,
-      Occupation: 'index=1',
-      License Type: 'Licensed (US)',
-      Age First Licensed: '18',
-      License Number: 'S123456789997',
-      License Status: 'Licensed (US)',
-      Most Recent GPA: None
+  Add drivers: 'Yes',
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Sibling,
+  First Name: 'Teena',
+  Middle Name: 'not',
+  Last Name: 'Insured',
+  Suffix: 'III',
+  Date of Birth: '$<today-25y:MM/dd/yyyy>',
+  Gender: 'Female',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Licensed (US)',
+  Age First Licensed: '18',
+  License Number: 'S123456789997',
+  License Status: 'Licensed (US)',
+  Most Recent GPA: None
 }
 
 DriverTab4_MD: {
-   Add drivers: 'Yes',
+  Add drivers: 'Yes',
   DriverSearchDialog: {},
-   Driver Type: Excluded,
-    Reason: Company Request,
-    Rel. to First Named Insured: Employee,
-    First Name: 'John',
-    Middle Name: 'Jonny',
-         Last Name: 'Jeff',
-         Suffix: 'III',
-         Date of Birth: '12/12/1993',
-         Gender: 'Male',
-         Marital Status: Single,
-         Occupation: 'index=1',
-         License Type: 'Licensed (US)',
-         Age First Licensed: '18',
-         License Number: 'S123456789996',
-         License Status: 'Licensed (US)',
+  Driver Type: Excluded,
+  Reason: Company Request,
+  Rel. to First Named Insured: Employee,
+  First Name: 'John',
+  Middle Name: 'Jonny',
+  Last Name: 'Jeff',
+  Suffix: 'III',
+  Date of Birth: '12/12/1993',
+  Gender: 'Male',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Licensed (US)',
+  Age First Licensed: '18',
+  License Number: 'S123456789996',
+  License Status: 'Licensed (US)',
 }
 
 VehicleTab_2018: {
-    Add Vehicle: Click,
-    Usage: Pleasure,
-    VIN: 1FM5K8D86JGA29926,
-    Ownership: {
-     Ownership Type: Leased,
-     First Name: BANK OF AMERICA
-    }
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: 1FM5K8D86JGA29926,
+  Ownership: {
+    Ownership Type: Leased,
+    First Name: BANK OF AMERICA
+  }
 }
 
 TestData_PPA_and_MotorHome: {
-    VehicleTab: ['@VehicleTab_regular_vehicle', '@VehicleTab_Motor_Home'],
+  VehicleTab: ['@VehicleTab_regular_vehicle', '@VehicleTab_Motor_Home'],
 }
 
 VehicleTab_Motor_Home: {
-    Add Vehicle: Click,
-    Type: Motor Home,
-    Motor Home Type: Mini Motor Home (Class C),
-    Usage: Pleasure Use - Occupied Less than 30 Days a Year,
-    VIN: 5B4MP67G123353230,
-    Other Make: 'Motor',
-    Other Model: 'Motor',
-    Stated Amount: '50000',
+  Add Vehicle: Click,
+  Type: Motor Home,
+  Motor Home Type: Mini Motor Home (Class C),
+  Usage: Pleasure Use - Occupied Less than 30 Days a Year,
+  VIN: 5B4MP67G123353230,
+  Other Make: 'Motor',
+  Other Model: 'Motor',
+  Stated Amount: '50000',
 }
 
 TestData_PPAandTrailer: {
-    VehicleTab: ['@VehicleTab_2018', '@VehicleTab_Trailer'],
+  VehicleTab: ['@VehicleTab_2018', '@VehicleTab_Trailer'],
 }
 
 VehicleTab_Trailer: {
-   Add Vehicle: Click,
-   Type: Trailer,
-   Trailer Type: Travel Trailer,
-   Usage: Traveling Primary Residence,
-   VIN: 1GNWGPFG8B65,
-   Year: 2017,
-   Other Make: BHN,
-   Other Model: 456,
-   Stat Code: Recreational Trailer,
-   Stated Amount: 55000
-    }
+  Add Vehicle: Click,
+  Type: Trailer,
+  Trailer Type: Travel Trailer,
+  Usage: Traveling Primary Residence,
+  VIN: 1GNWGPFG8B65,
+  Year: 2017,
+  Other Make: BHN,
+  Other Model: 456,
+  Stat Code: Recreational Trailer,
+  Stated Amount: 55000
+}
 
 TestData_PPAandTrailer_NY: {
-   VehicleTab: ['@VehicleTab_2018_NY', '@VehicleTab_Trailer_NY'],
-    }
+  VehicleTab: ['@VehicleTab_2018_NY', '@VehicleTab_Trailer_NY'],
+}
 
 VehicleTab_2018_NY: {
-    Add Vehicle: Click,
-    Usage: Pleasure,
-    VIN: 1FM5K8D86JGA29926,
-    "Less Than 3,000 Miles": 'No',
-    Ownership: {
-     Ownership Type: Leased,
-     First Name: BANK OF AMERICA
-    }
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: 1FM5K8D86JGA29926,
+  "Less Than 3,000 Miles": 'No',
+  Ownership: {
+    Ownership Type: Leased,
+    First Name: BANK OF AMERICA
+  }
 }
 
 VehicleTab_Trailer_NY: {
-   Add Vehicle: Click,
-   Type: Trailer,
-   Trailer Type: Travel Trailer,
-   Usage: Traveling Primary Residence,
-   VIN: 1GNWGPFG8B65,
-   Year: 2018,
-   Other Make: BHN,
-   Other Model: 456,
-   Stat Code: Recreational Trailer,
-   Stated Amount: 55000,
-   "Less Than 3,000 Miles": 'No'
-    }
+  Add Vehicle: Click,
+  Type: Trailer,
+  Trailer Type: Travel Trailer,
+  Usage: Traveling Primary Residence,
+  VIN: 1GNWGPFG8B65,
+  Year: 2018,
+  Other Make: BHN,
+  Other Model: 456,
+  Stat Code: Recreational Trailer,
+  Stated Amount: 55000,
+  "Less Than 3,000 Miles": 'No'
+}
 
 TestData_VAN_PICKUP_VA: {
-   VehicleTab: ['@VehicleTab_regular_vehicle', '@VehicleTab_VAN_PICKUP_without_coverage_VA', '@VehicleTab_VAN_PICKUP_with_coverage_VA'],
-    }
+  VehicleTab: ['@VehicleTab_regular_vehicle', '@VehicleTab_VAN_PICKUP_without_coverage_VA', '@VehicleTab_VAN_PICKUP_with_coverage_VA'],
+}
 
 VehicleTab_regular_vehicle: {
-    Add Vehicle: Click,
-    Usage: Pleasure,
-    VIN: 1FM5K8D86JGA29926,
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: 1FM5K8D86JGA29926,
 }
 
 VehicleTab_VAN_PICKUP_without_coverage_VA: {
-     Add Vehicle: Click,
-     Usage: Pleasure,
-     VIN: 2GTEC19V531282646,
-     Customizing Equipment: 'No',
-    }
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: 2GTEC19V531282646,
+  Customizing Equipment: 'No',
+}
 
 VehicleTab_VAN_PICKUP_with_coverage_VA: {
-Add Vehicle: Click,
-Usage: Pleasure,
-VIN: 2GTEC19K8S1525936,
-Customizing Equipment: 'Yes',
-    Stated Amount: 2500.25,
-    }
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: 2GTEC19K8S1525936,
+  Customizing Equipment: 'Yes',
+  Stated Amount: 2500.25,
+}
 
 TestData_VAN_PICKUP_other_than_VA: {
-VehicleTab: ['@VehicleTab_regular_vehicle', '@VehicleTab_VAN_PICKUP_1_other_than_VA', '@VehicleTab_VAN_PICKUP_2_other_than_VA'],
+  VehicleTab: ['@VehicleTab_regular_vehicle', '@VehicleTab_VAN_PICKUP_1_other_than_VA', '@VehicleTab_VAN_PICKUP_2_other_than_VA'],
 }
 
 VehicleTab_VAN_PICKUP_1_other_than_VA: {
-Add Vehicle: Click,
-Usage: Pleasure,
-VIN: 2GTEC19V531282646,
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: 2GTEC19V531282646,
 }
 
 VehicleTab_VAN_PICKUP_2_other_than_VA: {
-Add Vehicle: Click,
-Usage: Pleasure,
-VIN: 2GTEC19K8S1525936,
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: 2GTEC19K8S1525936,
 }
 
 PremiumAndCoveragesTab_DC: {
-Uninsured Motorist Property Damage: index=1,
-Underinsured Motorist Property Damage: index=1
+  Uninsured Motorist Property Damage: index=1,
+  Underinsured Motorist Property Damage: index=1
 }
 
 PremiumAndCoveragesTab_IN: {
-Uninsured Motorist Property Damage Limit: index=1,
+  Uninsured Motorist Property Damage Limit: index=1,
 }
 
 PremiumAndCoveragesTab_NJ: {
-Uninsured Motorist Property Damage: index=1,
+  Uninsured Motorist Property Damage: index=1,
 }
 
 PremiumAndCoveragesTab_NY: {
-Supplementary Uninsured/Underinsured Motorists Bodily Injury (SUM): index=1,
+  Supplementary Uninsured/Underinsured Motorists Bodily Injury (SUM): index=1,
 }
 
 PremiumAndCoveragesTab_WV: {
-Underinsured Motorist Property Damage: index=1,
+  Underinsured Motorist Property Damage: index=1,
 }
 
 DocumentsAndBindTab: {
- RequiredToBind: {
+  RequiredToBind: {
     Auto Insurance Application: Physically Signed,
     Named Driver Exclusion: Physically Signed
   },
   RequiredToIssue: {
-     Proof of Current Insurance for: 'Yes',
-     Proof of Prior Insurance: 'Yes'
-   },
-    Agreement: I agree
+    Proof of Current Insurance for: 'Yes',
+    Proof of Prior Insurance: 'Yes'
+  },
+  Agreement: I agree
+}
+
+DocumentsAndBindTab_DE: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Named Driver Exclusion Endorsement: Physically Signed,
+    Delaware Motorists Protection Act: Physically Signed,
+    Acknowledgement of Deductible Selections: Physically Signed,
+    Important Information Personal Injury Protection (PIP) - Delaware Understanding (PIP) Deductibles: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Current Insurance for: 'Yes',
+    Proof of Prior Insurance: 'Yes'
+  },
+  Agreement: I agree
 }
 
 DocumentsAndBindTab_MD: {
- RequiredToBind: {
+  RequiredToBind: {
     Named Driver Exclusion Endorsement: Physically Signed,
     Notice And Waiver Of Increased Limits Of Uninsured Motorists Coverage: Physically Signed,
     Maryland Auto Insurance Application: Physically Signed,
     Maryland Notice And Waiver Of Personal Injury Protection (PIP) Coverage: Physically Signed
   },
   RequiredToIssue: {
-     Proof of Current Insurance for: 'Yes',
-     Proof of Prior Insurance: 'Yes'
-   },
-    Agreement: I agree
+    Proof of Current Insurance for: 'Yes',
+    Proof of Prior Insurance: 'Yes'
+  },
+  Agreement: I agree
 }
 
 TestData_PPAandTrailerMotorHome: {
-     VehicleTab: ['@VehicleTab_2018', '@VehicleTab_Trailer','@VehicleTab_Motor_Home','@VehicleTab_GolfCart'],
- }
+  VehicleTab: ['@VehicleTab_2018', '@VehicleTab_Trailer','@VehicleTab_Motor_Home','@VehicleTab_GolfCart'],
+}
 
 TestData_PPAandTrailerMotorHomeOR: {
-     VehicleTab: ['@VehicleTab_2018', '@VehicleTab_Trailer','@VehicleTab_Motor_Home'],
- }
+  VehicleTab: ['@VehicleTab_2018', '@VehicleTab_Trailer','@VehicleTab_Motor_Home'],
+}
 TestData_FNI_AFR_Excluded_NAFR: {
   DriverTab: ['@Driver_FNI', '@DriverTab_AFR', '@TestMiniServicesDriver@DriverTab6', '@TestMiniServicesDriver@DriverTab7'], #DriverTab6 = Excluded, DriverTab7 = NAFR
 }
@@ -359,9 +447,9 @@ TestData_OrderOfCoverages: {
 }
 
 TestData_OrderOfCoverages_NonMedical: {
-   PolicyLevelCoverages: ["LOL", "BI", "PD", "UMBI","UMPD","PIP","PIPPRIMINS","PIPMEDEXP","PIPMEDEXPDED","PIPEXTMEDPM","PIPNONMEDEXP","APIP","ESSENSERV","FUNEXP","DEATHBENEFIT","PIPMAXINCCONT"],
-     VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
-       DriverLevelCoverages:[]
+  PolicyLevelCoverages: ["LOL", "BI", "PD", "UMBI","UMPD","PIP","PIPPRIMINS","PIPMEDEXP","PIPMEDEXPDED","PIPEXTMEDPM","PIPNONMEDEXP","APIP","ESSENSERV","FUNEXP","DEATHBENEFIT","PIPMAXINCCONT"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:[]
 }
 TestData_OrderOfCoverages_AZ: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "MEDPM"],
@@ -424,7 +512,7 @@ TestData_OrderOfCoverages_MD: {
 }
 
 TestData_OrderOfCoverages_DE: {
-  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "PIP", "PIPDED", "PIPDEDAPPTO", "FUNEXP", "PROPERTY"],
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "PIP", "FUNEXP", "PROPERTY", "PIPDED", "PIPDEDAPPTO"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
   DriverLevelCoverages:["ADB"]
 }
@@ -496,26 +584,26 @@ TestData_OrderOfCoverages_WY: {
 }
 
 TestData_OrderOfCoverages_NJ: {
-   PolicyLevelCoverages: ["LOL", "BI", "PD", "UMBI","UMPD","PIP","PIPPRIMINS","PIPMEDEXP","PIPMEDEXPDED","PIPEXTMEDPM","PIPNONMEDEXP","APIP","ESSENSERV","FUNEXP","DEATHBENEFIT","PIPMAXINCCONT","PIPLENINCCONT","PIPCOVINCLUDES"],
-   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
-     DriverLevelCoverages:[]
- }
+  PolicyLevelCoverages: ["LOL", "BI", "PD", "UMBI","UMPD","PIP","PIPPRIMINS","PIPMEDEXP","PIPMEDEXPDED","PIPEXTMEDPM","PIPNONMEDEXP","APIP","ESSENSERV","FUNEXP","DEATHBENEFIT","PIPMAXINCCONT","PIPLENINCCONT","PIPCOVINCLUDES"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:[]
+}
 
 VehicleTab_GolfCart: {
-   Add Vehicle: click,
-   Type: Golf Cart,
-   Primary operator: index=0,
-   Usage: index=3,
-   VIN: KNDJT2A2XA7038383,
-   Year: 2010,
-   Other Make: Geer,
-   Other Model: GRX100,
-   Stated Amount: 1500
- }
+  Add Vehicle: click,
+  Type: Golf Cart,
+  Primary operator: index=0,
+  Usage: index=3,
+  VIN: KNDJT2A2XA7038383,
+  Year: 2010,
+  Other Make: Geer,
+  Other Model: GRX100,
+  Stated Amount: 1500
+}
 
 PolicyLevelPersonalInjuryProtectionCoverages_NonMedExp_NO: {
-    Non-Medical Expense: 'No'
-  }
+  Non-Medical Expense: 'No'
+}
 
 AdditionalPersonalInjuryProtectionBenefit_NO: {
   Additional Personal Injury Protection Benefit: 'No'
@@ -525,6 +613,13 @@ AdditionalPersonalInjuryProtectionBenefit_NO: {
 
 PolicyLevelPersonalInjuryProtectionCoverages_Primary_Insurer_Personal_Health_Insurance: {
   Primary Insurer: 'Personal Health Insurance',
+  Insurer Name: 'abc',
+  "Policy / Group # /Certificate #": '12Z'
+}
+
+MedicalExpensesElimination_NamedInsuredOnly: {
+  Additional PIP: 'contains=No Coverage',
+  Medical Expense Elimination: 'Named Insured Only',
   Insurer Name: 'abc',
   "Policy / Group # /Certificate #": '12Z'
 }

@@ -1,0 +1,90 @@
+TestData_Endorsement: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: {},
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}
+}
+
+RatingDetailReportsTab: {
+  Order Report: click,
+}
+
+GeneralTab: {
+  AAAProductOwned: '@AAAProductOwned_Override_NoDate'
+}
+
+AAAProductOwned: {
+  Current AAA Member: 'Membership Override',
+  #  Override Type: 'Term', #this is default, so no point to selecting it COMMENT/REMOVE
+  Member Since Date: 01/04/2009,
+  Membership Number: ,
+  Last name:
+}
+
+AAAProductOwned2: {
+  Current AAA Member: 'Membership Override',
+  #  Override Type: 'Term', #this is default, so no point to selecting it
+  Member Since Date: 11/01/2011,
+  Membership Number: ,
+  Last name:
+}
+
+AAAProductOwned_Yes: {
+  Current AAA Member: 'Yes',
+  #  Override Type: 'Term',
+  #  Member Since Date: 11/01/2015,
+  Membership Number: ,
+  Last name:
+}
+
+AAAProductOwned_Override_NoDate: {
+  Current AAA Member: 'Membership Override',
+  Override Type: 'Term',
+  Member Since Date: ,
+  #  Membership Number: ,
+  #  Last name: 'fddsf'
+}
+
+
+AAAProductOwned_MSNo: {
+  Current AAA Member: 'No',
+  Override Type: ,
+  Member Since Date: ,
+  Membership Number: , #remove number
+  Last name:
+}
+
+AAAProductOwned_MS_Active2: {
+  Current AAA Member: 'Yes',
+  #  Override Type: ,
+  #  Member Since Date: ,
+  Membership Number: 4290023667710001,
+  Last name: 'Test'
+}
+
+AAAProductOwned_MS_Override_Term: {
+  Current AAA Member: 'Membership Override',
+  #  Override Type: 'Term', #this is default, so no point to select it
+  Member Since Date: 01/04/2009,
+  #  Membership Number: 9436258506738011,
+  #  Last name: 'fddsf'
+}
+
+AAAProductOwned_MS_Override_Life: {
+  Current AAA Member: 'Membership Override',
+  Override Type: 'Life', #
+  Member Since Date: 01/04/2009,
+  #  Membership Number: 9436258506738011,
+  #  Last name: 'fddsf'
+}
+
+AAAProductOwned_MS_Pending: {
+  Current AAA Member: 'Membership Pending'
+}
+
+
+#DriverTab_OV: {
+#   License Number:  A12345678
+#}

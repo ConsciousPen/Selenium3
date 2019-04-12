@@ -8,14 +8,11 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.mywork.MyWork;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -47,31 +44,23 @@ public class TestCARCOTaskCreation extends AutoSSBaseTest {
     public void pas22614_testCARCOInspectionTaskNotCreated(@Optional("") String state) {
 
         DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
-        ErrorTab errorTab = new ErrorTab();
 
         TestData td  = getPolicyTD()
-                .adjust(TestData.makeKeyPath(AutoSSMetaData.VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "JTNKARJE1JJ566521")
-                .adjust(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(),
-                        AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.SEPARATE_VEHICLE_1.getLabel()), "No");
+                .adjust(TestData.makeKeyPath(AutoSSMetaData.VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "JTNKARJE1JJ566521");
 
         if (getState().equals(Constants.States.NJ)) {
             td.adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(),
                     AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.ACNOWLEDGEMENT_OF_REQUIREMENT_FOR_INSURANCE_INSPECTION.getLabel()), PolicyConstants.SignatureStatus.PHYSICALLY_SIGNED);
         } else if (getState().equals(Constants.States.NY)) {
-            td.adjust(TestData.makeKeyPath(AutoSSMetaData.VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.LESS_THAN_3000_MILES.getLabel()), "No");
+            td.adjust(TestData.makeKeyPath(AutoSSMetaData.VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.LESS_THAN_1000_MILES.getLabel()), "No")
+                    .adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(),
+                            AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.ACKNOWLEDGEMENT_OF_REQUIREMENT_FOR_PHOTO_INSPECTION.getLabel()), PolicyConstants.SignatureStatus.PHYSICALLY_SIGNED);
         }
 
-        // Create policy and fill up to Documents & Bind, select 'No' for vehicle under 'Required to Issue' for CARCO
+        // Create policy and fill up to Documents & Bind, select 'No Document Received' for vehicle
         createQuoteAndFillUpTo(td, DocumentsAndBindTab.class);
 
-        // Override CARCO error and bind policy
-        documentsAndBindTab.submitTab();
-        if (getState().equals(Constants.States.NJ)) {
-            errorTab.overrideErrors(ErrorEnum.Duration.TERM, ErrorEnum.ReasonForOverride.TEMPORARY_ISSUE, ErrorEnum.Errors.ERROR_AAA_200205);
-        } else if (getState().equals(Constants.States.NY)) {
-            errorTab.overrideErrors(ErrorEnum.Duration.TERM, ErrorEnum.ReasonForOverride.TEMPORARY_ISSUE, ErrorEnum.Errors.ERROR_AAA_200200_NY);
-        }
-        errorTab.override();
+        // Bind policy
         documentsAndBindTab.submitTab();
         new PurchaseTab().fillTab(td).submitTab();
         String policyNumber = PolicySummaryPage.getPolicyNumber();

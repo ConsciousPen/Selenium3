@@ -846,3 +846,224 @@ VehicleInformation_Version2: {
   },
 }
 
+
+#test data for creation NB in Data Gather scenarios
+TestData_Multiple_Drivers_NB_Quote: {
+  PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_Quote',
+  DriverTab: ['@DriverInformation_Version1','@DriverInformation_Add_Version'],
+  MembershipTab: {},
+  VehicleTab: '@VehicleInformation_Version2',
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+          Primary Driver: "VIFirstName VILastName",
+          Manually Rated Driver: "VIFirstName VILastName"
+        },
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000',
+  },
+  DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ca_select>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+}
+
+DriverInformation_Add_Version: {
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Spouse,
+  First Name: 'New Driver',
+  Last Name: 'Version2',
+  Date of Birth: $<today-18y>,
+  Gender: Female,
+  Marital Status: Single,
+  Occupation: 'Student',
+  Age First Licensed: 16,
+  Permit Before License: 'Yes',
+  "Licensed in US/Canada for 18 or More Months?": 'No',
+  "First US/Canada License Date": $<today-1M>,
+  License Type: 'Valid',
+  License State: AZ,
+  "License #": A12345679,
+  Employee Benefit Type: Surviving spouse,
+  ADB Coverage: 'No',
+  Most Recent GPA: 'A Student',
+  New Driver Course Completed: 'Yes',
+  New Driver Course Completion Date: $<today>,
+  New Driver Certification Number: 33333,
+  "Smoker: Cigarettes, cigars or pipes": 'Yes',
+  Financial Responsibility Filling Needed: 'No',
+  Ridesharing Coverage: 'Yes',
+  "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
+}
+
+
+TestData_Assignment_Version1: {
+    GeneralTab: {},
+    DriverTab: {},
+    MembershipTab: {},
+    VehicleTab: {},
+    AssignmentTab: {
+     DriverVehicleRelationshipTable: {
+           Primary Driver: "VIFirstName VILastName",
+           Manually Rated Driver: "VIFirstName VILastName"
+         }
+    },
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+    DriverActivityReportsTab: {},
+    DocumentsAndBindTab: {
+      RequiredToBind: {
+        AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+      },
+    },
+}
+
+
+TestData_Assignment_Version2: {
+    GeneralTab: {},
+    DriverTab: {},
+    MembershipTab: {},
+    VehicleTab: {},
+    AssignmentTab: {
+      DriverVehicleRelationshipTable: {
+            Primary Driver: "New Driver Version2",
+            Manually Rated Driver: "New Driver Version2"
+          }
+    },
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+    DriverActivityReportsTab: {},
+    DocumentsAndBindTab: {
+     # RequiredToIssue: {
+       # Photos showing all 4 sides of Salvaged Vehicle(s): 'Yes'
+     # }
+    },
+}
+
+#test data for creation NB in Endorsement/Renewal scenarios with multiple drivers
+TestData_Multiple_Drivers_NB_Policy: {
+  PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+    DriverTab: ['@DriverInformation','@DriverInformation_Add_Version'],
+  MembershipTab: {},
+  VehicleTab: '@VehicleInformation_Version1',
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+           Primary Driver: "NBFirstName NBLastName",
+           Manually Rated Driver: "NBFirstName NBLastName"
+         }
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000',
+  },
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the policy?": 'Yes',
+    Sales Agent Agreement: I Agree,
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      California Car Policy Application: Physically Signed,
+      Subscriber Agreement: Physically Signed,
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Policy Application: 'Yes',
+      Proof of Good Student Discount: 'Yes',
+      Auto Billing Plan Explanation: 'Yes',
+      Proof of New Driver Course Completion: 'Yes',
+    }
+  },
+  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+}
+
+TestData_Assignment_EndorsementRenewal: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {
+       DriverVehicleRelationshipTable: {
+             Primary Driver: "NBFirstName NBLastName",
+              Manually Rated Driver: "NBFirstName NBLastName"
+           }
+      },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_PremiumCoverages_Version1: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumCoveragesInformation_Version1',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_PremiumCoverages_Version2: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumCoveragesInformation_Version2',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+PremiumCoveragesInformation: {
+  Payment Plan: Annual,
+  Policy Term: Annual,
+  #Bodily Injury Liability: 'contains=$100,000/$300,000',
+  #Property Damage Liability: 'contains=$50,000',
+  #Uninsured Motorists Bodily Injury: 'contains=$100,000/$300,000',
+  #Medical Payments: 'contains=No Coverage',
+  #Comprehensive Deductible: 'contains=$500',
+  #Special Equipment Coverage: 1000,
+  #Collision Deductible: 'contains=$500',
+  #Collision Deductible Waiver: 'contains=No Coverage',
+  #Rental Reimbursement: 'contains=No Coverage',
+  #Towing and Labor Coverage: 'contains=No Coverage'
+}
+
+PremiumCoveragesInformation_Version1: {
+  Payment Plan: Annual,
+  Policy Term: Annual,
+  #Bodily Injury Liability: 'contains=$250,000/$500,000',
+  #Property Damage Liability: 'contains=$100,000',
+  #Uninsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
+  #Medical Payments: 'contains=No Coverage',
+  #Comprehensive Deductible: 'contains=$500',
+  #Special Equipment Coverage: 1000,
+  #Collision Deductible: 'contains=$500',
+  #Collision Deductible Waiver: 'contains=No Coverage',
+  #Rental Reimbursement: 'contains=No Coverage',
+  #Towing and Labor Coverage: 'contains=No Coverage'
+}
+
+PremiumCoveragesInformation_Version2: {
+  Policy Term: 'Semi-annual',
+  Payment Plan: 'Semi-Annual',
+  #Bodily Injury Liability: 'contains=$100,000/$300,000',
+  #Property Damage Liability: 'contains=$50,000',
+  #Uninsured Motorists Bodily Injury: 'contains=$100,000/$300,000',
+  #Medical Payments: 'contains=$1,000',
+  #Comprehensive Deductible: 'contains=$750',
+  #Special Equipment Coverage: 500,
+  #Collision Deductible: 'contains=$250',
+  #Collision Deductible Waiver: 'contains=$5,000',
+  #Rental Reimbursement: 'contains=Yes',
+  #Towing and Labor Coverage: 'contains=Yes'
+}

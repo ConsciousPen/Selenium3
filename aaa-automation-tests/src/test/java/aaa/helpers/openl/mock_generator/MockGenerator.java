@@ -126,10 +126,10 @@ public class MockGenerator {
 	}
 
 	public RetrieveMembershipSummaryMock getRetrieveMembershipSummaryMock(LocalDate policyEffectiveDate, Integer memberPersistency) {
-		return getRetrieveMembershipSummaryMock(policyEffectiveDate, memberPersistency, RetrieveMembershipSummaryMock.AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE);
+		return getRetrieveMembershipSummaryMock(policyEffectiveDate, memberPersistency, RetrieveMembershipSummaryMock.AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE, false);
 	}
 
-	public RetrieveMembershipSummaryMock getRetrieveMembershipSummaryMock(LocalDate policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
+	public RetrieveMembershipSummaryMock getRetrieveMembershipSummaryMock(LocalDate policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember, Boolean isRenewal) {
 		RetrieveMembershipSummaryMock existingMock = getMock(RetrieveMembershipSummaryMock.class);
 		String id = generateMockId(existingMock.getMembershipRequests().stream().map(MembershipRequest::getId).collect(Collectors.toList()));
 		String membershipNumber = generateMembershipNumber(existingMock.getMembershipRequests().stream().map(MembershipRequest::getMembershipNumber).collect(Collectors.toList()));
@@ -156,7 +156,7 @@ public class MockGenerator {
 				}
 				isPrimaryType = true;
 			}
-			membershipResponses.add(buildMembershipResponse(id, membershipNumber, memberStartDate, serviceDate, isPrimaryType));
+			membershipResponses.add(buildMembershipResponse(id, membershipNumber, memberStartDate, serviceDate, isPrimaryType, isRenewal));
 		}
 
 		membershipRequests.add(mRequest);
@@ -315,14 +315,18 @@ public class MockGenerator {
 		return propertyClassificationMock;
 	}
 
-	protected MembershipResponse buildMembershipResponse(String id, String membershipNumber, LocalDate memberStartDate, LocalDate serviceDate, boolean isPrimaryType) {
+	protected MembershipResponse buildMembershipResponse(String id, String membershipNumber, LocalDate memberStartDate, LocalDate serviceDate, boolean isPrimaryType, boolean isRenewal) {
 		MembershipResponse mResponse = new MembershipResponse();
 		mResponse.setId(id);
 		mResponse.setMembershipStatusAcl("Active");
 		mResponse.setMembershipEndDate(memberStartDate.plusYears(15));
 		mResponse.setMembershipEffectiveDate(memberStartDate);
 		mResponse.setMembershipNumber(membershipNumber);
-		mResponse.setErsUsageCountPerActiveMember(3.0);
+		if (!isRenewal){
+			mResponse.setErsUsageCountPerActiveMember(3.0);
+		} else {
+			mResponse.setErsUsageCountPerActiveMember(7.0);
+		}
 		mResponse.setErsUsageAbuse(true);
 		mResponse.setResponseMessageRuleDecision("Membership Details are retrieved from CDX");
 		mResponse.setService("CDX");

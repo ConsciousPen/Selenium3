@@ -112,13 +112,13 @@ public class TestDocgenScenarios extends PersonalUmbrellaBaseTest {
 
 		mainApp().open();
 
-		GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 		createCustomerIndividual();
 		String quoteNum = createQuote();
 		log.info("Create PUP Quote" + quoteNum);
 
 		//Verify the documents on quote GODD page
 		policy.quoteDocGen().start();
+		GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 		goddTab.verify.documentsPresent(softly, AHFMXX, PS11, PSIQXX, HSRFIXXPUP, HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX);
 		goddTab.verify.documentsPresent(softly, false, _438BFUNS, AHRCTXX, AHPNXX, AHNBXX, HSEIXX, HSES, PS02);

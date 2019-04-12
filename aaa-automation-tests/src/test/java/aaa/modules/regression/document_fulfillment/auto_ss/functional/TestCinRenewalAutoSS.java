@@ -19,6 +19,7 @@ import aaa.modules.regression.document_fulfillment.template.functional.TestCinAb
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
     /**
@@ -83,11 +84,15 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
         
         renewPolicy(policyNumber, renewalTD, doNotRenewTD);
 
-        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, true);
+        //Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, true);
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER)).isNotNull();
-        });
+        // SoftAssertions.assertSoftly(softly -> {
+        //     softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER)).isNotNull();
+        //});
+        
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		DocGenHelper.verifyDocumentsGenerated(softly, true, false, policyNumber, DocGenEnum.Documents.AHAUXX);
+		
     }
 
     /*******************************
@@ -129,11 +134,15 @@ public class TestCinRenewalAutoSS extends TestCinAbstractAutoSS {
 
         renewPolicy(policyNumber, renewalTD, doNotRenewTD);
 
-        Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, true);
+        //Document cinDocument = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AHAUXX, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER, true);
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER)).isNotNull();
-        });
+        //SoftAssertions.assertSoftly(softly -> {
+        //    softly.assertThat(cinDocument).as(getPolicyErrorMessage(CIN_DOCUMENT_MISSING_ERROR, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER)).isNotNull();
+        // });
+        
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		DocGenHelper.verifyDocumentsGenerated(softly, true, false, policyNumber, DocGenEnum.Documents.AHAUXX);
+		
     }
 
     /**

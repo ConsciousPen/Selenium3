@@ -85,11 +85,4 @@
             <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationRenewal"/>
         </classes>
     </test>
-    <!-- PAS-22575 - MinDueIsNotRecalculatedAfter_Renewals -->
-    <test name="PAS-22575 test MinDue Is Not Recalculated After Renewals" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.finance.billing.auto_ca.select.TestMinDueIsNotRecalculatedAfterRenewals"/>
-        </classes>
-    </test>
 </suite>

@@ -8,6 +8,7 @@ import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.TableWithPages;
+import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import org.openqa.selenium.By;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -28,6 +29,8 @@ public class ApplicantTab extends Tab {
 	public Button btnContinue = new Button(By.xpath("//input[@id='policyDataGatherForm:next_footer' or @id='policyDataGatherForm:nextInquiry_footer']"), Waiters.AJAX);
 	public Table tblInsuredList = new Table(By.xpath("//div[@id='policyDataGatherForm:dataGatherView_ListAAAHOOtherOrPriorPolicyComponent']//table"));
 	public TableWithPages tblListOfOtherActiveAAAPolicies = new TableWithPages(By.id("policyDataGatherForm:dataGatherView_ListAAAHOOtherOrPriorPolicyComponent"));
+	public SingleSelectSearchDialog otherAAAProductSearchDialog =
+			new SingleSelectSearchDialog(By.xpath("//div[contains(text(),'Other AAA Product Search')]/ancestor::div[2]"), HomeSSMetaData.ApplicantTab.OtherAAAProductSearch.class);
 
     @Override
     public Tab submitTab() {

@@ -1,14 +1,14 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsCATemplate;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(states = {Constants.States.CA})
@@ -93,6 +93,12 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * @scenario Test Steps: See Template For Details
      * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver
      */
+    /**
+     * PAS-23977 - END: Reconcile Claim # Formats (CLUE and CAS)
+     * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added and compare of CLUE claim from newly added driver to existing PU Yes claim on FNI .
+     * @scenario Test Steps: See Template For Details
+     * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver and only claim numbers will be compared ignoring the format differences.
+     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-22172")
@@ -121,6 +127,12 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * 14. Calculate Premium and Order CLUE report
      * 15. Validate the Internal claims is dropped from driver1 and assigned to driver2 as CLUE claims
      * @details Clean Path. Expected Result is that internal claims will be move from the FNI to the newly added driver when Agent marks the PU as 'Yes'
+     */
+    /**
+     * PAS-23977 - END: Reconcile Claim # Formats (CLUE and CAS)
+     * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added and compare of CLUE claim from newly added driver to existing PU Yes claim on FNI .
+     * @scenario Test Steps: See Template For Details
+     * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver and only claim numbers will be compared ignoring the format differences.
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
@@ -176,4 +188,69 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
     public void pas25463_ViolationsMVRPUIndicatorCheck(@Optional("CA") @SuppressWarnings("unused") String state) {
         pas25463_ViolationsMVRPUIndicatorCheck();
     }
+
+    /**
+     * @author Mantas Garsvinskas
+     * PAS-25162 - UI-CA-CAS: make sure “MATCHED” FNI claims do not show PU YES unless set by user
+     * @name Test Offline Claims Permissive Use Indicator defaulting Rules
+     * @scenario Test Steps:
+     * 1. Create a Policy with 2 drivers: FNI and 1 additional
+     * 2. Move time to R-63 and run Renewal Part1 + "renewalClaimOrderAsyncJob"
+     * 3. Create CAS Response File with required Claims (all claims permissiveUse = Y)
+     * 3.1. --DL matched Claim
+     * 3.2. --COMP matched Claim
+     * 3.3. --LASTNAME_FIRSTNAME_DOB matched Claim
+     * 3.4. --LASTNAME_FIRSTNAME_YOB matched Claim
+     * 3.5. --LASTNAME_FIRSTNAME matched Claim
+     * 3.6. --LASTNAME_FIRSTINITIAL_DOB matched Claim
+     * 3.7. --NO_MATCH not matched, but permissiveUse = Y, so PERMISSIVE_USE matched Claim;
+     * 4. Move Time to R-46 and run Renewal Part2 + "claimsRenewBatchReceiveJob"
+     * 5. Retrieve policy and enter renewal image
+     * 6. Verify all Claims: 'Permissive Use Loss?' flag is set according to defaulting rules
+     * 7. Accept a payment and renew the policy
+     * --Next steps will be added after PAS-26322
+     * 8. Move time to R2-63 and run Renewal Part1 + "renewalClaimOrderAsyncJob"
+     * 9. Create CAS Response File with required Claims
+     * 9.1. --EXISTING_MATCH matched Claims: Previously was PU = Y, Now PU = N, and viceversa
+     * 10. Move Time to R-46 and run Renewal Part2 + "claimsRenewBatchReceiveJob"
+     * 11. Retrieve policy and enter renewal image
+     * 12. Verify all Claims: 'Permissive Use Loss?' flag is set according to defaulting rules (EXISTING_MATCH retaining same value as before)
+     * @details Clean Path. Expected Result is that 'Permissive Use Loss' is defaulted to 'Yes' only for PU Claims (Existing Matches as well)
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-25162")
+    public void pas25162_permissiveUseIndicatorDefaulting(@Optional("CA") @SuppressWarnings("unused") String state) {
+        pas25162_permissiveUseIndicatorDefaulting();
+    }
+
+    /**
+     * @author Chris Johns
+     * PAS-24652 - CHANGE FNI - General Tab (CA): move PU Yes claims when FNI changed via "dropdown" (endorsement and quote) (changed to FNI already exists as driver)
+     * @name Test Offline STUB/Mock: validate permissive use claims 'move' to new FNI when FNI is changed to existing FNI on general tab
+     * @scenario New Business and Endorsement: See Template For Details and steps
+     * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-24652")
+    public void pas24652_ChangeFNIGeneralTabNBEndorsement(@Optional("CA") @SuppressWarnings("unused") String state) {
+        pas24652_ChangeFNIGeneralTabNBEndorsement();
+    }
+
+    /**
+     * @author Chris Johns
+     * PAS-22172 - END - CAS: reconcile permissive use claims when driver/named insured is added (avail for rating)
+     * PAS-24652 - CHANGE FNI - General Tab (CA): move PU Yes claims when FNI changed via "dropdown" (endorsement and quote) (changed to FNI already exists as driver)
+     * @name Test Offline STUB/Mock: validate permissive use claims 'move' to new FNI when FNI is changed to existing FNI on general tab
+     * @scenario Renewal: See Template For Details and steps
+     * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-24652")
+    public void pas24652_ChangeFNIGeneralTabRenewal(@Optional("CA") @SuppressWarnings("unused") String state) {
+        pas24652_ChangeFNIGeneralTabRenewal();
+    }
+
 }

@@ -1525,7 +1525,7 @@ public final class HomeCaMetaData {
 					DialogsMetaData.AddressValidationMetaData.class, By.id(".//div[@id='addressValidationPopupAAAHOMortgageeAddressValidation_container']"));
 			public static final AssetDescriptor<TextBox> LOAN_NUMBER = declare("Loan number", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> USE_LEGAL_MORTGAGEE_FOR_EVIDENCE_OF_INSURANCE = declare("Use legal mortgagee for evidence of insurance", RadioGroup.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> LEGAL_MORTGAGEE_NAME = declare("Legal mortgagee name", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> MORTGAGEE_CLAUSE = declare("Mortgagee Clause", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<Button> ADD = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHOMortgageeInfo"));
 		}
 
@@ -1959,6 +1959,11 @@ public final class HomeCaMetaData {
 		public static final AssetDescriptor<TextBox> RENEWAL_DATE = declare("Renewal Date", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> REASON_FOR_RENEWAL_WITH_LAPSE = declare("Reason for Renewal with Lapse", ComboBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> OTHER = declare("Other", TextBox.class, Waiters.AJAX);
+	}
+
+	public static final class ManualRenewActionTab extends MetaData {
+		public static final AssetDescriptor<StaticElement> RENEWAL_DATE = declare("Renewal Date", StaticElement.class);
+		public static final AssetDescriptor<TextBox> AUTHORIZED_BY = declare("Authorized By", TextBox.class);
 	}
 
 	public static final class ManualRenewalWithOrWithoutLapseActionTab extends MetaData {

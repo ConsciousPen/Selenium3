@@ -2,104 +2,426 @@
 <suite name="SnT Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!-- Listener commented out for local runs-->
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
 
-    <test name="Home Granularity CA HO3" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestHomeGranularity">
-                <methods>
-                    <include name="pas23235_validateCensusBlockGroupAndLatLong"/>
-                    <include name="pas23927_validateCensusBlockGroupAndLatLongFromEADS"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="Home Granularity SS HO3" parallel="methods" thread-count="1024">
+    <test name="General tab/Named Insured Information section/Comparison SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestHomeGranularity">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
                 <methods>
-                    <include name="pas24138_validateCensusBlockGroupAndLatLong"/>
-                    <include name="pas24030_validateCensusBlockGroupAndLatLongFromEADS"/>
+                    <include name="pas12266_dataGatherComparisonNamedInsuredInformation"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="Home Granularity CA HO4" parallel="methods" thread-count="1024">
+    <test name="General tab/AAA Products Owned section/Comparison CA Choice" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestHomeGranularity">
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
                 <methods>
-                    <include name="pas23235_validateCensusBlockGroupAndLatLong"/>
-                    <include name="pas23927_validateCensusBlockGroupAndLatLongFromEADS"/>
-                    <include name="pas23218_riskAddressChangeDuringRenewal"/>
-                    <include name="pas24576_riskAddressChangeDuringEndorsement"/>
+                    <include name="pas13529_renewalComparisonAAAProductOwned"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="Home Granularity SS HO4" parallel="methods" thread-count="1024">
+    <test name="General tab/Contact Information section/Comparison SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestHomeGranularity">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
                 <methods>
-                    <include name="pas24138_validateCensusBlockGroupAndLatLong"/>
-                    <include name="pas24030_validateCensusBlockGroupAndLatLongFromEADS"/>
+                    <include name="pas12884_dataGatherComparisonContactInformation"/>
+                    <include name="pas12884_endorsementsComparisonContactInformation"/>
+                    <include name="pas12884_renewalComparisonContactInformation"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="Home Granularity CA HO6" parallel="methods" thread-count="1024">
+    <test name="General tab/Current Carrier Information section/Comparison CA Select" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestHomeGranularity">
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
                 <methods>
-                    <include name="pas23235_validateCensusBlockGroupAndLatLong"/>
-                    <include name="pas23927_validateCensusBlockGroupAndLatLongFromEADS"/>
+                    <include name="pas13542_dataGatherComparisonCurrentCarrierInformation"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="Home Granularity SS HO6" parallel="methods" thread-count="1024">
+    <test name="General tab/Policy Information section/Comparison SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestHomeGranularity">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
                 <methods>
-                    <include name="pas24138_validateCensusBlockGroupAndLatLong"/>
-                    <include name="pas24030_validateCensusBlockGroupAndLatLongFromEADS"/>
+                    <include name="pas12886_endorsementsComparisonPolicyInformation"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="Home Granularity CA DP3" parallel="methods" thread-count="1024">
+    <test name="General tab/Third Party Designee section/Comparison CA Choice" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestHomeGranularity">
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
                 <methods>
-                    <include name="pas23235_validateCensusBlockGroupAndLatLong"/>
-                    <include name="pas23927_validateCensusBlockGroupAndLatLongFromEADS"/>
+                    <include name="pas13832_renewalComparisonThirdPartyDesignee"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="Home Granularity SS DP3" parallel="methods" thread-count="1024">
+    <test name="Driver tab/Driver Information section, Activity Information section/Comparison SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestHomeGranularity">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
                 <methods>
-                    <include name="pas24138_validateCensusBlockGroupAndLatLong"/>
-                    <include name="pas24030_validateCensusBlockGroupAndLatLongFromEADS"/>
+                    <include name="pas12923_dataGatherComparisonDriverInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Driver tab/Driver Information section, Activity Information section/Comparison CA Select" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas14147_endorsementsComparisonDriverInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Vehicle tab/Vehicle Information section, UBI section, Garaging Address section, Ownership section, Additional Interest section/Comparison SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas12469_renewalComparisonVehicleInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Vehicle tab/Vehicle Information section, Garaging Address section, Ownership section, Additional Interest section/Comparison CA Choice" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas14145_dataGatherComparisonVehicleInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+
+    <test name="General tab/Named Insured Information section/Conflict CA Select" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas14826_renewalMergeNamedInsuredInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="General tab/Contact Information section/Conflict CA Select" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas17149_ooseConflictManualContactInformation"/>
+                    <include name="pas17149_ooseConflictAutomaticContactInformation"/>
+                    <include name="pas17149_renewalMergeContactInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="General tab/Current Carrier Information section/Conflict SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas17143_renewalMergeCurrentCarrierInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="General tab/Policy Information section/Conflict CA Select" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas16049_ooseConflictAutomaticPolicyInformation"/>
+
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="General tab/Third Party Designee section/Conflict CA Choice" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas16563_ooseConflictManualThirdPartyDesignee"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Driver tab/Driver Information section/Conflict SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas17144_ooseConflictManualDriverInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Driver tab/Driver Information section, Activity Information section/Conflict CA Choice" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas17151_renewalMergeDriverInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Vehicle tab/Vehicle Information section, UBI section, Garaging Address section, Additional Interest section/Conflict SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas14121_renewalMergeVehicleInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Vehicle tab/Vehicle Information section, Garaging Address section, Ownership section, Additional Interest section/Conflict CA Select" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas15242_ooseConflictAutomaticVehicleInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Add Components SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas19839_ooseConflictManualAddNamedInsuredInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Add Components CA Select" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas19839_ooseConflictAutomaticAddVehicleInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Add Components CA Choice" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas19839_renewalMergeAddDriverAndActivityInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Assignment Tab/Comparison CA Choice" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas25187_dataGatherComparisonAssignment"/>
+                    <include name="pas25187_endorsementsComparisonAssignment"/>
+                    <include name="pas25187_renewalComparisonAssignment"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+
+    <test name="Assignment Tab/Comparison CA Select" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas25187_dataGatherComparisonAssignment"/>
+                    <include name="pas25187_endorsementsComparisonAssignment"/>
+                    <include name="pas25187_renewalComparisonAssignment"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Assignment Tab/Conflict CA Select" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas25188_ooseConflictManualAssignment"/>
+                    <include name="pas25188_ooseConflictAutomaticAssignment"/>
+                    <include name="pas25188_renewalMergeAssignment"/>
+
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Assignment Tab/Conflict CA Choice" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas25188_ooseConflictManualAssignment"/>
+                    <include name="pas25188_ooseConflicAutomaticAssignment"/>
+                    <include name="pas25188_renewalMergeAssignment"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="General tab/Contact Information section/Conflict SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas17142_ooseConflictManualContactInformation"/>
+                    <include name="pas17142_ooseConflictAutomaticContactInformation"/>
+                    <include name="pas17142_renewalMergeContactInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="General tab/Contact Information section/Comparison CA Select" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas13531_dataGatherComparisonContactInformation"/>
+                    <include name="pas13531_endorsementsComparisonContactInformation"/>
+                    <include name="pas13531_renewalComparisonContactInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="General tab/Contact Information section/Comparison CA Choice" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas13531_dataGatherComparisonContactInformation"/>
+                    <include name="pas13531_endorsementsComparisonContactInformation"/>
+                    <include name="pas13531_renewalComparisonContactInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="General tab/Contact Information section/Conflict CA Choice" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas17149_ooseConflictManualContactInformation"/>
+                    <include name="pas17149_ooseConflictAutomaticContactInformation"/>
+                    <include name="pas17149_renewalMergeContactInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Assignment Tab/Comparison SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas25887_dataGatherComparisonAssignment"/>
+                    <include name="pas25887_endorsementsComparisonAssignment"/>
+                    <include name="pas25887_renewalComparisonAssignment"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Assignment Tab/Conflict SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas25889_ooseConflictManualAssignment"/>
+                    <include name="pas25889_ooseConflictAutomaticAssignment"/>
+                    <include name="pas25889_renewalMergeAssignment"/>
+
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Remove Components AutoSS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas19839_ooseConflictAutomaticRemoveVehicleAndDriver"/>
+                    <include name="pas19839_ooseConflictManualRemoveVehicleAndDriver"/>
+                    <include name="pas19839_renewalMergeAutomaticRemoveNamedInsured"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Remove Components AutoCASelect" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas19839_ooseConflictAutomaticRemoveVehicleAndDriver"/>
+                    <include name="pas19839_ooseConflictManualRemoveVehicleAndDriver"/>
+                    <include name="pas19839_renewalMergeAutomaticRemoveNamedInsured"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Remove Components AutoCA Choice" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas19839_ooseConflictAutomaticRemoveVehicleAndDriver"/>
+                    <include name="pas19839_ooseConflictManualRemoveVehicleAndDriver"/>
+                    <include name="pas19839_renewalMergeAutomaticRemoveNamedInsured"/>
                 </methods>
             </class>
         </classes>

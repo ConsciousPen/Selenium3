@@ -71,6 +71,7 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver">
                 <methods>
                     <include name="pas23995_testAccidentSurchargeWaiverAgedRenewalCAS"/>
+                    <include name="pas24673_testASWForTwoDriversWhenOneAccidentAgesOut"/>
                 </methods>
             </class>
         </classes>
@@ -196,7 +197,7 @@
         </classes>
     </test>
 
-    <test name="Test Renewal Effective On Rewrite SS" parallel="methods" thread-count="1024">
+    <test name="Test Cancelled Conversion On Rewrite KY" parallel="methods" thread-count="1024">
         <parameter name="state" value="KY"/>
         <classes>
             <class name="aaa.modules.regression.conversions.auto_ss.functional.TestCancelledConversionRewrite"/>

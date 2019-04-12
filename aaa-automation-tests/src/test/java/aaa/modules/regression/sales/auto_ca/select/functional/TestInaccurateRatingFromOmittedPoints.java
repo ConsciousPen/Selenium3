@@ -72,14 +72,17 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
         _td.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), activity);
         new DriverTab().fillTab(_td);
         
-        // Return to PNC Tab. Capture Product Type. Verify it's 'Choice' now.
+        // Return to PNC Tab. Capture Product Type. Verify it's 'Select' now.
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         productDetermined = pncTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT.getLabel(), ComboBox.class).getValue();
-        CustomAssertions.assertThat(productDetermined).isEqualToIgnoringCase("CA Choice");
+        //PAS-27328 PAS is updating product from CA select to CA choice due to good driver discount not applying even though driver is assigned less than 3 points.
+        //Changed the assertion to Select for 2 dsr points
+        CustomAssertions.assertThat(productDetermined).isEqualToIgnoringCase("CA Select");
 
         // Calculate Premium. Verify Product Hasn't Changed.
         pncTab.calculatePremium();
-        CustomAssertions.assertThat(productDetermined).isEqualToIgnoringCase("CA Choice");
+        //PAS-27328 Changed the assertion to Select for 2 dsr points
+        CustomAssertions.assertThat(productDetermined).isEqualToIgnoringCase("CA Select");
 
         // Navigate to Driver Tab and Return to PNC Tab. For debugging later: Adding a BP after this line allows for simple verification of claim data gathered.
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
@@ -87,6 +90,7 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
         // Return to PNC Tab. Calculate Premium. Verify Product Hasn't Changed.
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         pncTab.calculatePremium();
-        CustomAssertions.assertThat(productDetermined).isEqualToIgnoringCase("CA Choice");
+        //PAS-27328 Changed the assertion to Select for 2 dsr points
+        CustomAssertions.assertThat(productDetermined).isEqualToIgnoringCase("CA Select");
     }
 }

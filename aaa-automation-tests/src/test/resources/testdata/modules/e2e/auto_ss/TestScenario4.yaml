@@ -23,6 +23,24 @@ VehicleTab: {
   VIN: WDCYC7BB0B6729451
 }
 
+TestData_Endorsement_PA: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: '@DocumentsAndBindTab_PA',
+}
+
+DocumentsAndBindTab_PA: {
+  RequiredToBind: {
+    Uninsured Motorists Coverage Selection/Rejection: Physically Signed,
+    Underinsured Motorists Coverage Selection/Rejection: Physically Signed,
+  }
+}
+
 TestData_Endorsement_NY: {
   GeneralTab: {},
   DriverTab: {},

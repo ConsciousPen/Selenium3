@@ -31,6 +31,7 @@ import toolkit.utils.datetime.DateTimeUtils;
 
 public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPolicy> {
 	private static final String VEHICLE_ASSIGNED_ID_TESTDATA_KEY = "vehicleAssignedId";
+	private String licenseNumber = "";
 
 	public AutoSSTestDataGenerator(String state, TestData ratingDataPattern) {
 		super(state, ratingDataPattern);
@@ -39,6 +40,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	@Override
 	public TestData getRatingData(AutoSSOpenLPolicy openLPolicy) {
 		TestData ratingDataPattern = getRatingDataPattern().resolveLinks();
+
+		licenseNumber = ratingDataPattern.getTestData(DriverTab.class.getSimpleName()).getValue(AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel());
+		ratingDataPattern = ratingDataPattern.mask(new DriverTab().getMetaKey()).resolveLinks();
 
 		if (openLPolicy.getReinstatements() != null && openLPolicy.getReinstatements() > 0) {
 			//TODO-dchubkov: to be implemented...
@@ -94,6 +98,22 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.BUTTON_CALCULATE.getLabel(), "click"));
 	}
 
+	public TestData getPolicyPurchaseData() {
+		TestData td = getRatingDataPattern();
+		return DataProviderFactory.dataOf(
+				DriverActivityReportsTab.class.getSimpleName(), td.getTestData(DriverActivityReportsTab.class.getSimpleName()),
+				DocumentsAndBindTab.class.getSimpleName(), td.getTestData(DocumentsAndBindTab.class.getSimpleName()),
+				PurchaseTab.class.getSimpleName(), td.getTestData(PurchaseTab.class.getSimpleName()));
+	}
+
+	public TestData getPolicyRenewData() {
+		return DataProviderFactory.dataOf(
+				GeneralTab.class.getSimpleName(), new SimpleDataProvider(),
+				DriverTab.class.getSimpleName(), new SimpleDataProvider(),
+				RatingDetailReportsTab.class.getSimpleName(), DataProviderFactory.dataOf(AutoSSMetaData.RatingDetailReportsTab.ORDER_REPORT.getLabel(), "click"),
+				VehicleTab.class.getSimpleName(), new SimpleDataProvider());
+	}
+
 	private TestData getPrefillTabData() {
 		return DataProviderFactory.emptyData();
 	}
@@ -110,40 +130,30 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		Map<String, Object> currentAAAMembershipData = new HashMap<>();
 		currentAAAMembershipData.put(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()));
 
-		// TODO NEED TO REFACTOR According to changes in UI for Auto SS product for MPD feature.
-		// ownedHome is a temporal fix for NY Auto SS test, should be deleted after MPD Merge to master
-		String ownedHome = "Y".equalsIgnoreCase(openLPolicy.getAaaHomePolicy()) ? "Yes" : "No";
-
-		/*Map<String, Object> aAAProductOwnedData = new HashMap<>();
+		Map<String, Object> aAAProductOwnedData = new HashMap<>();
 		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaHomePolicy()))) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME_OLD.getLabel(), "Yes");
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME.getLabel(), true);
 		} else {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME_OLD.getLabel(), "No");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME.getLabel(), false);
 		}
 
 		if (Boolean.TRUE.equals(openLPolicy.isAaaLifePolicy())) {
 			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel(), true);
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
 		} else {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.LIFE.getLabel(), "No");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel(), false);
 		}
 
 		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaRentersPolicy()))) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.RENTERS.getLabel(), "Yes");
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.RENTERS_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS.getLabel(), true);
 		} else {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.RENTERS.getLabel(), "No");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS.getLabel(), false);
 		}
 
 		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaCondoPolicy()))) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CONDO.getLabel(), "Yes");
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CONDO_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO.getLabel(), true);
 		} else {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CONDO.getLabel(), "No");
-		}*/
-
-		// TODO Refactor section  END
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO.getLabel(), false);
+		}
 
 		//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.AAAMembership.MOTORCYCLE.getLabel(), openLPolicy.isAaaMotorcyclePolicy()
 
@@ -158,17 +168,25 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		currentCarrierInformationData.putAll(
 				getGeneralTabAgentInceptionAndExpirationData(openLPolicy.getAutoInsurancePersistency(), openLPolicy.getAaaInsurancePersistency(), openLPolicy.getEffectiveDate()));
 
-		//TODO-dchubkov: all ID states tests have "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)" value for "Agent Entered Current/Prior Carrier" but it's missed. To be investigated...
-		if (StringUtils.isNotBlank(openLPolicy.getCappingDetails().getCarrierCode()) && !getState().equals(Constants.States.ID)) {
+		if (StringUtils.isNotBlank(openLPolicy.getCappingDetails().getCarrierCode())) {
 			//TODO-dchubkov: add common method for replacing values from excel?
 			String carrierCode = openLPolicy.getCappingDetails().getCarrierCode().trim().replaceAll("\u00A0", "");
+			switch (carrierCode) {
+				case "ACAIC":
+					carrierCode = "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)";
+					break;
+				case "WUIC":
+					carrierCode = "Western United";
+			}
 			currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
-		} else if (openLPolicy.isCappedPolicy()) {
+		} else if (openLPolicy.isCappedPolicy() && openLPolicy.isLegacyConvPolicy()) {
 			String carrierCode;
 			switch (getState()) {
 				//TODO-dchubkov: fill carrier codes for other states, see "Capping" tab -> "Carrier Code" column in algorithm files for each state
+				case Constants.States.ID:
 				case Constants.States.KY:
 				case Constants.States.UT:
+				case Constants.States.WV:
 					carrierCode = "Western United";
 					break;
 				case Constants.States.MD:
@@ -201,7 +219,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				AutoSSMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), DataProviderFactory.emptyData(),
 				AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), new SimpleDataProvider(currentCarrierInformationData),
 				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), new SimpleDataProvider(policyInformationData),
-				AutoSSMetaData.GeneralTab.HOME.getLabel(), ownedHome);
+				AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED.getLabel(), new SimpleDataProvider(aAAProductOwnedData));
 	}
 
 	private List<TestData> getDriverTabData(AutoSSOpenLPolicy openLPolicy) {
@@ -244,6 +262,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			driverData.put(AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), martialStatus);
 			driverData.put(AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), driver.getDriverAge() - driver.getTyde());
 			driverData.put(AutoSSMetaData.DriverTab.LICENSE_TYPE.getLabel(), getDriverTabLicenseType(driver.isForeignLicense()));
+			driverData.put(AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel(), getValidLicenseNumber(licenseNumber, openLPolicy.getDrivers().indexOf(driver)));
 			driverData.put(AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "None");
 			driverData.put(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=First Named Insured|");
 			driverData.put(AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_EMPTY);
@@ -266,13 +285,14 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 
 			if (!isFirstDriver) {
-				String[] firstLastName = driver.getName().split("\\s");
+				String[] firstLastName = driver.getName().split("\\s", 2);
 				String firstName = firstLastName[0];
 				String lastName = firstLastName.length > 1 ? firstLastName[1] : firstName;
+				int driverAge = openLPolicy.isNewRenPasCappedPolicy() ? driver.getDriverAge() - 1 : driver.getDriverAge();
 				driverData.put(AutoSSMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), DataProviderFactory.emptyData());
 				driverData.put(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), firstName);
 				driverData.put(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), lastName);
-				driverData.put(AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), getDriverTabDateOfBirth(driver.getDriverAge(), openLPolicy.getEffectiveDate()));
+				driverData.put(AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), getDriverTabDateOfBirth(driverAge, openLPolicy.getEffectiveDate()));
 			}
 
 			if (Boolean.TRUE.equals(driver.isSmartDriver())) {
@@ -415,6 +435,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		return driversTestDataList;
 	}
 
+	private String getValidLicenseNumber(String licenseNumber, int indexOfDriver) {
+		int length = licenseNumber.length();
+		return new StringBuilder(licenseNumber.substring(0, length - 2)).append(indexOfDriver).append(licenseNumber.substring(length - 1, length)).toString();
+	}
+
 	private LocalDate getOccurrenceDate(LocalDate effectiveDate) {
 		// Incident should be not older than 33 month from effective date to affect premium
 		return effectiveDate.minusDays(new Random().nextInt(maxIncidentFreeInMonthsToAffectRating * 28));
@@ -512,7 +537,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					unverifiableDrivingRecordSurchargeData.put(UnverifiableDrivingRecordSurcharge.DRIVER_SELECTION_BY_CONTAINS_KEY + "Smith", driver.isUnverifiableDrivingRecord());
 					isFirstDriver = false;
 				} else {
-					String[] firstLastName = driver.getName().split("\\s");
+					String[] firstLastName = driver.getName().split("\\s", 2);
 					String firstName = firstLastName[0];
 					String lastName = firstLastName.length > 1 ? firstLastName[1] : firstName;
 					unverifiableDrivingRecordSurchargeData.put(firstName + " " + lastName, driver.isUnverifiableDrivingRecord());
@@ -613,8 +638,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS.getLabel(), "starts=No Coverage");
 		}
 
-		if (getState().equals(Constants.States.ID)) {
+		if (getState().equals(Constants.States.ID) && !policyCoveragesData.containsKey(getPremiumAndCoveragesTabCoverageName("UIMBI"))) {
 			policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "starts=No Coverage");
+		}
+
+		if (getState().equals(Constants.States.NV) && !policyCoveragesData.containsKey(getPremiumAndCoveragesTabCoverageName("MP"))) {
+			policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS.getLabel(), "starts=No Coverage");
 		}
 
 		if (getState().equals(Constants.States.NV)) {
@@ -647,14 +676,16 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	}
 
 	private TestData getVehicleTabInformationData(AutoSSOpenLVehicle vehicle, boolean isLegacyConvPolicy) {
-		String vin = getVinFromDb(vehicle);
+		String vin = covertToValidVin(getVinFromDb(vehicle));
+
 		Map<String, Object> vehicleInformation = new HashMap<>();
 		String statCode = vehicle.getBiLiabilitySymbol();
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), getVehicleTabType(statCode));
 
-		if (StringUtils.isNotBlank(vin)) {
+		if (vin != null) {
 			//vehicleInformation.put(AutoSSMetaData.VehicleTab.VIN.getLabel(), covertToValidVin(vin));
-			vehicleInformation.put(AutoSSMetaData.VehicleTab.VIN.getLabel(), covertToValidVin(vin));
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.VIN.getLabel(), vin);
+			vehicle.setVinCode(vin);
 		} else {
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.YEAR.getLabel(), vehicle.getModelYear());
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), vehicle.getCollSymbol() * 1000);

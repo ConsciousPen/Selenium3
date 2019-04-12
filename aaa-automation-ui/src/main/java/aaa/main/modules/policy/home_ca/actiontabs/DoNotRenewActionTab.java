@@ -5,6 +5,8 @@
 package aaa.main.modules.policy.home_ca.actiontabs;
 
 import aaa.common.ActionTab;
+import aaa.common.Tab;
+import aaa.common.pages.Page;
 import aaa.main.metadata.policy.HomeCaMetaData;
 
 /**
@@ -16,5 +18,13 @@ import aaa.main.metadata.policy.HomeCaMetaData;
 public class DoNotRenewActionTab extends ActionTab {
     public DoNotRenewActionTab() {
         super(HomeCaMetaData.DoNotRenewActionTab.class);
+    }
+
+    @Override
+    public Tab submitTab() {
+        if(Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
+            Page.dialogConfirmation.confirm();
+        }
+        return this;
     }
 }
