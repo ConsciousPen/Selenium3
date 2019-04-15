@@ -1,5 +1,12 @@
 package aaa.modules.regression.finance.billing.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -18,15 +25,8 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.finance.template.FinanceOperations;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import java.time.LocalDateTime;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestMinDueIsNotRecalculatedAfterThirdEndorsement extends FinanceOperations {
 
@@ -57,7 +57,7 @@ public class TestMinDueIsNotRecalculatedAfterThirdEndorsement extends FinanceOpe
 	}
 	@Parameters({"state"})
 	@StateList(statesExcept = {States.CA})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22575")
 
 	public void pas22575_testMinDueIsNotRecalculatedAfterThirdEndorsement(@Optional("KY") String state) {

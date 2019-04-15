@@ -1,5 +1,12 @@
 package aaa.modules.regression.finance.billing.auto_ca.select;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -16,15 +23,8 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.finance.template.FinanceOperations;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import java.time.LocalDateTime;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestMinDueIsNotRecalculatedAfterRenewals extends FinanceOperations {
 
@@ -49,14 +49,15 @@ public class TestMinDueIsNotRecalculatedAfterRenewals extends FinanceOperations 
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_SELECT;
 	}
+
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22575")
 
-	public void pas22575_testMinDueIsNotRecalculatedAfterRenewals (@Optional("CA") String state) {
+	public void pas22575_testMinDueIsNotRecalculatedAfterRenewals(@Optional("CA") String state) {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData")
-		.adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.STANDARD_MONTHLY);
+				.adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.STANDARD_MONTHLY);
 		String policyNumber = openAppAndCreatePolicy(td);
 		LocalDateTime policyExpDate = PolicySummaryPage.getExpirationDate();
 		payTotalAmtDue(policyNumber);
@@ -87,7 +88,7 @@ public class TestMinDueIsNotRecalculatedAfterRenewals extends FinanceOperations 
 		assertThat(BillingSummaryPage.tableBillsStatements.getValuesFromRows(BillingConstants.BillingBillsAndStatmentsTable.TYPE)).doesNotContain(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER);
 	}
 
-	private void renewalAndChangeBodilyInjury(String bodilyInjuryAmount){
+	private void renewalAndChangeBodilyInjury(String bodilyInjuryAmount) {
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());

@@ -40,7 +40,7 @@ public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreTh
 
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.NJ})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22285")
 	public void pas22285_testFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount(@Optional("NJ") String state) {
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();

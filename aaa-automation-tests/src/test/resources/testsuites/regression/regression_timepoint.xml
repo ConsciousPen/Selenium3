@@ -13,7 +13,6 @@
                 <include name="Regression"/>
             </run>
         </groups>
-
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
                 <methods>
@@ -173,6 +172,7 @@
                     <include name="pas5847_removingSPPDoesNotLowerTotalPremium"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.home_ss.ho6.functional.TestRemovingSppLowersTotalPremium -->
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho6.TestMinDueIsRecalculatedAfterRenewals"/>
         </classes>
     </test> <!-- NJ Home -->
     <test name="NJ PUP" parallel="methods">
@@ -269,6 +269,7 @@
                     <include name="pas11367_restrictionPaymentPlansMembershipOverride"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.home_ss.ho6.functional.TestRestrictedPaymentPlan -->
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho4.TestFinancePolicyEscheatmentCheckRestrictReversals"/>
         </classes>
     </test> <!-- VA Home -->
     <test name="VA PUP" parallel="methods">
@@ -393,6 +394,9 @@
                     <include name="pas13261_testInitiateHOQuoteHO29added"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.home_ca.ho6.functional.TestInitiateHOQuoteHO29Endorsement -->
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho4.TestFinanceCancelNoticeFlagVerification"/>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestMinDueIsRecalculatedAfterEndorsements"/>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinancePolicyEscheatmentCheckReversals"/>
         </classes>
     </test> <!-- CA Home -->
     <test name="UT Auto" parallel="methods">
@@ -464,6 +468,7 @@
                     <include name="pas17144_ooseConflictManualDriverInformation"/>
                     <include name="pas14121_renewalMergeVehicleInformation"/>
                     <include name="pas19839_ooseConflictManualAddNamedInsuredInformation"/>
+                    <include name="pas19839_renewalMergeAutomaticRemoveNamedInsured"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict -->
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidation">
@@ -504,6 +509,18 @@
             </class> <!-- aaa.modules.regression.service.auto_ss.TestTelematicsParticipationDiscount -->
         </classes>
     </test> <!-- AZ Auto -->
+    <test name="KY Auto" parallel="methods">
+        <parameter name="timeshift-scenario-mode" value="method"/>
+        <parameter name="state" value="KY"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ss.TestMinDueIsNotRecalculatedAfterThirdEndorsement"/>
+        </classes>
+    </test>
     <test name="PA Auto" parallel="methods">
         <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="PA"/>
@@ -599,12 +616,14 @@
                     <include name="pas13529_renewalComparisonAAAProductOwned"/>
                     <include name="pas13832_renewalComparisonThirdPartyDesignee"/>
                     <include name="pas14145_dataGatherComparisonVehicleInformation"/>
+                    <include name="pas25187_endorsementsComparisonAssignment"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison -->
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
                 <methods>
                     <include name="pas13542_dataGatherComparisonCurrentCarrierInformation"/>
                     <include name="pas14147_endorsementsComparisonDriverInformation"/>
+                    <include name="pas25187_renewalComparisonAssignment"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison -->
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsConflict">
@@ -614,6 +633,8 @@
                     <include name="pas16049_ooseConflictAutomaticPolicyInformation"/>
                     <include name="pas15242_ooseConflictAutomaticVehicleInformation"/>
                     <include name="pas19839_ooseConflictAutomaticAddVehicleInformation"/>
+                    <include name="pas25188_ooseConflictManualAssignment"/>
+                    <include name="pas19839_ooseConflictManualRemoveVehicleAndDriver"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsConflict -->
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsConflict">
@@ -621,6 +642,8 @@
                     <include name="pas16563_ooseConflictManualThirdPartyDesignee"/>
                     <include name="pas17151_renewalMergeDriverInformation"/>
                     <include name="pas19839_renewalMergeAddDriverAndActivityInformation"/>
+                    <include name="pas25188_renewalMergeAssignment"/>
+                    <include name="pas19839_ooseConflictAutomaticRemoveVehicleAndDriver"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsConflict -->
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestClueResponseMultipleDriversAssignment">
@@ -650,6 +673,7 @@
                     <include name="pas8271_testClueReportOnCopyQuoteActionCA_Choice"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.auto_ca.choice.functional.TestClueReportOnCopyActions -->
+            <class name="aaa.modules.regression.finance.billing.auto_ca.select.TestMinDueIsNotRecalculatedAfterRenewals"/>
         </classes>
     </test> <!-- CA Auto -->
     <test name="NJ Auto" parallel="methods">
@@ -967,6 +991,26 @@
             </class> <!-- aaa.modules.regression.sales.pup.functional.TestPupRatingWithMultipleUnits -->
         </classes>
     </test> <!-- CA PUP -->
+    <test name="NY Auto" parallel="methods" thread-count="1024">
+        <parameter name="state" value="NY"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas25887_endorsementsComparisonAssignment"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas25889_renewalMergeAssignment"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="MD Auto" parallel="methods">
         <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="MD"/>
@@ -1053,4 +1097,155 @@
             <!-- aaa.modules.regression.document_fulfillment.auto_ss.TestExpirationNoticeGeneration -->
         </classes>
     </test><!-- OH Auto -->
+    <test name="PAS-14510 Earned Premium Calculation Changes - I scenario" parallel="methods">
+        <parameter name="state" value="AZ, KY, WV, NJ"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSEndorsement"/>
+        </classes>
+    </test>
+    <test name="PAS-20300 Earned Premium Calculation Changes - Cancel Flag" parallel="methods" thread-count="1024">
+        <parameter name="state" value="PA"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationCancelFlagTransactions"/>
+        </classes>
+    </test>
+    <test name="PAS-14510 Earned Premium Calculation Changes - II,III,V scenarios" parallel="methods">
+        <parameter name="state" value="AZ, KY, WV"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSEndorseCancelReinstate"/>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSCancelAndReinstate"/>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSRollBack"/>
+        </classes>
+    </test>
+    <test name="PAS-14510 Earned Premium Calculation Changes - IV scenario" parallel="methods">
+        <parameter name="state" value="NV, KY, WV"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationMultipleOOSEndorsement"/>
+        </classes>
+    </test>
+    <test name="AZ Finance" parallel="methods">
+        <parameter name="state" value="AZ"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSRollBackAPEndorsement"/>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSRollBackRPEndorsement"/>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationSmallBalanceWriteOff"/>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationAPEndorsement"/>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationRPEndorsement"/>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationFlatCancellation"/>
+            <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationPremiumRefund"/>
+            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationEPWriteOff"/>
+            <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationFlagTransactions"/>
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho4.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount"/>
+            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid"/>
+        </classes>
+    </test>
+
+    <test name="CA Finance" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillPaidInFull"/>
+            <class name="aaa.modules.regression.finance.billing.auto_ca.select.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount"/>
+            <class name="aaa.modules.regression.finance.billing.auto_ca.select.TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid"/>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid"/>
+            <class name="aaa.modules.regression.finance.billing.auto_ca.select.TestFinanceWaiveInstallmentFeeForRenewal"/>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceWaiveInstallmentFeeForRenewal"/>
+            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationOOSEndorseNegativePremium"/>
+            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationIssueNegativePremium"/>
+            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment"/>
+        </classes>
+    </test>
+    <test name="WV TestFinanceWaiveInstallmentFee" parallel="methods">
+        <parameter name="state" value="WV"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillOverpaid"/>
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho3.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidByFeeAmount"/>
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho3.TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid"/>
+        </classes>
+    </test>
+    <test name="WV TestFinanceWaiveInstallmentFeeForRenewal" parallel="methods">
+        <parameter name="state" value="WV"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceWaiveInstallmentFeeForRenewal"/>
+        </classes>
+    </test>
+    <test name="KY NJ TestFinanceWaiveInstallmentFeeForRenewal" parallel="methods">
+        <parameter name="state" value="KY, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho3.TestFinanceWaiveInstallmentFeeForRenewal"/>
+        </classes>
+    </test>
+    <test name="KY TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidByFeeAmount" parallel="methods">
+        <parameter name="state" value="KY"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidByFeeAmount"/>
+        </classes>
+    </test>
+    <test name="NJ TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount" parallel="methods">
+        <parameter name="state" value="NJ"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho6.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount"/>
+        </classes>
+    </test>
+    <test name="WV TestFinanceSmallBalanceWriteOffWhenPolicyUnderpaid" parallel="methods">
+        <parameter name="state" value="WV"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffWhenPolicyUnderpaid"/>
+        </classes>
+    </test>
+    <!-- Policy Escheatment Reversals: PAS-19074-->
 </suite> <!-- Regression Tests Timepoint -->
