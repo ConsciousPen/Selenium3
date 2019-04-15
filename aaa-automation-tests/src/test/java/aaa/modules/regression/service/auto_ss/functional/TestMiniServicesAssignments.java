@@ -180,7 +180,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@StateList(states = {Constants.States.MD,Constants.States.AZ,Constants.States.KY,Constants.States.NY,Constants.States.NJ,Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11684"})
-	public void pas11684_DriverAssignmentExistsForState(@Optional("UT") String state) {
+	public void pas11684_DriverAssignmentExistsForState(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas11684_DriverAssignmentExistsForStateBody(state, softly)
 		);

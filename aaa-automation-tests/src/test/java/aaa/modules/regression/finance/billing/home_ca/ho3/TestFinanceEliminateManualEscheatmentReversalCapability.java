@@ -36,7 +36,7 @@ public class TestFinanceEliminateManualEscheatmentReversalCapability extends Pol
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-19072")
 	public void pas19072_testFinanceEliminateManualEscheatmentReversalCapability(@Optional("CA") String state) {
 		openAppAndCreatePolicy();

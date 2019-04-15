@@ -47,18 +47,22 @@ public class CsaaXmlTest {
 	}
 
 	private XmlTest createTest(XmlTest test, String state, String policyType) {
+		String pefParam = "timeshift-scenario-mode";
 		XmlTest xmlTest = new XmlTest();
 		xmlTest.setName(key);
 		xmlTest.setVerbose(test.getVerbose());
 		xmlTest.setPreserveOrder(test.getPreserveOrder());
-		/*xmlTest.setIncludedGroups(test.getIncludedGroups());
-		xmlTest.setExcludedGroups(test.getExcludedGroups());*/
+		xmlTest.setIncludedGroups(test.getIncludedGroups());
+		xmlTest.setExcludedGroups(test.getExcludedGroups());
 		xmlTest.setParallel(test.getParallel());
 		//xmlTest.setThreadCount(test.getThreadCount());
 		Map<String, String> parameters = Maps.newHashMap();
 		if (state != null) {
 			parameters = test.getAllParameters();
 			parameters.put("state", state);
+		}
+		if(parameters.containsKey(pefParam)){
+			parameters.remove(pefParam);
 		}
 		xmlTest.setParameters(parameters);
 		testMap.put(key, xmlTest);

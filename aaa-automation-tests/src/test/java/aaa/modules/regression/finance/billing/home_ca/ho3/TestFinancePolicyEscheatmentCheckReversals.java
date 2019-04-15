@@ -49,7 +49,7 @@ public class TestFinancePolicyEscheatmentCheckReversals extends FinanceOperation
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-18992")
 	public void pas18992_testFinancePolicyEscheatmentCheckReversals(@Optional("CA") String state) {
 		String policyNumber = createEscheatmentTransaction();
