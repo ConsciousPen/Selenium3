@@ -3,3 +3,9 @@ TestData: {
     Reason: index=1
   }
 }
+
+TestData_ManualRenew: {
+  ManualRenewActionTab: {
+    Authorized By: 'user'
+  }
+}

@@ -1,9 +1,9 @@
 package aaa.helpers.xml.model.pasdoc;
 
-import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RequestContext {
@@ -105,6 +105,30 @@ public class RequestContext {
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof RequestContext)) {
+			return false;
+		}
+		RequestContext that = (RequestContext) o;
+		return Objects.equals(application, that.application) &&
+				Objects.equals(correlationId, that.correlationId) &&
+				Objects.equals(eventGroup, that.eventGroup) &&
+				Objects.equals(lob, that.lob) &&
+				Objects.equals(requestCategory, that.requestCategory) &&
+				Objects.equals(requestCreationDateTime, that.requestCreationDateTime) &&
+				Objects.equals(userFullName, that.userFullName) &&
+				Objects.equals(userId, that.userId);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(application, correlationId, eventGroup, lob, requestCategory, requestCreationDateTime, userFullName, userId);
+	}
+
+	@Override
 	public String toString() {
 		return "RequestContext{" +
 				"application='" + application + '\'' +
@@ -116,29 +140,5 @@ public class RequestContext {
 				", userFullName='" + userFullName + '\'' +
 				", userId='" + userId + '\'' +
 				'}';
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof RequestContext)) {
-			return false;
-		}
-		RequestContext that = (RequestContext) o;
-		return application.equals(that.application) &&
-				correlationId.equals(that.correlationId) &&
-				eventGroup.equals(that.eventGroup) &&
-				lob.equals(that.lob) &&
-				requestCategory.equals(that.requestCategory) &&
-				requestCreationDateTime.equals(that.requestCreationDateTime) &&
-				userFullName.equals(that.userFullName) &&
-				userId.equals(that.userId);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(application, correlationId, eventGroup, lob, requestCategory, requestCreationDateTime, userFullName, userId);
 	}
 }

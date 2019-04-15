@@ -1,13 +1,5 @@
 package aaa.modules.regression.document_fulfillment.auto_ss;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
-import java.util.List;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
@@ -28,8 +20,18 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestExpirationNoticeGeneration extends AutoSSBaseTest {
 
@@ -121,6 +123,8 @@ public class TestExpirationNoticeGeneration extends AutoSSBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
+
+        minDue = new Dollar(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillDueDate(installmentDueDates.get(2)))
 				.setSubtypeReason("Manual Payment").setAmount(minDue.negate()).verifyPresent();
@@ -144,6 +148,7 @@ public class TestExpirationNoticeGeneration extends AutoSSBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(3)));
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
+        minDue = new Dollar(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillDueDate(installmentDueDates.get(3)))
 				.setSubtypeReason("Manual Payment").setAmount(minDue.negate()).verifyPresent();
