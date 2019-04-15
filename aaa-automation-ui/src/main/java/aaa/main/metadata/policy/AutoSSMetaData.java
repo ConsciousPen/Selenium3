@@ -1363,8 +1363,8 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<FillableTable> UPDATE_RULES_OVERRIDE = declare("UpdateRulesOverride", FillableTable.class, RuleRow.class, By.id("errorsForm:msgList"));
 
 		public static final class RuleRow extends MetaData {
-			public static final AssetDescriptor<CheckBox> UPDATE = declare("Update All", CheckBox.class);
-			public static final AssetDescriptor<CheckBox> AUTHORIZE = declare("Authorize/Delete All", CheckBox.class);
+			public static final AssetDescriptor<CheckBox> UPDATE = declare("Update", CheckBox.class);
+			public static final AssetDescriptor<CheckBox> AUTHORIZE = declare("Authorize/Delete", CheckBox.class);
 			public static final AssetDescriptor<StaticElement> STATUS = declare("Status", StaticElement.class);
 			public static final AssetDescriptor<RadioGroup> DURATION = declare("Duration", RadioGroup.class);
 			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class);
