@@ -803,6 +803,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
                 } else {
                     softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[i]);
                     //TODO: Uncomment after PAS-22608 is merged to Master
+                    //PU Indicator will default to No
                    // softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("No");
                 }
 
