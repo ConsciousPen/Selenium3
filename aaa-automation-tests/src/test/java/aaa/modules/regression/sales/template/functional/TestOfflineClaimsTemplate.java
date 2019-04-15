@@ -1026,44 +1026,4 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
         });
     }
-
-    //TODO - Check if this test case is required or not
-    public void pas25463_ViolationsMVRPUIndicatorCheck() {
-        TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_ViolationsMVRFNIclaims_PU").resolveLinks();
-        adjusted = getPolicyTD().adjust(testDataForFNI);
-        createQuoteAndFillUpTo(adjusted, DriverTab.class);
-        tableDriverList.selectRow(1);
-        //Assertions to verify PU Indicator does not show up for any type of Activity .
-        activityAssertions(2, 1, 4, 1, "Company Input", "", false);
-        activityAssertions(2, 1, 4, 2, "Company Input", "", false);
-        activityAssertions(2, 1, 4, 3, "Customer Input", "", false);
-        activityAssertions(2, 1, 4, 4, "Customer Input", "", false);
-        driverTab.submitTab();
-        policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class, DriverActivityReportsTab.class, true);
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        tableDriverList.selectRow(1);
-        tableActivityInformationList.selectRow(5);
-        assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).getValue().equals("MVR"));
-        assertThat(!activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent());
-        driverTab.submitTab();
-        adjusted = getPolicyTD().mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()));
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        policy.getDefaultView().fillFromTo(adjusted, PremiumAndCoveragesTab.class, PurchaseTab.class, true);
-        new PurchaseTab().submitTab();
-        policyNumber = getPolicyNumber();
-        log.info("Policy created successfully. Policy number is " + policyNumber);
-        //Initiate an endorsement
-        SearchPage.openPolicy(policyNumber);
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-        tableDriverList.selectRow(1);
-        //asserting the Company/Customer inputs and MVR claims for check the PU indicator
-        activityAssertions(2, 1, 5, 1, "Company Input", "", false);
-        activityAssertions(2, 1, 5, 2, "Company Input", "", false);
-        activityAssertions(2, 1, 5, 3, "Customer Input", "", false);
-        activityAssertions(2, 1, 5, 4, "Customer Input", "", false);
-        activityAssertions(2, 1, 5, 5, "MVR", "", false);
-        driverTab.submitTab();
-        bindEndorsement();
-    }
 }
