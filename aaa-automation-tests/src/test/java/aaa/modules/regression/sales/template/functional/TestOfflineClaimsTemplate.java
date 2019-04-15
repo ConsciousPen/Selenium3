@@ -1,7 +1,6 @@
 package aaa.modules.regression.sales.template.functional;
 import static aaa.common.pages.SearchPage.tableSearchResults;
 import aaa.common.pages.Page;
-import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableActivityInformationList;
 import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableDriverList;
