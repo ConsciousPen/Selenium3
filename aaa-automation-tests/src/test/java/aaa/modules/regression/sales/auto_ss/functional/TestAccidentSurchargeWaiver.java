@@ -216,20 +216,20 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
     /**
      * @author Josh Carpenter
-     * @name Test that prior carrier is considered for ASW eligibility only if days lapsed is <= 30 days
+     * @name Test that prior carrier is considered for ASW eligibility only if days lapsed is <= 30 days for same day endorsements
      * @scenario
-     * 1. Create Auto SS policy with AAA prior carrier time = 2 years with 30 days lapse in coverage, base date today minus 2 years
-     * 2. Create Auto SS policy with AAA prior carrier time = 2 years with 31 days lapse in coverage, base date today minus 2 years
-     * 2. Initiate endorsements on each of the above policies, add second driver that returns an AF accident that qualifies for ASW to each
-     * 3. Calculate premium
-     * 4. Validate first policy has ASW applied to the activity
-     * 5. Validate second policy does NOT have ASW applied to the activity
+     * 1. Create Auto SS policy with AAA prior carrier time = 4 years with 30 days lapse in coverage, trans. eff. date = today
+     * 2. Create Auto SS policy with AAA prior carrier time = 4 years with 31 days lapse in coverage, trans. eff. date = today
+     * 3. Initiate endorsements on each of the above policies, add second driver that returns an AF accident that qualifies for ASW to each
+     * 4. Calculate premium
+     * 5. Validate first policy has ASW applied to the activity
+     * 6. Validate second policy does NOT have ASW applied to the activity
      * @details
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27609")
-    public void pas27609_testAccidentSurchargeWaiverEligibilityDaysLapsedEndorsement(@Optional("") String state) {
+    public void pas27609_testAccidentSurchargeWaiverEligibilityDaysLapsedEndorsementSameDay(@Optional("") String state) {
 
         TestData tdEndorsementFill = DataProviderFactory.dataOf(
                 GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData(),
@@ -252,6 +252,39 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
         // Initiate endorsement, add driver with AF Accident
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        policy.getDefaultView().fill(tdEndorsementFill);
+        calculatePremiumAndNavigateToDriverTab();
+
+        // Validate ASW is NOT applied
+        validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
+
+    }
+
+    /**
+     * @author Josh Carpenter
+     * @name Test that prior carrier is considered for ASW eligibility only if days lapsed is <= 30 days for next day endorsement (trans. eff date > eff date)
+     * @scenario
+     * 1. Create Auto SS policy with AAA prior carrier time = 4 years with 30 days lapse in coverage, trans. eff. date = today+1day
+     * 2. Create Auto SS policy with AAA prior carrier time = 4 years with 31 days lapse in coverage, trans. eff. date = today+1day
+     * 3. Initiate endorsements on each of the above policies, add second driver that returns an AF accident that qualifies for ASW to each
+     * 4. Calculate premium
+     * 5. Validate ASW is NOT given to the activity for the second driver
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27609")
+    public void pas27609_testAccidentSurchargeWaiverEligibilityDaysLapsedEndorsementNextDay(@Optional("") String state) {
+
+        TestData tdEndorsementFill = DataProviderFactory.dataOf(
+                GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData(),
+                DriverTab.class.getSimpleName(), getSecondDriverTd().adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), getActivityInfoTd()));
+
+        // Create policies with 30 days lapse with prior carrier
+        openAppAndCreatePolicy(getDefaultASWTd(30));
+
+        // Initiate endorsement, add driver with AF Accident
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
         policy.getDefaultView().fill(tdEndorsementFill);
         calculatePremiumAndNavigateToDriverTab();
 
