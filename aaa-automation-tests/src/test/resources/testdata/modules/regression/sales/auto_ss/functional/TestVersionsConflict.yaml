@@ -60,7 +60,7 @@ TestData_NB_Policy: {
       }
     }
   },
-  PremiumAndCoveragesTab: {},
+  PremiumAndCoveragesTab: {} , #'@PremiumAndCoveragesInformation',
   DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: {
     RequiredToBind: {
@@ -1337,4 +1337,42 @@ NamedInsuredInformation_RenewalVersion1: {
     Mailing Street number: VI,
     Mailing Street Name: mailing address 1
   }
+}
+
+#Premium and Coverages Tab
+TestData_PremiumAndCoverages_Version1: {
+ GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoverages_Version1',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+TestData_PremiumAndCoverages_Version2: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoverages_Version2',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+PremiumAndCoverages: {
+  Payment Plan: Annual,
+  Policy Term: Annual
+}
+
+PremiumAndCoverages_Version1: {
+  Payment Plan: Semi-Annual
+}
+
+PremiumAndCoverages_Version2: {
+  Payment Plan: Quarterly
 }
