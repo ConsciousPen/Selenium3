@@ -119,6 +119,7 @@
                     <include name="pas14693_updateCoverageRentalReimbursement"/>
                     <include name="pas17642_UpdateCoverageADB"/>
                     <include name="pas20344_trailerMotorHomeAndGolfCartViewCoverage"/>
+                    <include name="pas27201_SpEquipmentUpdatedWhenCollisionDeclined"/>
                 </methods>
             </class>
         </classes>
@@ -129,6 +130,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas17642_UpdateCoverageADB"/>
+                    <include name="pas27201_SpEquipmentUpdatedWhenCollisionDeclined"/>
                 </methods>
             </class>
         </classes>
@@ -465,7 +467,7 @@
         </classes>
     </test>
     <test thread-count="1024" name="pas15824_UmpdDelimiter" parallel="methods">
-        <parameter name="state" value="DE, MD, VA, NJ"/>
+        <parameter name="state" value="DE, MD, VA, NJ, IN"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
@@ -877,6 +879,7 @@
                 <methods>
                     <include name="pas15365_viewUpdatePIPCoverage_OR"/>
                     <include name="pas16112_umpdOregonViewCoverage"/>
+                    <include name="pas27134_UpdateCoveragesOregonPdAndUmpd"/>
                 </methods>
             </class>
         </classes>
@@ -1174,6 +1177,15 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
                 <methods>
                     <include name="pas21646_aacsnjFormRFI"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="NY RFI Forms" parallel="methods">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
                     <include name="pas24562_AA52NY_BIUpdateInDXP"/>
                     <include name="pas24562_AA52NY_BIUpdateInPAS"/>
                     <include name="pas24562_AA52NY_UMSU"/>

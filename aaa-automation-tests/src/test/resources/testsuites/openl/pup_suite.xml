@@ -138,7 +138,7 @@
         </classes>
     </test>
     <test name="PUP [NY] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="NYTests-20180330.xls"/>
+        <parameter name="fileName" value="NYTests-20190330.xls"/>
         <parameter name="policyNumbers" value="2,3"/>
         <classes>
             <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>

@@ -1,7 +1,6 @@
 package aaa.modules.regression.sales.template.functional;
 import static aaa.common.pages.SearchPage.tableSearchResults;
-
-import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.common.pages.Page;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableActivityInformationList;
 import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableDriverList;
@@ -25,6 +24,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import aaa.main.pages.summary.PolicySummaryPage;
+import com.google.common.collect.ImmutableMap;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeTest;
@@ -51,11 +51,11 @@ import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import toolkit.config.PropertyProvider;
-import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
+import toolkit.webdriver.controls.ComboBox;
 
 /**
  * This template is used to test Batch Claim Logic.
@@ -93,7 +93,13 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     protected static PasLogGrabber pasLogGrabber = new PasLogGrabber();
     protected static PurchaseTab purchaseTab = new PurchaseTab();
     protected static ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-
+    protected boolean newBusinessFlag = false;
+    protected static aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab generalTab = new aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab();
+    private static final String CLAIM_NUMBER_1 = "1002-10-8702";
+    private static final String CLAIM_NUMBER_2 = "1002-10-8703";
+    private static final String CLAIM_NUMBER_3 = "1002.10>8704";
+    private static final String COMP_DL_PU_CLAIMS_DATA_MODEL = "comp_dl_pu_claims_data_model.yaml";
+    private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE = ImmutableMap.of(CLAIM_NUMBER_1, "D07963714", CLAIM_NUMBER_2, "D07963714");
     @BeforeTest
     public void prepare() {
         // Toggle ON PermissiveUse Logic & Set DATEOFLOSS Parameter in DB
@@ -186,22 +192,22 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         CustomSoftAssertions.assertSoftly(softly -> {
             DriverTab driverTab = new DriverTab();
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-            softly.assertThat(DriverTab.tableDriverList).hasRows(4);
+            softly.assertThat(tableDriverList).hasRows(4);
 
             // Check 1st driver: Contains only Two Matched Claims (Verifying that PermissiveUse Claim with wrong dateOfLoss is not displayed)
-            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(2);
+            softly.assertThat(tableActivityInformationList).hasRows(2);
 
             // Check 1st driver: FNI, has COMP and Permissive Use matched claims (2nd PermissiveUse Claim is not displayed, because of dateOfLoss Param > Claim dateOfLoss)
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(COMP_MATCH);
 
-            DriverTab.tableActivityInformationList.selectRow(2);
+            tableActivityInformationList.selectRow(2);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(PU_MATCH);
 
             // Check 2nd driver: Has DL match claim
-            DriverTab.tableDriverList.selectRow(2);
-            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
+            tableDriverList.selectRow(2);
+            softly.assertThat(tableActivityInformationList).hasRows(1);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(DL_MATCH);
         });
@@ -212,17 +218,17 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         CustomSoftAssertions.assertSoftly(softly -> {
             DriverTab driverTab = new DriverTab();
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-            softly.assertThat(DriverTab.tableDriverList).hasRows(5);
+            softly.assertThat(tableDriverList).hasRows(5);
 
             // Check 1st driver: Contains only one Matched Claim (Verifying that comp claim has not moved)
-            DriverTab.tableDriverList.selectRow(1);
-            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
+            tableDriverList.selectRow(1);
+            softly.assertThat(tableActivityInformationList).hasRows(1);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(COMP_MATCH);
 
             // Check 5th driver: Original Permissive Use claim should be on the newly added driver
-            DriverTab.tableDriverList.selectRow(5);
-            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
+            tableDriverList.selectRow(5);
+            softly.assertThat(tableActivityInformationList).hasRows(1);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("CLUE");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(PU_MATCH);
         });
@@ -233,26 +239,26 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         CustomSoftAssertions.assertSoftly(softly -> {
             DriverTab driverTab = new DriverTab();
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-            softly.assertThat(DriverTab.tableDriverList).hasRows(4);
+            softly.assertThat(tableDriverList).hasRows(4);
 
             // Check 3rd driver
             // PAS-8310 - LASTNAME_FIRSTNAME_DOB Match
-            DriverTab.tableDriverList.selectRow(3);
-            DriverTab.tableActivityInformationList.selectRow(2);
+            tableDriverList.selectRow(3);
+            tableActivityInformationList.selectRow(2);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME_DOB);
             // PAS-17894 - LASTNAME_FIRSTNAME & LASTNAME_FIRSTINITAL_DOB //PAS-21435 - Removed LASTNAME_YOB match logic. Claim 8FAZ88888OHS is now unmatched
-            DriverTab.tableActivityInformationList.selectRow(3);
+            tableActivityInformationList.selectRow(3);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME);
-            DriverTab.tableActivityInformationList.selectRow(4);
+            tableActivityInformationList.selectRow(4);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTINITAL_DOB);
 
             // Check 4th driver.
             // PAS-8310 - LASTNAME_FIRSTNAME_YOB Match
-            DriverTab.tableDriverList.selectRow(4);
-            DriverTab.tableActivityInformationList.selectRow(3);
+            tableDriverList.selectRow(4);
+            tableActivityInformationList.selectRow(3);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(LASTNAME_FIRSTNAME_YOB);
         });
@@ -664,5 +670,75 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             }
         });
     }
+    /**
+     * @author Chris Johns
+     * @author Saranya Hariharan
+     * PAS-22172 - END - CAS: reconcile permissive use claims when driver/named insured is added (avail for rating)
+     * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added
+     * @scenario Test Steps:
+     * 1. Create a Policy with 2 names Insured and drivers
+     * 2. Move time to R-63 and Run Renewal Part1 + "renewalClaimOrderAsyncJob"
+     * 3. Move Time to R-46 and Run Renewal Part2 + "claimsRenewBatchReceiveJob"
+     * 4. Retrieve policy and enter renewal image
+     * 5. Verify Claim Data is applied to the FNI
+     * 6. Navigate to General Tab and change the FNI to the second Insured
+     * 7. Navigate to the Driver Tab and verify the new FNI has acquired the PU claims from the previous FNI
+     */
+    public void pas24652_ChangeFNIGeneralTabRenewal(){
+        // Create Customer and Policy with two named insured' and drivers
+        adjusted = getPolicyTD().adjust(getTestSpecificTD("TestData_Change_FNI_Renewal_PU_AZ").resolveLinks());
+        policyNumber = openAppAndCreatePolicy(adjusted);
+        log.info("Policy created successfully. Policy number is " + policyNumber);
+        runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
+        generateClaimRequest();        // Download claim request and assert it
+        // Create the claim response - product doesn't matter here, we only need comp and pu claims match
+        createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE );
+        runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
+        // Retrieve policy and enter renewal image
+        retrieveRenewal(policyNumber);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        // Check 1st driver: FNI, has the MVR ,COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
+        //TODO: PU Indicator Shows up in UI for Internal claims after PAS-22608 is merged to Master Branch. Assertions needs to be modified.
+        tableDriverList.selectRow(1);
+        activityAssertions(2, 1, 3, 1, "MVR", "", false);
+        activityAssertions(2, 1, 3, 2, "Internal Claims", CLAIM_NUMBER_1, false);
+        activityAssertions(2, 1, 3, 3, "Internal Claims", CLAIM_NUMBER_3, false);
+        //Navigate to the General Tab and change the FNI to the second insured (Steve)
+        changeFNIGeneralTab(1);  //Index starts at 0
+        //Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
+        tableDriverList.selectRow(1);
+        activityAssertions(2,1,2, 1, "Customer Input", "", false);
+        activityAssertions(2,1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, false);
+        //Assert that old FNI  has 1 Internal Claims and 1 existing MVR claim
+        tableDriverList.selectRow(2);
+        activityAssertions(2, 2, 2, 2, "Internal Claims", CLAIM_NUMBER_1, false);
+        //Save and exit the Renewal
+        DriverTab.buttonSaveAndExit.click();
+    }
+    /**
+     * Method changes'First Named Insured' to the desired Insured. First Named Insured index starts at zero
+     * @param namedInsuredNumber - Insured who will become the First Named Insured
+     */
+    public void changeFNIGeneralTab(int namedInsuredNumber) {
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(namedInsuredNumber);
+        Page.dialogConfirmation.confirm();
+        //Reset Contact Info - blanks out after FNI change at New Business
+        if (newBusinessFlag) {
+            generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue("6025557777");
+            generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
+        }
+        generalTab.submitTab();
+    }
 
+    /**
+     * Method opens app, retrieves policy, and enters data gathering in renewal image
+     * @param policyNumber
+     */
+    public void retrieveRenewal(String policyNumber) {
+        mainApp().open();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        buttonRenewals.click();
+        policy.dataGather().start();
+    }
 }
