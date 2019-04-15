@@ -60,7 +60,7 @@ TestData_NB_Policy: {
       }
     }
   },
-  PremiumAndCoveragesTab: {} , #'@PremiumAndCoveragesInformation',
+  PremiumAndCoveragesTab: '@PremiumAndCoverages',
   DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: {
     RequiredToBind: {
