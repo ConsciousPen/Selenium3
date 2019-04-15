@@ -2,12 +2,18 @@
 TestData_DriverTab_OfflineClaim_AZ: {
   DriverTab: ['@Driver2','@Driver3','@Driver4']
 }
-TestData_DriverTab_ViolationsMVRFNIclaims_PU: {
+
+TestData_DriverTab_PUFlagCheck: {
  PrefillTab: '@PrefillTab',
 #  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
   DriverTab:  ['@Driver6','@Driver3']
 }
 
+TestData_DriverTab_ViolationsMVRFNIclaims_PU: {
+ PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab:  ['@Driver6','@Driver3']
+}
 
 PrefillTab: {
   First Name: Harry,
@@ -117,6 +123,7 @@ Driver5: {
   "License Number": D99999999,
   Age First Licensed: 18
 }
+
 Driver6: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -149,16 +156,6 @@ Driver6: {
   },
   {
     Activity Source: 'Customer Input',
-    Type: 'At-Fault Accident',
-    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
-    Description: 'Accident (Property Damage Only)',
-    Loss Payment Amount: '2000',
-    #Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-    "Include in Points and/or Tier?": 'No',
-    Not Included in Points and/or Tier - Reason Codes: 'Report errors'
-  },
-  {
-    Activity Source: 'Customer Input',
     Type: 'Speeding Violation',
     Description: 'Speeding',
     Occurrence Date: '$<today-1M:MM/dd/yyyy>',
@@ -172,3 +169,29 @@ Driver6: {
 Add_PU_Claim_Driver_Endorsement_AZ: {
   DriverTab: ['@Driver5'],
 }
+
+TestData_Blank: {
+  GeneralTab: {},
+#  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+#  DocumentsAndBindTab: {},
+}
+
+TestData_Plus90Days: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today+90d>,
+    Endorsement Reason: 'Maintain General Information'
+  }
+}
+
+TestData_Plus30Days: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today+30d>,
+    Endorsement Reason: 'Maintain General Information'
+  }
+}
+

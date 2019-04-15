@@ -38,21 +38,21 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	// NOTE: Claims Matching Logic: e2e tests should use HTTP instead of HTTPS in DB (value of Microservice propertyname ='aaaClaimsMicroService.microServiceUrl')
 	// Example: http://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1
 
-    private static final String CLAIM_NUMBER_1 = "1002-10-8702";
-    private static final String CLAIM_NUMBER_2 = "1002-10-8703";
-    private static final String CLAIM_NUMBER_3 = "1002.10>8704";
-	private static final String CLAIM_NUMBER_4 = "1FAZ1111OHS";
-	private static final String CLAIM_NUMBER_5 = "4FAZ44444OHS";
-    private static final String CLAIM_NUMBER_6 = "1002-10-8705";
-    private static final String COMP_DL_PU_CLAIMS_DATA_MODEL = "comp_dl_pu_claims_data_model.yaml";
+//    private static final String CLAIM_NUMBER_1 = "1002-10-8702";
+//    private static final String CLAIM_NUMBER_2 = "1002-10-8703";
+//    private static final String CLAIM_NUMBER_3 = "1002.10>8704";
+//	private static final String CLAIM_NUMBER_4 = "1FAZ1111OHS";
+//	private static final String CLAIM_NUMBER_5 = "4FAZ44444OHS";
+//    private static final String CLAIM_NUMBER_6 = "1002-10-8705";
+//    private static final String COMP_DL_PU_CLAIMS_DATA_MODEL = "comp_dl_pu_claims_data_model.yaml";
 	private static final String NAME_DOB_CLAIMS_DATA_MODEL = "name_dob_claims_data_model.yaml";
-    private static final String INC_IN_RATING_3RD_RENEWAL_DATA_MODEL = "inc_in_rating_3rd_renewal_data_model.yaml";
-    private static final String INC_RATING_CLAIM_1 = "IIRatingClaim1";
-    private static final String INC_RATING_CLAIM_2 = "IIRatingClaim2";
-    private static final String INC_RATING_CLAIM_3 = "IIRatingClaim3";
-	private static final String INC_RATING_CLAIM_4 = "IIRatingClaim4";
-	private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE = ImmutableMap.of(CLAIM_NUMBER_1, "A12345222", CLAIM_NUMBER_2, "A12345222");
-    private static final String CAS_CLUE_CLAIM = "1002-10-8704";
+//    private static final String INC_IN_RATING_3RD_RENEWAL_DATA_MODEL = "inc_in_rating_3rd_renewal_data_model.yaml";
+//    private static final String INC_RATING_CLAIM_1 = "IIRatingClaim1";
+//    private static final String INC_RATING_CLAIM_2 = "IIRatingClaim2";
+//    private static final String INC_RATING_CLAIM_3 = "IIRatingClaim3";
+//	private static final String INC_RATING_CLAIM_4 = "IIRatingClaim4";
+//	private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE = ImmutableMap.of(CLAIM_NUMBER_1, "A12345222", CLAIM_NUMBER_2, "A12345222");
+//    private static final String CAS_CLUE_CLAIM = "1002-10-8704";
 
     /**
      * @author Andrii Syniagin
@@ -94,27 +94,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
     public void pas14679_CompDLPUMatchMore(@Optional("AZ") @SuppressWarnings("unused") String state) {
-
-    	createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
-        runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
-        generateClaimRequest();        // Download claim request and assert it
-
-        // Create the claim response
-		createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
-        runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
-
-        // Retrieve policy
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
-        // Enter renewal image and verify claim presence
-        buttonRenewals.click();
-        policy.dataGather().start();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-
-	    // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
-	    // Check 2nd driver: Has DL match claim
-		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
+         pas14679_CompDLPUMatchMore();
     }
 
 	/**
@@ -138,32 +118,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
 	public void pas14679_CompDLPUMatchMoreManual(@Optional("AZ") @SuppressWarnings("unused") String state) {
-
-		// Create Customer and Policy with 4 drivers
-		createPolicyMultiDrivers();
-
-		// Create the claim response
-		createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
-
-		// Retrieve policy and generate a manual renewal image
-		createManualRenewal();
-
-		//Run Claims receive batch job, to assign claims
-		JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
-
-		//Move time by one day to get claims to show in the UI
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
-
-		//Enter renewal image and verify claim presence
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		buttonRenewals.click();
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-
-		// Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
-		// Check 2nd driver: Has DL match claim
-		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
+        pas14679_CompDLPUMatchMoreManual();
 	}
 
     /**
@@ -188,24 +143,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
     public void pas8310_nameDOBYOBMatchMore(@Optional("AZ") @SuppressWarnings("unused") String state) {
-        createPolicyMultiDrivers();        // Create Customer and Policy with 4 drivers
-        runRenewalClaimOrderJob();        // Move to R-63, run batch job part 1 and offline claims batch job
-        generateClaimRequest();        // Download claim request and assert it
-
-        // Create the claim response
-		createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(policyNumber, NAME_DOB_CLAIMS_DATA_MODEL);
-        runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
-
-        // Retrieve policy and verify claim presence on renewal image
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        buttonRenewals.click();
-        policy.dataGather().start();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-
-        //Verify LASTNAME_FIRSTNAME_DOB, LASTNAME_FIRSTNAME, LASTNAME_FIRSTINITAL_DOB, LASTNAME_FIRSTNAME_YOB matches
-        //Verify  LASTNAME_YOB claim does NOT match
-        nameDobYobAssertions(CLAIM_NUMBER_3, CLAIM_NUMBER_4, CLAIM_NUMBER_5, CLAIM_NUMBER_6 );
+        pas8310_nameDOBYOBMatchMore();
     }
 
     /**
@@ -228,32 +166,8 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
-    public void pas14679_nameDobYobMatchMoreManual(@Optional("AZ") @SuppressWarnings("unused") String state) {
-        // Create Customer and Policy with 4 drivers
-        createPolicyMultiDrivers();
-
-        // Create the claim response
-		createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(policyNumber, NAME_DOB_CLAIMS_DATA_MODEL);
-
-        // Retrieve policy and generate a manual renewal image
-        createManualRenewal();
-
-        //Run Claims receive batch job, to assign claims
-        JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
-
-        //Move time by one day to get claims to show in the UI
-        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
-
-        //Enter renewal image and verify claim presence
-        mainApp().reopen();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        buttonRenewals.click();
-        policy.dataGather().start();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-
-        //Verify LASTNAME_FIRSTNAME_DOB, LASTNAME_FIRSTNAME, LASTNAME_FIRSTINITAL_DOB, LASTNAME_FIRSTNAME_YOB matches
-        //Verify  LASTNAME_YOB claim does NOT match
-        nameDobYobAssertions(CLAIM_NUMBER_3, CLAIM_NUMBER_4, CLAIM_NUMBER_5, CLAIM_NUMBER_6 );
+    public void pas8310_nameDobYobMatchMoreManual(@Optional("AZ") @SuppressWarnings("unused") String state) {
+        pas8310_nameDobYobMatchMoreManual();
     }
 
     /**
@@ -282,84 +196,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14552")
     public void pas14552_includeClaimsInRatingDetermination(@Optional("AZ") @SuppressWarnings("unused") String state) {
-
-        // Claim Dates: claimDateOfLoss/claimOpenDate/claimCloseDate all are the same
-        String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(1).toLocalDate().toString();
-        String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).toLocalDate().toString();
-        String claim3_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(3).toLocalDate().toString();
-
-        Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS =
-                ImmutableMap.of(INC_RATING_CLAIM_1, claim1_dates, INC_RATING_CLAIM_2, claim2_dates, INC_RATING_CLAIM_3, claim3_dates, INC_RATING_CLAIM_4, claim3_dates);
-
-        TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(driverTab.getMetaKey(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "A19191911").resolveLinks();
-
-        // Create Customer and Policy
-	    openAppAndCreatePolicy(testData);
-        String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-        mainApp().close();
-
-        //Run Jobs to create and issue 1st Renewal
-        runRenewalClaimOrderJob();
-        runRenewalClaimReceiveJob();
-        issueGeneratedRenewalImage(policyNumber);
-
-        //Run Jobs to create and issue 2nd Renewal
-        runRenewalClaimOrderJob();
-        runRenewalClaimReceiveJob();
-        issueGeneratedRenewalImage(policyNumber);
-
-        //Run Jobs to create 3rd required Renewal and validate the results
-        runRenewalClaimOrderJob();
-
-        // Create Updated CAS Response and Upload
-		createCasClaimResponseAndUploadWithUpdatedDates(policyNumber, INC_IN_RATING_3RD_RENEWAL_DATA_MODEL, UPDATE_CAS_RESPONSE_DATE_FIELDS);
-
-        runRenewalClaimReceiveJob();
-
-        // Retrieve policy and verify claim presence on renewal image
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
-        if (tableSearchResults.isPresent()) {
-            tableSearchResults.getRow("Eff. Date",
-                    TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
-                    .getCell(1).controls.links.getFirst().click();
-        }
-
-        buttonRenewals.click();
-        policy.dataGather().start();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        CustomSoftAssertions.assertSoftly(softly -> {
-            ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-			DriverTab driverTab = new DriverTab();
-
-			// Check that Policy Contains 3 Claims
-            softly.assertThat(DriverTab.tableActivityInformationList.getAllRowsCount()).isEqualTo(4);
-
-			// PAS14552 - Assert that Claim IS NOT Included In Rating because Date of Loss is older than two terms
-            DriverTab.tableActivityInformationList.selectRow(1);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_1);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("No");
-
-			// PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to two terms eff. date
-            DriverTab.tableActivityInformationList.selectRow(2);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_2);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
-
-			// PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to current system date
-            DriverTab.tableActivityInformationList.selectRow(3);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_3);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
-
-			// PAS-18300 - Assert that Permissive Use Claim IS Included In Rating because Date of Loss is equal to current system date and assigned to FNI
-			DriverTab.tableActivityInformationList.selectRow(4);
-			softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_4);
-			softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
-			softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
-        });
+        pas14552_includeClaimsInRatingDetermination();
     }
 
 	/**
@@ -390,72 +227,37 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
 	public void pas22172_ReconcilePUEndorsementAFRD(@Optional("AZ") @SuppressWarnings("unused") String state) {
-
-		createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
-		runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
-		generateClaimRequest();        // Download claim request and assert it
-
-		// Create the claim response
-		createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
-		runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
-
-		// Retrieve policy
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
-		// Enter renewal image and verify claim presence
-		buttonRenewals.click();
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-
-		// Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
-		// Check 2nd driver: Has DL match claim
-		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
-		mainApp().close();
-
-		//Move time to R-35 and run batch jobs:
-		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
-
-		//Accept Payment and renew the policy
-		payTotalAmtDue(policyNumber);
-		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-
-		//Set test date for endorsement
-		TestData addDriverTd = getTestSpecificTD("Add_PU_Claim_Driver_Endorsement_AZ");
-		//Initiate an endorsement: Add AFR Driver, calculate premium and order clue
-		initiateAddDriverEndorsement(policyNumber, addDriverTd);
-
-		//Navigate to Driver page and verify PU claim moved from FNI to newly added driver
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-		puDropAssertions(CLAIM_NUMBER_1, CAS_CLUE_CLAIM);
-
-		//Bind Endorsement
-		bindEndorsement();
+        pas22172_ReconcilePUEndorsementAFRD();
 	}
+
     /**
      * @author Kiruthika Rajendran
      * @author Chris Johns
      * @author Saranya Hariharan
-     * PAS-18317 - UI-CA: do NOT Show Permissive Use Indicator on Driver Tab (non-FNI) - Overrides "PAS-23269"
+     * PAS-22608 - UI-SS-CAS: Permissive Use Indicator (Driver Tab, Transaction Compare, Roll on Changes and Renewal Merge)
      * @name Test Clue claims STUB/Mock Data Claims
      * @scenario Test Steps:
-     * 1. Create a Quote with 4 drivers
-     * 2. Add Company Input claim for driver4 and validate the PU indicator is NOT present
-     * 3. Bind the policy
-     * 4. Initiate an endorsement
-     * 5. Add driver5
-     * 6. Calculate the Premium and click on Validate Driving History
-     * 7. Go to Driver tab and
-     * 8. Check for the Activity for Clue claims with PU indicator is NOT present
+     * 1. Create a Quote with 2 drivers
+     * 2. Add Company Input claim for driver1 and validate the PU indicator is NOT present
+     * 3. Order reports in DriverActivityReports tab
+     * 4. Navigate to Driver tab
+     * 5. Verify the driver1 as MVR claims with no PU indicator and driver2 as CLUE claims with no PU indicator
+     * 6. Bind the policy
+     * 7. Initiate an endorsement
+     * 8. Validate the company Input and MVR claims doesn't show up PU indicator for driver1
+     * 9. Validate the CLUE claims doesn't show up PU indicator for driver2
+     * 10. Calculate the Premium and click on Validate Driving History
+     * 11. Bind the endorsement
      * @details Clean Path. Expected Result Permissive Use indicator NOT in Driver Activity
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-18317")
-    public void pas18317_verifyPermissiveUseIndicator(@Optional("AZ") @SuppressWarnings("unused") String state) {
-        pas18317_verifyPermissiveUseIndicator();
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22608")
+    public void pas22608_verifyPermissiveUseIndicator(@Optional("AZ") @SuppressWarnings("unused") String state) {
+        pas22608_verifyPermissiveUseIndicator();
     }
+
+    //TODO - Check if this test case is required or not
     /**
      * @author Kiruthika Rajendran
      * @author Saranya Hariharan
