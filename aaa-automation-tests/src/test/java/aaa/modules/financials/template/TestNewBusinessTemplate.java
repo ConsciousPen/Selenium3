@@ -15,9 +15,13 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestNewBusinessTemplate extends FinancialsBaseTest {
+
+    private static LocalDateTime cxDateStatusJob;
+    private static LocalDateTime rstDate;
 
     /**
      * @scenario
@@ -160,8 +164,6 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime effDate = today.plusWeeks(3);
-		LocalDateTime cxDateStatusJob = effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay);
-		LocalDateTime rstDate = effDate.plusDays(20);
 
         // Create policy WITHOUT employee benefit, effective date three weeks from today
 		mainApp().open();
@@ -301,7 +303,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         }
 
 		// Advance time and reinstate policy with lapse
-        performReinstatementWithLapse(policyNumber, cxDateStatusJob, rstDate);
+        performReinstatementWithLapse(policyNumber, effDate);
         Dollar rstTaxes = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053");
         Dollar rstPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT);
 
@@ -410,8 +412,6 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
         LocalDateTime effDate = today.plusWeeks(3);
-        LocalDateTime cxDateStatusJob = effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay);
-        LocalDateTime rstDate = effDate.plusDays(20);
 
         // Create policy WITH employee benefit, effective date three weeks from today
         mainApp().open();
@@ -480,7 +480,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                 BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION), policyNumber, totalTaxesNB.subtract(totalTaxesEnd));
 
         //Advance time and reinstate policy with lapse
-        performReinstatementWithLapse(policyNumber, cxDateStatusJob, rstDate);
+        performReinstatementWithLapse(policyNumber, effDate);
         Dollar rstTaxes = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053");
         Dollar rstPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT);
 
@@ -601,13 +601,29 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         }
     }
 
-    private void performReinstatementWithLapse(String policyNumber, LocalDateTime cxDateStatusJob, LocalDateTime rstDate) {
-        TimeSetterUtil.getInstance().nextPhase(cxDateStatusJob);
+    private void performReinstatementWithLapse(String policyNumber, LocalDateTime effDate) {
+        TimeSetterUtil.getInstance().nextPhase(getCxDateStatusJobTime(effDate));
         JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
-        TimeSetterUtil.getInstance().nextPhase(rstDate);
+        TimeSetterUtil.getInstance().nextPhase(getRstDate(effDate));
         mainApp().open();
         performReinstatement(policyNumber);
 
+    }
+
+    private synchronized LocalDateTime getCxDateStatusJobTime(LocalDateTime effDate) {
+        if (cxDateStatusJob == null) {
+            cxDateStatusJob = effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay);
+        }
+        assertThat(cxDateStatusJob).isEqualToIgnoringHours(effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
+        return cxDateStatusJob;
+    }
+
+    private synchronized LocalDateTime getRstDate(LocalDateTime effDate) {
+        if (rstDate == null) {
+            rstDate = effDate.plusDays(20);
+        }
+        assertThat(rstDate).isEqualToIgnoringHours(effDate.plusDays(20));
+        return rstDate;
     }
 
 }
