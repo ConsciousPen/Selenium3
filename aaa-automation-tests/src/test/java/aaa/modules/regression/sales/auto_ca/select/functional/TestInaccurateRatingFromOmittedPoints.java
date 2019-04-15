@@ -2,9 +2,11 @@ package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import aaa.common.Tab;
 import aaa.main.enums.ErrorEnum;
+import aaa.main.modules.policy.auto_ca.actiontabs.EndorsementActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
 import aaa.main.pages.summary.PolicySummaryPage;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -42,10 +44,10 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
     DriverActivityReportsTab dart =  new DriverActivityReportsTab();
     DocumentsAndBindTab dabt = new DocumentsAndBindTab();
     PurchaseTab pt = new PurchaseTab();
-    TestDataHelper tdHelper = new TestDataHelper();
     DriverTab dt = new DriverTab();
     String _productTypeExpectedThroughoutNewBusiness = null;
     String _productDetermined = null;
+    String _capturedPremiumValue = null;
 
 
     /**
@@ -125,7 +127,8 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
     @Parameters({"state"})
     @Test(dataProvider = "newBusinessTest")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-28101")
-    public void testRatingAtNewBusiness(@Optional String state, String firstName, String middleName, String lastName, String DOB, String address, String licenseNumber, String expectedProduct){
+    public void
+    testRatingAtNewBusiness(@Optional String state, String firstName, String middleName, String lastName, String DOB, String address, String licenseNumber, String expectedProduct){
         // Prepare Data
         _productTypeExpectedThroughoutNewBusiness = expectedProduct;
         TestData _td = buildTestData(firstName, middleName, lastName, DOB, address, "90029", "LOS ANGELES", licenseNumber);
@@ -139,8 +142,9 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
         //validateActivityInformation();
         updateActivityToChangeProductTypes(1);
         String newPolicyType = calculatePremiumAndValidatePolicyHasChanged(); //AC4, AC6
+        reorderReports();
         completePolicyBind(_td, newPolicyType);
-        //startEndorsementCalculatePremiumValidateUnchanged() //AC7, AC8
+        startEndorsementCalculatePremiumValidateUnchanged(_td); //AC7, AC8
     }
 
     /**
@@ -254,6 +258,7 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
         et.buttonOverride.click();
         dabt.submitTab();
         pt.fillTab(this.getPolicyDefaultTD());
+        _capturedPremiumValue = PurchaseTab.tablePaymentPlan.getColumn("Premium").getCell(1).getValue();
         pt.submitTab();
         return PolicySummaryPage.getPolicyNumber();
     }
@@ -283,5 +288,21 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
         pncTab.calculatePremium();
         CustomAssertions.assertThat(policyTypeAfterActivityUpdates).isNotEqualToIgnoringCase(_productTypeExpectedThroughoutNewBusiness);
         return policyTypeAfterActivityUpdates;
+    }
+
+    private void reorderReports(){
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+        dart.getAssetList().getAsset(AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).setValue("I Agree");
+        dart.getAssetList().getAsset(AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV).setValue("I Agree");
+        dart.getAssetList().getAsset(AutoCaMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY).click();
+    }
+
+    private void startEndorsementCalculatePremiumValidateUnchanged(TestData in_td){
+        policy.createEndorsement(getPolicyTD("Endorsement", "TestData"));
+
+        //Fill Endorsement with Blank Data
+        policy.getDefaultView().fillFromTo(getPolicyTD("Endorsement", "TestData_Empty_Endorsement"), GeneralTab.class, PremiumAndCoveragesTab.class, true);
+        String newPremium = PremiumAndCoveragesTab.getPolicyTermPremium().toString();
+        CustomAssertions.assertThat(PremiumAndCoveragesTab.getPolicyTermPremium().toString()).isEqualTo(_capturedPremiumValue);
     }
 }
