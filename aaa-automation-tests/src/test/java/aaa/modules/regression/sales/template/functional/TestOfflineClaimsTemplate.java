@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 import static aaa.common.pages.SearchPage.tableSearchResults;
 import aaa.common.pages.Page;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableActivityInformationList;
 import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableDriverList;
@@ -82,7 +83,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     private static final String CLAIMS_URL = "https://claims-assignment-master.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1"; //Post-Permissive Use
     public static final String SQL_REMOVE_RENEWALCLAIMRECEIVEASYNCJOB_BATCH_JOB_CONTROL_ENTRY = "DELETE FROM BATCH_JOB_CONTROL_ENTRY WHERE jobname='renewalClaimReceiveAsyncJob'";
     public static final String CLAIMS_MICROSERVICE_ENDPOINT = "select * from PROPERTYCONFIGURERENTITY where propertyname = 'aaaClaimsMicroService.microServiceUrl'";
-
+    private static final String PU_CLAIMS_DEFAULTING_DATA_MODEL = "pu_claims_defaulting_data_model.yaml";
     protected TestData adjusted;
     protected LocalDateTime policyExpirationDate;
     protected String policyNumber;
@@ -99,6 +100,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     private static final String CLAIM_NUMBER_2 = "1002-10-8703";
     private static final String CLAIM_NUMBER_3 = "1002.10>8704";
     private static final String COMP_DL_PU_CLAIMS_DATA_MODEL = "comp_dl_pu_claims_data_model.yaml";
+    private static final String[] CLAIM_NUMBERS_PU_DEFAULTING = {"PU_DEFAULTING_CMP","PU_DEFAULTING_1","PU_DEFAULTING_2","PU_DEFAULTING_3",
+            "PU_DEFAULTING_4","PU_DEFAULTING_5","PU_DEFAULTING_6"};
     private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE = ImmutableMap.of(CLAIM_NUMBER_1, "D07963714", CLAIM_NUMBER_2, "D07963714");
     @BeforeTest
     public void prepare() {
@@ -715,6 +718,56 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         //Save and exit the Renewal
         DriverTab.buttonSaveAndExit.click();
     }
+    /*
+   Method/Test for CA Choice & Select: TestOfflineClaims.pas25162_permissiveUseIndicatorDefaulting
+    */
+    public void pas25162_permissiveUseIndicatorDefaulting() {
+        //Adjusted Test Data for: Internal Claims
+        TestData testDataForPUInd = getTestSpecificTD("TestData_PUDefaulting").resolveLinks();
+        TestData td = getPolicyTD().adjust(testDataForPUInd);
+
+        policyNumber = openAppAndCreatePolicy(td);
+        log.info("Policy created successfully. Policy number is " + policyNumber);
+
+        //Run Jobs to create and issue 1st Renewal: 1st CAS Response
+        runRenewalClaimOrderJob();
+        createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(policyNumber, PU_CLAIMS_DEFAULTING_DATA_MODEL);
+        runRenewalClaimReceiveJob();
+
+        // Retrieve policy and enter renewal image
+        retrieveRenewal(policyNumber);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+        //1st Renewal: Verify PU Values in Drivers tab
+        verifyPUvalues();
+
+        //TODO: Mantas Garsvinskas Uncomment after PAS-26322
+        /*
+        issueGeneratedRenewalImage(policyNumber, false);
+
+        //Run Jobs to create 2nd required Renewal and validate the results: EXISTING_MATCH case: 2nd CAS Response
+        runRenewalClaimOrderJob();
+        createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(policyNumber, PU_CLAIMS_DEFAULTING_2ND_DATA_MODEL);
+        runRenewalClaimReceiveJob();
+
+        // Retrieve policy and verify claim presence on renewal image
+        mainApp().open();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+        if (tableSearchResults.isPresent()) {
+            tableSearchResults.getRow("Eff. Date",
+                    TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY))
+                    .getCell(1).controls.links.getFirst().click();
+        }
+
+        buttonRenewals.click();
+        policy.dataGather().start();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+        //2nd Renewal: Verify PU Values in Drivers tab
+        verifyPUvalues(); */
+    }
+
     /**
      * Method changes'First Named Insured' to the desired Insured. First Named Insured index starts at zero
      * @param namedInsuredNumber - Insured who will become the First Named Insured
@@ -730,6 +783,34 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         }
         generalTab.submitTab();
     }
+    /*
+   Method verifies that PU indicator has correct defaulted values:
+   used for pas25162_permissiveUseIndicatorDefaulting
+    */
+    protected void verifyPUvalues() {
+        CustomSoftAssertions.assertSoftly(softly -> {
+            ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
+
+            // Check 1st driver: Contains 7 Matched Claims (Verifying PU default value)
+            softly.assertThat(driverTab.tableActivityInformationList).hasRows(7);
+
+            // Verifying PU default value for all Claims
+            for (int i = 0; i <= 6; i++) {
+                driverTab.tableActivityInformationList.selectRow(i + 1);
+                if (i == 6) { //PERMISSIVE_USE match = Yes
+                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[i]);
+                    //TODO: Uncomment after PAS-22608 is merged to Master
+                   // softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("Yes");
+                } else {
+                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[i]);
+                    //TODO: Uncomment after PAS-22608 is merged to Master
+                   // softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("No");
+                }
+
+            }
+        });
+    }
+
 
     /**
      * Method opens app, retrieves policy, and enters data gathering in renewal image
