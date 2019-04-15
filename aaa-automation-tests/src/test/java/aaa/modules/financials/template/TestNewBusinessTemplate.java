@@ -158,9 +158,12 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
      */
 	protected void testNewBusinessScenario_2() {
 
-		// Create policy WITHOUT employee benefit, effective date three weeks from today
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime effDate = today.plusWeeks(3);
+		LocalDateTime cxDateStatusJob = effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay);
+		LocalDateTime rstDate = effDate.plusDays(20);
+
+        // Create policy WITHOUT employee benefit, effective date three weeks from today
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createFinancialPolicy(adjustTdPolicyEffDate(getPolicyTD(), effDate));
@@ -298,7 +301,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         }
 
 		// Advance time and reinstate policy with lapse
-        performReinstatementWithLapse(effDate, policyNumber);
+        performReinstatementWithLapse(policyNumber, cxDateStatusJob, rstDate);
         Dollar rstTaxes = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053");
         Dollar rstPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT);
 
@@ -405,9 +408,12 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
      */
     protected void testNewBusinessScenario_4() {
 
-        // Create policy WITH employee benefit, effective date three weeks from today
         LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
         LocalDateTime effDate = today.plusWeeks(3);
+        LocalDateTime cxDateStatusJob = effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay);
+        LocalDateTime rstDate = effDate.plusDays(20);
+
+        // Create policy WITH employee benefit, effective date three weeks from today
         mainApp().open();
         createCustomerIndividual();
         String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(adjustTdPolicyEffDate(getPolicyTD(), effDate)));
@@ -474,7 +480,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                 BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION), policyNumber, totalTaxesNB.subtract(totalTaxesEnd));
 
         //Advance time and reinstate policy with lapse
-        performReinstatementWithLapse(effDate, policyNumber);
+        performReinstatementWithLapse(policyNumber, cxDateStatusJob, rstDate);
         Dollar rstTaxes = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053");
         Dollar rstPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT);
 
@@ -595,10 +601,10 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         }
     }
 
-    private void performReinstatementWithLapse(LocalDateTime effDate, String policyNumber) {
-        TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
+    private void performReinstatementWithLapse(String policyNumber, LocalDateTime cxDateStatusJob, LocalDateTime rstDate) {
+        TimeSetterUtil.getInstance().nextPhase(cxDateStatusJob);
         JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
-        TimeSetterUtil.getInstance().nextPhase(effDate.plusDays(20));
+        TimeSetterUtil.getInstance().nextPhase(rstDate);
         mainApp().open();
         performReinstatement(policyNumber);
 
