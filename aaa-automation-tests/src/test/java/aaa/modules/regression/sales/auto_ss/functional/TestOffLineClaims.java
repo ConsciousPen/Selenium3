@@ -497,4 +497,41 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     public void pas24652_ChangeFNIGeneralTabRenewal(@Optional("AZ") @SuppressWarnings("unused") String state) {
         pas24652_ChangeFNIGeneralTabRenewal();
     }
+
+    /**
+     * @author Mantas Garsvinskas
+     * @author Saranya Hariharan
+     * PAS-25162 - UI-CA-CAS: make sure “MATCHED” FNI claims do not show PU YES unless set by user
+     * @name Test Offline Claims Permissive Use Indicator defaulting Rules
+     * @scenario Test Steps:
+     * 1. Create a Policy with 2 drivers: FNI and 1 additional
+     * 2. Move time to R-63 and run Renewal Part1 + "renewalClaimOrderAsyncJob"
+     * 3. Create CAS Response File with required Claims (all claims permissiveUse = Y)
+     * 3.1. --DL matched Claim
+     * 3.2. --COMP matched Claim
+     * 3.3. --LASTNAME_FIRSTNAME_DOB matched Claim
+     * 3.4. --LASTNAME_FIRSTNAME_YOB matched Claim
+     * 3.5. --LASTNAME_FIRSTNAME matched Claim
+     * 3.6. --LASTNAME_FIRSTINITIAL_DOB matched Claim
+     * 3.7. --NO_MATCH not matched, but permissiveUse = Y, so PERMISSIVE_USE matched Claim;
+     * 4. Move Time to R-46 and run Renewal Part2 + "claimsRenewBatchReceiveJob"
+     * 5. Retrieve policy and enter renewal image
+     * 6. Verify all Claims: 'Permissive Use Loss?' flag is set according to defaulting rules
+     * 7. Accept a payment and renew the policy
+     * --Next steps will be added after PAS-26322
+     * 8. Move time to R2-63 and run Renewal Part1 + "renewalClaimOrderAsyncJob"
+     * 9. Create CAS Response File with required Claims
+     * 9.1. --EXISTING_MATCH matched Claims: Previously was PU = Y, Now PU = N, and viceversa
+     * 10. Move Time to R-46 and run Renewal Part2 + "claimsRenewBatchReceiveJob"
+     * 11. Retrieve policy and enter renewal image
+     * 12. Verify all Claims: 'Permissive Use Loss?' flag is set according to defaulting rules (EXISTING_MATCH retaining same value as before)
+     * @details Clean Path. Expected Result is that 'Permissive Use Loss' is defaulted to 'Yes' only for PU Claims (Existing Matches as well)
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-25162")
+    public void pas25162_permissiveUseIndicatorDefaulting(@Optional("AZ") @SuppressWarnings("unused") String state) {
+        pas25162_permissiveUseIndicatorDefaulting();
+    }
+
 }

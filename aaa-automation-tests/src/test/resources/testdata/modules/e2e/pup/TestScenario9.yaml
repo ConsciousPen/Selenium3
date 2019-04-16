@@ -31,6 +31,17 @@ TestData_Endorsement: {
       "Policy #": 123456,
       Usage: Pleasure,
       Excluded: 'No'
+    },
+    { Add: 'click',
+      Car Type: Private Passenger Auto,
+      VIN: 'WDCYC7BB0B6729451',
+      Year: 2016,
+      Make: 'AUDI',
+      Model: 'index=1',
+      Current Carrier: 'index=2',
+      "Policy #": 123466,
+      Usage: Pleasure,
+      Excluded: 'No'
     }]
   },
   UnderlyingRisksOtherVehiclesTab: {},
