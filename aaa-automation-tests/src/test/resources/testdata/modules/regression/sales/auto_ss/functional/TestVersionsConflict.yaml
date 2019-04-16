@@ -1364,6 +1364,18 @@ TestData_PremiumAndCoverages_Version2: {
   DocumentsAndBindTab: {},
 }
 
+TestData_PremiumAndCoverages_Renewal_Version: {
+ GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoverages_Renewal_Version',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
 PremiumAndCoverages: {
   Payment Plan: Annual,
   Policy Term: Annual
@@ -1375,4 +1387,8 @@ PremiumAndCoverages_Version1: {
 
 PremiumAndCoverages_Version2: {
   Payment Plan: Quarterly
+}
+
+PremiumAndCoverages_Renewal_Version: {
+  Payment Plan: Semi-Annual (Renewal)
 }
