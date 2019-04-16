@@ -1258,21 +1258,6 @@
             </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestGoodStudentDiscount -->
         </classes>
     </test> <!-- CT Auto -->
-    <test name="OH Auto" parallel="methods">
-        <parameter name="state" value="OH"/>
-        <groups>
-            <run>
-                <include name="Regression"/>
-            </run>
-        </groups>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestExpirationNoticeGeneration">
-                <methods>
-                    <include name="testExpirationNoticeGeneration"/>
-                </methods>
-            </class> <!-- aaa.modules.regression.document_fulfillment.auto_ss.TestExpirationNoticeGeneration -->
-        </classes>
-    </test> <!-- OH Auto -->
     <test name="WV Auto" parallel="methods">
         <parameter name="state" value="WV"/>
         <groups>
