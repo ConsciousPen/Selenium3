@@ -15,6 +15,9 @@ import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomSoftAssertions;
+import toolkit.webdriver.controls.BaseElement;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 public class TestPaperlessPreferences extends AutoSSBaseTest {
@@ -62,6 +65,7 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
 
             softly.assertThat(documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES)).isPresent();
             softly.assertThat(documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES)).isEnabled();
+         //   softly.assertThat(documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.EDIT_PAPERLESS_PREFERENCES_BTN_DONE)).isEnabled();
 
             //left overs of previous functionality. Showing Hiding rules will change with new story
             softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.SUPPRESS_PRINT)).isPresent();
@@ -78,7 +82,8 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
 
             //PAS-266 start
             documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES).click();
-            Waiters.SLEEP(15000).go();
+            Waiters.SLEEP(20).go();
+             while(documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.EDIT_PAPERLESS_PREFERENCES_BTN_DONE).isVisible())
             documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.EDIT_PAPERLESS_PREFERENCES_BTN_DONE).click();
             //PAS-282, PAS-268, PAS-266 end
 

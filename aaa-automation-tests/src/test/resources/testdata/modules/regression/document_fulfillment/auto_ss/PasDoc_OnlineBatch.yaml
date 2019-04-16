@@ -169,6 +169,17 @@ TestData_Endorsement_UIMLessThanBI: {
   DocumentsAndBindTab: '@DocumentsAndBindTab_Endorsement_UMandUIMLessThanBI'
 }
 
+TestData_Endorsement_UMandUIMEqualToBI: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMandUIMEqualToBI', 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
 # ------ Scenario 13
 TestData_Endorsement_AddExcludedDriver: {
   GeneralTab: {}, 
@@ -673,6 +684,12 @@ PremiumAndCoveragesTab_UIMLessThanBI: {
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Uninsured Motorists Bodily Injury: 'contains=$100,000/$300,000',
   Underinsured Motorists Bodily Injury: 'contains=$50,000/$100,000'
+}
+
+PremiumAndCoveragesTab_UMandUIMEqualToBI: {
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Uninsured Motorists Bodily Injury: 'contains=$100,000/$300,000',
+  Underinsured Motorists Bodily Injury: 'contains=$100,000/$300,000'
 }
 
 PremiumAndCoveragesTab_Monthly: {

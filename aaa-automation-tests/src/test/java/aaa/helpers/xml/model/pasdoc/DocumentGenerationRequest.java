@@ -1,13 +1,14 @@
 package aaa.helpers.xml.model.pasdoc;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import aaa.main.enums.DocGenEnum;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
-import aaa.main.enums.DocGenEnum;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DocumentGenerationRequest {
@@ -63,16 +64,6 @@ public class DocumentGenerationRequest {
 	}
 
 	@Override
-	public String toString() {
-		return "DocumentGenerationRequest{" +
-				"requestContext='" + requestContext + '\'' +
-				", distributionChannels=" + distributionChannels +
-				", documentData='" + documentData + '\'' +
-				", documents=" + documents +
-				'}';
-	}
-
-	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
@@ -81,14 +72,24 @@ public class DocumentGenerationRequest {
 			return false;
 		}
 		DocumentGenerationRequest that = (DocumentGenerationRequest) o;
-		return requestContext.equals(that.requestContext) &&
-				distributionChannels.equals(that.distributionChannels) &&
-				documentData.equals(that.documentData) &&
-				documents.equals(that.documents);
+		return Objects.equals(requestContext, that.requestContext) &&
+				Objects.equals(distributionChannels, that.distributionChannels) &&
+				Objects.equals(documentData, that.documentData) &&
+				Objects.equals(documents, that.documents);
 	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(requestContext, distributionChannels, documentData, documents);
+	}
+
+	@Override
+	public String toString() {
+		return "DocumentGenerationRequest{" +
+				"requestContext=" + requestContext +
+				", distributionChannels=" + distributionChannels +
+				", documentData=" + documentData +
+				", documents=" + documents +
+				'}';
 	}
 }

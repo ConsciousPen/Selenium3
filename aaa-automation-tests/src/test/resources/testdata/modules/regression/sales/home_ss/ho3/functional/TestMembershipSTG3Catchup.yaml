@@ -1,0 +1,179 @@
+TestData_TestMembershipSTG3_No_AZ: {
+  GeneralTab: '@GeneralTab_AZ',
+  ApplicantTab: '@ApplicantTab_No',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
+  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+
+TestData_TestMembershipSTG1_Yes_AZ: {
+  GeneralTab: '@GeneralTab_AZ',
+  ApplicantTab: '@ApplicantTab_Yes_Active',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
+  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+TestData_TestMembershipSTG3_Override_AZ: {
+  GeneralTab: '@GeneralTab_AZ',
+  ApplicantTab: '@ApplicantTab_Override',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
+  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+TestData_TestMembershipSTG3_Override_Life_AZ: {
+  GeneralTab: '@GeneralTab_AZ',
+  ApplicantTab: '@ApplicantTab_Override_Life',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
+  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+TestData_TestMembershipSTG3_Membership_Pending_AZ: {
+  GeneralTab: '@GeneralTab_AZ',
+  ApplicantTab: '@ApplicantTab_Membership_Pending',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
+  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+ApplicantTab_Override: {
+  NamedInsured: '@NamedInsured_AZ',
+  AAAMembership: '@AAAMembership_Override',
+  DwellingAddress: '@DwellingAddress_AZ',
+  PreviousDwellingAddress: '@<home_ss_ho3>@DataGather@PreviousDwellingAddress',
+  MailingAddress: '@<home_ss_ho3>@DataGather@MailingAddress',
+  NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo_AZ'
+}
+ApplicantTab_Override_Life: {
+  NamedInsured: '@NamedInsured_AZ',
+  AAAMembership: '@AAAMembership_Override_Life',
+  DwellingAddress: '@DwellingAddress_AZ',
+  PreviousDwellingAddress: '@<home_ss_ho3>@DataGather@PreviousDwellingAddress',
+  MailingAddress: '@<home_ss_ho3>@DataGather@MailingAddress',
+  NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo_AZ'
+}
+
+ApplicantTab_Membership_Pending: {
+  NamedInsured: '@NamedInsured_AZ',
+  AAAMembership: '@AAAMembership_Membership_Pending',
+  DwellingAddress: '@DwellingAddress_AZ',
+  PreviousDwellingAddress: '@<home_ss_ho3>@DataGather@PreviousDwellingAddress',
+  MailingAddress: '@<home_ss_ho3>@DataGather@MailingAddress',
+  NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo_AZ'
+}
+
+ApplicantTab_No: {
+  NamedInsured: '@NamedInsured_AZ',
+  AAAMembership: '@AAAMembership_No',
+  DwellingAddress: '@DwellingAddress_AZ',
+  PreviousDwellingAddress: '@<home_ss_ho3>@DataGather@PreviousDwellingAddress',
+  MailingAddress: '@<home_ss_ho3>@DataGather@MailingAddress',
+  NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo_AZ'
+}
+ApplicantTab_Yes_Active: {
+  NamedInsured: '@NamedInsured_AZ',
+  AAAMembership: '@AAAMembership_Yes_Active',
+  DwellingAddress: '@DwellingAddress_AZ',
+  PreviousDwellingAddress: '@<home_ss_ho3>@DataGather@PreviousDwellingAddress',
+  MailingAddress: '@<home_ss_ho3>@DataGather@MailingAddress',
+  NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo_AZ'
+}
+
+NamedInsured_AZ: {
+  Relationship to primary named insured:  Primary Insured,
+  Social security number: 1234567890,
+}
+AgentInfo_AZ: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'contains=Draper - 500005417 - Draper',
+  Agent: 'House Account Draper',
+}
+DwellingAddress_AZ: {
+  Zip code: '85383',
+  Street address 1: 3646 MONROE BLVD,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  #AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+AAAMembership_No: {
+  Current AAA Member: 'No',
+}
+AAAMembership_Yes_Active: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001
+}
+AAAMembership_Override: {
+  Current AAA Member: 'Membership Override',
+  Override Type: 'Term',
+  Member Since Date: '01/01/2018'
+}
+AAAMembership_Override_Life: {
+  Current AAA Member: 'Membership Override',
+  Override Type: 'Life',
+  Member Since Date: '01/01/2018'
+}
+AAAMembership_Membership_Pending: {
+  Current AAA Member: 'Membership Pending',
+}
+GeneralTab_AZ: {
+  State: 'AZ',
+  Policy type: 'HO3',
+  Effective date: '$<today:MM/dd/yyyy>',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
+}

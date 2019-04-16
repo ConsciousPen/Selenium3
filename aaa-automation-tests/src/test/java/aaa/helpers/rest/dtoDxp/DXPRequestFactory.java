@@ -58,9 +58,9 @@ public class DXPRequestFactory {
 	}
 
 	/**
-	 For PIPPRIMINS - Primary Insurer coverage that contains fields insurerName (Insurer Name), certNum (Policy / Group # /Certificate #)
+	 For coverages that contains fields insurerName (Insurer Name), certNum (Policy / Group # /Certificate #)
 	 */
-	public static UpdateCoverageRequest createUpdatePIPRIMINSCoverageRequest(String coverageCd, String limit, String insurerName, String certNum) {
+	public static UpdateCoverageRequest createUpdateCoverageRequest(String coverageCd, String limit, String insurerName, String certNum) {
 		UpdateCoverageRequest updateCoverageRequest = new UpdateCoverageRequest();
 		updateCoverageRequest.coverageCd = coverageCd;
 		updateCoverageRequest.limit = limit;
