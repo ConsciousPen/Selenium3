@@ -305,7 +305,6 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
                 .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1043")));
         });
 
-        // TODO 1071/1072 Ledger Account ID: State/ Municipality Tax Amount (if applicable)
         // Tax Validations for RNW-03
         if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
             assertSoftly(softly -> {
@@ -332,7 +331,6 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1015")));
         });
 
-        // TODO 1053/1054/1071/1072 recorded at effective date
         // Continued Tax Validations for RNW-03 recorded at effective date
         if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
             assertSoftly(softly -> {
