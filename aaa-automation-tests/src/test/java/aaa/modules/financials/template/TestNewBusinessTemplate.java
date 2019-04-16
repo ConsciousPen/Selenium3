@@ -235,7 +235,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         Dollar reducedPrem = performRPEndorsement(policyNumber, effDate);
 
         //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
-        advanceTime(effDate);
+        TimeSetterUtil.getInstance().nextPhase(effDate);
         JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
         mainApp().open();
 
@@ -433,7 +433,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         Dollar reducedPrem = performRPEndorsement(policyNumber, effDate);
 
         //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
-        advanceTime(effDate);
+        TimeSetterUtil.getInstance().nextPhase(effDate);
         JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
         mainApp().open();
         SearchPage.openBilling(policyNumber);
@@ -596,9 +596,9 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
     }
 
     private void performReinstatementWithLapse(LocalDateTime effDate, String policyNumber) {
-        advanceTime(effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
+        TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
         JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
-        advanceTime(effDate.plusDays(20));
+        TimeSetterUtil.getInstance().nextPhase(effDate.plusDays(20));
         mainApp().open();
         performReinstatement(policyNumber);
 
