@@ -5879,9 +5879,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				, covPIPRIMINSPersonalExpected.getInsurerName(), covPIPRIMINSPersonalExpected.getCertNum());
 		ErrorResponseDto errorResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, ErrorResponseDto.class, 422);
 		if (getState().equals(Constants.States.NJ)) {
-			assertThat(helperMiniServices.hasError(errorResponse, ErrorDxpEnum.Errors.INSURER_NAME_POLICY_GROUP_CERTIFICATE_BLANK_NJ, "attributeForRules")).isTrue();
+			assertThat(helperMiniServices.hasError(errorResponse, ErrorDxpEnum.Errors.INSURER_NAME_POLICY_GROUP_CERTIFICATE_BLANK_NJ)).isTrue();
 		} else {//for NY
-			assertThat(helperMiniServices.hasError(errorResponse, ErrorDxpEnum.Errors.INSURER_NAME_POLICY_GROUP_CERTIFICATE_BLANK_NY, "attributeForRules")).isTrue();
+			assertThat(helperMiniServices.hasError(errorResponse, ErrorDxpEnum.Errors.INSURER_NAME_POLICY_GROUP_CERTIFICATE_BLANK_NY)).isTrue();
 		}
 
 		//Assert that coverage is not updated as there was error
