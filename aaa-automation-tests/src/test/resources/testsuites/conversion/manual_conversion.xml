@@ -7,7 +7,7 @@
 	<parameter name="timeshift-scenario-mode" value="method"/>
 
     <test name="Auto SS Manual Conversion Test" parallel="methods" thread-count="200">
-        <parameter name="state" value="NJ, DE, VA, PA, MD" />
+        <parameter name="state" value="KS, KY, WV, AZ, WY, CT, UT, ID, OR, MT, SD" />
         <classes>
             <class name="aaa.modules.regression.conversions.auto_ss.ManualConversionTest"/>
         </classes>
