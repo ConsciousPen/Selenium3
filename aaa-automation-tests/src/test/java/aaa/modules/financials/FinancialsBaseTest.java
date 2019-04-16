@@ -248,4 +248,14 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		return taxes;
 	}
 
+	protected synchronized void advanceTime(LocalDateTime date) {
+		if (!isEqualToIgnoringHours(TimeSetterUtil.getInstance().getCurrentTime(), date)) {
+			TimeSetterUtil.getInstance().nextPhase(date);
+		}
+	}
+
+	private boolean isEqualToIgnoringHours(LocalDateTime date1, LocalDateTime date2) {
+		return date1.getYear() == date2.getYear() && date1.getMonth().equals(date2.getMonth()) && date1.getDayOfMonth() == date2.getDayOfMonth();
+	}
+
 }
