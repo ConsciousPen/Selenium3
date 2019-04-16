@@ -25,24 +25,24 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
     static final Integer MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE = 4;
     static LocalDateTime thresholdMaxDate = null;
 
-    @DataProvider(name = "ThresholdTestData_STG1")
-    public static Object[][] ThresholdTestData_STG1() {
+    @DataProvider(name = "thresholdTestData_STG1")
+    public static Object[][] thresholdTestData_STG1() {
         return new Object[][]{
                 {"AZ", eThresholdTests.BEFORE, 15, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE - 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
                 {"AZ", eThresholdTests.ON, 15, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
                 {"AZ", eThresholdTests.AFTER, 15, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE + 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, false}};
     }
 
-    @DataProvider(name = "ThresholdTestData_STG2")
-    public static Object[][] ThresholdTestData_STG2() {
+    @DataProvider(name = "thresholdTestData_STG2")
+    public static Object[][] thresholdTestData_STG2() {
         return new Object[][] {
                 {"AZ", eThresholdTests.BEFORE, 30, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE - 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
                 {"AZ", eThresholdTests.ON, 30, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
                 {"AZ", eThresholdTests.AFTER, 30, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE + 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, false}};
     }
 
-    @DataProvider(name = "ThresholdTestData_STG2_SkipSTG1")
-    public static Object[][] ThresholdTestData_STG2_SkipSTG1() {
+    @DataProvider(name = "thresholdTestData_STG2_SkipSTG1")
+    public static Object[][] thresholdTestData_STG2_SkipSTG1() {
         return new Object[][] {
                 {"AZ", eThresholdTests.BEFORE, 30, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE - 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, true, true},
                 {"AZ", eThresholdTests.ON, 30, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE, AAAMembershipQueries.AAAMembershipStatus.No_Hit, true, true},
@@ -50,41 +50,41 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
     }
 
     // Combines STG1 and STG2 test data for ability to test everything using this one method.
-    @DataProvider(name = "ThresholdTestData_STG1_STG2")
-    public static Object[][] ThresholdTestData_STG1_STG2() {
+    @DataProvider(name = "thresholdTestData_STG1_STG2")
+    public static Object[][] thresholdTestData_STG1_STG2() {
         List<Object[]> all = Lists.newArrayList();
-        all.addAll(Arrays.asList(ThresholdTestData_STG1()));
-        all.addAll(Arrays.asList(ThresholdTestData_STG2()));
-        all.addAll(Arrays.asList(ThresholdTestData_STG2_SkipSTG1()));
+        all.addAll(Arrays.asList(thresholdTestData_STG1()));
+        all.addAll(Arrays.asList(thresholdTestData_STG2()));
+        all.addAll(Arrays.asList(thresholdTestData_STG2_SkipSTG1()));
         return all.toArray(new Object[all.size()][]);
     }
 
-    @DataProvider(name = "ThresholdTestData_STG1_NoCatchup")
-    public static Object[][] ThresholdTestData_STG1_NoCatchup() {
+    @DataProvider(name = "thresholdTestData_STG1_NoCatchup")
+    public static Object[][] thresholdTestData_STG1_NoCatchup() {
         return new Object[][] {
                 {"AZ", eThresholdTests.ON, 15, 0, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
                 {"AZ", eThresholdTests.AFTER, 15, 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, false}};
     }
 
-    @DataProvider(name = "ThresholdTestData_STG2_NoCatchup")
-    public static Object[][] ThresholdTestData_STG2_NoCatchup() {
+    @DataProvider(name = "thresholdTestData_STG2_NoCatchup")
+    public static Object[][] thresholdTestData_STG2_NoCatchup() {
         return new Object[][] {
                 {"AZ", eThresholdTests.ON, 30, 0, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
                 {"AZ", eThresholdTests.AFTER, 30, 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, false},
                 {"AZ", eThresholdTests.ON, 30, 0, AAAMembershipQueries.AAAMembershipStatus.No_Hit, true, true}}; // Test feature is off, where bestMemNumber = null (skipped STG1).
     }
 
-    @DataProvider(name = "ThresholdTestData_STG1_STG2_NoCatchup")
-    public static Object[][] ThresholdTestData_STG1_STG2_NoCatchup() {
+    @DataProvider(name = "thresholdTestData_STG1_STG2_NoCatchup")
+    public static Object[][] thresholdTestData_STG1_STG2_NoCatchup() {
         List<Object[]> all = Lists.newArrayList();
-        all.addAll(Arrays.asList(ThresholdTestData_STG1_NoCatchup()));
-        all.addAll(Arrays.asList(ThresholdTestData_STG2_NoCatchup()));
+        all.addAll(Arrays.asList(thresholdTestData_STG1_NoCatchup()));
+        all.addAll(Arrays.asList(thresholdTestData_STG2_NoCatchup()));
         return all.toArray(new Object[all.size()][]);
     }
 
     @Parameters({"state"})
-    @Test(dataProvider = "ThresholdTestData_STG1_STG2")
-    public void STG1orSTG2_TestThreshold(@Optional String state, eThresholdTests typeOfThresholdTest, Integer nb15or30, Integer daysAfterNB, AAAMembershipQueries.AAAMembershipStatus membershipStatusAtTimeOfMembershipValidation, Boolean bRunningNB30SkipSTG1, Boolean bExpectingPolicyToBeProcessed) {
+    @Test(dataProvider = "thresholdTestData_STG1_STG2")
+    public void dataDrivenBoundryTest(@Optional String state, eThresholdTests typeOfThresholdTest, Integer nb15or30, Integer daysAfterNB, AAAMembershipQueries.AAAMembershipStatus membershipStatusAtTimeOfMembershipValidation, Boolean bRunningNB30SkipSTG1, Boolean bExpectingPolicyToBeProcessed) {
         // Creating Policy using Default Test Data
         mainApp().open();
         createCustomerIndividual();

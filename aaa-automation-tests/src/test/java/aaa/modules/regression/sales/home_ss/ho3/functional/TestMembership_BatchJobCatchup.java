@@ -26,7 +26,7 @@ public class TestMembership_BatchJobCatchup extends HomeSSHO3BaseTest {
     static final Integer MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE = 4;
     static LocalDateTime thresholdMaxDate = null;
 
-    @DataProvider(name = "ThresholdTestData_STG1")
+    @DataProvider(name = "thresholdTestData_STG1")
     public static Object[][] ThresholdTestData_STG1() {
         return new Object[][]{
                 {"AZ", eThresholdTests.BEFORE, 15, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE - 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
