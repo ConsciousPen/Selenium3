@@ -4,6 +4,7 @@ import static org.assertj.core.util.Files.contentOf;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.nio.charset.Charset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.By;
@@ -41,6 +42,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
     private File claimResponseFile;
     private TableWithPages tableActivityInformationList = new TableWithPages(By.id("policyDataGatherForm:dataGatherView_ListDrivingRecord"));
+    private GeneralTab generalTab = new GeneralTab();
 
     // Activity Types
     private static final String AF_ACCIDENT = "At-Fault Accident";
@@ -73,9 +75,12 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     public void pas14738_testAccidentSurchargeWaiverConversion(@Optional("") String state) {
 
         TestData td = adjustTdBaseDate(getConversionPolicyDefaultTD());
-        createConversionQuoteAndFillUpTo(td, DocumentsAndBindTab.class);
+        mainApp().open();
+        createCustomerIndividual();
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd().adjust(TestData.makeKeyPath(CustomerMetaData.InitiateRenewalEntryActionTab.class.getSimpleName(),
+                CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), "$<today>"));
+        policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesTab.class, true);
         validateASW(td);
-        assertThat(PolicySummaryPage.tableRenewals).isPresent();
 
     }
 
@@ -102,7 +107,6 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         TestData td = adjustTdBaseDate(getPolicyTD());
         createQuoteAndFillUpTo(td, DocumentsAndBindTab.class);
         validateASW(td);
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
     }
 
@@ -127,7 +131,6 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         openAppAndCreatePolicy(td);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         validateASW(td);
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
     }
 
@@ -155,7 +158,176 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         openAppAndCreatePolicy(td);
         policy.renew().perform();
         validateASW(td);
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+    }
+
+    /**
+     * @author Josh Carpenter
+     * @name Test that prior carrier is considered for ASW eligibility only if days lapsed is <= 30 days
+     * @scenario
+     * 1. Initiate Auto SS quote with AAA prior carrier time = 2 years with 30 days lapse in coverage, base date today minus 2 years
+     * 2. Fill quote up to P & C tab with one AF accident that qualifies for ASW
+     * 3. Navigate to Driver tab and validate ASW is applied
+     * 4. Change Prior Carrier dates so days lapsed is now 31 but total prior carrier time is still 2 years and validate no ASW
+     * 5. Calculate premium and validate ASW is NOT applied
+     * 6. Change Prior Carrier dates so days lapsed is now 0
+     * 7. Calculate premium and validate ASW is applied
+     * 8. Change Prior Carrier dates so days lapsed is 0 but the expiration date overlaps, i.e. is past the base date.
+     * 9. Calculate premium and validate ASW is NOT applied
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27609")
+    public void pas27609_testAccidentSurchargeWaiverEligibilityDaysLapsedNB(@Optional("") String state) {
+
+        TestData td = adjustTdBaseDate(getPolicyTD()).adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), getActivityInfoTd());
+        createQuoteAndFillUpTo(td, FormsTab.class);
+
+        // Validate ASW is given
+        calculatePremiumAndNavigateToDriverTab();
+        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+
+        // Change Prior Carrier dates so days lapsed is now 31 but total prior carrier time is still 2 years and validate no ASW
+        setPriorCarrierDaysLapsed(31);
+        validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
+
+        // Change Prior Carrier dates so days lapsed is now 0 and validate ASW given
+        setPriorCarrierDaysLapsed(0);
+        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+
+        // Change Prior Carrier dates so days lapsed is 0 but the expiration date overlaps, i.e. is past the base date.
+        String inceptDate = TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).minusMonths(6).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        String expDate = TimeSetterUtil.getInstance().getCurrentTime().plusMonths(6).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE).setValue(inceptDate);
+        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE).setValue(expDate);
+        calculatePremiumAndNavigateToDriverTab();
+        validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
+
+        // Change Prior Carrier dates back to having 30 days lapse and validate ASW is applied
+        setPriorCarrierDaysLapsed(30);
+        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+
+    }
+
+    /**
+     * @author Josh Carpenter
+     * @name Test that prior carrier is considered for ASW eligibility only if days lapsed is <= 30 days for same day endorsements
+     * @scenario
+     * 1. Create Auto SS policy with AAA prior carrier time = 4 years with 30 days lapse in coverage, trans. eff. date = today
+     * 2. Create Auto SS policy with AAA prior carrier time = 4 years with 31 days lapse in coverage, trans. eff. date = today
+     * 3. Initiate endorsements on each of the above policies, add second driver that returns an AF accident that qualifies for ASW to each
+     * 4. Calculate premium
+     * 5. Validate first policy has ASW applied to the activity
+     * 6. Validate second policy does NOT have ASW applied to the activity
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27609")
+    public void pas27609_testAccidentSurchargeWaiverEligibilityDaysLapsedEndorsementSameDay(@Optional("") String state) {
+
+        TestData tdEndorsementFill = DataProviderFactory.dataOf(
+                GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData(),
+                DriverTab.class.getSimpleName(), getSecondDriverTd().adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), getActivityInfoTd()));
+
+        // Create policies with 30 days lapse with prior carrier
+        openAppAndCreatePolicy(getDefaultASWTd(30));
+
+        // Initiate endorsement, add driver with AF Accident
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        policy.getDefaultView().fill(tdEndorsementFill);
+        calculatePremiumAndNavigateToDriverTab();
+
+        // Validate ASW is applied
+        validateIncludeInPoints(PROPERTY_DAMAGE, "No");
+        validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+
+        // Create policies with 31 days lapse with prior carrier
+        openAppAndCreatePolicy(getDefaultASWTd(31));
+
+        // Initiate endorsement, add driver with AF Accident
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        policy.getDefaultView().fill(tdEndorsementFill);
+        calculatePremiumAndNavigateToDriverTab();
+
+        // Validate ASW is NOT applied
+        validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
+
+    }
+
+    /**
+     * @author Josh Carpenter
+     * @name Test that prior carrier is considered for ASW eligibility only if days lapsed is <= 30 days for next day endorsement (trans. eff date > eff date)
+     * @scenario
+     * 1. Create Auto SS policy with AAA prior carrier time = 4 years with 30 days lapse in coverage, trans. eff. date = today+1day
+     * 2. Create Auto SS policy with AAA prior carrier time = 4 years with 31 days lapse in coverage, trans. eff. date = today+1day
+     * 3. Initiate endorsements on each of the above policies, add second driver that returns an AF accident that qualifies for ASW to each
+     * 4. Calculate premium
+     * 5. Validate ASW is NOT given to the activity for the second driver
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27609")
+    public void pas27609_testAccidentSurchargeWaiverEligibilityDaysLapsedEndorsementNextDay(@Optional("") String state) {
+
+        TestData tdEndorsementFill = DataProviderFactory.dataOf(
+                GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData(),
+                DriverTab.class.getSimpleName(), getSecondDriverTd().adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), getActivityInfoTd()));
+
+        // Create policies with 30 days lapse with prior carrier
+        openAppAndCreatePolicy(getDefaultASWTd(30));
+
+        // Initiate endorsement, add driver with AF Accident
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
+        policy.getDefaultView().fill(tdEndorsementFill);
+        calculatePremiumAndNavigateToDriverTab();
+
+        // Validate ASW is NOT applied
+        validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
+
+    }
+
+    /**
+     * @author Josh Carpenter
+     * @name Test that prior carrier is considered for ASW eligibility only if days lapsed is <= 30 days
+     * @scenario
+     * 1. Create Auto SS policy with AAA prior carrier time = 2 years with 30 days lapse in coverage, base date today minus 2 years
+     * 2. Create Auto SS policy with AAA prior carrier time = 2 years with 31 days lapse in coverage, base date today minus 2 years
+     * 2. Create renewal image for each of the above policies, add second driver that returns an AF accident that qualifies for ASW to each
+     * 3. Calculate premium
+     * 4. Validate first policy has ASW applied to the activity
+     * 5. Validate second policy does NOT have ASW applied to the activity
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27609")
+    public void pas27609_testAccidentSurchargeWaiverEligibilityDaysLapsedRenewal(@Optional("") String state) {
+
+        // Create policies with 30 days lapse with prior carrier
+        openAppAndCreatePolicy(getDefaultASWTd(30));
+
+        // Create renewal image, add driver with AF Accident
+        createRenewalAddAccident();
+
+        // Validate ASW is applied
+        validateIncludeInPoints(BODILY_INJURY, "No");
+        validateReasonCode(BODILY_INJURY, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
+
+        // Create policies with 31 days lapse with prior carrier
+        openAppAndCreatePolicy(getDefaultASWTd(31));
+
+        // Create renewal image, add driver with AF Accident
+        createRenewalAddAccident();
+
+        // Validate ASW is NOT applied
+        validateIncludeInPoints(BODILY_INJURY, "Yes");
 
     }
 
@@ -392,7 +564,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27346")
     public void pas24673_testASWRemainsDuringRenewal(@Optional("") String state) {
 
-        // Create test data for endorsement to add a second driver with AF accident during endorsement
+        // Create test data for endorsement to add a second driver with AF accident during renewal
         TestData tdRenewalFill = DataProviderFactory.dataOf(
                 GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData(),
                 DriverTab.class.getSimpleName(), getSecondDriverTd().adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(),
@@ -495,8 +667,9 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     public void pas24673_testASWForTwoDriversWhenOneAccidentAgesOut(@Optional("") String state) {
 
         // Create test data for policy with base date 2 years ago and prior carrier time 3 total years
+        String inceptDate = TimeSetterUtil.getInstance().getCurrentTime().minusYears(3).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         TestData td =  adjustTdBaseDate(getPolicyTD()).adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(),
-                AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel()), "$<today-4y>");
+                AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel()), inceptDate);
 
         // Create test data for 2 drivers with clean history
         List<TestData> tdDriverTab = new ArrayList<>();
@@ -577,12 +750,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         bindPolicy();
 
         // Initiate renewal and add second AF accident for driver
-        policy.renew().perform();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        fillActivityDriverTab(getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY)
-                .adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-6M>")
-                .adjust(AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY.getLabel(), "click"));
-        calculatePremiumAndNavigateToDriverTab();
+        createRenewalAddAccident();
 
         // Validate both accidents receive ASW
         validateIncludeInPoints(BODILY_INJURY, "No");
@@ -717,20 +885,34 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     }
 
     private TestData adjustTdBaseDate(TestData td) {
+        return adjustTdBaseDate(td, 0);
+    }
+
+    private TestData adjustTdBaseDate(TestData td, int daysLapsed) {
+        String inceptDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(daysLapsed).minusYears(2).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        String expDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(daysLapsed).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
         return td.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
                         AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel()), "$<today-2y>")
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(),
-                        AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel()), "$<today-3y>")
+                        AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel()), inceptDate)
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(),
-                        AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel()), "$<today-1y>");
+                        AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel()), expDate);
     }
 
     private TestData getDefaultASWTd() {
+        return getDefaultASWTd(0);
+    }
+
+    private TestData getDefaultASWTd(int daysLapsed) {
+        String inceptDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(daysLapsed).minusYears(4).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        String expDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(daysLapsed).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
         return getPolicyTD()
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(),
-                        AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel()), "$<today-5y>")
+                        AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel()), inceptDate)
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(),
-                        AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel()), "$<today-1y>");
+                        AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel()), expDate);
     }
 
     private TestData getActivityInfoTd() {
@@ -748,10 +930,19 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
     private TestData getSecondDriverTd() {
         return getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName()).get(1)
                 .mask(AutoSSMetaData.DriverTab.NAMED_INSURED.getLabel())
-                .adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), "SDW")
+                .adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), "ASW")
                 .adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), "TestDriver")
                 .adjust(AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), "05/05/1981")
                 .adjust(AutoSSMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click");
+    }
+
+    private void createRenewalAddAccident() {
+        policy.renew().perform();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        fillActivityDriverTab(getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY)
+                .adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-6M>")
+                .adjust(AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY.getLabel(), "click"));
+        calculatePremiumAndNavigateToDriverTab();
     }
 
     private void fillActivityDriverTab(TestData td) {
@@ -794,35 +985,36 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         calculatePremiumAndNavigateToDriverTab();
         validateIncludeInPoints(PROPERTY_DAMAGE, "No");
         validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
-        //DriverTab.tableActivityInformationList.resetAllFilters();
 
         // Add a second AF accident in past 33 months and validate
         fillActivityDriverTab(getActivityInfoTd(AF_ACCIDENT, BODILY_INJURY)
                 .adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-8M>")
                 .adjust(AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY.getLabel(), "click"));
         calculatePremiumAndNavigateToDriverTab();
-        assertThat(tableActivityInformationList.getRow(1).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
-        assertThat(tableActivityInformationList.getRow(2).getCell(PolicyConstants.ActivityInformationTable.INCLUDE_IN_POINTS_TIER).getValue()).isEqualTo("Yes");
+        validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
+        validateIncludeInPoints(BODILY_INJURY, "Yes");
 
         // Remove second claim and validate ASW is given
         DriverTab.tableActivityInformationList.removeRow(2);
         calculatePremiumAndNavigateToDriverTab();
         validateIncludeInPoints(PROPERTY_DAMAGE, "No");
         validateReasonCode(PROPERTY_DAMAGE, PolicyConstants.ActivityInformationTable.REASON_CODE_ASW);
-        //DriverTab.tableActivityInformationList.resetAllFilters();
 
-        // Change Prior Carrier to non-AAA (Progressive) and validate no ASW for both
+        // Change Prior Carrier to non-AAA (Progressive) and validate no ASW
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        new GeneralTab().getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER).setValue("Progressive");
+        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER).setValue("Progressive");
         calculatePremiumAndNavigateToDriverTab();
         validateIncludeInPoints(PROPERTY_DAMAGE, "Yes");
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().submitTab();
 
-        if (PurchaseTab.remainingBalanceDueToday.isPresent()) {
-            purchaseTab.fillTab(policyTd).submitTab();
-        }
+    }
 
+    private void setPriorCarrierDaysLapsed(int days) {
+        String inceptDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(days).minusYears(2).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        String expDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(days).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE).setValue(inceptDate);
+        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE).setValue(expDate);
+        calculatePremiumAndNavigateToDriverTab();
     }
 
     private void calculatePremiumAndNavigateToDriverTab() {

@@ -50,9 +50,4 @@
             <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceEliminateManualEscheatmentReversalCapability"/>
         </classes>
     </test>
-    <test name="TestFinancePolicyReallocationWhenTotalsPremiumToZero" preserve-order="true">
-        <classes>
-            <class name="aaa.modules.regression.finance.billing.home_ss.ho3.TestFinancePolicyReallocationWhenTotalsPremiumToZero"/>
-        </classes>
-    </test>
 </suite>

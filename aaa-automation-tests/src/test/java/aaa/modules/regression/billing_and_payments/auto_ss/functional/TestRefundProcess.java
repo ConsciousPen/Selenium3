@@ -1,5 +1,20 @@
 package aaa.modules.regression.billing_and_payments.auto_ss.functional;
 
+import static aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData.EligibilityStatusEnum.NON_REFUNDABLE;
+import static aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData.PaymentMethodEnum.EFT;
+import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT;
+import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE;
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.Optional;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -20,11 +35,6 @@ import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditi
 import aaa.modules.regression.billing_and_payments.helpers.RefundProcessHelper;
 import aaa.modules.regression.billing_and_payments.template.functional.TestRefundProcessTemplate;
 import aaa.modules.regression.service.helper.HelperWireMockLastPaymentMethod;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -34,19 +44,6 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.Optional;
-
-import static aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData.EligibilityStatusEnum.NON_REFUNDABLE;
-import static aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData.PaymentMethodEnum.EFT;
-import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT;
-import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE;
-import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.APP_STUB_URL;
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestRefundProcess extends PolicyBaseTest implements TestRefundProcessPreConditions {
 
@@ -87,8 +84,8 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 	private void eRefundLastPaymentMethodConfigCheck() {
 		assertThat(DBService.get().getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).orElse(""))
 				.as("eRefund stub point is set incorrect, please run LAST_PAYMENT_METHOD_STUB_POINT_UPDATE").contains(APP_HOST);
-		assertThat(DBService.get().getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, APP_HOST, APP_STUB_URL)).orElse(""))
-				.as("Authentication stub point is set incorrect, please run AUTHENTICATION_STUB_POINT_UPDATE").contains(APP_HOST);
+		/*assertThat(DBService.get().getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, APP_HOST, APP_STUB_URL)).orElse(""))
+				.as("Authentication stub point is set incorrect, please run AUTHENTICATION_STUB_POINT_UPDATE").contains(APP_HOST);*/
 	}
 
 	@Parameters({"state"})

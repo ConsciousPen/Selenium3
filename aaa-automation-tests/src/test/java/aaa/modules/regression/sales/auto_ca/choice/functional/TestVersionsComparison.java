@@ -334,14 +334,14 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	}
 
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-25187"})
 	public void pas25187_endorsementsComparisonAssignment(@Optional("CA") String state) {
 		endorsementComparison(getTDNewBusinessPolicy(), getTDAssignmentNoChangeVersion(), getTDAssignmentVersion2(), VersionsComparisonConstants.ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
 	}
 
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-25187"})
 	public void pas25187_renewalComparisonAssignment(@Optional("CA") String state) {
 		renewalComparison(getTDNewBusinessPolicy(), getTDAssignmentNoChangeVersion(), getTDAssignmentVersion2(), VersionsComparisonConstants.RENEWAL_ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
