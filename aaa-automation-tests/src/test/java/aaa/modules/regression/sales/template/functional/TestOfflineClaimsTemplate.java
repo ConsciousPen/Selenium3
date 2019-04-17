@@ -766,9 +766,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
         DocumentsAndBindTab.buttonSaveAndExit.click();
 
-//        payTotalAmtDue(TimeSetterUtil.getInstance().getCurrentTime().plusDays(35), policyNumber);
         policyExpirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
-//        //Run the renewal job and pay the bill
+        //Run the renewal job and pay the bill
         moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
 
         //Accept Payment and renew the policy
@@ -1058,7 +1057,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         retrieveRenewal(policyNumber);
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         // Check 1st driver: FNI, has the MVR ,COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
-        //TODO: PU Indicator Shows up in UI for Internal claims after PAS-22608 is merged to Master Branch. Assertions needs to be modified.
         tableDriverList.selectRow(1);
         activityAssertions(2, 1, 3, 1, "MVR", "", false);
         activityAssertions(2, 1, 3, 2, "Internal Claims", CLAIM_NUMBER_1, false);
@@ -1158,11 +1156,9 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
                 driverTab.tableActivityInformationList.selectRow(i + 1);
                 if (i == 6) { //PERMISSIVE_USE match = Yes
                     softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[i]);
-                    //TODO: Uncomment after PAS-22608 is merged to Master
                    // softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("Yes");
                 } else {
                     softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[i]);
-                    //TODO: Uncomment after PAS-22608 is merged to Master
                     //PU Indicator will default to No
                    // softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("No");
                 }
