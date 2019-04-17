@@ -1,5 +1,12 @@
 package aaa.modules.regression.finance.billing.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -16,15 +23,8 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.finance.template.FinanceOperations;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import java.time.LocalDateTime;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestMinDueIsRecalculatedAfterEndorsements extends FinanceOperations {
 
@@ -49,14 +49,15 @@ public class TestMinDueIsRecalculatedAfterEndorsements extends FinanceOperations
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_CA_HO3;
 	}
+
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22575")
 
-	public void pas22575_testMinDueIsRecalculatedAfterEndorsements (@Optional("CA") String state) {
-		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()),"DataGather", "TestData")
-		.adjust(TestData.makeKeyPath(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.MONTHLY_STANDARD);
+	public void pas22575_testMinDueIsRecalculatedAfterEndorsements(@Optional("CA") String state) {
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData")
+				.adjust(TestData.makeKeyPath(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.MONTHLY_STANDARD);
 		String policyNumber = openAppAndCreatePolicy(td);
 		LocalDateTime policyExpDate = PolicySummaryPage.getExpirationDate();
 		payTotalAmtDue(policyNumber);
@@ -72,21 +73,22 @@ public class TestMinDueIsRecalculatedAfterEndorsements extends FinanceOperations
 		SearchPage.openBilling(policyNumber);
 		Dollar minDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS, ProductConstants.PolicyStatus.PROPOSED).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue());
 		BillingSummaryPage.openPolicy(1);
-		endorseAndChangeCoverages("$1,000,000","$100");
+		endorseAndChangeCoverages("$1,000,000", "$100");
 
 		// Check that Renewal Proposal Min Due did not change
 		SearchPage.openBilling(policyNumber);
 		assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS, ProductConstants.PolicyStatus.PROPOSED).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue())).isEqualTo(minDue);
 		TimeSetterUtil.getInstance().nextPhase(policyExpDate.minusDays(16));
 		searchForPolicy(policyNumber);
-		endorseAndChangeCoverages("$100,000","$7,500");
+		endorseAndChangeCoverages("$100,000", "$7,500");
 
 		// Check that Renewal Proposal Min Due did change and Offer was discarded
 		SearchPage.openBilling(policyNumber);
 		assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS, ProductConstants.PolicyStatus.PROPOSED).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue())).isNotEqualTo(minDue);
 		assertThat(BillingSummaryPage.tableBillsStatements.getValuesFromRows(BillingConstants.BillingBillsAndStatmentsTable.TYPE)).contains(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER);
 	}
-	private void endorseAndChangeCoverages(String CoverageEAmount, String DeductibleAmount){
+
+	private void endorseAndChangeCoverages(String CoverageEAmount, String DeductibleAmount) {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
