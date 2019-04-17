@@ -2849,7 +2849,7 @@ AA10OK: {
     VehManufactureYear: {TextField: '2011'},
     VehAddFlg: {TextField: 'Y'},
     VehManfrNm: {TextField: 'CHEVROLET'},
-    VehMdelNm: {TextField: 'EXPRESS VAN'},
+    #VehMdelNm: {TextField: 'EXPRESS VAN'},
     VehBdyTyp: {TextField: 'SPORT VAN'},
     VehIdNum: {TextField: '1GNWGPFG8B6548273'}
   },
@@ -4967,7 +4967,7 @@ AA10XX_Renewal_AZ: {
     VehManufactureYear: {TextField: '2011'},
     VehAddFlg: {TextField: ''},
     VehManfrNm: {TextField: 'CHEVROLET'},
-    VehMdelNm: {TextField: 'EXPRESS VAN'},
+    #VehMdelNm: {TextField: 'EXPRESS VAN'},
     VehBdyTyp: {TextField: 'SPORT VAN'},
     VehIdNum: {TextField: '1GNWGPFG8B6548273'}
   },
