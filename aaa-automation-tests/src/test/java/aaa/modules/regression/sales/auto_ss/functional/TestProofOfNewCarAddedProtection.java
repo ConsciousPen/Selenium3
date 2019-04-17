@@ -39,7 +39,7 @@ public class TestProofOfNewCarAddedProtection extends AutoSSBaseTest {
     10. Initiate an endorsement on SS auto policy after 30 days of effective date.
     11. Navigate to Documents & Bind tab.
     12. Review 'Require to Issue' section.
-    13. 'Proof of equivalent new car added protection with prior carrier for new vehicle(s)' should not change and remain set to 'YES'.
+    13. 'Proof of equivalent new car added protection with prior carrier for new vehicle(s)' should not be shown.
      *@details
      */
     @Parameters({"state"})
@@ -71,7 +71,7 @@ public class TestProofOfNewCarAddedProtection extends AutoSSBaseTest {
         // Navigate to D&B tab
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         // Assert that 'Proof of equivalent new car added protection with prior carrier for new vehicle(s)' is set to yes
-        assertThat(new DocumentsAndBindTab().getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES).getValue()).contains("Yes");
+        assertThat(new DocumentsAndBindTab().getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES)).isAbsent();
 
     }
 }
