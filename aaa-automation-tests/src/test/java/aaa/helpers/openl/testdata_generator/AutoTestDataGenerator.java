@@ -30,7 +30,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 	List<String> getPolicyLevelCoverageCDs() {
 		List<String> policyLevelCoverage = Arrays.asList("BI", "BI-Verbal", "RBI", "PD", "UMBI", "UIMBI", "EUIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB", "UIMPD", "EUIMPD", "UM/SUM", "APIP", "OBEL");
-		if (!getState().equals(Constants.States.OR)) {
+		if (!getState().equals(Constants.States.OR) || !getState().equals(Constants.States.NV)) {
 			policyLevelCoverage = new ArrayList<>(policyLevelCoverage);
 			policyLevelCoverage.add("UMPD");
 		}
@@ -327,7 +327,12 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			coveragesMap.put("APIP", AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PIP.getLabel());
 		}
 
-		coveragesMap.put("UMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
+		if (Constants.States.NV.equals(getState())) {
+			coveragesMap.put("UMPD", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.UMPD_CDW.getLabel());
+		} else {
+			coveragesMap.put("UMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
+		}
+
 		coveragesMap.put("UIMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
 
 		if (Constants.States.PA.equals(getState())) {

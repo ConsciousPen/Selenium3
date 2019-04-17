@@ -386,7 +386,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 
 
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-19838", "PAS-19839", "PAS-19840", "PAS-19841"})
 	public void pas19839_ooseConflictManualRemoveVehicleAndDriver(@Optional("CA") String state) {
 		ooseConflictRemoveComponent(getNBPolicyForMultipleDriversVehicles(), getRemoveComponentVersion1(), getRemoveComponentVersion2(), VersionsConflictConstants.REMOVE_DRIVER_VEHICLE_INFORMATION,  VersionsConflictConstants.REMOVE_DRIVER_VEHICLE_INFORMATION_VERSION_2, VersionsConflictConstants.REMOVE_DRIVER_VEHICLE_INFORMATION_VERSION_1,  "EndorsementActionTab", "", false);
