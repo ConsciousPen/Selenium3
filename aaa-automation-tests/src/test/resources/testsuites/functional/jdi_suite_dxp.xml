@@ -314,12 +314,23 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="PolicySummaryService CA" parallel="methods">
+    <test thread-count="1024" name="TestMiniServicesPremiumBearingCAChoice" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas9716_policySummaryForPolicy"/>
+                    <include name="pas28288_PolicyLockUnlockServices"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="TestMiniServicesPremiumBearingCASelect" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas28288_PolicyLockUnlockServices"/>
                 </methods>
             </class>
         </classes>

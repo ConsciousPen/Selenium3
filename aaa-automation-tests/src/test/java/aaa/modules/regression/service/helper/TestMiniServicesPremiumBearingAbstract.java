@@ -1437,7 +1437,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		}
 	}
 
-	protected void pas9456_9455_PolicyLockUnlockServicesBody() {
+	protected void policyLockUnlockServicesBody() {
 		myPolicyUserAddedConfigCheck();
 		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
