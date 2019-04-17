@@ -74,7 +74,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"AAADriver Vehicle Relationship",
 			"Vehicles.2008, ACURA, MDX.Primary Driver",
 			"Vehicles.2008, ACURA, MDX.System Rated Driver",
-			"AAANYDriver Vehicle Relationship"
+			"AAANYDriver Vehicle Relationship",
+			"Forms.Uninsured and Underinsured Motorist Coverage"
 	);
 
 	private static final List<String> NOT_IMPLEMENTED_YET_FIELDS = ImmutableList.of(
