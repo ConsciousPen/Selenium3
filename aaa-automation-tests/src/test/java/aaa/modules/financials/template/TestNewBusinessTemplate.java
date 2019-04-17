@@ -489,6 +489,67 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
     }
 
+    /**
+     * @scenario
+     * 1. Create new policy for NJ/NY/WV with effective date today + 3 weeks
+     * 2. For NJ policy use driver that returns a DUI and has SR22 filing
+     * 3. For NJ, validate PLIGA fee and SR22 fee entries
+     * 4. For NY, validate MLVE fee
+     * 5. For WV, pay total amount due with future-dated check and then decline the payment
+     * @details FEE-02, FEE-03, FEE-16, PMT-18
+     */
+    protected void testNewBusinessScenario_5() {
+
+        LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
+        LocalDateTime effDate = today.plusWeeks(3);
+
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createFinancialPolicy(getAutoSSFeesTd(effDate));
+
+        if (getState().equals(Constants.States.NJ)) {
+            Dollar pligaFee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PLIGA_FEE);
+            Dollar sr22Fee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.SR22_FEE);
+
+            // FEE-02 and FEE-16 validations
+            assertSoftly(softly -> {
+                softly.assertThat(pligaFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.PLIGA_FEE, "1034"));
+                softly.assertThat(pligaFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.PLIGA_FEE, "1040"));
+                softly.assertThat(sr22Fee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.SR22_FEE, "1034"));
+                softly.assertThat(sr22Fee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.SR22_FEE, "1040"));
+            });
+
+        }
+
+        if (getState().equals(Constants.States.NY)) {
+            Dollar mvleFee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MVLE_FEE);
+
+            // FEE-03 validations
+            assertSoftly(softly -> {
+                softly.assertThat(mvleFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MVLE_FEE, "1034"));
+                softly.assertThat(mvleFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MVLE_FEE, "1040"));
+            });
+
+        }
+
+        if (getState().equals(Constants.States.WV)) {
+            Dollar totalTaxes = getTaxAmountsForPolicy(policyNumber).get(TOTAL);
+            Dollar remainingTaxes = totalTaxes.subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_WV, "1071"));
+            Dollar pmtAmt = payTotalAmountDueWithDatedCheck(effDate);
+            BillingHelper.declinePayment(today);
+
+            // PMT-18 validations
+            assertSoftly(softly -> {
+                softly.assertThat(pmtAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.PAYMENT_DECLINED, "1001"));
+                softly.assertThat(pmtAmt.subtract(remainingTaxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.PAYMENT_DECLINED, "1065"));
+                softly.assertThat(remainingTaxes).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_WV, "1071"));
+            });
+
+        }
+
+
+    }
+
     private void validateCancellationTx(Dollar refundAmt, String policyNumber, Dollar taxes) {
         assertSoftly(softly -> {
             softly.assertThat(refundAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1044"));
