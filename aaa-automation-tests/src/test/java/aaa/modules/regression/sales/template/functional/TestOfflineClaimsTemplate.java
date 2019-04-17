@@ -554,13 +554,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
                     assertThat(tableDifferences.getRow(5).getCell(3).getValue()).isEqualTo("true");
                     break;
             }
-            /*if (scenario.equals("RENEWAL_MERGE")) { //scenario 1
-                assertThat(tableDifferences.getRow(5).getCell(2).getValue()).isEqualTo("true");
-                assertThat(tableDifferences.getRow(5).getCell(3).getValue()).isEqualTo("false");
-            } else if (scenario.equals("OOSEndorsement")) { //scenario 2
-                assertThat(tableDifferences.getRow(5).getCell(2).getValue()).isEqualTo("false");
-                assertThat(tableDifferences.getRow(5).getCell(3).getValue()).isEqualTo("true");
-            }*/
         }
     }
 
