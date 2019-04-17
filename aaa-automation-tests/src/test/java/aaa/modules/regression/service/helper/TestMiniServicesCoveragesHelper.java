@@ -1654,6 +1654,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			if (subCoverages != null) {
 				for (Coverage subCoverage : subCoverages) {
 					coverageWithSubCoveragesActual.add(subCoverage.getCoverageCd());
+					List<Coverage> subCoveragesOfSubCoverage = subCoverage.getSubCoverages();
+					if (subCoveragesOfSubCoverage != null) {
+						for (Coverage subCoverageOfSubCoverage : subCoveragesOfSubCoverage) {
+							coverageWithSubCoveragesActual.add(subCoverageOfSubCoverage.getCoverageCd());
+						}
+					}
 				}
 			}
 		}
