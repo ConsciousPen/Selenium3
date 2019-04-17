@@ -254,7 +254,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		//Order reports through service
 		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS_C);
 
-		countViolationsInPas(policyNumber, 5);
+		countViolationsInPas(policyNumber, 6);
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS.getMessage(), "attributeForRules");
