@@ -169,6 +169,17 @@ TestData_Endorsement_UIMLessThanBI: {
   DocumentsAndBindTab: '@DocumentsAndBindTab_Endorsement_UMandUIMLessThanBI'
 }
 
+TestData_Endorsement_UMandUIMEqualToBI: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMandUIMEqualToBI', 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
 # ------ Scenario 13
 TestData_Endorsement_AddExcludedDriver: {
   GeneralTab: {}, 
@@ -252,6 +263,16 @@ TestData_Endorsement_addFinDriver: {
 }
 
 # ----- Scenario 18
+TestData_Endorsement_removeFinDriver: {
+  GeneralTab: {},
+  DriverTab: '@DriverTab_removeFinancialResponsibility',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
 
 # ----- Scenario 19
 TestData_Endorsement_addPermitDriver: {
@@ -370,6 +391,10 @@ DriverTab_FinancialDriver2: {
 
 DriverTab_addFinancialResponsibility: {
   Financial Responsibility Filing Needed: 'Yes'
+}
+
+DriverTab_removeFinancialResponsibility: {
+  Financial Responsibility Filing Needed: 'No'
 }
 
 DriverTab_ExcludedDriver: {
@@ -659,6 +684,12 @@ PremiumAndCoveragesTab_UIMLessThanBI: {
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Uninsured Motorists Bodily Injury: 'contains=$100,000/$300,000',
   Underinsured Motorists Bodily Injury: 'contains=$50,000/$100,000'
+}
+
+PremiumAndCoveragesTab_UMandUIMEqualToBI: {
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Uninsured Motorists Bodily Injury: 'contains=$100,000/$300,000',
+  Underinsured Motorists Bodily Injury: 'contains=$100,000/$300,000'
 }
 
 PremiumAndCoveragesTab_Monthly: {
