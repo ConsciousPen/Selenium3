@@ -976,9 +976,9 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				case "CSAA Affinity Insurance Company (formerly Keystone Insurance Company) ":
 					immediatePriorCarrier = "CSAA Affinity Insurance Company";
 					break;
-				case "CSAA General Insurance Company":
+				/*case "CSAA General Insurance Company":
 					immediatePriorCarrier = "AAA Insurance";
-					break;
+					break;*/
 				default:
 					immediatePriorCarrier = carrierCode;
 			}
