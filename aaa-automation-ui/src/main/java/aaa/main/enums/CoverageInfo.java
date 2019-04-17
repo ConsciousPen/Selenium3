@@ -43,15 +43,14 @@ public enum CoverageInfo {
 	APIP_NME_NO_NJ("APIP", "Added Personal Injury Protection", CoverageLimits.COV_TRUE, AvailableCoverageLimits.COV_APIP_NJ, null),
 	APIP_NME_YES_PIP_YES_NJ("APIP", "Added Personal Injury Protection", CoverageLimits.COV_TRUE, AvailableCoverageLimits.COV_APIP_NJ, null),
 	PIP_NY("PIP", "Personal Injury Protection", null, null),
-	PIPDED_NY("PIPDED", "Personal Injury Protection Deductible", CoverageLimits.DED_200, AvailableCoverageLimits.PIPDED_NY, "Deductible"),//TODO-mstrazds:default limit?
-	OBEL_NY("OBEL", "Optional Basic Economic Loss", CoverageLimits.COV_0, AvailableCoverageLimits.OBEL_NY, "Per Person"),//TODO-mstrazds:default limit?
-	APIP_NY("APIP", "Additional Personal Injury Protection", CoverageLimits.COV_0, AvailableCoverageLimits.APIP_NY, "Per Person"),//TODO-mstrazds:default limit?
+	PIPDED_NY("PIPDED", "Personal Injury Protection Deductible", CoverageLimits.DED_200, AvailableCoverageLimits.PIPDED_NY, "Deductible"),
+	OBEL_NY("OBEL", "Optional Basic Economic Loss", CoverageLimits.COV_0, AvailableCoverageLimits.OBEL_NY, "Per Person"),
+	APIP_NY("APIP", "Additional Personal Injury Protection", CoverageLimits.COV_0, AvailableCoverageLimits.APIP_NY, "Per Person"),
 	AGGPIP_NY("AGGPIP", "Aggregate Personal Injury Protection", null, null, "Per Person"),
-	MNDPIP_NY("MNDPIP", "Mandatory Personal Injury Protection", CoverageLimits.COV_50000, null, "Per Person"),//Has only one limit: $50,000
-	MMWL_WHEN_APIP_EQUAL_NO_COV_NY("MMWL", "Maximum Monthly Work Loss", CoverageLimits.COV_2000, null, "Per Person"),//Has only one limit: $2,000
-	MMWL_WHEN_APIP_OTHER_THAN_NO_COV_NY("MMWL", "Maximum Monthly Work Loss", CoverageLimits.COV_4000, null, "Per Person"),//Has only one limit: $4,000
-	ONE_NY("ONE", "Other Necessary Expenses", CoverageLimits.COV_25, null, "Per Day"),//Has only one limit: $25
-	DB_NY("DB", "Death Benefits", CoverageLimits.COV_2000, null, "Per Person"),//Has only one limit: $2,000
+	MNDPIP_NY("MNDPIP", "Mandatory Personal Injury Protection", CoverageLimits.COV_50000, null, "Per Person"),
+	MAXMONTHLYLOSS_NY("MAXMONTHLYLOSS", "Maximum Monthly Work Loss", CoverageLimits.COV_2000, null, "Per Person"),
+	OTHERNECEXP_NY("OTHERNECEXP", "Other Necessary Expenses", CoverageLimits.COV_25, null, "Per Day"),
+	DEATHBENEFIT_NY("DEATHBENEFIT", "Death Benefits", CoverageLimits.COV_2000, null, "Per Person"),
 	INCCONT_NJ("PIPMAXINCCONT", "Income Continuation", null, null, null),
 	ESSENSERV_NJ("ESSENSERV", "Essential Services", null, null, null),
 	ESSENSERV_NME_YES_NJ("ESSENSERV", "Essential Services", CoverageLimits.COV_4380, null, null),

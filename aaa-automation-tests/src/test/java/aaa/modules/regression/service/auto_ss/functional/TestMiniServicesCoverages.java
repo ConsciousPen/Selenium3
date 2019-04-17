@@ -1766,11 +1766,12 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 1. Create policy in PAS
 	 * 2. Create endorsement through service
 	 * 3. Run viewEndorsementCoverages service and validate PIP Coverages
+	 * 4. Update PIP coverages and check responses
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.NY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15363"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15363", "PAS-15364"})
 	public void pas15363_viewUpdatePIPCoverageNY(@Optional("NY") String state) {
 		pas15363_viewUpdatePIPCoverageNYBody();
 	}
