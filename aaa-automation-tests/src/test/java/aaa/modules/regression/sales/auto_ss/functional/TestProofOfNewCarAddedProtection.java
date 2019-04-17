@@ -83,18 +83,16 @@ public class TestProofOfNewCarAddedProtection extends AutoSSBaseTest {
 
         TestData td1 = getPolicyTD().adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(),
                 AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES.getLabel()), "Yes");
-       validatePAS27186Endorsement(today, td1);
+        validatePAS27186Endorsement(today, td1);
         // Assert that 'Proof of equivalent new car added protection with prior carrier for new vehicle(s)' is set to yes
         assertThat(new DocumentsAndBindTab().getRequiredToIssueAssetList()
                 .getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES).getValue()).isEqualTo("Yes");
-
     }
 
     private void validatePAS27186Endorsement(String today, TestData tdPolicy){
 
-
         String endorsementDay = TimeSetterUtil.getInstance().getCurrentTime().plusDays(31).format(DateTimeUtils.MM_DD_YYYY);
-
+        // Adjust policy with preconditions. IMPORTANT!! Car should be new (2018 year atm fits)
         tdPolicy.adjust(TestData.makeKeyPath(AutoSSMetaData.VehicleTab.class.getSimpleName(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "JN8AZ2NF9J9660512")
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel()), new SimpleDataProvider())
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel(),
@@ -103,16 +101,15 @@ public class TestProofOfNewCarAddedProtection extends AutoSSBaseTest {
                         AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.PURCHASE_DATE.getLabel()), today);
 
         // Endorsement day should be after 30 days (exactly 30days have different requirements)
-        TestData tdEndorsement1 = getPolicyTD("Endorsement", "TestData")
+        TestData tdEndorsement = getPolicyTD("Endorsement", "TestData")
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.EndorsementActionTab.class.getSimpleName(), AutoSSMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()), endorsementDay);
 
         // Create Policy with preconditions
         openAppAndCreatePolicy(tdPolicy);
 
         // endorse policy
-        policy.endorse().perform(tdEndorsement1);
+        policy.endorse().perform(tdEndorsement);
         // Navigate to D&B tab
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-
     }
 }
