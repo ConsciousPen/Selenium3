@@ -288,20 +288,20 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         policy.renew().performAndFill(getRenewalFillTd());
         Dollar renewalAmt = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL);
         payTotalAmountDue();
-        Dollar renewTaxes = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL);
+        //Capture the credit towards the account after paying total amount due. Subtract this from the renewalAmt.
+        Dollar renewCredit = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL);
 
         taxes = new Dollar(0.00);
         if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
             taxes = getTaxAmountsForPolicy(policyNumber).get(TOTAL);
         }
-        Dollar totalTaxesRenewal = taxes.add(renewTaxes);
-        Dollar renewalTermTaxes = taxes;
+        Dollar renewalTermTaxes = taxes.add(renewCredit);
 
         // Validate RNW-03
         assertSoftly(softly -> {
-            softly.assertThat(renewalAmt.subtract(totalTaxesRenewal)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1042")
+            softly.assertThat(renewalAmt.subtract(renewalTermTaxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1042")
             .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1042")));
-            softly.assertThat(renewalAmt.subtract(totalTaxesRenewal)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1043")
+            softly.assertThat(renewalAmt.subtract(renewalTermTaxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1043")
                 .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1043")));
         });
 
@@ -321,13 +321,13 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 
         //Continued RNW-03 Validations recorded at effective date
         assertSoftly(softly -> {
-            softly.assertThat(renewalAmt.subtract(totalTaxesRenewal)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1044")
+            softly.assertThat(renewalAmt.subtract(renewalTermTaxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1044")
                     .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1044")));
-            softly.assertThat(renewalAmt.subtract(totalTaxesRenewal)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1022")
+            softly.assertThat(renewalAmt.subtract(renewalTermTaxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1022")
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1022")));
-            softly.assertThat(renewalAmt.subtract(totalTaxesRenewal)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1021")
+            softly.assertThat(renewalAmt.subtract(renewalTermTaxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1021")
                     .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1021")));
-            softly.assertThat(renewalAmt.subtract(totalTaxesRenewal)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1015")
+            softly.assertThat(renewalAmt.subtract(renewalTermTaxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1015")
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1015")));
         });
 
