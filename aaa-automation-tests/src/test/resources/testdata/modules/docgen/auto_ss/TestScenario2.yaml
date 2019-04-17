@@ -5411,7 +5411,7 @@ AA02IN_Renewal: {
     VehMdelNm: {TextField: 'G55AMG WAGON 4 DOOR'},
     VehIdNum: {TextField: 'WDCYC7BB0B6729451'},
     VehUnitNum: {TextField: '2'},
-    VehDiscDesc: {TextField: 'Multi-Vehicle Discount; Passive Restraint Discount'},
+    VehDiscDesc: {TextField: 'Multi-Vehicle Discount'},
     VehDiscNum: {TextField: '2'},
     VehGarZipPls4: {TextField: '47714'}
    }
@@ -5660,7 +5660,7 @@ AA10OK_Renewal: {
     VehManufactureYear: {TextField: '2011'},
     VehAddFlg: {TextField: ''},
     VehManfrNm: {TextField: 'CHEVROLET'},
-    VehMdelNm: {TextField: 'EXPRESS VAN'},
+    #VehMdelNm: {TextField: 'EXPRESS VAN'},
     VehBdyTyp: {TextField: 'SPORT VAN'},
     VehIdNum: {TextField: '1GNWGPFG8B6548273'}
   },
