@@ -771,7 +771,6 @@
             </class> <!-- aaa.modules.regression.billing_and_payments.auto_ca.choice.functional.TestEarnedPremiumWriteOff -->
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
                 <methods>
-                    <include name="pas13529_renewalComparisonAAAProductOwned"/>
                     <include name="pas13832_renewalComparisonThirdPartyDesignee"/>
                     <include name="pas14145_dataGatherComparisonVehicleInformation"/>
                     <include name="pas25187_endorsementsComparisonAssignment"/>
