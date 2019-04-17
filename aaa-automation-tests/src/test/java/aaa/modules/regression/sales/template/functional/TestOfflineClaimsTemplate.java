@@ -297,6 +297,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         premiumAndCoveragesTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab();
+//        errorTab.overrideAllErrors();
+
         payTotalAmtDue(policyNumber);
     }
 
