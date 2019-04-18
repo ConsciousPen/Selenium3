@@ -108,6 +108,31 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		pas9716_policySummaryForLapsedRenewal(getPolicyType(), state);
 	}
 
+	/**
+	 * @author Nauris Ivanans
+	 * @name Policy lock unlock functionality using services / sessionId.
+	 * @scenario 1. Create active policy.
+	 * 2. Hit lock service with sessionId1. Check service status.
+	 * 3. Hit start endorsement info service with sessionId1.
+	 * 4. Hit stat endorsement info service with sessionId2. Check error.
+	 * 5. Try to lock policy with sessionId2. Check error.
+	 * 6. Go to policy in PAS.
+	 * 7. Start do endorsement.
+	 * 8. Check if policy is locked.
+	 * 9. Hit Unlock service with sessionId2. Check error.
+	 * 10. Hit Unlock service with sessionId1. Check service status.
+	 * 11. Open policy in PAS again.
+	 * 12.  Start do endorsement.
+	 * 13. Check if policy is unlocked.
+	 * 14. Try to lock policy using lock service. Check service status.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-28288"})
+	public void pas28288_PolicyLockUnlockServices(@Optional("CA") String state) {
+		policyLockUnlockServicesBody();
+	}
+
 	@Override
 	protected String getGeneralTab() {
 		return NavigationEnum.AutoCaTab.GENERAL.get();
