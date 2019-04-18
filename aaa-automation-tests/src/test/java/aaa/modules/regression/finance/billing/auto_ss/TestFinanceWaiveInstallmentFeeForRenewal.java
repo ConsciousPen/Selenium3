@@ -48,7 +48,7 @@ public class TestFinanceWaiveInstallmentFeeForRenewal extends FinanceOperations 
 
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.WV})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22285")
 	public void pas22285_testFinanceWaiveInstallmentFeeForRenewal(@Optional("WV") String state) {
 		List<LocalDateTime> installmentDueDates;

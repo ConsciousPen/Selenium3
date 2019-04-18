@@ -360,7 +360,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	}
 
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-25188"})
 	public void pas25188_renewalMergeAssignment(@Optional("CA") String state) {
 		renewalMerge(getTDNewBusinessPolicy(), getTDAssignmentVersion1(), getTDAssignmentVersion2(), VersionsConflictConstants.ASSIGNMENT,  VersionsConflictConstants.ASSIGNMENT_VERSION_1,  "AssignmentTab", "DriverVehicleRelationshipTable");
@@ -379,7 +379,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	}
 
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-19838", "PAS-19839", "PAS-19840", "PAS-19841"})
 	public void pas19839_ooseConflictAutomaticRemoveVehicleAndDriver(@Optional("CA") String state) {
 		ooseConflictRemoveComponent(getNBPolicyForMultipleDriversVehicles(), getRemoveComponentVersion1(), getRemoveComponentVersion2(), VersionsConflictConstants.REMOVE_DRIVER_VEHICLE_INFORMATION,  VersionsConflictConstants.REMOVE_DRIVER_VEHICLE_INFORMATION_VERSION_2, VersionsConflictConstants.REMOVE_DRIVER_VEHICLE_INFORMATION_VERSION_1,  "EndorsementActionTab", "", true);
