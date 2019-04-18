@@ -347,7 +347,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	}
 
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-25187"})
 	public void pas25187_renewalComparisonAssignment(@Optional("CA") String state) {
 		renewalComparison(getTDNewBusinessPolicy(), getTDAssignmentNoChangeVersion(), getTDAssignmentVersion2(), VersionsComparisonConstants.ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");

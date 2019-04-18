@@ -194,7 +194,7 @@ PAS-5102:
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.*]
-      messages: ["Data relevant to ISO 360 has changed. Reorder ISO 360 report"]
+      messages: ["Errors: Data relevant to ISO "]
 PAS-15177:
   summary: "KY Taxes: Tax amount and total premium value are reduced during Empty endorsement"
   reason: PROD
@@ -391,24 +391,12 @@ PT-3244:
     messages: ["Errors: 'Roof shape' is not in within range"]
   - tests: [aaa.modules.bct.service.*]
     messages: ["//input[@id='policyDataGatherForm:premiumRecalcCov' or @id='policyDataGatherForm:actionButton_AAAHORateAction']"]
-PAS-25233:
+PAS-28493:
   summary: "Regression BCT: \"Cancel Notice\" flag is present after accepting payment"
   reason: PROD
   failures:
   - tests: [aaa.modules.bct.service.CancelPolicyTest.BCT_ONL_012_CancelPolicy]
     messages: ["['Cancel Notice' flag is absent]"]
-PT-2901:
-  summary: "Regression BCT: \"This page isn't working\" error at the screen after Reinstatement action. ReinstateFlow"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.bct.service.*]
-      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}']
-    - tests: [aaa.modules.bct.service.*]
-      messages: ['Errors: Time out. No session available.']
-    - tests: [aaa.modules.bct.service.*]
-      messages: ['Errors: The connection has timed out']
-    - tests: [aaa.modules.bct.service.*]
-      messages: ['[LoginPanel is displayed] expected:<[tru]e> but was:<[fals]e>']
 PAS-24131:
   summary: "Regression BCT: grouprefundGenerationJob failed with huge amount of exceptions"
   reason: PROD
@@ -467,6 +455,14 @@ PT-3600:
   failures:
     - tests: [aaa.modules.bct.*]
       messages: ["Errors: Error; Issue event handling erro"]
+    - tests: [aaa.modules.bct.service.*]
+      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}']
+    - tests: [aaa.modules.bct.service.*]
+      messages: ['Errors: Time out. No session available.']
+    - tests: [aaa.modules.bct.service.*]
+      messages: ['Errors: The connection has timed out']
+    - tests: [aaa.modules.bct.service.*]
+      messages: ['[LoginPanel is displayed] expected:<[tru]e> but was:<[fals]e>']
 PT-3603:
   summary: "Regression BCT 19.4 : Operation has failed due to illegal arguments after reinstatement action"
   reason: PROD
@@ -486,3 +482,22 @@ PAS-28080:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver.pas24673_testASWForTwoDriversWhenOneAccidentAgesOut,
               aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver.pas24673_testASWForSecondAccidentAfterFirstAgesOut]
       messages: ["expected:<\"[No]\"> but was:<\"[Yes]\">"]
+PAS-27421:
+  summary: "Error 500 when attempting to renew a rewritten CA Auto policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ca.select.functional.TestRenewalEffectiveOnRewrite.*,
+              aaa.modules.regression.sales.auto_ca.choice.functional.TestRenewalEffectiveOnRewrite.*]
+      messages: ["Error 500", "Cannot get value of TextBox"]
+PAS-28495:
+  summary: "Regression BCT 19.5 : After the cancellation error showed Operation has failed due to illegal arguments"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.auto_ss.CancelPolicy.*]
+      messages: ["Errors: base00003; Error; Operation has failed due to illegal arguments"]
+PAS-28501:
+  summary: "Regression BCT 19.5 : AZH3208121994 is missing social security number"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.home_ss.ho3.TestEndorsement.BCT_ONL_EmptyEndorsementHomeSSHo3]
+      messages: ["unknown error: Element <input id=\"policyDataGatherForm:nextInquiry_footer\""]
