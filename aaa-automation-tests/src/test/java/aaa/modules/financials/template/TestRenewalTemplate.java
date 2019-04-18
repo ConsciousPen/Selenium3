@@ -299,7 +299,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 
         // Validate RNW-03
         assertSoftly(softly -> {
-            if(!getState().equals(Constants.States.CA)){
+            if(!getState().equals(Constants.States.CA) && !getPolicyType().getKey().contains("Pup")){
                 softly.assertThat(renewalAmt.subtract(renewalTermTaxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1042")
                         .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1042")));
                 softly.assertThat(renewalAmt.subtract(renewalTermTaxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1043")
@@ -328,7 +328,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 
         //Continued RNW-03 Validations recorded at effective date
         assertSoftly(softly -> {
-            if(!getState().equals(Constants.States.CA)) {
+            if(!getState().equals(Constants.States.CA) && !getPolicyType().getKey().contains("Pup")) {
                 softly.assertThat(renewalAmt.subtract(renewalTermTaxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1044")
                         .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1044")));
                 softly.assertThat(renewalAmt.subtract(renewalTermTaxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1022")
