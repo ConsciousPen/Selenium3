@@ -38,16 +38,18 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				new InitiateRenewalEntryActionTab().getMetaKey(), DataProviderFactory.dataOf(
 						CustomerMetaData.InitiateRenewalEntryActionTab.PRODUCT_NAME.getLabel(), "Homeowners Signature Series",
 						CustomerMetaData.InitiateRenewalEntryActionTab.POLICY_TYPE.getLabel(), openLPolicy.getPolicyType(),
-						CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_POLICY_PREMIUM.getLabel(), openLPolicy.getCappingDetails().getPreviousPolicyPremium() == null ? "1000" : openLPolicy.getCappingDetails().getPreviousPolicyPremium().toString(),
-						CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY),
 						CustomerMetaData.InitiateRenewalEntryActionTab.INCEPTION_DATE.getLabel(), openLPolicy.getCappingDetails().getPlcyInceptionDate().format(DateTimeUtils.MM_DD_YYYY),
 						CustomerMetaData.InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT.getLabel(), "No"
 				)
 		);
+		td = TestDataHelper.merge(initiateRenewalEntryActionData, td);
 		if (Constants.States.AZ.equals(openLPolicy.getCappingDetails().getState())) {
-			td = TestDataHelper.merge(td, DataProviderFactory.dataOf(new InitiateRenewalEntryActionTab().getMetaKey(), DataProviderFactory.dataOf(CustomerMetaData.InitiateRenewalEntryActionTab.UNDERWRITING_COMPANY.getLabel(), "CSAA Affinity Insurance Company")));
+			td.mask(TestData.makeKeyPath(new InitiateRenewalEntryActionTab().getMetaKey(), CustomerMetaData.InitiateRenewalEntryActionTab.UNDERWRITING_COMPANY.getLabel()));
 		}
-		return TestDataHelper.merge(initiateRenewalEntryActionData, td);
+		if (Constants.States.NY.equals(openLPolicy.getCappingDetails().getState())) {
+			td.adjust(TestData.makeKeyPath(new InitiateRenewalEntryActionTab().getMetaKey(), CustomerMetaData.InitiateRenewalEntryActionTab.LEGACY_TIER.getLabel()), "1");
+		}
+		return td;
 	}
 
 	@Override
@@ -270,14 +272,14 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		return DataProviderFactory.emptyData();
 	}
 
-    public TestData getCappingData(HomeSSOpenLPolicy openLPolicy) {
-        double manualCappingFactor = openLPolicy.isCappedPolicy() ? Math.round(openLPolicy.getCappingDetails().getTermCappingFactor() * 100) : 100;
-        return DataProviderFactory.dataOf(AutoSSMetaData.PremiumAndCoveragesTab.VIEW_CAPPING_DETAILS_DIALOG.getLabel(), DataProviderFactory.dataOf(
-                HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.MANUAL_CAPPING_FACTOR.getLabel(), manualCappingFactor,
-                HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.CAPPING_OVERRIDE_REASON.getLabel(), "index=1",
-                HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.BUTTON_CALCULATE.getLabel(), "click",
-                HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.BUTTON_SAVE_AND_RETURN_TO_PREMIUM_AND_COVERAGES.getLabel(), "click"));
-    }
+	public TestData getCappingData(HomeSSOpenLPolicy openLPolicy) {
+		double manualCappingFactor = openLPolicy.isCappedPolicy() ? Math.round(openLPolicy.getCappingDetails().getTermCappingFactor() * 100) : 100;
+		return DataProviderFactory.dataOf(AutoSSMetaData.PremiumAndCoveragesTab.VIEW_CAPPING_DETAILS_DIALOG.getLabel(), DataProviderFactory.dataOf(
+				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.MANUAL_CAPPING_FACTOR.getLabel(), manualCappingFactor,
+				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.CAPPING_OVERRIDE_REASON.getLabel(), "index=1",
+				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.BUTTON_CALCULATE.getLabel(), "click",
+				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.BUTTON_SAVE_AND_RETURN_TO_PREMIUM_AND_COVERAGES.getLabel(), "click"));
+	}
 
 	public TestData getOverrideErrorData(HomeSSOpenLPolicy openLPolicy) {
 		return DataProviderFactory.emptyData();
