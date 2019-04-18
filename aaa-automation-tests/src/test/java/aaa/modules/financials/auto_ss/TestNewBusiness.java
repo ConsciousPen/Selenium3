@@ -47,4 +47,11 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 		testNewBusinessScenario_4();
 	}
 
+	@Parameters({"state"})
+	@Test(groups = {Groups.CFT})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+	public void testNewBusinessScenario_5(@Optional("") String state) {
+		testNewBusinessScenario_5();
+	}
+
 }

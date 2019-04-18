@@ -42,7 +42,7 @@ public class TestFinanceEPCalculationPremiumRefund extends FinanceOperations {
 
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.AZ})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-21456")
 	public void pas21456_testFinanceEPCalculationPremiumRefund(@Optional("AZ") String state) {
 

@@ -48,7 +48,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     protected TestData getEndorsementTD(LocalDateTime effDate) {
         TestData td =  getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Endorsement"), "TestData");
         String type = getPolicyType().getShortName();
-        String date = effDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        String date = formatDateToString(effDate);
         switch (type) {
             case CA_SELECT:
             case CA_CHOICE:
@@ -81,7 +81,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     protected TestData getCancellationTD(LocalDateTime effDate) {
         TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData");
         String type = getPolicyType().getShortName();
-        String date = effDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        String date = formatDateToString(effDate);
         switch (type) {
             case CA_SELECT:
             case CA_CHOICE:
@@ -130,15 +130,15 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     protected TestData getRemoveReinstatementLapseTd(LocalDateTime cxDate) {
         if (isStateCA()) {
             return getPolicyTD("ReinstatementChangeLapse", "TestData").adjust(TestData.makeKeyPath(HomeCaMetaData.ChangeReinstatementLapsePeriodActionTab.class.getSimpleName(),
-                    HomeCaMetaData.ChangeReinstatementLapsePeriodActionTab.REVISED_REINSTATEMENT_DATE.getLabel()), cxDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+                    HomeCaMetaData.ChangeReinstatementLapsePeriodActionTab.REVISED_REINSTATEMENT_DATE.getLabel()), formatDateToString(cxDate));
         }
         return getPolicyTD("ReinstatementChangeLapse", "TestData").adjust(TestData.makeKeyPath(HomeSSMetaData.ChangeReinstatementLapseActionTab.class.getSimpleName(),
-                HomeSSMetaData.ChangeReinstatementLapseActionTab.REVISED_REINSTATEMENT_DATE.getLabel()), cxDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+                HomeSSMetaData.ChangeReinstatementLapseActionTab.REVISED_REINSTATEMENT_DATE.getLabel()), formatDateToString(cxDate));
     }
 
     protected TestData adjustTdPolicyEffDate(TestData td, LocalDateTime date) {
         String type = getPolicyType().getShortName();
-        String sDate = date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        String sDate = formatDateToString(date);
         switch (type) {
             case CA_SELECT:
             case CA_CHOICE:
@@ -406,6 +406,37 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         return td;
     }
 
+    protected TestData getAutoSSFeesTd(LocalDateTime effDate) {
+        TestData td = adjustTdPolicyEffDate(getPolicyTD(), effDate);
+        switch (getState()) {
+            case Constants.States.NJ:
+                adjustTdMonthlyPaymentPlan(td)
+                        .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(),
+                                AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel()), formatDateToString(effDate))
+                        .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
+                                AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel()), "One")
+                        .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
+                                AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel()), "DUI")
+                        .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel()), Constants.States.VA)
+                        .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "B15375001")
+                        .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED.getLabel()), "Yes")
+                        .adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.CASE_NUMBER.getLabel()), "VA651321565")
+                        .adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), getAutoSSErrorTabOverride());
+                break;
+            case Constants.States.WV:
+                td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
+                        AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.MONTHLY);
+                break;
+            default:
+                // do nothing
+        }
+        return td;
+    }
+
+    protected String formatDateToString(LocalDateTime dateTime) {
+        return dateTime.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+    }
+
     private Map<String, String> getPupUnderlyingPolicies() {
         Map<String, String> policies = new LinkedHashMap<>();
         PolicyType type;
@@ -534,6 +565,18 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                 PersonalUmbrellaMetaData.ErrorTab.ErrorsOverride.REASON_FOR_OVERRIDE.getLabel(), "index=1");
         errorsOverride.add(overrideTd);
         return DataProviderFactory.dataOf(PersonalUmbrellaMetaData.ErrorTab.ERROR_OVERRIDE.getLabel(), errorsOverride);
+    }
+
+    private TestData getAutoSSErrorTabOverride() {
+        List<TestData> errorsOverride = new ArrayList<>();
+        TestData overrideTd = DataProviderFactory.dataOf(
+                AutoSSMetaData.ErrorTab.ErrorsOverride.MESSAGE.getLabel(), "contains=Driver with a Major violation, including a DUI is unacceptable",
+                AutoSSMetaData.ErrorTab.ErrorsOverride.OVERRIDE.getLabel(), "true",
+                AutoSSMetaData.ErrorTab.ErrorsOverride.APPROVAL.getLabel(), "true",
+                AutoSSMetaData.ErrorTab.ErrorsOverride.DURATION.getLabel(), "Life",
+                AutoSSMetaData.ErrorTab.ErrorsOverride.REASON_FOR_OVERRIDE.getLabel(), "index=1");
+        errorsOverride.add(overrideTd);
+        return DataProviderFactory.dataOf(AutoSSMetaData.ErrorTab.ERROR_OVERRIDE.getLabel(), errorsOverride);
     }
 
     private TestData getPupNonPremiumBearingTd() {
