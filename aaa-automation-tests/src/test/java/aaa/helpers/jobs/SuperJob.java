@@ -3,6 +3,7 @@ package aaa.helpers.jobs;
 import aaa.common.Tab;
 import aaa.common.pages.LoginPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.db.queries.AAAMembershipQueries;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.modules.BaseTest;
@@ -149,6 +150,10 @@ public class SuperJob {
         return supportsWeekend;
     }
 
+
+    /**
+     * Extended to support running automation on execute rather than running a job.
+     */
     public class PaymentSuperJob extends SuperJob{
 
         private BaseTest _baseTest;
@@ -163,7 +168,7 @@ public class SuperJob {
 
         @Override
         public void executeJob(){
-            MainApplication mainApplication = CSAAApplicationFactory.get().mainApp();
+            //MainApplication mainApplication = CSAAApplicationFactory.get().mainApp();
             // Make a payement
             _baseTest.mainApp().open();
             SearchPage.openBilling(_policyNumber);
@@ -172,6 +177,26 @@ public class SuperJob {
             Tab.buttonOk.click();
             _baseTest.mainApp().close();
         }
+    }
 
+    /**
+     * This is required because of differences in VDM vs Prod. This is only needed for Home/Property renewals.
+     * Runs at Run Rules window (R-57). Full name updRenewTimelineIndicatorSuperJob
+     */
+    public class updRenewTimelineIndicatorSuperJob extends SuperJob{
+
+        private String _policyNumber;
+
+        public updRenewTimelineIndicatorSuperJob(String policyNumber, Job jobToSchedule, JobOffsetType jobOffsetOperationType, int jobOffsetByDays, SuperJob ... jobSameDayDependancies){
+            super(jobToSchedule, jobOffsetOperationType, jobOffsetByDays, jobSameDayDependancies);
+            _policyNumber = policyNumber;
+            jobName = "SuperJob.updRenewTimelineIndicatorSuperJob";
+        }
+
+        @Override
+        public void executeJob(){
+            // Manually set aaaRenewalTimelineInd
+            AAAMembershipQueries.updateAaaRenewalTimelineIndicatorValue(_policyNumber, "3");
+        }
     }
 }

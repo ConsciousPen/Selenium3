@@ -208,8 +208,6 @@ public class Jobs {
 
 	public static Job activitySummarizationJob = new Job("activitySummarizationJob");
 
-	public static Job aaaMvrRenewBatchOrderAsyncJob = new Job("aaaMvrRenewBatchOrderAsyncJob");
-
 	public static Job aaaRecurringPaymentsAsyncProcessJob = new Job("aaaRecurringPaymentsAsyncProcessJob");
 
 	public static Job applyPendingTransactionsAsyncJob = new Job("applyPendingTransactionsAsyncJob");
@@ -217,6 +215,8 @@ public class Jobs {
 	public static Job aaaPolicyAutomatedRenewalAsyncTaskGenerationJob = new Job("aaaPolicyAutomatedRenewalAsyncTaskGenerationJob");
 
 	public static Job aaaGenerateEscheatmentReportJob = new Job("aaaGenerateEscheatmentReportJob");
+
+	public static Job aaaIsoRenewAsyncBatchReceiveJob = new Job("AAAIsoRenewAsyncBatchReceiveJob");
 
 	public enum JobState {
 		TRUE, FALSE, FAILED
