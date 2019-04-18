@@ -2,15 +2,18 @@
 TestData_DriverTab_OfflineClaim_AZ: {
   DriverTab: ['@Driver2','@Driver3','@Driver4']
 }
-TestData_DriverTab_ViolationsMVRFNIclaims_PU: {
+
+TestData_DriverTab_PUFlagCheck: {
  PrefillTab: '@PrefillTab',
 DriverTab:  ['@Driver6','@Driver3']
 }
+
 TestData_Change_FNI_Renewal_PU_AZ: {
 PrefillTab:  '@PrefillTab',
 GeneralTab: '@TwoNamedInsuredGeneralTab',
 DriverTab:  ['@Driver1','@Driver7']
 }
+
 TwoNamedInsuredGeneralTab: {
   NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation2'],
   AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
@@ -34,6 +37,7 @@ TestData_PUDefaulting: {
   PrefillTab: '@PrefillTab_PUDefaulting',
   DriverTab: '@Driver_PUDefaulting_FNI',
 }
+
 PrefillTab_PUDefaulting: {
   First Name: Steve,
   Last Name: George,
@@ -61,6 +65,7 @@ Driver_PUDefaulting_FNI: {
   Permit Before License: 'Yes',
   "License Number":D12349999
 }
+
 PrefillTab: {
   First Name: Harry,
   Last Name: Potter,
@@ -74,24 +79,6 @@ PrefillTab: {
   Order Prefill: click
 }
 
-#Not to be deleted
-  ######Test Data for 2/3/4 Drivers
-#Driver1: {
-#  Add Driver: Click,
-#  DriverSearchDialog:{},
-#  First Name: NICOLAS,
-#  Last Name: SMITH,
-#  'Rel. to First Named Insured': Sibling,
-#  Date of Birth: 12/05/1960,
-#  Gender: Male,
-#
-#  Marital Status: Married,
-#  Occupation: Clergy,
-#  License Type: "Licensed (US)",
-#  License State: AZ,
-#  License Number: A12345111,
-#  Age First Licensed: 18
-#}
 Driver1: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -162,7 +149,6 @@ Driver4: {
       Occurrence Date: '$<today-1M:MM/dd/yyyy>',
       Description: 'Accident (Property Damage Only)',
       Loss Payment Amount: '1500',
-      #Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
       "Include in Points and/or YAF?": 'Yes'
     }
 }
@@ -183,6 +169,7 @@ Driver5: {
   "License Number": D99999999,
   Age First Licensed: 18
 }
+
 Driver6: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -215,16 +202,6 @@ Driver6: {
   },
   {
     Activity Source: 'Customer Input',
-    Type: 'At-Fault Accident',
-    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
-    Description: 'Accident (Property Damage Only)',
-    Loss Payment Amount: '2000',
-    #Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-    "Include in Points and/or Tier?": 'No',
-    Not Included in Points and/or Tier - Reason Codes: 'Report errors'
-  },
-  {
-    Activity Source: 'Customer Input',
     Type: 'Speeding Violation',
     Description: 'Speeding',
     Occurrence Date: '$<today-1M:MM/dd/yyyy>',
@@ -232,6 +209,7 @@ Driver6: {
   }
   ]
 }
+
 Driver7: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -253,7 +231,6 @@ Driver7: {
     Occurrence Date: '$<today-3M:MM/dd/yyyy>',
     Description: 'Accident (Property Damage Only)',
     Loss Payment Amount: '2000',
-    #Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
     "Include in Points and/or Tier?": 'No',
     Not Included in Points and/or Tier - Reason Codes: 'Report errors'
   }
@@ -264,3 +241,27 @@ Driver7: {
 Add_PU_Claim_Driver_Endorsement_AZ: {
   DriverTab: ['@Driver5'],
 }
+
+TestData_Blank: {
+  GeneralTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+}
+
+TestData_Plus90Days: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today+90d>,
+    Endorsement Reason: 'Maintain General Information'
+  }
+}
+
+TestData_Plus30Days: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today+30d>,
+    Endorsement Reason: 'Maintain General Information'
+  }
+}
+
