@@ -217,4 +217,11 @@
         </classes>
     </test>
 
+    <test name="Test Proof of equivalent new car added protection with prior carrier for new vehicle(s) after endorsement">
+        <parameter name="state" value="NV"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestProofOfNewCarAddedProtection"/>
+        </classes>
+    </test>
+
 </suite>
