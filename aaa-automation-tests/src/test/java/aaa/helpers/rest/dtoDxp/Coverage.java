@@ -89,6 +89,12 @@ public class Coverage {
 		return this;
 	}
 
+	public Coverage changeLimit(CoverageLimit coverageLimit) {
+		this.coverageLimit = coverageLimit.coverageLimit;
+		this.coverageLimitDisplay = coverageLimit.coverageLimitDisplay;
+		return this;
+	}
+
 	public Coverage changeAvailableLimits(CoverageLimits... limitToAdd) {
 		availableLimits.clear();
 		for (CoverageLimits coverageLimit : limitToAdd) {
