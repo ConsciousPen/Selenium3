@@ -314,7 +314,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
    //Assignment Tab section
 
 	private TestData getTDNewBusiness() {
-		return getTestSpecificTD("Tes  tData_NB_Policy_NY"); }
+		return getTestSpecificTD("TestData_NB_Policy_NY"); }
 
 	private TestData getTDAssignmentVersion1() {
 		return getTestSpecificTD("TestData_Assignment_Version1");
