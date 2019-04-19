@@ -213,7 +213,6 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		createPolicy(tdVersion);
 		processPlus20DaysEndorsement(tdVersion1);
 		processPlus25DaysEndorsement(tdVersion2);
-
 		PolicySummaryPage.buttonTransactionHistory.click();
 		verifyTransactionHistoryType(1, ENDORSEMENT);
 		verifyTransactionHistoryType(2, ENDORSEMENT);
