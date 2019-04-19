@@ -141,7 +141,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         policy.renew().performAndFill(getRenewalFillTd());
         payMinAmountDue(METHOD_CASH);
         Dollar renewalPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL);
-        SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_PENDING);
+        openPolicyRenewal(policyNumber);
 
         taxes = new Dollar(0.00);
         if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
@@ -308,7 +308,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
             renewCredit = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL);
         }
 
-        SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_PENDING);
+        openPolicyRenewal(policyNumber);
 
         taxes = new Dollar(0.00);
         if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
@@ -456,6 +456,13 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 
         // TODO RNW-04 Validations
 
+    }
+
+    private void openPolicyRenewal(String policyNumber) {
+        SearchPage.openPolicy(policyNumber);
+        if (PolicySummaryPage.buttonRenewals.isEnabled()) {
+            PolicySummaryPage.buttonRenewals.click();
+        }
     }
 
 }
