@@ -173,27 +173,6 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test cannot delete User Created Pended Endorsement within delay period
-	 * @scenario 1. Create customer
-	 * 2. Create a policy
-	 * 3. Create User Endorsement through service
-	 * 4. Validate through service, that this endorsement cannot be deleted on creation date and new endorsement cannot be started
-	 * 5. change date to Creation Date + delay
-	 * 6. Validate through service, that this endorsement cannot be deleted and new endorsement cannot be started
-	 * 7. change date to Creation Date + delay + 1
-	 * Validate through service, that this endorsement can be deleted and new endorsement can be created
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-8784", "PAS-15400"})
-	public void pas8784_endorsementValidateNotAllowedCustomer(@Optional("CA") String state) {
-
-		pas8784_endorsementValidateNotAllowedCustomer(getPolicyType());
-	}
-
-	/**
-	 * @author Maris Strazds
 	 * @name Test cannot delete Agent Created Pended Endorsement within delay period
 	 * @scenario 1. Create customer
 	 * 2. Create a policy
