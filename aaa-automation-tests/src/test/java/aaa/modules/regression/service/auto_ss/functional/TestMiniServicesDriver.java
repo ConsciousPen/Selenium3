@@ -590,6 +590,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.VA,Constants.States.OR})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16696"})
 	public void pas16696_AddANameInsuredSameDayPolicyEffectiveDate(@Optional("VA") String state) {
 		pas16696_AddANameInsuredSameDayPolicyEffectiveDateBody();
@@ -607,6 +608,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.VA,Constants.States.OR})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16696"})
 	public void pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate(@Optional("OR") String state) {
 		pas16696_AddANameInsuredSameDayNotPolicyEffectiveDateBody();
