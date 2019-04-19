@@ -38,9 +38,6 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
             td = new PrefillTab().adjustWithRealPolicies(td, getPupUnderlyingPolicies());
             td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
                     PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), "contains=$2,000,000"));
-            if (!getState().equals(Constants.States.CA)) {
-                td.adjust(PersonalUmbrellaMetaData.ErrorTab.class.getSimpleName(), getPupErrorTabOverride());
-            }
         }
         return td;
     }
