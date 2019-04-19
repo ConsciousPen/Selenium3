@@ -109,8 +109,6 @@ public class VersionsComparisonConstants {
 			.putAll("Coverages.Underinsured Motorists Bodily Injury","$50,000/$100,000","$100,000/$300,000")
 			.putAll("Coverages.Bodily Injury Liability","$250,000/$500,000","$100,000/$300,000")
 			.putAll("Coverages.Uninsured Motorists Bodily Injury","$50,000/$100,000","$100,000/$300,000")
-			.putAll("AAAPayment Option.Payment Plan at Bind","semiAnnual6SS","annualSS") //TODO: cleanup
-			.putAll("AAAPayment Option.Payment Plan","semiAnnual6SS","annualSS") //TODO: cleanup
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -490,10 +488,8 @@ public class VersionsComparisonConstants {
 	}
 
 	static final Multimap<String, String> DATA_GATHER_PREMIUM_AND_COVERAGES = ImmutableListMultimap.<String, String>builder()
-			/*.put("Policy Options","Payment Plan")
-			.put("Policy Options", "Policy Term")*/ //TODO:Uncomment
-			.put("AAAPayment Option","Payment Plan") //TODO: cleanup
-			.put("AAAPayment Option","Payment Plan at Bind") //TODO: cleanup
+			.put("Policy Options","Payment Plan")
+			.put("Policy Options", "Policy Term")
 			.put("Coverages","Medical Payments")
 			.put("Coverages","Property Damage Liability")
 			.put("Coverages","Underinsured Motorists Bodily Injury")
@@ -504,10 +500,8 @@ public class VersionsComparisonConstants {
 	public static final Multimap<String, String> ENDORSEMENT_RENEWAL_PREMIUM_AND_COVERAGES;
 	static {
 		Multimap<String, String> endorsementModified = ArrayListMultimap.create(DATA_GATHER_PREMIUM_AND_COVERAGES);
-		/*endorsementModified.remove("Policy Options","Payment Plan");
-		endorsementModified.remove("PolicyOptions","PolicyTerm");*/ //TODO Uncomment
-		endorsementModified.remove("AAAPayment Option","Payment Plan"); //TODO Cleanup
-		endorsementModified.remove("AAAPayment Option","Payment Plan at Bind"); //TODO Cleanup
+		endorsementModified.remove("Policy Options","Payment Plan");
+		endorsementModified.remove("PolicyOptions","PolicyTerm");
 		ENDORSEMENT_RENEWAL_PREMIUM_AND_COVERAGES = ImmutableListMultimap.copyOf(endorsementModified);
 	}
 
