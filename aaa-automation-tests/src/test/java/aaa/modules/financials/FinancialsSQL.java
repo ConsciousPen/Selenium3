@@ -79,6 +79,9 @@ public final class FinancialsSQL {
 		public static final String CITY_TAX_KY = "PREMT_CITY";
 		public static final String COUNTY_TAX_KY = "PREMT_COUNTY";
 		public static final String RENEWAL = "renewal";
+		public static final String PLIGA_FEE = "PLIGAFee";
+		public static final String SR22_FEE = "SR22Fee";
+		public static final String MVLE_FEE = "MVLEFee";
     }
 
 }

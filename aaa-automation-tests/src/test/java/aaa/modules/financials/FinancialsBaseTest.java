@@ -9,6 +9,7 @@ import aaa.main.enums.BillingConstants;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.products.HomeSSConstants;
+import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
@@ -22,7 +23,6 @@ import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +56,20 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), due);
 		return due;
 	}
+
+	protected Dollar payTotalAmountDueWithDatedCheck(LocalDateTime date) {
+		// Open Billing account and Pay min due for the renewal
+		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		}
+		Dollar due = new Dollar(BillingSummaryPage.getTotalDue());
+		TestData payment = testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Check")
+				.adjust(TestData.makeKeyPath(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName(),
+                        BillingAccountMetaData.AcceptPaymentActionTab.CHECK_DATE.getLabel()), formatDateToString(date));
+		new BillingAccount().acceptPayment().perform(payment, due);
+		return due;
+	}
+
 	protected Dollar payMinAmountDue(String paymentMethod) {
 		// Open Billing account and Pay min due for the renewal
 		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
@@ -152,19 +166,23 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, type);
 		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, subtype);
 		if (effDate != null) {
-			query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.EFF_DATE, effDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+			query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.EFF_DATE, formatDateToString(effDate));
 		}
 		return new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).abs();
 	}
 
 	protected void waiveFeeByDateAndType(LocalDateTime txDate, String feeType) {
 		Map<String, String> query = new HashMap<>();
-		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, txDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, formatDateToString(txDate));
 		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.FEE);
 		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, feeType);
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query)
 				.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(BillingConstants.PaymentsAndOtherTransactionAction.WAIVE).click();
 		BillingSummaryPage.dialogConfirmation.confirm();
+	}
+
+	protected boolean isTaxState() {
+		return getState().equals(Constants.States.KY) || getState().equals(Constants.States.WV);
 	}
 
 	protected Map<String, Dollar> getTaxAmountsForPolicy(String policyNumber) {
