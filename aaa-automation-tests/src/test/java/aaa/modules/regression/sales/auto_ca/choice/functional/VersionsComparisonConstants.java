@@ -98,6 +98,10 @@ public class VersionsComparisonConstants {
 			//Assignment Tab Information
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Manually Rated Driver", "","NBFirstName NBLastName")
 			.putAll("Policy Options.Payment Plan","standart6CAC","standartCAC")
+			.putAll("Coverages.Medical Payments","$5,000","$2,000")
+			.putAll("Coverages.Property Damage Liability","$100,000","$50,000")
+			.putAll("Coverages.Bodily Injury Liability","$100,000/$300,000","$50,000/$100,000")
+			.putAll("Coverages.Uninsured Motorists Bodily Injury","$100,000/$300,000","$50,000/$100,000")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -472,5 +476,17 @@ public class VersionsComparisonConstants {
 	static final Multimap<String, String> DATA_GATHER_PREMIUM_AND_COVERAGES = ImmutableListMultimap.<String, String>builder()
 			.put("Policy Options","Payment Plan")
 			.put("Policy Options", "Policy Term")
+			.put("Coverages","Medical Payments")
+			.put("Coverages","Property Damage Liability")
+			.put("Coverages","Bodily Injury Liability")
+			.put("Coverages","Uninsured Motorists Bodily Injury")
+			.build();
+
+	//all components/attributes that should be on Comparison page for Premium and Coverages section for Quote Compare
+	static final Multimap<String, String> ENDORSEMENT_RENEWAl_PREMIUM_AND_COVERAGES = ImmutableListMultimap.<String, String>builder()
+			.put("Coverages","Medical Payments")
+			.put("Coverages","Property Damage Liability")
+			.put("Coverages","Bodily Injury Liability")
+			.put("Coverages","Uninsured Motorists Bodily Injury")
 			.build();
 }
