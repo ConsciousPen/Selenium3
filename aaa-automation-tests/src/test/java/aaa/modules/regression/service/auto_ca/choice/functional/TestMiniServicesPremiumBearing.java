@@ -133,6 +133,196 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		policyLockUnlockServicesBody();
 	}
 
+	/**
+	 * @author Maris Strazds
+	 * @name Endorsement can be performed through service without sending Effective date
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create an endorsement, issue
+	 * 4. Check Green Button endorsement is allowed and there are no errors present
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568", "PAS-15400"})
+	public void pas6560_endorsementValidateAllowedNoEffectiveDate(@Optional("CA") String state) {
+
+		pas6560_endorsementValidateAllowedNoEffectiveDate();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Endorsement can be performed through service when there is another completed endorsement
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create an endorsement, issue
+	 * 4. Check Green Button endorsement is allowed and there are no errors present
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568", "PAS-15400"})
+	public void pas6560_endorsementValidateAllowed(@Optional("CA") String state) {
+
+		pas6560_endorsementValidateAllowed();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Endorsement can be performed through service when there is another User created Pended endorsement
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Start an endorsement created by user, but not finish (Pended Endorsement)
+	 * 4. Check Green Button endorsement is allowed and there are no errors
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-6560", "PAS-15400"})
+	public void pas6560_endorsementValidateAllowedPendedEndorsementUser(@Optional("CA") String state) {
+
+		pas6560_endorsementValidateAllowedPendedEndorsementUser(getPolicyType());
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Endorsement can not be performed through service when there is Future Dated endorsement
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create endorsement in the Future, issue
+	 * 4. Check Endorsement is Not allowed and there is an error about OOSE or Future Dated Endorsement
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568", "PAS-15400"})
+	public void pas6562_endorsementValidateNotAllowedFutureDatedEndorsement(@Optional("CA") String state) {
+
+		pas6562_endorsementValidateNotAllowedFutureDatedEndorsement(getPolicyType());
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Endorsement can NOT be performed through service for NANO policy
+	 * @scenario 1. Create customer
+	 * 2. Create a NANO policy
+	 * 3. Check Green Button endorsement is not allowed. There is a PolicyRules error about NANO
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568", "PAS-15400"})
+	public void pas6562_endorsementValidateNotAllowedNano(@Optional("CA") String state) {
+
+		pas6562_endorsementValidateNotAllowedNano(getPolicyType(), state);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Endorsement can NOT be performed through service when there is Pended System Endorsement
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Start an endorsement created by System, but not finish (Pended Endorsement)
+	 * 4. Check Green Button endorsement is not allowed. There is a PolicyRules error about System Pended Endorsement
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568", "PAS-15400"})
+	public void pas6562_endorsementValidateNotAllowedPendedEndorsementSystem(@Optional("CA") String state) {
+
+		pas6562_endorsementValidateNotAllowedPendedEndorsementSystem(getPolicyType());
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Test Email change through service
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Check Green Button endorsement is not allowed for the date outside of policy term
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-6560", "PAS-6562", "PAS-6568", "PAS-9337", "PAS-15400"})
+	public void pas6562_endorsementValidateNotAllowedOutOfBound(@Optional("CA") String state) {
+
+		pas6562_endorsementValidateNotAllowedOutOfBound(getPolicyType());
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Test cannot delete User Created Pended Endorsement within delay period
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create User Endorsement through service
+	 * 4. Validate through service, that this endorsement cannot be deleted on creation date and new endorsement cannot be started
+	 * 5. change date to Creation Date + delay
+	 * 6. Validate through service, that this endorsement cannot be deleted and new endorsement cannot be started
+	 * 7. change date to Creation Date + delay + 1
+	 * Validate through service, that this endorsement can be deleted and new endorsement can be created
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-8784", "PAS-15400"})
+	public void pas8784_endorsementValidateNotAllowedCustomer(@Optional("CA") String state) {
+
+		pas8784_endorsementValidateNotAllowedCustomer(getPolicyType());
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Test cannot delete Agent Created Pended Endorsement within delay period
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create Agent Endorsement
+	 * 4. Validate through service, that this endorsement can be deleted on creation date and new endorsement can be started
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-8784", "PAS-15400"})
+	public void pas8784_endorsementValidateNoDelayAllowedAgent(@Optional("CA") String state) {
+
+		pas8784_endorsementValidateNoDelayAllowedAgent(getPolicyType());
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Test cannot delete System Created Pended Endorsement within delay period
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create Agent Endorsement and convert it to System
+	 * 4. Validate through service, that this endorsement cannot be deleted
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-8784", "PAS-15400"})
+	public void pas8784_endorsementValidateNoDelayNotAllowedSystem(@Optional("CA") String state) {
+
+		pas8784_endorsementValidateNoDelayNotAllowedSystem(getPolicyType());
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Endorsement can not be performed through service when there is Future Dated endorsement
+	 * @scenario 1. Create customer
+	 * 2. Create a policy
+	 * 3. Create Pended System endorsement
+	 * 4. run Start Endorsement Service
+	 * 5. Check Endorsement is deleted and User Endorsement is created instead
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-7332", "PAS-8785", "PAS-15400"})
+	public void pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService(@Optional("CA") String state) {
+
+		pas7332_deletePendingEndorsementStartNewEndorsementThroughService(getPolicyType(), "System");
+	}
+
 	@Override
 	protected String getGeneralTab() {
 		return NavigationEnum.AutoCaTab.GENERAL.get();
