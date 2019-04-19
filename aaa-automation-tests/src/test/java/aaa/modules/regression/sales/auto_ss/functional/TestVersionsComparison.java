@@ -288,15 +288,15 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469", "PAS-14821", "PAS-12929", "PAS-12930", "PAS-12933", "PAS-12932"})
-	public void pas12469_dataGatherComparisonPolicyOptionsInformation(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-28114",""})
+	public void pas22140_dataGatherComparisonPremiumAndCoverages(@Optional("AZ") String state) {
 		dataGatherComparison(getTDNBQuote(),getTDPremiumCoveragesVersion1(), getTDPremiumCoveragesQuoteVersion2(), VersionsComparisonConstants.DATA_GATHER_PREMIUM_AND_COVERAGES, "PremiumAndCoveragesTab", "PremiumCoveragesInformation");
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469", "PAS-14821", "PAS-12929", "PAS-12930", "PAS-12933", "PAS-12932"})
-	public void pas12469_endorsementComparisonPolicyOptionsInformation(@Optional("AZ") String state) {
+	public void pas22140_endorsementComparisonPremiumAndCoverages(@Optional("AZ") String state) {
 		endorsementComparison(getTDNBPolicy(),getTDPremiumCoveragesVersion1(), getTDPremiumCoveragesVersion2(), VersionsComparisonConstants.ENDORSEMENT_RENEWAL_PREMIUM_AND_COVERAGES, "PremiumAndCoveragesTab", "PremiumCoveragesInformation");
 	}
 
@@ -304,14 +304,14 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-25887"})
-	public void pas25887_renewalComparisonPolicyOptionsInformation(@Optional("AZ") String state) {
+	public void pas22140_renewalComparisonPremiumAndCoverages(@Optional("AZ") String state) {
 		renewalComparison(getTDNBPolicy(), getTDPremiumCoveragesVersion1(), getTDPremiumCoveragesVersion2(), VersionsComparisonConstants.ENDORSEMENT_RENEWAL_PREMIUM_AND_COVERAGES, "PremiumAndCoveragesTab", "PremiumCoveragesInformation");
 	}
 
    //Assignment Tab section
 
 	private TestData getTDNewBusiness() {
-		return getTestSpecificTD("TestData_NB_Policy_NY"); }
+		return getTestSpecificTD("Tes  tData_NB_Policy_NY"); }
 
 	private TestData getTDAssignmentVersion1() {
 		return getTestSpecificTD("TestData_Assignment_Version1");
