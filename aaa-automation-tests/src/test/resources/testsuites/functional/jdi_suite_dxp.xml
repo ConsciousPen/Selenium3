@@ -339,6 +339,7 @@
                     <include name="pas6562_endorsementValidateNotAllowedNano"/>
                     <include name="pas6562_endorsementValidateNotAllowedPendedEndorsementSystem"/>
                     <include name="pas6562_endorsementValidateNotAllowedOutOfBound"/>
+                    <include name="pas8784_endorsementValidateNotAllowedCustomer"/>
                     <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
                     <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
                     <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
@@ -359,6 +360,7 @@
                     <include name="pas6562_endorsementValidateNotAllowedNano"/>
                     <include name="pas6562_endorsementValidateNotAllowedPendedEndorsementSystem"/>
                     <include name="pas6562_endorsementValidateNotAllowedOutOfBound"/>
+                    <include name="pas8784_endorsementValidateNotAllowedCustomer"/>
                     <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
                     <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
                     <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
