@@ -219,6 +219,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		verifyTransactionHistoryType(1, ENDORSEMENT);
 		verifyTransactionHistoryType(2, ENDORSEMENT);
 		verifyTransactionHistoryType(3, ISSUE);
+
 		selectTransactionType(1, true);
 		selectTransactionType(2, true);
 		PolicySummaryPage.buttonCompareVersions.click();

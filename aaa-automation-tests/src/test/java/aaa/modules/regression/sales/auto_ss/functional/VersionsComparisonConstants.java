@@ -501,7 +501,7 @@ public class VersionsComparisonConstants {
 	static {
 		Multimap<String, String> endorsementModified = ArrayListMultimap.create(DATA_GATHER_PREMIUM_AND_COVERAGES);
 		endorsementModified.remove("Policy Options","Payment Plan");
-		endorsementModified.remove("PolicyOptions","PolicyTerm");
+		endorsementModified.remove("Policy Options","Policy Term");
 		ENDORSEMENT_RENEWAL_PREMIUM_AND_COVERAGES = ImmutableListMultimap.copyOf(endorsementModified);
 	}
 

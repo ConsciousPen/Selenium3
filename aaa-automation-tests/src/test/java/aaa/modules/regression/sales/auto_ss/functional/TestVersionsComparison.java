@@ -278,6 +278,9 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 		return getTestSpecificTD("TestData_PremiumCoverages_Version2");
 	}
 
+	private TestData getTDPremiumCoveragesQuoteVersion1() {
+		return getTestSpecificTD("TestData_NB_Quote");
+	}
 	private TestData getTDPremiumCoveragesQuoteVersion2() {
 		return getTestSpecificTD("TestData_PremiumCoverages_QuoteVersion2");
 	}
@@ -290,7 +293,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-28114",""})
 	public void pas22140_dataGatherComparisonPremiumAndCoverages(@Optional("AZ") String state) {
-		dataGatherComparison(getTDNBQuote(),getTDPremiumCoveragesVersion1(), getTDPremiumCoveragesQuoteVersion2(), VersionsComparisonConstants.DATA_GATHER_PREMIUM_AND_COVERAGES, "PremiumAndCoveragesTab", "PremiumCoveragesInformation");
+		dataGatherComparison(getTDNBQuote(),getTDPremiumCoveragesQuoteVersion1(), getTDPremiumCoveragesQuoteVersion2(), VersionsComparisonConstants.DATA_GATHER_PREMIUM_AND_COVERAGES, "PremiumAndCoveragesTab", "PremiumCoveragesInformation");
 	}
 
 	@Parameters({STATE_PARAM})
