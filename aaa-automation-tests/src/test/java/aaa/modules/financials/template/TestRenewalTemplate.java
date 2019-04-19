@@ -268,6 +268,39 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
      */
     protected void testRenewalScenario_3() {
 
+        // Create policy WITH employee benefit
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(getPolicyTD()));
+        LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
+        LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
+
+        // Perform Endorsement effective today+6days and AP OOS Endorsement effective today+5day
+        performNonPremBearingEndorsement(policyNumber, effDate.plusDays(6));
+        performAPEndorsement(policyNumber, effDate.plusDays(5));
+        policy.rollOn().perform(false, true);
+        Dollar addedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT, effDate.plusDays(5));
+
+        // TODO END-08 validations
+
+        // Roll back endorsement and pay total amount due
+        Dollar rollBackAmount = rollBackEndorsement(policyNumber);
+        payTotalAmountDue();
+
+        // TODO END-06 Validations
+
+        // Move to renewal effective date and propose renewal image
+        TimeSetterUtil.getInstance().nextPhase(renewalEffDate);
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        policy.renew().performAndFill(getRenewalFillTd());
+        payMinAmountDue(METHOD_CASH);
+        Dollar renewalPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL);
+
+        // TODO RNW-02 Validations
+
     }
 
     /**
@@ -283,6 +316,37 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
      * @details RNW-04, END-06, END-08
      */
     protected void testRenewalScenario_4() {
+
+        // Create policy WITH employee benefit
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(getPolicyTD()));
+        LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
+        LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
+
+        // Perform Endorsement effective today+6days and RP OOS Endorsement effective today+5day (can't use performRPEndorsement method here)
+        SearchPage.openPolicy(policyNumber);
+        performNonPremBearingEndorsement(policyNumber, effDate.plusDays(6));
+        policy.endorse().perform(getEndorsementTD(effDate.plusDays(5)));
+        policy.getDefaultView().fill(getReducePremiumTD());
+        policy.rollOn().perform(false, true);
+        Dollar reducedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT);
+
+        // TODO END-08 validations
+
+        // Roll back endorsement
+        Dollar rollBackAmount = rollBackEndorsement(policyNumber);
+
+        // TODO END-06 Validations
+
+        // Move to renewal offer time point and create renewal image
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalEffDate));
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        policy.renew().performAndFill(getRenewalFillTd());
+        Dollar renewalAmt = payTotalAmountDue();
+
+        // TODO RNW-04 Validations
 
     }
 

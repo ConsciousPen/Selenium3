@@ -72,6 +72,7 @@ public class JsonClient {
 			log.info(response.toString());
 			if (response.getStatus() != request.status) {
 				//handle error
+				log.info("Response: {}", asJson(readBufferedEntity(response, String.class)));
 				throw new IstfException(methodName + " json request failed");
 			}
 			log.info("Response: {}", asJson(result));
