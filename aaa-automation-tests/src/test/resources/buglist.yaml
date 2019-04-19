@@ -501,3 +501,9 @@ PAS-28501:
   failures:
     - tests: [aaa.modules.bct.service.home_ss.ho3.TestEndorsement.BCT_ONL_EmptyEndorsementHomeSSHo3]
       messages: ["unknown error: Element <input id=\"policyDataGatherForm:nextInquiry_footer\""]
+PAS-28640:
+  summary: "RP Endorsement Pushes Policy Status for Renewal to 'Policy Pending'"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements.*]
+      messages: ["Can't find row by specified parameters: {Policy Status=Proposed}"]
