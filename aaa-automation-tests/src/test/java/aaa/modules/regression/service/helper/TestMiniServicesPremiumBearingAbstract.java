@@ -137,7 +137,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		TestData td;
 		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
 			td = getPolicyDefaultTD().adjust(testDataManager.getDefault(aaa.modules.regression.sales.auto_ca.select.TestPolicyNano.class).getTestData("TestData_Adjustment").resolveLinks());
-		} else if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+		} else if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
 			td = getPolicyDefaultTD().adjust(testDataManager.getDefault(aaa.modules.regression.sales.auto_ca.choice.TestPolicyNano.class).getTestData("TestData_Adjustment").resolveLinks());
 		} else {
 			td = testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state).resolveLinks();
