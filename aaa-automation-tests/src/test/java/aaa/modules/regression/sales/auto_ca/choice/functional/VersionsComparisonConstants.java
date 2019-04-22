@@ -97,7 +97,7 @@ public class VersionsComparisonConstants {
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).Additional Interest Address", "VII interest address 1, VII interest address 2, Red Rock, AZ, 85245","interest address 1, VI interest address 2, Phoenix, AZ, 85085")
 			//Assignment Tab Information
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Manually Rated Driver", "","NBFirstName NBLastName")
-			.putAll("Policy Options.Payment Plan","standart6CAC","standartCAC")
+			.putAll("Policy Options.Payment Plan","standart6CAC","annualCAC")
 			.putAll("Coverages.Medical Payments","$5,000","$2,000")
 			.putAll("Coverages.Property Damage Liability","$100,000","$50,000")
 			.putAll("Coverages.Bodily Injury Liability","$100,000/$300,000","$50,000/$100,000")
