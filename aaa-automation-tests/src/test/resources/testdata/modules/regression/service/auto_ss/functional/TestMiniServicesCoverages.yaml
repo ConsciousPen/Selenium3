@@ -589,6 +589,12 @@ TestData_OrderOfCoverages_NJ: {
   DriverLevelCoverages:[]
 }
 
+TestData_OrderOfCoverages_NY: {
+  PolicyLevelCoverages: ["BI", "SSL", "PD", "UM/SUM", "MEDPM", "MEE", "PIP", "PIPDED", "OBEL", "WLB", "APIP", "AGGPIP", "MNDPIP", "MAXMONTHLYLOSS", "OTHERNECEXP", "DEATHBENEFIT"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN",  "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:[]
+}
+
 VehicleTab_GolfCart: {
   Add Vehicle: click,
   Type: Golf Cart,

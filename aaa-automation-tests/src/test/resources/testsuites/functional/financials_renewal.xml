@@ -150,49 +150,49 @@
         </classes>
     </test>
 
-    <test name="Finance - CA PUP" parallel="methods" thread-count="1024">
+    <test name="Renewal - CA PUP" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.pup.TestRenewal"/>
         </classes>
     </test>
 
-    <test name="Finance - CA Choice" parallel="methods" thread-count="1024">
+    <test name="Renewal - CA Choice" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.auto_ca.choice.TestRenewal"/>
         </classes>
     </test>
 
-    <test name="Finance - CA Select" parallel="methods" thread-count="1024">
+    <test name="Renewal - CA Select" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.auto_ca.select.TestRenewal"/>
         </classes>
     </test>
 
-    <test name="Finance - CA DP3" parallel="methods" thread-count="1024">
+    <test name="Renewal - CA DP3" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.dp3.TestRenewal"/>
         </classes>
     </test>
 
-    <test name="Finance - CA HO3" parallel="methods" thread-count="1024">
+    <test name="Renewal - CA HO3" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.ho3.TestRenewal"/>
         </classes>
     </test>
 
-    <test name="Finance - CA HO4" parallel="methods" thread-count="1024">
+    <test name="Renewal - CA HO4" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.ho4.TestRenewal"/>
         </classes>
     </test>
 
-    <test name="Finance - CA HO6" parallel="methods" thread-count="1024">
+    <test name="Renewal - CA HO6" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.ho6.TestRenewal"/>

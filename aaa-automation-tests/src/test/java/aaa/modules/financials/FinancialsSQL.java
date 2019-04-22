@@ -59,7 +59,7 @@ public final class FinancialsSQL {
 	public static final class TxType {
 	    public static final String NEW_BUSINESS = "policy";
 	    public static final String ENDORSEMENT = "endorsement";
-	    public static final String RENEWAL = "renewal";
+        public static final String RENEWAL = "renewal";
 	    public static final String MANUAL_PAYMENT = "ManualPayment";
 	    public static final String CANCELLATION = "cancellation";
 	    public static final String REINSTATEMENT = "reinstatement";
@@ -79,6 +79,9 @@ public final class FinancialsSQL {
 		public static final String STATE_TAX_KY = "PRMS_KY";
 		public static final String CITY_TAX_KY = "PREMT_CITY";
 		public static final String COUNTY_TAX_KY = "PREMT_COUNTY";
+		public static final String PLIGA_FEE = "PLIGAFee";
+		public static final String SR22_FEE = "SR22Fee";
+		public static final String MVLE_FEE = "MVLEFee";
     }
 
 }

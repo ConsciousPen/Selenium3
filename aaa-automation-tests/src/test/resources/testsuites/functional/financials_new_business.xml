@@ -54,6 +54,17 @@
         </classes>
     </test>
 
+    <test name="New Business 5 - SS Auto Fees" parallel="methods" thread-count="1024">
+        <parameter name="state" value="NJ, NY, WV"/>
+        <classes>
+            <class name="aaa.modules.financials.auto_ss.TestNewBusiness">
+                <methods>
+                    <include name="testNewBusinessScenario_5"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test name="New Business 1/2 - SS DP3" parallel="methods" thread-count="1024">
         <parameter name="state" value="KY, WV"/>
         <classes>
