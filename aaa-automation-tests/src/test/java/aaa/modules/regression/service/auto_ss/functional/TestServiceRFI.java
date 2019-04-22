@@ -979,19 +979,19 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 		if (state.contains("VA")) {
 			//TC1
-			String policyNumber = createPolicyForAnyDocument("$25,000/$50,000 (-$32.00)", "Not Signed", uimbiCoverage, ruuelluuRule);
-			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (+$16.00)", uimbiCoverage);
+			String policyNumber = createPolicyForAnyDocument("$25,000/$50,000", "Not Signed", uimbiCoverage, ruuelluuRule);
+			createEndorsementInPasUpdateCoverage("$50,000/$100,000", uimbiCoverage);
 			assertThat(ruuelluuRule).hasValue("Not Signed");
 			deleteEndorsementInPas();
 			dxpOnlyCreateEndorsementCheckDocument("UMBI", "50000/100000",
 					"IMPORTANT NOTICE - Uninsured Motorist Coverage", "RUUELLUU", policyNumber);
 			//TC2
 			String policyNumber2 = openAppAndCreatePolicy();
-			createEndorsementInPasUpdateCoverage("$25,000/$50,000 (-$32.00)", uimbiCoverage);
+			createEndorsementInPasUpdateCoverage("$25,000/$50,000", uimbiCoverage);
 			assertThat(ruuelluuRule).hasValue("Not Signed");
 			ruuelluuRule.setValue("Physically Signed");
 			documentsAndBindTab.submitTab();
-			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (+$16.00)", uimbiCoverage);
+			createEndorsementInPasUpdateCoverage("$50,000/$100,000", uimbiCoverage);
 			assertThat(ruuelluuRule).hasValue("Not Signed");
 			deleteEndorsementInPas();
 			dxpOnlyCreateEndorsementCheckDocument("UMBI", "50000/100000",
@@ -999,19 +999,19 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 		} else if (state.contains("DE")) {
 			//TC1
-			String policyNumber = createPolicyForAnyDocument("$25,000/$50,000 (-$48.00)", "Not Signed", uimbiCoverage, aadnde1Rule);
-			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (+$17.00)", uimbiCoverage);
+			String policyNumber = createPolicyForAnyDocument("$25,000/$50,000", "Not Signed", uimbiCoverage, aadnde1Rule);
+			createEndorsementInPasUpdateCoverage("$50,000/$100,000", uimbiCoverage);
 			assertThat(aadnde1Rule).hasValue("Not Signed");
 			deleteEndorsementInPas();
 			dxpOnlyCreateEndorsementCheckDocument("UMBI", "50000/100000",
 					"Delaware Motorists Protection Act", "AADNDE1", policyNumber);
 			//TC2
 			String policyNumber2 = openAppAndCreatePolicy();
-			createEndorsementInPasUpdateCoverage("$25,000/$50,000 (-$48.00)", uimbiCoverage);
+			createEndorsementInPasUpdateCoverage("$25,000/$50,000", uimbiCoverage);
 			assertThat(aadnde1Rule).hasValue("Not Signed");
 			aadnde1Rule.setValue("Physically Signed");
 			documentsAndBindTab.submitTab();
-			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (+$17.00)", uimbiCoverage);
+			createEndorsementInPasUpdateCoverage("$50,000/$100,000", uimbiCoverage);
 			assertThat(aadnde1Rule).hasValue("Not Signed");
 			deleteEndorsementInPas();
 			dxpOnlyCreateEndorsementCheckDocument("UMBI", "50000/100000",
@@ -1019,19 +1019,19 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 		} else if (state.contains("DC")) {
 			//TC1
-			String policyNumber = createPolicyForAnyDocument("$25,000/$50,000 (-$32.00)", "Not Signed", biCoverage, aacsdcRule);
-			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (+$14.00)", biCoverage);
+			String policyNumber = createPolicyForAnyDocument("$25,000/$50,000", "Not Signed", biCoverage, aacsdcRule);
+			createEndorsementInPasUpdateCoverage("$50,000/$100,000", biCoverage);
 			assertThat(aacsdcRule).hasValue("Not Signed");
 			deleteEndorsementInPas();
 			dxpOnlyCreateEndorsementCheckDocument("BI", "50000/100000",
 					"District of Columbia Coverage Selection/Rejection Form", "AACSDC", policyNumber);
 			//TC2
 			String policyNumber2 = openAppAndCreatePolicy();
-			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (-$18.00)", biCoverage);
+			createEndorsementInPasUpdateCoverage("$50,000/$100,000", biCoverage);
 			assertThat(aacsdcRule).hasValue("Not Signed");
 			aacsdcRule.setValue("Physically Signed");
 			documentsAndBindTab.submitTab();
-			createEndorsementInPasUpdateCoverage("$250,000/$500,000 (+$34.00)", biCoverage);
+			createEndorsementInPasUpdateCoverage("$250,000/$500,000", biCoverage);
 			assertThat(aacsdcRule).hasValue("Not Signed");
 			deleteEndorsementInPas();
 			dxpOnlyCreateEndorsementCheckDocument("BI", "250000/500000",
@@ -1047,7 +1047,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private void createEndorsementInPasUpdateCoverage(String coverageValue, ComboBox coverage) {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		coverage.setValue(coverageValue);
+		coverage.setValue("contains=" + coverageValue);
 		premiumAndCoveragesTab.calculatePremium();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 	}
@@ -1101,14 +1101,13 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		createQuote();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		(coverage).setValue(limit);
+		coverage.setValue("contains=" + limit);
 		premiumAndCoveragesTab.calculatePremium();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		(rule).setValue(signType);
+		rule.setValue(signType);
 		documentsAndBindTab.saveAndExit();
 
-		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
-		return policyNumber;
+		return testEValueDiscount.simplifiedQuoteIssue();
 	}
 
 	private void checkIfRfiIsEmpty(String policyNumber) {
