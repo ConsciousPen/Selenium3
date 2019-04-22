@@ -16,19 +16,16 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPointsVRDPageAbstract {
