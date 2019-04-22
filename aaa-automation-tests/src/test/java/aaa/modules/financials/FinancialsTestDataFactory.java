@@ -3,6 +3,7 @@ package aaa.modules.financials;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.policy.*;
@@ -111,6 +112,40 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                         PersonalUmbrellaMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=1");
                 td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.CancellationActionTab.class.getSimpleName(),
                         PersonalUmbrellaMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
+                break;
+            default:
+                throw new IstfException("No Policy Type was matched!");
+        }
+        return td;
+    }
+
+    protected TestData getCancellationNonPaymentTd() {
+        String date = formatDateToString(TimeSetterUtil.getInstance().getCurrentTime());
+        if (getPolicyType().equals(PolicyType.PUP)) {
+
+        }
+        return getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData")
+                .adjust(TestData.makeKeyPath(HomeSSMetaData.CancellationActionTab.class.getSimpleName(), HomeSSMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "contains=Non-Payment")
+                .adjust(TestData.makeKeyPath(HomeSSMetaData.CancellationActionTab.class.getSimpleName(), HomeSSMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
+    }
+
+    protected TestData getChangeRenewalLapseTd(LocalDateTime renewalEffDate) {
+        TestData td;
+        String type = getPolicyType().getShortName();
+        String date = formatDateToString(renewalEffDate);
+        switch (type) {
+            case HOME_SS_HO3:
+            case HOME_SS_HO4:
+            case HOME_SS_HO6:
+            case HOME_SS_DP3:
+                td = DataProviderFactory.dataOf(HomeSSMetaData.ManualRenewalWithOrWithoutLapseActionTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        HomeSSMetaData.ManualRenewalWithOrWithoutLapseActionTab.REVISED_RENEWAL_DATE.getLabel(), date,
+                        HomeSSMetaData.ManualRenewalWithOrWithoutLapseActionTab.LAPSE_CHANGE_REASON.getLabel(), "index=1"));
+                break;
+            case PUP:
+                td = DataProviderFactory.dataOf(PersonalUmbrellaMetaData.ManualRenewalWithOrWithoutLapseActionTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        PersonalUmbrellaMetaData.ManualRenewalWithOrWithoutLapseActionTab.REVISED_RENEWAL_DATE.getLabel(), date,
+                        PersonalUmbrellaMetaData.ManualRenewalWithOrWithoutLapseActionTab.LAPSE_CHANGE_REASON.getLabel(), "index=1"));
                 break;
             default:
                 throw new IstfException("No Policy Type was matched!");
