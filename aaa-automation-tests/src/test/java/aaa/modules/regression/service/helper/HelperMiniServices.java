@@ -88,13 +88,12 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
 	}
 
-	void rateEndorsementWithErrorCheck(String policyNumber, String errorCode, String errorMessage, String field) {
+	void rateEndorsementWithErrorCheck(String policyNumber, String errorCode, String errorMessage) {
 		ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
 		assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 		assertThat(rateResponse.message).startsWith(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 		ErrorResponseDto rateResponseFiltered = rateResponse.errors.stream().filter(errors -> errorCode.equals(errors.errorCode)).findFirst().orElse(null);
 		assertThat(rateResponseFiltered.message).startsWith(errorMessage);
-		assertThat(rateResponseFiltered.field).isEqualTo(field);
 	}
 
 	public void bindEndorsementWithCheck(String policyNumber) {
@@ -109,13 +108,12 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 	}
 
-	public void bindEndorsementWithErrorCheck(String policyNumber, String errorCode, String errorMessage, String field) {
+	public void bindEndorsementWithErrorCheck(String policyNumber, String errorCode, String errorMessage) {
 		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, errorCode, 422);
 		assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 		assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 		ErrorResponseDto bindResponseFiltered = bindResponse.errors.stream().filter(errors -> errorCode.equals(errors.errorCode)).findFirst().orElse(null);
 		assertThat(bindResponseFiltered.message).contains(errorMessage);
-		assertThat(bindResponseFiltered.field).isEqualTo(field);
 	}
 
 	public OrderReportsResponse orderReportErrors(String policyNumber, String driverOid, ErrorDxpEnum.Errors... errors) {
@@ -143,11 +141,10 @@ public class HelperMiniServices extends PolicyBaseTest {
 		return orderReportErrorResponse;
 	}
 
-	boolean hasError(ErrorResponseDto errorResponseDto, ErrorDxpEnum.Errors expectedError, String field) {
+	boolean hasError(ErrorResponseDto errorResponseDto, ErrorDxpEnum.Errors expectedError) {
 		assertThat(errorResponseDto.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 		assertThat(errorResponseDto.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-		return errorResponseDto.errors.stream().anyMatch(error -> field.equals(error.field)
-						&& expectedError.getCode().equals(error.errorCode)
+		return errorResponseDto.errors.stream().anyMatch(error -> expectedError.getCode().equals(error.errorCode)
 						&& StringUtils.startsWith(error.message, expectedError.getMessage()));
 	}
 }

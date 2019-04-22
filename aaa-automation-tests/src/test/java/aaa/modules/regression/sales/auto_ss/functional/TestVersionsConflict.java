@@ -379,4 +379,42 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	public void pas19839_renewalMergeAutomaticRemoveNamedInsured(@Optional("AZ") String state) {
 		renewalMergeRemoveComponent(getNBPolicyForMultipleNamedInsureds(), getRemoveComponentVersion1(), getRemoveComponentVersion2(), VersionsConflictConstants.REMOVE_NAMED_INSURED,  VersionsConflictConstants.REMOVE_NAMED_INSUREDS_RENEWAL_VERSION_1,  "EndorsementActionTab", "");
 	}
+
+	//Premium and Coverages section
+
+	private TestData getTDPremiumAndCoveragesVersion1() {
+		return getTestSpecificTD("TestData_PremiumAndCoverages_Version1");
+	}
+
+	private TestData getTDPremiumAndCoveragesVersion2() { return getTestSpecificTD("TestData_PremiumAndCoverages_Version2"); }
+
+	private TestData getTDPremiumAndCoveragesRenewalVersion() {
+		return getTestSpecificTD("TestData_PremiumAndCoverages_Renewal_Version"); }
+
+	private TestData getTDPremiumAndCoveragesBlankVersion() {
+		return getTestSpecificTD("TestData_Blank"); }
+
+
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-27030"})
+	public void pas27030_ooseConflictManualPremiumAndCoverages(@Optional("AZ") String state) {
+		ooseConflict(getTDNBPolicy(), getTDPremiumAndCoveragesVersion1(), getTDPremiumAndCoveragesVersion2(), VersionsConflictConstants.PREMIUM_AND_COVERAGES,  VersionsConflictConstants.PREMIUM_AND_COVERAGES_VERSION_2, VersionsConflictConstants.PREMIUM_AND_COVERAGES_VERSION_1,  "PremiumAndCoveragesTab", "PremiumAndCoverages", false);
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-27030"})
+	public void pas27030_ooseConflictAutomaticPremiumAndCoverages(@Optional("AZ") String state) {
+		ooseConflict(getTDNBPolicy(), getTDPremiumAndCoveragesVersion1(), getTDPremiumAndCoveragesVersion2(), VersionsConflictConstants.PREMIUM_AND_COVERAGES,  VersionsConflictConstants.PREMIUM_AND_COVERAGES_VERSION_2, VersionsConflictConstants.PREMIUM_AND_COVERAGES_VERSION_1,  "PremiumAndCoveragesTab", "PremiumAndCoverages", true);
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-27030"})
+	public void pas27030_renewalMergePremiumAndCoverages(@Optional("AZ") String state) {
+		renewalMerge(getTDNBPolicy(), getTDPremiumAndCoveragesRenewalVersion(), getTDPremiumAndCoveragesBlankVersion(), VersionsConflictConstants.PREMIUM_AND_COVERAGES,  VersionsConflictConstants.PREMIUM_AND_COVERAGES_VERSION_1,  "PremiumAndCoveragesTab", "PremiumAndCoverages");
+	}
 }
+

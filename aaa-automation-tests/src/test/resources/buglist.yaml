@@ -403,7 +403,7 @@ PAS-24131:
   failures:
     - tests: [aaa.modules.regression.*]
       messages: ['class com.exigen.ipb.billing.personal.allocation.services.impl.PolicyNetPremiumAllocationNode']
-PAS-28043:
+PT-3609:
   summary: "Regression BCT 19.4 : Policy tier is empty for added Auto_SS to DP3 policy"
   reason: PROD
   failures:
@@ -431,12 +431,14 @@ PT-3481:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ['Errors: Address requires validation before proceeding']
-PAS-25857:
+PT-3482:
   summary: "Errors: 'Description' is required"
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Errors: 'Description' is required"]
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Errors: 'Description' is not in within range"]
 PAS-25865:
   summary: "No session available (nullpointer) after Endorsement action to existing policy"
   reason: PROD
@@ -501,3 +503,9 @@ PAS-28501:
   failures:
     - tests: [aaa.modules.bct.service.home_ss.ho3.TestEndorsement.BCT_ONL_EmptyEndorsementHomeSSHo3]
       messages: ["unknown error: Element <input id=\"policyDataGatherForm:nextInquiry_footer\""]
+PAS-28640:
+  summary: "RP Endorsement Pushes Policy Status for Renewal to 'Policy Pending'"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements.*]
+      messages: ["Can't find row by specified parameters: {Policy Status=Proposed}"]

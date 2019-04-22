@@ -884,6 +884,49 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
     }
 
+    /**
+     * @author Josh Carpenter
+     * @name Test SDW with multiple manual violations on same day
+     * @scenario
+     * 1.  Create SS quote
+     * 2.  Fill up to Driver tab, add 2 minor violations with same occurrence date
+     * 3.  Calculate premium
+     * 4.  Navigate back to Driver tab
+     * 5.  Validate one violation receives SDW, other is chargeable
+     * 6.  Remove chargeable violation
+     * 7.  Calculate premium
+     * 8.  Navigate back to Driver tab
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27346")
+    public void pas12345_testMultipleViolationsOnSameDaySDW(@Optional("") String state) {
+
+        // Create test data for 2 AF accidents and 2 violations
+        List<TestData> tdActivity = new ArrayList<>();
+        tdActivity.add(getActivityInfoTd(MAJOR_VIOLATION, HIT_AND_RUN).mask(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel()));
+        tdActivity.add(getActivityInfoTd(MAJOR_VIOLATION, DRAG_RACING).mask(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel()));
+        TestData td = getDefaultASWTd().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), tdActivity);
+
+        // Create quote and fill up to driver tab with 2 violations on same day
+        createQuoteAndFillUpTo(td, PremiumAndCoveragesTab.class);
+
+        // Calculate premium and confirm one receives SDW
+        calculatePremiumAndNavigateToDriverTab();
+        validateIncludeInPoints(HIT_AND_RUN, "No");
+        validateReasonCode(HIT_AND_RUN, PolicyConstants.ActivityInformationTable.REASON_CODE_SDW);
+        validateIncludeInPoints(DRAG_RACING, "Yes");
+
+        // Delete claim that is included in rating
+        DriverTab.tableActivityInformationList.removeRow(2);
+
+        // Calculate premium and confirm SDW is not applied to remaining claim
+        calculatePremiumAndNavigateToDriverTab();
+        validateIncludeInPoints(HIT_AND_RUN, "Yes");
+
+    }
+
     private TestData adjustTdBaseDate(TestData td) {
         return adjustTdBaseDate(td, 0);
     }
