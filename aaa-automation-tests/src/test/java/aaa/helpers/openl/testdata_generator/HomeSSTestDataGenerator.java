@@ -614,6 +614,11 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 					// green home discount
 					HomeSSMetaData.PropertyInfoTab.HomeRenovation.GREEN_HOME_DISCOUNT.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getGreenHomeDiscApplicability())
 			);
+		} else {
+			// green home discount
+			homeRenovationData = DataProviderFactory.dataOf(
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.GREEN_HOME_DISCOUNT.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getGreenHomeDiscApplicability())
+			);
 		}
 
 		List<TestData> petsOrAnimalsData = getPetsOrAnimalsData(openLPolicy);
