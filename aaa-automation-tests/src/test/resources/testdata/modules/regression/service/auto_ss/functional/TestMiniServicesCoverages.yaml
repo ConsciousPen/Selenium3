@@ -624,7 +624,7 @@ PolicyLevelPersonalInjuryProtectionCoverages_Primary_Insurer_Personal_Health_Ins
 }
 
 MedicalExpensesElimination_NamedInsuredOnly: {
-  Additional PIP: 'contains=No Coverage',
+  Additional Personal Injury Protection: 'contains=No Coverage',
   Medical Expense Elimination: 'Named Insured Only',
   Insurer Name: 'abc',
   "Policy / Group # /Certificate #": '12Z'
