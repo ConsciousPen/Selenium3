@@ -2,6 +2,7 @@ package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import aaa.common.enums.Constants;
 import aaa.common.enums.PrivilegeEnum;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
@@ -109,7 +110,7 @@ public class TestAgentAuthorityToOverrideDLRule extends AutoCaChoiceBaseTest {
         mainApp().close();
        //Open application as non privileged user "A30"
         openAppNonPrivilegedUser(PrivilegeEnum.Privilege.A30);
-        searchForPolicy(policyNumber);
+        SearchPage.openPolicy(policyNumber);
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
         addDrivers();
