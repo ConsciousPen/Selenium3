@@ -41,9 +41,6 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
             td = new PrefillTab().adjustWithRealPolicies(td, getPupUnderlyingPolicies());
             td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
                     PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), "contains=$2,000,000"));
-            if (!getState().equals(Constants.States.CA)) {
-                td.adjust(PersonalUmbrellaMetaData.ErrorTab.class.getSimpleName(), getPupErrorTabOverride());
-            }
         }
         return td;
     }
@@ -547,11 +544,12 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     private TestData getPupAddPremiumTd() {
         TestData td;
         if (getState().equals(Constants.States.CA)) {
-            td = getEmptyTestDataCAPup().adjust(PersonalUmbrellaMetaData.ErrorTab.class.getSimpleName(), getPupErrorTabOverride());
+            td = getEmptyTestDataCAPup();
         } else {
             td = getEmptyTestDataSSPup();
         }
-        return td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
+        return td.adjust(PersonalUmbrellaMetaData.ErrorTab.class.getSimpleName(), getPupErrorTabOverride())
+                .adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
                     PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), "contains=$3,000,000"));
     }
 
