@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * SuperJobs are Jobs with additional metadata to be able to call a list of jobs and have them run at the appropriate
+ * SchedulableJobs are Jobs with additional metadata to be able to call a list of jobs and have them run at the appropriate
  * times automatically to streamline running many jobs.
  */
-public class SuperJobs {
+public class SchedulableJobs {
 
     public static final String defaultStateKey = "default";
     public static final int jobNotApplicableValue = -1;
@@ -34,8 +34,8 @@ public class SuperJobs {
      * @param policyTerm that the policy uses as dates change
      * @return an ArrayList containing both TelematicSafetyScore jobs
      */
-    public static ArrayList<SuperJob> getTelematicSafetyScoreJobs(String state, PolicyTerm policyTerm) {
-        ArrayList<SuperJob> jobs = new ArrayList<>();
+    public static ArrayList<SchedulableJob> getTelematicSafetyScoreJobs(String state, PolicyTerm policyTerm) {
+        ArrayList<SchedulableJob> jobs = new ArrayList<>();
         jobs.add(aaaTelematicSafetyScoreOrderAsyncJob(state, policyTerm, TimePoint.First));
         jobs.add(aaaTelematicSafetyScoreOrderAsyncJob(state, policyTerm, TimePoint.Second));
         return jobs;
@@ -49,7 +49,7 @@ public class SuperJobs {
      * @param timePoint  for the state provided
      * @return one job that represents the state, term type, and timepoint requested
      */
-    public static SuperJob aaaTelematicSafetyScoreOrderAsyncJob(String state, PolicyTerm policyTerm, TimePoint timePoint) {
+    public static SchedulableJob aaaTelematicSafetyScoreOrderAsyncJob(String state, PolicyTerm policyTerm, TimePoint timePoint) {
 
         Job baseJob = Jobs.aaaTelematicSafetyScoreOrderAsyncJob;
         HashMap<PolicyTerm, HashMap<TimePoint, StateOffset>> timePointMap = getMultiTermMultiTimePointMap();
@@ -95,7 +95,7 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.get(policyTerm).get(timePoint).stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
     /**
@@ -104,7 +104,7 @@ public class SuperJobs {
      * @param state to set timepoint for
      * @return one job that represents the state timepoint requested
      */
-    public static SuperJob policyAutomatedRenewalAsyncTaskGenerationJob(ProductType productType, String state) {
+    public static SchedulableJob policyAutomatedRenewalAsyncTaskGenerationJob(ProductType productType, String state) {
         Job baseJob = Jobs.policyAutomatedRenewalAsyncTaskGenerationJob;
 
         StateOffset stateOffset = getStateOffsetMap();
@@ -128,10 +128,10 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(stateOffset.stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SuperJob aaaMembershipRenewalBatchOrderAsyncJob(ProductType productType, String state, TimePoint timePoint) {
+    public static SchedulableJob aaaMembershipRenewalBatchOrderAsyncJob(ProductType productType, String state, TimePoint timePoint) {
         Job baseJob = Jobs.aaaMembershipRenewalBatchOrderAsyncJob;
 
         HashMap<TimePoint, StateOffset> timePointMap = getMultiTimePointMap();
@@ -184,10 +184,10 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.get(timePoint).stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SuperJob aaaInsuranceScoreRenewalBatchOrderAsyncJob(ProductType productType, String state, TimePoint timePoint) {
+    public static SchedulableJob aaaInsuranceScoreRenewalBatchOrderAsyncJob(ProductType productType, String state, TimePoint timePoint) {
         Job baseJob = Jobs.aaaInsuranceScoreRenewalBatchOrderAsyncJob;
 
         int offset;
@@ -244,7 +244,7 @@ public class SuperJobs {
             offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
         }
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
 
@@ -256,7 +256,7 @@ public class SuperJobs {
      * @param timePoint                                  Only pertains to Auto. This field is ignored using Home products.
      * @return SchedulableJob with correct timepoint.
      */
-    public static SuperJob aaaInsuranceScoreRenewalBatchReceiveAsyncJob(ProductType productType, String state, TimePoint timePoint) {
+    public static SchedulableJob aaaInsuranceScoreRenewalBatchReceiveAsyncJob(ProductType productType, String state, TimePoint timePoint) {
         Job baseJob = Jobs.aaaInsuranceScoreRenewalBatchReceiveAsyncJob;
 
         int offset;
@@ -315,11 +315,11 @@ public class SuperJobs {
         }
 
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset,
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset,
                 aaaInsuranceScoreRenewalBatchOrderAsyncJob(productType, state, timePoint));
     }
 
-    public static SuperJob aaaMvrRenewBatchOrderAsyncJob(String state) {
+    public static SchedulableJob aaaMvrRenewBatchOrderAsyncJob(String state) {
         Job baseJob = Jobs.aaaMvrRenewBatchOrderAsyncJob;
 
         StateOffset timePointMap = getStateOffsetMap();
@@ -333,10 +333,10 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SuperJob aaaMvrRenewAsyncBatchReceiveJob(String state) {
+    public static SchedulableJob aaaMvrRenewAsyncBatchReceiveJob(String state) {
         Job baseJob = Jobs.aaaMvrRenewAsyncBatchReceiveJob;
 
         StateOffset timePointMap = getStateOffsetMap();
@@ -350,10 +350,10 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset, aaaMvrRenewBatchOrderAsyncJob(state));
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset, aaaMvrRenewBatchOrderAsyncJob(state));
     }
 
-    public static SuperJob aaaClueRenewBatchOrderAsyncJob(ProductType productType, String state) {
+    public static SchedulableJob aaaClueRenewBatchOrderAsyncJob(ProductType productType, String state) {
         Job baseJob = Jobs.aaaClueRenewBatchOrderAsyncJob;
 
         StateOffset timePointMap = getStateOffsetMap();
@@ -379,10 +379,10 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SuperJob aaaClueRenewAsyncBatchReceiveJob(ProductType productType, String state) {
+    public static SchedulableJob aaaClueRenewAsyncBatchReceiveJob(ProductType productType, String state) {
         Job baseJob = Jobs.aaaClueRenewAsyncBatchReceiveJob;
 
         StateOffset timePointMap = getStateOffsetMap();
@@ -410,18 +410,18 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset,
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset,
                 aaaClueRenewBatchOrderAsyncJob(productType, state));
     }
 
-    public static ArrayList<SuperJob> getRenewalClaimOrderAsyncJobs(String state) {
-        ArrayList<SuperJob> jobs = new ArrayList<>();
+    public static ArrayList<SchedulableJob> getRenewalClaimOrderAsyncJobs(String state) {
+        ArrayList<SchedulableJob> jobs = new ArrayList<>();
         jobs.add(renewalClaimOrderAsyncJob(state, TimePoint.First));
         jobs.add(renewalClaimOrderAsyncJob(state, TimePoint.Second));
         return jobs;
     }
 
-    public static SuperJob renewalClaimOrderAsyncJob(String state, TimePoint timePoint) {
+    public static SchedulableJob renewalClaimOrderAsyncJob(String state, TimePoint timePoint) {
         Job baseJob = Jobs.renewalClaimOrderAsyncJob;
 
         HashMap<TimePoint, StateOffset> timePointMap = getMultiTimePointMap();
@@ -442,10 +442,10 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.get(timePoint).stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SuperJob renewalImageRatingAsyncTaskJob(String state, TimePoint timePoint) {
+    public static SchedulableJob renewalImageRatingAsyncTaskJob(String state, TimePoint timePoint) {
         Job baseJob = Jobs.renewalImageRatingAsyncTaskJob;
 
         HashMap<TimePoint, StateOffset> timePointMap = getMultiTimePointMap();
@@ -471,10 +471,10 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.get(timePoint).stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SuperJob policyDoNotRenewAsyncJob(ProductType productType, String state) {
+    public static SchedulableJob policyDoNotRenewAsyncJob(ProductType productType, String state) {
         Job baseJob = Jobs.policyDoNotRenewAsyncJob;
 
         StateOffset timePointMap = getStateOffsetMap();
@@ -500,10 +500,10 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SuperJob renewalOfferAsyncTaskJob(ProductType productType, String state) {
+    public static SchedulableJob renewalOfferAsyncTaskJob(ProductType productType, String state) {
 
         Job baseJob = Jobs.renewalOfferAsyncTaskJob;
 
@@ -527,10 +527,10 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SuperJob aaaPreRenewalNoticeAsyncJob(String state) {
+    public static SchedulableJob aaaPreRenewalNoticeAsyncJob(String state) {
         Job baseJob = Jobs.aaaPreRenewalNoticeAsyncJob;
 
         StateOffset timePointMap = getStateOffsetMap();
@@ -540,11 +540,11 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SuperJob aaaPolicyAutomatedRenewalAsyncTaskGenerationJob(ProductType productType, String state,
-                                                                           TimePoint timePoint) {
+    public static SchedulableJob aaaPolicyAutomatedRenewalAsyncTaskGenerationJob(ProductType productType, String state,
+                                                                                 TimePoint timePoint) {
         Job baseJob = Jobs.aaaPolicyAutomatedRenewalAsyncTaskGenerationJob;
 
         HashMap<TimePoint, StateOffset> timePointMap = getMultiTimePointMap();
@@ -565,10 +565,10 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.get(timePoint).stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SuperJob aaaRenewalNoticeBillAsyncJob(ProductType productType, String state) {
+    public static SchedulableJob aaaRenewalNoticeBillAsyncJob(ProductType productType, String state) {
         Job baseJob = Jobs.aaaRenewalNoticeBillAsyncJob;
 
         StateOffset timePointMap = getStateOffsetMap();
@@ -585,10 +585,10 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SuperJob.PaymentSuperJob makeLumpSumPayment(String state, BaseTest baseTest, String policyNumber) {
+    public static SchedulableJob.PaymentSchedulableJob makeLumpSumPayment(String state, BaseTest baseTest, String policyNumber) {
 
         // The actual job is not used for this one. This is a placeholder.
         Job baseJob = Jobs.aaaBatchMarkerJob;
@@ -599,17 +599,17 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset).
-                new PaymentSuperJob(baseTest, policyNumber, baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset).
+                new PaymentSchedulableJob(baseTest, policyNumber, baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static ArrayList<SuperJob> makeMonthlyPayments(BaseTest baseTest, String policyNumber, PolicyTerm policyTerm,
-                                                          LocalDateTime expirationDate, boolean makeFinalPayment) {
+    public static ArrayList<SchedulableJob> makeMonthlyPayments(BaseTest baseTest, String policyNumber, PolicyTerm policyTerm,
+                                                                LocalDateTime expirationDate, boolean makeFinalPayment) {
 
         // The actual job is not used for this one. This is a placeholder.
         Job baseJob = Jobs.aaaBatchMarkerJob;
 
-        ArrayList<SuperJob> jobs = new ArrayList<>();
+        ArrayList<SchedulableJob> jobs = new ArrayList<>();
 
         int numMonths = policyTerm == PolicyTerm.SixMonth ? 6 : 12;
 
@@ -621,8 +621,8 @@ public class SuperJobs {
 
             // The final payment should only be scheduled if true.
             if (i == 0 && makeFinalPayment) {
-                jobs.add(new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, daysBeforeEndOfMonthPaymentOffset).
-                        new PaymentSuperJob(baseTest, policyNumber, baseJob, SuperJob.JobOffsetType.Subtract_Days, daysBeforeEndOfMonthPaymentOffset));
+                jobs.add(new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, daysBeforeEndOfMonthPaymentOffset).
+                        new PaymentSchedulableJob(baseTest, policyNumber, baseJob, SchedulableJob.JobOffsetType.Subtract_Days, daysBeforeEndOfMonthPaymentOffset));
             }
 
             // If put in place so it will do nothing if final makeFinalPayment == false
@@ -633,8 +633,8 @@ public class SuperJobs {
 
                 int dateSpread = Math.abs((int) ChronoUnit.DAYS.between(expirationDate, targetDateTime));
 
-                jobs.add(new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, dateSpread).
-                        new PaymentSuperJob(baseTest, policyNumber, baseJob, SuperJob.JobOffsetType.Subtract_Days, dateSpread));
+                jobs.add(new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, dateSpread).
+                        new PaymentSchedulableJob(baseTest, policyNumber, baseJob, SchedulableJob.JobOffsetType.Subtract_Days, dateSpread));
 
                 // BONDTODO: Will probably need to take in the renewal date for this one to generate correct payment offsets
                 //           Probably can redo this to be one for loop for both if do it date based.
@@ -649,10 +649,10 @@ public class SuperJobs {
 
     /**
      * This is required because of differences in VDM vs Prod. This is only needed for Home/Property renewals.
-     * Runs at Run Rules window (R-57). Full name updRenewTimelineIndicatorSuperJob
+     * Runs at Run Rules window (R-57). Full name updRenewTimelineIndicatorSchedulableJob
      */
-    public static SuperJob.updRenewTimelineIndicatorSuperJob updateRenewalTimelineIndicator(String state,
-                                                                                            String policyNumber) {
+    public static SchedulableJob.updRenewTimelineIndicatorSchedulableJob updateRenewalTimelineIndicator(String state,
+                                                                                                        String policyNumber) {
 
         // The actual job is not used for this one. This is a placeholder.
         Job baseJob = Jobs.aaaBatchMarkerJob;
@@ -669,8 +669,8 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset).
-                new updRenewTimelineIndicatorSuperJob(policyNumber, baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset).
+                new updRenewTimelineIndicatorSchedulableJob(policyNumber, baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
     /**
@@ -679,7 +679,7 @@ public class SuperJobs {
      * @param state Should be CA. If not, the scheduler will skip.
      * @return one job that represents the state requested.
      */
-    public static SuperJob preRenewalReminderGenerationAsyncJob(ProductType productType, String state) {
+    public static SchedulableJob preRenewalReminderGenerationAsyncJob(ProductType productType, String state) {
         Job baseJob = Jobs.preRenewalReminderGenerationAsyncJob;
 
         StateOffset timePointMap = getStateOffsetMap();
@@ -698,58 +698,58 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SuperJob aaaBatchMarkerJob(TimePoint newBusinessTimePoint) {
+    public static SchedulableJob aaaBatchMarkerJob(TimePoint newBusinessTimePoint) {
         Job baseJob = Jobs.aaaBatchMarkerJob;
 
         int offset = getNewBusinessPlus_15_Or_30(newBusinessTimePoint);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Add_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Add_Days, offset);
     }
 
-    public static SuperJob aaaAutomatedProcessingInitiationJob(TimePoint newBusinessTimePoint) {
+    public static SchedulableJob aaaAutomatedProcessingInitiationJob(TimePoint newBusinessTimePoint) {
         Job baseJob = Jobs.aaaAutomatedProcessingInitiationJob;
 
         int offset = getNewBusinessPlus_15_Or_30(newBusinessTimePoint);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Add_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Add_Days, offset);
     }
 
-    public static SuperJob automatedProcessingRatingJob(TimePoint newBusinessTimePoint) {
+    public static SchedulableJob automatedProcessingRatingJob(TimePoint newBusinessTimePoint) {
         Job baseJob = Jobs.automatedProcessingRatingJob;
 
         int offset = getNewBusinessPlus_15_Or_30(newBusinessTimePoint);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Add_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Add_Days, offset);
     }
 
-    public static SuperJob automatedProcessingRunReportsServicesJob(TimePoint newBusinessTimePoint) {
+    public static SchedulableJob automatedProcessingRunReportsServicesJob(TimePoint newBusinessTimePoint) {
         Job baseJob = Jobs.automatedProcessingRunReportsServicesJob;
 
         int offset = getNewBusinessPlus_15_Or_30(newBusinessTimePoint);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Add_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Add_Days, offset);
     }
 
-    public static SuperJob automatedProcessingIssuingOrProposingJob(TimePoint newBusinessTimePoint) {
+    public static SchedulableJob automatedProcessingIssuingOrProposingJob(TimePoint newBusinessTimePoint) {
         Job baseJob = Jobs.automatedProcessingIssuingOrProposingJob;
 
         int offset = getNewBusinessPlus_15_Or_30(newBusinessTimePoint);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Add_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Add_Days, offset);
     }
 
-    public static SuperJob automatedProcessingStrategyStatusUpdateJob(TimePoint newBusinessTimePoint) {
+    public static SchedulableJob automatedProcessingStrategyStatusUpdateJob(TimePoint newBusinessTimePoint) {
         Job baseJob = Jobs.automatedProcessingStrategyStatusUpdateJob;
 
         int offset = getNewBusinessPlus_15_Or_30(newBusinessTimePoint);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Add_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Add_Days, offset);
     }
 
-    public static SuperJob isoRenewalBatchOrderJob(String state) {
+    public static SchedulableJob isoRenewalBatchOrderJob(String state) {
         // Property
         Job baseJob = Jobs.isoRenewalBatchOrderJob;
 
@@ -765,10 +765,10 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SuperJob aaaCreditDisclosureNoticeJob(String state) {
+    public static SchedulableJob aaaCreditDisclosureNoticeJob(String state) {
         // Property
         Job baseJob = Jobs.aaaCreditDisclosureNoticeJob;
 
@@ -778,10 +778,10 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SuperJob aaaIsoRenewAsyncBatchReceiveJob(String state) {
+    public static SchedulableJob aaaIsoRenewAsyncBatchReceiveJob(String state) {
         // Property
         Job baseJob = Jobs.aaaIsoRenewAsyncBatchReceiveJob;
 
@@ -797,11 +797,11 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset,
-                aaaClueRenewBatchOrderAsyncJob(SuperJobs.ProductType.Home, state));
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset,
+                aaaClueRenewBatchOrderAsyncJob(SchedulableJobs.ProductType.Home, state));
     }
 
-    public static SuperJob renewalValidationAsyncTaskJob(String state) {
+    public static SchedulableJob renewalValidationAsyncTaskJob(String state) {
         // Property
         Job baseJob = Jobs.renewalValidationAsyncTaskJob;
 
@@ -817,10 +817,10 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SuperJob aaaRenewalDataRefreshAsyncJob(String state) {
+    public static SchedulableJob aaaRenewalDataRefreshAsyncJob(String state) {
         // Property
         Job baseJob = Jobs.aaaRenewalDataRefreshAsyncJob;
 
@@ -836,10 +836,10 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SuperJob renewalImageRatingAsyncTaskJob(String state) {
+    public static SchedulableJob renewalImageRatingAsyncTaskJob(String state) {
         // Property
         Job baseJob = Jobs.renewalImageRatingAsyncTaskJob;
 
@@ -856,10 +856,10 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SuperJob aaaMortgageeRenewalReminderAndExpNoticeAsyncJob(String state, TimePoint timePoint) {
+    public static SchedulableJob aaaMortgageeRenewalReminderAndExpNoticeAsyncJob(String state, TimePoint timePoint) {
         // Property
         Job baseJob = Jobs.aaaMortgageeRenewalReminderAndExpNoticeAsyncJob;
 
@@ -874,10 +874,10 @@ public class SuperJobs {
 
         // Timepoint.First is before renewal so subtract days.
         if (timePoint == TimePoint.First){
-            return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+            return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
         }
         // Timepoint.Second is after renewal so add days.
-        return new SuperJob(baseJob, SuperJob.JobOffsetType.Add_Days, offset);
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Add_Days, offset);
     }
 
     private static int getNewBusinessPlus_15_Or_30(TimePoint newBusinessTimePoint) {
@@ -899,9 +899,9 @@ public class SuperJobs {
      * @param offsetNumberOfDays How many days to adjust based on offsetType
      * @return one job that will be run at the offsetType and offsetNumberOfDays.
      */
-    public static SuperJob policyStatusUpdateJob(SuperJob.JobOffsetType offsetType, int offsetNumberOfDays) {
+    public static SchedulableJob policyStatusUpdateJob(SchedulableJob.JobOffsetType offsetType, int offsetNumberOfDays) {
         Job baseJob = Jobs.policyStatusUpdateJob;
-        return new SuperJob(baseJob, offsetType, offsetNumberOfDays);
+        return new SchedulableJob(baseJob, offsetType, offsetNumberOfDays);
     }
 
 
@@ -950,7 +950,7 @@ public class SuperJobs {
      * @return
      */
     private static StateOffset getStateOffsetMap() {
-        return new SuperJobs().new StateOffset();
+        return new SchedulableJobs().new StateOffset();
     }
 
     /**
@@ -967,7 +967,7 @@ public class SuperJobs {
             throws IllegalArgumentException {
 
         if (!termMap.containsKey(policyTerm)) {
-            throw new NotImplementedException("No matching policyTerm for SuperJob." + jobName + " for " +
+            throw new NotImplementedException("No matching policyTerm for SchedulableJob." + jobName + " for " +
                     policyTerm.toString());
         }
 
@@ -987,7 +987,7 @@ public class SuperJobs {
             throws IllegalArgumentException {
 
         if (!termMap.containsKey(timePoint)) {
-            throw new NotImplementedException("No matching timepoint for SuperJob." + jobName + " for " +
+            throw new NotImplementedException("No matching timepoint for SchedulableJob." + jobName + " for " +
                     timePoint.toString());
         }
     }

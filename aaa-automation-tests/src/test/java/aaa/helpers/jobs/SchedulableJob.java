@@ -1,14 +1,11 @@
 package aaa.helpers.jobs;
 
 import aaa.common.Tab;
-import aaa.common.pages.LoginPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.AAAMembershipQueries;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.modules.BaseTest;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.impl.MainApplication;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
 import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
@@ -17,7 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class SuperJob {
+public class SchedulableJob {
 
     /**
      * Determines how to calculate job offset date.
@@ -47,10 +44,10 @@ public class SuperJob {
     /**
      * A list of all jobs this job depends on.
      */
-    protected SuperJob[] sameDayDependencies;
+    protected SchedulableJob[] sameDayDependencies;
 
 
-    public SuperJob(Job jobToSchedule, JobOffsetType jobOffsetOperationType, int jobOffsetByDays, SuperJob ... jobSameDayDependancies){
+    public SchedulableJob(Job jobToSchedule, JobOffsetType jobOffsetOperationType, int jobOffsetByDays, SchedulableJob... jobSameDayDependancies){
 
         job = jobToSchedule;
 
@@ -58,7 +55,7 @@ public class SuperJob {
             service.createJob(JobGroup.fromSingleJob(job.getJobName()));
         }
 
-        if (jobOffsetByDays == SuperJobs.jobNotApplicableValue){
+        if (jobOffsetByDays == SchedulableJobs.jobNotApplicableValue){
             offsetType = JobOffsetType.Job_Not_Applicable;
         } else {
             offsetType = jobOffsetOperationType;
@@ -109,15 +106,15 @@ public class SuperJob {
                 TimeSetterUtil.getInstance().nextPhase(targetDate);
             }
 
-            ArrayList<SuperJob> todaysJobs = jobSchedule.getJobScheduleMap().get(daysOffset);
+            ArrayList<SchedulableJob> todaysJobs = jobSchedule.getJobScheduleMap().get(daysOffset);
 
             // Execute all jobs for current time point
-            for (SuperJob superJob : todaysJobs){
+            for (SchedulableJob schedulableJob : todaysJobs){
 
-                output.add("Execute | Job Execute " + outputTimeFormat.format(targetDate) + " " + superJob.jobName);
+                output.add("Execute | Job Execute " + outputTimeFormat.format(targetDate) + " " + schedulableJob.jobName);
 
                 if (!simulateOutputOnly) {
-                    superJob.executeJob();
+                    schedulableJob.executeJob();
                 }
             }
         }
@@ -154,16 +151,16 @@ public class SuperJob {
     /**
      * Extended to support running automation on execute rather than running a job.
      */
-    public class PaymentSuperJob extends SuperJob{
+    public class PaymentSchedulableJob extends SchedulableJob {
 
         private BaseTest _baseTest;
         private String _policyNumber;
 
-        public PaymentSuperJob(BaseTest baseTest, String policyNumber, Job jobToSchedule, JobOffsetType jobOffsetOperationType, int jobOffsetByDays, SuperJob ... jobSameDayDependancies){
+        public PaymentSchedulableJob(BaseTest baseTest, String policyNumber, Job jobToSchedule, JobOffsetType jobOffsetOperationType, int jobOffsetByDays, SchedulableJob... jobSameDayDependancies){
             super(jobToSchedule, jobOffsetOperationType, jobOffsetByDays, jobSameDayDependancies);
             _baseTest = baseTest;
             _policyNumber = policyNumber;
-            jobName = "SuperJob.PaymentSuperJob";
+            jobName = "SchedulableJob.PaymentSchedulableJob";
         }
 
         @Override
@@ -181,16 +178,16 @@ public class SuperJob {
 
     /**
      * This is required because of differences in VDM vs Prod. This is only needed for Home/Property renewals.
-     * Runs at Run Rules window (R-57). Full name updRenewTimelineIndicatorSuperJob
+     * Runs at Run Rules window (R-57). Full name updRenewTimelineIndicatorSchedulableJob
      */
-    public class updRenewTimelineIndicatorSuperJob extends SuperJob{
+    public class updRenewTimelineIndicatorSchedulableJob extends SchedulableJob {
 
         private String _policyNumber;
 
-        public updRenewTimelineIndicatorSuperJob(String policyNumber, Job jobToSchedule, JobOffsetType jobOffsetOperationType, int jobOffsetByDays, SuperJob ... jobSameDayDependancies){
+        public updRenewTimelineIndicatorSchedulableJob(String policyNumber, Job jobToSchedule, JobOffsetType jobOffsetOperationType, int jobOffsetByDays, SchedulableJob... jobSameDayDependancies){
             super(jobToSchedule, jobOffsetOperationType, jobOffsetByDays, jobSameDayDependancies);
             _policyNumber = policyNumber;
-            jobName = "SuperJob.updRenewTimelineIndicatorSuperJob";
+            jobName = "SchedulableJob.updRenewTimelineIndicatorSchedulableJob";
         }
 
         @Override
