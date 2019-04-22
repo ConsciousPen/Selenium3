@@ -6,7 +6,6 @@ import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
-import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
@@ -44,7 +43,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         LocalDateTime dueDate = PolicySummaryPage.getEffectiveDate().plusMonths(1);
 
         Map<String, Dollar> taxesNB = new HashMap<>();
-        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+        if (isTaxState()) {
             taxesNB = getTaxAmountsForPolicy(policyNumber);
         }
 
@@ -93,7 +92,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
                 BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT, dueDate.plusDays(5));
 
         Dollar taxes = new Dollar(0.00);
-        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+        if (isTaxState()) {
             taxes = getTaxAmountsForPolicy(policyNumber).get(TOTAL).subtract(taxesNB.get(TOTAL));
         }
 
@@ -110,7 +109,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         });
 
         // END-07 validations for taxes (WV/KY only)
-        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+        if (isTaxState()) {
             assertSoftly(softly -> {
                 softly.assertThat(totalTaxesEnd).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053")
                         .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053")));
@@ -144,7 +143,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         openPolicyRenewal(policyNumber);
 
         taxes = new Dollar(0.00);
-        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+        if (isTaxState()) {
             taxes = getTaxAmountsForPolicy(policyNumber).get(TOTAL);
         }
         Dollar totalTaxesRenewal = taxes;
@@ -161,7 +160,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         });
 
         // Tax Validations for RNW-01
-        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+        if (isTaxState()) {
             assertSoftly(softly -> {
                 softly.assertThat(totalTaxesRenewal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1053"));
                 softly.assertThat(totalTaxesRenewal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1054"));
@@ -191,7 +190,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         LocalDateTime dueDate = PolicySummaryPage.getEffectiveDate().plusMonths(1);
 
         Map<String, Dollar> taxesNB = new HashMap<>();
-        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+        if (isTaxState()) {
             taxesNB = getTaxAmountsForPolicy(policyNumber);
         }
 
@@ -250,7 +249,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         policy.rollOn().perform(false, true);
 
         Dollar taxes = new Dollar(0.00);
-        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+        if (isTaxState()) {
             taxes = taxesNB.get(TOTAL).subtract(getTaxAmountsForPolicy(policyNumber).get(TOTAL));
         }
 
@@ -268,7 +267,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         });
 
         // END-07 validations for taxes (WV/KY only)
-        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+        if (isTaxState()) {
             assertSoftly(softly -> {
                 softly.assertThat(totalTaxesEnd).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053")
                         .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053")));
@@ -326,7 +325,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         });
 
         // Tax Validations for RNW-03
-        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+        if (isTaxState()) {
             assertSoftly(softly -> {
                 softly.assertThat(renewalTermTaxes).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1071"));
                 softly.assertThat(renewalTermTaxes).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1072"));
@@ -352,7 +351,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         });
 
         // Continued Tax Validations for RNW-03 recorded at effective date
-        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+        if (isTaxState()) {
             assertSoftly(softly -> {
                 softly.assertThat(renewalTermTaxes).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1053"));
                 softly.assertThat(renewalTermTaxes).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1054"));
