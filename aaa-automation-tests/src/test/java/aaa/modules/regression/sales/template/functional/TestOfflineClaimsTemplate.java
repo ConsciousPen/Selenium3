@@ -22,6 +22,7 @@ import aaa.helpers.rest.JsonClient;
 import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.helpers.ssh.RemoteHelper;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyActions;
@@ -262,8 +263,13 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         premiumAndCoveragesTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab();
-//        errorTab.overrideAllErrors();
-
+        ErrorTab errorTab = new ErrorTab();
+            if (errorTab.isVisible())
+            {
+                errorTab.overrideAllErrors();
+                errorTab.submitTab();
+//                documentsAndBindTab.submitTab();
+            }
         payTotalAmtDue(policyNumber);
     }
 
@@ -955,6 +961,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         // Claim Dates: claimDateOfLoss/claimOpenDate/claimCloseDate all are the same
         String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(1).toLocalDate().toString();
         String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).toLocalDate().toString();
+        String claim2_dates_2 = TimeSetterUtil.getInstance().getCurrentTime().minusMonths(13).toLocalDate().toString(); //Ensures claim will be outside the 60 month charge window
         String claim3_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(3).toLocalDate().toString();
 
         Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS =
@@ -984,6 +991,73 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         createCasClaimResponseAndUploadWithUpdatedDates(policyNumber, INC_IN_RATING_3RD_RENEWAL_DATA_MODEL, UPDATE_CAS_RESPONSE_DATE_FIELDS);
 
         runRenewalClaimReceiveJob();
+//
+//        // Retrieve policy and verify claim presence on renewal image
+//        mainApp().open();
+//        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+//
+//        //Select the Active Policy row
+//        if (tableSearchResults.isPresent()) {
+//            tableSearchResults.getRow("Eff. Date",
+//                    TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
+//                    .getCell(1).controls.links.getFirst().click();
+//        }
+//
+//        buttonRenewals.click();
+//        policy.dataGather().start();
+//        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+//        CustomSoftAssertions.assertSoftly(softly -> {
+//            ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
+//
+//            // Check that Policy Contains 3 Claims
+//            softly.assertThat(tableActivityInformationList.getAllRowsCount()).isEqualTo(4);
+//
+//            // PAS14552 - Assert that Claim IS NOT Included In Rating because Date of Loss is older than two terms
+//            tableActivityInformationList.selectRow(1);
+//            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_1);
+//            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
+//            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("No");
+//
+//            // PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to two terms eff. date
+//            tableActivityInformationList.selectRow(2);
+//            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_2);
+//            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
+//            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
+//
+//            // PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to current system date
+//            tableActivityInformationList.selectRow(3);
+//            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_3);
+//            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
+//            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
+//
+//            // PAS-18300 - Assert that Permissive Use Claim IS Included In Rating because Date of Loss is equal to current system date and assigned to FNI - Claim will get Same Day Waiver after premium Calc
+//            tableActivityInformationList.selectRow(4);
+//            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_4);
+//            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
+//            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
+//        });
+
+        ////////////////////////////////////////////////////////////////////////////////////
+        //Issue 4th Renewal
+        issueGeneratedRenewalImage(policyNumber);
+
+        //Run Jobs to create create 5th renewal
+        runRenewalClaimOrderJob();
+        runRenewalClaimReceiveJob();
+        issueGeneratedRenewalImage(policyNumber);
+
+        //Run Jobs to create and create a 6th renewal
+        runRenewalClaimOrderJob();
+        runRenewalClaimReceiveJob();
+
+
+//        CASE 1: Change effective date of claim to make it 61 months old
+//        // Create Updated CAS Response and Upload - update occurence date of claim 2 so that it is no longer chargeable (61 months old)
+//        Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS_CLAIM_2 =
+//                ImmutableMap.of(INC_RATING_CLAIM_1, claim1_dates, INC_RATING_CLAIM_2, claim2_dates_2, INC_RATING_CLAIM_3, claim3_dates, INC_RATING_CLAIM_4, claim3_dates);
+//        createCasClaimResponseAndUploadWithUpdatedDates(policyNumber, INC_IN_RATING_3RD_RENEWAL_DATA_MODEL, UPDATE_CAS_RESPONSE_DATE_FIELDS_CLAIM_2);
+//        runRenewalClaimReceiveJob();
+
 
         // Retrieve policy and verify claim presence on renewal image
         mainApp().open();
@@ -998,36 +1072,22 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         buttonRenewals.click();
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
         CustomSoftAssertions.assertSoftly(softly -> {
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-            DriverTab driverTab = new DriverTab();
 
-            // Check that Policy Contains 3 Claims
-            softly.assertThat(DriverTab.tableActivityInformationList.getAllRowsCount()).isEqualTo(4);
-
-            // PAS14552 - Assert that Claim IS NOT Included In Rating because Date of Loss is older than two terms
-            DriverTab.tableActivityInformationList.selectRow(1);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_1);
+            // PAS-22026 - Assert that 1st Claim IS still NOT Included In Rating because Date of Loss is equal to 3 terms eff.
+            tableActivityInformationList.selectRow(2);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_2);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("No");
 
-            // PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to two terms eff. date
-            DriverTab.tableActivityInformationList.selectRow(2);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_2);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
-
-            // PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to current system date
-            DriverTab.tableActivityInformationList.selectRow(3);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_3);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
-
-            // PAS-18300 - Assert that Permissive Use Claim IS Included In Rating because Date of Loss is equal to current system date and assigned to FNI
-            DriverTab.tableActivityInformationList.selectRow(4);
+            // PAS-22026 - Assert that 4th Claim is NOT Included In Rating because the it is now outside of the charge window of 36 months
+            tableActivityInformationList.selectRow(4);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_4);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
+            ////////////////////////////////////////////////////////////////////////////////////
         });
     }
 
