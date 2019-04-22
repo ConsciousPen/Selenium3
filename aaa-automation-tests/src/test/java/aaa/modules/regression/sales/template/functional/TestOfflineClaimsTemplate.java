@@ -1013,6 +1013,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         activityAssertions(1,1,4,1,"Internal Claims", INC_RATING_CLAIM_1,false, "No");
         // PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to two terms eff. date
         activityAssertions(1,1,4,2,"Internal Claims", INC_RATING_CLAIM_2,false, "Yes");
+        //PAS-22026 - Agent Override scenario
+        activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER.getLabel(), RadioGroup.class).setValue("Yes");
         // PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to current system date
         activityAssertions(1,1,4,3,"Internal Claims", INC_RATING_CLAIM_3,false, "Yes");
         // PAS-18300 - Assert that Permissive Use Claim IS Included In Rating because Date of Loss is equal to current system date and assigned to FNI - !!Claim will get Same Day Waiver after premium Calc
@@ -1049,13 +1051,13 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         buttonRenewals.click();
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        // PAS14552 - Assert that Claim IS NOT Included In Rating because Date of Loss is older than two terms
+        // PAS_22026 - Claim 1 Include in Rating = NO (Did not pass last age check)
         activityAssertions(1,1,4,1,"Internal Claims", INC_RATING_CLAIM_1,false, "No");
-        // PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to two terms eff. date
+        // PAS_22026 - Claim 2 Include in Rating = NO (Maintain Agent Override)
         activityAssertions(1,1,4,2,"Internal Claims", INC_RATING_CLAIM_2,false, "No");
-        // PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to current system date
+        // PAS_22026 - Claim 3 Include in Rating = YES (Passed last Age check, still within 60 month charge window)
         activityAssertions(1,1,4,3,"Internal Claims", INC_RATING_CLAIM_3,false, "Yes");
-        // PAS-18300 - Assert that Permissive Use Claim IS Included In Rating because Date of Loss is equal to current system date and assigned to FNI - !!Claim will get Same Day Waiver after premium Calc
+        // PAS_22026 - Claim 4 Include in Rating = NO (Maintain Same Day Waiver from Claim 3)
         activityAssertions(1,1,4,4,"Internal Claims", INC_RATING_CLAIM_4,false, "No");
 
 //            switch (scenario){
