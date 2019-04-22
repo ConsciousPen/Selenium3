@@ -455,14 +455,12 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
             if (!underlyingHOPolicies.containsKey(state)) {
                 typeHome.get().createPolicy(getStateTestData(testDataManager.policy.get(typeHome), "DataGather", "TestData"));
                 hoPolicy = PolicySummaryPage.getPolicyNumber();
-//                policies.put("Primary_HO3", hoPolicy);
                 underlyingHOPolicies.put(state, hoPolicy);
                 ALL_POLICIES.add(hoPolicy);
             }
             if (!underlyingAutoPolicies.containsKey(state)) {
                 typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
                 autoPolicy = PolicySummaryPage.getPolicyNumber();
-//                policies.put("Primary_Auto", autoPolicy);
                 underlyingAutoPolicies.put(state, autoPolicy);
                 ALL_POLICIES.add(autoPolicy);
             }
