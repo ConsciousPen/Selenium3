@@ -456,6 +456,9 @@ public class VersionsComparisonConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN", "Ownership Type")
 			.put("Vehicles.1998, DODGE, CARAVAN", "First Name")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Vehicle Ownership Address")
+			//coverages
+			.put("Vehicles.1998, DODGE, CARAVAN.Coverages", "Enhanced Transportation Expense Coverage")
+			.put("Vehicles.1998, DODGE, CARAVAN.Coverages", "Limit per day")
 			.build();
 
 
