@@ -479,13 +479,12 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@StateList(states = {Constants.States.AZ, Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
 			Constants.States.MD, Constants.States.NV, Constants.States.OH, Constants.States.OR, Constants.States.CT, Constants.States.KY, Constants.States.SD,
 			Constants.States.WV, Constants.States.UT, Constants.States.DC, Constants.States.CO, Constants.States.ID, Constants.States.MT, Constants.States.OK,
-			Constants.States.PA, Constants.States.WY,Constants.States.NJ})
+			Constants.States.PA, Constants.States.WY, Constants.States.NJ, Constants.States.NY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016", "PAS-19024", "PAS-19044", "PAS-18202", "PAS-19055", "PAS-19052", "PAS-18350", "PAS-23057","PAS-19032"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016", "PAS-19024", "PAS-19044", "PAS-18202", "PAS-19055",
+			"PAS-19052", "PAS-18350", "PAS-23057","PAS-19032", "PAS-19058", "PAS-28460"})
 	public void pas17646_OrderOfCoverage(@Optional("NJ") String state) {
-		assertSoftly(softly ->
-				pas17646_OrderOfCoverageBody(softly)
-		);
+		assertSoftly(this::pas17646_OrderOfCoverageBody);
 	}
 
 	/**
@@ -1724,24 +1723,6 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	}
 
 	/**
-	 * @author Nauris Ivanans
-	 * @name View/Update Workplace Loss Benefits
-	 * @scenario
-	 * 1. Create policy in PAS with Workplace Loss Benefits = No
-	 * 2. Create endorsement through service
-	 * 3. Run viewEndorsementCoverages service and validate response
-	 * 4. Update Workplace Loss Benefits to Yes, check update, view, change log responses and in PAS UI
-	 * 5. Update Workplace Loss Benefits back to No, check update, view, change log responses and in PAS UI
-	 */
-	@Parameters({"state"})
-	@StateList(states = {Constants.States.NY})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16040"})
-	public void pas16041_wlbCoverageNY(@Optional("NY") String state) {
-		pas16041_wlbCoverageNYBody();
-	}
-
-	/**
 	 * @author Megha Gubbala
 	 * @name SpEquipmentUpdatedWhenCollisionDeclined
 	 * @scenario
@@ -1797,7 +1778,22 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas15308_UM_SUM_CoverageNYBody();
 	}
 
-
+	/**
+	 * @author Maris Strazds
+	 * @name NY PIP Coverages
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsementCoverages service and validate PIP Coverages
+	 * 4. Update PIP coverages and check responses
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NY})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15363", "PAS-15364", "PAS-16040"})
+	public void pas15363_viewUpdatePIPCoverageNY(@Optional("NY") String state) {
+		pas15363_viewUpdatePIPCoverageNYBody();
+	}
 
 }
 

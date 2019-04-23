@@ -112,11 +112,6 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(response0.validationMessage).isEmpty();
 	}
 
-	private void verifyVinInvalidLength(ETCSCoreSoftAssertions softly, AAAVehicleVinInfoRestResponseWrapper response) {
-		softly.assertThat(response.vehicles).isEmpty();
-		softly.assertThat(response.validationMessage).isEqualTo("Invalid VIN length");
-	}
-
 	protected void pas7082_AddVehicle(PolicyType policyType) {
 		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
@@ -216,22 +211,16 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		updateVehicleRequest.usage = "Business";
 		updateVehicleRequest.registeredOwner = false;
 
-		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
+		VehicleUpdateResponseDto updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
 		assertSoftly(softly -> {
 			softly.assertThat(updateVehicleResponse.usage).isEqualTo("Business");
-			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).validations.get(0).message).startsWith("Usage is Business");
+			assertThat(updateVehicleResponse.validations.get(0).message).startsWith("Usage is Business");
 		});
 
 		ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
 		assertSoftly(softly -> {
-			softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.REGISTERED_OWNERS, "vehOwnerInd")).isTrue();
-			softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.USAGE_IS_BUSINESS, "vehicleUsageCd")).isTrue();
-		});
-
-		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "PAS-7147", 422);
-		assertSoftly(softly -> {
-			softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.REGISTERED_OWNERS, "vehOwnerInd")).isTrue();
-			softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.USAGE_IS_BUSINESS, "vehicleUsageCd")).isTrue();
+			softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.REGISTERED_OWNERS)).isTrue();
+			softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.USAGE_IS_BUSINESS)).isTrue();
 		});
 	}
 
@@ -264,9 +253,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//		assertThat(rateResponse.entrySet().toString()).contains(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 
 		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "PAS-7147", 422);
-		assertSoftly(softly -> {
-			softly.assertThat(helperMiniServices.hasError(bindResponse, ErrorDxpEnum.Errors.REGISTERED_OWNERS, "vehOwnerInd")).isTrue();
-		});
+		assertSoftly(softly -> softly.assertThat(helperMiniServices.hasError(bindResponse, ErrorDxpEnum.Errors.REGISTERED_OWNERS)).isTrue());
 	}
 
 	protected void pas488_VehicleDeleteBody(PolicyType policyType) {
@@ -476,7 +463,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//PAS-14501 end
 
 		if (!"VA".equals(state)) {
-			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage(), "attributeForRules");
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage());
 
 			VehicleUpdateDto updateGaragingAddressVehicleRequest2 = new VehicleUpdateDto();
 			updateGaragingAddressVehicleRequest2.garagingDifferent = false;
@@ -779,7 +766,6 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		});
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void pas9546_maxVehiclesBody() {
 		mainApp().open();
 		//Default policy has 1 vehicles
@@ -1408,14 +1394,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 
 		ErrorResponseDto rateOwnershipUsageResponse = HelperCommon.endorsementRateError(policyNumber);
-		softly.assertThat(rateOwnershipUsageResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-		softly.assertThat(rateOwnershipUsageResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-		softly.assertThat(rateOwnershipUsageResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.REGISTERED_OWNERS.getCode());
-		softly.assertThat(rateOwnershipUsageResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.REGISTERED_OWNERS.getMessage());
-		softly.assertThat(rateOwnershipUsageResponse.errors.get(0).field).isEqualTo("vehOwnerInd");
-		softly.assertThat(rateOwnershipUsageResponse.errors.get(1).errorCode).isEqualTo(ErrorDxpEnum.Errors.USAGE_IS_BUSINESS.getCode());
-		softly.assertThat(rateOwnershipUsageResponse.errors.get(1).message).contains(ErrorDxpEnum.Errors.USAGE_IS_BUSINESS.getMessage());
-		softly.assertThat(rateOwnershipUsageResponse.errors.get(1).field).isEqualTo("vehicleUsageCd");
+		softly.assertThat(helperMiniServices.hasError(rateOwnershipUsageResponse, ErrorDxpEnum.Errors.REGISTERED_OWNERS)).isTrue();
+		softly.assertThat(helperMiniServices.hasError(rateOwnershipUsageResponse, ErrorDxpEnum.Errors.USAGE_IS_BUSINESS)).isTrue();
 
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
@@ -1978,7 +1958,6 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(errorResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 		softly.assertThat(errorResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.UNIQUE_VIN.getCode());
 		softly.assertThat(errorResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.UNIQUE_VIN.getMessage());
-		softly.assertThat(errorResponse.errors.get(0).field).isEqualTo("attributeForRules");
 	}
 
 	protected void pas13920_ReplaceVehicleKeepAssignmentsKeepCoveragesBody() {
