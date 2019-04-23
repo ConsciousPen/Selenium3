@@ -1,15 +1,14 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Denis Semenov Debug" verbose="1" parallel="tests" thread-count="1024">
-    <test name="AZ Auto PAS DOC" parallel="methods">
+<suite name="AutoSS Docgen Tests" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <test name="PasDoc_AdhocGODDdeliveryMethods_Scenarios" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocGODDdeliveryMethods">
-                <methods>
-                    <include name="testScenario1"/>
-                    <include name="testScenario2"/>
-                    <include name="testScenario3"/>
-                </methods>
-            </class>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocGODDdeliveryMethods"/>
         </classes>
     </test>
 </suite>
