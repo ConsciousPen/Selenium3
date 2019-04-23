@@ -396,7 +396,9 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
                 <methods>
-                    <include name="pas12469_dataGatherComparisonPolicyOptionsInformation"/>
+                    <include name="pas22140_dataGatherComparisonPremiumAndCoverages"/>
+                    <include name="pas22140_endorsementComparisonPremiumAndCoverages"/>
+                    <include name="pas22140_renewalComparisonPremiumAndCoverages"/>
                 </methods>
             </class>
         </classes>

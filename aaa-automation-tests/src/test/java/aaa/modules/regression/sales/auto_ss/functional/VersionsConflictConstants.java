@@ -431,7 +431,7 @@ public class VersionsConflictConstants {
 					.put("Drivers.NBFirstName NB NBLastName.Reports.AAA Claims Report Order.License Number", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.Reports.AAA Claims Report Order.License State", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.Reports.AAA Claims Report Order.Gender", AVAILABLE)
-					.put("Vehicles.2008, ACURA, MDX.Coverages.AAAADBCoverage.Automobile Death Benefit", CURRENT)
+					.put("Vehicles.2008, ACURA, MDX.Coverages.Automobile Death Benefit", CURRENT)
 					.put("Drivers.NBFirstName NB NBLastName.Reports.AAAMvr Report Order.Date of Birth", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.Reports.AAAMvr Report Order.License Number", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.Reports.AAAMvr Report Order.License State", AVAILABLE)
