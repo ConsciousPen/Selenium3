@@ -137,7 +137,7 @@ TestData_CT: {
   FormsTab: '@<auto_ss>@DataGather@FormsTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_CT'
 }
 
 GeneralTab_CT: {
@@ -158,6 +158,17 @@ PolicyInformation_CT: {
   Agent: 'House Agent Allied Club',
   Authorized by: QA,
   TollFree Number: 1,
+}
+
+DocumentsAndBindTab_CT: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Coverage Acceptance Statement: Physically Signed,
+    Informed Consent Form - Uninsured Motorist Coverage: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
 }
 
 # ---------- Conversion Data for DE ---------------
@@ -219,7 +230,7 @@ TestData_ID: {
   FormsTab: '@<auto_ss>@DataGather@FormsTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_ID'
 }
 
 GeneralTab_ID: {
@@ -242,6 +253,16 @@ PolicyInformation_ID: {
   TollFree Number: 1
 }
 
+DocumentsAndBindTab_ID: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    UM and UIM Disclosure Statement and Rejection Of Coverage: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
 # ---------- Conversion Data for IN ---------------
 
 TestData_IN: {
@@ -254,7 +275,7 @@ TestData_IN: {
   FormsTab: '@<auto_ss>@DataGather@FormsTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab'
 }
 
 GeneralTab_IN: {
@@ -414,7 +435,7 @@ TestData_MT: {
   FormsTab: '@<auto_ss>@DataGather@FormsTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_MT'
 }
 
 GeneralTab_MT: {
@@ -435,6 +456,16 @@ PolicyInformation_MT: {
   Agent: 'House Agent Great Falls',
   Authorized by: QA,
   TollFree Number: 1
+}
+
+DocumentsAndBindTab_MT: {
+  RequiredToBind: {
+    Uninsured and Underinsured Motorists Coverage - Rejection or Election of Lower Limits: Physically Signed,
+    Auto Insurance Application: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
 }
 
 # ---------- Conversion Data for NJ ---------------
