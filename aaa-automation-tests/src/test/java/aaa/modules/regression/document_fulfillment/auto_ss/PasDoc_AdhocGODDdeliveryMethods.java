@@ -41,9 +41,9 @@ public class PasDoc_AdhocGODDdeliveryMethods extends AutoSSBaseTest {
         verifyOptionIsEnabled("Local Print", true, true, DocGenEnum.Documents.ACPUBI);
 
         verifyOptionIsEnabled("eSignature", true, DocGenEnum.Documents.AA11AZ);
-        verifyOptionIsEnabled("Email", false, DocGenEnum.Documents.AA11AZ);
+        verifyOptionIsEnabled("Email", true, DocGenEnum.Documents.AA11AZ);
         verifyOptionIsEnabled("Fax", false, DocGenEnum.Documents.AA11AZ);
-        verifyOptionIsEnabled("Central Print", false, DocGenEnum.Documents.AA11AZ);
+        verifyOptionIsEnabled("Central Print", true, DocGenEnum.Documents.AA11AZ);
         verifyOptionIsEnabled("Local Print", true, true, DocGenEnum.Documents.AA11AZ);
 
         documentActionTab.saveAndExit();
@@ -119,9 +119,12 @@ public class PasDoc_AdhocGODDdeliveryMethods extends AutoSSBaseTest {
 //        log.info("PAS DOC: Policy created with #" + PolicySummaryPage.getPolicyNumber());
 //        policy.policyDocGen().start();
 //        verifyOptionIsEnabled("Email",true,DocGenEnum.Documents.AA11AZ);
-//        documentActionTab.generateDocuments(DocGenEnum.DeliveryMethod.EMAIL,null,null, DocGenEnum.Documents.ACPUBI);
-//        documentActionTab.saveAndExit();
+//        documentActionTab.generateDocuments(DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.Documents.AA11AZ);
+//
+//
 //    }
+
+
 //    @Parameters({"state"})
 //    @StateList(states = Constants.States.AZ)
 //    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
