@@ -135,7 +135,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                                 HomeSSMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
                 break;
             case PUP:
-                td =getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData")
+                td = getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData")
                         .adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.CancellationActionTab.class.getSimpleName(),
                                 PersonalUmbrellaMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "contains=Non-Payment")
                         .adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.CancellationActionTab.class.getSimpleName(),
