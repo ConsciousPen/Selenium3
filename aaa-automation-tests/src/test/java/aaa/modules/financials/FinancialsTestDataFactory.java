@@ -122,7 +122,9 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     protected TestData getCancellationNonPaymentTd() {
         String date = formatDateToString(TimeSetterUtil.getInstance().getCurrentTime());
         if (getPolicyType().equals(PolicyType.PUP)) {
-
+            return getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData")
+                    .adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.CancellationActionTab.class.getSimpleName(), PersonalUmbrellaMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "contains=Non-Payment")
+                    .adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.CancellationActionTab.class.getSimpleName(), PersonalUmbrellaMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
         }
         return getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData")
                 .adjust(TestData.makeKeyPath(HomeSSMetaData.CancellationActionTab.class.getSimpleName(), HomeSSMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "contains=Non-Payment")
