@@ -429,7 +429,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
-		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
+		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate).plusHours(2); //-63
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		LocalDateTime renewBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 
@@ -440,7 +440,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			ahdexxGeneratedCheck(false, policyNumber, 0, softly);
 
-			executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
+			executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48).plusHours(2));
 			renewalTransactionHistoryCheck(policyNumber, true, true, "inquiry", softly);
 			ahdexxGeneratedCheck(false, policyNumber, 0, softly);
 			renewalTransactionHistoryCheck(policyNumber, true, true, "dataGather", softly);

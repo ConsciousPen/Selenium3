@@ -52,6 +52,7 @@ public class LedgerHelper {
 				"where p.policyNumber = '%s' "+
 				"and pe.premiumtype in ('NET_PREMIUM', 'ENDORSEMENT') "+
 				"and pe.PREMIUMCD='NWT') "+
+				"where TXTYPE not in ('renewal')" +
 				"group by TRANSACTIONDATE, TRANSACTIONEFFECTIVEDATE, txtype "+
 				"order by TRANSACTIONDATE ";
 

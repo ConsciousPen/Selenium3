@@ -11,7 +11,8 @@ import aaa.modules.regression.conversions.template.ManualConversionTemplate;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
-@StateList(states = {Constants.States.DE, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA})
+@StateList(states = {Constants.States.KS, Constants.States.KY, Constants.States.WV, Constants.States.AZ, Constants.States.WY,
+		Constants.States.CT, Constants.States.UT, Constants.States.ID, Constants.States.OR, Constants.States.MT, Constants.States.SD})
 public class ManualConversionTest extends ManualConversionTemplate {
 
 	@Override

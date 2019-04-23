@@ -219,6 +219,9 @@ public class HomeSSHO3FormTestDataGenerator {
 					case "Watercraft":
 						td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0465.WATERCRAFT.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]);
 						break;
+					case "Portable Electronic Equipment":
+						td.put(HomeSSMetaData.EndorsementTab.EndorsementHS0465.PORTABLE_ELECTRONIC_EQUIPMENT.getLabel(), "$" + form.getLimit().toString().split("\\.")[0]);
+						break;
 					//TODO add all Special Limits
 					default:
 						CustomAssertions.fail("Unknown Type of Special Limit: %s", form.getType());
@@ -349,6 +352,14 @@ public class HomeSSHO3FormTestDataGenerator {
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", isFormAdded("HS0926", policyLevel) ? "Edit" : "Add",
 				HomeSSMetaData.EndorsementTab.EndorsementHS0926.COVERAGE_LIMIT.getLabel(), new Dollar(openLPolicy.getForms().stream().filter(c -> "HS0926".equals(c.getFormCode())).findFirst().get().getLimit()).toString().split("\\.")[0]));
+		return tdList;
+	};
+
+	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0927DataFunction = (openLPolicy, policyLevel) -> {
+		List<TestData> tdList = new ArrayList<>();
+		tdList.add(DataProviderFactory.dataOf(
+				"Action", isFormAdded("HS0927", policyLevel) ? "Edit" : "Add",
+				HomeSSMetaData.EndorsementTab.EndorsementHS0927.COVERAGE_LIMIT.getLabel(), new Dollar(openLPolicy.getForms().stream().filter(c -> "HS0927".equals(c.getFormCode())).findFirst().get().getLimit()).toString().split("\\.")[0]));
 		return tdList;
 	};
 
@@ -610,6 +621,7 @@ public class HomeSSHO3FormTestDataGenerator {
 		HS0904(HomeSSMetaData.EndorsementTab.HS_09_04.getLabel(), "HS0904", formHS0904DataFunction),
 		HS0906(HomeSSMetaData.EndorsementTab.HS_09_06.getLabel(), "HS0906", formHS0906DataFunction),
 		HS0926(HomeSSMetaData.EndorsementTab.HS_09_26.getLabel(), "HS0926", formHS0926DataFunction),
+		HS0927(HomeSSMetaData.EndorsementTab.HS_09_27.getLabel(), "HS0927", formHS0927DataFunction),
 		HS0929(HomeSSMetaData.EndorsementTab.HS_09_29.getLabel(), "HS0929", formHS0929DataFunction),
 		HS0931(HomeSSMetaData.EndorsementTab.HS_09_31.getLabel(), "HS0931", formHS0931DataFunction),
 		HS0934(HomeSSMetaData.EndorsementTab.HS_09_34.getLabel(), "HS0934", formHS0934DataFunction),

@@ -778,8 +778,8 @@ public final class HomeSSMetaData {
 				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_26 = declare("HS 09 26", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0926.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-		// public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_27 = declare("HS 09 27", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0927.class,
-		// By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_27 = declare("HS 09 27", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0927.class,
+				By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_29 = declare("HS 09 29", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0929.class, By
 				.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
 		public static final AssetDescriptor<HomeSSEndorsementsMultiAssetList> HS_09_30 = declare("HS 09 30", HomeSSEndorsementsMultiAssetList.class, EndorsementHS0930.class, By
@@ -1252,6 +1252,10 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<RadioGroup> IS_THE_EMPLOYEE_A_PRIVATE_ESTATE_FULL_TIME_OUTSERVANT_INCLUDING_DRIVERS = declare(
 					"Is the employee a Private Estate - Full Time Outservant including drivers?", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> LIABILITY_COVERAGE_LIMIT = declare("Liability coverage limit", ComboBox.class, Waiters.AJAX);
+		}
+
+		public static final class EndorsementHS0927 extends MetaData {
+			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHS0929 extends MetaData {
