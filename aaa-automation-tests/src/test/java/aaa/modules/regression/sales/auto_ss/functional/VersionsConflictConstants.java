@@ -96,6 +96,7 @@ public class VersionsConflictConstants {
             .putAll("Vehicles.Vehicle (2011, CHEVROLET, EXPRESS VAN)","","Vehicle (2011, CHEVROLET, EXPRESS VAN)")
             .putAll("Vehicles.Vehicle (2011, MERCEDES-BENZ, G55AMG)","","Vehicle (2011, MERCEDES-BENZ, G55AMG)")
 			.putAll("Named Insureds.Insured Principal (Second VI Insured)","","Insured Principal (Second VI Insured)")
+			.putAll("Policy Options.Payment Plan","semiAnnualSS","quaterlySS")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -430,7 +431,7 @@ public class VersionsConflictConstants {
 					.put("Drivers.NBFirstName NB NBLastName.Reports.AAA Claims Report Order.License Number", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.Reports.AAA Claims Report Order.License State", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.Reports.AAA Claims Report Order.Gender", AVAILABLE)
-					.put("Vehicles.2008, ACURA, MDX.Coverages.AAAADBCoverage.Automobile Death Benefit", CURRENT)
+					.put("Vehicles.2008, ACURA, MDX.Coverages.Automobile Death Benefit", CURRENT)
 					.put("Drivers.NBFirstName NB NBLastName.Reports.AAAMvr Report Order.Date of Birth", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.Reports.AAAMvr Report Order.License Number", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.Reports.AAAMvr Report Order.License State", AVAILABLE)
@@ -659,5 +660,22 @@ public class VersionsConflictConstants {
 	protected static final ArrayListMultimap<String, String> REMOVE_NAMED_INSURED = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
 					.build());
+
+	/**
+	 *  Maps full attribute path on conflict page to version to select (Current, Available).
+	 */
+	protected static final ArrayListMultimap<String, String> PREMIUM_AND_COVERAGES = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("Policy Options.Payment Plan", AVAILABLE)
+					.build());
+
+	//all components/attributes that should be on Comparison page  Rolled on/OOSE
+	static final Multimap<String, String> PREMIUM_AND_COVERAGES_VERSION_2 = ImmutableListMultimap.<String, String>builder()
+			.put("Policy Options", "Payment Plan")
+			.build();
+
+	//all components/attributes that should be on Comparison page  Rolled on/OOSE
+	static final Multimap<String, String> PREMIUM_AND_COVERAGES_VERSION_1 = ImmutableListMultimap.<String, String>builder()
+			.build();
 }
 

@@ -1654,6 +1654,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			if (subCoverages != null) {
 				for (Coverage subCoverage : subCoverages) {
 					coverageWithSubCoveragesActual.add(subCoverage.getCoverageCd());
+					List<Coverage> subCoveragesOfSubCoverage = subCoverage.getSubCoverages();
+					if (subCoveragesOfSubCoverage != null) {
+						for (Coverage subCoverageOfSubCoverage : subCoveragesOfSubCoverage) {
+							coverageWithSubCoveragesActual.add(subCoverageOfSubCoverage.getCoverageCd());
+						}
+					}
 				}
 			}
 		}
@@ -2556,7 +2562,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//Add COMPDED coverage again and check Transportation Expense
 		PolicyCoverageInfo updateCoverageResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid1, DXPRequestFactory.createUpdateCoverageRequest(coverageCd, availableLimits2), PolicyCoverageInfo.class);
 		List<Coverage> coveragesVehicle2 = updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages;
-		coverageXproperties(softly, 4, coveragesVehicle2, "RREIM", "Transportation Ex2pense", "600", "$600 (Included)", "Per Occurrence", true, true);
+		coverageXproperties(softly, 4, coveragesVehicle2, "RREIM", "Transportation Expense", "600", "$600 (Included)", "Per Occurrence", true, true);
 
 		List<CoverageLimit> availableLimitsNd = coveragesVehicle2.get(4).getAvailableLimits();
 		softly.assertThat(availableLimitsNd.get(0).coverageLimit).isEqualTo("600");
@@ -5883,9 +5889,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				, covPIPRIMINSPersonalExpected.getInsurerName(), covPIPRIMINSPersonalExpected.getCertNum());
 		ErrorResponseDto errorResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, ErrorResponseDto.class, 422);
 		if (getState().equals(Constants.States.NJ)) {
-			assertThat(helperMiniServices.hasError(errorResponse, ErrorDxpEnum.Errors.INSURER_NAME_POLICY_GROUP_CERTIFICATE_BLANK_NJ, "attributeForRules")).isTrue();
+			assertThat(helperMiniServices.hasError(errorResponse, ErrorDxpEnum.Errors.INSURER_NAME_POLICY_GROUP_CERTIFICATE_BLANK_NJ)).isTrue();
 		} else {//for NY
-			assertThat(helperMiniServices.hasError(errorResponse, ErrorDxpEnum.Errors.INSURER_NAME_POLICY_GROUP_CERTIFICATE_BLANK_NY, "attributeForRules")).isTrue();
+			assertThat(helperMiniServices.hasError(errorResponse, ErrorDxpEnum.Errors.INSURER_NAME_POLICY_GROUP_CERTIFICATE_BLANK_NY)).isTrue();
 		}
 
 		//Assert that coverage is not updated as there was error
