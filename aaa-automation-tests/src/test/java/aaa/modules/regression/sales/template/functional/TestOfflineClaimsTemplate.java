@@ -268,7 +268,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             {
                 errorTab.overrideAllErrors();
                 errorTab.submitTab();
-//                documentsAndBindTab.submitTab();
             }
         payTotalAmtDue(policyNumber);
     }
@@ -993,6 +992,9 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         createCasClaimResponseAndUploadWithUpdatedDates(policyNumber, INC_IN_RATING_3RD_RENEWAL_DATA_MODEL, UPDATE_CAS_RESPONSE_DATE_FIELDS);
         runRenewalClaimReceiveJob();
 
+        //Move to R-35 so PAS-22026 override changes are saved
+        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(35));
+
         // Retrieve policy and verify claim presence on renewal image
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -1000,7 +1002,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         //Select the Active Policy row
         if (tableSearchResults.isPresent()) {
             tableSearchResults.getRow("Eff. Date",
-                    TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
+                    TimeSetterUtil.getInstance().getCurrentTime().plusDays(35).minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
                     .getCell(1).controls.links.getFirst().click();
         }
 
@@ -1022,14 +1024,28 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         // PAS-18300 - Assert that Permissive Use Claim IS Included In Rating because Date of Loss is equal to current system date and assigned to FNI - !!Claim will get Same Day Waiver after premium Calc
         activityAssertions(1,1,4,4,"Internal Claims", INC_RATING_CLAIM_4,false, "Yes");
 
+        //Propose the R-35 policy Image
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.submitTab();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        documentsAndBindTab.submitTab();
+        ErrorTab errorTab = new ErrorTab();
+        if (errorTab.isVisible())
+        {
+            errorTab.overrideAllErrors();
+            errorTab.submitTab();
+        }
+        payTotalAmtDue(policyNumber);
+
         ////////////////////////////////////////////////////////////////////////////////////
 
         // PAS-22026 - Override claim 2 to be not included in rating
-        tableActivityInformationList.selectRow(2);
-        activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER.getLabel(), RadioGroup.class).setValue("No");
+//        tableActivityInformationList.selectRow(2);
+//        activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER.getLabel(), RadioGroup.class).setValue("No");
 
         //Issue 4th Renewal
-        issueGeneratedRenewalImage(policyNumber);
+//        issueGeneratedRenewalImage(policyNumber);
 
         //Run Jobs to create create 5th renewal
         casRenewal(1, policyNumber);
@@ -1057,10 +1073,10 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         activityAssertions(1,1,4,1,"Internal Claims", INC_RATING_CLAIM_1,false, "No");
         // PAS_22026 - Claim 2 Include in Rating = NO (Maintain Agent Override)
         activityAssertions(1,1,4,2,"Internal Claims", INC_RATING_CLAIM_2,false, "No");
-        // PAS_22026 - Claim 3 Include in Rating = YES (Passed last Age check, still within 60 month charge window)
+        // PAS_22026 - Claim 3 Include in Rating = YES (Passed last Age check, still within 60 month charge window - at 25th month)
         activityAssertions(1,1,4,3,"Internal Claims", INC_RATING_CLAIM_3,false, "Yes");
         // PAS_22026 - Claim 4 Include in Rating = NO (Maintain Same Day Waiver from Claim 3)
-        activityAssertions(1,1,4,4,"Internal Claims", INC_RATING_CLAIM_4,false, "No");
+//        activityAssertions(1,1,4,4,"Internal Claims", INC_RATING_CLAIM_4,false, "No");
 
         switch (SCENARIO){
                 case "Short":
@@ -1076,17 +1092,17 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
                     if (tableSearchResults.isPresent()) {
                         tableSearchResults.getRow("Eff. Date",
-                                TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
+                                TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY))
                                 .getCell(1).controls.links.getFirst().click();
                     }
 
-                    buttonRenewals.click();
-                    policy.dataGather().start();
+                    policy.renew().start();
                     NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
                     // PAS-22026 - Assert that claim 3 Included in Rating = NO (Outside of 60 month charge window)
                     tableActivityInformationList.selectRow(3);
                     activityAssertions(1,1,4,3,"Internal Claims", INC_RATING_CLAIM_3,false, "No");
+                    assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.NOT_INCLUDED_IN_POINTS_AND_OR_TIER_REASON_CODES).getValue().equals("Outside Experience Period"));
                     break;
             }
     }
