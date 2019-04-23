@@ -26,6 +26,8 @@ TestData_UT: {
 }
 
 TestData_AZ: {
+  Membership TP1: [-63, NONE],
+  Membership TP2: [-48, NONE],
   Renew generate image: [-73, NONE],
   Renew insurance score reordering: [-63, NONE],
   Renew check uw rules: [-57, NONE],

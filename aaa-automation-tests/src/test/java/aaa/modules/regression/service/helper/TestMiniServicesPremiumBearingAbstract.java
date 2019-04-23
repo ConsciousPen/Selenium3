@@ -16,6 +16,7 @@ import org.testng.ITestContext;
 import com.exigen.ipb.eisa.utils.Dollar;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -132,7 +133,15 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		createCustomerIndividual();
-		policyType.get().createPolicy(testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state));
+		TestData td;
+		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+			td = getPolicyDefaultTD().adjust(testDataManager.getDefault(aaa.modules.regression.sales.auto_ca.select.TestPolicyNano.class).getTestData("TestData_Adjustment").resolveLinks());
+		} else if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+			td = getPolicyDefaultTD().adjust(testDataManager.getDefault(aaa.modules.regression.sales.auto_ca.choice.TestPolicyNano.class).getTestData("TestData_Adjustment").resolveLinks());
+		} else {
+			td = testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state).resolveLinks();
+		}
+		policyType.get().createPolicy(td);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		mainApp().close();
@@ -1436,7 +1445,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		}
 	}
 
-	protected void pas9456_9455_PolicyLockUnlockServicesBody() {
+	protected void policyLockUnlockServicesBody() {
 		myPolicyUserAddedConfigCheck();
 		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();

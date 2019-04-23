@@ -49,7 +49,7 @@ public class TestFinanceEPCalculationSmallBalanceWriteOff extends FinanceOperati
 
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.AZ})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-21458")
 	public void pas21458_testFinanceEPCalculationSmallBalanceWriteOff(@Optional("AZ") String state) {
 		BillingAccount billingAccount = new BillingAccount();
@@ -66,6 +66,7 @@ public class TestFinanceEPCalculationSmallBalanceWriteOff extends FinanceOperati
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Check"), BillingSummaryPage.getTotalDue().add(-5));
 
+		TimeSetterUtil.getInstance().nextPhase(today.plusHours(2));
 		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);

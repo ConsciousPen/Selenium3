@@ -27,7 +27,6 @@ import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 
 public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPointsVRDPageAbstract {

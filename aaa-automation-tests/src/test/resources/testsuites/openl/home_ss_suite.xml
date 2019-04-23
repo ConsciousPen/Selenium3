@@ -106,7 +106,7 @@
         </classes>
     </test>
     <test name="HomeSS [NY] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="NYTests-20170915.xls"/>
+        <parameter name="fileName" value="NYTests-20170915_part1.xls"/>
         <parameter name="policyNumbers" value="1,2"/>
         <classes>
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>

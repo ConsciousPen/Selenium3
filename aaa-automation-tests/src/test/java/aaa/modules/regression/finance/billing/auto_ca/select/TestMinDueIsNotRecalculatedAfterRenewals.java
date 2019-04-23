@@ -49,14 +49,15 @@ public class TestMinDueIsNotRecalculatedAfterRenewals extends FinanceOperations 
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_SELECT;
 	}
+
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22575")
 
-	public void pas22575_testMinDueIsNotRecalculatedAfterRenewals (@Optional("CA") String state) {
+	public void pas22575_testMinDueIsNotRecalculatedAfterRenewals(@Optional("CA") String state) {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData")
-		.adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.STANDARD_MONTHLY);
+				.adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.STANDARD_MONTHLY);
 		String policyNumber = openAppAndCreatePolicy(td);
 		LocalDateTime policyExpDate = PolicySummaryPage.getExpirationDate();
 		payTotalAmtDue(policyNumber);
@@ -87,7 +88,7 @@ public class TestMinDueIsNotRecalculatedAfterRenewals extends FinanceOperations 
 		assertThat(BillingSummaryPage.tableBillsStatements.getValuesFromRows(BillingConstants.BillingBillsAndStatmentsTable.TYPE)).doesNotContain(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER);
 	}
 
-	private void renewalAndChangeBodilyInjury(String bodilyInjuryAmount){
+	private void renewalAndChangeBodilyInjury(String bodilyInjuryAmount) {
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());

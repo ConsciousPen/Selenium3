@@ -13,6 +13,7 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestOffLineClaims">
                 <methods>
                     <include name="pas14679_CompDLMatchMore"/>
+                    <include name="pas14679_CompDLPUMatchMoreManual"/>
                     <include name="pas8310_nameDOBYOBMatchMore"/>
                     <include name="pas14552_includeClaimsInRatingDetermination"/>
                     <include name="pas22172_ReconcilePUEndorsementAFRD"/>

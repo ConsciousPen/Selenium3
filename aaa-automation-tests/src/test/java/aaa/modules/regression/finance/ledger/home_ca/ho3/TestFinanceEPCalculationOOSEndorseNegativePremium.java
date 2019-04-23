@@ -46,7 +46,7 @@ public class TestFinanceEPCalculationOOSEndorseNegativePremium extends FinanceOp
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20308")
 	public void pas20308_testFinanceEPCalculationOOSEndorseNegativePremium(@Optional("CA") String state) {
 

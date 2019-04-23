@@ -47,7 +47,7 @@ public class TestFinanceEPCalculationFlagTransactions extends FinanceOperations 
 
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.AZ})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20300")
 	public void pas20300_testFinanceEPCalculationFlagTransactions(@Optional("AZ") String state) {
 

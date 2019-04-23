@@ -415,7 +415,14 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(BatchJob.cftDcsEodJob);
 		mainApp().open();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		//billingAccount.approveRefund().perform(1);
+		Map<String, String> query = new HashMap<>();
+		query.put(BillingConstants.BillingPendingTransactionsTable.TYPE, BillingConstants.BillingPendingTransactionsType.REFUND);
+		query.put(BillingConstants.BillingPendingTransactionsTable.SUBTYPE, BillingConstants.BillingPendingTransactionsSubtype.AUTOMATED_REFUND);
+		query.put(BillingConstants.BillingPendingTransactionsTable.REASON, BillingConstants.BillingPendingTransactionsReason.OVERPAYMENT);
+		query.put(BillingConstants.BillingPendingTransactionsTable.STATUS, BillingConstants.BillingPendingTransactionsStatus.PENDING);
+		if (BillingSummaryPage.tablePendingTransactions.getRow(query).isPresent()) {
+			billingAccount.approveRefund().perform(1);
+		}
 		new BillingPaymentsAndTransactionsVerifier()
 				.setTransactionDate(refundDate)
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)

@@ -57,7 +57,7 @@ public class TestMinDueIsNotRecalculatedAfterThirdEndorsement extends FinanceOpe
 	}
 	@Parameters({"state"})
 	@StateList(statesExcept = {States.CA})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22575")
 
 	public void pas22575_testMinDueIsNotRecalculatedAfterThirdEndorsement(@Optional("KY") String state) {

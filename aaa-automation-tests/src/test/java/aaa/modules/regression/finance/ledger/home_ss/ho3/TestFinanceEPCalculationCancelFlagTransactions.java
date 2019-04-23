@@ -42,7 +42,7 @@ public class TestFinanceEPCalculationCancelFlagTransactions extends FinanceOpera
 
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.PA})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20300")
 	public void pas20300_testFinanceEPCalculationCancelFlagTransactions(@Optional("PA") String state) {
 

@@ -82,6 +82,13 @@ public class TimePoints {
 		return returnDate;
 	}
 
+	public LocalDateTime getMembershipTp1(LocalDateTime date) {
+		return getTimepoint(date, TimepointsList.MEMBERSHIP_VALIDATION_TP1, true);
+	}
+	public LocalDateTime getMembershipTp2(LocalDateTime date) {
+		return getTimepoint(date, TimepointsList.MEMBERSHIP_VALIDATION_TP2, true);
+	}
+
 	private boolean isWorkingDay(LocalDateTime date, TimepointsList timePointName) {
 		LocalDateTime d = getTimepoint(date, timePointName, false);
 		// analogue of DateTimeUtils.isWorkingDay() which is private
@@ -300,6 +307,8 @@ public class TimePoints {
 	}
 
 	public enum TimepointsList {
+		MEMBERSHIP_VALIDATION_TP1("Membership TP1"),
+		MEMBERSHIP_VALIDATION_TP2("Membership TP2"),
 		RENEW_GENERATE_IMAGE("Renew generate image"), //
 		RENEW_CHECK_UW_RULES("Renew check uw rules"), //
 		RENEW_REPORTS("Renew reports"), //

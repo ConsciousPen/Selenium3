@@ -53,8 +53,8 @@ public class HomeSSDP3FormTestDataGenerator {
 	};
 
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formDS0468DataFunction = openLPolicy -> {
-		if (!openLPolicy.getForms().stream().anyMatch(c -> "DS0469".equals(c.getFormCode()))) {
-			throw new IstfException("Form DS 04 69 should be added before endorsement DS 04 68");
+		if (!openLPolicy.getForms().stream().anyMatch(c -> "HS0454".equals(c.getFormCode())) && !openLPolicy.getForms().stream().anyMatch(c -> "DS0469".equals(c.getFormCode()))) {
+			throw new IstfException("Form HS 04 54 (DS 04 69) must be added before endorsement HS 04 36 (DS 04 68)");
 		}
 		List<TestData> tdList = new ArrayList<>();
 		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "HS0436".equals(c.getFormCode())).findFirst().get();
@@ -68,7 +68,7 @@ public class HomeSSDP3FormTestDataGenerator {
 
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formDS0469DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
-		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "DS0469".equals(c.getFormCode())).findFirst().get();
+		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "HS0454".equals(c.getFormCode())).findFirst().get();
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", "Add",
 				HomeSSMetaData.EndorsementTab.EndorsementDS0469.DEDUCTIBLE.getLabel(), form.getOptionalValue().toString().split("\\.")[0] + "%",
@@ -482,7 +482,7 @@ public class HomeSSDP3FormTestDataGenerator {
 		DS0420(HomeSSMetaData.EndorsementTab.DS_04_20.getLabel(), "DS0420", formDS0420DataFunction),
 		DS0463(HomeSSMetaData.EndorsementTab.DS_04_63.getLabel(), "DS0463", formDS0463DataFunction),
 		DS0468(HomeSSMetaData.EndorsementTab.DS_04_68.getLabel(), "HS0436", formDS0468DataFunction),    // HS 04 36 --> DS 04 68
-		DS0469(HomeSSMetaData.EndorsementTab.DS_04_69.getLabel(), "DS0469", formDS0469DataFunction),
+		DS0469(HomeSSMetaData.EndorsementTab.DS_04_69.getLabel(), "HS0454", formDS0469DataFunction),    // HS 04 54 --> DS 04 69
 		DS0471(HomeSSMetaData.EndorsementTab.DS_04_71.getLabel(), "DS0471", formDS0471DataFunction),
 		DS0473(HomeSSMetaData.EndorsementTab.DS_04_73.getLabel(), "DS0473", formDS0473DataFunction),
 		DS0475(HomeSSMetaData.EndorsementTab.DS_04_75.getLabel(), "DS0475", formDS0475DataFunction),

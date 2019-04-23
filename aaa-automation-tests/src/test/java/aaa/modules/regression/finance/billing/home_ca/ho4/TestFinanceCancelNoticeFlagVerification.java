@@ -50,7 +50,7 @@ public class TestFinanceCancelNoticeFlagVerification extends FinanceOperations {
 
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-26250")
 	public void pas26250_testFinanceCancelNoticeFlagVerification(@Optional("CA") String state) {
 		List<LocalDateTime> installmentDueDates;

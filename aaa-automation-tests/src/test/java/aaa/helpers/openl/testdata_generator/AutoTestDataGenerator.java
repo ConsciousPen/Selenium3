@@ -30,7 +30,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 	List<String> getPolicyLevelCoverageCDs() {
 		List<String> policyLevelCoverage = Arrays.asList("BI", "BI-Verbal", "RBI", "PD", "UMBI", "UIMBI", "EUIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB", "UIMPD", "EUIMPD", "UM/SUM", "APIP", "OBEL");
-		if (!getState().equals(Constants.States.OR)) {
+		if (!getState().equals(Constants.States.OR) || !getState().equals(Constants.States.NV)) {
 			policyLevelCoverage = new ArrayList<>(policyLevelCoverage);
 			policyLevelCoverage.add("UMPD");
 		}
@@ -316,18 +316,31 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case Constants.States.KY:
 				coveragesMap.put("PIP", AutoSSMetaData.PremiumAndCoveragesTab.BASIC_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel());
 				break;
+			case Constants.States.NY:
+				coveragesMap.put("PIP", AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel());
+				break;
 			default:
 				coveragesMap.put("PIP", AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION.getLabel());
 				break;
 		}
 
-		if (Constants.States.KY.equals(getState())) {
-			coveragesMap.put("APIP", AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel());
-		} else {
-			coveragesMap.put("APIP", AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PIP.getLabel());
+		switch (getState()) {
+			case Constants.States.KY:
+				coveragesMap.put("APIP", AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel());
+				break;
+			case Constants.States.NY:
+				coveragesMap.put("APIP", AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PERSONAL_INJURY_PROTECTION.getLabel());
+				break;
+			default:
+				coveragesMap.put("APIP", AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PIP.getLabel());
 		}
 
-		coveragesMap.put("UMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
+		if (Constants.States.NV.equals(getState())) {
+			coveragesMap.put("UMPD", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.UMPD_CDW.getLabel());
+		} else {
+			coveragesMap.put("UMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
+		}
+
 		coveragesMap.put("UIMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
 
 		if (Constants.States.PA.equals(getState())) {

@@ -168,15 +168,22 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		currentCarrierInformationData.putAll(
 				getGeneralTabAgentInceptionAndExpirationData(openLPolicy.getAutoInsurancePersistency(), openLPolicy.getAaaInsurancePersistency(), openLPolicy.getEffectiveDate()));
 
-		//TODO-dchubkov: all ID states tests have "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)" value for "Agent Entered Current/Prior Carrier" but it's missed. To be investigated...
-		if (StringUtils.isNotBlank(openLPolicy.getCappingDetails().getCarrierCode()) && !getState().equals(Constants.States.ID)) {
+		if (StringUtils.isNotBlank(openLPolicy.getCappingDetails().getCarrierCode())) {
 			//TODO-dchubkov: add common method for replacing values from excel?
 			String carrierCode = openLPolicy.getCappingDetails().getCarrierCode().trim().replaceAll("\u00A0", "");
+			switch (carrierCode) {
+				case "ACAIC":
+					carrierCode = "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)";
+					break;
+				case "WUIC":
+					carrierCode = "Western United";
+			}
 			currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
 		} else if (openLPolicy.isCappedPolicy() && openLPolicy.isLegacyConvPolicy()) {
 			String carrierCode;
 			switch (getState()) {
 				//TODO-dchubkov: fill carrier codes for other states, see "Capping" tab -> "Carrier Code" column in algorithm files for each state
+				case Constants.States.ID:
 				case Constants.States.KY:
 				case Constants.States.UT:
 				case Constants.States.WV:
@@ -633,6 +640,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		if (getState().equals(Constants.States.ID) && !policyCoveragesData.containsKey(getPremiumAndCoveragesTabCoverageName("UIMBI"))) {
 			policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "starts=No Coverage");
+		}
+
+		if (getState().equals(Constants.States.NV) && !policyCoveragesData.containsKey(getPremiumAndCoveragesTabCoverageName("MP"))) {
+			policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS.getLabel(), "starts=No Coverage");
 		}
 
 		if (getState().equals(Constants.States.NV)) {

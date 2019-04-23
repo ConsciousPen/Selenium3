@@ -41,7 +41,7 @@ public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidByFeeA
 
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.WV})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22285")
 	public void pas22285_testFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid(@Optional("WV") String state) {
 

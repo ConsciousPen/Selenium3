@@ -51,13 +51,14 @@ public class TestMinDueIsRecalculatedAfterRenewals extends FinanceOperations {
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_SS_HO6;
 	}
+
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.NJ})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22575")
 
-	public void pas22575_testMinDueIsRecalculatedAfterRenewals (@Optional("NJ") String state) {
-		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()),"DataGather", "TestData")
+	public void pas22575_testMinDueIsRecalculatedAfterRenewals(@Optional("NJ") String state) {
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData")
 				.adjust(TestData.makeKeyPath(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.ELEVEN_PAY);
 		String policyNumber = openAppAndCreatePolicy(td);
 		LocalDateTime policyExpDate = PolicySummaryPage.getExpirationDate();
@@ -76,15 +77,14 @@ public class TestMinDueIsRecalculatedAfterRenewals extends FinanceOperations {
 		SearchPage.openBilling(policyNumber);
 		Dollar minDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS, ProductConstants.PolicyStatus.PROPOSED).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue());
 		BillingSummaryPage.openPolicy(1);
-		renewalAndChangeCoverages("$2,000,000","$100");
+		renewalAndChangeCoverages("$2,000,000", "$100");
 
 		// Check that Renewal Proposal Min Due did not change
 		SearchPage.openBilling(policyNumber);
 		assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS, ProductConstants.PolicyStatus.PROPOSED).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue())).isEqualTo(minDue);
 		TimeSetterUtil.getInstance().nextPhase(policyExpDate.minusDays(16));
 		searchForPolicy(policyNumber);
-		renewalAndChangeCoverages("$100,000","$10,000");
-
+		renewalAndChangeCoverages("$100,000", "$10,000");
 
 		// Check that Renewal Proposal Min Due did change and Renewal Bill was discarded
 		SearchPage.openBilling(policyNumber);
@@ -92,7 +92,7 @@ public class TestMinDueIsRecalculatedAfterRenewals extends FinanceOperations {
 		assertThat(BillingSummaryPage.tableBillsStatements.getValuesFromRows(BillingConstants.BillingBillsAndStatmentsTable.TYPE)).contains(BillingConstants.BillsAndStatementsType.DISCARDED_BILL);
 	}
 
-	private void renewalAndChangeCoverages (String CoverageEAmount, String DeductibleAmount){
+	private void renewalAndChangeCoverages(String CoverageEAmount, String DeductibleAmount) {
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());

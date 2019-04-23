@@ -1180,6 +1180,7 @@
             <class name="aaa.modules.regression.service.pup.TestPolicyRenewDeletePending"/>
             <class name="aaa.modules.regression.service.pup.TestPolicyRenewFlatCancellation"/>
             <class name="aaa.modules.regression.sales.pup.TestMembershipAndAddressDetailsFromUnderlyingPolicy"/>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceEliminateManualEscheatmentReversalCapability"/>
         </classes>
     </test>
     <!-- CA Earthquake Smoke and Functional Tests -->

@@ -347,13 +347,13 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	}
 
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-25187"})
 	public void pas25187_renewalComparisonAssignment(@Optional("CA") String state) {
 		renewalComparison(getTDNewBusinessPolicy(), getTDAssignmentNoChangeVersion(), getTDAssignmentVersion2(), VersionsComparisonConstants.ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
 	}
-//Uncomment when P&C RM code is merged to master
-	/*private TestData getTDPremiumCoveragesVersion2() {
+
+	private TestData getTDPremiumCoveragesVersion2() {
 		return getTestSpecificTD("TestData_PremiumCoverages_Version2");
 	}
 
@@ -366,5 +366,5 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-14161"})
 	public void pas12469_dataGatherComparisonPolicyOptionsInformation(@Optional("CA") String state) {
 		dataGatherComparison(getTDNBQuote(),getTDPremiumCoveragesVersion1(), getTDPremiumCoveragesVersion2(), VersionsComparisonConstants.DATA_GATHER_PREMIUM_AND_COVERAGES, "PremiumAndCoveragesTab", "PremiumCoveragesInformation");
-	}*/
+	}
 }

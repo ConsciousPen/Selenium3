@@ -1064,7 +1064,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(errorResponseDto.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 			softly.assertThat(errorResponseDto.errors.get(0).errorCode).isEqualTo(errorCode);
 			softly.assertThat(errorResponseDto.errors.get(0).message).contains(errorMessage);
-			softly.assertThat(errorResponseDto.errors.get(0).field).isEqualTo("age");
 
 			//validate viewEndorsementDrivers response
 			softly.assertThat(responseViewDrivers1.driverList.size()).isEqualTo(1); //new driver is not added
@@ -1526,7 +1525,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
-	private void addDriverAndVerify(String policyNumber, ETCSCoreSoftAssertions softly, boolean flag) {
+	private void addDriverAndVerify(String policyNumber, ETCSCoreSoftAssertions softly, boolean flag, String bindflag) {
 
 		// addDriver via dxp
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Spouse", "Driver", "Smith", "1979-02-13", null);
@@ -1574,6 +1573,15 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
 				.DriverTab.MARITAL_STATUS).getValue()).isEqualTo("Married");
 		driverTab.saveAndExit();
+
+		if (bindflag.equals("true")) {
+
+			HelperCommon.orderReports(policyNumber, driverOid, OrderReportsResponse.class, 200);
+
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		}
+
 	}
 
 	private void updateDriver(ETCSCoreSoftAssertions softly, String policyNumber, String dOid, UpdateDriverRequest updateDriverRequest, String mStatus) {
@@ -1590,7 +1598,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			String policyNumber = getCopiedPolicy();
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-			addDriverAndVerify(policyNumber, softly, true);
+			addDriverAndVerify(policyNumber, softly, true, "false");
 
 		});
 	}
@@ -1601,7 +1609,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			String policyNumber = getCopiedPolicy();
 			String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(3).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 			HelperCommon.createEndorsement(policyNumber, endorsementDate);
-			addDriverAndVerify(policyNumber, softly, false);
+			addDriverAndVerify(policyNumber, softly, false, "true");
 		});
 	}
 
@@ -1934,13 +1942,13 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		errorValidationRelationToFni(updateDriverResponse);
 
 		//Rate Policy and check Error
-		helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage(), "driverRelToApplicantCd");
+		helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage());
 
 		// go to pended endorsement
 		rateFromPas(policyNumber);
 
 		// bind policy and check error
-		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage(), "driverRelToApplicantCd");
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage());
 
 		//Start PAS-18357
 		//bind policy from PAS
@@ -1972,13 +1980,13 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		errorValidationRelationToFni(updateDriverResponseORR);
 
 		//Rate Policy and check Error
-		helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage(), "driverRelToApplicantCd");
+		helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage());
 
 		// go to pended endorsement
 		rateFromPas(policyNumber);
 
 		// bind policy and check error
-		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage(), "driverRelToApplicantCd");
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage());
 
 		// update driver
 		UpdateDriverRequest updateDriverRequestOT = DXPRequestFactory.createUpdateDriverRequest("female", "D32329585", 16, "VA", "OT", "MSS");
@@ -1986,13 +1994,13 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		errorValidationRelationToFni(updateDriverResponseOT);
 
 		//Rate Policy and check Error
-		helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage(), "driverRelToApplicantCd");
+		helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage());
 
 		// go to pended endorsement
 		rateFromPas(policyNumber);
 
 		// bind policy and check error
-		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage(), "driverRelToApplicantCd");
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage());
 	}
 
 	protected void pas16578_removeDriverCheckIfTaskWasCreatedBody() {
@@ -2514,7 +2522,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(addDriver2.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 			softly.assertThat(addDriver2.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.TOO_OLD_DRIVER_ERROR.getCode());
 			softly.assertThat(addDriver2.errors.get(0).message).contains(ErrorDxpEnum.Errors.TOO_OLD_DRIVER_ERROR.getMessage());
-			softly.assertThat(addDriver2.errors.get(0).field).contains("birthDate");
 
 			AddDriverRequest addDriverRequest3 = DXPRequestFactory.createAddDriverRequest("Robert", "Davis", "Smith", "1900-01-01", "I");
 			DriversDto addDriver3 = HelperCommon.addDriver(policyNumber, addDriverRequest3, DriversDto.class, 201);

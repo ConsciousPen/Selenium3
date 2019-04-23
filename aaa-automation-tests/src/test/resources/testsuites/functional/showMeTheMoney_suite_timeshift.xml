@@ -85,32 +85,4 @@
             <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationRenewal"/>
         </classes>
     </test>
-    <!-- PAS-22575 - MinDueIsNotRecalculatedAfter_Renewals -->
-    <test name="PAS-22575 test MinDue Is Not Recalculated After Renewals" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.finance.billing.auto_ca.select.TestMinDueIsNotRecalculatedAfterRenewals"/>
-        </classes>
-    </test>
-    <!-- PAS-22575 - MinDueIsRecalculatedAfter_Endorsements -->
-    <test name="PAS-22575 test MinDue Is Recalculated After Endorsements" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestMinDueIsRecalculatedAfterEndorsements"/>
-        </classes>
-    </test>
-    <!-- PAS-22575 - MinDueIsNotRecalculatedAfter_ThirdEndorsement -->
-    <test name="PAS-22575 test MinDue Is Not Recalculated After Third Endorsement" parallel="methods" thread-count="1024">
-        <parameter name="state" value="KY"/>
-        <classes>
-            <class name="aaa.modules.regression.finance.billing.auto_ss.TestMinDueIsNotRecalculatedAfterThirdEndorsement"/>
-        </classes>
-    </test>
-    <!-- PAS-22575 - MinDueIsRecalculatedAfter_Renewals -->
-    <test name="PAS-22575 test MinDue Is Recalculated After Renewals" parallel="methods" thread-count="1024">
-        <parameter name="state" value="NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.finance.billing.home_ss.ho6.TestMinDueIsRecalculatedAfterRenewals"/>
-        </classes>
-    </test>
 </suite>

@@ -1,10 +1,9 @@
 package aaa.main.enums;
 
-import com.google.common.collect.ImmutableList;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import com.google.common.collect.ImmutableList;
 
 public enum CoverageInfo {
 
@@ -41,6 +40,15 @@ public enum CoverageInfo {
 	APIP_NJ("APIP", "Added Personal Injury Protection", CoverageLimits.COV_FALSE, AvailableCoverageLimits.COV_APIP_NJ, null),
 	APIP_NME_NO_NJ("APIP", "Added Personal Injury Protection", CoverageLimits.COV_TRUE, AvailableCoverageLimits.COV_APIP_NJ, null),
 	APIP_NME_YES_PIP_YES_NJ("APIP", "Added Personal Injury Protection", CoverageLimits.COV_TRUE, AvailableCoverageLimits.COV_APIP_NJ, null),
+	PIP_NY("PIP", "Personal Injury Protection", null, null),
+	PIPDED_NY("PIPDED", "Personal Injury Protection Deductible", CoverageLimits.DED_200, AvailableCoverageLimits.PIPDED_NY, "Deductible"),
+	OBEL_NY("OBEL", "Optional Basic Economic Loss", CoverageLimits.COV_0, AvailableCoverageLimits.OBEL_NY, "Per Person"),
+	APIP_NY("APIP", "Additional Personal Injury Protection", CoverageLimits.COV_0, AvailableCoverageLimits.APIP_NY, "Per Person"),
+	AGGPIP_NY("AGGPIP", "Aggregate Personal Injury Protection", null, null, "Per Person"),
+	MNDPIP_NY("MNDPIP", "Mandatory Personal Injury Protection", CoverageLimits.COV_50000, null, "Per Person"),
+	MAXMONTHLYLOSS_NY("MAXMONTHLYLOSS", "Maximum Monthly Work Loss", CoverageLimits.COV_2000, null, "Per Person"),
+	OTHERNECEXP_NY("OTHERNECEXP", "Other Necessary Expenses", CoverageLimits.COV_25, null, "Per Day"),
+	DEATHBENEFIT_NY("DEATHBENEFIT", "Death Benefits", CoverageLimits.COV_2000, null, "Per Person"),
 	INCCONT_NJ("PIPMAXINCCONT", "Income Continuation", null, null, null),
 	ESSENSERV_NJ("ESSENSERV", "Essential Services", null, null, null),
 	ESSENSERV_NME_YES_NJ("ESSENSERV", "Essential Services", CoverageLimits.COV_4380, null, null),
@@ -49,7 +57,7 @@ public enum CoverageInfo {
 	FUNEXP_NME_NO_NJ("FUNEXP", "Funeral Expense/Death Benefits", CoverageLimits.COV_1000, null, null),
 	FUNEXP_NME_YES_PIP_YES__NJ("FUNEXP", "Funeral Expenses", CoverageLimits.COV_2000, null, null),
 	WLB_UT("WLB", "Rejection of Work Loss Benefit", CoverageLimits.COV_FALSE, AvailableCoverageLimits.WLB),
-	WLB_NY("WLB", "Work Loss Benefits", CoverageLimits.COV_FALSE, AvailableCoverageLimits.WLB),
+	WLB_NY("WLB", "Work Loss Benefits", CoverageLimits.COV_FALSE, AvailableCoverageLimits.WLB, null),
 	INCOMELOSS_OR("WORKLOSS", "Income Loss", CoverageLimits.COV_3000, null, "Per Month/Max 52 Weeks"),
 	CHILDEXP_OR("CHILDEXP", "Childcare Expenses", CoverageLimits.COV_25, null, "Per Day/$750 Max"),
 	WORKLOSS_KS_4500("WORKLOSS", "Work Loss", CoverageLimits.COV_900, null, "Per Month/Max 1 Year"),

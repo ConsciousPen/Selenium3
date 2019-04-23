@@ -1,18 +1,18 @@
 package aaa.modules.financials.template;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import aaa.common.enums.Constants;
 import com.exigen.ipb.eisa.utils.Dollar;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.main.enums.BillingConstants;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
@@ -41,7 +41,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         LocalDateTime dueDate = PolicySummaryPage.getEffectiveDate().plusMonths(1);
 
         Map<String, Dollar> taxesNB = new HashMap<>();
-        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+        if (isTaxState()) {
             taxesNB = getTaxAmountsForPolicy(policyNumber);
         }
 
@@ -90,7 +90,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
                 BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT, dueDate.plusDays(5));
 
         Dollar taxes = new Dollar(0.00);
-        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+        if (isTaxState()) {
             taxes = getTaxAmountsForPolicy(policyNumber).get(TOTAL).subtract(taxesNB.get(TOTAL));
         }
 
@@ -107,7 +107,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         });
 
         // END-07 validations for taxes (WV/KY only)
-        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+        if (isTaxState()) {
             assertSoftly(softly -> {
                 softly.assertThat(totalTaxesEnd).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053")
                         .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053")));
@@ -138,15 +138,10 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         policy.renew().performAndFill(getRenewalFillTd());
         payMinAmountDue(METHOD_CASH);
         Dollar renewalPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL);
-
-        SearchPage.openPolicy(policyNumber);
-        if (PolicySummaryPage.buttonRenewals.isEnabled()) {
-            PolicySummaryPage.buttonRenewals.click();
-            assertThat(renewalEffDate).isEqualToIgnoringHours(PolicySummaryPage.getEffectiveDate());
-        }
+        openPolicyRenewal(policyNumber);
 
         taxes = new Dollar(0.00);
-        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+        if (isTaxState()) {
             taxes = getTaxAmountsForPolicy(policyNumber).get(TOTAL);
         }
         Dollar totalTaxesRenewal = taxes;
@@ -163,7 +158,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         });
 
         // Tax Validations for RNW-01
-        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+        if (isTaxState()) {
             assertSoftly(softly -> {
                 softly.assertThat(totalTaxesRenewal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1053"));
                 softly.assertThat(totalTaxesRenewal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1054"));
@@ -192,6 +187,11 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
         LocalDateTime dueDate = PolicySummaryPage.getEffectiveDate().plusMonths(1);
 
+        Map<String, Dollar> taxesNB = new HashMap<>();
+        if (isTaxState()) {
+            taxesNB = getTaxAmountsForPolicy(policyNumber);
+        }
+
         // Advance time 1 month, generate first installment bill
         LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(dueDate);
         LocalDateTime billDueDate = getTimePoints().getBillDueDate(dueDate);
@@ -209,10 +209,21 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         waiveFeeByDateAndType(billDueDate, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NSF_FEE__WITHOUT_RESTRICTION);
         waiveFeeByDateAndType(billGenDate, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE);
 
+        // Used to validate TAX-03 and TAX-06 below
+        Dollar installmentTaxes = new Dollar();
+        if (getState().equals(Constants.States.KY)) {
+            installmentTaxes = FinancialsSQL.getCreditsForAccountByPolicy(billDueDate, policyNumber, FinancialsSQL.TxType.STATE_TAX_KY, "1053")
+                    .add(FinancialsSQL.getCreditsForAccountByPolicy(billDueDate, policyNumber, FinancialsSQL.TxType.CITY_TAX_KY, "1053"))
+                    .add(FinancialsSQL.getCreditsForAccountByPolicy(billDueDate, policyNumber, FinancialsSQL.TxType.COUNTY_TAX_KY, "1053"));
+        } else if (getState().equals(Constants.States.WV)) {
+            installmentTaxes = FinancialsSQL.getCreditsForAccountByPolicy(billDueDate, policyNumber, FinancialsSQL.TxType.STATE_TAX_WV, "1053");
+        }
+        Dollar netPayment = installmentAmt.subtract(nonEftFee).subtract(installmentTaxes);
+
         assertSoftly(softly -> {
             // PMT-03 validations
             softly.assertThat(installmentAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.PAYMENT_DECLINED, "1001"));
-            softly.assertThat(installmentAmt.subtract(nonEftFee)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.PAYMENT_DECLINED, "1044"));
+            softly.assertThat(netPayment).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.PAYMENT_DECLINED, "1044"));
             softly.assertThat(nonEftFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(billDueDate, policyNumber, FinancialsSQL.TxType.NON_EFT_INSTALLMENT_FEE, "1034"));
 
             // FEE-07 validations
@@ -234,24 +245,118 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         policy.endorse().perform(getEndorsementTD(dueDate.plusDays(5)));
         policy.getDefaultView().fill(getReducePremiumTD());
         policy.rollOn().perform(false, true);
-        Dollar reducedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT);
 
-        // TODO Validate END-07
+        Dollar taxes = new Dollar(0.00);
+        if (isTaxState()) {
+            taxes = taxesNB.get(TOTAL).subtract(getTaxAmountsForPolicy(policyNumber).get(TOTAL));
+        }
+
+        //Validate END-07
+        Dollar reducedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT);
+        Dollar totalTaxesEnd = taxes;
+        assertSoftly(softly -> {
+            softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
+            softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")
+                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")));
+            softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")
+                    .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")));
+            softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")
+                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")));
+        });
+
+        // END-07 validations for taxes (WV/KY only)
+        if (isTaxState()) {
+            assertSoftly(softly -> {
+                softly.assertThat(totalTaxesEnd).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053")
+                        .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053")));
+                softly.assertThat(totalTaxesEnd).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1054")
+                        .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1054")));
+            });
+        }
 
         // Roll back endorsement
         Dollar rollBackAmount = rollBackEndorsement(policyNumber);
 
-        // TODO Validate END-05
+        // Validate END-05
+        assertSoftly(softly -> {
+            softly.assertThat(rollBackAmount.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ROLL_BACK_ENDORSEMENT, "1015")
+                    .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ROLL_BACK_ENDORSEMENT, "1015")));
+            softly.assertThat(rollBackAmount.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ROLL_BACK_ENDORSEMENT, "1021")
+                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ROLL_BACK_ENDORSEMENT, "1021")));
+            softly.assertThat(rollBackAmount.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ROLL_BACK_ENDORSEMENT, "1022")
+                    .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ROLL_BACK_ENDORSEMENT, "1022")));
+            softly.assertThat(rollBackAmount.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ROLL_BACK_ENDORSEMENT, "1044"));
+        });
+
+        // Pay off remaining balance on policy
+        payTotalAmountDue();
 
         // Move to renewal offer time point and create renewal image
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalEffDate));
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         policy.renew().performAndFill(getRenewalFillTd());
-        Dollar renewalAmt = payTotalAmountDue();
+        Dollar renewalPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL);
+        payTotalAmountDue();
 
-        // TODO Validate RNW-03
+        //Capture the credit towards the account after paying total amount due (Not applicable to CA Products and PUP). Subtract this from the renewalAmt.
+        Dollar renewCredit = new Dollar(0.00);
+        if (!getPolicyType().isCaProduct() && !getPolicyType().equals(PolicyType.PUP)) {
+            renewCredit = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL);
+        }
 
+        openPolicyRenewal(policyNumber);
+
+        taxes = new Dollar(0.00);
+        if (getState().equals(Constants.States.WV) || getState().equals(Constants.States.KY)) {
+            taxes = getTaxAmountsForPolicy(policyNumber).get(TOTAL);
+        }
+        Dollar renewalTermTaxes = taxes;
+        Dollar renewalOffsetAmt = renewCredit.add(taxes);
+
+        // Validate RNW-03
+        assertSoftly(softly -> {
+            softly.assertThat(renewalPrem.subtract(renewalOffsetAmt)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1042")
+                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1042")));
+            softly.assertThat(renewalPrem.subtract(renewalOffsetAmt)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1043")
+                    .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1043")));
+        });
+
+        // Tax Validations for RNW-03
+        if (isTaxState()) {
+            assertSoftly(softly -> {
+                softly.assertThat(renewalTermTaxes).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1071"));
+                softly.assertThat(renewalTermTaxes).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1072"));
+            });
+        }
+
+        //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
+        TimeSetterUtil.getInstance().nextPhase(renewalEffDate);
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        JobUtils.executeJob(BatchJob.ledgerStatusUpdateJob);
+
+        //Continued RNW-03 Validations recorded at effective date
+        assertSoftly(softly -> {
+            softly.assertThat(renewalPrem.subtract(renewalOffsetAmt)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1044")
+                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1044")));
+            softly.assertThat(renewalPrem.subtract(renewalOffsetAmt)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1022")
+                    .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1022")));
+            softly.assertThat(renewalPrem.subtract(renewalOffsetAmt)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1021")
+                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1021")));
+            softly.assertThat(renewalPrem.subtract(renewalOffsetAmt)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1015")
+                    .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1015")));
+        });
+
+        // Continued Tax Validations for RNW-03 recorded at effective date
+        if (isTaxState()) {
+            assertSoftly(softly -> {
+                softly.assertThat(renewalTermTaxes).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1053"));
+                softly.assertThat(renewalTermTaxes).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1054"));
+                softly.assertThat(renewalTermTaxes).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1072"));
+                softly.assertThat(renewalTermTaxes).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1071"));
+            });
+        }
     }
 
     /**
@@ -267,6 +372,39 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
      * @details RNW-02, END-06, END-08
      */
     protected void testRenewalScenario_3() {
+
+        // Create policy WITH employee benefit
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(getPolicyTD()));
+        LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
+        LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
+
+        // Perform Endorsement effective today+6days and AP OOS Endorsement effective today+5day
+        performNonPremBearingEndorsement(policyNumber, effDate.plusDays(6));
+        performAPEndorsement(policyNumber, effDate.plusDays(5));
+        policy.rollOn().perform(false, true);
+        Dollar addedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT, effDate.plusDays(5));
+
+        // TODO END-08 validations
+
+        // Roll back endorsement and pay total amount due
+        Dollar rollBackAmount = rollBackEndorsement(policyNumber);
+        payTotalAmountDue();
+
+        // TODO END-06 Validations
+
+        // Move to renewal effective date and propose renewal image
+        TimeSetterUtil.getInstance().nextPhase(renewalEffDate);
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        policy.renew().performAndFill(getRenewalFillTd());
+        payMinAmountDue(METHOD_CASH);
+        Dollar renewalPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL);
+
+        // TODO RNW-02 Validations
 
     }
 
@@ -284,6 +422,44 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
      */
     protected void testRenewalScenario_4() {
 
+        // Create policy WITH employee benefit
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(getPolicyTD()));
+        LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
+        LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
+
+        // Perform Endorsement effective today+6days and RP OOS Endorsement effective today+5day (can't use performRPEndorsement method here)
+        SearchPage.openPolicy(policyNumber);
+        performNonPremBearingEndorsement(policyNumber, effDate.plusDays(6));
+        policy.endorse().perform(getEndorsementTD(effDate.plusDays(5)));
+        policy.getDefaultView().fill(getReducePremiumTD());
+        policy.rollOn().perform(false, true);
+        Dollar reducedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT);
+
+        // TODO END-08 validations
+
+        // Roll back endorsement
+        Dollar rollBackAmount = rollBackEndorsement(policyNumber);
+
+        // TODO END-06 Validations
+
+        // Move to renewal offer time point and create renewal image
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalEffDate));
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        policy.renew().performAndFill(getRenewalFillTd());
+        Dollar renewalAmt = payTotalAmountDue();
+
+        // TODO RNW-04 Validations
+
+    }
+
+    private void openPolicyRenewal(String policyNumber) {
+        SearchPage.openPolicy(policyNumber);
+        if (PolicySummaryPage.buttonRenewals.isEnabled()) {
+            PolicySummaryPage.buttonRenewals.click();
+        }
     }
 
 }

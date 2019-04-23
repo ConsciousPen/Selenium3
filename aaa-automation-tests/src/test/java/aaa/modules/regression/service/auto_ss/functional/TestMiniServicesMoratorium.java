@@ -289,7 +289,7 @@ public class TestMiniServicesMoratorium extends PolicyMoratorium {
 			assertSoftly(softly -> {
 				softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 				softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-				softly.assertThat(hasError(rateResponse, "attributeForRules", ErrorDxpEnum.Errors.MORATORIUM_EXIST)).isTrue();
+				softly.assertThat(hasError(rateResponse, ErrorDxpEnum.Errors.MORATORIUM_EXIST)).isTrue();
 			});
 		} else if (isOtherErrorShouldExist) {
 			ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
@@ -309,9 +309,9 @@ public class TestMiniServicesMoratorium extends PolicyMoratorium {
 		return helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, responseAddVehicle.oid);
 	}
 
-	private boolean hasError(ErrorResponseDto errorResponseDto, String expectedField, ErrorDxpEnum.Errors expectedError) {
-		return errorResponseDto.errors.stream().anyMatch(error -> expectedField.equals(error.field)
-				&& org.apache.commons.lang.StringUtils.startsWith(error.message, expectedError.getMessage()));
+	private boolean hasError(ErrorResponseDto errorResponseDto, ErrorDxpEnum.Errors expectedError) {
+		return errorResponseDto.errors.stream()
+				.anyMatch(error -> org.apache.commons.lang.StringUtils.startsWith(error.message, expectedError.getMessage()));
 	}
 
 	private void mockMoratoriumRuleAndRunTest(TestData td, MoratoriumRule moratoriumRule) {

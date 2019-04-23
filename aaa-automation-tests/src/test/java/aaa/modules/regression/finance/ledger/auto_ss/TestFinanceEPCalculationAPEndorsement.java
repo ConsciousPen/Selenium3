@@ -39,7 +39,7 @@ public class TestFinanceEPCalculationAPEndorsement extends FinanceOperations {
 
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.AZ})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-21446")
 	public void pas21446_testFinanceEPCalculationAPEndorsement(@Optional("AZ") String state) {
 		String policyNumber = openAppAndCreatePolicy();
