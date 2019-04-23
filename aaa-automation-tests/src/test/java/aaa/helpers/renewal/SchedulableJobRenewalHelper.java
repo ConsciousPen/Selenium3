@@ -18,14 +18,12 @@ public class SchedulableJobRenewalHelper {
      * Performs all jobs that production does including 15/30 day jobs for requested number of renewals.
      * @param baseTest Needed for any jobs that have to run selenium based automation (payment job).
      * @param policyNumber Policy to schedule against.
-     * @param policyTerm 6 months or Annual
      * @param paymentPlan Monthly or Full
      * @param makeFinalRenewalPayment If false, will not make last payment.
      * @param numberOfRenewals How many renewals to perform.
      * @return Output Summary of what was scheduled when.
      */
     public static ArrayList<String> performFullAutoRenewal(BaseTest baseTest, String policyNumber,
-                                                           SchedulableJobs.PolicyTerm policyTerm,
                                                            SchedulableJobs.PaymentPlan paymentPlan,
                                                            boolean makeFinalRenewalPayment, int numberOfRenewals){
 
@@ -33,7 +31,7 @@ public class SchedulableJobRenewalHelper {
 
         ArrayList<String> output = SchedulableJob.executeJobSchedule(newBusiness15_30Schedule, simulateOnly);
 
-        output.addAll(performRenewals(SchedulableJobs.ProductType.Auto, baseTest, policyNumber, policyTerm, paymentPlan,
+        output.addAll(performRenewals(SchedulableJobs.ProductType.Auto, baseTest, policyNumber, paymentPlan,
                 makeFinalRenewalPayment, numberOfRenewals));
 
         return output;
@@ -43,14 +41,12 @@ public class SchedulableJobRenewalHelper {
      * Performs all jobs that production does including 15/30 day jobs for requested number of renewals.
      * @param baseTest Needed for any jobs that have to run selenium based automation (payment job).
      * @param policyNumber Policy to schedule against.
-     * @param policyTerm 6 months or Annual
      * @param paymentPlan Monthly or Full
      * @param makeFinalRenewalPayment If false, will not make last payment.
      * @param numberOfRenewals How many renewals to perform.
      * @return Output Summary of what was scheduled when.
      */
     public static ArrayList<String> performFullHomeRenewal(BaseTest baseTest, String policyNumber,
-                                                           SchedulableJobs.PolicyTerm policyTerm,
                                                            SchedulableJobs.PaymentPlan paymentPlan,
                                                            boolean makeFinalRenewalPayment, int numberOfRenewals){
 
@@ -58,7 +54,7 @@ public class SchedulableJobRenewalHelper {
 
         ArrayList<String> output = SchedulableJob.executeJobSchedule(newBusiness15_30Schedule, simulateOnly);
 
-        output.addAll(performRenewals(SchedulableJobs.ProductType.Home, baseTest, policyNumber, policyTerm, paymentPlan,
+        output.addAll(performRenewals(SchedulableJobs.ProductType.Home, baseTest, policyNumber, paymentPlan,
                 makeFinalRenewalPayment, numberOfRenewals));
 
         return output;
@@ -69,14 +65,13 @@ public class SchedulableJobRenewalHelper {
      * @param productType Product type to run against
      * @param baseTest Needed for any jobs that have to run selenium based automation (payment job).
      * @param policyNumber Policy to schedule against.
-     * @param policyTerm 6 months or Annual
      * @param paymentPlan Monthly or Full
      * @param makeFinalRenewalPayment If false, will not make last payment.
      * @param numberOfRenewals How many renewals to perform.
      * @return Output Summary of what was scheduled when.
      */
     private static ArrayList<String> performRenewals(SchedulableJobs.ProductType productType, BaseTest baseTest, String policyNumber,
-                                                     SchedulableJobs.PolicyTerm policyTerm, SchedulableJobs.PaymentPlan paymentPlan,
+                                                     SchedulableJobs.PaymentPlan paymentPlan,
                                                      boolean makeFinalRenewalPayment, int numberOfRenewals){
 
         ArrayList<String> output = new ArrayList<>();
@@ -94,10 +89,10 @@ public class SchedulableJobRenewalHelper {
             boolean makeFinalPayment = (i != numberOfRenewals - 1) || makeFinalRenewalPayment;
 
             if (productType == SchedulableJobs.ProductType.Auto) {
-                jobSchedule = new JobSchedule(getAutoRenewalJobList(baseTest, policyNumber, policyTerm, paymentPlan, makeFinalPayment), expirationDate);
+                jobSchedule = new JobSchedule(getAutoRenewalJobList(baseTest, policyNumber, paymentPlan, makeFinalPayment), expirationDate);
             }
             else {
-                jobSchedule = new JobSchedule(getHomeRenewalJobList(baseTest, policyNumber, policyTerm, paymentPlan, makeFinalPayment), expirationDate);
+                jobSchedule = new JobSchedule(getHomeRenewalJobList(baseTest, policyNumber, paymentPlan, makeFinalPayment), expirationDate);
             }
 
             output.addAll(SchedulableJob.executeJobSchedule(jobSchedule, simulateOnly));
@@ -152,21 +147,21 @@ public class SchedulableJobRenewalHelper {
      *
      * @param baseTest     Needed so app can open to make a payment. Pass this keyword from calling test.
      * @param policyNumber Also needed during making a payment through the app.
-     * @param policyTerm   What length of policy is.
      * @param paymentPlan  What type of payment plan was created.
      * @param makePayment  Determines whether to make payment for this renewal. Useful for testing non-payment scenarios.
      * @return ArrayList of Jobs that can be used to build a schedule for Auto Renewals
      */
     public static ArrayList<SchedulableJob> getAutoRenewalJobList(
-            BaseTest baseTest, String policyNumber, SchedulableJobs.PolicyTerm policyTerm, SchedulableJobs.PaymentPlan paymentPlan, boolean makePayment) {
+            BaseTest baseTest, String policyNumber, SchedulableJobs.PaymentPlan paymentPlan, boolean makePayment) {
 
         // Payment schedule used can be located in wiki:
         // https://csaaig.atlassian.net/wiki/spaces/TC/pages/848855097/Renewal+Timelines+and+Batch+Jobs+-+Property+and+Auto
 
         String state = BaseTest.getState();
+        SchedulableJobs.PolicyTerm policyTerm = SchedulableJobs.GetPolicyTerm(policyNumber);
 
         // Schedule payment jobs first so they always run first
-        ArrayList<SchedulableJob> jobList = getPaymentJobList(baseTest,policyNumber, policyTerm, paymentPlan, makePayment);
+        ArrayList<SchedulableJob> jobList = getPaymentJobList(baseTest,policyNumber, paymentPlan, makePayment);
 
         //Initiate Renewal
         jobList.add(SchedulableJobs.policyAutomatedRenewalAsyncTaskGenerationJob(SchedulableJobs.ProductType.Auto, state));
@@ -226,12 +221,11 @@ public class SchedulableJobRenewalHelper {
      *
      * @param baseTest     Needed so app can open to make a payment. Pass this keyword from calling test.
      * @param policyNumber Also needed during making a payment through the app.
-     * @param policyTerm   What length of policy is.
      * @param paymentPlan  What type of payment plan was created.
      * @param makePayment  Determines whether to make payment for this renewal. Useful for testing non-payment scenarios.
      * @return ArrayList of Jobs that can be used to build a schedule for Auto Renewals
      */
-    public static ArrayList<SchedulableJob> getHomeRenewalJobList(BaseTest baseTest, String policyNumber, SchedulableJobs.PolicyTerm policyTerm,
+    public static ArrayList<SchedulableJob> getHomeRenewalJobList(BaseTest baseTest, String policyNumber,
                                                                   SchedulableJobs.PaymentPlan paymentPlan, boolean makePayment) {
 
         // Payment schedule used can be located in wiki:
@@ -240,7 +234,7 @@ public class SchedulableJobRenewalHelper {
         String state = BaseTest.getState();
 
         // Schedule payment jobs first so they always run first
-        ArrayList<SchedulableJob> jobList = getPaymentJobList(baseTest,policyNumber, policyTerm, paymentPlan, makePayment);
+        ArrayList<SchedulableJob> jobList = getPaymentJobList(baseTest,policyNumber, paymentPlan, makePayment);
 
         // [Initiate renewal]
         jobList.add(SchedulableJobs.policyAutomatedRenewalAsyncTaskGenerationJob(SchedulableJobs.ProductType.Home, state));
@@ -322,14 +316,14 @@ public class SchedulableJobRenewalHelper {
      * Gets a job list that will perform payments.
      * @param baseTest     Needed so app can open to make a payment. Pass this keyword from calling test.
      * @param policyNumber Also needed during making a payment through the app.
-     * @param policyTerm   What length of policy is.
      * @param paymentPlan  What type of payment plan was created.
      * @param makePayment  Determines whether to make final payment for this renewal. Useful for testing non-payment scenarios.
      * @return ArrayList of Jobs that can be used to build a schedule for Auto Renewals
      */
-    public static ArrayList<SchedulableJob> getPaymentJobList(BaseTest baseTest, String policyNumber, SchedulableJobs.PolicyTerm policyTerm,
+    public static ArrayList<SchedulableJob> getPaymentJobList(BaseTest baseTest, String policyNumber,
                                                               SchedulableJobs.PaymentPlan paymentPlan, boolean makePayment){
         String state = BaseTest.getState();
+        SchedulableJobs.PolicyTerm policyTerm = SchedulableJobs.GetPolicyTerm(policyNumber);
         ArrayList<SchedulableJob> jobList = new ArrayList<>();
 
         if (paymentPlan == SchedulableJobs.PaymentPlan.Monthly) {

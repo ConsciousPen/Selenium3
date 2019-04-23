@@ -9,6 +9,9 @@ import java.time.temporal.ChronoUnit;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Logger;
+
+import static aaa.helpers.db.queries.PolicyQueries.getPolicyTermFromSQL;
 
 /**
  * SchedulableJobs are Jobs with additional metadata to be able to call a list of jobs and have them run at the appropriate
@@ -22,7 +25,7 @@ public class SchedulableJobs {
     public static final String defaultStateKey = "default";
     public static final int jobNotApplicableValue = -1;
 
-    public enum PolicyTerm {Annual, SixMonth}
+    public enum PolicyTerm {Annual, SemiAnnual, NotImplemented}
 
     public enum PaymentPlan {Full, Monthly}
 
@@ -72,26 +75,26 @@ public class SchedulableJobs {
         timePointMap.get(PolicyTerm.Annual).get(TimePoint.Second).stateOffsetMap.put(Constants.States.VA, 52);
 
         // 6 Month First
-        timePointMap.get(PolicyTerm.SixMonth).get(TimePoint.First).stateOffsetMap.put(defaultStateKey, 53);
-        timePointMap.get(PolicyTerm.SixMonth).get(TimePoint.First).stateOffsetMap.put(Constants.States.CT, 95);
-        timePointMap.get(PolicyTerm.SixMonth).get(TimePoint.First).stateOffsetMap.put(Constants.States.KY, 95);
-        timePointMap.get(PolicyTerm.SixMonth).get(TimePoint.First).stateOffsetMap.put(Constants.States.MD, 95);
-        timePointMap.get(PolicyTerm.SixMonth).get(TimePoint.First).stateOffsetMap.put(Constants.States.MT, 95);
-        timePointMap.get(PolicyTerm.SixMonth).get(TimePoint.First).stateOffsetMap.put(Constants.States.NJ, 95);
-        timePointMap.get(PolicyTerm.SixMonth).get(TimePoint.First).stateOffsetMap.put(Constants.States.PA, 95);
-        timePointMap.get(PolicyTerm.SixMonth).get(TimePoint.First).stateOffsetMap.put(Constants.States.SD, 95);
-        timePointMap.get(PolicyTerm.SixMonth).get(TimePoint.First).stateOffsetMap.put(Constants.States.VA, 53);
+        timePointMap.get(PolicyTerm.SemiAnnual).get(TimePoint.First).stateOffsetMap.put(defaultStateKey, 53);
+        timePointMap.get(PolicyTerm.SemiAnnual).get(TimePoint.First).stateOffsetMap.put(Constants.States.CT, 95);
+        timePointMap.get(PolicyTerm.SemiAnnual).get(TimePoint.First).stateOffsetMap.put(Constants.States.KY, 95);
+        timePointMap.get(PolicyTerm.SemiAnnual).get(TimePoint.First).stateOffsetMap.put(Constants.States.MD, 95);
+        timePointMap.get(PolicyTerm.SemiAnnual).get(TimePoint.First).stateOffsetMap.put(Constants.States.MT, 95);
+        timePointMap.get(PolicyTerm.SemiAnnual).get(TimePoint.First).stateOffsetMap.put(Constants.States.NJ, 95);
+        timePointMap.get(PolicyTerm.SemiAnnual).get(TimePoint.First).stateOffsetMap.put(Constants.States.PA, 95);
+        timePointMap.get(PolicyTerm.SemiAnnual).get(TimePoint.First).stateOffsetMap.put(Constants.States.SD, 95);
+        timePointMap.get(PolicyTerm.SemiAnnual).get(TimePoint.First).stateOffsetMap.put(Constants.States.VA, 53);
 
         // 6 Month Second
-        timePointMap.get(PolicyTerm.SixMonth).get(TimePoint.Second).stateOffsetMap.put(defaultStateKey, 45);
-        timePointMap.get(PolicyTerm.SixMonth).get(TimePoint.Second).stateOffsetMap.put(Constants.States.CT, 69);
-        timePointMap.get(PolicyTerm.SixMonth).get(TimePoint.Second).stateOffsetMap.put(Constants.States.KY, 84);
-        timePointMap.get(PolicyTerm.SixMonth).get(TimePoint.Second).stateOffsetMap.put(Constants.States.MD, 55);
-        timePointMap.get(PolicyTerm.SixMonth).get(TimePoint.Second).stateOffsetMap.put(Constants.States.MT, 55);
-        timePointMap.get(PolicyTerm.SixMonth).get(TimePoint.Second).stateOffsetMap.put(Constants.States.NJ, 69);
-        timePointMap.get(PolicyTerm.SixMonth).get(TimePoint.Second).stateOffsetMap.put(Constants.States.PA, 69);
-        timePointMap.get(PolicyTerm.SixMonth).get(TimePoint.Second).stateOffsetMap.put(Constants.States.SD, 69);
-        timePointMap.get(PolicyTerm.SixMonth).get(TimePoint.Second).stateOffsetMap.put(Constants.States.VA, 52);
+        timePointMap.get(PolicyTerm.SemiAnnual).get(TimePoint.Second).stateOffsetMap.put(defaultStateKey, 45);
+        timePointMap.get(PolicyTerm.SemiAnnual).get(TimePoint.Second).stateOffsetMap.put(Constants.States.CT, 69);
+        timePointMap.get(PolicyTerm.SemiAnnual).get(TimePoint.Second).stateOffsetMap.put(Constants.States.KY, 84);
+        timePointMap.get(PolicyTerm.SemiAnnual).get(TimePoint.Second).stateOffsetMap.put(Constants.States.MD, 55);
+        timePointMap.get(PolicyTerm.SemiAnnual).get(TimePoint.Second).stateOffsetMap.put(Constants.States.MT, 55);
+        timePointMap.get(PolicyTerm.SemiAnnual).get(TimePoint.Second).stateOffsetMap.put(Constants.States.NJ, 69);
+        timePointMap.get(PolicyTerm.SemiAnnual).get(TimePoint.Second).stateOffsetMap.put(Constants.States.PA, 69);
+        timePointMap.get(PolicyTerm.SemiAnnual).get(TimePoint.Second).stateOffsetMap.put(Constants.States.SD, 69);
+        timePointMap.get(PolicyTerm.SemiAnnual).get(TimePoint.Second).stateOffsetMap.put(Constants.States.VA, 52);
 
         // Make sure key exists
         multiTermMultiTimePointMapKeyCheck(timePointMap, policyTerm, timePoint, baseJob.getJobName());
@@ -614,7 +617,7 @@ public class SchedulableJobs {
 
         ArrayList<SchedulableJob> jobs = new ArrayList<>();
 
-        int numMonths = policyTerm == PolicyTerm.SixMonth ? 6 : 12;
+        int numMonths = policyTerm == PolicyTerm.SemiAnnual ? 6 : 12;
 
         // When figuring what day to run, subtracts this from end of month.
         int daysBeforeEndOfMonthPaymentOffset = 13;
@@ -643,7 +646,6 @@ public class SchedulableJobs {
 
         return jobs;
     }
-
 
     /**
      * This is required because of differences in VDM vs Prod. This is only needed for Home/Property renewals.
@@ -926,7 +928,7 @@ public class SchedulableJobs {
     private static HashMap<PolicyTerm, HashMap<TimePoint, StateOffset>> getMultiTermMultiTimePointMap() {
         HashMap<PolicyTerm, HashMap<TimePoint, StateOffset>> termMap = new HashMap<>();
         termMap.put(PolicyTerm.Annual, getMultiTimePointMap());
-        termMap.put(PolicyTerm.SixMonth, getMultiTimePointMap());
+        termMap.put(PolicyTerm.SemiAnnual, getMultiTimePointMap());
         return termMap;
     }
 
@@ -995,5 +997,30 @@ public class SchedulableJobs {
      */
     public class StateOffset {
         HashMap<String, Integer> stateOffsetMap = new HashMap<>();
+    }
+
+    /**
+     * Determine Policy term length from DB based on Policy Number
+     * @param policyNumber is the policy number to lookup term from
+     * @return PolicyTerm that the policy is using.
+     * @throws NullPointerException if the SQL response was null.
+     */
+    public static PolicyTerm GetPolicyTerm(String policyNumber) throws NullPointerException{
+
+        String sqlResponse = getPolicyTermFromSQL(policyNumber).orElse("NULL");
+
+        switch(sqlResponse){
+            case "AN" :
+                return PolicyTerm.Annual;
+
+            case "SA":
+                return PolicyTerm.SemiAnnual;
+
+            case "NULL":
+                throw new NullPointerException("Cannot determine PolicyTerm from Null DB response.");
+
+            default:
+                return PolicyTerm.NotImplemented;
+        }
     }
 }
