@@ -1,0 +1,239 @@
+TestData_NewVehicle: {
+    VehicleTab: ['@VehicleTab_2018'],
+}
+
+TestData_TwoVehicles: {
+    VehicleTab: ['@VehicleTab_1', '@VehicleTab_2'],
+}
+
+TestData_ThreeVehicles: {
+    VehicleTab: ['@VehicleTab_1', '@VehicleTab_2', '@VehicleTab_3'],
+}
+
+TestData_VehiclesGaragingAddress: {
+    VehicleTab: ['@VehicleTab_GaragingAddress_1', '@VehicleTab_GaragingAddress_2'],
+}
+
+TestData_VehicleOtherTypes: {
+    VehicleTab: ['@VehicleTab_1','@VehicleTab_Van','@VehicleTab_2','@VehicleTab_Motor_Home'],
+}
+
+VehicleTab_1: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: WDCYC7BB0B6729451
+}
+
+VehicleTab_2: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1GAZG1FG7D1145543
+}
+
+VehicleTab_3: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1G2NE52T9XM924276
+}
+
+VehicleTab_GaragingAddress_1: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: WDCYC7BB0B6729451,
+    'Is Garaging different from Residential?': 'Yes',
+    Zip Code: '23703',
+    'Address Line 1': '4112 Forrest Hills Dr',
+    Validate Address: Click,
+    Validate Address Dialog: {},
+    Order Prefill: click
+}
+
+VehicleTab_GaragingAddress_2: {
+    Usage: Pleasure,
+    VIN: 1FM5K8D86JGA29926,
+    'Is Garaging different from Residential?': 'Yes',
+    Zip Code: '23703',
+    'Address Line 1': '4112 Forrest Hills Dr',
+    Validate Address: Click,
+    Validate Address Dialog: {},
+   Order Prefill: click
+}
+
+VehicleTab_2018: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1FM5K8D86JGA29926,
+    Ownership: {
+     Ownership Type: Leased,
+     First Name: BANK OF AMERICA
+    }
+}
+
+VehicleTab_Van: {
+    Type: Conversion Van,
+    Usage: Pleasure,
+    VIN: 5FNRL5H64GB087983,
+    Make: 'OTHER',
+    Other Make: 'Other Make',
+    Other Model: 'Model',
+    Other Series: 'Series',
+   'Other Body Style': 'Sedan',
+    Stat Code: 'Cargo Van',
+   'Stated Amount': '50000',
+}
+
+VehicleTab_Motor_Home: {
+    Add Vehicle: Click,
+    Type: Motor Home,
+    Motor Home Type: Mini Motor Home (Class C),
+    Usage: Pleasure Use - Occupied Less than 30 Days a Year,
+    VIN: 5B4MP67G123353230,
+    Other Make: 'Motor',
+    Other Model: 'Motor',
+   Stated Amount: '50000',
+}
+
+TestData_TwoDrivers: {
+    DriverTab: ['@Driver_one', '@Driver_two'],
+}
+
+TestData_ThreeDrivers: {
+    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three_nafr'],
+}
+
+TestData_FourDrivers: {
+    DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three', '@Driver_four'],
+}
+
+Driver_one: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  Date of Birth: '$<today-21y:MM/dd/yyyy>',
+  License Type: 'Licensed (US)',
+  License Number: 400064773
+  }
+
+Driver_two: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456789',
+    Rel. to First Named Insured: Child,
+    First Name: 'John',
+    Middle Name: 'Sam',
+    Last Name: 'Smith',
+    Date of Birth: '12/12/1980',
+    Gender: 'Male',
+    Suffix: 'II',
+    Marital Status: Married,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T60355298',
+    License Status: 'Licensed (US)'
+}
+
+Driver_three_nafr: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456788',
+    Rel. to First Named Insured: Child,
+    Driver Type: 'Not Available for Rating',
+    Reason: 'Other',
+    First Name: 'Laura',
+    Middle Name: 'Sara',
+    Last Name: 'Smith',
+    Suffix: 'III',
+    Date of Birth: '12/12/1991',
+    Gender: 'Female',
+    Marital Status: Single,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T60355777',
+    License Status: 'Licensed (US)'
+}
+
+Driver_three: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456754',
+    Rel. to First Named Insured: Child,
+    First Name: 'Monica',
+    Middle Name: 'Maja',
+    Last Name: 'Logan',
+    Suffix: 'II',
+    Date of Birth: '12/12/1981',
+    Gender: 'Female',
+    Marital Status: Single,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T60355111',
+    License Status: 'Licensed (US)'
+}
+
+Driver_four: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456758',
+    Rel. to First Named Insured: Child,
+    First Name: 'Laura',
+    Middle Name: 'Sara',
+    Last Name: 'Smith',
+    Suffix: 'III',
+    Date of Birth: '12/12/1991',
+    Gender: 'Female',
+    Marital Status: Single,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T60355777',
+    License Status: 'Licensed (US)'
+}
+
+AssignmentTabTwoDrivers: {
+ DriverVehicleRelationshipTable: ['@AssignmentTab']
+}
+
+AssignmentTabFourDrivers: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2', '@AssignedDriver3', '@AssignedDriver4' ]
+}
+
+AssignedDriver1: {
+    Driver: 'contains=Ben',
+    Select Vehicle: 'index=1'
+}
+
+AssignedDriver2: {
+    Driver: 'contains=John',
+    Select Vehicle: 'index=1'
+}
+
+AssignedDriver3: {
+    Driver: 'contains=Monica',
+    Select Vehicle: 'index=2'
+}
+
+AssignedDriver4: {
+    Driver: 'contains=Laura',
+    Select Vehicle: 'index=2'
+}
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [
+    {
+      Driver: 'contains=Ben',
+      Select Vehicle: 'index=1'
+    },
+    {
+      Driver: 'contains=John',
+      Select Vehicle: 'index=2'
+    }
+  ],
+  Assign: '',
+  ExcessVehiclesTable: [
+    {
+      Select Driver: 'index=1'
+    }
+  ]
+}
