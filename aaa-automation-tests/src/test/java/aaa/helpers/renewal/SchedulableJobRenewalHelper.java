@@ -14,6 +14,16 @@ public class SchedulableJobRenewalHelper {
     // Set to true for fast debugging (Output only). Can't date future renewals due to expiration date not changing in DB.
     private static boolean simulateOnly = false;
 
+    /**
+     * Performs all jobs that production does including 15/30 day jobs for requested number of renewals.
+     * @param baseTest Needed for any jobs that have to run selenium based automation (payment job).
+     * @param policyNumber Policy to schedule against.
+     * @param policyTerm 6 months or Annual
+     * @param paymentPlan Monthly or Full
+     * @param makeFinalRenewalPayment If false, will not make last payment.
+     * @param numberOfRenewals How many renewals to perform.
+     * @return Output Summary of what was scheduled when.
+     */
     public static ArrayList<String> performFullAutoRenewal(BaseTest baseTest, String policyNumber,
                                                            SchedulableJobs.PolicyTerm policyTerm,
                                                            SchedulableJobs.PaymentPlan paymentPlan,
@@ -29,6 +39,16 @@ public class SchedulableJobRenewalHelper {
         return output;
     }
 
+    /**
+     * Performs all jobs that production does including 15/30 day jobs for requested number of renewals.
+     * @param baseTest Needed for any jobs that have to run selenium based automation (payment job).
+     * @param policyNumber Policy to schedule against.
+     * @param policyTerm 6 months or Annual
+     * @param paymentPlan Monthly or Full
+     * @param makeFinalRenewalPayment If false, will not make last payment.
+     * @param numberOfRenewals How many renewals to perform.
+     * @return Output Summary of what was scheduled when.
+     */
     public static ArrayList<String> performFullHomeRenewal(BaseTest baseTest, String policyNumber,
                                                            SchedulableJobs.PolicyTerm policyTerm,
                                                            SchedulableJobs.PaymentPlan paymentPlan,
@@ -44,6 +64,17 @@ public class SchedulableJobRenewalHelper {
         return output;
     }
 
+    /**
+     * Performs the renewal loop with the full list for appropriate renewal jobs.
+     * @param productType Product type to run against
+     * @param baseTest Needed for any jobs that have to run selenium based automation (payment job).
+     * @param policyNumber Policy to schedule against.
+     * @param policyTerm 6 months or Annual
+     * @param paymentPlan Monthly or Full
+     * @param makeFinalRenewalPayment If false, will not make last payment.
+     * @param numberOfRenewals How many renewals to perform.
+     * @return Output Summary of what was scheduled when.
+     */
     private static ArrayList<String> performRenewals(SchedulableJobs.ProductType productType, BaseTest baseTest, String policyNumber,
                                                      SchedulableJobs.PolicyTerm policyTerm, SchedulableJobs.PaymentPlan paymentPlan,
                                                      boolean makeFinalRenewalPayment, int numberOfRenewals){
@@ -287,6 +318,15 @@ public class SchedulableJobRenewalHelper {
         return jobList;
     }
 
+    /**
+     * Gets a job list that will perform payments.
+     * @param baseTest     Needed so app can open to make a payment. Pass this keyword from calling test.
+     * @param policyNumber Also needed during making a payment through the app.
+     * @param policyTerm   What length of policy is.
+     * @param paymentPlan  What type of payment plan was created.
+     * @param makePayment  Determines whether to make final payment for this renewal. Useful for testing non-payment scenarios.
+     * @return ArrayList of Jobs that can be used to build a schedule for Auto Renewals
+     */
     public static ArrayList<SchedulableJob> getPaymentJobList(BaseTest baseTest, String policyNumber, SchedulableJobs.PolicyTerm policyTerm,
                                                               SchedulableJobs.PaymentPlan paymentPlan, boolean makePayment){
         String state = BaseTest.getState();

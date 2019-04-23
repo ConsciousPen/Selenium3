@@ -156,8 +156,11 @@ public class SchedulableJob {
         private BaseTest _baseTest;
         private String _policyNumber;
 
-        public PaymentSchedulableJob(BaseTest baseTest, String policyNumber, Job jobToSchedule, JobOffsetType jobOffsetOperationType, int jobOffsetByDays, SchedulableJob... jobSameDayDependancies){
+        public PaymentSchedulableJob(BaseTest baseTest, String policyNumber, Job jobToSchedule,
+                                     JobOffsetType jobOffsetOperationType, int jobOffsetByDays,
+                                     SchedulableJob... jobSameDayDependancies){
             super(jobToSchedule, jobOffsetOperationType, jobOffsetByDays, jobSameDayDependancies);
+
             _baseTest = baseTest;
             _policyNumber = policyNumber;
             jobName = "SchedulableJob.PaymentSchedulableJob";

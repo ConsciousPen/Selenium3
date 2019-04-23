@@ -16,6 +16,9 @@ import java.util.HashMap;
  */
 public class SchedulableJobs {
 
+    // Payment schedule used can be located in wiki:
+    // https://csaaig.atlassian.net/wiki/spaces/TC/pages/848855097/Renewal+Timelines+and+Batch+Jobs+-+Property+and+Auto
+
     public static final String defaultStateKey = "default";
     public static final int jobNotApplicableValue = -1;
 
@@ -635,11 +638,6 @@ public class SchedulableJobs {
 
                 jobs.add(new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, dateSpread).
                         new PaymentSchedulableJob(baseTest, policyNumber, baseJob, SchedulableJob.JobOffsetType.Subtract_Days, dateSpread));
-
-                // BONDTODO: Will probably need to take in the renewal date for this one to generate correct payment offsets
-                //           Probably can redo this to be one for loop for both if do it date based.
-                //           renewal.months.subtract(iterator).days.add(13) - I think.
-                // Offset by months.
             }
         }
 
