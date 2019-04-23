@@ -58,6 +58,7 @@ public class CSAACapabilityModifier extends OptionsModifier {
 		options.setCapability("ie.browserCommandLineSwitches", Arrays.asList("-private"));
 		options.takeFullPageScreenshot();
 		options.ignoreZoomSettings();
+		options.introduceFlakinessByIgnoringSecurityDomains();
 		return allBrowsers(options);
 	}
 }

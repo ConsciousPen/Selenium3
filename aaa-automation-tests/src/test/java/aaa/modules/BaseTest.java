@@ -128,6 +128,7 @@ public class BaseTest {
 	 * @return Copied quote number
 	 */
 	protected String getCopiedQuote() {
+		createCustomerIndividual();
 		return createQuote();
 	}
 
@@ -138,6 +139,7 @@ public class BaseTest {
 	 * @return policy number
 	 */
 	protected String getCopiedPolicy() {
+		createCustomerIndividual();
 		return createPolicy();
 
 	}
