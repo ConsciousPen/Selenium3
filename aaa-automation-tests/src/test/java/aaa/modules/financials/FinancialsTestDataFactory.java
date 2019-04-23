@@ -119,16 +119,32 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         return td;
     }
 
-    protected TestData getCancellationNonPaymentTd() {
-        String date = formatDateToString(TimeSetterUtil.getInstance().getCurrentTime());
-        if (getPolicyType().equals(PolicyType.PUP)) {
-            return getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData")
-                    .adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.CancellationActionTab.class.getSimpleName(), PersonalUmbrellaMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "contains=Non-Payment")
-                    .adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.CancellationActionTab.class.getSimpleName(), PersonalUmbrellaMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
+    protected TestData getCancellationNonPaymentTd(LocalDateTime cxEffDate) {
+        TestData td;
+        String type = getPolicyType().getShortName();
+        String date = formatDateToString(cxEffDate);
+        switch (type) {
+            case HOME_SS_HO3:
+            case HOME_SS_HO4:
+            case HOME_SS_HO6:
+            case HOME_SS_DP3:
+                td = getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData")
+                        .adjust(TestData.makeKeyPath(HomeSSMetaData.CancellationActionTab.class.getSimpleName(),
+                                HomeSSMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "contains=Non-Payment")
+                        .adjust(TestData.makeKeyPath(HomeSSMetaData.CancellationActionTab.class.getSimpleName(),
+                                HomeSSMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
+                break;
+            case PUP:
+                td =getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData")
+                        .adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.CancellationActionTab.class.getSimpleName(),
+                                PersonalUmbrellaMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "contains=Non-Payment")
+                        .adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.CancellationActionTab.class.getSimpleName(),
+                                PersonalUmbrellaMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
+                break;
+            default:
+                throw new IstfException("No Policy Type was matched!");
         }
-        return getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData")
-                .adjust(TestData.makeKeyPath(HomeSSMetaData.CancellationActionTab.class.getSimpleName(), HomeSSMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "contains=Non-Payment")
-                .adjust(TestData.makeKeyPath(HomeSSMetaData.CancellationActionTab.class.getSimpleName(), HomeSSMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
+        return td;
     }
 
     protected TestData getChangeRenewalLapseTd(LocalDateTime renewalEffDate) {
