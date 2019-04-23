@@ -6,6 +6,7 @@ import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
+import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
@@ -488,6 +489,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         // Advance time one month, reinstate policy with lapse, waive reinstatement fee
         TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1));
         mainApp().open();
+        SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_CANCELLED);
         performReinstatement(policyNumber);
 
         // Capture reinstatement fee and waive
