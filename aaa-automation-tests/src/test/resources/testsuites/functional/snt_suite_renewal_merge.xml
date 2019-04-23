@@ -817,7 +817,6 @@
                     <include name="pas27030_ooseConflictManualPremiumAndCoverages"/>
                     <include name="pas27030_ooseConflictAutomaticPremiumAndCoverages"/>
                     <include name="pas27030_renewalMergePremiumAndCoverages"/>
-
                 </methods>
             </class>
         </classes>
