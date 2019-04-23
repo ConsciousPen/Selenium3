@@ -461,6 +461,15 @@ public class VersionsComparisonConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN.Coverages", "Limit per day")
 			.build();
 
+	//all components/attributes that should be on Comparison page for Named Insured Information section for endorsement/renewal comparison
+	public static final Multimap<String, String> ENDORSEMENT_RENEWAL_VEHICLE_INFORMATION;
+	static {
+		Multimap<String, String> endorsementModified = ArrayListMultimap.create(VEHICLE_INFORMATION);
+		endorsementModified.remove("Vehicles.1998, DODGE, CARAVAN.Coverages", "Enhanced Transportation Expense Coverage");
+		endorsementModified.remove("Vehicles.1998, DODGE, CARAVAN.Coverages", "Limit per day");
+		ENDORSEMENT_RENEWAL_VEHICLE_INFORMATION = ImmutableListMultimap.copyOf(endorsementModified);
+	}
+
 
 	//all components/attributes that should be on Comparison page for Assignment section for NB and endorsements
 	static final Multimap<String, String> ASSIGNMENT = ImmutableListMultimap.<String, String>builder()
