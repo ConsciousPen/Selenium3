@@ -66,17 +66,17 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 	}
 
 	public String getMembershipNumber(LocalDate policyEffectiveDate, Integer memberPersistency) {
-		return getMembershipNumberForAvgAnnualERSperMember(policyEffectiveDate, memberPersistency, AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE);
+		return getMembershipNumberForAvgAnnualERSperMember(policyEffectiveDate, memberPersistency, AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE, policyEffectiveDate);
 	}
 
-	public String getMembershipNumberForAvgAnnualERSperMember(LocalDate policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
+	public String getMembershipNumberForAvgAnnualERSperMember(LocalDate policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember, LocalDate serviceDate) {
 		Set<String> membershipNumbersSet = getActiveAndPrimaryMembershipNumbers(policyEffectiveDate.minusYears(memberPersistency));
 		if (!membershipNumbersSet.isEmpty()) {
 			if (avgAnnualERSperMember.equals(AVG_ANNUAL_ERS_PER_MEMBER_DEFAULT_VALUE)) {
 				return membershipNumbersSet.stream().findFirst().get();
 			}
 
-			return getMembershipNumberForAvgAnnualERSperMember(membershipNumbersSet, policyEffectiveDate, avgAnnualERSperMember);
+			return getMembershipNumberForAvgAnnualERSperMember(membershipNumbersSet, policyEffectiveDate, avgAnnualERSperMember, serviceDate);
 		}
 		return null;
 	}
@@ -113,16 +113,17 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 		return getMembershipResponses().stream().filter(m -> Objects.equals(m.getId(), membershipRequestId)).collect(Collectors.toList());
 	}
 
-	private String getMembershipNumberForAvgAnnualERSperMember(Set<String> membershipNumbers, LocalDate policyEffectiveDate, Double avgAnnualERSperMember) {
+	private String getMembershipNumberForAvgAnnualERSperMember(Set<String> membershipNumbers, LocalDate policyEffectiveDate, Double avgAnnualERSperMember, LocalDate expectedServiceDate) {
 		// TimeSetterUtil.getInstance().getCurrentTime() breaks time shifting if executed in before suite and "timeshift-scenario-mode" != "suite"
 		LocalDate today = TimeSetterUtil.istfDateToJava(new TimeSetterClient().getStartTime()).toLocalDate();
 		for (String mNumber : membershipNumbers) {
 			int ersCount = 0;
 			int totalYearsCount = 0;
+			LocalDate serviceDate = null;
 
 			for (MembershipResponse mResponse : getMembershipResponses(mNumber)) {
 				if ("Active".equals(mResponse.getStatus())) {
-					LocalDate serviceDate = mResponse.getServiceDate() != null ? mResponse.getServiceDate() : today;
+					serviceDate = mResponse.getServiceDate() != null ? mResponse.getServiceDate() : today;
 					LocalDate memberStartDate = mResponse.getMemberStartDate() != null ? mResponse.getMemberStartDate() : today;
 					if (Math.abs(policyEffectiveDate.getYear() - serviceDate.getYear()) <= 3) {
 						ersCount++;
@@ -137,7 +138,7 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 				continue;
 			}
 
-			if (ersCount / totalYearsCount == avgAnnualERSperMember) {
+			if (ersCount / totalYearsCount == avgAnnualERSperMember && expectedServiceDate.equals(serviceDate)) {
 				return mNumber;
 			}
 		}
