@@ -16,8 +16,11 @@
                     <include name="pas14679_CompDLMatchMore"/>
                     <include name="pas14679_CompDLPUMatchMoreManual"/>
                     <include name="pas8310_nameDOBYOBMatchMore"/>
+                    <include name="pas8310_nameDobYobMatchMoreManual"/>
                     <include name="pas14552_includeClaimsInRatingDetermination"/>
                     <include name="pas22172_ReconcilePUEndorsementAFRD"/>
+                    <include name="pas18159_offlineClaimsAnalytics"/>
+                    <include name="pas25162_permissiveUseIndicatorDefaulting"/>
                 </methods>
             </class>
         </classes>
