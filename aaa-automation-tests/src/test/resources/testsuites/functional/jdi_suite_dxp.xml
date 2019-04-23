@@ -659,7 +659,7 @@
         </classes>
     </test>
     <test thread-count="1024" name="Add named insured not Policy Effective Date" parallel="methods">
-        <parameter name="state" value="VA, CT"/>
+        <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
                 <methods>
@@ -668,7 +668,7 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="Add named insured not Policy Effective Date" parallel="methods">
+    <test thread-count="1024" name="Add named insured not Policy Effective Date for Other state" parallel="methods">
         <parameter name="state" value="VA, OR"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
