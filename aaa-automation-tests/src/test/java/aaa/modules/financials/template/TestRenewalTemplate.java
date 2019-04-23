@@ -483,7 +483,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
 
         // cancel policy for non-payment of premium
-        policy.cancel().perform(getCancellationNonPaymentTd());
+        policy.cancel().perform(getCancellationNonPaymentTd(effDate));
 
         // Advance time one month, reinstate policy with lapse, waive reinstatement fee
         TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1));
