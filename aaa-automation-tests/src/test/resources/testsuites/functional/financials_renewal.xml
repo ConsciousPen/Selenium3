@@ -153,7 +153,11 @@
     <test name="Renewal - CA PUP" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.financials.pup.TestRenewal"/>
+            <class name="aaa.modules.financials.pup.TestRenewal">
+                <methods>
+                    <exclude name="testRenewalScenario_5"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
