@@ -75,7 +75,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"Vehicles.2008, ACURA, MDX.Primary Driver",
 			"Vehicles.2008, ACURA, MDX.System Rated Driver",
 			"AAANYDriver Vehicle Relationship",
-			"Forms.Uninsured and Underinsured Motorist Coverage"
+			"Forms.Uninsured and Underinsured Motorist Coverage",
 			"AAANYDriver Vehicle Relationship",
 			"Vehicles.1998, DODGE, CARAVAN.Coverages.Enhanced Transportation Expense Coverage",
 			"Vehicles.1998, DODGE, CARAVAN.Coverages.Limit per day"
