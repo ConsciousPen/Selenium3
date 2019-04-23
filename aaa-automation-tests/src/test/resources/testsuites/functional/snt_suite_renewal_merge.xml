@@ -123,6 +123,32 @@
         </classes>
     </test>
 
+    <test name="Premium And Coverages/Comparison CA Select" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas14162_dataGatherComparisonPremiumAndCoverages"/>
+                    <include name="pas14162_endorsementsComparisonPremiumAndCoverages"/>
+                    <include name="pas14162_renewalComparisonPremiumAndCoverages"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Premium And Coverages/Comparison CA Choice" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas14162_dataGatherComparisonPremiumAndCoverages"/>
+                    <include name="pas14162_endorsementsComparisonPremiumAndCoverages"/>
+                    <include name="pas14162_renewalComparisonPremiumAndCoverages"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test name="General tab/Named Insured Information section/Conflict SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -778,6 +804,20 @@
                     <include name="pas19839_ooseConflictAutomaticRemoveVehicleAndDriver"/>
                     <include name="pas19839_ooseConflictManualRemoveVehicleAndDriver"/>
                     <include name="pas19839_renewalMergeAutomaticRemoveNamedInsured"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Premium And Coverages/Conflict SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas27030_ooseConflictManualPremiumAndCoverages"/>
+                    <include name="pas27030_ooseConflictAutomaticPremiumAndCoverages"/>
+                    <include name="pas27030_renewalMergePremiumAndCoverages"/>
+
                 </methods>
             </class>
         </classes>
