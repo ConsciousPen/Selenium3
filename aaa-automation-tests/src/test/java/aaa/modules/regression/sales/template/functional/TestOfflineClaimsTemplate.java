@@ -128,7 +128,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     private static final String INC_RATING_CLAIM_3 = "IIRatingClaim3";
     private static final String INC_RATING_CLAIM_4 = "IIRatingClaim4";
 
-
     protected boolean newBusinessFlag = false;
     protected static aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab generalTab = new aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab();
     private static final String[] CLAIM_NUMBERS_PU_DEFAULTING = {"PU_DEFAULTING_CMP","PU_DEFAULTING_1","PU_DEFAULTING_2","PU_DEFAULTING_3",
@@ -622,8 +621,10 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             switch (includeIR) {
                 case "Yes":
                     softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
+                    break;
                 case "No":
                     softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("No");
+                    break;
                 case "NA":
                     break;
             }
@@ -965,12 +966,12 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         bindEndorsement();
     }
 
-    //Test Claims 'Include In Rating' determination according to Occurrence date
-    protected void pas14552_includeClaimsInRatingDetermination() {
+    //Test Claims 'Include In Rating' determination according to Occurrence date - now with subsequent renewal checks!
+    protected void pas14552_includeClaimsInRatingDetermination(String SCENARIO) {
         // Claim Dates: claimDateOfLoss/claimOpenDate/claimCloseDate all are the same
         String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(1).toLocalDate().toString();
-        String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).toLocalDate().toString();
-        String claim3_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(3).toLocalDate().toString();
+        String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(2).minusDays(50).toLocalDate().toString();
+        String claim3_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(3).minusDays(47).toLocalDate().toString();
 
         Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS =
                 ImmutableMap.of(INC_RATING_CLAIM_1, claim1_dates, INC_RATING_CLAIM_2, claim2_dates, INC_RATING_CLAIM_3, claim3_dates, INC_RATING_CLAIM_4, claim3_dates);
@@ -983,7 +984,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         mainApp().close();
 
         //Run Jobs to create and issue 2nd Renewal
-        casRenewal(2);
+        casRenewal(2, policyNumber);
 
         //Run Jobs to create 3rd required Renewal and validate the results
         runRenewalClaimOrderJob();
@@ -1014,7 +1015,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         // PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to two terms eff. date
         activityAssertions(1,1,4,2,"Internal Claims", INC_RATING_CLAIM_2,false, "Yes");
         //PAS-22026 - Agent Override scenario
-        activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER.getLabel(), RadioGroup.class).setValue("Yes");
+        activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER.getLabel(), RadioGroup.class).setValue("No");
+        activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.NOT_INCLUDED_IN_POINTS_AND_OR_TIER_REASON_CODES.getLabel(), ComboBox.class).setValue("Company Error");
         // PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to current system date
         activityAssertions(1,1,4,3,"Internal Claims", INC_RATING_CLAIM_3,false, "Yes");
         // PAS-18300 - Assert that Permissive Use Claim IS Included In Rating because Date of Loss is equal to current system date and assigned to FNI - !!Claim will get Same Day Waiver after premium Calc
@@ -1030,7 +1032,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         issueGeneratedRenewalImage(policyNumber);
 
         //Run Jobs to create create 5th renewal
-        casRenewal(1);
+        casRenewal(1, policyNumber);
 
         //Run Jobs to create and create a 6th renewal
         runRenewalClaimOrderJob();
@@ -1060,35 +1062,33 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         // PAS_22026 - Claim 4 Include in Rating = NO (Maintain Same Day Waiver from Claim 3)
         activityAssertions(1,1,4,4,"Internal Claims", INC_RATING_CLAIM_4,false, "No");
 
-//            switch (scenario){
-//                case "Chargeability":
-//                    //PAS-22026 - Continue to age off claim 2
-//                    issueGeneratedRenewalImage(policyNumber);
-//                    casRenewal(3);
-//
-//                    // Retrieve policy and verify claim presence on renewal image
-//                    mainApp().open();
-//                    SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-//
-//                    if (tableSearchResults.isPresent()) {
-//                        tableSearchResults.getRow("Eff. Date",
-//                                TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
-//                                .getCell(1).controls.links.getFirst().click();
-//                    }
-//
-//                    buttonRenewals.click();
-//                    policy.dataGather().start();
-//                    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-//
-//                    // PAS-22026 - Assert that claim 3 Included in Rating = NO (Outside of 60 month charge window)
-//                    tableActivityInformationList.selectRow(3);
-//                    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_3);
-//                    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
-//                    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("No");
-//                    break;
-//            }
-            ////////////////////////////////////////////////////////////////////////////////////
+        switch (SCENARIO){
+                case "Short":
+                    break;
+                case "Long":
+                    //PAS-22026 - Continue to age off claim 2
+                    issueGeneratedRenewalImage(policyNumber);
+                    casRenewal(3, policyNumber);
 
+                    // Retrieve policy and verify claim presence on renewal image
+                    mainApp().open();
+                    SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+                    if (tableSearchResults.isPresent()) {
+                        tableSearchResults.getRow("Eff. Date",
+                                TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
+                                .getCell(1).controls.links.getFirst().click();
+                    }
+
+                    buttonRenewals.click();
+                    policy.dataGather().start();
+                    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+                    // PAS-22026 - Assert that claim 3 Included in Rating = NO (Outside of 60 month charge window)
+                    tableActivityInformationList.selectRow(3);
+                    activityAssertions(1,1,4,3,"Internal Claims", INC_RATING_CLAIM_3,false, "No");
+                    break;
+            }
     }
 
     /**
@@ -1229,7 +1229,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         });
     }
 
-
     /**
      * Method opens app, retrieves policy, and enters data gathering in renewal image
      * @param policyNumber
@@ -1245,7 +1244,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
      * Method renews policies with claims batch runs: order batch at r-63, claim receive batch at r-46, renewal pt1 and pt2 at r-35, makes payment, and runs policyStatusUpdate batch at R
      * @param renewalAmount
      */
-    public void casRenewal(int renewalAmount) {
+    public void casRenewal(int renewalAmount, String policyNumber) {
         int x = 0;
         while (x < renewalAmount) {
             runRenewalClaimOrderJob();

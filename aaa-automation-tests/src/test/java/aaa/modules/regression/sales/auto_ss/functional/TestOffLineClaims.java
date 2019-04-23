@@ -143,8 +143,10 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
     /**
      * @author Mantas Garsvinskas
+     * @author Chris Johns
      * PAS-14552 - INC IN RATING: Determine if Previously Unmatched but Now matched should be Included in Rating
      * PAS-18341 - Added PermissiveUse tag to Claims Service Contract
+     * PAS-22026 - INC IN RATING: answer to "within prior two terms" needs to carry forward to subsequent renewals
      * @name Test Claims 'Include In Rating' determination according to Occurrence date
      * @scenario Test Steps:
      * 1. Create a Policy with 1 driver ANNUAL TERM;
@@ -154,21 +156,46 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
      * 3.3. Move Time to R-46
      * 3.4. Run Renewal Part2 + "claimsRenewBatchReceiveJob"
      * 4 Retrieve policy and enter 3rd renewal image
-     * 5. Verify Claim Data:
+     * 5. Verify Claim Data: PAS-14552
      * 5.1 Claim1: claimNumber1 - NOT INCLUDED IN RATING dateOfLoss = Two Policy Terms - 1 day (R1-1)
      * 5.1 Claim2: claimNumber2 - INCLUDED IN RATING dateOfLoss = Two Policy Terms (R1)
      * 5.1 Claim3: claimNumber3 - INCLUDED IN RATING dateOfLoss = Current Date (R3-46)
      * 5.1 Claim4: claimNumber4 - INCLUDED IN RATING dateOfLoss = Current Date (R3-46) PERMISSIVE_USE Match Assigned to FNI
-     * <p>
-     * //TODO: Mantas Garsvinskas add one more claim on 1st Renewal for Existing match, will be implemented in other Story: PAS-22026
-     * @details
+     * 6. Use above steps to move to the 5th renewal
+     * 7. Retrieve policy and enter renewal image
+     * 8. Verify claim data: PAS-22026
+     * 8.1 Claim1: claimNumber1 - Include in Rating = NO (Did not pass last age check)
+     * 8.1 Claim2: claimNumber2 - Include in Rating = NO (Maintain Agent Override)
+     * 8.1 Claim3: claimNumber3 - Include in Rating = YES (Passed last Age check, still within 60 month charge window)
+     * 8.1 Claim4: claimNumber4 - Include in Rating = NO (Maintain Same Day Waiver from Claim 3)
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14552")
-    public void pas14552_includeClaimsInRatingDetermination(@Optional("AZ") @SuppressWarnings("unused") String state) {
-        pas14552_includeClaimsInRatingDetermination();
+    public void pas14552_includeClaimsInRatingDeterminationShort(@Optional("AZ") @SuppressWarnings("unused") String state) {
+        pas14552_includeClaimsInRatingDetermination("Short");
     }
+
+    /**
+     * @author Chris Johns
+     * PAS-14552 - INC IN RATING: Determine if Previously Unmatched but Now matched should be Included in Rating
+     * PAS-18341 - Added PermissiveUse tag to Claims Service Contract
+     * PAS-22026 - INC IN RATING: answer to "within prior two terms" needs to carry forward to subsequent renewals
+     * @name Test Claims 'Include In Rating' determination according to Occurrence date
+     * @scenario Test Steps:
+     * 9. Use above test/steps to move to the 8th renewal
+     * 10. Retrieve policy and enter renewal image
+     * 11. Verify claim data: PAS-22026 - Long Scenario
+     * 11.1 Claim3: claimNumber3 - Include in Rating = NO (Claim outside chargeability window)
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14552")
+    public void pas14552_includeClaimsInRatingDeterminationLong(@Optional("AZ") @SuppressWarnings("unused") String state) {
+        pas14552_includeClaimsInRatingDetermination("Long");
+    }
+
+
 
     /**
      * @author Chris Johns
