@@ -67,7 +67,7 @@ TestDataDiscountCA: {
     DriverTab: ['@Driver_FNI', '@Driver_Daughter_CA'],
     MembershipTab: '@MembershipTab',
     VehicleTab: ['@VehicleTab_1', '@VehicleTab_Camper'],
-    AssignmentTab: '@<auto_ca_select>@DataGather@AssignmentTab',
+    AssignmentTab: '@AssignmentTab',
     FormsTab: '@<auto_ca_select>@DataGather@FormsTab',
     PremiumAndCoveragesTab: '@<auto_ca_select>@DataGather@PremiumAndCoveragesTab',
     DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
@@ -249,3 +249,18 @@ VehicleTab_Camper: {
     'Miles One-way to Work or School': '15',
     Customer Declared Annual Miles: '3000',
 }
+
+AssingmentTab_DiscountService: {
+  DriverVehicleRelationshipTable: [{
+    Primary Driver: index=1,
+  }, {
+   Primary Driver: index=1,
+  }]
+}
+AssignmentTab: {
+        DriverVehicleRelationshipTable: [{
+                   Primary Driver: index=1,
+                    }, {
+                    Primary Driver: index=1,
+                                         }]
+    }
