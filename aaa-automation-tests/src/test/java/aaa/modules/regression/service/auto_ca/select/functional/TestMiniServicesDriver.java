@@ -42,4 +42,12 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
     {
         pas25053_ViewDriverServiceCANameInsureIndicator_body(getPolicyType());
     }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-25053"})
+    public void pas22513_ViewDiscountDriver(@Optional("CA") String state)
+    {
+        pas22513_ViewDiscountDriverBody(getPolicyType());
+    }
 }

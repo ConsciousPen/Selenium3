@@ -61,11 +61,32 @@ TestData_FilteredRelationshipDrivers_CA: {
     PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
 }
 
+TestDataDiscountCA: {
+    PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
+    GeneralTab: '@GeneralTab1_CA_Discount',
+    DriverTab: ['@Driver_FNI', '@Driver_Daughter_CA'],
+    MembershipTab: '@MembershipTab',
+    VehicleTab: ['@VehicleTab_1', '@VehicleTab_Camper'],
+    AssignmentTab: '@<auto_ca_select>@DataGather@AssignmentTab',
+    FormsTab: '@<auto_ca_select>@DataGather@FormsTab',
+    PremiumAndCoveragesTab: '@<auto_ca_select>@DataGather@PremiumAndCoveragesTab',
+    DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
+    DocumentsAndBindTab: '@<auto_ca_select>@DataGather@DocumentsAndBindTab',
+    PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+}
+
 GeneralTab1_CA: {
   ContactInformation: '@ContactInformation',
   AAAProductOwned: '@AAAProductOwned',
   PolicyInformation: '@PolicyInformation',
   NamedInsuredInformation: ['@NamedInsuredInformation1_CA', '@NamedInsuredInformation2_CA','@NamedInsuredInformation3_CA', '@NamedInsuredInformation4_CA'],
+}
+
+GeneralTab1_CA_Discount: {
+  ContactInformation: '@ContactInformation',
+  AAAProductOwned: '@AAAProductOwned',
+  PolicyInformation: '@PolicyInformation',
+  NamedInsuredInformation: ['@NamedInsuredInformation1_CA'],
 }
 
 Driver_FNI: {
@@ -201,4 +222,30 @@ NamedInsuredInformation4_CA: {
   Last Name: Branwen,
   Base Date: $<today>,
   "Has lived here for less than three years?": 'No'
+}
+
+VehicleTab_1: {
+    Add Vehicle: Click,
+    Primary Use: 'contains=Commute',
+    Usage: Pleasure,
+    VIN: WDCYC7BB0B6729451,
+    'Miles One-way to Work or School': '15',
+    Odometer Reading: '29000',
+    Odometer Reading Date: $<today>,
+}
+
+VehicleTab_Camper: {
+    Add Vehicle: Click,
+    Type: Camper,
+    Usage: Pleasure,
+    VIN: JDGKDIGDU,
+    Make: 'OTHER',
+    Other Make: 'Other Make',
+    Other Model: 'Model',
+    Other Series: 'Series',
+    'Other Body Style': 'Sedan',
+    'Value($)': '10000',
+    Primary Use: 'contains=Commute',
+    'Miles One-way to Work or School': '15',
+    Customer Declared Annual Miles: '3000',
 }

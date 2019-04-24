@@ -2732,7 +2732,18 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			});
 
 	}
+	protected void pas22513_ViewDiscountDriverBody(PolicyType policyType) {
+		assertSoftly(softly -> {
+			TestData td = getTestSpecificTD("TestDataDiscountCA");
 
+			TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+			td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+			mainApp().open();
+			createCustomerIndividual();
+			policyType.get().createPolicy(td);
+			String policyNumber = PolicySummaryPage.getPolicyNumber();
+		});
+	}
 	private void verifyNiDriver(ETCSCoreSoftAssertions softly, DriversDto driverFNI) {
 		softly.assertThat(driverFNI.namedInsuredType).isEqualTo("FNI");
 		softly.assertThat(driverFNI.driverType).isEqualTo("afr");
