@@ -2689,22 +2689,55 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	}
 	protected void pas25053_ViewDriverServiceCANameInsureIndicator_body(PolicyType policyType) {
-		TestData td = getTestSpecificTD("TestData_FilteredRelationshipDrivers_CA");
-		//TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_FilteredRelationshipDrivers_CA").getTestDataList("GeneralTab"))
-		//		.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_FilteredRelationshipDrivers_CA").getTestDataList("DriverTab")).resolveLinks();
-		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
-		td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
-		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(td);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		assertSoftly(softly -> {
+			TestData td = getTestSpecificTD("TestData_FilteredRelationshipDrivers_CA");
 
-		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		HelperCommon.createEndorsement("CAAS952918565", endorsementDate);
+			TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+			td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+			mainApp().open();
+			createCustomerIndividual();
+			policyType.get().createPolicy(td);
+			String policyNumber = PolicySummaryPage.getPolicyNumber();
 
+			String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			HelperCommon.createEndorsement("CAAS952918565", endorsementDate);
 
+			ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+			DriversDto driverFNI = viewDriversResponse.driverList.get(0);
+			verifyNiDriver(softly, driverFNI);
+
+			DriversDto driver1 = viewDriversResponse.driverList.get(1);
+			softly.assertThat(driver1.namedInsuredType).isEqualTo("NI");
+			softly.assertThat(driver1.driverType).isEqualTo("afr");
+
+			DriversDto driver2 = viewDriversResponse.driverList.get(2);
+			softly.assertThat(driver2.namedInsuredType).isEqualTo("NI");
+			softly.assertThat(driver2.driverType).isEqualTo("nafr");
+
+			DriversDto driver3 = viewDriversResponse.driverList.get(3);
+			softly.assertThat(driver3.namedInsuredType).isEqualTo("NI");
+			softly.assertThat(driver3.driverType).isEqualTo("excl");
+
+			DriversDto driver4 = viewDriversResponse.driverList.get(4);
+			softly.assertThat(driver4.namedInsuredType).isEqualTo("Not a Named Insured");
+			softly.assertThat(driver4.driverType).isEqualTo("afr");
+
+			DriversDto driver5 = viewDriversResponse.driverList.get(5);
+			softly.assertThat(driver5.namedInsuredType).isEqualTo("Not a Named Insured");
+			softly.assertThat(driver5.driverType).isEqualTo("nafr");
+
+			DriversDto driver6 = viewDriversResponse.driverList.get(6);
+			softly.assertThat(driver6.namedInsuredType).isEqualTo("Not a Named Insured");
+			softly.assertThat(driver6.driverType).isEqualTo("nafr");
+			});
 
 	}
+
+	private void verifyNiDriver(ETCSCoreSoftAssertions softly, DriversDto driverFNI) {
+		softly.assertThat(driverFNI.namedInsuredType).isEqualTo("FNI");
+		softly.assertThat(driverFNI.driverType).isEqualTo("afr");
+	}
+
 	private DriversDto addDriverWithChecks(String policyNumber, ETCSCoreSoftAssertions softly) {
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Jarred", "", "Benjami", "1960-02-08", "I");
 		DriversDto addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
