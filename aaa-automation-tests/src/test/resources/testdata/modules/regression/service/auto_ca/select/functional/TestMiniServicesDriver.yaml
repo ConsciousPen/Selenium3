@@ -121,7 +121,7 @@ Driver_Mother_CA: {
   DriverSearchDialog: {},
   Named Insured: 'Orlaith Branwen',
   Driver Type: 'Not Available for Rating',
-  Reason: 'Unlicensed Spouse',
+  Reason: 'Unlicensed spouse',
   Rel. to First Named Insured: Mother,
   Date of Birth: '05/01/1958',
   Gender: 'Female',
