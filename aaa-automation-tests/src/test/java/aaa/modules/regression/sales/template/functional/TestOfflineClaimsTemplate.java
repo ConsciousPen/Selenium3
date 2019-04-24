@@ -967,7 +967,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
     //Test Claims 'Include In Rating' determination according to Occurrence date - now with subsequent renewal checks!
     protected void pas14552_includeClaimsInRatingDetermination(String SCENARIO) {
-        // Claim Dates: claimDateOfLoss/claimOpenDate/claimCloseDate all are the same
+        //Claim Dates: claimDateOfLoss/claimOpenDate/claimCloseDate all are the same
         String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(1).toLocalDate().toString();
         String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(2).minusDays(50).toLocalDate().toString();
         String claim3_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(3).minusDays(47).toLocalDate().toString();
@@ -977,7 +977,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
         TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(driverTab.getMetaKey(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "A19191911").resolveLinks();
 
-        // Create Customer and Policy
+        //Create Customer and Policy
         openAppAndCreatePolicy(testData);
         String policyNumber = labelPolicyNumber.getValue();
         mainApp().close();
@@ -988,7 +988,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         //Run Jobs to create 3rd required Renewal and validate the results
         runRenewalClaimOrderJob();
 
-        // Create Updated CAS Response and Upload
+        //Create Updated CAS Response and Upload
         createCasClaimResponseAndUploadWithUpdatedDates(policyNumber, INC_IN_RATING_3RD_RENEWAL_DATA_MODEL, UPDATE_CAS_RESPONSE_DATE_FIELDS);
         runRenewalClaimReceiveJob();
 
@@ -1011,13 +1011,13 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         // Check that Policy Contains 4 Claims
         assertThat(tableActivityInformationList.getAllRowsCount()).isEqualTo(4);
 
-        // PAS14552 - Assert that Claim IS NOT Included In Rating because Date of Loss is older than two terms
+        //PAS14552 - Assert that Claim IS NOT Included In Rating because Date of Loss is older than two terms
         activityAssertions(1,1,4,1,"Internal Claims", INC_RATING_CLAIM_1,true, "No");
-        // PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to two terms eff. date
+        //PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to two terms eff. date
         activityAssertions(1,1,4,2,"Internal Claims", INC_RATING_CLAIM_2,true, "Yes");
-        // PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to current system date
+        //PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to current system date
         activityAssertions(1,1,4,3,"Internal Claims", INC_RATING_CLAIM_3,true, "Yes");
-        // PAS-18300 - Assert that Permissive Use Claim IS Included In Rating because Date of Loss is equal to current system date and assigned to FNI - !!Claim will get Same Day Waiver after premium Calc
+        //PAS-18300 - Assert that Permissive Use Claim IS Included In Rating because Date of Loss is equal to current system date and assigned to FNI - !!Claim will get Same Day Waiver after premium Calc
         activityAssertions(1,1,4,4,"Internal Claims", INC_RATING_CLAIM_4,true, "Yes");
 
         //Issue 4th Renewal
@@ -1234,6 +1234,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     /**
      * Method renews policies with claims batch runs: order batch at r-63, claim receive batch at r-46, renewal pt1 and pt2 at r-35, makes payment, and runs policyStatusUpdate batch at R
      * @param renewalAmount
+     * @param policyNumber
      */
     public void casRenewal(int renewalAmount, String policyNumber) {
         int x = 0;
@@ -1244,6 +1245,5 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             x++;
         }
     }
-
 
 }
