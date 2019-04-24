@@ -71,7 +71,7 @@ Driver_FNI: {
 
 Driver_Son_CA: {
   DriverSearchDialog: {},
-  First Named Insured: 'Vincent Branwen',
+  Named Insured: 'Vincent Branwen',
   Driver Type: 'Excluded',
   Reason: 'Insured Requested - premium',
   Rel. to First Named Insured: Son,
@@ -82,8 +82,7 @@ Driver_Son_CA: {
   License Type: 'Valid',
   Age First Licensed: '16',
   Permit Before License: 'Yes',
-  "License #": 'B1234567',
-  Most Recent GPA: 'None'
+  "License #": 'B1234567'
 }
 
 Driver_Daughter_CA: {
@@ -105,7 +104,7 @@ Driver_Daughter_CA: {
 
 Driver_Father_CA: {
   DriverSearchDialog: {},
-  First Named Insured: 'Christopher Branwen',
+  Named Insured: 'Christopher Branwen',
   Driver Type: 'Available for Rating',
   Rel. to First Named Insured: Father,
   Date of Birth: '05/01/1956',
@@ -120,7 +119,7 @@ Driver_Father_CA: {
 
 Driver_Mother_CA: {
   DriverSearchDialog: {},
-  First Named Insured: 'Orlaith Branwen',
+  Named Insured: 'Orlaith Branwen',
   Driver Type: 'Not Available for Rating',
   Reason: 'Unlicensed Spouse',
   Rel. to First Named Insured: Mother,
