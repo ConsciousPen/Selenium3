@@ -27,6 +27,14 @@ public class DXPRequestFactory {
 		return updateDriverRequest;
 	}
 
+	public static UpdateDriverRequest createUpdateDriverRequest(String gender, String licenseNumber, Integer ageFirstLicensed,
+																String stateLicensed, String relationToApplicantCd, String maritalStatusCd,
+																boolean permitBeforeLicense) {
+		UpdateDriverRequest updateDriverRequest = createUpdateDriverRequest(gender, licenseNumber, ageFirstLicensed, stateLicensed, relationToApplicantCd, maritalStatusCd);
+		updateDriverRequest.permitBeforeLicense = permitBeforeLicense;
+		return updateDriverRequest;
+	}
+
 	public static RemoveDriverRequest createRemoveDriverRequest(String removalReasonCode) {
 		RemoveDriverRequest removeDriverRequest = new RemoveDriverRequest(); //"RD1001" and "RD1002" for happy path
 		removeDriverRequest.removalReasonCode = removalReasonCode;

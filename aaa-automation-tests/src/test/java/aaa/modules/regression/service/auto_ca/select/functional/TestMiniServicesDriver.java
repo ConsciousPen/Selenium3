@@ -23,9 +23,11 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
         pas25057_AddDriverCADefaultValuesBody(getPolicyType());
     }
 
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15428"})
     public void pas15428_UpdateDriverPermitBeforeLicense() {
-
-
+        pas15428_UpdateDriver_CABody(getPolicyType());
     }
 
     @Parameters({"state"})
@@ -34,6 +36,14 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
     public void pas15408_ValidateMetadataService_CA(@Optional("CA") String state) {
         pas15408_ValidateDriverMetadataService_CA(getPolicyType());
     }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15408"})
+    public void pas15408_ViewDriverService_CA(@Optional("CA") String state) {
+        pas15408_ViewDriverServiceCA_Body(getPolicyType());
+    }
+
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
