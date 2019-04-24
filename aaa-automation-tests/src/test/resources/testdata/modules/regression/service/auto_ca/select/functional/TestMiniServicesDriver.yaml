@@ -55,7 +55,7 @@ TestData_FilteredRelationshipDrivers_CA: {
     VehicleTab: '@<auto_ca_select>@DataGather@VehicleTab',
     AssignmentTab: '@<auto_ca_select>@DataGather@AssignmentTab',
     FormsTab: '@<auto_ca_select>@DataGather@FormsTab',
-    PremiumAndCoveragesTab: '@<auto_ca_select>@DataGather@PremiumAndCoveragesTab_VA',
+    PremiumAndCoveragesTab: '@<auto_ca_select>@DataGather@PremiumAndCoveragesTab',
     DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
     DocumentsAndBindTab: '@<auto_ca_select>@DataGather@DocumentsAndBindTab',
     PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
