@@ -2649,9 +2649,9 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 						null, "male", "1976-07-08", 18, "CA", "E1234567", driver));
 		viewDriversResponse.driverList.stream().filter(driver -> "Christopher".equals(driver.firstName)).findFirst().ifPresent(driver ->
 				validateExistingDriver("Christopher", "Branwen", "NI", "afr", "PA",
-						null, "male", "1976-07-08", 16, "CA", "C1234567", driver));
+						null, "male", "1956-05-01", 16, "CA", "C1234567", driver));
 		viewDriversResponse.driverList.stream().filter(driver -> "Orlaith".equals(driver.firstName)).findFirst().ifPresent(driver ->
-				validateExistingDriver("Orlaith", "Branwen", "NI", "afr", "PA",
+				validateExistingDriver("Orlaith", "Branwen", "NI", "nafr", "PA",
 						null, "female", "1958-05-01", 16, "CA", "D1234567", driver));
 		viewDriversResponse.driverList.stream().filter(driver -> "Vincent".equals(driver.firstName)).findFirst().ifPresent(driver ->
 				validateExistingDriver("Vincent", "Branwen", "NI", "excl", "CH",
@@ -2680,7 +2680,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(driverResponse.driverType).isEqualTo(driverType);
 			softly.assertThat(driverResponse.relationToApplicantCd).isEqualTo(relationshipToNI);
 			softly.assertThat(driverResponse.maritalStatusCd).isEqualTo(maritalStatusCd);
-			softly.assertThat(driverResponse.genderCd).isEqualTo(genderCd);
+			softly.assertThat(driverResponse.gender).isEqualTo(genderCd);
 			softly.assertThat(driverResponse.driverStatus).isEqualTo("active");
 			softly.assertThat(driverResponse.birthDate).isEqualTo(birthDate);
 			softly.assertThat(driverResponse.ageFirstLicensed).isEqualTo(ageFirstLicensed);
