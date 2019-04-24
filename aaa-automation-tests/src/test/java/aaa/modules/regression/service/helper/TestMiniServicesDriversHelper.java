@@ -2700,7 +2700,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 			String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-			HelperCommon.createEndorsement("CAAS952918565", endorsementDate);
+			HelperCommon.createEndorsement(policyNumber, endorsementDate);
 
 			ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 			DriversDto driverFNI = viewDriversResponse.driverList.get(0);
