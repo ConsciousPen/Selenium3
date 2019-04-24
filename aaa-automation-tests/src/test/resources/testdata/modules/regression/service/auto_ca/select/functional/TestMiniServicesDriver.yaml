@@ -27,6 +27,11 @@ ContactInformation: {
   Email: temp@gmail.com
 }
 
+AAAProductOwned: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001
+}
+
 CurrentCarrierInformation: {
  'Override Prefilled Current Carrier?': 'Yes',
   'Agent Entered Current/Prior Carrier': 'AAA Insurance',
@@ -35,16 +40,18 @@ CurrentCarrierInformation: {
   Agent Entered BI Limits: '$300,000/$500,000',
 }
 
-AAAMembership: {
-  Current AAA Member: 'Yes',
-  Membership Number: 4290023667710001
+MembershipTab: {
+  #Customer Agreement: Customer Agrees,
+  #Sales Agent Agreement: I Agree,
+  Order Report: click,
+  AAAMembershipReport: [{}]
 }
 
 TestData_FilteredRelationshipDrivers_CA: {
     PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
     GeneralTab: '@GeneralTab1_CA',
     DriverTab: ['@Driver_FNI', '@Driver_Son_CA', '@Driver_Daughter_CA', '@Driver_Father_CA', '@Driver_Mother_CA', '@Driver_NotAvailable_CA', '@Driver_Excluded_CA'],
-    RatingDetailReportsTab: '@<auto_ca_select>@DataGather@RatingDetailReportsTab',
+    MembershipTab: '@MembershipTab',
     VehicleTab: '@<auto_ca_select>@DataGather@VehicleTab',
     AssignmentTab: '@<auto_ca_select>@DataGather@AssignmentTab',
     FormsTab: '@<auto_ca_select>@DataGather@FormsTab',
@@ -56,6 +63,7 @@ TestData_FilteredRelationshipDrivers_CA: {
 
 GeneralTab1_CA: {
   ContactInformation: '@ContactInformation',
+  AAAProductOwned: '@AAAProductOwned',
   PolicyInformation: '@PolicyInformation',
   NamedInsuredInformation: ['@NamedInsuredInformation1_CA', '@NamedInsuredInformation2_CA','@NamedInsuredInformation3_CA', '@NamedInsuredInformation4_CA'],
 }
