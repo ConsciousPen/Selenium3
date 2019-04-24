@@ -25,6 +25,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
     public void pas15428_UpdateDriverPermitBeforeLicense() {
 
+
     }
 
     @Parameters({"state"})
