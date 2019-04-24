@@ -1051,6 +1051,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         // PAS_22026 - Claim 3 Include in Rating = YES (Passed last Age check, still within 60 month charge window - at 25th month)
         activityAssertions(1,1,4,3,"Internal Claims", INC_RATING_CLAIM_3,true, "Yes");
 
+        //The 'Short' Scenario will STOP here
+        //The 'Long' scenario will age the policy **3 more full renewals**, and verify the claims are "Outside Experience Period"
         switch (SCENARIO){
                 case "Short":
                     break;

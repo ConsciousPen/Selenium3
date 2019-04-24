@@ -183,10 +183,12 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
      * PAS-22026 - INC IN RATING: answer to "within prior two terms" needs to carry forward to subsequent renewals
      * @name Test Claims 'Include In Rating' determination according to Occurrence date
      * @scenario Test Steps:
-     * 9. Use above test/steps to move to the 8th renewal
+     * 9. Use above test/steps to move to the 8th renewal - **3 additional renewals**
      * 10. Retrieve policy and enter renewal image
      * 11. Verify claim data: PAS-22026 - Long Scenario
-     * 11.1 Claim3: claimNumber3 - Include in Rating = NO (Claim outside chargeability window)
+     * 11.1 Claim1: claimNumber1 - Include in Rating = NO (Did not pass last age check)
+     * 11.2 Claim2: claimNumber2 - Include in Rating = YES (Passed last Age check, still within 60 month charge window)
+     * 11.3 Claim3: claimNumber3 - Include in Rating = YES (Passed last Age check, still within 60 month charge window)
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
