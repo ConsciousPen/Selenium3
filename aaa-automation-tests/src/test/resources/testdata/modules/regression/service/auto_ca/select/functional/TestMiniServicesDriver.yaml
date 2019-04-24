@@ -147,8 +147,7 @@ Driver_Excluded_CA: {
   License Type: 'Valid',
   Age First Licensed: '16',
   Permit Before License: 'Yes',
-  "License #": 'A1234567',
-  Most Recent GPA: 'None'
+  "License #": 'A1234567'
 }
 
 Driver_NotAvailable_CA: {
@@ -165,8 +164,7 @@ Driver_NotAvailable_CA: {
   License Type: 'Valid',
   Age First Licensed: '16',
   Permit Before License: 'Yes',
-  "License #": 'A1234567',
-  Most Recent GPA: 'None'
+  "License #": 'A1234567'
 }
 
 NamedInsuredInformation1_CA: {
