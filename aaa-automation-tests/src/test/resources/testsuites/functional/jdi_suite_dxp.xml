@@ -45,6 +45,7 @@
                     <include name="pas15897_transactionHistoryAndMessage"/>
                     <include name="pas14540_transactionInfoAddVehicleCoverages"/>
                     <include name="pas14540_transactionInfoAddVehicleCoveragesUpdate"/>
+                    <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
                 </methods>
             </class>
         </classes>
@@ -179,7 +180,6 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
-                    <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
                     <include name="pas10449_ViewVehicleServiceOrderOfVehicle"/>
                     <include name="pas11741_ManageVehicleLevelCoverages"/>
                     <include name="pas502_DuplicateVinAddVehicleService"/>
@@ -332,6 +332,17 @@
                 <methods>
                     <include name="pas9716_policySummaryForPolicy"/>
                     <include name="pas28288_PolicyLockUnlockServices"/>
+                    <include name="pas6560_endorsementValidateAllowedNoEffectiveDate"/>
+                    <include name="pas6560_endorsementValidateAllowed"/>
+                    <include name="pas6560_endorsementValidateAllowedPendedEndorsementUser"/>
+                    <include name="pas6562_endorsementValidateNotAllowedFutureDatedEndorsement"/>
+                    <include name="pas6562_endorsementValidateNotAllowedNano"/>
+                    <include name="pas6562_endorsementValidateNotAllowedPendedEndorsementSystem"/>
+                    <include name="pas6562_endorsementValidateNotAllowedOutOfBound"/>
+                    <include name="pas8784_endorsementValidateNotAllowedCustomer"/>
+                    <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
+                    <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
+                    <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
                 </methods>
             </class>
         </classes>
@@ -342,6 +353,17 @@
             <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas28288_PolicyLockUnlockServices"/>
+                    <include name="pas6560_endorsementValidateAllowedNoEffectiveDate"/>
+                    <include name="pas6560_endorsementValidateAllowed"/>
+                    <include name="pas6560_endorsementValidateAllowedPendedEndorsementUser"/>
+                    <include name="pas6562_endorsementValidateNotAllowedFutureDatedEndorsement"/>
+                    <include name="pas6562_endorsementValidateNotAllowedNano"/>
+                    <include name="pas6562_endorsementValidateNotAllowedPendedEndorsementSystem"/>
+                    <include name="pas6562_endorsementValidateNotAllowedOutOfBound"/>
+                    <include name="pas8784_endorsementValidateNotAllowedCustomer"/>
+                    <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
+                    <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
+                    <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
                 </methods>
             </class>
         </classes>
@@ -637,11 +659,22 @@
         </classes>
     </test>
     <test thread-count="1024" name="Add named insured not Policy Effective Date" parallel="methods">
-        <parameter name="state" value="VA, CT"/>
+        <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
                 <methods>
                     <include name="pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="Add named insured not Policy Effective Date for Other state" parallel="methods">
+        <parameter name="state" value="VA, OR"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate"/>
+                    <include name="pas16696_AddANameInsuredSameDayPolicyEffectiveDate"/>
                 </methods>
             </class>
         </classes>

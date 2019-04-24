@@ -112,7 +112,7 @@ ApplicantTab_CO: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  OtherActiveAAAPolicies: {},
+  OtherActiveAAAPolicies: ['@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies_CO', '@<home_ss_ho3>@DataGather@OtherCompanionAutoPolicy'],
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_CO'
 }
 
@@ -312,7 +312,7 @@ ApplicantTab_KS: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  OtherActiveAAAPolicies: {},
+  OtherActiveAAAPolicies: ['@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies_KS', '@<home_ss_ho3>@DataGather@OtherCompanionAutoPolicy'],
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_KS'
 }
 

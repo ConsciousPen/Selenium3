@@ -9,8 +9,11 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.docgen.impl.PasDocImpl;
+import aaa.helpers.xml.model.pasdoc.DocumentGenerationRequest;
 import aaa.main.enums.DocGenEnum;
-import aaa.main.enums.DocGenEnum.Documents;
+import aaa.main.enums.DocGenEnum.EventName;
+import static aaa.main.enums.DocGenEnum.Documents.*;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -309,7 +312,6 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario5(@Optional("") String state) {
-		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td_sc5;
@@ -331,29 +333,29 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		//Verify generation all docs
-		generateAndVerifyDoc(getTestSpecificTD("TestData_GenAllDocs_Quote"), quoteNumber, Documents.AAIQAZ, Documents.AA11AZ, 
-				Documents.AHAPXX, Documents.AA52AZ, Documents.AA43AZ, Documents.AATSXX, Documents.AAUBI, Documents.ACPPNUBI, Documents.AAUBI1);	
+		generateAndVerifyDoc(getTestSpecificTD("TestData_GenAllDocs_Quote"), quoteNumber, AAIQAZ, AA11AZ, AHAPXX, AA52AZ, AA43AZ, AATSXX, AAUBI, ACPPNUBI, AAUBI1);	
 		//Verify docs generation
 		//5.2
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAIQAZ"), quoteNumber, Documents.AAIQAZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAIQAZ"), quoteNumber, AAIQAZ);
+		
 		docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTO_INSURANCE_QUOTE).setValue("No");
 		//5.3
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA11XX"), quoteNumber, Documents.AA11AZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA11XX"), quoteNumber, AA11AZ);
 		//5.4
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AHAPXX"), quoteNumber, Documents.AHAPXX);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AHAPXX"), quoteNumber, AHAPXX);
 		//5.5
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA52AZ"), quoteNumber, Documents.AA52AZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA52AZ"), quoteNumber, AA52AZ);
 		//5.6
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA43AZ"), quoteNumber, Documents.AA43AZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA43AZ"), quoteNumber, AA43AZ);
 		//5.7
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AATSXX"), quoteNumber, Documents.AATSXX);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AATSXX"), quoteNumber, AATSXX);
 		//5.8
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI"), quoteNumber, Documents.AAUBI);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI"), quoteNumber, AAUBI);
 		//5.9
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_ACPUBI"), quoteNumber, Documents.ACPPNUBI);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_ACPUBI"), quoteNumber, ACPPNUBI);
 		//5.10
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI1"), quoteNumber, Documents.AAUBI1);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI1"), quoteNumber, AAUBI1);
 		//5.1b
 		//log.info("Distribution Channel is: " + getDistributionChannel(quoteNumber));
 		docsAndBindTab.submitTab();
@@ -368,17 +370,16 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		new PremiumAndCoveragesTab().calculatePremium();	
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		//Verify generation all docs
-		generateAndVerifyDoc(getTestSpecificTD("TestData_GenAllDocs"), quoteNumber, Documents.AA11AZ, Documents.AHAPXX, 
-				Documents.AA52AZ, Documents.AA43AZ, Documents.AATSXX, Documents.AAUBI, Documents.ACPPNUBI, Documents.AAUBI1);	
+		generateAndVerifyDoc(getTestSpecificTD("TestData_GenAllDocs"), quoteNumber, AA11AZ, AHAPXX, AA52AZ, AA43AZ, AATSXX, AAUBI, ACPPNUBI, AAUBI1);	
 		//Verify docs generation
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA11XX"), policyNumber, Documents.AA11AZ);
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AHAPXX"), policyNumber, Documents.AHAPXX);
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA52AZ"), policyNumber, Documents.AA52AZ);
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA43AZ"), policyNumber, Documents.AA43AZ);
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AATSXX"), policyNumber, Documents.AATSXX);
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI"), policyNumber, Documents.AAUBI);
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_ACPUBI"), policyNumber, Documents.ACPPNUBI);
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI1"), policyNumber, Documents.AAUBI1);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA11XX"), policyNumber, AA11AZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AHAPXX"), policyNumber, AHAPXX);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA52AZ"), policyNumber, AA52AZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA43AZ"), policyNumber, AA43AZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AATSXX"), policyNumber, AATSXX);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI"), policyNumber, AAUBI);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_ACPUBI"), policyNumber, ACPPNUBI);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI1"), policyNumber, AAUBI1);
 		//log.info("Distribution Channel is: " + getDistributionChannel(policyNumber));
 		docsAndBindTab.submitTab();
 		log.info("TEST: Endorsement created for policy#" + PolicySummaryPage.getPolicyNumber());
@@ -389,17 +390,16 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		new PremiumAndCoveragesTab().calculatePremium();		
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		//Verify generation all docs
-		generateAndVerifyDoc(getTestSpecificTD("TestData_GenAllDocs"), quoteNumber, Documents.AA11AZ, Documents.AHAPXX, 
-				Documents.AA52AZ, Documents.AA43AZ, Documents.AATSXX, Documents.AAUBI, Documents.ACPPNUBI, Documents.AAUBI1);	
+		generateAndVerifyDoc(getTestSpecificTD("TestData_GenAllDocs"), quoteNumber, AA11AZ, AHAPXX, AA52AZ, AA43AZ, AATSXX, AAUBI, ACPPNUBI, AAUBI1);	
 		//Verify docs generation
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA11XX"), policyNumber, Documents.AA11AZ);
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AHAPXX"), policyNumber, Documents.AHAPXX);
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA52AZ"), policyNumber, Documents.AA52AZ);
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA43AZ"), policyNumber, Documents.AA43AZ);
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AATSXX"), policyNumber, Documents.AATSXX);
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI"), policyNumber, Documents.AAUBI);
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_ACPUBI"), policyNumber, Documents.ACPPNUBI);
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI1"), policyNumber, Documents.AAUBI1);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA11XX"), policyNumber, AA11AZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AHAPXX"), policyNumber, AHAPXX);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA52AZ"), policyNumber, AA52AZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA43AZ"), policyNumber, AA43AZ);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AATSXX"), policyNumber, AATSXX);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI"), policyNumber, AAUBI);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_ACPUBI"), policyNumber, ACPPNUBI);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI1"), policyNumber, AAUBI1);
 		//log.info("Distribution Channel is: " + getDistributionChannel(policyNumber));
 		docsAndBindTab.submitTab();
 		log.info("TEST: Renewal created for policy#" + PolicySummaryPage.getPolicyNumber());		
@@ -409,7 +409,6 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario6(@Optional("") String state) {
-		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td_sc6 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC3").resolveLinks());	
@@ -426,7 +425,8 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AUTO_INSURANCE_QUOTE).setValue("No");
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA41XX"), quoteNumber, Documents.AA41XX);		
+		
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA41XX"), quoteNumber, AA41XX);		
 		//log.info("Distribution Channel is: " + getDistributionChannel(quoteNumber));
 		docsAndBindTab.submitTab();
 		new PurchaseTab().fillTab(getPolicyTD());
@@ -439,7 +439,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		new PremiumAndCoveragesTab().calculatePremium();	
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA41XX"), policyNumber, Documents.AA41XX);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA41XX"), policyNumber, AA41XX);
 		//log.info("Distribution Channel is: " + getDistributionChannel(policyNumber));
 		docsAndBindTab.submitTab();
 		log.info("TEST: Endorsement created for policy#" + PolicySummaryPage.getPolicyNumber());
@@ -449,7 +449,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		new PremiumAndCoveragesTab().calculatePremium();		
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
-		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA41XX"), policyNumber, Documents.AA41XX);
+		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AA41XX"), policyNumber, AA41XX);
 		//log.info("Distribution Channel is: " + getDistributionChannel(policyNumber));
 		docsAndBindTab.submitTab();
 		log.info("TEST: Renewal created for policy#" + PolicySummaryPage.getPolicyNumber());		
@@ -611,7 +611,11 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		docsAndBindTab.fillTab(td_doc);
 		DocumentsAndBindTab.btnGenerateDocuments.click();
 		WebDriverHelper.switchToDefault();
-		DocGenHelper.verifyDocumentsGenerated(true, false, policyNum, documents);		
+		if(DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
+			PasDocImpl.verifyDocumentsGenerated(null, true, false, policyNum, EventName.ADHOC_DOC_GENERATE, documents);
+		} else {
+			DocGenHelper.verifyDocumentsGenerated(true, false, policyNum, documents);		
+		}
 	}
 	
 	private void generateESignatureDocs(TestData td_doc, boolean isActiveBtn) {
