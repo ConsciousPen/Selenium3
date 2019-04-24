@@ -6,6 +6,7 @@ import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
+import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
@@ -454,6 +455,81 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         Dollar renewalAmt = payTotalAmountDue();
 
         // TODO RNW-04 Validations
+
+    }
+
+    /**
+     * @scenario
+     * 1.  Create policy WITHOUT employee benefit with monthly payment plan
+     * 2.  Cancel policy for reason = non-payment
+     * 3.  Advance time 1 month
+     * 4.  Reinstate policy w/ lapse
+     * 5.  Validate reinstatement fee entries
+     * 6.  Waive reinstatement fee
+     * 7.  Validate entries for waiver of reinstatement fee
+     * 8.  Advance time to renewal offer generation date
+     * 9.  Create renewal image
+     * 10. Add lapse to renewal offer
+     * 11. Waive renewal offer lapse fee
+     * 12. Validate ledger entries
+     * @details FEE-11, FEE-12, FEE-13, FEE-14
+     */
+    protected void testRenewalScenario_5() {
+
+        // Create policy WITHOUT employee benefit, monthly payment plan
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createFinancialPolicy(adjustTdMonthlyPaymentPlan(getPolicyTD()));
+        LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
+        LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
+
+        // cancel policy for non-payment of premium
+        policy.cancel().perform(getCancellationNonPaymentTd(effDate));
+
+        // Advance time one month, reinstate policy with lapse, waive reinstatement fee
+        TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1));
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_CANCELLED);
+        performReinstatement(policyNumber);
+
+        // Capture reinstatement fee and waive
+        SearchPage.openBilling(policyNumber);
+        Dollar reinstatementFee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT_FEE);
+        waiveFeeByDateAndType(effDate.plusMonths(1), BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT_FEE);
+
+        // FEE-11 & FEE-12 validations
+        assertSoftly(softly -> {
+            // FEE-12
+            softly.assertThat(reinstatementFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT_FEE, "1034"));
+            softly.assertThat(reinstatementFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT_FEE, "1040"));
+            // FEE-11
+            softly.assertThat(reinstatementFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT_FEE, "1034"));
+            softly.assertThat(reinstatementFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT_FEE, "1040"));
+        });
+
+        // Advance time to renewal time point and create renewal image
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalEffDate));
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        policy.renew().performAndFill(getRenewalFillTd());
+
+        // Add lapse for renewal term
+        PolicySummaryPage.buttonRenewals.click();
+        policy.manualRenewalWithOrWithoutLapse().perform(getChangeRenewalLapseTd(renewalEffDate.plusMonths(1)));
+
+        // Capture renewal offer with lapse fee and waive
+        Dollar renewalLapseFee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT_FEE_RENEWAL);
+        waiveFeeByDateAndType(getTimePoints().getRenewOfferGenerationDate(renewalEffDate), BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT_FEE_RENEWAL);
+
+        // FEE-13 & FEE-14 validations
+        assertSoftly(softly -> {
+            // FEE-13
+            softly.assertThat(renewalLapseFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL_LAPSE_FEE, "1034"));
+            softly.assertThat(renewalLapseFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL_LAPSE_FEE, "1040"));
+            // FEE-14
+            softly.assertThat(renewalLapseFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL_LAPSE_FEE, "1034"));
+            softly.assertThat(renewalLapseFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL_LAPSE_FEE, "1040"));
+        });
 
     }
 
