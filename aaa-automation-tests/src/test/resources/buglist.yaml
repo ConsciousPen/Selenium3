@@ -194,7 +194,7 @@ PAS-5102:
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.*]
-      messages: ["Errors: Data relevant to ISO "]
+      messages: ["Errors: Data relevant to ISO 360 has changed."]
 PAS-15177:
   summary: "KY Taxes: Tax amount and total premium value are reduced during Empty endorsement"
   reason: PROD
@@ -391,7 +391,7 @@ PT-3244:
     messages: ["Errors: 'Roof shape' is not in within range"]
   - tests: [aaa.modules.bct.service.*]
     messages: ["//input[@id='policyDataGatherForm:premiumRecalcCov' or @id='policyDataGatherForm:actionButton_AAAHORateAction']"]
-PAS-28493:
+PT-3617:
   summary: "Regression BCT: \"Cancel Notice\" flag is present after accepting payment"
   reason: PROD
   failures:
@@ -491,7 +491,7 @@ PAS-27421:
     - tests: [aaa.modules.regression.sales.auto_ca.select.functional.TestRenewalEffectiveOnRewrite.*,
               aaa.modules.regression.sales.auto_ca.choice.functional.TestRenewalEffectiveOnRewrite.*]
       messages: ["Error 500", "Cannot get value of TextBox"]
-PAS-28495:
+PT-3622:
   summary: "Regression BCT 19.5 : After the cancellation error showed Operation has failed due to illegal arguments"
   reason: PROD
   failures:
@@ -509,3 +509,27 @@ PT-3624:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements.*]
       messages: ["Can't find row by specified parameters: {Policy Status=Proposed}"]
+PAS-28695:
+  summary: "Regression BCT 19.5 : NullPointerException: null during Endorsement action"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.*]
+      messages: ["Errors: Time out. No session available."]
+PAS-28815:
+  summary: "Regression BCT 19.5 : Time out. No session available page. just after \"Do not renew\" action"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.*]
+      messages: ["Errors: Time out. No session available."]
+PT-3170:
+  summary: "Regression BCT: Timeout. No session available, error after cancellation, ORA-02292: integrity constraint (PASADM.FKC2D2BEA2DD120899)"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.*]
+      messages: ["Errors: Time out. No session available."]
+PAS-28856:
+  summary: "Regression BCT 19.5 : MDPU109504381 policy throws 'Model' is not in within range at the Underlying Risks/Auto tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.*]
+      messages: ["Errors: 'Model' is not in within range"]
