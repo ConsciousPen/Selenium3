@@ -1,80 +1,12 @@
 TestData: {
-  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
   GeneralTab: '@GeneralTab',
   DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab5'],
-  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  RatingDetailReportsTab: '@<auto_ca_select>@DataGather@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
-  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  FormsTab: '@<auto_ca_select>@DataGather@FormsTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab',
-  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
-}
-
-TestData1: {
-  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
-  GeneralTab: '@GeneralTab1',
-  DriverTab: ['@DriverTab2', '@DriverTab1', '@DriverTab3','@DriverTab5','@DriverTab4','@DriverTab6'],
-  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
-  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
-  FormsTab: '@<auto_ss>@DataGather@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab1',
-  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
-}
-
-TestData2: {
-   PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
-    GeneralTab: '@GeneralTab',
-    DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab5','@DriverTab6','@Driver_two1'],
-    RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
-    VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
-    FormsTab: '@<auto_ss>@DataGather@FormsTab',
-    PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-    DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
-    DocumentsAndBindTab: '@DocumentsAndBindTab',
-    PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
-}
-
-TestData3: {
-  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: ['@DriverTab2','@DriverTab7','@DriverTab5', '@DriverTab_notNI_Spouse', '@Driver_two1'],
-  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
-  VehicleTab: ['@VehicleTab1'],
-  FormsTab: '@<auto_ss>@DataGather@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
-  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
-}
-
-GeneralTab1: {
-  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2','@NamedInsuredInformation3'],
-  AAAMembership: '@AAAMembership',
-  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
-  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
-  CurrentCarrierInformation: '@CurrentCarrierInformation'
-}
-
-GeneralTab: {
-  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAMembership: '@AAAMembership',
-  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
-  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
-  CurrentCarrierInformation: '@CurrentCarrierInformation'
-}
-
-TestDataExcluded: {
-  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab5'],
-  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
-  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
-  FormsTab: '@<auto_ss>@DataGather@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
@@ -92,59 +24,6 @@ AAAMembership: {
   Membership Number: 4290023667710001
 }
 
-NamedInsuredInformation1: {
-  Insured Date of Birth: '$<today-21y:MM/dd/yyyy>',
-  Social Security Number: 123456789,
-  "Has lived here for less than three years?": 'No',
-  Residence: Own Home,
-}
-
-NamedInsuredInformation2: {
-  InsuredSearchDialog: {},
-  First Name: Jenny,
-  Last Name: Smith,
-  Base Date: $<today>,
-  Insured Date of Birth: '$<today-29y:MM/dd/yyyy>',
-  Social Security Number: 223456789,
-  "Has lived here for less than three years?": 'No',
-  Residence: Own Home,
-}
-
-NamedInsuredInformation3: {
-  InsuredSearchDialog: {},
-  First Name: Jovita,
-  Last Name: Smith,
-  Base Date: $<today>,
-  Social Security Number: 785411263,
-  Insured Date of Birth: '$<today-25y:MM/dd/yyyy>',
-  "Has lived here for less than three years?": 'No',
-  Residence: Own Home,
-}
-
-NamedInsuredInformation4: {
-  InsuredSearchDialog: {},
-  First Name: Oleg,
-  Last Name: Sams,
-  Base Date: $<today>,
-  Social Security Number: 784512326,
-  "Has lived here for less than three years?": 'No',
-  Residence: Own Home,
-}
-
-TestData_SixDrivers: {
-  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
-  GeneralTab: '@GeneralTab1',
-  DriverTab: ['@DriverTab2', '@DriverTab1', '@DriverTab7','@DriverTab5','@DriverTab4', '@Driver_four'],
-  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
-  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
-  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
-  FormsTab: '@<auto_ss>@DataGather@FormsTab',
-  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab_VA',
-  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
-  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
-}
-
 TestData_FilteredRelationshipDrivers_CA: {
     PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
     GeneralTab: '@GeneralTab1_CA',
@@ -160,6 +39,8 @@ TestData_FilteredRelationshipDrivers_CA: {
 }
 
 GeneralTab1_CA: {
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation',
   NamedInsuredInformation: ['@NamedInsuredInformation1_CA', '@NamedInsuredInformation2_CA','@NamedInsuredInformation3_CA', '@NamedInsuredInformation4_CA'],
 }
 
