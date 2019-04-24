@@ -136,6 +136,7 @@ Driver_Mother_CA: {
 Driver_Excluded_CA: {
   DriverSearchDialog: {},
   Driver Type: 'Not Available for Rating',
+  Reason: 'Away at school without a vehicle',
   Rel. to First Named Insured: Daughter,
   First Name: 'Iona',
   Last Name: 'Branwen',
@@ -153,6 +154,7 @@ Driver_Excluded_CA: {
 Driver_NotAvailable_CA: {
   DriverSearchDialog: {},
   Driver Type: 'Not Available for Rating',
+  Reason: 'Away at school without a vehicle',
   Rel. to First Named Insured: Daughter,
   First Name: 'Moira',
   Last Name: 'Branwen',
