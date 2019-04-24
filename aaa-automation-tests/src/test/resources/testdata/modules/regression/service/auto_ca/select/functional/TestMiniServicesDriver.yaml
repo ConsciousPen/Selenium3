@@ -11,6 +11,22 @@ TestData: {
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
+PolicyInformation: {
+  Policy Type: Standard,
+  Effective Date: '$<today:MM/dd/yyyy>',
+  Channel Type: AAA Agent,
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'contains=Los Gatos - 500005341 - Los Gatos',
+  Agent: 'House Agent Los Gatos',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+ContactInformation: {
+  Home Phone Number: 1234567890,
+  Email: temp@gmail.com
+}
+
 CurrentCarrierInformation: {
  'Override Prefilled Current Carrier?': 'Yes',
   'Agent Entered Current/Prior Carrier': 'AAA Insurance',
