@@ -2578,13 +2578,13 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	}
 
 	protected void pas15408_ValidateDriverMetadataService_CA(PolicyType policyType) {
-		TestData td = getPolicyTD("DataGather", "TestData");
-		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_FilteredRelationshipDrivers_CA").getTestDataList("GeneralTab"))
-				.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_FilteredRelationshipDrivers_CA").getTestDataList("DriverTab")).resolveLinks();
+		TestData td = getTestSpecificTD("TestData_FilteredRelationshipDrivers_CA");
+		//TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_FilteredRelationshipDrivers_CA").getTestDataList("GeneralTab"))
+		//		.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_FilteredRelationshipDrivers_CA").getTestDataList("DriverTab")).resolveLinks();
 
 		mainApp().open();
 		createCustomerIndividual();
-		policyType.get().createPolicy(testData);
+		policyType.get().createPolicy(td);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -2638,7 +2638,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	}
 
 	protected void pas25057_AddDriverCADefaultValuesBody(PolicyType policyType) {
-		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData td = getTestSpecificTD("TestData_FilteredRelationshipDrivers_CA");
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(td);
@@ -2679,6 +2679,9 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 
 		driverTab.saveAndExit();
+
+		//AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Jarred", "", "Benjami", "1960-02-08", "I");
+		//DriversDto addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 	}
 
 	protected void pas15428_UpdateDriver_CA() {

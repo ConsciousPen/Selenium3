@@ -146,8 +146,17 @@ TestData_SixDrivers: {
 }
 
 TestData_FilteredRelationshipDrivers_CA: {
+    PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
     GeneralTab: '@GeneralTab1_CA',
     DriverTab: ['@Driver_FNI', '@Driver_Son_CA', '@Driver_Daughter_CA', '@Driver_Father_CA', '@Driver_Mother_CA', '@Driver_NotAvailable_CA', '@Driver_Excluded_CA'],
+    RatingDetailReportsTab: '@<auto_ca_select>@DataGather@RatingDetailReportsTab',
+    VehicleTab: '@<auto_ca_select>@DataGather@VehicleTab',
+    AssignmentTab: '@<auto_ca_select>@DataGather@AssignmentTab',
+    FormsTab: '@<auto_ca_select>@DataGather@FormsTab',
+    PremiumAndCoveragesTab: '@<auto_ca_select>@DataGather@PremiumAndCoveragesTab_VA',
+    DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
+    DocumentsAndBindTab: '@<auto_ca_select>@DataGather@DocumentsAndBindTab',
+    PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
 }
 
 GeneralTab1_CA: {
