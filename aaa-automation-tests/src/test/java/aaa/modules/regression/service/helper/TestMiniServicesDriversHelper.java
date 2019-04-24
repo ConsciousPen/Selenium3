@@ -23,6 +23,7 @@ import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.BooleanUtils;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
@@ -2687,7 +2688,23 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	protected void pas15428_UpdateDriver_CA() {
 
 	}
+	protected void pas25053_ViewDriverServiceCANameInsureIndicator_body(PolicyType policyType) {
+		TestData td = getTestSpecificTD("TestData_FilteredRelationshipDrivers_CA");
+		//TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_FilteredRelationshipDrivers_CA").getTestDataList("GeneralTab"))
+		//		.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_FilteredRelationshipDrivers_CA").getTestDataList("DriverTab")).resolveLinks();
+		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+		td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(td);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		HelperCommon.createEndorsement("CAAS952918565", endorsementDate);
+
+
+
+	}
 	private DriversDto addDriverWithChecks(String policyNumber, ETCSCoreSoftAssertions softly) {
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Jarred", "", "Benjami", "1960-02-08", "I");
 		DriversDto addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
