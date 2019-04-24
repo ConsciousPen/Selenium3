@@ -1,0 +1,291 @@
+TestData: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab5'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+TestData1: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab1',
+  DriverTab: ['@DriverTab2', '@DriverTab1', '@DriverTab3','@DriverTab5','@DriverTab4','@DriverTab6'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab1',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+TestData2: {
+   PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+    GeneralTab: '@GeneralTab',
+    DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab5','@DriverTab6','@Driver_two1'],
+    RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+    VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+    FormsTab: '@<auto_ss>@DataGather@FormsTab',
+    PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+    DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+    DocumentsAndBindTab: '@DocumentsAndBindTab',
+    PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+TestData3: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab2','@DriverTab7','@DriverTab5', '@DriverTab_notNI_Spouse', '@Driver_two1'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1'],
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+GeneralTab1: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2','@NamedInsuredInformation3'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
+  CurrentCarrierInformation: '@CurrentCarrierInformation'
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
+  CurrentCarrierInformation: '@CurrentCarrierInformation'
+}
+
+TestDataExcluded: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab5'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+CurrentCarrierInformation: {
+ 'Override Prefilled Current Carrier?': 'Yes',
+  'Agent Entered Current/Prior Carrier': 'AAA Insurance',
+  Agent Entered Inception Date:  '$<today-3y+1d:MM/dd/yyyy>',
+  Agent Entered Expiration Date:  '$<today+9d:MM/dd/yyyy>',
+  Agent Entered BI Limits: '$300,000/$500,000',
+}
+
+AAAMembership: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001
+}
+
+NamedInsuredInformation1: {
+  Insured Date of Birth: '$<today-21y:MM/dd/yyyy>',
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+NamedInsuredInformation2: {
+  InsuredSearchDialog: {},
+  First Name: Jenny,
+  Last Name: Smith,
+  Base Date: $<today>,
+  Insured Date of Birth: '$<today-29y:MM/dd/yyyy>',
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+NamedInsuredInformation3: {
+  InsuredSearchDialog: {},
+  First Name: Jovita,
+  Last Name: Smith,
+  Base Date: $<today>,
+  Social Security Number: 785411263,
+  Insured Date of Birth: '$<today-25y:MM/dd/yyyy>',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+NamedInsuredInformation4: {
+  InsuredSearchDialog: {},
+  First Name: Oleg,
+  Last Name: Sams,
+  Base Date: $<today>,
+  Social Security Number: 784512326,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+TestData_SixDrivers: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab1',
+  DriverTab: ['@DriverTab2', '@DriverTab1', '@DriverTab7','@DriverTab5','@DriverTab4', '@Driver_four'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab_VA',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+TestData_FilteredRelationshipDrivers_CA: {
+    GeneralTab: '@GeneralTab1_CA',
+    DriverTab: ['@Driver_FNI', '@Driver_Son_CA', '@Driver_Daughter_CA', '@Driver_Father_CA', '@Driver_Mother_CA', '@Driver_NotAvailable_CA', '@Driver_Excluded_CA'],
+}
+
+GeneralTab1_CA: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1_CA', '@NamedInsuredInformation2_CA','@NamedInsuredInformation3_CA', '@NamedInsuredInformation4_CA'],
+}
+
+Driver_FNI: {
+  DriverSearchDialog: {},
+  Occupation: Self Employed,
+  Age First Licensed: 18,
+  Permit Before License: 'Yes',
+  License Type: 'Valid',
+  "License #": E1234567
+}
+
+Driver_Son_CA: {
+  DriverSearchDialog: {},
+  First Named Insured: 'Vincent Branwen',
+  Driver Type: 'Excluded',
+  Reason: 'Insured Requested - premium',
+  Rel. to First Named Insured: Son,
+  Date of Birth: '01/01/2000',
+  Gender: 'Male',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'B1234567',
+  Most Recent GPA: 'None'
+}
+
+Driver_Daughter_CA: {
+  DriverSearchDialog: {},
+  Driver Type: 'Available for Rating',
+  Rel. to First Named Insured: Daughter,
+  First Name: 'Iseult',
+  Last Name: 'Branwen',
+  Date of Birth: '05/01/2000',
+  Gender: 'Female',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'A1234567',
+  Most Recent GPA: 'None'
+}
+
+Driver_Father_CA: {
+  DriverSearchDialog: {},
+  First Named Insured: 'Christopher Branwen',
+  Driver Type: 'Available for Rating',
+  Rel. to First Named Insured: Father,
+  Date of Birth: '05/01/1956',
+  Gender: 'Male',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'C1234567'
+}
+
+Driver_Mother_CA: {
+  DriverSearchDialog: {},
+  First Named Insured: 'Orlaith Branwen',
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Unlicensed Spouse',
+  Rel. to First Named Insured: Mother,
+  Date of Birth: '05/01/1958',
+  Gender: 'Female',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'D1234567'
+}
+
+Driver_Excluded_CA: {
+  DriverSearchDialog: {},
+  Driver Type: 'Not Available for Rating',
+  Rel. to First Named Insured: Daughter,
+  First Name: 'Iona',
+  Last Name: 'Branwen',
+  Date of Birth: '05/01/2000',
+  Gender: 'Female',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'A1234567',
+  Most Recent GPA: 'None'
+}
+
+Driver_NotAvailable_CA: {
+  DriverSearchDialog: {},
+  Driver Type: 'Not Available for Rating',
+  Rel. to First Named Insured: Daughter,
+  First Name: 'Moira',
+  Last Name: 'Branwen',
+  Date of Birth: '05/01/2000',
+  Gender: 'Female',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'A1234567',
+  Most Recent GPA: 'None'
+}
+
+NamedInsuredInformation1_CA: {
+  "Has lived here for less than three years?": 'No'
+}
+
+NamedInsuredInformation2_CA: {
+  InsuredSearchDialog: {},
+  First Name: Orlaith,
+  Last Name: Branwen,
+  Base Date: $<today>,
+  "Has lived here for less than three years?": 'No'
+}
+
+NamedInsuredInformation3_CA: {
+  InsuredSearchDialog: {},
+  First Name: Christopher,
+  Last Name: Branwen,
+  Base Date: $<today>,
+  "Has lived here for less than three years?": 'No'
+}
+
+NamedInsuredInformation4_CA: {
+  InsuredSearchDialog: {},
+  First Name: Vincent,
+  Last Name: Branwen,
+  Base Date: $<today>,
+  "Has lived here for less than three years?": 'No'
+}

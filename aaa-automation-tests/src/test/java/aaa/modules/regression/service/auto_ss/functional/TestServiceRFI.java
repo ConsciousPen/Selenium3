@@ -1751,6 +1751,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			}
 		}
 
+
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
@@ -1786,6 +1788,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			}
 		}
 
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
 		premiumAndCoveragesTab.calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		//Verify CARCO in Documents and Bind tab
