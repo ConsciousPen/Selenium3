@@ -567,8 +567,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 
 	protected void pas9610_UpdateVehicleService() {
 		mainApp().open();
-		//String policyNumber = getCopiedPolicy();
-		String policyNumber = "CAAS952919100";
+		String policyNumber = getCopiedPolicy();
 		SearchPage.openPolicy(policyNumber);
 
 		//Get garage address from UI

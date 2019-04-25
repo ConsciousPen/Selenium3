@@ -101,7 +101,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 				pas8273_CheckIfOnlyActiveVehiclesAreAllowed(softly, getPolicyType())
 		);
 	}
-//TODO-mstrazds:-------------------------------
+
 	/**
 	 * @author Megha Gubbala, Maris Strazds
 	 * @name Verify update vehicle service
