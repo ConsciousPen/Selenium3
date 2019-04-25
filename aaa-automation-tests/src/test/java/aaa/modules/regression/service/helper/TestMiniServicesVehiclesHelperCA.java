@@ -136,45 +136,46 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 			assertThat(deleteVehicleResponse.validations).isEqualTo(null);
 		});
 
-		List<Vehicle> originalOrderingFromResponse2 = ImmutableList.copyOf(viewEndorsementVehicleResponse2.vehicleList);
-		List<Vehicle> sortedVehicles1 = viewEndorsementVehicleResponse2.vehicleList;
+		ViewVehicleResponse viewEndorsementVehicleResponse3 = HelperCommon.viewEndorsementVehicles(policyNumber);
+		List<Vehicle> originalOrderingFromResponse2 = ImmutableList.copyOf(viewEndorsementVehicleResponse3.vehicleList);
+		List<Vehicle> sortedVehicles1 = viewEndorsementVehicleResponse3.vehicleList;
 		sortedVehicles1.sort(Vehicle.PENDING_ENDORSEMENT_COMPARATOR);
 		assertSoftly(softly -> {
 			softly.assertThat(originalOrderingFromResponse2).isEqualTo(sortedVehicles1);
 
-			Vehicle vehicle6 = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin6.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+			Vehicle vehicle6 = viewEndorsementVehicleResponse3.vehicleList.stream().filter(veh -> vin6.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
 			softly.assertThat(vehicle6).isNotNull();
 			softly.assertThat(vehicle6.vehicleStatus).isEqualTo("pending");
 			softly.assertThat(vehicle6.vehTypeCd).isEqualTo("Regular");
 			softly.assertThat(vehicle6.availableActions).containsExactly("remove");
 
-			Vehicle vehicle5 = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin5.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+			Vehicle vehicle5 = viewEndorsementVehicleResponse3.vehicleList.stream().filter(veh -> vin5.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
 			softly.assertThat(vehicle5).isNotNull();
 			softly.assertThat(vehicle5.vehicleStatus).isEqualTo("pending");
 			softly.assertThat(vehicle5.vehTypeCd).isEqualTo("Regular");
 			softly.assertThat(vehicle5.availableActions).containsExactly("remove");
 
-			Vehicle vehicle1 = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin3.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+			Vehicle vehicle1 = viewEndorsementVehicleResponse3.vehicleList.stream().filter(veh -> vin3.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
 			softly.assertThat(vehicle1).isNotNull();
 			softly.assertThat(vehicle1.oid).isEqualTo(oidForVin3);
 			softly.assertThat(vehicle1.vehicleStatus).isEqualTo("pendingRemoval");
 			softly.assertThat(vehicle1.vehTypeCd).isEqualTo("Regular");
-			softly.assertThat(vehicle1.vehIdentificationNo).isEqualTo(vin1);
+			softly.assertThat(vehicle1.vehIdentificationNo).isEqualTo(vin3);
 			//softly.assertThat(vehicle1.availableActions).containsExactly("revert");//TODO-mstrazds: in revert vehicle story
 
-			Vehicle vehicle2 = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin1.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+			Vehicle vehicle2 = viewEndorsementVehicleResponse3.vehicleList.stream().filter(veh -> vin1.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
 			softly.assertThat(vehicle2).isNotNull();
 			softly.assertThat(vehicle2.vehicleStatus).isEqualTo("active");
 			softly.assertThat(vehicle2.vehTypeCd).isEqualTo("Regular");
 			softly.assertThat(vehicle2.availableActions).containsExactly("replace", "remove");
 
-			Vehicle vehicle3 = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin4.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+			Vehicle vehicle3 = viewEndorsementVehicleResponse3.vehicleList.stream().filter(veh -> vin4.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
 			softly.assertThat(vehicle3).isNotNull();
 			softly.assertThat(vehicle3.vehicleStatus).isEqualTo("active");
 			softly.assertThat(vehicle3.vehTypeCd).isEqualTo("Motor");
 			softly.assertThat(vehicle3.availableActions).containsExactly("remove");
 
-			Vehicle vehicle4 = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin2.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+			Vehicle vehicle4 = viewEndorsementVehicleResponse3.vehicleList.stream().filter(veh -> vin2.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
 			softly.assertThat(vehicle4).isNotNull();
 			softly.assertThat(vehicle4.vehicleStatus).isEqualTo("active");
 			softly.assertThat(vehicle4.vehTypeCd).isEqualTo("Camper");
@@ -315,7 +316,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 
 			//try add to expensive vehicle
 			helperMiniServices.addVehicleWithChecks(policyNumber, purchaseDate3, vin3, true);
-			helperMiniServices.endorsementRateAndBind(policyNumber);
+			//helperMiniServices.endorsementRateAndBind(policyNumber);//TODO-mstrazds: can not rate becuase of assignments. Uncomment when PAS-15195 is done.
 		});
 	}
 
