@@ -1801,7 +1801,7 @@ AA02IN: {
     #VehMdelNm: {TextField: 'EXPRESS VAN SPORT VAN'},
     VehIdNum: {TextField: '1GNWGPFG8B6548273'},
     VehUnitNum: {TextField: '1'},
-    VehDiscDesc: {TextField: 'Hybrid Discount; Passive Restraint Discount'},
+    #VehDiscDesc: {TextField: 'Hybrid Discount; Passive Restraint Discount'},
     VehDiscNum: {TextField: '1'},
     VehGarZipPls4: {TextField: '47714'}
   },
@@ -2930,7 +2930,7 @@ AA02OK: {
     #VehMdelNm: {TextField: 'EXPRESS VAN SPORT VAN'},
     VehIdNum: {TextField: '1GNWGPFG8B6548273'},
     VehUnitNum: {TextField: '1'},
-    VehDiscDesc: {TextField: 'Hybrid Discount; Passive Restraint Discount'},
+    #VehDiscDesc: {TextField: 'Hybrid Discount; Passive Restraint Discount'},
     VehDiscNum: {TextField: '1'},
     VehGarZipPls4: {TextField: '73118'}
    },
@@ -6630,7 +6630,7 @@ form: {
    NmdInsrdZipPls4: {TextField: '47714'}
  },
  VehicleDetails: [
-   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
+   #PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
    PlcyVehInfo: {TextField: '2011 MERCEDES-BENZ G55AMG'}
 ],
  
