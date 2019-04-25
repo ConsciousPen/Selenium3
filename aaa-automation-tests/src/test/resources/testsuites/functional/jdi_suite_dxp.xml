@@ -1264,7 +1264,7 @@
     <test thread-count="1024" name="CA Vehicle" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesVehicles">
                 <methods>
                     <include name="pas10449_ViewVehicleServiceOrderOfVehicle"/>
                     <include name="pas7082_AddVehicle"/>
