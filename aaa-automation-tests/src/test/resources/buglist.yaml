@@ -533,3 +533,10 @@ PAS-28856:
   failures:
     - tests: [aaa.modules.bct.service.*]
       messages: ["Errors: 'Model' is not in within range"]
+PAS-29024:
+  summary: "OOS Endorsement Changes Not Being Applied Properly During Roll On"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.financials.auto_ss.TestRenewal.testRenewalScenario_1,
+              aaa.modules.financials.auto_ss.TestRenewal.testRenewalScenario_2]
+      messages: ["caused by PAS-29024"]
