@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.dp3.functional;
+package aaa.modules.regression.sales.home_ss.ho4.functional;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -15,7 +15,7 @@ public class TestInsuranceScoreEndorsement extends TestInsuranceScoreEndorsement
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_DP3;
+		return PolicyType.HOME_SS_HO4;
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class TestInsuranceScoreEndorsement extends TestInsuranceScoreEndorsement
 	@Parameters({"state"})
 	@StateList(statesExcept = {Constants.States.CA, Constants.States.MD})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = {"PAS-24663"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = {"PAS-24663"})
 	public void pas24663_Endorsement_reorderAtRenewalNo(@Optional("") String state) {
 		testQualifiedNamedInsuredAddedOnMidTermEndorsement("TestData_EndorsementWithQualifiedNamedInsured",
 				"Yes", "No", false);
@@ -64,7 +64,7 @@ public class TestInsuranceScoreEndorsement extends TestInsuranceScoreEndorsement
 	@Parameters({"state"})
 	@StateList(statesExcept = {Constants.States.CA, Constants.States.MD})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = {"PAS-24663"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = {"PAS-24663"})
 	public void pas24663_Endorsement_reorderAtRenewalYes(@Optional("") String state) {
 		testQualifiedNamedInsuredAddedOnMidTermEndorsement("TestData_EndorsementWithQualifiedNamedInsured",
 				"Yes", "Yes", false);
@@ -89,7 +89,7 @@ public class TestInsuranceScoreEndorsement extends TestInsuranceScoreEndorsement
 	@Parameters({"state"})
 	@StateList(statesExcept = {Constants.States.CA, Constants.States.MD})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = {"PAS-24663"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = {"PAS-24663"})
 	public void pas24663_Endorsement_OrderInsuranceScoreDecline(@Optional("") String state) {
 		testQualifiedNamedInsuredAddedOnMidTermEndorsement("TestData_EndorsementWithQualifiedNamedInsured",
 				"Decline", "No", false);
@@ -116,7 +116,7 @@ public class TestInsuranceScoreEndorsement extends TestInsuranceScoreEndorsement
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CO, Constants.States.MT, Constants.States.NV, Constants.States.OK, Constants.States.VA, Constants.States.WV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = {"PAS-24663"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = {"PAS-24663"})
 	public void pas24663_Endorsement_AutomaticReorderingAt36months(@Optional("") String state) {
 		testQualifiedNamedInsuredAddedOnMidTermEndorsement("TestData_EndorsementWithQualifiedNamedInsured",
 				"Yes", "No", true);
