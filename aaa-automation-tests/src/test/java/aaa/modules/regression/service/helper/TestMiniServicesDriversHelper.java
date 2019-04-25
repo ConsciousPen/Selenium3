@@ -2792,8 +2792,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			TestData td = getTestSpecificTD("TestData_FilteredRelationshipDrivers_CA");
 
-			TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
-			td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
 			mainApp().open();
 			createCustomerIndividual();
 			policyType.get().createPolicy(td);
