@@ -46,11 +46,6 @@ public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBillOverpaid extend
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22285")
 	public void pas22285_testFinanceSmallBalanceWriteOffOnLastInstallmentBillOverpaid(@Optional("WV") String state) {
 		List<LocalDateTime> installmentDueDates;
-		/*LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
-		LocalDateTime pDate = today.plusMonths(3).minusDays(20);
-		LocalDateTime p2Date = pDate.plusMonths(3);
-		LocalDateTime p3Date = p2Date.plusMonths(3);
-		LocalDateTime refundDate = p3Date.plusDays(1);*/
 
 		mainApp().open();
 		createCustomerIndividual();
