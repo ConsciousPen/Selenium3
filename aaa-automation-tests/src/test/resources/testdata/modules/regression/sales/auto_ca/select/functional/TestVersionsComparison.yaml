@@ -79,10 +79,7 @@ TestData_NB_Quote: {
       }
     }
   },
-  PremiumAndCoveragesTab: {
-    Bodily Injury Liability: 'contains=$500,000/$500,000',
-    Property Damage Liability: 'contains=$100,000',
-  },
+  PremiumAndCoveragesTab: '@PremiumCoveragesInformation_Version1',
   DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@<auto_ca_select>@DataGather@DocumentsAndBindTab',
   PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
@@ -997,4 +994,96 @@ TestData_Assignment_EndorsementRenewal: {
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {}
+}
+
+TestData_PremiumCoverages_Version1: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumCoveragesInformation_Version1',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_PremiumCoverages_Version2: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumCoveragesInformation_Version2',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+PremiumCoveragesInformation: {
+  Payment Plan: Annual,
+  Policy Term: Annual,
+  Bodily Injury Liability: 'contains=$500,000/$500,000',
+  Property Damage Liability: 'contains=$100,000',
+  Uninsured Motorists Bodily Injury: 'contains=$500,000/$500,000',
+  Medical Payments: 'contains=$1,000',
+  #Comprehensive Deductible: 'contains=$500',
+  #Special Equipment Coverage: 1000,
+  #Collision Deductible: 'contains=$500',
+  #Collision Deductible Waiver: 'contains=No Coverage',
+  #Rental Reimbursement: 'contains=No Coverage',
+  #Towing and Labor Coverage: 'contains=No Coverage'
+}
+
+PremiumCoveragesInformation_Version1: {
+  Bodily Injury Liability: 'contains=$500,000/$1,000,000',
+  Property Damage Liability: 'contains=$300,000',
+  Uninsured Motorists Bodily Injury: 'contains=$500,000/$1,000,000',
+  Medical Payments: 'contains=$2,000',
+  #Comprehensive Deductible: 'contains=$500',
+  #Special Equipment Coverage: 1000,
+  #Collision Deductible: 'contains=$500',
+  #Collision Deductible Waiver: 'contains=No Coverage',
+  #Rental Reimbursement: 'contains=No Coverage',
+  #Towing and Labor Coverage: 'contains=No Coverage'
+}
+
+PremiumCoveragesInformation_Version2: {
+  Bodily Injury Liability: 'contains=$1,000,000/$1,000,000',
+  Property Damage Liability: 'contains=$500,000',
+  Uninsured Motorists Bodily Injury: 'contains=$1,000,000/$1,000,000',
+  Medical Payments: 'contains=$5,000',
+  #Comprehensive Deductible: 'contains=$750',
+  #Special Equipment Coverage: 500,
+  #Collision Deductible: 'contains=$250',
+  #Collision Deductible Waiver: 'contains=$5,000',
+  #Rental Reimbursement: 'contains=Yes',
+  #Towing and Labor Coverage: 'contains=Yes'
+}
+
+TestData_PremiumCoverages_Quote_Version2: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumCoveragesQuoteInformation_Version2',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+
+PremiumCoveragesQuoteInformation_Version2: {
+  Payment Plan: Semi-Annual,
+  Bodily Injury Liability: 'contains=$1,000,000/$1,000,000',
+  Property Damage Liability: 'contains=$500,000',
+  Uninsured Motorists Bodily Injury: 'contains=$1,000,000/$1,000,000',
+  Medical Payments: 'contains=$5,000',
+  #Comprehensive Deductible: 'contains=$750',
+  #Special Equipment Coverage: 500,
+  #Collision Deductible: 'contains=$250',
+  #Collision Deductible Waiver: 'contains=$5,000',
+  #Rental Reimbursement: 'contains=Yes',
+  #Towing and Labor Coverage: 'contains=Yes'
 }

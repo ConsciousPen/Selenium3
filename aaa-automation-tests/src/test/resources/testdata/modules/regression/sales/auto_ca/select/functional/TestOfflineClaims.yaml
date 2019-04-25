@@ -27,6 +27,19 @@ TestData_DriverTab_ViolationsMVRFNIclaims_PU_CA: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
 }
 
+TestData_Change_FNI_NB_Endorsement_PU_CA: {
+  PrefillTab:  '@PrefillTab',
+  GeneralTab: '@TwoNamedInsuredGeneralTab',
+  DriverTab:  ['@Driver8','@Driver9'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+}
+
+TestData_Change_FNI_Renewal_PU_CA: {
+  GeneralTab: '@TwoNamedInsuredGeneralTab',
+  DriverTab:  ['@Driver1','@Driver9'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+}
+
 PremiumAndCoveragesTab: {
   Product: CA Select,
   Payment Plan: Annual,
@@ -45,6 +58,23 @@ PrefillTab: {
   Validate Address: click,
   Validate Address Dialog: {},
   Order Prefill: click
+}
+
+TwoNamedInsuredGeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@<auto_ca_select>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation'
+}
+
+#Blank for default data
+NamedInsuredInformation1: {
+}
+
+NamedInsuredInformation2: {
+  InsuredSearchDialog: {},
+  First Name: Steve,
+  Last Name: Rogers
 }
 
 Driver1: {
@@ -217,6 +247,90 @@ Add Driver: Click,
      ]
   }
 
+Driver8: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': First Named Insured,
+  Date of Birth: 10/16/1997,
+  Age First Licensed: 21,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D1278999,
+  ActivityInformation: [
+        {
+          Activity Source: 'Company Input',
+          Type: '10-yr Major Violation',
+          Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+          Description: 'Driving under the influence of drugs',
+          Conviction Date: '$<today-3M:MM/dd/yyyy>',
+          "Include in Points and/or YAF?": 'No',
+          Not Included in Points and/or YAF - Reason Codes: 'Report errors'
+        },
+        {
+          Activity Source: 'Company Input',
+          Type: 'Accident',
+          Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+          Description: 'Fault accident, no injury, damage > $1000',
+          Loss Payment Amount: '1500',
+          Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+          "Permissive Use Loss?":'Yes',
+          "Include in Points and/or YAF?": 'Yes'
+        },
+        {
+          Activity Source: 'Customer Input',
+          Type: 'Accident',
+          Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+          Description: 'Fault accident, no injury, damage > $1000',
+          Loss Payment Amount: '2000',
+          Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+          "Include in Points and/or YAF?": 'No',
+          "Permissive Use Loss?":'Yes',
+          Not Included in Points and/or YAF - Reason Codes: 'Report errors'
+        },
+        {
+          Activity Source: 'Customer Input',
+          Type: 'Suspension/Revocation',
+          Description: 'Alcohol Related Suspension',
+          Suspension Date: '$<today-1M:MM/dd/yyyy>',
+          "Include in Points and/or YAF?": 'Yes'
+        }
+    ]
+}
+
+Driver9: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Named Insured: "Steve Rogers",
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 07/04/1918,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Military,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5437777,
+  Age First Licensed: 18,
+  ActivityInformation: [
+    {
+      Activity Source: 'Customer Input',
+      Type: 'Accident',
+      Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+      Description: 'Fault accident, no injury, damage > $1000',
+      Loss Payment Amount: '2000',
+      Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+      "Include in Points and/or YAF?": 'No',
+      Not Included in Points and/or YAF - Reason Codes: 'Report errors'
+    }
+  ]
+}
+
 
 ############### Add 5th Driver at endorsement
 Add_PU_Claim_Driver_Endorsement_CA: {
@@ -268,7 +382,7 @@ TestData_Activity: {
 }
 
 DriverTab_Activity: {
-  ActivityInformation: ['@Activity1']
+  ActivityInformation: ['@Activity1', '@Activity2']
 }
 
 Activity1: {
@@ -276,6 +390,17 @@ Activity1: {
   Type: 'Accident',
   Occurrence Date: '$<today-1M:MM/dd/yyyy>',
   Description: 'Fault accident with injury',
+  Loss Payment Amount: '2000',
+  Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+  "Permissive Use Loss?": 'No',
+  "Include in Points and/or YAF?": 'Yes'
+}
+
+Activity2: {
+  Activity Source: Company Input,
+  Type: 'Accident',
+  Occurrence Date: '$<today-2M:MM/dd/yyyy>',
+  Description: 'Fault accident, no injury, damage > $1000',
   Loss Payment Amount: '2000',
   Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
   "Permissive Use Loss?": 'No',

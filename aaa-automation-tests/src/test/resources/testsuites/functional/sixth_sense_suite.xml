@@ -4,11 +4,11 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
+    <parameter name="timeshift-scenario-mode" value="method"/>
 
     <!--Tests for Auto-->
 
-    <test name="Test Initiate HO policies and check that Endorsement HO29 is included">
+    <test name="Test Initiate HO policies and check that Endorsement HO29 is included" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestInitiateHoPolicyDefaultEndorsementForm"/>
@@ -16,33 +16,34 @@
         </classes>
     </test>
 
-    <test name="Test CA newly added Driver License number formats MO/AL">
+    <test name="Test CA newly added Driver License number formats MO/AL" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestNewDriverLicenseNumberFormatsCA"/>
         </classes>
     </test>
 
-    <test name="Test SS newly added Driver License number formats MO/AL">
+    <test name="Test SS newly added Driver License number formats MO/AL" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestNewDriverLicenseNumberFormatsSS"/>
         </classes>
     </test>
 
-    <test name="Test CARCO Task Not Created">
+    <test name="Test CARCO Task Not Created" parallel="methods" thread-count="1024">
         <parameter name="state" value="NJ, NY"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestCARCOTaskCreation"/>
         </classes>
     </test>
 
-    <test name="Test Accident Surcharge Waiver">
-        <parameter name="state" value="AZ, NY"/>
+    <test name="Test Accident Surcharge Waiver" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, OH, UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver">
                 <methods>
                     <exclude name="pas23995_testAccidentSurchargeWaiverAgedRenewalCAS"/>
+                    <exclude name="pas24673_testASWForTwoDriversWhenOneAccidentAgesOut"/>
                 </methods>
             </class>
         </classes>
@@ -50,21 +51,21 @@
 
     <!--Tests for Property-->
 
-    <test name="Test Default limited theft coverage value to cov c value">
+    <test name="Test Default limited theft coverage value to cov c value" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestDefaultLimitedTheftCoverageToCovCValue"/>
         </classes>
     </test>
 
-    <test name="Claims points on VRD page for CA DP3 policies during NB Applicant/Applicant And Property">
+    <test name="Claims points on VRD page for CA DP3 policies during NB Applicant/Applicant And Property" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestClueClaimsSurcharging"/>
         </classes>
     </test>
 
-    <test name="PA Revised Home Tier: Auto Tier Assignment of value N/A and UI Display">
+    <test name="PA Revised Home Tier: Auto Tier Assignment of value N/A and UI Display" parallel="methods" thread-count="1024">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPARevisedHomeTierAutoNA"/>
@@ -74,7 +75,7 @@
         </classes>
     </test>
 
-    <test name="Test Zero Claims Discount">
+    <test name="Test Zero Claims Discount" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestZeroClaimsDiscount"/>
@@ -84,7 +85,7 @@
         </classes>
     </test>
 
-    <test name="Test Claims display on VRD page SS">
+    <test name="Test Claims display on VRD page SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ, OK"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestClaimPointsVRDPage"/>
@@ -94,7 +95,7 @@
         </classes>
     </test>
 
-    <test name="Test Claims display on VRD page CA">
+    <test name="Test Claims display on VRD page CA" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestClaimPointsVRDPage"/>
@@ -104,7 +105,7 @@
         </classes>
     </test>
 
-    <test name="Test KY City and Country Taxes Calculation for Endorsement forms">
+    <test name="Test KY City and Country Taxes Calculation for Endorsement forms" parallel="methods" thread-count="1024">
         <parameter name="state" value="KY"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>
@@ -114,7 +115,7 @@
         </classes>
     </test>
 
-    <test name="Test CA Mortgagee Loan Number and Mortgagee Clause is required">
+    <test name="Test CA Mortgagee Loan Number and Mortgagee Clause is required" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestLegalMortgageeNameLoanNumber"/>
@@ -123,7 +124,7 @@
         </classes>
     </test>
 
-    <test name="Test SS Mortgagee Loan Number and Mortgagee Clause is required">
+    <test name="Test SS Mortgagee Loan Number and Mortgagee Clause is required" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestLegalMortgageeNameLoanNumber"/>
@@ -132,7 +133,7 @@
         </classes>
     </test>
 
-    <!--<test name="Test Same Day Loss Waiver OK">-->
+    <!--<test name="Test Same Day Loss Waiver OK" parallel="methods" thread-count="1024">-->
         <!--<parameter name="state" value="OK"/>-->
         <!--<classes>-->
             <!--<class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestSameDayLossWaiverOK"/>-->
@@ -144,7 +145,7 @@
 
     <!--Tests for PUP-->
 
-    <test name="Test Pup Info Section View Rating Details">
+    <test name="Test Pup Info Section View Rating Details" parallel="methods" thread-count="1024">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails">
@@ -155,7 +156,7 @@
         </classes>
     </test>
 
-    <test name="Test NY Pup Locked Tier">
+    <test name="Test NY Pup Locked Tier" parallel="methods" thread-count="1024">
         <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails">
@@ -168,51 +169,58 @@
 
     <!--Tests for Defects-->
 
-    <test name="Test Endorsement Premium Database Entries DP3">
+    <test name="Test Endorsement Premium Database Entries DP3" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementPremiumEntries"/>
         </classes>
     </test>
 
-    <test name="Test Endorsement Premium Database Entries HO3">
+    <test name="Test Endorsement Premium Database Entries HO3" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementPremiumEntries"/>
         </classes>
     </test>
-    <test name="Test Endorsement Premium Database Entries HO4">
+    <test name="Test Endorsement Premium Database Entries HO4" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestEndorsementPremiumEntries"/>
         </classes>
     </test>
 
-    <test name="Test Endorsement Premium Database Entries HO6">
+    <test name="Test Endorsement Premium Database Entries HO6" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementPremiumEntries"/>
         </classes>
     </test>
 
-    <test name="Test Refund Action Change">
+    <test name="Test Refund Action Change" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRefundTransactionChange"/>
         </classes>
     </test>
 
-    <test name="Test Months With Prior Carrier VRD">
+    <test name="Test Months With Prior Carrier VRD" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMonthsWithPriorCarrierVRD"/>
         </classes>
     </test>
 
-    <test name="PAS-26291-Test Construction Occupancy Group for CA-HO4 on VRD">
+    <test name="PAS-26291-Test Construction Occupancy Group for CA-HO4 on VRD" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestVRDForConstOccGroup"/>
+        </classes>
+    </test>
+
+    <test name="Test Proof of equivalent new car added protection with prior carrier for new vehicle(s) after endorsement" parallel="methods" thread-count="1024">
+        <parameter name="state" value="NV"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestProofOfNewCarAddedProtection"/>
         </classes>
     </test>
 

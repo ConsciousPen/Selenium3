@@ -24,6 +24,7 @@ public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
 	 * PAS-18303 - Renewal: Good Driver Discount Cannot be Influenced by Permissive Use Claims (CAS/CLUE/CCInputs)
 	 * PAS-23190 - Endorsement/NB/Rewrite: Good Driver Discount Cannot be Influenced by Permissive Use Claims (CAS/CLUE/CCInputs)
 	 * PAS-18317 - UI-CA: do NOT Show Permissive Use Indicator on Driver Tab (non-FNI)
+	 * PAS-22609 - UI-CA-CLUE: Fire Rule at Bind (overrideable)
 	 * @name Test Permissive Use Claims (CC input/internal/CLUE) impact on policy Good Driver Discount (GDD)
 	 * @scenario Test Steps:
 	 * 1. Create Auto Choice Quote with 2 drivers:
@@ -35,10 +36,11 @@ public class TestClaimsImpactOnDiscounts extends TestOfflineClaimsCATemplate {
 	 * 4. Leave one CC Input Claim as NOT Permissive Use (PU = No)
 	 * 5. - Verify: GDD is not available for Quote
 	 * 6. Verify that 2nd Driver doesnt have PU indicator
-	 * 7. Issue Policy
-	 * 8. R-63: Run Renewal Part1 + "renewalClaimOrderAsyncJob"
-	 * 9. R-46: Run Renewal Part2 + "renewalClaimReceiveAsyncJob"
-	 * 10. Repeat Validations on Renewal, Endorsement, Rewritten Quote;
+	 * 7. Verify that CLUE PermissiveUse Rule is thrown and can be overridden
+	 * 8. Issue Policy
+	 * 9. R-63: Run Renewal Part1 + "renewalClaimOrderAsyncJob"
+	 * 10. R-46: Run Renewal Part2 + "renewalClaimReceiveAsyncJob"
+	 * 11. Repeat Validations on Renewal (+Overridable CLUE PU Rule), Endorsement, Rewritten Quote;
 	 * @details
      */
     @Parameters({"state"})

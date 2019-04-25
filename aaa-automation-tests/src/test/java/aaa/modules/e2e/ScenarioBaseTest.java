@@ -52,14 +52,19 @@ public class ScenarioBaseTest extends BaseTest {
 		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDate, billGenDate, effectiveDate, pligaOrMvleFee);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
-
+	
 	protected void payAndCheckBill(LocalDateTime installmentDueDate) {
+		payAndCheckBill(installmentDueDate, BillingHelper.DZERO);
+	}
+
+	//used in case needs correct amount due to calculation/round/tax issues
+	protected void payAndCheckBill(LocalDateTime installmentDueDate, Dollar correctionAmount) {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDate);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
 		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
+		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE)).add(correctionAmount);
 		new BillingPaymentsAndTransactionsVerifier().verifyAutoPaymentGenerated(DateTimeUtils.getCurrentDateTime(), minDue.negate());
 	}
 
@@ -218,6 +223,20 @@ public class ScenarioBaseTest extends BaseTest {
 		}
 		return isFeePresent;
 	}
+	
+	//used for verify PLIGA fee for specified transaction
+	protected boolean verifyPligaFeeCurrentTransaction(LocalDateTime transactionDate, String policyTerm) {
+		Dollar expectedFee = getPligaFeeCurrentTransaction(null, transactionDate);
+		boolean isFeePresent = false;
+
+		if (!expectedFee.isZero()) {
+			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(transactionDate, expectedFee);
+			isFeePresent = true;
+		} else {
+			log.warn("PLIGA or MVLE Fee is applicable but expected value is $0, verification in \"Payments & Other Transactions\" table is skipped. Adjust your test data if you don't want to skip such verification.");
+		}
+		return isFeePresent;
+	}
 
 	protected Dollar getPligaOrMvleFee(LocalDateTime transactionDate) {
 		return getPligaOrMvleFee(null, transactionDate);
@@ -240,6 +259,17 @@ public class ScenarioBaseTest extends BaseTest {
 			goToBillingPage(policyNumber);
 			expectedPligaOrMvleFee = BillingHelper.calculateMvleFee(policyTerm, numberOfVehiclesExceptTrailers);
 		}
+		return expectedPligaOrMvleFee;
+	}
+	
+	protected Dollar getPligaFeeCurrentTransaction(String policyNumber, LocalDateTime transactionDate) {
+		Dollar expectedPligaOrMvleFee = BillingHelper.DZERO;
+		if (transactionDate == null) {
+			log.warn("Premium transaction date is null, assume PLIGA or MVLE Fee should be $0");
+			return expectedPligaOrMvleFee;
+		}
+		goToBillingPage(policyNumber);
+		expectedPligaOrMvleFee = BillingHelper.calculatePligaFeeCurrentTransaction(transactionDate);
 		return expectedPligaOrMvleFee;
 	}
 

@@ -876,7 +876,6 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
             <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestConversionViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
@@ -1182,6 +1181,7 @@
             <class name="aaa.modules.regression.service.pup.TestPolicyRenewDeletePending"/>
             <class name="aaa.modules.regression.service.pup.TestPolicyRenewFlatCancellation"/>
             <class name="aaa.modules.regression.sales.pup.TestMembershipAndAddressDetailsFromUnderlyingPolicy"/>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceEliminateManualEscheatmentReversalCapability"/>
         </classes>
     </test>
     <!-- CA Earthquake Smoke and Functional Tests -->

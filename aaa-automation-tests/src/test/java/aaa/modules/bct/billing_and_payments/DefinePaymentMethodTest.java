@@ -9,28 +9,36 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.BillingAccountMetaData;
-import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
-import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import aaa.modules.policy.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
 import toolkit.webdriver.controls.ComboBox;
 
 public class DefinePaymentMethodTest extends BackwardCompatibilityBaseTest {
-
+	/**
+	 * @author Deloite
+	 * @name Payment Method – Cash/Check
+	 * @scenario
+	 * @param state
+	 * 1. System displays the following Payment Method to apply Minimum Required Down payment:
+	 *     a.Cash
+	 *     b.Check
+	 * Check:
+	 * User can pay the amount using the listed Payment Method
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states = CA)
 	public void BCT_ONL_031_Define_Payment_Method(@Optional("") String state) {
-		mainApp().open();
-		String policyNumber = getPoliciesByQuery("BCT_ONL_031_PaymentMethod", "SelectPolicy").get(0);
-		BillingAccount billingAccount = new BillingAccount();
 		AcceptPaymentActionTab paymentTab = new AcceptPaymentActionTab();
+		mainApp().open();
+		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
 		SearchPage.openBilling(policyNumber);
 		Dollar minDue = BillingSummaryPage.getMinimumDue();
-		billingAccount.acceptPayment().start();
 
+		billingAccount.acceptPayment().start();
 		ComboBox paymentMethod = new AcceptPaymentActionTab().getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD);
 		assertThat(paymentMethod).containsAllOptions(BillingConstants.AcceptPaymentMethod.CASH, BillingConstants.AcceptPaymentMethod.CHECK);
 

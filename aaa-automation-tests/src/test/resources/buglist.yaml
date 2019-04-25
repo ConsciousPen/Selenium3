@@ -96,12 +96,6 @@ PAS-9157:
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
     - tests: [aaa.modules.e2e.pup.TestScenario12.TC01_createPolicy]
       messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
-PAS-9361:
-  summary: "Generate eSignature Document button doesnt open email popup"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
-      messages: ["Email"]
 PAS-10661:
   summary: "AAA_HO_SS1290786 Error A valid insurance score report for at least one named insured is required to propose firing inspite of overriding Insurance Score"
   reason: PROD
@@ -159,12 +153,6 @@ PAS-12248:
     - tests: [
     aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas325_eValueCommissionRelatedFields]
       messages: ["expected [eValue Renewal] but found [Renewal]"]
-PAS-18399:
-  summary: "Conversion: XML import is failing when policy has EFT Tags - Billing account creation has failed Caused by: java.lang.RuntimeException: Unexpected exception during import rule validation"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.conversions.*]
-      messages: ["doesn't have Success status. Reason"]
 PAS-11810:
   summary: "View Premium Service - Pended endorsement and renewal not rated"
   reason: PROD
@@ -199,25 +187,25 @@ PAS-5529:
   summary: "Roof shape does not pull into PAS from ISO 360"
   reason: PROD
   failures:
-    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+    - tests: [aaa.modules.bct.service.*]
       messages: ["Errors: 'Roof shape' is not in within range"]
 PAS-5102:
   summary: "PAS Blank endorsement forcing user to reorder ISO360 report"
   reason: PROD
   failures:
-    - tests: [aaa.modules.bct.service.EndorsementTest.*]
-      messages: ["Data relevant to ISO 360 has changed. Reorder ISO 360 report"]
+    - tests: [aaa.modules.bct.*]
+      messages: ["Errors: Data relevant to ISO 360 has changed."]
 PAS-15177:
   summary: "KY Taxes: Tax amount and total premium value are reduced during Empty endorsement"
   reason: PROD
   failures:
-    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+    - tests: [aaa.modules.bct.*]
       messages: ["Test for state KY has failed due to difference between pre-endorsement and post-endorsement premiums"]
 PAS-15860:
   summary: "Error message displayed in \"List of Other active AAA policies\" under Applicant Tab on endorsement"
   reason: PROD
   failures:
-    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+    - tests: [aaa.modules.bct.service.*]
       messages: ["Unable to locate element", "Multiple default value rules defined for field: AAAHOOtherOrPriorPolicyComponent.autoPolicyPending"]
 PAS-14398:
   summary: "Regression: Auto SS: States' specific coverages duplicates on Premium&Coverages tab"
@@ -253,7 +241,7 @@ PAS-17075:
   summary: "WV State. Total premium value is reduced during Empty Endorsement"
   reason: PROD
   failures:
-    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+    - tests: [aaa.modules.bct.*]
       messages: ["Test for state WV has failed due to difference between pre-endorsement and post-endorsement premiums"]
 PAS-5559:
   summary: "Occupation is not in within range error for CA PUP"
@@ -267,13 +255,13 @@ PAS-21552:
   summary: "Errors: Time out. No session available. When 2 users change/cancel a policy at the same time"
   reason: PROD
   failures:
-    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*, aaa.modules.bct.service.CancelPolicyTest.*]
+    - tests: [aaa.modules.bct.service.*, aaa.modules.bct.service.*]
       messages: ['Operation has failed due to illegal arguments">']
-    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*, aaa.modules.bct.service.CancelPolicyTest.*]
+    - tests: [aaa.modules.bct.service.*, aaa.modules.bct.service.*]
       messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}']
-    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*, aaa.modules.bct.service.CancelPolicyTest.*]
+    - tests: [aaa.modules.bct.service.*, aaa.modules.bct.service.*]
       messages: ['Errors: Time out. No session available.']
-    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*, aaa.modules.bct.service.CancelPolicyTest.*]
+    - tests: [aaa.modules.bct.service.*, aaa.modules.bct.service.*]
       messages: ['Errors: The connection has timed out']
 PAS-2171:
   summary: "Membership Discount wasn't removed when it should"
@@ -299,15 +287,15 @@ PASBB-818:
   failures:
   - tests: [aaa.modules.bct.billing_and_payments.FeesTest.*]
     messages: ["[Row with values {Subtype/Reason=Reinstatement Fee, Status=Applied, Type=Fee, Amount=$10.00} in table 'Payments & Other Transactions' is present.] expected:<[tru]e> but was:<[fals]e>"]
-  - tests: [aaa.modules.bct.service.CancelPolicyTest.*]
+  - tests: [aaa.modules.bct.service.*]
     messages: ["[Row with values {Subtype/Reason=Reinstatement Fee, Status=Applied, Type=Fee, Amount=$10.00} in table 'Payments & Other Transactions' is present.] expected:<[tru]e> but was:<[fals]e>"]
 PASBB-855:
   summary: "Auto Tier not locked on Home policy during endorsement"
   reason: PROD
   failures:
-  - tests: [aaa.modules.bct.service.EndorsementTest.*]
+  - tests: [aaa.modules.bct.service.*]
     messages: ["failed due to difference between pre-endorsement and post-endorsement premiums"]
-  - tests: [aaa.modules.bct.service.EndorsementTest.*]
+  - tests: [aaa.modules.bct.service.*]
     messages: ["expected:<$"]
 PAS-9290:
   summary: "CLUE: Systematic nonchargeable item missing reason code"
@@ -367,12 +355,6 @@ PT-3048:
     messages: ["Errors: Time out. No session available", "no such element: Unable to locate element"]
   - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestCinNewBusinessHomeHO4.testCinHomeSSCluePropertyViolation]
     messages: ["Errors: Time out. No session available", "no such element: Unable to locate element"]
-PAS-22575:
-  summary: "Test Min Due Is Not Recalculated After Endorsements"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements.pas22575_testMinDueIsNotRecalculatedAfterEndorsements]
-    messages: ["expected:"]
 PAS-21588:
   summary: "(AH64XX) Expiration Notice - PAS is sending incorrect trans code in doc gen XML for renewal conversion documents - Auto"
   reason: PROD
@@ -405,39 +387,27 @@ PT-3244:
   summary: "Regression BCT: UI error: 'Roof shape' is not in within range doesn't allow to make endorsement"
   reason: PROD
   failures:
-  - tests: [aaa.modules.bct.service.EndorsementTest.BCT_ONL_EmptyEndorsementHomeCAHo4]
+  - tests: [aaa.modules.bct.service.*]
     messages: ["Errors: 'Roof shape' is not in within range"]
-  - tests: [aaa.modules.bct.service.EndorsementTest.BCT_ONL_EmptyEndorsementHomeCAHo4]
+  - tests: [aaa.modules.bct.service.*]
     messages: ["//input[@id='policyDataGatherForm:premiumRecalcCov' or @id='policyDataGatherForm:actionButton_AAAHORateAction']"]
-PAS-25233:
+PT-3617:
   summary: "Regression BCT: \"Cancel Notice\" flag is present after accepting payment"
   reason: PROD
   failures:
   - tests: [aaa.modules.bct.service.CancelPolicyTest.BCT_ONL_012_CancelPolicy]
     messages: ["['Cancel Notice' flag is absent]"]
-PT-2901:
-  summary: "Regression BCT: \"This page isn't working\" error at the screen after Reinstatement action. ReinstateFlow"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*]
-      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}']
-    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*]
-      messages: ['Errors: Time out. No session available.']
-    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*]
-      messages: ['Errors: The connection has timed out']
-    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*]
-      messages: ['[LoginPanel is displayed] expected:<[tru]e> but was:<[fals]e>']
 PAS-24131:
   summary: "Regression BCT: grouprefundGenerationJob failed with huge amount of exceptions"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.*]
       messages: ['class com.exigen.ipb.billing.personal.allocation.services.impl.PolicyNetPremiumAllocationNode']
-PAS-25091:
-  summary: "Regression BCT 19.2 : Policy tier is empty for added Auto_SS to DP3 policy"
+PT-3609:
+  summary: "Regression BCT 19.4 : Policy tier is empty for added Auto_SS to DP3 policy"
   reason: PROD
   failures:
-    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+    - tests: [aaa.modules.bct.*]
       messages: ["Errors: 'Policy tier' is required"]
 PAS-25103:
   summary: "Regression BCT 19.2 : Empty \"Property policy number\" field for quote mentioned under Underlying Risks/\"List of recreational equipment\" field"
@@ -455,24 +425,20 @@ PAS-25174:
       messages: ['Coverages should be rounded to dollar value']
     - tests: [aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater.*]
       messages: ['String index out of range: -1']
-PAS-25866:
-  summary: "Error 500 when rolling on changes for OOS endorsement on PUP policy"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.financials.pup.TestRenewal.*]
-      messages: ["no such element", "Error 500. Internal server error occurred"]
 PT-3481:
   summary: "Regression BCT, 19.3 : \"Address requires validation before proceeding\" appears during Empty endorsement at the Applicant tab"
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ['Errors: Address requires validation before proceeding']
-PAS-25857:
+PT-3482:
   summary: "Errors: 'Description' is required"
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Errors: 'Description' is required"]
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Errors: 'Description' is not in within range"]
 PAS-25865:
   summary: "No session available (nullpointer) after Endorsement action to existing policy"
   reason: PROD
@@ -485,3 +451,85 @@ PAS-26316:
   failures:
     - tests: [aaa.modules.regression.service.home_ss.ho3.TestAutoInsuranceCarriedOverToHoPolicy.*]
       messages: ["Wrong list of policies"]
+PT-3600:
+  summary: "Regression BCT 19.4 : Error during policy Reinstate action"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.*]
+      messages: ["Errors: Error; Issue event handling erro"]
+    - tests: [aaa.modules.bct.service.*]
+      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}']
+    - tests: [aaa.modules.bct.service.*]
+      messages: ['Errors: Time out. No session available.']
+    - tests: [aaa.modules.bct.service.*]
+      messages: ['Errors: The connection has timed out']
+    - tests: [aaa.modules.bct.service.*]
+      messages: ['[LoginPanel is displayed] expected:<[tru]e> but was:<[fals]e>']
+PT-3603:
+  summary: "Regression BCT 19.4 : Operation has failed due to illegal arguments after reinstatement action"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.auto_ss.ReinstatePolicy.*]
+      messages: ["Error; Operation has failed due to illegal arguments"]
+PT-3604:
+  summary: "Regression BCT 19.4 : 'Business Use Description' is required"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.*]
+      messages: ["'Business Use Description' is required"]
+PAS-28080:
+  summary: "ASW is not being given to new activity when previous activity with ASW ages out of eligibility window"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver.pas24673_testASWForTwoDriversWhenOneAccidentAgesOut,
+              aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver.pas24673_testASWForSecondAccidentAfterFirstAgesOut]
+      messages: ["expected:<\"[No]\"> but was:<\"[Yes]\">"]
+PAS-27421:
+  summary: "Error 500 when attempting to renew a rewritten CA Auto policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ca.select.functional.TestRenewalEffectiveOnRewrite.*,
+              aaa.modules.regression.sales.auto_ca.choice.functional.TestRenewalEffectiveOnRewrite.*]
+      messages: ["Error 500", "Cannot get value of TextBox"]
+PT-3622:
+  summary: "Regression BCT 19.5 : After the cancellation error showed Operation has failed due to illegal arguments"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.auto_ss.CancelPolicy.*]
+      messages: ["Errors: base00003; Error; Operation has failed due to illegal arguments"]
+PAS-28501:
+  summary: "Regression BCT 19.5 : AZH3208121994 is missing social security number"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.home_ss.ho3.TestEndorsement.BCT_ONL_EmptyEndorsementHomeSSHo3]
+      messages: ["unknown error: Element <input id=\"policyDataGatherForm:nextInquiry_footer\""]
+PT-3624:
+  summary: "RP Endorsement Pushes Policy Status for Renewal to 'Policy Pending'"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements.*]
+      messages: ["Can't find row by specified parameters: {Policy Status=Proposed}"]
+PAS-28695:
+  summary: "Regression BCT 19.5 : NullPointerException: null during Endorsement action"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.*]
+      messages: ["Errors: Time out. No session available."]
+PAS-28815:
+  summary: "Regression BCT 19.5 : Time out. No session available page. just after \"Do not renew\" action"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.*]
+      messages: ["Errors: Time out. No session available."]
+PT-3170:
+  summary: "Regression BCT: Timeout. No session available, error after cancellation, ORA-02292: integrity constraint (PASADM.FKC2D2BEA2DD120899)"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.*]
+      messages: ["Errors: Time out. No session available."]
+PAS-28856:
+  summary: "Regression BCT 19.5 : MDPU109504381 policy throws 'Model' is not in within range at the Underlying Risks/Auto tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.*]
+      messages: ["Errors: 'Model' is not in within range"]

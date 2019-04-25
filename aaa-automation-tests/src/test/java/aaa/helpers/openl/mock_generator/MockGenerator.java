@@ -86,7 +86,8 @@ public class MockGenerator {
 	}
 
 	public boolean isMembershipSummaryMockPresent(LocalDate policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
-		return getMock(RetrieveMembershipSummaryMock.class).getMembershipNumberForAvgAnnualERSperMember(policyEffectiveDate, memberPersistency, avgAnnualERSperMember) != null;
+		LocalDate serviceDate = avgAnnualERSperMember.equals(0.0) ? policyEffectiveDate.minusYears(4) : policyEffectiveDate.minusYears(1);
+		return getMock(RetrieveMembershipSummaryMock.class).getMembershipNumberForAvgAnnualERSperMember(policyEffectiveDate, memberPersistency, avgAnnualERSperMember, serviceDate) != null;
 	}
 
 	public boolean isAddressReferenceMockPresent(String postalCode, String state) {

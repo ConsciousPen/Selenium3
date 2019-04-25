@@ -3,9 +3,7 @@ package aaa.modules.financials;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
-import aaa.common.enums.NavigationEnum;
 import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.policy.*;
 import aaa.main.modules.policy.PolicyType;
@@ -14,12 +12,14 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.exceptions.IstfException;
 
 public class FinancialsTestDataFactory extends PolicyBaseTest {
 
     protected static final List<String> ALL_POLICIES = Collections.synchronizedList(new ArrayList<>());
+
+    private static Map<String, String> underlyingHOPolicies = Collections.synchronizedMap(new HashMap<>());
+    private static Map<String, String> underlyingAutoPolicies = Collections.synchronizedMap(new HashMap<>());
 
     private static final String CA_SELECT = "AutoCA";
     private static final String CA_CHOICE = "AutoCAC";
@@ -41,9 +41,6 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
             td = new PrefillTab().adjustWithRealPolicies(td, getPupUnderlyingPolicies());
             td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
                     PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), "contains=$2,000,000"));
-            if (!getState().equals(Constants.States.CA)) {
-                td.adjust(PersonalUmbrellaMetaData.ErrorTab.class.getSimpleName(), getPupErrorTabOverride());
-            }
         }
         return td;
     }
@@ -51,7 +48,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     protected TestData getEndorsementTD(LocalDateTime effDate) {
         TestData td =  getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Endorsement"), "TestData");
         String type = getPolicyType().getShortName();
-        String date = effDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        String date = formatDateToString(effDate);
         switch (type) {
             case CA_SELECT:
             case CA_CHOICE:
@@ -84,7 +81,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     protected TestData getCancellationTD(LocalDateTime effDate) {
         TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData");
         String type = getPolicyType().getShortName();
-        String date = effDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        String date = formatDateToString(effDate);
         switch (type) {
             case CA_SELECT:
             case CA_CHOICE:
@@ -121,6 +118,58 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         return td;
     }
 
+    protected TestData getCancellationNonPaymentTd(LocalDateTime cxEffDate) {
+        TestData td;
+        String type = getPolicyType().getShortName();
+        String date = formatDateToString(cxEffDate);
+        switch (type) {
+            case HOME_SS_HO3:
+            case HOME_SS_HO4:
+            case HOME_SS_HO6:
+            case HOME_SS_DP3:
+                td = getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData")
+                        .adjust(TestData.makeKeyPath(HomeSSMetaData.CancellationActionTab.class.getSimpleName(),
+                                HomeSSMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "contains=Non-Payment")
+                        .adjust(TestData.makeKeyPath(HomeSSMetaData.CancellationActionTab.class.getSimpleName(),
+                                HomeSSMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
+                break;
+            case PUP:
+                td = getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData")
+                        .adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.CancellationActionTab.class.getSimpleName(),
+                                PersonalUmbrellaMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "contains=Non-Payment")
+                        .adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.CancellationActionTab.class.getSimpleName(),
+                                PersonalUmbrellaMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
+                break;
+            default:
+                throw new IstfException("No Policy Type was matched!");
+        }
+        return td;
+    }
+
+    protected TestData getChangeRenewalLapseTd(LocalDateTime renewalEffDate) {
+        TestData td;
+        String type = getPolicyType().getShortName();
+        String date = formatDateToString(renewalEffDate);
+        switch (type) {
+            case HOME_SS_HO3:
+            case HOME_SS_HO4:
+            case HOME_SS_HO6:
+            case HOME_SS_DP3:
+                td = DataProviderFactory.dataOf(HomeSSMetaData.ManualRenewalWithOrWithoutLapseActionTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        HomeSSMetaData.ManualRenewalWithOrWithoutLapseActionTab.REVISED_RENEWAL_DATE.getLabel(), date,
+                        HomeSSMetaData.ManualRenewalWithOrWithoutLapseActionTab.LAPSE_CHANGE_REASON.getLabel(), "index=1"));
+                break;
+            case PUP:
+                td = DataProviderFactory.dataOf(PersonalUmbrellaMetaData.ManualRenewalWithOrWithoutLapseActionTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        PersonalUmbrellaMetaData.ManualRenewalWithOrWithoutLapseActionTab.REVISED_RENEWAL_DATE.getLabel(), date,
+                        PersonalUmbrellaMetaData.ManualRenewalWithOrWithoutLapseActionTab.LAPSE_CHANGE_REASON.getLabel(), "index=1"));
+                break;
+            default:
+                throw new IstfException("No Policy Type was matched!");
+        }
+        return td;
+    }
+
     protected TestData getReinstatementTD() {
         TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Reinstatement"), "TestData");
         if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
@@ -130,9 +179,18 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         return td;
     }
 
+    protected TestData getRemoveReinstatementLapseTd(LocalDateTime cxDate) {
+        if (isStateCA()) {
+            return getPolicyTD("ReinstatementChangeLapse", "TestData").adjust(TestData.makeKeyPath(HomeCaMetaData.ChangeReinstatementLapsePeriodActionTab.class.getSimpleName(),
+                    HomeCaMetaData.ChangeReinstatementLapsePeriodActionTab.REVISED_REINSTATEMENT_DATE.getLabel()), formatDateToString(cxDate));
+        }
+        return getPolicyTD("ReinstatementChangeLapse", "TestData").adjust(TestData.makeKeyPath(HomeSSMetaData.ChangeReinstatementLapseActionTab.class.getSimpleName(),
+                HomeSSMetaData.ChangeReinstatementLapseActionTab.REVISED_REINSTATEMENT_DATE.getLabel()), formatDateToString(cxDate));
+    }
+
     protected TestData adjustTdPolicyEffDate(TestData td, LocalDateTime date) {
         String type = getPolicyType().getShortName();
-        String sDate = date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        String sDate = formatDateToString(date);
         switch (type) {
             case CA_SELECT:
             case CA_CHOICE:
@@ -400,29 +458,66 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         return td;
     }
 
+    protected TestData getAutoSSFeesTd(LocalDateTime effDate) {
+        TestData td = adjustTdPolicyEffDate(getPolicyTD(), effDate);
+        switch (getState()) {
+            case Constants.States.NJ:
+                adjustTdMonthlyPaymentPlan(td)
+                        .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(),
+                                AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel()), formatDateToString(effDate))
+                        .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
+                                AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel()), "One")
+                        .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
+                                AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel()), "DUI")
+                        .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel()), Constants.States.VA)
+                        .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "B15375001")
+                        .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED.getLabel()), "Yes")
+                        .adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.CASE_NUMBER.getLabel()), "VA651321565")
+                        .adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), getAutoSSErrorTabOverride());
+                break;
+            case Constants.States.WV:
+                td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
+                        AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.MONTHLY);
+                break;
+            default:
+                // do nothing
+        }
+        return td;
+    }
+
+    protected String formatDateToString(LocalDateTime dateTime) {
+        return dateTime.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+    }
+
     private Map<String, String> getPupUnderlyingPolicies() {
         Map<String, String> policies = new LinkedHashMap<>();
-        PolicyType type;
+        PolicyType typeHome;
         PolicyType typeAuto;
         String hoPolicy;
         String autoPolicy;
         String state = getState().intern();
         synchronized (state) {
             if (getState().equals(Constants.States.CA)) {
-                type = PolicyType.HOME_CA_HO3;
+                typeHome = PolicyType.HOME_CA_HO3;
                 typeAuto = PolicyType.AUTO_CA_SELECT;
             } else {
-                type = PolicyType.HOME_SS_HO3;
+                typeHome = PolicyType.HOME_SS_HO3;
                 typeAuto = PolicyType.AUTO_SS;
             }
-            type.get().createPolicy(getStateTestData(testDataManager.policy.get(type), "DataGather", "TestData"));
-            hoPolicy = PolicySummaryPage.getPolicyNumber();
-            policies.put("Primary_HO3", hoPolicy);
-            ALL_POLICIES.add(hoPolicy);
-            typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
-            autoPolicy = PolicySummaryPage.getPolicyNumber();
-            policies.put("Primary_Auto", autoPolicy);
-            ALL_POLICIES.add(autoPolicy);
+            if (!underlyingHOPolicies.containsKey(state)) {
+                typeHome.get().createPolicy(getStateTestData(testDataManager.policy.get(typeHome), "DataGather", "TestData"));
+                hoPolicy = PolicySummaryPage.getPolicyNumber();
+                underlyingHOPolicies.put(state, hoPolicy);
+                ALL_POLICIES.add(hoPolicy);
+            }
+            if (!underlyingAutoPolicies.containsKey(state)) {
+                typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
+                autoPolicy = PolicySummaryPage.getPolicyNumber();
+                underlyingAutoPolicies.put(state, autoPolicy);
+                ALL_POLICIES.add(autoPolicy);
+            }
+            policies.put("Primary_HO3", underlyingHOPolicies.get(state));
+            policies.put("Primary_Auto", underlyingAutoPolicies.get(state));
         }
         return policies;
     }
@@ -465,7 +560,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     private TestData getSSHomeAddPremiumTd() {
         TestData td = getEmptyTestDataSSHome().adjust(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
                 HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), "contains=$1,000,000",
-                HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), "contains=$250"));
+                HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), "contains=$500"));
         if (getPolicyType().equals(PolicyType.HOME_SS_HO3) || getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
             td.adjust(TestData.makeKeyPath(HomeSSMetaData.UnderwritingAndApprovalTab.class.getSimpleName(),
                     HomeSSMetaData.UnderwritingAndApprovalTab.UNDERWRITER_SELECTED_INSPECTION_TYPE.getLabel()), "index=1");
@@ -499,11 +594,12 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     private TestData getPupAddPremiumTd() {
         TestData td;
         if (getState().equals(Constants.States.CA)) {
-            td = getEmptyTestDataCAPup().adjust(PersonalUmbrellaMetaData.ErrorTab.class.getSimpleName(), getPupErrorTabOverride());
+            td = getEmptyTestDataCAPup();
         } else {
             td = getEmptyTestDataSSPup();
         }
-        return td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
+        return td.adjust(PersonalUmbrellaMetaData.ErrorTab.class.getSimpleName(), getPupErrorTabOverride())
+                .adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
                     PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), "contains=$3,000,000"));
     }
 
@@ -528,6 +624,18 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                 PersonalUmbrellaMetaData.ErrorTab.ErrorsOverride.REASON_FOR_OVERRIDE.getLabel(), "index=1");
         errorsOverride.add(overrideTd);
         return DataProviderFactory.dataOf(PersonalUmbrellaMetaData.ErrorTab.ERROR_OVERRIDE.getLabel(), errorsOverride);
+    }
+
+    private TestData getAutoSSErrorTabOverride() {
+        List<TestData> errorsOverride = new ArrayList<>();
+        TestData overrideTd = DataProviderFactory.dataOf(
+                AutoSSMetaData.ErrorTab.ErrorsOverride.MESSAGE.getLabel(), "contains=Driver with a Major violation, including a DUI is unacceptable",
+                AutoSSMetaData.ErrorTab.ErrorsOverride.OVERRIDE.getLabel(), "true",
+                AutoSSMetaData.ErrorTab.ErrorsOverride.APPROVAL.getLabel(), "true",
+                AutoSSMetaData.ErrorTab.ErrorsOverride.DURATION.getLabel(), "Life",
+                AutoSSMetaData.ErrorTab.ErrorsOverride.REASON_FOR_OVERRIDE.getLabel(), "index=1");
+        errorsOverride.add(overrideTd);
+        return DataProviderFactory.dataOf(AutoSSMetaData.ErrorTab.ERROR_OVERRIDE.getLabel(), errorsOverride);
     }
 
     private TestData getPupNonPremiumBearingTd() {

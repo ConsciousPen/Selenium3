@@ -264,6 +264,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		);
 	}
 
+
 	/**
 	 * @author Jovita Pukenaite
 	 * @name Add new vehicle when you had Vehicle, without Transportation Expense before.
@@ -357,10 +358,10 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @name Check UMPD delimiter
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.DE, Constants.States.MD, Constants.States.VA, Constants.States.NJ})
+	@StateList(states = {Constants.States.DE, Constants.States.MD, Constants.States.VA, Constants.States.NJ, Constants.States.IN})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15824"})
-	public void pas15824_UmpdDelimiter(@Optional("NJ") String state) {
+	public void pas15824_UmpdDelimiter(@Optional("MD") String state) {
 		pas15824_UmpdDelimiterBody();
 	}
 
@@ -478,13 +479,12 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@StateList(states = {Constants.States.AZ, Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
 			Constants.States.MD, Constants.States.NV, Constants.States.OH, Constants.States.OR, Constants.States.CT, Constants.States.KY, Constants.States.SD,
 			Constants.States.WV, Constants.States.UT, Constants.States.DC, Constants.States.CO, Constants.States.ID, Constants.States.MT, Constants.States.OK,
-			Constants.States.PA, Constants.States.WY,Constants.States.NJ})
+			Constants.States.PA, Constants.States.WY, Constants.States.NJ, Constants.States.NY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016", "PAS-19024", "PAS-19044", "PAS-18202", "PAS-19055", "PAS-19052", "PAS-18350", "PAS-23057","PAS-19032"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016", "PAS-19024", "PAS-19044", "PAS-18202", "PAS-19055",
+			"PAS-19052", "PAS-18350", "PAS-23057","PAS-19032", "PAS-19058", "PAS-28460"})
 	public void pas17646_OrderOfCoverage(@Optional("NJ") String state) {
-		assertSoftly(softly ->
-				pas17646_OrderOfCoverageBody(softly)
-		);
+		assertSoftly(this::pas17646_OrderOfCoverageBody);
 	}
 
 	/**
@@ -1505,6 +1505,22 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	}
 
 	/**
+	 * @author Maris Strazds
+	 * @name MEE NY
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Update MEE coverage with correct/incorrect data and check responses
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NY})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16042"})
+	public void pas16042_viewUpdateMEENY(@Optional("NY") String state) {
+		pas16042_viewUpdateMEENYBody();
+	}
+
+	/**
 	 * @author Jovita Pukenaite
 	 * @name View Coverage PIP and APIP when "Non-Medical Expense" = "Yes"
 	 * and "Additional Personal Injury Protection Benefit" = NO
@@ -1706,22 +1722,78 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas16040_sslCoverageNYBody();
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name SpEquipmentUpdatedWhenCollisionDeclined
+	 * @scenario
+	 * 1. Create policy in PAS create an endorsement
+	 * 2. update COMPDED -1 verify Special Equipment
+	 * 3. Update COMPDED to 500 verify Special Equipment go back to default value
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ,Constants.States.KY, Constants.States.CO,  Constants.States.CT,  Constants.States.DC , Constants.States.DE, Constants.States.ID, Constants.States.IN,Constants.States.KS,Constants.States.MD,Constants.States.MT,Constants.States.NV,Constants.States.NY,Constants.States.OH,Constants.States.OK,Constants.States.OR,Constants.States.SD,Constants.States.WV,Constants.States.WY,Constants.States.PA,Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-27201"})
+	public void pas27201_SpEquipmentUpdatedWhenCollisionDeclined(@Optional("NV") String state) {
+		assertSoftly(softly ->
+				pas27201_SpEquipmentUpdatedWhenCollisionDeclinedBody(state, softly)
+		);
+	}
 
 	/**
-	 * @author Nauris Ivanans
-	 * @name View/Update Workplace Loss Benefits
+	 * @author Megha Gubbala
+	 * @name pas27134_UpdateCoveragesOregonPdAndUmpd
 	 * @scenario
-	 * 1. Create policy in PAS with Workplace Loss Benefits = No
+	 * 1. Create policy in PAS create an endorsement
+	 * 2. verify UMPD is no coverage
+	 * 3. add vehicle verify UMPD for new vehicle is No coverage
+	 * 4. Update UMPD on one vehicle to match PD
+	 * 5. Update PD lower verify Umpd also change
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.OR})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-27134"})
+	public void pas27134_UpdateCoveragesOregonPdAndUmpd(@Optional("OR") String state) {
+		assertSoftly(softly ->
+		pas27134_UpdateCoveragesOregonPdAndUmpdBody(softly)
+		);
+	}
+
+	/**
+	 * @author Chaitanya Boyapati
+	 * @name View/Update UM/SUM Coverage for NY state
+	 * @scenario
+	 * 1. Create policy in PAS
 	 * 2. Create endorsement through service
 	 * 3. Run viewEndorsementCoverages service and validate response
-	 * 4. Update Workplace Loss Benefits to Yes, check update, view, change log responses and in PAS UI
-	 * 5. Update Workplace Loss Benefits back to No, check update, view, change log responses and in PAS UI
+	 * 4. Update UM/SUM to "25/50", check update, view, change log responses and in PAS UI
+	 * 5. Update "50/100"  back to "25/50", check update, view, change log responses and in PAS UI
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.NY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16040"})
-	public void pas16041_wlbCoverageNY(@Optional("NY") String state) {
-		pas16041_wlbCoverageNYBody();
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15308"})
+	public void pas15308_UM_SUM_CoverageNY(@Optional("NY") String state) {
+		pas15308_UM_SUM_CoverageNYBody();
 	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name NY PIP Coverages
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsementCoverages service and validate PIP Coverages
+	 * 4. Update PIP coverages and check responses
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NY})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15363", "PAS-15364", "PAS-16040"})
+	public void pas15363_viewUpdatePIPCoverageNY(@Optional("NY") String state) {
+		pas15363_viewUpdatePIPCoverageNYBody();
+	}
+
 }
+

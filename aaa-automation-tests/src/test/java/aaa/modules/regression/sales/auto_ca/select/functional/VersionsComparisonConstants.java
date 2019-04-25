@@ -117,6 +117,12 @@ public class VersionsComparisonConstants {
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Manually Rated Driver", "New Driver Version2","NBFirstName NBLastName")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.System Rated Driver", "New Driver Version2","VIFirstName VILastName")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Manually Rated Driver", "New Driver Version2","VIFirstName VILastName")
+			.putAll("Policy Options.Payment Plan","semiAnnualCA","standartCA")
+			.putAll("Coverages.Medical Payments","$5,000","$2,000")
+			.putAll("Coverages.Property Damage Liability","$500,000","$300,000")
+			.putAll("Coverages.Underinsured Motorists Bodily Injury","$1,000,000/$1,000,000","$500,000/$1,000,000")
+			.putAll("Coverages.Bodily Injury Liability","$1,000,000/$1,000,000","$500,000/$1,000,000")
+			.putAll("Coverages.Uninsured Motorists Bodily Injury","$1,000,000/$1,000,000","$500,000/$1,000,000")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -135,8 +141,8 @@ public class VersionsComparisonConstants {
 			.put("Named Insureds.VIIFirstName VII VIILastName.Base Date", "Base Date")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Move-In Date", "Move-In Date")
 			//AAA Product Owned
-			.put("AAA Products Owned.Current AAA Member", "Current AAA Member")
-			.put("AAA Products Owned.Membership Number", "Membership Number")
+			.put("AAA Membership.Current AAA Member", "Current AAA Member")
+			.put("AAA Membership.Membership Number", "Membership Number")
 			//.put("AAA Products Owned.Last name", "Last name")
 			//TODO Should be return after implementation story - Clean up for AAA Product Owned
 			/*			.put("AAA Products Owned.Override Type", "Override Type")
@@ -278,10 +284,10 @@ public class VersionsComparisonConstants {
 
 	//all components/attributes that should be on Comparison page for AAA Product Owned section
 	static final Multimap<String, String> AAA_PRODUCT_OWNED = ImmutableListMultimap.<String, String>builder()
-			.put("AAA Products Owned", "Current AAA Member")
+			.put("AAA Membership", "Current AAA Member")
 			//TODO should be returned after Clean up stories for AAA Product Owned section
 			/*			.put("AAA Products Owned", "Override Type")*/
-			.put("AAA Products Owned", "Membership Number")
+			.put("AAA Membership", "Membership Number")
 			.put("AAA Products Owned", "Motorcycle Policy #")
 			.put("AAA Products Owned", "Life Policy #")
 			.put("AAA Products Owned", "Home Policy #")
@@ -537,4 +543,22 @@ public class VersionsComparisonConstants {
 			.put("Vehicles.2003, MERCEDES-BENZ, SL500R", "Manually Rated Driver")
 			.build();
 
+	//all components/attributes that should be on Comparison page for Premium and Coverages section for Quote Compare
+	static final Multimap<String, String> DATA_GATHER_PREMIUM_AND_COVERAGES = ImmutableListMultimap.<String, String>builder()
+			.put("Policy Options","Payment Plan")
+			.put("Coverages","Medical Payments")
+			.put("Coverages","Property Damage Liability")
+			.put("Coverages","Underinsured Motorists Bodily Injury")
+			.put("Coverages","Bodily Injury Liability")
+			.put("Coverages","Uninsured Motorists Bodily Injury")
+			.build();
+
+	//all components/attributes that should be on Comparison page for Premium and Coverages section for Quote Compare
+	static final Multimap<String, String> ENDORSEMENT_RENEWAl_PREMIUM_AND_COVERAGES = ImmutableListMultimap.<String, String>builder()
+			.put("Coverages","Medical Payments")
+			.put("Coverages","Property Damage Liability")
+			.put("Coverages","Underinsured Motorists Bodily Injury")
+			.put("Coverages","Bodily Injury Liability")
+			.put("Coverages","Uninsured Motorists Bodily Injury")
+			.build();
 }

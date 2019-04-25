@@ -1,0 +1,25 @@
+TestData: {
+  EndorsementActionTab: {
+    Endorsement Reason: 'index=2'
+  },
+  GeneralTab: '',
+  ApplicantTab: '',
+  ReportsTab: '',
+  PropertyInfoTab: '',
+  PremiumsAndCoveragesQuoteTab: '',
+  BindTab: '',
+}
+
+TestDataEndorseAutoSS: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today>,
+    Endorsement Reason: Maintain Vehicle(s)
+  },
+  GeneralTab: '@GeneralTab'
+}
+
+GeneralTab: {
+  ContactInformation: {
+    Home Phone Number: 1234567890
+  }
+}

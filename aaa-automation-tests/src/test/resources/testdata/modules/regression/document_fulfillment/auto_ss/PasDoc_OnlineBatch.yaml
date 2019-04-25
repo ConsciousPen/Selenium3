@@ -6,6 +6,105 @@ TestData_Full: {
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'
 }
 
+TestData_Quote: {
+  DriverTab: ['@DriverTab_RegularDriver', '@DriverTab_TeenageDriver']
+}
+
+# ---- Scenario 1 
+TestData_DriverWithActivity: {
+  DriverTab: ['@DriverTab_RegularDriver', '@DriverTab_WithActivity']
+}
+
+TestData_AllTypeVehicles: {
+  VehicleTab: ['@VehicleTab_Regular', '@VehicleTab_ConversionVan', '@VehicleTab_GolfCart', '@VehicleTab_Trailer', '@VehicleTab_MotorHome', '@VehicleTab_Antique']
+}
+
+TestData_6_Vehicles: {
+  VehicleTab: ['@VehicleTab_Regular', '@VehicleTab_Regular2', '@VehicleTab_Regular3', '@VehicleTab_Regular4', '@VehicleTab_Regular5', '@VehicleTab_Regular6']
+} 
+
+# ---- Scenario 2 
+TestData_OverrideInsuranceScore: {
+  GeneralTab: '@GeneralTab_OverrideCurrentCarrier', 
+  RatingDetailReportsTab: '@RatingDetailReportsTab_InsuranceScoreOverride'  
+}
+
+# ---- Scenario 3 
+TestData_ExcludedDriver: {
+  DriverTab: ['@DriverTab_RegularDriver', '@DriverTab_ExcludedDriver'], 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_ExcludedDriver'
+}
+
+TestData_2ExcludedDrivers: {
+  DriverTab: ['@DriverTab_RegularDriver', '@DriverTab_ExcludedDriver', '@DriverTab_ExcludedDriver2'], 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_ExcludedDriver'
+}
+
+# ---- Scenario 4
+TestData_FinancialDriver: {
+  DriverTab: '@DriverTab_FinancialDriver', 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_FinancialDriver'
+}
+
+TestData_2FinancialDrivers: {
+  GeneralTab: '@GeneralTab_2FinDrivers',
+  DriverTab: ['@DriverTab_FinancialDriver', '@DriverTab_FinancialDriver2'], 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_FinancialDriver'
+}
+
+# ---- Scenario 5
+TestData_VehicleWithDamage: {
+  VehicleTab: ['@VehicleTab_Regular', '@Vehicle_withDamage']
+}
+
+TestData_2VehiclesWithDamage: {
+  VehicleTab: ['@VehicleTab_Regular', '@Vehicle_withDamage', '@Vehicle2_withDamage']
+}
+
+# ---- Scenario 6
+TestData_GolfCart: {
+  VehicleTab: ['@VehicleTab_Regular', '@VehicleTab_GolfCart']
+}
+
+TestData_2GolfCarts: {
+  VehicleTab: ['@VehicleTab_Regular', '@VehicleTab_GolfCart', '@VehicleTab_GolfCart2']
+}
+
+# ---- Scenario 7
+TestData_UMLessThanBI: {
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMLessThanBI', 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_UMandUIMLessThanBI'
+}
+
+TestData_UIMLessThanBI: {
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UIMLessThanBI', 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_UMandUIMLessThanBI'
+}
+
+TestData_UMandUIMLessThanBI: {
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMandUIMLessThanBI', 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_UMandUIMLessThanBI'
+}
+
+# ---- Scenario 8
+TestData_DocNotSigned: {
+  DocumentsAndBindTab: '@DocumentsAndBindTab_DocNotSigned',  
+  ErrorTab: '@ErrorTab' 
+}
+
+TestData_2DocsNotSigned: {
+  VehicleTab: '@VehicleTab_EnrolledInUBI_2',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_2DocsNotSigned',  
+  ErrorTab: '@ErrorTab_2Errors' 
+}
+
+# ---- Scenario 9
+TestData_EnabledAutoPay: {
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Monthly', 
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'
+} 
+
+# ---- Scenario 10
 TestData_Nano: {
   GeneralTab: '@GeneralTab_NANO', 
   VehicleTab: {}, 
@@ -13,11 +112,258 @@ TestData_Nano: {
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
-TestData_Quote: {
-  DriverTab: ['@DriverTab_RegularDriver', '@DriverTab_TeenageDriver']
+# ----- Scenario 11
+TestData_Endorsement_AddVehicle: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab_Regular2',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }
 
+TestData_Endorsement_AddTrailer: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab_Trailer',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+# ----- Scenario 12
+TestData_Endorsement_UMandUIMLessThanBI: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMandUIMLessThanBI', 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Endorsement_UMandUIMLessThanBI'
+}
+
+TestData_Endorsement_UMLessThanBI: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMLessThanBI', 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Endorsement_UMandUIMLessThanBI'
+}
+
+TestData_Endorsement_UIMLessThanBI: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UIMLessThanBI', 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Endorsement_UMandUIMLessThanBI'
+}
+
+TestData_Endorsement_UMandUIMEqualToBI: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMandUIMEqualToBI', 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+# ------ Scenario 13
+TestData_Endorsement_AddExcludedDriver: {
+  GeneralTab: {}, 
+  DriverTab: '@DriverTab_ExcludedDriver',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {}, 
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Endorsement_ExcludedDriver' 
+}
+
+TestData_Endorsement_setExcludedDriver2: {
+  DriverTab: '@DriverTab_ExcludedDriver2',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Endorsement_ExcludedDriver'
+}
+
+# ------ Scenario 14
+TestData_Endorsement_Nano: {
+  GeneralTab: '@GeneralTab_Endorse_NANO', 
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {}, 
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Endorse_NANO' 
+}
+
+# ------ Scenario 15
+TestData_Endorsement_setDamage: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab_setDamage',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_Endorsement_addDamageVehicle: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@Vehicle2_withDamage',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_Endorsement_removeDamage: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab_removeDamage',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_2_Vehicles: {
+  VehicleTab: ['@VehicleTab_Regular', '@VehicleTab_Regular2']
+}
+
+# ------- Scenario 16
+TestData_Endorsement_addGolfCart: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab_GolfCart',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+# ----- Scenario 17
+TestData_Endorsement_addFinDriver: {
+  GeneralTab: {},
+  DriverTab: '@DriverTab_addFinancialResponsibility',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_Endorsement_addFinResponsibility: {
+  GeneralTab: {},
+  DriverTab: '@DriverTab_addFinancialResponsibility',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+# ----- Scenario 18
+TestData_Endorsement_removeFinDriver: {
+  GeneralTab: {},
+  DriverTab: '@DriverTab_removeFinancialResponsibility',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+# ----- Scenario 19
+TestData_Endorsement_addPermitDriver: {
+  GeneralTab: {},
+  DriverTab: '@DriverTab_LearnersPermitDriver',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_Endorsement_add2PermitDrivers: {
+  GeneralTab: {},
+  DriverTab: ['@DriverTab_LearnersPermitDriver', '@DriverTab_LearnersPermitDriver2'],
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {}, 
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_2_Drivers: {
+  DriverTab: ['@DriverTab_RegularDriver', '@DriverTab_RegularDriver2']
+}
+
+
 # -------- GeneralTab ---------
+GeneralTab_OverrideCurrentCarrier: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation_Override',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
+}
+
+CurrentCarrierInformation_Override: {
+  "Override Prefilled Current Carrier?": 'Yes',
+  Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
+  Agent Entered Inception Date: $<today-1y>,
+  Agent Entered Expiration Date: $<today-1d>,
+  Agent Entered BI Limits: '$500,000/$500,000',
+}
+
+GeneralTab_2FinDrivers: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
+}
+
+NamedInsuredInformation1: {
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
+}
+
+NamedInsuredInformation2: {
+  InsuredSearchDialog: {},
+  First Name: Jenny,
+  Last Name: Smith,
+  Insured Date of Birth: 12/05/1962,
+  Base Date: $<today>,
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
+}
+
 GeneralTab_NANO: {
   NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
   AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
@@ -38,12 +384,39 @@ PolicyInformation_NANO: {
   Lead Source: AAA Magazines
 }
 
+GeneralTab_Endorse_NANO: {
+  PolicyInformation: '@PolicyInformation_Endorse_NANO'
+}
+
+PolicyInformation_Endorse_NANO: {
+  Policy Type: Named Non Owner,
+  Change Policy Type Confirmation: {
+    Continue: click
+  }
+}
+
 # --------- DriverTab ---------
 DriverTab_RegularDriver: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
   License Number: A12345678
+}
+
+DriverTab_RegularDriver2: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: index=0,
+  'Rel. to First Named Insured': Spouse,
+  First Name: Jenny,
+  Last Name: Smith,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A22345678
 }
 
 # Driver with Financial Responsibility=Yes - it should be a First Named Insured
@@ -53,6 +426,27 @@ DriverTab_FinancialDriver: {
   License Type: 'Licensed (US)',
   License Number: A12345678, 
   Financial Responsibility Filing Needed: 'Yes'
+}
+
+DriverTab_FinancialDriver2: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 400064774, 
+  Financial Responsibility Filing Needed: 'Yes'
+}
+
+DriverTab_addFinancialResponsibility: {
+  Financial Responsibility Filing Needed: 'Yes'
+}
+
+DriverTab_removeFinancialResponsibility: {
+  Financial Responsibility Filing Needed: 'No'
 }
 
 DriverTab_ExcludedDriver: {
@@ -72,6 +466,28 @@ DriverTab_ExcludedDriver: {
   License Number: A22345678
 }
 
+DriverTab_ExcludedDriver2: {
+  Driver Type: Excluded, 
+  Reason: index=1,
+}
+
+DriverTab_ExcludedDriver2: {
+  Add Driver: click,
+  DriverSearchDialog: {},
+  Driver Type: Excluded, 
+  Reason: index=1, 
+  'Rel. to First Named Insured': Spouse, 
+  First Name: Excluded2,
+  Last Name: Driver2,
+  Date of Birth: 02/02/1982,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A22345670
+}
+
 DriverTab_LearnersPermitDriver: {
   Add Driver: click,
   DriverSearchDialog: {},
@@ -83,6 +499,22 @@ DriverTab_LearnersPermitDriver: {
   Last Name: Driver,
   Date of Birth: 01/01/1978,
   Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  License Type: Learner's Permit
+}
+
+DriverTab_LearnersPermitDriver2: {
+  Add Driver: click,
+  DriverSearchDialog: {},
+  Driver Type: Not Available for Rating, 
+  Reason: Permit Driver, 
+  'Rel. to First Named Insured': Parent, 
+  First Name: Learners2,
+  Middle Name: Permit2, 
+  Last Name: Driver2,
+  Date of Birth: 01/02/1988,
+  Gender: Female,
   Marital Status: Married,
   Occupation: Employed,
   License Type: Learner's Permit
@@ -120,11 +552,67 @@ DriverTab_TeenageDriver: {
   Most Recent GPA: B Student
 }
 
+# -------- RatingDetailReportsTab ----------
+RatingDetailReportsTab_InsuranceScoreOverride: {
+  Customer Agreement: Customer Agrees,
+  Sales Agent Agreement: I Agree,
+  Order Report: click,
+  AAAMembershipReport: [{}],
+  OrderInsuranceScoreReport: [{}],  
+  InsuranceScoreOverride: ['@InsuranceScoreOverrideRow']
+}
+
+InsuranceScoreOverrideRow: {
+  Action: Override Score, 
+  EditInsuranceScoreDialog: {
+    New Score: '700', 
+    Reason for Override: 'Fair Credit Reporting Act Dispute', 
+    Save: 'click'
+  }
+}
+
 # -------- VehicleTab ---------
 VehicleTab_Regular: {
   Usage: Pleasure,
   VIN: 1GNWGPFG8B6548273
 }
+
+VehicleTab_Regular2: {
+  Add Vehicle: click,
+  Type: Private Passenger Auto, 
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451
+}
+
+VehicleTab_Regular3: {
+  Add Vehicle: click, 
+  Type: Private Passenger Auto, 
+  Usage: Pleasure,
+  VIN: 1NXBR32E66Z652451
+}
+
+VehicleTab_Regular4: {
+  Add Vehicle: click, 
+  Type: Private Passenger Auto, 
+  Usage: Pleasure,
+  VIN: 2B3ED46T6RH199391
+}
+
+VehicleTab_Regular5: {
+  Add Vehicle: click, 
+  Type: Private Passenger Auto, 
+  Usage: Pleasure,
+  VIN: KNDJT2A2XA7038383
+}
+
+VehicleTab_Regular6: {
+  Add Vehicle: click, 
+  Type: Private Passenger Auto, 
+  Usage: Pleasure,
+  VIN: 5YMGY0C57C1661237
+}
+
+# VIN: 5NPEB4AC7C7443856
 
 VehicleTab_EnrolledInUBI: {
   Add Vehicle: click,
@@ -139,28 +627,85 @@ VehicleTab_EnrolledInUBI: {
   Safety Score: 100
 }
 
+VehicleTab_EnrolledInUBI_2: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273, 
+  'Enroll in Usage Based Insurance?': 'Yes',
+  Get Vehicle Details: click
+}
+
+VehicleTab_ConversionVan: {
+  Add Vehicle: click, 
+  Type: Conversion Van, 
+  Usage: Pleasure, 
+  Year: 2012,
+  Make: index=1, 
+  Model: OTHER,
+  Other Model: Other,
+  Other Body Style: index=1, 
+  Stat Code: index=1, 
+  Stated Amount: 5000 
+}
+
 VehicleTab_GolfCart: {
   Add Vehicle: click, 
   Type: Golf Cart, 
-  Primary operator: index=1,
+  Primary operator: contains=Fernando,
   Usage: index=1, 
+  VIN: 1234567890,
   Year: 2002,
   Other Make: Golf,
   Other Model: Cart,
   Stated Amount: 5000    
 }
 
-Vehicle_Trailer: {
+VehicleTab_GolfCart2: {
+  Add Vehicle: click, 
+  Type: Golf Cart, 
+  Primary operator: contains=Fernando,
+  Usage: index=1, 
+  Year: 2003,
+  Other Make: Golf2,
+  Other Model: Cart2,
+  Stated Amount: 3000
+}
+
+VehicleTab_Trailer: {
   Add Vehicle: click, 
   Type: Trailer, 
-  Primary operator: index=1,
+  Primary operator: contains=Fernando,
   Trailer Type: Travel Trailer, 
   Usage: index=2, 
+  VIN: 1234567891,
   Year: 2002,
   Other Make: Other,
   Other Model: Trailer,
   Stat Code: index=1,
   Stated Amount: 5000  
+}
+
+VehicleTab_MotorHome: {
+  Add Vehicle: click, 
+  Type: Motor Home, 
+  Primary operator: contains=Fernando,
+  Motor Home Type: index=1, 
+  Usage: index=1, 
+  Year: 2002,
+  Other Make: OTHER,
+  Other Model: Other,
+  Stated Amount: 5000    
+}
+
+VehicleTab_Antique: {
+  Add Vehicle: click, 
+  Type: Limited Production/Antique, 
+  Usage: index=1, 
+  Year: 1960,
+  Make: OTHER, 
+  Other Make: OTHER,
+  Other Model: Other,
+  Other Body Style: index=1,
+  Stated Amount: 11000    
 }
 
 Vehicle_withDamage: {
@@ -171,6 +716,22 @@ Vehicle_withDamage: {
   Existing Damage: Other Body Damages
 }
 
+Vehicle2_withDamage: {
+  Add Vehicle: click, 
+  Type: Private Passenger Auto, 
+  Usage: Pleasure,
+  VIN: 5NPEB4AC7C7443856,
+  Existing Damage: Other Body Damages
+}
+
+VehicleTab_setDamage: {
+  Existing Damage: Other Body Damages
+}
+
+VehicleTab_removeDamage: {
+  Existing Damage: None
+}
+
 # ------ PremiumAndCoveragesTab ------- 
 PremiumAndCoveragesTab_Full: {
   Payment Plan: Eleven Pay - Standard, 
@@ -178,6 +739,36 @@ PremiumAndCoveragesTab_Full: {
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Uninsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
   Underinsured Motorists Bodily Injury: 'contains=$50,000/$100,000'
+}
+
+PremiumAndCoveragesTab_UMandUIMLessThanBI: {
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Uninsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
+  Underinsured Motorists Bodily Injury: 'contains=$50,000/$100,000'
+}
+
+PremiumAndCoveragesTab_UMLessThanBI: {
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Uninsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
+  Underinsured Motorists Bodily Injury: 'contains=$100,000/$300,000'
+}
+
+PremiumAndCoveragesTab_UIMLessThanBI: {
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Uninsured Motorists Bodily Injury: 'contains=$100,000/$300,000',
+  Underinsured Motorists Bodily Injury: 'contains=$50,000/$100,000'
+}
+
+PremiumAndCoveragesTab_UMandUIMEqualToBI: {
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Uninsured Motorists Bodily Injury: 'contains=$100,000/$300,000',
+  Underinsured Motorists Bodily Injury: 'contains=$100,000/$300,000'
+}
+
+PremiumAndCoveragesTab_Monthly: {
+  Payment Plan: Eleven Pay - Standard, 
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
 }
 
 # ------- DocumentsAndBindTab --------
@@ -190,7 +781,7 @@ DocumentsAndBindTab_Full: {
   }, 
   Agreement: I agree, 
   RequiredToIssue: {
-    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: 'Yes',
+    #AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: 'Yes',
     Proof of Prior Insurance: 'Yes'
   }, 
   Case Number: '12345'
@@ -202,4 +793,107 @@ DocumentsAndBindTab_NANO: {
     Non-Owner Automobile Endorsement: Physically Signed
   }, 
   Agreement: I agree 
+}
+
+DocumentsAndBindTab_Endorse_NANO: {
+  RequiredToBind: {
+    Non-Owner Automobile Endorsement: Physically Signed
+  }
+}
+
+DocumentsAndBindTab_FinancialDriver: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }, 
+  Case Number: '12345'
+}
+
+DocumentsAndBindTab_ExcludedDriver: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed, 
+    Named Driver Exclusion: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+DocumentsAndBindTab_Endorsement_ExcludedDriver: {
+  RequiredToBind: {
+    Named Driver Exclusion: Physically Signed
+  }
+}
+
+DocumentsAndBindTab_UMandUIMLessThanBI: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Uninsured and Underinsured Motorist Coverage Selection: Physically Signed, 
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: { 
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+DocumentsAndBindTab_Endorsement_UMandUIMLessThanBI: {
+  RequiredToBind: {
+    #Auto Insurance Application: Physically Signed,
+    Uninsured and Underinsured Motorist Coverage Selection: Physically Signed, 
+  }, 
+  #Agreement: I agree, 
+  #RequiredToIssue: { 
+  #  Proof of Prior Insurance: 'Yes'
+  #}
+}
+
+DocumentsAndBindTab_DocNotSigned: {
+  RequiredToBind: {
+    Auto Insurance Application: Not Signed
+  },
+  Agreement: I agree,
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+DocumentsAndBindTab_2DocsNotSigned: {
+  RequiredToBind: {
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Not Signed, 
+    Auto Insurance Application: Not Signed     
+  },
+  Agreement: I agree,
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+# -------- Error tab --------- 
+ErrorTab: {
+   ErrorsOverride: [{
+    Message: "contains=Auto Insurance Application",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: 'Other'
+   }]
+}
+
+ErrorTab_2Errors: {
+   ErrorsOverride: [{
+    Message: "contains=Auto Insurance Application",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: 'Other'
+   }, {
+    Message: "contains=The AAA with SMARTtrek Acknowledgement",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: 'Other' }]
 }

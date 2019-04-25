@@ -273,4 +273,83 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	public void pas12469_renewalComparisonVehicleInformation(@Optional("AZ") String state) {
 		renewalComparison(getTDNBPolicy(), getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.ENDORSEMENT_RENEWAL_VEHICLE_INFORMATION, "VehicleTab", "VehicleInformation");
 	}
+
+	private TestData getTDPremiumCoveragesVersion2() {
+		return getTestSpecificTD("TestData_PremiumCoverages_Version2");
+	}
+
+	private TestData getTDPremiumCoveragesQuoteVersion1() {
+		return getTestSpecificTD("TestData_NB_Quote");
+	}
+	private TestData getTDPremiumCoveragesQuoteVersion2() {
+		return getTestSpecificTD("TestData_PremiumCoverages_QuoteVersion2");
+	}
+
+	private TestData getTDPremiumCoveragesVersion1() {
+		return getTestSpecificTD("TestData_PremiumCoverages_Version1");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-28114","PAS-13367"})
+	public void pas22140_dataGatherComparisonPremiumAndCoverages(@Optional("AZ") String state) {
+		dataGatherComparison(getTDNBQuote(),getTDPremiumCoveragesQuoteVersion1(), getTDPremiumCoveragesQuoteVersion2(), VersionsComparisonConstants.DATA_GATHER_PREMIUM_AND_COVERAGES, "PremiumAndCoveragesTab", "PremiumCoveragesInformation");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-28114","PAS-13367"})
+	public void pas22140_endorsementComparisonPremiumAndCoverages(@Optional("AZ") String state) {
+		endorsementComparison(getTDNBPolicy(),getTDPremiumCoveragesVersion1(), getTDPremiumCoveragesVersion2(), VersionsComparisonConstants.ENDORSEMENT_RENEWAL_PREMIUM_AND_COVERAGES, "PremiumAndCoveragesTab", "PremiumCoveragesInformation");
+	}
+
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-28114","PAS-13367"})
+	public void pas22140_renewalComparisonPremiumAndCoverages(@Optional("AZ") String state) {
+		renewalComparison(getTDNBPolicy(), getTDPremiumCoveragesVersion1(), getTDPremiumCoveragesVersion2(), VersionsComparisonConstants.ENDORSEMENT_RENEWAL_PREMIUM_AND_COVERAGES, "PremiumAndCoveragesTab", "PremiumCoveragesInformation");
+	}
+
+   //Assignment Tab section
+
+	private TestData getTDNewBusiness() {
+		return getTestSpecificTD("TestData_NB_Policy_NY"); }
+
+	private TestData getTDAssignmentVersion1() {
+		return getTestSpecificTD("TestData_Assignment_Version1");
+	}
+
+	private TestData getTDAssignmentVersion2() {
+		return getTestSpecificTD("TestData_Assignment_Version2");
+	}
+
+	private TestData getTDAssignmentNoChangeVersion() {
+		return getTestSpecificTD("TestData_Assignment_EndorsementRenewal_NY");
+	}
+
+	@Parameters({STATE_PARAM})
+	@StateList(states = {Constants.States.NY})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-25887"})
+	public void pas25887_dataGatherComparisonAssignment(@Optional("NY") String state) {
+		dataGatherComparison(getTDNewBusiness(), getTDAssignmentVersion1(), getTDAssignmentVersion2(), VersionsComparisonConstants.ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
+	}
+
+	@Parameters({STATE_PARAM})
+	@StateList(states = {Constants.States.NY})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-25887"})
+	public void pas25887_endorsementsComparisonAssignment(@Optional("NY") String state) {
+		endorsementComparison(getTDNewBusiness(), getTDAssignmentNoChangeVersion(), getTDAssignmentVersion2(), VersionsComparisonConstants.ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
+	}
+
+	@Parameters({STATE_PARAM})
+	@StateList(states = {Constants.States.NY})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-25887"})
+	public void pas25887_renewalComparisonAssignment(@Optional("NY") String state) {
+		renewalComparison(getTDNewBusiness(), getTDAssignmentNoChangeVersion(), getTDAssignmentVersion2(), VersionsComparisonConstants.ASSIGNMENT, "AssignmentTab", "DriverVehicleRelationshipTable");
+	}
+
 }

@@ -256,22 +256,17 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
                 <methods>
-                    <include name="pas25187_dataGatherComparisonAssignment"/>
                     <include name="pas25187_endorsementsComparisonAssignment"/>
-                    <include name="pas25187_renewalComparisonAssignment"/>
                 </methods>
             </class>
         </classes>
     </test>
-
 
     <test name="Assignment Tab/Comparison CA Select" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
                 <methods>
-                    <include name="pas25187_dataGatherComparisonAssignment"/>
-                    <include name="pas25187_endorsementsComparisonAssignment"/>
                     <include name="pas25187_renewalComparisonAssignment"/>
                 </methods>
             </class>
@@ -284,9 +279,6 @@
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsConflict">
                 <methods>
                     <include name="pas25188_ooseConflictManualAssignment"/>
-                    <include name="pas25188_ooseConflictAutomaticAssignment"/>
-                    <include name="pas25188_renewalMergeAssignment"/>
-
                 </methods>
             </class>
         </classes>
@@ -297,9 +289,63 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsConflict">
                 <methods>
-                    <include name="pas25188_ooseConflictManualAssignment"/>
-                    <include name="pas25188_ooseConflicAutomaticAssignment"/>
                     <include name="pas25188_renewalMergeAssignment"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Assignment Tab/Comparison SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas25887_endorsementsComparisonAssignment"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Assignment Tab/Conflict SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas25889_renewalMergeAssignment"/>
+
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Remove Components AutoSS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas19839_renewalMergeAutomaticRemoveNamedInsured"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Remove Components AutoCASelect" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas19839_ooseConflictManualRemoveVehicleAndDriver"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Remove Components AutoCA Choice" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas19839_ooseConflictAutomaticRemoveVehicleAndDriver"/>
                 </methods>
             </class>
         </classes>

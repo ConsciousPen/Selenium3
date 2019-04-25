@@ -29,8 +29,10 @@ public enum CoverageLimits {
 	COV_30000("30000", "$30,000"),
 	COV_40000("40000", "$40,000"),
 	COV_50000("50000", "$50,000"),
+	COV_50000_FULL("50000", "$50000 Full"),
 	COV_75000("75000", "$75,000"),
 	COV_100000("100000", "$100,000"),
+	COV_100000_FULL("100000", "$100000 Full"),
 	COV_150000("150000", "$150,000"),
 	COV_177500("177500", "$177,500"),
 	COV_250000("250000", "$250,000"),
@@ -68,6 +70,7 @@ public enum CoverageLimits {
 	COV_FALSE_NO_COVERAGE("false", "No Coverage"),
 	COV_CDW("1", "Collision Deductible Waiver"),
 	DED_0("0", "$0"),
+	DED_200("200", "$200"),
 	DED_250("250", "$250"),
 	DED_500("500", "$500"),
 	DED_1000("1000", "$1,000"),
@@ -115,8 +118,21 @@ public enum CoverageLimits {
 	COV_LOL("TRUE", "Limitation on Lawsuit"),
 	COV_2YR("2YR", "Two Years"),
 	COV_UNL("UNL", "Unlimited"),
+	COV_MEE_NONE("0", "None"),
+	COV_MEE_NAMED_INSURED_ONLY("1", "Named Insured Only"),
+	COV_MEE_NAMED_INSURED_AND_RELATIVES("2", "Named Insured and Relatives"),
 	COV_PIPCOVINCLUDES_NIFM("NIFM", "Named Insureds and Family Members"),
-	COV_PIPCOVINCLUDES_NI("NI", "Named Insureds");
+	COV_PIPCOVINCLUDES_NI("NI", "Named Insureds"),
+	COV_2550_SUM("25000/50000", "$25,000/$50,000 (NO SUM)"),
+	COV_50100_SUM("50000/100000", "$50,000/$100,000 (SUM)"),
+	COV_100300_SUM("100000/300000", "$100,000/$300,000 (SUM)"),
+	COV_250500_SUM("250000/500000", "$250,000/$500,000 (SUM)"),
+	COV_300500_SUM("300000/500000", "$300,000/$500,000 (SUM)"),
+	COV_500500_SUM("500000/500000", "$500,000/$500,000 (SUM)"),
+	COV_5001000_SUM("500000/1000000", "$500,000/$1,000,000 (SUM)"),
+	COV_10001000_SUM("1000000/1000000", "$1,000,000/$1,000,000 (SUM)");
+
+
 
 	private final String limit;
 	private final String display;

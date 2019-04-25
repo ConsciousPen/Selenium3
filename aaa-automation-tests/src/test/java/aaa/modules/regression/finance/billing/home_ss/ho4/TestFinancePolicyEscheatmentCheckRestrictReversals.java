@@ -1,6 +1,7 @@
 package aaa.modules.regression.finance.billing.home_ss.ho4;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.temporal.TemporalAdjusters;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -37,7 +38,7 @@ public class TestFinancePolicyEscheatmentCheckRestrictReversals extends FinanceO
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-25635")
 	public void pas25635_testFinancePolicyEscheatmentCheckRestrictReversals(@Optional("VA") String state) {
 		String policyNumber = createEscheatmentTransaction();
@@ -49,8 +50,14 @@ public class TestFinancePolicyEscheatmentCheckRestrictReversals extends FinanceO
 				.getRowContains("Subtype/Reason", "Escheatment").getCell("Action");
 		assertThat(escheatmentActions.getValue()).contains("Reverse");
 
-		// 2. Move time forward for a month and check that Reverse action does not exist
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusMonths(1));
+		// 2. Move time forward to the end of month and check that Reverse action is exist
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().with(TemporalAdjusters.lastDayOfMonth()));
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+		assertThat(escheatmentActions.getValue()).contains("Reverse");
+
+		// 3. Move time forward for a month and check that Reverse action does not exist
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		assertThat(escheatmentActions.getValue()).doesNotContain("Reverse");

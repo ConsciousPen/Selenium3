@@ -4,14 +4,14 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
-import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
-import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
+import org.openqa.selenium.By;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
 /**
@@ -28,6 +28,7 @@ public class VehicleTab extends Tab {
 	public static AdvancedTable tableVehicleList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListVehicle"));
 	public static AdvancedTable tableAdditionalInterestList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListAAAAdditionalInterest"));
     public static Button buttonAddVehicle = new Button(By.xpath("//input[@id='policyDataGatherForm:addVehicle']"));
+	public static StaticElement telematicsDiscountText = new StaticElement(By.xpath("//div[@id='policyDataGatherForm:componentView_AAATelematicDeviceInfo_body']//tr[2]//td[@class='pfFormControl']//span"));
 
     public VehicleTab() {
 		super(AutoSSMetaData.VehicleTab.class);

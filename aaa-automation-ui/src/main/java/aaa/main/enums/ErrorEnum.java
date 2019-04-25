@@ -7,13 +7,14 @@ public final class ErrorEnum {
 	public enum Errors {
 
 		ERROR_POLICY_NOT_RATED("Unprepared data", "Cannot issue policy which was not rated!"),
+		MPD_COMPANION_VALIDATION("MPD_COMPANION_VALIDATION", "Companion policy used for Multi-Policy Discount is not system validated."),
 		ERROR_200127("200127", "The selected pay plan is not allowed when Membership is \"\"No\"\". Please choose a plan with a minimum down payment of 50% or greater. Do not select 'refer for approval.' Any exceptions to this rule must be discussed directly with Service. (200127) [for ExistingPolicies.existingMembershipCd]"),
 		ERROR_200103("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
 		ERROR_200104("200104", "Driver with 2 or more At-fault accidents are unacceptable (200104) [for Drive..."),
 		ERROR_200123("200123", "Delaware Motorists Protection Act form must be received prior to issuing this transaction"),
 		ERROR_200037_VA("200037_VA", "A signed IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE form must be received prior to issuing this transaction"),
 		ERROR_200200_NJ("200200_NJ", "A signed \"Acknowledgement of Carco Inspection Requirements\" must be received prior to completing this transaction. (200200)"),
-		ERROR_200204_NJ("200204_NJ", "200204 Inspection Waiver - Sales Agreement Required must be received prior to issuing this transaction. (200204)"),//TODO-mstrazds: remove 200204
+		ERROR_200204_NJ("200204_NJ", "Inspection Waiver - Sales Agreement Required must be received prior to issuing this transaction. (200204)"),
 		ERROR_200304("200304", "If Limited Tort Liability coverage is selected, a signed form must be receive..."),
 		ERROR_200305("200305", "First Party Benefits signed form must be received (200305)"),
 		ERROR_200306("200306", "A signed Uninsured motorist coverage selection form must be received prior to issuing this transaction (200306)"),
@@ -24,6 +25,7 @@ public final class ErrorEnum {
 		ERROR_AAA_CLUE_order_validation_SS("AAA_CLUE_order_validation_SS", "Current CLUE must be ordered"),
 		ERROR_AAA_SS10240324("AAA_SS10240324", "At least one phone number must be provided."),
 		ERROR_AAA_SS190125("AAA_SS190125", "Pennsylvania Notice to Named Insureds Regarding Tort Options must be received prior to issuing this transaction."),
+		ERROR_200115_NY("200115_NY", "Supplementary Uninsured/Underinsured Coverage Waiver must be signed."),
 
 
 		// Property errors
@@ -100,6 +102,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_SS3281092("AAA_HO_SS3281092", "Dwellings with more than 3 detached building structures on the residence prem..."),
 		ERROR_AAA_HO_SS3230162("AAA_HO_SS3230162", "More than 2 additional Insureds require Underwriting approval"),
 		ERROR_AAA_HO_SS3230756("AAA_HO_SS3230756", "More than 2 additional Interests require Underwriting approval"),
+		ERROR_AAA_HO_UWApp_HS0988_endorsement("AAA_HO_UWApp_HS0988_endorsement", "Underwriting approval is required to add Additional Insured - Special Event e..."),
 		ERROR_AAA_HO_SS67cbad46("AAA_HO_SS67cbad46", "All named insureds must have an insurance score ordered."),
 		ERROR_AAA_HO_SS11200000("(AAA_HO_SS11200000", "'Mortgagee Clause' is required (AAA_HO_SS11200000) [for AAAHOMortgageeInfo.legalMortgageeName]"),
 		ERROR_AAA_HO_SS12141500("AAA_HO_SS12141500", "'Loan number' is required (AAA_HO_SS12141500) [for AAAHOMortgageeInfo.account..."),
@@ -192,6 +195,12 @@ public final class ErrorEnum {
 		ERROR_AAA_200200_NY("200200_NY", "Vehicles with Physical Damage Coverage require a CARCO Inspection or Proof o..."),
 		ERROR_AAA_200203("200203", "If Uninsured/Underinsured Motorist (UM/UIM) Coverage is rejected. A signed Un..."),
 		ERROR_AAA_10006002_CA("10006002", "Do not bind the endorsement more than 30 days in advance. (10006002) [for Pol..."),
+		ERROR_AAA_validate_pu_clue_claim_2("AAA_validate_pu_clue_claim_2", "Confirm CLUE activity is a permissive use claim based on a CLUE report or oth..."),
+		ERROR_AAA_10015021_CA_SELECT("10015021", "Driver with more than 1 At-fault injury accident is unacceptable (10015021) [..."),
+		ERROR_AAA_10004001_CA("10004001", "Driver must possess a valid license status (10004001) [for Driver.attributeFo..." ),
+		ERROR_AAA_CAC7100525_CA_CHOICE("AAA_CAC7100525_CA_CHOICE","Any Driver on the policy with an out-of-state U.S., Canadian, or Foreign lice..."),
+		ERROR_AAA_200108_1_CA_SELECT("200108_1", "Driver with a Foreign or International License is unacceptable (200108_1) [fo..."),
+		AAA_SS02012019("AAA_SS02012019", "Policy cannot be bound with an unbound companion policy."),
 
 		//MEMBERSHIP Errors
 		ERROR_AAA_AUTO_SS_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm..."),

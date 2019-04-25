@@ -10,9 +10,7 @@ TestData_EndorsementAPRemoveCoverage: {
    },
    DriverActivityReportsTab: {},
    DocumentsAndBindTab: {
-    RequiredToBind: {
-      Uninsured and Underinsured Motorist Coverage Selection: Physically Signed,
-   },
+    RequiredToBind: {},
   }
 }
 
@@ -171,7 +169,7 @@ TestData_EndorsementAddSecondCoverage_WV: {
     VehicleTab: {},
     FormsTab: {},
     PremiumAndCoveragesTab: {
-    Rental Reimbursement: 'contains=1200',
+    Collision Deductible: 'contains=$100',
     },
     DriverActivityReportsTab: {},
     DocumentsAndBindTab: {}

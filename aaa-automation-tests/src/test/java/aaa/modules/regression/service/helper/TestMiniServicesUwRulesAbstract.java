@@ -99,13 +99,10 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode());
 			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage());
-			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("attributeForRules");
 			softly.assertThat(rateResponse.errors.get(1).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_IN_MICHIGAN.getCode());
 			softly.assertThat(rateResponse.errors.get(1).message).contains(ErrorDxpEnum.Errors.GARAGED_IN_MICHIGAN.getMessage());
-			softly.assertThat(rateResponse.errors.get(1).field).isEqualTo("attributeForRules");
 			softly.assertThat(rateResponse.errors.get(2).errorCode).isEqualTo(ErrorDxpEnum.Errors.ZIP_CODE_IS_NOT_APPLICABLE.getCode());
 			softly.assertThat(rateResponse.errors.get(2).message).contains(ErrorDxpEnum.Errors.ZIP_CODE_IS_NOT_APPLICABLE.getMessage());
-			softly.assertThat(rateResponse.errors.get(2).field).isEqualTo("postalCode");
 			//bind action is not available, can't even rate policy with vehicle Garaged in MI, ZIP is not resolved
 			});
 	}
@@ -144,10 +141,9 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode());
 			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage());
-			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("attributeForRules");
 
 			rateEndorsementInPas(policyNumber);
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage(), "attributeForRules");
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage());
 
 			SearchPage.openPolicy(policyNumber);
 			testEValueDiscount.simplifiedPendedEndorsementIssue();
@@ -195,10 +191,9 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.UNIQUE_VIN.getCode());
 			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.UNIQUE_VIN.getMessage());
-			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("attributeForRules");
 
 			rateEndorsementInPas(policyNumber);
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.UNIQUE_VIN.getCode(), ErrorDxpEnum.Errors.UNIQUE_VIN.getMessage(), "attributeForRules");
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.UNIQUE_VIN.getCode(), ErrorDxpEnum.Errors.UNIQUE_VIN.getMessage());
 
 			SearchPage.openPolicy(policyNumber);
 			testEValueDiscount.simplifiedPendedEndorsementIssue();
@@ -250,13 +245,11 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE.getCode());
 			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE.getMessage());
-			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("attributeForRules");
 			softly.assertThat(rateResponse.errors.get(1).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode());
 			softly.assertThat(rateResponse.errors.get(1).message).contains(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage());
-			softly.assertThat(rateResponse.errors.get(1).field).isEqualTo("attributeForRules");
 
 			rateEndorsementInPas(policyNumber);
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE.getMessage(), "attributeForRules");
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE.getMessage());
 
 			SearchPage.openPolicy(policyNumber);
 			testEValueDiscount.simplifiedPendedEndorsementIssue();
@@ -314,7 +307,7 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			premiumAndCoveragesTab.calculatePremium();
 			premiumAndCoveragesTab.saveAndExit();
 
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MUST_HAVE_PPA.getCode(), ErrorDxpEnum.Errors.MUST_HAVE_PPA.getMessage(), "attributeForRules");
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MUST_HAVE_PPA.getCode(), ErrorDxpEnum.Errors.MUST_HAVE_PPA.getMessage());
 
 			SearchPage.openPolicy(policyNumber);
 			testEValueDiscount.simplifiedPendedEndorsementIssue();

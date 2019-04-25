@@ -722,7 +722,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 6. Run the test for CT and VA If CT verify county in meta data service
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.VA,Constants.States.CT})
+	@StateList(states = {Constants.States.VA, Constants.States.CT})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12942, Pas-15269"})
 	public void pas12942_GaragingAddressConsistencyDXP(@Optional("CT") String state) {
@@ -745,7 +745,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 11. Issue and Bind.
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ,Constants.States.NV})
+	@StateList(states = {Constants.States.AZ, Constants.States.NV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16113"})
 	public void pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVa(@Optional("NV") String state) {
@@ -767,8 +767,9 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.NV, Constants.States.NJ})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9750"})
-	public void pas9750_addVehicleServiceBlockingForPurchaseDate(@Optional("NV") String state) {
+	public void pas9750_addVehicleServiceBlockingForPurchaseDate(@Optional("NJ") String state) {
 
 		pas9750_addVehicleServiceBlockingForPurchaseDateBody();
 	}
@@ -833,7 +834,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@StateList(states = {Constants.States.NJ,Constants.States.NY})
+	@StateList(states = {Constants.States.NJ, Constants.States.NY})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21597,PAS-7148"})
 	public void pas21597_addVehicleCheckAntiTheft(@Optional("NJ") String state) {
 
@@ -862,7 +863,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@StateList(states = {Constants.States.NJ})
+	@StateList(states = {Constants.States.NJ, Constants.States.NY})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18408"})
 	public void pas18408_lessThan1000Miles(@Optional("NJ") String state) {
 		assertSoftly(this::pas18408_validateLessThan1000Miles);
@@ -885,6 +886,24 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	public void pas25065_validateMakeModelOthersForRemovedVehicle(@Optional("AZ") String state) {
 		pas25065_validateMakeModelOthersForRemovedVehicleBody();
 	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name View/Update Vehicle Service - Daytime Running, Antilock Brakes - New York
+	 * * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create Endorsement through service
+	 * 3. add vehicle from service and run view vehicle service verifi Daytime Running Lamp and Anti-Lock Brakes is there false
+	 * 4 update vehicle with Daytime Running Lamp and Anti-Lock Brakes true verify response
+	 * 5. Verify Meta deta service.
+	 * */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15334"})
+	public void pas15334viewUpdateVehicleDaytimeRunningAntilockBrakes(@Optional("NY") String state) {
+		assertSoftly(softly -> pas15334viewUpdateVehicleDaytimeRunningAntilockBrakesBody(softly));
+	}
 }
+
 
 
