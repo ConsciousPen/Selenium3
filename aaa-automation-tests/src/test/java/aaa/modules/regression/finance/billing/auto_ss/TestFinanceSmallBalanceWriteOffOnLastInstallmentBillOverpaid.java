@@ -1,12 +1,14 @@
 package aaa.modules.regression.finance.billing.auto_ss;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
@@ -43,23 +45,26 @@ public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBillOverpaid extend
 	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22285")
 	public void pas22285_testFinanceSmallBalanceWriteOffOnLastInstallmentBillOverpaid(@Optional("WV") String state) {
-		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
+		List<LocalDateTime> installmentDueDates;
+		/*LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime pDate = today.plusMonths(3).minusDays(20);
 		LocalDateTime p2Date = pDate.plusMonths(3);
 		LocalDateTime p3Date = p2Date.plusMonths(3);
-		LocalDateTime refundDate = p3Date.plusDays(1);
+		LocalDateTime refundDate = p3Date.plusDays(1);*/
 
 		mainApp().open();
 		createCustomerIndividual();
 		TestData policyTD = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData")
 				.adjust("PremiumAndCoveragesTab|Payment Plan", BillingConstants.PaymentPlan.QUARTERLY).resolveLinks();
 		String policyNumber = createPolicy(policyTD);
+		SearchPage.openBilling(policyNumber);
+		installmentDueDates = BillingHelper.getInstallmentDueDates();
 
-		makeInstallmentPayment(pDate, policyNumber, 0);
-		makeInstallmentPayment(p2Date, policyNumber, 0);
-		makeInstallmentPayment(p3Date, policyNumber, 1);
+		makeInstallmentPayment(getTimePoints().getBillGenerationDate(installmentDueDates.get(1)), policyNumber, 0);
+		makeInstallmentPayment(getTimePoints().getBillGenerationDate(installmentDueDates.get(2)), policyNumber, 0);
+		makeInstallmentPayment(getTimePoints().getBillGenerationDate(installmentDueDates.get(3)), policyNumber, 1);
 
-		TimeSetterUtil.getInstance().nextPhase(refundDate);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRefundDate(installmentDueDates.get(3)));
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 
 		mainApp().open();
