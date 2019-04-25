@@ -158,7 +158,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-27234"})
-	public void pas27234_ooseConflictAutomaticContactInformation(@Optional("AZ") String state) {
+	public void pas27234_ooseConflictAtomicMergeContactInformation(@Optional("AZ") String state) {
 		ooseConflict(getTDNBPolicy(), getTDContactInformationVersion3(), getTDContactInformationVersion4(), VersionsConflictConstants.CONTACT_INFORMATION,  VersionsConflictConstants.CONTACT_INFORMATION_VERSION_4, VersionsConflictConstants.CONTACT_INFORMATION_VERSION_3,  "GeneralTab", "ContactInformation", true);
 	}
 
