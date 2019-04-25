@@ -121,7 +121,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 
 	/**
 	 * @author Oleg Stasyuk, Maris Strazds
-	 * @name Validation on Update/Rate/Bind for vehicle use = Business
+	 * @name Validation on Update/Rate/Bind for vehicle use = Business, AND also if registeredOwner = false
 	 * @scenario 1. Create active policy
 	 * 2. Add a vehicle
 	 * 3. Update vehicle, set usage = Business
@@ -133,30 +133,10 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-7147", "PAS-25267"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-7147"})
 	public void pas7147_VehicleUpdateBusiness(@Optional("CA") String state) {
 
-		pas7147_VehicleUpdateBusinessBody();
-	}
-
-	/**
-	 * @author Oleg Stasyuk, Maris Strazds
-	 * @name Validation on Update/Rate/Bind for vehicle use = Registered Owner
-	 * @scenario 1. Create active policy
-	 * 2. Add a vehicle
-	 * 3. Update vehicle, set usage = Business
-	 * Error expected
-	 * 4. Rate the endorsement
-	 * Error expected
-	 * 5. Bind the endorsement
-	 * Error expected
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-7147", "PAS-25267"})
-	public void pas7147_VehicleUpdateRegisteredOwner(@Optional("CA") String state) {
-
-		//pas7147_VehicleUpdateRegisteredOwnerBody();
+//		pas7147_VehicleUpdateBusinessBody(); //TODO-mstrazds: finish when there is story for it
 	}
 
 	/**
@@ -175,7 +155,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-11618", "PAS-25267"})
 	public void pas11618_UpdateVehicleLeasedInfo(@Optional("CA") String state) {
 		//assertSoftly(softly ->
-				//pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "LSD")
+				//pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "LSD")//TODO-mstrazds: PAS-28718 PAS-28718 Garaging Address and Ownership - Let's make sure it works for CA Select
 		//);
 	}
 
@@ -196,7 +176,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-11618", "PAS-25267"})
 	public void pas11618_UpdateVehicleFinancedInfo(@Optional("CA") String state) {
 		//assertSoftly(softly ->
-				//pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "FNC")
+				//pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "FNC")//TODO-mstrazds: PAS-28718 PAS-28718 Garaging Address and Ownership - Let's make sure it works for CA Select
 		//);
 	}
 
@@ -204,7 +184,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-13252", "PAS-25267"})
 	public void pas13252_UpdateVehicleGaragingAddressProblem(@Optional("CA") String state) {
-		//pas13252_UpdateVehicleGaragingAddressProblemBody();
+		//pas13252_UpdateVehicleGaragingAddressProblemBody();//TODO-mstrazds: PAS-28718 Garaging Address and Ownership - Let's make sure it works for CA Select
 	}
 
 

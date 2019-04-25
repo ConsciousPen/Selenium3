@@ -735,6 +735,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
 		updateVehicleRequest.usage = "BU";
 		updateVehicleRequest.registeredOwner = false;
+		updateVehicleRequest.odometerReading = "22000";
 
 		VehicleUpdateResponseDto updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
 		assertSoftly(softly -> {
