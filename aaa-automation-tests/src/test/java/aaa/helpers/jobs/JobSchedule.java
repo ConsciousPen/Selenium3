@@ -102,10 +102,10 @@ public class JobSchedule {
 
         switch (adjustedDate.getDayOfWeek()){
             case SATURDAY:
-                adjustedOffset = offset - 1;
+                adjustedOffset = offset + 2;
 
                 if(showWeekendAdjustmentOutput) {
-                    log.info("Scheduled Job | " + jobName + " adjusted from Saturday to Previous Friday. Offset: " + offset
+                    log.info("Scheduled Job | " + jobName + " adjusted from Saturday to Following Monday. Offset: " + offset
                             + " | Adjusted Offset: " + adjustedOffset);
                 }
                 return adjustedOffset;
