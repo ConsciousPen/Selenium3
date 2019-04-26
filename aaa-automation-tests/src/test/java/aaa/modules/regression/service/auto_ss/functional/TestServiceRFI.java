@@ -623,7 +623,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC01(@Optional("NJ") String state) {
 		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, 4,false, false,
                 false, false, REQUIRED_TO_BIND_AAIFNJ3, REQUIRED_TO_BIND_AAIFNJ4,
-                ERROR_200200_NJ, ERROR_200204_NJ);
+                ERROR_200200_NJ, ERROR_200204_NJ, state);
 	}
 
 	@Parameters({"state"})
@@ -633,7 +633,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC02(@Optional("NJ") String state) {
 		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, 4, true, false,
                 false, false, REQUIRED_TO_BIND_AAIFNJ3, REQUIRED_TO_BIND_AAIFNJ4,
-                ERROR_200200_NJ, ERROR_200204_NJ);
+                ERROR_200200_NJ, ERROR_200204_NJ, state);
 	}
 
 	@Parameters({"state"})
@@ -643,7 +643,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas23573_CARCONotNeededInsidePASAddReplaceVehicleTC03(@Optional("NJ") String state) {
 		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, 4, true, true,
                 false, false, REQUIRED_TO_BIND_AAIFNJ3, REQUIRED_TO_BIND_AAIFNJ4,
-                ERROR_200200_NJ, ERROR_200204_NJ);
+                ERROR_200200_NJ, ERROR_200204_NJ, state);
 	}
 
 	/**
@@ -662,7 +662,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas25024_CARCONotNeededInsidePASAddReplaceVehicleTC01(@Optional("NY") String state) {
 		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, 2,false, false,
 				false, false, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE,
-				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY);
+				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY, state);
 	}
 
 	@Parameters({"state"})
@@ -672,7 +672,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas25024_CARCONotNeededInsidePASAddReplaceVehicleTC02(@Optional("NY") String state) {
 		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, 2, true, false,
 				false, false, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE,
-				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY);
+				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY, state);
 	}
 
 	@Parameters({"state"})
@@ -682,7 +682,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas25024_CARCONotNeededInsidePASAddReplaceVehicleTC03(@Optional("NY") String state) {
 		carcoNeededNotNeededInsidePASAddReplaceVehicle(true, 2, true, true,
 				false, false, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE,
-				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY);
+				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY, state);
 	}
 
 	/**
@@ -702,7 +702,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas26123_CARCOFormAAIFNJ4InsidePASAddReplaceVehicle(@Optional("NJ") String state) {
 		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, 4, true, true,
 				false, true, REQUIRED_TO_BIND_AAIFNJ3, REQUIRED_TO_BIND_AAIFNJ4,
-				ERROR_200200_NJ, ERROR_200204_NJ);
+				ERROR_200200_NJ, ERROR_200204_NJ, state);
 	}
 
 	/**
@@ -722,7 +722,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas21648_CARCOFormAAIFNJ3InsidePASAddReplaceVehicleTC01(@Optional("NJ") String state) {
 		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, 4, true, false,
 				true, false, REQUIRED_TO_BIND_AAIFNJ3, REQUIRED_TO_BIND_AAIFNJ4,
-				ERROR_200200_NJ, ERROR_200204_NJ);
+				ERROR_200200_NJ, ERROR_200204_NJ, state);
 	}
 
 	@Parameters({"state"})
@@ -732,7 +732,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas21648_CARCOFormAAIFNJ3InsidePASAddReplaceVehicleTC02(@Optional("NJ") String state) {
 		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, 4, false, false,
 				false, false, REQUIRED_TO_BIND_AAIFNJ3, REQUIRED_TO_BIND_AAIFNJ4,
-				ERROR_200200_NJ, ERROR_200204_NJ);
+				ERROR_200200_NJ, ERROR_200204_NJ, state);
 	}
 
 	/**
@@ -752,7 +752,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas25027_CARCOFormAAIFNYEInsidePASAddReplaceVehicle(@Optional("NY") String state) {
 		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, 2, true, true,
 				false, true, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE,
-				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY);
+				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY, state);
 	}
 
 	/**
@@ -772,7 +772,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas25029_CARCOFormAAIFNYDInsidePASAddReplaceVehicleTC01(@Optional("NY") String state) {
 		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, 2, true, false,
 				true, false, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE,
-				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY);
+				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY, state);
 	}
 
 	@Parameters({"state"})
@@ -782,7 +782,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas25029_CARCOFormAAIFNYDInsidePASAddReplaceVehicleTC02(@Optional("NY") String state) {
 		carcoNeededNotNeededInsidePASAddReplaceVehicle(false, 2, false, false,
 				false, false, REQUIRED_TO_BIND_AAIFNYD, REQUIRED_TO_BIND_AAIFNYE,
-				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY);
+				ERROR_AAA_200200_NY, ERROR_AAA_200200_NY, state);
 	}
 
 	/**
@@ -1952,7 +1952,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private void carcoNeededNotNeededInsidePASAddReplaceVehicle(boolean baseDateGreaterThanThreshold, int baseDateRange, boolean is1000MilesQuestionRequired,
 																boolean lessThan1000Miles, boolean isSalesAgreementExpected, boolean isInspectionExpected,
 																AssetDescriptor<RadioGroup> salesAgreementFormName, AssetDescriptor<RadioGroup> inspectionFormName,
-                                                                ErrorEnum.Errors salesAgreementError, ErrorEnum.Errors inspectionError) {
+                                                                ErrorEnum.Errors salesAgreementError, ErrorEnum.Errors inspectionError,
+																String state) {
 		String replaceVin;
 		String addVin;
 		String baseDate;
@@ -1990,6 +1991,9 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			}
 		}
 
+		if ("NY".equals(state)) {
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
+		}
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
@@ -2027,6 +2031,9 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			}
 		}
 
+		if ("NY".equals(state)) {
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
+		}
 		premiumAndCoveragesTab.calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		//Verify CARCO in Documents and Bind tab
