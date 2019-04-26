@@ -18,6 +18,9 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
 
     protected static final List<String> ALL_POLICIES = Collections.synchronizedList(new ArrayList<>());
 
+    private static Map<String, String> underlyingHOPolicies = Collections.synchronizedMap(new HashMap<>());
+    private static Map<String, String> underlyingAutoPolicies = Collections.synchronizedMap(new HashMap<>());
+
     private static final String CA_SELECT = "AutoCA";
     private static final String CA_CHOICE = "AutoCAC";
     private static final String AUTO_SS = "AutoSS";
@@ -108,6 +111,58 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                         PersonalUmbrellaMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=1");
                 td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.CancellationActionTab.class.getSimpleName(),
                         PersonalUmbrellaMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
+                break;
+            default:
+                throw new IstfException("No Policy Type was matched!");
+        }
+        return td;
+    }
+
+    protected TestData getCancellationNonPaymentTd(LocalDateTime cxEffDate) {
+        TestData td;
+        String type = getPolicyType().getShortName();
+        String date = formatDateToString(cxEffDate);
+        switch (type) {
+            case HOME_SS_HO3:
+            case HOME_SS_HO4:
+            case HOME_SS_HO6:
+            case HOME_SS_DP3:
+                td = getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData")
+                        .adjust(TestData.makeKeyPath(HomeSSMetaData.CancellationActionTab.class.getSimpleName(),
+                                HomeSSMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "contains=Non-Payment")
+                        .adjust(TestData.makeKeyPath(HomeSSMetaData.CancellationActionTab.class.getSimpleName(),
+                                HomeSSMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
+                break;
+            case PUP:
+                td = getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData")
+                        .adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.CancellationActionTab.class.getSimpleName(),
+                                PersonalUmbrellaMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "contains=Non-Payment")
+                        .adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.CancellationActionTab.class.getSimpleName(),
+                                PersonalUmbrellaMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
+                break;
+            default:
+                throw new IstfException("No Policy Type was matched!");
+        }
+        return td;
+    }
+
+    protected TestData getChangeRenewalLapseTd(LocalDateTime renewalEffDate) {
+        TestData td;
+        String type = getPolicyType().getShortName();
+        String date = formatDateToString(renewalEffDate);
+        switch (type) {
+            case HOME_SS_HO3:
+            case HOME_SS_HO4:
+            case HOME_SS_HO6:
+            case HOME_SS_DP3:
+                td = DataProviderFactory.dataOf(HomeSSMetaData.ManualRenewalWithOrWithoutLapseActionTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        HomeSSMetaData.ManualRenewalWithOrWithoutLapseActionTab.REVISED_RENEWAL_DATE.getLabel(), date,
+                        HomeSSMetaData.ManualRenewalWithOrWithoutLapseActionTab.LAPSE_CHANGE_REASON.getLabel(), "index=1"));
+                break;
+            case PUP:
+                td = DataProviderFactory.dataOf(PersonalUmbrellaMetaData.ManualRenewalWithOrWithoutLapseActionTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        PersonalUmbrellaMetaData.ManualRenewalWithOrWithoutLapseActionTab.REVISED_RENEWAL_DATE.getLabel(), date,
+                        PersonalUmbrellaMetaData.ManualRenewalWithOrWithoutLapseActionTab.LAPSE_CHANGE_REASON.getLabel(), "index=1"));
                 break;
             default:
                 throw new IstfException("No Policy Type was matched!");
@@ -436,27 +491,33 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
 
     private Map<String, String> getPupUnderlyingPolicies() {
         Map<String, String> policies = new LinkedHashMap<>();
-        PolicyType type;
+        PolicyType typeHome;
         PolicyType typeAuto;
         String hoPolicy;
         String autoPolicy;
         String state = getState().intern();
         synchronized (state) {
             if (getState().equals(Constants.States.CA)) {
-                type = PolicyType.HOME_CA_HO3;
+                typeHome = PolicyType.HOME_CA_HO3;
                 typeAuto = PolicyType.AUTO_CA_SELECT;
             } else {
-                type = PolicyType.HOME_SS_HO3;
+                typeHome = PolicyType.HOME_SS_HO3;
                 typeAuto = PolicyType.AUTO_SS;
             }
-            type.get().createPolicy(getStateTestData(testDataManager.policy.get(type), "DataGather", "TestData"));
-            hoPolicy = PolicySummaryPage.getPolicyNumber();
-            policies.put("Primary_HO3", hoPolicy);
-            ALL_POLICIES.add(hoPolicy);
-            typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
-            autoPolicy = PolicySummaryPage.getPolicyNumber();
-            policies.put("Primary_Auto", autoPolicy);
-            ALL_POLICIES.add(autoPolicy);
+            if (!underlyingHOPolicies.containsKey(state)) {
+                typeHome.get().createPolicy(getStateTestData(testDataManager.policy.get(typeHome), "DataGather", "TestData"));
+                hoPolicy = PolicySummaryPage.getPolicyNumber();
+                underlyingHOPolicies.put(state, hoPolicy);
+                ALL_POLICIES.add(hoPolicy);
+            }
+            if (!underlyingAutoPolicies.containsKey(state)) {
+                typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
+                autoPolicy = PolicySummaryPage.getPolicyNumber();
+                underlyingAutoPolicies.put(state, autoPolicy);
+                ALL_POLICIES.add(autoPolicy);
+            }
+            policies.put("Primary_HO3", underlyingHOPolicies.get(state));
+            policies.put("Primary_Auto", underlyingAutoPolicies.get(state));
         }
         return policies;
     }
