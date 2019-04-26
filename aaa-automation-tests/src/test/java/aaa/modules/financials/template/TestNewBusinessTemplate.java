@@ -386,7 +386,6 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         validateCancellationTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
                 BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION), policyNumber, totalTaxesNB.add(totalTaxesEnd));
 
-        // PMT-21 validations
         Dollar adjustmentAmt = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATED_PAYMENT);
         Dollar fees = new Dollar(0.00);
         if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
@@ -402,12 +401,15 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                     .add(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.SEISMIC_SAFETY_FEE));
         }
 
-        Dollar totalFees = fees;
-        assertSoftly(softly -> {
-            softly.assertThat(adjustmentAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1001"));
-            softly.assertThat(totalFees).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1034"));
-            softly.assertThat(adjustmentAmt.subtract(totalFees)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1044"));
-        });
+        // PMT-21 validations
+        if (getPolicyType().isCaProduct() && !getPolicyType().equals(PolicyType.HOME_CA_HO4)) {
+            Dollar totalFees = fees;
+            assertSoftly(softly -> {
+                softly.assertThat(adjustmentAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1001"));
+                softly.assertThat(totalFees).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1034"));
+                softly.assertThat(adjustmentAmt.subtract(totalFees)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1044"));
+            });
+        }
 
         // Reinstate policy without lapse
         performReinstatement(policyNumber);
