@@ -1,7 +1,10 @@
 package aaa.helpers.rest.dtoDxp;
 
+import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.collect.ComparisonChain;
 import aaa.helpers.rest.RestBodyRequest;
 import io.swagger.annotations.ApiModel;
@@ -96,6 +99,17 @@ public class Vehicle implements RestBodyRequest {
 	@ApiModelProperty(value = "Has Antilock Breaks?", example = "true")
 	public Boolean antiLockBreaks;
 
+	@ApiModelProperty(value = "Miles one-way to work or school. CA product specific field.", example = "15")
+	public Integer distanceOneWayToWork;
+
+	@ApiModelProperty(value = "Odometer reading. CA product specific field.", example = "4654")
+	public Integer odometerReading;
+
+	@ApiModelProperty(value = "Odometer reading date in IS8601 format (yyyy-MM-dd).. CA product specific field.", example = "2012-02-21")
+	public ZonedDateTime odometerReadingDate;
+
+	@ApiModelProperty(value = "Customer Declared Annual Miles. CA product specific field.", example = "13000")
+	public Integer declaredAnnualMiles;
 
 	public static final Comparator<Vehicle> ACTIVE_POLICY_COMPARATOR = (vehicle1, vehicle2) -> ComparisonChain.start()
 			.compareTrueFirst(VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO.equals(vehicle1.vehTypeCd),

@@ -2169,7 +2169,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			}
 
 			//Try to bind without signing
-			docId1 = checkDocumentInRfiService(policyNumber, docAAIFNJ3OrAAINJ4.getId(), docAAIFNJ3OrAAINJ4.getName());
+			docId1 = checkDocumentInRfiService(policyNumber, expectedDocument.getId(), expectedDocument.getName());
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error.getCode(), error.getMessage());
 			//Bind policy with docId and document is electronically signed
 			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), docId1);
@@ -2210,7 +2210,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 				updateLessThan1000Miles(policyNumber, replacedVehicleOid, false);
 			}
 			docId1 = checkDocumentInRfiService(policyNumber, expectedDocument.getId(), expectedDocument.getName());
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error.getCode(), error.getMessage(), "attributeForRules");
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error.getCode(), error.getMessage());
 
 			//Bind policy with docId and document is electronically signed
 			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), docId1);
