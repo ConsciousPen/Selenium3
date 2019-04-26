@@ -321,8 +321,7 @@ public class SchedulableJobs {
         }
 
 
-        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset,
-                aaaInsuranceScoreRenewalBatchOrderAsyncJob(productType, state, timePoint));
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
     public static SchedulableJob aaaMvrRenewBatchOrderAsyncJob(String state) {
@@ -356,7 +355,7 @@ public class SchedulableJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset, aaaMvrRenewBatchOrderAsyncJob(state));
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
     public static SchedulableJob aaaClueRenewBatchOrderAsyncJob(ProductType productType, String state) {
@@ -416,8 +415,7 @@ public class SchedulableJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset,
-                aaaClueRenewBatchOrderAsyncJob(productType, state));
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
     public static ArrayList<SchedulableJob> getRenewalClaimOrderAsyncJobs(String state) {
@@ -797,8 +795,7 @@ public class SchedulableJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset,
-                aaaClueRenewBatchOrderAsyncJob(SchedulableJobs.ProductType.Home, state));
+        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
     public static SchedulableJob renewalValidationAsyncTaskJob(String state) {

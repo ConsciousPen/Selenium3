@@ -41,13 +41,8 @@ public class SchedulableJob {
      */
     protected int jobOffsetDays = 0;
 
-    /**
-     * A list of all jobs this job depends on.
-     */
-    protected SchedulableJob[] sameDayDependencies;
 
-
-    public SchedulableJob(Job jobToSchedule, JobOffsetType jobOffsetOperationType, int jobOffsetByDays, SchedulableJob... jobSameDayDependancies){
+    public SchedulableJob(Job jobToSchedule, JobOffsetType jobOffsetOperationType, int jobOffsetByDays){
 
         job = jobToSchedule;
 
@@ -61,7 +56,6 @@ public class SchedulableJob {
             offsetType = jobOffsetOperationType;
         }
         jobOffsetDays = jobOffsetByDays;
-        sameDayDependencies = jobSameDayDependancies;
         jobName = job.getJobName();
     }
 
@@ -157,9 +151,8 @@ public class SchedulableJob {
         private String _policyNumber;
 
         public PaymentSchedulableJob(BaseTest baseTest, String policyNumber, Job jobToSchedule,
-                                     JobOffsetType jobOffsetOperationType, int jobOffsetByDays,
-                                     SchedulableJob... jobSameDayDependancies){
-            super(jobToSchedule, jobOffsetOperationType, jobOffsetByDays, jobSameDayDependancies);
+                                     JobOffsetType jobOffsetOperationType, int jobOffsetByDays){
+            super(jobToSchedule, jobOffsetOperationType, jobOffsetByDays);
 
             _baseTest = baseTest;
             _policyNumber = policyNumber;
@@ -188,7 +181,7 @@ public class SchedulableJob {
         private String _policyNumber;
 
         public updRenewTimelineIndicatorSchedulableJob(String policyNumber, Job jobToSchedule, JobOffsetType jobOffsetOperationType, int jobOffsetByDays, SchedulableJob... jobSameDayDependancies){
-            super(jobToSchedule, jobOffsetOperationType, jobOffsetByDays, jobSameDayDependancies);
+            super(jobToSchedule, jobOffsetOperationType, jobOffsetByDays);
             _policyNumber = policyNumber;
             jobName = "SchedulableJob.updRenewTimelineIndicatorSchedulableJob";
         }
