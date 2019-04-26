@@ -59,43 +59,10 @@ public class JobSchedule {
                 jobScheduleMap.put(trueOffset, new ArrayList<SchedulableJob>());
             }
 
-            // Dependency check.
-            for (SchedulableJob dependentJob : schedulableJob.sameDayDependencies) {
-                dependencyCheck(jobScheduleMap.get(trueOffset),dependentJob.job.getJobName(), schedulableJob.job.getJobName());
-            }
-
             // Only add a same day job if it does not exist.
             if (!isJobScheduled(jobScheduleMap.get(trueOffset), schedulableJob.job.getJobName())) {
                 jobScheduleMap.get(trueOffset).add(schedulableJob);
             }
-        }
-    }
-
-    /**
-     * Validates that jobs with dependant jobs listed have all the dependancies scheduled to run before it.
-     * @param todaysJobs Collection of jobs already scheduled to run on same day.
-     * @param dependantJobName Name of the job being verified.
-     * @param currentJob Job that is having it's dependancies evaluated.
-     * @throws IllegalArgumentException when a required job is not already scheduled before current job.
-     */
-    private void dependencyCheck(ArrayList<SchedulableJob> todaysJobs, String dependantJobName, String currentJob)
-            throws IllegalArgumentException {
-
-        boolean containsJob = false;
-
-        for ( SchedulableJob schedulableJob : todaysJobs ) {
-            if (schedulableJob.job.getJobName().equals(dependantJobName)){
-                containsJob = true;
-                break;
-            }
-        }
-
-        if(!containsJob){
-            String msg = "Job '" + dependantJobName  +
-                    "' must be added *BEFORE* '" + currentJob +
-                    "' is added. Check your SchedulableJob list order.";
-
-            throw new IllegalArgumentException(msg);
         }
     }
 
