@@ -3,6 +3,8 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import aaa.helpers.db.queries.AAAMembershipQueries;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.renewal.RenewalHelper_Auto;
+import aaa.helpers.renewal.RenewalHelper_Profile;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.main.pages.summary.PolicySummaryPage;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -39,6 +41,14 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
                 {"AZ", eThresholdTests.BEFORE, 30, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE - 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
                 {"AZ", eThresholdTests.ON, 30, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
                 {"AZ", eThresholdTests.AFTER, 30, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE + 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, false}};
+    }
+
+    @DataProvider(name = "thresholdTestData_STG3")
+    public static Object[][] thresholdTestData_STG3() {
+        return new Object[][] {
+                {"AZ", eThresholdTests.BEFORE, 63, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE - 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
+                {"AZ", eThresholdTests.ON, 63, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, true},
+                {"AZ", eThresholdTests.AFTER, 63, MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE + 1, AAAMembershipQueries.AAAMembershipStatus.No_Hit, false, false}};
     }
 
     @DataProvider(name = "thresholdTestData_STG2_SkipSTG1")
@@ -151,6 +161,88 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
 
         // Validate policyNumber is picked up by batch job at STG1.
         doValidation(policyEffectiveDate, rightNow, nb15or30, policyNumber, bRunningNB30SkipSTG1, bExpectingPolicyToBeProcessed);
+    }
+
+    @Parameters({"state"})
+    @Test(dataProvider = "thresholdTestData_STG3")
+    public void dataDrivenBoundryTest_RenewalHelperAssisted(@Optional String state, eThresholdTests typeOfThresholdTest, Integer rMinus63or45, Integer numberOfDaysAfterTP, AAAMembershipQueries.AAAMembershipStatus membershipStatusAtTimeOfMembershipValidation, Boolean bRunningSTG4SkipSTG3, Boolean bExpectingPolicyToBeProcessed) {
+        // Creating Policy using Default Test Data
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createPolicy(getPolicyDefaultTD());
+
+        //TODO: MOVE TO TERM 2 HERE. REOPEN THE POLICY AND GET BACK TO THE POLICY SUMMARY PAGE. USE ASSERTIONS TO CONFIRM TEST MADE IT TO 2ND TERM SUCCESSFULLY.
+
+        // Saving policy data from summary page and closing App.
+        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        LocalDateTime rMinus_N_Date = policyExpirationDate.minusDays(rMinus63or45);
+        thresholdMaxDate = rMinus_N_Date.plusDays(MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE);
+        mainApp().close();
+
+        // Moving JVM to STG3 or STG4 and use Switch to assert system is inside of Catch-Up window.
+        TimeSetterUtil.getInstance().nextPhase(rMinus_N_Date.plusDays(numberOfDaysAfterTP)); //moving jvm to R-(63/45)+n.
+        LocalDateTime rightNow = TimeSetterUtil.getInstance().getCurrentTime();
+        switch(typeOfThresholdTest){
+            case BEFORE:
+                CustomAssertions.assertThat(rightNow).isAfter(rMinus_N_Date);
+                CustomAssertions.assertThat(rightNow).isBefore(thresholdMaxDate);
+                log.debug(String.format("QALOGS -> VALIDATED SYSTEM DATE (%s) IS AFTER R-%s (%s) and BEFORE the threshold (%s days) cut off on %s.",
+                        rightNow.toLocalDate().toString(), rMinus63or45.toString(), rMinus_N_Date.toLocalDate().toString(), MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE, thresholdMaxDate.toLocalDate().toString()));
+                break;
+            case ON:
+                CustomAssertions.assertThat(rightNow).isEqualToIgnoringHours(thresholdMaxDate);
+                log.debug(String.format("QALOGS -> VALIDATED SYSTEM DATE (%s) IS ON R-%s+%s",
+                        rightNow.toLocalDate().toString(), rMinus63or45.toString(), MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE));
+                break;
+            case AFTER:
+                CustomAssertions.assertThat(rightNow).isAfter(thresholdMaxDate);
+                log.debug(String.format("QALOGS -> VALIDATED SYSTEM DATE (%s) IS AFTER R-%s+%s",
+                        rightNow.toLocalDate().toString(), rMinus63or45.toString(), MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE));
+                // Handle another edge case where Threshold date lands on weekend and job is not expecting to run to pick it up the following weekday.
+                if(thresholdMaxDate.getDayOfWeek()==DayOfWeek.SATURDAY || thresholdMaxDate.getDayOfWeek()==DayOfWeek.SUNDAY){
+                    bExpectingPolicyToBeProcessed = true;
+                }
+                break;
+            default:
+                CustomAssertions.fail("Unexpected value for 'typeOfThresholdTest'. Force failing test.");
+                break;
+        }
+
+        // Force MembershipStatus != ACTIVE. ACTIVE policies will not be processed!
+        //TODO: DETERMINE HOW THIS IS USED FOR RENEWALS
+        AAAMembershipQueries.updateAAAMembershipStatusInSQL(policyNumber, membershipStatusAtTimeOfMembershipValidation);
+        java.util.Optional<AAAMembershipQueries.AAAMembershipStatus> membershipStatus = AAAMembershipQueries.getAAAMembershipStatusFromSQL(policyNumber);
+        CustomAssertions.assertThat(membershipStatus.toString()).isEqualToIgnoringCase(membershipStatusAtTimeOfMembershipValidation.toString()); //Asserting the DB received the value we just pushed to it.
+
+        if(rMinus63or45==63){
+            AAAMembershipQueries.updateAAABestMembershipStatusInSQL(policyNumber, AAAMembershipQueries.AAABestMembershipStatus.NOHIT_STG2);
+        }
+
+        // If doing R-45 (STG4), force aaaBestMembershipStatus to NOHIT_STG1 so STG2 will process. If processed at STG1, STG2 will not process policy.
+        if(!bRunningSTG4SkipSTG3 && rMinus63or45==45){
+            AAAMembershipQueries.updateAAABestMembershipStatusInSQL(policyNumber, AAAMembershipQueries.AAABestMembershipStatus.NOHIT_STG3);
+        }
+
+        // If doing R-45 (STG4), force aaaBestMembershipStatus to NOHIT_STG1 so STG2 will process. If processed at STG1, STG2 will not process policy.
+        if(bRunningSTG4SkipSTG3 && rMinus63or45==45){
+            AAAMembershipQueries.updateAAABestMembershipStatusInSQL(policyNumber, AAAMembershipQueries.AAABestMembershipStatus.NOHIT_STG3);
+        }
+
+        // Handle the fact that the job doesn't run on the weekends.
+        if(rightNow.getDayOfWeek()== DayOfWeek.SATURDAY){
+            rightNow = rightNow.plusDays(2);
+            TimeSetterUtil.getInstance().nextPhase(rightNow);
+        }
+        if(rightNow.getDayOfWeek()== DayOfWeek.SUNDAY){
+            rightNow = rightNow.plusDays(1);
+            TimeSetterUtil.getInstance().nextPhase(rightNow);
+        }
+
+        // Execute NB+15 / NB+30 Membership Validation Jobs
+        JobUtils.executeJob(Jobs.membershipValidationJob);
+
+        // Validate policyNumber is picked up by batch job at STG1.
+        doValidation(policyExpirationDate, rightNow, rMinus63or45, policyNumber, bRunningSTG4SkipSTG3, bExpectingPolicyToBeProcessed);
     }
 
     public void doValidation(LocalDateTime in_policyEffectiveDate, LocalDateTime in_currentTime, Integer in_nb15or30, String in_policyNumber, Boolean in_bRunningNB30SkipSTG1, Boolean bExpectedPolicyWasProcessed) {
