@@ -18,11 +18,6 @@
                     <include name="pas21456_testFinanceEPCalculationPremiumRefund"/>
                 </methods>
             </class> <!-- aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationPremiumRefund -->
-            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationEPWriteOff">
-                <methods>
-                    <include name="pas21457_testFinanceEPCalculationEPWriteOff"/>
-                </methods>
-            </class> <!-- aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationEPWriteOff -->
             <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationFlagTransactions">
                 <methods>
                     <include name="pas20300_testFinanceEPCalculationFlagTransactions"/>
@@ -143,6 +138,11 @@
                     <include name="pas21455_testFinanceEPCalculationIssueWithInstallmentPlanAndPayment"/>
                 </methods>
             </class> <!-- aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment -->
+            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationEPWriteOff">
+                <methods>
+                    <include name="pas21457_testFinanceEPCalculationEPWriteOff"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationEPWriteOff -->
         </classes>
     </test> <!-- UT Auto -->
     <test name="AZ Auto" parallel="methods">
@@ -300,8 +300,8 @@
             </class> <!-- aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSEndorsement -->
         </classes>
     </test> <!-- NJ Auto -->
-    <test name="ID Auto" parallel="methods">
-        <parameter name="state" value="ID"/>
+    <test name="PA Home" parallel="methods">
+        <parameter name="state" value="PA"/>
         <groups>
             <run>
                 <include name="Regression"/>
