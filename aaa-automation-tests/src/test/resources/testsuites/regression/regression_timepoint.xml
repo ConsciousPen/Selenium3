@@ -1058,13 +1058,13 @@
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestDisableReorderReport">
                 <methods>
                     <include name="pas6795_disableReorderReportEndorsement"/>
-                    <include name="pas6827_disableReorderReportRenewal"/>
+                    <!--<include name="pas6827_disableReorderReportRenewal"/>-->
                 </methods>
             </class> <!-- aaa.modules.regression.sales.home_ss.ho4.functional.TestDisableReorderReport -->
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestDisableReorderReport">
                 <methods>
                     <include name="pas6795_disableReorderReportEndorsement"/>
-                    <include name="pas6827_disableReorderReportRenewal"/>
+                    <!--<include name="pas6827_disableReorderReportRenewal"/>-->
                 </methods>
             </class> <!-- aaa.modules.regression.sales.home_ss.ho6.functional.TestDisableReorderReport -->
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPAViewRatingDetails">
