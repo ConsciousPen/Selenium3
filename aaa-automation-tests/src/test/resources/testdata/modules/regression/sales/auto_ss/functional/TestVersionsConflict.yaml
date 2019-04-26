@@ -60,7 +60,7 @@ TestData_NB_Policy: {
       }
     }
   },
-  PremiumAndCoveragesTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoverages',
   DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: {
     RequiredToBind: {
@@ -1192,4 +1192,203 @@ TestData_Assignment_Version2: {
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {},
+}
+
+TestData_Multiple_Drivers_Vehicles_NB_Policy: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverInformation','@DriverTab1','@DriverTab2'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleInformation', '@VehicleTab1','@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: {
+  RequiredToBind: {
+  Auto Insurance Application: Physically Signed,
+  AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+  },
+  Agreement: I agree,
+  Case Number: 123456789,
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes',
+  }
+  },
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab',
+}
+
+VehicleTab1: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+}
+
+VehicleTab2: {
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451,
+}
+
+DriverTab1: {
+  DriverSearchDialog: {},
+  'Rel. to First Named Insured': Spouse,
+  First Name: 'Second Driver',
+  Last Name: 'Version1',
+  Date of Birth: $<today-55y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: 'Clergy',
+  License Type: 'Licensed (US)',
+  License State: AZ,
+  License Number: 222222222,
+  Age First Licensed: 16,
+  Affinity Group: AAA Employee,
+  ADB Coverage: 'Yes',
+  Financial Responsibility Filing Needed: 'No',
+}
+
+DriverTab2: {
+  DriverSearchDialog: {},
+  'Rel. to First Named Insured': Spouse,
+  First Name: 'Third Driver',
+  Last Name: 'Version2',
+  Date of Birth: $<today-55y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: 'Clergy',
+  License Type: 'Licensed (US)',
+  License State: AZ,
+  License Number: 222222223,
+  Age First Licensed: 16,
+  Affinity Group: AAA Employee,
+  ADB Coverage: 'Yes',
+  Financial Responsibility Filing Needed: 'No',
+}
+
+TestData_Multiple_Named_Insureds_NB_Policy: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_MultipleNamedInsureds',
+  DriverTab: '@DriverInformation',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@VehicleInformation',
+  FormsTab: {
+    Driver Forms: {
+      SR22: {
+        Action: Edit,
+        Case Number: 123456789,
+        State: AZ
+      }
+    }
+  },
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Auto Insurance Application: Physically Signed,
+      AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Proof of Prior Insurance: 'Yes',
+    }
+  },
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab',
+}
+
+GeneralTab_MultipleNamedInsureds: {
+  NamedInsuredInformation: ['@NamedInsuredInformation','@NamedInsuredInformation_RenewalVersion1','@NamedInsuredInformation_Version2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation'
+}
+
+NamedInsuredInformation_RenewalVersion1: {
+  InsuredSearchDialog: {},
+  Prefix: MRS,
+  First Name: Second,
+  Middle Name: VI,
+  Last Name: Insured,
+  Suffix: Sr,
+  Social Security Number: 123456111,
+  Insured Date of Birth: $<today-55y>,
+  Base Date: $<today-1M>,
+  Zip Code: 85085,
+  Address Line 1: VI residence address 1,
+  Address Line 2: VI residence address 2,
+  City: Phoenix,
+  State: AZ,
+  "Has lived here for less than three years?": 'Yes',
+  Move-In Date: $<today-2y>,
+  Prior Zip Code: 85085,
+  Prior Address Line 1: VI prior address 1,
+  Prior Address Line 2: VI prior address 2,
+  Prior City: Phoenix,
+  Prior State: AZ,
+  "Is residential address different from mailing address?":'Yes',
+  Mailing Zip Code: 85085,
+  Mailing Address Line 1: VI mailing address 1,
+  Mailing Address Line 2: VI mailing address 2,
+  Mailing City: Phoenix,
+  Mailing State: AZ,
+  Residence: Own Condo,
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: VI,
+    Street Name: residence address 1,
+    Mailing Street number: VI,
+    Mailing Street Name: mailing address 1
+  }
+}
+
+#Premium and Coverages Tab
+TestData_PremiumAndCoverages_Version1: {
+ GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoverages_Version1',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+TestData_PremiumAndCoverages_Version2: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoverages_Version2',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+TestData_PremiumAndCoverages_Renewal_Version: {
+ GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoverages_Renewal_Version',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+PremiumAndCoverages: {
+  Payment Plan: Annual,
+  Policy Term: Annual
+}
+
+PremiumAndCoverages_Version1: {
+  Payment Plan: Semi-Annual
+}
+
+PremiumAndCoverages_Version2: {
+  Payment Plan: Quarterly
+}
+
+PremiumAndCoverages_Renewal_Version: {
+  Payment Plan: Semi-Annual (Renewal)
 }

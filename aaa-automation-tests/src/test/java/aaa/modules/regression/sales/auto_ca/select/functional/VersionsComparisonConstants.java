@@ -118,6 +118,11 @@ public class VersionsComparisonConstants {
 			.putAll("Vehicles.1998, DODGE, CARAVAN.System Rated Driver", "New Driver Version2","VIFirstName VILastName")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Manually Rated Driver", "New Driver Version2","VIFirstName VILastName")
 			.putAll("Policy Options.Payment Plan","semiAnnualCA","standartCA")
+			.putAll("Coverages.Medical Payments","$5,000","$2,000")
+			.putAll("Coverages.Property Damage Liability","$500,000","$300,000")
+			.putAll("Coverages.Underinsured Motorists Bodily Injury","$1,000,000/$1,000,000","$500,000/$1,000,000")
+			.putAll("Coverages.Bodily Injury Liability","$1,000,000/$1,000,000","$500,000/$1,000,000")
+			.putAll("Coverages.Uninsured Motorists Bodily Injury","$1,000,000/$1,000,000","$500,000/$1,000,000")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -541,5 +546,19 @@ public class VersionsComparisonConstants {
 	//all components/attributes that should be on Comparison page for Premium and Coverages section for Quote Compare
 	static final Multimap<String, String> DATA_GATHER_PREMIUM_AND_COVERAGES = ImmutableListMultimap.<String, String>builder()
 			.put("Policy Options","Payment Plan")
+			.put("Coverages","Medical Payments")
+			.put("Coverages","Property Damage Liability")
+			.put("Coverages","Underinsured Motorists Bodily Injury")
+			.put("Coverages","Bodily Injury Liability")
+			.put("Coverages","Uninsured Motorists Bodily Injury")
+			.build();
+
+	//all components/attributes that should be on Comparison page for Premium and Coverages section for Quote Compare
+	static final Multimap<String, String> ENDORSEMENT_RENEWAl_PREMIUM_AND_COVERAGES = ImmutableListMultimap.<String, String>builder()
+			.put("Coverages","Medical Payments")
+			.put("Coverages","Property Damage Liability")
+			.put("Coverages","Underinsured Motorists Bodily Injury")
+			.put("Coverages","Bodily Injury Liability")
+			.put("Coverages","Uninsured Motorists Bodily Injury")
 			.build();
 }

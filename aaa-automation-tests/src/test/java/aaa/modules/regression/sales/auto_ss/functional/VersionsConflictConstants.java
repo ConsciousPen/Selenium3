@@ -91,6 +91,12 @@ public class VersionsConflictConstants {
 			.putAll("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Receipt Date","","")
 			.putAll("Drivers.New Driver2 Version2.Assigned Vehicle", "2011, CHEVROLET, EXPRESS VAN","1996, MAZDA, MX-5 MIATA")
 			.putAll("Drivers.New Driver3 Version3.Assigned Vehicle", "2011, MERCEDES-BENZ, G55AMG","2011, CHEVROLET, EXPRESS VAN")
+			.putAll("Drivers.Driver (Third Driver Version2)","","Driver (Third Driver Version2)")
+            .putAll("Drivers.Driver (Second Driver Version1)","","Driver (Second Driver Version1)")
+            .putAll("Vehicles.Vehicle (2011, CHEVROLET, EXPRESS VAN)","","Vehicle (2011, CHEVROLET, EXPRESS VAN)")
+            .putAll("Vehicles.Vehicle (2011, MERCEDES-BENZ, G55AMG)","","Vehicle (2011, MERCEDES-BENZ, G55AMG)")
+			.putAll("Named Insureds.Insured Principal (Second VI Insured)","","Insured Principal (Second VI Insured)")
+			.putAll("Policy Options.Payment Plan","semiAnnualSS","quaterlySS")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -425,7 +431,7 @@ public class VersionsConflictConstants {
 					.put("Drivers.NBFirstName NB NBLastName.Reports.AAA Claims Report Order.License Number", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.Reports.AAA Claims Report Order.License State", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.Reports.AAA Claims Report Order.Gender", AVAILABLE)
-					.put("Vehicles.2008, ACURA, MDX.Coverages.AAAADBCoverage.Automobile Death Benefit", CURRENT)
+					.put("Vehicles.2008, ACURA, MDX.Coverages.Automobile Death Benefit", CURRENT)
 					.put("Drivers.NBFirstName NB NBLastName.Reports.AAAMvr Report Order.Date of Birth", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.Reports.AAAMvr Report Order.License Number", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.Reports.AAAMvr Report Order.License State", AVAILABLE)
@@ -620,6 +626,56 @@ public class VersionsConflictConstants {
 
 
 
-}
+	//components/attributes that should be on comparision page Rolled on/OOSE for Removing components
+	static final Multimap<String,String> REMOVE_DRIVER_VEHICLE_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()
+			.put("Drivers","Driver (Third Driver Version2)")
+			.put("Vehicles","Vehicle (2011, MERCEDES-BENZ, G55AMG)")
+			.build();
 
+	//components/attributes that should be on comparision page Rolled on/Endorsement for Removing components
+	static final Multimap<String,String> REMOVE_DRIVER_VEHICLE_INFORMATION_VERSION_1 = ImmutableListMultimap.<String, String>builder()
+			.put("Drivers","Driver (Second Driver Version1)")
+			.put("Drivers","Driver (Second Driver Version1)")
+			.put("Vehicles","Vehicle (2011, CHEVROLET, EXPRESS VAN)")
+			.put("Vehicles","Vehicle (2011, CHEVROLET, EXPRESS VAN)")
+			.build();
+
+	protected static final ArrayListMultimap<String, String> REMOVE_DRIVER_VEHICLE_INFORMATION = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("AAADriver Vehicle Relationship", CURRENT)
+					.put("AAADriver Vehicle Relationship", AVAILABLE)
+					.put("Drivers.Driver (Second Driver Version1)",CURRENT)
+					.put("Drivers.Driver (Second Driver Version1)",CURRENT)
+					.put("Drivers.Driver (Third Driver Version2)",AVAILABLE)
+					.put("Vehicles.Vehicle (2011, CHEVROLET, EXPRESS VAN)",CURRENT)
+					.put("Vehicles.Vehicle (2011, CHEVROLET, EXPRESS VAN)",CURRENT)
+					.put("Vehicles.Vehicle (2011, MERCEDES-BENZ, G55AMG)",AVAILABLE)
+					.build());
+
+	//components/attributes that should be on comparision page Rolled on/Endorsement for Removing components
+	static final Multimap<String,String> REMOVE_NAMED_INSUREDS_RENEWAL_VERSION_1 = ImmutableListMultimap.<String, String>builder()
+			.put("Named Insureds","Insured Principal (Second VI Insured)")
+			.build();
+
+	protected static final ArrayListMultimap<String, String> REMOVE_NAMED_INSURED = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.build());
+
+	/**
+	 *  Maps full attribute path on conflict page to version to select (Current, Available).
+	 */
+	protected static final ArrayListMultimap<String, String> PREMIUM_AND_COVERAGES = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("Policy Options.Payment Plan", AVAILABLE)
+					.build());
+
+	//all components/attributes that should be on Comparison page  Rolled on/OOSE
+	static final Multimap<String, String> PREMIUM_AND_COVERAGES_VERSION_2 = ImmutableListMultimap.<String, String>builder()
+			.put("Policy Options", "Payment Plan")
+			.build();
+
+	//all components/attributes that should be on Comparison page  Rolled on/OOSE
+	static final Multimap<String, String> PREMIUM_AND_COVERAGES_VERSION_1 = ImmutableListMultimap.<String, String>builder()
+			.build();
+}
 

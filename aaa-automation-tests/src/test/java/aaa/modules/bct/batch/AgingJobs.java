@@ -99,7 +99,7 @@ public class AgingJobs extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test()
 	public void RUN_10_CHANGECANCELLATIONPENDINGPOLICIESSTATUSJOB(@Optional("") String state) {
-		createAndExecuteJob(changeCancellationPendingPoliciesStatus);
+		createAndExecuteJob(new Job("changeCancellationPendingPoliciesStatusJob"));
 	}
 
 	@Parameters({"state"})

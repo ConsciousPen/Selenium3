@@ -6,6 +6,7 @@ import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
+import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
@@ -60,15 +61,15 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             softly.assertThat(premTotal.subtract(totalTaxesNB)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1044"));
         });
 
-        // TAX-02/TAX-08 validations
+        // TAX-02/TAX-08/PMT-01 validations
         if (getState().equals(Constants.States.KY)) {
             Map<String, Dollar> taxes = getTaxAmountsForPolicy(policyNumber);
             assertSoftly(softly -> {
-                // TAX-02
+                // TAX-02 (as part of PMT-01)
                 softly.assertThat(taxes.get(STATE)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_KY, "1053"));
                 softly.assertThat(taxes.get(CITY)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CITY_TAX_KY, "1053"));
                 softly.assertThat(taxes.get(COUNTY)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.COUNTY_TAX_KY, "1053"));
-                // TAX-08
+                // TAX-08 (as part of NBZ-01)
                 softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1053"));
                 softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1054"));
             });
@@ -86,12 +87,14 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             });
         }
 
-        // FEE-01 validations (CA Choice only)
+        // FEE-01/PMT-01 validations (CA Choice only)
         if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
             Dollar policyFee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.POLICY_FEE);
             assertSoftly(softly -> {
-                softly.assertThat(policyFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.POLICY_FEE, "1034"));
+                // PMT-01
                 softly.assertThat(policyFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.POLICY_FEE, "1034"));
+                // FEE-01
+                softly.assertThat(policyFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.POLICY_FEE, "1034"));
                 softly.assertThat(policyFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.POLICY_FEE, "1040"));
             });
         }
@@ -115,8 +118,8 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")));
         });
 
-        // TAX-09 validations (KY and WV)
-        if (getState().equals(Constants.States.KY) || getState().equals(Constants.States.WV)) {
+        // TAX-09 validations (as part of END-01)
+        if (isTaxState()) {
             Dollar taxesAdded = getTaxAmountsForPolicy(policyNumber).get(TOTAL).subtract(totalTaxesNB);
             assertSoftly(softly -> {
                 softly.assertThat(taxesAdded).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053")
@@ -181,11 +184,11 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         if (getState().equals(Constants.States.KY)) {
             Map<String, Dollar> taxes = getTaxAmountsForPolicy(policyNumber);
             assertSoftly(softly -> {
-                // TAX-01
+                // TAX-01 (as part of PMT-04)
                 softly.assertThat(taxes.get(STATE)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_KY, "1071"));
                 softly.assertThat(taxes.get(CITY)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CITY_TAX_KY, "1071"));
                 softly.assertThat(taxes.get(COUNTY)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.COUNTY_TAX_KY, "1071"));
-                // TAX-07
+                // TAX-07 (as part of NBZ-03)
                 softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1071"));
                 softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1072"));
             });
@@ -200,6 +203,14 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                 // PMT-04
                 softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1071"));
                 softly.assertThat(taxes.get(TOTAL)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1072"));
+            });
+        }
+
+        if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+            Dollar policyFee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.POLICY_FEE);
+            // PMT-04 (Fees, CA Choice only)
+            assertSoftly(softly -> {
+                softly.assertThat(policyFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.POLICY_FEE, "1034"));
             });
         }
 
@@ -228,15 +239,16 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         TimeSetterUtil.getInstance().nextPhase(effDate);
         JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
         mainApp().open();
+        SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_PENDING);
 
         // Validate NBZ-03 transactions that are recorded at effective date
-        validateNewBusinessTxAtEffDAte(premTotal.subtract(totalTaxesNB), policyNumber, effDate);
+        validateNewBusinessTxAtEffDAte(premTotal, totalTaxesNB, policyNumber, effDate);
 
         Dollar totalTaxesEnd = FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053")
                 .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053"));
 
-        // TAX-10 validations (KY and WV)
-        if (getState().equals(Constants.States.KY) || getState().equals(Constants.States.WV)) {
+        // TAX-10 validations (as part of END-02)
+        if (isTaxState()) {
             Dollar taxesReduced = totalTaxesNB.subtract(getTaxAmountsForPolicy(policyNumber).get(TOTAL));
             assertSoftly(softly -> {
                 softly.assertThat(taxesReduced).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053")
@@ -255,6 +267,10 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                     .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")));
             softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")
                     .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")));
+            softly.assertThat(totalTaxesEnd).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053")
+                    .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053")));
+            softly.assertThat(totalTaxesEnd).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1054")
+                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1054")));
         });
 
 		// Cancel policy on effective date (flat cancellation)
@@ -292,44 +308,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         validateReinstatementTx(rstPrem, policyNumber,  rstTaxes);
 
         // Validate RST-07 and RST-09 (only applicable for property)
-        if (!getPolicyType().isAutoPolicy() && !getPolicyType().equals(PolicyType.PUP)) {
-            // Change reinstatement lapse
-            SearchPage.openPolicy(policyNumber);
-            policy.changeReinstatementLapse().perform(getPolicyTD("ReinstatementChangeLapse", "TestData_Plus5Days"));
-
-            Dollar lapseChangeTaxes = rstTaxes.subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053")
-                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053")));
-            Dollar rstChangePrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT);
-
-            // Validations for RST-07
-            assertSoftly(softly -> {
-                softly.assertThat(rstChangePrem.subtract(lapseChangeTaxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1015"));
-                softly.assertThat(rstChangePrem.subtract(lapseChangeTaxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1021"));
-                softly.assertThat(rstChangePrem.subtract(lapseChangeTaxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022"));
-                softly.assertThat(rstChangePrem.subtract(lapseChangeTaxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1044"));
-            });
-
-            // Remove reinstatement lapse
-            SearchPage.openPolicy(policyNumber);
-            policy.changeReinstatementLapse().perform(getRemoveReinstatementLapseTd(cxEffDate));
-
-            Dollar lapseRemovalPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT);
-            Dollar lapseRemovalTaxes = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053")
-                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053"))
-                    .subtract(rstTaxes.subtract(lapseChangeTaxes));
-
-            // Validations for RST-09
-            assertSoftly(softly -> {
-                softly.assertThat(lapseRemovalPrem.subtract(lapseRemovalTaxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1015")
-                        .subtract(rstPrem.subtract(rstTaxes)));
-                softly.assertThat(lapseRemovalPrem.subtract(lapseRemovalTaxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1021")
-                        .subtract(rstPrem.subtract(rstTaxes)));
-                softly.assertThat(lapseRemovalPrem.subtract(lapseRemovalTaxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022")
-                        .subtract(rstPrem.subtract(rstTaxes)));
-                softly.assertThat(lapseRemovalPrem.subtract(lapseRemovalTaxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1044")
-                        .subtract(rstPrem.subtract(rstTaxes)));
-            });
-        }
+        validateChangeAndRemoveReinstatementLapse(policyNumber, cxEffDate, rstPrem, rstTaxes);
 
 	}
 
@@ -486,10 +465,11 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         }
 
         //Remaining NBZ-04 validations that are recorded at effective date
-        validateNewBusinessTxAtEffDAte(premTotal.subtract(totalTaxesNB), policyNumber, effDate);
+        validateNewBusinessTxAtEffDAte(premTotal, totalTaxesNB, policyNumber, effDate);
 
         //Cancel policy
         cancelPolicy(policyNumber);
+        LocalDateTime cxEffDate = getCancellationEffectiveDate();
 
         //CNL-04 validations
         validateCancellationTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
@@ -497,6 +477,8 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         //Advance time and reinstate policy with lapse
         performReinstatementWithLapse(effDate, policyNumber);
+        Dollar rstTaxes = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053");
+        Dollar rstPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT);
 
         Dollar totalTaxesReinstatement = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053");
 
@@ -504,7 +486,69 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         validateReinstatementTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
                 BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT), policyNumber, totalTaxesReinstatement);
 
-        //TODO need to change the reinstatement lapse RST-08, then remove the lapse RST-10 and validations
+        // Validate RST-08 and RST-10 (only applicable for property)
+        validateChangeAndRemoveReinstatementLapse(policyNumber, cxEffDate, rstPrem, rstTaxes);
+
+    }
+
+    /**
+     * @scenario
+     * 1. Create new policy for NJ/NY/WV with effective date today + 3 weeks
+     * 2. For NJ policy use driver that returns a DUI and has SR22 filing
+     * 3. For NJ, validate PLIGA fee and SR22 fee entries
+     * 4. For NY, validate MLVE fee
+     * 5. For WV, pay total amount due with future-dated check and then decline the payment
+     * @details FEE-02, FEE-03, FEE-16, PMT-18
+     */
+    protected void testNewBusinessScenario_5() {
+
+        LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
+        LocalDateTime effDate = today.plusWeeks(3);
+
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createFinancialPolicy(getAutoSSFeesTd(effDate));
+
+        if (getState().equals(Constants.States.NJ)) {
+            Dollar pligaFee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PLIGA_FEE);
+            Dollar sr22Fee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.SR22_FEE);
+
+            // FEE-02 and FEE-16 validations
+            assertSoftly(softly -> {
+                softly.assertThat(pligaFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.PLIGA_FEE, "1034"));
+                softly.assertThat(pligaFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.PLIGA_FEE, "1040"));
+                softly.assertThat(sr22Fee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.SR22_FEE, "1034"));
+                softly.assertThat(sr22Fee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.SR22_FEE, "1040"));
+            });
+
+        }
+
+        if (getState().equals(Constants.States.NY)) {
+            Dollar mvleFee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MVLE_FEE);
+
+            // FEE-03 validations
+            assertSoftly(softly -> {
+                softly.assertThat(mvleFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MVLE_FEE, "1034"));
+                softly.assertThat(mvleFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MVLE_FEE, "1040"));
+            });
+
+        }
+
+        if (getState().equals(Constants.States.WV)) {
+            Dollar totalTaxes = getTaxAmountsForPolicy(policyNumber).get(TOTAL);
+            Dollar remainingTaxes = totalTaxes.subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_WV, "1071"));
+            Dollar pmtAmt = payTotalAmountDueWithDatedCheck(effDate);
+            BillingHelper.declinePayment(today);
+
+            // PMT-18 validations
+            assertSoftly(softly -> {
+                softly.assertThat(pmtAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.PAYMENT_DECLINED, "1001"));
+                softly.assertThat(pmtAmt.subtract(remainingTaxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.PAYMENT_DECLINED, "1065"));
+                softly.assertThat(remainingTaxes).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.STATE_TAX_WV, "1071"));
+            });
+
+        }
+
 
     }
 
@@ -517,6 +561,10 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1021")));
             softly.assertThat(refundAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")
                     .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")));
+            softly.assertThat(taxes).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1053")
+                    .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1053")));
+            softly.assertThat(taxes).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1054")
+                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1054")));
         });
     }
 
@@ -529,25 +577,85 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                     .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1021")));
             softly.assertThat(premAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022")
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022")));
+            softly.assertThat(taxes).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053")
+                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053")));
+            softly.assertThat(taxes).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1054")
+                    .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1054")));
         });
     }
 
-    private void validateNewBusinessTxAtEffDAte(Dollar expectedValue, String policyNumber, LocalDateTime effDate) {
+    private void validateNewBusinessTxAtEffDAte(Dollar premAmt, Dollar taxAmt, String policyNumber, LocalDateTime effDate) {
         assertSoftly(softly -> {
             //Recorded at effective date
-            softly.assertThat(expectedValue).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1044")
+            softly.assertThat(premAmt.subtract(taxAmt)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1044")
                     .subtract(FinancialsSQL.getCreditsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1044")));
-            softly.assertThat(expectedValue).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")
+            softly.assertThat(premAmt.subtract(taxAmt)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")));
-            softly.assertThat(expectedValue).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1021")
+            softly.assertThat(premAmt.subtract(taxAmt)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1021")
                     .subtract(FinancialsSQL.getCreditsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1021")));
-            softly.assertThat(expectedValue).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1015")
+            softly.assertThat(premAmt.subtract(taxAmt)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1015")
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1015")));
-            softly.assertThat(expectedValue).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")
+            softly.assertThat(premAmt.subtract(taxAmt)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")
                     .subtract(FinancialsSQL.getCreditsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")));
-            softly.assertThat(expectedValue).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1042"));
+            softly.assertThat(premAmt.subtract(taxAmt)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1042"));
+            softly.assertThat(taxAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1071"));
+            softly.assertThat(taxAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1072"));
+            softly.assertThat(taxAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1053"));
+            softly.assertThat(taxAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(effDate, policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1054"));
         });
 
+    }
+
+    private void validateChangeAndRemoveReinstatementLapse(String policyNumber, LocalDateTime cxEffDate, Dollar rstPrem, Dollar rstTaxes) {
+        if (!getPolicyType().isAutoPolicy() && !getPolicyType().equals(PolicyType.PUP)) {
+            // Change reinstatement lapse
+            SearchPage.openPolicy(policyNumber);
+            policy.changeReinstatementLapse().perform(getPolicyTD("ReinstatementChangeLapse", "TestData_Plus5Days"));
+
+            Dollar lapseChangeTaxes = rstTaxes.subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053")
+                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053")));
+            Dollar rstChangePrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT);
+
+            // Validations for RST-07
+            assertSoftly(softly -> {
+                softly.assertThat(rstPrem.subtract(rstTaxes).subtract(rstChangePrem.subtract(lapseChangeTaxes)))
+                        .isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1015")
+                                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1015")));
+                softly.assertThat(rstPrem.subtract(rstTaxes).subtract(rstChangePrem.subtract(lapseChangeTaxes)))
+                        .isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1021")
+                                .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1021")));
+                softly.assertThat(rstPrem.subtract(rstTaxes).subtract(rstChangePrem.subtract(lapseChangeTaxes)))
+                        .isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022")
+                                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022")));
+                softly.assertThat(rstPrem.subtract(rstTaxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1044"));
+
+            });
+
+            // Remove reinstatement lapse
+            SearchPage.openPolicy(policyNumber);
+            policy.changeReinstatementLapse().perform(getRemoveReinstatementLapseTd(cxEffDate));
+
+            Dollar lapseRemovalPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT);
+            Dollar lapseRemovalTaxes = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053")
+                    .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053"))
+                    .subtract(rstTaxes.subtract(lapseChangeTaxes));
+
+            // Validations for RST-09
+            assertSoftly(softly -> {
+                softly.assertThat(lapseRemovalPrem.subtract(lapseRemovalTaxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1015")
+                        .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1015"))
+                        .subtract(rstPrem.subtract(rstTaxes).subtract(rstChangePrem.subtract(lapseChangeTaxes))));
+                softly.assertThat(lapseRemovalPrem.subtract(lapseRemovalTaxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1021")
+                        .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1021"))
+                        .subtract(rstPrem.subtract(rstTaxes).subtract(rstChangePrem.subtract(lapseChangeTaxes))));
+                softly.assertThat(lapseRemovalPrem.subtract(lapseRemovalTaxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022")
+                        .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022"))
+                        .subtract(rstPrem.subtract(rstTaxes).subtract(rstChangePrem.subtract(lapseChangeTaxes))));
+                softly.assertThat(lapseRemovalPrem.subtract(lapseRemovalTaxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1044")
+                        .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1044"))
+                        .subtract(rstPrem.subtract(rstTaxes).subtract(rstChangePrem.subtract(lapseChangeTaxes))));
+            });
+        }
     }
 
     private void performReinstatementWithLapse(LocalDateTime effDate, String policyNumber) {

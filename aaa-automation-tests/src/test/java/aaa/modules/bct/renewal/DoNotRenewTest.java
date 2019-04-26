@@ -38,7 +38,7 @@ public class DoNotRenewTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	@StateList(states = CA)
-	public void BCT_ONL_048_NonRenewal(@Optional("CA") String state) {
+	public void BCT_ONL_048_NonRenewal(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 

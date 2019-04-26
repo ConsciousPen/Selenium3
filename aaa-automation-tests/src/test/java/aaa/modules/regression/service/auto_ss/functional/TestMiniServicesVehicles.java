@@ -767,8 +767,9 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.NV, Constants.States.NJ})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9750"})
-	public void pas9750_addVehicleServiceBlockingForPurchaseDate(@Optional("NV") String state) {
+	public void pas9750_addVehicleServiceBlockingForPurchaseDate(@Optional("NJ") String state) {
 
 		pas9750_addVehicleServiceBlockingForPurchaseDateBody();
 	}

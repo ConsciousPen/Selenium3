@@ -518,8 +518,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		String docId2 = checkDocumentInRfiService(policyNumber, documentAA52IPAA.getId(), documentAA52IPAA.getName());
 
 		if (!isRuleOverridden) {
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error200306.getCode(), error200306.getMessage(), "attributeForRules");
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error200307.getCode(), error200307.getMessage(), "attributeForRules");
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error200306.getCode(), error200306.getMessage());
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error200307.getCode(), error200307.getMessage());
 		}
 		//Bind policy with docId and document is electronically signed
 		HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), docId1, docId2);
@@ -584,8 +584,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			docId1 = checkDocumentInRfiService(policyNumber, documentAA52UPAA.getId(), documentAA52UPAA.getName());
 			docId2 = checkDocumentInRfiService(policyNumber, documentAA52IPAA.getId(), documentAA52IPAA.getName());
 
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error200306.getCode(), error200306.getMessage(), "attributeForRules");
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error200307.getCode(), error200307.getMessage(), "attributeForRules");
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error200306.getCode(), error200306.getMessage());
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error200307.getCode(), error200307.getMessage());
 
 			//Bind policy with docId and document is electronically signed
 			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), docId1, docId2);
@@ -1079,7 +1079,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 			String doccId = checkDocumentInRfiService(policyNumber, "RUUELLUU", "IMPORTANT NOTICE - Uninsured Motorist Coverage");
 
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ERROR_200037_VA.getCode(), ERROR_200037_VA.getMessage(), "attributeForRules");
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_200037_VA.getCode(), ErrorEnum.Errors.ERROR_200037_VA.getMessage());
 
 			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), doccId);
 
@@ -1215,19 +1215,19 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 		if (state.contains("VA")) {
 			//TC1
-			String policyNumber = createPolicyForAnyDocument("$25,000/$50,000 (-$32.00)", "Not Signed", uimbiCoverage, ruuelluuRule);
-			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (+$16.00)", uimbiCoverage);
+			String policyNumber = createPolicyForAnyDocument("$25,000/$50,000", "Not Signed", uimbiCoverage, ruuelluuRule);
+			createEndorsementInPasUpdateCoverage("$50,000/$100,000", uimbiCoverage);
 			assertThat(ruuelluuRule).hasValue("Not Signed");
 			deleteEndorsementInPas();
 			dxpOnlyCreateEndorsementCheckDocument("UMBI", "50000/100000",
 					"IMPORTANT NOTICE - Uninsured Motorist Coverage", "RUUELLUU", policyNumber);
 			//TC2
 			String policyNumber2 = openAppAndCreatePolicy();
-			createEndorsementInPasUpdateCoverage("$25,000/$50,000 (-$32.00)", uimbiCoverage);
+			createEndorsementInPasUpdateCoverage("$25,000/$50,000", uimbiCoverage);
 			assertThat(ruuelluuRule).hasValue("Not Signed");
 			ruuelluuRule.setValue("Physically Signed");
 			documentsAndBindTab.submitTab();
-			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (+$16.00)", uimbiCoverage);
+			createEndorsementInPasUpdateCoverage("$50,000/$100,000", uimbiCoverage);
 			assertThat(ruuelluuRule).hasValue("Not Signed");
 			deleteEndorsementInPas();
 			dxpOnlyCreateEndorsementCheckDocument("UMBI", "50000/100000",
@@ -1235,19 +1235,19 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 		} else if (state.contains("DE")) {
 			//TC1
-			String policyNumber = createPolicyForAnyDocument("$25,000/$50,000 (-$48.00)", "Not Signed", uimbiCoverage, aadnde1Rule);
-			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (+$17.00)", uimbiCoverage);
+			String policyNumber = createPolicyForAnyDocument("$25,000/$50,000", "Not Signed", uimbiCoverage, aadnde1Rule);
+			createEndorsementInPasUpdateCoverage("$50,000/$100,000", uimbiCoverage);
 			assertThat(aadnde1Rule).hasValue("Not Signed");
 			deleteEndorsementInPas();
 			dxpOnlyCreateEndorsementCheckDocument("UMBI", "50000/100000",
 					"Delaware Motorists Protection Act", "AADNDE1", policyNumber);
 			//TC2
 			String policyNumber2 = openAppAndCreatePolicy();
-			createEndorsementInPasUpdateCoverage("$25,000/$50,000 (-$48.00)", uimbiCoverage);
+			createEndorsementInPasUpdateCoverage("$25,000/$50,000", uimbiCoverage);
 			assertThat(aadnde1Rule).hasValue("Not Signed");
 			aadnde1Rule.setValue("Physically Signed");
 			documentsAndBindTab.submitTab();
-			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (+$17.00)", uimbiCoverage);
+			createEndorsementInPasUpdateCoverage("$50,000/$100,000", uimbiCoverage);
 			assertThat(aadnde1Rule).hasValue("Not Signed");
 			deleteEndorsementInPas();
 			dxpOnlyCreateEndorsementCheckDocument("UMBI", "50000/100000",
@@ -1255,19 +1255,19 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 		} else if (state.contains("DC")) {
 			//TC1
-			String policyNumber = createPolicyForAnyDocument("$25,000/$50,000 (-$32.00)", "Not Signed", biCoverage, aacsdcRule);
-			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (+$14.00)", biCoverage);
+			String policyNumber = createPolicyForAnyDocument("$25,000/$50,000", "Not Signed", biCoverage, aacsdcRule);
+			createEndorsementInPasUpdateCoverage("$50,000/$100,000", biCoverage);
 			assertThat(aacsdcRule).hasValue("Not Signed");
 			deleteEndorsementInPas();
 			dxpOnlyCreateEndorsementCheckDocument("BI", "50000/100000",
 					"District of Columbia Coverage Selection/Rejection Form", "AACSDC", policyNumber);
 			//TC2
 			String policyNumber2 = openAppAndCreatePolicy();
-			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (-$18.00)", biCoverage);
+			createEndorsementInPasUpdateCoverage("$50,000/$100,000", biCoverage);
 			assertThat(aacsdcRule).hasValue("Not Signed");
 			aacsdcRule.setValue("Physically Signed");
 			documentsAndBindTab.submitTab();
-			createEndorsementInPasUpdateCoverage("$250,000/$500,000 (+$34.00)", biCoverage);
+			createEndorsementInPasUpdateCoverage("$250,000/$500,000", biCoverage);
 			assertThat(aacsdcRule).hasValue("Not Signed");
 			deleteEndorsementInPas();
 			dxpOnlyCreateEndorsementCheckDocument("BI", "250000/500000",
@@ -1283,7 +1283,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private void createEndorsementInPasUpdateCoverage(String coverageValue, ComboBox coverage) {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		coverage.setValue(coverageValue);
+		coverage.setValue("contains=" + coverageValue);
 		premiumAndCoveragesTab.calculatePremium();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 	}
@@ -1302,7 +1302,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest("TORT", tortCoverageValue), PolicyCoverageInfo.class);
 		String docId = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AADNPAB.getId(), DocGenEnum.Documents.AADNPAB.getName());
 
-		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ERROR_AAA_SS190125.getCode(), ERROR_AAA_SS190125.getMessage(), "attributeForRules");
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_AAA_SS190125.getCode(), ErrorEnum.Errors.ERROR_AAA_SS190125.getMessage());
 		HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), docId);
 
 		assertSoftly(softly -> {
@@ -1337,14 +1337,13 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		createQuote();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		(coverage).setValue(limit);
+		coverage.setValue("contains=" + limit);
 		premiumAndCoveragesTab.calculatePremium();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		(rule).setValue(signType);
+		rule.setValue(signType);
 		documentsAndBindTab.saveAndExit();
 
-		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
-		return policyNumber;
+		return testEValueDiscount.simplifiedQuoteIssue();
 	}
 
 	private void checkIfRfiIsEmpty(String policyNumber) {
@@ -1864,7 +1863,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private void bindEndorsement(String policyNumber, String doccId, String errorCode, String errorMessage, boolean isRuleOverridden) {
 		if (!isRuleOverridden) {
 			//Check that rule is fired when rule is not overridden. Not checking if rule is fired without signing, as per Digital flow it must always be signed.
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, errorCode, errorMessage, "attributeForRules");
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, errorCode, errorMessage);
 		}
 		//Bind policy with docId for successful bind and document is electronically signed. Not checking if rule is fired without signing, as per Digital flow it must always be signed.
 		HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), doccId);
@@ -2169,8 +2168,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			}
 
 			//Try to bind without signing
-			docId1 = checkDocumentInRfiService(policyNumber, expectedDocument.getId(), expectedDocument.getName());
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error.getCode(), error.getMessage(), "attributeForRules");
+			docId1 = checkDocumentInRfiService(policyNumber, docAAIFNJ3OrAAINJ4.getId(), docAAIFNJ3OrAAINJ4.getName());
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error.getCode(), error.getMessage());
 			//Bind policy with docId and document is electronically signed
 			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), docId1);
 
@@ -2203,6 +2202,11 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			if (isLessThan1000Miles) {
 				//Update isLessThan1000Miles to true/yes
 				updateLessThan1000MilesToTrue(policyNumber, replacedVehicleOid);
+				docId1 = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AAIFNJ4.getId(), DocGenEnum.Documents.AAIFNJ4.getName());
+				helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_200204_NJ.getCode(), ErrorEnum.Errors.ERROR_200204_NJ.getMessage());
+			} else {
+				docId1 = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AAIFNJ3.getId(), DocGenEnum.Documents.AAIFNJ3.getName());
+				helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_200200_NJ.getCode(), ErrorEnum.Errors.ERROR_200200_NJ.getMessage());
 			}
 			docId1 = checkDocumentInRfiService(policyNumber, expectedDocument.getId(), expectedDocument.getName());
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error.getCode(), error.getMessage(), "attributeForRules");
@@ -2298,7 +2302,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			}
 			docId = checkDocumentInRfiService(policyNumber, expectedDocument.getId(), expectedDocument.getName());
 			//Try to bind without signing the document
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, error.getCode(), error.getMessage(), "attributeForRules");
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber,error.getCode(), error.getMessage());
 
 			//Bind policy with docId and document is electronically signed
 			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), docId);

@@ -42,7 +42,7 @@ public class TestFinanceEPCalculationFlatCancellation extends FinanceOperations 
 
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.AZ})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-21444")
 	public void pas21444_testFinanceEPCalculationFlatCancellation(@Optional("AZ") String state) {
 
