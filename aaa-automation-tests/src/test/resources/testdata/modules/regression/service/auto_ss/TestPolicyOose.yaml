@@ -567,7 +567,10 @@ AssignmentTabEP_NY: {
   ExcessVehiclesTable: [{}]
 }
 
-Driver1_NY: {}
+Driver1_NY: {
+    Driver: 'contains=Fernando',
+    Select Vehicle: 'contains=CHEVROLET'
+}
 
 Driver2_NY: {
   Driver: 'Violeta Minolta',

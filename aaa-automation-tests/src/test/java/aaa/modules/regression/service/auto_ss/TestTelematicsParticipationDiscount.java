@@ -199,6 +199,7 @@ public class TestTelematicsParticipationDiscount extends AutoSSBaseTest {
 			policyExpirationDate = PolicySummaryPage.getExpirationDate();
 			//R-96
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(policyExpirationDate));
+			JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 			JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 			//R-63
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(policyExpirationDate));

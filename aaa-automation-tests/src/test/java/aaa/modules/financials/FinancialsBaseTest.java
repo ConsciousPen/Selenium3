@@ -127,10 +127,6 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		return reducedPrem;
 	}
 
-	protected void performNonPremBearingEndorsement(String policyNumber) {
-		performNonPremBearingEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime());
-	}
-
 	protected void performNonPremBearingEndorsement(String policyNumber, LocalDateTime effDate) {
 		policy.endorse().perform(getEndorsementTD(effDate));
 		policy.getDefaultView().fill(getNPBEndorsementTD());

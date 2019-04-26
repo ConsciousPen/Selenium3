@@ -17,11 +17,9 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
 
@@ -39,14 +37,13 @@ public class TestManualConversionScenario6 extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
 	public void manualConversionDocsScenario6(@Optional("MT") String state) {
 		LocalDateTime renewalDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(55);
-		TestData policyTd = getConversionPolicyDefaultTD().adjust(DocumentsAndBindTab.class.getSimpleName(), getTestSpecificTD("DocumentsAndBindTab"));
 		//1. Login with user role = E34 having privilege 'Initiate Renewal Entry' and retrieve the customer created above.
 		mainApp().open(loginUsers.getTestData(Constants.UserGroups.L41.get()).adjust(LoginPageMeta.STATES.getLabel(), state));
 		createCustomerIndividual();
 		//2. (R-55) Select the action "Initiate Renewal Entry" from 'Select Action:' dropdown box on Customer UI and click on the Go button.
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalDate);
 		//3. Open the renewal image in Data Gathering mode. Enter mandatory data on all pages.
-		policy.getDefaultView().fill(policyTd);
+		policy.getDefaultView().fill(getConversionPolicyDefaultTD());
 		Tab.buttonBack.click();
 		//6. Navigate to policy consolidated view, click on the renewal image Button
 		String policyNum = PolicySummaryPage.getPolicyNumber();
