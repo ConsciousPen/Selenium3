@@ -1275,18 +1275,4 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="CA Choice Vehicle" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesVehicles">
-                <methods>
-                    <include name="pas10449_ViewVehicleServiceOrderOfVehicle"/>
-                    <include name="pas7082_AddVehicle"/>
-                    <include name="pas502_DuplicateVinAddVehicleService"/>
-                    <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
-                    <include name="pas9610_UpdateVehicleService"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
 </suite>
