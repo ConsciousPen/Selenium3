@@ -1,10 +1,10 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.AAAMembershipQueries;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.helpers.renewal.RenewalHelper_Auto;
-import aaa.helpers.renewal.RenewalHelper_Profile;
+import aaa.helpers.renewal.SchedulableJobRenewalHelper;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.main.pages.summary.PolicySummaryPage;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -16,7 +16,6 @@ import org.testng.annotations.Test;
 import toolkit.verification.CustomAssertions;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -92,6 +91,16 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
         return all.toArray(new Object[all.size()][]);
     }
 
+    /**
+     * Drives the logic that boundary tests membership batch-up catchup logic.
+     * @param state
+     * @param typeOfThresholdTest
+     * @param nb15or30
+     * @param daysAfterNB
+     * @param membershipStatusAtTimeOfMembershipValidation
+     * @param bRunningNB30SkipSTG1
+     * @param bExpectingPolicyToBeProcessed
+     */
     @Parameters({"state"})
     @Test(dataProvider = "thresholdTestData_STG1_STG2")
     public void dataDrivenBoundryTest(@Optional String state, eThresholdTests typeOfThresholdTest, Integer nb15or30, Integer daysAfterNB, AAAMembershipQueries.AAAMembershipStatus membershipStatusAtTimeOfMembershipValidation, Boolean bRunningNB30SkipSTG1, Boolean bExpectingPolicyToBeProcessed) {
@@ -163,6 +172,23 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
         doValidation(policyEffectiveDate, rightNow, nb15or30, policyNumber, bRunningNB30SkipSTG1, bExpectingPolicyToBeProcessed);
     }
 
+    @Test
+    public void unitTest(){
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+    }
+    /**
+     * Used to conduct a data driven test of membership batch job catchup logic that utilizes renewal logic.
+     * @param state
+     * @param typeOfThresholdTest
+     * @param rMinus63or45
+     * @param numberOfDaysAfterTP
+     * @param membershipStatusAtTimeOfMembershipValidation
+     * @param bRunningSTG4SkipSTG3
+     * @param bExpectingPolicyToBeProcessed
+     * @Runtime Approximately 21min. Due in large part to running all the renewal jobs while utilizing the renewal helper.
+     */
     @Parameters({"state"})
     @Test(dataProvider = "thresholdTestData_STG3")
     public void dataDrivenBoundryTest_RenewalHelperAssisted(@Optional String state, eThresholdTests typeOfThresholdTest, Integer rMinus63or45, Integer numberOfDaysAfterTP, AAAMembershipQueries.AAAMembershipStatus membershipStatusAtTimeOfMembershipValidation, Boolean bRunningSTG4SkipSTG3, Boolean bExpectingPolicyToBeProcessed) {
@@ -170,11 +196,17 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
         mainApp().open();
         createCustomerIndividual();
         String policyNumber = createPolicy(getPolicyDefaultTD());
+        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
-        //TODO: MOVE TO TERM 2 HERE. REOPEN THE POLICY AND GET BACK TO THE POLICY SUMMARY PAGE. USE ASSERTIONS TO CONFIRM TEST MADE IT TO 2ND TERM SUCCESSFULLY.
+        // Move to 2nd/nth Term and Retrieve the Policy.
+        SchedulableJobRenewalHelper.performFullAutoRenewal(this, policyNumber, true, 1);
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        CustomAssertions.assertThat(policyExpirationDate).isNotEqualTo(PolicySummaryPage.getExpirationDate()); //Assert we're in new term by asserting expiration date has changed.
+
 
         // Saving policy data from summary page and closing App.
-        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        policyExpirationDate = PolicySummaryPage.getExpirationDate();
         LocalDateTime rMinus_N_Date = policyExpirationDate.minusDays(rMinus63or45);
         thresholdMaxDate = rMinus_N_Date.plusDays(MEMBERSHIP_CATCHUP_TIMEFRAME_VALUE);
         mainApp().close();
@@ -212,20 +244,21 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
         //TODO: DETERMINE HOW THIS IS USED FOR RENEWALS
         AAAMembershipQueries.updateAAAMembershipStatusInSQL(policyNumber, membershipStatusAtTimeOfMembershipValidation);
         java.util.Optional<AAAMembershipQueries.AAAMembershipStatus> membershipStatus = AAAMembershipQueries.getAAAMembershipStatusFromSQL(policyNumber);
-        CustomAssertions.assertThat(membershipStatus.toString()).isEqualToIgnoringCase(membershipStatusAtTimeOfMembershipValidation.toString()); //Asserting the DB received the value we just pushed to it.
+        CustomAssertions.assertThat(membershipStatus.toString()).containsIgnoringCase(membershipStatusAtTimeOfMembershipValidation.toString()); //Asserting the DB received the value we just pushed to it.
 
+        // If doing R-63 (STG3).
         if(rMinus63or45==63){
             AAAMembershipQueries.updateAAABestMembershipStatusInSQL(policyNumber, AAAMembershipQueries.AAABestMembershipStatus.NOHIT_STG2);
         }
 
-        // If doing R-45 (STG4), force aaaBestMembershipStatus to NOHIT_STG1 so STG2 will process. If processed at STG1, STG2 will not process policy.
+        // If doing R-45 (STG4), and NOT skipping STG3.
         if(!bRunningSTG4SkipSTG3 && rMinus63or45==45){
             AAAMembershipQueries.updateAAABestMembershipStatusInSQL(policyNumber, AAAMembershipQueries.AAABestMembershipStatus.NOHIT_STG3);
         }
 
-        // If doing R-45 (STG4), force aaaBestMembershipStatus to NOHIT_STG1 so STG2 will process. If processed at STG1, STG2 will not process policy.
+        // If doing R-45 (STG4) and skipping STG3.
         if(bRunningSTG4SkipSTG3 && rMinus63or45==45){
-            AAAMembershipQueries.updateAAABestMembershipStatusInSQL(policyNumber, AAAMembershipQueries.AAABestMembershipStatus.NOHIT_STG3);
+            AAAMembershipQueries.updateAAABestMembershipStatusInSQL(policyNumber, AAAMembershipQueries.AAABestMembershipStatus.ERROR_STG3);
         }
 
         // Handle the fact that the job doesn't run on the weekends.
@@ -239,13 +272,15 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
         }
 
         // Execute NB+15 / NB+30 Membership Validation Jobs
-        JobUtils.executeJob(Jobs.membershipValidationJob);
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
         // Validate policyNumber is picked up by batch job at STG1.
         doValidation(policyExpirationDate, rightNow, rMinus63or45, policyNumber, bRunningSTG4SkipSTG3, bExpectingPolicyToBeProcessed);
     }
 
-    public void doValidation(LocalDateTime in_policyEffectiveDate, LocalDateTime in_currentTime, Integer in_nb15or30, String in_policyNumber, Boolean in_bRunningNB30SkipSTG1, Boolean bExpectedPolicyWasProcessed) {
+    public void doValidation(LocalDateTime in_policyEffectiveDate, LocalDateTime in_currentTime, Integer in_rMinus63or45, String in_policyNumber, Boolean in_bRunningNB30SkipSTG1, Boolean bExpectedPolicyWasProcessed) {
         //Get the value to assert against.
         java.util.Optional<AAAMembershipQueries.AAABestMembershipStatus> bestMembershipStatus = AAAMembershipQueries.getAAABestMembershipStatusFromSQL(in_policyNumber);
 
@@ -256,27 +291,27 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
             // Next, is this a positive or negative scenario test?
             if (bExpectedPolicyWasProcessed) {
                 // GIVEN a positive scenario...
-                if (in_nb15or30 == 15) {
+                if (in_rMinus63or45 == 63) {
                     CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG1.toString());
                 } else {
-                    if (in_nb15or30 == 30) {
+                    if (in_rMinus63or45 == 45) {
                         CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG2.toString());
                     } else {
-                        CustomAssertions.fail(String.format("Variable 'nb15or30' == something other than 15 or 30 (Actual nb15or30: %s). (Actual membershipStatus: %s).", in_nb15or30.toString(), bestMembershipStatus.toString()));
+                        CustomAssertions.fail(String.format("Variable 'in_rMinus63or45' == something other than 63 or 45 (Actual in_rMinus63or45: %s). (Actual membershipStatus: %s).", in_rMinus63or45.toString(), bestMembershipStatus.toString()));
                     }
                 }
             } else {
                 //GIVEN a negative scenario...
-                if (in_nb15or30 == 15) {
+                if (in_rMinus63or45 == 63) {
                     CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase("Empty");
                 } else {
-                    if (in_bRunningNB30SkipSTG1 && in_nb15or30 == 30) {
+                    if (in_bRunningNB30SkipSTG1 && in_rMinus63or45 == 45) {
                         CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase("Empty");
                     } else {
-                        if (!in_bRunningNB30SkipSTG1 && in_nb15or30 == 30) {
+                        if (!in_bRunningNB30SkipSTG1 && in_rMinus63or45 == 45) {
                             CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.NOHIT_STG1.toString());
                         } else {
-                            CustomAssertions.fail(String.format("Variable 'nb15or30' == something other than 15 or 30 (Actual nb15or30: %s). (Actual membershipStatus: %s).", in_nb15or30.toString(), bestMembershipStatus.toString()));
+                            CustomAssertions.fail(String.format("Variable 'in_rMinus63or45' == something other than 63 or 45 (Actual in_rMinus63or45: %s). (Actual membershipStatus: %s).", in_rMinus63or45.toString(), bestMembershipStatus.toString()));
                         }
                     }
                 }
