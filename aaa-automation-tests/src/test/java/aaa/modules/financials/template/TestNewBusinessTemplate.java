@@ -396,7 +396,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             fees = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_FEE)
                     .add(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CA_FRAUD_ASSESSMENT_FEE));
         }
-        if (getPolicyType().isCaProduct() && !getPolicyType().equals(PolicyType.HOME_CA_HO4)) {
+        if (!getPolicyType().isAutoPolicy() && getPolicyType().isCaProduct() && !getPolicyType().equals(PolicyType.HOME_CA_HO4)) {
             fees = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_FEE)
                     .add(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.SEISMIC_SAFETY_FEE));
         }
