@@ -1231,6 +1231,9 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
                 <methods>
+                    <include name="pas25024_CARCONotNeededInsidePASAddReplaceVehicleTC01"/>
+                    <include name="pas25024_CARCONotNeededInsidePASAddReplaceVehicleTC02"/>
+                    <include name="pas25024_CARCONotNeededInsidePASAddReplaceVehicleTC03"/>
                     <include name="pas25027_CARCOFormAAIFNYEInsidePASAddReplaceVehicle"/>
                     <include name="pas25029_CARCOFormAAIFNYDInsidePASAddReplaceVehicleTC01"/>
                     <include name="pas25029_CARCOFormAAIFNYDInsidePASAddReplaceVehicleTC02"/>
