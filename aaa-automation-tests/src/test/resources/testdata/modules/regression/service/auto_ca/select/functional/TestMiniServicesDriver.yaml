@@ -76,7 +76,7 @@ TestData_FilteredRelationshipDrivers_CA: {
 TestDataDiscountCA: {
     PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
     GeneralTab: '@GeneralTab1_CA_Discount',
-    DriverTab: ['@Driver_FNI', '@Driver_Daughter_CA'],
+    DriverTab: ['@Driver_FNI', '@Driver_Daughter_CA','@Driver_ForDiscount_CA'],
     MembershipTab: '@MembershipTab',
     VehicleTab: ['@VehicleTab_1', '@VehicleTab_Camper'],
     AssignmentTab: '@AssignmentTab',
@@ -132,15 +132,38 @@ Driver_Daughter_CA: {
   Rel. to First Named Insured: Daughter,
   First Name: 'Iseult',
   Last Name: 'Branwen',
-  Date of Birth: '05/01/2000',
+  Date of Birth: '05/01/2003',
   Gender: 'Female',
   Marital Status: Single,
-  Occupation: 'index=1',
+  Occupation: 'Student',
+  Most Recent GPA: 'A Student',
+  New Driver Course Completed: 'Yes',
+  New Driver Course Completion Date: $<today>,
+  New Driver Certification Number: 33333,
   License Type: 'Valid',
   Age First Licensed: '16',
   Permit Before License: 'Yes',
   "License #": 'A1234567',
   Most Recent GPA: 'None'
+}
+
+Driver_ForDiscount_CA: {
+  DriverSearchDialog: {},
+  Driver Type: 'Available for Rating',
+  Rel. to First Named Insured: Daughter,
+  First Name: 'Megha',
+  Last Name: 'Branwen',
+  Date of Birth: '05/01/1960',
+  Gender: 'Female',
+  Marital Status: Married,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'No',
+  "License #": 'A8234567',
+  Good Driver Discount: 'Yes',
+  Mature driver course completed within 36 months: 'Yes',
+  Mature Driver Course Completion Date: $<today-2M>,
 }
 
 Driver_Father_CA: {
@@ -273,6 +296,6 @@ AssignmentTab: {
         DriverVehicleRelationshipTable: [{
                    Primary Driver: index=1,
                     }, {
-                    Primary Driver: index=1,
+                    Primary Driver: index=2,
                                          }]
     }
