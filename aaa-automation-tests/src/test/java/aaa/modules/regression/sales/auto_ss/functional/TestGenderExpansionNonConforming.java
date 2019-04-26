@@ -164,7 +164,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
     public void pas23040_ValidateGenderExpansionNonConformingRenewal(@Optional("") String state) {
 
         String policyNumber = openAppAndCreatePolicy();
-        createRenewalImage(policyNumber);
+        createRenewalImage(policyNumber, PolicySummaryPage.getExpirationDate());
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.GENDER).setValue("X");
@@ -202,7 +202,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
                 .adjust(AutoSSMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click");
 
         String policyNumber = openAppAndCreatePolicy();
-        createRenewalImage(policyNumber);
+        createRenewalImage(policyNumber, PolicySummaryPage.getExpirationDate());
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), addDriver));
@@ -213,8 +213,8 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
         assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Gender").getValue()).as("Gender should be displayed - X").isEqualTo("X");
     }
 
-    private void createRenewalImage(String policyNumber) {
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(PolicySummaryPage.getExpirationDate()));
+    private void createRenewalImage(String policyNumber, LocalDateTime renewalEffDate) {
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(renewalEffDate));
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         policy.renew().start();
