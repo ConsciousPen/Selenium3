@@ -1,6 +1,8 @@
 package aaa.helpers.db.queries;
 
 import toolkit.db.DBService;
+
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
@@ -121,6 +123,21 @@ public class AAAMembershipQueries {
     }
 
     /**
+     * Gets the Policy Effective Date from the DB.
+     * @param policyNumber Is the policy number to get the effective date from.
+     * @return LocalDateTime representing the Policy Effective Date
+     */
+    public static LocalDateTime getPolicyEffectivLocalDateTimeFromSQL(String policyNumber){
+        String dbPolicyEffectiveDate =
+                getPolicyEffectiveDateFromSQL(policyNumber).orElse("Null Value");
+
+        LocalDateTime policyEffectiveDateTime =
+                LocalDateTime.parse(dbPolicyEffectiveDate, AAAMembershipQueries.SQLDateTimeFormatter);
+
+        return policyEffectiveDateTime;
+    }
+
+    /**
      * Returns the Policy Expiration Date from DB. <br>
      * @param policyNumber is the policy number to query against.
      * @return an optional String. If no DB rows come back, will be null.
@@ -135,6 +152,21 @@ public class AAAMembershipQueries {
 
         String query = getStandardMembershipQuery("ps.EXPIRATION", policyNumber);
         return DBService.get().getValue(query);
+    }
+
+    /**
+     * Gets the Policy Expiration Date from the DB.
+     * @param policyNumber Is the policy number to get the expiration date from.
+     * @return LocalDateTime representing the Policy Expiration Date
+     */
+    public static LocalDateTime getPolicyExpirationLocalDateTimeFromSQL(String policyNumber){
+        String dbPolicyExpirationDate =
+                getPolicyExpirationDateFromSQL(policyNumber).orElse("Null Value");
+
+        LocalDateTime policyExpirationDateTime =
+                LocalDateTime.parse(dbPolicyExpirationDate, AAAMembershipQueries.SQLDateTimeFormatter);
+
+        return policyExpirationDateTime;
     }
 
     /**
