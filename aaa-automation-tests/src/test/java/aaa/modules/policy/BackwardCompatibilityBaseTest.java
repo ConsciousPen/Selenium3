@@ -28,7 +28,7 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 
 	public static final String SELECT_POLICY_QUERY_TYPE = "SelectPolicy";
 
-	private static final String SELECT_ALL_FROM_JOB_SUMMARY = "Select * from JobSummary WHERE JOBNAME like '%s' AND STARTED like '%s' AND ENDED like '%s' order by ENDED DESC";
+	private static final String SELECT_ALL_FROM_JOB_SUMMARY = "Select * from JobSummary WHERE JOBNAME like '%s' AND STARTED like '%s' order by ENDED DESC";
 	private static final String ddMMyy = "dd-MMM-yy";
 	private static final String PRE_VALIDATION = "PreValidation";
 	private static final String POST_VALIDATION = "PostValidation";
@@ -46,27 +46,30 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	protected void executeBatchTest(Job job){
 		// Get job start date
 		String startDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern(ddMMyy)).toUpperCase();
-
 		JobUtils.executeJob(job);
-		// Get job finish date
-		String endedDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern(ddMMyy)).toUpperCase();
 		// Get sql compatible job name, based on parameter
 		String backEndJobName = BackendJobNames.getBackendJobNames(job);
-		String query = String.format(SELECT_ALL_FROM_JOB_SUMMARY, "%" + backEndJobName + "%", startDate + "%", endedDate + "%");
+		String query = String.format(SELECT_ALL_FROM_JOB_SUMMARY, "%" + backEndJobName + "%", startDate);
 		// Verify that failure % is below 5%
 		assertThat(getFailurePercentage(backEndJobName, query)).as("Percentage of failed tasks is more 5%").isEqualTo(true);
 	}
 
 	protected void createAndExecuteJob(Job job){
-		SoapJobActions service = new SoapJobActions();
+		com.exigen.ipb.etcsa.utils.batchjob.Job ipbJob = convertToIpb(job);
 
-		if (!service.isJobExist(JobGroup.fromSingleJob(job.getJobName()))) {
+		SoapJobActions service = new SoapJobActions();
+		if (!service.isJobExist(JobGroup.fromSingleJob(ipbJob))) {
+			service.createJob(JobGroup.fromSingleJob(ipbJob));
 			log.info("{} was created", JobGroup.fromSingleJob(job.getJobName()));
-			service.createJob(JobGroup.fromSingleJob(job.getJobName()));
 		}else{
 			log.info("Job exist :  {} ", JobGroup.fromSingleJob(job.getJobName()));
 		}
 		service.startJob(JobGroup.fromSingleJob(job.getJobName()));
+	}
+
+	private com.exigen.ipb.etcsa.utils.batchjob.Job convertToIpb(Job job) {
+		return new com.exigen.ipb.etcsa.utils.batchjob.Job(job.getJobName(), job.getJobParameters(),job.getJobFolders());
+
 	}
 
 	protected List<String> getPoliciesByQuery(String testName, String queryName) {

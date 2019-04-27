@@ -25,8 +25,8 @@ public class AgingJobs extends BackwardCompatibilityBaseTest {
 
 		for (Job job : getAgingJobsLogicalSequence()) {
 			if (!service.isJobExist(JobGroup.fromSingleJob(job.getJobName()))) {
-				log.info("{} was created", JobGroup.fromSingleJob(job.getJobName()));
 				service.createJob(JobGroup.fromSingleJob(job.getJobName()));
+				log.info("{} was created", JobGroup.fromSingleJob(job.getJobName()));
 			}else{
 				log.info("Job exist :  {} ", JobGroup.fromSingleJob(job.getJobName()));
 			}

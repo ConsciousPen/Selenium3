@@ -56,7 +56,7 @@ public class Jobs {
 
 	public static Job lapsedRenewalProcessJob = new Job("policyLapsedRenewalProcessAsyncJob");
 
-	public static Job aaaCancellationNoticeAsyncJob = new Job("aaaCancellationNoticeAsyncJob");
+	public static Job aaaCancellationNoticeAsyncJob = new Job("aaaCancellationNoticeAsyncJob", Collections.singletonMap("JOB_UI_PARAMS", "t"));
 
 	public static Job aaaCancellationConfirmationAsyncJob = new Job("aaaCancellationConfirmationAsyncJob");
 
