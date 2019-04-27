@@ -1226,6 +1226,30 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="CARCO NY" parallel="methods">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas25024_CARCONotNeededInsidePASAddReplaceVehicleTC01"/>
+                    <include name="pas25024_CARCONotNeededInsidePASAddReplaceVehicleTC02"/>
+                    <include name="pas25024_CARCONotNeededInsidePASAddReplaceVehicleTC03"/>
+                    <include name="pas25027_CARCOFormAAIFNYEInsidePASAddReplaceVehicle"/>
+                    <include name="pas25029_CARCOFormAAIFNYDInsidePASAddReplaceVehicleTC01"/>
+                    <include name="pas25029_CARCOFormAAIFNYDInsidePASAddReplaceVehicleTC02"/>
+                    <include name="pas25027_CARCOFormAAIFNYDInsidePASUpdateCompTC01"/>
+                    <include name="pas25027_CARCOFormAAIFNYDInsidePASUpdateCompTC02"/>
+                    <include name="pas25027_CARCOFormAAIFNYEInsidePASUpdateComp"/>
+                    <include name="pas25029_CARCOFormAAIFNYDOutsidePASAddReplaceVehicleTC01"/>
+                    <include name="pas25029_CARCOFormAAIFNYDOutsidePASAddReplaceVehicleTC02"/>
+                    <include name="pas25028_CARCOFormAAIFNYEOutsidePASAddReplaceVehicle"/>
+                    <include name="pas25029_CARCOFormAAIFNYDOutsidePASUpdateCompTC01"/>
+                    <include name="pas25029_CARCOFormAAIFNYDOutsidePASUpdateCompTC02"/>
+                    <include name="pas25028_CARCOFormAAIFNYEOutsidePASUpdateComp"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="NJ RFI Forms" parallel="methods">
         <parameter name="state" value="NJ"/>
         <classes>
