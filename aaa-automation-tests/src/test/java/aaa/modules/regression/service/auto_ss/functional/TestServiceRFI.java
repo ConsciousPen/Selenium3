@@ -512,7 +512,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 		String policyNumber = openAppAndCreatePolicy(td);
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		VEH_HELPER.addVehicleWithChecks(policyNumber, "2013-02-22", "1HGEM21504L055795", true);
+		VEH_HELPER.helperMiniServices.addVehicleWithChecks(policyNumber, "2013-02-22", "1HGEM21504L055795", true);
 
 		String docId1 = checkDocumentInRfiService(policyNumber, documentAA52UPAA.getId(), documentAA52UPAA.getName());
 		String docId2 = checkDocumentInRfiService(policyNumber, documentAA52IPAA.getId(), documentAA52IPAA.getName());
@@ -2149,7 +2149,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 		if (isQualifyingVehicle) {
-			String addedVehicleOid = VEH_HELPER.addVehicleWithChecks(policyNumber, "2017-02-22", VIN_LESS_THAN_7_YEARS, true);//vehicle age must be less tha 7 years
+			String addedVehicleOid = VEH_HELPER.helperMiniServices.addVehicleWithChecks(policyNumber, "2017-02-22", VIN_LESS_THAN_7_YEARS, true);//vehicle age must be less tha 7 years
 			String docId1;
 			DocGenEnum.Documents expectedDocument;
 			ErrorEnum.Errors error;
@@ -2241,7 +2241,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			documentsAndBindTab.saveAndExit();
 
 		} else {
-			VEH_HELPER.addVehicleWithChecks(policyNumber, "2017-02-22", VIN_MORE_THAN_7_YEARS, true);//vehicle age must be more than 7 years
+			VEH_HELPER.helperMiniServices.addVehicleWithChecks(policyNumber, "2017-02-22", VIN_MORE_THAN_7_YEARS, true);//vehicle age must be more than 7 years
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 			verifyRFIHasNoDocuments(policyNumber);
 			helperMiniServices.endorsementRateAndBind(policyNumber);
