@@ -58,6 +58,13 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="AutoSS [IN] Premium Calculation Test 2019" preserve-order="true">
+        <parameter name="fileName" value="INTests-20190508_part1.xls"/>
+        <parameter name="policyNumbers" value="1, 297"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="AutoSS [KS] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="KSTests-20181001.xls"/>
         <parameter name="policyNumbers" value="1,2"/>
@@ -131,6 +138,13 @@
     <test name="AutoSS [OK] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="OKTests-20180617.xls"/>
         <parameter name="policyNumbers" value="283, 287"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="AutoSS [OK] Premium Calculation Test 2019" preserve-order="true">
+        <parameter name="fileName" value="OKTests-20190401_part1.xls"/>
+        <parameter name="policyNumbers" value="2, 25"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>

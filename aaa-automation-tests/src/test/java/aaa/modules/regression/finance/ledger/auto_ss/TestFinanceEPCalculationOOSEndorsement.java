@@ -63,11 +63,13 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
 		TimeSetterUtil.getInstance().nextPhase(e1date);
 		searchForPolicy(policyNumber);
 		createEndorsement(-1, "TestData_EndorsementAPRemoveCoverage");
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		jobDate = runEPJobUntil(jobDate, e2date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e2date);
 		searchForPolicy(policyNumber);
 		createEndorsement(-1, "TestData_EndorsementAddCoverage");
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		jobDate = runEPJobUntil(jobDate, e3date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e3date);
