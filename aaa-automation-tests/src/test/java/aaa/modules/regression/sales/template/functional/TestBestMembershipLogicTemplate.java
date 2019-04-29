@@ -155,7 +155,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
             setAAABestMemberStatus(policyNumber, AAAMembershipQueries.AAABestMembershipStatus.ERROR_STG2);
         }
 
-        LocalDateTime policyExpirationDate = getPolicyExpirationDate(policyNumber);
+        LocalDateTime policyExpirationDate = AAAMembershipQueries.getPolicyExpirationLocalDateTimeFromSQL(policyNumber);
 
         generatePreSTG3RenewalImage(policyExpirationDate);
 
@@ -441,21 +441,6 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
                 LocalDateTime.parse(dbPolicyEffectiveDate, AAAMembershipQueries.SQLDateTimeFormatter);
 
         return policyEffectiveDateTime;
-    }
-
-    /**
-     * Gets the Policy Expiration Date from the DB.
-     * @param policyNumber Is the policy number to get the expiration date from.
-     * @return LocalDateTime representing the Policy Expiration Date
-     */
-    private LocalDateTime getPolicyExpirationDate(String policyNumber){
-        String dbPolicyExpirationDate =
-                AAAMembershipQueries.getPolicyExpirationDateFromSQL(policyNumber).orElse("Null Value");
-
-        LocalDateTime policyExpirationDateTime =
-                LocalDateTime.parse(dbPolicyExpirationDate, AAAMembershipQueries.SQLDateTimeFormatter);
-
-        return policyExpirationDateTime;
     }
 
     /**

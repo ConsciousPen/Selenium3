@@ -29,6 +29,13 @@
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="HomeSS [CT] Premium Calculation Test 2019" preserve-order="true">
+        <parameter name="fileName" value="CTTests-20190611.xls"/>
+        <parameter name="policyNumbers" value="147, 169"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="HomeSS [DC] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="DCTests-20170126.xls"/>
         <parameter name="policyNumbers" value="1,7"/>
@@ -39,6 +46,13 @@
     <test name="HomeSS [DE] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="DETests-20180708.xls"/>
         <parameter name="policyNumbers" value="153,171"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="HomeSS [DE] Premium Calculation Test 2019" preserve-order="true">
+        <parameter name="fileName" value="DETests-20190528.xls"/>
+        <parameter name="policyNumbers" value="1, 2"/>
         <classes>
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
