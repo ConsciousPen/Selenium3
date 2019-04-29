@@ -1275,4 +1275,14 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="CA Select Discounts" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesDiscounts">
+                <methods>
+                    <include name="pas27988_miniServicesDiscounts"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
