@@ -23,6 +23,7 @@ import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.ErrorEnum;
+import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyActions;
@@ -270,6 +271,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
                 errorTab.submitTab();
             }
         payTotalAmtDue(policyNumber);
+	    JobUtils.executeJob(Jobs.policyStatusUpdateJob);
     }
 
     /**
@@ -617,15 +619,18 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
                 //For SS Auto PU Indicator should not be Present
                 softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent()).isFalse();
             }
-            switch (includeIR) {
-                case "Yes":
-                    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
-                    break;
-                case "No":
-                    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("No");
-                    break;
-                case "NA":
-                    break;
+//            switch (includeIR) {
+//                case "Yes":
+//                    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
+//                    break;
+//                case "No":
+//                    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("No");
+//                    break;
+//                case "NA":
+//                    break;
+//            }
+            if (!includeIR.equals("NA")) {
+                softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue(includeIR);
             }
         });
     }
@@ -997,13 +1002,15 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
         // Retrieve policy and verify claim presence on renewal image
         mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+//        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+//
+//        //Select the Active Policy row
+//        if (tableSearchResults.isPresent()) {
+//            tableSearchResults.getRow("Eff. Date",
+//                    TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY)).getCell(1).controls.links.getFirst().click();
+//        }
 
-        //Select the Active Policy row
-        if (tableSearchResults.isPresent()) {
-            tableSearchResults.getRow("Eff. Date",
-                    TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY)).getCell(1).controls.links.getFirst().click();
-        }
+	    SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
         buttonRenewals.click();
         policy.dataGather().start();
@@ -1034,12 +1041,14 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
         // Retrieve policy and verify claim presence on renewal image
         mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+//        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+//
+//        if (tableSearchResults.isPresent()) {
+//            tableSearchResults.getRow("Eff. Date",
+//                    TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY)).getCell(1).controls.links.getFirst().click();
+//        }
 
-        if (tableSearchResults.isPresent()) {
-            tableSearchResults.getRow("Eff. Date",
-                    TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY)).getCell(1).controls.links.getFirst().click();
-        }
+	    SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
         buttonRenewals.click();
         policy.dataGather().start();
@@ -1063,13 +1072,15 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
                     // Retrieve policy and verify claim presence on renewal image
                     mainApp().open();
-                    SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+//                    SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+//
+//                    if (tableSearchResults.isPresent()) {
+//                        tableSearchResults.getRow("Eff. Date",
+//                                TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY))
+//                                .getCell(1).controls.links.getFirst().click();
+//                    }
 
-                    if (tableSearchResults.isPresent()) {
-                        tableSearchResults.getRow("Eff. Date",
-                                TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY))
-                                .getCell(1).controls.links.getFirst().click();
-                    }
+	                SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
                     policy.renew().start();
                     NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
@@ -1241,6 +1252,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         while (x < renewalAmount) {
             runRenewalClaimOrderJob();
             runRenewalClaimReceiveJob();
+            //HERE - run update
             issueGeneratedRenewalImage(policyNumber);
             x++;
         }
