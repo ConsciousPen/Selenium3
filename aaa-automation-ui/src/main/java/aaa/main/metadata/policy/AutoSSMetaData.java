@@ -686,6 +686,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<ComboBox> PERSONAL_INJURY_PROTECTION_APPLIES_TO_DEDUCTIBLE = declare("PIP Deductible Applies To", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> BASIC_PERSONAL_INJURY_PROTECTION_COVERAGE = declare("Basic Personal Injury Protection Coverage", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE = declare("Additional Personal Injury Protection Coverage", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> ADDITIONAL_PERSONAL_INJURY_PROTECTION = declare("Additional Personal Injury Protection", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> ADDITIONAL_PIP = declare("Additional PIP", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> GUEST_PIP = declare("Guest PIP", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> MEDICAL_EXPENSE_ELIMINATION = declare("Medical Expense Elimination", ComboBox.class);
@@ -993,6 +994,7 @@ public final class AutoSSMetaData {
 					declare("Inspection Waiver - Sales Agreement Required", RadioGroup.class);
 			// NY
 			public static final AssetDescriptor<RadioGroup> ACKNOWLEDGEMENT_OF_REQUIREMENT_FOR_PHOTO_INSPECTION = declare("Acknowledgement of Requirement for Photo Inspection", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> COPY_OF_SALES_AGREEMENT = declare("Notice - Copy of Sales Agreement Required", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> NEW_YORK_AUTO_INSURANCE_APPLICATION = declare("New York Auto Insurance Application", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> SUPPLEMENTARY_UNINSURED_MOTORISTS_COVERAGE_REJECTION = declare(
 					"Supplementary Uninsured/Underinsured Motorists Coverage¿Rejection or Election of Lower Limits", RadioGroup.class);

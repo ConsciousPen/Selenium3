@@ -41,11 +41,6 @@
                     <include name="pas21456_testFinanceEPCalculationPremiumRefund"/>
                 </methods>
             </class> <!-- aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationPremiumRefund -->
-            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationEPWriteOff">
-                <methods>
-                    <include name="pas21457_testFinanceEPCalculationEPWriteOff"/>
-                </methods>
-            </class> <!-- aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationEPWriteOff -->
             <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationFlagTransactions">
                 <methods>
                     <include name="pas20300_testFinanceEPCalculationFlagTransactions"/>
@@ -472,6 +467,11 @@
                     <include name="pas21455_testFinanceEPCalculationIssueWithInstallmentPlanAndPayment"/>
                 </methods>
             </class> <!-- aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment -->
+            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationEPWriteOff">
+                <methods>
+                    <include name="pas21457_testFinanceEPCalculationEPWriteOff"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationEPWriteOff -->
         </classes>
     </test> <!-- CA Home -->
     <test name="UT Auto" parallel="methods">
@@ -771,7 +771,6 @@
             </class> <!-- aaa.modules.regression.billing_and_payments.auto_ca.choice.functional.TestEarnedPremiumWriteOff -->
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
                 <methods>
-                    <include name="pas13529_renewalComparisonAAAProductOwned"/>
                     <include name="pas13832_renewalComparisonThirdPartyDesignee"/>
                     <include name="pas14145_dataGatherComparisonVehicleInformation"/>
                     <include name="pas25187_endorsementsComparisonAssignment"/>
@@ -1047,25 +1046,25 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestDisableReorderReport">
                 <methods>
                     <include name="pas6795_disableReorderReportEndorsement"/>
-                    <include name="pas6827_disableReorderReportRenewal"/>
+                    <!--<include name="pas6827_disableReorderReportRenewal"/>-->
                 </methods>
             </class> <!-- aaa.modules.regression.sales.home_ss.dp3.functional.TestDisableReorderReport -->
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport">
                 <methods>
                     <include name="pas6795_disableReorderReportEndorsement"/>
-                    <include name="pas6827_disableReorderReportRenewal"/>
+                    <!--<include name="pas6827_disableReorderReportRenewal"/>-->
                 </methods>
             </class> <!-- aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport -->
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestDisableReorderReport">
                 <methods>
                     <include name="pas6795_disableReorderReportEndorsement"/>
-                    <include name="pas6827_disableReorderReportRenewal"/>
+                    <!--<include name="pas6827_disableReorderReportRenewal"/>-->
                 </methods>
             </class> <!-- aaa.modules.regression.sales.home_ss.ho4.functional.TestDisableReorderReport -->
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestDisableReorderReport">
                 <methods>
                     <include name="pas6795_disableReorderReportEndorsement"/>
-                    <include name="pas6827_disableReorderReportRenewal"/>
+                    <!--<include name="pas6827_disableReorderReportRenewal"/>-->
                 </methods>
             </class> <!-- aaa.modules.regression.sales.home_ss.ho6.functional.TestDisableReorderReport -->
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPAViewRatingDetails">

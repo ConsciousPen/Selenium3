@@ -43,6 +43,7 @@ public class Constants {
 		public static final String SD = "SD";
 		public static final String UT = "UT";
 		public static final String VA = "VA";
+		public static final String WA = "WA";
 		public static final String WV = "WV";
 		public static final String WY = "WY";
 	}

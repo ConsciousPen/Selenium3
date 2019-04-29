@@ -1527,7 +1527,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
-	private void addDriverAndVerify(String policyNumber, ETCSCoreSoftAssertions softly, boolean flag) {
+	private void addDriverAndVerify(String policyNumber, ETCSCoreSoftAssertions softly, boolean flag, String bindflag) {
 
 		// addDriver via dxp
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Spouse", "Driver", "Smith", "1979-02-13", null);
@@ -1575,6 +1575,15 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData
 				.DriverTab.MARITAL_STATUS).getValue()).isEqualTo("Married");
 		driverTab.saveAndExit();
+
+		if (bindflag.equals("true")) {
+
+			HelperCommon.orderReports(policyNumber, driverOid, OrderReportsResponse.class, 200);
+
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		}
+
 	}
 
 	private void updateDriver(ETCSCoreSoftAssertions softly, String policyNumber, String dOid, UpdateDriverRequest updateDriverRequest, String mStatus) {
@@ -1591,7 +1600,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			String policyNumber = getCopiedPolicy();
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-			addDriverAndVerify(policyNumber, softly, true);
+			addDriverAndVerify(policyNumber, softly, true, "false");
 
 		});
 	}
@@ -1602,7 +1611,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			String policyNumber = getCopiedPolicy();
 			String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(3).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 			HelperCommon.createEndorsement(policyNumber, endorsementDate);
-			addDriverAndVerify(policyNumber, softly, false);
+			addDriverAndVerify(policyNumber, softly, false, "true");
 		});
 	}
 
