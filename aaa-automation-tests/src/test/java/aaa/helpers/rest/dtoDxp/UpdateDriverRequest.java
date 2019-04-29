@@ -22,4 +22,6 @@ public class UpdateDriverRequest implements RestBodyRequest {
 	@ApiModelProperty(value = "Age First Licensed", example = "15")
 	public Integer ageFirstLicensed;
 
+	@ApiModelProperty(value = "Permit Before License?", example = "true")//TODO-mstrazds:remove as it is in another branch
+	public Boolean permitBeforeLicense;
 }
