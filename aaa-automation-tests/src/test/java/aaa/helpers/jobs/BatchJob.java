@@ -64,7 +64,6 @@ public class BatchJob {
 	public static Job aaaInsuranceIDCardIssueAsyncJob = new Job("aaaInsuranceIDCardIssueAsyncJob");
 	public static Job aaaInsuranceScoreRenewalBatchReceiveAsyncJob = new Job("aaaInsuranceScoreRenewalBatchReceiveAsyncJob");
 	public static Job aaaInsuranceScoreRenewBachOrderAsyncJob = new Job("aaaInsuranceScoreRenewBachOrderAsyncJob");
-	public static Job AAAIsoRenewAsyncBatchReceiveJob = new Job("AAAIsoRenewAsyncBatchReceiveJob");
 	public static Job aaaLedgerTransactionAuditJob = new Job("aaaLedgerTransactionAuditJob");
 	public static Job aaaMembershipRenewalBatchOrderAsyncJob = new Job("aaaMembershipRenewalBatchOrderAsyncJob");
 	public static Job aaaMembershipRenewalBatchReceiveAsyncJob = new Job("aaaMembershipRenewalBatchReceiveAsyncJob");
@@ -235,6 +234,8 @@ public class BatchJob {
 	public static Job renewalProposingJob = new Job("renewalProposingJob");
 	public static Job renewalRatingJob = new Job("renewalRatingJob");
 	public static Job renewalValidationAsyncTaskJob = new Job("renewalValidationAsyncTaskJob");
+	public static Job aaaInsuranceScoreRenewalBatchOrderAsyncJob = new Job("aaaInsuranceScoreRenewalBatchOrderAsyncJob");
+	public static Job aaaIsoRenewAsyncBatchReceiveJob = new Job("AAAIsoRenewAsyncBatchReceiveJob");
 
 	/*	public static Job sampleAsyncTaskGeneratorJob = new Job("sampleAsyncTaskGeneratorJob");
 		public static Job sampleCustomerAccountPartyConversionJob = new Job("sampleCustomerAccountPartyConversionJob");
@@ -342,7 +343,7 @@ public class BatchJob {
 				policyStatusUpdateJob,
 				policyAutomatedRenewalAsyncTaskGenerationJob,
 				isoRenewalBatchOrderJob,
-				AAAIsoRenewAsyncBatchReceiveJob,
+				aaaIsoRenewAsyncBatchReceiveJob,
 				aaaRenewalDataRefreshAsyncJob,
 				renewalValidationAsyncTaskJob,
 				renewalImageRatingAsyncTaskJob,

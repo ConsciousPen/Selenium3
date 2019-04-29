@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import com.exigen.ipb.eisa.utils.Dollar;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.jobs.JobUtils;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -22,10 +24,10 @@ public class BillingBaseTest extends PolicyBaseTest {
 	public void makeInstallmentPayment
 			(LocalDateTime paymentDate, String policyNumber, Dollar paymentAdjustment) {
 		TimeSetterUtil.getInstance().nextPhase(paymentDate);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
-		billingAccount.generateFutureStatement().perform();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Check"),
 				BillingSummaryPage.getMinimumDue().add(paymentAdjustment));
 	}

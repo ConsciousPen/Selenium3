@@ -66,7 +66,8 @@ public class TestFinanceEPCalculationSmallBalanceWriteOff extends FinanceOperati
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Check"), BillingSummaryPage.getTotalDue().add(-5));
 
-		TimeSetterUtil.getInstance().nextPhase(today.plusHours(2));
+		TimeSetterUtil.getInstance().nextPhase(today.plusHours(4));
+		
 		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);

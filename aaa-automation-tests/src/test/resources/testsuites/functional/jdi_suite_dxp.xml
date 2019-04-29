@@ -44,6 +44,7 @@
                     <include name="pas15897_transactionHistoryAndMessage"/>
                     <include name="pas14540_transactionInfoAddVehicleCoverages"/>
                     <include name="pas14540_transactionInfoAddVehicleCoveragesUpdate"/>
+                    <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
                 </methods>
             </class>
         </classes>
@@ -178,7 +179,6 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
-                    <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
                     <include name="pas10449_ViewVehicleServiceOrderOfVehicle"/>
                     <include name="pas11741_ManageVehicleLevelCoverages"/>
                     <include name="pas502_DuplicateVinAddVehicleService"/>
@@ -658,7 +658,7 @@
         </classes>
     </test>
     <test thread-count="1024" name="Add named insured not Policy Effective Date" parallel="methods">
-        <parameter name="state" value="VA, CT"/>
+        <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
                 <methods>
@@ -667,7 +667,7 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="Add named insured not Policy Effective Date" parallel="methods">
+    <test thread-count="1024" name="Add named insured not Policy Effective Date for Other state" parallel="methods">
         <parameter name="state" value="VA, OR"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
@@ -1225,6 +1225,30 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="CARCO NY" parallel="methods">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas25024_CARCONotNeededInsidePASAddReplaceVehicleTC01"/>
+                    <include name="pas25024_CARCONotNeededInsidePASAddReplaceVehicleTC02"/>
+                    <include name="pas25024_CARCONotNeededInsidePASAddReplaceVehicleTC03"/>
+                    <include name="pas25027_CARCOFormAAIFNYEInsidePASAddReplaceVehicle"/>
+                    <include name="pas25029_CARCOFormAAIFNYDInsidePASAddReplaceVehicleTC01"/>
+                    <include name="pas25029_CARCOFormAAIFNYDInsidePASAddReplaceVehicleTC02"/>
+                    <include name="pas25027_CARCOFormAAIFNYDInsidePASUpdateCompTC01"/>
+                    <include name="pas25027_CARCOFormAAIFNYDInsidePASUpdateCompTC02"/>
+                    <include name="pas25027_CARCOFormAAIFNYEInsidePASUpdateComp"/>
+                    <include name="pas25029_CARCOFormAAIFNYDOutsidePASAddReplaceVehicleTC01"/>
+                    <include name="pas25029_CARCOFormAAIFNYDOutsidePASAddReplaceVehicleTC02"/>
+                    <include name="pas25028_CARCOFormAAIFNYEOutsidePASAddReplaceVehicle"/>
+                    <include name="pas25029_CARCOFormAAIFNYDOutsidePASUpdateCompTC01"/>
+                    <include name="pas25029_CARCOFormAAIFNYDOutsidePASUpdateCompTC02"/>
+                    <include name="pas25028_CARCOFormAAIFNYEOutsidePASUpdateComp"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="NJ RFI Forms" parallel="methods">
         <parameter name="state" value="NJ"/>
         <classes>
@@ -1256,6 +1280,20 @@
                     <include name="pas15308_UM_SUM_CoverageNY"/>
                     <include name="pas16042_viewUpdateMEENY"/>
                     <include name="pas15363_viewUpdatePIPCoverageNY"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="CA Select Vehicle" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas10449_ViewVehicleServiceOrderOfVehicle"/>
+                    <include name="pas7082_AddVehicle"/>
+                    <include name="pas502_DuplicateVinAddVehicleService"/>
+                    <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
+                    <include name="pas9610_UpdateVehicleService"/>
                 </methods>
             </class>
         </classes>

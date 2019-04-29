@@ -11,6 +11,7 @@ import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.main.enums.BillingConstants;
+import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
@@ -237,6 +238,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         TimeSetterUtil.getInstance().nextPhase(effDate);
         JobUtils.executeJob(BatchJob.ledgerStatusUpdateJob);
         mainApp().open();
+        SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_PENDING);
 
         // Validate NBZ-03 transactions that are recorded at effective date
         validateNewBusinessTxAtEffDAte(premTotal, totalTaxesNB, policyNumber, effDate);

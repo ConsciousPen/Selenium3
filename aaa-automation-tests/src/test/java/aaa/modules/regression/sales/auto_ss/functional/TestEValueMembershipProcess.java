@@ -430,6 +430,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-10229", "PAS-832", "PAS-324"})
 	public void pas10229_membershipEligibilityConfigurationTrueForActiveMembershipActiveEValueRenewal(@Optional("VA") String state) {
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(16));
 		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		String membershipStatus = "Active";

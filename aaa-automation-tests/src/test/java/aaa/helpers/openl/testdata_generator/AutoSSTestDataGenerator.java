@@ -57,8 +57,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		String membershipNumber = null;
 		if (Boolean.TRUE.equals(openLPolicy.isAAAMember())) {
+			LocalDate serviceDate = openLPolicy.getAvgAnnualERSperMember().equals(0.0) ? openLPolicy.getEffectiveDate().minusYears(4) : openLPolicy.getEffectiveDate().minusYears(1);
 			membershipNumber = ApplicationMocksManager.getRetrieveMembershipSummaryMock()
-					.getMembershipNumberForAvgAnnualERSperMember(openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember());
+					.getMembershipNumberForAvgAnnualERSperMember(openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember(), serviceDate);
 			assertThat(membershipNumber).as("No valid membership number was found for effectiveDate=%1$s, memberPersistency=%2$s and avgAnnualERSperMember=%3$s fields",
 					openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember()).isNotNull();
 		} else {
@@ -91,7 +92,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	}
 
 	public TestData getCappingData(AutoSSOpenLPolicy openLPolicy) {
-		long manualCappingFactor = openLPolicy.isCappedPolicy() ? Math.round(openLPolicy.getCappingDetails().getTermCappingFactor() * 100) : 100;
+		double manualCappingFactor = openLPolicy.isCappedPolicy() ? openLPolicy.getCappingDetails().getTermCappingFactor() * 100 : 100;
 		return DataProviderFactory.dataOf(AutoSSMetaData.PremiumAndCoveragesTab.VIEW_CAPPING_DETAILS_DIALOG.getLabel(), DataProviderFactory.dataOf(
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.MANUAL_CAPPING_FACTOR.getLabel(), manualCappingFactor,
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.CAPPING_OVERRIDE_REASON.getLabel(), "index=1",

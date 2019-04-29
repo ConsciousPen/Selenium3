@@ -82,10 +82,11 @@ public abstract class Application {
 	}
 
 	public void open(TestData td) {
-		if (!isApplicationOpened) {
-			openSession();
-			getLogin().login(td);
+		if (isApplicationOpened) {
+			close();
 		}
+		openSession();
+		getLogin().login(td);
 		switchPanel();
 	}
 

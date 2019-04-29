@@ -994,6 +994,7 @@ public final class AutoSSMetaData {
 					declare("Inspection Waiver - Sales Agreement Required", RadioGroup.class);
 			// NY
 			public static final AssetDescriptor<RadioGroup> ACKNOWLEDGEMENT_OF_REQUIREMENT_FOR_PHOTO_INSPECTION = declare("Acknowledgement of Requirement for Photo Inspection", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> COPY_OF_SALES_AGREEMENT = declare("Notice - Copy of Sales Agreement Required", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> NEW_YORK_AUTO_INSURANCE_APPLICATION = declare("New York Auto Insurance Application", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> SUPPLEMENTARY_UNINSURED_MOTORISTS_COVERAGE_REJECTION = declare(
 					"Supplementary Uninsured/Underinsured Motorists Coverage¿Rejection or Election of Lower Limits", RadioGroup.class);

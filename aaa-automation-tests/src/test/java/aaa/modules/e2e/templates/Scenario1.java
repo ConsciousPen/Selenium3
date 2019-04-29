@@ -233,7 +233,11 @@ public class Scenario1 extends ScenarioBaseTest {
 
 		// TODO Renew premium verification was excluded, due to unexpected installment calculations
 		// if (!getState().equals(Constants.States.KY) && !getState().equals(Constants.States.WV)) {
-		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, pligaOrMvleFee, installmentsCount);
+		if (getState().equals(Constants.States.KY)) {
+			verifyRenewalOfferPaymentAmountByIntallmentAmount(policyExpirationDate, billDate);
+		} else {
+			verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, pligaOrMvleFee, installmentsCount);
+		}
 		// }
 		verifyRenewPremiumNotice(policyExpirationDate, billDate, pligaOrMvleFee);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
@@ -254,14 +258,15 @@ public class Scenario1 extends ScenarioBaseTest {
 		// TODO Renew premium verification was excluded, due to unexpected installment calculations
 		// if (!getState().equals(Constants.States.KY) && !getState().equals(Constants.States.WV)) {
 		// Dollar renewalAmount = BillingHelper.getPolicyRenewalProposalSum(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
-		Dollar renewalAmount = BillingHelper.getPolicyRenewalProposalSum(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), policyNum);
-		Dollar firstInstallment = BillingHelper.calculateFirstInstallmentAmount(renewalAmount, installmentsCount);
-		Dollar lastInstallment = BillingHelper.calculateLastInstallmentAmount(renewalAmount, installmentsCount);
-		BillingHelper.getInstallmentDueByDueDate(policyExpirationDate).verify.equals(firstInstallment);
-		BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1).plusYears(1)).verify.equals(lastInstallment);
-		BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(2).plusYears(1)).verify.equals(lastInstallment);
-		BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(3).plusYears(1)).verify.equals(lastInstallment);
-		// }
+		if (!getState().equals(Constants.States.KY)) {
+			Dollar renewalAmount = BillingHelper.getPolicyRenewalProposalSum(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), policyNum);
+			Dollar firstInstallment = BillingHelper.calculateFirstInstallmentAmount(renewalAmount, installmentsCount);
+			Dollar lastInstallment = BillingHelper.calculateLastInstallmentAmount(renewalAmount, installmentsCount);
+			BillingHelper.getInstallmentDueByDueDate(policyExpirationDate).verify.equals(firstInstallment);
+			BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1).plusYears(1)).verify.equals(lastInstallment);
+			BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(2).plusYears(1)).verify.equals(lastInstallment);
+			BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(3).plusYears(1)).verify.equals(lastInstallment);
+		}
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);

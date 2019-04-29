@@ -16,7 +16,6 @@ import org.testng.ITestContext;
 import com.exigen.ipb.eisa.utils.Dollar;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
-import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -1702,7 +1701,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		String purchaseDate = "2013-01-21";
 		String vin = "JF1GJAH65EH007244"; //Subaru Impreza 2014
-		testMiniServicesVehiclesHelper.addVehicleWithChecks(policyNumber, purchaseDate, vin, true);
+		testMiniServicesVehiclesHelper.helperMiniServices.addVehicleWithChecks(policyNumber, purchaseDate, vin, true);
 
 		PolicyPremiumInfo[] responseRate2 = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
 		checkIfPligaFeeInfoIsDisplaying(responseRate2);
