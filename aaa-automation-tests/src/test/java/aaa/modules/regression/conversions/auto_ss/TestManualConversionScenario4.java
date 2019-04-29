@@ -178,6 +178,7 @@ public class TestManualConversionScenario4 extends AutoSSBaseTest {
 		//Navigate to Policy Consolidated View. -> Policy Status = Proposed
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		PolicySummaryPage.buttonRenewals.click();
+		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 	}
 }
