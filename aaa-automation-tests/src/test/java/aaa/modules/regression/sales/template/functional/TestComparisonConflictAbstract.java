@@ -75,7 +75,10 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"Vehicles.2008, ACURA, MDX.Primary Driver",
 			"Vehicles.2008, ACURA, MDX.System Rated Driver",
 			"AAANYDriver Vehicle Relationship",
-			"Forms.Uninsured and Underinsured Motorist Coverage"
+			"Forms.Uninsured and Underinsured Motorist Coverage",
+			"AAANYDriver Vehicle Relationship",
+			"Vehicles.1998, DODGE, CARAVAN.Coverages.Enhanced Transportation Expense Coverage",
+			"Vehicles.1998, DODGE, CARAVAN.Coverages.Limit per day"
 	);
 
 	private static final List<String> NOT_IMPLEMENTED_YET_FIELDS = ImmutableList.of(
@@ -219,7 +222,6 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		verifyTransactionHistoryType(1, ENDORSEMENT);
 		verifyTransactionHistoryType(2, ENDORSEMENT);
 		verifyTransactionHistoryType(3, ISSUE);
-
 		selectTransactionType(1, true);
 		selectTransactionType(2, true);
 		PolicySummaryPage.buttonCompareVersions.click();

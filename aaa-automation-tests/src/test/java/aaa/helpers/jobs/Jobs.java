@@ -174,17 +174,23 @@ public class Jobs {
 
 	public static Job isoRenewalBatchOrderJob = new Job("isoRenewalBatchOrderJob");
 
-	public static Job aaaInsuranceScoreRenewBachOrder = new Job("aaaInsuranceScoreRenewBachOrder");
+	public static Job aaaInsuranceScoreRenewalBatchOrderAsyncJob = new Job("aaaInsuranceScoreRenewalBatchOrderAsyncJob");
+
+	public static Job aaaInsuranceScoreRenewalBatchReceiveAsyncJob = new Job("aaaInsuranceScoreRenewalBatchReceiveAsyncJob");
 
 	public static Job aaaClueRenewBatchOrderAsyncJob = new Job("aaaClueRenewBatchOrderAsyncJob");
-
-	public static Job aaaInsuranceScoreRenewalBatchReceiveJob = new Job("aaaInsuranceScoreRenewalBatchReceiveJob");
 
 	public static Job aaaClueRenewAsyncBatchReceiveJob = new Job("aaaClueRenewAsyncBatchReceiveJob");
 
 	public static Job aaaRenewalDataRefreshAsyncJob = new Job("aaaRenewalDataRefreshAsyncJob");
 
 	public static Job policyBORTransferJob = new Job("policyBORTransferJob");
+
+	public static Job aaaTelematicSafetyScoreOrderAsyncJob = new Job("aaaTelematicSafetyScoreOrderAsyncJob");
+
+	public static Job aaaMvrRenewBatchOrderAsyncJob = new Job("aaaMvrRenewBatchOrderAsyncJob");
+
+	public static Job aaaMvrRenewAsyncBatchReceiveJob = new Job("aaaMvrRenewAsyncBatchReceiveJob");
 
 	public static Job bofaRecurringPaymentJob = new Job("bofaRecurringPaymentJob");
 
@@ -202,8 +208,6 @@ public class Jobs {
 
 	public static Job activitySummarizationJob = new Job("activitySummarizationJob");
 
-	public static Job aaaMvrRenewBatchOrderAsyncJob = new Job("aaaMvrRenewBatchOrderAsyncJob");
-
 	public static Job aaaRecurringPaymentsAsyncProcessJob = new Job("aaaRecurringPaymentsAsyncProcessJob");
 
 	public static Job applyPendingTransactionsAsyncJob = new Job("applyPendingTransactionsAsyncJob");
@@ -212,7 +216,7 @@ public class Jobs {
 
 	public static Job aaaGenerateEscheatmentReportJob = new Job("aaaGenerateEscheatmentReportJob");
 
-	//public static Job aaaMPDBatchJob = new Job("aaaMPDBatchJob");
+	public static Job aaaIsoRenewAsyncBatchReceiveJob = new Job("AAAIsoRenewAsyncBatchReceiveJob");
 
 	public enum JobState {
 		TRUE, FALSE, FAILED
