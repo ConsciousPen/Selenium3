@@ -1295,6 +1295,9 @@
                     <include name="pas502_DuplicateVinAddVehicleService"/>
                     <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
                     <include name="pas9610_UpdateVehicleService"/>
+                    <include name="pas11618_UpdateVehicleLeasedInfo"/>
+                    <include name="pas11618_UpdateVehicleFinancedInfo"/>
+                    <include name="pas13252_UpdateVehicleGaragingAddressProblem"/>
                 </methods>
             </class>
         </classes>

@@ -152,11 +152,11 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-11618", "PAS-25267"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-11618", "PAS-25267", "PAS-28718"})
 	public void pas11618_UpdateVehicleLeasedInfo(@Optional("CA") String state) {
-		//assertSoftly(softly ->
-				//pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "LSD")//TODO-mstrazds: PAS-28718 PAS-28718 Garaging Address and Ownership - Let's make sure it works for CA Select
-		//);
+		assertSoftly(softly ->
+				pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "LSD")
+		);
 	}
 
 	/**
@@ -173,18 +173,18 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-11618", "PAS-25267"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-11618", "PAS-25267", "PAS-28718"})
 	public void pas11618_UpdateVehicleFinancedInfo(@Optional("CA") String state) {
-		//assertSoftly(softly ->
-				//pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "FNC")//TODO-mstrazds: PAS-28718 PAS-28718 Garaging Address and Ownership - Let's make sure it works for CA Select
-		//);
+		assertSoftly(softly ->
+				pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "FNC")
+		);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-13252", "PAS-25267"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-13252", "PAS-25267", "PAS-28718"})
 	public void pas13252_UpdateVehicleGaragingAddressProblem(@Optional("CA") String state) {
-		//pas13252_UpdateVehicleGaragingAddressProblemBody();//TODO-mstrazds: PAS-28718 Garaging Address and Ownership - Let's make sure it works for CA Select
+		pas13252_UpdateVehicleGaragingAddressProblemBody();
 	}
 
 
