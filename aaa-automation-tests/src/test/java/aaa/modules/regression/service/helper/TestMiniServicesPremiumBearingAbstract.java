@@ -1760,8 +1760,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 	private void checkIfPligaFeeInfoIsDisplaying(PolicyPremiumInfo[] response) {
 
-		String premiumType = "SPECIAL";
-		String premiumCode = "PLIGA*2";
+		String premiumType = "FEE";
+		String premiumCode = "PLIGA";
 
 		PolicyPremiumInfo pligaFee = Arrays.stream(response).filter(policyPremiumInfo -> (premiumCode).equals(policyPremiumInfo.premiumCode)).findFirst().orElse(null);
 
