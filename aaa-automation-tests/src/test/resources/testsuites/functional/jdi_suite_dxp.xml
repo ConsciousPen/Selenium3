@@ -34,6 +34,16 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="TestMiniServicesPremiumNY" parallel="methods">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas10227_ViewPremiumServicePolicy"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="TestMiniServicesPremiumBearingVA" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
