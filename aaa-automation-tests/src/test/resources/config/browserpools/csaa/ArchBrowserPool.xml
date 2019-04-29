@@ -14,7 +14,7 @@
         <min>${browser.pool.threads}</min>
         <max>${browser.pool.threads}</max>
         <keywords>
-            <keyword>ShowMeTheMoney</keyword>
+            <keyword>${browser.keyword}</keyword>
         </keywords>
     </hub>
 </browsers>
