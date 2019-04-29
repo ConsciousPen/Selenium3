@@ -1481,7 +1481,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			TestData td = getPolicyDefaultTD();
 
 			verifyRFIScenarios(CoverageInfo.UM_SUM_NY.getCode(), AutoSSMetaData.PremiumAndCoveragesTab.SUPPLEMENTARY_UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY,
-					CoverageLimits.COV_50100_SUM.getLimit(), CoverageLimits.COV_2550_SUM.getDisplay(), document, documentAsset, error, td, true, false);
+					CoverageLimits.COV_50100.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, true, false);
 
 			//Create policy and override rule
 			td.adjust(TestData.makeKeyPath(documentsAndBindTab.getMetaKey(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(),
@@ -1494,7 +1494,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
 
 			verifyRFIScenarios(CoverageInfo.UM_SUM_NY.getCode(), AutoSSMetaData.PremiumAndCoveragesTab.SUPPLEMENTARY_UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY,
-					CoverageLimits.COV_50100_SUM.getLimit(), CoverageLimits.COV_2550_SUM.getDisplay(), document, documentAsset, error, td, true, true);
+					CoverageLimits.COV_50100.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, true, true);
 		});
 	}
 
