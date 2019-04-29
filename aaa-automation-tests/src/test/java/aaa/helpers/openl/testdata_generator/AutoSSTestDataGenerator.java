@@ -611,9 +611,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				String coverageName = getPremiumAndCoveragesTabCoverageName(coverage.getCoverageCd());
 				if (isPolicyLevelCoverageCd(coverage.getCoverageCd())) {
 					policyCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
-					if ("PIP".equals(coverage.getCoverageCd()) && (getState().equals(Constants.States.OR) || getState().equals(Constants.States.KY))) {
+					if ("PIP".equals(coverage.getCoverageCd()) && (getState().equals(Constants.States.OR) || getState().equals(Constants.States.KY) || getState().equals(Constants.States.DE))) {
 						policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel(),
-								"starts=" + getFormattedCoverageLimit(coverage.getDeductible(), coverage.getCoverageCd()));
+								"starts=" + getFormattedCoverageDeductible(coverage.getDeductible()));
 					}
 				} else {
 					detailedCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
