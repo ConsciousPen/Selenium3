@@ -64,11 +64,11 @@ public class TestMPDSTG2Catchup extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-28452 MPD Validation Phase 3: MPD/Membership Validation to occur simultaneously")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28452-2")
-    public void pas28452_MS_Cancelled_MPD_FOUND_STG2(@Optional("KY") String state) {
+    public void pas28452_MS_Cancelled_MPD_FOUND_STG2(@Optional("UT") String state) {
         String policyNumber = mpdSTG2(populatefound,cancelledMS,0, "Yes", true);
         String responseMPD = (AAAMultiPolicyDiscountQueries.getMPDVStatusDB(policyNumber).orElse("Null"));
         assertThat(responseMPD).isEqualTo("FOUND_STG2");
-        assertThat(AAAMultiPolicyDiscountQueries.getMPDVEndoAndDocgenFromDB(policyNumber, "ENDORSEMENT_ISSUE","AHDRXX", "AAA Membership Discount" ).orElse("Null")).isEqualTo("1");
+         assertThat(AAAMultiPolicyDiscountQueries.getMPDVEndoAndDocgenFromDB(policyNumber, "ENDORSEMENT_ISSUE","AHDRXX", "AAA Membership Discount" ).orElse("Null")).isEqualTo("1");
     }
 
     //Membership:Cancelled
