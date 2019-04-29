@@ -17,7 +17,7 @@ public class AdministrationMetaData {
 		public static final AssetDescriptor<RadioButton> UPLOAD_TO_VIN_TABLE_OPTION =
 				declare("Upload to VIN table", RadioButton.class, Waiters.AJAX, By.xpath("//table[contains(@id,'uploadToVINTableForm')]//td[1]//div[contains(@class,'ui-radiobutton-box')]"));
 		public static final AssetDescriptor<RadioButton> UPLOAD_TO_VIN_CONTROL_TABLE_OPTION =
-				declare("Upload to VIN control table", RadioButton.class, Waiters.AJAX, By.xpath("//table[contains(@id,'uploadToVINTableForm')]//td[3]//div[contains(@class,'ui-radiobutton-box')]"));
+				declare("Upload to VIN control table", RadioButton.class, Waiters.SLEEP(3000), By.xpath("//table[contains(@id,'uploadToVINTableForm')]//td[3]//div[contains(@class,'ui-radiobutton-box')]"));
 
 		public static final AssetDescriptor<FileUpload> FILE_PATH_UPLOAD_ELEMENT =
 				declare("File path", FileUpload.class, By.xpath("//*[contains(@id,'uploadToVINTableForm:filePld')]//input[@id='uploadToVINTableForm:filePld_input']"));
