@@ -64,20 +64,21 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
         
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         
-		TestData activity = DataProviderFactory.emptyData()
-                .adjust(AutoCaMetaData.DriverTab.ActivityInformation.OVERRIDE_ACTIVITY_DETAILS.getLabel(), "Yes")
-                .adjust(AutoCaMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), DateTimeUtils.getCurrentDateTime().minusMonths(33).format(DateTimeUtils.MM_DD_YYYY));
-
-		
-        _td.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), activity);
-        new DriverTab().fillTab(_td);
+        DriverTab.tableActivityInformationList.selectRow(1);
+        new DriverTab().getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OVERRIDE_ACTIVITY_DETAILS).setValue("Yes");
+        new DriverTab().getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).setValue(DateTimeUtils.getCurrentDateTime().minusMonths(35).format(DateTimeUtils.MM_DD_YYYY));
         
+        DriverTab.tableActivityInformationList.selectRow(2);
+        new DriverTab().getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OVERRIDE_ACTIVITY_DETAILS).setValue("Yes");
+        new DriverTab().getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).setValue(DateTimeUtils.getCurrentDateTime().minusMonths(33).format(DateTimeUtils.MM_DD_YYYY));
+
+
         // Return to PNC Tab. Capture Product Type. Verify it's 'Select' now.
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        productDetermined = pncTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT.getLabel(), ComboBox.class).getValue();
+        //productDetermined = pncTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT.getLabel(), ComboBox.class).getValue();
         //PAS-27328 PAS is updating product from CA select to CA choice due to good driver discount not applying even though driver is assigned less than 3 points.
         //Changed the assertion to Select for 2 dsr points
-        CustomAssertions.assertThat(productDetermined).isEqualToIgnoringCase("CA Select");
+       // CustomAssertions.assertThat(productDetermined).isEqualToIgnoringCase("CA Select");
 
         // Calculate Premium. Verify Product Hasn't Changed.
         pncTab.calculatePremium();
