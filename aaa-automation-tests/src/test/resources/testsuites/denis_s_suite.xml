@@ -9,6 +9,7 @@
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocGODDdeliveryMethods"/>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_OnlineBatch_Cancel"/>
         </classes>
     </test>
 </suite>
