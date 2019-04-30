@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite thread-count="1024" guice-stage="DEVELOPMENT" name="Regression Tests Timepoint" parallel="tests">
+<suite thread-count="1024" guice-stage="DEVELOPMENT" name="Finance Tests Timepoint" parallel="tests">
     <parameter name="timeshift-scenario-mode" value="method"/>
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>

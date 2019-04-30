@@ -49,18 +49,16 @@ public class TestFinanceEPCalculationOOSRollBack extends FinanceOperations {
 	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20277")
 	public void pas20277_testFinanceEPCalculationOOSRollBack(@Optional("AZ") String state) {
-
 		String policyNumber = openAppAndCreatePolicy();
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime txEffectiveDate = today.plusMonths(1);
+		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 		LocalDateTime e1date = today.plusDays(62);
 		LocalDateTime e2date = e1date.plusMonths(1);
 		LocalDateTime e3date = e2date.plusMonths(7);
 		LocalDateTime rbDate = e3date.plusDays(3);
-
-		LocalDateTime jobEndDate = PolicySummaryPage.getExpirationDate().plusMonths(1);
-		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
+		LocalDateTime jobEndDate = expirationDate.plusMonths(1);
 
 		jobDate = runEPJobUntil(jobDate, e1date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e1date);
@@ -82,7 +80,6 @@ public class TestFinanceEPCalculationOOSRollBack extends FinanceOperations {
 
 		searchForPolicy(policyNumber);
 		rollBackEndorsement(txEffectiveDate);
-
 		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		searchForPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();

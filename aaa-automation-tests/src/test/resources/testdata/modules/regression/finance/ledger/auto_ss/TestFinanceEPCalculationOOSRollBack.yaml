@@ -1,4 +1,5 @@
-TestData_Endorsement1: {
+# ====================== TestData AZ =======================
+TestData_Endorsement1_AZ: {
   GeneralTab: {},
   DriverTab: {},
   RatingDetailReportsTab: {},
@@ -14,7 +15,7 @@ TestData_Endorsement1: {
   }
 }
 
-TestData_Endorsement2: {
+TestData_Endorsement2_AZ: {
   GeneralTab: {},
   DriverTab: {},
   RatingDetailReportsTab: {},
@@ -27,11 +28,13 @@ TestData_Endorsement2: {
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
-    RequiredToBind: {},
+    RequiredToBind: {
+      Uninsured and Underinsured Motorist Coverage Selection: Physically Signed
+    }
   }
 }
 
-TestData_Endorsement3: {
+TestData_Endorsement3_AZ: {
   GeneralTab: {},
   DriverTab: {},
   RatingDetailReportsTab: {},
