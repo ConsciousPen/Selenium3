@@ -33,6 +33,10 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
 
     private final ErrorTab errorTab = new ErrorTab();
 
+    private String policyNumber;
+    private LocalDateTime policyExpirationDate;
+    private LocalDateTime policyEffectiveDate;
+
     /**
      * * @author Sarunas Jaraminas
      *
@@ -57,10 +61,6 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
      * actually implemented for organic PAS policies (non conversion)
      *
      */
-
-    private String policyNumber;
-    private LocalDateTime policyExpirationDate;
-    private LocalDateTime policyEffectiveDate;
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
@@ -96,6 +96,90 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
         initiateRenewal();
         verifyCappingFunctionality();
     }
+
+
+
+    /**
+     * * @author Chris Johns
+     *
+     * @name Test Capping Configuration for ID and OR states
+     * @scenario
+     *1.
+     *2.
+     *3.
+     *4.
+     *5.
+     *6.
+     *7.
+     *8.
+     *9.
+     *10.
+     * @details
+     *
+     * This test was created on temporary capping rating branches
+     * as such the test will need to be stabilized when capping is
+     * actually implemented for organic PAS policies (non conversion)
+     *
+     */
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10809")
+    public void pas23996_CappingRefresh(@Optional("OR") String state) {
+        mainApp().open();
+        createCustomerIndividual();
+        TestData testData = getPolicyTD();
+
+        //Create a policy and get the effective and expiration dates
+        policyNumber = createPolicy(testData);
+        policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+
+        //Move to R-45 and generate a rated renewal image
+        moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+
+        //Retrieve the policy, navigate to the premium and coverages Capping Details page
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        PolicySummaryPage.buttonRenewals.click();
+        policy.dataGather().start();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+        //Verify and note the capping factor value (Probably 0 or 100)
+        PremiumAndCoveragesTab.buttonViewCappingDetails.click();
+        String R45_CAP_FACT = PremiumAndCoveragesTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR);
+        PremiumAndCoveragesTab.buttonReturnToPremiumAndCoverages.click();
+
+        //Exit the renewal image and upload new vin data for the vin used
+        PremiumAndCoveragesTab.buttonSaveAndExit.click();
+        uploadVinTable;
+
+        //Move to R-35, retrieve the policy, navigate to the premium and coverages Capping Details page
+
+        //Verify and note the capping factor value (should be different than above as it is recalculated with refreshed vin data)
+
+        //Exit the renewal image and upload new vin data for the vin used
+
+        //Move to R-30, retrieve the policy, navigate to the premium and coverages Capping Details page
+
+        //Verify and note the capping factor value (should be different same as above, as policy is outside the 'refresh' window)
+
+
+        //Capping functionality verification for first the renewal
+        preconditionToDoFirstRenewal();
+        initiateRenewal();
+        verifyCappingFunctionality();
+        bindRenewalPolicy();
+        billingPaymentAcception();
+
+        //Capping functionality verification for second the renewal
+        preconditionToDoSecondRenewal();
+        initiateRenewal();
+        verifyCappingFunctionality();
+    }
+
+
+
 
     private void verifyCappingFunctionality() {
 
