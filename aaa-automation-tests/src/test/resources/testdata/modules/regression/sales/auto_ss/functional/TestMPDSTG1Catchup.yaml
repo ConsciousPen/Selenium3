@@ -1,0 +1,1329 @@
+# -- Default test data for UT state ---
+TestData: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab1', '@DriverTab2'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+
+
+
+# ------------- Tabs ----------
+
+PrefillTab: {
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
+}
+
+
+NamedInsuredInformation1: {
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+NamedInsuredInformation2: {
+  InsuredSearchDialog: {},
+  First Name: Jenny,
+  Last Name: Smith,
+  Insured Date of Birth: 12/05/1962,
+  Base Date: $<today>,
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+AAAMembership: '@<auto_ss>@DataGather@AAAMembership'
+
+ContactInformation: '@<auto_ss>@DataGather@ContactInformation'
+
+DriverTab1: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 400064773
+}
+
+DriverTab2: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  ##Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 400064774
+}
+
+RatingDetailReportsTab: {
+  Customer Agreement: Customer Agrees,
+  Sales Agent Agreement: I Agree,
+  Order Report: click
+}
+
+VehicleTab1: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+}
+
+VehicleTab2: {
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451,
+}
+
+PremiumAndCoveragesTab: {
+  Payment Plan: Annual,
+  Policy Term: Annual,
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500',
+  #Special Equipment Coverage: 1100
+}
+
+DriverActivityReportsTab: {
+  "Has the customer expressed interest in purchasing the quote?": 'Yes',
+  Validate Driving History: click
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed
+  },
+  Agreement: I agree
+}
+
+PurchaseTab: {
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}
+
+# ------- Test Data for custom states ------
+
+# ------- AZ ------
+
+#TestData_AZ: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@GeneralTab_AZ',
+#  DriverTab: ['@DriverTab1_AZ', '@DriverTab2_AZ'],
+#  RatingDetailReportsTab: '@RatingDetailReportsTab',
+#  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+#  FormsTab: {},
+#  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+#  DriverActivityReportsTab: '@DriverActivityReportsTab',
+#  DocumentsAndBindTab: '@DocumentsAndBindTab',
+#  PurchaseTab: '@PurchaseTab'
+#}
+TestData_MPD_GBY_AZ: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_MPD_GBY_AZ',
+  DriverTab: ['@DriverTab1'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+TestData_MPD_NOT_FOUND_AZ: {
+  GeneralTab: '@GeneralTab_MPD_NOT_FOUND_AZ',
+  DriverTab: ['@DriverTab1'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+TestData_MPD_ACTIVE_AZ: {
+  GeneralTab: '@GeneralTab_MPD_ACTIVE_AZ',
+  DriverTab: ['@DriverTab1'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_MPD_GBY_AZ: {
+  NamedInsuredInformation: ['@NamedInsuredInformation_MPD_AZ'],
+  AAAMembership: '@AAAMembership_MPD',
+  ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ',
+  #  OtherAAAProductsOwned: '@OtherAAAProductsOwned_MPD_AZ',
+}
+GeneralTab_MPD_ACTIVE_AZ: {
+  NamedInsuredInformation: ['@NamedInsuredInformation_MPD_ACTIVE_AZ'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation',
+  #  OtherAAAProductsOwned: '@OtherAAAProductsOwned_MPD_AZ',
+}
+
+GeneralTab_MPD_NOT_FOUND_AZ: {
+  NamedInsuredInformation: ['@NamedInsuredInformation_MPD_NOT_FOUND_AZ'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation',
+}
+OtherAAAProductsOwned_MPD_AZ: {
+  Refresh: click
+}
+
+PolicyInformation_GBY_AZ: {
+  Policy Type: Standard,
+  Effective Date: '$<today:MM/dd/yyyy>',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Arizona - 500001004',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'contains=500005091 - Chandler',
+  Agent: 'Foster Bottenberg',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
+}
+
+NamedInsuredInformation_MPD_AZ: {
+  Last Name: CUSTOMER_GBY,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
+}
+
+NamedInsuredInformation_MPD_NOT_FOUND_AZ: {
+  Last Name: NOT_FOUND,
+}
+
+NamedInsuredInformation_MPD_ACTIVE_AZ: {
+  Last Name: REFRESH_P,
+}
+
+GeneralTab_AZ: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
+}
+
+DriverTab1_AZ: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12345678
+}
+
+DriverTab2_AZ: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  ##Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A22345678
+}
+
+
+# ------- CO ------
+
+TestData_CO: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_CO',
+  DriverTab: ['@DriverTab1_CO', '@DriverTab2_CO'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_CO: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_CO'
+}
+
+DriverTab1_CO: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A552183
+}
+
+DriverTab2_CO: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  ##Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A552184
+}
+
+# ------- CT ------
+
+TestData_CT: {
+  PrefillTab: '@PrefillTab_CT',
+  GeneralTab: '@GeneralTab_CT',
+  DriverTab: ['@DriverTab1_CT', '@DriverTab2_CT'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_CT',
+  PurchaseTab: '@PurchaseTab'
+}
+
+PrefillTab_CT: {
+  "County / Township": 'New Haven / Middlebury',
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+GeneralTab_CT: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1_CT', '@NamedInsuredInformation2_CT'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_CT'
+}
+
+NamedInsuredInformation1_CT: {
+  Social Security Number: 123456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
+}
+
+NamedInsuredInformation2_CT: {
+  InsuredSearchDialog: {},
+  First Name: Jenny,
+  Last Name: Smith,
+  Base Date: $<today>,
+  Insured Date of Birth: 12/05/1962,
+  Social Security Number: 223456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+DriverTab1_CT: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 156773434
+}
+
+DriverTab2_CT: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  ##Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 156773435
+}
+
+DocumentsAndBindTab_CT: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Informed Consent Form - Uninsured Motorist Coverage: Physically Signed
+  },
+  Agreement: I agree
+}
+
+# ------- DC ------
+
+TestData_DC: {
+  PrefillTab: '@PrefillTab_DC',
+  GeneralTab: '@GeneralTab_DC',
+  DriverTab: ['@DriverTab1_DC', '@DriverTab2_DC'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_DC',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_DC: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_DC'
+}
+
+PrefillTab_DC: {
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+DriverTab1_DC: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 9992617
+}
+
+DriverTab2_DC: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  ##Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 9992618
+}
+
+DocumentsAndBindTab_DC: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    District of Columbia Coverage Selection/Rejection Form: Physically Signed
+  },
+  Agreement: I agree
+}
+
+# ------- DE ------
+
+TestData_DE: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_DE',
+  DriverTab: ['@DriverTab1_DE', '@DriverTab2_DE'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_DE',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_DE: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation_DE',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_DE'
+}
+
+DriverTab1_DE: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 9992617
+}
+
+DriverTab2_DE: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 9992618
+}
+
+DocumentsAndBindTab_DE: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Delaware Motorists Protection Act: Physically Signed,
+    Important Information Personal Injury Protection (PIP) - Delaware Understanding (PIP) Deductibles: Physically Signed,
+    Acknowledgement of Deductible Selections: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  },
+  Agreement: I agree
+}
+
+
+# ------- ID ------
+
+TestData_ID: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab1_ID', '@DriverTab2_ID'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_ID',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab1_ID: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: AA223456A
+}
+
+DriverTab2_ID: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: AA223457A
+}
+
+DocumentsAndBindTab_ID: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    UM and UIM Disclosure Statement and Rejection Of Coverage: Physically Signed
+  },
+  Agreement: I agree
+}
+
+# ------- IN ------
+
+TestData_IN: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_IN',
+  DriverTab: ['@DriverTab1_IN', '@DriverTab2_IN'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_IN: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_IN'
+}
+
+DriverTab1_IN: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 154673421
+}
+
+DriverTab2_IN: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 154673422
+}
+
+# ------- KS ------
+
+TestData_KS: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_KS',
+  DriverTab: ['@DriverTab1_KS', '@DriverTab2_KS'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_KS',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_KS: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_KS'
+}
+
+DriverTab1_KS: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: B54673421
+}
+
+DriverTab2_KS: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: B54673422
+}
+
+DocumentsAndBindTab_KS: {
+  RequiredToBind: {
+    Personal Auto Application: Physically Signed
+  },
+  Agreement: I agree
+}
+
+# ------- KY ------
+
+TestData_KY: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_KY',
+  DriverTab: ['@DriverTab1_KY', '@DriverTab2_KY'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_KY: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_KY'
+}
+
+DriverTab1_KY: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12121215
+}
+
+DriverTab2_KY: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12121216
+}
+
+# ------- MD ------
+
+TestData_MD: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_MD',
+  DriverTab: ['@DriverTab1_MD', '@DriverTab2_MD'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_MD',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_MD',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_MD: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_MD'
+}
+
+DriverTab1_MD: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: S123456789999
+}
+
+DriverTab2_MD: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: S123456789998
+}
+
+PremiumAndCoveragesTab_MD: {
+  Payment Plan: Annual,
+  Policy Term: Annual,
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500',
+  #Special Equipment: 1100
+}
+
+DocumentsAndBindTab_MD: {
+  RequiredToBind: {
+    Notice And Waiver Of Increased Limits Of Uninsured Motorists Coverage: Physically Signed,
+    Maryland Notice And Waiver Of Personal Injury Protection (PIP) Coverage: Physically Signed,
+    Maryland Auto Insurance Application: Physically Signed
+  },
+  Agreement: I agree
+}
+
+# ------- MT ------
+
+TestData_MT: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_MT',
+  DriverTab: ['@DriverTab1_MT', '@DriverTab2_MT'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_MT: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_MT'
+}
+
+DriverTab1_MT: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 212790136
+}
+
+DriverTab2_MT: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 212790137
+}
+
+# ------- NJ ------
+
+TestData_NJ: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_NJ',
+  DriverTab: ['@DriverTab1_NJ', '@DriverTab2_NJ'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_NJ',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_NJ: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation_NJ',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_NJ'
+}
+
+DriverTab1_NJ: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12345678987657
+}
+
+DriverTab2_NJ: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12345678987658
+}
+
+DocumentsAndBindTab_NJ: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    NJ Auto Standard Policy Coverage Selection Form: Physically Signed,
+    #Acknowledgement of Requirement for Insurance Inspection: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes',
+    #CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver: 'Yes',
+    #Separate Vehicle 1: 'Yes',
+    #Separate Vehicle 2: 'Yes'
+  },
+  Agreement: I agree
+}
+
+# ------- NV ------
+
+TestData_NV: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_NV',
+  DriverTab: ['@DriverTab1_NV', '@DriverTab2_NV'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_NV: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_NV'
+}
+
+DriverTab1_NV: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 2127901365
+}
+
+DriverTab2_NV: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 2127901366
+}
+
+# ------- NY ------
+
+TestData_NY: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_NY',
+  DriverTab: ['@DriverTab1_NY', '@DriverTab2_NY'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1_NY', '@VehicleTab2_NY'],
+  AssignmentTab: '@AssignmentTab_NY',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_NY',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_NY: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_NY'
+}
+
+DriverTab1_NY: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A5467342112658242
+}
+
+DriverTab2_NY: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A5467342112658243
+}
+
+VehicleTab1_NY: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+  #"Less Than 3,000 Miles": 'No'
+}
+
+VehicleTab2_NY: {
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451,
+  #"Less Than 3,000 Miles": 'No'
+}
+
+AssignmentTab_NY: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver1_NY', '@AssignedDriver2_NY']
+}
+
+AssignedDriver1_NY: {
+  Driver: 'contains=Fernando',
+  Select Vehicle: 'index=1'
+}
+
+AssignedDriver2_NY: {
+  Driver: 'contains=Jenny',
+  Select Vehicle: 'index=2'
+}
+
+DocumentsAndBindTab_NY: {
+  RequiredToBind: {
+    #Acknowledgement of Requirement for Photo Inspection: Physically Signed,
+    New York Auto Insurance Application: Physically Signed
+  },
+  #RequiredToIssue: {
+  #  Separate Vehicle 1: 'Yes',
+  #  Separate Vehicle 2: 'Yes'
+  #},
+  Agreement: I agree
+}
+
+
+# ------- OH ------
+
+TestData_OH: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_OH',
+  DriverTab: ['@DriverTab1_OH', '@DriverTab2_OH'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_OH: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_OH'
+}
+
+DriverTab1_OH: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: AB546734
+}
+
+DriverTab2_OH: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: AB546735
+}
+
+# ------- OK ------
+
+TestData_OK: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_OK',
+  DriverTab: ['@DriverTab1_OK', '@DriverTab2_OK'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_OK',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_OK: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_OK'
+}
+
+DriverTab1_OK: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 123123121
+}
+
+DriverTab2_OK: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 123123122
+}
+
+DocumentsAndBindTab_OK: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+  },
+  RequiredToIssue: {
+    Coverage Selection Form: 'Yes'
+  },
+  Agreement: I agree
+}
+
+# ------- OR ------
+
+TestData_OR: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_OR',
+  DriverTab: ['@DriverTab1_OR', '@DriverTab2_OR'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_OR: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_OR'
+}
+
+DriverTab1_OR: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: '$<rx:001234567>'
+}
+
+DriverTab2_OR: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: '$<rx:001234568>'
+}
+
+# ------- PA ------
+
+TestData_PA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_PA',
+  DriverTab: ['@DriverTab1_PA', '@DriverTab2_PA'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_PA',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_PA: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_PA'
+}
+
+DriverTab1_PA: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 83127880
+}
+
+DriverTab2_PA: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 83127881
+}
+
+DocumentsAndBindTab_PA: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Uninsured Motorists Coverage Selection/Rejection: Physically Signed,
+    Underinsured Motorists Coverage Selection/Rejection: Physically Signed,
+    First Party Benefits Coverage and Limits Selection Form: Physically Signed,
+    Pennsylvania Important Notice: Physically Signed,
+    Pennsylvania Notice to Named Insured Regarding Tort Options: Physically Signed,
+    Invoice-Minimum Coverages: Physically Signed
+  },
+  Agreement: I agree
+}
+
+
+# ------- SD ------
+
+TestData_SD: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_SD',
+  DriverTab: ['@DriverTab1_SD', '@DriverTab2_SD'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_SD: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_SD'
+}
+
+DriverTab1_SD: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 112345677
+}
+
+DriverTab2_SD: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 112345678
+}
+
+# ------- VA ------
+
+TestData_VA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_VA',
+  DriverTab: ['@DriverTab1_VA', '@DriverTab2_VA'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  AssignmentTab: '@AssignmentTab_VA',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_VA',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_VA: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA'
+}
+
+DriverTab1_VA: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 831278809
+}
+
+DriverTab2_VA: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 831278808
+}
+
+AssignmentTab_VA: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2']
+}
+
+AssignedDriver1: {
+  Driver: 'contains=Ben',
+  Select Vehicle: 'index=1'
+}
+
+AssignedDriver2: {
+  Driver: 'contains=Jenny',
+  Select Vehicle: 'index=2'
+}
+
+PremiumAndCoveragesTab_VA: {
+  Payment Plan: Annual
+}
+
+# ------- WV ------
+
+TestData_WV: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_WV',
+  DriverTab: ['@DriverTab1_WV', '@DriverTab2_WV'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_WV',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_WV: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_WV'
+}
+
+DriverTab1_WV: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: S123456
+}
+
+DriverTab2_WV: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: S123457
+}
+
+DocumentsAndBindTab_WV: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Uninsured/Underinsured Motorists Coverage Offer: Physically Signed
+  },
+  Agreement: I agree
+}
+
+
+# ------- WY ------
+
+TestData_WY: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_WY',
+  DriverTab: ['@DriverTab1_WY', '@DriverTab2_WY'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_WY: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_WY'
+}
+
+DriverTab1_WY: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 4000647712
+}
+
+DriverTab2_WY: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  #Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 4000647711
+}
+

@@ -14,6 +14,8 @@ public class SchedulableJobRenewalHelper {
     // Set to true for fast debugging (Output only). Can't date future renewals due to expiration date not changing in DB.
     private static boolean simulateOnly = false;
 
+    public enum RenewalJobSet{ Full, RenewalOfferOnly}
+
     /**
      * Performs all jobs that production does including 15/30 day jobs for requested number of renewals.
      * @param baseTest Needed for any jobs that have to run selenium based automation (payment job). Pass 'this" keyword from test.
@@ -30,7 +32,7 @@ public class SchedulableJobRenewalHelper {
         ArrayList<String> output = SchedulableJob.executeJobSchedule(newBusiness15_30Schedule, simulateOnly);
 
         output.addAll(performRenewals(SchedulableJobs.ProductType.Auto, baseTest, policyNumber,
-                makeFinalRenewalPayment, numberOfRenewals));
+                makeFinalRenewalPayment, numberOfRenewals, RenewalJobSet.Full));
 
         return output;
     }
@@ -51,7 +53,49 @@ public class SchedulableJobRenewalHelper {
         ArrayList<String> output = SchedulableJob.executeJobSchedule(newBusiness15_30Schedule, simulateOnly);
 
         output.addAll(performRenewals(SchedulableJobs.ProductType.Home, baseTest, policyNumber, makeFinalRenewalPayment,
-                numberOfRenewals));
+                numberOfRenewals, RenewalJobSet.Full));
+
+        return output;
+    }
+
+    /**
+     * Performs all jobs that production does including 15/30 day jobs for requested number of renewals.
+     * @param baseTest Needed for any jobs that have to run selenium based automation (payment job). Pass 'this" keyword from test.
+     * @param policyNumber Policy to schedule against.
+     * @param makeFinalRenewalPayment If false, will not make last payment.
+     * @param numberOfRenewals How many renewals to perform.
+     * @return Output Summary of what was scheduled when.
+     */
+    public static ArrayList<String> performMinimumAutoRenewal(BaseTest baseTest, String policyNumber,
+                                                           boolean makeFinalRenewalPayment, int numberOfRenewals){
+
+        JobSchedule newBusiness15_30Schedule = getNewBusinessPlus15_30Schedule(policyNumber);
+
+        ArrayList<String> output = SchedulableJob.executeJobSchedule(newBusiness15_30Schedule, simulateOnly);
+
+        output.addAll(performRenewals(SchedulableJobs.ProductType.Auto, baseTest, policyNumber,
+                makeFinalRenewalPayment, numberOfRenewals, RenewalJobSet.RenewalOfferOnly));
+
+        return output;
+    }
+
+    /**
+     * Performs only minimum renewal jobs including 15/30 day jobs for requested number of renewals.
+     * @param baseTest Needed for any jobs that have to run selenium based automation (payment job). Pass "this" keyword from test.
+     * @param policyNumber Policy to schedule against.
+     * @param makeFinalRenewalPayment If false, will not make last payment.
+     * @param numberOfRenewals How many renewals to perform.
+     * @return Output Summary of what was scheduled when.
+     */
+    public static ArrayList<String> performMinimumHomeRenewal(BaseTest baseTest, String policyNumber,
+                                                           boolean makeFinalRenewalPayment, int numberOfRenewals){
+
+        JobSchedule newBusiness15_30Schedule = getNewBusinessPlus15_30Schedule(policyNumber);
+
+        ArrayList<String> output = SchedulableJob.executeJobSchedule(newBusiness15_30Schedule, simulateOnly);
+
+        output.addAll(performRenewals(SchedulableJobs.ProductType.Home, baseTest, policyNumber, makeFinalRenewalPayment,
+                numberOfRenewals, RenewalJobSet.RenewalOfferOnly));
 
         return output;
     }
@@ -63,10 +107,11 @@ public class SchedulableJobRenewalHelper {
      * @param policyNumber Policy to schedule against.
      * @param makeFinalRenewalPayment If false, will not make last payment.
      * @param numberOfRenewals How many renewals to perform.
+     * @param jobSet Whether to do full or minimum renewals.
      * @return Output Summary of what was scheduled when.
      */
     private static ArrayList<String> performRenewals(SchedulableJobs.ProductType productType, BaseTest baseTest, String policyNumber,
-                                                     boolean makeFinalRenewalPayment, int numberOfRenewals){
+                                                     boolean makeFinalRenewalPayment, int numberOfRenewals, RenewalJobSet jobSet){
 
         ArrayList<String> output = new ArrayList<>();
 
@@ -82,9 +127,15 @@ public class SchedulableJobRenewalHelper {
             // Only use value for make final payment if we are on the last renewal.
             boolean makeFinalPayment = (i != numberOfRenewals - 1) || makeFinalRenewalPayment;
 
-            if (productType == SchedulableJobs.ProductType.Auto) {
+            if (jobSet == RenewalJobSet.RenewalOfferOnly){
+                jobSchedule = new JobSchedule(getMinimumRenewalJobList(baseTest, policyNumber, makeFinalPayment,
+                        productType), expirationDate);
+            }
+
+            else if (productType == SchedulableJobs.ProductType.Auto) {
                 jobSchedule = new JobSchedule(getAutoRenewalJobList(baseTest, policyNumber, makeFinalPayment), expirationDate);
             }
+
             else {
                 jobSchedule = new JobSchedule(getHomeRenewalJobList(baseTest, policyNumber, makeFinalPayment), expirationDate);
             }
@@ -126,12 +177,52 @@ public class SchedulableJobRenewalHelper {
      */
     private static ArrayList<SchedulableJob> newBusinessSTG1STG2Jobs(SchedulableJobs.TimePoint timePoint) {
         ArrayList<SchedulableJob> jobList = new ArrayList<>();
-        jobList.add(SchedulableJobs.aaaBatchMarkerJob(timePoint));
         jobList.add(SchedulableJobs.aaaAutomatedProcessingInitiationJob(timePoint));
         jobList.add(SchedulableJobs.automatedProcessingRatingJob(timePoint));
         jobList.add(SchedulableJobs.automatedProcessingRunReportsServicesJob(timePoint));
         jobList.add(SchedulableJobs.automatedProcessingIssuingOrProposingJob(timePoint));
         jobList.add(SchedulableJobs.automatedProcessingStrategyStatusUpdateJob(timePoint));
+
+        return jobList;
+    }
+
+
+    /**
+     * Equivalent of running Renewal Offer Generation Part 1 and Part 2 only except still only on appropriate dates.
+     * @param baseTest     Needed so app can open to make a payment. Pass this keyword from calling test.
+     * @param policyNumber Also needed during making a payment through the app.
+     * @param makePayment  Determines whether to make payment for this renewal. Useful for testing non-payment scenarios.
+     * @param productType Product type to run against
+     * @return ArrayList of Jobs that can be used to build a schedule for Renewals
+     */
+    public static ArrayList<SchedulableJob> getMinimumRenewalJobList(BaseTest baseTest, String policyNumber,
+                                                                     boolean makePayment, SchedulableJobs.ProductType productType){
+        String state = BaseTest.getState();
+
+        // Schedule payment jobs first so they always run first
+        ArrayList<SchedulableJob> jobList = getPaymentJobList(baseTest, policyNumber, makePayment);
+
+        // Part 1
+        jobList.add(SchedulableJobs.policyAutomatedRenewalAsyncTaskGenerationJob(productType, state));
+        jobList.add(SchedulableJobs.aaaMvrRenewAsyncBatchReceiveJob(state));
+        // Claims renewbatchorderjob goes here.
+        jobList.add(SchedulableJobs.aaaMembershipRenewalBatchOrderAsyncJob(productType, state, SchedulableJobs.TimePoint.First));
+        jobList.add(SchedulableJobs.aaaMembershipRenewalBatchOrderAsyncJob(productType, state, SchedulableJobs.TimePoint.Second));
+
+        jobList.add(SchedulableJobs.aaaInsuranceScoreRenewalBatchOrderAsyncJob(productType, state, SchedulableJobs.TimePoint.First));
+        jobList.add(SchedulableJobs.aaaInsuranceScoreRenewalBatchOrderAsyncJob(productType, state, SchedulableJobs.TimePoint.Second));
+
+        // Part 2
+        jobList.add(SchedulableJobs.aaaMvrRenewAsyncBatchReceiveJob(state));
+        // ClaimsRenewBatchReceiveJob goes here.
+        jobList.add(SchedulableJobs.aaaInsuranceScoreRenewalBatchReceiveAsyncJob(productType, state, SchedulableJobs.TimePoint.First));
+        jobList.add(SchedulableJobs.aaaInsuranceScoreRenewalBatchReceiveAsyncJob(productType, state, SchedulableJobs.TimePoint.Second));
+        jobList.add(SchedulableJobs.renewalValidationAsyncTaskJob(state));
+        jobList.add(SchedulableJobs.renewalImageRatingAsyncTaskJob(state));
+        jobList.add(SchedulableJobs.renewalOfferAsyncTaskJob(productType, state));
+
+        //R+1 Update Status
+        jobList.add(SchedulableJobs.policyStatusUpdateJob(SchedulableJob.JobOffsetType.Add_Days, 1));
 
         return jobList;
     }
@@ -146,7 +237,6 @@ public class SchedulableJobRenewalHelper {
      */
     public static ArrayList<SchedulableJob> getAutoRenewalJobList(
             BaseTest baseTest, String policyNumber, boolean makePayment) {
-
         // Payment schedule used can be located in wiki:
         // https://csaaig.atlassian.net/wiki/spaces/TC/pages/848855097/Renewal+Timelines+and+Batch+Jobs+-+Property+and+Auto
 
@@ -154,7 +244,7 @@ public class SchedulableJobRenewalHelper {
         SchedulableJobs.PolicyTerm policyTerm = SchedulableJobs.GetPolicyTerm(policyNumber);
 
         // Schedule payment jobs first so they always run first
-        ArrayList<SchedulableJob> jobList = getPaymentJobList(baseTest,policyNumber, makePayment);
+        ArrayList<SchedulableJob> jobList = getPaymentJobList(baseTest, policyNumber, makePayment);
 
         //Initiate Renewal
         jobList.add(SchedulableJobs.policyAutomatedRenewalAsyncTaskGenerationJob(SchedulableJobs.ProductType.Auto, state));
