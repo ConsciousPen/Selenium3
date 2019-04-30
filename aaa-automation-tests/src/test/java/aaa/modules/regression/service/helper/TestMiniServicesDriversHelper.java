@@ -2647,25 +2647,25 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 		viewDriversResponse.driverList.stream().filter(driver -> "IN".equals(driver.driverRelToApplicantCd)).findFirst().ifPresent(driver ->
 				validateExistingDriver(null, "Smith", "FNI", "afr", "IN",
-						null, "male", "1976-07-08", 18, "CA", "E1234567", driver));
+						"M", "male", "1976-07-08", 18, "CA", "E1234567", driver));
 		viewDriversResponse.driverList.stream().filter(driver -> "Christopher".equals(driver.firstName)).findFirst().ifPresent(driver ->
 				validateExistingDriver("Christopher", "Branwen", "NI", "afr", "PA",
-						null, "male", "1956-05-01", 16, "CA", "C1234567", driver));
+						"S", "male", "1956-05-01", 16, "CA", "C1234567", driver));
 		viewDriversResponse.driverList.stream().filter(driver -> "Orlaith".equals(driver.firstName)).findFirst().ifPresent(driver ->
 				validateExistingDriver("Orlaith", "Branwen", "NI", "nafr", "PA",
-						null, "female", "1958-05-01", 16, "CA", "D1234567", driver));
+						"S", "female", "1958-05-01", 16, "CA", "D1234567", driver));
 		viewDriversResponse.driverList.stream().filter(driver -> "Vincent".equals(driver.firstName)).findFirst().ifPresent(driver ->
 				validateExistingDriver("Vincent", "Branwen", "NI", "excl", "CH",
-						null, "male", "2000-01-01", 16, "CA", "B1234567", driver));
+						"S", "male", "2000-01-01", 16, "CA", "B1234567", driver));
 		viewDriversResponse.driverList.stream().filter(driver -> "Iseult".equals(driver.firstName)).findFirst().ifPresent(driver ->
 				validateExistingDriver("Iseult", "Branwen", "Not a Named Insured", "afr", "CH",
-						null, "female", "2000-05-01", 16, "CA", "A1234567", driver));
+						"S", "female", "2000-05-01", 16, "CA", "A1234567", driver));
 		viewDriversResponse.driverList.stream().filter(driver -> "Iona".equals(driver.firstName)).findFirst().ifPresent(driver ->
 				validateExistingDriver("Iona", "Branwen", "Not a Named Insured", "nafr", "CH",
-						null, "female", "2000-05-01", 16, "CA", "G1234567", driver));
+						"S", "female", "2000-05-01", 16, "CA", "G1234567", driver));
 		viewDriversResponse.driverList.stream().filter(driver -> "Moira".equals(driver.firstName)).findFirst().ifPresent(driver ->
 				validateExistingDriver("Moira", "Branwen", "Not a Named Insured", "nafr", "CH",
-						null, "female", "2000-05-01", 16, "CA", "H1234567", driver));
+						"S", "female", "2000-05-01", 16, "CA", "H1234567", driver));
 	}
 
 	private void validateExistingDriver(String firstName, String lastName, String insuredType, String driverType,
