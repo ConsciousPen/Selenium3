@@ -133,7 +133,15 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		createCustomerIndividual();
-		policyType.get().createPolicy(testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state));
+		TestData td;
+		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+			td = getPolicyDefaultTD().adjust(testDataManager.getDefault(aaa.modules.regression.sales.auto_ca.select.TestPolicyNano.class).getTestData("TestData_Adjustment").resolveLinks());
+		} else if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+			td = getPolicyDefaultTD().adjust(testDataManager.getDefault(aaa.modules.regression.sales.auto_ca.choice.TestPolicyNano.class).getTestData("TestData_Adjustment").resolveLinks());
+		} else {
+			td = testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state).resolveLinks();
+		}
+		policyType.get().createPolicy(td);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		mainApp().close();
@@ -1437,7 +1445,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		}
 	}
 
-	protected void pas9456_9455_PolicyLockUnlockServicesBody() {
+	protected void policyLockUnlockServicesBody() {
 		myPolicyUserAddedConfigCheck();
 		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
@@ -1581,7 +1589,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	protected void pas10227_ViewPremiumServiceForPolicy() {
 
 		myPolicyUserAddedConfigCheck();
-		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
@@ -1597,7 +1604,14 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(response[0].premiumCode).isEqualTo("GWT");
 			softly.assertThat(new Dollar(response[0].actualAmt)).isEqualTo(new Dollar(actualPremium));
 			softly.assertThat(new Dollar(response[0].termPremium)).isEqualTo(new Dollar(totalPremium));
+			if ("NY".contains(getState())){
+				softly.assertThat(response[1].premiumType).isEqualTo("FEE");
+				softly.assertThat(response[1].premiumCode).isEqualTo("MVLE");
+				softly.assertThat(response[1].actualAmt).isNotNull();
+				softly.assertThat(response[1].termPremium).isNotNull();
+			}
 		});
+
 	}
 
 	protected void pas10227_ViewPremiumServiceForPendedEndorsement() {
@@ -1694,7 +1708,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		String purchaseDate = "2013-01-21";
 		String vin = "JF1GJAH65EH007244"; //Subaru Impreza 2014
-		testMiniServicesVehiclesHelper.addVehicleWithChecks(policyNumber, purchaseDate, vin, true);
+		testMiniServicesVehiclesHelper.helperMiniServices.addVehicleWithChecks(policyNumber, purchaseDate, vin, true);
 
 		PolicyPremiumInfo[] responseRate2 = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
 		checkIfPligaFeeInfoIsDisplaying(responseRate2);
@@ -1745,8 +1759,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 	private void checkIfPligaFeeInfoIsDisplaying(PolicyPremiumInfo[] response) {
 
-		String premiumType = "SPECIAL";
-		String premiumCode = "PLIGA*2";
+		String premiumType = "FEE";
+		String premiumCode = "PLIGA";
 
 		PolicyPremiumInfo pligaFee = Arrays.stream(response).filter(policyPremiumInfo -> (premiumCode).equals(policyPremiumInfo.premiumCode)).findFirst().orElse(null);
 

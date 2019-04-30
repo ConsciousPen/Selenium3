@@ -126,6 +126,8 @@ public final class DocGenEnum {
 		AAIFNYF(""),
 		AAINXX1("Renewal Cover Letter"),
 		AAPRN1(""),
+		AAIFNYD("ARPI", "AAIFNYD", "Acknowledgement of Requirement for Photo Inspection"),
+		AAIFNYE("NSAR","AAIFNYE", "Notice - Copy of Sales Agreement Required"),
 		AAIQ("Auto Insurance Quote"),
 		AAIQAZ("Auto Insurance Quote"),
 		AAIQCA("Auto Insurance Quote"),
@@ -547,6 +549,7 @@ public final class DocGenEnum {
 	public enum EventName {
 		POLICY_ISSUE("POLICY_ISSUE"),
 		ENDORSEMENT_ISSUE("ENDORSEMENT_ISSUE"),
+		ADHOC_DOC_GENERATE("ADHOC_DOC_GENERATE"),
 		ADHOC_DOC_ON_DEMAND_PREVIEW("ADHOC_DOC_ON_DEMAND_PREVIEW"),
 		ADHOC_DOC_ON_DEMAND_GENERATE("ADHOC_DOC_ON_DEMAND_GENERATE");
 

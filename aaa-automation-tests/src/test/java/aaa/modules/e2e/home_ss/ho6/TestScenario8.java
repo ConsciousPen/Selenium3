@@ -6,6 +6,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.common.enums.Constants.States;
+import aaa.helpers.billing.BillingHelper;
 import aaa.main.enums.BillingConstants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario8;
@@ -29,16 +30,20 @@ public class TestScenario8 extends Scenario8 {
 			generateAndCheckBill(installmentDueDates.get(1), softly);
 			TestData td = getTestSpecificTD("TestData_Endorsement").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
 			changePaymentPlanAndCheckInstallments(td, BillingConstants.PaymentPlan.QUARTERLY, 4);
-			generateAndCheckBill(installmentDueDates.get(3), policyEffectiveDate, getPligaOrMvleFee(pligaOrMvleFeeLastTransactionDate), softly);
+			//generateAndCheckBill(installmentDueDates.get(3), policyEffectiveDate, getPligaOrMvleFee(pligaOrMvleFeeLastTransactionDate), softly);
+			//the negative PLIGA fee not included to min. due and go to Prepaid
+			generateAndCheckBill(installmentDueDates.get(3), policyEffectiveDate, BillingHelper.DZERO, softly);
 			payAndCheckBill(installmentDueDates.get(3));
 			TestData td2 = getTestSpecificTD("TestData_Endorsement2").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
 			changePaymentPlanAndCheckInstallments(td2, BillingConstants.PaymentPlan.ELEVEN_PAY, 9);
-			generateAndCheckBill(installmentDueDates.get(4), policyEffectiveDate, getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate), softly);
+			//positive PLIGA fee (1$ in this case) is balanced negative PLIGA fee from previous step
+			//generateAndCheckBill(installmentDueDates.get(4), policyEffectiveDate, getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate), softly);
+			generateAndCheckBill(installmentDueDates.get(4), policyEffectiveDate, BillingHelper.DZERO, softly);
 			payAndCheckBill(installmentDueDates.get(4));
 			generateAndCheckBill(installmentDueDates.get(5), policyEffectiveDate, softly);
 			TestData td3 = getTestSpecificTD("TestData_Endorsement3").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
 			changePaymentPlanAndCheckInstallments(td3, BillingConstants.PaymentPlan.SEMI_ANNUAL, 5);
-			generateAndCheckBill(installmentDueDates.get(6), policyEffectiveDate, softly);
+			generateAndCheckBill(installmentDueDates.get(6), policyEffectiveDate, getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate), softly);
 			payAndCheckBill(installmentDueDates.get(6));
 
 			/**

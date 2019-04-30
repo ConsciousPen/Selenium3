@@ -8,11 +8,13 @@ import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class HelperMiniServices extends PolicyBaseTest {
 
@@ -38,6 +40,24 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(response.endorsementId).isNotEmpty();
 	}
 
+	public String addVehicleWithChecks(String policyNumber, String purchaseDate, String vin, boolean allowedToAddVehicle) {
+		//Add new vehicle
+		Vehicle responseAddVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
+		assertThat(responseAddVehicle.oid).isNotEmpty();
+		String newVehicleOid = responseAddVehicle.oid;
+		printToLog("newVehicleOid: " + newVehicleOid);
+
+		//Update Vehicle with proper Usage and Registered Owner
+		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+
+		ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
+		assertThat(viewEndorsementVehicleResponse.canAddVehicle).isEqualTo(allowedToAddVehicle);
+		Vehicle newVehicle = viewEndorsementVehicleResponse.vehicleList.stream().filter(veh -> newVehicleOid.equals(veh.oid)).findFirst().orElse(null);
+		assertThat(newVehicle.vehIdentificationNo).isEqualTo(vin);
+		return newVehicleOid;
+	}
+
 	String vehicleAddRequestWithCheck(String policyNumber, Vehicle vehicleAddRequest) {
 		Vehicle responseAddVehicle =
 				HelperCommon.addVehicle(policyNumber, vehicleAddRequest, Vehicle.class, 201);
@@ -51,10 +71,20 @@ public class HelperMiniServices extends PolicyBaseTest {
 		printToLog("Update vehicle usage registered owner params: policyNumber: " + policyNumber + ", newVehicleOid: " + newVehicleOid);
 		//Update Vehicle with proper Usage and Registered Owner
 		VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
-		updateVehicleUsageRequest.usage = "Pleasure";
+		if (getState().equals(Constants.States.CA)) {
+			updateVehicleUsageRequest.usage = "Regular";
+		} else {
+			updateVehicleUsageRequest.usage = "Pleasure";
+		}
+
 		updateVehicleUsageRequest.registeredOwner = true;
 		VehicleUpdateResponseDto updateVehicleUsageResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
-		assertThat(updateVehicleUsageResponse.usage).isEqualTo("Pleasure");
+		if (getState().equals(Constants.States.CA)) {
+			assertThat(updateVehicleUsageResponse.usage).isEqualTo("Regular");
+		} else {
+			assertThat(updateVehicleUsageResponse.usage).isEqualTo("Pleasure");
+		}
+
 		return updateVehicleUsageResponse;
 	}
 
@@ -88,13 +118,12 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
 	}
 
-	void rateEndorsementWithErrorCheck(String policyNumber, String errorCode, String errorMessage, String field) {
+	void rateEndorsementWithErrorCheck(String policyNumber, String errorCode, String errorMessage) {
 		ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
 		assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 		assertThat(rateResponse.message).startsWith(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 		ErrorResponseDto rateResponseFiltered = rateResponse.errors.stream().filter(errors -> errorCode.equals(errors.errorCode)).findFirst().orElse(null);
 		assertThat(rateResponseFiltered.message).startsWith(errorMessage);
-		assertThat(rateResponseFiltered.field).isEqualTo(field);
 	}
 
 	public void bindEndorsementWithCheck(String policyNumber) {
@@ -109,13 +138,12 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 	}
 
-	public void bindEndorsementWithErrorCheck(String policyNumber, String errorCode, String errorMessage, String field) {
+	public void bindEndorsementWithErrorCheck(String policyNumber, String errorCode, String errorMessage) {
 		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, errorCode, 422);
 		assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 		assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 		ErrorResponseDto bindResponseFiltered = bindResponse.errors.stream().filter(errors -> errorCode.equals(errors.errorCode)).findFirst().orElse(null);
 		assertThat(bindResponseFiltered.message).contains(errorMessage);
-		assertThat(bindResponseFiltered.field).isEqualTo(field);
 	}
 
 	public OrderReportsResponse orderReportErrors(String policyNumber, String driverOid, ErrorDxpEnum.Errors... errors) {
@@ -143,11 +171,17 @@ public class HelperMiniServices extends PolicyBaseTest {
 		return orderReportErrorResponse;
 	}
 
-	boolean hasError(ErrorResponseDto errorResponseDto, ErrorDxpEnum.Errors expectedError, String field) {
+	boolean hasError(ErrorResponseDto errorResponseDto, ErrorDxpEnum.Errors expectedError) {
 		assertThat(errorResponseDto.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 		assertThat(errorResponseDto.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-		return errorResponseDto.errors.stream().anyMatch(error -> field.equals(error.field)
-						&& expectedError.getCode().equals(error.errorCode)
+		return errorResponseDto.errors.stream().anyMatch(error -> expectedError.getCode().equals(error.errorCode)
 						&& StringUtils.startsWith(error.message, expectedError.getMessage()));
+	}
+
+	void validateUniqueVinError(ErrorResponseDto errorResponse, ETCSCoreSoftAssertions softly) {
+		softly.assertThat(errorResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+		softly.assertThat(errorResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+		softly.assertThat(errorResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.UNIQUE_VIN.getCode());
+		softly.assertThat(errorResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.UNIQUE_VIN.getMessage());
 	}
 }

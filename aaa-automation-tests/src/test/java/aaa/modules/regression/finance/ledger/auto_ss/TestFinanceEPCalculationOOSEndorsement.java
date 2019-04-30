@@ -45,7 +45,7 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
 
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.WV, Constants.States.KY, Constants.States.AZ, Constants.States.NJ})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20277")
 	public void pas20277_testFinanceEPCalculationOOSEndorsement(@Optional("AZ") String state) {
 
@@ -63,11 +63,13 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
 		TimeSetterUtil.getInstance().nextPhase(e1date);
 		searchForPolicy(policyNumber);
 		createEndorsement(-1, "TestData_EndorsementAPRemoveCoverage");
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		jobDate = runEPJobUntil(jobDate, e2date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e2date);
 		searchForPolicy(policyNumber);
 		createEndorsement(-1, "TestData_EndorsementAddCoverage");
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		jobDate = runEPJobUntil(jobDate, e3date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e3date);

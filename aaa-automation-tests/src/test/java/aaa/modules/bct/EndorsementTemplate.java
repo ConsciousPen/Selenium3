@@ -93,7 +93,7 @@ public class EndorsementTemplate extends BackwardCompatibilityBaseTest {
 	public void checkAbilityToOpenAllTabsInInquiryMode(PolicyType policy, String testData, Tab fillFromTab, Tab fillToTab) {
 		policy.get().policyInquiry().start();
 		policy.get().policyInquiry().getView()
-				.fillFromTo(testDataManager.getDefault(EndorsementTemplate.class).getTestData(testData), fillFromTab.getClass(), fillToTab.getClass(), false);
+				.fillFromTo(getStateTestData(testDataManager.getDefault(EndorsementTemplate.class), testData), fillFromTab.getClass(), fillToTab.getClass(), false);
 	}
 
 	private String getCUSTOM_DATE1(String date1) {

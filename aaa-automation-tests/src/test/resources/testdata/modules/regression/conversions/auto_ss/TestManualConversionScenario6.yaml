@@ -1,9 +1,0 @@
-DocumentsAndBindTab: {
-  RequiredToBind: {
-    Uninsured and Underinsured Motorists Coverage - Rejection or Election of Lower Limits: Physically Signed,
-    Auto Insurance Application: Physically Signed
-  },
-  RequiredToIssue: {
-    Proof of Prior Insurance: 'Yes'
-  }
-}
