@@ -1,14 +1,10 @@
 package aaa.helpers.xml.model.pasdoc;
 
-import aaa.main.enums.DocGenEnum;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import javax.xml.bind.annotation.*;
+import aaa.main.enums.DocGenEnum;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DocumentGenerationRequest {
@@ -18,7 +14,7 @@ public class DocumentGenerationRequest {
 
 	@XmlElementWrapper(name = "DistributionChannels")
 	@XmlElement(name = "DistributionChannel", namespace = DocGenEnum.XmlnsNamespaces.PAS_DOC_URI2)
-	private List<String> distributionChannels = new LinkedList<>();
+	private List<DistributionChannel> distributionChannels = new LinkedList<>();
 
 	@XmlElement(name = "DocumentData")
 	private DocumentData documentData;
@@ -36,7 +32,7 @@ public class DocumentGenerationRequest {
 		return this;
 	}
 
-	public List<String> getDistributionChannel() {
+	public List<DistributionChannel> getDistributionChannel() {
 		return distributionChannels;
 	}
 
@@ -58,7 +54,7 @@ public class DocumentGenerationRequest {
 		return this;
 	}
 
-	public DocumentGenerationRequest setDistributionChannels(List<String> distributionChannels) {
+	public DocumentGenerationRequest setDistributionChannels(List<DistributionChannel> distributionChannels) {
 		this.distributionChannels = distributionChannels;
 		return this;
 	}
