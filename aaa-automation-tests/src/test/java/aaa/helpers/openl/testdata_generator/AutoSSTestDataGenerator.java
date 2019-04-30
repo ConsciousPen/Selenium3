@@ -202,37 +202,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 		currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
 
-		//		if (StringUtils.isNotBlank(openLPolicy.getCappingDetails().getCarrierCode())) {
-		//			//TODO-dchubkov: add common method for replacing values from excel?
-		//			String carrierCode = openLPolicy.getCappingDetails().getCarrierCode().trim().replaceAll("\u00A0", "");
-		//			switch (carrierCode) {
-		//				case "ACAIC":
-		//					carrierCode = "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)";
-		//					break;
-		//				case "WUIC":
-		//					carrierCode = "Western United";
-		//			}
-		//			currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
-		//		} else if (openLPolicy.isCappedPolicy() && openLPolicy.isLegacyConvPolicy()) {
-		//			String carrierCode;
-		//			switch (getState()) {
-		//				//TODO-dchubkov: fill carrier codes for other states, see "Capping" tab -> "Carrier Code" column in algorithm files for each state
-		//				case Constants.States.ID:
-		//				case Constants.States.KY:
-		//				case Constants.States.UT:
-		//				case Constants.States.WV:
-		//					carrierCode = "Western United";
-		//					break;
-		//				case Constants.States.MD:
-		//					carrierCode = "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)";
-		//					break;
-		//				default:
-		//					throw new IstfException(String.format("In order to set termCappingFactor=%1$s, appropriate carrier code should be set in General tab but it's unknown for %2$s state.",
-		//							openLPolicy.getCappingDetails().getTermCappingFactor(), getState()));
-		//			}
-		//			currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
-		//		}
-
 		Map<String, Object> policyInformationData = new HashMap<>();
 		if (!openLPolicy.isLegacyConvPolicy()) {
 			policyInformationData.put(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY));
