@@ -9,9 +9,7 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
-import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -23,6 +21,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomSoftAssertions;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -53,8 +52,7 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
         List<LocalDateTime> installmentDueDate;
         Dollar minDue;
         mainApp().open();
-        TestData td = getPolicyDefaultTD().adjust(TestData.makeKeyPath(PremiumAndCoveragesTab.class.getSimpleName()
-                , AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Monthly - Zero Down");
+        TestData td = getPolicyTD().adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Monthly - Zero Down");
         createCustomerIndividual();
         String policyNumber = createPolicy(td);
         BillingSummaryPage.open();
@@ -127,7 +125,7 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
                 .isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
 
         //DD3+8
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(3)));
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(4)));
         JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
         searchForPolicy(policyNumber);
         assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
@@ -153,7 +151,38 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
         mainApp().open();
         createCustomerIndividual();
         String policyNumber = createPolicy();
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
+                .adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
+                        "Underwriting - Fraudulent Misrepresentation"));
+        PasDocImpl.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.AH61XX, DocGenEnum.Documents.AH61XXA);
+    }
+
+    @Parameters({"state"})
+    @StateList(states = Constants.States.AZ)
+    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+    public void testScenario30(@Optional("") String state) {
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createPolicy();
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus10Days")
+                .adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
+                        "Underwriting - Fraudulent Misrepresentation"));
+        CustomSoftAssertions.assertSoftly(softly -> {
+            PasDocImpl.verifyDocumentsGenerated(softly, true, policyNumber, DocGenEnum.Documents.AH61XX);
+            PasDocImpl.verifyDocumentsGenerated(softly, false, policyNumber, DocGenEnum.Documents.AH61XXA);
+        });
+    }
+
+    @Parameters({"state"})
+    @StateList(states = Constants.States.AZ)
+    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+    public void testScenario31(@Optional("") String state) {
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createPolicy();
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus10Days")
+                .adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
+                        "Underwriting - Fraudulent Misrepresentation"));
         PasDocImpl.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.AH61XX, DocGenEnum.Documents.AH61XXA);
     }
 }
