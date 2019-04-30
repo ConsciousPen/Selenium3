@@ -92,7 +92,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     private static final String CLAIMS_URL = "https://claims-assignment-master.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1"; //Post-Permissive Use
     public static final String SQL_REMOVE_RENEWALCLAIMRECEIVEASYNCJOB_BATCH_JOB_CONTROL_ENTRY = "DELETE FROM BATCH_JOB_CONTROL_ENTRY WHERE jobname='renewalClaimReceiveAsyncJob'";
     public static final String CLAIMS_MICROSERVICE_ENDPOINT = "select * from PROPERTYCONFIGURERENTITY where propertyname = 'aaaClaimsMicroService.microServiceUrl'";
-    private static final String PU_CLAIMS_DEFAULTING_DATA_MODEL = "pu_claims_defaulting_data_model.yaml";
+    private static final String PU_CLAIMS_DEFAULTING_DATA_MODEL = "pu_claims_defaulting_data_model_SS.yaml";
     protected TestData adjusted;
     protected LocalDateTime policyExpirationDate;
     protected String policyNumber;
@@ -190,11 +190,9 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         policy.getDefaultView().fill(addDriverTd);
-
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         premiumAndCoveragesTab.calculatePremium();
         premiumAndCoveragesTab.submitTab();
-
         //Modify default test data to mask unnecessary steps
         TestData td = getPolicyTD()
                 .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()));
@@ -607,7 +605,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             if (checkPU) {
                 softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
             } else {
-                //For SS Auto PU Indicator should not be Present
+                //For SS Auto PU Indicator should be Present only for Internal claims.
                 softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent()).isFalse();
             }
         });
@@ -1044,7 +1042,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
      * 7. Navigate to the Driver Tab and verify the new FNI has acquired the PU claims from the previous FNI
      */
     public void pas24652_ChangeFNIGeneralTabRenewal(){
-        // Create Customer and Policy with two named insured' and drivers
+        // Create Customer and Policy with two named insured' and driversl
         adjusted = getPolicyTD().adjust(getTestSpecificTD("TestData_Change_FNI_Renewal_PU_AZ").resolveLinks());
         policyNumber = openAppAndCreatePolicy(adjusted);
         log.info("Policy created successfully. Policy number is " + policyNumber);
@@ -1059,14 +1057,14 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         // Check 1st driver: FNI, has the MVR ,COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
         tableDriverList.selectRow(1);
         activityAssertions(2, 1, 3, 1, "MVR", "", false);
-        activityAssertions(2, 1, 3, 2, "Internal Claims", CLAIM_NUMBER_1, false);
-        activityAssertions(2, 1, 3, 3, "Internal Claims", CLAIM_NUMBER_3, false);
+        activityAssertions(2, 1, 3, 2, "Internal Claims", CLAIM_NUMBER_1, true);
+        activityAssertions(2, 1, 3, 3, "Internal Claims", CLAIM_NUMBER_3, true);
         //Navigate to the General Tab and change the FNI to the second insured (Steve)
         changeFNIGeneralTab(1);  //Index starts at 0
         //Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
         tableDriverList.selectRow(1);
         activityAssertions(2,1,2, 1, "Customer Input", "", false);
-        activityAssertions(2,1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, false);
+        activityAssertions(2,1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
         //Assert that old FNI  has 1 Internal Claims and 1 existing MVR claim
         tableDriverList.selectRow(2);
         activityAssertions(2, 2, 2, 2, "Internal Claims", CLAIM_NUMBER_1, false);
