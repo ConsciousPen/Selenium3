@@ -1213,7 +1213,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         while (x < renewalAmount) {
             runRenewalClaimOrderJob();
             runRenewalClaimReceiveJob();
-            //HERE - run update
             issueGeneratedRenewalImage(policyNumber);
             x++;
         }
