@@ -619,16 +619,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
                 //For SS Auto PU Indicator should not be Present
                 softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent()).isFalse();
             }
-//            switch (includeIR) {
-//                case "Yes":
-//                    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
-//                    break;
-//                case "No":
-//                    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("No");
-//                    break;
-//                case "NA":
-//                    break;
-//            }
             if (!includeIR.equals("NA")) {
                 softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue(includeIR);
             }
@@ -1002,14 +992,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
         // Retrieve policy and verify claim presence on renewal image
         mainApp().open();
-//        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-//
-//        //Select the Active Policy row
-//        if (tableSearchResults.isPresent()) {
-//            tableSearchResults.getRow("Eff. Date",
-//                    TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY)).getCell(1).controls.links.getFirst().click();
-//        }
-
 	    SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
         buttonRenewals.click();
@@ -1041,13 +1023,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
         // Retrieve policy and verify claim presence on renewal image
         mainApp().open();
-//        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-//
-//        if (tableSearchResults.isPresent()) {
-//            tableSearchResults.getRow("Eff. Date",
-//                    TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY)).getCell(1).controls.links.getFirst().click();
-//        }
-
 	    SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
         buttonRenewals.click();
@@ -1072,14 +1047,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
                     // Retrieve policy and verify claim presence on renewal image
                     mainApp().open();
-//                    SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-//
-//                    if (tableSearchResults.isPresent()) {
-//                        tableSearchResults.getRow("Eff. Date",
-//                                TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY))
-//                                .getCell(1).controls.links.getFirst().click();
-//                    }
-
 	                SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
                     policy.renew().start();
