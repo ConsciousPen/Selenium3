@@ -55,16 +55,18 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	}
 
 	protected void createAndExecuteJob(Job job){
-		com.exigen.ipb.etcsa.utils.batchjob.Job ipbJob = convertToIpb(job);
-
+		JobGroup jobGroup = JobGroup.fromSingleJob(convertToIpb(job));
 		SoapJobActions service = new SoapJobActions();
-		if (!service.isJobExist(JobGroup.fromSingleJob(ipbJob))) {
-			service.createJob(JobGroup.fromSingleJob(ipbJob));
-			log.info("{} was created", JobGroup.fromSingleJob(job.getJobName()));
+
+
+		if (!service.isJobExist(jobGroup)) {
+			service.createJob(jobGroup);
+			log.info("{} was created", jobGroup.getGroupName());
 		}else{
-			log.info("Job exist :  {} ", JobGroup.fromSingleJob(job.getJobName()));
+			log.info("Job exist :  {} ", jobGroup.getGroupName());
 		}
-		service.startJob(JobGroup.fromSingleJob(job.getJobName()));
+
+		new SoapJobActions().startJob(jobGroup);
 	}
 
 	private com.exigen.ipb.etcsa.utils.batchjob.Job convertToIpb(Job job) {
