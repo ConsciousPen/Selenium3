@@ -82,6 +82,8 @@ public final class FinancialsSQL {
 		public static final String PLIGA_FEE = "PLIGAFee";
 		public static final String SR22_FEE = "SR22Fee";
 		public static final String MVLE_FEE = "MVLEFee";
+		public static final String REINSTATEMENT_FEE = "ReinstatementFee";
+		public static final String RENEWAL_LAPSE_FEE = "RenewalLapseFee";
     }
 
 }

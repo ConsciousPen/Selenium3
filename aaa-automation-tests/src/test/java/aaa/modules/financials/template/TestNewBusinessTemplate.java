@@ -6,6 +6,7 @@ import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
+import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
@@ -238,6 +239,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         TimeSetterUtil.getInstance().nextPhase(effDate);
         JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
         mainApp().open();
+        SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_PENDING);
 
         // Validate NBZ-03 transactions that are recorded at effective date
         validateNewBusinessTxAtEffDAte(premTotal, totalTaxesNB, policyNumber, effDate);
@@ -343,6 +345,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             softly.assertThat(premTotal.subtract(totalTaxesNB)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")));
         });
+
         //Employee Benefit discount (CA Only) for NBZ-02 validations
         if(isAutoCA()){
             Dollar employeeDiscount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EMPLOYEE_BENEFIT);
@@ -546,7 +549,6 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             });
 
         }
-
 
     }
 

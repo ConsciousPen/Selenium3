@@ -4,7 +4,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.ErrorEnum;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
@@ -129,9 +128,10 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 		assertThat(documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM)).isEnabled();
 		assertThat(documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM).getAttribute("class").contains("required")).isTrue(); // verification that field is mandatory
 		documentsAndBindTab.fillTab(td).submitTab();
+		assertThat(documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM).getWarning().equals("'Policy #' is required"));
 
-		new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_CSA3081512);
-		ErrorTab.buttonCancel.click();
+		//new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_CSA3081512);
+		//ErrorTab.buttonCancel.click();
 		//assertThat(documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM).getWarning().equals("'Policy #' is required"));
 
 		documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM).setValue("12345678");

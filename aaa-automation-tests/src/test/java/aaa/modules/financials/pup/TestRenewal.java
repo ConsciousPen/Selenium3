@@ -44,4 +44,11 @@ public class TestRenewal extends TestRenewalTemplate {
         testRenewalScenario_4();
     }
 
+    @Parameters({"state"})
+    @Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+    @TestInfo(component = ComponentConstant.Sales.PUP)
+    public void testRenewalScenario_5(@Optional("") String state) {
+        testRenewalScenario_5();
+    }
+
 }
