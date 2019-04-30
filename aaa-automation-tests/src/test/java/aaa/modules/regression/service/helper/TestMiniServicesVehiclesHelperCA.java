@@ -593,7 +593,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 
 		//send request to update vehicle service
 		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
-		updateVehicleRequest.vehicleOwnership = new VehicleOwnership();//TODO-mstrazds: PAS-28718 Garaging Address and Ownership - Let's make sure it works for CA Select
+		updateVehicleRequest.vehicleOwnership = new VehicleOwnership();
 		updateVehicleRequest.vehicleOwnership.ownership = "OWN";
 		updateVehicleRequest.usage = "FM";
 		updateVehicleRequest.salvaged = false;
@@ -607,7 +607,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 
 		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
 		assertSoftly(softly -> {
-			softly.assertThat(updateVehicleResponse.vehicleOwnership.ownership).isEqualTo("OWN");//TODO-mstrazds: PAS-28718 Garaging Address and Ownership - Let's make sure it works for CA Select
+			softly.assertThat(updateVehicleResponse.vehicleOwnership.ownership).isEqualTo("OWN");
 			softly.assertThat(updateVehicleResponse.usage).isEqualTo("FM");
 			softly.assertThat(updateVehicleResponse.salvaged).isEqualTo(false);
 			softly.assertThat(updateVehicleResponse.garagingDifferent).isEqualTo(false);
@@ -657,7 +657,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 
 		//send request to update vehicle service
 		VehicleUpdateDto updateGaragingAddressVehicleRequest = new VehicleUpdateDto();
-		updateGaragingAddressVehicleRequest.vehicleOwnership = new VehicleOwnership();//TODO-mstrazds: PAS-28718 Garaging Address and Ownership - Let's make sure it works for CA Select
+		updateGaragingAddressVehicleRequest.vehicleOwnership = new VehicleOwnership();
 		updateGaragingAddressVehicleRequest.vehicleOwnership.ownership = "OWN";
 		updateGaragingAddressVehicleRequest.usage = "FM";
 		updateGaragingAddressVehicleRequest.salvaged = false;
@@ -673,7 +673,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 
 		Vehicle updateVehicleResponseGaragingAddress = HelperCommon.updateVehicle(policyNumber, oid, updateGaragingAddressVehicleRequest);
 		assertSoftly(softly -> {
-			softly.assertThat(updateVehicleResponseGaragingAddress.vehicleOwnership.ownership).isEqualTo("OWN");//TODO-mstrazds: PAS-28718 Garaging Address and Ownership - Let's make sure it works for CA Select
+			softly.assertThat(updateVehicleResponseGaragingAddress.vehicleOwnership.ownership).isEqualTo("OWN");
 			softly.assertThat(updateVehicleResponseGaragingAddress.usage).isEqualTo("FM");
 			softly.assertThat(updateVehicleResponseGaragingAddress.salvaged).isEqualTo(false);
 			softly.assertThat(updateVehicleResponseGaragingAddress.garagingDifferent).isEqualTo(true);
@@ -693,7 +693,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 			softly.assertThat(viewEndorsementVehicleResponse.vehicleList.get(0).bodyStyle).isEqualTo(updateVehicleResponse.bodyStyle);
 			softly.assertThat(viewEndorsementVehicleResponse.vehicleList.get(0).vehIdentificationNo).isEqualTo(updateVehicleResponse.vehIdentificationNo);
 
-			softly.assertThat(viewEndorsementVehicleResponse.vehicleList.get(0).vehicleOwnership.ownership).isEqualTo("OWN");//TODO-mstrazds: PAS-28718 Garaging Address and Ownership - Let's make sure it works for CA Select
+			softly.assertThat(viewEndorsementVehicleResponse.vehicleList.get(0).vehicleOwnership.ownership).isEqualTo("OWN");
 			softly.assertThat(viewEndorsementVehicleResponse.vehicleList.get(0).usage).isEqualTo("FM");
 			softly.assertThat(viewEndorsementVehicleResponse.vehicleList.get(0).salvaged).isEqualTo(false);
 
@@ -853,11 +853,12 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.city", false, false, false, null, "String");
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.stateProvCd", false, false, false, null, "String");
 
-		//helperMiniServices.endorsementRateAndBind(policyNumber); //TODO-mstrazds: can be updated to bind through DXP when Driver assignments are implemented
+		//helperMiniServices.endorsementRateAndBind(policyNumber); //TODO-mstrazds: can be updated to bind here when assignments are implemented
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		setAssignmentsInPASUIAndBind();//TODO-mstrazds: can be updated to bind through DXP when Driver assignments are implemented
+		setAssignmentsInPASUI();//TODO-mstrazds: can be removed when Driver assignments are implemented
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 		softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -932,20 +933,19 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 			mainApp().open();
 			SearchPage.openPolicy(policyNumber);
 
-			setAssignmentsInPASUIAndBind();//TODO-mstrazds: can be updated to bind through DXP when Driver assignments are implemented
+			setAssignmentsInPASUI();//TODO-mstrazds: can be removed/updated when assignments are implemented
+			helperMiniServices.endorsementRateAndBind(policyNumber);
 			testEValueDiscount.secondEndorsementIssueCheck();
 		});
 	}
 
-	private void setAssignmentsInPASUIAndBind() {
+	private void setAssignmentsInPASUI() {
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
 		new AssignmentTab().getAssetList().getAsset(AutoCaMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getTable()
 				.getRow(2).getCell(PolicyConstants.AssignmentTabTable.PRIMARY_DRIVER).controls.comboBoxes.getFirst().setValueByIndex(1);
-		premiumAndCoveragesTab.calculatePremium();
-		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
-		documentsAndBindTab.submitTab();
+		assignmentTab.saveAndExit();
 	}
 
 }

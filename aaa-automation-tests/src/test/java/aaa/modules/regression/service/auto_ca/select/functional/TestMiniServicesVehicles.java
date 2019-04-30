@@ -152,7 +152,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-11618", "PAS-25267", "PAS-28718"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-11618", "PAS-25267", "PAS-28718", "PAS-16907"})
 	public void pas11618_UpdateVehicleLeasedInfo(@Optional("CA") String state) {
 		assertSoftly(softly ->
 				pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "LSD")
@@ -173,7 +173,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-11618", "PAS-25267", "PAS-28718"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-11618", "PAS-25267", "PAS-28718", "PAS-16907"})
 	public void pas11618_UpdateVehicleFinancedInfo(@Optional("CA") String state) {
 		assertSoftly(softly ->
 				pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "FNC")
@@ -182,7 +182,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-13252", "PAS-25267", "PAS-28718"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-13252", "PAS-25267", "PAS-28718", "PAS-16907"})
 	public void pas13252_UpdateVehicleGaragingAddressProblem(@Optional("CA") String state) {
 		pas13252_UpdateVehicleGaragingAddressProblemBody();
 	}
