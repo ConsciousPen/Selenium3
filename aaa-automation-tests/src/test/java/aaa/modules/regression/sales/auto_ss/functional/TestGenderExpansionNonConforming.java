@@ -164,6 +164,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
     public void pas23040_ValidateGenderExpansionNonConformingRenewal(@Optional("") String state) {
 
         String policyNumber = openAppAndCreatePolicy();
+        setDoNotRenewFlag(policyNumber);
         createRenewalImage(policyNumber, PolicySummaryPage.getExpirationDate());
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
@@ -202,6 +203,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
                 .adjust(AutoSSMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click");
 
         String policyNumber = openAppAndCreatePolicy();
+        setDoNotRenewFlag(policyNumber);
         createRenewalImage(policyNumber, PolicySummaryPage.getExpirationDate());
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
@@ -217,6 +219,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(renewalEffDate));
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
+        policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
         policy.renew().start();
     }
 
