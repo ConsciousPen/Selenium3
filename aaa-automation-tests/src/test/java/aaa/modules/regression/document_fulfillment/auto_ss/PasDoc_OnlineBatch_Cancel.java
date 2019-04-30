@@ -150,11 +150,21 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
     public void testScenario29(@Optional("") String state) {
         mainApp().open();
         createCustomerIndividual();
-        String policyNumber = createPolicy();
+        String policyNumber1 = createPolicy();
+        String policyNumber2 = createPolicy();
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus10Days")
+                .adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
+                        "New Business Rescission - Underwriting Fraudulent Misrepresentation"));
+
+        SearchPage.openPolicy(policyNumber1);
         policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
                 .adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
-                        "Underwriting - Fraudulent Misrepresentation"));
-        PasDocImpl.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.AH61XX, DocGenEnum.Documents.AH61XXA);
+                        "New Business Rescission - Underwriting Fraudulent Misrepresentation"));
+
+        CustomSoftAssertions.assertSoftly(softly -> {
+            PasDocImpl.verifyDocumentsGenerated(softly, false, policyNumber2, DocGenEnum.Documents.AH61XXA);
+            PasDocImpl.verifyDocumentsGenerated(softly, policyNumber1, DocGenEnum.Documents.AH61XXA, DocGenEnum.Documents.AH63XX);
+        });
     }
 
     @Parameters({"state"})
@@ -163,26 +173,20 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
     public void testScenario30(@Optional("") String state) {
         mainApp().open();
         createCustomerIndividual();
-        String policyNumber = createPolicy();
+        String policyNumber1 = createPolicy();
+        String policyNumber2 = createPolicy();
         policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus10Days")
                 .adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
-                        "Underwriting - Fraudulent Misrepresentation"));
-        CustomSoftAssertions.assertSoftly(softly -> {
-            PasDocImpl.verifyDocumentsGenerated(softly, true, policyNumber, DocGenEnum.Documents.AH61XX);
-            PasDocImpl.verifyDocumentsGenerated(softly, false, policyNumber, DocGenEnum.Documents.AH61XXA);
-        });
-    }
+                        "New Business Rescission - NSF or Down Payment"));
 
-    @Parameters({"state"})
-    @StateList(states = Constants.States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario31(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber = createPolicy();
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus10Days")
+        SearchPage.openPolicy(policyNumber1);
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
                 .adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
-                        "Underwriting - Fraudulent Misrepresentation"));
-        PasDocImpl.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.AH61XX, DocGenEnum.Documents.AH61XXA);
+                        "New Business Rescission - NSF or Down Payment"));
+
+        CustomSoftAssertions.assertSoftly(softly -> {
+            PasDocImpl.verifyDocumentsGenerated(softly, false, policyNumber2, DocGenEnum.Documents.AH60XXA);
+            PasDocImpl.verifyDocumentsGenerated(softly, policyNumber1, DocGenEnum.Documents.AH60XXA);
+        });
     }
 }
