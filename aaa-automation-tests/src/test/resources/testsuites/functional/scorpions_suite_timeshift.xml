@@ -19,6 +19,8 @@
                     <include name="pas14552_includeClaimsInRatingDeterminationShort"/>
                     <include name="pas14552_includeClaimsInRatingDeterminationLong"/>
                     <include name="pas22172_ReconcilePUEndorsementAFRD"/>
+                    <include name="pas18159_offlineClaimsAnalytics"/>
+                    <include name="pas25162_permissiveUseIndicatorDefaulting"/>
                 </methods>
             </class>
         </classes>

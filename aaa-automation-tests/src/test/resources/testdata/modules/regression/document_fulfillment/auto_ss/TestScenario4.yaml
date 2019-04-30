@@ -6,14 +6,6 @@ TestData_QuoteCreation_AZ: {
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@Vehicle1', '@Vehicle2', '@Vehicle3', '@Vehicle4', '@Vehicle5'],
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DocumentsAndBindTab: {}
-}
-
-TestData_Purchase_AZ: {
-  RatingDetailReportsTab: {},
-  DriverActivityReportsTab: {
-    Validate Driving History: click
-  },
   DocumentsAndBindTab: {
     RequiredToBind: {
       Auto Insurance Application: Physically Signed,
@@ -29,6 +21,19 @@ TestData_Purchase_AZ: {
       'Proof of equivalent new car added protection with prior carrier for new vehicle(s)': 'Yes',
       'Canadian MVR for (driver)': 'Yes'
     },
+    #Case Number: 123456,
+    #GeneralInformation: {
+    #  'Work Phone #': 1234567890
+    #}
+  }
+}
+
+TestData_Purchase_AZ: {
+  RatingDetailReportsTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
     Case Number: 123456,
     GeneralInformation: {
       'Work Phone #': 1234567890
@@ -309,14 +314,6 @@ TestData_QuoteCreation_IN: {
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@Vehicle1', '@Vehicle2', '@Vehicle3', '@Vehicle4', '@Vehicle5'],
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DocumentsAndBindTab: {}
-}
-
-TestData_Purchase_IN: {
-  RatingDetailReportsTab: {},
-  DriverActivityReportsTab: {
-    Validate Driving History: click
-  },
   DocumentsAndBindTab: {
     RequiredToBind: {
       Auto Insurance Application: Physically Signed,
@@ -332,6 +329,15 @@ TestData_Purchase_IN: {
       'Proof of equivalent new car added protection with prior carrier for new vehicle(s)': 'Yes',
       'Canadian MVR for (driver)': 'Yes'
     },
+  }
+}
+
+TestData_Purchase_IN: {
+  RatingDetailReportsTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
     Case Number: 123456,
     GeneralInformation: {
       'Work Phone #': 1234567890
@@ -432,14 +438,6 @@ TestData_QuoteCreation_OH: {
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@Vehicle1', '@Vehicle2', '@Vehicle3', '@Vehicle4', '@Vehicle5'],
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DocumentsAndBindTab: {}
-}
-
-TestData_Purchase_OH: {
-  RatingDetailReportsTab: {},
-  DriverActivityReportsTab: {
-    Validate Driving History: click
-  },
   DocumentsAndBindTab: {
     RequiredToBind: {
       Auto Insurance Application: Physically Signed,
@@ -455,6 +453,15 @@ TestData_Purchase_OH: {
       'Proof of equivalent new car added protection with prior carrier for new vehicle(s)': 'Yes',
       'Canadian MVR for (driver)': 'Yes'
     },
+  }
+}
+
+TestData_Purchase_OH: {
+  RatingDetailReportsTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
     Case Number: 123456,
     GeneralInformation: {
       'Work Phone #': 1234567890
@@ -578,14 +585,6 @@ TestData_QuoteCreation_VA: {
   VehicleTab: ['@Vehicle1', '@Vehicle2', '@Vehicle3', '@Vehicle4', '@Vehicle5'],
   AssignmentTab: '@AssignmentTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DocumentsAndBindTab: {}
-}
-
-TestData_Purchase_VA: {
-  RatingDetailReportsTab: {},
-  DriverActivityReportsTab: {
-    Validate Driving History: click
-  },
   DocumentsAndBindTab: {
     RequiredToBind: {
       Auto Insurance Application: Physically Signed
@@ -599,6 +598,15 @@ TestData_Purchase_VA: {
       'Proof of purchase date (bill of sale) for new vehicle(s)': 'Yes',
       'Proof of equivalent new car added protection with prior carrier for new vehicle(s)': 'Yes'
     },
+   }
+}
+
+TestData_Purchase_VA: {
+  RatingDetailReportsTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
     Case Number: 123456,
     GeneralInformation: {
       'Work Phone #': 1234567890

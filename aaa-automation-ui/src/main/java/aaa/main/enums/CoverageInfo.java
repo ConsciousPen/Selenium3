@@ -153,8 +153,8 @@ public enum CoverageInfo {
 	LOL("LOL", "Limitation on Lawsuit", CoverageLimits.COV_LOL, AvailableCoverageLimits.LOL, null),
 	SSL("SSL", "Supplemental Spousal Liability", CoverageLimits.COV_FALSE, AvailableCoverageLimits.SSL, null),
 	MEE_NY("MEE", "Medical Expense Elimination", CoverageLimits.COV_MEE_NONE, AvailableCoverageLimits.MEE_NY, null),
-	UM_SUM_NY("UM/SUM", "Supplementary Uninsured/Underinsured Motorists Bodily Injury", CoverageLimits.COV_100300_SUM, AvailableCoverageLimits.UM_SUM, "Per Person/Per Accident"),
-	UM_SUM_2550_NY("UM/SUM", "Uninsured Motorists Bodily Injury", CoverageLimits.COV_2550_SUM, AvailableCoverageLimits.UM_SUM, "Per Person/Per Accident");
+	UM_SUM_NY("UM/SUM", "Supplementary Uninsured/Underinsured Motorists Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UM_SUM, "Per Person/Per Accident"),
+	UM_SUM_2550_NY("UM/SUM", "Uninsured Motorists Bodily Injury", CoverageLimits.COV_2550, AvailableCoverageLimits.UM_SUM, "Per Person/Per Accident");
 
 
 	private final String code;
