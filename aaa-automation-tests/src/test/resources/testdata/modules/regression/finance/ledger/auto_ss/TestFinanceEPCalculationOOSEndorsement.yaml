@@ -1,4 +1,5 @@
-TestData_EndorsementAPRemoveCoverage: {
+# ====================== TestData AZ =======================
+TestData_EndorsementAPRemoveCoverage_AZ: {
    GeneralTab: {},
    DriverTab: {},
    RatingDetailReportsTab: {},
@@ -10,11 +11,14 @@ TestData_EndorsementAPRemoveCoverage: {
    },
    DriverActivityReportsTab: {},
    DocumentsAndBindTab: {
-    RequiredToBind: {},
-  }
+     RequiredToBind: {
+       Auto Insurance Application: Physically Signed,
+       Uninsured and Underinsured Motorist Coverage Selection: Physically Signed
+     },
+   }
 }
 
-TestData_EndorsementAddSecondCoverage: {
+TestData_EndorsementAddSecondCoverage_AZ: {
      GeneralTab: {},
      DriverTab: {},
      RatingDetailReportsTab: {},
@@ -27,7 +31,7 @@ TestData_EndorsementAddSecondCoverage: {
      DocumentsAndBindTab: {}
 }
 
-TestData_EndorsementAddCoverage: {
+TestData_EndorsementAddCoverage_AZ: {
    GeneralTab: {},
    DriverTab: {},
    RatingDetailReportsTab: {},
