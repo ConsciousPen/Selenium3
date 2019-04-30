@@ -7,12 +7,18 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
+import aaa.main.modules.billing.account.actiontabs.RefundActionTab;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.TextBox;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import java.time.LocalDateTime;
@@ -393,12 +399,12 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         validateCancellationTx(cxPremAmount, policyNumber, totalTaxesNB.add(totalTaxesEnd));
 
         // Refund amount due back to customer manually
-        generateManualRefund(cxPremAmount);
+        Dollar cancelRefund = generateManualRefund();
 
         // Validate PMT-06
         assertSoftly(softly -> {
-            softly.assertThat(cxPremAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1044"));
-            softly.assertThat(cxPremAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1060"));
+            softly.assertThat(cancelRefund).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1044"));
+            softly.assertThat(cancelRefund).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1060"));
         });
 
         // Void refund
@@ -406,8 +412,8 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         // Validate PMT-07
         assertSoftly(softly -> {
-            softly.assertThat(cxPremAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REFUND_PAYMENT_VOIDED, "1044"));
-            softly.assertThat(cxPremAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REFUND_PAYMENT_VOIDED, "1060"));
+            softly.assertThat(cancelRefund).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REFUND_PAYMENT_VOIDED, "1044"));
+            softly.assertThat(cancelRefund).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REFUND_PAYMENT_VOIDED, "1060"));
         });
 
         // Reinstate policy without lapse
@@ -485,12 +491,12 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // Perform RP endorsement and generate refund
         Dollar reducedPrem = performRPEndorsement(policyNumber, effDate);
         SearchPage.openBilling(policyNumber);
-        generateManualRefund(reducedPrem);
+        Dollar cancelRefund = generateManualRefund();
 
         // Validate PMT-05
         assertSoftly(softly -> {
-            softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1065"));
-            softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1060"));
+            softly.assertThat(cancelRefund).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1065"));
+            softly.assertThat(cancelRefund).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1060"));
         });
 
         //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
@@ -725,9 +731,17 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
     }
 
-    private void generateManualRefund(Dollar amount) {
-        billingAccount.refund().perform(testDataManager.billingAccount.getTestData("Refund", METHOD_CHECK), amount);
-        billingAccount.approveRefund().perform(1);
+    private Dollar generateManualRefund() {
+        AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
+        billingAccount.refund().start();
+        Dollar amount = new Dollar(RefundActionTab.tblAllocations.getRow(1).getCell("Paid").getValue()).abs();
+        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue("Check");
+        acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(amount.toString());
+        acceptPaymentActionTab.submitTab();
+        if (BillingSummaryPage.tablePendingTransactions.getRowsCount() > 0) {
+            billingAccount.approveRefund().perform(1);
+        }
+        return amount;
     }
 
     private void generateAutomaticRefund(LocalDateTime refundDate) {
