@@ -1,10 +1,5 @@
 package aaa.main.modules.policy.abstract_tabs;
 
-import static org.openqa.selenium.By.id;
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.HashMap;
-import java.util.Map;
-import org.openqa.selenium.By;
 import aaa.common.ActionTab;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
@@ -13,6 +8,7 @@ import aaa.main.enums.DocGenEnum;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
+import org.openqa.selenium.By;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomSoftAssertions;
@@ -22,6 +18,12 @@ import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.openqa.selenium.By.id;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public abstract class CommonDocumentActionTab extends ActionTab {
 	private static final Object lock = new Object();
@@ -34,6 +36,7 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 	public StaticElement errorMsg = new StaticElement(By.xpath("//div[@id ='policyDataGatherForm:errorDialog_content']/span/table/tbody/tr/td/span"));
 	public Button closeErrorDialogBtn = new Button(id("policyDataGatherForm:cancelBtn"));
 	public TextBox eSignatureEmail = new TextBox(By.xpath("//input[@id='recipientEmailAddressFormPasdoc:recpEmail' or @id='recipientEmailAddressForm:recpEmail']"));
+	public TextBox eSignatureEmailError = new TextBox(By.xpath("//span[text() = 'Invalid email address format']"));
 	public Button eSignatureOkBtn = new Button(By.xpath("//input[@id='recipientEmailAddressFormPasdoc:okButton' or @id='recipientEmailAddressForm:okButton']"));
 	
 	protected CommonDocumentActionTab(Class<? extends MetaData> mdClass) {
