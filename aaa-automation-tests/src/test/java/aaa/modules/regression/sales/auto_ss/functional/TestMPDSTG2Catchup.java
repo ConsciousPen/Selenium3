@@ -51,7 +51,7 @@ public class TestMPDSTG2Catchup extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-28452 MPD Validation Phase 3: MPD/Membership Validation to occur simultaneously")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28452-1")
     public void pas28452_CatchUp_Boundary_MinusOne(@Optional("UT") String state) {
-        String policyNumber = mpdSTG2(populatefound,cancelledMS,-1, "Yes", true);
+        String policyNumber = addQuotedProductsAndRunJobs(populatefound,cancelledMS,-1, "Yes", true);
         String responseMPD = (AAAMultiPolicyDiscountQueries.getMPDVStatusDB(policyNumber).orElse("Null"));
         assertThat(responseMPD).isEqualTo("Null");
         assertThat(AAAMultiPolicyDiscountQueries.getMPDVEndoAndDocgenFromDB(policyNumber, "ENDORSEMENT_ISSUE","AHDRXX", "AAA Multi-Policy Discount" ).orElse("Null")).isEqualTo("0");
@@ -65,7 +65,7 @@ public class TestMPDSTG2Catchup extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-28452 MPD Validation Phase 3: MPD/Membership Validation to occur simultaneously")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28452-2")
     public void pas28452_MS_Cancelled_MPD_FOUND_STG2(@Optional("UT") String state) {
-        String policyNumber = mpdSTG2(populatefound,cancelledMS,0, "Yes", true);
+        String policyNumber = addQuotedProductsAndRunJobs(populatefound,cancelledMS,0, "Yes", true);
         String responseMPD = (AAAMultiPolicyDiscountQueries.getMPDVStatusDB(policyNumber).orElse("Null"));
         assertThat(responseMPD).isEqualTo("FOUND_STG2");
          assertThat(AAAMultiPolicyDiscountQueries.getMPDVEndoAndDocgenFromDB(policyNumber, "ENDORSEMENT_ISSUE","AHDRXX", "AAA Membership Discount" ).orElse("Null")).isEqualTo("1");
@@ -79,7 +79,7 @@ public class TestMPDSTG2Catchup extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-28452 MPD Validation Phase 3: MPD/Membership Validation to occur simultaneously")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28452-3")
     public void pas28452_MS_Cancelled_MPD_NOTFOUND_STG2(@Optional("UT") String state) {
-        String policyNumber = mpdSTG2(populateData_NotFound,cancelledMS,0, "Yes", true);
+        String policyNumber = addQuotedProductsAndRunJobs(populateData_NotFound,cancelledMS,0, "Yes", true);
         String responseMPD = (AAAMultiPolicyDiscountQueries.getMPDVStatusDB(policyNumber).orElse("Null"));
         assertThat(responseMPD).isEqualTo("NOTFOUND_STG2");
         assertThat(AAAMultiPolicyDiscountQueries.getMPDVEndoAndDocgenFromDB(policyNumber, "ENDORSEMENT_ISSUE","AHDRXX", "AAA Multi-Policy Discount" ).orElse("Null")).isEqualTo("1");
@@ -93,7 +93,7 @@ public class TestMPDSTG2Catchup extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-28452 MPD Validation Phase 3: MPD/Membership Validation to occur simultaneously")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28452-4")
     public void pas28452_MS_Active_MPD_FOUND_STG2(@Optional("KY") String state) {
-        String policyNumber = mpdSTG2(populatefound,activeMS,2, "Yes", true);
+        String policyNumber = addQuotedProductsAndRunJobs(populatefound,activeMS,2, "Yes", true);
         String responseMPD = (AAAMultiPolicyDiscountQueries.getMPDVStatusDB(policyNumber).orElse("Null"));
         assertThat(responseMPD).isEqualTo("FOUND_STG2");
         assertThat(AAAMultiPolicyDiscountQueries.getMPDVEndoAndDocgenFromDB(policyNumber, "ENDORSEMENT_ISSUE","AHDRXX", "AAA Multi-Policy Discount" ).orElse("Null")).isEqualTo("0");
@@ -107,7 +107,7 @@ public class TestMPDSTG2Catchup extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-28452 MPD Validation Phase 3: MPD/Membership Validation to occur simultaneously")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28452-5")
     public void pas28452_MS_Active_MPD_NOTFOUND_STG2(@Optional("UT") String state) {
-        String policyNumber = mpdSTG2(populateData_NotFound,activeMS,0, "Yes", true);
+        String policyNumber = addQuotedProductsAndRunJobs(populateData_NotFound,activeMS,0, "Yes", true);
         String responseMPD = (AAAMultiPolicyDiscountQueries.getMPDVStatusDB(policyNumber).orElse("Null"));
         assertThat(responseMPD).isEqualTo("NOTFOUND_STG2");
         assertThat(AAAMultiPolicyDiscountQueries.getMPDVEndoAndDocgenFromDB(policyNumber, "ENDORSEMENT_ISSUE","AHDRXX", "AAA Multi-Policy Discount" ).orElse("Null")).isEqualTo("1");
@@ -122,7 +122,7 @@ public class TestMPDSTG2Catchup extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28452-6")
     //TODO not working due to some optional error issue
     public void pas28452_MS_Cancelled_MPD_Error(@Optional("UT") String state) {
-        String policyNumber = mpdSTG2(populateerror,cancelledMS,0, "Yes", true);
+        String policyNumber = addQuotedProductsAndRunJobs(populateerror,cancelledMS,0, "Yes", true);
         String responseMPD = (AAAMultiPolicyDiscountQueries.getMPDVStatusDB(policyNumber).orElse("Null"));
         assertThat(responseMPD).isEqualTo("ERROR_STG2");
         assertThat(AAAMultiPolicyDiscountQueries.getMPDVEndoAndDocgenFromDB(policyNumber, "ENDORSEMENT_ISSUE","AHDRXX", "AAA Multi-Policy Discount" ).orElse("Null")).isEqualTo("0");
@@ -137,7 +137,7 @@ public class TestMPDSTG2Catchup extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-28452 MPD Validation Phase 3: MPD/Membership Validation to occur simultaneously")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28452-7")
     public void pas28452_MS_Active_MPD_Error(@Optional("UT") String state) {
-        String policyNumber = mpdSTG2(populateerror, activeMS, 0, "Yes", true);
+        String policyNumber = addQuotedProductsAndRunJobs(populateerror, activeMS, 0, "Yes", true);
         String responseMPD = (AAAMultiPolicyDiscountQueries.getMPDVStatusDB(policyNumber).orElse("Null"));
         assertThat(responseMPD).isEqualTo("ERROR_STG2");
         assertThat(AAAMultiPolicyDiscountQueries.getMPDVEndoAndDocgenFromDB(policyNumber, "ENDORSEMENT_ISSUE","AHDRXX", "AAA Multi-Policy Discount" ).orElse("Null")).isEqualTo("0");
@@ -152,7 +152,7 @@ public class TestMPDSTG2Catchup extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-28452 MPD Validation Phase 3: MPD/Membership Validation to occur simultaneously")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28452-8")
     public void pas28452_MS_Active_MPD_None(@Optional("UT") String state) {
-        String policyNumber = mpdSTG2("REFRESH_Qx@gmail.com", activeMS, 0, "Yes", false);
+        String policyNumber = addQuotedProductsAndRunJobs("REFRESH_Qx@gmail.com", activeMS, 0, "Yes", false);
         String responseMPD = (AAAMultiPolicyDiscountQueries.getMPDVStatusDB(policyNumber).orElse("Null"));
         assertThat(responseMPD).isEqualTo("Null");
         assertThat(AAAMultiPolicyDiscountQueries.getMPDVEndoAndDocgenFromDB(policyNumber, "ENDORSEMENT_ISSUE","AHDRXX", "AAA Multi-Policy Discount" ).orElse("Null")).isEqualTo("0");
@@ -166,7 +166,7 @@ public class TestMPDSTG2Catchup extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "PAS-28452 MPD Validation Phase 3: MPD/Membership Validation to occur simultaneously")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28452-9")
     public void pas28452_MS_Cancelled_MPD_None(@Optional("UT") String state) {
-        String policyNumber = mpdSTG2("REFRESH_Q@gmail.com", cancelledMS, 0, "Yes", false);
+        String policyNumber = addQuotedProductsAndRunJobs("REFRESH_Q@gmail.com", cancelledMS, 0, "Yes", false);
         String responseMPD = (AAAMultiPolicyDiscountQueries.getMPDVStatusDB(policyNumber).orElse("Null"));
         assertThat(responseMPD).isEqualTo("Null");
         assertThat(AAAMultiPolicyDiscountQueries.getMPDVEndoAndDocgenFromDB(policyNumber, "ENDORSEMENT_ISSUE","AHDRXX", "AAA Multi-Policy Discount" ).orElse("Null")).isEqualTo("0");
@@ -179,7 +179,7 @@ public class TestMPDSTG2Catchup extends AutoSSBaseTest {
      * @param insurercd used to set the flag for membership Yes or No
      * @param none used to bypass the AAA Other Products section
      */
-    private String mpdSTG2(String wiremockValue, String membershipNumber, int catchup, String insurercd, boolean none) {
+    private String addQuotedProductsAndRunJobs(String wiremockValue, String membershipNumber, int catchup, String insurercd, boolean none) {
         GeneralTab generalTab = new GeneralTab();
         ErrorTab errorTab = new ErrorTab();
 
