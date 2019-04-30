@@ -6,6 +6,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.rest.dtoDxp.*;
@@ -35,7 +36,9 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = {"PAS-27988"})
 	public void pas27988_miniServicesDiscounts(@Optional("CA") String state) {
-		String policyNumber = getCopiedPolicy();
+		mainApp().open();
+		String policyNumber = "CAAS952918584"; //getCopiedPolicy();
+		SearchPage.openPolicy(policyNumber);
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
@@ -78,7 +81,7 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 		addDriverRequest = DXPRequestFactory.createAddDriverRequest("James", "", "Fo", TimeSetterUtil.getInstance().getCurrentTime().minusYears(50).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), "I");
 		DriversDto addDriverResponse6 = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "B1234565",
-				16, "CA", "CH", "S", true);
+				16, "CA", "CH", "S", false);
 		HelperCommon.updateDriver(policyNumber, addDriverResponse6.oid, updateDriverRequest);
 
 		DiscountSummary endorsementDiscountsResponse = HelperCommon.viewDiscounts(policyNumber, "endorsement", 200);

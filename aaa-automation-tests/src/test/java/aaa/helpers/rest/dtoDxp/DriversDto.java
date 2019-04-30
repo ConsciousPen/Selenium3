@@ -94,6 +94,12 @@ public class DriversDto implements RestBodyRequest {
 	@JsonProperty("firstLicenseAge")
 	public Integer firstLicenseAge;
 
+	@JsonProperty("permitBeforeLicense")
+	public Boolean permitBeforeLicense; //TODO-mstrazds: remove as it is in another branch
+
+	@ApiModelProperty(value = "Available Discounts for driver")
+	public List<DiscountInfo> availableDiscounts;//TODO-mstrazds: in scope of this story!
+
 	@ApiModelProperty(value = "Available Actions for driver")
 	public List<String> availableActions;
 
