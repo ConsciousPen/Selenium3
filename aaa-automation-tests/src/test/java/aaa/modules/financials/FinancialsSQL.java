@@ -84,6 +84,10 @@ public final class FinancialsSQL {
 		public static final String MVLE_FEE = "MVLEFee";
 		public static final String REINSTATEMENT_FEE = "ReinstatementFee";
 		public static final String RENEWAL_LAPSE_FEE = "RenewalLapseFee";
+		public static final String AUTOMATED_REFUND = "AutomatedRefund";
+		public static final String MANUAL_REFUND = "ManualRefund";
+		public static final String REFUND_PAYMENT_VOIDED = "RefundPaymentVoided";
+		public static final String ESCHEATMENT = "Escheatment";
     }
 
 }

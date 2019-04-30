@@ -23,8 +23,9 @@
         <classes>
             <class name="aaa.modules.financials.pup.TestRenewal">
                 <methods>
-                    <exclude name="testRenewalScenario_1"/>
-                    <exclude name="testRenewalScenario_2"/>
+                    <include name="testRenewalScenario_3"/>
+                    <include name="testRenewalScenario_4"/>
+                    <include name="testRenewalScenario_5"/>
                 </methods>
             </class>
         </classes>
@@ -42,13 +43,14 @@
         </classes>
     </test>
 
-    <test name="Renewal 3/4 - SS Auto" parallel="methods" thread-count="1024">
+    <test name="Renewal 3/4/5 - SS Auto" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.auto_ss.TestRenewal">
                 <methods>
-                    <exclude name="testRenewalScenario_1"/>
-                    <exclude name="testRenewalScenario_2"/>
+                    <include name="testRenewalScenario_3"/>
+                    <include name="testRenewalScenario_4"/>
+                    <include name="testRenewalScenario_5"/>
                 </methods>
             </class>
         </classes>
@@ -71,8 +73,9 @@
         <classes>
             <class name="aaa.modules.financials.home_ss.dp3.TestRenewal">
                 <methods>
-                    <exclude name="testRenewalScenario_1"/>
-                    <exclude name="testRenewalScenario_2"/>
+                    <include name="testRenewalScenario_3"/>
+                    <include name="testRenewalScenario_4"/>
+                    <include name="testRenewalScenario_5"/>
                 </methods>
             </class>
         </classes>
@@ -95,8 +98,9 @@
         <classes>
             <class name="aaa.modules.financials.home_ss.ho3.TestRenewal">
                 <methods>
-                    <exclude name="testRenewalScenario_1"/>
-                    <exclude name="testRenewalScenario_2"/>
+                    <include name="testRenewalScenario_3"/>
+                    <include name="testRenewalScenario_4"/>
+                    <include name="testRenewalScenario_5"/>
                 </methods>
             </class>
         </classes>
@@ -119,8 +123,9 @@
         <classes>
             <class name="aaa.modules.financials.home_ss.ho4.TestRenewal">
                 <methods>
-                    <exclude name="testRenewalScenario_1"/>
-                    <exclude name="testRenewalScenario_2"/>
+                    <include name="testRenewalScenario_3"/>
+                    <include name="testRenewalScenario_4"/>
+                    <include name="testRenewalScenario_5"/>
                 </methods>
             </class>
         </classes>
@@ -143,8 +148,9 @@
         <classes>
             <class name="aaa.modules.financials.home_ss.ho6.TestRenewal">
                 <methods>
-                    <exclude name="testRenewalScenario_1"/>
-                    <exclude name="testRenewalScenario_2"/>
+                    <include name="testRenewalScenario_3"/>
+                    <include name="testRenewalScenario_4"/>
+                    <include name="testRenewalScenario_5"/>
                 </methods>
             </class>
         </classes>

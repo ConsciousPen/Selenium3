@@ -7,7 +7,9 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
+import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -19,6 +21,9 @@ import java.util.Map;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestNewBusinessTemplate extends FinancialsBaseTest {
+
+    private BillingAccount billingAccount = new BillingAccount();
+    private Dollar refundAmount = new Dollar(100);
 
     /**
      * @scenario
@@ -330,6 +335,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         mainApp().open();
         createCustomerIndividual();
         String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(getPolicyTD()));
+        LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
         Dollar premTotal = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.POLICY);
 
         // taxes only applies to WV and KY and value needs added to premium amount for correct validation below
@@ -381,10 +387,28 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         // Cancel policy
         cancelPolicy(policyNumber);
+        Dollar cxPremAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION);
 
         //validate CNL-02
-        validateCancellationTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
-                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION), policyNumber, totalTaxesNB.add(totalTaxesEnd));
+        validateCancellationTx(cxPremAmount, policyNumber, totalTaxesNB.add(totalTaxesEnd));
+
+        // Refund amount due back to customer manually
+        generateManualRefund(cxPremAmount);
+
+        // Validate PMT-06
+        assertSoftly(softly -> {
+            softly.assertThat(cxPremAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1044"));
+            softly.assertThat(cxPremAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1060"));
+        });
+
+        // Void refund
+        voidRefundPayment(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_REFUND);
+
+        // Validate PMT-07
+        assertSoftly(softly -> {
+            softly.assertThat(cxPremAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REFUND_PAYMENT_VOIDED, "1044"));
+            softly.assertThat(cxPremAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REFUND_PAYMENT_VOIDED, "1060"));
+        });
 
         // Reinstate policy without lapse
         performReinstatement(policyNumber);
@@ -392,6 +416,32 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         //validate RST-03
         validateReinstatementTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
                 BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REINSTATEMENT), policyNumber, totalTaxesNB.add(totalTaxesEnd));
+
+        // Overpay and generate refund automatically
+        LocalDateTime refundDate = getTimePoints().getRefundDate(effDate);
+        billingAccount.acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Check"), refundAmount);
+        generateAutomaticRefund(refundDate);
+
+        // Validate PMT-19
+        assertSoftly(softly -> {
+            softly.assertThat(refundAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.AUTOMATED_REFUND, "1044"));
+            softly.assertThat(refundAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.AUTOMATED_REFUND, "1060"));
+        });
+
+        // Advance time and run escheatment job
+        TimeSetterUtil.getInstance().nextPhase(refundDate.plusMonths(13).withDayOfMonth(1));
+        JobUtils.executeJob(Jobs.aaaEscheatmentProcessAsyncJob);
+
+        // Validate PMT-14 and PMT-15
+        assertSoftly(softly -> {
+            // PMT-14
+            softly.assertThat(refundAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REFUND_PAYMENT_VOIDED, "1044"));
+            softly.assertThat(refundAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REFUND_PAYMENT_VOIDED, "1060"));
+            // PMT-15
+            softly.assertThat(refundAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ESCHEATMENT, "1041"));
+            softly.assertThat(refundAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ESCHEATMENT, "1044"));
+        });
+
     }
 
     /**
@@ -432,8 +482,16 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             });
         }
 
-        SearchPage.openPolicy(policyNumber);
+        // Perform RP endorsement and generate refund
         Dollar reducedPrem = performRPEndorsement(policyNumber, effDate);
+        SearchPage.openBilling(policyNumber);
+        generateManualRefund(reducedPrem);
+
+        // Validate PMT-05
+        assertSoftly(softly -> {
+            softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1065"));
+            softly.assertThat(reducedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1060"));
+        });
 
         //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
         TimeSetterUtil.getInstance().nextPhase(effDate);
@@ -444,7 +502,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         Dollar totalTaxesEnd = FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053")
                 .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1053"));
 
-        //END-04 and PMT-05 validations
+        //END-04 validations
         assertSoftly(softly -> {
             softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
             softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")
@@ -471,10 +529,10 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         //Cancel policy
         cancelPolicy(policyNumber);
         LocalDateTime cxEffDate = getCancellationEffectiveDate();
+        Dollar cxRefundAmt = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION);
 
         //CNL-04 validations
-        validateCancellationTx(getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM,
-                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION), policyNumber, totalTaxesNB.subtract(totalTaxesEnd));
+        validateCancellationTx(cxRefundAmt, policyNumber, totalTaxesNB.subtract(totalTaxesEnd));
 
         //Advance time and reinstate policy with lapse
         performReinstatementWithLapse(effDate, policyNumber);
@@ -665,6 +723,17 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         mainApp().open();
         performReinstatement(policyNumber);
 
+    }
+
+    private void generateManualRefund(Dollar amount) {
+        billingAccount.refund().perform(testDataManager.billingAccount.getTestData("Refund", METHOD_CHECK), amount);
+        billingAccount.approveRefund().perform(1);
+    }
+
+    private void generateAutomaticRefund(LocalDateTime refundDate) {
+        TimeSetterUtil.getInstance().nextPhase(refundDate);
+        JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+        JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
     }
 
 }

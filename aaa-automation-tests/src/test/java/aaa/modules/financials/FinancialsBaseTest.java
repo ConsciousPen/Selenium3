@@ -52,7 +52,7 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		}
-		Dollar due = new Dollar(BillingSummaryPage.getTotalDue());
+		Dollar due = BillingSummaryPage.getTotalDue();
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), due);
 		return due;
 	}
@@ -81,15 +81,14 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 	}
 
 	protected void cancelPolicy(String policyNumber) {
+		cancelPolicy(policyNumber, TimeSetterUtil.getInstance().getCurrentTime());
+	}
+
+	protected void cancelPolicy(String policyNumber, LocalDateTime cxDate) {
 		if (!PolicySummaryPage.labelPolicyStatus.isPresent()) {
 			SearchPage.openPolicy(policyNumber);
 		}
-		cancelPolicy(TimeSetterUtil.getInstance().getCurrentTime());
-	}
-
-	protected void cancelPolicy(LocalDateTime cxDate) {
 		policy.cancel().perform(getCancellationTD(cxDate));
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 	}
 
 	protected void performReinstatement(String policyNumber) {
@@ -122,9 +121,7 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		}
 		policy.endorse().perform(getEndorsementTD(effDate));
 		policy.getDefaultView().fill(getReducePremiumTD());
-		Dollar reducedPrem = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT);
-		SearchPage.openPolicy(policyNumber);
-		return reducedPrem;
+		return getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.ENDORSEMENT);
 	}
 
 	protected void performNonPremBearingEndorsement(String policyNumber, LocalDateTime effDate) {
@@ -175,6 +172,10 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query)
 				.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(BillingConstants.PaymentsAndOtherTransactionAction.WAIVE).click();
 		BillingSummaryPage.dialogConfirmation.confirm();
+	}
+
+	protected void voidRefundPayment(String refundType) {
+		clickBillingTransactionActionLink(BillingConstants.PaymentsAndOtherTransactionType.REFUND, refundType, BillingConstants.PaymentsAndOtherTransactionAction.VOID);
 	}
 
 	protected boolean isTaxState() {
@@ -256,6 +257,15 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 			taxes.put(TOTAL, taxes.get(STATE));
 		}
 		return taxes;
+	}
+
+	private void clickBillingTransactionActionLink(String type, String subType, String linkText) {
+		Map<String, String> query = new HashMap<>();
+		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, type);
+		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, subType);
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query)
+				.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(linkText).click();
+		BillingSummaryPage.dialogConfirmation.confirm();
 	}
 
 }
