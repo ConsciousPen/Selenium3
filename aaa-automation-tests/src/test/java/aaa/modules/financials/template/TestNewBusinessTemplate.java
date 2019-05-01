@@ -490,10 +490,11 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         Dollar reducedPrem = performRPEndorsement(policyNumber, effDate);
         SearchPage.openBilling(policyNumber);
         Dollar cancelRefund = generateManualRefund();
+        Dollar fees = BillingHelper.getFeesValue(effDate);
 
         // Validate PMT-05
         assertSoftly(softly -> {
-            softly.assertThat(cancelRefund).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1065"));
+            softly.assertThat(cancelRefund.subtract(fees)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1065"));
             softly.assertThat(cancelRefund).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1060"));
         });
 
