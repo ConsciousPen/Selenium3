@@ -896,6 +896,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(tdVersion); //Policy created with 2 Drivers and 1 vehicle with assignment as D1/V1
+
 		processPlus20DaysEndorsementAtomicMergeAssignment(tdVersion1); //Delete D2
 		processPlus10DaysOOSEndorsement(tdVersion2); //Change assignment D2/V1
 		policy.rollOn().openConflictPage(isAutomatic);
@@ -1011,7 +1012,6 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(tdVersion); //TODO create policy with 3 drivers and 1 vehicle, assignment as D2/V1
-		//searchForPolicy("CAAS952918806");
 		processPlus20DaysEndorsementAtomicMergeAssignment(tdVersion1); //TODO Endorsement - Delete D2, D3/V1
 		processPlus10DaysEndorsementAtomicMergeAssignment(tdVersion2); ////TODO OOSE - Delete D3, D2/V1
 		policy.rollOn().openConflictPage(isAutomatic);

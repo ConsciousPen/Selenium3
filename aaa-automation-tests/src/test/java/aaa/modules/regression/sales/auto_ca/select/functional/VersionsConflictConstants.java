@@ -695,12 +695,13 @@ public class VersionsConflictConstants {
 					.put("AAADriver Vehicle Relationship", AVAILABLE)
 					.put("Drivers.Driver (Second Driver Version1)",CURRENT)
 					.put("Vehicles.Vehicle (1998, DODGE, CARAVAN)",CURRENT)
-					.put("Vehicles.2008, ACURA, MDX.Primary Driver",CURRENT)
+					.put("Vehicles.2008, ACURA, MDX.Primary Driver",AVAILABLE)
 					.put("Vehicles.2008, ACURA, MDX.Manually Rated Driver",AVAILABLE)
 					.build());
 
 	//components/attributes that should be on comparision page Rolled on/Endorsement for Atomic Merge Scenario1
 	static final Multimap<String,String> ATOMIC_MERGE_SCENARIO2_VERSION1 = ImmutableListMultimap.<String, String>builder()
+			.put("Vehicles.2008, ACURA, MDX","Primary Driver")
 			.put("Vehicles.2008, ACURA, MDX","System Rated Driver")
 			.put("Vehicles.2008, ACURA, MDX","Manually Rated Driver")
 			.build();
