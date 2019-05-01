@@ -422,4 +422,23 @@
         </classes>
     </test>
 
+    <test name="Atomic Merge Assignment Tab CA Select" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas27125_ooseConflictManualAtomicMergeAssignment_Scenario1"/>
+                    <include name="pas27125_ooseConflictAutoAtomicMergeAssignment_Scenario1"/>
+                    <include name="pas27125_renewalMergeAtomicMergeAssignment_Scenario1"/>
+                    <include name="pas27125_ooseConflictManualAtomicMergeAssignment_Scenario2"/>
+                    <include name="pas27125_ooseConflictAutoAtomicMergeAssignment_Scenario2"/>
+                    <include name="pas27125_renewalMergeAtomicMergeAssignment_Scenario2"/>
+                    <include name="pas27125_ooseConflictManualAtomicMergeAssignment_Scenario3"/>
+                    <include name="pas27125_ooseConflictManualAtomicMergeAssignment_Scenario4"/>
+                    <include name="pas27125_ooseConflictAutoAtomicMergeAssignment_Scenario4"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>

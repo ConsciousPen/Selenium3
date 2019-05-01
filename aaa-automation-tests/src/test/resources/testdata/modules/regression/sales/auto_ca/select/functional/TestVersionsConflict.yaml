@@ -1393,3 +1393,200 @@ NamedInsuredInformation_RenewalVersion1: {
   Validate Address Dialog: {
   }
 }
+
+TestData_AtomicMerge_Scenario1_NB_Policy: {
+  PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverInformation','@DriverTab1'],
+  MembershipTab: {},
+  VehicleTab: '@VehicleInformation',
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Primary Driver: "NBFirstName NBLastName",
+      Manually Rated Driver: "NBFirstName NBLastName"
+    }
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000',
+  },
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the policy?": 'Yes',
+    Sales Agent Agreement: I Agree,
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      California Car Policy Application: Physically Signed,
+      Subscriber Agreement: Physically Signed,
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Policy Application: 'Yes',
+      Auto Billing Plan Explanation: 'Yes',
+      Proof of Mature Driver Course Completion: 'Yes',
+    }
+  },
+  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+}
+
+TestData_AtomicMerge_Scenario1_Version1: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Primary Driver: "NBFirstName NBLastName",
+      Manually Rated Driver: "NBFirstName NBLastName"
+    }
+  },
+}
+
+TestData_AtomicMerge_Scenario1_Version2: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Primary Driver: "Second Driver Version1",
+      Manually Rated Driver: "Second Driver Version1"
+    }
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+TestData_AtomicMerge_Scenario2_NB_Policy: {
+  PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverInformation','@DriverTab1'],
+  MembershipTab: {},
+  VehicleTab: '@VehicleInformation',
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Primary Driver: "Second Driver Version1",
+      Manually Rated Driver: "Second Driver Version1"
+    }
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000',
+  },
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the policy?": 'Yes',
+    Sales Agent Agreement: I Agree,
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      California Car Policy Application: Physically Signed,
+      Subscriber Agreement: Physically Signed,
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Policy Application: 'Yes',
+      Auto Billing Plan Explanation: 'Yes',
+      Proof of Mature Driver Course Completion: 'Yes',
+    }
+  },
+  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+}
+
+TestData_AtomicMerge_Scenario2_Version1: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Primary Driver: "NBFirstName NBLastName",
+      Manually Rated Driver: "NBFirstName NBLastName"
+    }
+  },
+}
+
+TestData_AtomicMerge_Scenario2_Version2: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: ['@VehicleInformation', '@VehicleInformation_Version2'],
+  AssignmentTab: {
+     DriverVehicleRelationshipTable: ['@DriverVehicleRelationship2','@DriverVehicleRelationship2'],
+  },
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+    DriverActivityReportsTab: {},
+    DocumentsAndBindTab: {}
+}
+
+TestData_AtomicMerge_Scenario4_NB_Policy: {
+  PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverInformation','@DriverInformation_Add_Version1','@DriverTab2'],
+  MembershipTab: {},
+  VehicleTab: '@VehicleTab1',
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Primary Driver: "NBFirstName NBLastName",
+      Manually Rated Driver: "NBFirstName NBLastName"
+    }
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000',
+  },
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the policy?": 'Yes',
+    Sales Agent Agreement: I Agree,
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      California Car Policy Application: Physically Signed,
+      Subscriber Agreement: Physically Signed,
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Policy Application: 'Yes',
+      Proof of Good Student Discount: 'Yes',
+      Auto Billing Plan Explanation: 'Yes',
+      Proof of New Driver Course Completion: 'Yes',
+      Proof of Mature Driver Course Completion: 'Yes',
+
+    }
+  },
+  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+}
+
+TestData_AtomicMerge_Scenario4_Version1: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Primary Driver: "New Driver Version2",
+      Manually Rated Driver: "New Driver Version2"
+    }
+  },
+}
+
+TestData_AtomicMerge_Scenario4_Version2: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Primary Driver: "New Driver Version1",
+      Manually Rated Driver: "New Driver Version1"
+    }
+  },
+}

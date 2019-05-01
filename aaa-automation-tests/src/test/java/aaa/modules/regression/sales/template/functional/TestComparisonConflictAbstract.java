@@ -12,6 +12,7 @@ import java.util.Map;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -27,6 +28,7 @@ import aaa.modules.regression.sales.auto_ss.functional.VersionsComparisonConstan
 import aaa.modules.regression.sales.helper.SectionFieldData;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
+import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 
@@ -889,7 +891,148 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
 	}
+	protected void ooseConflictAtomicMerge(TestData tdVersion, TestData tdVersion1, TestData tdVersion2, ArrayListMultimap<String, String> conflictLinks, Multimap<String, String> expectedSectionsAndUIFieldsOOSE,
+										   String tabName, String sectionName, Boolean isAutomatic) {
+		mainApp().open();
+		createCustomerIndividual();
+		createPolicy(tdVersion); //Policy created with 2 Drivers and 1 vehicle with assignment as D1/V1
+		processPlus20DaysEndorsementAtomicMergeAssignment(tdVersion1); //Delete D2
+		processPlus10DaysOOSEndorsement(tdVersion2); //Change assignment D2/V1
+		policy.rollOn().openConflictPage(isAutomatic);
 
+		if (tableDifferences.isPresent()) {
+			resolveConflict(conflictLinks);
+			policy.rollOn().submit();
+		}
+
+		PolicySummaryPage.buttonTransactionHistory.click();
+		verifyTransactionHistoryType(1, ROLLED_ON_ENORSEMENT);
+		verifyTransactionHistoryType(2, OOS_ENDORSEMENT);
+		verifyTransactionHistoryType(3, BACKED_OFF_ENDORSEMENT);
+		verifyTransactionHistoryType(4, ISSUE);
+
+		selectTransactionType(1, true);
+		selectTransactionType(2, true);
+		PolicySummaryPage.buttonCompareVersions.click();
+		checkComparisonPage(tdVersion2, tdVersion1, expectedSectionsAndUIFieldsOOSE, tabName, sectionName);
+		Tab.buttonCancel.click();
+	}
+
+	protected void renewalMergeAtomicMerge(TestData tdVersion, TestData tdVersion1, TestData tdVersion2, ArrayListMultimap<String, String> conflictLinks, Multimap<String, String> expectedSectionsAndUIFieldsOOSE,
+										   String tabName, String sectionName, Boolean isAutomatic) {
+		mainApp().open();
+		createCustomerIndividual();
+		createPolicy(tdVersion);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
+		processRenewalGenerationJob(expirationDate);
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		renewalVersionForAtomicMergeAssignment(tdVersion1);
+		processMinus1MonthEndorsement(tdVersion2);
+		//Todo solve this issue with error for effective date
+		if (errorTab.isVisible()) {
+			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_200011);
+			errorTab.submitTab();
+		}
+
+		if (tableDifferences.isPresent()) {
+			resolveConflict(conflictLinks);
+			policy.rollOn().submit();
+		}
+
+		PolicySummaryPage.buttonRenewalQuoteVersion.click();
+		verifyTransactionHistoryType(1, RENEWAL);
+		verifyTransactionHistoryType(2, RENEWAL);
+		verifyTransactionHistoryType(3, RENEWAL);
+
+		selectTransactionType(1, true);
+		selectTransactionType(2, true);
+		PolicySummaryPage.buttonCompare.click();
+
+		//checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFieldsRenewal, tabName, sectionName);
+	}
+
+	protected void processPlus20DaysEndorsementAtomicMergeAssignment(TestData td) {
+		TestData endorsementTD = td.adjust(getTestSpecificTD("TestData_Plus20Days"));
+		policy.endorse().performAndFill(endorsementTD);
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		new DriverTab().tableDriverList.removeRow(2);
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+	}
+
+	protected void processPlus10DaysEndorsementAtomicMergeAssignment(TestData td) {
+		TestData endorsementTD = td.adjust(getTestSpecificTD("TestData_Plus10Days"));
+		policy.endorse().performAndFill(endorsementTD);
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		new DriverTab().tableDriverList.removeRow(3);
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+	}
+
+	protected void renewalVersionForAtomicMergeAssignment(TestData td) {
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		policy.getDefaultView().fill(td);
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		new DriverTab().tableDriverList.removeRow(2);
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+	}
+
+	protected void ooseConflictAtomicMerge_Scenario3(TestData tdVersion, TestData tdVersion1, TestData tdVersion2, ArrayListMultimap<String, String> conflictLinks1,  ArrayListMultimap<String, String> conflictLinks2, Boolean isAutomatic) {
+		mainApp().open();
+		createCustomerIndividual();
+		createPolicy(tdVersion);
+		processPlus20DaysEndorsementForRemove(tdVersion1);
+		processPlus10DaysOOSEndorsementForRemove(tdVersion2);
+		policy.rollOn().openConflictPage(isAutomatic);
+		resolveConflict(conflictLinks1); //Resolving conflicts such a way that Roll on changes button gets disabled since we are keeping a vehicle with no driver assigned
+		assertSoftly(softly -> {softly.assertThat(PolicyActions.buttonRollOnChanges.isEnabled()).as("Roll on Changes button expected to be disabled since we are leaving a vehicle without driver assigned").isEqualTo(false);});
+		resolveConflict(conflictLinks2); //Resolving conflicts to give a successful roll on
+		assertSoftly(softly -> {softly.assertThat(PolicyActions.buttonRollOnChanges.isEnabled()).as("Roll on Changes button expected to be enabled, but is still disabled").isEqualTo(true);});
+		policy.rollOn().submit();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(PolicySummaryPage.tablePolicyDrivers).hasRows(1);
+			softly.assertThat(PolicySummaryPage.tablePolicyVehicles).hasRows(1);
+		});
+	}
+
+
+	protected void ooseConflictAtomicMerge_Scenario4(TestData tdVersion, TestData tdVersion1, TestData tdVersion2, ArrayListMultimap<String, String> conflictLinks, Multimap<String, String> expectedSectionsAndUIFieldsOOSE,
+													 String tabName, String sectionName, Boolean isAutomatic) {
+		mainApp().open();
+		createCustomerIndividual();
+		createPolicy(tdVersion); //TODO create policy with 3 drivers and 1 vehicle, assignment as D2/V1
+		//searchForPolicy("CAAS952918806");
+		processPlus20DaysEndorsementAtomicMergeAssignment(tdVersion1); //TODO Endorsement - Delete D2, D3/V1
+		processPlus10DaysEndorsementAtomicMergeAssignment(tdVersion2); ////TODO OOSE - Delete D3, D2/V1
+		policy.rollOn().openConflictPage(isAutomatic);
+
+		if (tableDifferences.isPresent()) {
+			resolveConflict(conflictLinks);
+			policy.rollOn().submit();
+		}
+
+		PolicySummaryPage.buttonTransactionHistory.click();
+		verifyTransactionHistoryType(1, ROLLED_ON_ENORSEMENT);
+		verifyTransactionHistoryType(2, OOS_ENDORSEMENT);
+		verifyTransactionHistoryType(3, BACKED_OFF_ENDORSEMENT);
+		verifyTransactionHistoryType(4, ISSUE);
+
+		selectTransactionType(1, true);
+		selectTransactionType(2, true);
+		PolicySummaryPage.buttonCompareVersions.click();
+		checkComparisonPage(tdVersion2, tdVersion1, expectedSectionsAndUIFieldsOOSE, tabName, sectionName);
+		Tab.buttonCancel.click();
+	}
 	/**
 	 * OOS endorsement transaction current date date - 1 month
 	 * @param td test data that is used for endorsement transaction

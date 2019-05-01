@@ -109,6 +109,7 @@ public class VersionsConflictConstants {
 			.putAll("Vehicles.Vehicle (2011, CHEVROLET, EXPRESS VAN)","","Vehicle (2011, CHEVROLET, EXPRESS VAN)")
 			.putAll("Vehicles.Vehicle (2011, MERCEDES-BENZ, G55AMG)","","Vehicle (2011, MERCEDES-BENZ, G55AMG)")
 			.putAll("Named Insureds.Insured Principal (Second VI Insured)","","Insured Principal (Second VI Insured)")
+			.putAll("Vehicles.2008, ACURA, MDX.System Rated Driver", "NBFirstName NBLastName", "Second Driver Version1")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -221,6 +222,8 @@ public class VersionsConflictConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN.Primary Use", "Primary Use")
 			//Assignment
 			.put("Vehicles.1998, DODGE, CARAVAN.Primary Driver", "Primary Driver")
+			.put("Vehicles.2008, ACURA, MDX.Primary Driver", "Primary Driver")
+			.put("Vehicles.2008, ACURA, MDX.Manually Rated Driver", "Manually Rated Driver")
 			.build();
 
 	/**
@@ -669,4 +672,67 @@ public class VersionsConflictConstants {
 	protected static final ArrayListMultimap<String, String> REMOVE_NAMED_INSURED = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
 					.build());
+
+	protected static final ArrayListMultimap<String, String> ATOMIC_MERGE_SCENARIO1 = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("AAADriver Vehicle Relationship", CURRENT)
+					.put("AAADriver Vehicle Relationship", AVAILABLE)
+					.put("Drivers.Driver (Second Driver Version1)",AVAILABLE)
+					.build());
+
+	//components/attributes that should be on comparision page Rolled on/Endorsement for Atomic Merge Scenario1
+	static final Multimap<String,String> ATOMIC_MERGE_SCENARIO1_VERSION1 = ImmutableListMultimap.<String, String>builder()
+			.put("Drivers","Driver (Second Driver Version1)")
+			.put("Vehicles.2008, ACURA, MDX","Primary Driver")
+			.put("Vehicles.2008, ACURA, MDX","System Rated Driver")
+			.put("Vehicles.2008, ACURA, MDX","Manually Rated Driver")
+			.build();
+
+	protected static final ArrayListMultimap<String, String> ATOMIC_MERGE_SCENARIO2 = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("AAADriver Vehicle Relationship", CURRENT)
+					.put("AAADriver Vehicle Relationship", AVAILABLE)
+					.put("AAADriver Vehicle Relationship", AVAILABLE)
+					.put("Drivers.Driver (Second Driver Version1)",CURRENT)
+					.put("Vehicles.Vehicle (1998, DODGE, CARAVAN)",CURRENT)
+					.put("Vehicles.2008, ACURA, MDX.Primary Driver",CURRENT)
+					.put("Vehicles.2008, ACURA, MDX.Manually Rated Driver",AVAILABLE)
+					.build());
+
+	//components/attributes that should be on comparision page Rolled on/Endorsement for Atomic Merge Scenario1
+	static final Multimap<String,String> ATOMIC_MERGE_SCENARIO2_VERSION1 = ImmutableListMultimap.<String, String>builder()
+			.put("Vehicles.2008, ACURA, MDX","System Rated Driver")
+			.put("Vehicles.2008, ACURA, MDX","Manually Rated Driver")
+			.build();
+
+	protected static final ArrayListMultimap<String, String> ATOMIC_MERGE_SCENARIO3 = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("AAADriver Vehicle Relationship", CURRENT)
+					.put("AAADriver Vehicle Relationship", AVAILABLE)
+					.put("Drivers.Driver (Second Driver Version1)",CURRENT)
+					.put("Drivers.Driver (Second Driver Version1)",CURRENT)
+					.put("Drivers.Driver (Third Driver Version2)",AVAILABLE)
+					.put("Vehicles.Vehicle (2011, CHEVROLET, EXPRESS VAN)",AVAILABLE)
+					.put("Vehicles.Vehicle (2011, CHEVROLET, EXPRESS VAN)",AVAILABLE)
+					.put("Vehicles.Vehicle (2011, MERCEDES-BENZ, G55AMG)",CURRENT)
+					.build());
+
+	protected static final ArrayListMultimap<String, String> ATOMIC_MERGE_MANUAL_SCENARIO4 = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("AAADriver Vehicle Relationship", CURRENT)
+					.put("AAADriver Vehicle Relationship", AVAILABLE)
+					.put("Drivers.Driver (New Driver Version1)",CURRENT)
+					.put("Drivers.Driver (New Driver Version2)",CURRENT)
+					.put("Drivers.Driver (New Driver Version2)",CURRENT)
+					.build());
+
+	protected static final ArrayListMultimap<String, String> ATOMIC_MERGE_AUTOMATIC_SCENARIO4 = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("Drivers.Driver (New Driver Version1)",CURRENT)
+					.put("Drivers.Driver (New Driver Version2)",CURRENT)
+					.build());
+
+	//components/attributes that should be on comparision page Rolled on/Endorsement for Atomic Merge Scenario1
+	static final Multimap<String,String> ATOMIC_MERGE_SCENARIO4_VERSION1 = ImmutableListMultimap.<String, String>builder()
+			.build();
 }
