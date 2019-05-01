@@ -8,7 +8,6 @@
     <!-- Local tests execution parameters -->
     <!--<parameter name="testsDir" value="src/test/resources/openl/auto_ss"/>-->
     <!--<parameter name="localTests" value="true"/>-->
-
     <test name="AutoSS [AZ] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="AZTests-20181101.xls"/>
         <parameter name="policyNumbers" value="1,2"/>
@@ -38,8 +37,8 @@
         </classes>
     </test>
     <test name="AutoSS [DE] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="DETests-20180412.xls"/>
-        <parameter name="policyNumbers" value="20,40"/>
+        <parameter name="fileName" value="DETests-20190412_part1.xls"/>
+        <parameter name="policyNumbers" value="2, 31"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
@@ -108,8 +107,8 @@
         </classes>
     </test>
     <test name="AutoSS [NJ] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="NJTests-20180401_part1.xls"/>
-        <parameter name="policyNumbers" value="1, 101"/>
+        <parameter name="fileName" value="NJTests-20190401_part5.xls"/>
+        <parameter name="policyNumbers" value="1, 405"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
