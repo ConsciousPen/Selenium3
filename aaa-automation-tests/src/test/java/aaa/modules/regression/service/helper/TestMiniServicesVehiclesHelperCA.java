@@ -31,7 +31,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private GeneralTab generalTab = new GeneralTab();
-	private VehicleTab vehicleTab = new VehicleTab();
+	protected VehicleTab vehicleTab = new VehicleTab();
 	private AssignmentTab assignmentTab = new AssignmentTab();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
