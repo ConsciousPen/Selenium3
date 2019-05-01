@@ -490,7 +490,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         Dollar reducedPrem = performRPEndorsement(policyNumber, effDate);
         SearchPage.openBilling(policyNumber);
         Dollar cancelRefund = generateManualRefund();
-        Dollar fees = BillingHelper.getFeesValue(effDate);
+        Dollar fees = BillingHelper.getFeesValue(today);
 
         // Validate PMT-05
         assertSoftly(softly -> {
