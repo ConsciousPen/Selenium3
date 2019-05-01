@@ -9,6 +9,7 @@ import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.BillingAccountActions;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.RefundActionTab;
 import aaa.main.modules.policy.PolicyType;
@@ -420,28 +421,30 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         // Overpay and generate refund automatically
         LocalDateTime refundDate = getTimePoints().getRefundDate(effDate);
-        Dollar overpaymentAmt = new Dollar(100);
-        billingAccount.acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Check"), overpaymentAmt);
-        generateAutomaticRefund(refundDate);
+        if (!BillingSummaryPage.getTotalDue().isNegative()) {
+            billingAccount.acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Check"), BillingSummaryPage.getTotalDue().abs().add(new Dollar(100.00)));
+        }
+        Dollar refundAmt = generateAutomaticRefund(policyNumber, refundDate);
 
         // Validate PMT-19
         assertSoftly(softly -> {
-            softly.assertThat(overpaymentAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.AUTOMATED_REFUND, "1044"));
-            softly.assertThat(overpaymentAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.AUTOMATED_REFUND, "1060"));
+            softly.assertThat(refundAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.AUTOMATED_REFUND, "1044"));
+            softly.assertThat(refundAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.AUTOMATED_REFUND, "1060"));
         });
 
         // Advance time and run escheatment job
-        TimeSetterUtil.getInstance().nextPhase(refundDate.plusMonths(13).withDayOfMonth(1));
+        LocalDateTime escheatmentDate = refundDate.plusMonths(13).withDayOfMonth(1);
+        TimeSetterUtil.getInstance().nextPhase(escheatmentDate);
         JobUtils.executeJob(Jobs.aaaEscheatmentProcessAsyncJob);
 
         // Validate PMT-14 and PMT-15
         assertSoftly(softly -> {
             // PMT-14
-            softly.assertThat(overpaymentAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REFUND_PAYMENT_VOIDED, "1044"));
-            softly.assertThat(overpaymentAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REFUND_PAYMENT_VOIDED, "1060"));
+            softly.assertThat(refundAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(escheatmentDate, policyNumber, FinancialsSQL.TxType.REFUND_PAYMENT_VOIDED, "1044"));
+            softly.assertThat(refundAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(escheatmentDate, policyNumber, FinancialsSQL.TxType.REFUND_PAYMENT_VOIDED, "1060"));
             // PMT-15
-            softly.assertThat(overpaymentAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ESCHEATMENT, "1041"));
-            softly.assertThat(overpaymentAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ESCHEATMENT, "1044"));
+            softly.assertThat(refundAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ESCHEATMENT, "1041"));
+            softly.assertThat(refundAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ESCHEATMENT, "1044"));
         });
 
     }
@@ -733,18 +736,35 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         return amount;
     }
 
-    private void generateAutomaticRefund(LocalDateTime refundDate) {
+    private Dollar generateAutomaticRefund(String policyNumber, LocalDateTime refundDate) {
         TimeSetterUtil.getInstance().nextPhase(refundDate);
         try {
             JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
         } catch (IstfException e) {
             // Getting intermittent errors, catching error for now
+            log.error(Jobs.aaaRefundGenerationAsyncJob.getJobName() + " failed, continuing with test...");
         }
         try {
             JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
         } catch (IstfException e) {
             // Getting intermittent errors, catching error for now
+            log.error(Jobs.aaaRefundDisbursementAsyncJob.getJobName() + " failed, continuing with test...");
         }
+        mainApp().open();
+        SearchPage.openBilling(policyNumber);
+        Dollar amount;
+        if (BillingSummaryPage.tablePendingTransactions.getRowsCount() > 0) {
+            amount = new Dollar(BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(BillingConstants.BillingPendingTransactionsTable.AMOUNT).getValue());
+            billingAccount.approveRefund().perform(1);
+        } else {
+            amount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.REFUND,  BillingConstants.PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND);
+        }
+        if (BillingSummaryPage.tablePaymentsOtherTransactions
+                .getRowContains(BillingConstants.PaymentsAndOtherTransactionType.REFUND, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND)
+                .getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(BillingConstants.PaymentsAndOtherTransactionAction.ISSUE).isPresent()) {
+            billingAccount.issueRefund().perform(1);
+        }
+        return amount;
     }
 
 }
