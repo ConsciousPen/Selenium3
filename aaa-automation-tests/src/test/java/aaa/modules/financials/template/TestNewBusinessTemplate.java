@@ -489,13 +489,13 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // Perform RP endorsement and generate refund
         Dollar reducedPrem = performRPEndorsement(policyNumber, effDate);
         SearchPage.openBilling(policyNumber);
-        Dollar cancelRefund = generateManualRefund();
+        Dollar endorsementRefund = generateManualRefund();
         Dollar fees = BillingHelper.getFeesValue(today);
 
         // Validate PMT-05
         assertSoftly(softly -> {
-            softly.assertThat(cancelRefund.subtract(fees)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1065"));
-            softly.assertThat(cancelRefund).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1060"));
+            softly.assertThat(endorsementRefund.subtract(fees)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1065"));
+            softly.assertThat(endorsementRefund).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1060"));
         });
 
         //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
