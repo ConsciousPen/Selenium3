@@ -9,7 +9,6 @@ import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.billing.account.BillingAccountActions;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.RefundActionTab;
 import aaa.main.modules.policy.PolicyType;
@@ -24,6 +23,7 @@ import toolkit.webdriver.controls.TextBox;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
@@ -759,8 +759,10 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         } else {
             amount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.REFUND,  BillingConstants.PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND);
         }
-        if (BillingSummaryPage.tablePaymentsOtherTransactions
-                .getRowContains(BillingConstants.PaymentsAndOtherTransactionType.REFUND, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND)
+        Map<String, String> query = new HashMap<>();
+        query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.REFUND);
+        query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND);
+        if (BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query)
                 .getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(BillingConstants.PaymentsAndOtherTransactionAction.ISSUE).isPresent()) {
             billingAccount.issueRefund().perform(1);
         }
