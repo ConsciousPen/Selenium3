@@ -237,6 +237,6 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 	}
 
 }
-		
+
 
 
