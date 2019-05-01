@@ -58,15 +58,9 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		JobGroup jobGroup = JobGroup.fromSingleJob(convertToIpb(job));
 		SoapJobActions service = new SoapJobActions();
 
+		service.createJob(jobGroup);
 
-		if (!service.isJobExist(jobGroup)) {
-			service.createJob(jobGroup);
-			log.info("{} was created", jobGroup.getGroupName());
-		}else{
-			log.info("Job exist :  {} ", jobGroup.getGroupName());
-		}
-
-		new SoapJobActions().startJob(jobGroup);
+		JobUtils.executeJob(jobGroup);
 	}
 
 	private com.exigen.ipb.etcsa.utils.batchjob.Job convertToIpb(Job job) {
