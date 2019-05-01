@@ -58,6 +58,10 @@ public class HelperMiniServices extends PolicyBaseTest {
 		return newVehicleOid;
 	}
 
+	public DriversDto findDriver(ViewDriversResponse viewDriversResponse, String driverOid) {
+		return viewDriversResponse.driverList.stream().filter(driver -> driver.oid.equals(driverOid)).findFirst().orElse(null);
+	}
+
 	String vehicleAddRequestWithCheck(String policyNumber, Vehicle vehicleAddRequest) {
 		Vehicle responseAddVehicle =
 				HelperCommon.addVehicle(policyNumber, vehicleAddRequest, Vehicle.class, 201);

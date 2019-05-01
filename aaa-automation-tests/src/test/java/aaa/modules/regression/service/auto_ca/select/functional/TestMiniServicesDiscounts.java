@@ -10,9 +10,7 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.rest.dtoDxp.*;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.modules.policy.AutoCaSelectBaseTest;
-import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.modules.regression.service.helper.HelperMiniServices;
 import toolkit.exceptions.IstfException;
@@ -37,7 +35,7 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = {"PAS-27988"})
 	public void pas27988_miniServicesDiscounts(@Optional("CA") String state) {
 		mainApp().open();
-		String policyNumber = "CAAS952918584"; //getCopiedPolicy();
+		String policyNumber = getCopiedPolicy();
 		SearchPage.openPolicy(policyNumber);
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -84,51 +82,44 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 				16, "CA", "CH", "S", false);
 		HelperCommon.updateDriver(policyNumber, addDriverResponse6.oid, updateDriverRequest);
 
-		DiscountSummary endorsementDiscountsResponse = HelperCommon.viewDiscounts(policyNumber, "endorsement", 200);
+		ViewDriversResponse viewEndorsementDrivers = HelperCommon.viewEndorsementDrivers(policyNumber);
 		//Driver 1 - Check that have Good Student Discount, New Driver Discount, does not have Mature Driver Discount
-		driverLevelDiscountsCheck(endorsementDiscountsResponse, DISCOUNT_CODE_GSD, "Good Student Discount", addDriverResponse1.oid);
-		driverLevelDiscountsCheck(endorsementDiscountsResponse, DISCOUNT_CODE_NDD, "New Driver Discount", addDriverResponse1.oid);
-		driverHasNotDiscount(endorsementDiscountsResponse, DISCOUNT_CODE_MDD, addDriverResponse1.oid);
+		driverAvailableDiscountsCheck(viewEndorsementDrivers, DISCOUNT_CODE_GSD, "Good Student Discount", addDriverResponse1.oid);
+		driverAvailableDiscountsCheck(viewEndorsementDrivers, DISCOUNT_CODE_NDD, "New Driver Discount", addDriverResponse1.oid);
+		assertThat(helperMiniServices.findDriver(viewEndorsementDrivers, addDriverResponse1.oid).availableDiscounts.size()).isEqualTo(2);
 
 		//Driver 2 - Check that does not have Good Student Discount, New Driver Discount, Mature Driver Discount
-		checkThatDriverDoesNotHaveTheseDiscounts(addDriverResponse2, endorsementDiscountsResponse);
+		checkThatDriverDoesNotHaveAvailableDiscounts(addDriverResponse2.oid, viewEndorsementDrivers);
 
 		//Driver 3 - Check that does not have Good Student Discount, New Driver Discount, Mature Driver Discount
-		checkThatDriverDoesNotHaveTheseDiscounts(addDriverResponse3, endorsementDiscountsResponse);
+		checkThatDriverDoesNotHaveAvailableDiscounts(addDriverResponse3.oid, viewEndorsementDrivers);
 
 		//Driver 4 - Check that does not have Good Student Discount, New Driver Discount, Mature Driver Discount
-		checkThatDriverDoesNotHaveTheseDiscounts(addDriverResponse4, endorsementDiscountsResponse);
+		checkThatDriverDoesNotHaveAvailableDiscounts(addDriverResponse4.oid, viewEndorsementDrivers);
 
 		//Driver 5 - Check that does not have Good Student Discount, New Driver Discount, Mature Driver Discount
-		checkThatDriverDoesNotHaveTheseDiscounts(addDriverResponse5, endorsementDiscountsResponse);
+		checkThatDriverDoesNotHaveAvailableDiscounts(addDriverResponse5.oid, viewEndorsementDrivers);
 
-		//Driver 5 - Check that does not have Good Student Discount, New Driver Discount. Has Mature Driver Discount
-		driverHasNotDiscount(endorsementDiscountsResponse, DISCOUNT_CODE_GSD, addDriverResponse6.oid);
-		driverHasNotDiscount(endorsementDiscountsResponse, DISCOUNT_CODE_NDD, addDriverResponse6.oid);
-		driverLevelDiscountsCheck(endorsementDiscountsResponse, DISCOUNT_CODE_MDD, "Mature Driver Discount", addDriverResponse6.oid);
+		//Driver 6 - Check that does not have Good Student Discount, New Driver Discount. Has Mature Driver Discount
+		driverAvailableDiscountsCheck(viewEndorsementDrivers, DISCOUNT_CODE_MDD, "Mature Driver Discount", addDriverResponse6.oid);
+		assertThat(helperMiniServices.findDriver(viewEndorsementDrivers, addDriverResponse1.oid).availableDiscounts.size()).isEqualTo(1);
 
 		//TODO-mstrazds: works - if no, bind manually and check
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 		DiscountSummary policyDiscountsResponse = HelperCommon.viewDiscounts(policyNumber, "policy", 200);
-		assertThat(policyDiscountsResponse).isEqualTo(endorsementDiscountsResponse);
-
+		assertThat(policyDiscountsResponse).isEqualTo(viewEndorsementDrivers);
 	}
 
-	private void driverLevelDiscountsCheck(DiscountSummary policyDiscountsResponse, String discountCode, String discountName, String oid) {
-		DiscountInfo discount = policyDiscountsResponse.driverDiscounts.stream().filter(disc -> discountCode.equals(disc.discountCd)).filter(disc -> oid.equals(disc.oid)).findFirst().orElseThrow(() -> new IstfException("no such discount"));
+	private void driverAvailableDiscountsCheck(ViewDriversResponse viewDriversResponse, String discountCode, String discountName, String driverOid) {
+		DriversDto driver = helperMiniServices.findDriver(viewDriversResponse, driverOid);
+		DiscountInfo discount = driver.availableDiscounts.stream().filter(disc -> discountCode.equals(disc.discountCd)).filter(disc -> driverOid.equals(disc.oid)).findFirst().orElseThrow(() -> new IstfException("no such discount"));
 		assertThat(discount.discountCd).isEqualTo(discountCode);
 		assertThat(discount.discountName).isEqualTo(discountName);
-		assertThat(discount.oid.equals(oid)).isTrue();
+		assertThat(discount.oid.equals(driverOid)).isTrue();
 	}
 
-	private void driverHasNotDiscount(DiscountSummary policyDiscountsResponse, String discountCode, String oid) {
-		assertThat(policyDiscountsResponse.driverDiscounts.stream().filter(disc -> discountCode.equals(disc.discountCd)).filter(driver -> oid.equals(driver.oid)).findFirst().orElse(null))
-				.as("Discount with code " + discountCode + "is not expected for driver with oid " + oid + ".").isNull();
-	}
-
-	private void checkThatDriverDoesNotHaveTheseDiscounts(DriversDto driver, DiscountSummary policyDiscountsResponse) {
-		driverHasNotDiscount(policyDiscountsResponse, DISCOUNT_CODE_GSD, driver.oid);
-		driverHasNotDiscount(policyDiscountsResponse, DISCOUNT_CODE_NDD, driver.oid);
-		driverHasNotDiscount(policyDiscountsResponse, DISCOUNT_CODE_MDD, driver.oid);
+	private void checkThatDriverDoesNotHaveAvailableDiscounts(String driverOid, ViewDriversResponse viewEndorsementDrivers) {
+		DriversDto driver = helperMiniServices.findDriver(viewEndorsementDrivers, driverOid);
+		assertThat(driver.availableDiscounts).as("Driver with this oid should not have any available discounts: " + driverOid).isEmpty();
 	}
 }
