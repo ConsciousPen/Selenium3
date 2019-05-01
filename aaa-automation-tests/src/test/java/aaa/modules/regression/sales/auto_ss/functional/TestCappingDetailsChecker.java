@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -9,6 +10,8 @@ import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
+import aaa.helpers.product.VinUploadFileType;
+import aaa.helpers.product.VinUploadHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -22,6 +25,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplate;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -32,6 +36,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 public class TestCappingDetailsChecker extends AutoSSBaseTest {
 
     private final ErrorTab errorTab = new ErrorTab();
+    protected static TestOfflineClaimsTemplate testOfflineClaimsTemplate = new TestOfflineClaimsTemplate();
+    protected static UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 
     private String policyNumber;
     private LocalDateTime policyExpirationDate;
@@ -86,14 +92,14 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
 
         //Capping functionality verification for first the renewal
         preconditionToDoFirstRenewal();
-        initiateRenewal();
+        initiateRenewal(policyNumber);
         verifyCappingFunctionality();
         bindRenewalPolicy();
         billingPaymentAcception();
 
         //Capping functionality verification for second the renewal
         preconditionToDoSecondRenewal();
-        initiateRenewal();
+        initiateRenewal(policyNumber);
         verifyCappingFunctionality();
     }
 
@@ -124,8 +130,8 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10809")
-    public void pas23996_CappingRefresh(@Optional("OR") String state) {
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23996")
+    public void pas23996_CappingRefresh(@Optional("UT") String state) {
         mainApp().open();
         createCustomerIndividual();
         TestData testData = getPolicyTD();
@@ -139,58 +145,57 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
         moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
 
         //Retrieve the policy, navigate to the premium and coverages Capping Details page
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
-        PolicySummaryPage.buttonRenewals.click();
-        policy.dataGather().start();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        initiateRenewal(policyNumber);
 
         //Verify and note the capping factor value (Probably 0 or 100)
         PremiumAndCoveragesTab.buttonViewCappingDetails.click();
-        String R45_CAP_FACT = PremiumAndCoveragesTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR);
+        String r45Factor = PremiumAndCoveragesTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR);
         PremiumAndCoveragesTab.buttonReturnToPremiumAndCoverages.click();
 
-        //Exit the renewal image and upload new vin data for the vin used
+        //Exit the renewal image and upload new vin data for the vin used in ADMIN
         PremiumAndCoveragesTab.buttonSaveAndExit.click();
-        uploadVinTable;
+        VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
+        String vinTableFile1 = vinMethods.getSpecificUploadFile(VinUploadFileType.NO_MATCH_ON_RENEWAL.get());
+        adminApp().open(); //open ADMIN
+        NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+        uploadToVINTableTab.uploadVinTable(vinTableFile1);
 
         //Move to R-35, retrieve the policy, navigate to the premium and coverages Capping Details page
+        moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
+        initiateRenewal(policyNumber);
+        PremiumAndCoveragesTab.buttonViewCappingDetails.click();
 
         //Verify and note the capping factor value (should be different than above as it is recalculated with refreshed vin data)
+        String r35Factor = PremiumAndCoveragesTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR);
+//        assertThat(r45Factor).isNotEqualToIgnoringCase(r35Factor);
 
-        //Exit the renewal image and upload new vin data for the vin used
+        //Exit the renewal image and upload new vin data for the vin used in ADMIN
+        PremiumAndCoveragesTab.buttonSaveAndExit.click();
+        String vinTableFile2 = vinMethods.getSpecificUploadFile(VinUploadFileType.NO_MATCH_ON_RENEWAL.get());
+        adminApp().open(); //open ADMIN
+        NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+        uploadToVINTableTab.uploadVinTable(vinTableFile2);
 
         //Move to R-30, retrieve the policy, navigate to the premium and coverages Capping Details page
+        moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(30));
+        initiateRenewal(policyNumber);
+        PremiumAndCoveragesTab.buttonViewCappingDetails.click();
 
-        //Verify and note the capping factor value (should be different same as above, as policy is outside the 'refresh' window)
+        //Verify and note the capping factor value (should be same values; outside of the refresh window)
+        String r30Factor = PremiumAndCoveragesTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR);
+//        assertThat(r35Factor).isEqualToIgnoringCase(r30Factor);
 
-
-        //Capping functionality verification for first the renewal
-        preconditionToDoFirstRenewal();
-        initiateRenewal();
-        verifyCappingFunctionality();
-        bindRenewalPolicy();
-        billingPaymentAcception();
-
-        //Capping functionality verification for second the renewal
-        preconditionToDoSecondRenewal();
-        initiateRenewal();
-        verifyCappingFunctionality();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        new DocumentsAndBindTab().submitTab();
     }
 
-
-
-
     private void verifyCappingFunctionality() {
-
         String ceilingCap =  PolicyHelper.getCeilingByRegularPolicyNumber(policyNumber);
         String floorCap =  PolicyHelper.getFloorByRegularPolicyNumber(policyNumber);
-
         //View Capping Details
         PremiumAndCoveragesTab.buttonViewCappingDetails.click();
         String renewalTermPremiumOld = PremiumAndCoveragesTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.RENEWAL_TERM_PREMIUM_OLD_RATER);
         String calculatedTermPremium = PremiumAndCoveragesTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.CALCULATED_TERM_PREMIUM);
-
         //Check Capping Details
 //        assertThat(PremiumAndCoveragesTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR)).isEqualTo(PolicyHelper.calculateCeilingOrFloorCap(renewalTermPremiumOld, calculatedTermPremium, ceilingCap));
         assertThat(PremiumAndCoveragesTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.CEILING_CAP)).isEqualTo(String.format("%s%%", ceilingCap));
@@ -199,29 +204,23 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
     }
 
     private void initiateEndorsement() {
-
         TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(5));
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
-
         TestData tdEndorsement = getTestSpecificTD("TestData_Endorsement");
         policy.createEndorsement(tdEndorsement);
     }
 
-    private void initiateRenewal() {
-
+    private void initiateRenewal(String policyNumber) {
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
-
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
-
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         new PremiumAndCoveragesTab().calculatePremium();
     }
 
     private void bindRenewalPolicy() {
-
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
         errorTab.overrideErrors(ErrorEnum.Errors.ERROR_200104);
@@ -230,7 +229,6 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
     }
 
     private  void preconditionToDoFirstRenewal(){
-
         LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
         HttpStub.executeAllBatches();
@@ -238,9 +236,7 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
     }
 
     private void preconditionToDoSecondRenewal() {
-
         policyExpirationDate = policyExpirationDate.plusYears(1);
-
         LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
@@ -249,12 +245,9 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
     }
 
     private void billingPaymentAcception() {
-
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));
-
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
-
         BillingSummaryPage.open();
         Dollar totDue = BillingSummaryPage.getTotalDue();
         new BillingAccount().acceptPayment().perform(testDataManager.billingAccount
