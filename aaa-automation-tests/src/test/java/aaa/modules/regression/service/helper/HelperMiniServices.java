@@ -72,7 +72,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 		//Update Vehicle with proper Usage and Registered Owner
 		VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
 		if (getState().equals(Constants.States.CA)) {
-			updateVehicleUsageRequest.usage = "Regular";
+			updateVehicleUsageRequest.usage = "WC";
 		} else {
 			updateVehicleUsageRequest.usage = "Pleasure";
 		}
@@ -80,7 +80,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 		updateVehicleUsageRequest.registeredOwner = true;
 		VehicleUpdateResponseDto updateVehicleUsageResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
 		if (getState().equals(Constants.States.CA)) {
-			assertThat(updateVehicleUsageResponse.usage).isEqualTo("Regular");
+			assertThat(updateVehicleUsageResponse.usage).isEqualTo("WC");
 		} else {
 			assertThat(updateVehicleUsageResponse.usage).isEqualTo("Pleasure");
 		}

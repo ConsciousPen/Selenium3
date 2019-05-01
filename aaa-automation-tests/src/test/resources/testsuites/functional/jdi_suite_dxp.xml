@@ -381,7 +381,7 @@
     <test thread-count="1024" name="PolicyPremiumService NJ" parallel="methods">
         <parameter name="state" value="NJ"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesPremiumBearing">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas19166ViewPremiumServicePligaFeeInformation"/>
                 </methods>
@@ -579,7 +579,7 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
-                    <include name="pas14721_UpdateCoveragesServiceBIPD"/>
+                    <include name="pas14721_UpdateCoveragesBI_PD"/>
                 </methods>
             </class>
         </classes>
@@ -955,7 +955,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas15368_viewUpdatePIPCoverage_UT"/>
-                    <include name="pas20306_updateCoveragesUmpdCompColl"/>
+                    <include name="pas20306_viewUpdateCoveragesUmpdCompColl"/>
                 </methods>
             </class>
         </classes>
@@ -1185,10 +1185,20 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="pas25042_endorsementValidateAllowedForAllStates" parallel="methods">
-        <parameter name="state" value="CA, NY, VA, NJ"/>
+    <test thread-count="1024" name="pas25042_endorsementValidateAllowedForAllStates SS" parallel="methods">
+        <parameter name="state" value="NY, VA, NJ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas25042_endorsementValidateAllowedForAllStates"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas25042_endorsementValidateAllowedForAllStates CA" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas25042_endorsementValidateAllowedForAllStates"/>
                 </methods>
@@ -1305,6 +1315,9 @@
                     <include name="pas502_DuplicateVinAddVehicleService"/>
                     <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
                     <include name="pas9610_UpdateVehicleService"/>
+                    <include name="pas11618_UpdateVehicleLeasedInfo"/>
+                    <include name="pas11618_UpdateVehicleFinancedInfo"/>
+                    <include name="pas13252_UpdateVehicleGaragingAddressProblem"/>
                 </methods>
             </class>
         </classes>
