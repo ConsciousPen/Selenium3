@@ -528,7 +528,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		if ("N".equals(coverageLimit)) {
 			return "starts=No Coverage";
 		}
-		Dollar cLimit = new Dollar(coverageLimit.replace("Y", "").replace("F", ""));
+		Dollar cLimit = new Dollar(coverageLimit.replace("Y", "").replace("F", "").replace("P", ""));
 		if (isPolicyLevelCoverageCd(coverageCD) && !isFirstPartyBenefitsComboCoverage(coverageCD)) {
 			cLimit = cLimit.multiply(1000);
 		}
@@ -546,6 +546,13 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			formattedCoverageLimit = formattedCoverageLimit.replaceAll(",", "");
 		}
 		return formattedCoverageLimit;
+	}
+
+	String getFormattedCoverageDeductible(String coverageDeductible) {
+
+		Dollar cDeductible = new Dollar(coverageDeductible.replace("P", ""));
+
+		return cDeductible.toString().replaceAll("\\.00", "");
 	}
 
 	String getDbRestraintsCode(String openlAirbagCode) {
