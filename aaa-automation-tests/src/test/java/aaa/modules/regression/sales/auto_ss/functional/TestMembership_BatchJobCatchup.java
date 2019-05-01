@@ -201,21 +201,7 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
         // Move to 2nd/nth Term and Retrieve the Policy.
-
         SchedulableJobRenewalHelper.performFullAutoRenewal(this, policyNumber, true, 1);
-
-
-/*        ArrayList<SchedulableJob> jobList = SchedulableJobRenewalHelper.getPaymentJobList(this, policyNumber, true);
-        //jobList.add(SchedulableJobs.aaaBatchMarkerJob(timePointSTG1));
-        jobList.add(SchedulableJobs.policyAutomatedRenewalAsyncTaskGenerationJob(SchedulableJobs.ProductType.Auto, state));
-        jobList.add(SchedulableJobs.aaaMvrRenewBatchOrderAsyncJob(state));
-        jobList.add(SchedulableJobs.aaaMembershipRenewalBatchOrderAsyncJob(SchedulableJobs.ProductType.Auto, state, SchedulableJobs.TimePoint.First));
-        jobList.add(SchedulableJobs.aaaInsuranceScoreRenewalBatchOrderAsyncJob(SchedulableJobs.ProductType.Auto, state, SchedulableJobs.TimePoint.First));
-        JobSchedule jobSchedule = new JobSchedule(jobList, getPolicyEffectivLocalDateTimeFromSQL(policyNumber));
-        // Execute job schedule (simulateOutputOnly is not required. Defaults to false if omitted)
-
-        List<String> output = SchedulableJob.executeJobSchedule(jobSchedule, false);
-*/
 
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
