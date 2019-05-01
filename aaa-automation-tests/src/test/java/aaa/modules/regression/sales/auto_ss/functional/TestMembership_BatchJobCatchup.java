@@ -2,8 +2,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.AAAMembershipQueries;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
+import aaa.helpers.jobs.*;
 import aaa.helpers.renewal.SchedulableJobRenewalHelper;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -17,8 +16,11 @@ import toolkit.verification.CustomAssertions;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static aaa.helpers.db.queries.AAAMembershipQueries.getPolicyEffectivLocalDateTimeFromSQL;
 
 public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
     enum eThresholdTests {BEFORE, ON, AFTER}
@@ -199,7 +201,22 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
         // Move to 2nd/nth Term and Retrieve the Policy.
+
         SchedulableJobRenewalHelper.performFullAutoRenewal(this, policyNumber, true, 1);
+
+
+/*        ArrayList<SchedulableJob> jobList = SchedulableJobRenewalHelper.getPaymentJobList(this, policyNumber, true);
+        //jobList.add(SchedulableJobs.aaaBatchMarkerJob(timePointSTG1));
+        jobList.add(SchedulableJobs.policyAutomatedRenewalAsyncTaskGenerationJob(SchedulableJobs.ProductType.Auto, state));
+        jobList.add(SchedulableJobs.aaaMvrRenewBatchOrderAsyncJob(state));
+        jobList.add(SchedulableJobs.aaaMembershipRenewalBatchOrderAsyncJob(SchedulableJobs.ProductType.Auto, state, SchedulableJobs.TimePoint.First));
+        jobList.add(SchedulableJobs.aaaInsuranceScoreRenewalBatchOrderAsyncJob(SchedulableJobs.ProductType.Auto, state, SchedulableJobs.TimePoint.First));
+        JobSchedule jobSchedule = new JobSchedule(jobList, getPolicyEffectivLocalDateTimeFromSQL(policyNumber));
+        // Execute job schedule (simulateOutputOnly is not required. Defaults to false if omitted)
+
+        List<String> output = SchedulableJob.executeJobSchedule(jobSchedule, false);
+*/
+
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         CustomAssertions.assertThat(policyExpirationDate).isNotEqualTo(PolicySummaryPage.getExpirationDate()); //Assert we're in new term by asserting expiration date has changed.
@@ -246,11 +263,6 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
         java.util.Optional<AAAMembershipQueries.AAAMembershipStatus> membershipStatus = AAAMembershipQueries.getAAAMembershipStatusFromSQL(policyNumber);
         CustomAssertions.assertThat(membershipStatus.toString()).containsIgnoringCase(membershipStatusAtTimeOfMembershipValidation.toString()); //Asserting the DB received the value we just pushed to it.
 
-        // If doing R-63 (STG3).
-        if(rMinus63or45==63){
-            AAAMembershipQueries.updateAAABestMembershipStatusInSQL(policyNumber, AAAMembershipQueries.AAABestMembershipStatus.NOHIT_STG2);
-        }
-
         // If doing R-45 (STG4), and NOT skipping STG3.
         if(!bRunningSTG4SkipSTG3 && rMinus63or45==45){
             AAAMembershipQueries.updateAAABestMembershipStatusInSQL(policyNumber, AAAMembershipQueries.AAABestMembershipStatus.NOHIT_STG3);
@@ -272,15 +284,67 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
         }
 
         // Execute NB+15 / NB+30 Membership Validation Jobs
+        runRenewalJobs();
+
+        //Get MS Order Date
+        java.util.Optional<String> timeStampMembershipBatchJobProcessedPolicyOn = AAAMembershipQueries.getMSOrderDateFromSQL(policyNumber);
+
+        // Validate policyNumber is picked up by batch job at STG1.
+        doRenewalValidation(policyExpirationDate, rightNow, rMinus63or45, policyNumber, bRunningSTG4SkipSTG3, bExpectingPolicyToBeProcessed);
+
+        // Assert that the policy will not be processed twice, if the job is run again on the same day.
+        runRenewalJobs();
+        CustomAssertions.assertThat(timeStampMembershipBatchJobProcessedPolicyOn).isEqualTo(AAAMembershipQueries.getMSOrderDateFromSQL(policyNumber));
+    }
+
+    public void runRenewalJobs(){
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
-        // Validate policyNumber is picked up by batch job at STG1.
-        doValidation(policyExpirationDate, rightNow, rMinus63or45, policyNumber, bRunningSTG4SkipSTG3, bExpectingPolicyToBeProcessed);
     }
 
-    public void doValidation(LocalDateTime in_policyEffectiveDate, LocalDateTime in_currentTime, Integer in_rMinus63or45, String in_policyNumber, Boolean in_bRunningNB30SkipSTG1, Boolean bExpectedPolicyWasProcessed) {
+    public void doValidation(LocalDateTime in_policyEffectiveDate, LocalDateTime in_currentTime, Integer in_nb15or30, String in_policyNumber, Boolean in_bRunningNB30SkipSTG1, Boolean bExpectedPolicyWasProcessed) {
+        //Get the value to assert against.
+        java.util.Optional<AAAMembershipQueries.AAABestMembershipStatus> bestMembershipStatus = AAAMembershipQueries.getAAABestMembershipStatusFromSQL(in_policyNumber);
+
+        // Try Catch to handle edge case. If Policy is made on Sunday and the membershipValidation attempts to run on a Sunday, 1 Day AFTER the cut-off date...
+        /// ...THEN the policy is still picked up when we're not expecting it to. This is acceptable because the policyEffectiveDate is Sunday.
+        // This Try-Catch should inform us quickly of the policy effective date and the date the job attempted to run on. If we see Sunday and Sunday, it should mean we hit the edge case and can disregard the failure.
+        try {
+            // Next, is this a positive or negative scenario test?
+            if (bExpectedPolicyWasProcessed) {
+                // GIVEN a positive scenario...
+                if (in_nb15or30 == 15) {
+                    CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG1.toString());
+                } else {
+                    if (in_nb15or30 == 30) {
+                        CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG2.toString());
+                    } else {
+                        CustomAssertions.fail(String.format("Variable 'nb15or30' == something other than 15 or 30 (Actual nb15or30: %s). (Actual membershipStatus: %s).", in_nb15or30.toString(), bestMembershipStatus.toString()));
+                    }
+                }
+            } else {
+                //GIVEN a negative scenario...
+                if (in_nb15or30 == 15) {
+                    CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase("Empty");
+                } else {
+                    if (in_bRunningNB30SkipSTG1 && in_nb15or30 == 30) {
+                        CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase("Empty");
+                    } else {
+                        if (!in_bRunningNB30SkipSTG1 && in_nb15or30 == 30) {
+                            CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.NOHIT_STG1.toString());
+                        } else {
+                            CustomAssertions.fail(String.format("Variable 'nb15or30' == something other than 15 or 30 (Actual nb15or30: %s). (Actual membershipStatus: %s).", in_nb15or30.toString(), bestMembershipStatus.toString()));
+                        }
+                    }
+                }
+            }
+        } catch (AssertionError ex) {
+            CustomAssertions.fail("%s [PolicyEffectiveDate = %s(%s); BatchRunDate = %s(%s)]", ex.getMessage(), in_policyEffectiveDate, in_policyEffectiveDate.getDayOfWeek(), in_currentTime, in_currentTime.getDayOfWeek());
+        }
+    }
+
+    public void doRenewalValidation(LocalDateTime in_policyEffectiveDate, LocalDateTime in_currentTime, Integer in_rMinus63or45, String in_policyNumber, Boolean in_bRunningSTG4SkipSTG3, Boolean bExpectedPolicyWasProcessed) {
         //Get the value to assert against.
         java.util.Optional<AAAMembershipQueries.AAABestMembershipStatus> bestMembershipStatus = AAAMembershipQueries.getAAABestMembershipStatusFromSQL(in_policyNumber);
 
@@ -292,10 +356,10 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
             if (bExpectedPolicyWasProcessed) {
                 // GIVEN a positive scenario...
                 if (in_rMinus63or45 == 63) {
-                    CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG1.toString());
+                    CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG3.toString());
                 } else {
                     if (in_rMinus63or45 == 45) {
-                        CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG2.toString());
+                        CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG4.toString());
                     } else {
                         CustomAssertions.fail(String.format("Variable 'in_rMinus63or45' == something other than 63 or 45 (Actual in_rMinus63or45: %s). (Actual membershipStatus: %s).", in_rMinus63or45.toString(), bestMembershipStatus.toString()));
                     }
@@ -303,13 +367,13 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
             } else {
                 //GIVEN a negative scenario...
                 if (in_rMinus63or45 == 63) {
-                    CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase("Empty");
+                    CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG3.toString());
                 } else {
-                    if (in_bRunningNB30SkipSTG1 && in_rMinus63or45 == 45) {
-                        CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase("Empty");
+                    if (in_bRunningSTG4SkipSTG3 && in_rMinus63or45 == 45) {
+                        CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG4.toString());
                     } else {
-                        if (!in_bRunningNB30SkipSTG1 && in_rMinus63or45 == 45) {
-                            CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.NOHIT_STG1.toString());
+                        if (!in_bRunningSTG4SkipSTG3 && in_rMinus63or45 == 45) {
+                            CustomAssertions.assertThat(bestMembershipStatus.toString()).containsIgnoringCase(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG3.toString());
                         } else {
                             CustomAssertions.fail(String.format("Variable 'in_rMinus63or45' == something other than 63 or 45 (Actual in_rMinus63or45: %s). (Actual membershipStatus: %s).", in_rMinus63or45.toString(), bestMembershipStatus.toString()));
                         }
@@ -320,4 +384,6 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
             CustomAssertions.fail("%s [PolicyEffectiveDate = %s(%s); BatchRunDate = %s(%s)]", ex.getMessage(), in_policyEffectiveDate, in_policyEffectiveDate.getDayOfWeek(), in_currentTime, in_currentTime.getDayOfWeek());
         }
     }
+
+
 }
