@@ -88,9 +88,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     @SuppressWarnings("SpellCheckingInspection")
     private static final String PAS_LOG_DOWNLOAD_PATH = System.getProperty("user.dir")
             + PropertyProvider.getProperty("test.downloadfiles.location") + "downloaded_pas_log";
-  //  public static final String SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = 'TRUE' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse' and PRODUCTCD = 'AAA_SS' and RISKSTATECD IS NULL";
-  //  public static final String SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS = "UPDATE LOOKUPVALUE SET DATEOFLOSS = '%s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse' and PRODUCTCD = 'AAA_SS' and RISKSTATECD IS NULL";
-  public static final String SQL_UPDATE_PERMISSIVEUSE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = 'TRUE' and DATEOFLOSS = '%s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse' and PRODUCTCD = 'AAA_SS' and RISKSTATECD IS NULL";
+    public static final String SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = 'TRUE' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse' and PRODUCTCD = 'AAA_SS' and RISKSTATECD IS NULL";
+    public static final String SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS = "UPDATE LOOKUPVALUE SET DATEOFLOSS = '%s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse' and PRODUCTCD = 'AAA_SS' and RISKSTATECD IS NULL";
     private static final String CLAIMS_URL = "https://claims-assignment-master.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1"; //Post-Permissive Use
     public static final String SQL_REMOVE_RENEWALCLAIMRECEIVEASYNCJOB_BATCH_JOB_CONTROL_ENTRY = "DELETE FROM BATCH_JOB_CONTROL_ENTRY WHERE jobname='renewalClaimReceiveAsyncJob'";
     public static final String CLAIMS_MICROSERVICE_ENDPOINT = "select * from PROPERTYCONFIGURERENTITY where propertyname = 'aaaClaimsMicroService.microServiceUrl'";
@@ -137,9 +136,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     @BeforeTest
     public void prepare() {
         // Toggle ON PermissiveUse Logic & Set DATEOFLOSS Parameter in DB
-        //DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-        //DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-16"));
-        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE, "11-NOV-16"));
+        DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
+        DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-16"));
         try {
             FileUtils.forceDeleteOnExit(Paths.get(CAS_REQUEST_PATH).toFile());
             FileUtils.forceDeleteOnExit(Paths.get(CAS_RESPONSE_PATH).toFile());
