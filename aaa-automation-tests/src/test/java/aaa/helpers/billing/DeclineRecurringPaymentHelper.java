@@ -16,7 +16,6 @@ public class DeclineRecurringPaymentHelper {
 	
 	private static final String DECLINE_PAYMENT_REMOTE_PATH = "/home/mp2/pas/sit/PMT_E_PMTCTRL_PASSYS_7002_D/inbound/";
 	private static final String FILE_LAST_PART = "PMT_E_PMTCTRL_PASSYS_7019_D";
-	//private static final DateTimeFormatter DATE_TIME_PATTERN = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 	private static final DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern("yyyyMMdd");
 	private static final DateTimeFormatter TIME_PATTERN = DateTimeFormatter.ofPattern("HHmmss");
 	

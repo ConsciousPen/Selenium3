@@ -49,7 +49,6 @@ public class PasDoc_OnlineBatch_Billing extends AutoSSBaseTest {
 			+ " order by p.CREATIONDATE desc\n"
 			+ ")where rownum = 1";
 	
-	//private IBillingAccount billingAccount = new BillingAccount();
 	private TestData tdBilling = testDataManager.billingAccount;
 	
 	@Parameters({"state"})
