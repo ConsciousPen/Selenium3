@@ -372,7 +372,9 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
                 <methods>
-                    <include name="pas12469_dataGatherComparisonPolicyOptionsInformation"/>
+                    <include name="pas14162_dataGatherComparisonPremiumAndCoverages"/>
+                    <include name="pas14162_endorsementsComparisonPremiumAndCoverages"/>
+                    <include name="pas14162_renewalComparisonPremiumAndCoverages"/>
                 </methods>
             </class>
         </classes>
@@ -384,7 +386,9 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
                 <methods>
-                    <include name="pas12469_dataGatherComparisonPolicyOptionsInformation"/>
+                    <include name="pas14162_dataGatherComparisonPremiumAndCoverages"/>
+                    <include name="pas14162_endorsementsComparisonPremiumAndCoverages"/>
+                    <include name="pas14162_renewalComparisonPremiumAndCoverages"/>
                 </methods>
             </class>
         </classes>

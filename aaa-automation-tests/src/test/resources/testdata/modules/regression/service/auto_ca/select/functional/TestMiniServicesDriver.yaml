@@ -32,6 +32,7 @@ DocumentsAndBindTab_ExcludedDriver: {
     Policy Application: 'Yes',
     Auto Billing Plan Explanation: 'Yes'
   }
+
 }
 
 ContactInformation: {
@@ -41,7 +42,14 @@ ContactInformation: {
 
 AAAProductOwned: {
   Current AAA Member: 'Yes',
-  Membership Number: 4290023667710001
+  Membership Number: 4290023667710001,
+  Home: 'Yes',
+  ListOfProducts:[{
+    'column=7': 'Edit',
+    Policy Number: '123',
+    Save: 'click'}]
+
+
 }
 
 CurrentCarrierInformation: {
@@ -78,13 +86,27 @@ TestDataDiscountCA: {
     GeneralTab: '@GeneralTab1_CA_Discount',
     DriverTab: ['@Driver_FNI', '@Driver_Daughter_CA','@Driver_ForDiscount_CA'],
     MembershipTab: '@MembershipTab',
-    VehicleTab: ['@VehicleTab_1', '@VehicleTab_Camper'],
+    VehicleTab: ['@VehicleTab_1', '@VehicleTabViewDiscount','@VehicleTabViewDiscount1'],
     AssignmentTab: '@AssignmentTab',
     FormsTab: '@<auto_ca_select>@DataGather@FormsTab',
     PremiumAndCoveragesTab: '@<auto_ca_select>@DataGather@PremiumAndCoveragesTab',
     DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
-    DocumentsAndBindTab: '@<auto_ca_select>@DataGather@DocumentsAndBindTab',
+    DocumentsAndBindTab: '@DocumentsAndBindTab',
     PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+}
+
+DocumentsAndBindTab: {
+  RequiredToIssue: {
+    Proof of Good Student Discount: 'Yes',
+    Proof of New Driver Course Completion: 'Yes',
+    Proof of Mature Driver Course Completion: 'Yes',
+    Policy Application: 'Yes',
+    Auto Billing Plan Explanation: 'Yes'
+  },
+  RequiredToBind: {
+  California Car Policy Application: 'Physically Signed',
+  Subscriber Agreement: 'Physically Signed',
+  }
 }
 
 GeneralTab1_CA: {
@@ -144,7 +166,6 @@ Driver_Daughter_CA: {
   Age First Licensed: '16',
   Permit Before License: 'Yes',
   "License #": 'A1234567',
-  Most Recent GPA: 'None'
 }
 
 Driver_ForDiscount_CA: {
@@ -285,6 +306,27 @@ VehicleTab_Camper: {
     Customer Declared Annual Miles: '3000',
 }
 
+VehicleTabViewDiscount: {
+    Add Vehicle: Click,
+       Primary Use: 'contains=Commute',
+       Usage: Pleasure,
+       VIN: 5N1AR1NB2BC608514,
+       'Miles One-way to Work or School': '15',
+       Odometer Reading: '29000',
+       Odometer Reading Date: $<today>,
+}
+
+VehicleTabViewDiscount1: {
+    Add Vehicle: Click,
+       Primary Use: 'contains=Commute',
+       Usage: Pleasure,
+       VIN: 1FTSW20Y85EB08501,
+       'Miles One-way to Work or School': '15',
+       Odometer Reading: '29000',
+       Odometer Reading Date: $<today>,
+}
+
+
 AssingmentTab_DiscountService: {
   DriverVehicleRelationshipTable: [{
     Primary Driver: index=1,
@@ -295,7 +337,12 @@ AssingmentTab_DiscountService: {
 AssignmentTab: {
         DriverVehicleRelationshipTable: [{
                    Primary Driver: index=1,
-                    }, {
+                    },
+                    {
                     Primary Driver: index=2,
-                                         }]
+                    },
+                    {
+                    Primary Driver: index=3,
+
+                                        }]
     }

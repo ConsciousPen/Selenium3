@@ -80,11 +80,11 @@ claimLineItemList:
         claimStatusCode: CLOSED
         claimType: B
         driverAgeAsOfDateOfLoss: '31'
-        driverDateofBirth: '1980-05-12'
+        driverDateofBirth: '1980-12-05'
         driverName: Steve George
         driverRelationToInsured: INSURED
         permissiveUse: Y
-        drivingLicenseNumber: D12349999
+        drivingLicenseNumber: D12349997
         drivingLicenseState: AZ
         lossSummary: IV hit OV while parked.
         subroFlag: Y
@@ -173,7 +173,7 @@ claimLineItemList:
         claimStatusCode: CLOSED
         claimType: B
         driverAgeAsOfDateOfLoss: '31'
-        driverDateofBirth: '1980-05-12'
+        driverDateofBirth: '1980-12-05'
         driverName: Sam George
         driverRelationToInsured: INSURED
         permissiveUse: Y

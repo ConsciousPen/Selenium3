@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.BooleanUtils;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
@@ -2604,14 +2605,50 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	protected void pas22513_ViewDiscountDriverBody(PolicyType policyType) {
 		assertSoftly(softly -> {
-			TestData td = getTestSpecificTD("TestDataDiscountCA");
+		//	TestData td = getTestSpecificTD("TestDataDiscountCA");
 
 			mainApp().open();
-			createCustomerIndividual();
-			policyType.get().createPolicy(td);
-			String policyNumber = PolicySummaryPage.getPolicyNumber();
+		//	createCustomerIndividual();
+		//	policyType.get().createPolicy(td);
+			String policyNumber = "CAAS952918594";
+
+			DiscountSummary policyDiscountsResponse = HelperCommon.viewDiscounts(policyNumber, "policy", 200);
+			verifyDiscounts(policyDiscountsResponse);
+
+			String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			HelperCommon.createEndorsement(policyNumber, endorsementDate);
+
+			DiscountSummary policyDiscountsResponse1 = HelperCommon.viewDiscounts(policyNumber, "endorsement", 200);
+			verifyDiscounts(policyDiscountsResponse1);
 		});
 	}
+
+    protected void verifyDiscounts(DiscountSummary policyDiscountsResponse) {
+        assertThat(policyDiscountsResponse.policyDiscounts.get(0).discountCd.equals("MPD"));
+        assertThat(policyDiscountsResponse.policyDiscounts.get(0).discountName.equals("Multi-Policy Discount"));
+
+        assertThat(policyDiscountsResponse.policyDiscounts.get(1).discountCd.equals("MVD"));
+        assertThat(policyDiscountsResponse.policyDiscounts.get(1).discountName.equals("Multi-Vehicle Discount"));
+
+        assertThat(policyDiscountsResponse.driverDiscounts.get(0).discountCd.equals("GDD"));
+        assertThat(policyDiscountsResponse.driverDiscounts.get(0).discountName.equals("Good Driver Discount"));
+
+        assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountCd.equals("MDD"));
+        assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountName.equals("Mature Driver Discount"));
+
+        assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountCd.equals("NDD"));
+        assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountName.equals("New Driver Discount"));
+
+        assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountCd.equals("GSD"));
+        assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountName.equals("Good Student Discount"));
+    }
+
+    protected void driverLevelDiscountsCheck(DiscountSummary policyDiscountsResponse, String discountCode, String discountName, String oid) {
+        DiscountInfo discount = policyDiscountsResponse.driverDiscounts.stream().filter(disc -> discountCode.equals(disc.discountCd)).filter(disc -> oid.equals(disc.oid)).findFirst().orElseThrow(() -> new IstfException("no such discount"));
+        assertThat(discount.discountCd.equals(discountCode)).isTrue();
+        assertThat(discount.discountName.equals(discountName)).isTrue();
+        assertThat(discount.oid.equals(oid)).isTrue();
+    }
 
 	protected void verifyNiDriver(ETCSCoreSoftAssertions softly, DriversDto driverFNI) {
 		softly.assertThat(driverFNI.namedInsuredType).isEqualTo("FNI");
