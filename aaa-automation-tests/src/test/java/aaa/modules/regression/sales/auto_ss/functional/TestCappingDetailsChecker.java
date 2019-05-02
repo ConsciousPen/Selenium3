@@ -36,7 +36,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 public class TestCappingDetailsChecker extends AutoSSBaseTest {
 
     private final ErrorTab errorTab = new ErrorTab();
-    protected static TestOfflineClaimsTemplate testOfflineClaimsTemplate = new TestOfflineClaimsTemplate();
+//    protected static TestOfflineClaimsTemplate testOfflineClaimsTemplate = new TestOfflineClaimsTemplate();
     protected static UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 
     private String policyNumber;
@@ -164,10 +164,12 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
         moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
         initiateRenewal(policyNumber);
         PremiumAndCoveragesTab.buttonViewCappingDetails.click();
+	    PremiumAndCoveragesTab.buttonReturnToPremiumAndCoverages.click();
 
         //Verify and note the capping factor value (should be different than above as it is recalculated with refreshed vin data)
         String r35Factor = PremiumAndCoveragesTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR);
 //        assertThat(r45Factor).isNotEqualToIgnoringCase(r35Factor);
+	    PremiumAndCoveragesTab.buttonReturnToPremiumAndCoverages.click();
 
         //Exit the renewal image and upload new vin data for the vin used in ADMIN
         PremiumAndCoveragesTab.buttonSaveAndExit.click();
@@ -184,6 +186,7 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
         //Verify and note the capping factor value (should be same values; outside of the refresh window)
         String r30Factor = PremiumAndCoveragesTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR);
 //        assertThat(r35Factor).isEqualToIgnoringCase(r30Factor);
+	    PremiumAndCoveragesTab.buttonReturnToPremiumAndCoverages.click();
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
