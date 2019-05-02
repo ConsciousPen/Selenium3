@@ -1096,9 +1096,14 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		VehicleUpdateResponseDto vehicleUpdateResponseDto = helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
 		long vehAgeThreshold = 3;
 		int vehAgeThresholdYears = TimeSetterUtil.getInstance().getCurrentTime().minusYears(vehAgeThreshold).getYear();
-		assertThat(Integer.parseInt(vehicleUpdateResponseDto.modelYear)).as("Precondition: Vehicle must be no older than " + vehAgeThreshold + " to have LOAN coverage for states where applicable.").isGreaterThanOrEqualTo(vehAgeThresholdYears);
+		assertThat(Integer.parseInt(vehicleUpdateResponseDto.modelYear)).as("Precondition: Vehicle must be no older than " + vehAgeThreshold + " years to have LOAN coverage for states where applicable.").isGreaterThanOrEqualTo(vehAgeThresholdYears);
 
-		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+		if (getState().equals(Constants.States.NY)) {
+			VehicleUpdateDto updateLessThan1000MilesRequest = new VehicleUpdateDto();
+			updateLessThan1000MilesRequest.isLessThan1000Miles = false;
+			Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateLessThan1000MilesRequest);
+			assertThat(updateVehicleResponse.isLessThan1000Miles).isEqualTo(false);
+		}
 
 		String zipCode = "23703";
 		String addressLine1 = "4112 FORREST HILLS DR";
