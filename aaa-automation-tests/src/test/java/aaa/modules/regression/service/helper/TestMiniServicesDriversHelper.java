@@ -2752,6 +2752,25 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		caDriverTab.saveAndExit();
 	}
 
+	protected void pas28687_AddRideshareDriverBody(PolicyType policyType) {
+		mainApp().open();
+		String policyNumber ="CAAS952918566";
+
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		HelperCommon.createEndorsement(policyNumber, endorsementDate);
+
+		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Connemara", "", "Morgan", "2000-02-08", null);
+		DriversDto addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "B1234567",
+				16, "CA", "CH", "S", true,true);
+
+		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
+		assertSoftly(softly -> {
+			softly.assertThat(updateDriverResponse.validations.get(0).errorCode).isEqualTo("AAA_CSA190426-yCW5j");
+			softly.assertThat(updateDriverResponse.validations.get(0).message).contains("Rideshare Driver (AAA_CSA190426-yCW5j)");
+			softly.assertThat(updateDriverResponse.validations.get(0).field).isEqualTo("ridesharingCoverage");
+		});
+	}
 	protected void pas15428_UpdateDriver_CABody(PolicyType policyType) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
@@ -2760,7 +2779,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Connemara", "", "Morgan", "2000-02-08", null);
 		DriversDto addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "B1234567",
-				16, "CA", "CH", "S", true);
+				16, "CA", "CH", "S", true,false);
 		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
 		assertSoftly(softly -> {
 			softly.assertThat(updateDriverResponse.driver.maritalStatusCd).isEqualTo("S");
@@ -2831,14 +2850,15 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			});
 
 	}
+
 	protected void pas22513_ViewDiscountDriverBody(PolicyType policyType) {
 		assertSoftly(softly -> {
-		//	TestData td = getTestSpecificTD("TestDataDiscountCA");
+			TestData td = getTestSpecificTD("TestDataDiscountCA");
 
 			mainApp().open();
-		//	createCustomerIndividual();
-		//	policyType.get().createPolicy(td);
-			String policyNumber = "CAAS952918594";
+			createCustomerIndividual();
+			policyType.get().createPolicy(td);
+			String policyNumber = getCopiedPolicy();
 
 			DiscountSummary policyDiscountsResponse = HelperCommon.viewDiscounts(policyNumber, "policy", 200);
 			verifyDiscounts(policyDiscountsResponse);
