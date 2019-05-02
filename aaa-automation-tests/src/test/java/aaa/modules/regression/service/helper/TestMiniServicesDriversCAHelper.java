@@ -161,6 +161,25 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
 
     }
 
+    protected void pas28687_AddRideshareDriverBody(PolicyType policyType) {
+        mainApp().open();
+        String policyNumber = getCopiedPolicy();
+
+        String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        HelperCommon.createEndorsement(policyNumber, endorsementDate);
+
+        AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Connemara", "", "Morgan", "2000-02-08", null);
+        DriversDto addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
+        UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "B1234567",
+                16, "CA", "CH", "S", true,true);
+
+        DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
+        assertSoftly(softly -> {
+            softly.assertThat(updateDriverResponse.validations.get(0).errorCode).isEqualTo("AAA_CSA190426-yCW5j");
+            softly.assertThat(updateDriverResponse.validations.get(0).message).contains("Rideshare Driver (AAA_CSA190426-yCW5j)");
+            softly.assertThat(updateDriverResponse.validations.get(0).field).isEqualTo("ridesharingCoverage");
+        });
+    }
     protected void pas15408_ViewDriverServiceCA_Body(PolicyType policyType) {
         TestData td = getTestSpecificTD("TestData_FilteredRelationshipDrivers_CA");
 
