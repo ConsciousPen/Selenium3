@@ -23,11 +23,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.TestDataManager;
 import aaa.helpers.rest.dtoDxp.*;
-import aaa.main.enums.ErrorDxpEnum;
-import aaa.main.enums.PolicyConstants;
-import aaa.main.enums.ProductConstants;
-import aaa.main.enums.SearchEnum;
-import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.enums.*;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.actiontabs.UpdateRulesOverrideActionTab;
@@ -57,6 +53,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	private TestMiniServicesCoveragesHelper testMiniServicesCoveragesHelper = new TestMiniServicesCoveragesHelper();
 	private String policyNumber8Vehicles;
 	private TestMiniServicesDriversHelper testMiniServicesDriversHelper = new TestMiniServicesDriversHelper();
+	private static final TestMiniServicesCoveragesHelper TEST_MINI_SERVICES_COVERAGES_HELPER = new TestMiniServicesCoveragesHelper();
 
 	protected void pas8275_vinValidateCheck(ETCSCoreSoftAssertions softly, PolicyType policyType) {
 		miniServicesEndorsementDeleteDelayConfigCheck();
@@ -1088,13 +1085,18 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		String purchaseDate = "2013-02-22";
-		String vin = "1HGFA16526L081415";
+		String vin = "KNDJX3AA0J7895376"; //2018 KIA Soul
 
 		//Add vehicle with specific info
 		Vehicle vehicleAddRequest = new Vehicle();
 		vehicleAddRequest.purchaseDate = purchaseDate;
 		vehicleAddRequest.vehIdentificationNo = vin;
 		String newVehicleOid = helperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest);
+		//Check precondition for PAS-29118
+		VehicleUpdateResponseDto vehicleUpdateResponseDto = helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+		long vehAgeThreshold = 3;
+		int vehAgeThresholdYears = TimeSetterUtil.getInstance().getCurrentTime().minusYears(vehAgeThreshold).getYear();
+		assertThat(Integer.parseInt(vehicleUpdateResponseDto.modelYear)).as("Precondition: Vehicle must be no older than " + vehAgeThreshold + " to have LOAN coverage for states where applicable.").isGreaterThanOrEqualTo(vehAgeThresholdYears);
 
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
 
@@ -1184,6 +1186,9 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.city", false, false, false, "30", "String");
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponseOwned, "vehicleOwnership.stateProvCd", false, false, false, null, "String");
 
+		//PAS-29118 - should have canChangeCoverage = False AND customerDisplayed = false for LOAN for NY
+		checkLOANIsDisabledForNY_pas29118(policyNumber, newVehicleOid);
+
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 		mainApp().open();
@@ -1191,6 +1196,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		//PAS-29118 - should have canChangeCoverage = False AND customerDisplayed = false for LOAN for NY
+		checkLOANIsDisabledForNY_pas29118(policyNumber, newVehicleOid);
 
 		VehicleUpdateDto updateVehicleOwned = new VehicleUpdateDto();
 		updateVehicleOwned.vehicleOwnership = new VehicleOwnership();
@@ -1211,6 +1218,19 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		testEValueDiscount.secondEndorsementIssueCheck();
+	}
+
+	private void checkLOANIsDisabledForNY_pas29118(String policyNumber, String vehicleOid) {
+		PolicyCoverageInfo coverageInfo = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		List<Coverage> vehicleCoverages = TEST_MINI_SERVICES_COVERAGES_HELPER.findVehicleCoverages(coverageInfo, vehicleOid).coverages;
+		Coverage covLOAN = TEST_MINI_SERVICES_COVERAGES_HELPER.findCoverage(vehicleCoverages, "LOAN");
+		if (getState().equals(Constants.States.NY)) {
+			assertThat(covLOAN.getCanChangeCoverage()).isFalse();
+			assertThat(covLOAN.getCustomerDisplayed()).isFalse();
+		} else {
+			assertThat(covLOAN.getCanChangeCoverage()).isTrue();
+			assertThat(covLOAN.getCustomerDisplayed()).isTrue();
+		}
 	}
 
 	protected void pas12246_ViewVehiclePendingRemovalService(PolicyType policyType) {
