@@ -6,28 +6,28 @@
 	</listeners>
 	<parameter name="timeshift-scenario-mode" value="method"/>
 
-    <test name="Auto SS Manual Conversion Test" parallel="methods" thread-count="200">
+    <test name="Auto SS Manual SIS Conversion Test" parallel="methods" thread-count="200">
         <parameter name="state" value="KS, KY, WV, AZ, WY, CT, UT, ID, OR, MT, SD" />
         <classes>
             <class name="aaa.modules.regression.conversions.auto_ss.ManualConversionTest"/>
         </classes>
     </test>
 
-    <test name="Home SS HO3 Manual Conversion Test" parallel="methods" thread-count="200">
+    <test name="Home SS HO3 Manual SIS Conversion Test" parallel="methods" thread-count="200">
         <parameter name="state" value="CT, KS, KY, OK, SD, AZ, NV, UT, WY, IN, NY, OH, WV, ID, MT, CO, OR" />
         <classes>
             <class name="aaa.modules.regression.conversions.home_ss.ho3.ManualConversionTest" />
         </classes>
     </test>
 
-    <test name="Home SS HO4 Manual Conversion Test" parallel="methods" thread-count="200">
+    <test name="Home SS HO4 Manual SIS Conversion Test" parallel="methods" thread-count="200">
         <parameter name="state" value="CT, KS, KY, OK, SD, AZ, NV, UT, WY, IN, NY, OH, WV, ID, MT, CO, OR" />
         <classes>
             <class name="aaa.modules.regression.conversions.home_ss.ho4.ManualConversionTest" />
         </classes>
     </test>
 
-    <test name="Home SS HO6 Manual Conversion Test" parallel="methods" thread-count="200">
+    <test name="Home SS HO6 Manual SIS Conversion Test" parallel="methods" thread-count="200">
         <parameter name="state" value="CT, KS, KY, OK, SD, AZ, NV, UT, WY, IN, NY, OH, WV, ID, MT, CO, OR" />
         <classes>
             <class name="aaa.modules.regression.conversions.home_ss.ho6.ManualConversionTest" />
@@ -36,6 +36,13 @@
 
     <test name="Home SS DP3 Manual Conversion Test" parallel="methods" thread-count="200">
         <parameter name="state" value="CT, KS, KY, OK, SD, AZ, NV, UT, WY, IN, NY, OH, WV, ID, MT, CO, OR" />
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ss.dp3.ManualConversionTest" />
+        </classes>
+    </test>
+
+    <test name="Home SS DP3 Manual MAIG Conversion Test" parallel="methods" thread-count="200">
+        <parameter name="state" value="DE, NJ, VA, MD, PA" />
         <classes>
             <class name="aaa.modules.regression.conversions.home_ss.dp3.ManualConversionTest" />
         </classes>
