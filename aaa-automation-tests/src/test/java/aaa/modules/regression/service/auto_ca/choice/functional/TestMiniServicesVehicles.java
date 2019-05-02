@@ -50,7 +50,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @StateList(states = {Constants.States.CA})
-    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-25263"})
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-25263"})
     public void pas25263_addVehicleMetadataCheck(@Optional("CA") String state) {
 
         assertSoftly(softly -> pas25263_addVehicleMetadataCheckBody(softly));
