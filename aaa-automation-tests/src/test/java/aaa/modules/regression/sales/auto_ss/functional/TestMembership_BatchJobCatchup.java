@@ -16,11 +16,9 @@ import toolkit.verification.CustomAssertions;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static aaa.helpers.db.queries.AAAMembershipQueries.getPolicyEffectivLocalDateTimeFromSQL;
 
 public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
     enum eThresholdTests {BEFORE, ON, AFTER}
@@ -244,7 +242,6 @@ public class TestMembership_BatchJobCatchup extends AutoSSBaseTest {
         }
 
         // Force MembershipStatus != ACTIVE. ACTIVE policies will not be processed!
-        //TODO: DETERMINE HOW THIS IS USED FOR RENEWALS
         AAAMembershipQueries.updateAAAMembershipStatusInSQL(policyNumber, membershipStatusAtTimeOfMembershipValidation);
         java.util.Optional<AAAMembershipQueries.AAAMembershipStatus> membershipStatus = AAAMembershipQueries.getAAAMembershipStatusFromSQL(policyNumber);
         CustomAssertions.assertThat(membershipStatus.toString()).containsIgnoringCase(membershipStatusAtTimeOfMembershipValidation.toString()); //Asserting the DB received the value we just pushed to it.
