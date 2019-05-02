@@ -683,7 +683,34 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
 
 	}
+	protected void pas19059_3OrMoreMinorOrSpeedingViolationsBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
 
+		//Check driver with more that three minor violations related to speeding
+		String oidDriver1 = addAndUpdateDriver(policyNumber, "Over", "Twenty", "1970-01-01", "B16848002", "CH", "VA", "male");
+
+		//Order reports through service
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION_DUI_C, ErrorDxpEnum.Errors.DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS_C,ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS_C,ErrorDxpEnum.Errors.DRIVER_WITH_THREE_OR_MORE_SPEEDING_VIOLATION_C);
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION_DUI, ErrorDxpEnum.Errors.DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS,ErrorDxpEnum.Errors.DRIVER_WITH_THREE_OR_MORE_SPEEDING_VIOLATION);
+
+		String oidDriver2 = addAndUpdateDriver(policyNumber, "One", "DUI", "1999-01-10", "B15375001", "CH", "VA", "male");
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver2, ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21_C);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21_NY.getCode(), ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21_NY.getMessage());
+
+		String oidDriver3 = addAndUpdateDriver(policyNumber, "Two", "AtFault", "1970-01-01", "B15383001", "CH", "AZ", "male");
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver3, ErrorDxpEnum.Errors.DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS_C);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS.getMessage());
+
+		String oidDriver4 = addAndUpdateDriver(policyNumber, "Three", "NotAtFault", "1970-01-01", "B15383002", "CH", "VA", "male");
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver4, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWO_AT_FAULT_VIOLATION_C);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWO_AT_FAULT_VIOLATION.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWO_AT_FAULT_VIOLATION.getMessage());
+	}
 	//Method for 200009 rule (one violation only)
 	private void checkDriverViolationDuiError(String policyNumber, String lastName, String licenseNumber) {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
