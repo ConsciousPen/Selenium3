@@ -893,7 +893,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	}
 	protected void ooseConflictAtomicMerge(TestData tdVersion, TestData tdVersion1, TestData tdVersion2, ArrayListMultimap<String, String> conflictLinks, Multimap<String, String> expectedSectionsAndUIFieldsOOSE,
 										   String tabName, String sectionName, Boolean isAutomatic) {
-		mainApp().open();
+		/*mainApp().open();
 		createCustomerIndividual();
 		createPolicy(tdVersion); //Policy created with 2 Drivers and 1 vehicle with assignment as D1/V1
 
@@ -904,7 +904,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		if (tableDifferences.isPresent()) {
 			resolveConflict(conflictLinks);
 			policy.rollOn().submit();
-		}
+		}*/
+		searchForPolicy("CAAC952918698");
 
 		PolicySummaryPage.buttonTransactionHistory.click();
 		verifyTransactionHistoryType(1, ROLLED_ON_ENORSEMENT);

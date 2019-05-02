@@ -435,8 +435,6 @@ public class VersionsComparisonConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN", "Model")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Series")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Body Style")
-			.put("Vehicles.1998, DODGE, CARAVAN", "Comp Symbol")
-			.put("Vehicles.1998, DODGE, CARAVAN", "Coll Symbol")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Primary Use")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Is the vehicle used in any commercial business operations?")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Business Use Description")
@@ -456,6 +454,9 @@ public class VersionsComparisonConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN", "Ownership Type")
 			.put("Vehicles.1998, DODGE, CARAVAN", "First Name")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Vehicle Ownership Address")
+			//Technical data
+			.put("Vehicles.1998, DODGE, CARAVAN", "Comp Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "Coll Symbol")
 			//coverages
 			.put("Vehicles.1998, DODGE, CARAVAN.Coverages", "Enhanced Transportation Expense Coverage")
 			.put("Vehicles.1998, DODGE, CARAVAN.Coverages", "Limit per day")

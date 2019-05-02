@@ -396,7 +396,7 @@ public class VersionsConflictConstants {
 	protected static final ArrayListMultimap<String, String> POLICY_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
 					.put("Policy Information.Source of Business", CURRENT)
-					.put("Policy Information.Agency", CURRENT)
+					.put("Policy Information.Channel Type", CURRENT)
 					.put("Policy Information.TollFree Number", AVAILABLE)
 					.build());
 
@@ -565,12 +565,6 @@ public class VersionsConflictConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN", "Model")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Series")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Body Style")
-			.put("Vehicles.1998, DODGE, CARAVAN", "BI Symbol")
-			.put("Vehicles.1998, DODGE, CARAVAN", "PD Symbol")
-			.put("Vehicles.1998, DODGE, CARAVAN", "UM Symbol")
-			.put("Vehicles.1998, DODGE, CARAVAN", "MP Symbol")
-			.put("Vehicles.1998, DODGE, CARAVAN", "Comp Symbol")
-			.put("Vehicles.1998, DODGE, CARAVAN", "Coll Symbol")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Primary Use")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Is the vehicle used in any commercial business operations?")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Business Use Description")
@@ -588,6 +582,13 @@ public class VersionsConflictConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN", "Ownership Type")
 			.put("Vehicles.1998, DODGE, CARAVAN", "First Name")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Vehicle Ownership Address")
+			//Technical data
+			.put("Vehicles.1998, DODGE, CARAVAN", "BI Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "PD Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "UM Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "MP Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "Comp Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "Coll Symbol")
 			.build();
 
 	protected static final ArrayListMultimap<String, String> ADD_VEHICLE_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
