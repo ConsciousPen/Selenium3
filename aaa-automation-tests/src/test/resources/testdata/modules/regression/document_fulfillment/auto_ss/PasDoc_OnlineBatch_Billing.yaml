@@ -1,0 +1,44 @@
+TestData_ActiveAutoPay: {
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Monthly',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'
+}
+
+TestData_ActiveAutoPayWithEFT: {
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Monthly',
+  PurchaseTab: '@PurchaseTab_withEFT'
+}
+
+TestData_NotActiveAutoPay: {
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Monthly'
+}
+
+TestData_NotActiveAutoPayWithCC: {
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Monthly', 
+  PurchaseTab: '@PurchaseTab_withCCPaymentMethod'
+}
+
+# ------ PremiumAndCoveragesTab ------- 
+PremiumAndCoveragesTab_Monthly: {
+  Payment Plan: Eleven Pay - Standard, 
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750'
+}
+
+# ------ PurchaseTab -------
+PurchaseTab_withCCPaymentMethod: {
+  PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
+  Activate Autopay: false,
+  PaymentAllocation: {
+    Visa: /rest
+  }
+}
+
+PurchaseTab_withEFT: {
+  PaymentMethods: ['@<billing>@PaymentMethods@EFT'],
+  Activate Autopay: true,
+  Autopay Selection: 'index=1',
+  Signature on File Indicator: 'Yes',
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}
