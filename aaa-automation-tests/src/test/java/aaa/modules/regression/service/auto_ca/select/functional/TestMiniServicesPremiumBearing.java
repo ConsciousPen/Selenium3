@@ -245,7 +245,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	}
 
 	/**
-	 * @author Maris Strazds
+	 * @author Megha Gubbala
 	 * @name Green Button Service -Unhappy Path - RideShare Coverage
 	 * @scenario 1. Create customer
 	 * 2. Create a policy with 2 drivers 1 driver is RideShare  driver coverage yes
