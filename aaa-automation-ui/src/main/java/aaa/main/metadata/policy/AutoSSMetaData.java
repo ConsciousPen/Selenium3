@@ -997,7 +997,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> COPY_OF_SALES_AGREEMENT = declare("Notice - Copy of Sales Agreement Required", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> NEW_YORK_AUTO_INSURANCE_APPLICATION = declare("New York Auto Insurance Application", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> SUPPLEMENTARY_UNINSURED_MOTORISTS_COVERAGE_REJECTION = declare(
-					"Supplementary Uninsured/Underinsured Motorists Coverage¿Rejection or Election of Lower Limits", RadioGroup.class);
+					"Supplementary Uninsured/Underinsured Motorists Coverage - Rejection or Election of Lower Limits", RadioGroup.class);
 			// NV
 			public static final AssetDescriptor<RadioGroup> UNINSURED_MOTORIST_COVERAGE_AND_UNDERINSURED_MOTORIST_COVERAGE = declare("Uninsured Motorist Coverage and Underinsured Motorist Coverage -" +
 					" Election of Lower Limits / Rejection of Coverage", RadioGroup.class);
