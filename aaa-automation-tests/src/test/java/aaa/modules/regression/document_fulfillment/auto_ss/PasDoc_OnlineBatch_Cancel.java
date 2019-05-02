@@ -124,7 +124,7 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
                 .isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
 
         //DD3+8
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(4)));
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(5)));
         JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
         searchForPolicy(policyNumber);
         assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
