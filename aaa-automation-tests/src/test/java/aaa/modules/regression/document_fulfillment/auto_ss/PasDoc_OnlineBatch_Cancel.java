@@ -7,9 +7,6 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.impl.PasDocImpl;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.helpers.xml.model.pasdoc.DataElement;
-import aaa.helpers.xml.model.pasdoc.Document;
-import aaa.helpers.xml.model.pasdoc.DocumentGenerationRequest;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -18,7 +15,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -27,10 +23,8 @@ import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import static aaa.main.enums.DocGenEnum.Documents.AH67XX;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
@@ -110,7 +104,7 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
         JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
         mainApp().open();
         SearchPage.openBilling(policyNumber);
-        AssertionsForClassTypes.assertThat(countDocuments(policyNumber, null, AH67XX)).isEqualTo(2);
+        PasDocImpl.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.AH67XX);
         assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell("Subtype/Reason")
                 .getValue()).isEqualTo(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM);
 
@@ -200,16 +194,5 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
             PasDocImpl.verifyDocumentsGenerated(softly, false, policyNumber2, DocGenEnum.Documents.AH60XXA);
             PasDocImpl.verifyDocumentsGenerated(softly, policyNumber1, DocGenEnum.Documents.AH60XXA);
         });
-    }
-
-    private int countDocuments(String policyNumber, DocGenEnum.EventName eventName, DocGenEnum.Documents document) {
-        DocumentGenerationRequest docGenReq = PasDocImpl.getDocumentRequest(policyNumber, eventName, document);
-        Document doc = docGenReq.getDocuments().stream().filter(c -> document.getIdInXml().equals(c.getTemplateId())).findFirst().get();
-        List<String> dataElementList = new ArrayList<>();
-        for (DataElement dataElement : doc.getAdditionalData().getDataElement()) {
-            dataElementList.add(dataElement.getName());
-        }
-        log.info("Count of documents: " + dataElementList.size());
-        return dataElementList.size();
     }
 }
