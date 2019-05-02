@@ -28,9 +28,12 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.*;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
@@ -55,7 +58,7 @@ import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseTest {
-
+	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private static final String SESSION_ID_1 = "oid1";
 	private static final String SESSION_ID_2 = "oid2";
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
@@ -436,6 +439,39 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		pas8785_createdEndorsementTransactionProperties("Gathering Info", TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY), "MyPolicy MyPolicy");
+	}
+
+	protected void pas28686_GreenButtonServiceUnhappyPathRideShareCoverageBody(PolicyType policyType) {
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
+		mainApp().open();
+		createCustomerIndividual();
+
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_Rideshare").getTestDataList("DriverTab")).resolveLinks();
+		policyType.get().createQuote(testData);
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(1, AutoCaMetaData.PremiumAndCoveragesTab.RIDESHARE_COVERAGE.getLabel(), "Yes");
+		premiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+		testEValueDiscount.simplifiedQuoteIssue();
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		ValidateEndorsementResponse responseValidateCanCreateEndorsement= HelperCommon.startEndorsement(policyNumber, endorsementDate);
+		assertSoftly(softly -> {
+			softly.assertThat(responseValidateCanCreateEndorsement.ruleSets.get(0).errors.get(0).errorCode).isEqualTo("AAA_CSA180129-4bSz");
+			softly.assertThat(responseValidateCanCreateEndorsement.ruleSets.get(0).errors.get(0).message).contains("Customer Created Endorsement (AAA_CSA180129-4bSz)");
+			softly.assertThat(responseValidateCanCreateEndorsement.ruleSets.get(0).errors.get(0).field).isEqualTo("rules");
+
+			softly.assertThat(responseValidateCanCreateEndorsement.ruleSets.get(0).errors.get(1).errorCode).isEqualTo("AAA_CSA190420-LaWZm");
+			softly.assertThat(responseValidateCanCreateEndorsement.ruleSets.get(0).errors.get(1).message).contains("Cannot endorse policy - policy has RideShare coverage (AAA_CSA190420-LaWZm)");
+			softly.assertThat(responseValidateCanCreateEndorsement.ruleSets.get(0).errors.get(1).field).isEqualTo("rules");
+
+		});
+
 	}
 
 	protected void pas8273_CheckIfOnlyActiveVehiclesAreAllowed(ETCSCoreSoftAssertions softly, PolicyType policyType) {
@@ -824,7 +860,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
 			PolicyPremiumInfo[] response = HelperCommon.viewPolicyPremiums(policyNumber);
-			BigDecimal totalPremium = new BigDecimal (response[0].termPremium);
+			BigDecimal totalPremium = new BigDecimal(response[0].termPremium);
 			BigDecimal actualPremium = new BigDecimal(response[0].actualAmt);
 
 			PolicySummary responsePolicyPending = HelperCommon.viewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
@@ -1073,8 +1109,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyRenewalOfferLapsed.residentialAddress.stateProvCd).isEqualTo(state1);
 		});
 	}
-
-
 
 	protected void pas9716_policySummaryForActiveRenewalBody(String state) {
 		assertSoftly(softly -> {
@@ -1604,7 +1638,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(response[0].premiumCode).isEqualTo("GWT");
 			softly.assertThat(new Dollar(response[0].actualAmt)).isEqualTo(new Dollar(actualPremium));
 			softly.assertThat(new Dollar(response[0].termPremium)).isEqualTo(new Dollar(totalPremium));
-			if ("NY".contains(getState())){
+			if ("NY".contains(getState())) {
 				softly.assertThat(response[1].premiumType).isEqualTo("FEE");
 				softly.assertThat(response[1].premiumCode).isEqualTo("MVLE");
 				softly.assertThat(response[1].actualAmt).isNotNull();
@@ -1691,7 +1725,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		checkIfTaxInfoIsDisplaying(response3, getState());
 	}
 
-	protected void pas19166ViewPremiumServicePligaFeeInformationBody(){
+	protected void pas19166ViewPremiumServicePligaFeeInformationBody() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
@@ -1721,7 +1755,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		checkIfPligaFeeInfoIsDisplaying(responsePolicyPremium2);
 	}
 
-	private void checkIfTaxInfoIsDisplaying(PolicyPremiumInfo[] response, String state){
+	private void checkIfTaxInfoIsDisplaying(PolicyPremiumInfo[] response, String state) {
 
 		String premium = "GWT";
 		String countyTax = "PREMT_COUNTY";
@@ -1743,16 +1777,16 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(stateTax.actualAmt).isNotEmpty();
 			softly.assertThat(stateTax.termPremium).isNotEmpty();
 
-		if ("KY".contains(state)) {
-			softly.assertThat(county.premiumType).isEqualTo("TAX");
-			softly.assertThat(county.premiumCode).isEqualTo(countyTax);
-			softly.assertThat(county.actualAmt).isNotEmpty();
-			softly.assertThat(county.termPremium).isNotEmpty();
+			if ("KY".contains(state)) {
+				softly.assertThat(county.premiumType).isEqualTo("TAX");
+				softly.assertThat(county.premiumCode).isEqualTo(countyTax);
+				softly.assertThat(county.actualAmt).isNotEmpty();
+				softly.assertThat(county.termPremium).isNotEmpty();
 
-			softly.assertThat(city.premiumType).isEqualTo("TAX");
-			softly.assertThat(city.premiumCode).isEqualTo(cityTax);
-			softly.assertThat(city.actualAmt).isNotEmpty();
-			softly.assertThat(city.termPremium).isNotEmpty();
+				softly.assertThat(city.premiumType).isEqualTo("TAX");
+				softly.assertThat(city.premiumCode).isEqualTo(cityTax);
+				softly.assertThat(city.actualAmt).isNotEmpty();
+				softly.assertThat(city.termPremium).isNotEmpty();
 			}
 		});
 	}

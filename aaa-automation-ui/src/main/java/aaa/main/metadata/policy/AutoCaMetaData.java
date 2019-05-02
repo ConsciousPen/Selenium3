@@ -269,7 +269,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<ActivityInformationMultiAssetList> ACTIVITY_INFORMATION = declare("ActivityInformation", ActivityInformationMultiAssetList.class, ActivityInformation.class, By
 				.xpath(".//div[@id='policyDataGatherForm:componentView_DrivingRecord']"));
 		public static final AssetDescriptor<AssetList> REMOVE_DRIVER_DIALOG = declare("Please Confirm", AssetList.class, RemoveDriverDialog.class);
-
+		public static final AssetDescriptor<RadioGroup> RIDESHARING_COVERAGE = declare("Ridesharing Coverage", RadioGroup.class);
 		public static final class RemoveDriverDialog extends MetaData {
 			public static final AssetDescriptor<Button> BTN_OK = declare("Yes", Button.class, Waiters.AJAX, By.xpath("//*[@id='confirmEliminateInstance_Dialog_form:buttonYes']"));
 		}
@@ -552,7 +552,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<TextBox> REASON = declare("Reason", TextBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeReason"));
 		public static final AssetDescriptor<CheckBox> UNVERIFIABLE_DRIVING_RECORD_SURCHARGE = declare("Unverifiable DrivingRecord Surcharge", CheckBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<FillableTable> INSTALLMENT_FEES_DETAILS_TABLE = declare("InstallemntFeesDetails",  FillableTable.class, ListOfFeeDetailsRow.class, By.id("policyDataGatherForm:installmentFeeDetailsTable"));
-
+		public static final AssetDescriptor<ComboBox> RIDESHARE_COVERAGE = declare("Ridesharing Coverage", ComboBox.class);
 		public static final class ListOfFeeDetailsRow extends MetaData {
 			public static final AssetDescriptor<StaticElement> PAYMENT_METHOD = declare("Payment Method", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> ENROLLED_IN_AUTO_PAY = declare("Enrolled in Auto Pay", StaticElement.class);
