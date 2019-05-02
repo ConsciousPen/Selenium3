@@ -70,4 +70,11 @@ public class PolicySummary {
 	@ApiModelProperty(value = "Policy bind Time and Date", example = "2018-09-05T20:48:10Z")
 	public String bindDate;
 
+	@ApiModelProperty(value = "Product Code", example = "AAA_CSA = California Select Auto, AAA_SS = Signature Series, " +
+			"AAA_HO_SS = Home Owner Signature Series, AAA_PUP_SS = Personal Umbrella Policy Signature Series, " +
+			"AAA_HO_CA = California Homeowners")
+	public String productCd;
+
+	@ApiModelProperty(value = "Policy Form Code", example = "CHOICE, H03, H04, H06, DP3")
+	public String policyFormCd;
 }

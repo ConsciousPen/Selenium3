@@ -289,4 +289,13 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		return AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM;
 	}
 
+	@Override
+	protected String getProductCd() {
+		return "AAA_CSA";
+	}
+
+	@Override
+	protected String getPolicyFormCd() {
+		return null;
+	}
 }
