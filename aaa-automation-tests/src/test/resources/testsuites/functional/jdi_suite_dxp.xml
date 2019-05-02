@@ -1322,4 +1322,25 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="CA MetaDataService" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas25263_addVehicleMetadataCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="CA Choice MetaDataService" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas25263_addVehicleMetadataCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>
