@@ -89,7 +89,7 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
         AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Connemara", "", "Morgan", "2000-02-08", null);
         DriversDto addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
         UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "B1234567",
-                16, "CA", "CH", "S", true);
+                16, "CA", "CH", "S", true,false);
         DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
         assertSoftly(softly -> {
             softly.assertThat(updateDriverResponse.driver.maritalStatusCd).isEqualTo("S");
