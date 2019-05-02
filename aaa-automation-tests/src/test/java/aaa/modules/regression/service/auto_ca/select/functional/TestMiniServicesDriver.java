@@ -99,4 +99,12 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversCAHelper {
     {
         pas22513_ViewDiscountDriverBody(getPolicyType());
     }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-28687"})
+    public void pas28687_AddRideshareDriver(@Optional("CA") String state)
+    {
+        pas28687_AddRideshareDriverBody(getPolicyType());
+    }
 }

@@ -29,9 +29,10 @@ public class DXPRequestFactory {
 
 	public static UpdateDriverRequest createUpdateDriverRequest(String gender, String licenseNumber, Integer ageFirstLicensed,
 																String stateLicensed, String relationToApplicantCd, String maritalStatusCd,
-																boolean permitBeforeLicense) {
+																boolean permitBeforeLicense,boolean ridesharingCoverage) {
 		UpdateDriverRequest updateDriverRequest = createUpdateDriverRequest(gender, licenseNumber, ageFirstLicensed, stateLicensed, relationToApplicantCd, maritalStatusCd);
 		updateDriverRequest.permitBeforeLicense = permitBeforeLicense;
+		updateDriverRequest.ridesharingCoverage = ridesharingCoverage;
 		return updateDriverRequest;
 	}
 
