@@ -41,7 +41,10 @@ public class ManualConversionTemplate extends PolicyBaseTest {
 		String policyNum = PolicySummaryPage.getPolicyNumber();
 
 		SearchPage.openPolicy(policyNum);
-		if (!getState().equals(Constants.States.MT) && !(getState().equals(Constants.States.WY) && !getPolicyType().isAutoPolicy())) {
+		if (!getState().equals(Constants.States.MT)
+				&& !(getState().equals(Constants.States.WY) && !getPolicyType().isAutoPolicy())
+				&& !getState().equals(Constants.States.MD))
+		{
 			new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
 			JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
