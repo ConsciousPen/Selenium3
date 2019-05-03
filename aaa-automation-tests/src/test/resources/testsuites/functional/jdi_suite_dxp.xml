@@ -365,6 +365,7 @@
                     <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
                     <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
                     <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
+                    <include name="pas28686_GreenButtonServiceUnhappyPathRideShareCoverage"/>
                 </methods>
             </class>
         </classes>

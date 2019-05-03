@@ -244,6 +244,25 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		pas7332_deletePendingEndorsementStartNewEndorsementThroughService(getPolicyType(), "System");
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name Green Button Service -Unhappy Path - RideShare Coverage
+	 * @scenario 1. Create customer
+	 * 2. Create a policy with 2 drivers 1 driver is RideShare  driver coverage yes
+	 * 3. Create Pended System endorsement
+	 * 4. run green button service
+	 * 5. verify error message
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-28686"})
+	public void pas28686_GreenButtonServiceUnhappyPathRideShareCoverage(@Optional("CA") String state) {
+
+		pas28686_GreenButtonServiceUnhappyPathRideShareCoverageBody(getPolicyType());
+	}
+
+
 	@Override
 	protected String getGeneralTab() {
 		return NavigationEnum.AutoCaTab.GENERAL.get();
