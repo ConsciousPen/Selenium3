@@ -19,6 +19,23 @@ TestData_AddAutopay: {
   }
 }
 
+TestData_AddAutopayWithMasterCard: {
+  UpdateBillingAccountActionTab: {
+    PaymentMethods: ['@PaymentMethods@CC_MasterCard'],
+    Activate Autopay: 'true',
+    Autopay Selection: 'contains=MasterCard'
+  }
+}
+
+TestData_AddAutopayWithEFT: {
+  UpdateBillingAccountActionTab: {
+    PaymentMethods: ['@PaymentMethods@EFT'],
+    Activate Autopay: 'true',
+    Autopay Selection: 'contains=Checking/Savings', 
+    Signature on File Indicator: 'Yes'
+  }
+}
+
 TestData_AddPaymentMetods: {
   UpdateBillingAccountActionTab: {
     PaymentMethods: ['@PaymentMethods@CC_Visa', '@PaymentMethods@EFT']

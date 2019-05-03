@@ -1,6 +1,23 @@
 package aaa.modules.regression.service.auto_ca.select.functional;
 
+import static aaa.main.enums.CustomerConstants.ADDRESS_LINE_1;
+import static aaa.main.enums.CustomerConstants.ZIP_CODE;
+import static aaa.main.metadata.policy.AutoCaMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+
+import aaa.common.enums.Constants;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
+import aaa.helpers.rest.dtoDxp.AttributeMetadata;
+import aaa.helpers.rest.dtoDxp.PolicySummary;
+import aaa.helpers.rest.dtoDxp.ViewVehicleResponse;
+import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.regression.service.helper.HelperCommon;
+import aaa.utils.StateList;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -11,6 +28,9 @@ import aaa.modules.regression.service.helper.TestMiniServicesVehiclesHelper;
 import aaa.modules.regression.service.helper.TestMiniServicesVehiclesHelperCA;
 import toolkit.utils.TestInfo;
 import toolkit.verification.ETCSCoreSoftAssertions;
+
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 
@@ -152,11 +172,11 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-11618", "PAS-25267"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-11618", "PAS-25267", "PAS-28718", "PAS-16907"})
 	public void pas11618_UpdateVehicleLeasedInfo(@Optional("CA") String state) {
-		//assertSoftly(softly ->
-				//pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "LSD")//TODO-mstrazds: PAS-28718 PAS-28718 Garaging Address and Ownership - Let's make sure it works for CA Select
-		//);
+		assertSoftly(softly ->
+				pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "LSD")
+		);
 	}
 
 	/**
@@ -173,19 +193,40 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-11618", "PAS-25267"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-11618", "PAS-25267", "PAS-28718", "PAS-16907"})
 	public void pas11618_UpdateVehicleFinancedInfo(@Optional("CA") String state) {
-		//assertSoftly(softly ->
-				//pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "FNC")//TODO-mstrazds: PAS-28718 PAS-28718 Garaging Address and Ownership - Let's make sure it works for CA Select
-		//);
+		assertSoftly(softly ->
+				pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "FNC")
+		);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-13252", "PAS-25267"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-13252", "PAS-25267", "PAS-28718", "PAS-16907"})
 	public void pas13252_UpdateVehicleGaragingAddressProblem(@Optional("CA") String state) {
-		//pas13252_UpdateVehicleGaragingAddressProblemBody();//TODO-mstrazds: PAS-28718 Garaging Address and Ownership - Let's make sure it works for CA Select
+		pas13252_UpdateVehicleGaragingAddressProblemBody();
 	}
 
 
+	/**
+	 * @author Chaitanya Boyapati
+	 * @name Add Vehicle - check Anti-Theft Drop Down Values
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement.
+	 * 3. Add new vehicle.
+	 * 4. Hit MetaData service, check the values there.
+	 * 5. Validate the Vehicle type cd attribute Names as "antiTheft", "Distance Oneway", "Odometer Reading", "Declared Annual Miles" and Usage"
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.CA})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-25263"})
+	public void pas25263_addVehicleMetadataCheck_CA_Select(@Optional("CA") String state) {
+
+		assertSoftly(softly -> pas25263_addVehicleMetadataCheckBody(softly));
+	}
+
 }
+
+
+
