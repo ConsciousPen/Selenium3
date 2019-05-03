@@ -158,8 +158,15 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversCAHelper {
      * @scenario
      * 1. Create policy on Pas.
      * 2. Create endorsement outside of PAS
-     * 2. Add 2nd driver outside of PAS, with birth year prior to 1900
-     *
+     * 3. Try add 2nd driver outside of PAS, with birth year prior to 1900
+     * 4. verify response error
+     * 5. Try add 2nd driver outside of PAS, with age less than 16
+     * 6. verify response error
+     * 7. Add driver outside of PAS
+     * 8. Try update driver outside of PAS with relation to FNI/applicant as Other (OT)
+     * 9. verify response validation error
+     * 10. Update driver outside of PAS with relation to FNI/applicant as Spouse (SP)
+     * 11. verify response data and default values in PAS
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
