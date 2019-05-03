@@ -863,6 +863,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<StaticElement> ORDER_DATE = declare("Order Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> RECEIPT_DATE = declare("Receipt Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> RESPONSE = declare("Response", StaticElement.class);
+
 		}
 
 		public static final class OrderInternalClaimsReport extends MetaData {
