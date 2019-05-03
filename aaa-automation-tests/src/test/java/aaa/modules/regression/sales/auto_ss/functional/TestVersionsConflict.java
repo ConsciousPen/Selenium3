@@ -1,10 +1,5 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import java.util.Map;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.google.common.collect.ArrayListMultimap;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -16,8 +11,14 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.modules.regression.sales.template.functional.TestComparisonConflictAbstract;
 import aaa.utils.StateList;
+import com.google.common.collect.ArrayListMultimap;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+
+import java.util.Map;
 
 @StateList(states = Constants.States.AZ)
 public class TestVersionsConflict extends TestComparisonConflictAbstract {
@@ -128,6 +129,10 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 
 	private TestData getTDContactInformationVersion2() { return getTestSpecificTD("TestData_ContactInformation_Version2"); }
 
+	private TestData getTDContactInformationVersion3() { return getTestSpecificTD("TestData_ContactInformation_Version3"); }
+
+	private TestData getTDContactInformationVersion4() { return getTestSpecificTD("TestData_ContactInformation_Version4"); }
+
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-17142"})
@@ -147,6 +152,22 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-17142"})
 	public void pas17142_renewalMergeContactInformation(@Optional("AZ") String state) {
 		renewalMerge(getTDNBPolicy(), getTDContactInformationVersion1(), getTDContactInformationVersion2(), VersionsConflictConstants.CONTACT_INFORMATION,  VersionsConflictConstants.CONTACT_INFORMATION_VERSION_1,  "GeneralTab", "ContactInformation");
+	}
+
+	//Atomic merge for Contact Information
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-27234"})
+	public void pas27234_ooseConflictAtomicMergeContactInformation(@Optional("AZ") String state) {
+		ooseConflict(getTDNBPolicy(), getTDContactInformationVersion3(), getTDContactInformationVersion4(), VersionsConflictConstants.CONTACT_INFORMATION,  VersionsConflictConstants.CONTACT_INFORMATION_VERSION_4, VersionsConflictConstants.CONTACT_INFORMATION_VERSION_3,  "GeneralTab", "ContactInformation", true);
+	}
+
+	//Atomic merge for Contact Information
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-27234"})
+	public void pas27234_renewalAtomicMergeContactInformation(@Optional("AZ") String state) {
+		renewalMerge(getTDNBPolicy(), getTDContactInformationVersion3(), getTDContactInformationVersion4(), VersionsConflictConstants.CONTACT_INFORMATION,  VersionsConflictConstants.CONTACT_INFORMATION_VERSION_3,  "GeneralTab", "ContactInformation");
 	}
 
 	//Current Carrier section

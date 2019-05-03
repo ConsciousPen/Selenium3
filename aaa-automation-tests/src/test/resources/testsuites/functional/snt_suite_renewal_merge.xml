@@ -183,6 +183,8 @@
                     <include name="pas17142_ooseConflictManualContactInformation"/>
                     <include name="pas17142_ooseConflictAutomaticContactInformation"/>
                     <include name="pas17142_renewalMergeContactInformation"/>
+                    <include name="pas27234_ooseConflictAutomaticContactInformation"/>
+                    <include name="pas27234_renewalAtomicMergeContactInformation"/>
                 </methods>
             </class>
         </classes>

@@ -411,4 +411,34 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="HO3 pas550_membershipEligibilityConfigurationTrueForCancelledMembership" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.TestAHDRXXDiscountRemovalDocument">
+                <methods>
+                    <include name="pas550_membershipEligibilityConfigurationTrueForCancelledMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="HO4 pas550_membershipEligibilityConfigurationTrueForCancelledMembership" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.TestAHDRXXDiscountRemovalDocument">
+                <methods>
+                    <include name="pas550_membershipEligibilityConfigurationTrueForCancelledMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="HO6 pas550_membershipEligibilityConfigurationTrueForCancelledMembership" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.TestAHDRXXDiscountRemovalDocument">
+                <methods>
+                    <include name="pas550_membershipEligibilityConfigurationTrueForCancelledMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

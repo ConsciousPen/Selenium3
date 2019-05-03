@@ -215,4 +215,16 @@
             <class name="aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocGODDcommon"/>
         </classes>
     </test>
+    <test name="PasDoc_OnlineBatch_Scenarios" parallel="methods">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_OnlineBatch"/>
+        </classes>
+    </test>
+    <test name="PasDoc_OnlineBatch_Billing_Scenarios" parallel="methods">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_OnlineBatch_Billing"/>
+        </classes>
+    </test>
 </suite>
