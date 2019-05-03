@@ -147,11 +147,11 @@ public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
 
 			Map<String, String> err2_dataRow = new HashMap<>();
 			err2_dataRow.put("Severity", "Error");
-			err2_dataRow.put("Message", "Applicants who have been cancelled, refused insurance or non-renewed in the p...");
+			err2_dataRow.put("Message", "Applicants who have been cancelled, refused insurance or non-renewed in the past 3 years are unacceptable unless approved by underwriting.");
 
 			Map<String, String> err3_dataRow = new HashMap<>();
 			err3_dataRow.put("Severity", "Error");
-			err3_dataRow.put("Message", "Dwelling must not have been in foreclosure within the past 18 months unless a...");
+			err3_dataRow.put("Message", "Dwelling must not have been in foreclosure within the past 18 months unless approved by underwriting.");
 
 			ErrorTab errorTab = new ErrorTab();
 
