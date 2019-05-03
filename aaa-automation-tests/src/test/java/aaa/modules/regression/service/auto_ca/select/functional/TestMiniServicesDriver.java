@@ -134,4 +134,21 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversCAHelper {
     {
         pas28687_AddRideshareDriverBody(getPolicyType());
     }
+
+	/**
+	 * @author Megha Shinde
+	 * @name Update Driver and Rideshare - Blocking Message
+	 * @scenario
+	 * 1. Create a policy in PAS
+	 * 2. add driver from dxp service
+	 * 3. update driver as rideshare
+	 * 4. validate response should have error message.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-25055"})
+	public void pas25055_ViewDriverServiceMetadataServiceRideshareQuestion(@Optional("CA") String state)
+	{
+		pas25055_ViewDriverServiceMetadataServiceRideshareQuestionBody(getPolicyType());
+	}
 }

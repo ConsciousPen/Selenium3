@@ -11,6 +11,19 @@ TestData: {
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
+TestData_Rideshare: {
+DriverTab: ['@DriverTab2','@Driver_Excluded_CA']
+ }
+
+DriverTab2: {
+  DriverSearchDialog: {},
+  Occupation: 'Driver',
+  Age First Licensed: 18,
+  License Type: 'Valid',
+  "License #": 'B1234567',
+  Permit Before License: 'Yes'
+}
+
 PolicyInformation: {
   Policy Type: Standard,
   Effective Date: '$<today:MM/dd/yyyy>',

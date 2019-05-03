@@ -14,6 +14,8 @@ import toolkit.datax.TestData;
 
 import java.time.format.DateTimeFormatter;
 
+import static aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.miniServicesEndorsementDeleteDelayConfigCheck;
+import static aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.myPolicyUserAddedConfigCheck;
 import static org.assertj.core.api.Assertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
@@ -179,6 +181,36 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
             softly.assertThat(updateDriverResponse.validations.get(0).message).contains("Rideshare Driver (AAA_CSA190426-yCW5j)");
             softly.assertThat(updateDriverResponse.validations.get(0).field).isEqualTo("ridesharingCoverage");
         });
+    }
+
+	protected void pas25055_ViewDriverServiceMetadataServiceRideshareQuestionBody(PolicyType policyType) {
+		mainApp().open();
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_Rideshare").getTestDataList("DriverTab")).resolveLinks();
+		policyType.get().createPolicy(testData);
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+        String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        HelperCommon.createEndorsement(policyNumber, endorsementDate);
+        ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+        String driverOid = viewDriversResponse.driverList.get(0).oid;
+        String driverOid1= viewDriversResponse.driverList.get(1).oid;
+        AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementDriversMetaData(policyNumber, driverOid);
+        assertSoftly(softly -> {
+            AttributeMetadata metaDataFieldResponseDriverType = getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "ridesharingCoverage", true, true, true, null, "Boolean");
+
+        });
+
+        AttributeMetadata[] metaDataResponse1 = HelperCommon.viewEndorsementDriversMetaData(policyNumber, driverOid1);
+        assertSoftly(softly -> {
+            AttributeMetadata metaDataFieldResponseDriverType = getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse1, "ridesharingCoverage", true, false, true, null, "Boolean");
+
+        });
+
     }
     protected void pas15408_ViewDriverServiceCA_Body(PolicyType policyType) {
         TestData td = getTestSpecificTD("TestData_FilteredRelationshipDrivers_CA");
