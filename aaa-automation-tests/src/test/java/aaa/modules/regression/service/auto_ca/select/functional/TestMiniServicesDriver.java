@@ -134,4 +134,21 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversCAHelper {
     {
         pas28687_AddRideshareDriverBody(getPolicyType());
     }
+
+	/**
+	 * @author Megha Shinde
+	 * @name View Driver Service/Metadata Service - Rideshare Question
+	 * @scenario
+	 * 1. Create a policy in PAS with 2 drivers 1 AFR and NAFR
+	 * 2. create endorsment
+	 * 3. run metadata service
+	 * 4. verify rideshare is yes for afr and false for NAFR
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-25055"})
+	public void pas25055_ViewDriverServiceMetadataServiceRideshareQuestion(@Optional("CA") String state)
+	{
+		pas25055_ViewDriverServiceMetadataServiceRideshareQuestionBody(getPolicyType());
+	}
 }
