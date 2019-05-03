@@ -83,7 +83,15 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversCAHelper {
         pas15408_ViewDriverServiceCA_Body(getPolicyType());
     }
 
-
+	/**
+	 * @author Megha Shinde
+	 * @name View Driver Service - California - Named Insured Indicator
+	 * @scenario
+	 * 1. Create a policy in PAS with a ton of people.
+	 * 2. Create an endorsement through DXP.
+	 * 3. Run the view driver service.
+	 * 4. Validate that the drivers display the correct details namedInsuredType and rating.
+	 */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-25053"})
@@ -92,6 +100,16 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversCAHelper {
         pas25053_ViewDriverServiceCANameInsureIndicator_body(getPolicyType());
     }
 
+	/**
+	 * @author Megha Shinde
+	 * @name View Driver Discount Service
+	 * @scenario
+	 * 1. Create a policy in PAS with a ton of people.
+	 * 2. Create Multi-Policy Discount ,Good Driver Discount, Good Student Discount, Multi-Vehicle Discount,Mature Driver Discount,New Driver Discount
+	 * 3. Create an endorsement through DXP.
+	 * 4. Run the view discount service.
+	 * 5.validate response
+	 */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-25053"})
@@ -100,6 +118,16 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversCAHelper {
         pas22513_ViewDiscountDriverBody(getPolicyType());
     }
 
+	/**
+	 * @author Megha Shinde
+	 * @name Update Driver and Rideshare - Blocking Message
+	 * @scenario
+	 * 1. Create a policy in PAS
+	 * 2. add driver from dxp service
+	 * 3. update driver as rideshare
+	 * 4. Run the view discount service.
+	 * 5.validate response
+	 */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-28687"})
