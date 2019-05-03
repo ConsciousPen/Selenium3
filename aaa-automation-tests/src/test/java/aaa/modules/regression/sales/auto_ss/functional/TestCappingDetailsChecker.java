@@ -93,7 +93,7 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
 
     /**
      ** @author Chris Johns
-     * @name Test Capping Configuration for ID and OR states
+     * @name Verify Applied Capping Factor is calculated with Refreshed VIN details - Between policy rate and proposed (R-45 to R-35)
      * @scenario
      *1. Create a policy and move to R-45
      *2. Generate a renewal image and grab the Applied Capping Factor
