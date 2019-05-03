@@ -48,7 +48,16 @@ TestData_FinancialDriver: {
 
 TestData_2FinancialDrivers: {
   GeneralTab: '@GeneralTab_2FinDrivers',
-  DriverTab: ['@DriverTab_FinancialDriver', '@DriverTab_FinancialDriver2'], 
+  DriverTab: ['@DriverTab_FinancialDriver', '@DriverTab_FinancialDriver2'],
+  FormsTab: {
+    Driver Forms: {
+      SR22: {
+        Action: Edit,
+        Case Number: 123456789,
+        State: AZ
+      }
+    }
+  },
   DocumentsAndBindTab: '@DocumentsAndBindTab_FinancialDriver'
 }
 
@@ -321,6 +330,12 @@ TestData_2_Drivers: {
   DriverTab: ['@DriverTab_RegularDriver', '@DriverTab_RegularDriver2']
 }
 
+# ----- Scenario 31
+TestData2_2FinancialDrivers: {
+  GeneralTab: '@GeneralTab_2FinDrivers',
+  DriverTab: ['@DriverTab_Without_FinancialDriver', '@DriverTab_FinancialDriver2'],
+  DocumentsAndBindTab: '@DocumentsAndBindTab_FinancialDriver'
+}
 
 # -------- GeneralTab ---------
 GeneralTab_OverrideCurrentCarrier: {
@@ -424,8 +439,16 @@ DriverTab_FinancialDriver: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
-  License Number: A12345678, 
+  License Number: A12345678,
   Financial Responsibility Filing Needed: 'Yes'
+}
+
+DriverTab_Without_FinancialDriver: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12345678,
+  Financial Responsibility Filing Needed: 'No'
 }
 
 DriverTab_FinancialDriver2: {
@@ -474,9 +497,9 @@ DriverTab_ExcludedDriver2: {
 DriverTab_ExcludedDriver2: {
   Add Driver: click,
   DriverSearchDialog: {},
-  Driver Type: Excluded, 
-  Reason: index=1, 
-  'Rel. to First Named Insured': Spouse, 
+  Driver Type: Excluded,
+  Reason: index=1,
+  'Rel. to First Named Insured': Spouse,
   First Name: Excluded2,
   Last Name: Driver2,
   Date of Birth: 02/02/1982,
@@ -804,12 +827,12 @@ DocumentsAndBindTab_Endorse_NANO: {
 DocumentsAndBindTab_FinancialDriver: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed
-  }, 
-  Agreement: I agree, 
+  },
   RequiredToIssue: {
     Proof of Prior Insurance: 'Yes'
-  }, 
-  Case Number: '12345'
+  },
+  Agreement: I agree,
+  Case Number: 12345
 }
 
 DocumentsAndBindTab_ExcludedDriver: {
