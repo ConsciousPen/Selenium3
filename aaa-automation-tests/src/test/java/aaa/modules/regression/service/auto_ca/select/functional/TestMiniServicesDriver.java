@@ -125,8 +125,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversCAHelper {
 	 * 1. Create a policy in PAS
 	 * 2. add driver from dxp service
 	 * 3. update driver as rideshare
-	 * 4. Run the view discount service.
-	 * 5.validate response
+	 * 4. validate response should have error message.
 	 */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
