@@ -25,7 +25,6 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplate;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -36,16 +35,13 @@ import static toolkit.verification.CustomAssertions.assertThat;
 public class TestCappingDetailsChecker extends AutoSSBaseTest {
 
     private final ErrorTab errorTab = new ErrorTab();
-//    protected static TestOfflineClaimsTemplate testOfflineClaimsTemplate = new TestOfflineClaimsTemplate();
     protected static UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
-
     private String policyNumber;
     private LocalDateTime policyExpirationDate;
     private LocalDateTime policyEffectiveDate;
 
     /**
-     * * @author Sarunas Jaraminas
-     *
+     ** @author Sarunas Jaraminas
      * @name Test Capping Configuration for ID and OR states
      * @scenario
      *1. Create customer.
@@ -59,13 +55,9 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
      *8. Initiate second Renewal.
      *9. Select "Data Gathering" mode and Calculate Premium.
      *10. Check Capping details
-     *
      * @details
-     *
      * This test was created on temporary capping rating branches
-     * as such the test will need to be stabilized when capping is
-     * actually implemented for organic PAS policies (non conversion)
-     *
+     * as such the test will only be applicable on TEST ONLY rating branches
      */
 
     @Parameters({"state"})
@@ -103,29 +95,21 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
         verifyCappingFunctionality();
     }
 
-
-
     /**
-     * * @author Chris Johns
-     *
+     ** @author Chris Johns
      * @name Test Capping Configuration for ID and OR states
      * @scenario
-     *1.
-     *2.
-     *3.
-     *4.
-     *5.
-     *6.
-     *7.
-     *8.
-     *9.
-     *10.
+     *1. Create a policy and move to R-45
+     *2. Generate a renewal image and grab the Applied Capping Factor
+     *3. Upload new VIN data for the VIN used
+     *4. Move to R-40 and enter the renewal image
+     *5. Verify the Applied Capping Factor has been recalculated based of of new VIN details, and is different than the prior Factor
+     *6. Upload new VIN data for the VIN used
+     *7. Move to R-30, propose the renewal via batch jobs, and enter the renewal image
+     *8. Verify the Applied Capping Factor has NOT been recalculated based of of new VIN details, and is the same as the prior Factor
      * @details
-     *
      * This test was created on temporary capping rating branches
-     * as such the test will need to be stabilized when capping is
-     * actually implemented for organic PAS policies (non conversion)
-     *
+     * as such the test will only be applicable on TEST ONLY rating branches
      */
 
     @Parameters({"state"})
@@ -155,25 +139,24 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
         //Exit the renewal image and upload new vin data for the vin used in ADMIN
         PremiumAndCoveragesTab.buttonSaveAndExit.click();
         VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-        String vinTableFile1 = vinMethods.getSpecificUploadFile(VinUploadFileType.NO_MATCH_ON_RENEWAL.get());
+        String vinTableFile1 = vinMethods.getSpecificUploadFile(VinUploadFileType.CAPPING_R35.get());
         adminApp().open(); //open ADMIN
         NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
         uploadToVINTableTab.uploadVinTable(vinTableFile1);
 
-        //Move to R-35, retrieve the policy, navigate to the premium and coverages Capping Details page
-        moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
+        //Move to R-40, retrieve the policy, navigate to the premium and coverages Capping Details page
+        moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(40)); //Renewal will get proposed at R-35 - we do not want this
         initiateRenewal(policyNumber);
         PremiumAndCoveragesTab.buttonViewCappingDetails.click();
-	    PremiumAndCoveragesTab.buttonReturnToPremiumAndCoverages.click();
 
         //Verify and note the capping factor value (should be different than above as it is recalculated with refreshed vin data)
-        String r35Factor = PremiumAndCoveragesTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR);
-//        assertThat(r45Factor).isNotEqualToIgnoringCase(r35Factor);
+	    String r35Factor = PremiumAndCoveragesTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR);
+        assertThat(r45Factor).isNotEqualToIgnoringCase(r35Factor);
 	    PremiumAndCoveragesTab.buttonReturnToPremiumAndCoverages.click();
 
         //Exit the renewal image and upload new vin data for the vin used in ADMIN
         PremiumAndCoveragesTab.buttonSaveAndExit.click();
-        String vinTableFile2 = vinMethods.getSpecificUploadFile(VinUploadFileType.NO_MATCH_ON_RENEWAL.get());
+        String vinTableFile2 = vinMethods.getSpecificUploadFile(VinUploadFileType.CAPPING_R30.get());
         adminApp().open(); //open ADMIN
         NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
         uploadToVINTableTab.uploadVinTable(vinTableFile2);
@@ -181,11 +164,11 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
         //Move to R-30, retrieve the policy, navigate to the premium and coverages Capping Details page
         moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(30));
         initiateRenewal(policyNumber);
-        PremiumAndCoveragesTab.buttonViewCappingDetails.click();
 
         //Verify and note the capping factor value (should be same values; outside of the refresh window)
-        String r30Factor = PremiumAndCoveragesTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR);
-//        assertThat(r35Factor).isEqualToIgnoringCase(r30Factor);
+	    PremiumAndCoveragesTab.buttonViewCappingDetails.click();
+	    String r30Factor = PremiumAndCoveragesTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR);
+        assertThat(r35Factor).isEqualToIgnoringCase(r30Factor);
 	    PremiumAndCoveragesTab.buttonReturnToPremiumAndCoverages.click();
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
