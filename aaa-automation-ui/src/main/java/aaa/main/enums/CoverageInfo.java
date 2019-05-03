@@ -154,7 +154,14 @@ public enum CoverageInfo {
 	SSL("SSL", "Supplemental Spousal Liability", CoverageLimits.COV_FALSE, AvailableCoverageLimits.SSL, null),
 	MEE_NY("MEE", "Medical Expense Elimination", CoverageLimits.COV_MEE_NONE, AvailableCoverageLimits.MEE_NY, null),
 	UM_SUM_NY("UM/SUM", "Supplementary Uninsured/Underinsured Motorists Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UM_SUM, "Per Person/Per Accident"),
-	UM_SUM_2550_NY("UM/SUM", "Uninsured Motorists Bodily Injury", CoverageLimits.COV_2550, AvailableCoverageLimits.UM_SUM, "Per Person/Per Accident");
+	UM_SUM_2550_NY("UM/SUM", "Uninsured Motorists Bodily Injury", CoverageLimits.COV_2550, AvailableCoverageLimits.UM_SUM, "Per Person/Per Accident"),
+
+	//CA Coverages
+	BI_CA("BI", "Bodily Injury Liability", CoverageLimits.COV_500500, AvailableCoverageLimits.BI_CA, "Per Person/Per Accident"),
+	PD_CA("PD", "Property Damage Liability", CoverageLimits.COV_100000, AvailableCoverageLimits.PD_CA, "Per Accident"),
+	UMBI_CA("UMBI", "Uninsured Motorists Bodily Injury", CoverageLimits.COV_500500, AvailableCoverageLimits.UMBI_CA, "Per Person/Per Accident"),
+	UIMBI_CA("UIMBI", "Underinsured Motorists Bodily Injury", CoverageLimits.COV_500500, AvailableCoverageLimits.UIMBI_CA,"Per Person/Per Accident"),
+	MEDPM_CA("MEDPM", "Medical Payments", CoverageLimits.COV_0,  AvailableCoverageLimits.MEDPM_CA, "Per Person");
 
 
 	private final String code;
