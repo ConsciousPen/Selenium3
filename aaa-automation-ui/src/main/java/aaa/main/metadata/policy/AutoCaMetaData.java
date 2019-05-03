@@ -241,6 +241,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<ComboBox> GENDER = declare("Gender", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> MARITAL_STATUS = declare("Marital Status", ComboBox.class);
 		public static final AssetDescriptor<AdvancedComboBox> OCCUPATION = declare("Occupation", AdvancedComboBox.class);
+		public static final AssetDescriptor<TextBox> OCCUPATION_OTHER = declare("(provide Occupation if Other is selected)", TextBox.class);
 		public static final AssetDescriptor<TextBox> BASE_DATE = declare("Base Date", TextBox.class);
 		public static final AssetDescriptor<TextBox> AGE_FIRST_LICENSED = declare("Age First Licensed", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> PERMIT_BEFORE_LICENSE = declare("Permit Before License", RadioGroup.class);
@@ -265,6 +266,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<TextBox> MATURE_DRIVER_COURSE_COMPLETION_DATE = declare("Mature Driver Course Completion Date", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> FINANCIAL_RESPONSIBILITY_FILING_NEEDED = declare("Financial Responsibility Filing Needed", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> SMOKER_CIGARETTES_OR_PIPES = declare("Smoker: Cigarettes, cigars or pipes", RadioGroup.class);
+		public static final AssetDescriptor<RadioGroup> DRIVER_RIDESHARING_COVERAGE = declare("Ridesharing Coverage", RadioGroup.class);
 		public static final AssetDescriptor<TextBox> ADDRESS_VALIDATED = declare("Address Validated?", TextBox.class);
 		public static final AssetDescriptor<ActivityInformationMultiAssetList> ACTIVITY_INFORMATION = declare("ActivityInformation", ActivityInformationMultiAssetList.class, ActivityInformation.class, By
 				.xpath(".//div[@id='policyDataGatherForm:componentView_DrivingRecord']"));

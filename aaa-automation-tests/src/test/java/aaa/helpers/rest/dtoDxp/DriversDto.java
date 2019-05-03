@@ -100,6 +100,9 @@ public class DriversDto implements RestBodyRequest {
 	@ApiModelProperty(value = "Available Actions for driver")
 	public List<String> availableActions;
 
+	@ApiModelProperty(value = "Ridesharing coverage indicator. CA specific Yes/No field.", example = "18")
+	public Boolean ridesharingCoverage;
+
 	@ApiModelProperty(value = "List of driver related validation errors", readOnly = true)
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	@JsonInclude(JsonInclude.Include.NON_NULL)

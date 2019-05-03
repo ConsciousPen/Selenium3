@@ -1355,5 +1355,21 @@
             </class>
         </classes>
     </test>
-
+    <test thread-count="1024" name="CA Select Driver" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas25057_AddDriverCADefaultValues"/>
+                    <include name="pas15428_UpdateDriverPermitBeforeLicense"/>
+                    <include name="pas15408_ValidateMetadataService_CA"/>
+                    <include name="pas15408_ViewDriverService_CA"/>
+                    <include name="pas25053_ViewDriverServiceCANameInsureIndicator"/>
+                    <include name="pas22513_ViewDiscountDriver"/>
+                    <include name="pas28687_AddRideshareDriver"/>
+                    <include name="pas25055_ViewDriverServiceMetadataServiceRideshareQuestion"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
