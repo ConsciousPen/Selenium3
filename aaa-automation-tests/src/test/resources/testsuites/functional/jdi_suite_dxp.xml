@@ -190,6 +190,7 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
+                    <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
                     <include name="pas10449_ViewVehicleServiceOrderOfVehicle"/>
                     <include name="pas11741_ManageVehicleLevelCoverages"/>
                     <include name="pas502_DuplicateVinAddVehicleService"/>
