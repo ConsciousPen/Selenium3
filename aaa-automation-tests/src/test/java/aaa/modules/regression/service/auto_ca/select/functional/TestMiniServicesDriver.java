@@ -137,12 +137,12 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversCAHelper {
 
 	/**
 	 * @author Megha Shinde
-	 * @name Update Driver and Rideshare - Blocking Message
+	 * @name View Driver Service/Metadata Service - Rideshare Question
 	 * @scenario
-	 * 1. Create a policy in PAS
-	 * 2. add driver from dxp service
-	 * 3. update driver as rideshare
-	 * 4. validate response should have error message.
+	 * 1. Create a policy in PAS with 2 drivers 1 AFR and NAFR
+	 * 2. create endorsment
+	 * 3. run metadata service
+	 * 4. verify rideshare is yes for afr and false for NAFR
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
