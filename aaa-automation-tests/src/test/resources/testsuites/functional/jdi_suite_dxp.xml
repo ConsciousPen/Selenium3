@@ -98,6 +98,17 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="Check that LOAN coverage is false for NY" parallel="methods">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas11618_UpdateVehicleLeasedInfo"/>
+                    <include name="pas11618_UpdateVehicleFinancedInfo"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="VehiclesNV" parallel="methods">
     <parameter name="state" value="NV"/>
     <classes>

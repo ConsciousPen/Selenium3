@@ -758,7 +758,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		String purchaseDate = "2013-02-22";
-		String vin = "1HGFA16526L081415";
+		String vin = "KNDJX3AA0J7895376"; //2018 KIA Soul
 
 		//Add vehicle with specific info
 		Vehicle vehicleAddRequest = new Vehicle();
