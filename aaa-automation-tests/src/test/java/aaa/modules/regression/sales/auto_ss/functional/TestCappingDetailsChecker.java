@@ -64,10 +64,8 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10809")
     public void pas10809_CwRefreshAndCappingConfiguration(@Optional("OR") String state) {
-
         mainApp().open();
         createCustomerIndividual();
-
         TestData testData = getPolicyTD();
 
         if(state.contains("OR")) {
@@ -76,10 +74,8 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
         }
 
         policyNumber = createPolicy(testData);
-
         policyExpirationDate = PolicySummaryPage.getExpirationDate();
         policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-
         initiateEndorsement();
 
         //Capping functionality verification for first the renewal
