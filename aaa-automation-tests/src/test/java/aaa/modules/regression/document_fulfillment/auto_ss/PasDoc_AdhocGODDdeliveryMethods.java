@@ -21,7 +21,7 @@ import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.RadioGroup;
 
-import static aaa.main.enums.DocGenEnum.Documents.AA11AZ;
+import static aaa.main.enums.DocGenEnum.Documents.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class PasDoc_AdhocGODDdeliveryMethods extends AutoSSBaseTest {
@@ -43,17 +43,17 @@ public class PasDoc_AdhocGODDdeliveryMethods extends AutoSSBaseTest {
 
         CustomSoftAssertions.assertSoftly(softly -> {
 
-            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.E_SIGNATURE, false, DocGenEnum.Documents.ACPUBI);
-            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.EMAIL, true, DocGenEnum.Documents.ACPUBI);
-            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.FAX, false, DocGenEnum.Documents.ACPUBI);
-            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, false, DocGenEnum.Documents.ACPUBI);
-            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.LOCAL_PRINT, true, true, DocGenEnum.Documents.ACPUBI);
+            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.E_SIGNATURE, false, ACPUBI);
+            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.EMAIL, true, ACPUBI);
+            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.FAX, false, ACPUBI);
+            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, false, ACPUBI);
+            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.LOCAL_PRINT, true, true, ACPUBI);
 
-            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.E_SIGNATURE, true, DocGenEnum.Documents.AA11AZ);
-            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.EMAIL, true, DocGenEnum.Documents.AA11AZ);
-            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.FAX, false, DocGenEnum.Documents.AA11AZ);
-            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, true, DocGenEnum.Documents.AA11AZ);
-            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.LOCAL_PRINT, true, true, DocGenEnum.Documents.AA11AZ);
+            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.E_SIGNATURE, true, AA11AZ);
+            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.EMAIL, true, AA11AZ);
+            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.FAX, false, AA11AZ);
+            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, true, AA11AZ);
+            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.LOCAL_PRINT, true, true, AA11AZ);
         });
 
         documentActionTab.saveAndExit();
@@ -70,14 +70,14 @@ public class PasDoc_AdhocGODDdeliveryMethods extends AutoSSBaseTest {
         //policy2
         policy.copyPolicy(getPolicyTD("CopyFromPolicy", "TestData"));
         policy.policyDocGen().start();
-        verifyOptionIsEnabled(null, DocGenEnum.DeliveryMethod.E_SIGNATURE, true, true, DocGenEnum.Documents.AA11AZ);
+        verifyOptionIsEnabled(null, DocGenEnum.DeliveryMethod.E_SIGNATURE, true, true, AA11AZ);
         documentActionTab.buttonCancel.click();
         //cancel policy2
         policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
         policy.policyDocGen().start();
-        verifyOptionIsEnabled(null, DocGenEnum.DeliveryMethod.E_SIGNATURE, true, false, DocGenEnum.Documents.AA11AZ);
+        verifyOptionIsEnabled(null, DocGenEnum.DeliveryMethod.E_SIGNATURE, true, false, AA11AZ);
         documentActionTab.buttonCancel.click();
 
         SearchPage.openPolicy(policy_declined);
@@ -90,7 +90,7 @@ public class PasDoc_AdhocGODDdeliveryMethods extends AutoSSBaseTest {
         log.info("PAS DOC: Policy created with #" + policy_declined);
         policy.policyDocGen().start();
 
-        verifyOptionIsEnabled(null, DocGenEnum.DeliveryMethod.E_SIGNATURE, false, DocGenEnum.Documents.AA11AZ);
+        verifyOptionIsEnabled(null, DocGenEnum.DeliveryMethod.E_SIGNATURE, false, AA11AZ);
         documentActionTab.saveAndExit();
         //without verification delivery method - eSignature in policy3 (policy status - expired) - NOT APPLICABLE
     }
@@ -109,11 +109,11 @@ public class PasDoc_AdhocGODDdeliveryMethods extends AutoSSBaseTest {
 
 
         CustomSoftAssertions.assertSoftly(softly -> {
-            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.E_SIGNATURE, false, DocGenEnum.Documents.AAUBI, DocGenEnum.Documents.ACPUBI);
-            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.FAX, false, DocGenEnum.Documents.AAUBI, DocGenEnum.Documents.ACPUBI);
-            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, false, DocGenEnum.Documents.AAUBI, DocGenEnum.Documents.ACPUBI);
-            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.EMAIL, true, DocGenEnum.Documents.AAUBI, DocGenEnum.Documents.ACPUBI);
-            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.LOCAL_PRINT, true, DocGenEnum.Documents.AAUBI, DocGenEnum.Documents.ACPUBI);
+            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.E_SIGNATURE, false, AAUBI, ACPUBI);
+            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.FAX, false, AAUBI, ACPUBI);
+            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, false, AAUBI, ACPUBI);
+            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.EMAIL, true, AAUBI, ACPUBI);
+            verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.LOCAL_PRINT, true, AAUBI, ACPUBI);
         });
         documentActionTab.saveAndExit();
     }
@@ -126,11 +126,11 @@ public class PasDoc_AdhocGODDdeliveryMethods extends AutoSSBaseTest {
         mainApp().open();
         createCustomerIndividual();
         createPolicy();
-        verifyDistributionChannel(null, DocGenEnum.Documents.AA11AZ);
-        verifyDistributionChannel(DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.Documents.AA11AZ);
-        verifyDistributionChannel(DocGenEnum.DeliveryMethod.LOCAL_PRINT, DocGenEnum.Documents.AA11AZ);
-        verifyDistributionChannel(DocGenEnum.DeliveryMethod.CENTRAL_PRINT, DocGenEnum.Documents.AA11AZ);
-        verifyDistributionChannel(DocGenEnum.DeliveryMethod.E_SIGNATURE, DocGenEnum.Documents.AA11AZ);
+        verifyDistributionChannel(null, AA11AZ);
+        verifyDistributionChannel(DocGenEnum.DeliveryMethod.EMAIL, AA11AZ);
+        verifyDistributionChannel(DocGenEnum.DeliveryMethod.LOCAL_PRINT, AA11AZ);
+        verifyDistributionChannel(DocGenEnum.DeliveryMethod.CENTRAL_PRINT, AA11AZ);
+        verifyDistributionChannel(DocGenEnum.DeliveryMethod.E_SIGNATURE, AA11AZ);
     }
 
     private void verifyOptionIsEnabled(ETCSCoreSoftAssertions softly, DocGenEnum.DeliveryMethod id, boolean unselectDocuments, boolean expectedValue, DocGenEnum.Documents... documents) {
