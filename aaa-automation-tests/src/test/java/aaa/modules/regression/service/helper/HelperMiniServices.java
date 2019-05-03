@@ -38,6 +38,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(response.transactionEffectiveDate).isEqualTo(endorsementDate);
 		assertThat(response.policyTerm).isNotEmpty();
 		assertThat(response.endorsementId).isNotEmpty();
+		assertThat(response.productCd).isNotEmpty();
 	}
 
 	public String addVehicleWithChecks(String policyNumber, String purchaseDate, String vin, boolean allowedToAddVehicle) {
