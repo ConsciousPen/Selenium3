@@ -1,5 +1,9 @@
 package aaa.modules.regression.finance.billing.home_ca.ho3;
 
+import static aaa.main.enums.ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION;
+import static aaa.main.enums.BillingConstants.BillingAccountPoliciesTable.PAYMENT_PLAN;
+import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.*;
+import static aaa.main.enums.BillingConstants.PaymentPlan.ANNUAL;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import org.testng.annotations.Optional;
@@ -69,29 +73,29 @@ public class TestFinancePolicyEscheatmentCheckReversals extends FinanceOperation
 		escheatmentActions.controls.links.get("Reverse").click();
 		Page.dialogConfirmation.confirm();
 
-		Dollar totalPaid = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1)
+		Dollar totalPaid = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(PAYMENT_PLAN, ANNUAL)
 				.getCell("Total Paid").getValue());
-		Dollar prepaid = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1)
+		Dollar prepaid = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(PAYMENT_PLAN, ANNUAL)
 				.getCell("Prepaid").getValue());
-		Dollar totalDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1)
+		Dollar totalDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(PAYMENT_PLAN, ANNUAL)
 				.getCell("Total Due").getValue());
-		Dollar billableAmount = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1)
+		Dollar billableAmount = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(PAYMENT_PLAN, ANNUAL)
 				.getCell("Billable Amount").getValue());
 
 		assertSoftly(softly -> {
 			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1)
-					.getCell("Amount")).hasValue("($25.00)");
+					.getCell(AMOUNT)).hasValue("($25.00)");
 			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2)
-					.getCell("Status")).hasValue("Reversed");
+					.getCell(STATUS)).hasValue("Reversed");
 			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2)
-					.getCell("Action").getValue()).doesNotContain("Reverse");
+					.getCell(ACTION).getValue()).doesNotContain("Reverse");
 			softly.assertThat(totalDue.toString()).isEqualTo("($25.00)");
 			softly.assertThat(prepaid.toString()).isEqualTo("($25.00)");
 			softly.assertThat(totalPaid).isEqualTo(billableAmount.subtract(totalDue));
 
 			NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
 			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1)
-					.getCell("Description")).valueContains("Reversal");
+					.getCell(DESCRIPTION)).valueContains("Reversal");
 		});
 	}
 }
