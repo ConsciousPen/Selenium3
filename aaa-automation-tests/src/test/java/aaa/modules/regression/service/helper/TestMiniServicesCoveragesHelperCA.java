@@ -20,7 +20,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 
 		Coverage covBIExpected = Coverage.create(CoverageInfo.BI_CA);
 		Coverage covPDExpected = Coverage.create(CoverageInfo.PD_CA);
-		if (TimeSetterUtil.getInstance().getCurrentTime().toLocalDate().isAfter(LocalDate.parse("2019-06-06"))) { //Starting from 2019-06-07, PD available limit 5000 is removed
+		if (TimeSetterUtil.getInstance().getCurrentTime().toLocalDate().isAfter(LocalDate.parse("2019-06-07"))) { //Starting from 2019-06-08, PD should not have availableLimit 5000
 			covPDExpected.removeAvailableLimit(CoverageLimits.COV_5000);
 		}
 		Coverage covUMBIExpected = Coverage.create(CoverageInfo.UMBI_CA).removeAvailableLimitsAbove(CoverageLimits.COV_500500);
