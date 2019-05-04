@@ -1,34 +1,35 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static aaa.main.enums.ProductConstants.TransactionHistoryType.*;
-import static aaa.main.pages.summary.PolicySummaryPage.tableDifferences;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import static toolkit.verification.CustomAssertions.assertThat;
+import aaa.common.Tab;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.ErrorEnum;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.policy.PolicyBaseTest;
+import aaa.modules.regression.sales.auto_ss.functional.VersionsComparisonConstants;
+import aaa.modules.regression.sales.helper.SectionFieldData;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.*;
+import org.apache.commons.lang3.StringUtils;
+import toolkit.datax.TestData;
+import toolkit.datax.TestDataException;
+import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.StaticElement;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import org.apache.commons.lang3.StringUtils;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.*;
-import aaa.common.Tab;
-import aaa.common.pages.SearchPage;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.ErrorEnum;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.sales.auto_ss.functional.VersionsComparisonConstants;
-import aaa.modules.regression.sales.helper.SectionFieldData;
-import toolkit.datax.TestData;
-import toolkit.datax.TestDataException;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.StaticElement;
+import static aaa.main.enums.ProductConstants.TransactionHistoryType.*;
+import static aaa.main.pages.summary.PolicySummaryPage.tableDifferences;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 

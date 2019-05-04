@@ -169,43 +169,45 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		currentCarrierInformationData.putAll(
 				getGeneralTabAgentInceptionAndExpirationData(openLPolicy.getAutoInsurancePersistency(), openLPolicy.getAaaInsurancePersistency(), openLPolicy.getEffectiveDate()));
 
-		if (StringUtils.isNotBlank(openLPolicy.getCappingDetails().getCarrierCode())) {
-			//TODO-dchubkov: add common method for replacing values from excel?
-			String carrierCode = openLPolicy.getCappingDetails().getCarrierCode().trim().replaceAll("\u00A0", "");
-			switch (carrierCode) {
-				case "ACAIC":
-					carrierCode = "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)";
-					break;
-				case "WUIC":
-					carrierCode = "Western United";
+		String carrierCode;
+		if (openLPolicy.isLegacyConvPolicy()) {
+			if (StringUtils.isNotBlank(openLPolicy.getCappingDetails().getCarrierCode())) {
+				carrierCode = openLPolicy.getCappingDetails().getCarrierCode().trim().replaceAll("\u00A0", "");
+				switch (carrierCode) {
+					case "ACAIC":
+						carrierCode = "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)";
+						break;
+					case "WUIC":
+						carrierCode = "Western United";
+				}
+			} else {
+				switch (getState()) {
+					case Constants.States.MD:
+						carrierCode = "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)";
+						break;
+					default:
+						carrierCode = "Western United";
+				}
 			}
-			currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
-		} else if (openLPolicy.isCappedPolicy() && openLPolicy.isLegacyConvPolicy()) {
-			String carrierCode;
-			switch (getState()) {
-				//TODO-dchubkov: fill carrier codes for other states, see "Capping" tab -> "Carrier Code" column in algorithm files for each state
-				case Constants.States.ID:
-				case Constants.States.KY:
-				case Constants.States.UT:
-				case Constants.States.WV:
-					carrierCode = "Western United";
-					break;
-				case Constants.States.MD:
-					carrierCode = "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)";
-					break;
-				default:
-					throw new IstfException(String.format("In order to set termCappingFactor=%1$s, appropriate carrier code should be set in General tab but it's unknown for %2$s state.",
-							openLPolicy.getCappingDetails().getTermCappingFactor(), getState()));
+		} else {
+			if (StringUtils.isNotBlank(openLPolicy.getCappingDetails().getCarrierCode())) {
+				carrierCode = openLPolicy.getCappingDetails().getCarrierCode().trim().replaceAll("\u00A0", "");
+				switch (carrierCode) {
+					case "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)":
+						carrierCode = "AAA Insurance";
+				}
+			} else {
+				carrierCode = "AAA-SoCal (ACSC)";
 			}
-			currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
 		}
+		currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
 
 		Map<String, Object> policyInformationData = new HashMap<>();
 		if (!openLPolicy.isLegacyConvPolicy()) {
 			policyInformationData.put(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY));
 		}
 		policyInformationData.put(AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM.getLabel(), getPremiumAndCoveragesPaymentPlan(openLPolicy.getCappingDetails().getTerm()));
-		policyInformationData.put(AutoSSMetaData.GeneralTab.PolicyInformation.CHANNEL_TYPE.getLabel(), "AAA Agent"); // hardcoded value
+		policyInformationData.put(AutoSSMetaData.GeneralTab.PolicyInformation.CHANNEL_TYPE.getLabel(), "AAA Agent");
 		//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.PolicyInformation.ADVANCED_SHOPPING_DISCOUNTS.getLabel(), generalTabIsAdvanceShopping(openLPolicy.isAdvanceShopping())
 
 		if (Boolean.TRUE.equals(openLPolicy.isAdvanceShopping())) {
@@ -575,12 +577,19 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					continue;
 				}
 
+				if (vehicle.getCoverages().stream().noneMatch(c -> "COMP".equals(c.getCoverageCd())) && vehicle.getCoverages().stream().noneMatch(c -> "COLL".equals(c.getCoverageCd()))) {
+					detailedCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "starts=No Coverage");
+					if (!isPrivatePassengerAutoType(vehicle.getBiLiabilitySymbol())) {
+						detailedCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel(), "starts=No Coverage");
+					}
+				}
+
 				String coverageName = getPremiumAndCoveragesTabCoverageName(coverage.getCoverageCd());
 				if (isPolicyLevelCoverageCd(coverage.getCoverageCd())) {
 					policyCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
-					if ("PIP".equals(coverage.getCoverageCd()) && (getState().equals(Constants.States.OR) || getState().equals(Constants.States.KY))) {
+					if ("PIP".equals(coverage.getCoverageCd()) && (getState().equals(Constants.States.OR) || getState().equals(Constants.States.KY) || getState().equals(Constants.States.DE))) {
 						policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel(),
-								"starts=" + getFormattedCoverageLimit(coverage.getDeductible(), coverage.getCoverageCd()));
+								"starts=" + getFormattedCoverageDeductible(coverage.getDeductible()));
 					}
 				} else {
 					detailedCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
@@ -590,10 +599,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					assertThat(coverage.getGlassDeductible()).as("Invalid \"glassDeductible\" openl field value since it's not possible to fill \"Full Safety Glass\" UI field "
 							+ "for \"Trailer\" or \"Motor Home\" vehicle types or for KY state").isIn("N/A", "0");
 				} else {
-					if ("0".equals(vehicle.getCoverages().stream().filter(c -> "COMP".equals(c.getCoverageCd())).findFirst().get().getGlassDeductible()) ||
-							"0".equals(vehicle.getCoverages().stream().filter(c -> "COLL".equals(c.getCoverageCd())).findFirst().get().getGlassDeductible())) {
-						detailedCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(), "Yes");
-					} else {
+					if ("COMP".equals(coverage.getCoverageCd())) {
 						detailedCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(),
 								getPremiumAndCoveragesFullSafetyGlass(coverage.getGlassDeductible()));
 					}

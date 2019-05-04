@@ -10,6 +10,7 @@ import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
@@ -22,7 +23,9 @@ import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.BooleanUtils;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
@@ -42,16 +45,17 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import static toolkit.webdriver.controls.composite.assets.metadata.MetaData.getAssets;
 
 public class TestMiniServicesDriversHelper extends PolicyBaseTest {
-	private static final List<String> MARRIED_STATUSES = ImmutableList.of("Married", "Registered Domestic Partner",
+	protected static final List<String> MARRIED_STATUSES = ImmutableList.of("Married", "Registered Domestic Partner",
 			"Civil Union", "Common Law", "Registered Domestic Partner/Civil Union");
-	private static final List<String> SPOUSE_RELATIONSHIP_STATUSES = ImmutableList.of("Spouse",
+	protected static final List<String> SPOUSE_RELATIONSHIP_STATUSES = ImmutableList.of("Spouse",
 			"Registered Domestic Partner", "Registered Domestic Partner/Civil Union");
 	private static final String MESSAGE_TASK_CREATED = "Task Created Customer Driver Removal";
-	private static final String DRIVER_TYPE_AVAILABLE_FOR_RATING = "afr";
-	private static final String DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING = "nafr";
-	private static final String DRIVER_FIRST_NAME_INSURED = "FNI";
-	private static final String DRIVER_NAME_INSURED = "NI";
-	private static final String DRIVER_STATUS_ACTIVE = "active";
+	protected static final String DRIVER_TYPE_AVAILABLE_FOR_RATING = "afr";
+	protected static final String DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING = "nafr";
+	protected static final String DRIVER_TYPE_EXCLUDED = "excl";
+	protected static final String DRIVER_FIRST_NAME_INSURED = "FNI";
+	protected static final String DRIVER_NAME_INSURED = "NI";
+	protected static final String DRIVER_STATUS_ACTIVE = "active";
 
 	private DriverTab driverTab = new DriverTab();
 	private FormsTab formsTab = new FormsTab();
@@ -2575,6 +2579,82 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
+	protected void validateExistingDriver(String firstName, String lastName, String insuredType, String driverType,
+										String relationshipToNI, String maritalStatusCd, String genderCd,
+										String birthDate, int ageFirstLicensed, String stateLicensed, String licenseNumber,
+										DriversDto driverResponse) {
+		assertSoftly(softly -> {
+			if (firstName != null) {
+				softly.assertThat(driverResponse.firstName).isEqualTo(firstName);
+			}
+			softly.assertThat(driverResponse.lastName).isEqualTo(lastName);
+			softly.assertThat(driverResponse.namedInsuredType).isEqualTo(insuredType);
+			softly.assertThat(driverResponse.driverType).isEqualTo(driverType);
+			softly.assertThat(driverResponse.relationToApplicantCd).isEqualTo(relationshipToNI);
+			softly.assertThat(driverResponse.maritalStatusCd).isEqualTo(maritalStatusCd);
+			softly.assertThat(driverResponse.gender).isEqualTo(genderCd);
+			softly.assertThat(driverResponse.driverStatus).isEqualTo("active");
+			softly.assertThat(driverResponse.birthDate).isEqualTo(birthDate);
+			softly.assertThat(driverResponse.ageFirstLicensed).isEqualTo(ageFirstLicensed);
+			softly.assertThat(driverResponse.drivingLicense).isNotNull();
+			softly.assertThat(driverResponse.drivingLicense.stateLicensed).isEqualTo(stateLicensed);
+			softly.assertThat(driverResponse.drivingLicense.licenseNumber).isEqualTo(licenseNumber);
+		});
+	}
+
+
+	protected void pas22513_ViewDiscountDriverBody(PolicyType policyType) {
+		assertSoftly(softly -> {
+			TestData td = getTestSpecificTD("TestDataDiscountCA");
+
+			mainApp().open();
+			createCustomerIndividual();
+			policyType.get().createPolicy(td);
+			String policyNumber = getCopiedPolicy();
+
+			DiscountSummary policyDiscountsResponse = HelperCommon.viewDiscounts(policyNumber, "policy", 200);
+			verifyDiscounts(policyDiscountsResponse);
+
+			String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			HelperCommon.createEndorsement(policyNumber, endorsementDate);
+
+			DiscountSummary policyDiscountsResponse1 = HelperCommon.viewDiscounts(policyNumber, "endorsement", 200);
+			verifyDiscounts(policyDiscountsResponse1);
+		});
+	}
+
+    protected void verifyDiscounts(DiscountSummary policyDiscountsResponse) {
+        assertThat(policyDiscountsResponse.policyDiscounts.get(0).discountCd.equals("MPD"));
+        assertThat(policyDiscountsResponse.policyDiscounts.get(0).discountName.equals("Multi-Policy Discount"));
+
+        assertThat(policyDiscountsResponse.policyDiscounts.get(1).discountCd.equals("MVD"));
+        assertThat(policyDiscountsResponse.policyDiscounts.get(1).discountName.equals("Multi-Vehicle Discount"));
+
+        assertThat(policyDiscountsResponse.driverDiscounts.get(0).discountCd.equals("GDD"));
+        assertThat(policyDiscountsResponse.driverDiscounts.get(0).discountName.equals("Good Driver Discount"));
+
+        assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountCd.equals("MDD"));
+        assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountName.equals("Mature Driver Discount"));
+
+        assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountCd.equals("NDD"));
+        assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountName.equals("New Driver Discount"));
+
+        assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountCd.equals("GSD"));
+        assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountName.equals("Good Student Discount"));
+    }
+
+    protected void driverLevelDiscountsCheck(DiscountSummary policyDiscountsResponse, String discountCode, String discountName, String oid) {
+        DiscountInfo discount = policyDiscountsResponse.driverDiscounts.stream().filter(disc -> discountCode.equals(disc.discountCd)).filter(disc -> oid.equals(disc.oid)).findFirst().orElseThrow(() -> new IstfException("no such discount"));
+        assertThat(discount.discountCd.equals(discountCode)).isTrue();
+        assertThat(discount.discountName.equals(discountName)).isTrue();
+        assertThat(discount.oid.equals(oid)).isTrue();
+    }
+
+	protected void verifyNiDriver(ETCSCoreSoftAssertions softly, DriversDto driverFNI) {
+		softly.assertThat(driverFNI.namedInsuredType).isEqualTo("FNI");
+		softly.assertThat(driverFNI.driverType).isEqualTo("afr");
+	}
+
 	private DriversDto addDriverWithChecks(String policyNumber, ETCSCoreSoftAssertions softly) {
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Jarred", "", "Benjami", "1960-02-08", "I");
 		DriversDto addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
@@ -2830,5 +2910,9 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		return HelperCommon.viewEndorsementDrivers(policyNumber).driverList.stream().
 				filter(driver -> "Not a Named Insured".equals(driver.namedInsuredType) && "pendingAdd".equals(driver.driverStatus)).
 				findFirst().orElse(null);
+	}
+
+	public TestMiniServicesGeneralHelper getTestMiniServicesGeneralHelper() {
+		return testMiniServicesGeneralHelper;
 	}
 }

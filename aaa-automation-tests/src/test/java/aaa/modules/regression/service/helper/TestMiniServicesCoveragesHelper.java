@@ -6350,14 +6350,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
-		Coverage covUM = Coverage.create(CoverageInfo.UM_SUM_NY).removeAvailableLimitsAbove(CoverageLimits.COV_100300_SUM);
+		Coverage covUM = Coverage.create(CoverageInfo.UM_SUM_NY).removeAvailableLimitsAbove(CoverageLimits.COV_100300);
 
 		//Check viewEndorsementCoverages response, default should be selected as "Supplementary Uninsured/Underinsured Motorists Bodily Injury" and check
 		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covUM);
 		//Update BI Limits and check for UM Limits
 		updateCoverage(policyNumber, "BI", CoverageLimits.COV_2550.getLimit());
-		updateCoverage(policyNumber, "UM/SUM", CoverageLimits.COV_2550_SUM.getLimit());
+		updateCoverage(policyNumber, "UM/SUM", CoverageLimits.COV_2550.getLimit());
 		int covUMSUMLimitIndex = 0;
 		for (CoverageLimits coverageBILimit : AvailableCoverageLimits.BI_NY.getAvailableLimits()) {
 			Coverage covUMSUMExpected;
@@ -7162,7 +7162,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		return findCoverage(policyCoverageInfo.policyCoverages, coverageCd);
 	}
 
-	private VehicleCoverageInfo findVehicleCoverages(PolicyCoverageInfo policyCoverageInfo, String oid) {
+	protected VehicleCoverageInfo findVehicleCoverages(PolicyCoverageInfo policyCoverageInfo, String oid) {
 		return policyCoverageInfo.vehicleLevelCoverages.stream().filter(vehicleCoverageInfo -> oid.equals(vehicleCoverageInfo.oid)).findFirst().orElse(null);
 	}
 

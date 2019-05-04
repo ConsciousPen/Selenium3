@@ -238,96 +238,96 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
         DocGenHelper.verifyDocumentsGenerated(true, false, policy_enabledAutoPay, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AH35XX);
     }
 
-    @Parameters({"state"})
-    @StateList(states = States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario10(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
-        //Scenario 10: Policy Type is Non-Owner
-        TestData td_nano = getPolicyTD().adjust(getTestSpecificTD("TestData_Nano").resolveLinks());
-        String policyNumber = createPolicy(td_nano);
-        log.info("PAS DOC: Scenario 10: Non-Owner policy created" + policyNumber);
-        DocGenHelper.verifyDocumentsGenerated(true, false, policyNumber, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AA41XX);
-        verifyAA02AZcontainsForm(policyNumber, "AA41XX", true);
-    }
-
-    @Parameters({"state"})
-    @StateList(states = States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario11(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
-
-        //Scenario 11: Purchase Endorsement: add a Vehicle (Type not Trailer)
-        createPolicy();
-        TestData td_addVehicle = getTestSpecificTD("TestData_Endorsement_AddVehicle").adjust(getPolicyTD("Endorsement", "TestData"));
-        policy.endorse().performAndFill(td_addVehicle);
-        String policy_addVehicle = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 11: Endorsement with added Vehicle (Type not Trailer) created: " + policy_addVehicle);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_addVehicle, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA10XX);
-
-        //Scenario 11b: Purchase Endorsement: add a Vehicle with Type = Trailer
-        createPolicy();
-        TestData td_addTrailer = getTestSpecificTD("TestData_Endorsement_AddTrailer").adjust(getPolicyTD("Endorsement", "TestData"));
-        policy.endorse().performAndFill(td_addTrailer);
-        String policy_addTrailer = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 11b: Endorsement with added Trailer created: " + policy_addTrailer);
-        PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_addTrailer, EventName.ENDORSEMENT_ISSUE, AA10XX);
-    }
-
-    @Parameters({"state"})
-    @StateList(states = States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario12(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
-        TestData td_endorsement = getPolicyTD("Endorsement", "TestData");
-
-        //Scenario 12a: Endorsement: set UM and UIM limits < BI limits
-        createPolicy();
-        TestData td_UMandUIMlessThanBI = getTestSpecificTD("TestData_Endorsement_UMandUIMLessThanBI").adjust(td_endorsement);
-        policy.endorse().performAndFill(td_UMandUIMlessThanBI);
-        String policy_UMandUIMlessThanBI = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 12a: Endorsement with UM and UIM limits < BI limits created: " + policy_UMandUIMlessThanBI);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_UMandUIMlessThanBI, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA52AZ);
-        verifyAA02AZcontainsForm(policy_UMandUIMlessThanBI, EventName.ENDORSEMENT_ISSUE, "AA52AZ", true);
-
-        //Scenario 12b: Endorsement: set UIM limits < BI limits
-        createPolicy();
-        TestData td_UIMlessThanBI = getTestSpecificTD("TestData_Endorsement_UIMLessThanBI").adjust(td_endorsement);
-        policy.endorse().performAndFill(td_UIMlessThanBI);
-        String policy_UIMlessThanBI = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 12b: Endorsement with UIM limit < BI limits created: " + policy_UIMlessThanBI);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_UIMlessThanBI, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA52AZ);
-        verifyAA02AZcontainsForm(policy_UIMlessThanBI, EventName.ENDORSEMENT_ISSUE, "AA52AZ", true);
-
-        //Scenario 12c: Endorsement: set UM limits < BI limits
-        createPolicy();
-        TestData td_UMlessThanBI = getTestSpecificTD("TestData_Endorsement_UMLessThanBI").adjust(td_endorsement);
-        policy.endorse().performAndFill(td_UMlessThanBI);
-        String policy_UMlessThanBI = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 12b: Endorsement with UM limit < BI limits created: " + policy_UMlessThanBI);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_UMlessThanBI, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA52AZ);
-        verifyAA02AZcontainsForm(policy_UMlessThanBI, EventName.ENDORSEMENT_ISSUE, "AA52AZ", true);
-
-        //Scenario 12e: Endorsement: set both UM and UIM limits = BI limits
-        createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_UMandUIMLessThanBI").resolveLinks()));
-        TestData td_UMandUIMequalToBI = getTestSpecificTD("TestData_Endorsement_UMandUIMEqualToBI").adjust(td_endorsement);
-        policy.endorse().performAndFill(td_UMandUIMequalToBI);
-        String policy_UMandUIMequalToBI = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 12e: Endorsement with UM and UIM limits = BI limits created: " + policy_UMandUIMequalToBI);
-        PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_UMandUIMequalToBI, EventName.ENDORSEMENT_ISSUE, AA52AZ);
-        verifyAA02AZcontainsForm(policy_UMandUIMequalToBI, EventName.ENDORSEMENT_ISSUE, "AA52AZ", false);
-
-    }
-
-    @Parameters({"state"})
-    @StateList(states = States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario13(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	public void testScenario10(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		//Scenario 10: Policy Type is Non-Owner
+		TestData td_nano = getPolicyTD().adjust(getTestSpecificTD("TestData_Nano").resolveLinks());
+		String policyNumber = createPolicy(td_nano);
+		log.info("PAS DOC: Scenario 10: Non-Owner policy created" + policyNumber);
+		DocGenHelper.verifyDocumentsGenerated(true, false, policyNumber, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AA41XX); 
+		verifyAA02AZcontainsForm(policyNumber, "AA41XX", true);
+	}
+	
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	public void testScenario11(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		
+		//Scenario 11: Purchase Endorsement: add a Vehicle (Type not Trailer)
+		createPolicy();
+		TestData td_addVehicle = getTestSpecificTD("TestData_Endorsement_AddVehicle").adjust(getPolicyTD("Endorsement", "TestData"));
+		policy.endorse().performAndFill(td_addVehicle);
+		String policy_addVehicle = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 11: Endorsement with added Vehicle (Type not Trailer) created: " + policy_addVehicle); 
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_addVehicle, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA10XX); 
+		
+		//Scenario 11b: Purchase Endorsement: add a Vehicle with Type = Trailer
+		createPolicy();
+		TestData td_addTrailer = getTestSpecificTD("TestData_Endorsement_AddTrailer").adjust(getPolicyTD("Endorsement", "TestData"));
+		policy.endorse().performAndFill(td_addTrailer);
+		String policy_addTrailer = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 11b: Endorsement with added Trailer created: " + policy_addTrailer); 
+		PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_addTrailer, EventName.ENDORSEMENT_ISSUE, AA10XX); 
+	}
+	
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	public void testScenario12(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td_endorsement = getPolicyTD("Endorsement", "TestData");
+		
+		//Scenario 12a: Endorsement: set UM and UIM limits < BI limits
+		createPolicy();
+		TestData td_UMandUIMlessThanBI = getTestSpecificTD("TestData_Endorsement_UMandUIMLessThanBI").adjust(td_endorsement);
+		policy.endorse().performAndFill(td_UMandUIMlessThanBI);
+		String policy_UMandUIMlessThanBI = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 12a: Endorsement with UM and UIM limits < BI limits created: " + policy_UMandUIMlessThanBI);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_UMandUIMlessThanBI, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA52AZ); 
+		verifyAA02AZcontainsForm(policy_UMandUIMlessThanBI, EventName.ENDORSEMENT_ISSUE, "AA52AZ", true);
+		
+		//Scenario 12b: Endorsement: set UIM limits < BI limits
+		createPolicy();
+		TestData td_UIMlessThanBI = getTestSpecificTD("TestData_Endorsement_UIMLessThanBI").adjust(td_endorsement);
+		policy.endorse().performAndFill(td_UIMlessThanBI);
+		String policy_UIMlessThanBI = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 12b: Endorsement with UIM limit < BI limits created: " + policy_UIMlessThanBI);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_UIMlessThanBI, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA52AZ);
+		verifyAA02AZcontainsForm(policy_UIMlessThanBI, EventName.ENDORSEMENT_ISSUE, "AA52AZ", true);
+		
+		//Scenario 12c: Endorsement: set UM limits < BI limits
+		createPolicy();
+		TestData td_UMlessThanBI = getTestSpecificTD("TestData_Endorsement_UMLessThanBI").adjust(td_endorsement);
+		policy.endorse().performAndFill(td_UMlessThanBI);
+		String policy_UMlessThanBI = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 12b: Endorsement with UM limit < BI limits created: " + policy_UMlessThanBI);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_UMlessThanBI, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA52AZ);
+		verifyAA02AZcontainsForm(policy_UMlessThanBI, EventName.ENDORSEMENT_ISSUE, "AA52AZ", true);
+		
+		//Scenario 12e: Endorsement: set both UM and UIM limits = BI limits
+		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_UMandUIMLessThanBI").resolveLinks()));
+		TestData td_UMandUIMequalToBI = getTestSpecificTD("TestData_Endorsement_UMandUIMEqualToBI").adjust(td_endorsement);
+		policy.endorse().performAndFill(td_UMandUIMequalToBI);
+		String policy_UMandUIMequalToBI = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 12e: Endorsement with UM and UIM limits = BI limits created: " + policy_UMandUIMequalToBI);		
+		PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_UMandUIMequalToBI, EventName.ENDORSEMENT_ISSUE, AA52AZ);
+		verifyAA02AZcontainsForm(policy_UMandUIMequalToBI, EventName.ENDORSEMENT_ISSUE, "AA52AZ", false);
+		
+	}
+	
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	public void testScenario13(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
 /*
 		//Scenario 13a: Endorsement: add Excluded Driver
 		createPolicy();
@@ -338,587 +338,314 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_addExcludedDriver, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA43AZ);
 		verifyAA02AZcontainsForm(policy_addExcludedDriver, EventName.ENDORSEMENT_ISSUE, "AA43AZ", true);
 		verifyAA02AZcontainsForm(policy_addExcludedDriver, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
-*/
-        //Scenario 13b: Endorsement: change Driver2 Type to Excluded
-        createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_2_Drivers").resolveLinks()));
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
-        DriverTab.viewDriver(2);
-        new DriverTab().fillTab(getTestSpecificTD("TestData_Endorsement_setExcludedDriver2"));
-        NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        new PremiumAndCoveragesTab().calculatePremium();
-        NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().fillTab(getTestSpecificTD("TestData_Endorsement_setExcludedDriver2"));
-        new DocumentsAndBindTab().submitTab();
-        String policy_endosre_setExcludedDriver2 = PolicySummaryPage.getPolicyNumber();
-        log.info("Scenario 13b: Endorsement: change Driver2 Type to Excluded: " + policy_endosre_setExcludedDriver2);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endosre_setExcludedDriver2, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA43AZ);
-        verifyAA02AZcontainsForm(policy_endosre_setExcludedDriver2, EventName.ENDORSEMENT_ISSUE, "AA43AZ", true);
-        verifyAA02AZcontainsForm(policy_endosre_setExcludedDriver2, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
+*/		
+		//Scenario 13b: Endorsement: change Driver2 Type to Excluded
+		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_2_Drivers").resolveLinks()));
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
+		DriverTab.viewDriver(2);
+		new DriverTab().fillTab(getTestSpecificTD("TestData_Endorsement_setExcludedDriver2"));
+		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().fillTab(getTestSpecificTD("TestData_Endorsement_setExcludedDriver2"));
+		new DocumentsAndBindTab().submitTab();
+		String policy_endosre_setExcludedDriver2 = PolicySummaryPage.getPolicyNumber();
+		log.info("Scenario 13b: Endorsement: change Driver2 Type to Excluded: " + policy_endosre_setExcludedDriver2);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endosre_setExcludedDriver2, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA43AZ); 
+		verifyAA02AZcontainsForm(policy_endosre_setExcludedDriver2, EventName.ENDORSEMENT_ISSUE, "AA43AZ", true);
+		verifyAA02AZcontainsForm(policy_endosre_setExcludedDriver2, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
 
-        //Scenario 13e: Endorsement: remove Excluded Driver
-        createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_ExcludedDriver").resolveLinks()));
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
-        new DriverTab().removeDriver(2);
-        NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        new PremiumAndCoveragesTab().calculatePremium();
-        NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().submitTab();
-        String policy_removeExcludedDriver = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 13e: Endorsement: remove Excluded Driver: " + policy_removeExcludedDriver);
-        PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_removeExcludedDriver, EventName.ENDORSEMENT_ISSUE, AA43AZ);
-        verifyAA02AZcontainsForm(policy_removeExcludedDriver, EventName.ENDORSEMENT_ISSUE, "AA43AZ", false);
-    }
+		//Scenario 13e: Endorsement: remove Excluded Driver
+		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_ExcludedDriver").resolveLinks()));
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
+		new DriverTab().removeDriver(2);
+		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		String policy_removeExcludedDriver = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 13e: Endorsement: remove Excluded Driver: " + policy_removeExcludedDriver);
+		PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_removeExcludedDriver, EventName.ENDORSEMENT_ISSUE, AA43AZ); 
+		verifyAA02AZcontainsForm(policy_removeExcludedDriver, EventName.ENDORSEMENT_ISSUE, "AA43AZ", false);
+	}
+	
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	public void testScenario14(@Optional("") String state) {
+		mainApp().open(); 
+		createCustomerIndividual();
+		createPolicy();
+		//Scenario 14: Endorsement: set Policy Type = Non-Owner
+		TestData td_endorse_nano = getTestSpecificTD("TestData_Endorsement_Nano").adjust(getPolicyTD("Endorsement", "TestData"));
+		policy.endorse().performAndFill(td_endorse_nano);
+		String policy_endorse_nano = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 14: Endorsement: set Policy Type = Non-Owner: " + policy_endorse_nano);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_nano, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA10XX, AA41XX);
+		verifyAA02AZcontainsForm(policy_endorse_nano, EventName.ENDORSEMENT_ISSUE, "AA41XX", true);
+	}
+	
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	public void testScenario15(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		//Scenario 15a: Endorsement: set Existing Damage not None
+		createPolicy();
+		TestData td_endorse_setDamage = getTestSpecificTD("TestData_Endorsement_setDamage").adjust(getPolicyTD("Endorsement", "TestData"));
+		policy.endorse().performAndFill(td_endorse_setDamage);
+		String policy_endorse_setDamage = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 15a: Endorsement: set Existing Damage not None: " + policy_endorse_setDamage);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_setDamage, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA59XX);
+		verifyAA02AZcontainsForm(policy_endorse_setDamage, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
+		
+		//Scenario 15b: Endorsement: add Vehicle with Existing Damage not None
+		createPolicy();
+		TestData td_endorse_addDamageVehicle = getTestSpecificTD("TestData_Endorsement_addDamageVehicle").adjust(getPolicyTD("Endorsement", "TestData"));
+		policy.endorse().performAndFill(td_endorse_addDamageVehicle);
+		String policy_endorse_addDamageVehicle = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 15b: Endorsement: add Vehicle with Existing Damage not None: " + policy_endorse_addDamageVehicle);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_addDamageVehicle, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA10XX, AA59XX);
+		verifyAA02AZcontainsForm(policy_endorse_addDamageVehicle, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
+		
+		//Scenario 15c: Endorsement: for both Vehicle set Existing Damage not None
+		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_2_Vehicles").resolveLinks()));
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(AutoSSTab.VEHICLE.get());
+		new VehicleTab().getAssetList().getAsset(AutoSSMetaData.VehicleTab.EXISTING_DAMAGE).setValue("Other Body Damages");
+		VehicleTab.tableVehicleList.selectRow(2);
+		new VehicleTab().getAssetList().getAsset(AutoSSMetaData.VehicleTab.EXISTING_DAMAGE).setValue("Other Body Damages");
+		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		String policy_endorse_set2VehiclesDamage = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 15c: Endorsement: for both Vehicle set Existing Damage not None: " + policy_endorse_set2VehiclesDamage);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_set2VehiclesDamage, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA59XX);
+		assertThat(countDocuments(policy_endorse_set2VehiclesDamage, EventName.ENDORSEMENT_ISSUE, AA59XX)).isEqualTo(2);
 
-    @Parameters({"state"})
-    @StateList(states = States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario14(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy();
-        //Scenario 14: Endorsement: set Policy Type = Non-Owner
-        TestData td_endorse_nano = getTestSpecificTD("TestData_Endorsement_Nano").adjust(getPolicyTD("Endorsement", "TestData"));
-        policy.endorse().performAndFill(td_endorse_nano);
-        String policy_endorse_nano = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 14: Endorsement: set Policy Type = Non-Owner: " + policy_endorse_nano);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_nano, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA10XX, AA41XX);
-        verifyAA02AZcontainsForm(policy_endorse_nano, EventName.ENDORSEMENT_ISSUE, "AA41XX", true);
-    }
+		//Scenario 15e: Endorsement: set Existing Damage = None
+		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_VehicleWithDamage").resolveLinks()));
+		TestData td_endorse_removeDamage = getTestSpecificTD("TestData_Endorsement_removeDamage").adjust(getPolicyTD("Endorsement", "TestData"));
+		policy.endorse().performAndFill(td_endorse_removeDamage);
+		String policy_endorse_removeDamage = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 15e: Endorsement: set Existing Damage = None: " + policy_endorse_removeDamage);
+		PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_endorse_removeDamage, EventName.ENDORSEMENT_ISSUE, AA59XX);
+		verifyAA02AZcontainsForm(policy_endorse_removeDamage, EventName.ENDORSEMENT_ISSUE, "AA59XX", false);
+	}
+	
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	public void testScenario16(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		createPolicy();
+		//Scenario 16a: Endorsement: add Vehicle with Type = Golf Cart
+		TestData td_endorse_addGolfCart = getTestSpecificTD("TestData_Endorsement_addGolfCart").adjust(getPolicyTD("Endorsement", "TestData"));
+		policy.endorse().performAndFill(td_endorse_addGolfCart);
+		String policy_endorse_addGolfCart = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 16a: Endorsement: add Vehicle with Type = Golf Cart: " + policy_endorse_addGolfCart);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_addGolfCart, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA10XX, AAGCAZ);
+		verifyAA02AZcontainsForm(policy_endorse_addGolfCart, EventName.ENDORSEMENT_ISSUE, "AAGCAZ", true);
+		
+		//Scenario 16d: Endorsement: remove Golf Cart
+		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_GolfCart").resolveLinks()));
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(AutoSSTab.VEHICLE.get());
+		VehicleTab.tableVehicleList.removeRow(2);
+		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		String policy_endorse_removeGolfCart = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 16a: Endorsement: add Vehicle with Type = Golf Cart: " + policy_endorse_removeGolfCart);	
+		PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_endorse_removeGolfCart, EventName.ENDORSEMENT_ISSUE, AAGCAZ);
+		verifyAA02AZcontainsForm(policy_endorse_removeGolfCart, EventName.ENDORSEMENT_ISSUE, "AAGCAZ", false);
+	}
+	
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	public void testScenario17(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
 
-    @Parameters({"state"})
-    @StateList(states = States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario15(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
-        //Scenario 15a: Endorsement: set Existing Damage not None
-        createPolicy();
-        TestData td_endorse_setDamage = getTestSpecificTD("TestData_Endorsement_setDamage").adjust(getPolicyTD("Endorsement", "TestData"));
-        policy.endorse().performAndFill(td_endorse_setDamage);
-        String policy_endorse_setDamage = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 15a: Endorsement: set Existing Damage not None: " + policy_endorse_setDamage);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_setDamage, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA59XX);
-        verifyAA02AZcontainsForm(policy_endorse_setDamage, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
+		//Scenario 17a: Endorsement: change Financial Responsibility to Yes
+		createPolicy();
+		TestData td_endorse_addFinDriver = getTestSpecificTD("TestData_Endorsement_addFinDriver").adjust(getPolicyTD("Endorsement", "TestData"));
+		policy.endorse().performAndFill(td_endorse_addFinDriver);
+		String policy_endorse_addFinDriver = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 17a: Endorsement: change Financial Responsibility to Yes: " + policy_endorse_addFinDriver);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_addFinDriver, EventName.ENDORSEMENT_ISSUE, AA02AZ);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_addFinDriver, EventName.ENDORSEMENT_ISSUE, AASR22);
+		verifyAA02AZcontainsForm(policy_endorse_addFinDriver, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
+		
+ 		//Scenario 17c: Endorsement: change Financial Responsibility to Yes for Driver1
+		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_2_Drivers").resolveLinks()));
+		TestData td_endorse_addFinResponsib = getTestSpecificTD("TestData_Endorsement_addFinResponsibility").adjust(getPolicyTD("Endorsement", "TestData")); 
+		policy.endorse().performAndFill(td_endorse_addFinResponsib);
+		String policy_endorse_addFinResposib = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 17c: Endorsement: change Financial Responsibility to Yes for Driver1: " + policy_endorse_addFinResposib);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_addFinResposib, EventName.ENDORSEMENT_ISSUE, AA02AZ);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_addFinResposib, EventName.ENDORSEMENT_ISSUE, AASR22);
+		verifyAA02AZcontainsForm(policy_endorse_addFinResposib, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
+		assertThat(countDocuments(policy_endorse_addFinResposib, EventName.ENDORSEMENT_ISSUE, AASR22)).isEqualTo(1);
+	}
+	
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	public void testScenario18(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
 
-        //Scenario 15b: Endorsement: add Vehicle with Existing Damage not None
-        createPolicy();
-        TestData td_endorse_addDamageVehicle = getTestSpecificTD("TestData_Endorsement_addDamageVehicle").adjust(getPolicyTD("Endorsement", "TestData"));
-        policy.endorse().performAndFill(td_endorse_addDamageVehicle);
-        String policy_endorse_addDamageVehicle = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 15b: Endorsement: add Vehicle with Existing Damage not None: " + policy_endorse_addDamageVehicle);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_addDamageVehicle, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA10XX, AA59XX);
-        verifyAA02AZcontainsForm(policy_endorse_addDamageVehicle, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
+		//Scenario 18a: Endorsement: change Financial Responsibility to No
+		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_FinancialDriver").resolveLinks()));
+		TestData td_endorse_removeFinDriver = getTestSpecificTD("TestData_Endorsement_removeFinDriver").adjust(getPolicyTD("Endorsement", "TestData"));
+		policy.endorse().performAndFill(td_endorse_removeFinDriver);
+		String policy_endorse_removeFinDriver = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 18a: Endorsement: change Financial Responsibility to No: " + policy_endorse_removeFinDriver);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_removeFinDriver, EventName.ENDORSEMENT_ISSUE, AA02AZ);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_removeFinDriver, EventName.ENDORSEMENT_ISSUE, AASR26);
+		verifyAA02AZcontainsForm(policy_endorse_removeFinDriver, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
 
-        //Scenario 15c: Endorsement: for both Vehicle set Existing Damage not None
-        createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_2_Vehicles").resolveLinks()));
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        NavigationPage.toViewTab(AutoSSTab.VEHICLE.get());
-        new VehicleTab().getAssetList().getAsset(AutoSSMetaData.VehicleTab.EXISTING_DAMAGE).setValue("Other Body Damages");
-        VehicleTab.tableVehicleList.selectRow(2);
-        new VehicleTab().getAssetList().getAsset(AutoSSMetaData.VehicleTab.EXISTING_DAMAGE).setValue("Other Body Damages");
-        NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        new PremiumAndCoveragesTab().calculatePremium();
-        NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().submitTab();
-        String policy_endorse_set2VehiclesDamage = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 15c: Endorsement: for both Vehicle set Existing Damage not None: " + policy_endorse_set2VehiclesDamage);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_set2VehiclesDamage, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA59XX);
-        assertThat(countDocuments(policy_endorse_set2VehiclesDamage, EventName.ENDORSEMENT_ISSUE, AA59XX)).isEqualTo(2);
+		//Scenario 18d: Endorsement: change Financial Responsibility to No for both Drivers
+		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_2FinancialDrivers").resolveLinks()));
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
+		new DriverTab().getAssetList().getAsset(AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED).setValue("No");
+		DriverTab.viewDriver(2);
+		new DriverTab().getAssetList().getAsset(AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED).setValue("No");
+		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		String policy_endorse_change2FinDrivers = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 18d: Endorsement: change Financial Responsibility to No for both Drivers: " + policy_endorse_change2FinDrivers);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_change2FinDrivers, EventName.ENDORSEMENT_ISSUE, AA02AZ);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_change2FinDrivers, EventName.ENDORSEMENT_ISSUE, AASR26);
+		verifyAA02AZcontainsForm(policy_endorse_change2FinDrivers, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
+		assertThat(countDocuments(policy_endorse_change2FinDrivers, EventName.ENDORSEMENT_ISSUE, AASR26)).isEqualTo(2);
+		
+		//Scenario 18f: Endorsement: change Financial Responsibility to No for Driver1 and remove Driver2
+		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_2FinancialDrivers").resolveLinks()));
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
+		new DriverTab().getAssetList().getAsset(AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED).setValue("No");
+		DriverTab.tableDriverList.removeRow(2);
+		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		String policy_endorse_remove2FinDrivers = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 18f: Endorsement: change Financial Responsibility to No for Driver1 and remove Driver2: " + policy_endorse_remove2FinDrivers);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_remove2FinDrivers, EventName.ENDORSEMENT_ISSUE, AA02AZ);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_remove2FinDrivers, EventName.ENDORSEMENT_ISSUE, AASR26);
+		verifyAA02AZcontainsForm(policy_endorse_remove2FinDrivers, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
+		assertThat(countDocuments(policy_endorse_remove2FinDrivers, EventName.ENDORSEMENT_ISSUE, AASR26)).isEqualTo(2);
+	}
 
-        //Scenario 15e: Endorsement: set Existing Damage = None
-        createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_VehicleWithDamage").resolveLinks()));
-        TestData td_endorse_removeDamage = getTestSpecificTD("TestData_Endorsement_removeDamage").adjust(getPolicyTD("Endorsement", "TestData"));
-        policy.endorse().performAndFill(td_endorse_removeDamage);
-        String policy_endorse_removeDamage = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 15e: Endorsement: set Existing Damage = None: " + policy_endorse_removeDamage);
-        PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_endorse_removeDamage, EventName.ENDORSEMENT_ISSUE, AA59XX);
-        verifyAA02AZcontainsForm(policy_endorse_removeDamage, EventName.ENDORSEMENT_ISSUE, "AA59XX", false);
-    }
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	public void testScenario19(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		//Scenario 19a: Endorsement: add Driver2 with License Type = Learner's Permit
+		createPolicy();
+		TestData td_endorse_addPermitDriver = getTestSpecificTD("TestData_Endorsement_addPermitDriver").adjust(getPolicyTD("Endorsement", "TestData"));
+		policy.endorse().performAndFill(td_endorse_addPermitDriver);
+		String policy_endorse_addPermitDriver = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 19a: Endorsement: add Driver2 with License Type = Learner's Permit: " + policy_endorse_addPermitDriver);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_addPermitDriver, EventName.ENDORSEMENT_ISSUE, AA02AZ, AAPDXX);
+		verifyAA02AZcontainsForm(policy_endorse_addPermitDriver, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
+		
+		//Scenario 19b: Endorsement: add Driver2 and Driver3, both with License Type = Learner's Permit
+		createPolicy();
+		TestData td_endorse_add2PermitDrivers = getTestSpecificTD("TestData_Endorsement_add2PermitDrivers").adjust(getPolicyTD("Endorsement", "TestData"));
+		policy.endorse().performAndFill(td_endorse_add2PermitDrivers);
+		String policy_endorse_add2PermitDrivers = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 19b: Endorsement: add 2 drivers with License Type = Learner's Permit: " + policy_endorse_add2PermitDrivers);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_add2PermitDrivers, EventName.ENDORSEMENT_ISSUE, AA02AZ, AAPDXX);
+		verifyAA02AZcontainsForm(policy_endorse_add2PermitDrivers, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
+		assertThat(countDocuments(policy_endorse_add2PermitDrivers, EventName.ENDORSEMENT_ISSUE, AAPDXX)).isEqualTo(2);
+		
+		//Scenario 19c: Endorsement: change Driver2 License Type to Learner's Permit
+		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_2_Drivers").resolveLinks()));
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
+		DriverTab.viewDriver(2);
+		new DriverTab().getAssetList().getAsset(AutoSSMetaData.DriverTab.LICENSE_TYPE).setValue("Learner's Permit");
+		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		String policy_endorse_setPermitDriver = PolicySummaryPage.getPolicyNumber();
+		log.info("PAS DOC: Scenario 19c: Endorsement: change Driver2 License Type to Learner's Permit: " + policy_endorse_setPermitDriver);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_setPermitDriver, EventName.ENDORSEMENT_ISSUE, AAPDXX);
+	}
+	
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	public void testPolicyCreationFull(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td_full = getPolicyTD().adjust(getTestSpecificTD("TestData_Full").resolveLinks());
+		createPolicy(td_full);
+		log.info("TEST: Standard Full: Created policy# " + PolicySummaryPage.getPolicyNumber());
+	}
+	
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	public void testQuoteCreation(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td_quote = getPolicyTD().adjust(getTestSpecificTD("TestData_Quote").resolveLinks());
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(td_quote, DocumentsAndBindTab.class, true);
+		new DocumentsAndBindTab().saveAndExit();
+		log.info("TEST: Standard Quote: Created quote# " + PolicySummaryPage.getPolicyNumber());
+	}
+	
+	
+	private void verifyAA02AZcontainsForm(String policyNumber, String form, boolean expectedPresent) {
+		verifyAA02AZcontainsForm(policyNumber, null, form, expectedPresent);
+	}
+	
+	private void verifyAA02AZcontainsForm(String policyNumber, DocGenEnum.EventName eventName, String form, boolean expectedPresent) {
+		DocumentGenerationRequest doc = PasDocImpl.getDocumentRequest(policyNumber, eventName, AA02AZ);
+		Document AA02AZ = doc.getDocuments().stream().filter(c -> "AA02AZ".equals(c.getTemplateId())).findFirst().get();		
+		boolean isFormPresent = false;
+		for (DataElement dataElement: AA02AZ.getAdditionalData().getDataElement()) {
+			log.info("DataElement is " + dataElement.getValue());
+			if (dataElement.getValue().contains(form)) {
+				isFormPresent = true;
+			}
+		}
+		
+		String err_msg = "Document AA02AZ does not contain form ";
+		if (!expectedPresent) {
+			err_msg = "Document AA02AZ contains form ";
+		}
 
-    @Parameters({"state"})
-    @StateList(states = States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario16(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy();
-        //Scenario 16a: Endorsement: add Vehicle with Type = Golf Cart
-        TestData td_endorse_addGolfCart = getTestSpecificTD("TestData_Endorsement_addGolfCart").adjust(getPolicyTD("Endorsement", "TestData"));
-        policy.endorse().performAndFill(td_endorse_addGolfCart);
-        String policy_endorse_addGolfCart = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 16a: Endorsement: add Vehicle with Type = Golf Cart: " + policy_endorse_addGolfCart);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_addGolfCart, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA10XX, AAGCAZ);
-        verifyAA02AZcontainsForm(policy_endorse_addGolfCart, EventName.ENDORSEMENT_ISSUE, "AAGCAZ", true);
-
-        //Scenario 16d: Endorsement: remove Golf Cart
-        createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_GolfCart").resolveLinks()));
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        NavigationPage.toViewTab(AutoSSTab.VEHICLE.get());
-        VehicleTab.tableVehicleList.removeRow(2);
-        NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        new PremiumAndCoveragesTab().calculatePremium();
-        NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().submitTab();
-        String policy_endorse_removeGolfCart = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 16a: Endorsement: add Vehicle with Type = Golf Cart: " + policy_endorse_removeGolfCart);
-        PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_endorse_removeGolfCart, EventName.ENDORSEMENT_ISSUE, AAGCAZ);
-        verifyAA02AZcontainsForm(policy_endorse_removeGolfCart, EventName.ENDORSEMENT_ISSUE, "AAGCAZ", false);
-    }
-
-    @Parameters({"state"})
-    @StateList(states = States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario17(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
-
-        //Scenario 17a: Endorsement: change Financial Responsibility to Yes
-        createPolicy();
-        TestData td_endorse_addFinDriver = getTestSpecificTD("TestData_Endorsement_addFinDriver").adjust(getPolicyTD("Endorsement", "TestData"));
-        policy.endorse().performAndFill(td_endorse_addFinDriver);
-        String policy_endorse_addFinDriver = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 17a: Endorsement: change Financial Responsibility to Yes: " + policy_endorse_addFinDriver);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_addFinDriver, EventName.ENDORSEMENT_ISSUE, AA02AZ);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_addFinDriver, EventName.ENDORSEMENT_ISSUE, AASR22);
-        verifyAA02AZcontainsForm(policy_endorse_addFinDriver, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
-
-        //Scenario 17c: Endorsement: change Financial Responsibility to Yes for Driver1
-        createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_2_Drivers").resolveLinks()));
-        TestData td_endorse_addFinResponsib = getTestSpecificTD("TestData_Endorsement_addFinResponsibility").adjust(getPolicyTD("Endorsement", "TestData"));
-        policy.endorse().performAndFill(td_endorse_addFinResponsib);
-        String policy_endorse_addFinResposib = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 17c: Endorsement: change Financial Responsibility to Yes for Driver1: " + policy_endorse_addFinResposib);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_addFinResposib, EventName.ENDORSEMENT_ISSUE, AA02AZ);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_addFinResposib, EventName.ENDORSEMENT_ISSUE, AASR22);
-        verifyAA02AZcontainsForm(policy_endorse_addFinResposib, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
-        assertThat(countDocuments(policy_endorse_addFinResposib, EventName.ENDORSEMENT_ISSUE, AASR22)).isEqualTo(1);
-    }
-
-    @Parameters({"state"})
-    @StateList(states = States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario18(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
-
-        //Scenario 18a: Endorsement: change Financial Responsibility to No
-        createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_FinancialDriver").resolveLinks()));
-        TestData td_endorse_removeFinDriver = getTestSpecificTD("TestData_Endorsement_removeFinDriver").adjust(getPolicyTD("Endorsement", "TestData"));
-        policy.endorse().performAndFill(td_endorse_removeFinDriver);
-        String policy_endorse_removeFinDriver = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 18a: Endorsement: change Financial Responsibility to No: " + policy_endorse_removeFinDriver);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_removeFinDriver, EventName.ENDORSEMENT_ISSUE, AA02AZ);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_removeFinDriver, EventName.ENDORSEMENT_ISSUE, AASR26);
-        verifyAA02AZcontainsForm(policy_endorse_removeFinDriver, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
-
-        //Scenario 18d: Endorsement: change Financial Responsibility to No for both Drivers
-        createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_2FinancialDrivers").resolveLinks()));
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
-        new DriverTab().getAssetList().getAsset(AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED).setValue("No");
-        DriverTab.viewDriver(2);
-        new DriverTab().getAssetList().getAsset(AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED).setValue("No");
-        NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        new PremiumAndCoveragesTab().calculatePremium();
-        NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().submitTab();
-        String policy_endorse_change2FinDrivers = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 18d: Endorsement: change Financial Responsibility to No for both Drivers: " + policy_endorse_change2FinDrivers);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_change2FinDrivers, EventName.ENDORSEMENT_ISSUE, AA02AZ);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_change2FinDrivers, EventName.ENDORSEMENT_ISSUE, AASR26);
-        verifyAA02AZcontainsForm(policy_endorse_change2FinDrivers, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
-        assertThat(countDocuments(policy_endorse_change2FinDrivers, EventName.ENDORSEMENT_ISSUE, AASR26)).isEqualTo(2);
-
-        //Scenario 18f: Endorsement: change Financial Responsibility to No for Driver1 and remove Driver2
-        createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_2FinancialDrivers").resolveLinks()));
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
-        new DriverTab().getAssetList().getAsset(AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED).setValue("No");
-        DriverTab.tableDriverList.removeRow(2);
-        NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        new PremiumAndCoveragesTab().calculatePremium();
-        NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().submitTab();
-        String policy_endorse_remove2FinDrivers = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 18f: Endorsement: change Financial Responsibility to No for Driver1 and remove Driver2: " + policy_endorse_remove2FinDrivers);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_remove2FinDrivers, EventName.ENDORSEMENT_ISSUE, AA02AZ);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_remove2FinDrivers, EventName.ENDORSEMENT_ISSUE, AASR26);
-        verifyAA02AZcontainsForm(policy_endorse_remove2FinDrivers, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
-        assertThat(countDocuments(policy_endorse_remove2FinDrivers, EventName.ENDORSEMENT_ISSUE, AASR26)).isEqualTo(2);
-    }
-
-    @Parameters({"state"})
-    @StateList(states = States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario19(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
-        //Scenario 19a: Endorsement: add Driver2 with License Type = Learner's Permit
-        createPolicy();
-        TestData td_endorse_addPermitDriver = getTestSpecificTD("TestData_Endorsement_addPermitDriver").adjust(getPolicyTD("Endorsement", "TestData"));
-        policy.endorse().performAndFill(td_endorse_addPermitDriver);
-        String policy_endorse_addPermitDriver = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 19a: Endorsement: add Driver2 with License Type = Learner's Permit: " + policy_endorse_addPermitDriver);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_addPermitDriver, EventName.ENDORSEMENT_ISSUE, AA02AZ, AAPDXX);
-        verifyAA02AZcontainsForm(policy_endorse_addPermitDriver, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
-
-        //Scenario 19b: Endorsement: add Driver2 and Driver3, both with License Type = Learner's Permit
-        createPolicy();
-        TestData td_endorse_add2PermitDrivers = getTestSpecificTD("TestData_Endorsement_add2PermitDrivers").adjust(getPolicyTD("Endorsement", "TestData"));
-        policy.endorse().performAndFill(td_endorse_add2PermitDrivers);
-        String policy_endorse_add2PermitDrivers = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 19b: Endorsement: add 2 drivers with License Type = Learner's Permit: " + policy_endorse_add2PermitDrivers);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_add2PermitDrivers, EventName.ENDORSEMENT_ISSUE, AA02AZ, AAPDXX);
-        verifyAA02AZcontainsForm(policy_endorse_add2PermitDrivers, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
-        assertThat(countDocuments(policy_endorse_add2PermitDrivers, EventName.ENDORSEMENT_ISSUE, AAPDXX)).isEqualTo(2);
-
-        //Scenario 19c: Endorsement: change Driver2 License Type to Learner's Permit
-        createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_2_Drivers").resolveLinks()));
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
-        DriverTab.viewDriver(2);
-        new DriverTab().getAssetList().getAsset(AutoSSMetaData.DriverTab.LICENSE_TYPE).setValue("Learner's Permit");
-        NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        new PremiumAndCoveragesTab().calculatePremium();
-        NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().submitTab();
-        String policy_endorse_setPermitDriver = PolicySummaryPage.getPolicyNumber();
-        log.info("PAS DOC: Scenario 19c: Endorsement: change Driver2 License Type to Learner's Permit: " + policy_endorse_setPermitDriver);
-        PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_setPermitDriver, EventName.ENDORSEMENT_ISSUE, AAPDXX);
-    }
-
-    @Parameters({"state"})
-    @StateList(states = States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testPolicyCreationFull(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
-        TestData td_full = getPolicyTD().adjust(getTestSpecificTD("TestData_Full").resolveLinks());
-        createPolicy(td_full);
-        log.info("TEST: Standard Full: Created policy# " + PolicySummaryPage.getPolicyNumber());
-    }
-
-    @Parameters({"state"})
-    @StateList(states = States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testQuoteCreation(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
-        TestData td_quote = getPolicyTD().adjust(getTestSpecificTD("TestData_Quote").resolveLinks());
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(td_quote, DocumentsAndBindTab.class, true);
-        new DocumentsAndBindTab().saveAndExit();
-        log.info("TEST: Standard Quote: Created quote# " + PolicySummaryPage.getPolicyNumber());
-    }
-
-    @Parameters({"state"})
-    @StateList(states = Constants.States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario26(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
-        String policy_cancel = createPolicy();
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
-        PasDocImpl.verifyDocumentsGenerated(policy_cancel, DocGenEnum.Documents.AH61XX);
-
-        String policy_cancel_in_3_days = createPolicy();
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus3Days"));
-        PasDocImpl.verifyDocumentsGenerated(policy_cancel_in_3_days, DocGenEnum.Documents.AH61XX);
-    }
-
-    @Parameters({"state"})
-    @StateList(states = Constants.States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario27(@Optional("") String state) {
-        List<LocalDateTime> installmentDueDate;
-        Dollar minDue;
-        mainApp().open();
-        TestData td = getPolicyTD().adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Monthly - Zero Down");
-        createCustomerIndividual();
-        String policyNumber = createPolicy(td);
-        BillingSummaryPage.open();
-        installmentDueDate = BillingHelper.getInstallmentDueDates();
-        new BillingAccount().generateFutureStatement().perform();
-        Assertions.assertThat(BillingSummaryPage.tableInstallmentSchedule.getRow(1).getCell(BillingConstants.BillingInstallmentScheduleTable.BILLED_STATUS).getValue())
-                .isEqualTo(BillingConstants.InstallmentScheduleBilledStatus.BILLED);
-        Assertions.assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).getValue())
-                .isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
-
-        //DD1+8
-        log.info(DateTimeUtils.getCurrentDateTime().toString());
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(1)));
-        log.info(DateTimeUtils.getCurrentDateTime().toString());
-        JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
-        searchForPolicy(policyNumber);
-        CustomAssertions.assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
-        log.info(DateTimeUtils.getCurrentDateTime().toString());
-        //+8
-        LocalDateTime cancelDueDate = getTimePoints().getCancellationDate(DateTimeUtils.getCurrentDateTime());
-        TimeSetterUtil.getInstance().nextPhase(cancelDueDate);
-        log.info(DateTimeUtils.getCurrentDateTime().toString());
-        JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
-        mainApp().open();
-        SearchPage.openBilling(policyNumber);
-        PasDocImpl.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.AH67XX);
-        Assertions.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell("Subtype/Reason")
-                .getValue()).isEqualTo(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM);
-        //+10
-        LocalDateTime reinstatementDueDate = getTimePoints().getInsuranceRenewalReminderDate(DateTimeUtils.getCurrentDateTime());
-        TimeSetterUtil.getInstance().nextPhase(reinstatementDueDate);
-        searchForPolicy(policyNumber);
-        policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
-        BillingSummaryPage.open();
-        minDue = new Dollar(BillingSummaryPage.getMinimumDue());
-        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
-        new BillingAccount().generateFutureStatement().perform();
-        Assertions.assertThat(BillingSummaryPage.tableInstallmentSchedule.getRow(3).getCell(BillingConstants.BillingInstallmentScheduleTable.BILLED_STATUS).getValue())
-                .isEqualTo(BillingConstants.InstallmentScheduleBilledStatus.BILLED);
-        Assertions.assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).getValue())
-                .isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
-
-
-        //DD2+8
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(3)));
-        JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
-        //+8
-        LocalDateTime cancelDueDate2 = getTimePoints().getCancellationDate(DateTimeUtils.getCurrentDateTime().plusDays(8));
-        TimeSetterUtil.getInstance().nextPhase(cancelDueDate2);
-        JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
-        mainApp().open();
-        SearchPage.openBilling(policyNumber);
-        PasDocImpl.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.AH67XX);
-        Assertions.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell("Subtype/Reason")
-                .getValue()).isEqualTo(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM);
-
-
-        //+10
-        LocalDateTime reinstatementDueDate2 = getTimePoints().getInsuranceRenewalReminderDate(DateTimeUtils.getCurrentDateTime());
-        TimeSetterUtil.getInstance().nextPhase(reinstatementDueDate2);
-        searchForPolicy(policyNumber);
-        policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
-        BillingSummaryPage.open();
-        minDue = new Dollar(BillingSummaryPage.getMinimumDue());
-        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
-        new BillingAccount().generateFutureStatement().perform();
-        Assertions.assertThat(BillingSummaryPage.tableInstallmentSchedule.getRow(6).getCell(BillingConstants.BillingInstallmentScheduleTable.BILLED_STATUS).getValue())
-                .isEqualTo(BillingConstants.InstallmentScheduleBilledStatus.BILLED);
-        Assertions.assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).getValue())
-                .isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
-
-        //DD3+8
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(5)));
-        JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
-        searchForPolicy(policyNumber);
-        CustomAssertions.assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
-        //+8
-        LocalDateTime cancelDueDate3 = getTimePoints().getCancellationDate(DateTimeUtils.getCurrentDateTime());
-        TimeSetterUtil.getInstance().nextPhase(cancelDueDate3);
-        JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
-        mainApp().open();
-        SearchPage.openBilling(policyNumber);
-        PasDocImpl.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.AH63XX);
-        Assertions.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell("Subtype/Reason")
-                .getValue()).isEqualTo(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM);
-
-        String policy_for_cancel1 = createPolicy();
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
-                .adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
-                        "Underwriting - Substantial Increase in Hazard"));
-        PasDocImpl.verifyDocumentsGenerated(policy_for_cancel1, DocGenEnum.Documents.AH63XX);
-
-        String policy_for_cancel2 = createPolicy();
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
-                .adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
-                        "Underwriting - Fraudulent Misrepresentation"));
-        PasDocImpl.verifyDocumentsGenerated(policy_for_cancel2, DocGenEnum.Documents.AH63XX);
-    }
-
-    @Parameters({"state"})
-    @StateList(states = Constants.States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario29(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber1 = createPolicy();
-        String policyNumber2 = createPolicy();
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus10Days")
-                .adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
-                        "New Business Rescission - Underwriting Fraudulent Misrepresentation"));
-
-        SearchPage.openPolicy(policyNumber1);
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
-                .adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
-                        "New Business Rescission - Underwriting Fraudulent Misrepresentation"));
-
-        CustomSoftAssertions.assertSoftly(softly -> {
-            PasDocImpl.verifyDocumentsGenerated(softly, false, policyNumber2, DocGenEnum.Documents.AH61XXA);
-            PasDocImpl.verifyDocumentsGenerated(softly, policyNumber1, DocGenEnum.Documents.AH61XXA, DocGenEnum.Documents.AH63XX);
-        });
-    }
-
-    @Parameters({"state"})
-    @StateList(states = Constants.States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario30(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber1 = createPolicy();
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
-                .adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
-                        "New Business Rescission - NSF on Down Payment"));
-
-        String policyNumber2 = createPolicy();
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus10Days")
-                .adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
-                        "New Business Rescission - NSF on Down Payment"));
-
-        CustomSoftAssertions.assertSoftly(softly -> {
-            PasDocImpl.verifyDocumentsGenerated(softly, false, policyNumber2, DocGenEnum.Documents.AH60XXA);
-            PasDocImpl.verifyDocumentsGenerated(softly, policyNumber1, DocGenEnum.Documents.AH60XXA);
-        });
-    }
-
-    @Parameters({"state"})
-    @StateList(states = Constants.States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario31(@Optional("") String state) {
-
-        mainApp().open();
-        createCustomerIndividual();
-        TestData td_2financialDrivers = getPolicyTD().adjust(getTestSpecificTD("TestData_2FinancialDrivers").resolveLinks());
-        String policy_2financialDrivers = createPolicy(td_2financialDrivers);
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
-        assertThat(countDocuments(policy_2financialDrivers, null, AASR26)).isEqualTo(2);
-
-        TestData td2_2financialDrivers = getPolicyTD().adjust(getTestSpecificTD("TestData2_2FinancialDrivers").resolveLinks());
-        String policy2_2financialDrivers = createPolicy(td2_2financialDrivers);
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus10Days"));
-        assertThat(countDocuments(policy2_2financialDrivers, null, AASR26)).isEqualTo(1);
-    }
-
-
-    @Parameters({"state"})
-    @StateList(states = Constants.States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario32(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber = createPolicy();
-        policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData").adjust(TestData
-                        .makeKeyPath("CancelNoticeActionTab", "Cancellation Reason"),
-                "Insured Non-Payment Of Premium"));
-        CustomSoftAssertions.assertSoftly(softly -> {
-            PasDocImpl.verifyDocumentsGenerated(softly, true, policyNumber, AH34XX);
-            //AASRAZ,AHAUXX3,AH61XX is not generated
-            //PasDocImpl.verifyDocumentsGenerated(softly,false, policyNumber, AH61XX,AHAUXX);
-
-        });
-    }
-
-    @Parameters({"state"})
-    @StateList(states = Constants.States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario33(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber = createPolicy();
-        policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData").adjust(TestData
-                        .makeKeyPath("CancelNoticeActionTab", "Cancellation Reason"),
-                "Underwriting - Fraudulent Misrepresentation"));
-
-        PasDocImpl.verifyDocumentsGenerated(policyNumber, AH61XX);
-        ////AASRAZ,AHAUXX3
-    }
-
-    @Parameters({"state"})
-    @StateList(states = Constants.States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario34(@Optional("") String state) {
-        LocalDateTime renewalDueDate;
-
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber = createPolicy();
-        renewalDueDate = PolicySummaryPage.getExpirationDate();
-        policy.doNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(renewalDueDate));
-        JobUtils.executeJob(Jobs.policyDoNotRenewAsyncJob);
-        PasDocImpl.verifyDocumentsGenerated(policyNumber, AH65XX);
-        //AASRAZ,AHAUXX3
-    }
-
-    @Parameters({"state"})
-    @StateList(states = Constants.States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-    public void testScenario36(@Optional("") String state) {
-
-        SoapJobActions service = new SoapJobActions();
-        if (!service.isJobExist(JobGroup.fromSingleJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob.getJobName()))) {
-            service.createJob(JobGroup.fromSingleJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob.getJobName()));
-        }
-
-        mainApp().open();
-        TestData td = getPolicyTD().adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Monthly - Zero Down");
-        createCustomerIndividual();
-        String policyNumber = createPolicy(td);
-        LocalDateTime effectiveDate = PolicySummaryPage.getEffectiveDate();
-
-        TimeSetterUtil.getInstance().nextPhase(effectiveDate.plusMonths(7));
-        searchForPolicy(policyNumber);
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
-
-        LocalDateTime cancellationDate = getTimePoints().getCancellationDate(DateTimeUtils.getCurrentDateTime());
-
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillFirst(cancellationDate));
-        JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob);
-        PasDocImpl.verifyDocumentsGenerated(true, true, policyNumber, _55_6101);
-
-        //scenario 37
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillSecond(cancellationDate));
-        JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob);
-        PasDocImpl.verifyDocumentsGenerated(true, true, policyNumber, _55_6102);
-
-        //scenario 38
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillThird(cancellationDate));
-        JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob);
-        PasDocImpl.verifyDocumentsGenerated(true, true, policyNumber, _55_6103);
-    }
-
-
-    private void verifyAA02AZcontainsForm(String policyNumber, String form, boolean expectedPresent) {
-        verifyAA02AZcontainsForm(policyNumber, null, form, expectedPresent);
-    }
-
-    private void verifyAA02AZcontainsForm(String policyNumber, DocGenEnum.EventName eventName, String form, boolean expectedPresent) {
-        DocumentGenerationRequest doc = PasDocImpl.getDocumentRequest(policyNumber, eventName, AA02AZ);
-        Document AA02AZ = doc.getDocuments().stream().filter(c -> "AA02AZ".equals(c.getTemplateId())).findFirst().get();
-        boolean isFormPresent = false;
-        for (DataElement dataElement : AA02AZ.getAdditionalData().getDataElement()) {
-            log.info("DataElement is " + dataElement.getValue());
-            if (dataElement.getValue().contains(form)) {
-                isFormPresent = true;
-            }
-        }
-
-        String err_msg = "Document AA02AZ does not contain form ";
-        if (!expectedPresent) {
-            err_msg = "Document AA02AZ contains form ";
-        }
-
-        assertThat(isFormPresent).as(err_msg + form).isEqualTo(expectedPresent);
-    }
-
-    private int countDocuments(String policyNumber, DocGenEnum.EventName eventName, DocGenEnum.Documents document) {
-        DocumentGenerationRequest docGenReq = PasDocImpl.getDocumentRequest(policyNumber, eventName, document);
-        Document doc = docGenReq.getDocuments().stream().filter(c -> document.getIdInXml().equals(c.getTemplateId())).findFirst().get();
-        List<String> dataElementList = new ArrayList<>();
-        for (DataElement dataElement : doc.getAdditionalData().getDataElement()) {
-            dataElementList.add(dataElement.getName());
-        }
-        log.info("Count of documents: " + dataElementList.size());
-        return dataElementList.size();
-    }
-
+		assertThat(isFormPresent).as(err_msg + form).isEqualTo(expectedPresent);
+	}
+	
+	private int countDocuments(String policyNumber, DocGenEnum.EventName eventName, DocGenEnum.Documents document) {
+		DocumentGenerationRequest docGenReq = PasDocImpl.getDocumentRequest(policyNumber, eventName, document);
+		Document doc = docGenReq.getDocuments().stream().filter(c -> document.getIdInXml().equals(c.getTemplateId())).findFirst().get();
+		List<String> dataElementList = new ArrayList<>();
+		for (DataElement dataElement: doc.getAdditionalData().getDataElement()) {
+			dataElementList.add(dataElement.getName());
+		}	
+		log.info("Count of documents: " + dataElementList.size());
+		return dataElementList.size();
+	}
+	
 }

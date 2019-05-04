@@ -538,5 +538,7 @@ PAS-29024:
   reason: PROD
   failures:
     - tests: [aaa.modules.financials.auto_ss.TestRenewal.testRenewalScenario_1,
-              aaa.modules.financials.auto_ss.TestRenewal.testRenewalScenario_2]
+              aaa.modules.financials.auto_ss.TestRenewal.testRenewalScenario_2,
+              aaa.modules.financials.auto_ss.TestRenewal.testRenewalScenario_3,
+              aaa.modules.financials.auto_ss.TestRenewal.testRenewalScenario_4]
       messages: ["caused by PAS-29024"]

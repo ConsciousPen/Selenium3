@@ -97,6 +97,9 @@ public class VersionsConflictConstants {
             .putAll("Vehicles.Vehicle (2011, MERCEDES-BENZ, G55AMG)","","Vehicle (2011, MERCEDES-BENZ, G55AMG)")
 			.putAll("Named Insureds.Insured Principal (Second VI Insured)","","Insured Principal (Second VI Insured)")
 			.putAll("Policy Options.Payment Plan","semiAnnualSS","quaterlySS")
+			//Atomic merge Contact Information
+			.putAll("Contact Information.Home Phone Number", "1111111111", "")
+			.putAll("Contact Information.Mobile Phone Number", "", "1111111113")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -342,6 +345,15 @@ public class VersionsConflictConstants {
 					.put("Contact Information.Preferred Phone #", CURRENT)
 					.put("Contact Information.Email", AVAILABLE)
 					.build());
+	//all components/attributes that should be on Comparison page  Rolled on/OOSE
+	static final Multimap<String, String> CONTACT_INFORMATION_VERSION_4 = ImmutableListMultimap.<String, String>builder()
+			.build();
+
+	//all components/attributes that should be on Comparison page  Rolled on/OOSE
+	static final Multimap<String, String> CONTACT_INFORMATION_VERSION_3 = ImmutableListMultimap.<String, String>builder()
+			.put("Contact Information", "Home Phone Number")
+			.put("Contact Information", "Mobile Phone Number")
+			.build();
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
 	static final Multimap<String, String> CONTACT_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()

@@ -22,6 +22,7 @@ import aaa.helpers.rest.JsonClient;
 import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.helpers.ssh.RemoteHelper;
+import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyActions;
@@ -87,12 +88,12 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     @SuppressWarnings("SpellCheckingInspection")
     private static final String PAS_LOG_DOWNLOAD_PATH = System.getProperty("user.dir")
             + PropertyProvider.getProperty("test.downloadfiles.location") + "downloaded_pas_log";
-    public static final String SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = 'TRUE' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse'";
-    public static final String SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS = "UPDATE LOOKUPVALUE SET DATEOFLOSS = '%s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse'";
+    public static final String SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = 'TRUE' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse' and PRODUCTCD = 'AAA_SS' and RISKSTATECD IS NULL";
+    public static final String SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS = "UPDATE LOOKUPVALUE SET DATEOFLOSS = '%s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse' and PRODUCTCD = 'AAA_SS' and RISKSTATECD IS NULL";
     private static final String CLAIMS_URL = "https://claims-assignment-master.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1"; //Post-Permissive Use
     public static final String SQL_REMOVE_RENEWALCLAIMRECEIVEASYNCJOB_BATCH_JOB_CONTROL_ENTRY = "DELETE FROM BATCH_JOB_CONTROL_ENTRY WHERE jobname='renewalClaimReceiveAsyncJob'";
     public static final String CLAIMS_MICROSERVICE_ENDPOINT = "select * from PROPERTYCONFIGURERENTITY where propertyname = 'aaaClaimsMicroService.microServiceUrl'";
-    private static final String PU_CLAIMS_DEFAULTING_DATA_MODEL = "pu_claims_defaulting_data_model.yaml";
+    private static final String PU_CLAIMS_DEFAULTING_DATA_MODEL = "pu_claims_defaulting_data_model_SS.yaml";
     protected TestData adjusted;
     protected LocalDateTime policyExpirationDate;
     protected String policyNumber;
@@ -137,7 +138,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         // Toggle ON PermissiveUse Logic & Set DATEOFLOSS Parameter in DB
         DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
         DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-16"));
-
         try {
             FileUtils.forceDeleteOnExit(Paths.get(CAS_REQUEST_PATH).toFile());
             FileUtils.forceDeleteOnExit(Paths.get(CAS_RESPONSE_PATH).toFile());
@@ -190,11 +190,9 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         policy.getDefaultView().fill(addDriverTd);
-
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         premiumAndCoveragesTab.calculatePremium();
         premiumAndCoveragesTab.submitTab();
-
         //Modify default test data to mask unnecessary steps
         TestData td = getPolicyTD()
                 .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()));
@@ -262,7 +260,14 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         premiumAndCoveragesTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab();
+        ErrorTab errorTab = new ErrorTab();
+            if (errorTab.isVisible())
+            {
+                errorTab.overrideAllErrors();
+                errorTab.submitTab();
+            }
         payTotalAmtDue(policyNumber);
+	    JobUtils.executeJob(Jobs.policyStatusUpdateJob);
     }
 
     /**
@@ -596,7 +601,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         documentsAndBindTab.submitTab();
     }
 
-    private void activityAssertions(int totalDrivers, int driverRowNo, int totalActivities, int activityRowNo, String activitySource, String claimNumber, boolean checkPU) {
+    private void activityAssertions(int totalDrivers, int driverRowNo, int totalActivities, int activityRowNo, String activitySource, String claimNumber, boolean checkPU, String includeIR) {
         CustomSoftAssertions.assertSoftly(softly -> {
             softly.assertThat(tableDriverList).hasRows(totalDrivers);
             tableDriverList.selectRow(driverRowNo);
@@ -607,8 +612,11 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             if (checkPU) {
                 softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isEnabled());
             } else {
-                //For SS Auto PU Indicator should not be Present
+                //For SS Auto PU Indicator should be Present only for Internal claims.
                 softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).isPresent()).isFalse();
+            }
+            if (!includeIR.equals("NA")) {
+                softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue(includeIR);
             }
         });
     }
@@ -617,18 +625,18 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     public void compDLPuAssertions(String COMP_MATCH, String DL_MATCH, String PU_MATCH) {
         // Check 1st driver: Contains only Two Matched Claims (Verifying that PermissiveUse Claim with wrong dateOfLoss is not displayed)
         // Check 1st driver: FNI, has COMP and Permissive Use matched claims (2nd PermissiveUse Claim is not displayed, because of dateOfLoss Param > Claim dateOfLoss)
-        activityAssertions(4, 1, 2, 1, "Internal Claims", COMP_MATCH, true);
-        activityAssertions(4, 1, 2, 2, "Internal Claims", PU_MATCH, true);
+        activityAssertions(4, 1, 2, 1, "Internal Claims", COMP_MATCH, true, "NA");
+        activityAssertions(4, 1, 2, 2, "Internal Claims", PU_MATCH, true, "NA");
         // Check 2nd driver: Has DL match claim
-        activityAssertions(4, 2, 1, 1, "Internal Claims", DL_MATCH, false);
+        activityAssertions(4, 2, 1, 1, "Internal Claims", DL_MATCH, false, "NA");
     }
 
     // Assertions for COMP and DL Tests: PAS-22172
     public void puDropAssertions(String COMP_MATCH, String PU_MATCH) {
         // Check 1st driver: Contains only one Matched Claim (Verifying that comp claim has not moved)
-        activityAssertions(5, 1, 1, 1, "Internal Claims", COMP_MATCH, true);
+        activityAssertions(5, 1, 1, 1, "Internal Claims", COMP_MATCH, true, "NA");
         // Check 5th driver: Original Permissive Use claim should be on the newly added driver
-        activityAssertions(5, 5, 1, 1, "CLUE", PU_MATCH, false);
+        activityAssertions(5, 5, 1, 1, "CLUE", PU_MATCH, false, "NA");
     }
 
     // Assertions for Name/DOB Tests
@@ -636,20 +644,20 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         String noClaimNumber = "";
         // Check 3rd driver
         //Check the CLUE claim
-        activityAssertions(4, 3, 4, 1, "CLUE", CLUE_CLAIM, false);
+        activityAssertions(4, 3, 4, 1, "CLUE", CLUE_CLAIM, false, "NA");
         // PAS-8310 - LASTNAME_FIRSTNAME_DOB Match
-        activityAssertions(4, 3, 4, 2, "Internal Claims", LASTNAME_FIRSTNAME_DOB, false);
+        activityAssertions(4, 3, 4, 2, "Internal Claims", LASTNAME_FIRSTNAME_DOB, false, "NA");
         // PAS-17894 - LASTNAME_FIRSTNAME & LASTNAME_FIRSTINITAL_DOB //PAS-21435 - Removed LASTNAME_YOB match logic. Claim 8FAZ88888OHS is now unmatched
-        activityAssertions(4, 3, 4, 3, "Internal Claims", LASTNAME_FIRSTNAME, false);
-        activityAssertions(4, 3, 4, 4, "Internal Claims", LASTNAME_FIRSTINITAL_DOB, false);
+        activityAssertions(4, 3, 4, 3, "Internal Claims", LASTNAME_FIRSTNAME, false, "NA");
+        activityAssertions(4, 3, 4, 4, "Internal Claims", LASTNAME_FIRSTINITAL_DOB, false, "NA");
 
         // Check 4th driver.
         //Check Company Input claim
-        activityAssertions(4, 4, 3, 1, "Company Input", noClaimNumber, false);
+        activityAssertions(4, 4, 3, 1, "Company Input", noClaimNumber, false, "NA");
         //Check the CLUE claim
-        activityAssertions(4, 4, 3, 2, "CLUE", CAS_CLUE_CLAIM_1, false);
+        activityAssertions(4, 4, 3, 2, "CLUE", CAS_CLUE_CLAIM_1, false, "NA");
         // PAS-8310 - LASTNAME_FIRSTNAME_YOB Match
-        activityAssertions(4, 4, 3, 3, "Internal Claims", LASTNAME_FIRSTNAME_YOB, false);
+        activityAssertions(4, 4, 3, 3, "Internal Claims", LASTNAME_FIRSTNAME_YOB, false, "NA");
     }
 
     private void selectTransactionType(int rowIndex, boolean isSelected) {
@@ -906,16 +914,16 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         createQuoteAndFillUpTo(adjusted, DriverTab.class);
         tableDriverList.selectRow(1);
         //Assertions to verify PU Indicator does not show up for any Company/Customer type of Activity .
-        activityAssertions(2, 1, 3, 1, "Company Input", "", false);
-        activityAssertions(2, 1, 3, 2, "Company Input", "", false);
-        activityAssertions(2, 1, 3, 3, "Customer Input", "", false);
+        activityAssertions(2, 1, 3, 1, "Company Input", "", false, "NA");
+        activityAssertions(2, 1, 3, 2, "Company Input", "", false, "NA");
+        activityAssertions(2, 1, 3, 3, "Customer Input", "", false, "NA");
         driverTab.submitTab();
         policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class, DriverActivityReportsTab.class, true);
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         //Assertions to verify PU Indicator does not show up for MVR claim for FNI driver
-        activityAssertions(2, 1, 4, 4, "MVR", "", false);
+        activityAssertions(2, 1, 4, 4, "MVR", "", false, "NA");
         //Assertions to verify PU Indicator does not show up for CLUE claim for non FNI driver
-        activityAssertions(2, 2, 1, 1, "CLUE", CLUE_CLAIM, false);
+        activityAssertions(2, 2, 1, 1, "CLUE", CLUE_CLAIM, false, "NA");
 
         driverTab.submitTab();
         adjusted = getPolicyTD().mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()));
@@ -937,96 +945,112 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.SELECT_DRIVER_DIALOG).getAsset(AutoSSMetaData.DriverTab.SelectDriverDialog.BTN_OK).click();
 
         //asserting the Company/Customer inputs and MVR claims for check the PU indicator for FNI driver
-        activityAssertions(2, 1, 5, 1, "Company Input", "", false);
-        activityAssertions(2, 1, 5, 2, "Company Input", "", false);
-        activityAssertions(2, 1, 5, 3, "Customer Input", "", false);
-        activityAssertions(2, 1, 5, 4, "MVR", "", false);
+        activityAssertions(2, 1, 5, 1, "Company Input", "", false, "NA");
+        activityAssertions(2, 1, 5, 2, "Company Input", "", false, "NA");
+        activityAssertions(2, 1, 5, 3, "Customer Input", "", false, "NA");
+        activityAssertions(2, 1, 5, 4, "MVR", "", false, "NA");
 
         //Assertions to verify PU Indicator does not show up for CLUE claim for FNI driver
-        activityAssertions(2, 1, 5, 5, "CLUE", CLUE_CLAIM, false);
+        activityAssertions(2, 1, 5, 5, "CLUE", CLUE_CLAIM, false, "NA");
         driverTab.submitTab();
         bindEndorsement();
     }
 
-    //Test Claims 'Include In Rating' determination according to Occurrence date
-    protected void pas14552_includeClaimsInRatingDetermination() {
-        // Claim Dates: claimDateOfLoss/claimOpenDate/claimCloseDate all are the same
+    //Test Claims 'Include In Rating' determination according to Occurrence date - now with subsequent renewal checks!
+    protected void pas14552_includeClaimsInRatingDetermination(String SCENARIO) {
+        //Claim Dates: claimDateOfLoss/claimOpenDate/claimCloseDate all are the same
         String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(1).toLocalDate().toString();
-        String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).toLocalDate().toString();
-        String claim3_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(3).toLocalDate().toString();
+        String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(2).minusDays(50).toLocalDate().toString();
+        String claim3_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(3).minusDays(47).toLocalDate().toString();
 
         Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS =
                 ImmutableMap.of(INC_RATING_CLAIM_1, claim1_dates, INC_RATING_CLAIM_2, claim2_dates, INC_RATING_CLAIM_3, claim3_dates, INC_RATING_CLAIM_4, claim3_dates);
 
         TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(driverTab.getMetaKey(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "A19191911").resolveLinks();
 
-        // Create Customer and Policy
+        //Create Customer and Policy
         openAppAndCreatePolicy(testData);
         String policyNumber = labelPolicyNumber.getValue();
         mainApp().close();
 
-        //Run Jobs to create and issue 1st Renewal
-        runRenewalClaimOrderJob();
-        runRenewalClaimReceiveJob();
-        issueGeneratedRenewalImage(policyNumber);
-
         //Run Jobs to create and issue 2nd Renewal
-        runRenewalClaimOrderJob();
-        runRenewalClaimReceiveJob();
-        issueGeneratedRenewalImage(policyNumber);
+        casRenewal(2, policyNumber);
 
         //Run Jobs to create 3rd required Renewal and validate the results
         runRenewalClaimOrderJob();
 
-        // Create Updated CAS Response and Upload
+        //Create Updated CAS Response and Upload
         createCasClaimResponseAndUploadWithUpdatedDates(policyNumber, INC_IN_RATING_3RD_RENEWAL_DATA_MODEL, UPDATE_CAS_RESPONSE_DATE_FIELDS);
-
         runRenewalClaimReceiveJob();
 
         // Retrieve policy and verify claim presence on renewal image
         mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
-        if (tableSearchResults.isPresent()) {
-            tableSearchResults.getRow("Eff. Date",
-                    TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
-                    .getCell(1).controls.links.getFirst().click();
-        }
+	    SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
         buttonRenewals.click();
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        CustomSoftAssertions.assertSoftly(softly -> {
-            ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-            DriverTab driverTab = new DriverTab();
+        // Check that Policy Contains 4 Claims
+        assertThat(tableActivityInformationList.getAllRowsCount()).isEqualTo(4);
 
-            // Check that Policy Contains 3 Claims
-            softly.assertThat(DriverTab.tableActivityInformationList.getAllRowsCount()).isEqualTo(4);
+        //PAS14552 - Assert that Claim IS NOT Included In Rating because Date of Loss is older than two terms
+        activityAssertions(1,1,4,1,"Internal Claims", INC_RATING_CLAIM_1,true, "No");
+        //PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to two terms eff. date
+        activityAssertions(1,1,4,2,"Internal Claims", INC_RATING_CLAIM_2,true, "Yes");
+        //PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to current system date
+        activityAssertions(1,1,4,3,"Internal Claims", INC_RATING_CLAIM_3,true, "Yes");
+        //PAS-18300 - Assert that Permissive Use Claim IS Included In Rating because Date of Loss is equal to current system date and assigned to FNI - !!Claim will get Same Day Waiver after premium Calc
+        activityAssertions(1,1,4,4,"Internal Claims", INC_RATING_CLAIM_4,true, "Yes");
 
-            // PAS14552 - Assert that Claim IS NOT Included In Rating because Date of Loss is older than two terms
-            DriverTab.tableActivityInformationList.selectRow(1);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_1);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("No");
+        //Issue 4th Renewal
+        issueGeneratedRenewalImage(policyNumber);
 
-            // PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to two terms eff. date
-            DriverTab.tableActivityInformationList.selectRow(2);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_2);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
+        //Run Jobs to create create 5th renewal
+        casRenewal(1, policyNumber);
 
-            // PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to current system date
-            DriverTab.tableActivityInformationList.selectRow(3);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_3);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
+        //Run Jobs to create and create a 6th renewal
+        runRenewalClaimOrderJob();
+        //Generate new CAS file for existing claims
+        createCasClaimResponseAndUploadWithUpdatedDates(policyNumber, INC_IN_RATING_3RD_RENEWAL_DATA_MODEL, UPDATE_CAS_RESPONSE_DATE_FIELDS);
+        runRenewalClaimReceiveJob();
 
-            // PAS-18300 - Assert that Permissive Use Claim IS Included In Rating because Date of Loss is equal to current system date and assigned to FNI
-            DriverTab.tableActivityInformationList.selectRow(4);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_4);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
-        });
+        // Retrieve policy and verify claim presence on renewal image
+        mainApp().open();
+	    SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+        buttonRenewals.click();
+        policy.dataGather().start();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        // PAS_22026 - Claim 1 Include in Rating = NO (Did not pass last age check)
+        activityAssertions(1,1,4,1,"Internal Claims", INC_RATING_CLAIM_1,true, "No");
+        // PAS_22026 - Claim 2 Include in Rating = Yes (Passed last Age check, still within 60 month charge window - at 37 months)
+        activityAssertions(1,1,4,2,"Internal Claims", INC_RATING_CLAIM_2,true, "Yes");
+        // PAS_22026 - Claim 3 Include in Rating = YES (Passed last Age check, still within 60 month charge window - at 25th month)
+        activityAssertions(1,1,4,3,"Internal Claims", INC_RATING_CLAIM_3,true, "Yes");
+
+        //The 'Short' Scenario will STOP here
+        //The 'Long' scenario will age the policy **3 more full renewals**, and verify the claims are "Outside Experience Period"
+        switch (SCENARIO){
+                case "Short":
+                    break;
+                case "Long":
+                    //PAS-22026 - Continue to age off claim 2 - Renew 3 more times
+                    issueGeneratedRenewalImage(policyNumber);
+                    casRenewal(3, policyNumber);
+
+                    // Retrieve policy and verify claim presence on renewal image
+                    mainApp().open();
+	                SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+                    policy.renew().start();
+                    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+                    // PAS-22026 - Assert that claim 3 Included in Rating = NO (Outside of 60 month charge window)
+                    tableActivityInformationList.selectRow(3);
+                    activityAssertions(1,1,4,3,"Internal Claims", INC_RATING_CLAIM_3,true, "No");
+                    assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.NOT_INCLUDED_IN_POINTS_AND_OR_TIER_REASON_CODES).getValue().equals("Outside Experience Period"));
+                    break;
+            }
     }
 
     /**
@@ -1044,7 +1068,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
      * 7. Navigate to the Driver Tab and verify the new FNI has acquired the PU claims from the previous FNI
      */
     public void pas24652_ChangeFNIGeneralTabRenewal(){
-        // Create Customer and Policy with two named insured' and drivers
+        // Create Customer and Policy with two named insured' and driversl
         adjusted = getPolicyTD().adjust(getTestSpecificTD("TestData_Change_FNI_Renewal_PU_AZ").resolveLinks());
         policyNumber = openAppAndCreatePolicy(adjusted);
         log.info("Policy created successfully. Policy number is " + policyNumber);
@@ -1058,18 +1082,18 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         // Check 1st driver: FNI, has the MVR ,COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
         tableDriverList.selectRow(1);
-        activityAssertions(2, 1, 3, 1, "MVR", "", false);
-        activityAssertions(2, 1, 3, 2, "Internal Claims", CLAIM_NUMBER_1, false);
-        activityAssertions(2, 1, 3, 3, "Internal Claims", CLAIM_NUMBER_3, false);
+        activityAssertions(2, 1, 3, 1, "MVR", "", false, "NA");
+        activityAssertions(2, 1, 3, 2, "Internal Claims", CLAIM_NUMBER_1, true, "NA");
+        activityAssertions(2, 1, 3, 3, "Internal Claims", CLAIM_NUMBER_3, true, "NA");
         //Navigate to the General Tab and change the FNI to the second insured (Steve)
         changeFNIGeneralTab(1);  //Index starts at 0
         //Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
         tableDriverList.selectRow(1);
-        activityAssertions(2,1,2, 1, "Customer Input", "", false);
-        activityAssertions(2,1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, false);
+        activityAssertions(2,1,2, 1, "Customer Input", "", false, "NA");
+        activityAssertions(2,1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true, "NA");
         //Assert that old FNI  has 1 Internal Claims and 1 existing MVR claim
         tableDriverList.selectRow(2);
-        activityAssertions(2, 2, 2, 2, "Internal Claims", CLAIM_NUMBER_1, false);
+        activityAssertions(2, 2, 2, 2, "Internal Claims", CLAIM_NUMBER_1, false, "NA");
         //Save and exit the Renewal
         DriverTab.buttonSaveAndExit.click();
     }
@@ -1167,7 +1191,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         });
     }
 
-
     /**
      * Method opens app, retrieves policy, and enters data gathering in renewal image
      * @param policyNumber
@@ -1178,4 +1201,20 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         buttonRenewals.click();
         policy.dataGather().start();
     }
+
+    /**
+     * Method renews policies with claims batch runs: order batch at r-63, claim receive batch at r-46, renewal pt1 and pt2 at r-35, makes payment, and runs policyStatusUpdate batch at R
+     * @param renewalAmount
+     * @param policyNumber
+     */
+    public void casRenewal(int renewalAmount, String policyNumber) {
+        int x = 0;
+        while (x < renewalAmount) {
+            runRenewalClaimOrderJob();
+            runRenewalClaimReceiveJob();
+            issueGeneratedRenewalImage(policyNumber);
+            x++;
+        }
+    }
+
 }

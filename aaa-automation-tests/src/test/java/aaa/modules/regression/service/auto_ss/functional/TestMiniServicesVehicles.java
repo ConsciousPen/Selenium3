@@ -173,11 +173,12 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 5) rate
 	 * 6) bind
 	 * 7) do an endorsement in PAS, rate bind
+	 * 8) Verify that LOAN coverage has customerDisplayed = false and canChange = false for NY (PAS-29118)
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11618"})
-	public void pas11618_UpdateVehicleLeasedInfo(@Optional("VA") String state) {
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11618", "PAS-29118"})
+	public void pas11618_UpdateVehicleLeasedInfo(@Optional("NY") String state) {
 		assertSoftly(softly ->
 				pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "LSD")
 		);
@@ -194,10 +195,11 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 5) rate
 	 * 6) bind
 	 * 7) do an endorsement in PAS, rate bind
+	 * 8) Verify that LOAN coverage has customerDisplayed = false and canChange = false for NY (PAS-29118)
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11618"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11618", "PAS-29118"})
 	public void pas11618_UpdateVehicleFinancedInfo(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas11618_UpdateVehicleLeasedFinancedInfoBody(softly, "FNC")

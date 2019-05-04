@@ -403,6 +403,34 @@ TestData_ContactInformation_Version2: {
   DocumentsAndBindTab: {},
 }
 
+TestData_ContactInformation_Version3: {
+  GeneralTab: {
+    ContactInformation: '@ContactInformation_Version3'
+  },
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+TestData_ContactInformation_Version4: {
+  GeneralTab: {
+    ContactInformation: '@ContactInformation_Version4'
+  },
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
 ContactInformation: {
   Home Phone Number: 1111111111,
   Work Phone Number: 1111111112,
@@ -425,6 +453,22 @@ ContactInformation_Version2: {
   Mobile Phone Number: 3333333333,
   "Preferred Phone #": Mobile Phone,
   Email: 'version2@gmail.com'
+}
+
+ContactInformation_Version3: {
+  Home Phone Number: '',
+  Work Phone Number: '',
+  Mobile Phone Number: 1111111113,
+  "Preferred Phone #": '',
+  Email: 'nb@gmail.com'
+}
+
+ContactInformation_Version4: {
+  Home Phone Number: 1111111111,
+  Work Phone Number: '',
+  Mobile Phone Number: '',
+  "Preferred Phone #": '',
+  Email: 'nb@gmail.com'
 }
 
 #General Tab - Current Carrier Information
