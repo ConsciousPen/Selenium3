@@ -73,13 +73,13 @@ public class TestFinancePolicyEscheatmentCheckReversals extends FinanceOperation
 		escheatmentActions.controls.links.get("Reverse").click();
 		Page.dialogConfirmation.confirm();
 
-		Dollar totalPaid = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(PAYMENT_PLAN, ANNUAL)
+		Dollar totalPaid = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(PAYMENT_PLAN, ANNUAL)
 				.getCell("Total Paid").getValue());
-		Dollar prepaid = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(PAYMENT_PLAN, ANNUAL)
+		Dollar prepaid = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(PAYMENT_PLAN, ANNUAL)
 				.getCell("Prepaid").getValue());
-		Dollar totalDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(PAYMENT_PLAN, ANNUAL)
+		Dollar totalDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(PAYMENT_PLAN, ANNUAL)
 				.getCell("Total Due").getValue());
-		Dollar billableAmount = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(PAYMENT_PLAN, ANNUAL)
+		Dollar billableAmount = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(PAYMENT_PLAN, ANNUAL)
 				.getCell("Billable Amount").getValue());
 
 		assertSoftly(softly -> {
