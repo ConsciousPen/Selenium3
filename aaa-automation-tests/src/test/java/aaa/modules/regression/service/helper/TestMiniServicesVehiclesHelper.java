@@ -24,10 +24,8 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.TestDataManager;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
-import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
-import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.actiontabs.UpdateRulesOverrideActionTab;
@@ -1033,7 +1031,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 			//fill all mandatory details, rate and bind
 			if (multipleDrivers) {
-				HelperCommon.updateDriverAssignment(policyNumber, revertedVehicle.oid, Arrays.asList(testMiniServicesDriversHelper.getDriverByLicenseNumber(HelperCommon.viewEndorsementDrivers(policyNumber), "400064773").oid));
+				HelperCommon.updateDriverAssignment(policyNumber, revertedVehicle.oid, Arrays.asList(testMiniServicesDriversHelper.findDriverByLicenseNumber(HelperCommon.viewEndorsementDrivers(policyNumber), "400064773").oid));
 			}
 
 			PolicySummaryPage.buttonPendedEndorsement.click();

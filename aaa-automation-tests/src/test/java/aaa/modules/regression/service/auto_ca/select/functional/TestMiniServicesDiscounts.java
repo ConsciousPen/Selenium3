@@ -6,13 +6,18 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.rest.dtoDxp.*;
+import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.modules.regression.service.helper.HelperMiniServices;
+import aaa.modules.regression.service.helper.TestMiniServicesDriversHelper;
+import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
 
@@ -21,6 +26,7 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 	private static final String DISCOUNT_CODE_NDD = "NDD";
 	private static final String DISCOUNT_CODE_MDD = "MDD";
 	private final HelperMiniServices helperMiniServices = new HelperMiniServices();
+	private final static TestMiniServicesDriversHelper DRIVERS_HELPER = new TestMiniServicesDriversHelper();
 
 	/**
 	 * @author Maris Strazds
@@ -29,15 +35,28 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 	 * 1. Create policy in PAS
 	 * 2. Create Endorsement through service
 	 * 3. Add drivers and check that they have/have not Good Student Discount, New Driver Discount, does not have Mature Driver Discount
+	 * 4. Check that for drivers that already had these discounts applied at NB, they are not returned as Available
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = {"PAS-27988"})
 	public void pas27988_miniServicesDiscounts(@Optional("CA") String state) {
-		mainApp().open();
-		String policyNumber = getCopiedPolicy();
-		SearchPage.openPolicy(policyNumber);
+		TestData td = getPolicyDefaultTD();
+		TestData testData = td.
+				adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_Discounts").getTestDataList("DriverTab")).
+				adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_Discounts").getTestDataList("VehicleTab")).
+				adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("TestData_Discounts").getTestData("AssignmentTab")).
+				adjust(TestData.makeKeyPath(AutoCaMetaData.DocumentsAndBindTab.class.getSimpleName(),
+						AutoCaMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(),
+						AutoCaMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_NEW_DRIVER_COURSE_COMPLETION.getLabel()),
+						"Yes").
+				adjust(TestData.makeKeyPath(AutoCaMetaData.DocumentsAndBindTab.class.getSimpleName(),
+						AutoCaMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(),
+						AutoCaMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_MATURE_DRIVER_COURSE_COMPLETION.getLabel()),
+						"Yes").
+				resolveLinks();
 
+		String policyNumber = openAppAndCreatePolicy(testData);
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		//Add driver LESS THAN 26y old and Single
@@ -104,7 +123,13 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 		driverAvailableDiscountsCheck(viewEndorsementDrivers, DISCOUNT_CODE_MDD, "Mature Driver Discount", addDriverResponse6.oid);
 		assertThat(helperMiniServices.findDriver(viewEndorsementDrivers, addDriverResponse1.oid).availableDiscounts.size()).isEqualTo(1);
 
-		//TODO-mstrazds: works - if no, bind manually and check
+		//Check that for drivers that had discounts already applied at NB, there are no availableDiscounts for them
+		DriversDto driverWithDiscounts1 = DRIVERS_HELPER.findDriverByLicenseNumber(viewEndorsementDrivers, "C1234569");//license number from TD
+		DriversDto driverWithDiscounts2 = DRIVERS_HELPER.findDriverByLicenseNumber(viewEndorsementDrivers, "C1234568");//license number from TD
+		checkThatDriverDoesNotHaveAvailableDiscounts(driverWithDiscounts1.oid, viewEndorsementDrivers);
+		checkThatDriverDoesNotHaveAvailableDiscounts(driverWithDiscounts2.oid, viewEndorsementDrivers);
+
+		//TODO-mstrazds: works - if no, bind manually and check. Should work when assignments are done - when?
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 		DiscountSummary policyDiscountsResponse = HelperCommon.viewDiscounts(policyNumber, "policy", 200);
 		assertThat(policyDiscountsResponse).isEqualTo(viewEndorsementDrivers);

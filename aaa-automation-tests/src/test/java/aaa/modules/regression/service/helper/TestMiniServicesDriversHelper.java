@@ -290,7 +290,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		HelperCommon.updateDriver(policyNumber, addedDriverResponse.oid, updateDriverRequest);
 
 		//PAS-18457 Get driver (by License number) to remove with code RD1003 or RD1004 and check order of drivers
-		DriversDto driverToRemove = getDriverByLicenseNumber(viewDriversResponse, "T68785298");
+		DriversDto driverToRemove = findDriverByLicenseNumber(viewDriversResponse, "T68785298");
 		RemoveDriverRequest removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest("RD1003");
 		DriversDto removeDriverResponse = HelperCommon.removeDriver(policyNumber, driverToRemove.oid, removeDriverRequest);
 		assertSoftly(softly ->
@@ -892,7 +892,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			//get driver to remove
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 			SearchPage.openPolicy(policyNumber);
-			DriversDto driverToRemove = getDriverByLicenseNumber(HelperCommon.viewEndorsementDrivers(policyNumber), "B19115001"); //License Number the same as in Test Data
+			DriversDto driverToRemove = findDriverByLicenseNumber(HelperCommon.viewEndorsementDrivers(policyNumber), "B19115001"); //License Number the same as in Test Data
 
 			if (testWithUpdates) {
 				//update driver level coverage
@@ -2810,7 +2810,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 				.findFirst().orElseThrow(() -> new IllegalArgumentException("No driver found for oid: " + oid));
 	}
 
-	protected DriversDto getDriverByLicenseNumber(ViewDriversResponse viewDriversResponse, String licenseNumber) {
+	public DriversDto findDriverByLicenseNumber(ViewDriversResponse viewDriversResponse, String licenseNumber) {
 		return viewDriversResponse.driverList.stream().filter(driver -> licenseNumber.equals(driver.drivingLicense.licenseNumber)).findFirst().orElse(null);
 	}
 

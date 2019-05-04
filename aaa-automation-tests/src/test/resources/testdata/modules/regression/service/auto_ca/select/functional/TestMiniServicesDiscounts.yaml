@@ -1,0 +1,101 @@
+TestData_Discounts: {
+  DriverTab: ['@Driver_GoodStudent_NewDriver_Discount', '@Driver_two_MatureDriver_discount'],
+  VehicleTab: ['@Vehicle1', '@Vehicle2'],
+  AssignmentTab: '@AssignmentTab',
+  DocumentsAndBindTab: {
+    RequiredToIssue: {
+      Proof of Good Student Discount: 'Yes',
+      Proof of New Driver Course Completion: 'Yes'
+    }
+  },
+}
+
+Driver_GoodStudent_NewDriver_Discount: {
+  DriverSearchDialog: {},
+#  Driver Type: Available for Rating,
+#  'Rel. to First Named Insured': Child,
+#  First Name: 'Third Driver',
+#  Last Name: 'Version2',
+  Date of Birth: $<today-23y>,
+#  Gender: Female,
+  Marital Status: Single,
+  Occupation: 'Student',
+  Age First Licensed: 16,
+  Permit Before License: 'No',
+  "Licensed in US/Canada for 18 or More Months?": 'No',
+  "First US/Canada License Date": $<today-1M>,
+  License Type: 'Valid',
+  License State: CA,
+  "License #": C1234569,
+  Most Recent GPA: 'A Student',
+  New Driver Course Completed: 'Yes',
+  New Driver Course Completion Date: $<today>,
+  New Driver Certification Number: 33333,
+}
+
+Driver_two_MatureDriver_discount: {
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Spouse,
+  First Name: 'Tom',
+  Last Name: 'Jonhs',
+  Date of Birth: $<today-55y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: 'Dentist',
+  Age First Licensed: 17,
+  Permit Before License: 'No',
+  License Type: 'Valid',
+  "First US/Canada License Date": $<today-1y>,
+  License State: CA,
+  "License #": C1234568,
+  Mature driver course completed within 36 months: 'Yes',
+  Mature Driver Course Completion Date: $<today-2M>,
+}
+
+Vehicle1: {
+  Type: 'Regular',
+  VIN: 2HNYD28498H554858,
+  Primary Use: 'Commute (to/from work and school)',
+  Anti-theft Recovery Device: Vehicle Recovery Device,
+  Existing Damage: Normal Wear and Tear,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 15,
+  Odometer Reading: 80,
+  Odometer Reading Date: $<today-2y>,
+  Customer Declared Annual Miles: 10000,
+}
+
+Vehicle2: {
+    Type: 'Regular',
+    VIN: 1J4RR4GG8BC517114,
+    Primary Use: 'Commute (to/from work and school)',
+    Anti-theft Recovery Device: Vehicle Recovery Device,
+    Existing Damage: Normal Wear and Tear,
+    "Salvaged?": 'No',
+    Miles One-way to Work or School: 15,
+    Odometer Reading: 80,
+    Odometer Reading Date: $<today-2y>,
+    Customer Declared Annual Miles: 10000,
+}
+
+#Vehicle3: {
+#    Type: 'Regular',
+#    VIN: 1YVHZ8BH6B5M05774,
+#    Primary Use: 'Pleasure (recreational driving only)',
+#    Anti-theft Recovery Device: Vehicle Recovery Device,
+#    Existing Damage: Normal Wear and Tear,
+#    "Salvaged?": 'No',
+#    Miles One-way to Work or School: 15,
+#    Odometer Reading: 80,
+#    Odometer Reading Date: $<today-2y>,
+#    Customer Declared Annual Miles: 10000,
+#}
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [{
+                                     Primary Driver: index=1,
+                                   }, {
+                                     Primary Driver: index=2,
+                                   }]
+}
