@@ -2,12 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.template.functional;
 
-import static aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData.*;
-import static aaa.main.enums.PolicyConstants.PolicyErrorsTable.MESSAGE;
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.LinkedList;
-import java.util.List;
-import org.testng.annotations.AfterSuite;
 import aaa.common.Tab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.rest.wiremock.HelperWireMockStub;
@@ -18,6 +12,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import org.testng.annotations.AfterSuite;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
@@ -25,6 +20,13 @@ import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.waiters.Waiters;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import static aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData.*;
+import static aaa.main.enums.PolicyConstants.PolicyErrorsTable.MESSAGE;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 
@@ -303,6 +305,10 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		checkPaperlessPreferencesStatus(policyNumber, OPT_IN_PENDING, OPT_OUT, "Pending (Policy Only)");
 
 		checkPaperlessPreferencesStatus(policyNumber, OPT_IN_PENDING, OPT_IN_PENDING, "Pending");
+
+		checkPaperlessPreferencesStatus(policyNumber, "empty-paperless-preferences-200", null, null, "No");
+
+		checkPaperlessPreferencesStatus(policyNumber, "paperless-preferences-error", null, null, "Error");
 	}
 
 	/**
@@ -336,17 +342,19 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 
 		checkPaperlessPreferencesError(quoteNumber, OPT_IN_PENDING, OPT_IN_PENDING, "Pending");
 
-		HelperWireMockStub stub = createPaperlessPolicyBillingPreferencesRequestId(quoteNumber, OPT_IN, OPT_IN);
-		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
-		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue("Yes");
-		getDocumentsAndBindTabElement().submitTab();
-		assertThat(getErrorTabElement().getErrorsControl().getTable().getRowContains(MESSAGE, EV100003)).isAbsent();
-		deleteSinglePaperlessPreferenceRequest(stub);
-		Tab.buttonCancel.click();
+		checkPaperlessPreferencesError(quoteNumber, "paperless-preferences-200", OPT_IN, OPT_IN, "Yes", false);
+
+		checkPaperlessPreferencesError(quoteNumber, "empty-paperless-preferences-200", OPT_OUT, OPT_OUT, "No", true);
 	}
 
 	private void checkPaperlessPreferencesStatus(String quoteNumber, String policyAction, String billingAction, String paperlessStatus) {
-		HelperWireMockStub stub = createPaperlessPolicyBillingPreferencesRequestId(quoteNumber, policyAction, billingAction);
+		checkPaperlessPreferencesStatus(quoteNumber, "paperless-preferences-200", policyAction, billingAction, paperlessStatus);
+	}
+
+	private void checkPaperlessPreferencesStatus(String quoteNumber, String templateName,
+												 String policyAction, String billingAction,
+												 String paperlessStatus) {
+		HelperWireMockStub stub = createPaperlessPolicyBillingPreferencesRequestId(quoteNumber, templateName, policyAction, billingAction);
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue(paperlessStatus);
 		NavigationPage.toViewSubTab(getGeneralTab());
@@ -354,11 +362,22 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 	}
 
 	private void checkPaperlessPreferencesError(String quoteNumber, String policyAction, String billingAction, String paperlessStatus) {
-		HelperWireMockStub stub = createPaperlessPolicyBillingPreferencesRequestId(quoteNumber, policyAction, billingAction);
+		checkPaperlessPreferencesError(quoteNumber, "paperless-preferences-200", policyAction, billingAction, paperlessStatus, true);
+	}
+
+	private void checkPaperlessPreferencesError(String quoteNumber, String templateName,
+												String policyAction, String billingAction,
+												String paperlessStatus, boolean expectError) {
+		HelperWireMockStub stub = createPaperlessPolicyBillingPreferencesRequestId(quoteNumber, templateName, policyAction, billingAction);
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue(paperlessStatus);
 		getDocumentsAndBindTabElement().submitTab();
-		assertThat(getErrorTabElement().getErrorsControl().getTable().getRowContains(MESSAGE, EV100003)).isPresent();Tab.buttonCancel.click();
+		if(expectError) {
+			assertThat(getErrorTabElement().getErrorsControl().getTable().getRowContains(MESSAGE, EV100003)).isPresent();
+		} else {
+			assertThat(getErrorTabElement().getErrorsControl().getTable().getRowContains(MESSAGE, EV100003)).isAbsent();
+		}
+		Tab.buttonCancel.click();
 		deleteSinglePaperlessPreferenceRequest(stub);
 	}
 
@@ -376,9 +395,10 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		return stub;
 	}
 
-	private HelperWireMockStub createPaperlessPolicyBillingPreferencesRequestId(String policyNumber, String policyAction, String billingAction) {
+	private HelperWireMockStub createPaperlessPolicyBillingPreferencesRequestId(String policyNumber, String templateName,
+																				String policyAction, String billingAction) {
 		PaperlessPreferencesTemplateData template = createPolicyBillingActions(policyNumber, policyAction, billingAction);
-		HelperWireMockStub stub = HelperWireMockStub.create("paperless-preferences-200", template).mock();
+		HelperWireMockStub stub = HelperWireMockStub.create(templateName, template).mock();
 		stubList.add(stub);
 		printToLog("THE REQUEST ID WAS CREATED " + stub.getId());
 		return stub;
