@@ -1,0 +1,83 @@
+TestData_2FinancialDrivers: {
+  GeneralTab: '@GeneralTab_2FinDrivers',
+  DriverTab: ['@DriverTab_FinancialDriver', '@DriverTab_FinancialDriver2'],
+  FormsTab: {
+    Driver Forms: {
+      SR22: {
+        Action: Edit,
+        Case Number: 123456789,
+        State: AZ
+      }
+    }
+  },
+  DocumentsAndBindTab: '@DocumentsAndBindTab_FinancialDriver'
+}
+
+TestData_FinancialDriver: {
+  DriverTab: '@DriverTab_FinancialDriver',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_FinancialDriver'
+}
+
+
+
+# ----- Scenario 31
+TestData2_2FinancialDrivers: {
+  GeneralTab: '@GeneralTab_2FinDrivers',
+  DriverTab: ['@DriverTab_Without_FinancialDriver', '@DriverTab_FinancialDriver2'],
+  DocumentsAndBindTab: '@DocumentsAndBindTab_FinancialDriver'
+}
+
+
+# -------- GeneralTab ---------
+GeneralTab_2FinDrivers: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
+}
+
+
+
+# --------- DriverTab ---------
+DriverTab_FinancialDriver: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12345678,
+  Financial Responsibility Filing Needed: 'Yes'
+}
+
+DriverTab_Without_FinancialDriver: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12345678,
+  Financial Responsibility Filing Needed: 'No'
+}
+
+
+DriverTab_FinancialDriver2: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 400064774,
+  Financial Responsibility Filing Needed: 'Yes'
+}
+
+# ------- DocumentsAndBindTab --------
+DocumentsAndBindTab_FinancialDriver: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  },
+  Agreement: I agree,
+  Case Number: 12345
+}
