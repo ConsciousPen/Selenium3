@@ -15,6 +15,8 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
+import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -25,6 +27,7 @@ import toolkit.verification.CustomSoftAssertions;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static aaa.main.enums.DocGenEnum.Documents.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
@@ -95,7 +98,7 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
                 .isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
 
 
-        //DD2+8
+        //DD3+8
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(3)));
         JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
         //+8
@@ -123,7 +126,7 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
         assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).getValue())
                 .isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
 
-        //DD3+8
+        //DD5+8
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(5)));
         JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
         searchForPolicy(policyNumber);
@@ -195,4 +198,113 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
             PasDocImpl.verifyDocumentsGenerated(softly, policyNumber1, DocGenEnum.Documents.AH60XXA);
         });
     }
+
+    @Parameters({"state"})
+    @StateList(states = Constants.States.AZ)
+    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+    public void testScenario31(@Optional("") String state) {
+
+        mainApp().open();
+        createCustomerIndividual();
+        TestData td_2financialDrivers = getPolicyTD().adjust(getTestSpecificTD("TestData_2FinancialDrivers").resolveLinks());
+        String policy_2financialDrivers = createPolicy(td_2financialDrivers);
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+        assertThat(countDocuments(policy_2financialDrivers, null, AASR26)).isEqualTo(2);
+
+        TestData td2_2financialDrivers = getPolicyTD().adjust(getTestSpecificTD("TestData2_2FinancialDrivers").resolveLinks());
+        String policy2_2financialDrivers = createPolicy(td2_2financialDrivers);
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus10Days"));
+        assertThat(countDocuments(policy2_2financialDrivers, null, AASR26)).isEqualTo(1);
+    }
+
+
+    @Parameters({"state"})
+    @StateList(states = Constants.States.AZ)
+    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+    public void testScenario32(@Optional("") String state) {
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createPolicy();
+        policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData").adjust(TestData
+                        .makeKeyPath("CancelNoticeActionTab", "Cancellation Reason"),
+                "Insured Non-Payment Of Premium"));
+        CustomSoftAssertions.assertSoftly(softly -> {
+            PasDocImpl.verifyDocumentsGenerated(softly, true, policyNumber, AH34XX);
+            //AASRAZ,AHAUXX3,AH61XX is not generated
+            //PasDocImpl.verifyDocumentsGenerated(softly,false, policyNumber, AH61XX,AHAUXX);
+        });
+    }
+
+    @Parameters({"state"})
+    @StateList(states = Constants.States.AZ)
+    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+    public void testScenario33(@Optional("") String state) {
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createPolicy();
+        policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData").adjust(TestData
+                        .makeKeyPath("CancelNoticeActionTab", "Cancellation Reason"),
+                "Underwriting - Fraudulent Misrepresentation"));
+
+        PasDocImpl.verifyDocumentsGenerated(policyNumber, AH61XX);
+        ////AASRAZ,AHAUXX3
+    }
+
+    @Parameters({"state"})
+    @StateList(states = Constants.States.AZ)
+    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+    public void testScenario34(@Optional("") String state) {
+        LocalDateTime renewalDueDate;
+
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createPolicy();
+        renewalDueDate = PolicySummaryPage.getExpirationDate();
+        policy.doNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(renewalDueDate));
+        JobUtils.executeJob(Jobs.policyDoNotRenewAsyncJob);
+        PasDocImpl.verifyDocumentsGenerated(policyNumber, AH65XX);
+        //AASRAZ,AHAUXX3
+    }
+
+    @Parameters({"state"})
+    @StateList(states = Constants.States.AZ)
+    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+    public void testScenario36(@Optional("") String state) {
+
+        List<LocalDateTime> installmentDueDates;
+
+        SoapJobActions service = new SoapJobActions();
+        if (!service.isJobExist(JobGroup.fromSingleJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob.getJobName()))) {
+            service.createJob(JobGroup.fromSingleJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob.getJobName()));
+        }
+
+        mainApp().open();
+        TestData td = getPolicyTD().adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Monthly - Zero Down");
+        createCustomerIndividual();
+        String policyNumber = createPolicy(td);
+        BillingSummaryPage.open();
+        installmentDueDates = BillingHelper.getInstallmentDueDates();
+
+        TimeSetterUtil.getInstance().nextPhase(installmentDueDates.get(7));
+        searchForPolicy(policyNumber);
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+
+        LocalDateTime cDate = getTimePoints().getCancellationDate(installmentDueDates.get(6)).with(DateTimeUtils.previousWorkingDay);
+
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillFirst(cDate));
+        JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob);
+        PasDocImpl.verifyDocumentsGenerated(true, true, policyNumber, _55_6101);
+
+        //scenario 37
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillSecond(cDate));
+        JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob);
+        PasDocImpl.verifyDocumentsGenerated(true, true, policyNumber, _55_6102);
+
+        //scenario 38
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillThird(cDate));
+        JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob);
+        PasDocImpl.verifyDocumentsGenerated(true, true, policyNumber, _55_6103);
+    }
+
 }
