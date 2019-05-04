@@ -98,6 +98,17 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="Check that LOAN coverage is false for NY" parallel="methods">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas11618_UpdateVehicleLeasedInfo"/>
+                    <include name="pas11618_UpdateVehicleFinancedInfo"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="VehiclesNV" parallel="methods">
     <parameter name="state" value="NV"/>
     <classes>
@@ -190,6 +201,7 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
+                    <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
                     <include name="pas10449_ViewVehicleServiceOrderOfVehicle"/>
                     <include name="pas11741_ManageVehicleLevelCoverages"/>
                     <include name="pas502_DuplicateVinAddVehicleService"/>
@@ -353,6 +365,7 @@
                     <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
                     <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
                     <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
+                    <include name="pas28686_GreenButtonServiceUnhappyPathRideShareCoverage"/>
                 </methods>
             </class>
         </classes>
@@ -1318,6 +1331,43 @@
                     <include name="pas11618_UpdateVehicleLeasedInfo"/>
                     <include name="pas11618_UpdateVehicleFinancedInfo"/>
                     <include name="pas13252_UpdateVehicleGaragingAddressProblem"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="CA MetaDataService" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas25263_addVehicleMetadataCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="CA Choice MetaDataService" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas25263_addVehicleMetadataCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="CA Select Driver" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas25057_AddDriverCADefaultValues"/>
+                    <include name="pas15428_UpdateDriverPermitBeforeLicense"/>
+                    <include name="pas15408_ValidateMetadataService_CA"/>
+                    <include name="pas15408_ViewDriverService_CA"/>
+                    <include name="pas25053_ViewDriverServiceCANameInsureIndicator"/>
+                    <include name="pas22513_ViewDiscountDriver"/>
+                    <include name="pas28687_AddRideshareDriver"/>
+                    <include name="pas25055_ViewDriverServiceMetadataServiceRideshareQuestion"/>
                 </methods>
             </class>
         </classes>
