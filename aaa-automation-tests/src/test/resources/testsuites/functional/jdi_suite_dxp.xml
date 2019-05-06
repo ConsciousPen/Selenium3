@@ -1280,7 +1280,8 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesDiscounts">
                 <methods>
-                    <include name="pas27988_miniServicesDiscounts"/>
+                    <include name="pas27988_miniServicesDiscountsTC01"/>
+                    <include name="pas27988_miniServicesDiscountsTC02"/>
                 </methods>
             </class>
         </classes>
