@@ -113,7 +113,7 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 		assertThat(helperMiniServices.findDriver(viewEndorsementDrivers, addDriverResponse6.oid).availableDiscounts.size()).isEqualTo(1);
 
 		//TODO-mstrazds: can be uncommented when Order reports is done
-		helperMiniServices.endorsementRateAndBind(policyNumber);
+		//helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
 	/**
