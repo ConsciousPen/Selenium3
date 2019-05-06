@@ -757,7 +757,6 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
                 break;
 
             case FutureDated:
-                // Figure out how to change the date on this one.
                 policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
                 break;
         }
