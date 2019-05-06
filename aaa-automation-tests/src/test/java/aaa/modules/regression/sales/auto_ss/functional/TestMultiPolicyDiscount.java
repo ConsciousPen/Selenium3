@@ -10,22 +10,28 @@ import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.db.queries.AAAMultiPolicyDiscountQueries;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ErrorEnum;
+import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.*;
 import org.testng.annotations.Optional;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
@@ -37,6 +43,15 @@ import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.waiters.Waiters;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -654,7 +669,323 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         assertThat(condoStatusColumnValue).startsWith(expectedName);
     }
 
+    /**
+     * This test validates that removing MPD policies removes discounts during a Flat (Same day) Endorsement
+     * @scenario
+     * 1. Create/Bind an Auto SS policy with Home, Condo, Renters, Motorcycle(if AZ), and Life insurance added.
+     * 2. Start a Flat (same as effective date) endorsement
+     * 3. Navigate to the Premiums & Coverages (P&C) tab and note the premium, Discounts & Surcharges sections, and the View Rating Details (VRD).
+     * 4. Navigate back to the General Tab and remove all the discounts from MPD table.
+     * 5. Navigate back to the P&C tab and Calculate Premium.
+     * Note: The automation actually opens up another endorsement to grab the final values rather than adding new code to get the proposed values.
+     * @author Brian Bond - CIO
+     * @param state to override.
+     */
+    @Parameters({"state"})
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Remove MPD flat endorsement when companion product is removed")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28659")
+    public void pas28659_Discount_Removed_Flat_Endorsement(@Optional("") String state) {
+        run_pas28659_DiscountRemovalTest(EndorsementType.Flat);
+    }
 
+    /**
+     * This test validates that removing MPD policies removes discounts during a Future Dated (more than 24 hours after effective date) Endorsement
+     * @scenario
+     * 1. Create/Bind an Auto SS policy with Home, Condo, Renters, Motorcycle(if AZ), and Life insurance added.
+     * 2. Start a Future Dated endorsement (after effective date) endorsement.
+     * 3. Navigate to the Premiums & Coverages (P&C) tab and note the premium, Discounts & Surcharges sections, and the View Rating Details (VRD).
+     * 4. Navigate back to the General Tab and remove all the discounts from MPD table.
+     * 5. Navigate back to the P&C tab and Calculate Premium.
+     * Note: The automation actually opens up another endorsement to grab the final values rather than adding new code to get the proposed values.
+     * @author Brian Bond - CIO
+     * @param state to override.
+     */
+    @Parameters({"state"})
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Remove MPD Future-Dated endorsement when companion product is removed")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28659")
+    public void pas28659_Discount_Removed_FutureDated_Endorsement(@Optional("") String state) {
+        run_pas28659_DiscountRemovalTest(EndorsementType.FutureDated);
+    }
+
+    /**
+     * This test validates that removing MPD policies removes discounts during a Future Dated (more than 24 hours after effective date) Endorsement
+     * @scenario
+     * 1. Create/Bind an Auto SS policy with Home, Condo, Renters, Motorcycle(if AZ), and Life insurance added.
+     * 2. Move the date to New Business plus 2 days (NB+2) and start an endorsement.
+     * 3. Navigate to the Premiums & Coverages (P&C) tab and note the premium, Discounts & Surcharges sections, and the View Rating Details (VRD).
+     * 4. Navigate back to the General Tab and remove all the discounts from MPD table.
+     * 5. Navigate back to the P&C tab and Calculate Premium.
+     * Note: The automation actually opens up another endorsement to grab the final values rather than adding new code to get the proposed values.
+     * @author Brian Bond - CIO
+     * @param state to override.
+     */
+    @Parameters({"state"})
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Remove MPD Mid-Term endorsement when companion product is removed")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28659")
+    public void pas28659_Discount_Removed_MidTerm_Endorsement(@Optional("") String state) {
+        run_pas28659_DiscountRemovalTest(EndorsementType.MidTerm);
+    }
+
+    public enum EndorsementType {Flat, MidTerm, FutureDated}
+
+    /**
+     * This test validates that removing named insureds without rating results in error message at bind time.
+     * @param endorsementType What scenario to run.
+     */
+    private void run_pas28659_DiscountRemovalTest(EndorsementType endorsementType){
+        String policyNumber = pas28659_SetupScenario();
+
+        String decPageBeforeRemovalXML = AAAMultiPolicyDiscountQueries.getDecPage(policyNumber).orElse("Null");
+
+        String decPageBeforeRemoval = getAHDRXXValueFromNodeName("PlcyDiscDesc", decPageBeforeRemovalXML);
+
+        // Assert all available MPD are present before removal.
+        validateAllMPDiscounts(parseXMLDocMPDList(decPageBeforeRemoval), true);
+
+        switch (endorsementType){
+            case Flat:
+                policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+                break;
+
+            case MidTerm:
+                TimeSetterUtil.getInstance().nextPhase(LocalDateTime.now().plusDays(2));
+                JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+                JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+                mainApp().open();
+                SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+                policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+                break;
+
+            case FutureDated:
+                // Figure out how to change the date on this one.
+                policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
+                break;
+        }
+
+        // Navigate to the Premiums & Coverages (P&C) tab and note the premium, Discounts & Surcharges sections, and the View Rating Details (VRD).
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+        Dollar discountedPremium = _pncTab.getPolicyCoveragePremium();
+
+        // Remove discounts from General Tab
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+
+        removeAllOtherAAAProductsOwnedTablePolicies();
+
+        // Calculate premium.
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        _pncTab.btnCalculatePremium().click(Waiters.AJAX);
+
+        // Validate Discount and Surcharges //
+        List<String> discountsAndSurcharges =
+                parseDiscountAndSurchargesString(PremiumAndCoveragesTab.discountsAndSurcharges.getValue());
+
+        assertThat(discountsAndSurcharges).doesNotContain("Multi-Policy Discount");
+
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        _documentsAndBindTab.submitTab();
+
+        // Check document
+        String decPageAfterRemovalXML = AAAMultiPolicyDiscountQueries.getDecPage(policyNumber).orElse("Null");
+
+        String decPageAfterRemoval = getAHDRXXValueFromNodeName("PlcyDiscDesc", decPageAfterRemovalXML);
+
+        // Assert all available MPD are NOT present after removal.
+        validateAllMPDiscounts(parseXMLDocMPDList(decPageAfterRemoval), false);
+
+        // Check VRD (Done this way to not have to redo how _pncTab.getRatingDetailsQuoteInfoData() works
+        if (endorsementType == EndorsementType.FutureDated){
+            policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
+        }else {
+            policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        }
+
+        // Calculate premium.
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        _pncTab.btnCalculatePremium().click(Waiters.AJAX);
+
+        Dollar removedMPDPremium = _pncTab.getPolicyCoveragePremium();
+
+        assertThat(discountedPremium.lessThan(removedMPDPremium)).isTrue();
+
+        // Check in View Rating details for Multi-Policy Discount
+        // Needs to finish and open a second endorsement to show up.
+        String mpdDiscountApplied =
+                _pncTab.getRatingDetailsQuoteInfoData().getValue("AAA Multi-Policy Discount");
+
+        assertThat(mpdDiscountApplied).isEqualTo("None");
+
+        // Close the VRD Popup
+        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+    }
+
+    /**
+     * Will check that property, life, and motorcycle (if applicable) are present/not present depending on discountExpected.
+     * @param mpdDiscounts List of discounts that were present in XML. See parseXMLDocMPDList() for more info.
+     * @param discountExpected Property, Life, and Motorcycle if applicable are there if True, not if False.
+     */
+    private static void validateAllMPDiscounts(List<String> mpdDiscounts, Boolean discountExpected){
+
+        // Only one of the property discounts will be listed.
+        Boolean homeDiscount = mpdDiscounts.contains("Home") ||
+                mpdDiscounts.contains("Condo") ||
+                mpdDiscounts.contains("Renters");
+
+        if (discountExpected) {
+
+            assertThat(homeDiscount).isTrue();
+            assertThat(mpdDiscounts.contains("Life")).isTrue();
+
+            if (getState().equals("AZ")) {
+                assertThat(mpdDiscounts.contains("Motorcycle")).isTrue();
+            }
+
+        }else{
+            assertThat(homeDiscount).isFalse();
+            assertThat(mpdDiscounts.contains("Life")).isFalse();
+
+            if (getState().equals("AZ")) {
+                assertThat(mpdDiscounts.contains("Motorcycle")).isFalse();
+            }
+        }
+    }
+
+    /**
+     * Takes value from XML PlcyDiscDesc and parses it into a list with MPD policies separated individually for assertions.
+     * @param plcyDiscDesc This is usually pulled from the following method getAHDRXXValueFromNodeName("PlcyDiscDesc", XML)
+     * @return List of type String that contains MPD discounts as individual items.
+     */
+    public static List<String> parseXMLDocMPDList(String plcyDiscDesc){
+        // Typical string this parses: "Loyalty Discount;Membership Discount;Multi-Policy Discount (Life, Home);Payment Plan Discount"
+
+        String[] discounts = plcyDiscDesc.split(";");
+
+        String mpdRaw = "";
+
+        // Locate element with Multi-Policy Discount
+        for (String discount : discounts){
+            if (discount.startsWith("Multi-Policy Discount")){
+                mpdRaw = discount;
+                break;
+            }
+        }
+
+        // Remove all but the policy types, and split on the comma.
+        String[] mpdParsed = mpdRaw.replace("Multi-Policy Discount (", "").replace(")","").split(",");
+
+        // Trim off white space on all elements in list.
+        for (int i = 0; i < mpdParsed.length; i++){
+            mpdParsed[i] = mpdParsed[i].trim();
+        }
+
+        return Arrays.asList(mpdParsed);
+    }
+
+    /**
+     * Parses the Discount And Surcharges string retrieved from PremiumAndCoveragesTab.discountsAndSurcharges.getValue();
+     * @param rawDAndCValue comes from PremiumAndCoveragesTab.discountsAndSurcharges.getValue();
+     * @return parsed list of discounts
+     */
+    public static List<String> parseDiscountAndSurchargesString(String rawDAndCValue){
+        String[] parsedValues = rawDAndCValue.split(":")[1].split(",");
+
+        for (String value : parsedValues){
+            value = value.trim();
+        }
+
+        return Arrays.asList(parsedValues);
+    }
+
+    /**
+     * Pulls a specific value from AHDRXX.
+     * @param nodeName The name that houses the value in the XML you are looking for.
+     * @param xml DB value generally retrieved through: AAAMultiPolicyDiscountQueries.getDecPage(policyNumber).orElse("Null");
+     * @return The String value associated with specified nodeName.
+     */
+    public static String getAHDRXXValueFromNodeName(String nodeName, String xml){
+
+        // Find element with text value of nodename, walk back to parent.
+        String xpathString  = "//* [.='"+ nodeName + "'] /..";
+
+        String result = "No results returned.";
+
+        try {
+            XPathFactory xpathfactory = XPathFactory.newInstance();
+            Document xmlDoc = loadXMLFromString(xml);
+            XPathExpression expr = xpathfactory.newXPath().compile(xpathString);
+            NodeList nodes = (NodeList) expr.evaluate(xmlDoc, XPathConstants.NODESET);
+
+            if (nodes.getLength() > 1 || nodes.getLength() == 0){
+                CustomAssertions.fail("Found invalid results.");
+            }
+
+            // Return first child which contains the actual value we want to get.
+            result = nodes.item(0).getFirstChild().getTextContent();
+
+        }catch (XPathExpressionException E){
+            CustomAssertions.fail("Couldn't evaluate Xpath.", E);
+        }
+
+        return result;
+    }
+
+    /**
+     * Transforms a string into an XML Document file
+     * @param xml
+     * @return org.w3c.dom.Document for later parsing
+     * @throws NullPointerException
+     */
+    public static Document loadXMLFromString(String xml) throws NullPointerException {
+
+        Document doc;
+
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            InputStream inputStream = new ByteArrayInputStream(xml.getBytes());
+            doc = builder.parse(inputStream);
+        } catch (Exception E){
+            throw new NullPointerException("Could not parse XML" + E);
+        }
+        return doc;
+    }
+
+    /**
+     * Creates a new policy with REFRESH_P search and added Life and MC (if AZ)
+     */
+    private String pas28659_SetupScenario(){
+        TestData testData = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData")
+                .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()))
+                .mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()));
+
+        mainApp().open();
+        createCustomerIndividual();
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(testData, GeneralTab.class,true);
+
+        otherAAAProducts_SearchAndManuallyAddCompanionPolicy("Life", "L123456789");
+
+        if (getState().equalsIgnoreCase("AZ")) {
+            otherAAAProducts_SearchAndManuallyAddCompanionPolicy("Motorcycle", "M123456789");
+        }
+
+        otherAAAProducts_SearchByPolicyNumber("Home", "REFRESH_P");
+
+        // Add home, condo, renters by index.
+        otherAAAProductsSearchTable_addSelected(new int[]{0, 1, 2});
+
+        _generalTab.submitTab();
+
+        policy.getDefaultView().fillFromTo(testData, DriverTab.class, PurchaseTab.class, true);
+
+        _purchaseTab.submitTab();
+
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+        log.info("Policy " + policyNumber + " was created.");
+
+        return policyNumber;
+    }
 
     /**
      * This test is provides coverage for validating that the Under Writer rerate rule is thrown as an error whenever the following conditions are met: <br>
