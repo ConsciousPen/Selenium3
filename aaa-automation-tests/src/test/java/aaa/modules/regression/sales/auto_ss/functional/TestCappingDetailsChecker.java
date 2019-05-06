@@ -141,7 +141,7 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
         uploadToVINTableTab.uploadVinTable(vinTableFile1);
 
         //Move to R-40, retrieve the policy, navigate to the premium and coverages Capping Details page
-        moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(40)); //Renewal will get proposed at R-35 - we do not want this
+        moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
         initiateRenewal(policyNumber);
         PremiumAndCoveragesTab.buttonViewCappingDetails.click();
 
@@ -164,7 +164,7 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
         //Verify and note the capping factor value (should be same values; outside of the refresh window)
 	    PremiumAndCoveragesTab.buttonViewCappingDetails.click();
 	    String r30Factor = PremiumAndCoveragesTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR);
-        assertThat(r35Factor).isEqualToIgnoringCase(r30Factor);
+        assertThat(r35Factor).isNotEqualToIgnoringCase(r30Factor);
 	    PremiumAndCoveragesTab.buttonReturnToPremiumAndCoverages.click();
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
