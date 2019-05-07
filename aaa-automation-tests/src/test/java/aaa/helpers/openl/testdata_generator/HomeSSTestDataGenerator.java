@@ -177,6 +177,11 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		TestData documentsTabData = DataProviderFactory.dataOf(
 				DocumentsTab.class.getSimpleName(), getProofData(openLPolicy));
 
+		if (openLPolicy.getPolicyAddress().isOhioMineSubsidenceCounty()) {
+			documentsTabData =
+					TestDataHelper.merge(DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.class.getSimpleName(), DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_ISSUE.getLabel(), DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DocumentsToIssue.OHIO_MINE_SUBSIDENCE_INSURANCE_UNDERWRITING_ASSOCIATION_APPLICATION.getLabel(), "Physically Signed"))), documentsTabData);
+		}
+
 		return TestDataHelper.merge(documentsTabData, policyIssueData);
 	}
 
@@ -853,7 +858,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		return personalPropertyData;
 	}
 
-	private TestData getMortgageeTabData(HomeSSOpenLPolicy openLPolicy) {
+	protected TestData getMortgageeTabData(HomeSSOpenLPolicy openLPolicy) {
 		return DataProviderFactory.dataOf(
 				new MortgageesTab().getMetaKey(), DataProviderFactory.dataOf(
 						HomeSSMetaData.MortgageesTab.MORTGAGEE.getLabel(), "Yes",
