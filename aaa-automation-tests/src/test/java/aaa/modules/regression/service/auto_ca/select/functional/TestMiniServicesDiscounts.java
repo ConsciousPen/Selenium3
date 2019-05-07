@@ -94,7 +94,7 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 		//Driver 1 - Check that have Good Student Discount, New Driver Discount, does not have Mature Driver Discount
 		driverAvailableDiscountsCheck(viewEndorsementDrivers, DISCOUNT_CODE_GOOD_STUDENT, "Good Student", addDriverResponse1.oid);
 		driverAvailableDiscountsCheck(viewEndorsementDrivers, DISCOUNT_CODE_NEW_DRIVER, "New Driver", addDriverResponse1.oid);
-		assertThat(helperMiniServices.findDriver(viewEndorsementDrivers, addDriverResponse1.oid).availableDiscounts.size()).isEqualTo(2);
+		assertThat(DRIVERS_HELPER.findDriverByOid(viewEndorsementDrivers.driverList, addDriverResponse1.oid).availableDiscounts.size()).isEqualTo(2);
 
 		//Driver 2 - Check that does not have Good Student Discount, New Driver Discount, Mature Driver Discount
 		checkThatDriverDoesNotHaveAvailableDiscounts(addDriverResponse2.oid, viewEndorsementDrivers);
@@ -110,7 +110,7 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 
 		//Driver 6 - Check that does not have Good Student Discount, New Driver Discount. Has Mature Driver Discount
 		driverAvailableDiscountsCheck(viewEndorsementDrivers, DISCOUNT_CODE_MATURE_DRIVER, "Mature Driver", addDriverResponse6.oid);
-		assertThat(helperMiniServices.findDriver(viewEndorsementDrivers, addDriverResponse6.oid).availableDiscounts.size()).isEqualTo(1);
+		assertThat(DRIVERS_HELPER.findDriverByOid(viewEndorsementDrivers.driverList, addDriverResponse6.oid).availableDiscounts.size()).isEqualTo(1);
 
 		//TODO-mstrazds: can be uncommented when Order reports is done
 		//helperMiniServices.endorsementRateAndBind(policyNumber);
@@ -159,7 +159,7 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 	}
 
 	private void driverAvailableDiscountsCheck(ViewDriversResponse viewDriversResponse, String discountCode, String discountName, String driverOid) {
-		DriversDto driver = helperMiniServices.findDriver(viewDriversResponse, driverOid);
+		DriversDto driver = DRIVERS_HELPER.findDriverByOid(viewDriversResponse.driverList, driverOid);
 		DiscountInfo discount = driver.availableDiscounts.stream().filter(disc -> discountCode.equals(disc.discountCd)).filter(disc -> discountName.equals(disc.discountName)).findFirst().orElseThrow(() -> new IstfException("no such discount"));
 		assertThat(discount.discountCd).isEqualTo(discountCode);
 		assertThat(discount.discountName).isEqualTo(discountName);
@@ -167,7 +167,7 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 	}
 
 	private void checkThatDriverDoesNotHaveAvailableDiscounts(String driverOid, ViewDriversResponse viewEndorsementDrivers) {
-		DriversDto driver = helperMiniServices.findDriver(viewEndorsementDrivers, driverOid);
+		DriversDto driver = DRIVERS_HELPER.findDriverByOid(viewEndorsementDrivers.driverList, driverOid);
 		assertThat(driver.availableDiscounts).as("Driver with this oid should not have any available discounts: " + driverOid).isEmpty();
 	}
 
