@@ -48,11 +48,11 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		//Add driver LESS THAN 26y old and Single
+		//Add driver LESS THAN 26y old and Single or equal to Single
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Jarred", "", "Benjami", TimeSetterUtil.getInstance().getCurrentTime().minusYears(25).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), "I");
 		DriversDto addDriverResponse1 = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "B1234560",
-				16, "CA", "CH", "W", true);//TODO-mstrazds: getRandomSingleMaritialStatus
+				16, "CA", "CH", getRandomSingleMaritalStatus(), true);
 		HelperCommon.updateDriver(policyNumber, addDriverResponse1.oid, updateDriverRequest);
 
 		//Add driver LESS THAN 26y old and other than Single
@@ -62,18 +62,18 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 				16, "CA", "CH", "M", true);
 		HelperCommon.updateDriver(policyNumber, addDriverResponse2.oid, updateDriverRequest);
 
-		//Add driver MORE THAN 26y old and Single
+		//Add driver MORE THAN 26y old and Single or equal to Single
 		addDriverRequest = DXPRequestFactory.createAddDriverRequest("Tim", "", "Bo", TimeSetterUtil.getInstance().getCurrentTime().minusYears(27).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), "I");
 		DriversDto addDriverResponse3 = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "B1234562",
-				16, "CA", "CH", "W", true);//TODO-mstrazds: getRandomSingleMaritialStatus
+				16, "CA", "CH", getRandomSingleMaritalStatus(), true);
 		HelperCommon.updateDriver(policyNumber, addDriverResponse3.oid, updateDriverRequest);
 
-		//Add driver MORE THAN 26y and less than 50y old and Single
+		//Add driver MORE THAN 26y and less than 50y old and Single or equal to Single
 		addDriverRequest = DXPRequestFactory.createAddDriverRequest("Tim", "", "Co", TimeSetterUtil.getInstance().getCurrentTime().minusYears(49).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), "I");
 		DriversDto addDriverResponse4 = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "B1234563",
-				16, "CA", "CH", "W", true);//TODO-mstrazds: getRandomSingleMaritialStatus
+				16, "CA", "CH", getRandomSingleMaritalStatus(), true);
 		HelperCommon.updateDriver(policyNumber, addDriverResponse4.oid, updateDriverRequest);
 
 		//Add driver MORE THAN 26y and LESS THAN 50y old and OTHER THAN Single
@@ -171,7 +171,7 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 		assertThat(driver.availableDiscounts).as("Driver with this oid should not have any available discounts: " + driverOid).isEmpty();
 	}
 
-	private String getRandomSingleMaritialStatus() {
+	private String getRandomSingleMaritalStatus() {
 		List<String> list = new ArrayList<>();
 		list.add("S");//Single
 		list.add("D");//Divorced
