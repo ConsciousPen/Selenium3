@@ -1511,11 +1511,38 @@ TestData_AtomicMerge_Scenario2_Version1: {
   },
 }
 
+VehicleInformation_Renewal: {
+  #Vehicle Information section
+  Type: 'Regular',
+  VIN: 2HNYD28498H554858,
+  Primary Use: 'Pleasure (recreational driving only)',
+  Anti-theft Recovery Device: Vehicle Recovery Device,
+  Existing Damage: Normal Wear and Tear,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 15,
+  Odometer Reading: 800,
+  Odometer Reading Date: $<today-2y>,
+  Customer Declared Annual Miles: 10000,
+  #Garaging Address
+  "Is Garaging different from Residential?": 'Yes',
+  Zip Code: 90201,
+  Address Line 1: NB garaging address 1,
+  Address Line 2: NB garaging address 2,
+  City: Bell,
+  State: CA,
+  Validate Address: true,
+  Validate Address Dialog: {},
+  #Ownership Information
+  Ownership: {
+    Ownership Type: Owned,
+  },
+}
+
 TestData_AtomicMerge_Scenario2_Version2: {
   GeneralTab: {},
   DriverTab: {},
   MembershipTab: {},
-  VehicleTab: ['@VehicleInformation', '@VehicleInformation_Version2'],
+  VehicleTab: ['@VehicleInformation_Renewal', '@VehicleInformation_Version2'],
   AssignmentTab: {
      DriverVehicleRelationshipTable: ['@DriverVehicleRelationship2','@DriverVehicleRelationship2'],
   },
