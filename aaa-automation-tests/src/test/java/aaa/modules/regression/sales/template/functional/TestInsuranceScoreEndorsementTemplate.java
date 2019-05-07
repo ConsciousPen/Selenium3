@@ -89,7 +89,7 @@ public abstract class TestInsuranceScoreEndorsementTemplate extends PolicyBaseTe
 //		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", spouseFN)
 //				.getCell("Report")).isNotEqualTo("Order report");
 
-		//PAS-27928 - Primary Insured - 'Order Insurance Score' should be automatically selected as 'Yes' and should be enabled
+//		PAS-27928 - Primary Insured - 'Order Insurance Score' should be automatically selected as 'Yes' and should be enabled
 //		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", primaryInsuredFN)
 //				.getCell("Order Insurance Score").controls.radioGroups.getFirst().getValue()).isEqualTo("Yes");
 //		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", primaryInsuredFN)
