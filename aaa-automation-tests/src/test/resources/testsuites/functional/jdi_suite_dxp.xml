@@ -1382,4 +1382,16 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="CA Select Order MVR Report" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <include name=" pas15369_reportOrderAndDriverBody"/>
+                    <include name="pas15372_driverDetailsAndMvrRulesThatProvidedBody"/>
+                    <include name="pas15077_orderReports_endorsementBody"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
