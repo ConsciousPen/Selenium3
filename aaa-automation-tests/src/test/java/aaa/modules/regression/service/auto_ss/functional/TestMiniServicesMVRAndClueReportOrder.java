@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -7,6 +8,7 @@ import aaa.modules.regression.service.helper.TestMiniServicesMVRAndClueReportOrd
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAndClueReportOrderHelper {
@@ -340,6 +342,25 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	public void pas15376_3OrMoreMinorOrSpeedingViolations(@Optional("AZ") String state) {
 
 		pas15376_3OrMoreMinorOrSpeedingViolationsBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Driver Details and the MVR
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add driver with: 3 or more minor violations for speeding
+	 * 4. Order reports for new driver.
+	 * 5. Check response. to verify Error
+	 * 6. rate and bind verify rule on bind
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.NJ, Constants.States.NY})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19059"})
+	public void pas19059_3OrMoreMinorOrSpeedingViolations(@Optional("NY") String state) {
+
+		pas19059_3OrMoreMinorOrSpeedingViolationsBody();
 	}
 }
 

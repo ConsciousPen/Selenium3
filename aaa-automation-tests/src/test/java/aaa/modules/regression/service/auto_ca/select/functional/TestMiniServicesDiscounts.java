@@ -52,42 +52,42 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Jarred", "", "Benjami", TimeSetterUtil.getInstance().getCurrentTime().minusYears(25).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), "I");
 		DriversDto addDriverResponse1 = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "B1234560",
-				16, "CA", "CH", getRandomSingleMaritalStatus(), true);
+				16, "CA", "CH", getRandomSingleMaritalStatus(), true, false);
 		HelperCommon.updateDriver(policyNumber, addDriverResponse1.oid, updateDriverRequest);
 
 		//Add driver LESS THAN 26y old and other than Single
 		addDriverRequest = DXPRequestFactory.createAddDriverRequest("Tom", "", "Ao", TimeSetterUtil.getInstance().getCurrentTime().minusYears(25).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), "I");
 		DriversDto addDriverResponse2 = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "B1234561",
-				16, "CA", "CH", "M", true);
+				16, "CA", "CH", "M", true, false);
 		HelperCommon.updateDriver(policyNumber, addDriverResponse2.oid, updateDriverRequest);
 
 		//Add driver MORE THAN 26y old and Single or equal to Single
 		addDriverRequest = DXPRequestFactory.createAddDriverRequest("Tim", "", "Bo", TimeSetterUtil.getInstance().getCurrentTime().minusYears(27).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), "I");
 		DriversDto addDriverResponse3 = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "B1234562",
-				16, "CA", "CH", getRandomSingleMaritalStatus(), true);
+				16, "CA", "CH", getRandomSingleMaritalStatus(), true, false);
 		HelperCommon.updateDriver(policyNumber, addDriverResponse3.oid, updateDriverRequest);
 
 		//Add driver MORE THAN 26y and less than 50y old and Single or equal to Single
 		addDriverRequest = DXPRequestFactory.createAddDriverRequest("Tim", "", "Co", TimeSetterUtil.getInstance().getCurrentTime().minusYears(49).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), "I");
 		DriversDto addDriverResponse4 = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "B1234563",
-				16, "CA", "CH", getRandomSingleMaritalStatus(), true);
+				16, "CA", "CH", getRandomSingleMaritalStatus(), true, false);
 		HelperCommon.updateDriver(policyNumber, addDriverResponse4.oid, updateDriverRequest);
 
 		//Add driver MORE THAN 26y and LESS THAN 50y old and OTHER THAN Single
 		addDriverRequest = DXPRequestFactory.createAddDriverRequest("Paul", "", "Do", TimeSetterUtil.getInstance().getCurrentTime().minusYears(49).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), "I");
 		DriversDto addDriverResponse5 = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "B1234564",
-				16, "CA", "CH", "M", true);
+				16, "CA", "CH", "M", true, false);
 		HelperCommon.updateDriver(policyNumber, addDriverResponse5.oid, updateDriverRequest);
 
 		//Add driver 50y old or older
 		addDriverRequest = DXPRequestFactory.createAddDriverRequest("James", "", "Fo", TimeSetterUtil.getInstance().getCurrentTime().minusYears(50).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), "I");
 		DriversDto addDriverResponse6 = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "B1234565",
-				16, "CA", "CH", "S", false);
+				16, "CA", "CH", "S", false, false);
 		HelperCommon.updateDriver(policyNumber, addDriverResponse6.oid, updateDriverRequest);
 
 		ViewDriversResponse viewEndorsementDrivers = HelperCommon.viewEndorsementDrivers(policyNumber);

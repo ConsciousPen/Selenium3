@@ -27,11 +27,12 @@ public class DXPRequestFactory {
 		return updateDriverRequest;
 	}
 
-	public static UpdateDriverRequest createUpdateDriverRequest(String gender, String licenseNumber, Integer ageFirstLicensed,//TODO-mstrazds: as it is in another branch
-			String stateLicensed, String relationToApplicantCd, String maritalStatusCd,
-			boolean permitBeforeLicense) {
+	public static UpdateDriverRequest createUpdateDriverRequest(String gender, String licenseNumber, Integer ageFirstLicensed,
+																String stateLicensed, String relationToApplicantCd, String maritalStatusCd,
+																boolean permitBeforeLicense,boolean ridesharingCoverage) {
 		UpdateDriverRequest updateDriverRequest = createUpdateDriverRequest(gender, licenseNumber, ageFirstLicensed, stateLicensed, relationToApplicantCd, maritalStatusCd);
 		updateDriverRequest.permitBeforeLicense = permitBeforeLicense;
+		updateDriverRequest.ridesharingCoverage = ridesharingCoverage;
 		return updateDriverRequest;
 	}
 

@@ -13,46 +13,51 @@ import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.metadata.CustomerMetaData;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.home_ss.ho3.functional.TestInsuranceScoreEndorsement;
 import toolkit.datax.TestData;
+import toolkit.utils.datetime.DateTimeUtils;
 
 public abstract class TestInsuranceScoreEndorsementTemplate extends PolicyBaseTest {
 
 	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 	private ApplicantTab applicantTab = new ApplicantTab();
-	private PurchaseTab purchaseTab = new PurchaseTab();
 	private ReportsTab reportsTab = new ReportsTab();
 	private BindTab bindTab = new BindTab();
 
 	private List<TestData> insuredList;
 	private String primaryInsuredFN;
+	private String primaryInsuredLN;
 	private String spouseFN;
-	private String childFN;
-	private String parentFN;
 
-	private int primaryInsuredInsuranceScoreShown;
-	private int spouseInsuranceScoreShown;
-
-	TreeMap<LocalDateTime, Integer> primaryInsuredInsuranceScoreList = new TreeMap<>();
-	TreeMap<LocalDateTime, Integer> spouseInsuranceScoreList = new TreeMap<>();
-
-	//TODO Rokas Lazdauskas: due to many blocking production issues found, this story is on hold. Need cleanup and add assertions for full coverage.
-	protected void testQualifiedNamedInsuredAddedOnMidTermEndorsement(String testData, int primaryInsuranceScoreNB, int spouseInsuranceScoreNB, int primaryInsuranceScoreAfterReordering, int spouseInsuranceScoreAfterReordering, Boolean reorderForPrimaryInsured, Boolean reorderForSpouse, Boolean reorderAt36months){
+	protected void testQualifiedNamedInsuredAddedOnMidTermEndorsement(String testData, String orderInsuranceScoreSpouse, String reorderAtRenewalSpouse, Boolean reorderAt36months){
 		//Get names for named insureds
 		insuredList = testDataManager.getDefault(TestInsuranceScoreEndorsement.class).getTestData(testData).getTestDataList("NamedInsured");
 		primaryInsuredFN = insuredList.get(0).getValue("First name");
+		primaryInsuredLN = insuredList.get(0).getValue("Last name");
 		spouseFN = insuredList.get(1).getValue("First name");
-		childFN = insuredList.get(2).getValue("First name");
-		parentFN = insuredList.get(3).getValue("First name");
 
 		mainApp().open();
-		createCustomerIndividual();
+		TestData customerTd = getStateTestData(testDataManager.customer.get(CustomerType.INDIVIDUAL), "DataGather", "TestData")
+				.adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.FIRST_NAME.getLabel()), primaryInsuredFN)
+				.adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.LAST_NAME.getLabel()), primaryInsuredLN);
 
-		createPolicy();
+		createCustomerIndividual(customerTd);
+
+		String policyNumber = createPolicy();
+		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+		LocalDateTime firstOrThirdExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		if (reorderAt36months) {
+			LocalDateTime firstRenewalExpirationDate = createRenewal(policyNumber, firstOrThirdExpirationDate);
+			createRenewal(policyNumber, firstRenewalExpirationDate);
+		}
 
 		//Create endorsement, add qualified named insured (spouse) and not qualified (e.g. child).
 		TestData policyTD = getPolicyDefaultTD();
@@ -67,38 +72,55 @@ public abstract class TestInsuranceScoreEndorsementTemplate extends PolicyBaseTe
 		applicantTab.submitTab();
 		reportsTab.fillTab(policyTD);
 
-		//In Insurance score report section can can only be seen Primary Insured and Spouse
-		assertThat(reportsTab.tblInsuranceScoreReport.getValue().toString().contains(primaryInsuredFN)).isEqualTo(Boolean.TRUE);
-		assertThat(reportsTab.tblInsuranceScoreReport.getValue().toString().contains(spouseFN)).isEqualTo(Boolean.TRUE);
-		assertThat(reportsTab.tblInsuranceScoreReport.getValue().toString().contains(childFN)).isEqualTo(Boolean.FALSE);
-		assertThat(reportsTab.tblInsuranceScoreReport.getValue().toString().contains(parentFN)).isEqualTo(Boolean.FALSE);
+//		//In Insurance score report section can can only be seen Primary Insured and Spouse
+//		assertThat(reportsTab.tblInsuranceScoreReport.getValue().toString().contains(primaryInsuredFN)).isEqualTo(Boolean.TRUE);
+//		assertThat(reportsTab.tblInsuranceScoreReport.getValue().toString().contains(spouseFN)).isEqualTo(Boolean.TRUE);
+//		assertThat(reportsTab.tblInsuranceScoreOverride.getValue().toString().contains(primaryInsuredFN)).isEqualTo(Boolean.TRUE);
+//		assertThat(reportsTab.tblInsuranceScoreOverride.getValue().toString().contains(spouseFN)).isEqualTo(Boolean.FALSE);
+//
+//		//Insurance Score should be ordered only for Primary Insured
+//		assertThat(reportsTab.tblInsuranceScoreOverride.getRowsCount()).isEqualTo(1);
 
-		assertThat(reportsTab.tblInsuranceScoreOverride.getValue().toString().contains(primaryInsuredFN)).isEqualTo(Boolean.TRUE);
-		assertThat(reportsTab.tblInsuranceScoreOverride.getValue().toString().contains(spouseFN)).isEqualTo(Boolean.FALSE);
-		assertThat(reportsTab.tblInsuranceScoreOverride.getValue().toString().contains(childFN)).isEqualTo(Boolean.FALSE);
-		assertThat(reportsTab.tblInsuranceScoreOverride.getValue().toString().contains(parentFN)).isEqualTo(Boolean.FALSE);
-
-		//Insurance Score should be ordered only for Primary Insured
-		assertThat(reportsTab.tblInsuranceScoreOverride.getRowsCount()).isEqualTo(1);
-
-		//Additional Qualified Named insureds Insurance score report is NOT ordered on midterm endorsement
+		//User should not be able to order insurance score manually on midterm endorsement
+		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", primaryInsuredFN)
+				.getCell("Report").getValue()).isNotEqualTo("Order report");
 //		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", spouseFN)
-//				.getCell("Report").isEnabled()).isEqualTo("Decline");
-//		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", spouseFN)
-//				.getCell("Order Insurance Score").isEnabled()).isEqualTo(Boolean.FALSE);
+//				.getCell("Report")).isNotEqualTo("Order report");
+
+		//PAS-27928 - Primary Insured - 'Order Insurance Score' should be automatically selected as 'Yes' and should be enabled
+//		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", primaryInsuredFN)
+//				.getCell("Order Insurance Score").controls.radioGroups.getFirst().getValue()).isEqualTo("Yes");
+//		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", primaryInsuredFN)
+//				.getCell("Order Insurance Score").controls.radioGroups.getFirst().isEnabled()).isEqualTo(Boolean.TRUE);
+//		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", primaryInsuredFN)
+//				.getCell("Reorder at renewal").controls.radioGroups.getFirst().getValue()).isEqualTo("No");
+//		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", primaryInsuredFN)
+//				.getCell("Reorder at renewal").controls.radioGroups.getFirst().isEnabled()).isEqualTo(Boolean.TRUE);
+
+		//PAS-27382 - Spouse - 'Order Insurance Score' should be automatically selected as 'Yes' and should be enabled
+		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", spouseFN)
+				.getCell("Order Insurance Score").controls.radioGroups.getFirst().getValue()).isEqualTo("Yes");
+		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", spouseFN)
+				.getCell("Order Insurance Score").controls.radioGroups.getFirst().isEnabled()).isEqualTo(Boolean.TRUE);
+		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", spouseFN)
+				.getCell("Reorder at renewal").controls.radioGroups.getFirst().getValue()).isEqualTo("No");
+		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", spouseFN)
+				.getCell("Reorder at renewal").controls.radioGroups.getFirst().isEnabled()).isEqualTo(Boolean.TRUE);
+
+		reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", spouseFN)
+				.getCell("Order Insurance Score").controls.radioGroups.getFirst().setValue(orderInsuranceScoreSpouse);
+		reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", spouseFN)
+				.getCell("Reorder at renewal").controls.radioGroups.getFirst().setValue(reorderAtRenewalSpouse);
 
 		reportsTab.submitTab();
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
 		bindTab.submitTab();
 
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		LocalDateTime firstRenewalEffectiveDate;
+		firstOrThirdExpirationDate = PolicySummaryPage.getExpirationDate();
 
-		createRenewal(policyNumber, policyExpirationDate);
-		firstRenewalEffectiveDate = PolicySummaryPage.getEffectiveDate();
+		createRenewal(policyNumber, firstOrThirdExpirationDate);
+		LocalDateTime firstOrThirdRenewalEffectiveDate = PolicySummaryPage.getEffectiveDate();
 
 		// Check insurance score details on renewal
 		policy.policyInquiry().start();
@@ -108,8 +130,18 @@ public abstract class TestInsuranceScoreEndorsementTemplate extends PolicyBaseTe
 		checkInsuranceScoreIsOnlyOrderedForPrimaryInsuredAndSpouse();
 
 		//Check that insurance score order date is correct
-		checkInsuranceScoreDate(primaryInsuredFN, getTimePoints().getRenewOfferGenerationDate(firstRenewalEffectiveDate));
-		checkInsuranceScoreDate(spouseFN, getTimePoints().getRenewOfferGenerationDate(firstRenewalEffectiveDate));
+		if (orderInsuranceScoreSpouse.equals("Decline")) {
+			checkInsuranceScoreDate(primaryInsuredFN, policyEffectiveDate);
+			assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", spouseFN)
+					.getCell("Order Date").getValue()).isEqualTo("");
+			assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", spouseFN)
+					.getCell("Order Insurance Score").getValue()).isEqualTo("Decline");
+			assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", spouseFN)
+					.getCell("Status").getValue()).isEqualTo("Declined");
+		} else {
+			checkInsuranceScoreDate(primaryInsuredFN, getTimePoints().getRenewOfferGenerationDate(firstOrThirdRenewalEffectiveDate));
+			checkInsuranceScoreDate(spouseFN, getTimePoints().getRenewOfferGenerationDate(firstOrThirdRenewalEffectiveDate));
+		}
 	}
 
 	private LocalDateTime createRenewal(String policyNumber, LocalDateTime policyExpirationDate) {
@@ -140,18 +172,9 @@ public abstract class TestInsuranceScoreEndorsementTemplate extends PolicyBaseTe
 	private void checkInsuranceScoreIsOnlyOrderedForPrimaryInsuredAndSpouse() {
 		assertThat(reportsTab.tblInsuranceScoreReport.getValue().toString().contains(primaryInsuredFN)).isEqualTo(Boolean.TRUE);
 		assertThat(reportsTab.tblInsuranceScoreReport.getValue().toString().contains(spouseFN)).isEqualTo(Boolean.TRUE);
-		assertThat(reportsTab.tblInsuranceScoreReport.getValue().toString().contains(childFN)).isEqualTo(Boolean.FALSE);
-		assertThat(reportsTab.tblInsuranceScoreReport.getValue().toString().contains(parentFN)).isEqualTo(Boolean.FALSE);
 
 		assertThat(reportsTab.tblInsuranceScoreOverride.getValue().toString().contains(primaryInsuredFN)).isEqualTo(Boolean.TRUE);
 		assertThat(reportsTab.tblInsuranceScoreOverride.getValue().toString().contains(spouseFN)).isEqualTo(Boolean.TRUE);
-		assertThat(reportsTab.tblInsuranceScoreOverride.getValue().toString().contains(childFN)).isEqualTo(Boolean.FALSE);
-		assertThat(reportsTab.tblInsuranceScoreOverride.getValue().toString().contains(parentFN)).isEqualTo(Boolean.FALSE);
-	}
-
-	private void checkInsuranceScore(String name, int insuranceScore) {
-		assertThat(reportsTab.tblInsuranceScoreOverride.getRowContains("Named Insured", name)
-				.getCell("Insurance Score").getValue()).isEqualTo(String.valueOf(insuranceScore));
 	}
 
 	private void checkInsuranceScoreDate(String name, LocalDateTime date) {
