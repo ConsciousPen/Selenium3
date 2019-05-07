@@ -1372,4 +1372,14 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="CA Coverages" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15412_viewCAPolicyLevelCoverages"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
