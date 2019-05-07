@@ -20,7 +20,7 @@ public class HomeSSDP3TestDataGenerator extends HomeSSTestDataGenerator {
 	@Override
 	public TestData getProofData(HomeSSOpenLPolicy openLPolicy) {
 		TestData proofData = super.getProofData(openLPolicy);
-		if (openLPolicy.getPolicyDiscountInformation().isUnderlyingRenterPolicy() && openLPolicy.getPolicyDiscountInformation().getProofOfTenant()) {
+		if (openLPolicy.getPolicyDiscountInformation().isUnderlyingRenterPolicy()) {
 			proofData = TestDataHelper.merge(DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_UNDERLYING_INSURANCE_POLICY.getLabel(), "Yes")), proofData);
 		}
 		return proofData;
