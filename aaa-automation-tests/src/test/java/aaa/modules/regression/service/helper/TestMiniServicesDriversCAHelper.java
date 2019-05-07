@@ -23,6 +23,7 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelper {
 	private DriverTab driverTab = new DriverTab();
+	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 
 	protected void pas25057_AddDriverCADefaultValuesBody() {
 		mainApp().open();
@@ -310,24 +311,19 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
             mainApp().open();
             String policyNumber = getCopiedPolicy();
 
-            String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            HelperCommon.createEndorsement(policyNumber, endorsementDate);
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
             // addDriver via dxp - with age less than 16 years
             String driverBday = TimeSetterUtil.getInstance().getCurrentTime().minusYears(15).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
             AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("John", "Driver", "Jones", driverBday, null);
             ErrorResponseDto addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, ErrorResponseDto.class, 422);
-
-            softly.assertThat(addDriverResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_CA.getCode());
-            softly.assertThat(addDriverResponse.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_CA.getMessage());
+			softly.assertThat(helperMiniServices.hasError(addDriverResponse, ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_CA)).isTrue();
 
             // addDriver via dxp - with birth year prior to 1900
             AddDriverRequest addDriverRequest2 = DXPRequestFactory.createAddDriverRequest("John", "Driver", "Jones", "1899-12-20", null);
             ErrorResponseDto addDriverResponse2 = HelperCommon.addDriver(policyNumber, addDriverRequest2, ErrorResponseDto.class, 422);
-
-            softly.assertThat(addDriverResponse2.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.TOO_OLD_DRIVER_ERROR_CA.getCode());
-            softly.assertThat(addDriverResponse2.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.TOO_OLD_DRIVER_ERROR_CA.getMessage());
+			softly.assertThat(helperMiniServices.hasError(addDriverResponse2, ErrorDxpEnum.Errors.TOO_OLD_DRIVER_ERROR_CA)).isTrue();
 
             // addDriver via dxp
             AddDriverRequest addDriverRequest3 = DXPRequestFactory
