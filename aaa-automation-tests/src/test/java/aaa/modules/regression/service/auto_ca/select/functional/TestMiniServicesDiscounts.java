@@ -52,7 +52,7 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Jarred", "", "Benjami", TimeSetterUtil.getInstance().getCurrentTime().minusYears(25).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), "I");
 		DriversDto addDriverResponse1 = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "B1234560",
-				16, "CA", "CH", "S", true);//TODO-mstrazds:random
+				16, "CA", "CH", "W", true);//TODO-mstrazds: getRandomSingleMaritialStatus
 		HelperCommon.updateDriver(policyNumber, addDriverResponse1.oid, updateDriverRequest);
 
 		//Add driver LESS THAN 26y old and other than Single
@@ -66,14 +66,14 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 		addDriverRequest = DXPRequestFactory.createAddDriverRequest("Tim", "", "Bo", TimeSetterUtil.getInstance().getCurrentTime().minusYears(27).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), "I");
 		DriversDto addDriverResponse3 = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "B1234562",
-				16, "CA", "CH", "S", true);//TODO-mstrazds:random
+				16, "CA", "CH", "W", true);//TODO-mstrazds: getRandomSingleMaritialStatus
 		HelperCommon.updateDriver(policyNumber, addDriverResponse3.oid, updateDriverRequest);
 
 		//Add driver MORE THAN 26y and less than 50y old and Single
 		addDriverRequest = DXPRequestFactory.createAddDriverRequest("Tim", "", "Co", TimeSetterUtil.getInstance().getCurrentTime().minusYears(49).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), "I");
 		DriversDto addDriverResponse4 = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "B1234563",
-				16, "CA", "CH", "S", true);//TODO-mstrazds:random
+				16, "CA", "CH", "W", true);//TODO-mstrazds: getRandomSingleMaritialStatus
 		HelperCommon.updateDriver(policyNumber, addDriverResponse4.oid, updateDriverRequest);
 
 		//Add driver MORE THAN 26y and LESS THAN 50y old and OTHER THAN Single
@@ -97,7 +97,7 @@ public class TestMiniServicesDiscounts extends AutoCaSelectBaseTest {
 		assertThat(helperMiniServices.findDriver(viewEndorsementDrivers, addDriverResponse1.oid).availableDiscounts.size()).isEqualTo(2);
 
 		//Driver 2 - Check that does not have Good Student Discount, New Driver Discount, Mature Driver Discount
-		//checkThatDriverDoesNotHaveAvailableDiscounts(addDriverResponse2.oid, viewEndorsementDrivers);
+		checkThatDriverDoesNotHaveAvailableDiscounts(addDriverResponse2.oid, viewEndorsementDrivers);
 
 		//Driver 3 - Check that does not have Good Student Discount, New Driver Discount, Mature Driver Discount
 		checkThatDriverDoesNotHaveAvailableDiscounts(addDriverResponse3.oid, viewEndorsementDrivers);
