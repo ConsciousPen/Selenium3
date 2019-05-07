@@ -1,6 +1,6 @@
 TestData_Full: {
   DriverTab: ['@DriverTab_FinancialDriver', '@DriverTab_ExcludedDriver', '@DriverTab_LearnersPermitDriver', '@DriverTab_WithActivity'],
-  VehicleTab: ['@VehicleTab_Regular', '@VehicleTab_EnrolledInUBI', '@VehicleTab_GolfCart', '@Vehicle_Trailer', '@Vehicle_withDamage'], 
+  VehicleTab: ['@VehicleTab_Regular', '@VehicleTab_EnrolledInUBI', '@VehicleTab_GolfCart', '@VehicleTab_Trailer', '@Vehicle_withDamage'], 
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Full', 
   DocumentsAndBindTab: '@DocumentsAndBindTab_Full', 
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'

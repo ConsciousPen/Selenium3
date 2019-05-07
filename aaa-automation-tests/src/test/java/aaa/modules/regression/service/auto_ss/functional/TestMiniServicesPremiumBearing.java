@@ -589,6 +589,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.NY, Constants.States.VA})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227"})
 	public void pas10227_ViewPremiumServicePolicy(@Optional("VA") String state) {
 
@@ -607,7 +608,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227", "PAS-11810"})
-	public void pas10227_ViewPremiumServicePendedEndorsement(@Optional("VA") String state) {
+	public void pas10227_ViewPremiumServicePendedEndorsement(@Optional("NY") String state) {
 
 		pas10227_ViewPremiumServiceForPendedEndorsement();
 	}
@@ -850,4 +851,13 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		return AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM;
 	}
 
+	@Override
+	protected String getProductCd() {
+		return "AAA_SS";
+	}
+
+	@Override
+	protected String getPolicyFormCd() {
+		return null;
+	}
 }

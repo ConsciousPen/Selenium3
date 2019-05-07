@@ -14,6 +14,16 @@ GeneralTab_NJ: {
   Immediate prior carrier: 'CSAA Mid-Atlantic Insurance Company of New Jersey',
 }
 
+# ====================== TestData AZ =======================
+TestData_AZ: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab',
+  GeneralTab: '@GeneralTab_AZ',
+}
+
+GeneralTab_AZ: {
+  Immediate prior carrier: 'CSAA Fire & Casualty Insurance Company',
+}
+
 GeneralTab: {
   Immediate prior carrier: 'CSAA Affinity Insurance Company',
 }

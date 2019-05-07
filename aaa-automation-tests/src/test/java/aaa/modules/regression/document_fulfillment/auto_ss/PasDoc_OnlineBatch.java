@@ -587,6 +587,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_setPermitDriver, EventName.ENDORSEMENT_ISSUE, AAPDXX);
 	}
 	
+	/*
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
@@ -610,7 +611,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		new DocumentsAndBindTab().saveAndExit();
 		log.info("TEST: Standard Quote: Created quote# " + PolicySummaryPage.getPolicyNumber());
 	}
-	
+	*/
 	
 	private void verifyAA02AZcontainsForm(String policyNumber, String form, boolean expectedPresent) {
 		verifyAA02AZcontainsForm(policyNumber, null, form, expectedPresent);

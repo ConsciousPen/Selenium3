@@ -44,4 +44,13 @@ public class VehicleUpdateDto  implements RestBodyRequest {
 
 	@ApiModelProperty(value = "Has Antilock Breaks?", example = "true")
 	public Boolean antiLockBreaks;
+
+	@ApiModelProperty(value = "Miles one-way to work or school. CA product specific field.", example = "15")
+	public String distanceOneWayToWork;
+
+	@ApiModelProperty(value = "Odometer reading. CA product specific field.", example = "4654")
+	public String odometerReading;
+
+	@ApiModelProperty(value = "Customer Declared Annual Miles. CA product specific field.", example = "13000")
+	public String declaredAnnualMiles;
 }

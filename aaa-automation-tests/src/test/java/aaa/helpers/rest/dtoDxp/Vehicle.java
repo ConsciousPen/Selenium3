@@ -12,6 +12,7 @@ public class Vehicle implements RestBodyRequest {
 
 	@ApiModelProperty(value = "Model year", example = "2003")
 	private static final String VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO = "PPA";
+	private static final String VEHICLE_TYPE_REGULAR = "Regular";
 	private static final String VEHICLE_STATUS_PENDING = "pending";
 	private static final String VEHICLE_STATUS_ACTIVE = "active";
 	private static final String VEHICLE_STATUS_PENDING_REMOVAL = "pendingRemoval";
@@ -96,6 +97,17 @@ public class Vehicle implements RestBodyRequest {
 	@ApiModelProperty(value = "Has Antilock Breaks?", example = "true")
 	public Boolean antiLockBreaks;
 
+	@ApiModelProperty(value = "Miles one-way to work or school. CA product specific field.", example = "15")
+	public String distanceOneWayToWork;
+
+	@ApiModelProperty(value = "Odometer reading. CA product specific field.", example = "4654")
+	public String odometerReading;
+
+	@ApiModelProperty(value = "Odometer reading date in IS8601 format (yyyy-MM-dd).. CA product specific field.", example = "2012-02-21")
+	public String odometerReadingDate;
+
+	@ApiModelProperty(value = "Customer Declared Annual Miles. CA product specific field.", example = "13000")
+	public String declaredAnnualMiles;
 
 	public static final Comparator<Vehicle> ACTIVE_POLICY_COMPARATOR = (vehicle1, vehicle2) -> ComparisonChain.start()
 			.compareTrueFirst(VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO.equals(vehicle1.vehTypeCd),
@@ -104,6 +116,8 @@ public class Vehicle implements RestBodyRequest {
 					VEHICLE_STATUS_PENDING.equals(vehicle2.vehicleStatus))
 			.compareTrueFirst(VEHICLE_STATUS_ACTIVE.equals(vehicle1.vehicleStatus),
 					VEHICLE_STATUS_ACTIVE.equals(vehicle2.vehicleStatus))
+			.compareTrueFirst(VEHICLE_TYPE_REGULAR.equals(vehicle1.vehTypeCd),
+					VEHICLE_TYPE_REGULAR.equals(vehicle2.vehTypeCd))
 			.compare(vehicle1.oid, vehicle2.oid)
 			.result();
 
@@ -114,6 +128,8 @@ public class Vehicle implements RestBodyRequest {
 					VEHICLE_STATUS_PENDING.equals(vehicle2.vehicleStatus))
 			.compareTrueFirst(VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO.equals(vehicle1.vehTypeCd),
 					VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO.equals(vehicle2.vehTypeCd))
+			.compareTrueFirst(VEHICLE_TYPE_REGULAR.equals(vehicle1.vehTypeCd),
+					VEHICLE_TYPE_REGULAR.equals(vehicle2.vehTypeCd))
 			.compare(vehicle1.oid, vehicle2.oid)
 			.result();
 

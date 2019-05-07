@@ -1,0 +1,34 @@
+TestData_Rideshare: {
+DriverTab: ['@DriverTab2', '@DriverTab3']
+ }
+DriverTab2: {
+  DriverSearchDialog: {},
+  Occupation: 'Driver',
+  Age First Licensed: 18,
+  License Type: 'Valid',
+  "License #": 'B1234567',
+  Permit Before License: 'Yes'
+}
+
+DriverTab3: {
+    Add drivers: 'Yes',
+    DriverSearchDialog: {},
+    Driver Type: 'Available for Rating',
+    Rel. to First Named Insured: 'Sibling',
+    First Name: 'Laura',
+    Middle Name: 'Sara',
+    Last Name: 'Smith',
+    Suffix: 'III',
+    Date of Birth: '12/12/1991',
+    Gender: 'Female',
+    Marital Status: Divorced,
+    Permit Before License: 'Yes',
+    Occupation: 'index=1',
+    License Type: 'Valid',
+    Age First Licensed: '18',
+    Ridesharing Coverage: 'Yes',
+    "License #": 'A1234567'
+
+
+}
+

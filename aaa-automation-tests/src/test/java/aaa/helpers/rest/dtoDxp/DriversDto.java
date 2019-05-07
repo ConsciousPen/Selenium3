@@ -82,6 +82,9 @@ public class DriversDto implements RestBodyRequest {
 	@ApiModelProperty(value = "Age First Licensed", example = "18")
 	public Integer ageFirstLicensed;
 
+	@ApiModelProperty(value = "Permit before license. CA specific Yes/No field.", example = "18")
+	public Boolean permitBeforeLicense;
+
 	@ApiModelProperty(value = "Driving license info", dataType = "com.eisgroup.aaa.policy.services.dto.DrivingLicense")
 	public DrivingLicense drivingLicense;
 
@@ -96,6 +99,9 @@ public class DriversDto implements RestBodyRequest {
 
 	@ApiModelProperty(value = "Available Actions for driver")
 	public List<String> availableActions;
+
+	@ApiModelProperty(value = "Ridesharing coverage indicator. CA specific Yes/No field.", example = "18")
+	public Boolean ridesharingCoverage;
 
 	@ApiModelProperty(value = "List of driver related validation errors", readOnly = true)
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)

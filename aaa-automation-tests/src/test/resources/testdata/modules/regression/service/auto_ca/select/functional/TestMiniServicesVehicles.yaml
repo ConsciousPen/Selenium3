@@ -1,0 +1,146 @@
+TestData_VehiclesGaragingAddress: {
+    VehicleTab: ['@VehicleTab_GaragingAddress_1', '@VehicleTab_GaragingAddress_2'],
+    AssignmentTab: '@AssignmentTab'
+}
+
+VehicleTab_GaragingAddress_1: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: WDCYC7BB0B6729451,
+    Primary Use: 'contains=Commute',
+    'Is Garaging different from Residential?': 'Yes',
+    'Miles One-way to Work or School': '15',
+    Odometer Reading: '22000',
+    Zip Code: '23703',
+    'Address Line 1': '4112 Forrest Hills Dr',
+    Validate Address: Click,
+    Validate Address Dialog: {},
+    Order Prefill: click
+}
+
+VehicleTab_GaragingAddress_2: {
+    Usage: Pleasure,
+    VIN: 1FM5K8D86JGA29926,
+    Primary Use: 'contains=Commute',
+    "Is Garaging different from Residential?": 'Yes',
+    "Miles One-way to Work or School": '16',
+    Odometer Reading: '25000',
+    Zip Code: '23703',
+    'Address Line 1': '4112 Forrest Hills Dr',
+    Validate Address: Click,
+    Validate Address Dialog: {},
+   Order Prefill: click
+}
+
+AssignmentTab: {
+        DriverVehicleRelationshipTable: [{
+                   Primary Driver: index=1,
+                    }, {
+                    Primary Driver: index=1,
+                                         }]
+    }
+
+TestData_VehicleOtherTypes: {
+    VehicleTab: ['@VehicleTab_1','@VehicleTab_Camper','@VehicleTab_2','@VehicleTab_Motor_Home', '@VehicleTab_AntiqueClassic', '@VehicleTab_Trailer'],
+    AssignmentTab: '@AssingmentTab_VehOtherTypes'
+}
+
+VehicleTab_1: {
+    Add Vehicle: Click,
+    Primary Use: 'contains=Commute',
+    Usage: Pleasure,
+    VIN: WDCYC7BB0B6729451,
+    'Miles One-way to Work or School': '15',
+    Odometer Reading: '29000',
+    Odometer Reading Date: $<today>,
+}
+
+VehicleTab_Camper: {
+    Add Vehicle: Click,
+    Type: Camper,
+    Usage: Pleasure,
+    VIN: JDGKDIGDU,
+    Make: 'OTHER',
+    Other Make: 'Other Make',
+    Other Model: 'Model',
+    Other Series: 'Series',
+    'Other Body Style': 'Sedan',
+    'Value($)': '10000',
+    Primary Use: 'contains=Commute',
+    'Miles One-way to Work or School': '15',
+    Customer Declared Annual Miles: '3000',
+}
+
+VehicleTab_2: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1GAZG1FG7D1145543,
+    Primary Use: 'contains=Commute',
+    'Miles One-way to Work or School': '99',
+    Odometer Reading: '39000',
+    Odometer Reading Date: $<today>,
+}
+
+VehicleTab_Motor_Home: {
+    Add Vehicle: Click,
+    Type: Motor Home,
+    VIN: 5B4MP67G123353230,
+    Make: 'OTHER',
+    Other Make: 'Motor',
+    Other Model: 'Motor',
+    Other Series: 'Motor',
+    Other Body Style: 'Motor',
+    'Value($)': '50000',
+    Primary Use: 'contains=Commute',
+    'Miles One-way to Work or School': '12',
+    Odometer Reading: '49000',
+}
+
+VehicleTab_AntiqueClassic: {
+        Add Vehicle: Click,
+        Type: Antique / Classic,
+        Usage: Pleasure,
+        VIN: DDFDFCCVCVCV,
+        Year: '1950',
+        Make: 'OTHER',
+        Other Make: 'Other Make',
+        Other Model: 'Model',
+        Other Series: 'Series',
+        'Other Body Style': 'Sedan',
+        'Value($)': '10000',
+        Primary Use: 'contains=Commute',
+        'Miles One-way to Work or School': '12',
+        Odometer Reading: '28000',
+        Odometer Reading Date: $<today>,
+}
+
+VehicleTab_Trailer: {
+    Add Vehicle: Click,
+    Type: Trailer,
+    Usage: Pleasure,
+    VIN: KFLKFKF,
+    Make: 'OTHER',
+    Other Make: 'Other Make',
+    Other Model: 'Model',
+    Other Series: 'Series',
+    'Other Body Style': 'Sedan',
+    'Value($)': '10000',
+    Primary Use: 'contains=Commute',
+    'Miles One-way to Work or School': '15',
+}
+
+AssingmentTab_VehOtherTypes: {
+  DriverVehicleRelationshipTable: [{
+    Primary Driver: index=1,
+  }, {
+   Primary Driver: index=1,
+  }, {
+    Primary Driver: index=1,
+   }, {
+    Primary Driver: index=1,
+    }, {
+     Primary Driver: index=1,
+   }, {
+    Primary Driver: index=1,
+   }]
+}
