@@ -308,7 +308,6 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
         assertSoftly(softly -> {
 
             mainApp().open();
-            createCustomerIndividual();
             String policyNumber = getCopiedPolicy();
 
             String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -330,7 +329,7 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
             softly.assertThat(addDriverResponse2.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.TOO_OLD_DRIVER_ERROR_CA.getCode());
             softly.assertThat(addDriverResponse2.errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.TOO_OLD_DRIVER_ERROR_CA.getMessage());
 
-            // addDriver via dxp - with birth year prior to 1900
+            // addDriver via dxp
             AddDriverRequest addDriverRequest3 = DXPRequestFactory
                     .createAddDriverRequest("Jane", "Driver", "Smith", "1970-12-20", null);
             DriversDto addDriverResponse3 = HelperCommon.addDriver(policyNumber, addDriverRequest3, DriversDto.class);
