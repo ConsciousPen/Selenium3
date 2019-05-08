@@ -4391,7 +4391,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertThat(updateCoverageResponse).isEqualToComparingFieldByFieldRecursively(viewEndorsementCoverages);
 	}
 
-	private void validateViewPolicyCoveragesIsTheSameAsViewEndorsementCoverage(String policyNumber, PolicyCoverageInfo viewEndorsementCoverages) {
+	protected void validateViewPolicyCoveragesIsTheSameAsViewEndorsementCoverage(String policyNumber, PolicyCoverageInfo viewEndorsementCoverages) {
 		PolicyCoverageInfo viewPolicyCoverages = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		assertThat(viewPolicyCoverages).isEqualToComparingFieldByFieldRecursively(viewEndorsementCoverages);
 	}
