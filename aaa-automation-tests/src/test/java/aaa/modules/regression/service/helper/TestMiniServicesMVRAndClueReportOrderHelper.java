@@ -501,7 +501,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 
 	protected void pas15372_driverDetailsAndMvrRulesThatProvidedBody() {
 		mainApp().open();
-		String policyNumber = "CAAC926232040";
+		String policyNumber = getCopiedPolicy();
 
 		String oidDriver1 = addAndUpdateDriver(policyNumber, "Name", "Mismatch", "1970-01-01", "B15383001", "SP", "VA", "female");
 
