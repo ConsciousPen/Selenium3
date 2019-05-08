@@ -17,7 +17,7 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 
 	private List<AutoCaSelectOpenLCoverage> optionalCoverages;
 
-	@RequiredField
+	//@RequiredField
 	private AutoCaSelectOpenLDriver primaryDriver;
 
 	private AutoCaSelectOpenLDriver manuallyAssignedDriver;
