@@ -777,6 +777,16 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="MVR and CLUE order AZ" parallel="methods">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <include name="pas15372_driverDetailsAndMvrRulesThatProvided"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="pas18624_CustomisedEquipment" parallel="methods">
         <parameter name="state" value="VA, AZ"/>
         <classes>
