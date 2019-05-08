@@ -151,4 +151,27 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversCAHelper {
 	{
 		pas25055_ViewDriverServiceMetadataServiceRideshareQuestionBody(getPolicyType());
 	}
+
+    /**
+     * @author Bob Van
+     * @name Update Drivers service, set marital status.
+     * @scenario
+     * 1. Create policy on Pas.
+     * 2. Create endorsement outside of PAS
+     * 3. Try add 2nd driver outside of PAS, with birth year prior to 1900
+     * 4. verify response error
+     * 5. Try add 2nd driver outside of PAS, with age less than 16
+     * 6. verify response error
+     * 7. Add driver outside of PAS
+     * 8. Try update driver outside of PAS with relation to FNI/applicant as Other (OT)
+     * 9. verify response validation error
+     * 10. Update driver outside of PAS with relation to FNI/applicant as Spouse (SP)
+     * 11. verify response data and default values in PAS
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-28684"})
+    public void pas28684_AddUpdateDriverValidationsAndDefaults(@Optional("CA") String state) {
+        pas28684_AddUpdateDriverValidationsAndDefaultsBody(getPolicyType());
+    }
 }
