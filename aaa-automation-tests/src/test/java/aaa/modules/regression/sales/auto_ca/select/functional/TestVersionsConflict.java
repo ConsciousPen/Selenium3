@@ -449,6 +449,10 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 		return getTestSpecificTD("TestData_AtomicMerge_Scenario2_Version2");
 	}
 
+	private TestData getAtomicMergeScenario2_Ren_Version2() {
+		return getTestSpecificTD("TestData_AtomicMerge_Scenario2_Version2");
+	}
+
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-27125"})
@@ -467,7 +471,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-27125"})
 	public void pas27125_renewalMergeAtomicMergeAssignment_Scenario2(@Optional("CA") String state) {
-		renewalMergeAtomicMerge(getNBPolicyForAtomicMergeScenario2(), getAtomicMergeScenario2_Version1(), getAtomicMergeScenario2_Version2(), VersionsConflictConstants.ATOMIC_MERGE_SCENARIO2,  VersionsConflictConstants.ATOMIC_MERGE_SCENARIO2_VERSION1, "AssignmentTab", "DriverVehicleRelationshipTable", true);
+		renewalMergeAtomicMerge(getNBPolicyForAtomicMergeScenario2(), getAtomicMergeScenario2_Version1(), getAtomicMergeScenario2_Ren_Version2(), VersionsConflictConstants.ATOMIC_MERGE_SCENARIO2,  VersionsConflictConstants.ATOMIC_MERGE_SCENARIO2_VERSION1, "AssignmentTab", "DriverVehicleRelationshipTable", true);
 	}
 
 	private TestData getNBPolicyForAtomicMergeScenario3() {
