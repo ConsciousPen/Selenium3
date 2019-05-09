@@ -2549,7 +2549,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			String policyNumber = getCopiedPolicy();
 
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
-			AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Ponia", "Jovita", "Puk", "1991-05-03", "");
+			String birthDate = TimeSetterUtil.getInstance().getCurrentTime().minusYears(27).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Ponia", "Jovita", "Puk", birthDate, "");
 			DriversDto addDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class, 201);
 			String driverOid = addDriver.oid;
 
@@ -2623,24 +2624,24 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
-    protected void verifyDiscounts(DiscountSummary policyDiscountsResponse) {
-        assertThat(policyDiscountsResponse.policyDiscounts.get(0).discountCd.equals("MPD"));
-        assertThat(policyDiscountsResponse.policyDiscounts.get(0).discountName.equals("Multi-Policy Discount"));
+	protected void verifyDiscounts(DiscountSummary policyDiscountsResponse) {
+		assertThat(policyDiscountsResponse.policyDiscounts.get(0).discountCd).isEqualTo("MPD");
+		assertThat(policyDiscountsResponse.policyDiscounts.get(0).discountName).isEqualTo("Multi-Policy Discount");
 
-        assertThat(policyDiscountsResponse.policyDiscounts.get(1).discountCd.equals("MVD"));
-        assertThat(policyDiscountsResponse.policyDiscounts.get(1).discountName.equals("Multi-Vehicle Discount"));
+		assertThat(policyDiscountsResponse.policyDiscounts.get(1).discountCd).isEqualTo("MVD");
+		assertThat(policyDiscountsResponse.policyDiscounts.get(1).discountName).isEqualTo("Multi-Vehicle Discount");
 
-        assertThat(policyDiscountsResponse.driverDiscounts.get(0).discountCd.equals("GDD"));
-        assertThat(policyDiscountsResponse.driverDiscounts.get(0).discountName.equals("Good Driver Discount"));
+		assertThat(policyDiscountsResponse.driverDiscounts.get(0).discountCd).isEqualTo("GDD");
+		assertThat(policyDiscountsResponse.driverDiscounts.get(0).discountName).isEqualTo("Good Driver Discount");
 
-        assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountCd.equals("MDD"));
-        assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountName.equals("Mature Driver Discount"));
+		assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountCd).isEqualTo("MDD");
+		assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountName).isEqualTo("Mature Driver Discount");
 
-        assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountCd.equals("NDD"));
-        assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountName.equals("New Driver Discount"));
+		assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountCd).isEqualTo("NDD");
+		assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountName).isEqualTo("New Driver Discount");
 
-        assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountCd.equals("GSD"));
-        assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountName.equals("Good Student Discount"));
+		assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountCd).isEqualTo("GSD");
+		assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountName).isEqualTo("Good Student Discount");
     }
 
     protected void driverLevelDiscountsCheck(DiscountSummary policyDiscountsResponse, String discountCode, String discountName, String oid) {
