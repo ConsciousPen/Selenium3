@@ -97,6 +97,9 @@ public class DriversDto implements RestBodyRequest {
 	@JsonProperty("firstLicenseAge")
 	public Integer firstLicenseAge;
 
+	@ApiModelProperty(value = "Available Discounts for driver")
+	public List<DiscountInfo> availableDiscounts;
+
 	@ApiModelProperty(value = "Available Actions for driver")
 	public List<String> availableActions;
 
