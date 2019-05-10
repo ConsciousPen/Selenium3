@@ -19,7 +19,7 @@ public class VersionsConflictConstants {
 
 	public static final String SELECT_DRIVER_OID_QUERY = "select d.firstname || ' ' || d.lastname as name, d.oid from policysummary ps \n" +
 			"join driver d on ps.policydetail_id = d.policydetail_id \n" +
-			"where ps.policynumber = 'CAAS952918622' and ps.revisionno = '4'";
+			"where ps.policynumber = '%1$s' and ps.revisionno = '4'";
 
 	//Values that are not in Test Data, but are used in comparison
 	static final Multimap<String, String> PREDEFINED_EXPECTED_VALUES = ImmutableListMultimap.<String, String>builder()
