@@ -7,16 +7,18 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.impl.PasDocImpl;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.xml.model.pasdoc.DataElement;
+import aaa.helpers.xml.model.pasdoc.Document;
+import aaa.helpers.xml.model.pasdoc.DocumentGenerationRequest;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
-import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -25,6 +27,7 @@ import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static aaa.main.enums.DocGenEnum.Documents.*;
@@ -54,99 +57,105 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
         List<LocalDateTime> installmentDueDate;
         Dollar minDue;
         mainApp().open();
-        TestData td = getPolicyTD().adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Monthly - Zero Down");
+        TestData td = getPolicyTD().adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Eleven Pay - Standard");
         createCustomerIndividual();
         String policyNumber = createPolicy(td);
         BillingSummaryPage.open();
         installmentDueDate = BillingHelper.getInstallmentDueDates();
+        //1a
         new BillingAccount().generateFutureStatement().perform();
         assertThat(BillingSummaryPage.tableInstallmentSchedule.getRow(1).getCell(BillingConstants.BillingInstallmentScheduleTable.BILLED_STATUS).getValue())
                 .isEqualTo(BillingConstants.InstallmentScheduleBilledStatus.BILLED);
         assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).getValue())
                 .isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
 
-        //DD1+8
-        log.info(DateTimeUtils.getCurrentDateTime().toString());
+        //1b DD1+8
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(1)));
-        log.info(DateTimeUtils.getCurrentDateTime().toString());
         JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
         searchForPolicy(policyNumber);
         assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
-        log.info(DateTimeUtils.getCurrentDateTime().toString());
-        //+8
+        //1c cancelDueDate(+8)
         LocalDateTime cancelDueDate = getTimePoints().getCancellationDate(DateTimeUtils.getCurrentDateTime());
         TimeSetterUtil.getInstance().nextPhase(cancelDueDate);
-        log.info(DateTimeUtils.getCurrentDateTime().toString());
+        searchForPolicy(policyNumber);
         JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
         mainApp().open();
         SearchPage.openBilling(policyNumber);
         PasDocImpl.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.AH67XX);
-        assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell("Subtype/Reason")
+        assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(3).getCell("Subtype/Reason")
                 .getValue()).isEqualTo(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM);
-        //+10
-        LocalDateTime reinstatementDueDate = getTimePoints().getInsuranceRenewalReminderDate(DateTimeUtils.getCurrentDateTime());
+        //2a reinstatementDueDate(+10)
+        LocalDateTime reinstatementDueDate = DateTimeUtils.getCurrentDateTime().plusDays(10);
         TimeSetterUtil.getInstance().nextPhase(reinstatementDueDate);
         searchForPolicy(policyNumber);
         policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
         BillingSummaryPage.open();
         minDue = new Dollar(BillingSummaryPage.getMinimumDue());
+        //2b
         new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+        //2c
         new BillingAccount().generateFutureStatement().perform();
-        assertThat(BillingSummaryPage.tableInstallmentSchedule.getRow(3).getCell(BillingConstants.BillingInstallmentScheduleTable.BILLED_STATUS).getValue())
+        assertThat(BillingSummaryPage.tableInstallmentSchedule.getRow(4).getCell(BillingConstants.BillingInstallmentScheduleTable.BILLED_STATUS).getValue())
                 .isEqualTo(BillingConstants.InstallmentScheduleBilledStatus.BILLED);
         assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).getValue())
                 .isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
 
 
-        //DD3+8
+        //2d DD3+8
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(3)));
         JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
-        //+8
-        LocalDateTime cancelDueDate2 = getTimePoints().getCancellationDate(DateTimeUtils.getCurrentDateTime().plusDays(8));
+        searchForPolicy(policyNumber);
+        //2e cancelDueDate(+8)
+        LocalDateTime cancelDueDate2 = getTimePoints().getCancellationDate(DateTimeUtils.getCurrentDateTime());
         TimeSetterUtil.getInstance().nextPhase(cancelDueDate2);
         JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
         mainApp().open();
         SearchPage.openBilling(policyNumber);
         PasDocImpl.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.AH67XX);
-        assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell("Subtype/Reason")
+        assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(3).getCell("Subtype/Reason")
                 .getValue()).isEqualTo(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM);
 
-
-        //+10
-        LocalDateTime reinstatementDueDate2 = getTimePoints().getInsuranceRenewalReminderDate(DateTimeUtils.getCurrentDateTime());
+        //test scenario 28
+        // 1a reinstatementDueDate(+10)
+        LocalDateTime reinstatementDueDate2 = DateTimeUtils.getCurrentDateTime().plusDays(10);
         TimeSetterUtil.getInstance().nextPhase(reinstatementDueDate2);
         searchForPolicy(policyNumber);
         policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
         BillingSummaryPage.open();
         minDue = new Dollar(BillingSummaryPage.getMinimumDue());
+        //1b
         new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+        //1c
         new BillingAccount().generateFutureStatement().perform();
         assertThat(BillingSummaryPage.tableInstallmentSchedule.getRow(6).getCell(BillingConstants.BillingInstallmentScheduleTable.BILLED_STATUS).getValue())
                 .isEqualTo(BillingConstants.InstallmentScheduleBilledStatus.BILLED);
         assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).getValue())
                 .isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
 
-        //DD5+8
+        //1d DD5+8
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(5)));
         JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
         searchForPolicy(policyNumber);
         assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
-        //+8
+        //1e cancelDueDate(+8)
         LocalDateTime cancelDueDate3 = getTimePoints().getCancellationDate(DateTimeUtils.getCurrentDateTime());
         TimeSetterUtil.getInstance().nextPhase(cancelDueDate3);
         JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
         mainApp().open();
         SearchPage.openBilling(policyNumber);
         PasDocImpl.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.AH63XX);
-        assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell("Subtype/Reason")
+        assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(3).getCell("Subtype/Reason")
                 .getValue()).isEqualTo(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM);
 
+        //2
         String policy_for_cancel1 = createPolicy();
         policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
                 .adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
                         "Underwriting - Substantial Increase in Hazard"));
         PasDocImpl.verifyDocumentsGenerated(policy_for_cancel1, DocGenEnum.Documents.AH63XX);
 
+
+        //3
         String policy_for_cancel2 = createPolicy();
         policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
                 .adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
@@ -245,9 +254,13 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
         policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData").adjust(TestData
                         .makeKeyPath("CancelNoticeActionTab", "Cancellation Reason"),
                 "Underwriting - Fraudulent Misrepresentation"));
-
         PasDocImpl.verifyDocumentsGenerated(policyNumber, AH61XX);
-        ////AASRAZ,AHAUXX3
+
+        String policyNumber2 = createPolicy();
+        policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData").adjust(TestData
+                        .makeKeyPath("CancelNoticeActionTab", "Cancellation Reason"),
+                "Underwriting - Substantial Increase in Hazard"));
+        PasDocImpl.verifyDocumentsGenerated(policyNumber2, AH61XX);
     }
 
     @Parameters({"state"})
@@ -264,7 +277,6 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(renewalDueDate));
         JobUtils.executeJob(Jobs.policyDoNotRenewAsyncJob);
         PasDocImpl.verifyDocumentsGenerated(policyNumber, AH65XX);
-        //AASRAZ,AHAUXX3
     }
 
     @Parameters({"state"})
@@ -274,37 +286,57 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
 
         List<LocalDateTime> installmentDueDates;
 
-        SoapJobActions service = new SoapJobActions();
-        if (!service.isJobExist(JobGroup.fromSingleJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob.getJobName()))) {
-            service.createJob(JobGroup.fromSingleJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob.getJobName()));
-        }
-
         mainApp().open();
-        TestData td = getPolicyTD().adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Monthly - Zero Down");
+        TestData td = getPolicyTD().adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Eleven Pay - Standard");
         createCustomerIndividual();
         String policyNumber = createPolicy(td);
         BillingSummaryPage.open();
         installmentDueDates = BillingHelper.getInstallmentDueDates();
+        LocalDateTime cNDate = getTimePoints().getCancellationNoticeDate(installmentDueDates.get(7));
+        LocalDateTime cDate = getTimePoints().getCancellationDate(cNDate);
 
-        TimeSetterUtil.getInstance().nextPhase(installmentDueDates.get(7));
+        for (int dueDate = 1; dueDate < 7; dueDate++) {
+            TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(dueDate)));
+            JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+            TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(dueDate)));
+            JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
+        }
+
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(7)));
+        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+        TimeSetterUtil.getInstance().nextPhase(cNDate);
+        JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
+        TimeSetterUtil.getInstance().nextPhase(cDate);
+        JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
+
         searchForPolicy(policyNumber);
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
-        LocalDateTime cDate = getTimePoints().getCancellationDate(installmentDueDates.get(6)).with(DateTimeUtils.previousWorkingDay);
 
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillFirst(cDate));
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillFirst(cNDate));
         JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob);
+        searchForPolicy(policyNumber);
         PasDocImpl.verifyDocumentsGenerated(true, true, policyNumber, _55_6101);
 
         //scenario 37
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillSecond(cDate));
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillSecond(cNDate));
         JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob);
         PasDocImpl.verifyDocumentsGenerated(true, true, policyNumber, _55_6102);
 
         //scenario 38
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillThird(cDate));
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillThird(cNDate));
         JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob);
         PasDocImpl.verifyDocumentsGenerated(true, true, policyNumber, _55_6103);
     }
 
+    private int countDocuments(String policyNumber, DocGenEnum.EventName eventName, DocGenEnum.Documents document) {
+        DocumentGenerationRequest docGenReq = PasDocImpl.getDocumentRequest(policyNumber, eventName, document);
+        Document doc = docGenReq.getDocuments().stream().filter(c -> document.getIdInXml().equals(c.getTemplateId())).findFirst().get();
+        List<String> dataElementList = new ArrayList<>();
+        for (DataElement dataElement : doc.getAdditionalData().getDataElement()) {
+            dataElementList.add(dataElement.getName());
+        }
+        log.info("Count of documents: " + dataElementList.size());
+        return dataElementList.size();
+    }
 }

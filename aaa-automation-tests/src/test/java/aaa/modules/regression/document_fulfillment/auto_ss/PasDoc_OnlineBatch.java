@@ -630,7 +630,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		assertThat(isFormPresent).as(err_msg + form).isEqualTo(expectedPresent);
 	}
 
-	protected int countDocuments(String policyNumber, DocGenEnum.EventName eventName, DocGenEnum.Documents document) {
+	private int countDocuments(String policyNumber, DocGenEnum.EventName eventName, DocGenEnum.Documents document) {
 		DocumentGenerationRequest docGenReq = PasDocImpl.getDocumentRequest(policyNumber, eventName, document);
 		Document doc = docGenReq.getDocuments().stream().filter(c -> document.getIdInXml().equals(c.getTemplateId())).findFirst().get();
 		List<String> dataElementList = new ArrayList<>();
