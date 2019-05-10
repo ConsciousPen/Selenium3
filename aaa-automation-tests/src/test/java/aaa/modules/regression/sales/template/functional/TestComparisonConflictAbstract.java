@@ -2,6 +2,9 @@ package aaa.modules.regression.sales.template.functional;
 
 import static aaa.main.enums.ProductConstants.TransactionHistoryType.*;
 import static aaa.main.pages.summary.PolicySummaryPage.tableDifferences;
+import static aaa.modules.regression.sales.auto_ca.select.functional.VersionsConflictConstants.SELECT_DRIVER_OID_QUERY;
+import static aaa.modules.regression.sales.auto_ca.select.functional.VersionsConflictConstants.SELECT_DVR_QUERY;
+import static aaa.modules.regression.sales.auto_ca.select.functional.VersionsConflictConstants.SELECT_VEHICLE_OID_QUERY;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
@@ -1033,7 +1036,20 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		PolicySummaryPage.buttonCompareVersions.click();
 		checkComparisonPage(tdVersion2, tdVersion1, expectedSectionsAndUIFieldsOOSE, tabName, sectionName);
 		Tab.buttonCancel.click();
+	    //validateDVRInDB("CAAS952918622", "DODGE CARAVAN 1998", "New Driver Version1");
 	}
+
+	protected void validateDVRInDB(String policyNum, String vehicleName, String driverName) {
+        String SelectDVRQuery = SELECT_DVR_QUERY;
+        Map<String,String> dvrDataFromDB = DBService.get().getRow(String.format(SelectDVRQuery, policyNum));
+        String relationshiptype = dvrDataFromDB.get("RELATIONSHIPTYPE");
+        String vehileOID = dvrDataFromDB.get("VEHICLEOID");
+        String driverOID = dvrDataFromDB.get("DRIVEROID");
+        Map<String,String> vehicleOIDFromDB = DBService.get().getRow(String.format(SELECT_VEHICLE_OID_QUERY,policyNum));
+        String driverOIDQuery = String.format(SELECT_DRIVER_OID_QUERY,policyNum);
+        List <Map<String,String>> driverOIDFromDB = DBService.get().getRows(driverOIDQuery);
+        System.out.println("Received db values");
+    }
 	/**
 	 * OOS endorsement transaction current date date - 1 month
 	 * @param td test data that is used for endorsement transaction

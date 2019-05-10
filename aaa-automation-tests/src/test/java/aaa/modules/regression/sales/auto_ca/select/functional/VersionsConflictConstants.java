@@ -9,6 +9,18 @@ public class VersionsConflictConstants {
 	private static final String AVAILABLE = "Available";
 	private static final String CURRENT = "Current";
 
+	public static final String SELECT_DVR_QUERY = "select dvr.relationshiptype, dvr.vehicleoid, dvr.driveroid\n" +
+			"from policysummary ps join DriverVehicleRelationship dvr on ps.policydetail_id = dvr.policydetail_id \n" +
+			"where ps.policynumber = '%1$s' and ps.revisionno = '4'";
+
+	public static final String SELECT_VEHICLE_OID_QUERY = "select bi.manufacturer || ' ' || bi.model || ' ' || bi.modelyear as vehicle, ri.oid, ri.primaryDriverName, ri.primaryDriverOid, ri.manuallyAssignedDriverName, ri.assignedDriverOID  \n" +
+			"from policysummary ps join riskitem ri on ri.policydetail_id = ps.policydetail_id\n" +
+			"join VehicleBaseInfo bi on ri.baseinfo_id = bi.id where ps.policynumber = '%1$s' and ps.revisionno = '4'";
+
+	public static final String SELECT_DRIVER_OID_QUERY = "select d.firstname || ' ' || d.lastname as name, d.oid from policysummary ps \n" +
+			"join driver d on ps.policydetail_id = d.policydetail_id \n" +
+			"where ps.policynumber = 'CAAS952918622' and ps.revisionno = '4'";
+
 	//Values that are not in Test Data, but are used in comparison
 	static final Multimap<String, String> PREDEFINED_EXPECTED_VALUES = ImmutableListMultimap.<String, String>builder()
 			//Named Insured Information
