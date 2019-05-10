@@ -22,7 +22,10 @@ public enum VinUploadFileType {
 	NO_MATCH_ON_RENEWAL("NoMatchORenewal"),
 	NO_MATCH_ON_NEW_BUSINESS_FULL_MATCH_ON_RENEWAL("NoMatchOnNewBusinessFullMatchOnRenewal"),
 	PARTIAL_MATCH_NEW_QUOTE("PartialMatchNewQuote"),
-	STATCODE_VIN_REFERSH_RENEWAL("StatcodeVINrefreshOnRenewal");
+	STATCODE_VIN_REFERSH_RENEWAL("StatcodeVINrefreshOnRenewal"),
+	//PAS-23996- Added for Capping Refresh checks
+	CAPPING_R30("CappingRefreshR30"),
+	CAPPING_R35("CappingRefreshR35");
 
 	private String type;
 
