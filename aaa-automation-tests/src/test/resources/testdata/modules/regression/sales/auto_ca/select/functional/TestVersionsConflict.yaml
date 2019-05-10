@@ -1221,7 +1221,7 @@ TestData_Multiple_Drivers_Vehicles_NB_Policy: {
     Agreement: I agree,
     RequiredToIssue: {
       Policy Application: 'Yes',
-      Proof of Good Student Discount: 'Yes',
+      #Proof of Good Student Discount: 'Yes',
       Auto Billing Plan Explanation: 'Yes',
       Proof of New Driver Course Completion: 'Yes',
       Proof of Mature Driver Course Completion: 'Yes',
@@ -1523,47 +1523,6 @@ TestData_AtomicMerge_Scenario2_Version2: {
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {}
-}
-
-VehicleInformation_Renewal: {
-  #Vehicle Information section
-  Type: 'Regular',
-  VIN: 2HNYD28498H554858,
-  Primary Use: 'Pleasure (recreational driving only)',
-  Anti-theft Recovery Device: Vehicle Recovery Device,
-  Existing Damage: Normal Wear and Tear,
-  "Salvaged?": 'No',
-  Miles One-way to Work or School: 15,
-  Odometer Reading: 800,
-  Odometer Reading Date: $<today-2y>,
-  Customer Declared Annual Miles: 10000,
-  #Garaging Address
-  "Is Garaging different from Residential?": 'Yes',
-  Zip Code: 90201,
-  Address Line 1: NB garaging address 1,
-  Address Line 2: NB garaging address 2,
-  City: Bell,
-  State: CA,
-  Validate Address: true,
-  Validate Address Dialog: {},
-  #Ownership Information
-  Ownership: {
-    Ownership Type: Owned,
-  },
-}
-
-TestData_AtomicMerge_Scenario2_Renewal_Version2: {
-  GeneralTab: {},
-  DriverTab: {},
-  MembershipTab: {},
-  VehicleTab: ['@VehicleInformation_Renewal', '@VehicleInformation_Version2'],
-  AssignmentTab: {
-     DriverVehicleRelationshipTable: ['@DriverVehicleRelationship2','@DriverVehicleRelationship2'],
-  },
-    FormsTab: {},
-    PremiumAndCoveragesTab: {},
-    DriverActivityReportsTab: {},
-    DocumentsAndBindTab: {}
 }
 
 TestData_AtomicMerge_Scenario4_Version1: {

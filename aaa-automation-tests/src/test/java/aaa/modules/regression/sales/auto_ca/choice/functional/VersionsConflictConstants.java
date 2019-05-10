@@ -103,6 +103,7 @@ public class VersionsConflictConstants {
 			.putAll("Vehicles.Vehicle (2011, MERCEDES-BENZ, G55AMG)","","Vehicle (2011, MERCEDES-BENZ, G55AMG)")
 			.putAll("Named Insureds.Insured Principal (Second VI Insured)","","Insured Principal (Second VI Insured)")
 			.putAll("Vehicles.2008, ACURA, MDX.System Rated Driver", "NBFirstName NBLastName", "Second Driver Version1")
+			.putAll("Vehicles.2008, ACURA, MDX.Manually Rated Driver", "", "NBFirstName NBLastName")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -214,7 +215,6 @@ public class VersionsConflictConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN.Primary Use", "Primary Use")
 			.put("Vehicles.2012, ACURA, TL.Primary Driver", "Primary Driver")
 			.put("Vehicles.2008, ACURA, MDX.Primary Driver", "Primary Driver")
-			.put("Vehicles.2008, ACURA, MDX.Manually Rated Driver", "Manually Rated Driver")
 			.build();
 
 	/**
@@ -656,6 +656,11 @@ public class VersionsConflictConstants {
 			.put("Drivers","Driver (Second Driver Version1)")
 			.put("Vehicles.2008, ACURA, MDX","Primary Driver")
 			.put("Vehicles.2008, ACURA, MDX","System Rated Driver")
+			.build();
+
+	//components/attributes that should be on Renewal comparision page for Atomic Merge Scenario1
+	static final Multimap<String,String> ATOMIC_MERGE_SCENARIO1_RENEWAL = ImmutableListMultimap.<String, String>builder()
+			.put("Vehicles.2008, ACURA, MDX","Manually Rated Driver")
 			.build();
 
 	protected static final ArrayListMultimap<String, String> ATOMIC_MERGE_SCENARIO2 = ArrayListMultimap.create(

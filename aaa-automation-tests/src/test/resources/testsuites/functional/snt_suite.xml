@@ -432,7 +432,6 @@
                     <include name="pas27125_renewalMergeAtomicMergeAssignment_Scenario1"/>
                     <include name="pas27125_ooseConflictManualAtomicMergeAssignment_Scenario2"/>
                     <include name="pas27125_ooseConflictAutoAtomicMergeAssignment_Scenario2"/>
-                    <include name="pas27125_renewalMergeAtomicMergeAssignment_Scenario2"/>
                     <include name="pas27125_ooseConflictManualAtomicMergeAssignment_Scenario3"/>
                     <include name="pas27125_ooseConflictManualAtomicMergeAssignment_Scenario4"/>
                     <include name="pas27125_ooseConflictAutoAtomicMergeAssignment_Scenario4"/>
@@ -451,7 +450,6 @@
                     <include name="pas27125_renewalMergeAtomicMergeAssignment_Scenario1"/>
                     <include name="pas27125_ooseConflictManualAtomicMergeAssignment_Scenario2"/>
                     <include name="pas27125_ooseConflictAutoAtomicMergeAssignment_Scenario2"/>
-                    <include name="pas27125_renewalMergeAtomicMergeAssignment_Scenario2"/>
                     <include name="pas27125_ooseConflictManualAtomicMergeAssignment_Scenario3"/>
                     <include name="pas27125_ooseConflictManualAtomicMergeAssignment_Scenario4"/>
                     <include name="pas27125_ooseConflictAutoAtomicMergeAssignment_Scenario4"/>

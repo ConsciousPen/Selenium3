@@ -415,6 +415,18 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 		return getTestSpecificTD("TestData_AtomicMerge_Scenario1_Version2");
 	}
 
+    /**
+     * @name Scenario1: When a driver is assigned to a vehicle in endorsement, and that driver is removed in OOSE
+     * Then removed driver comes in conflict screen and when the user choses to remove the driver, then the assignment of the vehicle falls back to its previous value
+     * @scenario
+     * 1. Create a policy with 2 drivers, 1 vehicle. Assign Vehicle1 to Driver1
+     * 2. Do an endorsement at Today+20 days, Delete Driver 2
+     * 3. Do an OOSE at Today+10 days, Assign Vehicle1 to Driver2
+     * 4. On Conflict screen, we expect to see removal of Driver2 in conflict.
+     * 5. Choose to remove Driver2, and ensure that Vehicle1 is assigned back to Driver1
+     * @details
+     */
+
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-27125"})
@@ -433,7 +445,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-27125"})
 	public void pas27125_renewalMergeAtomicMergeAssignment_Scenario1(@Optional("CA") String state) {
-		renewalMergeAtomicMerge(getNBPolicyForAtomicMergeScenario1(), getAtomicMergeScenario1_Version1(), getAtomicMergeScenario1_Version2(), VersionsConflictConstants.ATOMIC_MERGE_SCENARIO1,  VersionsConflictConstants.ATOMIC_MERGE_SCENARIO1_VERSION1, "AssignmentTab", "DriverVehicleRelationshipTable", true,false);
+		renewalMergeAtomicMerge(getNBPolicyForAtomicMergeScenario1(), getAtomicMergeScenario1_Version1(), getAtomicMergeScenario1_Version2(), VersionsConflictConstants.ATOMIC_MERGE_SCENARIO1,  VersionsConflictConstants.ATOMIC_MERGE_SCENARIO1_RENEWAL, "AssignmentTab", "DriverVehicleRelationshipTable", true,false);
 	}
 
 
@@ -449,9 +461,17 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 		return getTestSpecificTD("TestData_AtomicMerge_Scenario2_Version2");
 	}
 
-	private TestData getAtomicMergeScenario2_Ren_Version2() {
-		return getTestSpecificTD("TestData_AtomicMerge_Scenario2_Renewal_Version2");
-	}
+	/**
+     * @name Scenario2: When a driver is assigned to a vehicle in endorsement, and that driver is removed in OOSE
+     * Then removed driver comes in conflict screen and when the user choses to remove the driver, then the assignment of the vehicle falls back to its previous value
+     * @scenario
+     * 1. Create a policy with 2 drivers, 1 vehicle. Assign Vehicle1 to Driver2
+     * 2. Do an endorsement at Today+20 days, Delete Driver 2, assign vehicle1 to driver1
+     * 3. Do an OOSE at Today+10 days, Assign Vehicle1 to Driver2
+     * 4. On Conflict screen, we expect to see removal of Driver2 in conflict.
+     * 5. Choose to remove Driver2, and ensure that Vehicle1 is assigned back to Driver1
+     * @details
+     */
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -467,16 +487,21 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 		ooseConflictAtomicMerge(getNBPolicyForAtomicMergeScenario2(), getAtomicMergeScenario2_Version1(), getAtomicMergeScenario2_Version2(), VersionsConflictConstants.ATOMIC_MERGE_SCENARIO2,  VersionsConflictConstants.ATOMIC_MERGE_SCENARIO2_VERSION1, "AssignmentTab", "DriverVehicleRelationshipTable", true,true);
 	}
 
-	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-27125"})
-	public void pas27125_renewalMergeAtomicMergeAssignment_Scenario2(@Optional("CA") String state) {
-		renewalMergeAtomicMerge(getNBPolicyForAtomicMergeScenario2(), getAtomicMergeScenario2_Version1(), getAtomicMergeScenario2_Ren_Version2(), VersionsConflictConstants.ATOMIC_MERGE_SCENARIO2,  VersionsConflictConstants.ATOMIC_MERGE_SCENARIO2_VERSION1, "AssignmentTab", "DriverVehicleRelationshipTable", true,true);
-	}
-
 	private TestData getNBPolicyForAtomicMergeScenario3() {
 		return getTestSpecificTD("TestData_Multiple_Drivers_Vehicles_NB_Policy");
 	}
+
+    /**
+     * @name Scenario3: When there is a conflict and user tried to remove drivers which are assigned to vehicles
+     * Then roll on changes button is disabled and user is forced to go data gather state to fix vehicle assignment
+     * @scenario
+     * 1. Create a policy with 3 drivers, 3 vehicle. Assign Vehicle1 to Driver1, vehicle2 to driver2, vehicle3 to driver3
+     * 2. Do an endorsement at Today+20 days, Delete Driver 2, assign vehicle1 to driver1
+     * 3. Do an OOSE at Today+10 days, Assign Vehicle1 to Driver2
+     * 4. On Conflict screen, we expect to see removal of Driver2 in conflict.
+     * 5. Choose to remove Driver2, and ensure that Vehicle1 is assigned back to Driver1
+     * @details
+     */
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -496,6 +521,18 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	private TestData getAtomicMergeScenario4_Version2() {
 		return getTestSpecificTD("TestData_AtomicMerge_Scenario4_Version2");
 	}
+
+    /**
+     * @name Scenario4: When a vehicle driver assignment in conflict and the two driver are removed
+     * Then the removal of drivers is also shown on conflict screen and upon the selections made driver assignment is dynamically made
+     * @scenario
+     * 1. Create a policy with 3 drivers, 3 vehicle. Assign Vehicle1 to Driver1, vehicle2 to driver2, vehicle3 to driver3
+     * 2. Do an endorsement at Today+20 days, Delete Driver 2, assign vehicle1 to driver3
+     * 3. Do an OOSE at Today+10 days, Delete Driver 3, Assign Vehicle1 to Driver2
+     * 4. On Conflict screen, we expect to see removal of Driver2 and Driver3 in conflict.
+     * 5. Upon the user decision to choose to remove Driver2/Driver3, assignment of driver to vehicle1 is decided
+     * @details
+     */
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})

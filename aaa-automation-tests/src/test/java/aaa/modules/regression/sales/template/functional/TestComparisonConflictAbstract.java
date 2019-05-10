@@ -2,9 +2,7 @@ package aaa.modules.regression.sales.template.functional;
 
 import static aaa.main.enums.ProductConstants.TransactionHistoryType.*;
 import static aaa.main.pages.summary.PolicySummaryPage.tableDifferences;
-import static aaa.modules.regression.sales.auto_ca.select.functional.VersionsConflictConstants.SELECT_DRIVER_OID_QUERY;
-import static aaa.modules.regression.sales.auto_ca.select.functional.VersionsConflictConstants.SELECT_DVR_QUERY;
-import static aaa.modules.regression.sales.auto_ca.select.functional.VersionsConflictConstants.SELECT_VEHICLE_OID_QUERY;
+import static aaa.modules.regression.sales.auto_ca.select.functional.VersionsConflictConstants.*;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
@@ -923,12 +921,12 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		Tab.buttonCancel.click();
 
 		if (dbValidation) {
-			validateDVRInDB(policyNum, 0, 0);
-			validateDVRInDB(policyNum, 1, 1);
+			validateDVRInDB(policyNum, 4,0, 0);
+			validateDVRInDB(policyNum, 4,1, 1);
 		}
 	}
 
-	protected void renewalMergeAtomicMerge(TestData tdVersion, TestData tdVersion1, TestData tdVersion2, ArrayListMultimap<String, String> conflictLinks, Multimap<String, String> expectedSectionsAndUIFieldsOOSE,
+	protected void renewalMergeAtomicMerge(TestData tdVersion, TestData tdVersion1, TestData tdVersion2, ArrayListMultimap<String, String> conflictLinks, Multimap<String, String> expectedSectionsAndUIFieldsRenewal,
 										   String tabName, String sectionName, Boolean isAutomatic, Boolean dbValidation) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -959,13 +957,11 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		selectTransactionType(1, true);
 		selectTransactionType(2, true);
 		PolicySummaryPage.buttonCompare.click();
+        checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFieldsRenewal, tabName, sectionName);
 
 		if (dbValidation) {
-			validateDVRInDB(policyNumber, 0, 0);
-			validateDVRInDB(policyNumber, 1, 1);
+			validateDVRInDBForRenewal(policyNumber, 0, 0);
 		}
-
-		//checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFieldsRenewal, tabName, sectionName);
 	}
 
 	protected void processPlus20DaysEndorsementAtomicMergeAssignment(TestData td) {
@@ -1046,13 +1042,13 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		PolicySummaryPage.buttonCompareVersions.click();
 		checkComparisonPage(tdVersion2, tdVersion1, expectedSectionsAndUIFieldsOOSE, tabName, sectionName);
 		Tab.buttonCancel.click();
-	    validateDVRInDB(policyNum, 0,1);
+	    validateDVRInDB(policyNum, 4,0,1);
 	}
-
-	protected void validateDVRInDB(String policyNum, int vehicleNum, int driverNum) {
-        String SelectDVRQuery = String.format(SELECT_DVR_QUERY,policyNum);
-        String vehicleOIDQuery = String.format(SELECT_VEHICLE_OID_QUERY,policyNum);
-		String driverOIDQuery = String.format(SELECT_DRIVER_OID_QUERY,policyNum);
+	
+	protected void validateDVRInDB(String policyNum, int revNum, int vehicleNum, int driverNum) {
+        String SelectDVRQuery = String.format(SELECT_DVR_QUERY,policyNum,revNum);
+        String vehicleOIDQuery = String.format(SELECT_VEHICLE_OID_QUERY,policyNum,revNum);
+		String driverOIDQuery = String.format(SELECT_DRIVER_OID_QUERY,policyNum,revNum);
 		List<Map<String,String>> dvrDataFromDB = DBService.get().getRows(SelectDVRQuery);
 		Map<String,String> dvrData = dvrDataFromDB.get(vehicleNum);
 		List<Map<String,String>> vehicleOIDFromDB = DBService.get().getRows(vehicleOIDQuery);
@@ -1065,6 +1061,24 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			softly.assertThat(dvrData.get("DRIVEROID")).as("Incorrect Driver OID").isEqualTo(driverOID.get("OID"));
 		});
     }
+
+    protected void validateDVRInDBForRenewal(String policyNum, int vehicleNum, int driverNum) {
+        String SelectDVRQuery = String.format(SELECT_DVR_RENEWAL_QUERY,policyNum);
+        String vehicleOIDQuery = String.format(SELECT_VEHICLE_OID_RENEWAL_QUERY,policyNum);
+        String driverOIDQuery = String.format(SELECT_DRIVER_OID_RENEWAL_QUERY,policyNum);
+        List<Map<String,String>> dvrDataFromDB = DBService.get().getRows(SelectDVRQuery);
+        Map<String,String> dvrData = dvrDataFromDB.get(vehicleNum);
+        List<Map<String,String>> vehicleOIDFromDB = DBService.get().getRows(vehicleOIDQuery);
+        Map<String,String> vehicleOID = vehicleOIDFromDB.get(vehicleNum);
+        List <Map<String,String>> driverOIDFromDB = DBService.get().getRows(driverOIDQuery);
+        Map<String,String> driverOID = driverOIDFromDB.get(driverNum);
+        CustomSoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(dvrData.get("RELATIONSHIPTYPE")).as("Driver Vehicle Relationship is not primary relation").isEqualTo("primary");
+            softly.assertThat(dvrData.get("VEHICLEOID")).as("Incorrect Vehicle OID").isEqualTo(vehicleOID.get("OID"));
+            softly.assertThat(dvrData.get("DRIVEROID")).as("Incorrect Driver OID").isEqualTo(driverOID.get("OID"));
+        });
+    }
+
 	/**
 	 * OOS endorsement transaction current date date - 1 month
 	 * @param td test data that is used for endorsement transaction

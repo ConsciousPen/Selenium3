@@ -11,15 +11,27 @@ public class VersionsConflictConstants {
 
 	public static final String SELECT_DVR_QUERY = "select dvr.relationshiptype, dvr.vehicleoid, dvr.driveroid\n" +
 			"from policysummary ps join DriverVehicleRelationship dvr on ps.policydetail_id = dvr.policydetail_id \n" +
-			"where ps.policynumber = '%1$s' and ps.revisionno = '4'";
+			"where ps.policynumber = '%1$s' and ps.revisionno = '%2$s'";
 
 	public static final String SELECT_VEHICLE_OID_QUERY = "select bi.manufacturer || ' ' || bi.model || ' ' || bi.modelyear as vehicle, ri.oid, ri.primaryDriverName, ri.primaryDriverOid, ri.manuallyAssignedDriverName, ri.assignedDriverOID  \n" +
 			"from policysummary ps join riskitem ri on ri.policydetail_id = ps.policydetail_id\n" +
-			"join VehicleBaseInfo bi on ri.baseinfo_id = bi.id where ps.policynumber = '%1$s' and ps.revisionno = '4'";
+			"join VehicleBaseInfo bi on ri.baseinfo_id = bi.id where ps.policynumber = '%1$s' and ps.revisionno = '%2$s'";
 
 	public static final String SELECT_DRIVER_OID_QUERY = "select d.firstname || ' ' || d.lastname as name, d.oid from policysummary ps \n" +
 			"join driver d on ps.policydetail_id = d.policydetail_id \n" +
-			"where ps.policynumber = '%1$s' and ps.revisionno = '4'";
+			"where ps.policynumber = '%1$s' and ps.revisionno = '%2$s'";
+
+    public static final String SELECT_DVR_RENEWAL_QUERY = "select dvr.relationshiptype, dvr.vehicleoid, dvr.driveroid\n" +
+            "from policysummary ps join DriverVehicleRelationship dvr on ps.policydetail_id = dvr.policydetail_id \n" +
+            "join quoteversion qv on ps.id = qv.policyid where ps.policynumber = '%1$s'";
+
+    public static final String SELECT_VEHICLE_OID_RENEWAL_QUERY = "select bi.manufacturer || ' ' || bi.model || ' ' || bi.modelyear as vehicle, ri.oid, ri.primaryDriverName, ri.primaryDriverOid, ri.manuallyAssignedDriverName, ri.assignedDriverOID  \n" +
+            "from policysummary ps join riskitem ri on ri.policydetail_id = ps.policydetail_id\n" +
+            "join VehicleBaseInfo bi on ri.baseinfo_id = bi.id join quoteversion qv on ps.id = qv.policyid where ps.policynumber = '%1$s'";
+
+    public static final String SELECT_DRIVER_OID_RENEWAL_QUERY = "select d.firstname || ' ' || d.lastname as name, d.oid from policysummary ps \n" +
+            "join driver d on ps.policydetail_id = d.policydetail_id \n" +
+            "join quoteversion qv on ps.id = qv.policyid where ps.policynumber = '%1$s'";
 
 	//Values that are not in Test Data, but are used in comparison
 	static final Multimap<String, String> PREDEFINED_EXPECTED_VALUES = ImmutableListMultimap.<String, String>builder()
@@ -700,6 +712,10 @@ public class VersionsConflictConstants {
 			.put("Vehicles.2008, ACURA, MDX","System Rated Driver")
 			.put("Vehicles.2008, ACURA, MDX","Manually Rated Driver")
 			.build();
+
+    //components/attributes that should be on Renewal comparision page for Atomic Merge Scenario1
+    static final Multimap<String,String> ATOMIC_MERGE_SCENARIO1_RENEWAL = ImmutableListMultimap.<String, String>builder()
+            .build();
 
 	protected static final ArrayListMultimap<String, String> ATOMIC_MERGE_SCENARIO2 = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
