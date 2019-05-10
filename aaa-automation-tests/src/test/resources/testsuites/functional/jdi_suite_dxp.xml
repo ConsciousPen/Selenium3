@@ -1382,6 +1382,22 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="CA Driver Assignment" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesAssignments">
+                <methods>
+                    <include name="pas15195_DriverAssignmentAutoAssign1DMV"/>
+                    <include name="pas15412_DriverAssignmentAddDriver"/>
+                    <include name="pas15412_DriverAssignmentAddVehicle"/>
+                    <include name="pas15412_DriverAssignmentRemoveVehicle"/>
+                    <include name="pas15412_DriverAssignmentReplaceVehicle"/>
+                    <include name="pas15412_DriverAssignmentReplaceVehicle1DMV"/>
+                    <include name="pas15412_DriverAssignmentViewAssignments"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="CA Coverages" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
