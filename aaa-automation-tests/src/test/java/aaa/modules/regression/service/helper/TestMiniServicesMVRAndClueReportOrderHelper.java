@@ -55,10 +55,18 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("ClueNonChargeable", "Doc", "Activity", "1999-01-31", "III");
 		DriversDto addedDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		//Update driver
-		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860596", 18, "VA", "CH", "MSS");
+		String maritalStatusMarried;
+		if (getState().equals(Constants.States.CA)) {
+			maritalStatusMarried = "M";
+		} else {
+			maritalStatusMarried = "MSS";
+		}
+
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860596", 18, "VA", "CH", maritalStatusMarried);
 		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addedDriver.oid, updateDriverRequest);
 		assertSoftly(softly -> softly.assertThat(updateDriverResponse.driver.namedInsuredType).isEqualTo("Not a Named Insured")); //Make sure that added driver is NOT a Named Insured
 
+		TestMiniServicesAssignmentsCAHelper.makeAssignmentsForCA(policyNumber);
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
@@ -78,6 +86,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
 		driverActivityReportsTab.saveAndExit();
 
+		TestMiniServicesAssignmentsCAHelper.makeAssignmentsForCA(policyNumber);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 		//Repeat with driver 2
@@ -90,10 +99,11 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		DriversDto addedDriver2 = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 
 		//Update driver
-		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860597", 18, "VA", "CH", "MSS");
+		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860597", 18, "VA", "CH", maritalStatusMarried);
 		DriverWithRuleSets updateDriverResponse2 = HelperCommon.updateDriver(policyNumber, addedDriver2.oid, updateDriverRequest);
 		assertSoftly(softly -> softly.assertThat(updateDriverResponse2.driver.namedInsuredType).isEqualTo("Not a Named Insured")); //Make sure that added driver is NOT a Named Insured
 
+		TestMiniServicesAssignmentsCAHelper.makeAssignmentsForCA(policyNumber);
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
@@ -132,6 +142,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		DriverWithRuleSets updateDriver = HelperCommon.updateDriver(policyNumber, addedDriver.oid, updateDriverRequest);
 		assertSoftly(softly -> softly.assertThat(updateDriver.driver.namedInsuredType).isEqualTo("NI")); //Make sure that added driver is Named Insured
 
+		TestMiniServicesAssignmentsCAHelper.makeAssignmentsForCA(policyNumber);
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
@@ -167,6 +178,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		DriverWithRuleSets updateDriver2 = HelperCommon.updateDriver(policyNumber, addedDriver.oid, updateDriverRequest);
 		assertSoftly(softly -> softly.assertThat(updateDriver2.driver.namedInsuredType).isEqualTo("NI")); //Make sure that added driver is Named Insured
 
+		TestMiniServicesAssignmentsCAHelper.makeAssignmentsForCA(policyNumber);
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
@@ -590,7 +602,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		//Order reports through service
 		OrderReportsResponse response = HelperCommon.orderReports(policyNumber, oidDriver1, OrderReportsResponse.class, 200);
 		assertSoftly(softly ->
-				softly.assertThat((response.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")).isTrue()
+				softly.assertThat(response.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")
 		);
 
 		pasDriverActivityReport(policyNumber, "VALID", "Karen Yifru");
@@ -601,7 +613,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		assertSoftly(softly -> {
 			softly.assertThat(response1.drivingRecords.get(0).accidentDate).isEqualTo(acDate);
 			softly.assertThat(response1.drivingRecords.get(0).activitySource).isEqualTo("MVR");
-			softly.assertThat((response1.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")).isTrue();
+			softly.assertThat(response1.mvrReports.get(0).choicePointLicenseStatus).contains("VALID");
 		});
 
 		pasDriverActivityReport(policyNumber, "VALID", "One Minor");
@@ -678,7 +690,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		assertSoftly(softly -> {
 			softly.assertThat(response11.drivingRecords.get(0).accidentDate).isEqualTo(acDate2);
 			softly.assertThat(response11.drivingRecords.get(0).activitySource).isEqualTo("MVR");
-			softly.assertThat((response11.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")).isTrue();
+			softly.assertThat(response11.mvrReports.get(0).choicePointLicenseStatus).contains("VALID");
 		});
 		pasDriverActivityReport(policyNumber, "VALID", "One AutoTheft");
 
@@ -687,7 +699,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		assertSoftly(softly -> {
 			softly.assertThat(response12.drivingRecords.get(0).accidentDate).isNotEmpty();
 			softly.assertThat(response12.drivingRecords.get(0).activitySource).isEqualTo("CLUE");
-			softly.assertThat((response12.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")).isTrue();
+			softly.assertThat(response12.mvrReports.get(0).choicePointLicenseStatus).contains("VALID");
 
 			softly.assertThat(response12.drivingRecords.get(1).accidentDate).isNotEmpty();
 			softly.assertThat(response12.drivingRecords.get(1).activitySource).isEqualTo("CLUE");
@@ -701,7 +713,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		//Order reports through service
 		OrderReportsResponse response = HelperCommon.orderReports(policyNumber, oidDriver1, OrderReportsResponse.class, 200);
 		assertSoftly(softly ->
-				softly.assertThat((response.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")).isTrue()
+				softly.assertThat(response.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")
 		);
 		pasDriverActivityReport(policyNumber, "VALID", "Karen Yifru");
 
@@ -711,7 +723,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		assertSoftly(softly -> {
 			softly.assertThat(response1.drivingRecords.get(0).accidentDate).isEqualTo(acDate);
 			softly.assertThat(response1.drivingRecords.get(0).activitySource).isEqualTo("MVR");
-			softly.assertThat((response1.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")).isTrue();
+			softly.assertThat(response1.mvrReports.get(0).choicePointLicenseStatus).contains("VALID");
 		});
 
 		pasDriverActivityReport(policyNumber, "VALID", "One Minor");
@@ -725,7 +737,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 			softly.assertThat(response12.drivingRecords.get(1).accidentDate).isNotEmpty();
 			softly.assertThat(response12.drivingRecords.get(1).activitySource).isEqualTo("CLUE");
 
-			softly.assertThat((response12.mvrReports.get(0).choicePointLicenseStatus).contains("VALID"));
+			softly.assertThat(response12.mvrReports.get(0).choicePointLicenseStatus).contains("VALID");
 		});
 
 		pasDriverActivityReport(policyNumber, "VALID", "Two AtFault");
@@ -812,9 +824,15 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.NAME_ON_LICENSE).getValue()).isEqualTo(name);
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue().contains(status)).isTrue();
+		if (getState().equals(Constants.States.CA)) {
+			NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+			assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.NAME_ON_LICENSE).getValue()).isEqualTo(name);
+			assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualToIgnoringCase(status);
+		} else {
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
+			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.NAME_ON_LICENSE).getValue()).isEqualTo(name);
+			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualToIgnoringCase(status);
+		}
 		driverActivityReportsTab.saveAndExit();
 	}
 

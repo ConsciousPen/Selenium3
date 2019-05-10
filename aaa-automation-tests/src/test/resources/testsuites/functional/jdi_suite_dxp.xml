@@ -1413,9 +1413,10 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesMVRAndClueReportOrder">
                 <methods>
-                    <include name="pas15431_reportOrderAndDriver"/>
+                    <!--<include name="pas15431_reportOrderAndDriver"/>//TODO-mstrazds: Not in suite. Needs to be verified in scope of PAS-29245 in Sprint 55-->
                     <include name="pas15431_reportOrderAndDriver1"/>
                     <include name="pas15431_reportOrderAndDriver2"/>
+                    <include name="pas16694_orderReports_not_Named_Insured_endorsement"/>
                 </methods>
             </class>
         </classes>
