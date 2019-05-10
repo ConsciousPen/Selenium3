@@ -777,16 +777,6 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="MVR and CLUE order AZ" parallel="methods">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
-                <methods>
-                    <include name="pas15372_driverDetailsAndMvrRulesThatProvided"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test thread-count="1024" name="pas18624_CustomisedEquipment" parallel="methods">
         <parameter name="state" value="VA, AZ"/>
         <classes>
@@ -1378,7 +1368,6 @@
                     <include name="pas22513_ViewDiscountDriver"/>
                     <include name="pas28687_AddRideshareDriver"/>
                     <include name="pas25055_ViewDriverServiceMetadataServiceRideshareQuestion"/>
-                    <include name="pas28684_AddUpdateDriverValidationsAndDefaults"/>
                 </methods>
             </class>
         </classes>
@@ -1393,13 +1382,14 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="CA Select Discounts" parallel="methods">
+    <test thread-count="1024" name="CA Select MVR Order Report" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesDiscounts">
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesMVRAndClueReportOrder">
                 <methods>
-                    <include name="pas27988_miniServicesDiscountsTC01"/>
-                    <include name="pas27988_miniServicesDiscountsTC02"/>
+                    <include name="pas15369_reportOrderAndDriverBody"/>
+                    <include name="pas15372_driverDetailsAndMvrRulesThatProvidedBody"/>
+                    <include name="pas15077_orderReports_endorsementBody"/>
                 </methods>
             </class>
         </classes>
