@@ -50,7 +50,7 @@ public abstract class TestAbstractAHDRXXDiscountRemovalDocument extends PolicyBa
 			jobsNBplus15plus30runNoChecks();
 			mainApp().reopen();
 			SearchPage.openPolicy(policyNumber);
-			transactionHistoryRecordCountCheck(policyNumber, 3, "Membership Discount Removed", softly);
+			transactionHistoryRecordCountCheck(policyNumber, 3, "Discount validation failure, policy information updated.", softly);
 			checkDocumentContentAHDRXX(policyNumber, true, true, softly);
 
 		});
