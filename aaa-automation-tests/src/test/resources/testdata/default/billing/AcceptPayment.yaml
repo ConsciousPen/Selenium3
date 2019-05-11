@@ -29,6 +29,13 @@ TestData_EFT: {
   }
 }
 
+TestData_CC_Visa_Payment: {
+  AcceptPaymentActionTab: {
+    Payment Method: 'contains=Visa',
+    Amount: 150
+  }
+}
+
 #----- 
 
 PaymentMethods_Visa: {

@@ -577,6 +577,13 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					continue;
 				}
 
+				if (vehicle.getCoverages().stream().noneMatch(c -> "COMP".equals(c.getCoverageCd())) && vehicle.getCoverages().stream().noneMatch(c -> "COLL".equals(c.getCoverageCd()))) {
+					detailedCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel(), "starts=No Coverage");
+					if (!isPrivatePassengerAutoType(vehicle.getBiLiabilitySymbol())) {
+						detailedCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel(), "starts=No Coverage");
+					}
+				}
+
 				String coverageName = getPremiumAndCoveragesTabCoverageName(coverage.getCoverageCd());
 				if (isPolicyLevelCoverageCd(coverage.getCoverageCd())) {
 					policyCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
@@ -592,10 +599,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					assertThat(coverage.getGlassDeductible()).as("Invalid \"glassDeductible\" openl field value since it's not possible to fill \"Full Safety Glass\" UI field "
 							+ "for \"Trailer\" or \"Motor Home\" vehicle types or for KY state").isIn("N/A", "0");
 				} else {
-					if ("0".equals(vehicle.getCoverages().stream().filter(c -> "COMP".equals(c.getCoverageCd())).findFirst().get().getGlassDeductible()) ||
-							"0".equals(vehicle.getCoverages().stream().filter(c -> "COLL".equals(c.getCoverageCd())).findFirst().get().getGlassDeductible())) {
-						detailedCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(), "Yes");
-					} else {
+					if ("COMP".equals(coverage.getCoverageCd())) {
 						detailedCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(),
 								getPremiumAndCoveragesFullSafetyGlass(coverage.getGlassDeductible()));
 					}
