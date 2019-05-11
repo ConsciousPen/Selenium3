@@ -285,7 +285,7 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
         String policyNumber = createPolicy(td);
         BillingSummaryPage.open();
         installmentDueDates = BillingHelper.getInstallmentDueDates();
-        LocalDateTime cNDate = getTimePoints().getCancellationNoticeDate(installmentDueDates.get(7));
+        LocalDateTime cNDate = getTimePoints().getCancellationNoticeDate(installmentDueDates.get(6));
         LocalDateTime cDate = getTimePoints().getCancellationDate(cNDate);
 
         for (int dueDate = 1; dueDate < 6; dueDate++) {
