@@ -111,7 +111,7 @@ public class TestPolicyGoodStudentDiscount extends AutoCaSelectBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
 
 		if (new ErrorTab().tableErrors.isPresent()){
-			new ErrorTab().tableErrors.getColumn("Code").getCell(1).click();
+			new ErrorTab().tableErrors.getColumn("Code").getCell(1).controls.links.getFirst().click();
 			new PremiumAndCoveragesTab().fillTab(td_quote);
 		}
 		new PremiumAndCoveragesTab().calculatePremium();

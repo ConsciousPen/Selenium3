@@ -67,7 +67,7 @@ TestData_EndorsementTwo_IN: {
   },
   ErrorTab: {
     ErrorsOverride: [{
-      Message: "contains=The selected limit of Uninsured Motorist Property Damage coverage is no longe...",
+      Message: "contains=The selected limit of Uninsured Motorist Property Damage coverage is no longe",
       Override: 'true',
       Approval: 'true',
       Duration: Life,
