@@ -68,7 +68,6 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
                 .isEqualTo(BillingConstants.InstallmentScheduleBilledStatus.BILLED);
         assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).getValue())
                 .isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
-
         //1b DD1+8
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(1)));
         JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
@@ -99,8 +98,6 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
                 .isEqualTo(BillingConstants.InstallmentScheduleBilledStatus.BILLED);
         assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).getValue())
                 .isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
-
-
         //2d DD3+8
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(3)));
         JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
@@ -131,7 +128,6 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
                 .isEqualTo(BillingConstants.InstallmentScheduleBilledStatus.BILLED);
         assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).getValue())
                 .isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
-
         //1d DD5+8
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(5)));
         JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
@@ -146,15 +142,12 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
         PasDocImpl.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.AH63XX);
         assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(3).getCell("Subtype/Reason")
                 .getValue()).isEqualTo(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM);
-
         //2
         String policy_for_cancel1 = createPolicy();
         policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
                 .adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
                         "Underwriting - Substantial Increase in Hazard"));
         PasDocImpl.verifyDocumentsGenerated(policy_for_cancel1, DocGenEnum.Documents.AH63XX);
-
-
         //3
         String policy_for_cancel2 = createPolicy();
         policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
@@ -295,14 +288,14 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
         LocalDateTime cNDate = getTimePoints().getCancellationNoticeDate(installmentDueDates.get(7));
         LocalDateTime cDate = getTimePoints().getCancellationDate(cNDate);
 
-        for (int dueDate = 1; dueDate < 7; dueDate++) {
+        for (int dueDate = 1; dueDate < 6; dueDate++) {
             TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(dueDate)));
             JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
             TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(dueDate)));
             JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
         }
 
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(7)));
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(6)));
         JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
         TimeSetterUtil.getInstance().nextPhase(cNDate);
         JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
@@ -311,7 +304,6 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
 
         searchForPolicy(policyNumber);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-
 
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillFirst(cNDate));
         JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob);
