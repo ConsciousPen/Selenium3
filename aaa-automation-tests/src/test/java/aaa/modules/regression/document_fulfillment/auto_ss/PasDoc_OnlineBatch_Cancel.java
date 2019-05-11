@@ -52,7 +52,7 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
 
     @Parameters({"state"})
     @StateList(states = Constants.States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
     public void testScenario27(@Optional("") String state) {
         List<LocalDateTime> installmentDueDate;
         Dollar minDue;
@@ -274,7 +274,7 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
 
     @Parameters({"state"})
     @StateList(states = Constants.States.AZ)
-    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+    @Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
     public void testScenario36(@Optional("") String state) {
 
         List<LocalDateTime> installmentDueDates;
