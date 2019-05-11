@@ -4,13 +4,6 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
-    <test name="PasDoc_AdhocGODDdeliveryMethods_Scenarios" parallel="methods">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocGODDdeliveryMethods"/>
-        </classes>
-    </test>
     <test name="PasDoc_OnlineBatch" parallel="methods">
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_OnlineBatch_Cancel">
