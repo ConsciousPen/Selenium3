@@ -15,6 +15,7 @@
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_OnlineBatch_Cancel">
                 <methods>
+                    <parameter name="state" value="AZ"/>
                     <include name="testScenario36"/>
                 </methods>
             </class>
