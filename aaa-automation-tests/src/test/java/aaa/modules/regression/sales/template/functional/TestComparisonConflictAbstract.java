@@ -1044,7 +1044,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		Tab.buttonCancel.click();
 	    validateDVRInDB(policyNum, 4,0,1);
 	}
-	
+
 	protected void validateDVRInDB(String policyNum, int revNum, int vehicleNum, int driverNum) {
         String SelectDVRQuery = String.format(SELECT_DVR_QUERY,policyNum,revNum);
         String vehicleOIDQuery = String.format(SELECT_VEHICLE_OID_QUERY,policyNum,revNum);
