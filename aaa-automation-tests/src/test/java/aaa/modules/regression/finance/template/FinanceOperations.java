@@ -242,6 +242,17 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
 
+	protected void createInitialReviewOffer(LocalDateTime policyExpirationDate) {
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(policyExpirationDate));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		HttpStub.executeAllBatches();
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+	}
+
 	/**
 	 * @author Mantas Kazlauskas
 	 *

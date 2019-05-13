@@ -43,6 +43,7 @@ public class HelperCommon {
 	private static final String DXP_POLICIES_ENDORSEMENT_VEHICLES_OID = "/api/v1/policies/%s/endorsement/vehicles/%s";
 
 	private static final String DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS = "/api/v1/policies/%s/endorsement/assignments";
+	private static final String DXP_POLICIES_POLICY_ASSIGNMENTS = "/api/v1/policies/%s/assignments";
 
 	private static final String DXP_POLICIES_ENDORSEMENT_TRANSACTION_INFORMATION = "/api/v1/policies/%s/endorsement/change-log";
 
@@ -243,6 +244,11 @@ public class HelperCommon {
 
 	public static ViewDriverAssignmentResponse viewEndorsementAssignments(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
+		return JsonClient.sendGetRequest(requestUrl, ViewDriverAssignmentResponse.class);
+	}
+
+	public static ViewDriverAssignmentResponse viewPolicyAssignments(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_POLICY_ASSIGNMENTS, policyNumber));
 		return JsonClient.sendGetRequest(requestUrl, ViewDriverAssignmentResponse.class);
 	}
 

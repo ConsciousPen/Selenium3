@@ -422,4 +422,16 @@
         </classes>
     </test>
 
+    <test name="General tab/Contact Information section/Conflict SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas27234_ooseConflictAutomaticContactInformation"/>
+                    <include name="pas27234_renewalAtomicMergeContactInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>
