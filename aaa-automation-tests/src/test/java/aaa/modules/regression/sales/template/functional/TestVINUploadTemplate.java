@@ -22,6 +22,7 @@ import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -485,8 +486,12 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		});
 		PremiumAndCoveragesTab.RatingDetailsView.close();
 
-		//PAS-27309: Change product to choice and calculate premium; vehicle data should refresh
-		premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT).setValue("CA Choice");
+		//PAS-27309: Change CA Product and calculate premium; vehicle data should refresh
+		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT).setValue("CA Choice");
+		} else {
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT).setValue("CA Select");
+		}
 		premiumAndCoveragesTab.calculatePremium();
 
 		//PAS-27309: Verify the CA Choice Symbols are shown, and are not equal to to the Select Symbols
