@@ -16,6 +16,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -33,7 +34,7 @@ import java.util.List;
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 
-public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
+public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 
     @Parameters({"state"})
     @StateList(states = Constants.States.AZ)
@@ -211,11 +212,13 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
         TestData td_2financialDrivers = getPolicyTD().adjust(getTestSpecificTD("TestData_2FinancialDrivers").resolveLinks());
         String policy_2financialDrivers = createPolicy(td_2financialDrivers);
         policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+
         assertThat(countDocuments(policy_2financialDrivers, null, AASR26)).isEqualTo(2);
 
         TestData td2_2financialDrivers = getPolicyTD().adjust(getTestSpecificTD("TestData2_2FinancialDrivers").resolveLinks());
         String policy2_2financialDrivers = createPolicy(td2_2financialDrivers);
         policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus10Days"));
+
         assertThat(countDocuments(policy2_2financialDrivers, null, AASR26)).isEqualTo(1);
     }
 
@@ -232,8 +235,7 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
                 "Insured Non-Payment Of Premium"));
         CustomSoftAssertions.assertSoftly(softly -> {
             PasDocImpl.verifyDocumentsGenerated(softly, true, policyNumber, AH34XX);
-            //AASRAZ,AHAUXX3,AH61XX is not generated
-            //PasDocImpl.verifyDocumentsGenerated(softly,false, policyNumber, AH61XX,AHAUXX);
+            PasDocImpl.verifyDocumentsGenerated(softly, false, policyNumber, AH61XX);
         });
     }
 
@@ -301,8 +303,8 @@ public class PasDoc_OnlineBatch_Cancel extends PasDoc_OnlineBatch {
         JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
         TimeSetterUtil.getInstance().nextPhase(cDate);
         JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
-
         searchForPolicy(policyNumber);
+
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillFirst(cNDate));
