@@ -1,6 +1,6 @@
 TestData_Full: {
   DriverTab: ['@DriverTab_FinancialDriver', '@DriverTab_ExcludedDriver', '@DriverTab_LearnersPermitDriver', '@DriverTab_WithActivity'],
-  VehicleTab: ['@VehicleTab_Regular', '@VehicleTab_EnrolledInUBI', '@VehicleTab_GolfCart', '@Vehicle_Trailer', '@Vehicle_withDamage'], 
+  VehicleTab: ['@VehicleTab_Regular', '@VehicleTab_EnrolledInUBI', '@VehicleTab_GolfCart', '@VehicleTab_Trailer', '@Vehicle_withDamage'], 
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Full', 
   DocumentsAndBindTab: '@DocumentsAndBindTab_Full', 
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'
@@ -243,6 +243,10 @@ TestData_Endorsement_removeDamage: {
   DocumentsAndBindTab: {}
 }
 
+TestData_RegularWithDamage: {
+  VehicleTab: '@VehicleTab_RegularWithDamage'
+}
+
 TestData_2_Vehicles: {
   VehicleTab: ['@VehicleTab_Regular', '@VehicleTab_Regular2']
 }
@@ -268,7 +272,7 @@ TestData_Endorsement_addFinDriver: {
   FormsTab: {},
   PremiumAndCoveragesTab: {}, 
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {}
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Endorsement_addFinDriver'
 }
 
 TestData_Endorsement_addFinResponsibility: {
@@ -279,7 +283,7 @@ TestData_Endorsement_addFinResponsibility: {
   FormsTab: {},
   PremiumAndCoveragesTab: {}, 
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {}
+  DocumentsAndBindTab: '@DocumentsAndBindTab_Endorsement_addFinDriver'
 }
 
 # ----- Scenario 18
@@ -724,6 +728,12 @@ Vehicle2_withDamage: {
   Existing Damage: Other Body Damages
 }
 
+VehicleTab_RegularWithDamage: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273, 
+  Existing Damage: Other Body Damages
+}
+
 VehicleTab_setDamage: {
   Existing Damage: Other Body Damages
 }
@@ -838,6 +848,10 @@ DocumentsAndBindTab_UMandUIMLessThanBI: {
   RequiredToIssue: { 
     Proof of Prior Insurance: 'Yes'
   }
+}
+
+DocumentsAndBindTab_Endorsement_addFinDriver: { 
+  Case Number: '12345'
 }
 
 DocumentsAndBindTab_Endorsement_UMandUIMLessThanBI: {

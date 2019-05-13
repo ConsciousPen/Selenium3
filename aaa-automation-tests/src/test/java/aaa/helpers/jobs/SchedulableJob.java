@@ -49,6 +49,12 @@ public class SchedulableJob {
 
         job = jobToSchedule;
 
+        // Batch marker job always runs after timeshift changes. Validate present.
+        if (!service.isJobExist(JobGroup.fromSingleJob(Jobs.aaaBatchMarkerJob.getJobName()))) {
+            service.createJob(JobGroup.fromSingleJob(Jobs.aaaBatchMarkerJob.getJobName()));
+        }
+
+        // Validate Job Group exists for passed in job.
         if (!service.isJobExist(JobGroup.fromSingleJob(job.getJobName()))) {
             service.createJob(JobGroup.fromSingleJob(job.getJobName()));
         }
@@ -98,9 +104,12 @@ public class SchedulableJob {
             LocalDateTime targetDate = jobSchedule.scheduledTargetDate.plusDays(daysOffset);
 
             output.add("Execute | Timeshift - " + outputTimeFormat.format(targetDate));
+            output.add("Execute | Job Execute " + outputTimeFormat.format(targetDate) + " aaaBatchMarkerJob");
 
+            // Move time and run the batch marker job to update PAS to new JVM timesetter timeshift.
             if (!simulateOutputOnly) {
                 TimeSetterUtil.getInstance().nextPhase(targetDate);
+                JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
             }
 
             ArrayList<SchedulableJob> todaysJobs = jobSchedule.getJobScheduleMap().get(daysOffset);
@@ -194,5 +203,13 @@ public class SchedulableJob {
             // Manually set aaaRenewalTimelineInd
             AAAMembershipQueries.updateAaaRenewalTimelineIndicatorValue(_policyNumber, "3");
         }
+    }
+
+    /**
+     * Accessor for JobOffsetDays
+     * @return jobOffsetDays
+     */
+    public int getJobOffsetDays(){
+        return jobOffsetDays;
     }
 }

@@ -22,4 +22,9 @@ public class UpdateDriverRequest implements RestBodyRequest {
 	@ApiModelProperty(value = "Age First Licensed", example = "15")
 	public Integer ageFirstLicensed;
 
+	@ApiModelProperty(value = "Permit Before License?", example = "true")
+	public Boolean permitBeforeLicense;
+
+	@ApiModelProperty(value = "Ridesharing coverage indicator. CA specific Yes/No field.", example = "18")
+	public Boolean ridesharingCoverage;
 }

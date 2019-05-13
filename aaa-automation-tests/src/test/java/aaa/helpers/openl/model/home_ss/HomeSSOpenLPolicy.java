@@ -20,6 +20,7 @@ import aaa.helpers.openl.testdata_generator.*;
 import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 
@@ -80,6 +81,9 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	private String renewalCycle;
 	private String policyVersion;
 	private List<OpenLVariationType> paymentPlanVariations;
+
+	@ExcelTransient
+	private String autoPolicyNumber = ""; // PA needs real auto policy to set autoCreditBands
 
 	public HomeSSOpneLCappingDetails getCappingDetails() {
 		return cappingDetails;
@@ -408,4 +412,8 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	public Boolean isVariationRequest() {
 		return isVariationRequest;
 	}
+
+	public String getAutoPolicyNumber() {return autoPolicyNumber;}
+
+	public void setAutoPolicyNumber(String autoPolicyNumber) {this.autoPolicyNumber = autoPolicyNumber;}
 }

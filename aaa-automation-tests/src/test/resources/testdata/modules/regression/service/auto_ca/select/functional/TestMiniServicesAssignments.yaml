@@ -1,0 +1,264 @@
+TestData_1D2V: {
+  VehicleTab: ['@VehicleTab_Regular1', '@VehicleTab_Regular2'],
+  DriverVehicleRelationshipTable: [{
+                                     Primary Driver: index=1,
+                                   }, {
+                                     Primary Driver: index=1,
+                                   }]
+}
+
+TestData_2D1V: {
+  DriverTab: ['@DriverTab_Driver1', '@DriverTab_Driver2'],
+  DriverVehicleRelationshipTable: [   {
+                                        Primary Driver: index=2,
+                                      }]
+}
+
+TestData_2D2V: {
+  DriverTab: ['@DriverTab_Driver1', '@DriverTab_Driver2'],
+  VehicleTab: ['@VehicleTab_Regular1', '@VehicleTab_Regular2'],
+  DriverVehicleRelationshipTable: [   {
+                                        Primary Driver: index=1,
+                                      }, {
+                                        Primary Driver: index=2,
+                                      }]
+}
+
+TestData_3D3V: {
+  DriverTab: ['@DriverTab_Driver1', '@DriverTab_Driver2', '@DriverTab_Driver3'],
+  VehicleTab: ['@VehicleTab_Regular1', '@VehicleTab_Regular2', '@VehicleTab_Regular3'],
+  DriverVehicleRelationshipTable: [   {
+                                        Primary Driver: index=1,
+                                      }, {
+                                        Primary Driver: index=2,
+                                      }, {
+                                        Primary Driver: index=2,
+                                      }]
+}
+
+TestData_2D3V: {
+  DriverTab: ['@DriverTab_Driver1', '@DriverTab_Driver2'],
+  VehicleTab: ['@VehicleTab_Regular1', '@VehicleTab_Regular2', '@VehicleTab_Regular3'],
+  DriverVehicleRelationshipTable: [      {
+                                           Primary Driver: index=1,
+                                         }, {
+                                           Primary Driver: index=2,
+                                         }, {
+                                           Primary Driver: index=2,
+                                         }]
+}
+
+TestData_7D6V: {
+  DriverTab: ['@DriverTab_Driver1', '@DriverTab_Driver2', '@DriverTab_Driver3', '@DriverTab_Driver4', '@DriverTab_Driver5', '@DriverTab_Driver6', '@DriverTab_Driver7'],
+  VehicleTab: ['@VehicleTab_Regular1', '@VehicleTab_Regular2', '@VehicleTab_Regular3', '@VehicleTab_Regular4', '@VehicleTab_Regular5', '@VehicleTab_Regular6'],
+  DriverVehicleRelationshipTable: [      {
+                                           Primary Driver: index=1,
+                                         }, {
+                                           Primary Driver: index=2,
+                                         }, {
+                                           Primary Driver: index=2,
+                                         }, {
+                                           Primary Driver: index=3,
+                                         }, {
+                                           Primary Driver: index=3,
+                                         }, {
+                                           Primary Driver: index=3,
+                                         }],
+  DocumentsAndBindTab: '@DocumentsAndBindTab_ExcludedDriver'
+}
+
+AssignmentTab_7D6V: {
+  DriverVehicleRelationshipTable: [      {
+                                           Primary Driver: index=1,
+                                         }, {
+                                           Primary Driver: index=2,
+                                         }, {
+                                           Primary Driver: index=2,
+                                         }, {
+                                           Primary Driver: index=3,
+                                         }, {
+                                           Primary Driver: index=3,
+                                         }, {
+                                           Primary Driver: index=3,
+                                         }],
+}
+
+DocumentsAndBindTab_ExcludedDriver: {
+  RequiredToBind: {
+    California Car Policy Application: Physically Signed,
+    Subscriber Agreement: Physically Signed,
+    Operator Exclusion Endorsement and Uninsured Motorist Coverage Deletion Endorsement: Physically Signed
+  },
+  RequiredToIssue: {
+    Policy Application: 'Yes',
+    Auto Billing Plan Explanation: 'Yes'
+  }
+}
+
+VehicleTab_Regular1: {
+  Add Vehicle: Click,
+  Primary Use: 'contains=Commute',
+  VIN: WDCYC7BB0B6729451,
+  'Miles One-way to Work or School': '15',
+  Odometer Reading: '29000',
+  Odometer Reading Date: $<today>,
+}
+
+VehicleTab_Regular2: {
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: 1GAZG1FG7D1145543,
+  Primary Use: 'contains=Commute',
+  'Miles One-way to Work or School': '99',
+  Odometer Reading: '39000',
+  Odometer Reading Date: $<today>,
+}
+
+VehicleTab_Regular3: {
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: WA1BNAFY6J2156797,
+  Primary Use: 'contains=Commute',
+  'Miles One-way to Work or School': '99',
+  Odometer Reading: '39000',
+  Odometer Reading Date: $<today>,
+}
+
+VehicleTab_Regular4: {
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: SAJWA1CZ1F8V88395,
+  Primary Use: 'contains=Commute',
+  'Miles One-way to Work or School': '99',
+  Odometer Reading: '39000',
+  Odometer Reading Date: $<today>,
+}
+
+VehicleTab_Regular5: {
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: WBA8B9G34HNU57200,
+  Primary Use: 'contains=Commute',
+  'Miles One-way to Work or School': '99',
+  Odometer Reading: '39000',
+  Odometer Reading Date: $<today>,
+}
+
+VehicleTab_Regular6: {
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: 4JGDA5JB1GA688408,
+  Primary Use: 'contains=Commute',
+  'Miles One-way to Work or School': '99',
+  Odometer Reading: '39000',
+  Odometer Reading Date: $<today>,
+}
+
+DriverTab_Driver1: {
+  DriverSearchDialog: {},
+  Occupation: Self Employed,
+  Age First Licensed: 18,
+  Permit Before License: 'Yes',
+  License Type: 'Valid',
+  "License #": E1234567
+}
+
+DriverTab_Driver2: {
+  DriverSearchDialog: {},
+  Driver Type: 'Available for Rating',
+  Rel. to First Named Insured: Son,
+  First Name: 'Vincent',
+  Last Name: 'Branwen',
+  Date of Birth: '01/01/2000',
+  Gender: 'Male',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  Most Recent GPA: 'A Student',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'B1234567'
+}
+
+DriverTab_Driver3: {
+  DriverSearchDialog: {},
+  Driver Type: 'Available for Rating',
+  Rel. to First Named Insured: Daughter,
+  First Name: 'Iseult',
+  Last Name: 'Branwen',
+  Date of Birth: '05/01/2003',
+  Gender: 'Female',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  Most Recent GPA: 'A Student',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'A1234567',
+}
+
+DriverTab_Driver4: {
+  DriverSearchDialog: {},
+  Driver Type: 'Available for Rating',
+  Rel. to First Named Insured: Son,
+  First Name: 'Gray',
+  Last Name: 'Branwen',
+  Date of Birth: '05/01/1998',
+  Gender: 'Female',
+  Marital Status: Married,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'No',
+  "License #": 'A8234567',
+}
+
+DriverTab_Driver5: {
+  DriverSearchDialog: {},
+  Driver Type: 'Available for Rating',
+  Rel. to First Named Insured: Father,
+  First Name: 'Christopher',
+  Last Name: 'Branwen',
+  Date of Birth: '05/01/1956',
+  Gender: 'Male',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'C1234567'
+}
+
+DriverTab_Driver6: {
+  DriverSearchDialog: {},
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Unlicensed spouse',
+  Rel. to First Named Insured: Mother,
+  First Name: 'Orlaith',
+  Last Name: 'Branwen',
+  Date of Birth: '05/01/1958',
+  Gender: 'Female',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'D1234567'
+}
+
+DriverTab_Driver7: {
+  DriverSearchDialog: {},
+  Driver Type: 'Excluded',
+  Reason: 'Insured Requested - premium',
+  Rel. to First Named Insured: Daughter,
+  First Name: 'Iona',
+  Last Name: 'Branwen',
+  Date of Birth: '05/01/2000',
+  Gender: 'Female',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'G1234567'
+}

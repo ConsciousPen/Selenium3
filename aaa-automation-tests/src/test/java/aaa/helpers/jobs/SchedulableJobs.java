@@ -696,14 +696,6 @@ public class SchedulableJobs {
         return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Subtract_Days, offset);
     }
 
-    public static SchedulableJob aaaBatchMarkerJob(TimePoint newBusinessTimePoint) {
-        Job baseJob = BatchJob.aaaBatchMarkerJob;
-
-        int offset = getNewBusinessPlus_15_Or_30(newBusinessTimePoint);
-
-        return new SchedulableJob(baseJob, SchedulableJob.JobOffsetType.Add_Days, offset);
-    }
-
     public static SchedulableJob aaaAutomatedProcessingInitiationJob(TimePoint newBusinessTimePoint) {
         Job baseJob = BatchJob.aaaAutomatedProcessingInitiationJob;
 
@@ -1000,6 +992,8 @@ public class SchedulableJobs {
      * @throws NullPointerException if the SQL response was null.
      */
     public static PolicyTerm GetPolicyTerm(String policyNumber) throws NullPointerException{
+
+        if (policyNumber.startsWith("CA")){ return PolicyTerm.Annual; }
 
         String sqlResponse = getPolicyTermFromSQL(policyNumber).orElse("NULL");
 

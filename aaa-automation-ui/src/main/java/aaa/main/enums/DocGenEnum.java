@@ -84,7 +84,7 @@ public final class DocGenEnum {
 		AA52IPAB(""),
 		AA52IPAC(""),
 		AA52MT("UM UIM Reject/Elect Lower Limits"),
-		AA52NY("Supplementary Uninsured/Underinsured Motorists Coverage¿Rejection or Election of Lower Limits"),
+		AA52NY("Supplementary Uninsured/Underinsured Motorists Coverage - Rejection or Election of Lower Limits"),
 		AA52OH("Rejection of Uninsured/Underinsured Motorist Bodily Injury Coverage"),
 		AA52OK(""),
 		AA52KS(""),
@@ -551,7 +551,12 @@ public final class DocGenEnum {
 		ENDORSEMENT_ISSUE("ENDORSEMENT_ISSUE"),
 		ADHOC_DOC_GENERATE("ADHOC_DOC_GENERATE"),
 		ADHOC_DOC_ON_DEMAND_PREVIEW("ADHOC_DOC_ON_DEMAND_PREVIEW"),
-		ADHOC_DOC_ON_DEMAND_GENERATE("ADHOC_DOC_ON_DEMAND_GENERATE");
+		ADHOC_DOC_ON_DEMAND_GENERATE("ADHOC_DOC_ON_DEMAND_GENERATE"), 
+		AUTO_STATEMENT("AUTO_STATEMENT"), 
+		AUTO_PAY_METNOD_CHANGED("AUTO_PAY_METNOD_CHANGED"),
+		AUTO_PAY_METHOD_REMOVED("AUTO_PAY_METHOD_REMOVED"),
+		APPLY_BILLING_TRANSACTION("APPLY_BILLING_TRANSACTION"), 
+		PAYMENT("PAYMENT");
 
 		private String id;
 

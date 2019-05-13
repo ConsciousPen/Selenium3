@@ -56,36 +56,40 @@ public class TestMinDueIsNotRecalculatedAfterRenewals extends FinanceOperations 
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22575")
 
 	public void pas22575_testMinDueIsNotRecalculatedAfterRenewals(@Optional("CA") String state) {
-		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData")
-				.adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.STANDARD_MONTHLY);
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
 		String policyNumber = openAppAndCreatePolicy(td);
 		LocalDateTime policyExpDate = PolicySummaryPage.getExpirationDate();
 		payTotalAmtDue(policyNumber);
 
 		//Initiate Renewal Offer
-		renewalImageGeneration(policyNumber, policyExpDate);
-		renewalPreviewGeneration(policyNumber, policyExpDate);
-		renewalOfferGeneration(policyNumber, policyExpDate);
+		createInitialReviewOffer(policyExpDate);
 		TimeSetterUtil.getInstance().nextPhase(policyExpDate.minusDays(17));
 
 		// Save Min Due for Renewal Proposal
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
-		Dollar minDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS, ProductConstants.PolicyStatus.PROPOSED).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue());
+		Dollar minDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains
+				(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS, ProductConstants.PolicyStatus.PROPOSED)
+				.getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue());
 		BillingSummaryPage.openPolicy(1);
 		renewalAndChangeBodilyInjury("$1,000,000/$1,000,000");
 
 		// Check that Renewal Proposal Min Due did not change
 		SearchPage.openBilling(policyNumber);
-		assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS, ProductConstants.PolicyStatus.PROPOSED).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue())).isEqualTo(minDue);
+		assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(
+				BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS, ProductConstants.PolicyStatus.PROPOSED)
+				.getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue())).isEqualTo(minDue);
 		TimeSetterUtil.getInstance().nextPhase(policyExpDate.minusDays(16));
 		searchForPolicy(policyNumber);
 		renewalAndChangeBodilyInjury("$500,000/$1,000,000");
 
 		// Check that Renewal Proposal Min Due did not change and Offer was not discarded
 		SearchPage.openBilling(policyNumber);
-		assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS, ProductConstants.PolicyStatus.PROPOSED).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue())).isEqualTo(minDue);
-		assertThat(BillingSummaryPage.tableBillsStatements.getValuesFromRows(BillingConstants.BillingBillsAndStatmentsTable.TYPE)).doesNotContain(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER);
+		assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRowContains(
+				BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS, ProductConstants.PolicyStatus.PROPOSED)
+				.getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue())).isNotEqualTo(minDue);
+		assertThat(BillingSummaryPage.tableBillsStatements.getValuesFromRows(BillingConstants.BillingBillsAndStatmentsTable.TYPE))
+				.doesNotContain(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER);
 	}
 
 	private void renewalAndChangeBodilyInjury(String bodilyInjuryAmount) {
