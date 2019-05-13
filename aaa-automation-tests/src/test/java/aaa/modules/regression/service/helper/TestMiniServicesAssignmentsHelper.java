@@ -1572,6 +1572,14 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		helperMiniServices.bindEndorsementWithCheck(policyNumber);
 	}
 
+	protected boolean assignmentExistsForDriverVehicle(String driverOid, String vehicleOid, List<DriverAssignment> assignments) {
+		return assignments.stream().anyMatch(assignment -> assignment.driverOid.equals(driverOid) && assignment.vehicleOid.equals(vehicleOid));
+	}
+
+	protected DriversDto findDriverByFirstName(String firstName, ViewDriversResponse dResponse) {
+		return dResponse.driverList.stream().filter(driver -> driver.firstName.startsWith(firstName)).findFirst().orElse(null);
+	}
+
 	private DriversDto findDriver(TestData testData, ViewDriversResponse dResponse, int driverIndex, String tabName) {
 		return findDriver(testData, dResponse, driverIndex, tabName, false);
 	}
@@ -1601,13 +1609,13 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		});
 	}
 
-	private Vehicle findVehicle(ViewVehicleResponse viewVehicleResponse, String vin) {
+	protected Vehicle findVehicle(ViewVehicleResponse viewVehicleResponse, String vin) {
 		Vehicle vehicle = viewVehicleResponse.vehicleList.stream().filter(veh -> vin.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
 		assertThat(vehicle).isNotNull();
 		return vehicle;
 	}
 
-	private String addRegularDriver(String policyNumber, String driverName, String licenseNumber) {
+	protected String addRegularDriver(String policyNumber, String driverName, String licenseNumber) {
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest(driverName, null, "Pukenaite", "1984-02-08", "II");
 		DriversDto addedDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", licenseNumber, 18, "VA", "CH", "MSS");
@@ -1615,7 +1623,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		return addedDriverResponse.oid;
 	}
 
-	private String replaceVehicleWithUpdates(String policyNumber, String vehicleToReplaceOid, String replacedVehicleVin, boolean keepAssignments, boolean keepCoverages) {
+	protected String replaceVehicleWithUpdates(String policyNumber, String vehicleToReplaceOid, String replacedVehicleVin, boolean keepAssignments, boolean keepCoverages) {
 		printToLog("policyNumber: " + policyNumber + ", vehicleToReplaceOid: " + vehicleToReplaceOid + ", replacedVehicleVin: " + replacedVehicleVin);
 		printToLog("keepAssignments: "+ keepAssignments + ", keepCoverages: "+ keepCoverages);
 		ReplaceVehicleRequest replaceVehicleRequest = DXPRequestFactory.createReplaceVehicleRequest(replacedVehicleVin, "2013-03-31", keepAssignments, keepCoverages);
@@ -1625,7 +1633,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		return replaceVehicleOid;
 	}
 
-	private String addVehicle(String policyNumber, String purchaseDate, String vin) {
+	protected String addVehicle(String policyNumber, String purchaseDate, String vin) {
 		Vehicle responseAddVehicle =
 				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
 		assertThat(responseAddVehicle.oid).isNotEmpty();
@@ -1635,19 +1643,19 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		return newVehicleOid;
 	}
 
-	private TestData createPolicyWithMoreThanOneVehicle(String vehicleTestData){
+	protected TestData createPolicyWithMoreThanOneVehicle(String vehicleTestData){
 			TestData td = getPolicyDefaultTD();
 			td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD(vehicleTestData).getTestDataList("VehicleTab")).resolveLinks();
 			return td;
 		}
 
-	private TestData createPolicyWithMoreThanOneDriver(String driverTestData){
+	protected TestData createPolicyWithMoreThanOneDriver(String driverTestData){
 			TestData td = getPolicyDefaultTD();
 			td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD(driverTestData).getTestDataList("DriverTab")).resolveLinks();
 			return td;
 		}
 
-	private TestData createPolicyWithMoreThanOneDriverAndVehicle(String driverTestData, String vehicleTestData, String assignmentTestData){
+	protected TestData createPolicyWithMoreThanOneDriverAndVehicle(String driverTestData, String vehicleTestData, String assignmentTestData){
 			TestData td = getPolicyDefaultTD();
 			td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD(driverTestData).getTestDataList("DriverTab")).resolveLinks();
 			td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD(vehicleTestData).getTestDataList("VehicleTab")).resolveLinks();
@@ -1675,6 +1683,14 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		} else {
 			assertThat(vehicleTab.getInquiryAssetList().getStaticElement(PRIMARY_OPERATOR).getValue()).doesNotContain(driverFirstName);
 		}
+	}
+
+	public HelperMiniServices getHelperMiniServices() {
+		return helperMiniServices;
+	}
+
+	public TestMiniServicesDriversHelper getTestMiniServicesDriversHelper() {
+		return testMiniServicesDriversHelper;
 	}
 }
 

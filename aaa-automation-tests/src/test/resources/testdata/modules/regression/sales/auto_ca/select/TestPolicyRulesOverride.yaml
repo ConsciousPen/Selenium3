@@ -2,8 +2,8 @@ UpdateRulesTestData_1: {
    UpdateRulesOverrideActionTab: {
    UpdateRulesOverride: [{
     Message: "contains=California Car Policy Application",
-    Update All: 'true',
-    Authorize/Delete All: 'true',
+    Update: 'true',
+    Authorize/Delete: 'true',
     Duration: Term,
     Reason for override: 'Justified through supporting documentation'
    }]
@@ -14,8 +14,8 @@ UpdateRulesTestData_2: {
    UpdateRulesOverrideActionTab: {
    UpdateRulesOverride: [{
     Message: "contains=California Car Policy Application",
-    Update All: 'true',
-    Authorize/Delete All: 'true',
+    Update: 'true',
+    Authorize/Delete: 'true',
     Duration: Life,
     Reason for override: 'Temporary Issue'
    }]

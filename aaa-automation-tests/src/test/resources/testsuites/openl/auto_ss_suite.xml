@@ -163,8 +163,8 @@
         </classes>
     </test>
     <test name="AutoSS [SD] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="SDTests-20170601.xls"/>
-        <parameter name="policyNumbers" value="1, 120"/>
+        <parameter name="fileName" value="SDTests-20190608_part1.xls"/>
+        <parameter name="policyNumbers" value="21, 196"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
