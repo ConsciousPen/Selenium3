@@ -2,11 +2,14 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Optional;
@@ -30,14 +33,16 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
@@ -65,6 +70,59 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     private PremiumAndCoveragesTab _pncTab = new PremiumAndCoveragesTab();
     private DocumentsAndBindTab _documentsAndBindTab = new DocumentsAndBindTab();
     private PurchaseTab _purchaseTab = new PurchaseTab();
+
+    /**
+     *  Creates a policy with MPD discount
+     *  Runs NB +30 jobs for MPD discount validation
+     *  Discunt is removed due to non-active products found and removes discount
+     *  Reason in transaction history set to "Discount validation failure, policy information updated."
+     * @param state the test will run against.
+     * @author Robert Boles - CIO
+     */
+    @Parameters({"state"})
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Provide 'Reason' type for a MTC to show generic wording when MPD discount is added/removed/change")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-29273")
+    public void pas29273_updateReasonMPDRemoval(@Optional("UT") String state) {
+        TestData testData = getTdAuto();
+        mainApp().open();
+        createCustomerIndividual();
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(testData, GeneralTab.class,true);
+        //Set Membership to Yes or No
+        _generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
+        //Set the membership number to either cancelled or active
+        _generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("4290074030137505");
+            //puts quoted products into the MPD table with REFRESH_Q@yeah.com
+        _generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.EMAIL).setValue("REFRESH_Q@yeah.com");
+        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
+                    .click(Waiters.AJAX);
+        _generalTab.submitTab();
+        policy.getDefaultView().fillFromTo(testData, DriverTab.class, PurchaseTab.class, true);
+        if (_errorTab.tableErrors.isPresent()) {
+            _errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_MVR_order_validation_SS);
+            _errorTab.override();
+            PurchaseTab purchaseTab = new PurchaseTab();
+            purchaseTab.submitTab();
+        } else {
+            PurchaseTab purchaseTab = new PurchaseTab();
+            purchaseTab.submitTab();
+        }
+        String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+        log.info("Policy Number " + PolicySummaryPage.getPolicyNumber());
+        LocalDateTime policyEffectiveDatePlus30 = PolicySummaryPage.getEffectiveDate();
+        if(policyEffectiveDatePlus30.getDayOfWeek() == DayOfWeek.SATURDAY) {
+            policyEffectiveDatePlus30 = policyEffectiveDatePlus30.plusDays(2);
+        } else if (policyEffectiveDatePlus30.getDayOfWeek() == DayOfWeek.SUNDAY) {
+            policyEffectiveDatePlus30 = policyEffectiveDatePlus30.plusDays(1);
+        }
+        TimeSetterUtil.getInstance().nextPhase(policyEffectiveDatePlus30.plusDays(30));
+        log.info("Time Setter Move " + policyEffectiveDatePlus30.plusDays(30));
+
+        jobsNBplus30runNoChecks();
+        mainApp().reopen();
+        SearchPage.openPolicy(policyNumber);
+        transactionHistoryRecordCountCheck(policyNumber, 2, "Discount validation failure, policy information updated.", new ETCSCoreSoftAssertions());
+    }
 
     /**
      * Make sure various combos of Unquoted Other AAA Products rate properly and are listed in the UI
@@ -682,7 +740,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         // Added MPD element, filling up to purchase point. Includes hacky methods to get around system error.
         policy.getDefaultView().fillFromTo(testData, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnPurchase.click();
+		DocumentsAndBindTab.btnPurchase.click();
         ErrorTab.buttonCancel.click();
 
         editMPDAndRerate(0, "Renters", "ABC1"); // Editing only the policyType in this scenario.
@@ -785,7 +843,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         policy.getDefaultView().fillFromTo(testData, GeneralTab.class, PurchaseTab.class, true);
         PurchaseTab.btnApplyPayment.click();
         Page.dialogConfirmation.buttonYes.click();
-        CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue().contains("Active")).isTrue();
+		assertThat(PolicySummaryPage.labelPolicyStatus.getValue().contains("Active")).isTrue();
     }
 
 
@@ -808,7 +866,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createQuoteAndFillUpTo(td, GeneralTab.class, true);
         getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).setValue(true);
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnGenerateDocuments.click();
+		DocumentsAndBindTab.btnGenerateDocuments.click();
         policyNumber = Tab.labelPolicyNumber.getValue();
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
@@ -835,7 +893,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createQuoteAndFillUpTo(td, GeneralTab.class, true);
         getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).setValue(true);
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnGenerateDocuments.click();
+		DocumentsAndBindTab.btnGenerateDocuments.click();
         policyNumber = Tab.labelPolicyNumber.getValue();
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
@@ -862,7 +920,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createQuoteAndFillUpTo(td, GeneralTab.class, true);
         getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).setValue(true);
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnGenerateDocuments.click();
+		DocumentsAndBindTab.btnGenerateDocuments.click();
         policyNumber = Tab.labelPolicyNumber.getValue();
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
@@ -893,7 +951,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE).setValue(true);
         getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE).setValue(true);
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnGenerateDocuments.click();
+		DocumentsAndBindTab.btnGenerateDocuments.click();
         policyNumber = Tab.labelPolicyNumber.getValue();
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
@@ -936,7 +994,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
                 .getValue().split("\\n")[0];
 
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnGenerateDocuments.click();
+		DocumentsAndBindTab.btnGenerateDocuments.click();
         policyNumber = Tab.labelPolicyNumber.getValue();
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
@@ -968,7 +1026,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound("Home", "TestHome_SecondAdded");
 
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnGenerateDocuments.click();
+		DocumentsAndBindTab.btnGenerateDocuments.click();
         policyNumber = Tab.labelPolicyNumber.getValue();
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
@@ -1002,7 +1060,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         otherAAAProductsSearchTable_addSelected(2);
 
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnGenerateDocuments.click();
+		DocumentsAndBindTab.btnGenerateDocuments.click();
         policyNumber = Tab.labelPolicyNumber.getValue();
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
@@ -1048,7 +1106,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
                 .getValue().split("\\n")[0];
 
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnGenerateDocuments.click();
+		DocumentsAndBindTab.btnGenerateDocuments.click();
         policyNumber = Tab.labelPolicyNumber.getValue();
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
@@ -1083,7 +1141,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         otherAAAProducts_SearchAndManuallyAddCompanionPolicy("Life", "TestLifePolicy");
 
         policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnGenerateDocuments.click();
+		DocumentsAndBindTab.btnGenerateDocuments.click();
         policyNumber = Tab.labelPolicyNumber.getValue();
 
         DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
@@ -1109,16 +1167,16 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMERS_51");
 
         // Validate Error appears and count the number of results on the page.
-        CustomAssertions.assertThat(_generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.EXCEEDED_LIMIT_MESSAGE)).isPresent();
-        CustomAssertions.assertThat(getSearchResultsCount()).isEqualTo(numberOfResultsRequiredForSuccessfulValidation);
+		assertThat(_generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.EXCEEDED_LIMIT_MESSAGE)).isPresent();
+		assertThat(getSearchResultsCount()).isEqualTo(numberOfResultsRequiredForSuccessfulValidation);
         otherAAAProductsSearchTable_addSelected(new int[]{0, 1, 2, 3, 4, 5});
 
         // Test Results <= 50 DO NOT display error on UI.
         otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_GBY");
 
         // Validate Error does NOT appear and count the number of results on the page.
-        CustomAssertions.assertThat(_generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.EXCEEDED_LIMIT_MESSAGE)).isAbsent();
-        CustomAssertions.assertThat(getSearchResultsCount()).isEqualTo(numberOfResultsRequiredForSuccessfulValidation);
+		assertThat(_generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.EXCEEDED_LIMIT_MESSAGE)).isAbsent();
+		assertThat(getSearchResultsCount()).isEqualTo(numberOfResultsRequiredForSuccessfulValidation);
     }
 
     // CLASS METHODS
@@ -1270,7 +1328,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.DATE_OF_BIRTH.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.DATE_OF_BIRTH.getControlClass()).setValue(dateOfBirth);
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADDRESS_LINE_1.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADDRESS_LINE_1.getControlClass()).setValue(address);
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.CITY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.CITY.getControlClass()).setValue(city);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getLabel(), (AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getControlClass())).setValue(state);
+		_generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getControlClass()).setValue(state);
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
     }
 
@@ -1294,7 +1352,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * @return
      */
     public Link otherAAAProductsTable_getRemoveLinkByIndex(int index) {
-        return new Link(By.id("policyDataGatherForm:otherAAAProductsTable:" + String.valueOf(index) + ":removeMPDPolicyLink"));
+		return new Link(By.id("policyDataGatherForm:otherAAAProductsTable:" + index + ":removeMPDPolicyLink"));
     }
 
     /**
@@ -1303,7 +1361,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * @return
      */
     public Link otherAAAProductsTable_getEditLinkByIndex(int index){
-        return new Link(By.id("policyDataGatherForm:otherAAAProductsTable:" + String.valueOf(index) + ":editMPDPolicyLink"));
+		return new Link(By.id("policyDataGatherForm:otherAAAProductsTable:" + index + ":editMPDPolicyLink"));
     }
 
     /**
@@ -1313,7 +1371,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      */
     public CheckBox otherAAAProductsSearchTable_getSelectBoxByIndex(int index){
         index = otherAAAProductsTableIndexWatchDog(index);
-        return new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + String.valueOf(index) + ":customerSelected"));
+		return new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + index + ":customerSelected"));
     }
 
     /**
@@ -1321,7 +1379,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
      * @param index
      */
     public void otherAAAProductsSearchTable_addSelected(int index){
-        new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + String.valueOf(index) + ":customerSelected")).setValue(true);
+		new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + index + ":customerSelected")).setValue(true);
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN.getControlClass()).click();
     }
 
@@ -1332,7 +1390,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     public void otherAAAProductsSearchTable_addSelected(int[] indexList){
         for(int index : indexList)
         {
-            new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + String.valueOf(index) + ":customerSelected")).setValue(true);
+			new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + index + ":customerSelected")).setValue(true);
         }
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN.getControlClass()).click();
     }
@@ -1660,17 +1718,17 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     private void ValidateRerateErrorMessage(boolean bExpected){
         try{
             if(_errorTab.tableErrors.getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString().contains("Unprepared data")){
-                CustomAssertions.assertThat(_errorTab.tableErrors.getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString().contains("Unprepared data")).isEqualTo(bExpected);
+				assertThat(_errorTab.tableErrors.getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString().contains("Unprepared data")).isEqualTo(bExpected);
             }
             else{
                 _errorTab.overrideAllErrors();
                 _errorTab.buttonOverride.click();
-                _documentsAndBindTab.btnPurchase.click();
-                CustomAssertions.assertThat(_errorTab.tableErrors.getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString().contains("Unprepared data")).isEqualTo(bExpected);
+				DocumentsAndBindTab.btnPurchase.click();
+				assertThat(_errorTab.tableErrors.getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString().contains("Unprepared data")).isEqualTo(bExpected);
             }
         }catch(IstfException ex){
-            CustomAssertions.assertThat(Page.dialogConfirmation.buttonNo.isPresent()).isTrue();
-            CustomAssertions.assertThat(bExpected).isFalse(); // Making sure we were expecting it to be false here.
+			assertThat(Page.dialogConfirmation.buttonNo.isPresent()).isTrue();
+			assertThat(bExpected).isFalse(); // Making sure we were expecting it to be false here.
         }
     }
 
@@ -1685,7 +1743,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         ValidateRerateErrorMessage(true);
 
         // Return to P&C Tab and Re-Rate
-        _errorTab.buttonCancel.click();
+		Tab.buttonCancel.click();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         _pncTab.btnCalculatePremium().click();
 
@@ -1693,7 +1751,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         //_documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(),
         //        AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getControlClass()).setValue("Physically Signed");
-        _documentsAndBindTab.btnPurchase.click();
+		DocumentsAndBindTab.btnPurchase.click();
 
         // Validate No UW Error
         ValidateRerateErrorMessage(false);
@@ -1710,7 +1768,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         // Continue towards purchase of quote.
         policy.getDefaultView().fillFromTo(testData, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnPurchase.click();
+		DocumentsAndBindTab.btnPurchase.click();
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
         validateMPDCompanionError(in_policyType);
@@ -1830,7 +1888,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         if (!thePolicyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !thePolicyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
             new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.MPD_COMPANION_VALIDATION);
         }else {
-            CustomAssertions.assertThat(PolicySummaryPage.labelPolicyNumber.isPresent());
+			assertThat(PolicySummaryPage.labelPolicyNumber.isPresent());
         }
     }
 
@@ -1842,13 +1900,13 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         try{
             new ErrorTab().verify.errorsPresent(false, ErrorEnum.Errors.AAA_SS02012019);
         }catch(IstfException ex){
-            CustomAssertions.assertThat(ex.getMessage()).isEqualToIgnoringCase("Column Code was not found in the table");
+			assertThat(ex.getMessage()).isEqualToIgnoringCase("Column Code was not found in the table");
         }
     }
 
     private void fillFromGeneralTabToErrorMsg(){
         policy.getDefaultView().fillFromTo(getPolicyTD("Endorsement", "TestData_Empty_Endorsement"), GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnPurchase.click();
+		DocumentsAndBindTab.btnPurchase.click();
         Page.dialogConfirmation.buttonYes.click();
     }
 
@@ -1869,4 +1927,58 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         List<WebElement> arrayOfCheckboxesFound = BrowserController.get().driver().findElements(By.xpath(_XPATH_TO_ALL_SEARCH_RESULT_CHECKBOXES));
         return arrayOfCheckboxesFound.size();
     }
+
+    /**
+     * @return Test Data for an AZ SS policy with no other active policies
+     */
+    private TestData getTdAuto() {
+        return getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData")
+                .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()))
+                .mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()));
+    }
+
+    /**
+     * Jobset needed to process MPD discount validation at NB +30
+     */
+    private void jobsNBplus30runNoChecks() {
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.aaaAutomatedProcessingInitiationJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingRatingJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingRunReportsServicesJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingIssuingOrProposingJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingStrategyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingBypassingAndErrorsReportGenerationJob);
+        log.info("Current application date: " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")));
+        TimeSetterUtil.getInstance().adjustTime();
+    }
+
+    /**
+     *
+     * @param policyNumber policy number in test
+     * @param rowCount which row of the table (how many transactions in history)
+     * @param value value to be present in Reason field
+     * @param softly for assertions
+     */
+    private void transactionHistoryRecordCountCheck(String policyNumber, int rowCount, String value, ETCSCoreSoftAssertions softly) {
+        PolicySummaryPage.buttonTransactionHistory.click();
+        softly.assertThat(PolicySummaryPage.tableTransactionHistory).hasRows(rowCount);
+
+        String valueShort = "";
+        if (!StringUtils.isEmpty(value)) {
+            valueShort = value.substring(0, 20);
+            assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getHintValue()).contains(value);
+        }
+        softly.assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getValue()).contains(valueShort);
+
+        String transactionHistoryQuery = "select * from(\n"
+                + "select pt.TXREASONTEXT\n"
+                + "from PolicyTransaction pt\n"
+                + "where POLICYID in \n"
+                + "        (select id from POLICYSUMMARY \n"
+                + "        where POLICYNUMBER = '%s')\n"
+                + "    order by pt.TXDATE desc)\n"
+                + "    where rownum=1";
+        softly.assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).isEqualTo(value);
+    }
+
 }

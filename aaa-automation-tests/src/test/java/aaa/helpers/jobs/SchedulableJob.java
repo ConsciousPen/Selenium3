@@ -35,20 +35,25 @@ public class SchedulableJob {
     private static SoapJobActions service = new SoapJobActions();
 
     /**
-     * A select few jobs actually do run on weekends. Setting true will ignore the weekend check.
-     */
-    private boolean supportsWeekend = false;
-
-    /**
      * Uses JobOffsetType to add or substract number of days.
      */
-    protected int jobOffsetDays = 0;
+	protected int jobOffsetDays;
+	/**
+	 * A select few jobs actually do run on weekends. Setting true will ignore the weekend check.
+	 */
+	private boolean supportsWeekend;
 
 
     public SchedulableJob(Job jobToSchedule, JobOffsetType jobOffsetOperationType, int jobOffsetByDays){
 
         job = jobToSchedule;
 
+        // Batch marker job always runs after timeshift changes. Validate present.
+		if (!service.isJobExist(JobGroup.fromSingleJob(BatchJob.aaaBatchMarkerJob.getJobName()))) {
+			service.createJob(JobGroup.fromSingleJob(BatchJob.aaaBatchMarkerJob.getJobName()));
+        }
+
+        // Validate Job Group exists for passed in job.
         if (!service.isJobExist(JobGroup.fromSingleJob(job.getJobName()))) {
             service.createJob(JobGroup.fromSingleJob(job.getJobName()));
         }
@@ -98,9 +103,12 @@ public class SchedulableJob {
             LocalDateTime targetDate = jobSchedule.scheduledTargetDate.plusDays(daysOffset);
 
             output.add("Execute | Timeshift - " + outputTimeFormat.format(targetDate));
+            output.add("Execute | Job Execute " + outputTimeFormat.format(targetDate) + " aaaBatchMarkerJob");
 
+            // Move time and run the batch marker job to update PAS to new JVM timesetter timeshift.
             if (!simulateOutputOnly) {
                 TimeSetterUtil.getInstance().nextPhase(targetDate);
+				JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
             }
 
             ArrayList<SchedulableJob> todaysJobs = jobSchedule.getJobScheduleMap().get(daysOffset);
@@ -194,5 +202,13 @@ public class SchedulableJob {
             // Manually set aaaRenewalTimelineInd
             AAAMembershipQueries.updateAaaRenewalTimelineIndicatorValue(_policyNumber, "3");
         }
+    }
+
+    /**
+     * Accessor for JobOffsetDays
+     * @return jobOffsetDays
+     */
+    public int getJobOffsetDays(){
+        return jobOffsetDays;
     }
 }

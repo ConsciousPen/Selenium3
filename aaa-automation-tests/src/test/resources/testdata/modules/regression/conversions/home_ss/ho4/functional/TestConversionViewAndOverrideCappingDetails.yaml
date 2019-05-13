@@ -17,6 +17,15 @@ GeneralTab_NJ: {
 InitiateRenewalEntryActionTab_NJ: {
   Renewal Policy Premium: 1500
 }
+# ====================== TestData AZ =======================
+TestData_AZ: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab',
+  GeneralTab: '@GeneralTab_AZ',
+}
+
+GeneralTab_AZ: {
+  Immediate prior carrier: 'CSAA Fire & Casualty Insurance Company',
+}
 
 InitiateRenewalEntryActionTab: {
   Renewal Policy Premium: 980

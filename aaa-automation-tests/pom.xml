@@ -45,6 +45,7 @@
                             <timeshift.report.dir>${timeshift.report.dir}</timeshift.report.dir>
                         </systemPropertyVariables>
                         <argLine>-Xms1536m -Xmx2048m</argLine>
+                        <disableXmlReport>true</disableXmlReport>
                     </configuration>
                 </plugin>
             </plugins>

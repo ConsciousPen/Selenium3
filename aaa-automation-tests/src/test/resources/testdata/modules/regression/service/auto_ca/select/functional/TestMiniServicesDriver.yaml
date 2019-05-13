@@ -1,0 +1,363 @@
+TestData: {
+  PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab5'],
+  RatingDetailReportsTab: '@<auto_ca_select>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: '@<auto_ca_select>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+TestData_Rideshare: {
+DriverTab: ['@DriverTab2','@Driver_Excluded_CA']
+ }
+
+DriverTab2: {
+  DriverSearchDialog: {},
+  Occupation: 'Driver',
+  Age First Licensed: 18,
+  License Type: 'Valid',
+  "License #": 'B1234567',
+  Permit Before License: 'Yes'
+}
+
+PolicyInformation: {
+  Policy Type: Standard,
+  Effective Date: '$<today:MM/dd/yyyy>',
+  Channel Type: AAA Agent,
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'contains=Los Gatos - 500005341 - Los Gatos',
+  Agent: 'House Agent Los Gatos',
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+DocumentsAndBindTab_ExcludedDriver: {
+  RequiredToBind: {
+    California Car Policy Application: Physically Signed,
+    Subscriber Agreement: Physically Signed,
+    Operator Exclusion Endorsement and Uninsured Motorist Coverage Deletion Endorsement: Physically Signed
+  },
+  RequiredToIssue: {
+    Policy Application: 'Yes',
+    Auto Billing Plan Explanation: 'Yes'
+  }
+
+}
+
+ContactInformation: {
+  Home Phone Number: 1234567890,
+  Email: temp@gmail.com
+}
+
+AAAProductOwned: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001,
+  Home: 'Yes',
+  ListOfProducts:[{
+    'column=7': 'Edit',
+    Policy Number: '123',
+    Save: 'click'}]
+
+
+}
+
+CurrentCarrierInformation: {
+ 'Override Prefilled Current Carrier?': 'Yes',
+  'Agent Entered Current/Prior Carrier': 'AAA Insurance',
+  Agent Entered Inception Date:  '$<today-3y+1d:MM/dd/yyyy>',
+  Agent Entered Expiration Date:  '$<today+9d:MM/dd/yyyy>',
+  Agent Entered BI Limits: '$300,000/$500,000',
+}
+
+MembershipTab: {
+  #Customer Agreement: Customer Agrees,
+  #Sales Agent Agreement: I Agree,
+  Order Report: click,
+  AAAMembershipReport: [{}]
+}
+
+TestData_FilteredRelationshipDrivers_CA: {
+    PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
+    GeneralTab: '@GeneralTab1_CA',
+    DriverTab: ['@Driver_FNI', '@Driver_Son_CA', '@Driver_Daughter_CA', '@Driver_Father_CA', '@Driver_Mother_CA', '@Driver_NotAvailable_CA', '@Driver_Excluded_CA'],
+    MembershipTab: '@MembershipTab',
+    VehicleTab: '@<auto_ca_select>@DataGather@VehicleTab',
+    AssignmentTab: '@<auto_ca_select>@DataGather@AssignmentTab',
+    FormsTab: '@<auto_ca_select>@DataGather@FormsTab',
+    PremiumAndCoveragesTab: '@<auto_ca_select>@DataGather@PremiumAndCoveragesTab',
+    DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
+    DocumentsAndBindTab: '@DocumentsAndBindTab_ExcludedDriver',
+    PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+}
+
+TestDataDiscountCA: {
+    PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
+    GeneralTab: '@GeneralTab1_CA_Discount',
+    DriverTab: ['@Driver_FNI', '@Driver_Daughter_CA','@Driver_ForDiscount_CA'],
+    MembershipTab: '@MembershipTab',
+    VehicleTab: ['@VehicleTab_1', '@VehicleTabViewDiscount','@VehicleTabViewDiscount1'],
+    AssignmentTab: '@AssignmentTab',
+    FormsTab: '@<auto_ca_select>@DataGather@FormsTab',
+    PremiumAndCoveragesTab: '@<auto_ca_select>@DataGather@PremiumAndCoveragesTab',
+    DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
+    DocumentsAndBindTab: '@DocumentsAndBindTab',
+    PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+}
+
+DocumentsAndBindTab: {
+  RequiredToIssue: {
+    Proof of Good Student Discount: 'Yes',
+    Proof of New Driver Course Completion: 'Yes',
+    Proof of Mature Driver Course Completion: 'Yes',
+    Policy Application: 'Yes',
+    Auto Billing Plan Explanation: 'Yes'
+  },
+  RequiredToBind: {
+  California Car Policy Application: 'Physically Signed',
+  Subscriber Agreement: 'Physically Signed',
+
+  },
+  "Home Motorcycle Policy #": 2222222223
+}
+
+GeneralTab1_CA: {
+  ContactInformation: '@ContactInformation',
+  AAAProductOwned: '@AAAProductOwned',
+  PolicyInformation: '@PolicyInformation',
+  NamedInsuredInformation: ['@NamedInsuredInformation1_CA', '@NamedInsuredInformation2_CA','@NamedInsuredInformation3_CA', '@NamedInsuredInformation4_CA'],
+}
+
+GeneralTab1_CA_Discount: {
+  ContactInformation: '@ContactInformation',
+  AAAProductOwned: '@AAAProductOwned',
+  PolicyInformation: '@PolicyInformation',
+  NamedInsuredInformation: ['@NamedInsuredInformation1_CA'],
+}
+
+Driver_FNI: {
+  DriverSearchDialog: {},
+  Occupation: Self Employed,
+  Age First Licensed: 18,
+  Permit Before License: 'Yes',
+  License Type: 'Valid',
+  "License #": E1234567
+}
+
+Driver_Son_CA: {
+  DriverSearchDialog: {},
+  Named Insured: 'Vincent Branwen',
+  Driver Type: 'Excluded',
+  Reason: 'Insured Requested - premium',
+  Rel. to First Named Insured: Son,
+  Date of Birth: '01/01/2000',
+  Gender: 'Male',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'B1234567'
+}
+
+Driver_Daughter_CA: {
+  DriverSearchDialog: {},
+  Driver Type: 'Available for Rating',
+  Rel. to First Named Insured: Daughter,
+  First Name: 'Iseult',
+  Last Name: 'Branwen',
+  Date of Birth: '05/01/2003',
+  Gender: 'Female',
+  Marital Status: Single,
+  Occupation: 'Student',
+  Most Recent GPA: 'A Student',
+  New Driver Course Completed: 'Yes',
+  New Driver Course Completion Date: $<today>,
+  New Driver Certification Number: 33333,
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'A1234567',
+}
+
+Driver_ForDiscount_CA: {
+  DriverSearchDialog: {},
+  Driver Type: 'Available for Rating',
+  Rel. to First Named Insured: Daughter,
+  First Name: 'Megha',
+  Last Name: 'Branwen',
+  Date of Birth: '05/01/1960',
+  Gender: 'Female',
+  Marital Status: Married,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'No',
+  "License #": 'A8234567',
+  Good Driver Discount: 'Yes',
+  Mature driver course completed within 36 months: 'Yes',
+  Mature Driver Course Completion Date: $<today-2M>,
+}
+
+Driver_Father_CA: {
+  DriverSearchDialog: {},
+  Named Insured: 'Christopher Branwen',
+  Driver Type: 'Available for Rating',
+  Rel. to First Named Insured: Father,
+  Date of Birth: '05/01/1956',
+  Gender: 'Male',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'C1234567'
+}
+
+Driver_Mother_CA: {
+  DriverSearchDialog: {},
+  Named Insured: 'Orlaith Branwen',
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Unlicensed spouse',
+  Rel. to First Named Insured: Mother,
+  Date of Birth: '05/01/1958',
+  Gender: 'Female',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'D1234567'
+}
+
+Driver_Excluded_CA: {
+  DriverSearchDialog: {},
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Away at school without a vehicle',
+  Rel. to First Named Insured: Daughter,
+  First Name: 'Iona',
+  Last Name: 'Branwen',
+  Date of Birth: '05/01/2000',
+  Gender: 'Female',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'G1234567'
+}
+
+Driver_NotAvailable_CA: {
+  DriverSearchDialog: {},
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Away at school without a vehicle',
+  Rel. to First Named Insured: Daughter,
+  First Name: 'Moira',
+  Last Name: 'Branwen',
+  Date of Birth: '05/01/2000',
+  Gender: 'Female',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'H1234567'
+}
+
+NamedInsuredInformation1_CA: {
+  "Has lived here for less than three years?": 'No'
+}
+
+NamedInsuredInformation2_CA: {
+  InsuredSearchDialog: {},
+  First Name: Orlaith,
+  Last Name: Branwen,
+  Base Date: $<today>,
+  "Has lived here for less than three years?": 'No'
+}
+
+NamedInsuredInformation3_CA: {
+  InsuredSearchDialog: {},
+  First Name: Christopher,
+  Last Name: Branwen,
+  Base Date: $<today>,
+  "Has lived here for less than three years?": 'No'
+}
+
+NamedInsuredInformation4_CA: {
+  InsuredSearchDialog: {},
+  First Name: Vincent,
+  Last Name: Branwen,
+  Base Date: $<today>,
+  "Has lived here for less than three years?": 'No'
+}
+
+VehicleTab_1: {
+    Add Vehicle: Click,
+    Primary Use: 'contains=Commute',
+    Usage: Pleasure,
+    VIN: WDCYC7BB0B6729451,
+    'Miles One-way to Work or School': '15',
+    Odometer Reading: '29000',
+    Odometer Reading Date: $<today>,
+}
+
+VehicleTab_Camper: {
+    Add Vehicle: Click,
+    Type: Camper,
+    Usage: Pleasure,
+    VIN: JDGKDIGDU,
+    Make: 'OTHER',
+    Other Make: 'Other Make',
+    Other Model: 'Model',
+    Other Series: 'Series',
+    'Other Body Style': 'Sedan',
+    'Value($)': '10000',
+    Primary Use: 'contains=Commute',
+    'Miles One-way to Work or School': '15',
+    Customer Declared Annual Miles: '3000',
+}
+
+VehicleTabViewDiscount: {
+    Add Vehicle: Click,
+       Primary Use: 'contains=Commute',
+       Usage: Pleasure,
+       VIN: 5N1AR1NB2BC608514,
+       'Miles One-way to Work or School': '15',
+       Odometer Reading: '29000',
+       Odometer Reading Date: $<today>,
+}
+
+VehicleTabViewDiscount1: {
+    Add Vehicle: Click,
+       Primary Use: 'contains=Commute',
+       Usage: Pleasure,
+       VIN: 1FTSW20Y85EB08501,
+       'Miles One-way to Work or School': '15',
+       Odometer Reading: '29000',
+       Odometer Reading Date: $<today>,
+}
+
+
+AssingmentTab_DiscountService: {
+  DriverVehicleRelationshipTable: [{
+    Primary Driver: index=1,
+  }, {
+   Primary Driver: index=1,
+  }]
+}
+AssignmentTab: {
+        DriverVehicleRelationshipTable: [{
+                   Primary Driver: index=1,
+                    },
+                    {
+                    Primary Driver: index=2,
+                    },
+                    {
+                    Primary Driver: index=3,
+
+                                        }]
+    }

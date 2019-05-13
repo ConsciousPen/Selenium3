@@ -321,7 +321,7 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class PPCReportDialog extends MetaData {
-			public static final AssetDescriptor<RadioGroup> SUBSCRIPTION_TO_FIRE_DEPARTMENT_STATION = declare("Subscription to fire department/station", RadioGroup.class, Waiters.AJAX,By.id("ppcPercentageForm:subsriptionIndicator"));
+			public static final AssetDescriptor<RadioGroup> SUBSCRIPTION_TO_FIRE_DEPARTMENT_STATION = declare("Subscription to fire department/station", RadioGroup.class, Waiters.AJAX, By.id("ppcPercentageForm:subsriptionIndicator"));
 			public static final AssetDescriptor<Button> BTN_OK = declare("OK", Button.class, By.id("ppcPercentageForm:cmdBtnPublicProtectionClass"));
 		}
 
@@ -1152,6 +1152,7 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class EndorsementHS1731 extends MetaData {}
+
 		public static final class EndorsementHS1733 extends MetaData {}
 
 		public static final class EndorsementHS2383 extends MetaData {
@@ -1454,7 +1455,8 @@ public final class HomeSSMetaData {
 			HURRICANE_DEDUCTIBLE("Hurricane Deductible"),
 			COVERAGE_A_DED("Coverage A Deductible"),
 			COVERAGE_C_DED("Coverage C Deductible"),
-			ADDITIONAL("Additional Limited Building Code Upgrade"),;
+			ADDITIONAL("Additional Limited Building Code Upgrade"),
+			;
 
 			private String value;
 
@@ -1728,6 +1730,8 @@ public final class HomeSSMetaData {
 		public static final class DocumentsToIssue extends MetaData {
 			public static final AssetDescriptor<RadioGroup> KENTUCKY_MINE_SUBSIDENCE_INSURANCE_FUND_WAIVER_FORM = declare("Kentucky Mine Subsidence Insurance Fund Waiver Form", RadioGroup.class,
 					Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> OHIO_MINE_SUBSIDENCE_INSURANCE_UNDERWRITING_ASSOCIATION_APPLICATION = declare("Ohio Mine Subsidence Insurance Underwriting Association Application", RadioGroup.class,
+					Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> SIGNED_POLICY_APPLICATION = declare("Signed policy application", RadioGroup.class, Waiters.AJAX);
 		}
 	}
@@ -1947,8 +1951,8 @@ public final class HomeSSMetaData {
 
 		public static final class ESignatureEmailDialog extends MetaData {
 			public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, By.id("recipientEmailAddressForm:recpEmailPopUp"));
-			public static final AssetDescriptor<Button> GENERATE_DOCUMENTS =  declare("Submit Popup", Button.class, By.id("recipientEmailAddressForm:generateESignatureButton"));
-			public static final AssetDescriptor<Link> CANCEL =  declare("Close Popup", Link.class, By.id("recipientEmailAddressForm:cancelESignatureButton"));
+			public static final AssetDescriptor<Button> GENERATE_DOCUMENTS = declare("Submit Popup", Button.class, By.id("recipientEmailAddressForm:generateESignatureButton"));
+			public static final AssetDescriptor<Link> CANCEL = declare("Close Popup", Link.class, By.id("recipientEmailAddressForm:cancelESignatureButton"));
 		}
 
 		public static final class DocumentRow extends MetaData {

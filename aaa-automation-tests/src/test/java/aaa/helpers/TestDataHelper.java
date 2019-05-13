@@ -235,7 +235,7 @@ public class TestDataHelper {
 	 * @return Adjusted Test Data Object
 	 * @author Tyrone Jemison
 	 */
-	public TestData adjustTD(TestData td, Class<? extends Tab> tabElementIsOn, String elementLabel, String value){
+	public static TestData adjustTD(TestData td, Class<? extends Tab> tabElementIsOn, String elementLabel, String value){
 		td.adjust(TestData.makeKeyPath(tabElementIsOn.getSimpleName(), elementLabel), value);
 		return td;
 	}
@@ -250,7 +250,7 @@ public class TestDataHelper {
 	 * @return Adjusted Test Data Object
 	 * @author Tyrone Jemison
 	 */
-	public TestData adjustTD(TestData td, Class<? extends Tab> tabElementIsOn, String subChunkLabel, String elementLabel, String value){
+	public static TestData adjustTD(TestData td, Class<? extends Tab> tabElementIsOn, String subChunkLabel, String elementLabel, String value){
 		String result = TestData.makeKeyPath(tabElementIsOn.getSimpleName(), subChunkLabel, elementLabel);
 		td.adjust(result ,value);
 		return td;
