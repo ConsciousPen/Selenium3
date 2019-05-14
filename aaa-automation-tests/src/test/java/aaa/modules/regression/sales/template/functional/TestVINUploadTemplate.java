@@ -428,7 +428,6 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		createQuoteAndFillUpTo(testData, VehicleTab.class);
 
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		assertSoftly(softly -> {
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE).getValue()).isEqualTo("Motor Home");
