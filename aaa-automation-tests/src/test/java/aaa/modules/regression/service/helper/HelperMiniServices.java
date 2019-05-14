@@ -109,11 +109,13 @@ public class HelperMiniServices extends PolicyBaseTest {
 			//Bind endorsement
 			bindEndorsementWithCheck(policyNumber);
 			//Check that DXP rate premium matches PAS UI premium after Bind
-			TestData autoCoveragesSummaryTestData = PolicySummaryPage.getAutoCoveragesSummaryTestData();
-			String totalActualPremiumUI = autoCoveragesSummaryTestData.getValue("Total Actual Premium").replace("$", "").replace(",", "").replace(".00", "");
-			String totalTermPremiumUI = autoCoveragesSummaryTestData.getValue("Total Term Premium").replace("$", "").replace(",", "").replace(".00", "");
-			softly.assertThat(endorsementRateResponse[0].actualAmt).isEqualTo(totalActualPremiumUI);
-			softly.assertThat(endorsementRateResponse[0].termPremium).isEqualTo(totalTermPremiumUI);
+			if (!getState().equals(Constants.States.CA)) { //TODO-mstrazds: implement also for CA
+				TestData autoCoveragesSummaryTestData = PolicySummaryPage.getAutoCoveragesSummaryTestData();
+				String totalActualPremiumUI = autoCoveragesSummaryTestData.getValue("Total Actual Premium").replace("$", "").replace(",", "").replace(".00", "");
+				String totalTermPremiumUI = autoCoveragesSummaryTestData.getValue("Total Term Premium").replace("$", "").replace(",", "").replace(".00", "");
+				softly.assertThat(endorsementRateResponse[0].actualAmt).isEqualTo(totalActualPremiumUI);
+				softly.assertThat(endorsementRateResponse[0].termPremium).isEqualTo(totalTermPremiumUI);
+			}
 		});
 	}
 
