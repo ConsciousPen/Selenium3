@@ -258,9 +258,9 @@ AHIBXX_IN: {
    NmdInsrdStAbrv: {TextField: 'IN'},
    NmdInsrdZipPls4: {TextField: '47714'}
  },
- VehicleDetails: {
-   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
- },
+# VehicleDetails: {
+#   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
+# },
 }
 
 

@@ -1209,7 +1209,7 @@ AA02AZ: {
     #VehMdelNm: {TextField: 'EXPRESS VAN SPORT VAN'},
     VehIdNum: {TextField: '1GNWGPFG8B6548273'},
     VehUnitNum: {TextField: '1'},
-    VehDiscDesc: {TextField: 'Hybrid Discount; Multi-Vehicle Discount; Passive Restraint Discount'},
+    #VehDiscDesc: {TextField: 'Hybrid Discount; Multi-Vehicle Discount; Passive Restraint Discount'},
     VehDiscNum: {TextField: '1'},
     VehGarZipPls4: {TextField: '85118'}
   },
@@ -4275,7 +4275,7 @@ AA02OK_ED: {
     #VehMdelNm: {TextField: 'EXPRESS VAN SPORT VAN'},
     VehIdNum: {TextField: '1GNWGPFG8B6548273'},
     VehUnitNum: {TextField: '1'},
-    VehDiscDesc: {TextField: 'Hybrid Discount; Multi-Vehicle Discount; Passive Restraint Discount'},
+    #VehDiscDesc: {TextField: 'Hybrid Discount; Multi-Vehicle Discount; Passive Restraint Discount'},
     VehDiscNum: {TextField: '1'},
     VehGarZipPls4: {TextField: '73118'}
    },
@@ -5724,7 +5724,7 @@ AA02OK_Renewal: {
     #VehMdelNm: {TextField: 'EXPRESS VAN SPORT VAN'},
     VehIdNum: {TextField: '1GNWGPFG8B6548273'},
     VehUnitNum: {TextField: '1'},
-    VehDiscDesc: {TextField: 'Hybrid Discount; Multi-Vehicle Discount; Passive Restraint Discount'},
+    #VehDiscDesc: {TextField: 'Hybrid Discount; Multi-Vehicle Discount; Passive Restraint Discount'},
     VehDiscNum: {TextField: '1'},
     VehGarZipPls4: {TextField: '73118'}
    },
