@@ -1,94 +1,11 @@
-ApplicantTab_SpouseScoreOnRenewalIsHigher: {
-  NamedInsured: ['@NamedInsured_500_600_primaryInsured', '@NamedInsured_650_700_spouse', '@NamedInsuredChild', '@NamedInsuredParent'],
+TestData_EndorsementWithQualifiedNamedInsured: {
+  NamedInsured: ['@NamedInsured_500_600_primaryInsured', '@NamedInsured_650_400_spouse'],
 }
 
 NamedInsured_500_600_primaryInsured: {
   First name: 'Tom',
   Last name: 'Jackson',
-}
-
-NamedInsured_650_700_spouse: {
-  CustomerSearchDialog: {},
-  First name: 'Troy',
-  Last name: 'Jackson',
-  Relationship to primary named insured: Spouse,
   Marital status: 'Single',
-  Date of birth: '09/05/1954',
-  Social security number: '123456789',
-  Occupation: 'index=1'
-}
-
-ApplicantTab_PrimaryInsuredScoreOnRenewalIsHigher: {
-  NamedInsured: ['@NamedInsured_500_800_primaryInsured', '@NamedInsured_650_700_spouse', '@NamedInsuredChild', '@NamedInsuredParent'],
-}
-
-NamedInsured_500_800_primaryInsured: {
-  First name: 'Merry',
-  Last name: 'Jackson',
-}
-
-ApplicantTab_PrimaryInsuredScoreOnRenewalIsHigher2: {
-  NamedInsured: ['@NamedInsured_500_800_primaryInsured', '@NamedInsured_650_600_spouse', '@NamedInsuredChild', '@NamedInsuredParent'],
-}
-
-ApplicantTab_BothEqualOnRenewal: {
-  NamedInsured: ['@NamedInsured_500_650_primaryInsured', '@NamedInsured_650_600_spouse', '@NamedInsuredChild', '@NamedInsuredParent'],
-}
-
-NamedInsured_500_650_primaryInsured: {
-  First name: 'Jerie',
-  Last name: 'Jackson',
-}
-
-NamedInsured_650_600_spouse: {
-  CustomerSearchDialog: {},
-  First name: 'Alan',
-  Last name: 'Jackson',
-  Relationship to primary named insured: Spouse,
-  Marital status: 'Single',
-  Date of birth: '09/05/1954',
-  Social security number: '123456789',
-  Occupation: 'index=1'
-}
-
-ApplicantTab_SpouseScoreFromNBIsHigher: {
-  NamedInsured: ['@NamedInsured_500_600_primaryInsured', '@NamedInsured_650_600_spouse', '@NamedInsuredChild', '@NamedInsuredParent'],
-}
-
-NamedInsuredParent: {
- CustomerSearchDialog: {},
- First name: 'FN Parent',
- Last name: 'LN Parent',
- Relationship to primary named insured: Parent,
- Marital status: 'Single',
- Date of birth: '09/05/1954',
- Social security number: '123456789',
- Occupation: 'index=1'
-}
-
-NamedInsuredChild: {
- CustomerSearchDialog: {},
- First name: 'FN Child',
- Last name: 'LN Child',
- Relationship to primary named insured: Child,
- Marital status: 'Single',
- Date of birth: '09/05/1954',
- Social security number: '123456789',
- Occupation: 'index=1'
-}
-
-ApplicantTab_NBisEqual: {
-  NamedInsured: ['@NamedInsured_650_650_primaryInsured', '@NamedInsured_650_700_spouse', '@NamedInsuredChild', '@NamedInsuredParent'],
-}
-
-NamedInsured_650_650_primaryInsured: {
-  First name: 'Barbie',
-  Last name: 'Jackson',
-  Relationship to primary named insured:  Primary Insured,
-}
-
-ApplicantTab_SpouseGotLowestOnRenewal: {
-  NamedInsured: ['@NamedInsured_500_600_primaryInsured', '@NamedInsured_650_400_spouse', '@NamedInsuredChild', '@NamedInsuredParent'],
 }
 
 NamedInsured_650_400_spouse: {
@@ -100,13 +17,4 @@ NamedInsured_650_400_spouse: {
   Date of birth: '09/05/1954',
   Social security number: '123456789',
   Occupation: 'index=1'
-}
-
-TestData_EndorsementWithQualifiedNamedInsured: {
-  NamedInsured: ['@NamedInsured_500_600_primaryInsured', '@NamedInsured_650_400_spouse', '@NamedInsuredChild', '@NamedInsuredParent'],
-}
-
-TestData_Endorsement_ReportsTab: {
-  Sales Agent Agreement: 'I Agree',
-  CLUEreport: [{Report: 'Order report'}]
 }

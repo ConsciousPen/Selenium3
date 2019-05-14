@@ -4391,7 +4391,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertThat(updateCoverageResponse).isEqualToComparingFieldByFieldRecursively(viewEndorsementCoverages);
 	}
 
-	private void validateViewPolicyCoveragesIsTheSameAsViewEndorsementCoverage(String policyNumber, PolicyCoverageInfo viewEndorsementCoverages) {
+	protected void validateViewPolicyCoveragesIsTheSameAsViewEndorsementCoverage(String policyNumber, PolicyCoverageInfo viewEndorsementCoverages) {
 		PolicyCoverageInfo viewPolicyCoverages = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		assertThat(viewPolicyCoverages).isEqualToComparingFieldByFieldRecursively(viewEndorsementCoverages);
 	}
@@ -5553,10 +5553,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		DriversDto addDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class, 201);
 
 		String addedSpouseOid = addDriver.oid;
-		String fni = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, testData.getTestDataList("DriverTab").get(0).getValue("License Number")).oid;
-		String otherNI = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, testData.getTestDataList("DriverTab").get(2).getValue("License Number")).oid;
-		String notNISpouse = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, testData.getTestDataList("DriverTab").get(3).getValue("License Number")).oid;
-		String otherNotNI = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, testData.getTestDataList("DriverTab").get(4).getValue("License Number")).oid;
+		String fni = testMiniServicesDriversHelper.findDriverByLicenseNumber(viewDriversResponse, testData.getTestDataList("DriverTab").get(0).getValue("License Number")).oid;
+		String otherNI = testMiniServicesDriversHelper.findDriverByLicenseNumber(viewDriversResponse, testData.getTestDataList("DriverTab").get(2).getValue("License Number")).oid;
+		String notNISpouse = testMiniServicesDriversHelper.findDriverByLicenseNumber(viewDriversResponse, testData.getTestDataList("DriverTab").get(3).getValue("License Number")).oid;
+		String otherNotNI = testMiniServicesDriversHelper.findDriverByLicenseNumber(viewDriversResponse, testData.getTestDataList("DriverTab").get(4).getValue("License Number")).oid;
 
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "999852325", 28, "SD", "SP", "MSS");
 		HelperCommon.updateDriver(policyNumber, addedSpouseOid, updateDriverRequest);
@@ -6350,14 +6350,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
-		Coverage covUM = Coverage.create(CoverageInfo.UM_SUM_NY).removeAvailableLimitsAbove(CoverageLimits.COV_100300_SUM);
+		Coverage covUM = Coverage.create(CoverageInfo.UM_SUM_NY).removeAvailableLimitsAbove(CoverageLimits.COV_100300);
 
 		//Check viewEndorsementCoverages response, default should be selected as "Supplementary Uninsured/Underinsured Motorists Bodily Injury" and check
 		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covUM);
 		//Update BI Limits and check for UM Limits
 		updateCoverage(policyNumber, "BI", CoverageLimits.COV_2550.getLimit());
-		updateCoverage(policyNumber, "UM/SUM", CoverageLimits.COV_2550_SUM.getLimit());
+		updateCoverage(policyNumber, "UM/SUM", CoverageLimits.COV_2550.getLimit());
 		int covUMSUMLimitIndex = 0;
 		for (CoverageLimits coverageBILimit : AvailableCoverageLimits.BI_NY.getAvailableLimits()) {
 			Coverage covUMSUMExpected;
@@ -7162,7 +7162,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		return findCoverage(policyCoverageInfo.policyCoverages, coverageCd);
 	}
 
-	private VehicleCoverageInfo findVehicleCoverages(PolicyCoverageInfo policyCoverageInfo, String oid) {
+	protected VehicleCoverageInfo findVehicleCoverages(PolicyCoverageInfo policyCoverageInfo, String oid) {
 		return policyCoverageInfo.vehicleLevelCoverages.stream().filter(vehicleCoverageInfo -> oid.equals(vehicleCoverageInfo.oid)).findFirst().orElse(null);
 	}
 

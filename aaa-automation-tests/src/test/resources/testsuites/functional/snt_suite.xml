@@ -372,7 +372,9 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
                 <methods>
-                    <include name="pas12469_dataGatherComparisonPolicyOptionsInformation"/>
+                    <include name="pas14162_dataGatherComparisonPremiumAndCoverages"/>
+                    <include name="pas14162_endorsementsComparisonPremiumAndCoverages"/>
+                    <include name="pas14162_renewalComparisonPremiumAndCoverages"/>
                 </methods>
             </class>
         </classes>
@@ -384,7 +386,9 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
                 <methods>
-                    <include name="pas12469_dataGatherComparisonPolicyOptionsInformation"/>
+                    <include name="pas14162_dataGatherComparisonPremiumAndCoverages"/>
+                    <include name="pas14162_endorsementsComparisonPremiumAndCoverages"/>
+                    <include name="pas14162_renewalComparisonPremiumAndCoverages"/>
                 </methods>
             </class>
         </classes>
@@ -413,6 +417,18 @@
                     <include name="pas27030_ooseConflictAutomaticPremiumAndCoverages"/>
                     <include name="pas27030_renewalMergePremiumAndCoverages"/>
 
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="General tab/Contact Information section/Conflict SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas27234_ooseConflictAutomaticContactInformation"/>
+                    <include name="pas27234_renewalAtomicMergeContactInformation"/>
                 </methods>
             </class>
         </classes>

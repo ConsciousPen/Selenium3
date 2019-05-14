@@ -114,13 +114,21 @@ public class JobUtils {
 		}
 	}
 
+	public static void executeJob(JobGroup jobGroup){
+		try {
+			new SoapJobActions().startJob(jobGroup);
+		} catch (Exception ie) {
+			throw new IstfException(String.format("SOAP jobGroup '%s' run failed:\n", jobGroup), ie);
+		}
+	}
+
 	private static void executeJobLocally(Job job) {
 		try {
 			Jobs.setJobState(job.getJobName(), Jobs.JobState.TRUE);
 			if (!job.getJobFolders().isEmpty()) {
 				RemoteHelper.get().clearFolder(job.getJobFolders());
 			}
-			executeJob(job.getJobName());
+				executeJob(job.getJobName());
 		} catch (IstfException e) {
 			throw e;
 		}

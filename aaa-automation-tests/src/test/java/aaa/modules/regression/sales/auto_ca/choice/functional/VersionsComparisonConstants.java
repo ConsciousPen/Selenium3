@@ -97,7 +97,11 @@ public class VersionsComparisonConstants {
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).Additional Interest Address", "VII interest address 1, VII interest address 2, Red Rock, AZ, 85245","interest address 1, VI interest address 2, Phoenix, AZ, 85085")
 			//Assignment Tab Information
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Manually Rated Driver", "","NBFirstName NBLastName")
-			.putAll("Policy Options.Payment Plan","standart6CAC","standartCAC")
+			.putAll("Policy Options.Payment Plan","standart6CAC","annualCAC")
+			.putAll("Coverages.Medical Payments","$5,000","$2,000")
+			.putAll("Coverages.Property Damage Liability","$100,000","$50,000")
+			.putAll("Coverages.Bodily Injury Liability","$100,000/$300,000","$50,000/$100,000")
+			.putAll("Coverages.Uninsured Motorists Bodily Injury","$100,000/$300,000","$50,000/$100,000")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -452,7 +456,19 @@ public class VersionsComparisonConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN", "Ownership Type")
 			.put("Vehicles.1998, DODGE, CARAVAN", "First Name")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Vehicle Ownership Address")
+			//coverages
+			.put("Vehicles.1998, DODGE, CARAVAN.Coverages", "Enhanced Transportation Expense Coverage")
+			.put("Vehicles.1998, DODGE, CARAVAN.Coverages", "Limit per day")
 			.build();
+
+	//all components/attributes that should be on Comparison page for VehicleInformation section for endorsement/renewal comparison
+	public static final Multimap<String, String> ENDORSEMENT_RENEWAL_VEHICLE_INFORMATION;
+	static {
+		Multimap<String, String> endorsementModified = ArrayListMultimap.create(VEHICLE_INFORMATION);
+		endorsementModified.remove("Vehicles.1998, DODGE, CARAVAN.Coverages", "Enhanced Transportation Expense Coverage");
+		endorsementModified.remove("Vehicles.1998, DODGE, CARAVAN.Coverages", "Limit per day");
+		ENDORSEMENT_RENEWAL_VEHICLE_INFORMATION = ImmutableListMultimap.copyOf(endorsementModified);
+	}
 
 
 	//all components/attributes that should be on Comparison page for Assignment section for NB and endorsements
@@ -472,5 +488,17 @@ public class VersionsComparisonConstants {
 	static final Multimap<String, String> DATA_GATHER_PREMIUM_AND_COVERAGES = ImmutableListMultimap.<String, String>builder()
 			.put("Policy Options","Payment Plan")
 			.put("Policy Options", "Policy Term")
+			.put("Coverages","Medical Payments")
+			.put("Coverages","Property Damage Liability")
+			.put("Coverages","Bodily Injury Liability")
+			.put("Coverages","Uninsured Motorists Bodily Injury")
+			.build();
+
+	//all components/attributes that should be on Comparison page for Premium and Coverages section for Quote Compare
+	static final Multimap<String, String> ENDORSEMENT_RENEWAl_PREMIUM_AND_COVERAGES = ImmutableListMultimap.<String, String>builder()
+			.put("Coverages","Medical Payments")
+			.put("Coverages","Property Damage Liability")
+			.put("Coverages","Bodily Injury Liability")
+			.put("Coverages","Uninsured Motorists Bodily Injury")
 			.build();
 }

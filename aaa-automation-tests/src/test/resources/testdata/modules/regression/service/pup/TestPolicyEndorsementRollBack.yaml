@@ -11,8 +11,7 @@ TestData: {
      },
   UnderwritingAndApprovalTab: {},
   DocumentsTab: {},
-  BindTab: {},
-  ErrorTab: '@ErrorTab'
+  BindTab: {}
 }
 
 UnderlyingRisksAutoTab: {
@@ -22,15 +21,6 @@ UnderlyingRisksAutoTab: {
   }]
 }
 
-ErrorTab: {
-   ErrorsOverride: [{
-    Message: "contains=Underwriting approval required for Liability Coverage limits greater than $1,000,000.",
-    Override: 'true',
-    Approval: 'true',
-    Duration: Life,
-    Reason for override: index=1
-   }]
-}
 
 TestData_CA: {
   PrefillTab: {},

@@ -8,11 +8,13 @@ import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class HelperMiniServices extends PolicyBaseTest {
 
@@ -36,6 +38,25 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(response.transactionEffectiveDate).isEqualTo(endorsementDate);
 		assertThat(response.policyTerm).isNotEmpty();
 		assertThat(response.endorsementId).isNotEmpty();
+		assertThat(response.productCd).isNotEmpty();
+	}
+
+	public String addVehicleWithChecks(String policyNumber, String purchaseDate, String vin, boolean allowedToAddVehicle) {
+		//Add new vehicle
+		Vehicle responseAddVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
+		assertThat(responseAddVehicle.oid).isNotEmpty();
+		String newVehicleOid = responseAddVehicle.oid;
+		printToLog("newVehicleOid: " + newVehicleOid);
+
+		//Update Vehicle with proper Usage and Registered Owner
+		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+
+		ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
+		assertThat(viewEndorsementVehicleResponse.canAddVehicle).isEqualTo(allowedToAddVehicle);
+		Vehicle newVehicle = viewEndorsementVehicleResponse.vehicleList.stream().filter(veh -> newVehicleOid.equals(veh.oid)).findFirst().orElse(null);
+		assertThat(newVehicle.vehIdentificationNo).isEqualTo(vin);
+		return newVehicleOid;
 	}
 
 	String vehicleAddRequestWithCheck(String policyNumber, Vehicle vehicleAddRequest) {
@@ -51,10 +72,20 @@ public class HelperMiniServices extends PolicyBaseTest {
 		printToLog("Update vehicle usage registered owner params: policyNumber: " + policyNumber + ", newVehicleOid: " + newVehicleOid);
 		//Update Vehicle with proper Usage and Registered Owner
 		VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
-		updateVehicleUsageRequest.usage = "Pleasure";
+		if (getState().equals(Constants.States.CA)) {
+			updateVehicleUsageRequest.usage = "WC";
+		} else {
+			updateVehicleUsageRequest.usage = "Pleasure";
+		}
+
 		updateVehicleUsageRequest.registeredOwner = true;
 		VehicleUpdateResponseDto updateVehicleUsageResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
-		assertThat(updateVehicleUsageResponse.usage).isEqualTo("Pleasure");
+		if (getState().equals(Constants.States.CA)) {
+			assertThat(updateVehicleUsageResponse.usage).isEqualTo("WC");
+		} else {
+			assertThat(updateVehicleUsageResponse.usage).isEqualTo("Pleasure");
+		}
+
 		return updateVehicleUsageResponse;
 	}
 
@@ -72,12 +103,15 @@ public class HelperMiniServices extends PolicyBaseTest {
 			softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
 			softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
 			softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+			softly.assertThat(endorsementRateResponse[0].termPremium).isNotBlank();
 
 			//Bind endorsement
 			bindEndorsementWithCheck(policyNumber);
-			softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
-			softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
-			softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+			//Check that DXP rate premium matches PAS UI premium after Bind
+			String totalActualPremiumUI = PolicySummaryPage.getAutoCoveragesSummaryTextAt(18, 2).replace("$", "").replace(",", "").replace(".00", "");
+			String totalTermPremiumUI = PolicySummaryPage.getAutoCoveragesSummaryTextAt(19, 2).replace("$", "").replace(",", "").replace(".00", "");
+			softly.assertThat(endorsementRateResponse[0].actualAmt).isEqualTo(totalActualPremiumUI);
+			softly.assertThat(endorsementRateResponse[0].termPremium).isEqualTo(totalTermPremiumUI);
 		});
 	}
 
@@ -147,4 +181,26 @@ public class HelperMiniServices extends PolicyBaseTest {
 		return errorResponseDto.errors.stream().anyMatch(error -> expectedError.getCode().equals(error.errorCode)
 						&& StringUtils.startsWith(error.message, expectedError.getMessage()));
 	}
+
+	void validateUniqueVinError(ErrorResponseDto errorResponse, ETCSCoreSoftAssertions softly) {
+		softly.assertThat(errorResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+		softly.assertThat(errorResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+		softly.assertThat(errorResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.UNIQUE_VIN.getCode());
+		softly.assertThat(errorResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.UNIQUE_VIN.getMessage());
+	}
+	public void bindEndorsementWithErrorCheck(String policyNumber, ErrorDxpEnum.Errors... errors) {
+		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "megha", 422);
+		assertThat(bindResponse.errorCode).contains(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+		assertThat(bindResponse.message).contains(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+		for(ErrorDxpEnum.Errors error : errors) {
+			assertThat(bindResponse.errors.stream()
+					.anyMatch(valError -> valError.message.contains(error.getMessage()))).isTrue();
+			assertThat(bindResponse.errors.stream()
+					.anyMatch(valError -> valError.errorCode.equals(error.getCode()))).isTrue();
+		}
+		if(errors.length == 0) {
+			assertThat(bindResponse.errors).isEmpty();
+		}
+	}
+
 }
