@@ -434,4 +434,20 @@
         </classes>
     </test>
 
+    <test name="Regression OOSE" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyOose">
+            </class>
+        </classes>
+    </test>
+
+    <test name="Regression Renewal OOSE" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyRenewOose">
+            </class>
+        </classes>
+    </test>
+
 </suite>
