@@ -72,6 +72,7 @@ public final class ErrorDxpEnum {
 		MUST_HAVE_PPA("200016", "Policy must cover at least one Private Passenger Automobile"),
 		EXPENSIVE_VEHICLE("200022", "Vehicle value exceeds acceptable coverage limit"),
 		TOO_OLD_DRIVER_ERROR("AAA_SS7120048", "The date of birth provided for the Driver Available for Rating should be between 01/01/1900 and today's date"),
+		TOO_OLD_DRIVER_ERROR_CA("AAA_CSA2230649", "Birth date should be between 01/01/1900 and today's date (AAA_CSA2230649) [for DriverView.Driver.birthDate]"),
 		AGE_FIRST_LICENSED_GREATER_THAN_DOB("AAA_CSA10260784", "Age First Licensed is greater than Current Age (AAA_CSA10260784) [for DriverView.Driver.firstLicenseAge]"),
 
 		DRIVER_UNDER_AGE_COMMON("AAA_CSA6220000", "Drivers under age 16 must be excluded or not available for rating"), //the same as in PAS
@@ -80,15 +81,17 @@ public final class ErrorDxpEnum {
 		DRIVER_UNDER_AGE_KS("AAA_CSA6220000_KS", "Drivers under age 15 must be not available for rating"), //the same as in PAS
 		DRIVER_UNDER_AGE_MT("AAA_CSA6220000_MT", "Drivers under age 15 must be not available for rating"), //the same as in PAS
 		DRIVER_UNDER_AGE_SD("AAA_CSA6220000_SD", "Drivers under age 14 must be excluded or not available for rating"), //the same as in PAS
+		DRIVER_UNDER_AGE_CA("AAA_CSA6220000_CA", "Driver must be at least 16 years old (AAA_CSA6220000) [for DriverView.Driver.age]"),
 		AGE_FIRST_LICENSED_ERROR("Age First Licensed must be 14 or greater (BAU00209) [for DriverView.Driver.firstLicenseAge]"),
 		DUPLICATE_DRIVER_LICENSE_ERROR("Duplicate Driver License (AAASS200008) [for DriverView.DrivingLicense.licensePermitNumber]"),
 		VALIDATE_DRIVER_LICENSE_BY_STATE("License number is inconsistent with state format (AAA_CSA3040364) [for DriverView.DrivingLicense.licensePermitNumber]"),
 		INSURANCE_SCORE_ORDER_MESSAGE("Need Insurance Score Order (AAA_SS9192341) [for DriverView.Driver.insuredOid]"),
 		RELATIONSHIP_TO_FNI_ERROR("AAA_SS180807-NTzjT","Relationship to FNI needs review"),
-		DRIVER_NAME_MISMATCH("Driver name returned from DMV does not match Driver name entered for the Name Mismatch. Please verify that Driver name provided on the application is correct"),
-		DRIVER_GENDER_MISMATCH("The gender returned from DMV does not match the gender entered for Name Mismatch. Please verify that Driver gender provided on the application is correct"),
-		DRIVER_DOB_MISMATCH("The date of birth returned from DMV does not match the DOB entered for Other Mismatches. Please verify that Driver date of birth provided on the application is correct"),
-		DRIVER_GENDER_MISMATCHES("The gender returned from DMV does not match the gender entered for Other Mismatches. Please verify that Driver gender provided on the application is correct"),
+		RELATIONSHIP_TO_FNI_ERROR_CA("AAA_SS180807-CAzjT","Relationship to FNI needs review (AAA_SS180807-CAzjT) [for DriverView.Driver.driverRelToApplicantCd]"),
+		DRIVER_NAME_MISMATCH("AAA_SS180806-Bx9ip", "Driver name returned from DMV does not match Driver name entered for the Name Mismatch. Please verify that Driver name provided on the application is correct"),
+		DRIVER_GENDER_MISMATCH("AAA_SS180806-F4Bjy", "The gender returned from DMV does not match the gender entered for Name Mismatch. Please verify that Driver gender provided on the application is correct"),
+		DRIVER_DOB_MISMATCH("AAA_SS180806-Qpc85", "The date of birth returned from DMV does not match the DOB entered for Other Mismatches. Please verify that Driver date of birth provided on the application is correct"),
+		DRIVER_GENDER_MISMATCHES("AAA_SS180806-F4Bjy","The gender returned from DMV does not match the gender entered for Other Mismatches. Please verify that Driver gender provided on the application is correct"),
 		DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE("AAA_SS10230239", "Drivers must be assigned a unique vehicle"),
 		DRIVER_GENDER_MISMATCHS("The gender returned from DMV does not match the gender entered for Other Mismatches. Please verify that Driver gender provided on the application is correct"),
 		VERIFY_PUP_POLICY("AAA_SS180824-g8oKe", "Verify PUP Policy"),
@@ -96,7 +99,9 @@ public final class ErrorDxpEnum {
 		DRIVER_WITH_THREE_OR_MORE_SPEEDING_VIOLATION_C("200103_C", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
 		REVERT_DELETE_DRIVER_ERROR("ERROR_SERVICE_VALIDATION", "Removal can not be cancelled. Revert option is not available on driver."),
 		REVERT_DELETE_VEHICLE_ERROR("ERROR_SERVICE_VALIDATION", "Removal can not be cancelled. Revert option is not available on vehicle."),
+		DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21_NY("200010_NY", "Driver under the age of 21 years with a DUI is unacceptable"),
 		VEHICLE_CANNOT_BE_REMOVED_ERROR("ERROR_SERVICE_VALIDATION", "Vehicle cannot be removed. Remove action is not available on vehicle."),
+		DRIVER_WITH_MORE_THAN_TWO_AT_FAULT_VIOLATION("200105", "Driver with 3 or more Non-fault accidents are unacceptable"),
 		VEHICLE_CANNOT_BE_ADDED_ERROR("AAA_SS181009-lwY5B", "Vehicles cannot be added with a purchase date within 30 days from the transaction effective date."),
 		DRIVER_WITH_MORE_THAN_TWO_AT_FAULT_VIOLATION_C("200105_C", "Driver with 3 or more Non-fault accidents are unacceptable.");
 

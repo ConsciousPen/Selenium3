@@ -38,6 +38,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(response.transactionEffectiveDate).isEqualTo(endorsementDate);
 		assertThat(response.policyTerm).isNotEmpty();
 		assertThat(response.endorsementId).isNotEmpty();
+		assertThat(response.productCd).isNotEmpty();
 	}
 
 	public String addVehicleWithChecks(String policyNumber, String purchaseDate, String vin, boolean allowedToAddVehicle) {
@@ -102,12 +103,15 @@ public class HelperMiniServices extends PolicyBaseTest {
 			softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
 			softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
 			softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+			softly.assertThat(endorsementRateResponse[0].termPremium).isNotBlank();
 
 			//Bind endorsement
 			bindEndorsementWithCheck(policyNumber);
-			softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
-			softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
-			softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+			//Check that DXP rate premium matches PAS UI premium after Bind
+			String totalActualPremiumUI = PolicySummaryPage.getAutoCoveragesSummaryTextAt(18, 2).replace("$", "").replace(",", "").replace(".00", "");
+			String totalTermPremiumUI = PolicySummaryPage.getAutoCoveragesSummaryTextAt(19, 2).replace("$", "").replace(",", "").replace(".00", "");
+			softly.assertThat(endorsementRateResponse[0].actualAmt).isEqualTo(totalActualPremiumUI);
+			softly.assertThat(endorsementRateResponse[0].termPremium).isEqualTo(totalTermPremiumUI);
 		});
 	}
 
@@ -184,4 +188,19 @@ public class HelperMiniServices extends PolicyBaseTest {
 		softly.assertThat(errorResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.UNIQUE_VIN.getCode());
 		softly.assertThat(errorResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.UNIQUE_VIN.getMessage());
 	}
+	public void bindEndorsementWithErrorCheck(String policyNumber, ErrorDxpEnum.Errors... errors) {
+		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "megha", 422);
+		assertThat(bindResponse.errorCode).contains(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+		assertThat(bindResponse.message).contains(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+		for(ErrorDxpEnum.Errors error : errors) {
+			assertThat(bindResponse.errors.stream()
+					.anyMatch(valError -> valError.message.contains(error.getMessage()))).isTrue();
+			assertThat(bindResponse.errors.stream()
+					.anyMatch(valError -> valError.errorCode.equals(error.getCode()))).isTrue();
+		}
+		if(errors.length == 0) {
+			assertThat(bindResponse.errors).isEmpty();
+		}
+	}
+
 }

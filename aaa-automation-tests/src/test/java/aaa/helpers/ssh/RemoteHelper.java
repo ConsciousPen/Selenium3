@@ -306,7 +306,7 @@ public final class RemoteHelper {
 
 	private Boolean isTimeDiffMatch(String fileName) {
 		long delta = 180000;
-		String timestampRegex = "[A-Z]*\\d*_(\\d*)_\\d*.*.xml";
+		String timestampRegex = "[A-Z]*\\d*_?[a-z]*_(\\d*)_\\d*.*.xml";
 		Pattern r = Pattern.compile(timestampRegex);
 		Matcher m = r.matcher(fileName);
 

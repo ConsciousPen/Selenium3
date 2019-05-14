@@ -1,4 +1,4 @@
-TestData_EndorsementRemoveCoverage: {
+TestData_EndorsementRemoveCoverage_AZ: {
   GeneralTab: {},
   DriverTab: {},
   RatingDetailReportsTab: {},
@@ -9,6 +9,8 @@ TestData_EndorsementRemoveCoverage: {
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
-    RequiredToBind: {},
+    RequiredToBind: {
+      Uninsured and Underinsured Motorist Coverage Selection: Physically Signed
+    }
   }
 }
