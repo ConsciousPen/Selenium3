@@ -67,16 +67,6 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-	public void testScenario55(@Optional("") String state) {
-		mainApp().open();
-		createCustomerIndividual();	
-		//TODO
-	}
-	
-	//ok
-	@Parameters({"state"})
-	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario56(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();	
@@ -100,15 +90,6 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-	public void testScenario57(@Optional("") String state) {
-		mainApp().open();
-		createCustomerIndividual();	
-		//TODO clarify scenario
-	}
-	
-	@Parameters({"state"})
-	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario58(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();	
@@ -121,16 +102,9 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 		String policy2_excludedDriver = createPolicy();
 		TestData td_addExcludedDriver = getTestSpecificTD("TestData_AddExcludedDriver").adjust(getPolicyTD("Endorsement", "TestData"));
 		policy.endorse().performAndFill(td_addExcludedDriver);		
-		//String policy3_excludedDriver = createPolicy();
 		
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
-		/*
-		mainApp().open();
-		SearchPage.openPolicy(policy3_excludedDriver);
-		policy.renew().performAndFill(getTestSpecificTD("TestData_AddExcludedDriver"));
-		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate.plusHours(1));
-		*/
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
