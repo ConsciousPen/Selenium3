@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.helper;
 
+import aaa.common.enums.Constants;
 import aaa.helpers.TestDataManager;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.metadata.policy.AutoCaMetaData;
@@ -285,5 +286,16 @@ public class TestMiniServicesAssignmentsCAHelper extends TestMiniServicesAssignm
             softly.assertThat(assignmentExistsForDriverVehicle(driver3.oid, vehicle5.oid, endorsementDriverAssignmentsResponse.driverVehicleAssignments)).isTrue();
             softly.assertThat(assignmentExistsForDriverVehicle(driver3.oid, vehicle6.oid, endorsementDriverAssignmentsResponse.driverVehicleAssignments)).isTrue();
         });
+    }
+
+    /**Assigns any driver to all vehicles for CA Policy*/
+    public static void makeAssignmentsForCA(String policyNumber) {
+        if (getState().equals(Constants.States.CA)) {
+            ViewDriverAssignmentResponse viewDriverAssignmentResponse = HelperCommon.viewEndorsementAssignments(policyNumber);
+            DriversDto driverToAssign = HelperCommon.viewEndorsementDrivers(policyNumber).driverList.get(0);
+            for (String vehicleOid : viewDriverAssignmentResponse.unassignedVehicles) {
+                HelperCommon.updateDriverAssignment(policyNumber, vehicleOid, Collections.singletonList(driverToAssign.oid));
+            }
+        }
     }
 }

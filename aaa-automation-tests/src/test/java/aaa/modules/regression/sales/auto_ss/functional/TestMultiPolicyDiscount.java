@@ -73,7 +73,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     /**
      *  Creates a policy with MPD discount
      *  Runs NB +30 jobs for MPD discount validation
-     *  Discunt is removed due to non-active products found and removes discount
+     *  Discount is removed due to non-active products found and removes discount
      *  Reason in transaction history set to "Discount validation failure, policy information updated."
      * @param state the test will run against.
      * @author Robert Boles - CIO
@@ -87,9 +87,8 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createCustomerIndividual();
         policy.initiate();
         policy.getDefaultView().fillUpTo(testData, GeneralTab.class,true);
-        //Set Membership to Yes or No
         _generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
-        //Set the membership number to either cancelled or active
+        //Set the membership number to active
         _generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("4290074030137505");
             //puts quoted products into the MPD table with REFRESH_Q@yeah.com
         _generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.EMAIL).setValue("REFRESH_Q@yeah.com");

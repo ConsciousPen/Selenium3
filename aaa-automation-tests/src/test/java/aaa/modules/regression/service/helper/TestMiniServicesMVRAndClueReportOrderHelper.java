@@ -1,11 +1,13 @@
 package aaa.modules.regression.service.helper;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.enums.PolicyConstants;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
@@ -53,10 +55,18 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("ClueNonChargeable", "Doc", "Activity", "1999-01-31", "III");
 		DriversDto addedDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		//Update driver
-		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860596", 18, "VA", "CH", "MSS");
+		String maritalStatusMarried;
+		if (getState().equals(Constants.States.CA)) {
+			maritalStatusMarried = "M";
+		} else {
+			maritalStatusMarried = "MSS";
+		}
+
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860596", 18, "VA", "CH", maritalStatusMarried);
 		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addedDriver.oid, updateDriverRequest);
 		assertSoftly(softly -> softly.assertThat(updateDriverResponse.driver.namedInsuredType).isEqualTo("Not a Named Insured")); //Make sure that added driver is NOT a Named Insured
 
+		TestMiniServicesAssignmentsCAHelper.makeAssignmentsForCA(policyNumber);
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
@@ -76,6 +86,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
 		driverActivityReportsTab.saveAndExit();
 
+		TestMiniServicesAssignmentsCAHelper.makeAssignmentsForCA(policyNumber);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 		//Repeat with driver 2
@@ -88,10 +99,11 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		DriversDto addedDriver2 = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 
 		//Update driver
-		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860597", 18, "VA", "CH", "MSS");
+		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860597", 18, "VA", "CH", maritalStatusMarried);
 		DriverWithRuleSets updateDriverResponse2 = HelperCommon.updateDriver(policyNumber, addedDriver2.oid, updateDriverRequest);
 		assertSoftly(softly -> softly.assertThat(updateDriverResponse2.driver.namedInsuredType).isEqualTo("Not a Named Insured")); //Make sure that added driver is NOT a Named Insured
 
+		TestMiniServicesAssignmentsCAHelper.makeAssignmentsForCA(policyNumber);
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
@@ -130,6 +142,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		DriverWithRuleSets updateDriver = HelperCommon.updateDriver(policyNumber, addedDriver.oid, updateDriverRequest);
 		assertSoftly(softly -> softly.assertThat(updateDriver.driver.namedInsuredType).isEqualTo("NI")); //Make sure that added driver is Named Insured
 
+		TestMiniServicesAssignmentsCAHelper.makeAssignmentsForCA(policyNumber);
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
@@ -165,6 +178,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		DriverWithRuleSets updateDriver2 = HelperCommon.updateDriver(policyNumber, addedDriver.oid, updateDriverRequest);
 		assertSoftly(softly -> softly.assertThat(updateDriver2.driver.namedInsuredType).isEqualTo("NI")); //Make sure that added driver is Named Insured
 
+		TestMiniServicesAssignmentsCAHelper.makeAssignmentsForCA(policyNumber);
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
@@ -416,67 +430,131 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 	}
 
 	private void checkThatClueIsOrdered(int tableRowIndex, String expectedClueResponse) {
-		assertSoftly(softly -> {
-			softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(tableRowIndex);
+		if (getState().equals(Constants.States.CA)) {
+			assertSoftly(softly -> {
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(tableRowIndex);
 
-			softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.RESIDENTIAL_ADDRESS.getLabel()).getValue()).isNotEmpty();
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+						.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderClueRow.RESIDENTIAL_ADDRESS.getLabel()).getValue()).isNotEmpty();
 
-			softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.REPORT.getLabel()).getValue()).isEqualToIgnoringCase("View CLUE");
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+						.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderClueRow.REPORT.getLabel()).getValue()).isEqualToIgnoringCase("View CLUE");
 
-			softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.ORDER_DATE.getLabel()).getValue())
-					.isEqualToIgnoringCase(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+						.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderClueRow.ORDER_DATE.getLabel()).getValue())
+						.isEqualToIgnoringCase(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
 
-			softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.RECEIPT_DATE.getLabel()).getValue())
-					.isNotBlank(); //it can be also past date if report has been ordered previously, hence checking only that it is not blank
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+						.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderClueRow.RECEIPT_DATE.getLabel()).getValue())
+						.isNotBlank(); //it can be also past date if report has been ordered previously, hence checking only that it is not blank
 
-			softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.RESPONSE.getLabel()).getValue()).isEqualToIgnoringCase(expectedClueResponse); //will be handled by: PAS-17059 Not getting correct CLUE report response
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+						.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderClueRow.RESPONSE.getLabel()).getValue()).isEqualToIgnoringCase(expectedClueResponse); //will be handled by: PAS-17059 Not getting correct CLUE report response
 
-			softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.ADDRESS_TYPE.getLabel()).getValue()).isEqualToIgnoringCase("Current");
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+						.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderClueRow.ADDRESS_TYPE.getLabel()).getValue()).isEqualToIgnoringCase("Current");
 
-			softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.ORDER_TYPE.getLabel()).getValue()).isEqualToIgnoringCase("Add Driver");
-		});
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+						.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderClueRow.ORDER_TYPE.getLabel()).getValue()).isEqualToIgnoringCase("Add Driver");
+			});
+		} else {
+			assertSoftly(softly -> {
+				softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRows().size()).isEqualTo(tableRowIndex);
+
+				softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.RESIDENTIAL_ADDRESS.getLabel()).getValue()).isNotEmpty();
+
+				softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.REPORT.getLabel()).getValue()).isEqualToIgnoringCase("View CLUE");
+
+				softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.ORDER_DATE.getLabel()).getValue())
+						.isEqualToIgnoringCase(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+
+				softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.RECEIPT_DATE.getLabel()).getValue())
+						.isNotBlank(); //it can be also past date if report has been ordered previously, hence checking only that it is not blank
+
+				softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.RESPONSE.getLabel()).getValue()).isEqualToIgnoringCase(expectedClueResponse); //will be handled by: PAS-17059 Not getting correct CLUE report response
+
+				softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.ADDRESS_TYPE.getLabel()).getValue()).isEqualToIgnoringCase("Current");
+
+				softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
+						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.ORDER_TYPE.getLabel()).getValue()).isEqualToIgnoringCase("Add Driver");
+			});
+		}
 	}
 
 	private void checkThatMvrIsOrdered(int tableRowIndex, String expectedMvrResponse, AddDriverRequest addRequest, UpdateDriverRequest updateRequest) {
-		assertSoftly(softly -> {
-			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRows().size()).isEqualTo(tableRowIndex);
-			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.NAME_ON_LICENSE.getLabel()).getValue()).contains(addRequest.firstName);
+		if (getState().equals(Constants.States.CA)) {
+			assertSoftly(softly -> {
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRows().size()).isEqualTo(tableRowIndex);
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+						.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderMVRRow.NAME_ON_LICENSE.getLabel()).getValue()).contains(addRequest.firstName);
 
-			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.DATE_OF_BIRTH.getLabel()).getValue()).isEqualToIgnoringCase("01/31/1999"); //the same as addDriverRequest.birthDate
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+						.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderMVRRow.DATE_OF_BIRTH.getLabel()).getValue()).isEqualToIgnoringCase("01/31/1999"); //the same as addDriverRequest.birthDate
 
-			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.STATE.getLabel()).getValue()).isEqualToIgnoringCase(updateRequest.stateLicensed);
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+						.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderMVRRow.STATE.getLabel()).getValue()).isEqualToIgnoringCase(updateRequest.stateLicensed);
 
-			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.LICENSE_NO.getLabel()).getValue()).isEqualToIgnoringCase(updateRequest.licenseNumber);
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+						.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderMVRRow.LICENSE_NO.getLabel()).getValue()).isEqualToIgnoringCase(updateRequest.licenseNumber);
 
-			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.LICENSE_STATUS.getLabel()).getValue()).containsIgnoringCase("VALID");
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+						.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderMVRRow.LICENSE_STATUS.getLabel()).getValue()).containsIgnoringCase("VALID");
 
-			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.REPORT.getLabel()).getValue()).isEqualToIgnoringCase("View MVR");
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+						.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderMVRRow.REPORT.getLabel()).getValue()).isEqualToIgnoringCase("View MVR");
 
-			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.ORDER_DATE.getLabel()).getValue())
-					.isEqualToIgnoringCase(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+						.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderMVRRow.ORDER_DATE.getLabel()).getValue())
+						.isEqualToIgnoringCase(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
 
-			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.RECEIPT_DATE.getLabel()).getValue())
-					.isNotBlank(); //it can be also past date if report has been ordered previously, hence checking only that it is not blank
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+						.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderMVRRow.RECEIPT_DATE.getLabel()).getValue())
+						.isNotBlank(); //it can be also past date if report has been ordered previously, hence checking only that it is not blank
 
-			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
-					.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.RESPONSE.getLabel()).getValue())
-					.isEqualToIgnoringCase(expectedMvrResponse);
-		});
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+						.getCell(AutoCaMetaData.DriverActivityReportsTab.OrderMVRRow.RESPONSE.getLabel()).getValue())
+						.isEqualToIgnoringCase(expectedMvrResponse);
+			});
+		} else {
+			assertSoftly(softly -> {
+				softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRows().size()).isEqualTo(tableRowIndex);
+				softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.NAME_ON_LICENSE.getLabel()).getValue()).contains(addRequest.firstName);
+
+				softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.DATE_OF_BIRTH.getLabel()).getValue()).isEqualToIgnoringCase("01/31/1999"); //the same as addDriverRequest.birthDate
+
+				softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.STATE.getLabel()).getValue()).isEqualToIgnoringCase(updateRequest.stateLicensed);
+
+				softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.LICENSE_NO.getLabel()).getValue()).isEqualToIgnoringCase(updateRequest.licenseNumber);
+
+				softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.LICENSE_STATUS.getLabel()).getValue()).containsIgnoringCase("VALID");
+
+				softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.REPORT.getLabel()).getValue()).isEqualToIgnoringCase("View MVR");
+
+				softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.ORDER_DATE.getLabel()).getValue())
+						.isEqualToIgnoringCase(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+
+				softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.RECEIPT_DATE.getLabel()).getValue())
+						.isNotBlank(); //it can be also past date if report has been ordered previously, hence checking only that it is not blank
+
+				softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(tableRowIndex)
+						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderMVRReport.RESPONSE.getLabel()).getValue())
+						.isEqualToIgnoringCase(expectedMvrResponse);
+			});
+		}
 	}
 
 	protected void pas15383_driverWithOneOrMoreFaultAccidentsErrorBody() {
@@ -524,7 +602,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		//Order reports through service
 		OrderReportsResponse response = HelperCommon.orderReports(policyNumber, oidDriver1, OrderReportsResponse.class, 200);
 		assertSoftly(softly ->
-				softly.assertThat((response.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")).isTrue()
+				softly.assertThat(response.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")
 		);
 
 		pasDriverActivityReport(policyNumber, "VALID", "Karen Yifru");
@@ -535,7 +613,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		assertSoftly(softly -> {
 			softly.assertThat(response1.drivingRecords.get(0).accidentDate).isEqualTo(acDate);
 			softly.assertThat(response1.drivingRecords.get(0).activitySource).isEqualTo("MVR");
-			softly.assertThat((response1.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")).isTrue();
+			softly.assertThat(response1.mvrReports.get(0).choicePointLicenseStatus).contains("VALID");
 		});
 
 		pasDriverActivityReport(policyNumber, "VALID", "One Minor");
@@ -612,7 +690,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		assertSoftly(softly -> {
 			softly.assertThat(response11.drivingRecords.get(0).accidentDate).isEqualTo(acDate2);
 			softly.assertThat(response11.drivingRecords.get(0).activitySource).isEqualTo("MVR");
-			softly.assertThat((response11.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")).isTrue();
+			softly.assertThat(response11.mvrReports.get(0).choicePointLicenseStatus).contains("VALID");
 		});
 		pasDriverActivityReport(policyNumber, "VALID", "One AutoTheft");
 
@@ -621,7 +699,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		assertSoftly(softly -> {
 			softly.assertThat(response12.drivingRecords.get(0).accidentDate).isNotEmpty();
 			softly.assertThat(response12.drivingRecords.get(0).activitySource).isEqualTo("CLUE");
-			softly.assertThat((response12.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")).isTrue();
+			softly.assertThat(response12.mvrReports.get(0).choicePointLicenseStatus).contains("VALID");
 
 			softly.assertThat(response12.drivingRecords.get(1).accidentDate).isNotEmpty();
 			softly.assertThat(response12.drivingRecords.get(1).activitySource).isEqualTo("CLUE");
@@ -635,7 +713,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		//Order reports through service
 		OrderReportsResponse response = HelperCommon.orderReports(policyNumber, oidDriver1, OrderReportsResponse.class, 200);
 		assertSoftly(softly ->
-				softly.assertThat((response.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")).isTrue()
+				softly.assertThat(response.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")
 		);
 		pasDriverActivityReport(policyNumber, "VALID", "Karen Yifru");
 
@@ -645,7 +723,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		assertSoftly(softly -> {
 			softly.assertThat(response1.drivingRecords.get(0).accidentDate).isEqualTo(acDate);
 			softly.assertThat(response1.drivingRecords.get(0).activitySource).isEqualTo("MVR");
-			softly.assertThat((response1.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")).isTrue();
+			softly.assertThat(response1.mvrReports.get(0).choicePointLicenseStatus).contains("VALID");
 		});
 
 		pasDriverActivityReport(policyNumber, "VALID", "One Minor");
@@ -659,7 +737,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 			softly.assertThat(response12.drivingRecords.get(1).accidentDate).isNotEmpty();
 			softly.assertThat(response12.drivingRecords.get(1).activitySource).isEqualTo("CLUE");
 
-			softly.assertThat((response12.mvrReports.get(0).choicePointLicenseStatus).contains("VALID"));
+			softly.assertThat(response12.mvrReports.get(0).choicePointLicenseStatus).contains("VALID");
 		});
 
 		pasDriverActivityReport(policyNumber, "VALID", "Two AtFault");
@@ -746,9 +824,15 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.NAME_ON_LICENSE).getValue()).isEqualTo(name);
-		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue().contains(status)).isTrue();
+		if (getState().equals(Constants.States.CA)) {
+			NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+			assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.NAME_ON_LICENSE).getValue()).isEqualTo(name);
+			assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualToIgnoringCase(status);
+		} else {
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
+			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.NAME_ON_LICENSE).getValue()).isEqualTo(name);
+			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualToIgnoringCase(status);
+		}
 		driverActivityReportsTab.saveAndExit();
 	}
 

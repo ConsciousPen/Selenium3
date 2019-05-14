@@ -198,6 +198,8 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		policy.policyDocGen().start();
 		odd_tab.generateDocuments(true, DocGenEnum.DeliveryMethod.EMAIL, DocGenEnum.EMAIL, null, null, AA10XX, AA11AZ);
 		DocGenHelper.verifyDocumentsGenerated(true, false, policyNumber, AA10XX, AA11AZ);
+		policy.policyDocGen().start();
+		odd_tab.saveAndExit();
 		
 		//3.5
 		policy.policyDocGen().start();
@@ -229,7 +231,8 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 		policy.policyDocGen().start();
 		odd_tab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, null, AA10XX, AA11AZ);
 		DocGenHelper.verifyDocumentsGenerated(true, false, policyNumber, AA10XX, AA11AZ);
-		//odd_tab.saveAndExit();
+		policy.policyDocGen().start();
+		odd_tab.saveAndExit();
 		
 		//3.8
 		policy.policyDocGen().start();

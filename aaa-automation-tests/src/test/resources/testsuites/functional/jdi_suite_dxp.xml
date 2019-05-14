@@ -1378,7 +1378,6 @@
                     <include name="pas22513_ViewDiscountDriver"/>
                     <include name="pas28687_AddRideshareDriver"/>
                     <include name="pas25055_ViewDriverServiceMetadataServiceRideshareQuestion"/>
-                    <include name="pas28684_AddUpdateDriverValidationsAndDefaults"/>
                 </methods>
             </class>
         </classes>
@@ -1409,13 +1408,15 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="CA Select Discounts" parallel="methods">
+    <test thread-count="1024" name="MVR and CLUE order CA" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesDiscounts">
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesMVRAndClueReportOrder">
                 <methods>
-                    <include name="pas27988_miniServicesDiscountsTC01"/>
-                    <include name="pas27988_miniServicesDiscountsTC02"/>
+                    <!--<include name="pas15431_reportOrderAndDriver"/>//TODO-mstrazds: Not in suite. Needs to be verified in scope of PAS-29245 in Sprint 55-->
+                    <include name="pas15431_reportOrderAndDriver1"/>
+                    <include name="pas15431_reportOrderAndDriver2"/>
+                    <include name="pas16694_orderReports_not_Named_Insured_endorsement"/>
                 </methods>
             </class>
         </classes>

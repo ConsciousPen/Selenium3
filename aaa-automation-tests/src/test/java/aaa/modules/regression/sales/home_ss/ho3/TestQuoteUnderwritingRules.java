@@ -147,11 +147,15 @@ public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
 
 			Map<String, String> err2_dataRow = new HashMap<>();
 			err2_dataRow.put("Severity", "Error");
-			err2_dataRow.put("Message", "Applicants who have been cancelled, refused insurance or non-renewed in the p...");
+			err2_dataRow.put("Message", "Applicants who have been cancelled, refused insurance or non-renewed in the past 3 years are unacceptable unless approved by underwriting.");
+			
+			Map<String, String> err2MD_dataRow = new HashMap<>();
+			err2MD_dataRow.put("Severity", "Error");
+			err2MD_dataRow.put("Message", "Applicants who have been cancelled, refused insurance or non-renewed in the past 3 years due to Material Misrepresentation and Substantial Increase in Hazard are unacceptable.");
 
 			Map<String, String> err3_dataRow = new HashMap<>();
 			err3_dataRow.put("Severity", "Error");
-			err3_dataRow.put("Message", "Dwelling must not have been in foreclosure within the past 18 months unless a...");
+			err3_dataRow.put("Message", "Dwelling must not have been in foreclosure within the past 18 months unless approved by underwriting.");
 
 			ErrorTab errorTab = new ErrorTab();
 
@@ -167,7 +171,7 @@ public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
 					break;
 				case "MD":
 					//TODO check delta US
-					softly.assertThat(errorTab.getErrorsControl().getTable().getRowContains(err2_dataRow)).exists();
+					softly.assertThat(errorTab.getErrorsControl().getTable().getRowContains(err2MD_dataRow)).exists();
 					softly.assertThat(errorTab.getErrorsControl().getTable().getRowContains(err3_dataRow)).exists();
 					break;
 				case "PA":
