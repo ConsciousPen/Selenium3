@@ -4,6 +4,8 @@ import toolkit.db.DBService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class AAAMembershipQueries {
@@ -429,5 +431,17 @@ public class AAAMembershipQueries {
 
         }
         return response;
+    }
+
+    public static Integer getNumberOfPendedEndorsements(String policyNumber) throws IllegalArgumentException {
+        String query = String.format("Select "+
+                "o.searchtype,o.matchscore,o.productcd,PS.policynumber,Ps.effective,Ps.expiration,ps.transactiondate," +
+                "Ps.txtype,ps.timedpolicystatuscd,ps.policystatuscd,ps.mpdvalidationstatus " +
+                "from policysummary ps  LEFT JOIN OtherOrPriorPolicy o " +
+                "ON ps.policydetail_id=o.policydetail_id where ps.policynumber in ('" + policyNumber + "')");
+
+        List<Map<String, String>> dbResult =  DBService.get().getRows(query);
+        Integer responseLength = dbResult.size();
+        return responseLength;
     }
 }
