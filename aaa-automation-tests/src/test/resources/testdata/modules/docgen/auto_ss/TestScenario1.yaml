@@ -298,9 +298,9 @@ AH34XX_IN: {
     PayYN: {TextField: 'N'},
     MrtGgeYN: {TextField: 'N'},
   },
-  VehicleDetails: {
-   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
- }
+#  VehicleDetails: {
+#   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
+# }
 }
 
 TestData_AH67XX_Verification_IN: {
