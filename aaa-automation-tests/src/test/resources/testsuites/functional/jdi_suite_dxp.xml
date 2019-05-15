@@ -1241,6 +1241,8 @@
                     <include name="pas23997_updatePipCoveragesNJ"/>
                     <include name="pas25531_viewUpdatePipCoveragesIncludesNiAndRrNJ"/>
                     <include name="pas23975_viewUpdatePIPPrimaryInsurerNJ"/>
+                    <include name="pas27867_pipCovIncludesAddRemoveDriverTC01"/>
+                    <include name="pas27867_pipCovIncludesAddRemoveDriverTC02"/>
                 </methods>
             </class>
         </classes>
