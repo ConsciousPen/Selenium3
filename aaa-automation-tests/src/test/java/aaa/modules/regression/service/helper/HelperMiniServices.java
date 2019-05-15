@@ -14,6 +14,7 @@ import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class HelperMiniServices extends PolicyBaseTest {
@@ -103,12 +104,18 @@ public class HelperMiniServices extends PolicyBaseTest {
 			softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
 			softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
 			softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+			softly.assertThat(endorsementRateResponse[0].termPremium).isNotBlank();
 
 			//Bind endorsement
 			bindEndorsementWithCheck(policyNumber);
-			softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
-			softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
-			softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+			//Check that DXP rate premium matches PAS UI premium after Bind
+			if (!getState().equals(Constants.States.CA)) { //TODO-mstrazds: implement also for CA
+				TestData autoCoveragesSummaryTestData = PolicySummaryPage.getAutoCoveragesSummaryTestData();
+				String totalActualPremiumUI = autoCoveragesSummaryTestData.getValue("Total Actual Premium").replace("$", "").replace(",", "").replace(".00", "");
+				String totalTermPremiumUI = autoCoveragesSummaryTestData.getValue("Total Term Premium").replace("$", "").replace(",", "").replace(".00", "");
+				softly.assertThat(endorsementRateResponse[0].actualAmt).isEqualTo(totalActualPremiumUI);
+				softly.assertThat(endorsementRateResponse[0].termPremium).isEqualTo(totalTermPremiumUI);
+			}
 		});
 	}
 

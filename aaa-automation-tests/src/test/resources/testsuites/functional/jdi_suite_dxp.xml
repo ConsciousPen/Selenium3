@@ -1382,12 +1382,41 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="CA Driver Assignment" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesAssignments">
+                <methods>
+                    <include name="pas15195_DriverAssignmentAutoAssign1DMV"/>
+                    <include name="pas15412_DriverAssignmentAddDriver"/>
+                    <include name="pas15412_DriverAssignmentAddVehicle"/>
+                    <include name="pas15412_DriverAssignmentRemoveVehicle"/>
+                    <include name="pas15412_DriverAssignmentReplaceVehicle"/>
+                    <include name="pas15412_DriverAssignmentReplaceVehicle1DMV"/>
+                    <include name="pas15412_DriverAssignmentViewAssignments"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="CA Coverages" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas15412_viewCAPolicyLevelCoverages"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="MVR and CLUE order CA" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <!--<include name="pas15431_reportOrderAndDriver"/>//TODO-mstrazds: Not in suite. Needs to be verified in scope of PAS-29245 in Sprint 55-->
+                    <include name="pas15431_reportOrderAndDriver1"/>
+                    <include name="pas15431_reportOrderAndDriver2"/>
+                    <include name="pas16694_orderReports_not_Named_Insured_endorsement"/>
                 </methods>
             </class>
         </classes>

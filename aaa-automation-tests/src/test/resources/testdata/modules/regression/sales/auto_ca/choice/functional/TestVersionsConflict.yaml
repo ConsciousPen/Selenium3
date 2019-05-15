@@ -722,8 +722,8 @@ DriverInformation: {
   "Smoker: Cigarettes, cigars or pipes": 'No',
   Financial Responsibility Filling Needed: 'Yes',
   Filling Type: SR-1P,
-  Ridesharing Coverage: 'Yes',
-  "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
+  Ridesharing Coverage: 'No',
+  #"Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
   #ActivityInformation: {
   #  Activity Source: Company Input,
   #  Type: '10-yr Major Violation',
@@ -788,8 +788,8 @@ DriverInformation_Version2: {
   New Driver Certification Number: 33333,
   "Smoker: Cigarettes, cigars or pipes": 'Yes',
   Financial Responsibility Filling Needed: 'No',
-  Ridesharing Coverage: 'Yes',
-  "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
+  Ridesharing Coverage: 'No',
+  #"Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
   #ActivityInformation: {
   #  Activity Source: Company Input,
   #  Type: '10-yr Major Violation',
@@ -819,8 +819,8 @@ DriverInformation_AddActivity1: {
   "Smoker: Cigarettes, cigars or pipes": 'No',
   Financial Responsibility Filling Needed: 'Yes',
   Filling Type: SR-1P,
-  Ridesharing Coverage: 'Yes',
-  "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
+  Ridesharing Coverage: 'No',
+  #"Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
   ActivityInformation: {
     Activity Source: Company Input,
     Type: '10-yr Major Violation',
@@ -886,8 +886,8 @@ DriverInformation_Add_Version2: {
   New Driver Certification Number: 33333,
   "Smoker: Cigarettes, cigars or pipes": 'Yes',
   Financial Responsibility Filling Needed: 'No',
-  Ridesharing Coverage: 'Yes',
-  "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
+  Ridesharing Coverage: 'No',
+  #"Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
 }
 
 
@@ -1298,8 +1298,8 @@ DriverTab2: {
   New Driver Certification Number: 33333,
   "Smoker: Cigarettes, cigars or pipes": 'Yes',
   Financial Responsibility Filling Needed: 'No',
-  Ridesharing Coverage: 'Yes',
-  "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
+  Ridesharing Coverage: 'No',
+  #"Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
 }
 
 VehicleTab1: {

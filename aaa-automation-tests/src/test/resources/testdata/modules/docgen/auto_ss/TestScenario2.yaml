@@ -90,21 +90,21 @@ DocumentsAndBindTab_AZ: {
 
 ErrorTab_AZ: {
    ErrorsOverride: [{
-    Message: "contains=A signed Named Driver Exclusion Election must be received prior to issuing th...",
+    Message: "contains=A signed Named Driver Exclusion Election must be received prior to issuing th",
     Override: 'true',
     Approval: 'true',
     Duration: Life,
     Reason for override: index=1
    },
    {
-    Message: "contains=A signed Uninsured And Underinsured Motorist Coverage Selection Form must be ...",
+    Message: "contains=A signed Uninsured And Underinsured Motorist Coverage Selection Form must be ",
     Override: 'true',
     Approval: 'true',
     Duration: Life,
     Reason for override: index=1
    },
    {
-    Message: "contains=A signed Auto Insurance Application must be received prior to issuing this tr...",
+    Message: "contains=A signed Auto Insurance Application must be received prior to issuing this tr",
     Override: 'true',
     Approval: 'true',
     Duration: Life,
@@ -197,7 +197,7 @@ PremiumAndCoveragesTab_IN: {
 
 ErrorTabCalculatePremium: {
   ErrorsOverride: [{
-    Message: "contains=The selected limit of Uninsured Motorist Property Damage coverage is no longe...",
+    Message: "contains=The selected limit of Uninsured Motorist Property Damage coverage is no longe",
     Override: 'true',
     Approval: 'true',
     Duration: Life,
@@ -218,14 +218,14 @@ DocumentsAndBindTab_IN: {
 
 ErrorTab_IN: {
    ErrorsOverride: [{
-    Message: "contains=A signed Named Driver Exclusion Election must be received prior to issuing th...",
+    Message: "contains=A signed Named Driver Exclusion Election must be received prior to issuing th",
     Override: 'true',
     Approval: 'true',
     Duration: Life,
     Reason for override: index=1
    },
    {
-    Message: "contains=A signed Uninsured And Underinsured Motorist Coverage Selection Form must be ...",
+    Message: "contains=A signed Uninsured And Underinsured Motorist Coverage Selection Form must be ",
     Override: 'true',
     Approval: 'true',
     Duration: Life,

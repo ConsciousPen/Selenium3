@@ -18,3 +18,56 @@ NamedInsured_650_400_spouse: {
   Social security number: '123456789',
   Occupation: 'index=1'
 }
+
+ApplicantTab_SpouseIsHigher: {
+  NamedInsured: ['@NamedInsured_500_600_primaryInsured', '@NamedInsured_650_400_spouse', '@NamedInsuredChild', '@NamedInsuredParent'],
+}
+
+ApplicantTab_SpouseIsLower: {
+  NamedInsured: ['@NamedInsured_650_700_primaryInsured', '@NamedInsured_500_600_spouse', '@NamedInsuredChild', '@NamedInsuredParent'],
+}
+
+NamedInsured_650_700_primaryInsured: {
+  First name: 'Troy',
+  Last name: 'Jackson',
+  Relationship to primary named insured:  Primary Insured,
+  Marital status: 'Single',
+}
+
+NamedInsured_500_600_spouse: {
+  CustomerSearchDialog: {},
+  First name: 'Tom',
+  Last name: 'Jackson',
+  Relationship to primary named insured: Spouse,
+  Marital status: 'Single',
+  Date of birth: '09/05/1954',
+  Social security number: '123456789',
+  Occupation: 'index=1'
+}
+
+NamedInsuredParent: {
+  CustomerSearchDialog: {},
+  First name: 'FN Parent',
+  Last name: 'LN Parent',
+  Relationship to primary named insured: Parent,
+  Marital status: 'Single',
+  Date of birth: '09/05/1954',
+  Social security number: '123456789',
+  Occupation: 'index=1'
+}
+
+NamedInsuredChild: {
+  CustomerSearchDialog: {},
+  First name: 'FN Child',
+  Last name: 'LN Child',
+  Relationship to primary named insured: Child,
+  Marital status: 'Single',
+  Date of birth: '09/05/1954',
+  Social security number: '123456789',
+  Occupation: 'index=1'
+}
+
+TestData_Endorsement_ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  CLUEreport: [{Report: 'Order report'}]
+}

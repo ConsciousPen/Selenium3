@@ -958,10 +958,10 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
     //Test Claims 'Include In Rating' determination according to Occurrence date - now with subsequent renewal checks!
     protected void pas14552_includeClaimsInRatingDetermination(String SCENARIO) {
-        //Claim Dates: claimDateOfLoss/claimOpenDate/claimCloseDate all are the same
-        String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(1).toLocalDate().toString();
-        String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(2).minusDays(50).toLocalDate().toString();
-        String claim3_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(3).minusDays(47).toLocalDate().toString();
+        //Claim Dates: set test specific dateOfLoss value
+        String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(1).toLocalDate().toString(); //Age at assignment: 24 months and 1 day; IIR = No
+        String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(2).minusDays(50).toLocalDate().toString(); //Age at assignment: 13 months; IIR = Yes
+        String claim3_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(3).minusDays(47).toLocalDate().toString(); //Age at assignment: 1 month; IIR = Yes
 
         Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS =
                 ImmutableMap.of(INC_RATING_CLAIM_1, claim1_dates, INC_RATING_CLAIM_2, claim2_dates, INC_RATING_CLAIM_3, claim3_dates, INC_RATING_CLAIM_4, claim3_dates);

@@ -16,7 +16,6 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
@@ -1857,17 +1856,21 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	private void checkIfPligaFeeInfoIsDisplaying(PolicyPremiumInfo[] response) {
-
 		String premiumType = "FEE";
 		String premiumCode = "PLIGA";
 
-		PolicyPremiumInfo pligaFee = Arrays.stream(response).filter(policyPremiumInfo -> (premiumCode).equals(policyPremiumInfo.premiumCode)).findFirst().orElse(null);
+		PolicyPremiumInfo pligaFeeDXP = Arrays.stream(response).filter(policyPremiumInfo -> premiumCode.equals(policyPremiumInfo.premiumCode)).findFirst().orElse(null);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.policyInquiry().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		String pligaFeeUI = PremiumAndCoveragesTab.tablefeesSummary.getRow(1, premiumCode).getValue().get(1).replace("$", "").replace(".00", "");
+		premiumAndCoveragesTab.cancel();
 
 		assertSoftly(softly -> {
-			softly.assertThat(pligaFee.premiumType).isEqualTo(premiumType);
-			softly.assertThat(pligaFee.premiumCode).isEqualTo(premiumCode);
-			softly.assertThat(pligaFee.actualAmt).isNull();
-			softly.assertThat(pligaFee.termPremium).isNotEmpty();
+			softly.assertThat(pligaFeeDXP.premiumType).isEqualTo(premiumType);
+			softly.assertThat(pligaFeeDXP.premiumCode).isEqualTo(premiumCode);
+			softly.assertThat(pligaFeeDXP.actualAmt).isEqualTo(pligaFeeUI).isNotEqualTo("0");
+			softly.assertThat(pligaFeeDXP.termPremium).isEqualTo(pligaFeeUI).isNotEqualTo("0");
 		});
 	}
 

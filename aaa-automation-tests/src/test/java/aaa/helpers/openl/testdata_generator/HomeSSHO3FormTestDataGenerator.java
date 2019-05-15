@@ -287,11 +287,10 @@ public class HomeSSHO3FormTestDataGenerator {
 	};
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0499DataFunction = (openLPolicy, policyLevel) -> {
-		//		List<TestData> tdList = new ArrayList();
-		//		tdList.add(DataProviderFactory.dataOf(
-		//				"Action", isFormAdded("HS0490", policyLevel) ? "Edit" : "Add"));
-		//		return tdList;
-		return null;
+		List<TestData> tdList = new ArrayList();
+		tdList.add(DataProviderFactory.dataOf(
+				"Action", isFormAdded("HS0499", policyLevel) ? "Edit" : "Add"));
+		return tdList;
 	};
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0546DataFunction = (openLPolicy, policyLevel) -> {
@@ -594,7 +593,7 @@ public class HomeSSHO3FormTestDataGenerator {
 	}
 
 	public enum Forms {
-		DS0499(HomeSSMetaData.EndorsementTab.HS_04_99.getLabel(), "DS0499", formHS0499DataFunction),    //temporary
+		DS0499(HomeSSMetaData.EndorsementTab.HS_04_99.getLabel(), "DS0499", formHS0499DataFunction),
 		HS0412(HomeSSMetaData.EndorsementTab.HS_04_12.getLabel(), "HS0412", formHS0412DataFunction),
 		HS0420(HomeSSMetaData.EndorsementTab.HS_04_20.getLabel(), "HS0420", formHS0420DataFunction),
 		HS0435(HomeSSMetaData.EndorsementTab.HS_04_35.getLabel(), "HS0435", formHS0435DataFunction),

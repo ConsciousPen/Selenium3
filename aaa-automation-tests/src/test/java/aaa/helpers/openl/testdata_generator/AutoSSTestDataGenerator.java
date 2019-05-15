@@ -574,6 +574,14 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					continue;
 				}
 
+				if (getState().equals(Constants.States.PA) && "UMBI".equals(coverage.getCoverageCd()) && coverage.getLimit().endsWith("N")) {
+					policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_STACKED_UNSTACKED.getLabel(), "Unstacked");
+				}
+
+				if (getState().equals(Constants.States.PA) && "UIMBI".equals(coverage.getCoverageCd()) && coverage.getLimit().endsWith("N")) {
+					policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_STACKED_UNSTACKED.getLabel(), "Unstacked");
+				}
+
 				if (isTrailerOrMotorHomeVehicle && "SP EQUIP".equals(coverage.getCoverageCd())) {
 					// tests for "Trailer" and "Motor Home" vehicle types sometimes have "SP EQUIP" coverage which is impossible to set via UI but it does not affect rating
 					continue;
