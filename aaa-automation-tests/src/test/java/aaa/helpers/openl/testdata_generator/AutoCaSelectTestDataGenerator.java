@@ -114,7 +114,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	protected TestData getVehicleTabInformationData(AutoCaSelectOpenLVehicle openLVehicle) {
 		TestData vehicleInformation = super.getVehicleTabInformationData(openLVehicle);
 		//TODO-dchubkov: implement test data generation for optionalCoverages field (postponed since all tests have empty values)
-	//	assertThat(openLVehicle.getOptionalCoverages()).as("Test data generation for non-empty optionalCoverages field is not implemented").isNullOrEmpty();
+		assertThat(openLVehicle.getOptionalCoverages()).as("Test data generation for non-empty optionalCoverages field is not implemented").isNullOrEmpty();
 
 		String statCode = openLVehicle.getBiLiabilitySymbol();
 		String usage;
@@ -197,7 +197,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 			AutoCaSelectOpenLVehicle vehicle = openLPolicy.getVehicles().get(i);
 			TestData vehicleCoverage = td.getTestDataList(AutoCaMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel()).get(i);
 
-			assertThat(vehicle.getCoverages().stream().anyMatch(c -> "MAINT".equals(c.getCoverageCd()) && (StringUtils.isNotBlank(c.getLimit()) || !"0".equals(c.getLimit()))))
+			assertThat(vehicle.getCoverages().stream().anyMatch(c -> "MAINT".equals(c.getCoverageCd()) && (StringUtils.isNotBlank(c.getLimit()) || !"0".equals(c.getLimit())) && !openLPolicy.isCappedPolicy()))
 					.as("All Risk(MAINT) coverage should be 0 for New Business").isFalse();
 
 			if (Boolean.TRUE.equals(vehicle.isApplyFixedExpense())) {
