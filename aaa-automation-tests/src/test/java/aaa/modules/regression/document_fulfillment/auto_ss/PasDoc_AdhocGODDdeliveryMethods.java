@@ -66,6 +66,7 @@ public class PasDoc_AdhocGODDdeliveryMethods extends AutoSSBaseTest {
 		//policy1
 		String policy_declined = createPolicy();
 		//policy2
+		//policy.copyPolicy();
 		policy.copyPolicy(getPolicyTD("CopyFromPolicy", "TestData"));
 		policy.policyDocGen().start();
 		verifyOptionIsEnabled(null, DocGenEnum.DeliveryMethod.E_SIGNATURE, true, true, AA11AZ);
@@ -81,7 +82,7 @@ public class PasDoc_AdhocGODDdeliveryMethods extends AutoSSBaseTest {
 		SearchPage.openPolicy(policy_declined);
 		policy.endorse().performAndExit(getPolicyTD("Endorsement", "TestData"));
 		PolicySummaryPage.buttonPendedEndorsement.click();
-		policy.declineByCompanyQuote().perform(getPolicyTD("DeclineByCompany", "TestData"));
+		policy.cancel().perform(getPolicyTD("DeclineByCompany", "TestData"));
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status"))
 				.hasValue(ProductConstants.PolicyStatus.COMPANY_DECLINED);
@@ -111,8 +112,9 @@ public class PasDoc_AdhocGODDdeliveryMethods extends AutoSSBaseTest {
 			verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, false, AAUBI, ACPUBI);
 			verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.EMAIL, true, AAUBI, ACPUBI);
 			verifyOptionIsEnabled(softly, DocGenEnum.DeliveryMethod.LOCAL_PRINT, true, AAUBI, ACPUBI);
+
+			documentActionTab.saveAndExit();
 		});
-		documentActionTab.saveAndExit();
 	}
 
 	@Parameters({"state"})
@@ -149,6 +151,7 @@ public class PasDoc_AdhocGODDdeliveryMethods extends AutoSSBaseTest {
 	}
 
 	private void verifyDistributionChannel(DocGenEnum.DeliveryMethod deliveryMethod, DocGenEnum.Documents... documents) {
+
 		policy.policyDocGen().start();
 		if (deliveryMethod != null) {
 			verifyOptionIsEnabled(null, deliveryMethod, true, documents);
