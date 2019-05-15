@@ -196,7 +196,6 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		for (int i = 0; i < openLPolicy.getVehicles().size(); i++) {
 			AutoCaSelectOpenLVehicle vehicle = openLPolicy.getVehicles().get(i);
 			TestData vehicleCoverage = td.getTestDataList(AutoCaMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel()).get(i);
-
 			assertThat(vehicle.getCoverages().stream().anyMatch(c -> "MAINT".equals(c.getCoverageCd()) && (StringUtils.isNotBlank(c.getLimit()) || !"0".equals(c.getLimit())) && !openLPolicy.isCappedPolicy()))
 					.as("All Risk(MAINT) coverage should be 0 for New Business").isFalse();
 
