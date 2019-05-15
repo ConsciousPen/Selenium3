@@ -148,7 +148,7 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <test name="AUTOSS [OR] Premium Calculation Test 2019" preserve-order="true">
+    <test name="AutoSS [OR] Premium Calculation Test 2019" preserve-order="true">
         <parameter name="fileName" value="ORTests-20190601_part5.xls"/>
         <parameter name="policyNumbers" value="530, 557"/>
         <classes>
