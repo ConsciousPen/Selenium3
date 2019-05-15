@@ -95,6 +95,16 @@ public class AAAMembershipQueries {
     }
 
     /**
+     * Returns the Membership Order Date from DB.
+     * @param quoteOrPolicyNumber is the quote or policy number to query against.
+     * @return an optional String. If no DB rows come back, will be null.
+     */
+    public static java.util.Optional<String> getMSOrderDateFromSQL(String quoteOrPolicyNumber){
+        String query = getStandardMembershipQuery("MS.ORDERDATE", quoteOrPolicyNumber);
+        return DBService.get().getValue(query);
+    }
+
+    /**
      * Returns the AAA Order Membership Number from DB. <br>
      * ORDERMEMBERSHIPNUMBER is the response from Elastic Search
      * @param quoteOrPolicyNumber is the quote or policy number to query against.
@@ -403,5 +413,21 @@ public class AAAMembershipQueries {
                 "WHERE policynumber='" + policyNumber + "' and TXTYPE='renewal'");
 
         DBService.get().executeUpdate(query);
+    }
+
+    public static String getMatchScoreValue(String policyNumber) throws IllegalArgumentException {
+        String query = String.format("Select "+
+                        "o.searchtype,o.matchscore,o.productcd,PS.policynumber,Ps.effective,Ps.expiration,ps.transactiondate," +
+                        "Ps.txtype,ps.timedpolicystatuscd,ps.policystatuscd,ps.mpdvalidationstatus " +
+                        "from policysummary ps  LEFT JOIN OtherOrPriorPolicy o " +
+                        "ON ps.policydetail_id=o.policydetail_id where ps.policynumber in ('" + policyNumber + "')");
+
+        Optional<String> dbResponse =  DBService.get().getValue(query);
+        String response = null;
+        if(dbResponse.isPresent()){
+            response = dbResponse.get();
+
+        }
+        return response;
     }
 }
