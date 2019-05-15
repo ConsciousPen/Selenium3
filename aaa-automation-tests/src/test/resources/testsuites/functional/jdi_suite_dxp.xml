@@ -1406,6 +1406,7 @@
             <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas15412_viewCAPolicyLevelCoverages"/>
+                    <include name="pas28579_updatePolicyLevelCoveragesCA"/>
                 </methods>
             </class>
         </classes>

@@ -42,6 +42,7 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+	private aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab premiumAndCoveragesTabCA = new aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab();
 	public HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private CheckBox enhancedUIM = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UIM);
@@ -7177,10 +7178,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private void checkLimitInPAndCTab(List<Coverage> coverageExpected) {
 		for (Coverage coverage : coverageExpected) {
-			if (CoverageInfo.WLB_NY.getDescription().equals(coverage.getCoverageDescription())) {
-				assertThat(premiumAndCoveragesTab.getRejectionOfWorkLossBenefitsValue(coverage.getCoverageDescription())).isEqualTo(coverage.getCoverageLimitDisplay());
+			if (getState().equals(Constants.States.CA)) {
+				assertThat(premiumAndCoveragesTabCA.getPolicyCoverageDetailsValue(coverage.getCoverageDescription())).isEqualTo(coverage.getCoverageLimitDisplay());
 			} else {
-				assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(coverage.getCoverageDescription())).isEqualTo(coverage.getCoverageLimitDisplay());
+				if (CoverageInfo.WLB_NY.getDescription().equals(coverage.getCoverageDescription())) {
+					assertThat(premiumAndCoveragesTab.getRejectionOfWorkLossBenefitsValue(coverage.getCoverageDescription())).isEqualTo(coverage.getCoverageLimitDisplay());
+				} else {
+					assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(coverage.getCoverageDescription())).isEqualTo(coverage.getCoverageLimitDisplay());
+				}
 			}
 		}
 	}
@@ -7209,7 +7214,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	//TODO-mstrazds: This method can be used in every typical Coverage US. Use it.
-	private void updateCoverageAndCheck(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
+	protected void updateCoverageAndCheck(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
 		updateCoverageAndCheckResponses(policyNumber, covToUpdate, expectedCoveragesToCheck);
 		validateCoverageLimitInPASUI(expectedCoveragesToCheck);
 	}

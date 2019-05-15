@@ -434,6 +434,7 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_500500
 	)),
 	UIMBI_CA(ImmutableList.of(
+			CoverageLimits.COV_00,//this limit should not be available, but it doesn't matter as canChange is always false
 			CoverageLimits.COV_1530,
 			CoverageLimits.COV_2550,
 			CoverageLimits.COV_3060,

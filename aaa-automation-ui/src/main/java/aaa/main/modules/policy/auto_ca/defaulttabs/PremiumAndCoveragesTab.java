@@ -23,6 +23,8 @@ import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.composite.table.Cell;
+import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -45,6 +47,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table tableRatingDetailsVehicles = new Table(By.id("ratingDetailsPopupForm:vehicle_summary"));
 	public static Table tableRatingDetailsDrivers = new Table(By.id("ratingDetailsPopupForm:driver_summary"));
 	public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountSurchargeSummaryTable"));
+	public static Table tablePolicyLevelLiabilityCoverages = new Table(By.id("policyDataGatherForm:policyCoverageDetail"));
 
 	// -- old controls
 	public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:AAAPremiumSummary"));
@@ -67,6 +70,24 @@ public class PremiumAndCoveragesTab extends Tab {
 	public List<TestData> getRatingDetailsDriversData() {
 		ByT pagePattern = ByT.xpath("//div[@id='ratingDetailsPopupForm:driverPanel_body']//center//td[@class='pageText']//*[text()='%s']");
 		return getTestDataFromTable(tableRatingDetailsDrivers, pagePattern);
+	}
+
+	public String getPolicyCoverageDetailsValue(String coverageName) {
+		return getCoverageValueFromTable(coverageName, tablePolicyLevelLiabilityCoverages);
+	}
+
+	private String getCoverageValueFromTable(String coverageName, Table coverageTable) {
+		Row coverageRow = coverageTable.getRowContains(1, coverageName);
+		Cell cell = coverageRow.getCell(2);
+		String result;
+		if (cell.controls.comboBoxes.getFirst().isPresent()) {
+			result = cell.controls.comboBoxes.getFirst().getValue();
+		} else if (cell.controls.textBoxes.getFirst().isPresent()) {
+			result = cell.controls.textBoxes.getFirst().getValue();
+		} else {
+			result = cell.getValue();
+		}
+		return result;
 	}
 
 	@Override
