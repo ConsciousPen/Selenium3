@@ -39,4 +39,15 @@ public class AAAMultiPolicyDiscountQueries {
         String query = String.format(SELECT_MPD_DECPAGE_ENDO_COUNT, policyNumber);
         return DBService.get().getValue(query);
     }
+
+    public static Optional<String> getDecPage(@Nonnull String policyNumber) {
+        String query =
+                "select DATA from AAADOCGENENTITY " +
+                "where ENTITYID in " +
+                        "(Select id from policySummary " +
+                        "where POLICYNUMBER='" + policyNumber + "') " +
+                "order by id desc";
+
+        return DBService.get().getValue(query);
+    }
 }
