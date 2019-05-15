@@ -108,18 +108,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		
 		//Scenario 4b: 2 Drivers with Financial Responsibility = Yes
 		TestData td_2financialDrivers = getPolicyTD().adjust(getTestSpecificTD("TestData_2FinancialDrivers").resolveLinks());
-		//String policy_2financialDrivers = createPolicy(td_2financialDrivers);
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(td_2financialDrivers, DocumentsAndBindTab.class, true);
-		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
-		docsAndBindTab.submitTab();
-		if (docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.CASE_NUMBER).isPresent()) {
-			docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.CASE_NUMBER).setValue("12346");
-			docsAndBindTab.submitTab();
-		}
-		new PurchaseTab().fillTab(td_2financialDrivers);
-		new PurchaseTab().submitTab();			
-		String policy_2financialDrivers = PolicySummaryPage.getPolicyNumber();
+		String policy_2financialDrivers = createPolicyWith2FinancialDrivers(td_2financialDrivers);
 		log.info("PAS DOC: Scenario 4b: Policy with 2 financial drivers created: " + policy_2financialDrivers);
 		DocGenHelper.verifyDocumentsGenerated(true, false, policy_2financialDrivers, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2);
 		DocGenHelper.verifyDocumentsGenerated(true, false, policy_2financialDrivers, AASR22);
@@ -153,13 +142,13 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	public void testScenario6(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
-		//Scenario 6: 
+		//Scenario 6: add Vehicle Type = Golf Cart 
 		TestData td_golfCart = getPolicyTD().adjust(getTestSpecificTD("TestData_GolfCart").resolveLinks());
 		String policy_golfCart = createPolicy(td_golfCart);
 		log.info("PAS DOC: Scenario 6: Policy with Golf Cart created: " + policy_golfCart);
 		DocGenHelper.verifyDocumentsGenerated(true, false, policy_golfCart, AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AAGCAZ);
 		
-		//Scenario 6b: 
+		//Scenario 6b: add 2 Vehicles with Type = Golf Cart
 		TestData td_2golfCarts = getPolicyTD().adjust(getTestSpecificTD("TestData_2GolfCarts").resolveLinks());
 		String policy_2golfCarts = createPolicy(td_2golfCarts);
 		log.info("PAS DOC: Scenario 6b: Policy with 2 Golf Carts created: " + policy_2golfCarts);
@@ -326,7 +315,6 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	public void testScenario13(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
-/*
 		//Scenario 13a: Endorsement: add Excluded Driver
 		createPolicy();
 		TestData td_addExcludedDriver = getTestSpecificTD("TestData_Endorsement_AddExcludedDriver").adjust(getPolicyTD("Endorsement", "TestData"));
@@ -336,7 +324,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_addExcludedDriver, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA43AZ);
 		verifyAA02AZcontainsForm(policy_addExcludedDriver, EventName.ENDORSEMENT_ISSUE, "AA43AZ", true);
 		verifyAA02AZcontainsForm(policy_addExcludedDriver, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
-*/		
+		
 		//Scenario 13b: Endorsement: change Driver2 Type to Excluded
 		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_2_Drivers").resolveLinks()));
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -424,9 +412,9 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		log.info("PAS DOC: Scenario 15c: Endorsement: for both Vehicle set Existing Damage not None: " + policy_endorse_set2VehiclesDamage);
 		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_endorse_set2VehiclesDamage, EventName.ENDORSEMENT_ISSUE, AA02AZ, AA59XX);
 		assertThat(countDocuments(policy_endorse_set2VehiclesDamage, EventName.ENDORSEMENT_ISSUE, AA59XX)).isEqualTo(2);
-
+		
 		//Scenario 15e: Endorsement: set Existing Damage = None
-		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_VehicleWithDamage").resolveLinks()));
+		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_RegularWithDamage").resolveLinks()));
 		TestData td_endorse_removeDamage = getTestSpecificTD("TestData_Endorsement_removeDamage").adjust(getPolicyTD("Endorsement", "TestData"));
 		policy.endorse().performAndFill(td_endorse_removeDamage);
 		String policy_endorse_removeDamage = PolicySummaryPage.getPolicyNumber();
@@ -512,7 +500,8 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		verifyAA02AZcontainsForm(policy_endorse_removeFinDriver, EventName.ENDORSEMENT_ISSUE, "AAAEAZ2", false);
 
 		//Scenario 18d: Endorsement: change Financial Responsibility to No for both Drivers
-		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_2FinancialDrivers").resolveLinks()));
+		TestData td_2financialDrivers = getPolicyTD().adjust(getTestSpecificTD("TestData_2FinancialDrivers").resolveLinks());					
+		createPolicyWith2FinancialDrivers(td_2financialDrivers);
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
 		new DriverTab().getAssetList().getAsset(AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED).setValue("No");
@@ -530,7 +519,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		assertThat(countDocuments(policy_endorse_change2FinDrivers, EventName.ENDORSEMENT_ISSUE, AASR26)).isEqualTo(2);
 		
 		//Scenario 18f: Endorsement: change Financial Responsibility to No for Driver1 and remove Driver2
-		createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_2FinancialDrivers").resolveLinks()));
+		createPolicyWith2FinancialDrivers(td_2financialDrivers);
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
 		new DriverTab().getAssetList().getAsset(AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED).setValue("No");
@@ -612,6 +601,20 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		log.info("TEST: Standard Quote: Created quote# " + PolicySummaryPage.getPolicyNumber());
 	}
 	*/
+	
+	private String createPolicyWith2FinancialDrivers(TestData td_2finDrivers) {
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(td_2finDrivers, DocumentsAndBindTab.class, true);
+		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
+		docsAndBindTab.submitTab();
+		if (docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.CASE_NUMBER).isPresent()) {
+			docsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.CASE_NUMBER).setValue("12346");
+			docsAndBindTab.submitTab();
+		}
+		new PurchaseTab().fillTab(td_2finDrivers);
+		new PurchaseTab().submitTab();			
+		return PolicySummaryPage.getPolicyNumber();
+	}
 	
 	private void verifyAA02AZcontainsForm(String policyNumber, String form, boolean expectedPresent) {
 		verifyAA02AZcontainsForm(policyNumber, null, form, expectedPresent);

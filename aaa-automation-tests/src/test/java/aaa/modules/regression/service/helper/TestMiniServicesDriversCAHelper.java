@@ -4,6 +4,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.rest.dtoDxp.*;
+import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
@@ -11,6 +12,7 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
+import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 
 import java.time.format.DateTimeFormatter;
 
@@ -21,6 +23,7 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelper {
 	private DriverTab driverTab = new DriverTab();
+	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 
 	protected void pas25057_AddDriverCADefaultValuesBody() {
 		mainApp().open();
@@ -296,9 +299,69 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
 			softly.assertThat(metaDataFieldResponseMarital.valueRange.get("W")).isEqualTo("Widowed");
 			softly.assertThat(metaDataFieldResponseMarital.valueRange.get("P")).isEqualTo("Separated");
 
-			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "drivingLicense.stateLicensed", true, true, true, null, "String");
-			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "drivingLicense.licenseNumber", true, true, false, "255", "String");
-			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "ageFirstLicensed", true, true, true, "3", "Integer");
-		});
-	}
+            getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "drivingLicense.stateLicensed", true, true, true, null, "String");
+            getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "drivingLicense.licenseNumber", true, true, false, "255", "String");
+            getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "ageFirstLicensed", true, true, true, "3", "Integer");
+        });
+    }
+
+    protected void pas28684_AddUpdateDriverValidationsAndDefaultsBody(PolicyType policyType) {
+        assertSoftly(softly -> {
+
+            mainApp().open();
+            String policyNumber = getCopiedPolicy();
+
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+            // addDriver via dxp - with age less than 16 years
+            String driverBday = TimeSetterUtil.getInstance().getCurrentTime().minusYears(15).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+            AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("John", "Driver", "Jones", driverBday, null);
+            ErrorResponseDto addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, ErrorResponseDto.class, 422);
+			softly.assertThat(helperMiniServices.hasError(addDriverResponse, ErrorDxpEnum.Errors.DRIVER_UNDER_AGE_CA)).isTrue();
+
+            // addDriver via dxp - with birth year prior to 1900
+            AddDriverRequest addDriverRequest2 = DXPRequestFactory.createAddDriverRequest("John", "Driver", "Jones", "1899-12-20", null);
+            ErrorResponseDto addDriverResponse2 = HelperCommon.addDriver(policyNumber, addDriverRequest2, ErrorResponseDto.class, 422);
+			softly.assertThat(helperMiniServices.hasError(addDriverResponse2, ErrorDxpEnum.Errors.TOO_OLD_DRIVER_ERROR_CA)).isTrue();
+
+            // addDriver via dxp
+            AddDriverRequest addDriverRequest3 = DXPRequestFactory
+                    .createAddDriverRequest("Jane", "Driver", "Smith", "1970-12-20", null);
+            DriversDto addDriverResponse3 = HelperCommon.addDriver(policyNumber, addDriverRequest3, DriversDto.class);
+            String newDriverOid = addDriverResponse3.oid;
+
+			// updateDriver via dxp
+            UpdateDriverRequest updateDriverRequest = DXPRequestFactory
+                    .createUpdateDriverRequest("female", "C32329585", 16, "CA", "OT", null);
+            DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, newDriverOid, updateDriverRequest);
+
+            softly.assertThat(updateDriverResponse.validations.stream()
+                    .anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR_CA.getMessage())
+                            && (ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR_CA.getCode()).equals(error.errorCode))).isTrue();
+
+			UpdateDriverRequest updateDriverRequest2 = DXPRequestFactory
+                    .createUpdateDriverRequest("female", "C32329585", 16, "CA", "SP", null);
+			DriverWithRuleSets updateDriverResponse2 = HelperCommon.updateDriver(policyNumber, newDriverOid, updateDriverRequest2);
+            softly.assertThat(updateDriverResponse2.driver.namedInsuredType).isEqualTo("NI");
+			softly.assertThat(updateDriverResponse2.driver.maritalStatusCd).isEqualTo("M");
+
+            SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+            PolicySummaryPage.buttonPendedEndorsement.click();
+            policy.dataGather().start();
+            NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.GENERAL.get());
+
+            aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab generalTab = new aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab();
+
+            MultiAssetList namedInsuredInfo = generalTab.getNamedInsuredInfoAssetList();
+            String address1 = namedInsuredInfo.getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.ADDRESS_LINE_1).getValue();
+
+            generalTab.viewInsured(2);
+            namedInsuredInfo = generalTab.getNamedInsuredInfoAssetList();
+            softly.assertThat(namedInsuredInfo.getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.ADDRESS_LINE_1).getValue()).isEqualTo(address1);
+            softly.assertThat(namedInsuredInfo.getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS).getValue()).isEqualTo("No");
+            softly.assertThat(namedInsuredInfo.getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.IS_RESIDENTAL_DIFFERENF_FROM_MAILING).getValue()).isEqualTo("No");
+
+        });
+    }
 }

@@ -26,6 +26,7 @@ import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.*;
@@ -33,9 +34,11 @@ import org.testng.annotations.Optional;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
@@ -43,7 +46,7 @@ import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.waiters.Waiters;
-
+import java.time.DayOfWeek;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathConstants;
@@ -53,6 +56,7 @@ import javax.xml.xpath.XPathFactory;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static toolkit.verification.CustomAssertions.assertThat;
@@ -77,6 +81,58 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     private PremiumAndCoveragesTab _pncTab = new PremiumAndCoveragesTab();
     private DocumentsAndBindTab _documentsAndBindTab = new DocumentsAndBindTab();
     private PurchaseTab _purchaseTab = new PurchaseTab();
+
+    /**
+     *  Creates a policy with MPD discount
+     *  Runs NB +30 jobs for MPD discount validation
+     *  Discount is removed due to non-active products found and removes discount
+     *  Reason in transaction history set to "Discount validation failure, policy information updated."
+     * @param state the test will run against.
+     * @author Robert Boles - CIO
+     */
+    @Parameters({"state"})
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Provide 'Reason' type for a MTC to show generic wording when MPD discount is added/removed/change")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-29273")
+    public void pas29273_updateReasonMPDRemoval(@Optional("UT") String state) {
+        TestData testData = getTdAuto();
+        mainApp().open();
+        createCustomerIndividual();
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(testData, GeneralTab.class,true);
+        _generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
+        //Set the membership number to active
+        _generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("4290074030137505");
+            //puts quoted products into the MPD table with REFRESH_Q@yeah.com
+        _generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.EMAIL).setValue("REFRESH_Q@yeah.com");
+        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
+                    .click(Waiters.AJAX);
+        _generalTab.submitTab();
+        policy.getDefaultView().fillFromTo(testData, DriverTab.class, PurchaseTab.class, true);
+        if (_errorTab.tableErrors.isPresent()) {
+            _errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_MVR_order_validation_SS);
+            _errorTab.override();
+            PurchaseTab purchaseTab = new PurchaseTab();
+            purchaseTab.submitTab();
+        } else {
+            PurchaseTab purchaseTab = new PurchaseTab();
+            purchaseTab.submitTab();
+        }
+        String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+        log.info("Policy Number " + PolicySummaryPage.getPolicyNumber());
+        LocalDateTime policyEffectiveDatePlus30 = PolicySummaryPage.getEffectiveDate();
+        if(policyEffectiveDatePlus30.getDayOfWeek() == DayOfWeek.SATURDAY) {
+            policyEffectiveDatePlus30 = policyEffectiveDatePlus30.plusDays(2);
+        } else if (policyEffectiveDatePlus30.getDayOfWeek() == DayOfWeek.SUNDAY) {
+            policyEffectiveDatePlus30 = policyEffectiveDatePlus30.plusDays(1);
+        }
+        TimeSetterUtil.getInstance().nextPhase(policyEffectiveDatePlus30.plusDays(30));
+        log.info("Time Setter Move " + policyEffectiveDatePlus30.plusDays(30));
+
+        jobsNBplus30runNoChecks();
+        mainApp().reopen();
+        SearchPage.openPolicy(policyNumber);
+        transactionHistoryRecordCountCheck(policyNumber, 2, "Discount validation failure, policy information updated.", new ETCSCoreSoftAssertions());
+    }
 
     /**
      * Make sure various combos of Unquoted Other AAA Products rate properly and are listed in the UI
@@ -2196,4 +2252,58 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         List<WebElement> arrayOfCheckboxesFound = BrowserController.get().driver().findElements(By.xpath(_XPATH_TO_ALL_SEARCH_RESULT_CHECKBOXES));
         return arrayOfCheckboxesFound.size();
     }
+
+    /**
+     * @return Test Data for an AZ SS policy with no other active policies
+     */
+    private TestData getTdAuto() {
+        return getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData")
+                .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()))
+                .mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()));
+    }
+
+    /**
+     * Jobset needed to process MPD discount validation at NB +30
+     */
+    private void jobsNBplus30runNoChecks() {
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+        JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
+        JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
+        JobUtils.executeJob(Jobs.automatedProcessingRunReportsServicesJob);
+        JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
+        JobUtils.executeJob(Jobs.automatedProcessingStrategyStatusUpdateJob);
+        JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
+        log.info("Current application date: " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")));
+        TimeSetterUtil.getInstance().adjustTime();
+    }
+
+    /**
+     *
+     * @param policyNumber policy number in test
+     * @param rowCount which row of the table (how many transactions in history)
+     * @param value value to be present in Reason field
+     * @param softly for assertions
+     */
+    private void transactionHistoryRecordCountCheck(String policyNumber, int rowCount, String value, ETCSCoreSoftAssertions softly) {
+        PolicySummaryPage.buttonTransactionHistory.click();
+        softly.assertThat(PolicySummaryPage.tableTransactionHistory).hasRows(rowCount);
+
+        String valueShort = "";
+        if (!StringUtils.isEmpty(value)) {
+            valueShort = value.substring(0, 20);
+            assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getHintValue()).contains(value);
+        }
+        softly.assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getValue()).contains(valueShort);
+
+        String transactionHistoryQuery = "select * from(\n"
+                + "select pt.TXREASONTEXT\n"
+                + "from PolicyTransaction pt\n"
+                + "where POLICYID in \n"
+                + "        (select id from POLICYSUMMARY \n"
+                + "        where POLICYNUMBER = '%s')\n"
+                + "    order by pt.TXDATE desc)\n"
+                + "    where rownum=1";
+        softly.assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).isEqualTo(value);
+    }
+
 }

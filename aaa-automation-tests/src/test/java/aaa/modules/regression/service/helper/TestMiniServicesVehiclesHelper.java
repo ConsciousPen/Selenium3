@@ -1030,7 +1030,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 			//fill all mandatory details, rate and bind
 			if (multipleDrivers) {
-				HelperCommon.updateDriverAssignment(policyNumber, revertedVehicle.oid, Arrays.asList(testMiniServicesDriversHelper.getDriverByLicenseNumber(HelperCommon.viewEndorsementDrivers(policyNumber), "400064773").oid));
+				HelperCommon.updateDriverAssignment(policyNumber, revertedVehicle.oid, Arrays.asList(testMiniServicesDriversHelper.findDriverByLicenseNumber(HelperCommon.viewEndorsementDrivers(policyNumber), "400064773").oid));
 			}
 
 			PolicySummaryPage.buttonPendedEndorsement.click();

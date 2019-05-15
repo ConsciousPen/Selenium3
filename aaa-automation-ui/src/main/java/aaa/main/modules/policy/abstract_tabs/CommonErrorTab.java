@@ -221,6 +221,14 @@ public abstract class CommonErrorTab extends Tab {
 
 		return actualTableAndHintErrorMessagePairs.stream().anyMatch(actualMessagePair -> actualMessagePair.getKey().startsWith(expectedMessage) && actualMessagePair.getValue().startsWith(expectedMessage));
 	}
+	
+	private boolean isMessagePresentInTable(String actualTableErrorMessage, String expectedMessage) {
+		if (actualTableErrorMessage == null) {
+			return false;
+		}
+
+		return actualTableErrorMessage.contains(expectedMessage);
+	}
 
 	public class Verify {
 
@@ -239,14 +247,17 @@ public abstract class CommonErrorTab extends Tab {
 		}
 
 		public void errorsPresent(ETCSCoreSoftAssertions softly, boolean expectedValue, ErrorEnum.Errors... errors) {
-			Map<String, Pair<String, String>> actualErrorCodesAndMessagePairsMap = getErrorCodesAndMessagePairsMap(!expectedValue);
+		//	Map<String, Pair<String, String>> actualErrorCodesAndMessagePairsMap = getErrorCodesAndMessagePairsMap(!expectedValue);
+			Map<String, String> actualErrorCodesAndMessageMap = getErrorsMap(!expectedValue);
 			for (ErrorEnum.Errors error : errors) {
 				if (expectedValue) {
-					softly.assertThat(actualErrorCodesAndMessagePairsMap.keySet()).contains(error.getCode());
+					softly.assertThat(actualErrorCodesAndMessageMap.keySet()).contains(error.getCode());
 				} else {
-					softly.assertThat(actualErrorCodesAndMessagePairsMap.keySet()).doesNotContain(error.getCode());
+					softly.assertThat(actualErrorCodesAndMessageMap.keySet()).doesNotContain(error.getCode());
 				}
-				softly.assertThat(isMessagePresentInTableAndHintPopup(actualErrorCodesAndMessagePairsMap.get(error.getCode()), error
+			//	softly.assertThat(isMessagePresentInTableAndHintPopup(actualErrorCodesAndMessagePairsMap.get(error.getCode()), error
+			//			.getMessage())).as("Error with message <%s> is present in table", error.getMessage()).isEqualTo(expectedValue);
+				softly.assertThat(isMessagePresentInTable(actualErrorCodesAndMessageMap.get(error.getCode()), error
 						.getMessage())).as("Error with message <%s> is present in table", error.getMessage()).isEqualTo(expectedValue);
 			}
 		}
