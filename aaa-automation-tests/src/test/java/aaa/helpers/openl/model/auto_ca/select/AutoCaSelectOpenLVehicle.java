@@ -15,7 +15,7 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 	@RequiredField
 	private List<AutoCaSelectOpenLCoverage> coverages;
 
-	private List<AutoCaSelectOpenLCoverage> optionalCoverages;
+	//private List<AutoCaSelectOpenLCoverage> optionalCoverages;
 
 	@RequiredField
 	private AutoCaSelectOpenLDriver primaryDriver;
@@ -173,11 +173,11 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 		this.manuallyAssignedUndesignatedDriverInd = manuallyAssignedUndesignatedDriverInd;
 	}
 
-	public List<AutoCaSelectOpenLCoverage> getOptionalCoverages() {
+	/*public List<AutoCaSelectOpenLCoverage> getOptionalCoverages() {
 		return CollectionUtils.isNotEmpty(optionalCoverages) ? new ArrayList<>(optionalCoverages) : null;
 	}
 
 	public void setOptionalCoverages(List<AutoCaSelectOpenLCoverage> optionalCoverages) {
 		this.optionalCoverages = CollectionUtils.isNotEmpty(optionalCoverages) ? new ArrayList<>(optionalCoverages) : null;
-	}
+	}*/
 }
