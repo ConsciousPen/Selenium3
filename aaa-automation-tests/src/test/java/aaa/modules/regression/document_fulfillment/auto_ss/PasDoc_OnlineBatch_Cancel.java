@@ -10,7 +10,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
@@ -23,16 +22,12 @@ import aaa.helpers.xml.model.pasdoc.Document;
 import aaa.helpers.xml.model.pasdoc.DocumentGenerationRequest;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
-import aaa.main.metadata.BillingAccountMetaData;
-import aaa.main.metadata.policy.PurchaseMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
-import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
 
@@ -196,18 +191,18 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 	public void testScenario30(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
-		String policyNumber = createPolicy();
+		String policy1 = createPolicy();
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
 				.adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
 						"New Business Rescission - NSF on Down Payment"));
-		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH60XXA);
+		PasDocImpl.verifyDocumentsGenerated(policy1, AH60XXA);
 
-		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
-
+		String policy2 = createPolicy();
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus10Days")
 				.adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
 						"New Business Rescission - NSF on Down Payment"));
-		PasDocImpl.verifyDocumentsGenerated(false, policyNumber, AH60XXA);
+
+		PasDocImpl.verifyDocumentsGenerated(false, policy2, AH60XXA);
 	}
 
 	@Parameters({"state"})
@@ -252,18 +247,17 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 	public void testScenario33(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
-		String policyNumber = createPolicy();
+		String policy1 = createPolicy();
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData").adjust(TestData
 						.makeKeyPath("CancelNoticeActionTab", "Cancellation Reason"),
 				"Underwriting - Fraudulent Misrepresentation"));
-		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH61XX);
+		PasDocImpl.verifyDocumentsGenerated(policy1, AH61XX);
 
-		policy.deleteCancelNotice().perform(new SimpleDataProvider());
+		String policy2 = createPolicy();
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData").adjust(TestData
 						.makeKeyPath("CancelNoticeActionTab", "Cancellation Reason"),
 				"Underwriting - Substantial Increase in Hazard"));
-		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH61XX);
-		assertThat(countDocuments(policyNumber, null, AH61XX)).isEqualTo(2);
+		PasDocImpl.verifyDocumentsGenerated(policy2, AH61XX);
 	}
 
 	@Parameters({"state"})
@@ -282,61 +276,6 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH65XX);
 	}
 
-	@Parameters({"state"})
-	@StateList(states = Constants.States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
-	public void testScenario36(@Optional("") String state) {
-
-		List<LocalDateTime> installmentDueDates;
-
-		mainApp().open();
-		TestData td = getPolicyTD().adjust(TestData.makeKeyPath(PurchaseMetaData.PurchaseTab.class.getSimpleName()), "@auto_ss@DataGather@PurchaseTab_WithAutopay")
-				.adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Eleven Pay - Standard");
-		createCustomerIndividual();
-		String policyNumber = createPolicy(td);
-		BillingSummaryPage.open();
-		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		LocalDateTime cNDate = getTimePoints().getCancellationNoticeDate(installmentDueDates.get(6));
-		LocalDateTime cDate = getTimePoints().getCancellationDate(cNDate);
-
-		for (int dueDate = 1; dueDate < 6; dueDate++) {
-			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(dueDate)));
-			JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
-			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(dueDate)));
-			JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
-			if (dueDate == 5) {
-				updateBillingAccountAutoPay(policyNumber, false);
-				TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(6)));
-				JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
-				TimeSetterUtil.getInstance().nextPhase(cNDate);
-				JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
-				TimeSetterUtil.getInstance().nextPhase(cDate);
-				JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
-			}
-		}
-
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillFirst(cDate));
-		JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob);
-		PasDocImpl.verifyDocumentsGenerated(true, true, policyNumber, _55_6101);
-
-		//scenario 37
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillSecond(cDate));
-		JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob);
-		PasDocImpl.verifyDocumentsGenerated(true, true, policyNumber, _55_6102);
-
-		//scenario 38
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillThird(cDate));
-		JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob);
-		PasDocImpl.verifyDocumentsGenerated(true, true, policyNumber, _55_6103);
-	}
-
-	private void updateBillingAccountAutoPay(String policyNumber, boolean autoPay) {
-		mainApp().open();
-		SearchPage.openBilling(policyNumber);
-		new BillingAccount().update().start();
-		new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).setValue(autoPay);
-		Tab.buttonSave.click();
-	}
 
 	private int countDocuments(String policyNumber, DocGenEnum.EventName eventName, DocGenEnum.Documents document) {
 		DocumentGenerationRequest docGenReq = PasDocImpl.getDocumentRequest(policyNumber, eventName, document);
