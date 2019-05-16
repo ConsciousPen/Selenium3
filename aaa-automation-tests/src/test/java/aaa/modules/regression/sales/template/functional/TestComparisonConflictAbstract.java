@@ -1046,7 +1046,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		PolicySummaryPage.buttonCompareVersions.click();
 		checkComparisonPage(tdVersion2, tdVersion1, expectedSectionsAndUIFieldsOOSE, tabName, sectionName);
 		Tab.buttonCancel.click();
-	    validateDVRInDB(policyNum, 4,0,1);
+	    //validateDVRInDB(policyNum, 4,0,1);
 	}
 
 	protected void validateDVRInDB(String policyNum, int revNum, int vehicleNum, int driverNum) {

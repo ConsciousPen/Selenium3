@@ -476,7 +476,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-27125"})
 	public void pas27125_ooseConflictManualAtomicMergeAssignment_Scenario2(@Optional("CA") String state) {
-		ooseConflictAtomicMerge(getNBPolicyForAtomicMergeScenario2(), getAtomicMergeScenario2_Version1(), getAtomicMergeScenario2_Version2(), VersionsConflictConstants.ATOMIC_MERGE_SCENARIO2,  VersionsConflictConstants.ATOMIC_MERGE_SCENARIO2_VERSION1, "AssignmentTab", "DriverVehicleRelationshipTable", false, true);
+		ooseConflictAtomicMerge(getNBPolicyForAtomicMergeScenario2(), getAtomicMergeScenario2_Version1(), getAtomicMergeScenario2_Version2(), VersionsConflictConstants.ATOMIC_MERGE_SCENARIO2,  VersionsConflictConstants.ATOMIC_MERGE_SCENARIO2_VERSION1, "AssignmentTab", "DriverVehicleRelationshipTable", false, false);
 	}
 
 	@Parameters({STATE_PARAM})
