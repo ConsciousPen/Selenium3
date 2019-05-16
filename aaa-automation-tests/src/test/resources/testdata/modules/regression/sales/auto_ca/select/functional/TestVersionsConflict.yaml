@@ -1120,7 +1120,7 @@ TestData_Multiple_Drivers_NB_Policy: {
     Agreement: I agree,
     RequiredToIssue: {
       Policy Application: 'Yes',
-      #Proof of Good Student Discount: 'Yes',
+      Proof of Good Student Discount: 'Yes',
       Auto Billing Plan Explanation: 'Yes',
       Proof of New Driver Course Completion: 'Yes',
       Proof of Mature Driver Course Completion: 'Yes',
@@ -1221,7 +1221,7 @@ TestData_Multiple_Drivers_Vehicles_NB_Policy: {
     Agreement: I agree,
     RequiredToIssue: {
       Policy Application: 'Yes',
-      #Proof of Good Student Discount: 'Yes',
+      Proof of Good Student Discount: 'Yes',
       Auto Billing Plan Explanation: 'Yes',
       Proof of New Driver Course Completion: 'Yes',
       Proof of Mature Driver Course Completion: 'Yes',
