@@ -62,10 +62,11 @@ public class ClickComboBox extends ComboBox {
 		if (!getRawValue().equals(value)) {
 			openValuesList();
 			try {
-				new Link(valueLocatorTemplate.format(value)).click();
+				new Link(this, valueLocatorTemplate.format(value)).click();
 				Waiters.SLEEP(timeout).go();
 				WaitMeters.capture(WaitMeters.PAGE_LOAD);
 				waitForPageUpdate();
+				this.click();
 			} catch (Exception e) {
 				openValuesList();
 				throw e;
