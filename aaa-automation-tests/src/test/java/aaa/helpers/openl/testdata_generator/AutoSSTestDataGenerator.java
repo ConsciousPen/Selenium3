@@ -195,6 +195,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				switch (carrierCode) {
 					case "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)":
 						carrierCode = "AAA Insurance";
+					case "WUIC":
+						carrierCode = "Western United";
 				}
 			} else {
 				carrierCode = "AAA-SoCal (ACSC)";
