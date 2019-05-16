@@ -53,6 +53,8 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 	@StateList(states = Constants.States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario26_2(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
 		String policy_cancel_in_3_days = createPolicy();
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus3Days"));
 		PasDocImpl.verifyDocumentsGenerated(policy_cancel_in_3_days, AH61XX);
@@ -180,7 +182,7 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 						"New Business Rescission - Underwriting Fraudulent Misrepresentation"));
 		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH61XXA, AH63XX);
 
-		policy.deleteCancelNotice().perform(new SimpleDataProvider());
+		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
 
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus10Days")
 				.adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
@@ -200,7 +202,7 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 						"New Business Rescission - NSF on Down Payment"));
 		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH60XXA);
 
-		policy.deleteCancelNotice().perform(new SimpleDataProvider());
+		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
 
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus10Days")
 				.adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
