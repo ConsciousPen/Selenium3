@@ -276,7 +276,6 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH65XX);
 	}
 
-
 	private int countDocuments(String policyNumber, DocGenEnum.EventName eventName, DocGenEnum.Documents document) {
 		DocumentGenerationRequest docGenReq = PasDocImpl.getDocumentRequest(policyNumber, eventName, document);
 		Document doc = docGenReq.getDocuments().stream().filter(c -> document.getIdInXml().equals(c.getTemplateId())).findFirst().get();
