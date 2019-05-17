@@ -140,6 +140,8 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		//1b
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
 		//1c
+		new BillingAccount().generateFutureStatement().perform();
+
 		new BillingInstallmentsScheduleVerifier().setInstallmentDueDate(installmentDueDate.get(5)).setBilledStatus(InstallmentScheduleBilledStatus.BILLED).verifyPresent();
 		new BillingBillsAndStatementsVerifier().setDueDate(installmentDueDate.get(5)).setType(BILL).verifyPresent();
 		//1d DD5+8
