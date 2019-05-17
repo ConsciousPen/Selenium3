@@ -1,5 +1,6 @@
 package aaa.modules.regression.document_fulfillment.auto_ss;
 
+import static aaa.main.enums.BillingConstants.*;
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
@@ -20,7 +21,6 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.pasdoc.DataElement;
 import aaa.helpers.xml.model.pasdoc.Document;
 import aaa.helpers.xml.model.pasdoc.DocumentGenerationRequest;
-import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
@@ -69,32 +69,38 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		installmentDueDate = BillingHelper.getInstallmentDueDates();
 		//1a
 		new BillingAccount().generateFutureStatement().perform();
-		assertThat(BillingSummaryPage.tableInstallmentSchedule.getRow(1).getCell(BillingConstants.BillingInstallmentScheduleTable.BILLED_STATUS).getValue())
-				.isEqualTo(BillingConstants.InstallmentScheduleBilledStatus.BILLED);
-		assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).getValue())
-				.isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
+
+		BillingHelper.verifyBillingTableValues(BillingSummaryPage.tableInstallmentSchedule, BillingInstallmentScheduleTable.BILLED_STATUS
+				, InstallmentScheduleBilledStatus.BILLED, 2);
+
+		BillingHelper.verifyBillingTableValues(BillingSummaryPage.tableBillsStatements, BillingBillsAndStatmentsTable.TYPE
+				, BillsAndStatementsType.BILL, 2);
+
 		//1b DD1+8
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(1)));
 		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
-		/*mainApp().open();
-		SearchPage.openPolicy(policyNumber);*/
-		searchForPolicy(policyNumber);
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+
 		assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
 		//1c cancelDueDate(+8)
 		LocalDateTime cancelDueDate = getTimePoints().getCancellationDate(DateTimeUtils.getCurrentDateTime());
 		TimeSetterUtil.getInstance().nextPhase(cancelDueDate);
-		searchForPolicy(policyNumber);
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
 		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
+
+		BillingHelper.verifyBillingTableValues(BillingSummaryPage.tablePaymentsOtherTransactions, BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
+				PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM);
 		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH67XX);
-		//
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(3).getCell("Subtype/Reason")
-				.getValue()).isEqualTo(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM);
+
 		//2a reinstatementDueDate(+10)
 		LocalDateTime reinstatementDueDate = DateTimeUtils.getCurrentDateTime().plusDays(10);
 		TimeSetterUtil.getInstance().nextPhase(reinstatementDueDate);
-		searchForPolicy(policyNumber);
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
 		BillingSummaryPage.open();
 		minDue = new Dollar(BillingSummaryPage.getMinimumDue());
@@ -102,14 +108,16 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
 		//2c
 		new BillingAccount().generateFutureStatement().perform();
-		assertThat(BillingSummaryPage.tableInstallmentSchedule.getRow(4).getCell(BillingConstants.BillingInstallmentScheduleTable.BILLED_STATUS).getValue())
-				.isEqualTo(BillingConstants.InstallmentScheduleBilledStatus.BILLED);
-		assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).getValue())
-				.isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
+
+		assertThat(BillingSummaryPage.tableInstallmentSchedule.getRow(4).getCell(BillingInstallmentScheduleTable.BILLED_STATUS).getValue())
+				.isEqualTo(InstallmentScheduleBilledStatus.BILLED);
+		assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingBillsAndStatmentsTable.TYPE).getValue())
+				.isEqualTo(BillsAndStatementsType.BILL);
 		//2d DD3+8
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(3)));
 		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
-		searchForPolicy(policyNumber);
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
 		//2e cancelDueDate(+8)
 		LocalDateTime cancelDueDate2 = getTimePoints().getCancellationDate(DateTimeUtils.getCurrentDateTime());
 		TimeSetterUtil.getInstance().nextPhase(cancelDueDate2);
@@ -117,15 +125,16 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(3).getCell("Subtype/Reason")
-				.getValue()).isEqualTo(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM);
+		BillingHelper.verifyBillingTableValues(BillingSummaryPage.tablePaymentsOtherTransactions, BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
+				PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM, 2);
 		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH67XX);
 
 		//test scenario 28
 		// 1a reinstatementDueDate(+10)
 		LocalDateTime reinstatementDueDate2 = DateTimeUtils.getCurrentDateTime().plusDays(10);
 		TimeSetterUtil.getInstance().nextPhase(reinstatementDueDate2);
-		searchForPolicy(policyNumber);
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
 		BillingSummaryPage.open();
 		minDue = new Dollar(BillingSummaryPage.getMinimumDue());
@@ -133,14 +142,15 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
 		//1c
 		new BillingAccount().generateFutureStatement().perform();
-		assertThat(BillingSummaryPage.tableInstallmentSchedule.getRow(6).getCell(BillingConstants.BillingInstallmentScheduleTable.BILLED_STATUS).getValue())
-				.isEqualTo(BillingConstants.InstallmentScheduleBilledStatus.BILLED);
-		assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).getValue())
-				.isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
+		assertThat(BillingSummaryPage.tableInstallmentSchedule.getRow(6).getCell(BillingInstallmentScheduleTable.BILLED_STATUS).getValue())
+				.isEqualTo(InstallmentScheduleBilledStatus.BILLED);
+		assertThat(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingBillsAndStatmentsTable.TYPE).getValue())
+				.isEqualTo(BillsAndStatementsType.BILL);
 		//1d DD5+8
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(5)));
 		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
-		searchForPolicy(policyNumber);
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
 		//1e cancelDueDate(+8)
 		LocalDateTime cancelDueDate3 = getTimePoints().getCancellationDate(DateTimeUtils.getCurrentDateTime());
@@ -149,15 +159,26 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH63XX);
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(3).getCell("Subtype/Reason")
-				.getValue()).isEqualTo(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM);
-		//2
+		BillingHelper.verifyBillingTableValues(BillingSummaryPage.tablePaymentsOtherTransactions, BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
+				PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM, 3);
+
+	}
+
+	@Parameters({"state"})
+	@StateList(states = Constants.States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
+	public void testScenario27_2(@Optional("") String state) {
 		String policy_for_cancel1 = createPolicy();
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
 				.adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
 						"Underwriting - Substantial Increase in Hazard"));
 		PasDocImpl.verifyDocumentsGenerated(policy_for_cancel1, AH63XX);
-		//3
+	}
+
+	@Parameters({"state"})
+	@StateList(states = Constants.States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
+	public void testScenario27_3(@Optional("") String state) {
 		String policy_for_cancel2 = createPolicy();
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
 				.adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
