@@ -9,6 +9,30 @@ public class VersionsConflictConstants {
 	private static final String AVAILABLE = "Available";
 	private static final String CURRENT = "Current";
 
+	public static final String SELECT_DVR_QUERY = "select dvr.relationshiptype, dvr.vehicleoid, dvr.driveroid\n" +
+			"from policysummary ps join DriverVehicleRelationship dvr on ps.policydetail_id = dvr.policydetail_id \n" +
+			"where ps.policynumber = '%1$s' and ps.revisionno = '%2$s'";
+
+	public static final String SELECT_VEHICLE_OID_QUERY = "select bi.manufacturer || ' ' || bi.model || ' ' || bi.modelyear as vehicle, ri.oid, ri.primaryDriverName, ri.primaryDriverOid, ri.manuallyAssignedDriverName, ri.assignedDriverOID  \n" +
+			"from policysummary ps join riskitem ri on ri.policydetail_id = ps.policydetail_id\n" +
+			"join VehicleBaseInfo bi on ri.baseinfo_id = bi.id where ps.policynumber = '%1$s' and ps.revisionno = '%2$s'";
+
+	public static final String SELECT_DRIVER_OID_QUERY = "select d.firstname || ' ' || d.lastname as name, d.oid from policysummary ps \n" +
+			"join driver d on ps.policydetail_id = d.policydetail_id \n" +
+			"where ps.policynumber = '%1$s' and ps.revisionno = '%2$s'";
+
+    public static final String SELECT_DVR_RENEWAL_QUERY = "select dvr.relationshiptype, dvr.vehicleoid, dvr.driveroid\n" +
+            "from policysummary ps join DriverVehicleRelationship dvr on ps.policydetail_id = dvr.policydetail_id \n" +
+            "join quoteversion qv on ps.id = qv.policyid where ps.policynumber = '%1$s'";
+
+    public static final String SELECT_VEHICLE_OID_RENEWAL_QUERY = "select bi.manufacturer || ' ' || bi.model || ' ' || bi.modelyear as vehicle, ri.oid, ri.primaryDriverName, ri.primaryDriverOid, ri.manuallyAssignedDriverName, ri.assignedDriverOID  \n" +
+            "from policysummary ps join riskitem ri on ri.policydetail_id = ps.policydetail_id\n" +
+            "join VehicleBaseInfo bi on ri.baseinfo_id = bi.id join quoteversion qv on ps.id = qv.policyid where ps.policynumber = '%1$s'";
+
+    public static final String SELECT_DRIVER_OID_RENEWAL_QUERY = "select d.firstname || ' ' || d.lastname as name, d.oid from policysummary ps \n" +
+            "join driver d on ps.policydetail_id = d.policydetail_id \n" +
+            "join quoteversion qv on ps.id = qv.policyid where ps.policynumber = '%1$s'";
+
 	//Values that are not in Test Data, but are used in comparison
 	static final Multimap<String, String> PREDEFINED_EXPECTED_VALUES = ImmutableListMultimap.<String, String>builder()
 			//Named Insured Information
@@ -109,6 +133,7 @@ public class VersionsConflictConstants {
 			.putAll("Vehicles.Vehicle (2011, CHEVROLET, EXPRESS VAN)","","Vehicle (2011, CHEVROLET, EXPRESS VAN)")
 			.putAll("Vehicles.Vehicle (2011, MERCEDES-BENZ, G55AMG)","","Vehicle (2011, MERCEDES-BENZ, G55AMG)")
 			.putAll("Named Insureds.Insured Principal (Second VI Insured)","","Insured Principal (Second VI Insured)")
+			.putAll("Vehicles.2008, ACURA, MDX.System Rated Driver", "NBFirstName NBLastName", "Second Driver Version1")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -221,6 +246,8 @@ public class VersionsConflictConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN.Primary Use", "Primary Use")
 			//Assignment
 			.put("Vehicles.1998, DODGE, CARAVAN.Primary Driver", "Primary Driver")
+			.put("Vehicles.2008, ACURA, MDX.Primary Driver", "Primary Driver")
+			.put("Vehicles.2008, ACURA, MDX.Manually Rated Driver", "Manually Rated Driver")
 			.build();
 
 	/**
@@ -393,7 +420,7 @@ public class VersionsConflictConstants {
 	protected static final ArrayListMultimap<String, String> POLICY_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
 					.put("Policy Information.Source of Business", CURRENT)
-					.put("Policy Information.Agency", CURRENT)
+					.put("Policy Information.Channel Type", CURRENT)
 					.put("Policy Information.TollFree Number", AVAILABLE)
 					.build());
 
@@ -562,12 +589,6 @@ public class VersionsConflictConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN", "Model")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Series")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Body Style")
-			.put("Vehicles.1998, DODGE, CARAVAN", "BI Symbol")
-			.put("Vehicles.1998, DODGE, CARAVAN", "PD Symbol")
-			.put("Vehicles.1998, DODGE, CARAVAN", "UM Symbol")
-			.put("Vehicles.1998, DODGE, CARAVAN", "MP Symbol")
-			.put("Vehicles.1998, DODGE, CARAVAN", "Comp Symbol")
-			.put("Vehicles.1998, DODGE, CARAVAN", "Coll Symbol")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Primary Use")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Is the vehicle used in any commercial business operations?")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Business Use Description")
@@ -585,6 +606,13 @@ public class VersionsConflictConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN", "Ownership Type")
 			.put("Vehicles.1998, DODGE, CARAVAN", "First Name")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Vehicle Ownership Address")
+			//Technical data
+			.put("Vehicles.1998, DODGE, CARAVAN", "BI Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "PD Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "UM Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "MP Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "Comp Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "Coll Symbol")
 			.build();
 
 	protected static final ArrayListMultimap<String, String> ADD_VEHICLE_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
@@ -669,4 +697,72 @@ public class VersionsConflictConstants {
 	protected static final ArrayListMultimap<String, String> REMOVE_NAMED_INSURED = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
 					.build());
+
+	protected static final ArrayListMultimap<String, String> ATOMIC_MERGE_SCENARIO1 = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("AAADriver Vehicle Relationship", CURRENT)
+					.put("AAADriver Vehicle Relationship", AVAILABLE)
+					.put("Drivers.Driver (Second Driver Version1)",AVAILABLE)
+					.build());
+
+	//components/attributes that should be on comparision page Rolled on/Endorsement for Atomic Merge Scenario1
+	static final Multimap<String,String> ATOMIC_MERGE_SCENARIO1_VERSION1 = ImmutableListMultimap.<String, String>builder()
+			.put("Drivers","Driver (Second Driver Version1)")
+			.put("Vehicles.2008, ACURA, MDX","Primary Driver")
+			.put("Vehicles.2008, ACURA, MDX","System Rated Driver")
+			.put("Vehicles.2008, ACURA, MDX","Manually Rated Driver")
+			.build();
+
+    //components/attributes that should be on Renewal comparision page for Atomic Merge Scenario1
+    static final Multimap<String,String> ATOMIC_MERGE_SCENARIO1_RENEWAL = ImmutableListMultimap.<String, String>builder()
+            .build();
+
+	protected static final ArrayListMultimap<String, String> ATOMIC_MERGE_SCENARIO2 = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("AAADriver Vehicle Relationship", CURRENT)
+					.put("AAADriver Vehicle Relationship", AVAILABLE)
+					.put("AAADriver Vehicle Relationship", AVAILABLE)
+					.put("Drivers.Driver (Second Driver Version1)",CURRENT)
+					.put("Vehicles.Vehicle (1998, DODGE, CARAVAN)",CURRENT)
+					.put("Vehicles.2008, ACURA, MDX.Primary Driver",AVAILABLE)
+					.put("Vehicles.2008, ACURA, MDX.Manually Rated Driver",AVAILABLE)
+					.build());
+
+	//components/attributes that should be on comparision page Rolled on/Endorsement for Atomic Merge Scenario1
+	static final Multimap<String,String> ATOMIC_MERGE_SCENARIO2_VERSION1 = ImmutableListMultimap.<String, String>builder()
+			.put("Vehicles.2008, ACURA, MDX","Primary Driver")
+			.put("Vehicles.2008, ACURA, MDX","System Rated Driver")
+			.put("Vehicles.2008, ACURA, MDX","Manually Rated Driver")
+			.build();
+
+	protected static final ArrayListMultimap<String, String> ATOMIC_MERGE_SCENARIO3 = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("AAADriver Vehicle Relationship", CURRENT)
+					.put("AAADriver Vehicle Relationship", AVAILABLE)
+					.put("Drivers.Driver (Second Driver Version1)",CURRENT)
+					.put("Drivers.Driver (Second Driver Version1)",CURRENT)
+					.put("Drivers.Driver (Third Driver Version2)",AVAILABLE)
+					.put("Vehicles.Vehicle (2011, CHEVROLET, EXPRESS VAN)",AVAILABLE)
+					.put("Vehicles.Vehicle (2011, CHEVROLET, EXPRESS VAN)",AVAILABLE)
+					.put("Vehicles.Vehicle (2011, MERCEDES-BENZ, G55AMG)",CURRENT)
+					.build());
+
+	protected static final ArrayListMultimap<String, String> ATOMIC_MERGE_MANUAL_SCENARIO4 = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("AAADriver Vehicle Relationship", CURRENT)
+					.put("AAADriver Vehicle Relationship", AVAILABLE)
+					.put("Drivers.Driver (New Driver Version1)",CURRENT)
+					.put("Drivers.Driver (New Driver Version2)",CURRENT)
+					.put("Drivers.Driver (New Driver Version2)",CURRENT)
+					.build());
+
+	protected static final ArrayListMultimap<String, String> ATOMIC_MERGE_AUTOMATIC_SCENARIO4 = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("Drivers.Driver (New Driver Version1)",CURRENT)
+					.put("Drivers.Driver (New Driver Version2)",CURRENT)
+					.build());
+
+	//components/attributes that should be on comparision page Rolled on/Endorsement for Atomic Merge Scenario1
+	static final Multimap<String,String> ATOMIC_MERGE_SCENARIO4_VERSION1 = ImmutableListMultimap.<String, String>builder()
+			.build();
 }
