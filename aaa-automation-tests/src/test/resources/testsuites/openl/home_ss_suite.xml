@@ -183,7 +183,7 @@
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <test name="HomeSS HO3 [PA] Premium Calculation Test" preserve-order="true">
+    <test name="HomeSS [PA] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="PATests-20180912_UI_part1.xls"/>
         <parameter name="policyNumbers" value="159,481"/>
         <classes>
