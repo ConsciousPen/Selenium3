@@ -110,8 +110,8 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		//2c
 		new BillingAccount().generateFutureStatement().perform();
 
-		new BillingInstallmentsScheduleVerifier().setInstallmentDueDate(reinstatementDueDate).setBilledStatus(InstallmentScheduleBilledStatus.BILLED).verifyPresent();
-		new BillingBillsAndStatementsVerifier().setDueDate(reinstatementDueDate).setType(BILL).verifyPresent();
+		new BillingInstallmentsScheduleVerifier().setInstallmentDueDate(installmentDueDate.get(3)).setBilledStatus(InstallmentScheduleBilledStatus.BILLED).verifyPresent();
+		new BillingBillsAndStatementsVerifier().setDueDate(installmentDueDate.get(3)).setType(BILL).verifyPresent();
 
 		//2d DD3+8
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(3)));
@@ -140,8 +140,8 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		//1b
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
 		//1c
-		new BillingInstallmentsScheduleVerifier().setInstallmentDueDate(reinstatementDueDate2).setBilledStatus(InstallmentScheduleBilledStatus.BILLED).verifyPresent();
-		new BillingBillsAndStatementsVerifier().setDueDate(reinstatementDueDate2).setType(BILL).verifyPresent();
+		new BillingInstallmentsScheduleVerifier().setInstallmentDueDate(installmentDueDate.get(5)).setBilledStatus(InstallmentScheduleBilledStatus.BILLED).verifyPresent();
+		new BillingBillsAndStatementsVerifier().setDueDate(installmentDueDate.get(5)).setType(BILL).verifyPresent();
 		//1d DD5+8
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(5)));
 		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
