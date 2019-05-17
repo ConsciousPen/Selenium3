@@ -30,12 +30,11 @@ public class HomeSSClaimTestDataGenerator {
 	public HomeSSClaimTestDataGenerator(HomeSSOpenLPolicy openLPolicy) {
 		this.openLPolicy = openLPolicy;
 		state = openLPolicy.getPolicyAddress().getState();
-		//		dateOfLoss = openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyLossInformation().getRecentYCF());
+		dateOfLoss = openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyLossInformation().getRecentYCF());
 	}
 
 	public List<TestData> getClaimTestData(boolean isAAAClaim, boolean isFirstClaim) {
 		this.isAAAClaim = isAAAClaim;
-		dateOfLoss = openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyLossInformation().getRecentYCF());
 		String lookupName = isAAAClaim ? AAA_CLAIM_POINT : NOT_AAA_CLAIM_POINT;
 		int claimPoints = isAAAClaim ? openLPolicy.getPolicyLossInformation().getExpClaimPoint() : openLPolicy.getPolicyLossInformation().getPriorClaimPoint();
 
@@ -103,7 +102,6 @@ public class HomeSSClaimTestDataGenerator {
 	}
 
 	private TestData getClaim(Map<String, String> row) {
-		dateOfLoss = dateOfLoss.minusDays(1);
 		return DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel(), dateOfLoss.format(DateTimeUtils.MM_DD_YYYY),
 				HomeSSMetaData.PropertyInfoTab.ClaimHistory.CAUSE_OF_LOSS.getLabel(), row.get("CAUSEOFLOSS"),
