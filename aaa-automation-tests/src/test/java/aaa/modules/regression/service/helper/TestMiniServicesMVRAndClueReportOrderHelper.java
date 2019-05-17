@@ -827,11 +827,11 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		if (getState().equals(Constants.States.CA)) {
 			NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
 			assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.NAME_ON_LICENSE).getValue()).isEqualTo(name);
-			assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualToIgnoringCase(status);
+			assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).containsIgnoringCase(status);
 		} else {
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
 			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.NAME_ON_LICENSE).getValue()).isEqualTo(name);
-			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).isEqualToIgnoringCase(status);
+			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).containsIgnoringCase(status);
 		}
 		driverActivityReportsTab.saveAndExit();
 	}
