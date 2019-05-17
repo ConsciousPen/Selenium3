@@ -3,7 +3,9 @@
 package aaa.helpers.billing;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +16,6 @@ import aaa.main.enums.BillingConstants.*;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.actiontabs.DeclinePaymentActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
-import aaa.toolkit.webdriver.customcontrols.TableWithPages;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
@@ -52,27 +53,6 @@ public final class BillingHelper {
 
 	// ------- Billing Account Policies table -------
 
-	public static Row getPolicyRowByEffDate(LocalDateTime date) {
-		return BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingAccountPoliciesTable.EFF_DATE, date.format(DateTimeUtils.MM_DD_YYYY));
-	}
-
-	public static String getPaymentPlan(int index) {
-		String value = BillingSummaryPage.tableBillingAccountPolicies.getRow(index).getCell(BillingAccountPoliciesTable.PAYMENT_PLAN).getValue();
-		return value.replace(" (Renewal)", "");
-	}
-
-	public static Dollar getPolicyMinimumDueAmount(String policyNumber) {
-		String value = BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingAccountPoliciesTable.POLICY_NUM, policyNumber).getCell(BillingAccountPoliciesTable.MIN_DUE).getValue();
-		return new Dollar(value);
-	}
-
-	public static Dollar getPolicyTotalDueAmount(String policyNumber) {
-		String value = BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingAccountPoliciesTable.POLICY_NUM, policyNumber).getCell(BillingAccountPoliciesTable.TOTAL_DUE).getValue();
-		return new Dollar(value);
-	}
-
-	// ------- Installments table-------
-
 	/**
 	 * Get all Due Dates from Installments table
 	 *
@@ -94,6 +74,27 @@ public final class BillingHelper {
 	 */
 	public static List<Dollar> getInstallmentDues() {
 		return BillingSummaryPage.tableInstallmentSchedule.getValuesFromRows(BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).stream().map(Dollar::new).collect(Collectors.toList());
+	}
+
+	public static Row getPolicyRowByEffDate(LocalDateTime date) {
+		return BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingAccountPoliciesTable.EFF_DATE, date.format(DateTimeUtils.MM_DD_YYYY));
+	}
+
+	public static String getPaymentPlan(int index) {
+		String value = BillingSummaryPage.tableBillingAccountPolicies.getRow(index).getCell(BillingAccountPoliciesTable.PAYMENT_PLAN).getValue();
+		return value.replace(" (Renewal)", "");
+	}
+
+	// ------- Installments table-------
+
+	public static Dollar getPolicyMinimumDueAmount(String policyNumber) {
+		String value = BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingAccountPoliciesTable.POLICY_NUM, policyNumber).getCell(BillingAccountPoliciesTable.MIN_DUE).getValue();
+		return new Dollar(value);
+	}
+
+	public static Dollar getPolicyTotalDueAmount(String policyNumber) {
+		String value = BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingAccountPoliciesTable.POLICY_NUM, policyNumber).getCell(BillingAccountPoliciesTable.TOTAL_DUE).getValue();
+		return new Dollar(value);
 	}
 
 	public static Dollar getInstallmentDueByDueDate(LocalDateTime date) {
@@ -345,33 +346,4 @@ public final class BillingHelper {
 		}
 		return termFee;
 	}
-
-	public static void verifyBillingTableValues(TableWithPages table, String columnName, String value, int expectedCount) {
-		List<String> tableValues = new ArrayList<>();
-		ListIterator itr;
-		int count = 0;
-		if (table == BillingSummaryPage.tablePaymentsOtherTransactions) {
-			tableValues = BillingSummaryPage.tablePaymentsOtherTransactions.getValuesFromRows(columnName);
-		}
-		if (table == BillingSummaryPage.tableBillsStatements) {
-			tableValues = BillingSummaryPage.tableBillsStatements.getValuesFromRows(columnName);
-		}
-		if (table == BillingSummaryPage.tableInstallmentSchedule) {
-			tableValues = BillingSummaryPage.tableInstallmentSchedule.getValuesFromRows(columnName);
-		}
-
-		itr = tableValues.listIterator();
-		while (itr.hasNext()) {
-			if (itr.next().equals(value)) {
-				count++;
-			}
-		}
-		CustomAssertions.assertThat(count).isGreaterThan(0);
-		CustomAssertions.assertThat(count).isEqualTo(expectedCount);
-	}
-
-	public static void verifyBillingTableValues(TableWithPages table, String columnName, String value) {
-		verifyBillingTableValues(table, columnName, value, 1);
-	}
 }
-
