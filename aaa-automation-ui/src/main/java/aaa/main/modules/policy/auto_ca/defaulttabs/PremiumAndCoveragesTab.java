@@ -48,6 +48,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table tableRatingDetailsDrivers = new Table(By.id("ratingDetailsPopupForm:driver_summary"));
 	public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountSurchargeSummaryTable"));
 	public static Table tablePolicyLevelLiabilityCoverages = new Table(By.id("policyDataGatherForm:policyCoverageDetail"));
+	public static ByT tableVehicleCoverageDetails = ByT.xpath("//table[@id='policyDataGatherForm:vehicle_detail_%s']");
 
 	// -- old controls
 	public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:AAAPremiumSummary"));
@@ -88,6 +89,20 @@ public class PremiumAndCoveragesTab extends Tab {
 			result = cell.getValue();
 		}
 		return result;
+	}
+
+	public void setVehicleCoverageDetailsValueByVehicle(int index, String coverageName, String value) {
+		Table vehicleCoverageDetailsTable = new Table(tableVehicleCoverageDetails.format(index));
+		Row coverageRow = vehicleCoverageDetailsTable.getRowContains(1, coverageName);
+		Cell cell = coverageRow.getCell(2);
+		if (cell.controls.comboBoxes.getFirst().isPresent()) {
+			cell.controls.comboBoxes.getFirst().setValueContains(value);
+		} else if (cell.controls.textBoxes.getFirst().isPresent()) {
+			cell.controls.textBoxes.getFirst().setValue(value);
+		} else {
+			cell.controls.radioGroups.getFirst().setValue(value);
+		}
+
 	}
 
 	@Override

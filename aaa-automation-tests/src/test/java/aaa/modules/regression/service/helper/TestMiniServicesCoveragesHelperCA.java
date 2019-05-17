@@ -1,13 +1,17 @@
 package aaa.modules.regression.service.helper;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.rest.dtoDxp.Coverage;
-import aaa.helpers.rest.dtoDxp.PolicyCoverageInfo;
+import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.CoverageInfo;
 import aaa.main.enums.CoverageLimits;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import toolkit.datax.TestData;
 
 public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoveragesHelper {
 
@@ -104,5 +108,57 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		updateCoverageAndCheck(policyNumber, covBIExpected, covBIExpected, covPDExpected, covUMBIExpected, covUIMBIExpected, covMEDPMExpected);
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	protected void pas15423_rideSharingCoverageCABody() {
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleOtherTypes").getTestDataList("VehicleTab"))
+				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("TestData_VehicleOtherTypes").getTestData("AssignmentTab")).resolveLinks();
+		String policyNumber = createPolicy(testData);
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		PolicyCoverageInfo policyEndorsementCoverageInfo1 = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateViewPolicyCoveragesIsTheSameAsViewEndorsementCoverage(policyNumber, policyEndorsementCoverageInfo1);
+		List<Vehicle> vehicles1 = HelperCommon.viewEndorsementVehicles(policyNumber).vehicleList;
+		verifyRideShareCoverage(policyEndorsementCoverageInfo1, vehicles1);
+
+		helperMiniServices.addVehicleWithChecks(policyNumber, "2015-02-11", "9BWFL61J244023215", true);
+
+		PolicyCoverageInfo policyEndorsementCoverageInfo2 = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		List<Vehicle> vehicles2 = HelperCommon.viewEndorsementVehicles(policyNumber).vehicleList;
+		verifyRideShareCoverage(policyEndorsementCoverageInfo2, vehicles2);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+	}
+
+	private void verifyRideShareCoverage(PolicyCoverageInfo policyEndorsementCoverageInfo, List<Vehicle> vehicles) {
+		List<Vehicle> notRegularVehicles = vehicles.stream().filter(vehicle -> !"Regular".equals(vehicle.vehTypeCd) && !"Antique".equals(vehicle.vehTypeCd)).collect(Collectors.toList());
+		List<Vehicle> regularVehicles = vehicles.stream().filter(vehicle -> "Regular".equals(vehicle.vehTypeCd) || "Antique".equals(vehicle.vehTypeCd)).collect(Collectors.toList());
+
+		//Verify that non-Regular vehicles don't have RideSharing Coverage
+		for (Vehicle vehicle : notRegularVehicles) {
+			printToLog("Checking other than Regular/Antique vehicle " + vehicle.model + " " + vehicle.manufacturer + " " + vehicle.modelYear + " (" + vehicle.oid + ")");
+			List<Coverage> vehicleCoverages = findVehicleCoverages(policyEndorsementCoverageInfo, vehicle.oid).coverages;
+			assertSoftly(softly -> {
+				softly.assertThat(findCoverage(vehicleCoverages, CoverageInfo.RIDESHARE_CA.getCode(), false))
+						.as("Ride Sharing coverage is expected only for Regular and Antique vehicles").isEqualTo(null);
+			});
+		}
+
+		//Verify that Regular vehicles have RideSharing Coverage
+		for (Vehicle vehicle : regularVehicles) {
+			printToLog("Checking Regular/Antique vehicle " + vehicle.model + " " + vehicle.manufacturer + " " + vehicle.modelYear + " (" + vehicle.oid + ")");
+			List<Coverage> vehicleCoverages = findVehicleCoverages(policyEndorsementCoverageInfo, vehicle.oid).coverages;
+			Coverage covRideShareActual = findCoverage(vehicleCoverages, CoverageInfo.RIDESHARE_CA.getCode());
+			Coverage covRideShareExpected = Coverage.create(CoverageInfo.RIDESHARE_CA).disableCanChange();
+			assertSoftly(softly -> {
+				softly.assertThat(covRideShareActual).isEqualTo(covRideShareExpected);
+			});
+		}
 	}
 }

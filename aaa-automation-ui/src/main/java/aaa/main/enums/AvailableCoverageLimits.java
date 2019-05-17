@@ -548,6 +548,10 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_10000,
 			CoverageLimits.COV_25000
 	)),
+	RIDESHARE_CA(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_1
+	)),
 	IL_PA(ImmutableList.of(
 			CoverageLimits.COV_00,
 			CoverageLimits.COV_IL_5000_MAX_PA,

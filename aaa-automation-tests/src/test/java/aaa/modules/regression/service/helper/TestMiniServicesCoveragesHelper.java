@@ -4515,7 +4515,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 	}
 
-	private void openPendedEndorsementDataGatherAndNavigateToPC() {
+	protected void openPendedEndorsementDataGatherAndNavigateToPC() {
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -5633,8 +5633,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		ViewVehicleResponse viewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
 		String oidPPA = viewVehicles.vehicleList.get(0).oid;
-		String oidTrailer = TEST_MINI_SERVICES_VEHICLES_HELPER.findVehicleByVin(viewVehicles, trailerVin).oid;
-		String oidMotorHome = TEST_MINI_SERVICES_VEHICLES_HELPER.findVehicleByVin(viewVehicles, motorHomeVin).oid;
+		String oidTrailer = TestMiniServicesVehiclesHelper.findVehicleByVin(viewVehicles, trailerVin).oid;
+		String oidMotorHome = TestMiniServicesVehiclesHelper.findVehicleByVin(viewVehicles, motorHomeVin).oid;
 
 		List<Coverage> coveragesPPA = findVehicleCoverages(endorsementCoverageResponse, oidPPA).coverages;
 		validatePPA_UMPD(softly, coveragesPPA, true, policyNumber);

@@ -50,4 +50,23 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	public void pas28579_updatePolicyLevelCoveragesCA(@Optional("CA") String state) {
 		pas28579_updatePolicyLevelCoveragesCABody();
 	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name View Coverages - RideSharing Coverage - CA
+	 * @scenario
+	 * 1. Create policy in PAS with different vehicle types (and Multiple regular vehicles)
+	 * 2. Create endorsement through service
+	 * 3. Add vehicle through service
+	 * 4. Run viewEndorsementCoverages service
+	 * 5. Verify RideSharing coverage (available only for Regular and Antique Vehicles)
+	 * NOTE: not possible to check case when rideSharing coverage = yes, as not possible to create Endorsement through service for policies with RideSharing Coverage
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15423"})
+	public void pas15423_rideSharingCoverageCA(@Optional("CA") String state) {
+		pas15423_rideSharingCoverageCABody();
+	}
 }

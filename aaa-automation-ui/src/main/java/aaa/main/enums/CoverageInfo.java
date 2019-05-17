@@ -161,7 +161,8 @@ public enum CoverageInfo {
 	PD_CA("PD", "Property Damage Liability", CoverageLimits.COV_100000, AvailableCoverageLimits.PD_CA, "Per Accident"),
 	UMBI_CA("UMBI", "Uninsured Motorists Bodily Injury", CoverageLimits.COV_500500, AvailableCoverageLimits.UMBI_CA, "Per Person/Per Accident"),
 	UIMBI_CA("UIMBI", "Underinsured Motorists Bodily Injury", CoverageLimits.COV_500500, AvailableCoverageLimits.UIMBI_CA,"Per Person/Per Accident"),
-	MEDPM_CA("MEDPM", "Medical Payments", CoverageLimits.COV_0,  AvailableCoverageLimits.MEDPM_CA, "Per Person");
+	MEDPM_CA("MEDPM", "Medical Payments", CoverageLimits.COV_0, AvailableCoverageLimits.MEDPM_CA, "Per Person"),
+	RIDESHARE_CA("RIDESHARE", "Ridesharing Coverage", CoverageLimits.COV_0, AvailableCoverageLimits.RIDESHARE_CA, null);
 
 
 	private final String code;
