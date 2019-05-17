@@ -76,6 +76,7 @@ public class SoapJobActions implements JobActions {
 		BatchTriggerRequest request = new BatchTriggerRequest();
 		request.setGroupName(jobGroup.getGroupName());
 		request.setWaitForResponse(waitForResponse);
+		jobGroup.getJobs().forEach(job -> request.getJobs().add(convertJobToModel(job)));
 
 		LOG.info("Job {} execution started. Wait for response is set to {}.", jobGroup.getGroupName(), waitForResponse);
 		BatchTriggerResponse response = jobTrigger.startBatchJob(request);

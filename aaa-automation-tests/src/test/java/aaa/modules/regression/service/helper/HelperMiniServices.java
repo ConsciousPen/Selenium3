@@ -8,12 +8,14 @@ import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class HelperMiniServices extends PolicyBaseTest {
@@ -103,12 +105,18 @@ public class HelperMiniServices extends PolicyBaseTest {
 			softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
 			softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
 			softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+			softly.assertThat(endorsementRateResponse[0].termPremium).isNotBlank();
 
 			//Bind endorsement
 			bindEndorsementWithCheck(policyNumber);
-			softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
-			softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
-			softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+			//Check that DXP rate premium matches PAS UI premium after Bind
+			if (!getState().equals(Constants.States.CA)) { //TODO-mstrazds: implement also for CA
+				TestData autoCoveragesSummaryTestData = PolicySummaryPage.getAutoCoveragesSummaryTestData();
+				String totalActualPremiumUI = autoCoveragesSummaryTestData.getValue("Total Actual Premium").replace("$", "").replace(",", "");
+				String totalTermPremiumUI = autoCoveragesSummaryTestData.getValue("Total Term Premium").replace("$", "").replace(",", "");
+				softly.assertThat(new Dollar(endorsementRateResponse[0].actualAmt)).isEqualTo(new Dollar(totalActualPremiumUI));
+				softly.assertThat(new Dollar(endorsementRateResponse[0].termPremium)).isEqualTo(new Dollar(totalTermPremiumUI));
+			}
 		});
 	}
 

@@ -461,12 +461,6 @@ public class VersionsComparisonConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN", "Model")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Series")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Body Style")
-			.put("Vehicles.1998, DODGE, CARAVAN", "BI Symbol")
-			.put("Vehicles.1998, DODGE, CARAVAN", "PD Symbol")
-			.put("Vehicles.1998, DODGE, CARAVAN", "UM Symbol")
-			.put("Vehicles.1998, DODGE, CARAVAN", "MP Symbol")
-			.put("Vehicles.1998, DODGE, CARAVAN", "Comp Symbol")
-			.put("Vehicles.1998, DODGE, CARAVAN", "Coll Symbol")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Primary Use")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Is the vehicle used in any commercial business operations?")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Business Use Description")
@@ -487,6 +481,12 @@ public class VersionsComparisonConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN", "Ownership Type")
 			.put("Vehicles.1998, DODGE, CARAVAN", "First Name")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Vehicle Ownership Address")
+			.put("Vehicles.1998, DODGE, CARAVAN", "BI Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "PD Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "UM Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "MP Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "Comp Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "Coll Symbol")
 			.build();
 
 	//all components/attributes that should be on Comparison page for Vehicle Information section

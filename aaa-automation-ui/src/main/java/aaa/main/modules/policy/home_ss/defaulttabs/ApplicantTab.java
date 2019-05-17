@@ -27,7 +27,7 @@ public class ApplicantTab extends Tab {
     }
 
 	public Button btnContinue = new Button(By.xpath("//input[@id='policyDataGatherForm:next_footer' or @id='policyDataGatherForm:nextInquiry_footer']"), Waiters.AJAX);
-	public Table tblInsuredList = new Table(By.xpath("//div[@id='policyDataGatherForm:dataGatherView_ListAAAHOOtherOrPriorPolicyComponent']//table"));
+	public Table tblInsuredList = new Table(By.xpath("//div[@id='policyDataGatherForm:dataGatherView_ListAAAHONamedInsured']//table"));
 	public TableWithPages tblListOfOtherActiveAAAPolicies = new TableWithPages(By.id("policyDataGatherForm:dataGatherView_ListAAAHOOtherOrPriorPolicyComponent"));
 	public SingleSelectSearchDialog otherAAAProductSearchDialog =
 			new SingleSelectSearchDialog(By.xpath("//div[contains(text(),'Other AAA Product Search')]/ancestor::div[2]"), HomeSSMetaData.ApplicantTab.OtherAAAProductSearch.class);
@@ -37,7 +37,7 @@ public class ApplicantTab extends Tab {
     	btnContinue.click();
         return this;
     }
-    
+
     public MultiInstanceAfterAssetList getNamedInsuredAssetList() {
     	return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), MultiInstanceAfterAssetList.class);
 	}
