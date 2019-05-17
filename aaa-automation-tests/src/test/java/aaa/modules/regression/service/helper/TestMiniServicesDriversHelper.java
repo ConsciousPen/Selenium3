@@ -561,8 +561,17 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		 * to execute the rest of the test. Once that's done, it moves on to "Widowed", which is not a married marital
 		 * status, so the test completes.
 		 */
+		List<String> marriedStatuses;
+		List<String> spouseRelationshipStatuses;
+		if (getState().equals(Constants.States.CA)) {
+			marriedStatuses = ImmutableList.copyOf(MARRIED_STATUSES_CA);
+			spouseRelationshipStatuses = ImmutableList.copyOf(SPOUSE_RELATIONSHIP_STATUSES_CA);
+		} else {
+			marriedStatuses = ImmutableList.copyOf(MARRIED_STATUSES);
+			spouseRelationshipStatuses = ImmutableList.copyOf(SPOUSE_RELATIONSHIP_STATUSES);
+		}
 		stateMaritalStatuses.forEach((key, value) -> {
-			if (MARRIED_STATUSES.contains(value)) {
+			if (marriedStatuses.contains(value)) {
 				/*
 				 * First step for each marital status that is considered married is to first update the first named
 				 * insured and set the marital status of the FNI driver to the marital status that's being tested. Then
@@ -579,7 +588,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 				 * validations. If it isn't, the test moves on to the next relationship status.
 				 */
 				relationshipsToInsured.forEach((relationshipKey, relationshipValue) -> {
-					if (SPOUSE_RELATIONSHIP_STATUSES.contains(relationshipValue)) {
+					if (spouseRelationshipStatuses.contains(relationshipValue)) {
 						helperMiniServices.createEndorsementWithCheck(policyNumber);
 						checkSpAndFniMaritalStatus_pas16610(policyNumber, fniDriverOid, key, relationshipKey, value);
 					}
