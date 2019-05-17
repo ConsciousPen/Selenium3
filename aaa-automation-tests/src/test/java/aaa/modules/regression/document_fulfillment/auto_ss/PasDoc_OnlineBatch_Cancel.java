@@ -74,8 +74,8 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		installmentDueDate = BillingHelper.getInstallmentDueDates();
 		//1a
 		new BillingAccount().generateFutureStatement().perform();
-		new BillingInstallmentsScheduleVerifier().setInstallmentDueDate(installmentDueDate.get(0)).setBilledStatus(InstallmentScheduleBilledStatus.BILLED).verifyPresent();
-		new BillingBillsAndStatementsVerifier().setDueDate(installmentDueDate.get(0).plusDays(1)).setType(BILL).verifyPresent();
+		new BillingInstallmentsScheduleVerifier().setInstallmentDueDate(installmentDueDate.get(1)).setBilledStatus(InstallmentScheduleBilledStatus.BILLED).verifyPresent();
+		new BillingBillsAndStatementsVerifier().setDueDate(installmentDueDate.get(1)).setType(BILL).verifyPresent();
 
 		//1b DD1+8
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(1)));
@@ -111,7 +111,7 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		new BillingAccount().generateFutureStatement().perform();
 
 		new BillingInstallmentsScheduleVerifier().setInstallmentDueDate(reinstatementDueDate).setBilledStatus(InstallmentScheduleBilledStatus.BILLED).verifyPresent();
-		new BillingBillsAndStatementsVerifier().setDueDate(reinstatementDueDate.plusDays(1)).setType(BILL).verifyPresent();
+		new BillingBillsAndStatementsVerifier().setDueDate(reinstatementDueDate).setType(BILL).verifyPresent();
 
 		//2d DD3+8
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(3)));
@@ -141,7 +141,7 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
 		//1c
 		new BillingInstallmentsScheduleVerifier().setInstallmentDueDate(reinstatementDueDate2).setBilledStatus(InstallmentScheduleBilledStatus.BILLED).verifyPresent();
-		new BillingBillsAndStatementsVerifier().setDueDate(reinstatementDueDate2.plusDays(1)).setType(BILL).verifyPresent();
+		new BillingBillsAndStatementsVerifier().setDueDate(reinstatementDueDate2).setType(BILL).verifyPresent();
 		//1d DD5+8
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(5)));
 		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
