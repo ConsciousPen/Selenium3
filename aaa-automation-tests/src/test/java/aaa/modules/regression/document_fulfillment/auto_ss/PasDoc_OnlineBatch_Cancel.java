@@ -74,7 +74,7 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 				, InstallmentScheduleBilledStatus.BILLED, 2);
 
 		BillingHelper.verifyBillingTableValues(BillingSummaryPage.tableBillsStatements, BillingBillsAndStatmentsTable.TYPE
-				, BillsAndStatementsType.BILL, 2);
+				, BillsAndStatementsType.BILL);
 
 		//1b DD1+8
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(1)));
@@ -97,7 +97,7 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH67XX);
 
 		//2a reinstatementDueDate(+10)
-		LocalDateTime reinstatementDueDate = DateTimeUtils.getCurrentDateTime().plusDays(10);
+		LocalDateTime reinstatementDueDate = DateTimeUtils.getCurrentDateTime().plusDays(10).with(DateTimeUtils.nextWorkingDay);
 		TimeSetterUtil.getInstance().nextPhase(reinstatementDueDate);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -131,7 +131,7 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 
 		//test scenario 28
 		// 1a reinstatementDueDate(+10)
-		LocalDateTime reinstatementDueDate2 = DateTimeUtils.getCurrentDateTime().plusDays(10);
+		LocalDateTime reinstatementDueDate2 = DateTimeUtils.getCurrentDateTime().plusDays(10).with(DateTimeUtils.nextWorkingDay);
 		TimeSetterUtil.getInstance().nextPhase(reinstatementDueDate2);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
