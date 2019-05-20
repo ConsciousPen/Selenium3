@@ -168,7 +168,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 
 		policy.getDefaultView().fillFromTo(tdSpecific, RatingDetailReportsTab.class, PremiumAndCoveragesTab.class, true);
 
-		checkMembershipInPCTab(true, true, "", "Yes", "1/04/2009");
+		checkMembershipInPCTab(true, true, "None", "Yes", "1/04/2009");
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
@@ -724,8 +724,8 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 
 		if (isEndorsement) {
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount")).isPresent();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(5).getValue().contains(Value1)).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(6).getValue().contains(Value2)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(2).getValue().contains(Value1)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(3).getValue().contains(Value2)).isTrue();
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6)).isPresent();
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6).getValue().contains(memberSinceDate)).isTrue();
 

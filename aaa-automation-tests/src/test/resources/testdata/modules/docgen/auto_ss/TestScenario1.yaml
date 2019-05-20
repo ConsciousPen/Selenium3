@@ -328,9 +328,9 @@ AH67XX_IN: {
     PlcyTransCd: {TextField: 'LPSE'},
     CancEffDt: {DateTimeField: ''},
   },
-  VehicleDetails: {
-   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
- }
+#  VehicleDetails: {
+#   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
+# }
 }
 
 
