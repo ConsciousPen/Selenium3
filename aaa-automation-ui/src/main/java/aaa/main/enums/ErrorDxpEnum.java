@@ -28,6 +28,8 @@ public final class ErrorDxpEnum {
 		MAX_NUMBER_OF_DRIVERS("AAA_SS4100066", "This policy already has 7 drivers that are not excluded.  Please contact underwriting to create a continuation policy."),
 		USAGE_IS_BUSINESS("AAA_SS1007147", "Usage is Business"),
 		REGISTERED_OWNERS("AAA_SS1007148", "Registered Owners"),
+		REGISTERED_OWNERS_CA("AAA_CSA1007148", "Registered Owners"),
+		USAGE_IS_BUSINESS_CA("AAA_CSA1007147", "Usage is Business"),
 		MORATORIUM_EXIST("AAA_SS181109", "Moratorium Exists"),
 		INSURER_NAME_POLICY_GROUP_CERTIFICATE_BLANK_NJ("AAA_SS4030000", "\"Insurer name\",\"Policy/Group #/Certificate #\" mandatory fields value cannot be left blank and  \r\n"
 				+ "Requires at least 3 characters. (AAA_SS4030000)"),

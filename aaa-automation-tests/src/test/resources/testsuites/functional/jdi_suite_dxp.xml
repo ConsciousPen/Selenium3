@@ -1353,6 +1353,7 @@
             <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesVehicles">
                 <methods>
                     <include name="pas25263_addVehicleMetadataCheck"/>
+                    <include name="pas29137_updateVehicleRegisteredOwnerAndStuff"/>
                 </methods>
             </class>
         </classes>
