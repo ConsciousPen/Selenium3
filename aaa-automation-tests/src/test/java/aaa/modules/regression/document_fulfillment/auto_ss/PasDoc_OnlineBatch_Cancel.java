@@ -165,6 +165,8 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 	@StateList(states = Constants.States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario27_2(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
 		String policy_for_cancel1 = createPolicy();
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
 				.adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
@@ -176,6 +178,8 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 	@StateList(states = Constants.States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario27_3(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
 		String policy_for_cancel2 = createPolicy();
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
 				.adjust(TestData.makeKeyPath("CancellationActionTab", "Cancellation Reason"),
