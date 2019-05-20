@@ -69,4 +69,22 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	public void pas15423_rideSharingCoverageCA(@Optional("CA") String state) {
 		pas15423_rideSharingCoverageCABody();
 	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name View Coverages Service - CA Select Policies - Vehicle Level Coverages
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Add vehicle through service
+	 * 4. Run viewEndorsementCoverages service
+	 * 5. Verify Vehicle Level Coverages
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-26668"})
+	public void pas26668_viewVehicleLevelCoveragesCA(@Optional("CA") String state) {
+		pas26668_viewVehicleLevelCoveragesCABody();
+	}
 }

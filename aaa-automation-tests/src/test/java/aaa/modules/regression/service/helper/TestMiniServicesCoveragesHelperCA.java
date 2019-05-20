@@ -3,6 +3,7 @@ package aaa.modules.regression.service.helper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -10,10 +11,14 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.CoverageInfo;
 import aaa.main.enums.CoverageLimits;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 
 public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoveragesHelper {
+
+	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
 	protected void pas15412_viewCAPolicyLevelCoveragesBody() {
 		mainApp().open();
@@ -113,7 +118,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 	protected void pas15423_rideSharingCoverageCABody() {
 		mainApp().open();
 		createCustomerIndividual();
-		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData td = getPolicyDefaultTD();
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleOtherTypes").getTestDataList("VehicleTab"))
 				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("TestData_VehicleOtherTypes").getTestData("AssignmentTab")).resolveLinks();
 		String policyNumber = createPolicy(testData);
@@ -134,6 +139,141 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
+	}
+
+	protected void pas26668_viewVehicleLevelCoveragesCABody() {
+		TestData td = getPolicyDefaultTD();
+		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleLevelCoverages").getTestDataList("VehicleTab"))
+				.adjust(AutoCaMetaData.ErrorTab.class.getSimpleName(), tdError)
+				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("TestData_VehicleLevelCoverages").getTestData("AssignmentTab"))
+				.adjust(new PremiumAndCoveragesTab().getMetaKey(), getTestSpecificTD("TestData_VehicleLevelCoverages").getTestData("PremiumAndCoveragesTab")).resolveLinks();
+		//mainApp().open();//TODO-mstrazds:
+		String policyNumber = openAppAndCreatePolicy(testData);
+		//SearchPage.openPolicy(policyNumber);//TODO-mstrazds:
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateViewPolicyCoveragesIsTheSameAsViewEndorsementCoverage(policyNumber, viewEndorsementCoverages);
+
+		//Expected coverages Vehicle 1 (the same as in PAS UI)
+		Coverage covCOMPDEDExpected1 = Coverage.create(CoverageInfo.COMPDED_CA).changeLimit(CoverageLimits.COV_250);
+		Coverage covGLASSxpected1 = Coverage.create(CoverageInfo.GLASS_CA).changeLimit(CoverageLimits.COV_FALSE);
+		Coverage covCOLLDEDDExpected1 = Coverage.create(CoverageInfo.COLLDED_CA).changeLimit(CoverageLimits.COV_500);
+		Coverage covETEExpected1 = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_25750);
+		Coverage covALLRISKExpected1 = Coverage.create(CoverageInfo.ALLRISK_CA).changeLimit(CoverageLimits.COV_0).disableCanChange();
+		Coverage covLOANExpected1 = Coverage.create(CoverageInfo.LOAN_CA).changeLimit(CoverageLimits.COV_0).disableCanChange();
+		;
+		Coverage covNEWCARExpected1 = Coverage.create(CoverageInfo.NEWCAR).changeLimit(CoverageLimits.COV_0);
+		Coverage covRIDESHAREExpected1 = Coverage.create(CoverageInfo.RIDESHARE_CA);
+
+		List<Coverage> expectedCoveragesVeh1 = new ArrayList<>();
+		expectedCoveragesVeh1.add(covCOMPDEDExpected1);
+		expectedCoveragesVeh1.add(covGLASSxpected1);
+		expectedCoveragesVeh1.add(covCOLLDEDDExpected1);
+		expectedCoveragesVeh1.add(covETEExpected1);
+		expectedCoveragesVeh1.add(covALLRISKExpected1);
+		expectedCoveragesVeh1.add(covLOANExpected1);
+		expectedCoveragesVeh1.add(covNEWCARExpected1);
+		expectedCoveragesVeh1.add(covRIDESHAREExpected1);
+
+		//Expected coverages Vehicle 2 (the same as in PAS UI)
+		Coverage covCOMPDEDExpected2 = Coverage.create(CoverageInfo.COMPDED_CA).changeLimit(CoverageLimits.COV_250);
+		Coverage covGLASSxpected2 = Coverage.create(CoverageInfo.GLASS_CA).changeLimit(CoverageLimits.COV_TRUE);
+		Coverage covCOLLDEDDExpected2 = Coverage.create(CoverageInfo.COLLDED_CA).changeLimit(CoverageLimits.COV_500);
+		Coverage covETEXxpected2 = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_25750);
+		Coverage covALLRISKExpected2 = Coverage.create(CoverageInfo.ALLRISK_CA).changeLimit(CoverageLimits.COV_0).disableCanChange();
+		Coverage covLOANExpected2 = Coverage.create(CoverageInfo.LOAN_CA).changeLimit(CoverageLimits.COV_1).disableCanChange();
+		Coverage covNEWCARExpected2 = Coverage.create(CoverageInfo.NEWCAR).changeLimit(CoverageLimits.COV_0);
+		Coverage covRIDESHAREExpected2 = Coverage.create(CoverageInfo.RIDESHARE_CA).changeLimit(CoverageLimits.COV_0);
+
+		List<Coverage> expectedCoveragesVeh2 = new ArrayList<>();
+		expectedCoveragesVeh2.add(covCOMPDEDExpected2);
+		expectedCoveragesVeh2.add(covGLASSxpected2);
+		expectedCoveragesVeh2.add(covCOLLDEDDExpected2);
+		expectedCoveragesVeh2.add(covETEXxpected2);
+		expectedCoveragesVeh2.add(covALLRISKExpected2);
+		expectedCoveragesVeh2.add(covLOANExpected2);
+		expectedCoveragesVeh2.add(covNEWCARExpected2);
+		expectedCoveragesVeh2.add(covRIDESHAREExpected2);
+
+		//Expected coverages Vehicle 3 (the same as in PAS UI)
+		Coverage covCOMPDEDExpected3 = Coverage.create(CoverageInfo.COMPDED_CA).changeLimit(CoverageLimits.COV_250);
+		Coverage covGLASSxpected3 = Coverage.create(CoverageInfo.GLASS_CA).changeLimit(CoverageLimits.COV_TRUE);
+		Coverage covCOLLDEDDExpected3 = Coverage.create(CoverageInfo.COLLDED_CA).changeLimit(CoverageLimits.COV_500);
+		Coverage covETEXExpected3 = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_25750);
+		Coverage covALLRISKExpected3 = Coverage.create(CoverageInfo.ALLRISK_CA).changeLimit(CoverageLimits.COV_0).disableCanChange();
+		;
+		Coverage covLOANExpected3 = Coverage.create(CoverageInfo.LOAN_CA).changeLimit(CoverageLimits.COV_0).disableCanChange();
+		;
+		Coverage covNEWCARExpected3 = Coverage.create(CoverageInfo.NEWCAR).changeLimit(CoverageLimits.COV_TRUE);
+		Coverage covRIDESHAREExpected3 = Coverage.create(CoverageInfo.RIDESHARE_CA).changeLimit(CoverageLimits.COV_0);
+
+		List<Coverage> expectedCoveragesVeh3 = new ArrayList<>();
+		expectedCoveragesVeh3.add(covCOMPDEDExpected3);
+		expectedCoveragesVeh3.add(covGLASSxpected3);
+		expectedCoveragesVeh3.add(covCOLLDEDDExpected3);
+		expectedCoveragesVeh3.add(covETEXExpected3);
+		expectedCoveragesVeh3.add(covALLRISKExpected3);
+		expectedCoveragesVeh3.add(covLOANExpected3);
+		expectedCoveragesVeh3.add(covNEWCARExpected3);
+		expectedCoveragesVeh3.add(covRIDESHAREExpected3);
+
+		ViewVehicleResponse viewVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
+		Vehicle vehicle1 = TestMiniServicesVehiclesHelper.findVehicleByVin(viewVehicleResponse, testData.getTestDataList("VehicleTab").get(0).getValue("VIN"));
+		Vehicle vehicle2 = TestMiniServicesVehiclesHelper.findVehicleByVin(viewVehicleResponse, testData.getTestDataList("VehicleTab").get(1).getValue("VIN"));
+		Vehicle vehicle3 = TestMiniServicesVehiclesHelper.findVehicleByVin(viewVehicleResponse, testData.getTestDataList("VehicleTab").get(2).getValue("VIN"));
+
+		VehicleCoverageInfo veh1Coverages = TestMiniServicesCoveragesHelper.findVehicleCoverages(viewEndorsementCoverages, vehicle1.oid);
+		VehicleCoverageInfo veh2Coverages = TestMiniServicesCoveragesHelper.findVehicleCoverages(viewEndorsementCoverages, vehicle2.oid);
+		VehicleCoverageInfo veh3Coverages = TestMiniServicesCoveragesHelper.findVehicleCoverages(viewEndorsementCoverages, vehicle3.oid);
+
+		//Check coverages
+		checkCoverages_pasXXX(expectedCoveragesVeh1, veh1Coverages);
+		checkCoverages_pasXXX(expectedCoveragesVeh2, veh2Coverages);
+		checkCoverages_pasXXX(expectedCoveragesVeh3, veh3Coverages);
+
+		//Add vehicle
+		String newVin = "1FMCU9GD5JUB71878";
+		String newVehicleOid = helperMiniServices.addVehicleWithChecks(policyNumber, "2015-02-11", newVin, true);// 2018 Ford Escape
+
+		//Expected coverages Newly added Vehicle
+		Coverage covCOMPDEDExpected4 = Coverage.create(CoverageInfo.COMPDED_CA).changeLimit(CoverageLimits.COV_250);
+		Coverage covGLASSxpected4 = Coverage.create(CoverageInfo.GLASS_CA).changeLimit(CoverageLimits.COV_TRUE);
+		Coverage covCOLLDEDDExpected4 = Coverage.create(CoverageInfo.COLLDED_CA).changeLimit(CoverageLimits.COV_500);
+		Coverage covETEXExpected4 = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_25750);
+		Coverage covALLRISKExpected4 = Coverage.create(CoverageInfo.ALLRISK_CA).changeLimit(CoverageLimits.COV_0).disableCanChange();
+		;
+		Coverage covLOANExpected4 = Coverage.create(CoverageInfo.LOAN_CA).changeLimit(CoverageLimits.COV_0).disableCanChange();
+		;
+		Coverage covNEWCARExpected4 = Coverage.create(CoverageInfo.NEWCAR).changeLimit(CoverageLimits.COV_TRUE);
+		Coverage covRIDESHAREExpected4 = Coverage.create(CoverageInfo.RIDESHARE_CA).changeLimit(CoverageLimits.COV_0);
+
+		List<Coverage> expectedCoveragesVeh4 = new ArrayList<>();
+		expectedCoveragesVeh4.add(covCOMPDEDExpected4);
+		expectedCoveragesVeh4.add(covGLASSxpected4);
+		expectedCoveragesVeh4.add(covCOLLDEDDExpected4);
+		expectedCoveragesVeh4.add(covETEXExpected4);
+		expectedCoveragesVeh4.add(covALLRISKExpected4);
+		expectedCoveragesVeh4.add(covLOANExpected4);
+		expectedCoveragesVeh4.add(covNEWCARExpected4);
+		expectedCoveragesVeh4.add(covRIDESHAREExpected4);
+
+		PolicyCoverageInfo viewEndorsementCoverages2 = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		VehicleCoverageInfo veh4Coverages = TestMiniServicesCoveragesHelper.findVehicleCoverages(viewEndorsementCoverages2, newVehicleOid);
+
+		//Check coverages
+		checkCoverages_pasXXX(expectedCoveragesVeh1, veh1Coverages);
+		checkCoverages_pasXXX(expectedCoveragesVeh2, veh2Coverages);
+		checkCoverages_pasXXX(expectedCoveragesVeh3, veh3Coverages);
+		checkCoverages_pasXXX(expectedCoveragesVeh4, veh4Coverages);
+
+	}
+
+	private void checkCoverages_pasXXX(List<Coverage> expectedCoverageList, VehicleCoverageInfo actualCoverageList) {
+		for (Coverage expectedCoverage : expectedCoverageList) {
+			Coverage actualCoverage = findCoverage(actualCoverageList.coverages, expectedCoverage.getCoverageCd());
+			assertThat(expectedCoverage).isEqualTo(actualCoverage);
+		}
 	}
 
 	private void verifyRideShareCoverage(PolicyCoverageInfo policyEndorsementCoverageInfo, List<Vehicle> vehicles) {

@@ -3,6 +3,12 @@ TestData_VehicleOtherTypes: {
   AssignmentTab: '@AssingmentTab_VehOtherTypes'
 }
 
+TestData_VehicleLevelCoverages: {
+  VehicleTab: [ '@VehicleTab_OldVehicle', '@VehicleTab_NewVehicle1', '@VehicleTab_NewVehicle2'],
+  AssignmentTab: '@AssingmentTab_VehicleLevelCoverages',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_VehicleLevelCoverages'
+}
+
 VehicleTab_1: {
   Add Vehicle: Click,
   Primary Use: 'contains=Commute',
@@ -87,6 +93,40 @@ VehicleTab_Trailer: {
   'Miles One-way to Work or School': '15',
 }
 
+VehicleTab_NewVehicle1: {
+  Add Vehicle: Click,
+  Primary Use: 'contains=Commute',
+  Usage: Pleasure,
+  VIN: 5XXGU4L32JG232955,
+  'Miles One-way to Work or School': '15',
+  Odometer Reading: '29000',
+  Odometer Reading Date: $<today>,
+  Ownership: {
+    Ownership Type: Leased,
+    First Name: BANK OF AMERICA
+  }
+}
+
+VehicleTab_NewVehicle2: {
+  Add Vehicle: Click,
+  Primary Use: 'contains=Commute',
+  Usage: Pleasure,
+  VIN: 2FMGK5B80JBA22794,
+  'Miles One-way to Work or School': '20',
+  Odometer Reading: '33000',
+  Odometer Reading Date: $<today>,
+}
+
+VehicleTab_OldVehicle: {
+  Add Vehicle: Click,
+  Primary Use: 'contains=Commute',
+  Usage: Pleasure,
+  VIN: 5NPEB4AC4DH734438,
+  'Miles One-way to Work or School': '15',
+  Odometer Reading: '29000',
+  Odometer Reading Date: $<today>,
+}
+
 AssingmentTab_VehOtherTypes: {
   DriverVehicleRelationshipTable: [{
                                      Primary Driver: index=1,
@@ -101,4 +141,53 @@ AssingmentTab_VehOtherTypes: {
                                    }, {
                                      Primary Driver: index=1,
                                    }]
+}
+
+AssingmentTab_VehicleLevelCoverages: {
+  DriverVehicleRelationshipTable: [   {
+                                        Primary Driver: index=1,
+                                      }, {
+                                        Primary Driver: index=1,
+                                      }, {
+                                        Primary Driver: index=1,
+                                      }]
+}
+
+PremiumAndCoveragesTab_VehicleLevelCoverages: {
+  Payment Plan: Annual,
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  DetailedVehicleCoverages: [
+  {
+    Comprehensive  Deductible: 'contains=$250',
+    Full Safety Glass: 'No Coverage',
+    Collision Deductible: 'contains=$500',
+    Enhanced Transportation Expense: 'contains=$25/$750',
+    All Risk: 'contains=No',
+    Original Equipment Manufacturer Parts: 'contains=No',
+    Ridesharing Coverage: 'contains=No'
+  },
+  {
+    Comprehensive  Deductible: 'contains=$250',
+    Full Safety Glass: 'Yes',
+    Collision Deductible: 'contains=$500',
+    Enhanced Transportation Expense: 'contains=$25/$750',
+    All Risk: 'contains=No',
+    Vehicle Loan/Lease Protection: 'contains=Yes',
+#    New Car Added Protection: 'contains=Yes', # Currently if Vehicle has Loan/Lease then New Car added Protection is not available
+    Original Equipment Manufacturer Parts: 'contains=Yes',
+    Ridesharing Coverage: 'contains=No'
+  },
+  {
+    Comprehensive  Deductible: 'contains=$250',
+    Full Safety Glass: 'Yes',
+    Collision Deductible: 'contains=$500',
+    Enhanced Transportation Expense: 'contains=$25/$750',
+    All Risk: 'contains=No',
+#    Vehicle Loan/Lease Protection: 'contains=Yes', # Currently if Vehicle is Owned then Loan/Lease Protection is not available
+    New Car Added Protection: 'contains=Yes',
+    Purchase Date: '$<today-40d:MM/dd/yyyy>',
+    Original Equipment Manufacturer Parts: 'contains=Yes',
+    Ridesharing Coverage: 'contains=No'
+  }
+  ]
 }

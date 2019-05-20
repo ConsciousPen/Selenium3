@@ -7323,7 +7323,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		return findCoverage(policyCoverageInfo.policyCoverages, coverageCd);
 	}
 
-	protected VehicleCoverageInfo findVehicleCoverages(PolicyCoverageInfo policyCoverageInfo, String oid) {
+	protected static VehicleCoverageInfo findVehicleCoverages(PolicyCoverageInfo policyCoverageInfo, String oid) {
 		return policyCoverageInfo.vehicleLevelCoverages.stream().filter(vehicleCoverageInfo -> oid.equals(vehicleCoverageInfo.oid)).findFirst().orElse(null);
 	}
 

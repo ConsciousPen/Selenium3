@@ -156,14 +156,22 @@ public enum CoverageInfo {
 	UM_SUM_NY("UM/SUM", "Supplementary Uninsured/Underinsured Motorists Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UM_SUM, "Per Person/Per Accident"),
 	UM_SUM_2550_NY("UM/SUM", "Uninsured Motorists Bodily Injury", CoverageLimits.COV_2550, AvailableCoverageLimits.UM_SUM, "Per Person/Per Accident"),
 
-	//CA Coverages
+	//CA Policy Level Coverages
 	BI_CA("BI", "Bodily Injury Liability", CoverageLimits.COV_500500, AvailableCoverageLimits.BI_CA, "Per Person/Per Accident"),
 	PD_CA("PD", "Property Damage Liability", CoverageLimits.COV_100000, AvailableCoverageLimits.PD_CA, "Per Accident"),
 	UMBI_CA("UMBI", "Uninsured Motorists Bodily Injury", CoverageLimits.COV_500500, AvailableCoverageLimits.UMBI_CA, "Per Person/Per Accident"),
 	UIMBI_CA("UIMBI", "Underinsured Motorists Bodily Injury", CoverageLimits.COV_500500, AvailableCoverageLimits.UIMBI_CA,"Per Person/Per Accident"),
 	MEDPM_CA("MEDPM", "Medical Payments", CoverageLimits.COV_0, AvailableCoverageLimits.MEDPM_CA, "Per Person"),
-	RIDESHARE_CA("RIDESHARE", "Ridesharing Coverage", CoverageLimits.COV_0, AvailableCoverageLimits.RIDESHARE_CA, null);
 
+	//CA Vehicle Level Coverages
+	RIDESHARE_CA("RIDESHARE", "Ridesharing Coverage", CoverageLimits.COV_0, AvailableCoverageLimits.RIDESHARE_CA, null),
+	COMPDED_CA("COMPDED", "Comprehensive Deductible", CoverageLimits.COV_500500, AvailableCoverageLimits.COMPDED_CA, "Deductible"),
+	COLLDED_CA("COLLDED", "Collision Deductible", CoverageLimits.COV_500, AvailableCoverageLimits.COLLDED_CA, "Deductible"),
+	GLASS_CA("GLASS", "Full Safety Glass", CoverageLimits.COV_FALSE, AvailableCoverageLimits.GLASS_CA, null),
+	LOAN_CA("LOAN", "Vehicle Loan/Lease Protection", CoverageLimits.COV_500500, AvailableCoverageLimits.LOAN_CA, null),
+	ETEC_CA("ETEC", "Enhanced Transportation Expense", CoverageLimits.COV_25750, AvailableCoverageLimits.ETEC_CA, "Per Day/Maximum"),
+	ALLRISK_CA("ALLRISK", "All Risk", CoverageLimits.COV_0, AvailableCoverageLimits.ALLRISK_CA, null),
+	NEWCAR_CA("NEWCAR", "New Car Added Protection", CoverageLimits.COV_500500, AvailableCoverageLimits.NEWCAR_CA, null);
 
 	private final String code;
 	private final String description;
