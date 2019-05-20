@@ -169,6 +169,13 @@
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="HomeSS [OH] Premium Calculation Test 2019" preserve-order="true">
+        <parameter name="fileName" value="OHTests-20190702.xls"/>
+        <parameter name="policyNumbers" value="201, 189"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="HomeSS [OK] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="OKTests-20180426.xls"/>
         <parameter name="policyNumbers" value="73,74"/>
@@ -218,6 +225,13 @@
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="HomeSS [UT] Premium Calculation Test 2019 2" preserve-order="true">
+        <parameter name="fileName" value="UTTests-20190715.xls"/>
+        <parameter name="policyNumbers" value="1, 40"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="HomeSS [VA] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="VATests-20181101_part2.xls"/>
         <parameter name="policyNumbers" value="714,790"/>
@@ -228,6 +242,13 @@
     <test name="HomeSS [WV] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="WVTests-20181201.xls"/>
         <parameter name="policyNumbers" value="3,9"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="HomeSS [WV] Premium Calculation Test 2019" preserve-order="true">
+        <parameter name="fileName" value="WVTests-20190710.xls"/>
+        <parameter name="policyNumbers" value="201, 189"/>
         <classes>
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
