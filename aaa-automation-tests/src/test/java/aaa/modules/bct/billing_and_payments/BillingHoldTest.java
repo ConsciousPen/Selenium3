@@ -49,8 +49,8 @@ public class BillingHoldTest extends BackwardCompatibilityBaseTest {
 	 *     • Effective Date
 	 *     • End Date
 	 *     • Reason
-	 * 3. User clicks on ‘OK’
-	 * 4. System changes the Status of the Billing account from ‘Active’ to ‘On hold’.
+	 * 3. User clicks on 'OK'
+	 * 4. System changes the Status of the Billing account from 'Active’ to 'On hold'.
 	 *
 	 * Check:
 	 * Billing account is placed on Hold successfully.

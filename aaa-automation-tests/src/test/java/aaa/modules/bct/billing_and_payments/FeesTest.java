@@ -27,7 +27,7 @@ public class FeesTest extends BackwardCompatibilityBaseTest {
 	 * 4. User selects “Fee” from the Transaction Type field
 	 * 5. User selects the appropriate Transaction Sub-Type
 	 * 6. User enters the Amount GREATER than $0
-	 * 7. User clicks ‘OK’
+	 * 7. User clicks 'OK'
 	 * Check:
 	 * 1. Following transaction is created and displayed in the Payments & Other Transactions section
 	 *     Transaction 1
