@@ -147,7 +147,7 @@ public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements Te
 			mainApp().reopen();
 			SearchPage.openPolicy(policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "", softly);
-			transactionHistoryRecordCountCheck(policyNumber, 3, "Membership Discount Removed", softly);
+			transactionHistoryRecordCountCheck(policyNumber, 3, "Discount validation failure, policy information updated", softly);
 			checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false, softly);
 		});
 	}
@@ -184,7 +184,7 @@ public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements Te
 			SearchPage.openPolicy(policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "", softly);
 
-			transactionHistoryRecordCountCheck(policyNumber, 3, "Membership Discount Removed", softly);
+			transactionHistoryRecordCountCheck(policyNumber, 3, "Discount validation failure, policy information updated", softly);
 			checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false, softly);
 		});
 	}
