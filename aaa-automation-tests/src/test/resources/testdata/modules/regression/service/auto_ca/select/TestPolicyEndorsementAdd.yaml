@@ -20,7 +20,8 @@ NamedInsuredInformation: {
   Add: Click,
   InsuredSearchDialog: {},
   First Name: Tom,
-  Last Name: Harris
+  Last Name: Harris,
+  Insured Date of Birth: 12/05/1962
 }
 
 PolicyInformation: {
@@ -33,7 +34,7 @@ DriverTab: {
   Named Insured: 'Tom Harris',
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': Other,
-  Date of Birth: '07/28/1976',
+  #Date of Birth: '07/28/1976',
   Occupation: Self Employed,
   Gender: Male,
   Marital Status: Single,
