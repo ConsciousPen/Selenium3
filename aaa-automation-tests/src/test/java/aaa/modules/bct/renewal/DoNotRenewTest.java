@@ -26,12 +26,12 @@ public class DoNotRenewTest extends BackwardCompatibilityBaseTest {
 	 * 2. User has privilege <Policy Do Not Renew>
 	 * Steps:
 	 * 1. User Navigates to Policy Consolidated View tab
-	 * 2. User selects action <Do Not Renew> and clicks ‘Go’
+	 * 2. User selects action <Do Not Renew> and clicks 'Go'
 	 * 3. User enters following details:
 	 * a. Reason
 	 * b. Other Reason (if reason is selected as <Other>)
-	 * 4. System displays pop-up message (MES-RE-0002) asking for confirmation as user clicks ‘OK’
-	 * 5. User Clicks ‘OK’
+	 * 4. System displays pop-up message (MES-RE-0002) asking for confirmation as user clicks 'OK'
+	 * 5. User Clicks 'OK'
 	 * Check:
 	 * Policy has successfully been set for Do Not Renew
 	 */
