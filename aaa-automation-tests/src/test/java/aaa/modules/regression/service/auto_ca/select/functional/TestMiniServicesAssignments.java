@@ -225,7 +225,6 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsCAHe
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-29163"})
 	public void pas29163_DriverAssignmentAndOddBalls(@Optional("CA") String state) {
-
 		pas29163_DriverAssignmentAndOddBallsBody(getPolicyType());
 	}
 

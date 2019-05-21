@@ -108,7 +108,7 @@ public class TestMiniServicesAssignmentsCAHelper extends TestMiniServicesAssignm
 		assertSoftly(softly -> {
 			softly.assertThat(driverAssignmentResponse1.unassignedDrivers).isEmpty();
 			softly.assertThat(driverAssignmentResponse1.unassignedVehicles.size()).isEqualTo(1);
-			softly.assertThat(driverAssignmentResponse1.unassignedVehicles.contains(newVehicleOid));
+			softly.assertThat(driverAssignmentResponse1.unassignedVehicles.contains(newVehicleOid)).isTrue();
 			softly.assertThat(driverAssignmentResponse1.driverVehicleAssignments.size()).isEqualTo(2);
 			softly.assertThat(driverAssignmentResponse1.assignableDrivers.size()).isEqualTo(2);
 			softly.assertThat(driverAssignmentResponse1.assignableVehicles.size()).isEqualTo(3);
@@ -225,7 +225,6 @@ public class TestMiniServicesAssignmentsCAHelper extends TestMiniServicesAssignm
 	}
 
 	protected void pas29163_DriverAssignmentAndOddBallsBody(PolicyType policyType) {
-
 		TestData td = createPolicyWithMoreThanOneDriverAndVehicle("TestData_VehicleOtherTypesForOddBalls", "TestData_VehicleOtherTypesForOddBalls", "TestData_VehicleOtherTypesForOddBalls");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		String policyNumber = openAppAndCreatePolicy(td);
@@ -257,16 +256,15 @@ public class TestMiniServicesAssignmentsCAHelper extends TestMiniServicesAssignm
 
 			softly.assertThat(assignmentExistsForDriverVehicle(driver1.oid, vehicle2.oid, endorsementDriverAssignmentsResponse3.driverVehicleAssignments)).isTrue();
 			softly.assertThat(assignmentExistsForDriverVehicle(driver1.oid, vehicle1.oid, endorsementDriverAssignmentsResponse3.driverVehicleAssignments)).isTrue();
-
 		});
 		getHelperMiniServices().endorsementRateAndBind(policyNumber);
 	}
 
-	private void verifyDriverAssignment(String policyNumber, Vehicle vehicle1, Vehicle vehicle2, DriversDto driver1, DriversDto driver2, Integer driverCt, Integer VehicleCt) {
+	private void verifyDriverAssignment(String policyNumber, Vehicle vehicle1, Vehicle vehicle2, DriversDto driver1, DriversDto driver2, Integer driverCt, Integer vehicleCt) {
 		ViewDriverAssignmentResponse endorsementDriverAssignmentsResponse = HelperCommon.viewEndorsementAssignments(policyNumber);
 		assertSoftly(softly -> {
 			softly.assertThat(endorsementDriverAssignmentsResponse.assignableDrivers.size()).isEqualTo(driverCt);
-			softly.assertThat(endorsementDriverAssignmentsResponse.assignableVehicles.size()).isEqualTo(VehicleCt);
+			softly.assertThat(endorsementDriverAssignmentsResponse.assignableVehicles.size()).isEqualTo(vehicleCt);
 
 			softly.assertThat(assignmentExistsForDriverVehicle(driver1.oid, vehicle2.oid, endorsementDriverAssignmentsResponse.driverVehicleAssignments)).isTrue();
 			softly.assertThat(assignmentExistsForDriverVehicle(driver2.oid, vehicle1.oid, endorsementDriverAssignmentsResponse.driverVehicleAssignments)).isTrue();
@@ -342,7 +340,7 @@ public class TestMiniServicesAssignmentsCAHelper extends TestMiniServicesAssignm
 	}
 
 	/**Assigns any driver to all vehicles for CA Policy*/
-	public static void makeAssignmentsForCA(String policyNumber) {
+	private static void makeAssignmentsForCA(String policyNumber) {
 		if (getState().equals(Constants.States.CA)) {
 			ViewDriverAssignmentResponse viewDriverAssignmentResponse = HelperCommon.viewEndorsementAssignments(policyNumber);
 			DriversDto driverToAssign = HelperCommon.viewEndorsementDrivers(policyNumber).driverList.get(0);
