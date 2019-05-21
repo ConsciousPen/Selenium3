@@ -168,10 +168,11 @@ public enum CoverageInfo {
 	COMPDED_CA("COMPDED", "Comprehensive Deductible", CoverageLimits.COV_500500, AvailableCoverageLimits.COMPDED_CA, "Deductible"),
 	COLLDED_CA("COLLDED", "Collision Deductible", CoverageLimits.COV_500, AvailableCoverageLimits.COLLDED_CA, "Deductible"),
 	GLASS_CA("GLASS", "Full Safety Glass", CoverageLimits.COV_FALSE, AvailableCoverageLimits.GLASS_CA, null),
-	LOAN_CA("LOAN", "Vehicle Loan/Lease Protection", CoverageLimits.COV_500500, AvailableCoverageLimits.LOAN_CA, null),
+	LOAN_CA("LOAN", "Vehicle Loan/Lease Protection", CoverageLimits.COV_0, AvailableCoverageLimits.LOAN_CA, null),
 	ETEC_CA("ETEC", "Enhanced Transportation Expense", CoverageLimits.COV_25750, AvailableCoverageLimits.ETEC_CA, "Per Day/Maximum"),
-	ALLRISK_CA("ALLRISK", "All Risk", CoverageLimits.COV_0, AvailableCoverageLimits.ALLRISK_CA, null),
-	NEWCAR_CA("NEWCAR", "New Car Added Protection", CoverageLimits.COV_500500, AvailableCoverageLimits.NEWCAR_CA, null);
+	ALLRISK_CA("ALLRISK", "All Risk", CoverageLimits.COV_NO_COV, AvailableCoverageLimits.ALLRISK_CA, null),
+	OEM_CA("OEM", "Original Equipment Manufacturer Parts", CoverageLimits.COV_FALSE, AvailableCoverageLimits.OEM_CA, null),
+	NEWCAR_CA("NEWCAR", "New Car Added Protection", CoverageLimits.COV_FALSE, AvailableCoverageLimits.NEWCAR_CA, null);
 
 	private final String code;
 	private final String description;

@@ -354,7 +354,7 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_TRUE
 	)),
 	GLASS_CA(ImmutableList.of(
-			CoverageLimits.COV_FALSE,
+			CoverageLimits.COV_FALSE_NO_COVERAGE,
 			CoverageLimits.COV_TRUE
 	)),
 	UMBI_CT(ImmutableList.of(
@@ -505,7 +505,7 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_1000
 			)),
 	COMPDED_CA(ImmutableList.of(
-			CoverageLimits.COV_0,
+			CoverageLimits.COV_NO_COV,
 			CoverageLimits.COV_50,
 			CoverageLimits.COV_100,
 			CoverageLimits.COV_150,
@@ -525,6 +525,7 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_1000
 	)),
 	COLLDED_CA(ImmutableList.of(
+			CoverageLimits.COV_NO_COV,
 			CoverageLimits.COV_150,
 			CoverageLimits.COV_250,
 			CoverageLimits.COV_500,
@@ -536,8 +537,8 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_1
 	)),
 	LOAN_CA(ImmutableList.of(
-			CoverageLimits.COV_FALSE,
-			CoverageLimits.COV_TRUE
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_1
 	)),
 	ETEC_CA(ImmutableList.of(
 			CoverageLimits.COV_25750,
@@ -546,13 +547,17 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_501500
 	)),
 	ALLRISK_CA(ImmutableList.of(
-			CoverageLimits.COV_0,
+			CoverageLimits.COV_NO_COV,
 			CoverageLimits.COV_250,
 			CoverageLimits.COV_500
 	)),
-	NEWCAR_CA(ImmutableList.of(
+	OEM_CA(ImmutableList.of(
 			CoverageLimits.COV_FALSE,
 			CoverageLimits.COV_TRUE
+	)),
+	NEWCAR_CA(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_1
 	)),
 	PREIM(ImmutableList.of(
 			CoverageLimits.COV_00,

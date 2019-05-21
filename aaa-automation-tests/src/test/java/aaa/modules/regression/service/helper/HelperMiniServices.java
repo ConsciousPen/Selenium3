@@ -57,6 +57,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 			VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
 			updateVehicleUsageRequest.distanceOneWayToWork = "15";
 			updateVehicleUsageRequest.odometerReading = "32000";
+			HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
 		}
 
 		ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);

@@ -91,6 +91,11 @@ public class PremiumAndCoveragesTab extends Tab {
 		return result;
 	}
 
+	public String getVehicleCoverageDetailsValueByVehicle(int index, String coverageName) {
+		Table vehicleCoverageDetailsTable = new Table(tableVehicleCoverageDetails.format(index));
+		return getCoverageValueFromTable(coverageName, vehicleCoverageDetailsTable);
+	}
+
 	public void setVehicleCoverageDetailsValueByVehicle(int index, String coverageName, String value) {
 		Table vehicleCoverageDetailsTable = new Table(tableVehicleCoverageDetails.format(index));
 		Row coverageRow = vehicleCoverageDetailsTable.getRowContains(1, coverageName);

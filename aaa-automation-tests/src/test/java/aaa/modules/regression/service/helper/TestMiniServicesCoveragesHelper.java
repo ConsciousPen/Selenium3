@@ -4509,7 +4509,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		premiumAndCoveragesTab.saveAndExit();
 	}
 
-	private void openPendedEndorsementInquiryAndNavigateToPC() {
+	protected void openPendedEndorsementInquiryAndNavigateToPC() {
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.quoteInquiry().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -7148,11 +7148,11 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		return HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class);
 	}
 
-	private void validateCoverageLimitInPASUI(Coverage... coverageExpected) {
+	protected void validateCoverageLimitInPASUI(Coverage... coverageExpected) {
 		validateCoverageLimitInPASUI(Arrays.asList(coverageExpected));
 	}
 
-	private void validateCoverageLimitInPASUI(List<Coverage> coverageExpected) {
+	protected void validateCoverageLimitInPASUI(List<Coverage> coverageExpected) {
 		openPendedEndorsementInquiryAndNavigateToPC();
 		checkLimitInPAndCTab(coverageExpected);
 		premiumAndCoveragesTab.cancel();
