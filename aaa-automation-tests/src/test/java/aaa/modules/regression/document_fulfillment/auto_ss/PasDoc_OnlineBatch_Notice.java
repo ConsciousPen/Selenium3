@@ -9,6 +9,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.impl.PasDocImpl;
+import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -112,6 +113,7 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 		//R-35
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		HttpStub.executeAllBatches();
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
 		//R-20
