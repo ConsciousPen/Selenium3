@@ -340,7 +340,7 @@ public class TestMiniServicesAssignmentsCAHelper extends TestMiniServicesAssignm
 	}
 
 	/**Assigns any driver to all vehicles for CA Policy*/
-	public static  void makeAssignmentsForCA(String policyNumber) {
+	public static void makeAssignmentsForCA(String policyNumber) {
 		if (getState().equals(Constants.States.CA)) {
 			ViewDriverAssignmentResponse viewDriverAssignmentResponse = HelperCommon.viewEndorsementAssignments(policyNumber);
 			DriversDto driverToAssign = HelperCommon.viewEndorsementDrivers(policyNumber).driverList.get(0);
