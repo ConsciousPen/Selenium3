@@ -1,14 +1,14 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsCATemplate;
 import aaa.utils.StateList;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(states = {Constants.States.CA})
@@ -95,6 +95,7 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      */
     /**
      * PAS-23977 - END: Reconcile Claim # Formats (CLUE and CAS)
+     *
      * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added and compare of CLUE claim from newly added driver to existing PU Yes claim on FNI .
      * @scenario Test Steps: See Template For Details
      * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver and only claim numbers will be compared ignoring the format differences.
@@ -130,6 +131,7 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      */
     /**
      * PAS-23977 - END: Reconcile Claim # Formats (CLUE and CAS)
+     *
      * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added and compare of CLUE claim from newly added driver to existing PU Yes claim on FNI .
      * @scenario Test Steps: See Template For Details
      * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver and only claim numbers will be compared ignoring the format differences.
@@ -170,15 +172,15 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * @name Test Offline STUB/Mock: validate permissive use indicator when driver/named insure is added
      * @scenario Test Steps:
      * 1. Create a quote with 2 drivers and named insured driver1  has the following activies
-     *        - Company and Customer input (Type other than Accident) - PU indicator do not show up
-     *        - Company and Customer input (Type as Accident) - - PU indicator shows up
-     *        - MVR claims - PU indicator do not show up
+     * - Company and Customer input (Type other than Accident) - PU indicator do not show up
+     * - Company and Customer input (Type as Accident) - - PU indicator shows up
+     * - MVR claims - PU indicator do not show up
      * 2. Bind the policy
      * 3. Initiate the first endorsement
      * 4. Validate the driver 1 named insure has following activties
-     *        - Company and Customer input (Type other than Accident) - PU indicator do not show up
-     *        - Company and Customer input (Type as Accident) - - PU indicator shows up
-     *        - MVR claims - PU indicator do not show up
+     * - Company and Customer input (Type other than Accident) - PU indicator do not show up
+     * - Company and Customer input (Type as Accident) - - PU indicator shows up
+     * - MVR claims - PU indicator do not show up
      * 5. Bind the endorsement
      * @details Clean Path. Expected Result is that Permissive Use Indicator on Driver Tab will not show up for non "claim" activity
      */
@@ -263,11 +265,11 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * 2) Override the product Choice to Select
      * 3) Order the Clue and MVR report in DAR page
      * 4) Navigate back to driver tab and add the below company activities (include in points)
-     *   - three at fault accident with injury with include in points
-     *   - one at fault accident, no injury >$1000
-     *   - one minor violations
-     *   - one major violations
-     *   - One 10-yr major violations
+     * - three at fault accident with injury with include in points
+     * - one at fault accident, no injury >$1000
+     * - one minor violations
+     * - one major violations
+     * - One 10-yr major violations
      * 5) Calculate the Premium and Order report and proceed to bind the quote
      * 6) The below overrides will get triggered and cancel it
      * Rule1 - 10051023 -- This rule fires when there is more than 2 at-fault accidents in past 3 years
@@ -275,17 +277,17 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * 7) Navigate back to driver tab and mark PU flag as Yes for Claims
      * 8) Calculate the Premium and Order report and proceed to bind the quote
      * 9) Verify the above overrides should not show up and it should bind the quote
-     *
+     * <p>
      * Scenario 2 - CA Choice Endorsement
      * 1) In Endorsement, make sure there are two named insured in the General tab
      * 2) Switch the FNI to second named insured
      * 3) Navigate to Driver tab and add the second named insured as the driver (FNI)
      * 4) Add the below company activities to the new driver which is a FNI (include in points)
-     *   - three at fault accident with injury with include in points
-     *   - one at fault accident, no injury >$1000
-     *   - one minor violations
-     *   - one major violations
-     *   - One 10-yr major violations
+     * - three at fault accident with injury with include in points
+     * - one at fault accident, no injury >$1000
+     * - one minor violations
+     * - one major violations
+     * - One 10-yr major violations
      * 5) Calculate the Premium and Order report and proceed to bind the endorsement
      * 6) The below overrides will get triggered and cancel it
      * Rule1 - 10051023 -- This rule fires when there is more than 2 at-fault accidents in past 3 years
@@ -294,12 +296,12 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * 8) Calculate the Premium and Order report and proceed to bind the endorsement
      * 9) Verify the above overrides should not show up and it should bind the endorsement
      * @details Clean Path. Expected Result is that UW override rules does not show when PU flag is set as Yes
-    */
+     */
 
-     @Parameters({"state"})
-        @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-        @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-27908")
-        public void pas27908_UpdateUWRules(@Optional("CA") @SuppressWarnings("unused") String state) {
-            pas27908_UpdateUWRules();
-        }
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-27908")
+    public void pas27908_UpdateUWRulesWithPUFlag(@Optional("CA") @SuppressWarnings("unused") String state) {
+        pas27908_UpdateUWRulesWithPUFlag();
+    }
 }
