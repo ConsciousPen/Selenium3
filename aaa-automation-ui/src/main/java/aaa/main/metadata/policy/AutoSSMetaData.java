@@ -53,14 +53,14 @@ public final class AutoSSMetaData {
 				declare("List of Insured Principal", FillableTable.class, ListOfInsuredPrincipalRow.class, By.xpath("//div[@id='policyDataGatherForm:dataGatherView_ListInsured']/div/table"));
 		public static final AssetDescriptor<AssetList> CONTACT_INFORMATION =
 				declare("ContactInformation", AssetList.class, ContactInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAContactInformationMVO']"));
-		public static final AssetDescriptor<AssetList> CURRENT_CARRIER_INFORMATION =
-				declare("CurrentCarrierInformation", AssetList.class, CurrentCarrierInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_OtherOrPriorPolicy']"));
 
 		public static final AssetDescriptor<AssetList> AAA_MEMBERSHIP = declare("AAAMembership", AssetList.class, AAAMembership.class, By.xpath(".//table[@id='policyDataGatherForm:formGrid_ExistingPolicies']"));
 		public static final AssetDescriptor<NoSectionsMultiAssetList> OTHER_AAA_PRODUCTS_OWNED = declare("OtherAAAProductsOwned", NoSectionsMultiAssetList.class, OtherAAAProductsOwned.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAutoOtherPoliciesMPD']"));
 		public static final AssetDescriptor<AssetList> LIST_OF_PRODUCT_ROWS = declare("ListOfProductsRows", AssetList.class, OtherAAAProductsOwned.ListOfProductsRows.class);
 
 		public static final AssetDescriptor<AssetList> POLICY_INFORMATION = declare("PolicyInformation", AssetList.class, PolicyInformation.class);
+		public static final AssetDescriptor<AssetList> CURRENT_CARRIER_INFORMATION =
+				declare("CurrentCarrierInformation", AssetList.class, CurrentCarrierInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_OtherOrPriorPolicy']"));
 
 		public static final AssetDescriptor<MultiInstanceAfterAssetList> NAMED_INSURED_INFORMATION =
 				declare("NamedInsuredInformation", MultiInstanceAfterAssetList.class, NamedInsuredInformation.class, By
@@ -766,11 +766,11 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<ComboBox> LENGTH_OF_INCOME_CONTINUATION = declare("Length of Income Continuation", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> COVERAGE_INCLUDES = declare("Coverage Includes", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> RELATIVES_NAME1 = declare("Relative's Name 1", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:9:coveragevaluesRelName1_id"));
-			public static final AssetDescriptor<TextBox> RELATIVES_NAME2 = declare("Relative's Name 2", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:9:coveragevaluesRelName22_id"));
+			public static final AssetDescriptor<TextBox> RELATIVES_NAME2 = declare("Relative's Name 2", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:9:coveragevaluesRelName2_id"));
 			public static final AssetDescriptor<TextBox> RELATIVES_NAME3 = declare("Relative's Name 3", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:10:coveragevaluesRelName3_id"));
-			public static final AssetDescriptor<TextBox> RELATIVES_NAME4 = declare("Relative's Name 4", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:10:coveragevaluesRelName44_id"));
+			public static final AssetDescriptor<TextBox> RELATIVES_NAME4 = declare("Relative's Name 4", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:10:coveragevaluesRelName4_id"));
 			public static final AssetDescriptor<TextBox> RELATIVES_NAME5 = declare("Relative's Name 5", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:11:coveragevaluesRelName5_id"));
-			public static final AssetDescriptor<TextBox> RELATIVES_NAME6 = declare("Relative's Name 6", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:11:coveragevaluesRelName66_id"));
+			public static final AssetDescriptor<TextBox> RELATIVES_NAME6 = declare("Relative's Name 6", TextBox.class, By.id("policyDataGatherForm:policy_level_pip_coverage:11:coveragevaluesRelName6_id"));
 		}
 
 		public static final class OverridePremiumDialog extends MetaData {

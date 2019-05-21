@@ -10,7 +10,6 @@ import aaa.common.pages.Page;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.docgen.impl.PasDocImpl;
-import aaa.helpers.xml.model.pasdoc.DocumentGenerationRequest;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.DocGenEnum.EventName;
 import static aaa.main.enums.DocGenEnum.Documents.*;

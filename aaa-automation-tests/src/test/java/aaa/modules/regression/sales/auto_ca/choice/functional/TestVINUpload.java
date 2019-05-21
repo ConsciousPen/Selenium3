@@ -111,7 +111,9 @@ public class TestVINUpload extends TestVINUploadTemplate {
 
     /**
      * @author Lev Kazarnovskiy
+     * @author Chris Johns
      * PAS-4253 Restrict VIN Refresh by Vehicle Type
+     * PAS-27309 "Restrict VIN Refresh" should not apply when Select Quote Changes to Choice
      * See detailed steps in template file
      * {@link TestVINUploadTemplate#pas4253_restrictVehicleRefreshNB#pas4253_restrictVehicleRefreshNB(String, String)}
      */
@@ -120,7 +122,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-4253")
     public void pas4253_restrictVehicleRefreshNB(@Optional("CA") String state) {
         VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-
         pas4253_restrictVehicleRefreshNB(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN3.get()), NEW_VIN3);
     }
 

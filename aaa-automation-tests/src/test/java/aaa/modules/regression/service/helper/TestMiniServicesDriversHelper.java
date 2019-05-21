@@ -1,6 +1,7 @@
 package aaa.modules.regression.service.helper;
 
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -10,6 +11,7 @@ import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
@@ -45,8 +47,10 @@ import static toolkit.webdriver.controls.composite.assets.metadata.MetaData.getA
 public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	protected static final List<String> MARRIED_STATUSES = ImmutableList.of("Married", "Registered Domestic Partner",
 			"Civil Union", "Common Law", "Registered Domestic Partner/Civil Union");
+	protected static final List<String> MARRIED_STATUSES_CA = ImmutableList.of("Married", "Domestic Partner");
 	protected static final List<String> SPOUSE_RELATIONSHIP_STATUSES = ImmutableList.of("Spouse",
 			"Registered Domestic Partner", "Registered Domestic Partner/Civil Union");
+	protected static final List<String> SPOUSE_RELATIONSHIP_STATUSES_CA = ImmutableList.of("Spouse", "Domestic Partner");
 	private static final String MESSAGE_TASK_CREATED = "Task Created Customer Driver Removal";
 	protected static final String DRIVER_TYPE_AVAILABLE_FOR_RATING = "afr";
 	protected static final String DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING = "nafr";
@@ -56,6 +60,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	protected static final String DRIVER_STATUS_ACTIVE = "active";
 
 	private DriverTab driverTab = new DriverTab();
+	private aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab driverTabCA = new aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab();
 	private FormsTab formsTab = new FormsTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
@@ -430,6 +435,13 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	}
 
 	protected void pas16548_NamedInsuredMaritalStatus_MultipleMaritalBody() {
+		String maritalStatusSingle;
+		if (getState().equals(Constants.States.CA)) {
+			maritalStatusSingle = "S";
+		} else {
+			maritalStatusSingle = "SSS";
+		}
+
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
@@ -439,15 +451,22 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		String fniOid = responseViewDrivers1.driverList.stream().filter(driver -> driver.relationToApplicantCd.equals("IN"))
 				.findFirst().orElse(new DriversDto()).oid;
 		UpdateDriverRequest updateFniRequest = DXPRequestFactory.createUpdateDriverRequest(null, null,
-				null, null, null, "SSS");
+				null, null, null, maritalStatusSingle);
 		DriverWithRuleSets updateFNIResponse = HelperCommon.updateDriver(policyNumber, fniOid, updateFniRequest);
-		assertThat(updateFNIResponse.driver.maritalStatusCd).isEqualTo("SSS");
+		assertThat(updateFNIResponse.driver.maritalStatusCd).isEqualTo(maritalStatusSingle);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 		// System fetches the marital statuses for the given state.
 		String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		HashMap<String, String> maritalStatuses = HelperCommon.executeLookupValidate("AAASSMaritalStatusCd",
-				"AAA_SS", policyNumber.substring(0, 2), currentDate);
+		HashMap<String, String> maritalStatuses;
+		if (getState().equals(Constants.States.CA)) {
+			maritalStatuses = HelperCommon.executeLookupValidate("AAAMaritalStatusCd",
+					"AAA_CSA", policyNumber.substring(0, 2), currentDate);
+		} else {
+			maritalStatuses = HelperCommon.executeLookupValidate("AAASSMaritalStatusCd",
+					"AAA_SS", policyNumber.substring(0, 2), currentDate);
+		}
+		maritalStatuses.remove("O", "Other");//Other should not be available through service (CA)
 
 		// Create endorsement for the policy
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -463,6 +482,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		AttributeMetadata maritalStatusBefore = metaDataResponse.stream().filter(
 				attribute -> "maritalStatusCd".equals(attribute.attributeName)).findFirst().orElse(null);
 		maritalStatuses.forEach((key, value) -> assertThat(maritalStatusBefore.valueRange.containsKey(key)).isTrue());
+		assertThat(maritalStatusBefore.valueRange).doesNotContainEntry("O", "Other");//Bug: PAS-29751 DXP: maritalStatusCd has option "O" : "Other" for CA
 
 		// Update the driver to set them to a spouse on the policy and validate that the marital status is not defaulted
 		// at this point.
@@ -479,7 +499,11 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		AttributeMetadata maritalStatusAfter = metaDataAfterResponse.stream().filter(
 				attribute -> "maritalStatusCd".equals(attribute.attributeName)).findFirst().orElse(null);
 		maritalStatusAfter.valueRange.forEach((key, value) -> {
-			assertThat(MARRIED_STATUSES.contains(value)).isTrue();
+			if (getState().equals(Constants.States.CA)) {
+				assertThat(MARRIED_STATUSES_CA.contains(value)).isTrue();
+			} else {
+				assertThat(MARRIED_STATUSES.contains(value)).isTrue();
+			}
 
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 			AddDriverRequest addSpouseRequest = DXPRequestFactory.createAddDriverRequest("Spouse", null, "Driver", "1960-02-08", "III");
@@ -509,10 +533,19 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		 * adjustments needed. New statuses that need to be considered as "married" will need to be added to the list
 		 * at the top of this class, though.
 		 */
-		HashMap<String, String> stateMaritalStatuses = HelperCommon.executeLookupValidate("AAASSMaritalStatusCd",
-				"AAA_SS", policyNumber.substring(0, 2), currentDate);
-		HashMap<String, String> relationshipsToInsured = HelperCommon.executeLookupValidate("AAARelationshipFNInsured",
-				"AAA_SS", policyNumber.substring(0, 2), currentDate);
+		HashMap<String, String> stateMaritalStatuses;
+		HashMap<String, String> relationshipsToInsured;
+		if (getState().equals(Constants.States.CA)) {
+			stateMaritalStatuses = HelperCommon.executeLookupValidate("AAAMaritalStatusCd",
+					"AAA_CSA", policyNumber.substring(0, 2), currentDate);
+			relationshipsToInsured = HelperCommon.executeLookupValidate("AAARelationshipFNInsured",
+					"AAA_CSA", policyNumber.substring(0, 2), currentDate);
+		} else {
+			stateMaritalStatuses = HelperCommon.executeLookupValidate("AAASSMaritalStatusCd",
+					"AAA_SS", policyNumber.substring(0, 2), currentDate);
+			relationshipsToInsured = HelperCommon.executeLookupValidate("AAARelationshipFNInsured",
+					"AAA_SS", policyNumber.substring(0, 2), currentDate);
+		}
 		// Code retrieves the FNI's driver oid from the policy image.
 		ViewDriversResponse viewDriversResponse1 = HelperCommon.viewPolicyDrivers(policyNumber);
 		String fniDriverOid = viewDriversResponse1.driverList.stream().filter(driver -> driver.relationToApplicantCd.equals("IN"))
@@ -528,8 +561,17 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		 * to execute the rest of the test. Once that's done, it moves on to "Widowed", which is not a married marital
 		 * status, so the test completes.
 		 */
+		List<String> marriedStatuses;
+		List<String> spouseRelationshipStatuses;
+		if (getState().equals(Constants.States.CA)) {
+			marriedStatuses = ImmutableList.copyOf(MARRIED_STATUSES_CA);
+			spouseRelationshipStatuses = ImmutableList.copyOf(SPOUSE_RELATIONSHIP_STATUSES_CA);
+		} else {
+			marriedStatuses = ImmutableList.copyOf(MARRIED_STATUSES);
+			spouseRelationshipStatuses = ImmutableList.copyOf(SPOUSE_RELATIONSHIP_STATUSES);
+		}
 		stateMaritalStatuses.forEach((key, value) -> {
-			if (MARRIED_STATUSES.contains(value)) {
+			if (marriedStatuses.contains(value)) {
 				/*
 				 * First step for each marital status that is considered married is to first update the first named
 				 * insured and set the marital status of the FNI driver to the marital status that's being tested. Then
@@ -546,7 +588,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 				 * validations. If it isn't, the test moves on to the next relationship status.
 				 */
 				relationshipsToInsured.forEach((relationshipKey, relationshipValue) -> {
-					if (SPOUSE_RELATIONSHIP_STATUSES.contains(relationshipValue)) {
+					if (spouseRelationshipStatuses.contains(relationshipValue)) {
 						helperMiniServices.createEndorsementWithCheck(policyNumber);
 						checkSpAndFniMaritalStatus_pas16610(policyNumber, fniDriverOid, key, relationshipKey, value);
 					}
@@ -580,10 +622,17 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			SearchPage.openPolicy(policyNumber);
 			PolicySummaryPage.buttonPendedEndorsement.click();
 			policy.dataGather().start();
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-			assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).getValue()).isEqualTo(maritalStatusDisplay);
-			DriverTab.tableDriverList.selectRow(1);
-			assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).getValue()).isEqualTo(maritalStatusDisplay);
+			if (getState().equals(Constants.States.CA)) {
+				NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+				assertThat(driverTabCA.getAssetList().getAsset(AutoCaMetaData.DriverTab.MARITAL_STATUS).getValue()).isEqualTo(maritalStatusDisplay);
+				aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.tableDriverList.selectRow(1);
+				assertThat(driverTabCA.getAssetList().getAsset(AutoCaMetaData.DriverTab.MARITAL_STATUS).getValue()).isEqualTo(maritalStatusDisplay);
+			} else {
+				NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+				assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).getValue()).isEqualTo(maritalStatusDisplay);
+				DriverTab.tableDriverList.selectRow(1);
+				assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).getValue()).isEqualTo(maritalStatusDisplay);
+			}
 			DriverTab.buttonSaveAndExit.click();
 		});
 	}

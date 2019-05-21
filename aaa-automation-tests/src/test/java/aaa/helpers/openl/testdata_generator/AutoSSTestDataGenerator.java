@@ -195,6 +195,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				switch (carrierCode) {
 					case "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)":
 						carrierCode = "AAA Insurance";
+					case "WUIC":
+						carrierCode = "Western United";
 				}
 			} else {
 				carrierCode = "AAA-SoCal (ACSC)";
@@ -570,6 +572,14 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				if ("ADB".equals(coverage.getCoverageCd())) {
 					// ADB coverage should be set in Driver tab - "ADB Coverage" radio button
 					continue;
+				}
+
+				if (getState().equals(Constants.States.PA) && "UMBI".equals(coverage.getCoverageCd()) && coverage.getLimit().endsWith("N")) {
+					policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_STACKED_UNSTACKED.getLabel(), "Unstacked");
+				}
+
+				if (getState().equals(Constants.States.PA) && "UIMBI".equals(coverage.getCoverageCd()) && coverage.getLimit().endsWith("N")) {
+					policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_STACKED_UNSTACKED.getLabel(), "Unstacked");
 				}
 
 				if (isTrailerOrMotorHomeVehicle && "SP EQUIP".equals(coverage.getCoverageCd())) {

@@ -1,5 +1,12 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -17,17 +24,8 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import java.time.LocalDateTime;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * @author Dominykas Razgunas
@@ -37,8 +35,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
  * 2. Create Auto policy with Eleen Pay Standard plan
  * 3. Pay in full
  * 4. At time point R-96 run Renewal_Offer_Generation_Part2 (renewal is initiated)
- * 5. At time point R-45 run Renewal_Offer_Generation_Part1 and Renewal_Offer_Generation_Part2 (renewal status is ‘Premium Calculated’)
- * 6. At time point R-35 run Renewal_Offer_Generation_Part2 (renewal status is ‘Proposed’)
+ * 5. At time point R-45 run Renewal_Offer_Generation_Part1 and Renewal_Offer_Generation_Part2 (renewal status is 'Premium Calculated')
+ * 6. At time point R-35 run Renewal_Offer_Generation_Part2 (renewal status is 'Proposed')
  * 7. At time point R-20 run aaaRenewalNoticeBillAsyncJob to generate renewal bill
  * 8. At time point R-17 initiate endorsement
  * 9. Navigate to P&C tab and process an endorsement that causes an additional premium (for example increase coverages)

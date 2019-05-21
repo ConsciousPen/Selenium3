@@ -41,8 +41,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 
 	private static final Map<AaaDocGenEntityQueries.EventNames, List<Job>> JOBS_FOR_EVENT  = ImmutableMap.<AaaDocGenEntityQueries.EventNames, List<Job>>builder()
-			.put(PRE_RENEWAL, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.aaaPreRenewalNoticeAsyncJob, Jobs.aaaDocGenBatchJob))
-			.put(RENEWAL_OFFER, ImmutableList.of(Jobs.aaaBatchMarkerJob, Jobs.renewalOfferGenerationPart2, Jobs.aaaDocGenBatchJob))
+			.put(PRE_RENEWAL, ImmutableList.of(/*Jobs.aaaBatchMarkerJob,*/ Jobs.aaaPreRenewalNoticeAsyncJob, Jobs.aaaDocGenBatchJob))
+			.put(RENEWAL_OFFER, ImmutableList.of(/*Jobs.aaaBatchMarkerJob, */Jobs.renewalOfferGenerationPart2, Jobs.aaaDocGenBatchJob))
 			.put(RENEWAL_BILL, ImmutableList.of(Jobs.aaaRenewalNoticeBillAsyncJob, Jobs.aaaDocGenBatchJob))
 			.put(BILL_FIRST_RENEW_REMINDER_NOTICE, ImmutableList.of(Jobs.aaaMortgageeRenewalReminderAndExpNoticeAsyncJob, Jobs.aaaDocGenBatchJob))
 			.put(MORTGAGEE_BILL_FINAL_EXP_NOTICE, ImmutableList.of(Jobs.aaaMortgageeRenewalReminderAndExpNoticeAsyncJob, Jobs.aaaDocGenBatchJob))

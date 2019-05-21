@@ -73,6 +73,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last Name", TextBox.class);
 			public static final AssetDescriptor<ComboBox> SUFFIX = declare("Suffix", ComboBox.class);
 			// public static final AssetDescriptor<TextBox> SOCIAL_SECURITY_NUMBER = declare("Social Security Number", TextBox.class);
+			public static final AssetDescriptor<TextBox> INSURED_DATE_OF_BIRTH = declare ("Insured Date of Birth", TextBox.class);
 			public static final AssetDescriptor<TextBox> BASE_DATE = declare("Base Date", TextBox.class);
 			public static final AssetDescriptor<ComboBox> ADDRESS_TYPE = declare("Address Type", ComboBox.class);
 			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip Code", TextBox.class);
