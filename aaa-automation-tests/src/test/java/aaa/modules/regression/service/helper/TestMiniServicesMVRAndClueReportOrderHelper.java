@@ -18,7 +18,7 @@ import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ComparisonChain;
 import org.apache.commons.lang.StringUtils;
-import org.apache.xpath.operations.String;
+
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.TextBox;
@@ -629,8 +629,8 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 			pasDriverActivityReport(policyNumber, "Permanently Revoked", "OSI1000 Test3");
 			softly.assertThat(response3.mvrReports.get(0).choicePointLicenseStatus).isEqualTo("2  SUSPENDED");
 		} else {
-			pasDriverActivityReport(policyNumber, "3 REVOKED", "OSI1000 Test3");
-			assertThat(response3.mvrReports.get(0).choicePointLicenseStatus).isEqualTo("3  REVOKED");
+			pasDriverActivityReport(policyNumber, "2 SUSPENDED", "OSI1000 Test3");
+			assertThat(response3.mvrReports.get(0).choicePointLicenseStatus).isEqualTo("2  SUSPENDED");
 		}
 
 		String oidDriver5 = addAndUpdateDriver(policyNumber, "OSI1000", "Test4", "1971-02-09", "A12387656", "CH", "AZ", "female");
@@ -822,15 +822,16 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		policy.dataGather().start();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+		if (getState().equals(Constants.States.CA)) {
 		assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.NAME_ON_LICENSE).getValue()).isEqualTo(name);
-		//assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).containsIgnoringCase(status);
 		assertThat(status.contains(aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()));
 
-		/*} else {
+		} else {
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
 			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.NAME_ON_LICENSE).getValue()).isEqualTo(name);
 			assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).containsIgnoringCase(status);
-		}*/
+
+		}
 		driverActivityReportsTab.saveAndExit();
 	}
 
