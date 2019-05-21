@@ -253,4 +253,53 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
         pas24652_ChangeFNIGeneralTabRenewal();
     }
 
+    /**
+     * @author Kiruthika Rajendran
+     * PAS-27908 - PROD ELIGIBILITY: update uw rule so PU YES claims not counted (10015015 - select) (common code, fix all 4)
+     * @name Test Offline Claims: validate UW rules is not counted when PU is Yes
+     * @scenario Test Steps:
+     * Scenario 1 - CA Choice Quote
+     * 1) In a CA Choice quote, Add a rated driver
+     * 2) Override the product Choice to Select
+     * 3) Order the Clue and MVR report in DAR page
+     * 4) Navigate back to driver tab and add the below company activities (include in points)
+     *   - three at fault accident with injury with include in points
+     *   - one at fault accident, no injury >$1000
+     *   - one minor violations
+     *   - one major violations
+     *   - One 10-yr major violations
+     * 5) Calculate the Premium and Order report and proceed to bind the quote
+     * 6) The below overrides will get triggered and cancel it
+     * Rule1 - 10051023 -- This rule fires when there is more than 2 at-fault accidents in past 3 years
+     * Rule2 - AAA_CAC7161836_CA_CHOICE -- A driver with more than 26 Violation points is unacceptable (AAA_CAC7161836)
+     * 7) Navigate back to driver tab and mark PU flag as Yes for Claims
+     * 8) Calculate the Premium and Order report and proceed to bind the quote
+     * 9) Verify the above overrides should not show up and it should bind the quote
+     *
+     * Scenario 2 - CA Choice Endorsement
+     * 1) In Endorsement, make sure there are two named insured in the General tab
+     * 2) Switch the FNI to second named insured
+     * 3) Navigate to Driver tab and add the second named insured as the driver (FNI)
+     * 4) Add the below company activities to the new driver which is a FNI (include in points)
+     *   - three at fault accident with injury with include in points
+     *   - one at fault accident, no injury >$1000
+     *   - one minor violations
+     *   - one major violations
+     *   - One 10-yr major violations
+     * 5) Calculate the Premium and Order report and proceed to bind the endorsement
+     * 6) The below overrides will get triggered and cancel it
+     * Rule1 - 10051023 -- This rule fires when there is more than 2 at-fault accidents in past 3 years
+     * Rule2 - AAA_CAC7161836_CA_CHOICE -- A driver with more than 26 Violation points is unacceptable (AAA_CAC7161836)
+     * 7) Navigate back to driver tab and mark PU flag as Yes for Claims
+     * 8) Calculate the Premium and Order report and proceed to bind the endorsement
+     * 9) Verify the above overrides should not show up and it should bind the endorsement
+     * @details Clean Path. Expected Result is that UW override rules does not show when PU flag is set as Yes
+    */
+
+     @Parameters({"state"})
+        @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+        @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-27908")
+        public void pas27908_UpdateUWRules(@Optional("CA") @SuppressWarnings("unused") String state) {
+            pas27908_UpdateUWRules();
+        }
 }

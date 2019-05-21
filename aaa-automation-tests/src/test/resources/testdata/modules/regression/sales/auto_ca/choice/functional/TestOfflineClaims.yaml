@@ -352,3 +352,147 @@ PremiumAndCoveragesTab_PUDefaulting: {
  Product: 'CA Choice',
  Payment Plan: Annual
 }
+
+Activity1: {
+  Activity Source: Company Input,
+  Type: 'Accident',
+  Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+  Description: 'Fault accident with injury',
+  Loss Payment Amount: '2000',
+  Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+  "Permissive Use Loss?": 'No',
+  "Include in Points and/or YAF?": 'Yes'
+}
+
+Activity2: {
+  Activity Source: Company Input,
+  Type: 'Accident',
+  Occurrence Date: '$<today-2M:MM/dd/yyyy>',
+  Description: 'Fault accident, no injury, damage > $1000',
+  Loss Payment Amount: '2000',
+  Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+  "Permissive Use Loss?": 'No',
+  "Include in Points and/or YAF?": 'Yes'
+}
+
+Activity3: {
+  Activity Source: 'Company Input',
+  Type: 'Accident',
+  Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+  Description: 'Fault accident with injury',
+  Loss Payment Amount: '5500',
+  Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+  "Include in Points and/or YAF?": 'Yes'
+  }
+
+Activity4: {
+    Activity Source: 'Company Input',
+    Type: 'Accident',
+    Occurrence Date: '$<today-4M:MM/dd/yyyy>',
+    Description: 'Fault accident with injury',
+    Loss Payment Amount: '5400',
+    Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    "Include in Points and/or YAF?": 'Yes'
+    }
+
+Activity5: {
+    Activity Source: 'Company Input',
+    Type: 'Minor Violation',
+    Occurrence Date: '$<today-5M:MM/dd/yyyy>',
+    Description: 'Speeding',
+    Conviction Date: '$<today-5M:MM/dd/yyyy>',
+    "Include in Points and/or YAF?": 'Yes'
+  }
+
+Activity6: {
+      Activity Source: 'Company Input',
+      Type: 'Major Violation',
+      Occurrence Date: '$<today-6M:MM/dd/yyyy>',
+      Description: 'Speeding over 100 mph',
+      Conviction Date: '$<today-6M:MM/dd/yyyy>',
+      "Include in Points and/or YAF?": 'Yes'
+   }
+
+Activity7: {
+      Activity Source: 'Company Input',
+      Type: '10-yr Major Violation',
+      Occurrence Date: '$<today-7M:MM/dd/yyyy>',
+      Description: 'Driving under the influence of drugs',
+      Conviction Date: '$<today-7M:MM/dd/yyyy>',
+      "Include in Points and/or YAF?": 'Yes'
+}
+
+TestData_DriverTab_UpdateUWRules_PU_CA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@TwoNamedInsuredGeneralTab',
+  DriverTab:  ['@Driver10']
+}
+
+Driver10: {
+Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': First Named Insured,
+  Date of Birth: 10/16/1997,
+  Age First Licensed: 18,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D1271211
+  }
+
+TestData_Activity_UWRules: {
+  DriverTab: '@DriverTab_Activity_UWRules',
+  PremiumAndCoveragesTab: '@<auto_ca_choice>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ca_choice>@DataGather@DocumentsAndBindTab',
+}
+
+DriverTab_Activity_UWRules: {
+  ActivityInformation: ['@Activity1', '@Activity2', '@Activity3', '@Activity4', '@Activity5', '@Activity6', '@Activity7' ]
+}
+
+TwoNamedInsuredGeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation3', '@NamedInsuredInformation4'],
+  AAAProductOwned: '@<auto_ca_choice>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ca_choice>@DataGather@PolicyInformation'
+}
+
+NamedInsuredInformation3: {
+  InsuredSearchDialog: {},
+  First Name: Nicolas,
+  Last Name: Smith
+}
+
+NamedInsuredInformation4: {
+  InsuredSearchDialog: {},
+  First Name: Kathy,
+  Last Name: Smith,
+}
+
+Add_Driver2_EndorsementUWRules: {
+DriverTab: ['@Driver11']
+}
+
+Driver11: {
+Add Driver: Click,
+  DriverSearchDialog:{},
+  Named Insured: "Kathy Smith",
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': First Named Insured,
+  Date of Birth: 07/04/1980,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Military,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5439898,
+  Age First Licensed: 18,
+  ActivityInformation: ['@Activity1', '@Activity2', '@Activity3', '@Activity4', '@Activity5', '@Activity6', '@Activity7']
+  }
+

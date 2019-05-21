@@ -17,7 +17,7 @@ TestData_DriverTab_ClueReconcileFNIclaims_PU_CA: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ca_select>@DataGather@GeneralTab',
   DriverTab:  ['@Driver1','@Driver6'],
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab'
 }
 
 TestData_DriverTab_ViolationsMVRFNIclaims_PU_CA: {
@@ -407,3 +407,107 @@ Activity2: {
   "Include in Points and/or YAF?": 'Yes'
 }
 
+Activity3: {
+  Activity Source: 'Company Input',
+  Type: 'Accident',
+  Occurrence Date: '$<today-4M:MM/dd/yyyy>',
+  Description: 'Fault accident with injury',
+  Loss Payment Amount: '5500',
+  Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+  "Include in Points and/or YAF?": 'Yes'
+  }
+
+Activity4: {
+    Activity Source: 'Company Input',
+    Type: 'Minor Violation',
+    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+    Description: 'Speeding',
+    Conviction Date: '$<today-3M:MM/dd/yyyy>',
+    "Include in Points and/or YAF?": 'Yes'
+  }
+
+
+TestData_DriverTab_UpdateUWRules_PU_CA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@TwoNamedInsuredGeneralTab',
+  DriverTab:  ['@Driver10'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+}
+
+Driver10: {
+Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': First Named Insured,
+  Date of Birth: 10/16/1997,
+  Age First Licensed: 18,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D1271211
+  }
+
+TestData_Activity_UWRules: {
+  DriverTab: '@DriverTab_Activity_UWRules',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ca_select>@DataGather@DocumentsAndBindTab',
+}
+
+DriverTab_Activity_UWRules: {
+  ActivityInformation: ['@Activity1', '@Activity2', '@Activity3', '@Activity4']
+}
+
+TwoNamedInsuredGeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation3', '@NamedInsuredInformation4'],
+  AAAProductOwned: '@<auto_ca_select>@DataGather@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation'
+}
+
+NamedInsuredInformation3: {
+  InsuredSearchDialog: {},
+  First Name: Nicolas,
+  Last Name: Smith
+}
+
+NamedInsuredInformation4: {
+  InsuredSearchDialog: {},
+  First Name: Kathy,
+  Last Name: Smith,
+}
+
+ContactInformation: {
+    Home Phone Number: 2342342345
+}
+
+Add_Driver2_EndorsementUWRules: {
+DriverTab: ['@Driver11'],
+DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+Driver11: {
+Add Driver: Click,
+  DriverSearchDialog:{},
+  Named Insured: "Kathy Smith",
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': First Named Insured,
+  Date of Birth: 07/04/1980,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Military,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5439898,
+  Age First Licensed: 18,
+  ActivityInformation: ['@Activity1', '@Activity2', '@Activity3', '@Activity4']
+  }
+
+DriverActivityReportsTab: {
+  Sales Agent Agreement: I Agree,
+  Validate Driving History: click
+}
