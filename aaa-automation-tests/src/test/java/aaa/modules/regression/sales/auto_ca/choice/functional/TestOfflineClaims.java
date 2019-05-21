@@ -256,7 +256,6 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-27226")
     public void pas27226_MatureDriverDiscount(@Optional("CA") @SuppressWarnings("unused") String state) {
-        //Asserting CA Mature Driver Discount is not applied
         pas27226_MatureDriverDiscount();
     }
 }
