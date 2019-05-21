@@ -1410,6 +1410,7 @@
                     <include name="pas15412_DriverAssignmentReplaceVehicle"/>
                     <include name="pas15412_DriverAssignmentReplaceVehicle1DMV"/>
                     <include name="pas15412_DriverAssignmentViewAssignments"/>
+                    <include name="pas29163_DriverAssignmentAndOddBalls"/>
                 </methods>
             </class>
         </classes>
