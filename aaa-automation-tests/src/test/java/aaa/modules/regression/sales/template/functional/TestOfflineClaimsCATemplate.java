@@ -276,8 +276,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         generalTab.submitTab();
     }
 
-
-
     /**
      * Method opens app, retrieves policy, and enters data gathering in renewal image
      * @param policyNumber
