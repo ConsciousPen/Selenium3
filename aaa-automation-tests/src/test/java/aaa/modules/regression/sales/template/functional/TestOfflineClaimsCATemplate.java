@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
+
+import aaa.main.enums.ProductConstants;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.testng.annotations.BeforeTest;
@@ -51,6 +53,7 @@ import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssertions;
 import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
@@ -84,7 +87,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     protected LocalDateTime policyExpirationDate;
     protected LocalDateTime policyEffectiveDate;
     protected String policyNumber;
-
+    private String origQuoteNum;
+    private String quoteNum1;
     protected static DriverTab driverTab = new DriverTab();
     protected static GeneralTab generalTab = new GeneralTab();
     protected static PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
@@ -100,8 +104,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     private static final String CLAIM_NUMBER_1_GDD = "Claim-GDD-111";
     private static final String CLAIM_NUMBER_2_GDD = "Claim-GDD-222";
 
-    private static final String[] CLAIM_NUMBERS_PU_DEFAULTING = {"PU_DEFAULTING_CMP","PU_DEFAULTING_1","PU_DEFAULTING_2","PU_DEFAULTING_3",
-            "PU_DEFAULTING_4","PU_DEFAULTING_5","PU_DEFAULTING_6"};
+    private static final String[] CLAIM_NUMBERS_PU_DEFAULTING = {"PU_DEFAULTING_CMP", "PU_DEFAULTING_1", "PU_DEFAULTING_2", "PU_DEFAULTING_3",
+            "PU_DEFAULTING_4", "PU_DEFAULTING_5", "PU_DEFAULTING_6"};
 
     private static final String CAS_CLUE_CLAIM = "1002-10-8704";
     private static final String CLUE_CLAIM = "1002-10-8799";
@@ -247,7 +251,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     public void bindEndorsement() {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
-        documentsAndBindTab.submitTab();
+                documentsAndBindTab.submitTab();
     }
 
     // Move to R-63, run batch job part 1 and offline claims batch job
@@ -262,6 +266,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * Method changes'First Named Insured' to the desired Insured. First Named Insured index starts at zero
+     *
      * @param namedInsuredNumber - Insured who will become the First Named Insured
      */
     public void changeFNIGeneralTab(int namedInsuredNumber) {
@@ -278,6 +283,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * Method opens app, retrieves policy, and enters data gathering in renewal image
+     *
      * @param policyNumber
      */
     public void retrieveRenewal(String policyNumber) {
@@ -696,7 +702,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     /*
     Method/Test for CA Choice & Select: TestClaimsImpactOnDiscounts.pas18303_goodDriverDiscountForPUClaims
      */
-    public void pas18303_goodDriverDiscountForPUClaims(){
+    public void pas18303_goodDriverDiscountForPUClaims() {
 
         String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
         String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(80).toLocalDate().toString();
@@ -1207,7 +1213,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      * 8. Complete and bind the endorsement
      * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver
      */
-    public void pas24652_ChangeFNIGeneralTabNBEndorsement(){
+    public void pas24652_ChangeFNIGeneralTabNBEndorsement() {
         //Create a policy with 2 drivers
         TestData testDataForFNI = getTestSpecificTD("TestData_Change_FNI_NB_Endorsement_PU_CA").resolveLinks();
         adjusted = getPolicyTD().adjust(testDataForFNI);
@@ -1219,20 +1225,20 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         //Assert that the PU claims have moved to the new FNI (Steve) and has a total of 3 claims now (one existing)
         tableDriverList.selectRow(1);
-        activityAssertions(2,1,3, 2, "Company Input", "", true); //assert the company input with Type Accident show up PU indicator
-        activityAssertions(2,1,3, 3, "Customer Input", "", true); //assert the company input with Type  Accident show up PU indicator
+        activityAssertions(2, 1, 3, 2, "Company Input", "", true); //assert the company input with Type Accident show up PU indicator
+        activityAssertions(2, 1, 3, 3, "Customer Input", "", true); //assert the company input with Type  Accident show up PU indicator
 
         //Assert that old FNI only has 2 Violation claims
         tableDriverList.selectRow(2);
-        activityAssertions(2,2,2, 1, "Company Input", "", false); //assert the company input with Type Violations do not show up PU indicator
-        activityAssertions(2,2,2, 2, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
+        activityAssertions(2, 2, 2, 1, "Company Input", "", false); //assert the company input with Type Violations do not show up PU indicator
+        activityAssertions(2, 2, 2, 2, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
 
         //Set 'Rel. to First Named Insured': Other
         driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
         driverTab.submitTab();
 
         //Continue policy until Driver Activity Reports tab
-        policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, PremiumAndCoveragesTab.class,true);
+        policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, PremiumAndCoveragesTab.class, true);
         premiumAndCoveragesTab.submitTab();
         overrideErrorTab();
 
@@ -1251,15 +1257,15 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         //On Driver tab, assert the PU claims all move back to original FNI, Nicolas: 3 Violations, 2 PU claims
         tableDriverList.selectRow(1);
-        activityAssertions(2,1,5, 1, "Company Input", "", false);
-        activityAssertions(2,1,5, 2, "Customer Input", "", false);
-        activityAssertions(2,1,5, 3, "MVR", "", false);
-        activityAssertions(2,1,5, 4, "Company Input", "", true);
-        activityAssertions(2,1,5, 5, "Customer Input", "", true);
+        activityAssertions(2, 1, 5, 1, "Company Input", "", false);
+        activityAssertions(2, 1, 5, 2, "Customer Input", "", false);
+        activityAssertions(2, 1, 5, 3, "MVR", "", false);
+        activityAssertions(2, 1, 5, 4, "Company Input", "", true);
+        activityAssertions(2, 1, 5, 5, "Customer Input", "", true);
 
         //Verify the other insured only has one claim now
         tableDriverList.selectRow(2);
-        activityAssertions(2,2,1, 1, "Customer Input", "", false);
+        activityAssertions(2, 2, 1, 1, "Customer Input", "", false);
 
         //Set 'Rel. to First Named Insured': Other
         driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
@@ -1280,27 +1286,27 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      * 6. Navigate to General Tab and change the FNI to the second Insured
      * 7. Navigate to the Driver Tab and verify the new FNI has acquired the PU claims from the previous FNI
      */
-    public void pas24652_ChangeFNIGeneralTabRenewal(){
-	    // Create Customer and Policy with two named insured' and drivers
+    public void pas24652_ChangeFNIGeneralTabRenewal() {
+        // Create Customer and Policy with two named insured' and drivers
         TestData testDataForFNI;
-	    testDataForFNI = getTestSpecificTD("TestData_Change_FNI_Renewal_PU_CA").resolveLinks();
-	    adjusted = getPolicyTD().adjust(testDataForFNI);
-	    policyNumber = openAppAndCreatePolicy(adjusted);
-	    log.info("Policy created successfully. Policy number is " + policyNumber);
+        testDataForFNI = getTestSpecificTD("TestData_Change_FNI_Renewal_PU_CA").resolveLinks();
+        adjusted = getPolicyTD().adjust(testDataForFNI);
+        policyNumber = openAppAndCreatePolicy(adjusted);
+        log.info("Policy created successfully. Policy number is " + policyNumber);
 
-	    runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
-	    generateClaimRequest();        // Download claim request and assert it
+        runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
+        generateClaimRequest();        // Download claim request and assert it
 
-	    // Create the claim response - product doesn't matter here, we only need comp and pu claims match
+        // Create the claim response - product doesn't matter here, we only need comp and pu claims match
         createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL_SELECT, CLAIM_TO_DRIVER_LICENSE_SELECT);
 
-	    runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
+        runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
 
         // Retrieve policy and enter renewal image
         retrieveRenewal(policyNumber);
-	    NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
 
-	    // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
+        // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
         tableDriverList.selectRow(1);
         activityAssertions(2, 1, 2, 1, "Internal Claims", CLAIM_NUMBER_1, true);
         activityAssertions(2, 1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
@@ -1310,8 +1316,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         //Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
         tableDriverList.selectRow(1);
-        activityAssertions(2,1,2, 1, "Customer Input", "", true);
-        activityAssertions(2,1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
+        activityAssertions(2, 1, 2, 1, "Customer Input", "", true);
+        activityAssertions(2, 1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
 
         //Assert that old FNI only has 1 Internal Claims
         tableDriverList.selectRow(2);
@@ -1321,4 +1327,96 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         DriverTab.buttonSaveAndExit.click();
     }
 
+    /**
+     * @author Saranya Hariharan
+     * PAS-27226- CA Mature Driver Discount doesn't work according to rules
+     * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added
+     * @scenario Test Steps:
+     * 1. Create Customer1.
+     * 2.Create CA_Select Quote.
+     * 3. Add 1 Driver who is eligible for MDD.
+     * 1. Driver is a rated driver AND
+     * 2. Driver is at least 50 years old AND
+     * 3. Driver had completed a Mature Driver Improvement Course approved by the California Department of Motor Vehicles within the past 3 years from the effective date of policy AND
+     * 4. Driver's License is not revoked or suspended after Mature Driver Course completion
+     * OR
+     * 5.Driver has no at-fault accidents , Major Violation or Alcohol-Related Violation that occurred after after MD Course completion date
+     * 4. Verify MDD gets applied for the Driver who has met the above Criteria.
+     * 5. Navigate to Driver Tab and add all possible activities (Customer/Company Input) according with occurence Date AFTER Mature Driver Discount Course Completion date
+     * 6. Navigate to P&C Tab and Calculate Premium and assert that Mature Driver Discount is not applied in the Discount section.
+     * 7.Continue the steps and Create Policy
+     * *********Endorsement Scneario***********
+     * 1.Retrieve the policy created and initiate Mid Term Endorsement.
+     * 2.Add a New Driver Eligible for MDD
+     * 3.Navigate to P&C tab and verify that MDD is applied
+     * 4.Add activities to the Newly added Driver
+     * 5.Verify in P&C Tab Discount section that MDD goes away for the Newly added Driver
+     * 6.Continue the steps and Bind the Endorsement.
+     */
+    public void pas27226_MatureDriverDiscount() {
+        //Asserting CA Mature Driver Discount is not applied
+        TestData testDataForMDD = getTestSpecificTD("TestData_Discounts").resolveLinks();
+       TestData td_activity = getTestSpecificTD("TestData_Activity_MDD");
+       TestData td_driver_endorse = getTestSpecificTD("TestData_MDD_Endorse");
+        createQuoteAndFillUpTo(testDataForMDD, FormsTab.class);
+      new FormsTab().submitTab();
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Mature Driver Discount");
+        //Order Reports in the DAR page
+       NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+       driverActivityReportsTab.fillTab(td_activity).submitTab();
+        //Navigate to Driver and Add Activities to the Second Driver who is Eligible for Mature Driver Discount
+       NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+       tableDriverList.selectRow(2);
+       driverTab.fillTab(td_activity);
+        //Calculate Premium and Assert that Mature Driver Discount does not exist.
+       NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+       assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount");
+       premiumAndCoveragesTab.fillTab(td_activity).submitTab();
+       TestData td = getPolicyTD()
+               .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
+               .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
+       driverActivityReportsTab.fillTab(td).submitTab();
+       documentsAndBindTab.fillTab(td_activity).submitTab();
+        if (errorTab.isVisible()) {
+            errorTab.overrideAllErrors();
+            errorTab.buttonOverride.click();
+           documentsAndBindTab.submitTab();
+       }
+        purchaseTab.fillTab(td_activity).submitTab();
+        String policyNum = labelPolicyNumber.getValue();
+        TestData td_activity1 = getTestSpecificTD("TestData_Activity_MDD_Endorse");
+        SearchPage.openPolicy(policyNum);
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus30Days"));
+        //Add a Driver who is Eligible for MDD in Mid Term Endorsement and Verify MDD is applied
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        driverTab.fillTab(td_driver_endorse).submitTab();
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+       // assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Mature Driver Discount");
+        //premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+        driverActivityReportsTab.fillTab(td_activity1).submitTab();
+        //Navigate to Driver and add Activities
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        tableDriverList.selectRow(3);
+        driverTab.fillTab(td_activity1);
+        //Assert that MDD does not exist for the newly added driver
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
+        // assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount");
+        //new PremiumAndCoveragesTab().submitTab();
+         td= getPolicyTD()
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT.getLabel()))
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
+
+        driverActivityReportsTab.fillTab(td_activity1).submitTab();
+        documentsAndBindTab.fillTab(td_activity1).submitTab();
+       if (errorTab.isVisible()) {
+          errorTab.overrideAllErrors();
+            errorTab.buttonOverride.click();
+            documentsAndBindTab.submitTab();
+        }
+    }
 }
+
