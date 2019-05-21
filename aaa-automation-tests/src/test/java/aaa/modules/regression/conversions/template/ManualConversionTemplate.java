@@ -14,6 +14,7 @@ import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -27,7 +28,11 @@ public class ManualConversionTemplate extends PolicyBaseTest {
 	protected void manualRenewalEntryToActivePolicy() {
 		ErrorTab errorTab = new ErrorTab();
 		// This date is specific for Manual Review and not equal to RENEW_GENERATE_DATE
-		effDate = TimeSetterUtil.getInstance().getPhaseStartTime().plusDays(45);
+		if (getPolicyType().equals(PolicyType.PUP) && getState().equals("WY")) {
+			effDate = TimeSetterUtil.getInstance().getPhaseStartTime().plusDays(48);
+		} else {
+			effDate = TimeSetterUtil.getInstance().getPhaseStartTime().plusDays(45);
+		}
 		mainApp().open();
 		createCustomerIndividual();
 		TestData policyTd = getConversionPolicyDefaultTD();
