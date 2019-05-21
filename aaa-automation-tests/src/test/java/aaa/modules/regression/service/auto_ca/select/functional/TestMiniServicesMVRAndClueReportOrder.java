@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.auto_ca.select.functional;
 
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -30,8 +31,9 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
         @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
         @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15431"})
         public void pas15431_reportOrderAndDriver(@Optional("CA") String state) {
-            pas15369_reportOrderAndDriverBody(); //TODO-mstrazds: Not in suite. Needs to be finished verified in scope of PAS-29245 in Sprint 55
-
+                assertSoftly(softly ->
+            pas15369_reportOrderAndDriverBody(softly)//TODO-mstrazds: Not in suite. Needs to be finished verified in scope of PAS-29245 in Sprint 55
+        );
         }
 
         /**
@@ -95,6 +97,29 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
         public void pas16694_orderReports_not_Named_Insured_endorsement(@Optional("CA") String state) {
 
                 pas16694_orderReports_not_Named_Insured_endorsementBody(getPolicyType());
+        }
+
+
+        /**
+         * @author Megha Gubbala
+         * @name Report Information and the Conviction Date and driver reports
+         * @scenario 1. Create policy.
+         * 2. Create endorsement outside of PAS.
+         * 3. Add driver with: Accident fault Violation
+         * 4. Verify response on DXP in License status and conviction date as correct
+         * 5. Check Pas And verify if the dates are matching to pas.
+         * 6. Verify driver activity and verify status there.
+         */
+        @Parameters({"state"})
+        @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+        @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-29245"})
+        public void pas29245_reportOrderAndDriver_License_status(@Optional("CA") String state) {
+
+                assertSoftly(softly ->
+                        pas15369_reportOrderAndDriverBody(softly)
+                );
+
+
         }
 }
 
