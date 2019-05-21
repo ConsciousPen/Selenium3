@@ -1438,4 +1438,26 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="Moratoriums - CA Select" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesMoratorium">
+                <methods>
+                    <include name="pas21466_GarageAddressUnderTheMoratorium"/>
+                    <include name="pas21466_GarageAddressUnderTheMoratoriumPart2"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="Moratoriums - CA Choice" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesMoratorium">
+                <methods>
+                    <include name="pas21466_GarageAddressUnderTheMoratorium"/>
+                    <include name="pas21466_GarageAddressUnderTheMoratoriumPart2"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
