@@ -28,7 +28,6 @@ import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
-import toolkit.verification.CustomAssertions;
 
 public class Scenario5 extends ScenarioBaseTest {
 
@@ -66,7 +65,7 @@ public class Scenario5 extends ScenarioBaseTest {
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssertions.assertThat(installmentDueDates.size()).as("Billing Installments count for Monthly (Eleven Pay) payment plan").isEqualTo(installmentsCount);
+		assertThat(installmentDueDates.size()).as("Billing Installments count for Monthly (Eleven Pay) payment plan").isEqualTo(installmentsCount);
 
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
@@ -192,6 +191,7 @@ public class Scenario5 extends ScenarioBaseTest {
 	public void generateFirstEPBillOneDayBefore() {
 		LocalDateTime epDate = getTimePoints().getEarnedPremiumBillFirst(installmentDueDates.get(2)).minusDays(1);
 		TimeSetterUtil.getInstance().nextPhase(epDate);
+		JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob);
 		JobUtils.executeJob(Jobs.earnedPremiumBillGenerationJob);
 
 		mainApp().open();
@@ -279,6 +279,7 @@ public class Scenario5 extends ScenarioBaseTest {
 
 	protected void generateAndCheckEarnedPremiumBill(LocalDateTime date, DocGenEnum.Documents document) {
 		TimeSetterUtil.getInstance().nextPhase(date);
+		JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob);
 		JobUtils.executeJob(Jobs.earnedPremiumBillGenerationJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, document);
 		mainApp().open();
