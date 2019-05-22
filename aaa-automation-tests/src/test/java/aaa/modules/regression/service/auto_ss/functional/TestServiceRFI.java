@@ -6,9 +6,6 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NA
 import static aaa.main.enums.ErrorEnum.Errors.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -25,10 +22,8 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.rest.dtoAdmin.RfiDocumentResponse;
 import aaa.helpers.rest.dtoDxp.*;
-import aaa.helpers.xml.model.Document;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.*;
@@ -50,7 +45,7 @@ import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import javax.ws.rs.core.Response;
 
-public class TestServiceRFI extends AutoSSBaseTest {
+public class TestServiceRFI extends TestRFIHelper {
 	private static final String VIN_LESS_THAN_7_YEARS = "WAUDGAFL1EA123034";
 	private static final String VIN_MORE_THAN_7_YEARS = "WBAAD1300J8851614";
 	private final VehicleTab vehicleTab = new VehicleTab();
@@ -60,7 +55,6 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private final PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private ErrorTab errorTab = new ErrorTab();
 	private static final TestMiniServicesVehiclesHelper VEH_HELPER = new TestMiniServicesVehiclesHelper();
-	private static final TestMiniServicesCoveragesHelper COV_HELPER = new TestMiniServicesCoveragesHelper();
 
 	private ComboBox tortCoverage = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.TORT_THRESHOLD);
 	private ComboBox biCoverage = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY);
@@ -374,31 +368,6 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		verifyRFIScenarios("UMSU", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_STACKED_UNSTACKED, CoverageLimits.COV_UNSTACKED.getLimit(), CoverageLimits.COV_STACKED.getDisplay(), document, documentAsset, error, td, true, true);
 	}
 
-	private void verifyRFIScenarios(String coverageCd, AssetDescriptor<? extends AbstractEditableStringElement> coverageAsset, String updateLimitDXP, String updateLimitPAS, DocGenEnum.Documents document, AssetDescriptor<RadioGroup> documentAsset, ErrorEnum.Errors error, TestData td, boolean checkDocXML, boolean isRuleOverridden) {
-		assertSoftly(softly -> {
-
-			String policyNumber = policyCreationForRFI(coverageCd, updateLimitDXP, td);
-			String doccId = checkDocumentInRfiService(policyNumber, document.getId(), document.getName());
-			bindEndorsement(policyNumber, doccId, error.getCode(), error.getMessage(), isRuleOverridden);
-
-			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, document.getIdInXml(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
-			if (checkDocXML) {
-				verifyDocInDb(softly, query, document, true); //tags expected only for Electronically signed doc
-			}
-
-			//Go to PAS and verify
-			goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, documentAsset, coverageAsset, updateLimitPAS, error, isRuleOverridden);
-			//Verify Signed by is not there in XML when Signed from PAS UI.
-			if (checkDocXML) {
-				if ((document.equals(DocGenEnum.Documents.AA52UPAA) || document.equals(DocGenEnum.Documents.AA52IPAA) || document.equals(DocGenEnum.Documents.AAFPPA)) && !isRuleOverridden) { //isRuleOverridden means that Document was not signed.
-					DocGenHelper.checkDocumentsDoesNotExistInXml(policyNumber, AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE, document);// Document does not exist
-				} else {
-					validateDocSignTagsNotExist(document, query); //Document doesn't contain DocSignTags if signed in PAS
-				}
-			}
-		});
-	}
-
 	/**
 	 * @name RFI AA52IPAA Form
 	 * @scenario 1
@@ -450,11 +419,6 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		verifyRFIScenarios("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_50100.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, true, true);
 		verifyRFIScenarios("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_00.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, true, true);
 		verifyRFIScenarios("UIMSU", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_STACKED_UNSTACKED, CoverageLimits.COV_UNSTACKED.getLimit(), CoverageLimits.COV_STACKED.getDisplay(), document, documentAsset, error, td, true, true);
-	}
-
-	private void validateDocSignTagsNotExist(DocGenEnum.Documents document, String query) {
-		assertThat(DocGenHelper.getDocument(document, query).toString().contains("DocSignedBy")).isFalse();
-		assertThat(DocGenHelper.getDocument(document, query).toString().contains("DocSignedDate")).isFalse();
 	}
 
 	/**
@@ -1355,43 +1319,6 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		});
 	}
 
-	private String checkDocumentInRfiService(String policyNumber, String documentCode, String documentName) {
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
-		RFIDocument rfiDocument = rfiServiceResponse.documents.stream().filter(document -> document.documentCode.equals(documentCode)).findFirst().orElse(null);
-		assertSoftly(softly -> {
-
-			softly.assertThat(rfiServiceResponse.url).isNull();
-			softly.assertThat(rfiDocument.documentCode).isEqualTo(documentCode);
-			softly.assertThat(rfiDocument.documentName).isEqualTo(documentName);
-			softly.assertThat(rfiDocument.documentId).startsWith(documentCode);
-			softly.assertThat(rfiDocument.status).startsWith("NS");
-			softly.assertThat(rfiDocument.parent).isEqualTo("policy");
-			softly.assertThat(rfiDocument.parentOid).isNotEmpty();
-
-			RFIDocuments rfiServiceResponse2 = HelperCommon.rfiViewService(policyNumber, true);
-			softly.assertThat(rfiServiceResponse2.url).endsWith(".pdf");
-			softly.assertThat(rfiServiceResponse2.documents).isNotEmpty();
-
-			//Verify that URL works
-			HttpURLConnection con = null;
-			try {
-				URL url = new URL(rfiServiceResponse2.url);
-				con = (HttpURLConnection) url.openConnection();
-				con.setRequestMethod("GET");
-				softly.assertThat(con.getResponseCode()).isEqualTo(Response.Status.OK.getStatusCode());
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				if (con != null) {
-					con.disconnect();
-				}
-			}
-
-		});
-		return rfiDocument.documentId;
-	}
-
 	/**
 	 * @author Oleg Stasyuk
 	 * @name RFI
@@ -1860,93 +1787,10 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 	}
 
-	private void bindEndorsement(String policyNumber, String doccId, String errorCode, String errorMessage, boolean isRuleOverridden) {
-		if (!isRuleOverridden) {
-			//Check that rule is fired when rule is not overridden. Not checking if rule is fired without signing, as per Digital flow it must always be signed.
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, errorCode, errorMessage);
-		}
-		//Bind policy with docId for successful bind and document is electronically signed. Not checking if rule is fired without signing, as per Digital flow it must always be signed.
-		HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), doccId);
-	}
-
-	private String policyCreationForRFI(String coverageId, String newCoverage, TestData td) {
-		//Create Policy
-		String policyNumber = openAppAndCreatePolicy(td);
-
-		//Create endorsement
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		//update coverage
-		if (getState().equals(Constants.States.NJ) && coverageId.equals(CoverageInfo.PIPPRIMINS_NJ.getCode())) {
-			Coverage covToUpdatePIPPRIMINS = Coverage.create(CoverageInfo.PIPPRIMINS_NJ).changeLimit(CoverageLimits.COV_PIPPRIMINS_PERSONAL_HEALTH_INSURANCE).addInsurerName("John"). addCertNum("12345");
-			COV_HELPER.updateCoverageWithInsNameAndCertNum(policyNumber, covToUpdatePIPPRIMINS);
-		} else {
-			HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageId, newCoverage), PolicyCoverageInfo.class);
-		}
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		//TODO-mstrazds: no document needs to be signed ?
-		return policyNumber;
-	}
-
-	private void verifyDocInDb(ETCSCoreSoftAssertions softly, String query, DocGenEnum.Documents document, boolean isDocSignTagsExpected) {
-		if (isDocSignTagsExpected) {
-			Document docInXml = DocGenHelper.getDocument(document, query);
-			String name = DocGenHelper.getDocumentDataElemByName("DocSignedBy", docInXml).getDataElementChoice().getTextField();
-			String date = DocGenHelper.getDocumentDataElemByName("DocSignedDate", docInXml).getDataElementChoice().getDateTimeField();
-			String currentDate = DateTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-			softly.assertThat(name).isEqualTo("Megha Gubbala");
-			softly.assertThat(date).startsWith(currentDate);
-			softly.assertThat(date).endsWith("-07:00"); // validates that the document's DocSignedDate ends with an AZ timestamp
-		} else {
-			validateDocSignTagsNotExist(document, query);
-		}
-	}
-
 
 	private void verifyDocInDb(ETCSCoreSoftAssertions softly, String policyNumber, AaaDocGenEntityQueries.EventNames event, DocGenEnum.Documents document, boolean isDocSignTagsExpected) {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, document.getIdInXml(), event);
 		verifyDocInDb(softly, query, document, isDocSignTagsExpected);
-	}
-
-	private void goToPasAndVerifyRuleAndSignedBy(ETCSCoreSoftAssertions softly, String policyNumber,
-			AssetDescriptor<RadioGroup> documentAsset, AssetDescriptor<? extends AbstractEditableStringElement> coverageAsset,
-			String coverageLimit, ErrorEnum.Errors error, boolean isRuleOverridden) {
-		//create endorsement from pas go to bind page verify document is electronically signed
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).getValue()).isEqualTo("Electronically Signed");
-
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		//From P&C page change coverage again to verify signed by is resetting to  not signed
-		if ((getState().equals(Constants.States.NJ) && coverageAsset.equals(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.MEDICAL_EXPENSE)) ||
-				(getState().equals(Constants.States.NJ) && coverageAsset.equals(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.PRIMARY_INSURER))) {
-			premiumAndCoveragesTab.setPolicyPersonalInjuryProtectionCoverageDetailsValue(coverageAsset.getLabel(), coverageLimit);
-		} else {
-			premiumAndCoveragesTab.setPolicyCoverageDetailsValue(coverageAsset.getLabel(), coverageLimit);
-		}
-
-		if (getState().equals(Constants.States.NJ) && coverageAsset.equals(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.PRIMARY_INSURER) && coverageLimit.equals(CoverageLimits.COV_PIPPRIMINS_PERSONAL_HEALTH_INSURANCE.getDisplay())) {
-			premiumAndCoveragesTab.setPolicyPersonalInjuryProtectionCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.INSURER_NAME.getLabel()
-					, "Peter");
-			premiumAndCoveragesTab.setPolicyPersonalInjuryProtectionCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.POLICY_GROUP_NUM_CERTIFICATE_NUM.getLabel()
-					, "658585");
-		}
-
-		premiumAndCoveragesTab.calculatePremium();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		//add line to verify not signed
-		softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).getValue()).isEqualTo("Not Signed");
-		documentsAndBindTab.submitTab();
-		if (!isRuleOverridden) {
-			//On bind verify error message
-			errorTab.verify.errorsPresent(true, error);
-			errorTab.cancel();
-			//Physically sign the doccument and bind policy
-			documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).setValue("Physically Signed");
-			documentsAndBindTab.submitTab();
-		}
 	}
 
 	private void carcoNeededNotNeededInsidePASAddReplaceVehicle(boolean baseDateGreaterThanThreshold, int baseDateRange, boolean is1000MilesQuestionRequired,
