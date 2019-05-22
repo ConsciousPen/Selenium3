@@ -1,4 +1,4 @@
-package aaa.modules.regression.service.auto_ca.choice.functional;
+package aaa.modules.regression.service.auto_ca.select.functional;
 
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
@@ -8,8 +8,8 @@ import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.modules.regression.service.helper.HelperMiniServices;
 import aaa.modules.regression.service.helper.TestRFIHelper;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -24,6 +24,11 @@ import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import static aaa.main.enums.ErrorEnum.Errors.ERROR_AAA_CSA6100815;
 
 public class TestServiceRFI extends TestRFIHelper {
+
+    @Override
+    protected PolicyType getPolicyType() {
+        return PolicyType.AUTO_CA_SELECT;
+    }
 
     /**
      * @name RFI AA52UPAA Form
