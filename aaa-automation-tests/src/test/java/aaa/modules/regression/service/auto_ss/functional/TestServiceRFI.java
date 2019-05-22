@@ -9,9 +9,11 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.main.enums.*;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.common.enums.Constants;
@@ -40,8 +42,10 @@ import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
+import toolkit.webdriver.controls.AbstractEditableStringElement;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import javax.ws.rs.core.Response;
 
@@ -2204,6 +2208,37 @@ public class TestServiceRFI extends TestRFIHelper {
 			softly.assertThat(rfiServiceResponse.url).isNull();
 			softly.assertThat(rfiServiceResponse.documents.isEmpty()).isTrue();
 		});
+	}
+
+	@Override
+	protected AssetList getDocumentAssetList() {
+		return documentsAndBindTab.getRequiredToBindAssetList();
+	}
+
+	@Override
+	protected Tab getDocumentsAndBindTab() {
+		return documentsAndBindTab;
+	}
+
+	@Override
+	protected void updatePremiumAndCoveragesTab(AssetDescriptor<? extends AbstractEditableStringElement> coverageAsset, String coverageLimit) {
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		//From P&C page change coverage again to verify signed by is resetting to  not signed
+		if ((getState().equals(Constants.States.NJ) && coverageAsset.equals(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.MEDICAL_EXPENSE)) ||
+				(getState().equals(Constants.States.NJ) && coverageAsset.equals(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.PRIMARY_INSURER))) {
+			premiumAndCoveragesTab.setPolicyPersonalInjuryProtectionCoverageDetailsValue(coverageAsset.getLabel(), coverageLimit);
+		} else {
+			premiumAndCoveragesTab.setPolicyCoverageDetailsValue(coverageAsset.getLabel(), coverageLimit);
+		}
+
+		if (getState().equals(Constants.States.NJ) && coverageAsset.equals(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.PRIMARY_INSURER) && coverageLimit.equals(CoverageLimits.COV_PIPPRIMINS_PERSONAL_HEALTH_INSURANCE.getDisplay())) {
+			premiumAndCoveragesTab.setPolicyPersonalInjuryProtectionCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.INSURER_NAME.getLabel()
+					, "Peter");
+			premiumAndCoveragesTab.setPolicyPersonalInjuryProtectionCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.POLICY_GROUP_NUM_CERTIFICATE_NUM.getLabel()
+					, "658585");
+		}
+
+		premiumAndCoveragesTab.calculatePremium();
 	}
 }
 

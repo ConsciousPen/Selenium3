@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.helper;
 
+import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -9,16 +10,18 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.*;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.AbstractEditableStringElement;
 import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 import javax.ws.rs.core.Response;
@@ -31,10 +34,8 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NA
 import static org.assertj.core.api.Assertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
-public class TestRFIHelper extends PolicyBaseTest {
+public abstract class TestRFIHelper extends PolicyBaseTest {
     private static final TestMiniServicesCoveragesHelper COV_HELPER = new TestMiniServicesCoveragesHelper();
-    private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
-    private final PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
     private ErrorTab errorTab = new ErrorTab();
     private HelperMiniServices helperMiniServices = new HelperMiniServices();
 
@@ -150,36 +151,20 @@ public class TestRFIHelper extends PolicyBaseTest {
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).getValue()).isEqualTo("Electronically Signed");
+        softly.assertThat(getDocumentAssetList().getAsset(documentAsset).getValue()).isEqualTo("Electronically Signed");
 
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        //From P&C page change coverage again to verify signed by is resetting to  not signed
-        if ((getState().equals(Constants.States.NJ) && coverageAsset.equals(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.MEDICAL_EXPENSE)) ||
-                (getState().equals(Constants.States.NJ) && coverageAsset.equals(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.PRIMARY_INSURER))) {
-            premiumAndCoveragesTab.setPolicyPersonalInjuryProtectionCoverageDetailsValue(coverageAsset.getLabel(), coverageLimit);
-        } else {
-            premiumAndCoveragesTab.setPolicyCoverageDetailsValue(coverageAsset.getLabel(), coverageLimit);
-        }
-
-        if (getState().equals(Constants.States.NJ) && coverageAsset.equals(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.PRIMARY_INSURER) && coverageLimit.equals(CoverageLimits.COV_PIPPRIMINS_PERSONAL_HEALTH_INSURANCE.getDisplay())) {
-            premiumAndCoveragesTab.setPolicyPersonalInjuryProtectionCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.INSURER_NAME.getLabel()
-                    , "Peter");
-            premiumAndCoveragesTab.setPolicyPersonalInjuryProtectionCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.POLICY_GROUP_NUM_CERTIFICATE_NUM.getLabel()
-                    , "658585");
-        }
-
-        premiumAndCoveragesTab.calculatePremium();
+        updatePremiumAndCoveragesTab(coverageAsset, coverageLimit);
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         //add line to verify not signed
-        softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).getValue()).isEqualTo("Not Signed");
-        documentsAndBindTab.submitTab();
+        softly.assertThat(getDocumentAssetList().getAsset(documentAsset).getValue()).isEqualTo("Not Signed");
+        getDocumentsAndBindTab().submitTab();
         if (!isRuleOverridden) {
             //On bind verify error message
             errorTab.verify.errorsPresent(true, error);
             errorTab.cancel();
             //Physically sign the doccument and bind policy
-            documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).setValue("Physically Signed");
-            documentsAndBindTab.submitTab();
+            getDocumentAssetList().getAsset(documentAsset).setValue("Physically Signed");
+            getDocumentsAndBindTab().submitTab();
         }
     }
 
@@ -187,4 +172,10 @@ public class TestRFIHelper extends PolicyBaseTest {
         assertThat(DocGenHelper.getDocument(document, query).toString().contains("DocSignedBy")).isFalse();
         assertThat(DocGenHelper.getDocument(document, query).toString().contains("DocSignedDate")).isFalse();
     }
+
+    protected abstract AssetList getDocumentAssetList();
+
+    protected abstract Tab getDocumentsAndBindTab();
+
+    protected abstract void updatePremiumAndCoveragesTab(AssetDescriptor<? extends AbstractEditableStringElement> coverageAsset, String coverageLimit);
 }

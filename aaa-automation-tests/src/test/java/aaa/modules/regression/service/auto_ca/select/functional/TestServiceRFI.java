@@ -1,15 +1,19 @@
 package aaa.modules.regression.service.auto_ca.select.functional;
 
+import aaa.common.Tab;
 import aaa.common.enums.Constants;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.CoverageLimits;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.regression.service.helper.TestRFIHelper;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -18,12 +22,16 @@ import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.AbstractEditableStringElement;
 import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 import static aaa.main.enums.ErrorEnum.Errors.ERROR_AAA_CSA6100815;
 
 public class TestServiceRFI extends TestRFIHelper {
+    private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+    private final PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
     @Override
     protected PolicyType getPolicyType() {
@@ -64,18 +72,35 @@ public class TestServiceRFI extends TestRFIHelper {
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-27225"})
     public void pas27225_550007(@Optional("CA") String state) {
         DocGenEnum.Documents document = DocGenEnum.Documents._550007;
-        AssetDescriptor<RadioGroup> documentAsset = AutoCaMetaData.DocumentsAndBindTab.DocumentsForPrinting.OPERATOR_EXCLUSION_ENDORSEMENT_AND_UNINSURED_MOTORIST_COVERAGE;
+        AssetDescriptor<RadioGroup> documentAsset = AutoCaMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_MOTORIST_COVERAGE_DELETION_OR_SELECTION_OF_LIMITS_AGREEMENT;
         ErrorEnum.Errors error = ERROR_AAA_CSA6100815;
 
         // scenario 1
         TestData td = getPolicyDefaultTD();
-        verifyRFIScenarios("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_2550.getLimit(), CoverageLimits.COV_00.getDisplay(), document, documentAsset, error, td, true, false);
+        verifyRFIScenarios("UMBI", AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_2550.getLimit(), CoverageLimits.COV_00.getDisplay(), document, documentAsset, error, td, false, false);
 
         // sceanrio 2
         // Create policy and override rule
-        td.adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNUNSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION.getLabel()), "Not Signed");
+        td.adjust(TestData.makeKeyPath(AutoCaMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoCaMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AutoCaMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_MOTORIST_COVERAGE_DELETION_OR_SELECTION_OF_LIMITS_AGREEMENT.getLabel()), "Not Signed");
         TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
-        td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
-        verifyRFIScenarios("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_1530.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, true, true);
+        td = td.adjust(AutoCaMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+        verifyRFIScenarios("UMBI", AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_1530.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, true, true);
+    }
+
+    @Override
+    protected AssetList getDocumentAssetList() {
+        return documentsAndBindTab.getRequiredToBindAssetList();
+    }
+
+    @Override
+    protected Tab getDocumentsAndBindTab() {
+        return documentsAndBindTab;
+    }
+
+    @Override
+    protected void updatePremiumAndCoveragesTab(AssetDescriptor<? extends AbstractEditableStringElement> coverageAsset, String coverageLimit) {
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(coverageAsset).setValue("contains=" + coverageLimit);
+        premiumAndCoveragesTab.calculatePremium();
     }
 }
