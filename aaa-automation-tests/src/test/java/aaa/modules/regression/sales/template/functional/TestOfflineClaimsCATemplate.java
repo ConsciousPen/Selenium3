@@ -251,7 +251,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     public void bindEndorsement() {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
-                documentsAndBindTab.submitTab();
+        documentsAndBindTab.submitTab();
     }
 
     // Move to R-63, run batch job part 1 and offline claims batch job
@@ -1332,23 +1332,23 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      * PAS-27226- CA Mature Driver Discount doesn't work according to rules
      * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added
      * @scenario Test Steps:
-     * 1. Create Customer1.
-     * 2.Create CA_Select Quote.
+     * 1. Create Customer.
+     * 2. Create CA_Select /Choice Quote.
      * 3. Add 1 Driver who is eligible for MDD.
-     * 1. Driver is a rated driver AND
-     * 2. Driver is at least 50 years old AND
-     * 3. Driver had completed a Mature Driver Improvement Course approved by the California Department of Motor Vehicles within the past 3 years from the effective date of policy AND
-     * 4. Driver's License is not revoked or suspended after Mature Driver Course completion
-     * OR
-     * 5.Driver has no at-fault accidents , Major Violation or Alcohol-Related Violation that occurred after after MD Course completion date
-     * 4. Verify MDD gets applied for the Driver who has met the above Criteria.
-     * 5. Navigate to Driver Tab and add all possible activities (Customer/Company Input) according with occurence Date AFTER Mature Driver Discount Course Completion date
-     * 6. Navigate to P&C Tab and Calculate Premium and assert that Mature Driver Discount is not applied in the Discount section.
+     *   1. Driver is a rated driver AND
+     *   2. Driver is at least 50 years old AND
+     *   3. Driver had completed a Mature Driver Improvement Course approved by the California Department of Motor Vehicles within the past 3 years from the effective date of policy AND
+     *   4. Driver's License is not revoked or suspended after Mature Driver Course completion
+     *   OR
+     *   5.Driver has no at-fault accidents , Major Violation or Alcohol-Related Violation that occurred after after MD Course completion date
+     * 4. Verify MDD gets applied in the Premium and Coverages Discount Section for the Driver who has met the above Criteria.
+     * 5. Navigate to Driver Tab and add all possible activities (Customer/Company Input) according with occurrence Date AFTER Mature Driver Discount Course Completion date
+     * 6. Navigate to P&C Tab and Calculate Premium and assert that Mature Driver Discount is not applied in the Discount section for the Driver who has Convictions.
      * 7.Continue the steps and Create Policy
      * *********Endorsement Scneario***********
      * 1.Retrieve the policy created and initiate Mid Term Endorsement.
      * 2.Add a New Driver Eligible for MDD
-     * 3.Navigate to P&C tab and verify that MDD is applied
+     * 3.Navigate to P&C tab and verify that MDD is applied to the newly added driver.
      * 4.Add activities to the Newly added Driver
      * 5.Verify in P&C Tab Discount section that MDD goes away for the Newly added Driver
      * 6.Continue the steps and Bind the Endorsement.
@@ -1358,10 +1358,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         TestData testDataForMDD = getTestSpecificTD("TestData_Discounts").resolveLinks();
         TestData td_activity = getTestSpecificTD("TestData_Activity_MDD");
         TestData td_driver_endorse = getTestSpecificTD("TestData_MDD_Endorse");
-        createQuoteAndFillUpTo(testDataForMDD, FormsTab.class);
-        new FormsTab().submitTab();
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Mature Driver Discount");
+        createQuoteAndFillUpTo(testDataForMDD,PremiumAndCoveragesTab.class,false);
+        assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Mature Driver Discount (Tom Johns)");
         //Order Reports in the DAR page
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
         driverActivityReportsTab.fillTab(td_activity).submitTab();
@@ -1369,19 +1367,17 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         tableDriverList.selectRow(2);
         driverTab.fillTab(td_activity);
-        //Calculate Premium and Assert that Mature Driver Discount does not exist.
+        // Assert that Mature Driver Discount does not exist.
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-      //  assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount");
+        assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount");
+        //Calculate Premium and create policy
         premiumAndCoveragesTab.fillTab(td_activity).submitTab();
-        TestData td = getPolicyTD()
-               .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
-               .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
-        driverActivityReportsTab.fillTab(td).submitTab();
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.fillTab(td_activity).submitTab();
         if (errorTab.isVisible()) {
             errorTab.overrideAllErrors();
             errorTab.buttonOverride.click();
-           documentsAndBindTab.submitTab();
+            documentsAndBindTab.submitTab();
         }
         purchaseTab.fillTab(td_activity).submitTab();
         String policyNum = labelPolicyNumber.getValue();
@@ -1392,31 +1388,32 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         driverTab.fillTab(td_driver_endorse).submitTab();
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-       // assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Mature Driver Discount");
-        //premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
-        driverActivityReportsTab.fillTab(td_activity1).submitTab();
-        //Navigate to Driver and add Activities
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-        tableDriverList.selectRow(3);
-        driverTab.fillTab(td_activity1);
-        //Assert that MDD does not exist for the newly added driver
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
-        // assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount");
-        //new PremiumAndCoveragesTab().submitTab();
-         td= getPolicyTD()
-                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
-                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT.getLabel()))
-                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
-
-        driverActivityReportsTab.fillTab(td_activity1).submitTab();
-        documentsAndBindTab.fillTab(td_activity1).submitTab();
-       if (errorTab.isVisible()) {
-          errorTab.overrideAllErrors();
-            errorTab.buttonOverride.click();
-            documentsAndBindTab.submitTab();
-        }
+        assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Mature Driver Discount (Tom Johns)");
+//        //premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
+//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+//        driverActivityReportsTab.fillTab(td_activity1).submitTab();
+//        //Navigate to Driver and add Activities
+//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+//        tableDriverList.selectRow(3);
+//        driverTab.fillTab(td_activity1);
+//        //Assert that MDD does not exist for the newly added driver
+//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+//        premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
+//         assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount");
+//        //new PremiumAndCoveragesTab().submitTab();
+//         td= getPolicyTD()
+//                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
+//                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT.getLabel()))
+//                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
+//
+//        driverActivityReportsTab.fillTab(td_activity1).submitTab();
+//        documentsAndBindTab.fillTab(td_activity1).submitTab();
+//       if (errorTab.isVisible()) {
+//          errorTab.overrideAllErrors();
+//            errorTab.buttonOverride.click();
+//            documentsAndBindTab.submitTab();
+//        }
+//    }
     }
 }
 

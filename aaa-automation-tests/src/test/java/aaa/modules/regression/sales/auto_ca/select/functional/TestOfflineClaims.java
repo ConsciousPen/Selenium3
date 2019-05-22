@@ -292,6 +292,14 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
 	public void pas24652_ChangeFNIGeneralTabRenewal(@Optional("CA") @SuppressWarnings("unused") String state) {
 		pas24652_ChangeFNIGeneralTabRenewal();
 	}
+
+    /**
+     * @author Saranya Hariharan
+     * PAS-27226: CA Mature Driver Discount doesn't work according to rules
+     * @name Validate MDD does not gets applied to the Driver who has violated the Underlying rules.
+     * @scenario NB and Endorsement: See Template For Details and steps
+     * @details Clean Path. Expected Result is that Mature Driver Discount does not get applied if there are not according to discount eligibility rules.
+     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-27226")
