@@ -99,7 +99,6 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
                 pas16694_orderReports_not_Named_Insured_endorsementBody(getPolicyType());
         }
 
-
         /**
          * @author Megha Gubbala
          * @name Report Information and the Conviction Date and driver reports
@@ -114,12 +113,28 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
         @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
         @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-29245"})
         public void pas29245_reportOrderAndDriver_License_status(@Optional("CA") String state) {
-
                 assertSoftly(softly ->
                         pas15369_reportOrderAndDriverBody(softly)
                 );
+        }
 
-
+        /**
+         * @author Megha Gubbala
+         * @name Report Information and the Conviction Date and driver reports
+         * @scenario 1. Create policy.
+         * 2. Create endorsement outside of PAS.
+         * 3. Add driver with: Accident fault Violation
+         * 4. Verify response on DXP in License status and conviction date as correct
+         * 5. Check Pas And verify if the dates are matching to pas.
+         * 6. Verify driver activity and verify status there.
+         */
+        @Parameters({"state"})
+        @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+        @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-29245"})
+        public void pas27222_UnderwritingRulesCASelectAAA_CSA3292736(@Optional("CA") String state) {
+                assertSoftly(softly ->
+                        pas27222_UnderwritingRulesCASelectAAA_CSA3292736_Body(softly)
+                );
         }
 }
 
