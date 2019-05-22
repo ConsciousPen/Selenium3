@@ -119,6 +119,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     private static final String PU_CLAIMS_DEFAULTING_2ND_DATA_MODEL = "pu_claims_defaulting_2nd_data_model.yaml"; //TODO: will be used after PAS-26322
     protected boolean updatePUFlag = false;
     protected boolean secondDriverFlag = false;
+    protected boolean MDD=true;
     protected boolean newBusinessFlag = false;
 
     @BeforeTest
@@ -217,6 +218,16 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      * @param addDriverTd  specific details for the driver being added to the policy
      */
     public void initiateAddDriverEndorsement(String policyNumber, TestData addDriverTd) {
+
+        TestData td_driver_endorse = getTestSpecificTD("TestData_MDD_Endorse");
+       if(MDD==true) {
+       policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus30Days"));
+    //Add a Driver who is Eligible for MDD in Mid Term Endorsement and Verify MDD is applied
+       NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+      driverTab.fillTab(td_driver_endorse).submitTab();
+      NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+      return;
+       }
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -1241,7 +1252,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, PremiumAndCoveragesTab.class, true);
         premiumAndCoveragesTab.submitTab();
         overrideErrorTab();
-
         //Continue to bind the policy and save the policy number
         policy.getDefaultView().fillFromTo(adjusted, DriverActivityReportsTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
@@ -1358,7 +1368,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         TestData testDataForMDD = getTestSpecificTD("TestData_Discounts").resolveLinks();
         TestData td_activity = getTestSpecificTD("TestData_Activity_MDD");
         TestData td_driver_endorse = getTestSpecificTD("TestData_MDD_Endorse");
-        createQuoteAndFillUpTo(testDataForMDD,PremiumAndCoveragesTab.class,false);
+        createQuoteAndFillUpTo(testDataForMDD, PremiumAndCoveragesTab.class, false);
         assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Mature Driver Discount (Tom Johns)");
         //Order Reports in the DAR page
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
@@ -1382,38 +1392,29 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         purchaseTab.fillTab(td_activity).submitTab();
         String policyNum = labelPolicyNumber.getValue();
         TestData td_activity1 = getTestSpecificTD("TestData_Activity_MDD_Endorse");
-        SearchPage.openPolicy(policyNum);
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus30Days"));
-        //Add a Driver who is Eligible for MDD in Mid Term Endorsement and Verify MDD is applied
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-        driverTab.fillTab(td_driver_endorse).submitTab();
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        initiateAddDriverEndorsement(policyNum,  td_activity1);
         assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Mature Driver Discount (Tom Johns)");
-//        //premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
-//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
-//        driverActivityReportsTab.fillTab(td_activity1).submitTab();
-//        //Navigate to Driver and add Activities
-//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-//        tableDriverList.selectRow(3);
-//        driverTab.fillTab(td_activity1);
-//        //Assert that MDD does not exist for the newly added driver
-//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-//        premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
-//         assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount");
-//        //new PremiumAndCoveragesTab().submitTab();
-//         td= getPolicyTD()
-//                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
-//                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT.getLabel()))
-//                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
-//
-//        driverActivityReportsTab.fillTab(td_activity1).submitTab();
-//        documentsAndBindTab.fillTab(td_activity1).submitTab();
-//       if (errorTab.isVisible()) {
-//          errorTab.overrideAllErrors();
-//            errorTab.buttonOverride.click();
-//            documentsAndBindTab.submitTab();
-//        }
-//    }
+        premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+        driverActivityReportsTab.fillTab(td_activity1).submitTab();
+       //Navigate to Driver and add Activities
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        tableDriverList.selectRow(3);
+        driverTab.fillTab(td_activity1);
+       //Assert that MDD does not exist for the newly added driver
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+//       assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount");
+        premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+        documentsAndBindTab.fillTab(td_activity1).submitTab();
+        if (errorTab.isVisible()) {
+          errorTab.overrideAllErrors();
+            errorTab.buttonOverride.click();
+            documentsAndBindTab.submitTab();
+        }
     }
-}
+    }
+
+
+
 

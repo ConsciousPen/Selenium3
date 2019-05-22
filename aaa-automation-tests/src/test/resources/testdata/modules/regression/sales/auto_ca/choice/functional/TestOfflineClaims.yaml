@@ -384,7 +384,7 @@ Driver_two_MatureDriver_discount: {
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': Spouse,
   First Name: 'Tom',
-  Last Name: 'Jonhs',
+  Last Name: 'Johns',
   Date of Birth: $<today-55y>,
   Gender: Male,
   Marital Status: Married,
@@ -431,6 +431,7 @@ AssignmentTab: {
                                      Primary Driver: index=2,
                                    }]
 }
+FormsTab: {}
 TestData_Activity_MDD: {
   DriverTab: '@DriverTab_Activity_MDD',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_MDD',
@@ -510,7 +511,7 @@ Driver_three_MatureDriver_discount: {
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': Sibling,
   First Name: 'Nike',
-  Last Name: 'Jonhs',
+  Last Name: 'Johns',
   Date of Birth: $<today-54y>,
   Gender: Male,
   Marital Status: Married,
