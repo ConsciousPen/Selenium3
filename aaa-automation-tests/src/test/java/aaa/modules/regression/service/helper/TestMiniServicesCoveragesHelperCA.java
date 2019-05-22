@@ -148,9 +148,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 				.adjust(AutoCaMetaData.ErrorTab.class.getSimpleName(), tdError)
 				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("TestData_VehicleLevelCoverages").getTestData("AssignmentTab"))
 				.adjust(new PremiumAndCoveragesTab().getMetaKey(), getTestSpecificTD("TestData_VehicleLevelCoverages").getTestData("PremiumAndCoveragesTab")).resolveLinks();
-		mainApp().open();//TODO-mstrazds:
-		String policyNumber = "CAAS952918715";//openAppAndCreatePolicy(testData);
-		SearchPage.openPolicy(policyNumber);//TODO-mstrazds:
+		String policyNumber = openAppAndCreatePolicy(testData);
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		validateViewPolicyCoveragesIsTheSameAsViewEndorsementCoverage(policyNumber, viewEndorsementCoverages);
