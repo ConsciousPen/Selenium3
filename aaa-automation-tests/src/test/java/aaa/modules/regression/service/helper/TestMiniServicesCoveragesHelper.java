@@ -7227,11 +7227,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		validateCoverageLimitInPASUI(expectedCoveragesToCheck);
 	}
 
-	protected void updateVehLevelCoverageAndCheck(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
-		updateCoverageAndCheckResponses(policyNumber, covToUpdate, expectedCoveragesToCheck);
-		validateCoverageLimitInPASUI(expectedCoveragesToCheck);
-	}
-
 	private void updateCoverageAndCheck_PIPPRIMINSpas23975(String policyNumber, Coverage covToUpdatePIPPRIMINS, Coverage... expectedCoveragesToCheck) {
 		PolicyCoverageInfo updateCoverageResponse = updateCoverageWithInsNameAndCertNum(policyNumber, covToUpdatePIPPRIMINS);
 		validatePolicyLevelCoverageChangeLog(policyNumber, CoverageInfo.PIP_NJ.getCode(), expectedCoveragesToCheck);

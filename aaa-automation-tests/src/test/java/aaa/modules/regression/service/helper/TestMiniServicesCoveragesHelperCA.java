@@ -346,7 +346,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		covOEMExpectedVeh2.disableCustomerDisplay().disableCanChange();
 		updateVehLevelCoverageAndCheckResponses(policyNumber, newVehicleOid, covCOMPDEDExpected, covCOMPDEDExpected, covOEMExpected);
 
-		//TODO-mstrazds: for this when updating getting COLLDED to 0 then error "Update actions is not allowed for coverage code 'COLLDED'. Will be handled in new US. Uncommnet
+		//TODO-mstrazds: Currently can not update COLLDED if COMPDED is 0. Will be handled in new US. Uncomnet.
 		//Update COLLDED also to 0
 		//		covCOLLDEDExpected.changeLimit(CoverageLimits.COV_NO_COV);
 		//		covOEMExpectedVeh2.disableCanChange().disableCustomerDisplay();
@@ -371,6 +371,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		//Add vehicle more than 10y old
 		String newVehicleOid = helperMiniServices.addVehicleWithChecks(policyNumber, "2015-02-11", "1FAHP24W98G151839", true);//2008 Ford Taurus (more than 10y old)
 		verifyOEMTC02_pas15424(policyNumber, newVehicleOid);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
 	private void verifyOEMTC02_pas15424(String policyNumber, String vehOid) {
@@ -378,15 +379,14 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		VehicleCoverageInfo vehicleCoverages = findVehicleCoverages(viewEndorsementCoverages, vehOid);
 		Coverage covCOMPDED = findCoverage(vehicleCoverages.coverages, CoverageInfo.COMPDED_CA.getCode());
 		Coverage covCOLLDED = findCoverage(vehicleCoverages.coverages, CoverageInfo.COLLDED_CA.getCode());
-		Coverage covOEMActual = findCoverage(vehicleCoverages.coverages, CoverageInfo.OEM_CA.getCode());
+		Coverage covOEMActual = findCoverage(vehicleCoverages.coverages, CoverageInfo.OEM_CA.getCode(), false);
 
 		assertThat(covCOMPDED.getCoverageLimit()).as("Precondition: should have COMPDED applied").isNotEqualTo(CoverageLimits.COV_NO_COV.getLimit());
 		assertThat(covCOLLDED.getCoverageLimit()).as("Precondition: should have COLLDED applied").isNotEqualTo(CoverageLimits.COV_NO_COV.getLimit());
-		assertThat(covOEMActual.getCustomerDisplayed()).as("OEM should not be customerDisplayed if Vehicle is older than 10 years").isFalse();
-		assertThat(covOEMActual.getCanChangeCoverage()).as("OEM should not be changable if Vehicle is older than 10 years").isFalse();
+		assertThat(covOEMActual).isNull();
 	}
 
-	protected void pas15424_viewUpdateOEMCoverageNewVehNoCompCollCABody(boolean hasCOMPDED, boolean hasCOLLDED) {
+	protected void pas15424_viewUpdateOEMCoverageNewVehNoCompCollCABody(boolean removeCOMPDED, boolean removeCOLLDED) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -395,12 +395,12 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 
 		//Add vehicle less than 10y old
 		String newVehOid = helperMiniServices.addVehicleWithChecks(policyNumber, "2015-02-11", "1FMCU9GD5JUB71878", true);// 2018 Ford Escape (less than 10y old)
-
-		verifyOEMVehNoCompColl(hasCOMPDED, hasCOLLDED, policyNumber, newVehOid);
+		verifyOEMVehNoCompColl(removeCOMPDED, removeCOLLDED, policyNumber, newVehOid);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 	}
 
-	protected void pas15424_viewUpdateOEMCoverageExistingVehicleNoCompCollTC06Body(boolean hasCOMPDED, boolean hasCOLLDED) {
+	protected void pas15424_viewUpdateOEMCoverageExistingVehicleNoCompCollTC06Body(boolean removeCOMPDED, boolean removeCOLLDED) {
 		TestData td = getPolicyDefaultTD();
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_OEMYes").getTestDataList("VehicleTab"))
 				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("TestData_OEMYes").getTestData("AssignmentTab"))
@@ -423,7 +423,8 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		assertThat(covCOLLDED.getCoverageLimit()).as("Precondition: should have COLLDED applied").isNotEqualTo(CoverageLimits.COV_NO_COV.getLimit());
 		assertThat(covOEMActual).isEqualTo(covOEMExpected);
 
-		verifyOEMVehNoCompColl(hasCOMPDED, hasCOLLDED, policyNumber, vehOid);
+		verifyOEMVehNoCompColl(removeCOMPDED, removeCOLLDED, policyNumber, vehOid);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 	}
 
@@ -451,23 +452,23 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		applyCompColl(true, false, policyNumber, oidVeh1);//apply COMPDED
 		applyCompColl(false, true, policyNumber, oidVeh2);//apply COLLDED
 		applyCompColl(true, true, policyNumber, oidVeh3);//apply COMPDED and COLLDED
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
 	private void verifyOEMForVehicleTC09_pas15424(String oidVeh, PolicyCoverageInfo viewEndorsementCoverages) {
 		VehicleCoverageInfo vehicleCoverageInfo = findVehicleCoverages(viewEndorsementCoverages, oidVeh);
-		Coverage covOEMActualVeh1 = findCoverage(vehicleCoverageInfo.coverages, CoverageInfo.OEM_CA.getCode());
-		assertThat(covOEMActualVeh1.getCustomerDisplayed()).as("OEM should not be customerDisplayed if COMPDED and/or COLLDED is not applied").isFalse();
-		assertThat(covOEMActualVeh1.getCanChangeCoverage()).as("OEM should not be changable if COMPDED and/or COLLDED is not applied").isFalse();
+		Coverage covOEMActualVeh = findCoverage(vehicleCoverageInfo.coverages, CoverageInfo.OEM_CA.getCode());
+		assertThat(covOEMActualVeh.getCustomerDisplayed()).as("OEM should not be customerDisplayed if COMPDED and/or COLLDED is not applied").isFalse();
+		assertThat(covOEMActualVeh.getCanChangeCoverage()).as("OEM should not be changable if COMPDED and/or COLLDED is not applied").isFalse();
 	}
 
-	private void verifyOEMVehNoCompColl(boolean hasCOMPDED, boolean hasCOLLDED, String policyNumber, String vehOid) {
+	private void verifyOEMVehNoCompColl(boolean removeCOMPDED, boolean removeCOLLDED, String policyNumber, String vehOid) {
 		PolicyCoverageInfo viewEndorsementCoverages;
-		if (hasCOMPDED) {
+		if (removeCOMPDED) {
 			//Updated COMPDED to No Coverage
 			updateVehicleCoverage(policyNumber, vehOid, CoverageInfo.COMPDED_CA.getCode(), CoverageLimits.COV_NO_COV.getLimit());
 		}
-
-		if (hasCOLLDED) {
+		if (removeCOLLDED) {
 			//Updated COLLDED to No Coverage
 			updateVehicleCoverage(policyNumber, vehOid, CoverageInfo.COLLDED_CA.getCode(), CoverageLimits.COV_NO_COV.getLimit());
 		}
@@ -478,8 +479,8 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		Coverage covCOLLDED = findCoverage(newVehicleCoverages.coverages, CoverageInfo.COLLDED_CA.getCode());
 		Coverage covOEMActual = findCoverage(newVehicleCoverages.coverages, CoverageInfo.OEM_CA.getCode());
 
-		assertThat(covCOMPDED.getCoverageLimit().equals(CoverageLimits.COV_NO_COV.getLimit())).isEqualTo(hasCOMPDED);
-		assertThat(covCOLLDED.getCoverageLimit().equals(CoverageLimits.COV_NO_COV.getLimit())).isEqualTo(hasCOLLDED);
+		assertThat(covCOMPDED.getCoverageLimit().equals(CoverageLimits.COV_NO_COV.getLimit())).isEqualTo(removeCOMPDED);
+		assertThat(covCOLLDED.getCoverageLimit().equals(CoverageLimits.COV_NO_COV.getLimit())).isEqualTo(removeCOLLDED);
 		assertThat(covOEMActual.getCustomerDisplayed()).as("OEM should not be customerDisplayed if COMPDED and/or COLLDED is not applied").isFalse();
 		assertThat(covOEMActual.getCanChangeCoverage()).as("OEM should not be changable if COMPDED and/or COLLDED is not applied").isFalse();
 	}
@@ -487,15 +488,13 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 	private void applyCompColl(boolean applyCOMPDED, boolean applyCOLLDED, String policyNumber, String vehOid) {
 		PolicyCoverageInfo viewEndorsementCoverages;
 		if (applyCOMPDED) {
-			//Updated COMPDED to No Coverage
+			//Updated COMPDED to other than No Coverage
 			updateVehicleCoverage(policyNumber, vehOid, CoverageInfo.COMPDED_CA.getCode(), CoverageLimits.COV_150.getLimit());
 		}
-
 		if (applyCOLLDED) {
-			//Updated COLLDED to No Coverage
+			//Updated COLLDED other than No Coverage
 			updateVehicleCoverage(policyNumber, vehOid, CoverageInfo.COLLDED_CA.getCode(), CoverageLimits.COV_150.getLimit());
 		}
-
 		viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		VehicleCoverageInfo newVehicleCoverages = findVehicleCoverages(viewEndorsementCoverages, vehOid);
 		Coverage covCOMPDED = findCoverage(newVehicleCoverages.coverages, CoverageInfo.COMPDED_CA.getCode());
@@ -509,14 +508,14 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 
 		//Apply OEM
 		covOEMExpected.changeLimit(CoverageLimits.COV_1);
-		updateVehLevelCoverageAndCheck(policyNumber, covOEMExpected, covOEMExpected);
+		updateVehLevelCoverageAndCheckResponses(policyNumber, vehOid, covOEMExpected, covOEMExpected);
 	}
 
-	protected void pas15424_viewUpdateOEMCoveragelessThan10yNoOEMCATC010Body() {
+	protected void pas15424_viewUpdateOEMCoverageLessThan10yNoOEMCATC010Body() {
 		TestData td = getPolicyDefaultTD();
 		TestData testData = td.adjust(TestData.makeKeyPath(VehicleTab.class.getSimpleName(), AutoCaMetaData.VehicleTab.VIN.getLabel()), "1FMCU9GD5JUB71878")// 2018 Ford Escape (less than 10y old)
 				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("AssingmentTab_1Veh"))
-				.adjust(new PremiumAndCoveragesTab().getMetaKey(), getTestSpecificTD("PremiumAndCoveragesTab_OEMNo"))
+				.adjust(new PremiumAndCoveragesTab().getMetaKey(), getTestSpecificTD("PremiumAndCoveragesTab_OEMNo"))// no OEM Coverage
 				.resolveLinks();
 
 		String policyNumber = openAppAndCreatePolicy(testData);
@@ -536,7 +535,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 
 		//Apply OEM
 		covOEMExpected.changeLimit(CoverageLimits.COV_1);
-		updateVehLevelCoverageAndCheck(policyNumber, covOEMExpected, covOEMExpected, covCOMPDED, covCOLLDED);
+		updateVehLevelCoverageAndCheckResponses(policyNumber, vehicleCoverages.oid, covOEMExpected, covOEMExpected, covCOMPDED, covCOLLDED);
 	}
 
 	private void verifyCoveragesPASUI_pas26668(List<Coverage> expectedCoveragesVeh4) {
