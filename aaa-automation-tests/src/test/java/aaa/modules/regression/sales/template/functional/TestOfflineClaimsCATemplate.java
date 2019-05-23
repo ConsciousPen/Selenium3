@@ -51,6 +51,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
@@ -92,6 +93,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     protected static DriverTab driverTab = new DriverTab();
     protected static GeneralTab generalTab = new GeneralTab();
     protected static PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+    protected static AssignmentTab assignmentTab=new AssignmentTab();
     protected static DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
     protected static PurchaseTab purchaseTab = new PurchaseTab();
     protected static ErrorTab errorTab = new ErrorTab();
@@ -221,10 +223,15 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         TestData td_driver_endorse = getTestSpecificTD("TestData_MDD_Endorse");
        if(MDD==true) {
+           mainApp().open();
+           SearchPage.openPolicy(policyNumber);
        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus30Days"));
-    //Add a Driver who is Eligible for MDD in Mid Term Endorsement and Verify MDD is applied
+      //Add a Driver who is Eligible for MDD in Mid Term Endorsement and Verify MDD is applied
        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
       driverTab.fillTab(td_driver_endorse).submitTab();
+      //Select the newly added Driver as "Manually Rated Driver" in the Assignment Tab
+      NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
+      assignmentTab.fillTab(td_driver_endorse).submitTab();
       NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
       return;
        }
@@ -1364,36 +1371,35 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      * 6.Continue the steps and Bind the Endorsement.
      */
     public void pas27226_MatureDriverDiscount() {
-        //Asserting CA Mature Driver Discount is not applied
         TestData testDataForMDD = getTestSpecificTD("TestData_Discounts").resolveLinks();
         TestData td_activity = getTestSpecificTD("TestData_Activity_MDD");
         TestData td_driver_endorse = getTestSpecificTD("TestData_MDD_Endorse");
-        createQuoteAndFillUpTo(testDataForMDD, PremiumAndCoveragesTab.class, false);
+       createQuoteAndFillUpTo(testDataForMDD, PremiumAndCoveragesTab.class, false);
         assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Mature Driver Discount (Tom Johns)");
         //Order Reports in the DAR page
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+       NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
         driverActivityReportsTab.fillTab(td_activity).submitTab();
         //Navigate to Driver and Add Activities to the Second Driver who is Eligible for Mature Driver Discount
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-        tableDriverList.selectRow(2);
+       tableDriverList.selectRow(2);
         driverTab.fillTab(td_activity);
         // Assert that Mature Driver Discount does not exist.
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount");
-        //Calculate Premium and create policy
-        premiumAndCoveragesTab.fillTab(td_activity).submitTab();
+       assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount");
+       //Calculate Premium and create policy
+       premiumAndCoveragesTab.fillTab(td_activity).submitTab();
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
-        documentsAndBindTab.fillTab(td_activity).submitTab();
-        if (errorTab.isVisible()) {
-            errorTab.overrideAllErrors();
-            errorTab.buttonOverride.click();
-            documentsAndBindTab.submitTab();
-        }
-        purchaseTab.fillTab(td_activity).submitTab();
+       documentsAndBindTab.fillTab(td_activity).submitTab();
+       if (errorTab.isVisible()) {
+           errorTab.overrideAllErrors();
+           errorTab.buttonOverride.click();
+           documentsAndBindTab.submitTab();
+      }
+       purchaseTab.fillTab(td_activity).submitTab();
         String policyNum = labelPolicyNumber.getValue();
         TestData td_activity1 = getTestSpecificTD("TestData_Activity_MDD_Endorse");
         initiateAddDriverEndorsement(policyNum,  td_activity1);
-        assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Mature Driver Discount (Tom Johns)");
+        assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Mature Driver Discount (Nike Johns)");
         premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
         driverActivityReportsTab.fillTab(td_activity1).submitTab();
@@ -1403,7 +1409,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         driverTab.fillTab(td_activity1);
        //Assert that MDD does not exist for the newly added driver
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-//       assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount");
+       assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount");
         premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.fillTab(td_activity1).submitTab();

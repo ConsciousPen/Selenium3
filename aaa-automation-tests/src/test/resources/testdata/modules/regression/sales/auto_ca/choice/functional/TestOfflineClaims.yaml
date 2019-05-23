@@ -503,7 +503,8 @@ PremiumAndCoveragesTab_MDD: {
 
 TestData_MDD_Endorse: {
   GeneralTab: {},
-  DriverTab: ['@Driver_three_MatureDriver_discount']
+  DriverTab: ['@Driver_three_MatureDriver_discount'],
+  AssignmentTab: '@AssignmentTab_Endorse'
 }
 Driver_three_MatureDriver_discount: {
   Add Driver: Click,
@@ -567,5 +568,15 @@ Activity2_Endorse: {
   Occurrence Date: '$<today-2M:MM/dd/yyyy>',
   Description: 'Driving under the influence of drugs',
   "Include in Points and/or YAF?": 'Yes'
+}
+AssignmentTab_Endorse: {
+  DriverVehicleRelationshipTable: [{
+                                     Primary Driver: index=1,
+                                     Manually Rated Driver: index=3
+                                   },
+                                   {
+                                     Primary Driver: index=2,
+                                     Manually Rated Driver: index=1
+                                   }]
 }
 
