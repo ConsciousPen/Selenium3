@@ -112,10 +112,19 @@ public class HelperMiniServices extends PolicyBaseTest {
 			//Check that DXP rate premium matches PAS UI premium after Bind
 			if (!getState().equals(Constants.States.CA)) { //TODO-mstrazds: implement also for CA
 				TestData autoCoveragesSummaryTestData = PolicySummaryPage.getAutoCoveragesSummaryTestData();
-				String totalActualPremiumUI = autoCoveragesSummaryTestData.getValue("Total Actual Premium").replace("$", "").replace(",", "");
-				String totalTermPremiumUI = autoCoveragesSummaryTestData.getValue("Total Term Premium").replace("$", "").replace(",", "");
-				softly.assertThat(new Dollar(endorsementRateResponse[0].actualAmt)).isEqualTo(new Dollar(totalActualPremiumUI));
-				softly.assertThat(new Dollar(endorsementRateResponse[0].termPremium)).isEqualTo(new Dollar(totalTermPremiumUI));
+				Dollar totalActualPremiumUI = new Dollar(autoCoveragesSummaryTestData.getValue("Total Actual Premium").replace("$", "").replace(",", ""));
+				Dollar totalTermPremiumUI = new Dollar(autoCoveragesSummaryTestData.getValue("Total Term Premium").replace("$", "").replace(",", ""));
+				//KY and WV has taxes in response
+				Dollar taxAmount = new Dollar();
+				if (getState().equals(Constants.States.KY) || getState().equals(Constants.States.WV)) {
+					for (PolicyPremiumInfo policyPremiumInfo : endorsementRateResponse) {
+						if ("TAX".equals(policyPremiumInfo.premiumType)) {
+							taxAmount = taxAmount.add(new Dollar(policyPremiumInfo.termPremium));
+						}
+					}
+				}
+				softly.assertThat(new Dollar(endorsementRateResponse[0].actualAmt)).isEqualTo(totalActualPremiumUI);
+				softly.assertThat(new Dollar(endorsementRateResponse[0].termPremium).subtract(taxAmount)).isEqualTo(totalTermPremiumUI);
 			}
 		});
 	}
