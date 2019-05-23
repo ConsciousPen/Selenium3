@@ -346,11 +346,10 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		covOEMExpectedVeh2.disableCustomerDisplay().disableCanChange();
 		updateVehLevelCoverageAndCheckResponses(policyNumber, newVehicleOid, covCOMPDEDExpected, covCOMPDEDExpected, covOEMExpected);
 
-		//TODO-mstrazds: Currently can not update COLLDED if COMPDED is 0. Will be handled in new US. Uncomnet.
-		//Update COLLDED also to 0
-		//		covCOLLDEDExpected.changeLimit(CoverageLimits.COV_NO_COV);
-		//		covOEMExpectedVeh2.disableCanChange().disableCustomerDisplay();
-		//		updateVehLevelCoverageAndCheckResponses(policyNumber, newVehicleOid, covCOLLDEDExpected, covCOLLDEDExpected, covCOMPDEDExpected, covOEMExpected);
+		//Update COLLDED also to 0 (Tests also PAS-30268 COLLDED should have canChange=true also when COMPDED is No Coverage)
+		covCOLLDEDExpected.changeLimit(CoverageLimits.COV_NO_COV);
+		covOEMExpectedVeh2.disableCanChange().disableCustomerDisplay();
+		updateVehLevelCoverageAndCheckResponses(policyNumber, newVehicleOid, covCOLLDEDExpected, covCOLLDEDExpected, covCOMPDEDExpected, covOEMExpected);
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
@@ -469,7 +468,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 			updateVehicleCoverage(policyNumber, vehOid, CoverageInfo.COMPDED_CA.getCode(), CoverageLimits.COV_NO_COV.getLimit());
 		}
 		if (removeCOLLDED) {
-			//Updated COLLDED to No Coverage
+			//Updated COLLDED to No Coverage (Tests also PAS-30268 COLLDED should have canChange=true also when COMPDED is No Coverage)
 			updateVehicleCoverage(policyNumber, vehOid, CoverageInfo.COLLDED_CA.getCode(), CoverageLimits.COV_NO_COV.getLimit());
 		}
 

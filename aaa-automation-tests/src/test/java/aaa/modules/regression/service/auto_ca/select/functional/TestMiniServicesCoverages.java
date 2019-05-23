@@ -102,7 +102,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424", "PAS-30268"})
 	public void pas15424_viewUpdateOEMCoverageCATC01(@Optional("CA") String state) {
 		pas15424_viewUpdateOEMCoverageCATC01Body();
 	}
@@ -154,9 +154,9 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424", "PAS-30268"})
 	public void pas15424_viewUpdateOEMCoverageCATC05(@Optional("CA") String state) {
-		pas15424_viewUpdateOEMCoverageNewVehNoCompCollCABody(true, true);//TODO-mstrazds: Currently can not update COLLDED if COMPDED is 0. Will be handled in new US.
+		pas15424_viewUpdateOEMCoverageNewVehNoCompCollCABody(true, true);
 	}
 
 	/**
@@ -187,9 +187,9 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424", "PAS-30268"})
 	public void pas15424_viewUpdateOEMCoverageCATC08(@Optional("CA") String state) {
-		pas15424_viewUpdateOEMCoverageExistingVehicleNoCompCollTC06Body(true, true);//TODO-mstrazds: Currently can not update COLLDED if COMPDED is 0. Will be handled in new US.
+		pas15424_viewUpdateOEMCoverageExistingVehicleNoCompCollTC06Body(true, true);
 	}
 
 	/**
