@@ -262,6 +262,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 
 		//Check in PAS UI that Newly added vehicle has all expected coverages
 		expectedCoveragesVeh4.remove(covLOANExpected4);//not in UI for this newly added vehicle
+		SearchPage.openPolicy(policyNumber);
 		verifyCoveragesPASUI_pas26668(expectedCoveragesVeh4);
 
 		//Update to Leased and Check Coverages
