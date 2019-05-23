@@ -239,7 +239,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		boolean isFirstDriver = true;
 		boolean isEmployeeSet = false;
 		boolean isAARPSet = false;
-		boolean setADBCoverage = openLPolicy.getVehicles().stream().map(AutoSSOpenLVehicle::getCoverages).flatMap(List::stream).anyMatch(c -> "ADB".equals(c.getCoverageCd()));
+		int driversWithADB = Integer.parseInt(openLPolicy.getVehicles().stream().map(AutoSSOpenLVehicle::getCoverages).flatMap(List::stream).filter(c -> "ADB".equals(c.getCoverageCd())).findFirst().get().getLimit());
+		assertThat(driversWithADB).as("Number of drivers with ADB is more than total number of drivers").isLessThanOrEqualTo(openLPolicy.getDrivers().size());
 		int aggregateCompClaims = openLPolicy.getAggregateCompClaims() != null ? openLPolicy.getAggregateCompClaims() : 0;
 		int nafAccidents = openLPolicy.getNafAccidents() != null ? openLPolicy.getNafAccidents() : 0;
 
@@ -427,9 +428,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				}
 			}
 
-			if (setADBCoverage) {
+			if (driversWithADB-- > 0) {
 				driverData.put(AutoSSMetaData.DriverTab.ADB_COVERAGE.getLabel(), "Yes");
-				setADBCoverage = false;
 			}
 
 			driversTestDataList.add(new SimpleDataProvider(driverData));
