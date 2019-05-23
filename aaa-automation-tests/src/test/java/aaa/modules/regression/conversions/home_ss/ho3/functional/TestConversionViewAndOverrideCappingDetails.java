@@ -71,7 +71,7 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 
 		//Check that coverages are rounded to dollar value
 		List<String> currentValues = new ArrayList<>();
-		currentValues.addAll(Arrays.asList(premiumsAndCoveragesQuoteTab.tableCoverages.getRow(2).getCell("Percentage of Coverage A").getValue()));
+		currentValues.addAll(Arrays.asList(PremiumsAndCoveragesQuoteTab.tableCoverages.getRow(2).getCell("Percentage of Coverage A").getValue()));
 		for(String value : currentValues.toString().split("\n")) {
 			assertThat(value).as("Coverages should be rounded to dollar value").contains(".00");
 		}
@@ -102,7 +102,7 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 
 		assertThat(PremiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR))
 				.isEqualTo(String.format("%s.00%%", getTestSpecificTD("TestData_OverideCappingDetails").getTestData
-				("PremiumsAndCoveragesQuoteTab", "View Capping Details").getValue(PolicyConstants.ViewCappingDetailsTable.MANUAL_CAPPING_FACTOR).toString()));
+						("PremiumsAndCoveragesQuoteTab", "View Capping Details").getValue(PolicyConstants.ViewCappingDetailsTable.MANUAL_CAPPING_FACTOR)));
 		assertThat(PremiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.CAPPED_TERM_PREMIUM)).isNotEqualTo(cappedTermPremium);
 	}
 
@@ -220,11 +220,11 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 	 * 1. Create Individual Customer / Account
 	 * 2. Create converted SS home policy
 	 * 3. navigate to the “Premiums & Coverages” – “Product offering” tab
-	 * 4. Click the “Calculate Premiums’ button.
+	 * 4. Click the “Calculate Premiums' button.
 	 * 5. Assert that Capping Lock is disabled.
 	 * 6. Assert that Capping Lock does not get selected.
 	 * 7. navigate to the “Premiums & Coverages” – “Quote” tab
-	 * 8. Click the “Calculate Premiums’ button.
+	 * 8. Click the “Calculate Premiums' button.
 	 * 9. navigate to the “Premiums & Coverages” – “Product offering” tab
 	 * 10. Assert that Capping Lock is disabled.
 	 * 11. Assert that Capping Lock get selected.

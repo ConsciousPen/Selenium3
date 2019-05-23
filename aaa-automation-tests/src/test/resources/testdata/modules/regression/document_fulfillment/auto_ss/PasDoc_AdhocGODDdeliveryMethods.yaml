@@ -1,0 +1,33 @@
+TestData_with_EnrolledInUBI_1: {
+  VehicleTab: ['@<auto_ss>@DataGather@VehicleTab', '@VehicleTab_EnrolledInUBI_1'],
+  DocumentsAndBindTab: '@DocumentsAndBindTab'
+
+}
+# -------- VehicleTab ---------
+
+VehicleTab_EnrolledInUBI_1: {
+  Add Vehicle: click,
+  Type: Private Passenger Auto,
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451,
+  'Enroll in Usage Based Insurance?': 'Yes',
+  Get Vehicle Details: click,
+  Vehicle Eligibility Response: Vehicle Eligible,
+  AAA UBI Device Status: Shipped,
+  Device Voucher Number: 12345678,
+  Safety Score: 100
+}
+
+
+# -------- DocumentsAndBindTab ---------
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+    Auto Insurance Application: Physically Signed
+  },
+  Agreement: I agree,
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}

@@ -30,7 +30,7 @@ import toolkit.verification.CustomSoftAssertions;
  * 3. Fill all mandatory fields on all tabs, order reports, calculate premium. 
  * 4. Navigate to Underwriting And Approval tab.
  * 5. Fill tab according to "TestData_UW1": 
- * 		Set Yes to "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?";
+ * 		Set Yes to "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?";
  * 		Set Yes to "Do employees of any resident or applicant reside in the dwelling?" 
  * 			and enter "Total number of part time and full time resident employees" = 2; 
  * 		Set Yes to "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?".
@@ -40,7 +40,7 @@ import toolkit.verification.CustomSoftAssertions;
  *      "Risk must be endorsed with the appropriate business or farming endorsement when an eligible business or incidental 
  *      	farming exposure is present. Applicants that perform a home day care, including child, adult or pet day care, are unacceptable.";     
  * 7. Fill tab according to "TestData_UW2": 
- * 		Set No to "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?"
+ * 		Set No to "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?"
  * 			and "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?"; 
  * 		Set Yes to all other questions; 
  * 		Change "Total number of part time and full time resident employees" to 3. 
