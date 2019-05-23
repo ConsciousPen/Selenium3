@@ -28,63 +28,64 @@ import toolkit.webdriver.controls.waiters.Waiters;
 public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 
 	/**
-	 * <b>Adhoc preBind - Scenario 1: PreBind page UI</b>
-	 * <b>Adhoc preBind - Scenario 2: Forms availability: Quote - adding, Endorse - removing, Renew - adding</b>
-	 * Precondition: 
-	 * 		Quote is created with data: 
-	 * 		- Policy Type = Standard, 
-	 * 		- No Excluded Driver, 
-	 * 		- Vehicle is NOT enrolled in UBI, 
-	 * 		- Uninsured and Underinsured Coverages = BI.
-	 * 1.1. Open 'Document & Bind' tab and check on UI: "Generate Documents" and "Generate eSignature Documents" buttons 
-	 * 		are shown and enabled under the "Documents Available for Printing" section
-	 * 2.1. On 'Documents & Bind' tab verify the following forms are present and enabled in 'Available for Printing' section:
-	 * 		- Auto Insurance Quote (AAIQAZ), 
-	 * 		- Auto Insurance Application (AA11AZ), 
-	 * 		- AutoPay Authorization Form (AHAPXX), 
-	 * 		- Uninsured and Underinsured Motorist Coverage Selection (AA52AZ). 
-	 * 2.2. Check the following forms are present in 'Required to Bind' section: 
-	 * 		- Auto Insurance Application (AA11AZ)
-	 * 2.3. Add Excluded Diver, go to 'Documents & Bind' tab and verify Named Driver Exclusion (AA43AZ) form 
-	 * 		is shown in both 'Documents Available for Printing' and 'Required to Bind' sections. 
-	 * 2.4. Add Driver with Age = 16 (teenage driver), go to 'Documents & Bind' tab and verify  
-	 * 		Critical Information for Teenage Drivers and Their Parents (AATSXX) form is shown only in 'Documents Available for Printing' section. 
-	 * 2.5.  Set Uninsured and Underinsured Coverages < BI, go to 'Documents & Bind' tab and  verify
-	 * 		Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) form added to 'Required to Bind' section. 
-	 * 2.6. Add Vehicle enrolled in UBI, go to 'Documents & Bind' tab and verify 'Documents Available for Printing' section contains forms: 
-	 * 		- AAA Usage Based Insurance Program Terms and Conditions (AAUBI), 
-	 * 		- ACP SMARTtrek Subscription Terms and Conditions (ACPUBI), 
-	 * 		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy policies (AAUBI1). 
-	 * 		and 'Required to Bind' section contains:
-	 * 		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy policies (AAUBI1).
-	 * 2.7. Issue Policy, Start 'Inquiry' action, Go to 'Documents & Bind' tab: 
-	 * 		The same values as were on Quote before Purchasing except: Auto Insurance Quote (AAIQAZ) should NOT be shown. 
-	 * 2.8. Start 'Endorsement' action, calculate premium, go to 'Documents & Bind' tab and verify 
-	 * 		Auto Insurance Quote (AAIQAZ) is not shown, the other forms are the same.
-	 * 2.9. Remove Excluded Driver and verify Named Driver Exclusion (AA43AZ) is NOT shown. 
-	 * 2.10. Remove Teenage Driver and verify Critical Information for Teenage Drivers and Their Parents (AATSXX) is NOT shown. 
-	 * 2.11. Remove Vehicle enrolled in UBI and verify 3 UBI forms are NOT shown: 
-	 * 		- AAA Usage Based Insurance Program Terms and Conditions (AAUBI), 
-	 * 		- ACP SMARTtrek Subscription Terms and Conditions (ACPUBI), 
-	 * 		- AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies (AAUBI1).
-	 * 2.12. Set Uninsured and Underinsured Coverages = BI and verify 
-	 * 		Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) is shown only in 'Available for Printing' section. 
-	 * 2.13. Purchase Endorsement. 
-	 * 2.14. Start 'Renewal' action.
-	 * 2.15. Add Excluded Diver and verify Named Driver Exclusion (AA43AZ) form 
-	 * 		is shown in both 'Documents Available for Printing' and 'Required to Bind' sections. 
-	 * 2.16. Add Driver with Age = 16, go to 'Documents & Bind' tab and verify 
-	 * 		Critical Information for Teenage Drivers and Their Parents (AATSXX) form is shown only in 'Documents Available for Printing' section. 
-	 * 2.17. Set Uninsured and Underinsured Coverages < BI, Go to 'Documents & Bind' tab and verify 
-	 * 		Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) form added to 'Required to Bind' section. 
-	 * 2.18. Add Vehicle enrolled in UBI, go to 'Documents & Bind' tab and verify 'Documents Available for Printing' section contains forms:
-	 * 		- AAA Usage Based Insurance Program Terms and Conditions (AAUBI), 
-	 * 		- ACP SMARTtrek Subscription Terms and Conditions (ACPUBI), 
-	 * 		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy policies (AAUBI1), 
-	 * 		and 'Required to Bind' section contains:
-	 * 		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy policies (AAUBI1).
-	 * 2.19. Purchase Renewal. 
-	 * 
+	 * <p> <b>Adhoc preBind Scenario 1: PreBind page UI</b>
+	 * <p> <b>Adhoc preBind Scenario 2: Forms availability: Quote - adding, Endorse - removing, Renew - adding</b>
+	 * <p> <b>Precondition:</b> 
+	 * <p>		Quote is created with data: 
+	 * <p>		- Policy Type = Standard, 
+	 * <p>		- No Excluded Driver, 
+	 * <p>		- Vehicle is NOT enrolled in UBI, 
+	 * <p>		- Uninsured and Underinsured Coverages = BI.
+	 * <p> <b>Steps:</b>
+	 * <p> 1.1. Open 'Document & Bind' tab and check on UI: "Generate Documents" and "Generate eSignature Documents" buttons 
+	 * <p> are shown and enabled under the "Documents Available for Printing" section
+	 * <p> 2.1. On 'Documents & Bind' tab verify the following forms are present and enabled in 'Available for Printing' section:
+	 * <p>		- Auto Insurance Quote (AAIQAZ), 
+	 * <p>		- Auto Insurance Application (AA11AZ), 
+	 * <p>		- AutoPay Authorization Form (AHAPXX), 
+	 * <p>		- Uninsured and Underinsured Motorist Coverage Selection (AA52AZ). 
+	 * <p> 2.2. Check the following forms are present in 'Required to Bind' section: 
+	 * <p> 		- Auto Insurance Application (AA11AZ)
+	 * <p> 2.3. Add Excluded Diver, go to 'Documents & Bind' tab and verify Named Driver Exclusion (AA43AZ) form 
+	 * <p>		is shown in both 'Documents Available for Printing' and 'Required to Bind' sections. 
+	 * <p> 2.4. Add Driver with Age = 16 (teenage driver), go to 'Documents & Bind' tab and verify  
+	 * <p>		Critical Information for Teenage Drivers and Their Parents (AATSXX) form is shown only in 'Documents Available for Printing' section. 
+	 * <p> 2.5.  Set Uninsured and Underinsured Coverages < BI, go to 'Documents & Bind' tab and  verify
+	 * <p>		Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) form added to 'Required to Bind' section. 
+	 * <p> 2.6. Add Vehicle enrolled in UBI, go to 'Documents & Bind' tab and verify 'Documents Available for Printing' section contains forms: 
+	 * <p>		- AAA Usage Based Insurance Program Terms and Conditions (AAUBI), 
+	 * <p>		- ACP SMARTtrek Subscription Terms and Conditions (ACPUBI), 
+	 * <p>		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy policies (AAUBI1). 
+	 * <p>		and 'Required to Bind' section contains:
+	 * <p>		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy policies (AAUBI1).
+	 * <p> 2.7. Issue Policy, Start 'Inquiry' action, Go to 'Documents & Bind' tab: 
+	 * <p>		The same values as were on Quote before Purchasing except: Auto Insurance Quote (AAIQAZ) should NOT be shown. 
+	 * <p> 2.8. Start 'Endorsement' action, calculate premium, go to 'Documents & Bind' tab and verify 
+	 * <p>		Auto Insurance Quote (AAIQAZ) is not shown, the other forms are the same.
+	 * <p> 2.9. Remove Excluded Driver and verify Named Driver Exclusion (AA43AZ) is NOT shown. 
+	 * <p> 2.10. Remove Teenage Driver and verify Critical Information for Teenage Drivers and Their Parents (AATSXX) is NOT shown. 
+	 * <p> 2.11. Remove Vehicle enrolled in UBI and verify 3 UBI forms are NOT shown: 
+	 * <p>		- AAA Usage Based Insurance Program Terms and Conditions (AAUBI), 
+	 * <p>		- ACP SMARTtrek Subscription Terms and Conditions (ACPUBI), 
+	 * <p>		- AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies (AAUBI1).
+	 * <p> 2.12. Set Uninsured and Underinsured Coverages = BI and verify 
+	 * <p>		Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) is shown only in 'Available for Printing' section. 
+	 * <p> 2.13. Purchase Endorsement. 
+	 * <p> 2.14. Start 'Renewal' action.
+	 * <p> 2.15. Add Excluded Diver and verify Named Driver Exclusion (AA43AZ) form 
+	 * <p>		is shown in both 'Documents Available for Printing' and 'Required to Bind' sections. 
+	 * <p> 2.16. Add Driver with Age = 16, go to 'Documents & Bind' tab and verify 
+	 * <p>		Critical Information for Teenage Drivers and Their Parents (AATSXX) form is shown only in 'Documents Available for Printing' section. 
+	 * <p> 2.17. Set Uninsured and Underinsured Coverages < BI, Go to 'Documents & Bind' tab and verify 
+	 * <p>		Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) form added to 'Required to Bind' section. 
+	 * <p> 2.18. Add Vehicle enrolled in UBI, go to 'Documents & Bind' tab and verify 'Documents Available for Printing' section contains forms:
+	 * <p>		- AAA Usage Based Insurance Program Terms and Conditions (AAUBI), 
+	 * <p>		- ACP SMARTtrek Subscription Terms and Conditions (ACPUBI), 
+	 * <p>		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy policies (AAUBI1), 
+	 * <p>		and 'Required to Bind' section contains:
+	 * <p>		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy policies (AAUBI1).
+	 * <p> 2.19. Purchase Renewal. 
+	 * <p>
 	 * @param state
 	 */
 	@Parameters({"state"})
@@ -206,25 +207,25 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	}	
 
 	/**
-	 * <b>Adhoc preBind - Scenario 3: Forms availability NANO</b>
-	 * Precondition: 
-	 * 		Quote create with Policy Type = Non-Owner. 
-	 * 3.1. Go to 'Documents & Bind' tab and verify the following forms are present and available in 'Available for Printing' section:
-	 * 		- Auto Insurance Quote (AAIQAZ), 
-	 * 		- Auto Insurance Application (AA11AZ), 
-	 * 		- AutoPay Authorization Form (AHAPXX),  
-	 * 		- Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) and Non-Owner Automobile Endorsement (AA41XX) forms are shown 
-	 * 		in both 'Available for Printing' and 'Required to Bind' sections. 
-	 * 3.2. Issue Policy. (Verifications in Inquiry mode are not covered)
-	 * 3.3. Start 'Endorsement' action, calculate premium, go to 'Documents & Bind' tab and verify 
-	 * 		the following forms are present and available for selection in 'Available for Printing' section: 
-	 * 		- Auto Insurance Application (AA11AZ), 
-	 * 		- AutoPay Authorization Form (AHAPXX), 
-	 * 		- Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) and Non-Owner Automobile Endorsement (AA41XX) forms are shown 
-	 * 		in both 'Available for Printing' and 'Required to Bind' sections. 
-	 * 		Purchase Endorsement. 
-	 * 3.4. Start 'Renewal' action, calculate premium, go to 'Documents & Bind' tab and verify the results are the same as on step 3.3.
-	 * 
+	 * <p> <b>Adhoc preBind Scenario 3: Forms availability NANO</b>
+	 * <p> <b>Precondition:</b> 
+	 * <p>		Quote create with Policy Type = Non-Owner. 
+	 * <p> 3.1. Go to 'Documents & Bind' tab and verify the following forms are present and available in 'Available for Printing' section:
+	 * <p>		- Auto Insurance Quote (AAIQAZ), 
+	 * <p>		- Auto Insurance Application (AA11AZ), 
+	 * <p>		- AutoPay Authorization Form (AHAPXX),  
+	 * <p>		- Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) and Non-Owner Automobile Endorsement (AA41XX) forms are shown 
+	 * <p>		in both 'Available for Printing' and 'Required to Bind' sections. 
+	 * <p> 3.2. Issue Policy. (Verifications in Inquiry mode are not covered)
+	 * <p> 3.3. Start 'Endorsement' action, calculate premium, go to 'Documents & Bind' tab and verify 
+	 * <p>		the following forms are present and available for selection in 'Available for Printing' section: 
+	 * <p>		- Auto Insurance Application (AA11AZ), 
+	 * <p>		- AutoPay Authorization Form (AHAPXX), 
+	 * <p>		- Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) and Non-Owner Automobile Endorsement (AA41XX) forms are shown 
+	 * <p>		in both 'Available for Printing' and 'Required to Bind' sections. 
+	 * <p>		Purchase Endorsement. 
+	 * <p> 3.4. Start 'Renewal' action, calculate premium, go to 'Documents & Bind' tab and verify the results are the same as on step 3.3.
+	 * <p>
 	 * @param state
 	 */
 	@Parameters({"state"})
@@ -320,40 +321,39 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	}
 	
 	/**
-	 * <b>Adhoc preBind - Scenario 4 </b>
-	 * <b>Forms availability: Endorse - adding, Renew - removing</b>
-	 * 
-	 * Precondition: 
-	 * 		Policy is issued: 
-	 * 		- Policy Type = Standard, 
-	 * 		- No Excluded Driver, 
-	 * 		- Vehicle is NOT enrolled in UBI,  
-	 * 		- Uninsured and Underinsured Coverages = BI. 
-	 * 4.1. Start 'Endorsement' action. 
-	 * 4.2. Add Excluded Diver, go to 'Documents & Bind' tab and verify form 
-	 * 		Named Driver Exclusion (AA43AZ) is shown in both 'Documents Available for Printing' and 'Required to Bind' sections. 
-	 * 4.3. Add Driver with Age = 16, go to 'Documents & Bind' tab and verify 
-	 * 		Critical Information for Teenage Drivers and Their Parents (AATSXX) is shown only in 'Documents Available for Printing' section.  		
-	 * 4.4. Set Uninsured and Underinsured Coverages < BI, go to 'Documents & Bind' tab and verify  
-	 * 		Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) added to 'Required to Bind' section.
-	 * 4.5. Add Vehicle enrolled in UBI, go to 'Documents & Bind' tab and verify 'Documents Available for Printing' section contains forms:
-	 * 		- AAA Usage Based Insurance Program Terms and Conditions (AAUBI), 
-	 * 		- ACP SMARTtrek Subscription Terms and Conditions (ACPUBI), 
-	 * 		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy policies (AAUBI1), 
-	 * 		and 'Required to Bind' section contains: 
-	 * 		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy policies (AAUBI1). 
-	 * 4.6. Purchase Endorsement. 
-	 * 4.7. Start 'Renewal' action. 
-	 * 		Remove Excluded Driver and verify form Named Driver Exclusion (AA43AZ) is NOT shown. 
-	 * 4.8. Remove Teenage Driver and verify form Critical Information for Teenage Drivers and Their Parents (AATSXX) is NOT shown. 
-	 * 4.9. Remove Vehicle enrolled in UBI and verify 3 UBI forms are NOT shown: 
-	 * 		- AAA Usage Based Insurance Program Terms and Conditions (AAUBI), 
-	 * 		- ACP SMARTtrek Subscription Terms and Conditions (ACPUBI), 
-	 * 		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy Policies (AAUBI1). 
-	 * 4.10. Set Uninsured and Underinsured Coverages = BI and verify 
-	 * 		Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) is shown only in 'Available for Printing' section. 
-	 * 4.11. Purchase Renewal. 		 
-	 * 
+	 * <p> <b>Adhoc preBind Scenario 4: Forms availability: Endorse - adding, Renew - removing</b>
+	 * <p> <b>Precondition:</b>
+	 * <p>		Policy is issued: 
+	 * <p>		- Policy Type = Standard, 
+	 * <p>		- No Excluded Driver, 
+	 * <p>		- Vehicle is NOT enrolled in UBI,  
+	 * <p>		- Uninsured and Underinsured Coverages = BI. 
+	 * <p> <b>Steps:</b>
+	 * <p> 4.1. Start 'Endorsement' action. 
+	 * <p> 4.2. Add Excluded Diver, go to 'Documents & Bind' tab and verify form 
+	 * <p>		Named Driver Exclusion (AA43AZ) is shown in both 'Documents Available for Printing' and 'Required to Bind' sections. 
+	 * <p> 4.3. Add Driver with Age = 16, go to 'Documents & Bind' tab and verify 
+	 * <p>		Critical Information for Teenage Drivers and Their Parents (AATSXX) is shown only in 'Documents Available for Printing' section.  		
+	 * <p> 4.4. Set Uninsured and Underinsured Coverages < BI, go to 'Documents & Bind' tab and verify  
+	 * <p> 		Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) added to 'Required to Bind' section.
+	 * <p> 4.5. Add Vehicle enrolled in UBI, go to 'Documents & Bind' tab and verify 'Documents Available for Printing' section contains forms:
+	 * <p>		- AAA Usage Based Insurance Program Terms and Conditions (AAUBI), 
+	 * <p>		- ACP SMARTtrek Subscription Terms and Conditions (ACPUBI), 
+	 * <p>		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy policies (AAUBI1), 
+	 * <p>		and 'Required to Bind' section contains: 
+	 * <p> 		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy policies (AAUBI1). 
+	 * <p> 4.6. Purchase Endorsement. 
+	 * <p> 4.7. Start 'Renewal' action. 
+	 * <p>		Remove Excluded Driver and verify form Named Driver Exclusion (AA43AZ) is NOT shown. 
+	 * <p> 4.8. Remove Teenage Driver and verify form Critical Information for Teenage Drivers and Their Parents (AATSXX) is NOT shown. 
+	 * <p> 4.9. Remove Vehicle enrolled in UBI and verify 3 UBI forms are NOT shown: 
+	 * <p>		- AAA Usage Based Insurance Program Terms and Conditions (AAUBI), 
+	 * <p>		- ACP SMARTtrek Subscription Terms and Conditions (ACPUBI), 
+	 * <p>		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy Policies (AAUBI1). 
+	 * <p> 4.10. Set Uninsured and Underinsured Coverages = BI and verify 
+	 * <p>		Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) is shown only in 'Available for Printing' section. 
+	 * <p> 4.11. Purchase Renewal. 		 
+	 * <p> 
 	 * @param state
 	 */
 	@Parameters({"state"})
@@ -417,37 +417,38 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	}
 	
 	/**
-	 * <b>Adhoc preBind - Scenario 5: Generate eSignature Documents: quote, endorsement, renewal</b>
-	 * 
-	 * Precondition: 
-	 * 		Quote created with data: 
-	 * 		- Policy Type = Standard, 
-	 * 		- Excluded Driver is added, 
-	 * 		- Driver with Age = 16 (teenage driver) is added, 
-	 * 		- Vehicle enrolled in UBI, 
-	 * 		- Uninsured and Underinsured Coverages < than BI recommended. 
-	 * 5.1. Go to 'Documents & Bind' tab, select all documents in "Documents Available for Printing" section (9 forms). 
-	 * 		Click "Generate Documents" and verify all selected documents are generated.
-	 * 5.2. Select Auto Insurance Quote (AAIQAZ), click "Generate Documents" and verify only selected document is generated. 
-	 * 5.3. Select Auto Insurance Application (AA11AZ), click "Generate Documents" 
-	 * 		and verify selected document is generated with Personal Information Privacy Notice (AHPNXX).
-	 * 5.4. Select AutoPay Authorization Form (AHAPXX), click "Generate Documents" and verify only selected document is generated. 
-	 * 5.5. Select Uninsured and Underinsured Motorist Coverage Selection (AA52AZ), click "Generate Documents" 
-	 * 		and verify only selected document is generated. 
-	 * 5.6. Select Named Driver Exclusion (AA43AZ), click "Generate Documents" and verify only selected document is generated. 
-	 * 5.7. Select Critical Information for Teenage Drivers and Their Parents (AATSXX), click "Generate Documents" 
-	 * 		and verify only selected document is generated. 
-	 * 5.8. Select AAA Usage Based Insurance Program Terms and Conditions (AAUBI), click "Generate Documents" 
-	 * 		and verify only selected document is generated + AAPNUBI.
-	 * 5.9. Select ACP SMARTtrek Subscription Terms and Conditions (ACPUBI), click "Generate Documents" 
-	 * 		and verify only selected document is generated + ACPPNUBI. 
-	 * 5.10. Select AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy Policies (AAUBI1), click "Generate Documents" 
-	 * 		and verify only selected document is generated.
-	 * 5.11. Issue Policy. 
-	 * 5.12. Start "Endorsement" action, calculate premium, go to 'Documents & Bind' tab. Repeat steps 5.1, 5.3-5.10 
-	 * 		and verify the same results as in steps 5.1, 5.3-5.10. 
-	 * 		Issue Endorsement. 
-	 * 5.13. Start "Renewal" action, calculate premium, go to 'Documents & Bind' tab. 
+	 * <p> <b>Adhoc preBind Scenario 5: Generate eSignature Documents: quote, endorsement, renewal</b>
+	 * <p>
+	 * <p> <b>Precondition:</b> 
+	 * <p>		Quote created with data: 
+	 * <p>		- Policy Type = Standard, 
+	 * <p>		- Excluded Driver is added, 
+	 * <p>		- Driver with Age = 16 (teenage driver) is added, 
+	 * <p>		- Vehicle enrolled in UBI, 
+	 * <p>		- Uninsured and Underinsured Coverages < than BI recommended.
+	 * <p> <b>Steps:</b> 
+	 * <p> 5.1. Go to 'Documents & Bind' tab, select all documents in "Documents Available for Printing" section (9 forms). 
+	 * <p>		Click "Generate Documents" and verify all selected documents are generated.
+	 * <p> 5.2. Select Auto Insurance Quote (AAIQAZ), click "Generate Documents" and verify only selected document is generated. 
+	 * <p> 5.3. Select Auto Insurance Application (AA11AZ), click "Generate Documents" 
+	 * <p>		and verify selected document is generated with Personal Information Privacy Notice (AHPNXX).
+	 * <p> 5.4. Select AutoPay Authorization Form (AHAPXX), click "Generate Documents" and verify only selected document is generated. 
+	 * <p> 5.5. Select Uninsured and Underinsured Motorist Coverage Selection (AA52AZ), click "Generate Documents" 
+	 * <p>		and verify only selected document is generated. 
+	 * <p> 5.6. Select Named Driver Exclusion (AA43AZ), click "Generate Documents" and verify only selected document is generated. 
+	 * <p> 5.7. Select Critical Information for Teenage Drivers and Their Parents (AATSXX), click "Generate Documents" 
+	 * <p>		and verify only selected document is generated. 
+	 * <p> 5.8. Select AAA Usage Based Insurance Program Terms and Conditions (AAUBI), click "Generate Documents" 
+	 * <p>		and verify only selected document is generated + AAPNUBI.
+	 * <p> 5.9. Select ACP SMARTtrek Subscription Terms and Conditions (ACPUBI), click "Generate Documents" 
+	 * <p>		and verify only selected document is generated + ACPPNUBI. 
+	 * <p> 5.10. Select AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy Policies (AAUBI1), click "Generate Documents" 
+	 * <p> 		and verify only selected document is generated.
+	 * <p> 5.11. Issue Policy. 
+	 * <p> 5.12. Start "Endorsement" action, calculate premium, go to 'Documents & Bind' tab. Repeat steps 5.1, 5.3-5.10 
+	 * <p>		and verify the same results as in steps 5.1, 5.3-5.10. 
+	 * <p> 		Issue Endorsement. 
+	 * <p> 5.13. Start "Renewal" action, calculate premium, go to 'Documents & Bind' tab. 
 	 * 		Repeat steps 5.1, 5.3-5.10 and verify the same results as in steps 5.1, 5.3-5.10. Issue Renewal.
 	 * 
 	 * @param state
@@ -549,19 +550,20 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		log.info("TEST: Renewal created for policy#" + PolicySummaryPage.getPolicyNumber());		
 	}
 	
-	/**
-	 * <b>Adhoc preBind - Scenario 6: Generate Documents NANO</b>
-	 * Precondition: 
-	 * 		Quote created with Policy Type = Non-Owner. 
-	 * 6.1. Go to 'Documents & Bind' tab, select Non-Owner Automobile Endorsement (AA41XX) in "Documents Available for Printing" section. 
-	 * 		Click "Generate Documents" and verify that new tab with the documents is opened and only selected document is generated. 
-	 * 		Issue Policy. 
-	 * 6.2. Start "Endorsement" action, calculate premium, go to 'Documents & Bind' tab. 
-	 * 		Repeat step 6.1 and verify the result is the same as in step 6.1. 
-	 * 		Issue Endorsement. 
-	 * 6.3. Start "Renewal" action, calculate premium, Go to 'Documents & Bind' tab. 
-	 * 		Repeat step 6.1 and verify the result is the same as in step 6.1. 
-	 * 
+	/** 
+	 * <p> <b>Adhoc preBind Scenario 6: Generate Documents NANO</b>
+	 * <p> <b>Precondition:</b> 
+	 * <p>		Quote created with Policy Type = Non-Owner. 
+	 * <p> <b>Steps:</b>
+	 * <p> 6.1. Go to 'Documents & Bind' tab, select Non-Owner Automobile Endorsement (AA41XX) in "Documents Available for Printing" section. 
+	 * <p>		Click "Generate Documents" and verify that new tab with the documents is opened and only selected document is generated. 
+	 * <p>		Issue Policy. 
+	 * <p> 6.2. Start "Endorsement" action, calculate premium, go to 'Documents & Bind' tab. 
+	 * <p>		Repeat step 6.1 and verify the result is the same as in step 6.1. 
+	 * <p>		Issue Endorsement. 
+	 * <p> 6.3. Start "Renewal" action, calculate premium, Go to 'Documents & Bind' tab. 
+	 * <p>		Repeat step 6.1 and verify the result is the same as in step 6.1. 
+	 * <p>
 	 * @param state
 	 */
 	@Parameters({"state"})
@@ -615,41 +617,42 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	}
 	
 	/**
-	 * <b>Adhoc preBind - Scenario 7: Generate eSignature Documents": quote, endorsement, renewal</b>
-	 * Precondition: 
-	 * 		Quote created with data: 
-	 * 		- Policy Type = Standard, 
-	 * 		- Excluded Driver is added, 
-	 * 		- Driver with Age = 16 (teenage driver) is added, 
-	 * 		- Vehicle enrolled in UBI, 
-	 * 		- Uninsured and Underinsured Coverages < than BI recommended.  
-	 * 7.1. Go to 'Documents & Bind' tab, select all documents in "Documents Available for Printing" section (9 forms), 
-	 * 		click "Generate eSignature Documents" and verify the popup with "Recipient Email Address" field is opened. 
-	 * 7.2. Select Auto Insurance Quote (AAIQAZ) and verify "Generate eSignature Documents" is disabled 
-	 * 		(because AAIQAZ form is not eSignable). 
-	 * 7.3. Select Auto Insurance Application (AA11AZ), click "Generate eSignature Documents"
-	 * 		and verify eSignature link is sent. 
-	 * 7.4. Select AutoPay Authorization Form (AHAPXX), click "Generate eSignature Documents" 
-	 * 		and verify eSignature link is sent. 
-	 * 7.5. Select Uninsured and Underinsured Motorist Coverage Selection (AA52AZ), click "Generate eSignature Documents" 
-	 * 		and verify eSignature link is sent. 
-	 * 7.6. Select Named Driver Exclusion (AA43AZ), click "Generate eSignature Documents"  
-	 * 		and verify eSignature link is sent. 
-	 * 7.7. Select Critical Information for Teenage Drivers and Their Parents (AATSXX) and verify  
-	 * 		"Generate eSignature Documents" is disabled (because AATSXX form is not eSignable). 
-	 * 7.8. Select AAA Usage Based Insurance Program Terms and Conditions (AAUBI) and verify 
-	 * 		"Generate eSignature Documents" is disabled (because AAUBI form is not eSignable). 
-	 * 7.9. Select ACP SMARTtrek Subscription Terms and Conditions (ACPUBI) and verify  
-	 * 		"Generate eSignature Documents" is disabled (because ACPUBI form is not eSignable). 
-	 * 7.10. Select AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy Policies (AAUBI1), click "Generate eSignature Documents"  
-	 * 		and verify eSignature link is sent. 
-	 * 7.11. Issue Policy. 
-	 * 7.12. Start "Endorsement" action, calculate premium, go to 'Documents & Bind' tab. 
-	 * 		Repeat steps 7.1, 7.3-7.10 and verify the same results as in steps 7.1 (8 forms), 7.3-7.10.
-	 * 		Issue Endorsement. 
-	 * 7.13. Start "Renewal" action, calculate Premium, go to 'Documents & Bind' tab. 
-	 * 		Repeat steps 7.1, 7.3-7.10 and verify the same results as in steps 7.1 (8 forms), 7.3-7.10.
-	 * 
+	 * <p> <b>Adhoc preBind Scenario 7: Generate eSignature Documents": quote, endorsement, renewal</b>
+	 * <p> <b>Precondition:</b> 
+	 * <p>		Quote created with data: 
+	 * <p>		- Policy Type = Standard, 
+	 * <p>		- Excluded Driver is added, 
+	 * <p>		- Driver with Age = 16 (teenage driver) is added, 
+	 * <p>		- Vehicle enrolled in UBI, 
+	 * <p>		- Uninsured and Underinsured Coverages < than BI recommended. 
+	 * <p> <b>Steps:</b>
+	 * <p> 7.1. Go to 'Documents & Bind' tab, select all documents in "Documents Available for Printing" section (9 forms), 
+	 * <p> 		click "Generate eSignature Documents" and verify the popup with "Recipient Email Address" field is opened. 
+	 * <p> 7.2. Select Auto Insurance Quote (AAIQAZ) and verify "Generate eSignature Documents" is disabled 
+	 * <p>		(because AAIQAZ form is not eSignable). 
+	 * <p> 7.3. Select Auto Insurance Application (AA11AZ), click "Generate eSignature Documents"
+	 * <p>		and verify eSignature link is sent. 
+	 * <p> 7.4. Select AutoPay Authorization Form (AHAPXX), click "Generate eSignature Documents" 
+	 * <p>		and verify eSignature link is sent. 
+	 * <p> 7.5. Select Uninsured and Underinsured Motorist Coverage Selection (AA52AZ), click "Generate eSignature Documents" 
+	 * <p>		and verify eSignature link is sent. 
+	 * <p> 7.6. Select Named Driver Exclusion (AA43AZ), click "Generate eSignature Documents"  
+	 * <p>		and verify eSignature link is sent. 
+	 * <p> 7.7. Select Critical Information for Teenage Drivers and Their Parents (AATSXX) and verify  
+	 * <p>		"Generate eSignature Documents" is disabled (because AATSXX form is not eSignable). 
+	 * <p> 7.8. Select AAA Usage Based Insurance Program Terms and Conditions (AAUBI) and verify 
+	 * <p>		"Generate eSignature Documents" is disabled (because AAUBI form is not eSignable). 
+	 * <p> 7.9. Select ACP SMARTtrek Subscription Terms and Conditions (ACPUBI) and verify  
+	 * <p>		"Generate eSignature Documents" is disabled (because ACPUBI form is not eSignable). 
+	 * <p> 7.10. Select AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy Policies (AAUBI1), click "Generate eSignature Documents"  
+	 * <p>		and verify eSignature link is sent. 
+	 * <p> 7.11. Issue Policy. 
+	 * <p> 7.12. Start "Endorsement" action, calculate premium, go to 'Documents & Bind' tab. 
+	 * <p>		Repeat steps 7.1, 7.3-7.10 and verify the same results as in steps 7.1 (8 forms), 7.3-7.10.
+	 * <p>		Issue Endorsement. 
+	 * <p> 7.13. Start "Renewal" action, calculate Premium, go to 'Documents & Bind' tab. 
+	 * <p>		Repeat steps 7.1, 7.3-7.10 and verify the same results as in steps 7.1 (8 forms), 7.3-7.10.
+	 * <p>
 	 * @param state
 	 */
 	@Parameters({"state"})
@@ -745,18 +748,19 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	}
 	
 	/**
-	 * <b>Adhoc preBind - Scenario 8: Generate eSignature Documents NANO</b>
-	 * Precondition: 
-	 * 		Quote created with Policy Type = Non-Owner. 
-	 * 8.1. Go to 'Documents & Bind' tab, select Non-Owner Automobile Endorsement (AA41XX) in "Documents Available for Printing" section, 
-	 * 		click "Generate eSignature Documents" and verify the pop-up with "Recipient Email Address" field is opened. 
-	 * 		Issue Policy. 
-	 * 8.2. Start "Endorsement" action, calculate premium, go to 'Documents & Bind' tab. 
-	 * 		Repeat steps 8.1 and verify results are the same as in steps 8.1. 
-	 * 		Issue Endorsement. 
-	 * 8.3. Start "Renewal" action, calculate premium, go to 'Documents & Bind' tab. 
-	 * 		Repeat steps 8.1 and verify results are the same as in steps 8.1.
-	 * 
+	 * <p> <b>Adhoc preBind Scenario 8: Generate eSignature Documents NANO</b>
+	 * <p> <b>Precondition:</b> 
+	 * <p>		Quote created with Policy Type = Non-Owner. 
+	 * <p> <b>Steps:</b>
+	 * <p> 8.1. Go to 'Documents & Bind' tab, select Non-Owner Automobile Endorsement (AA41XX) in "Documents Available for Printing" section, 
+	 * <p>		click "Generate eSignature Documents" and verify the pop-up with "Recipient Email Address" field is opened. 
+	 * <p>		Issue Policy. 
+	 * <p> 8.2. Start "Endorsement" action, calculate premium, go to 'Documents & Bind' tab. 
+	 * <p>		Repeat steps 8.1 and verify results are the same as in steps 8.1. 
+	 * <p>		Issue Endorsement. 
+	 * <p> 8.3. Start "Renewal" action, calculate premium, go to 'Documents & Bind' tab. 
+	 * <p>		Repeat steps 8.1 and verify results are the same as in steps 8.1.
+	 * <p>
 	 * @param state
 	 */
 	@Parameters({"state"})

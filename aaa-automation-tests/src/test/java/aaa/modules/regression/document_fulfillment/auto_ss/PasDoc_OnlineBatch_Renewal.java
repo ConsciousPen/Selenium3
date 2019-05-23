@@ -38,13 +38,12 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	
 	/**
 	 * OnlineBatch - Scenario 48 - PRE-RENEWAL_REMINDER_NOTICE: AHRRXX
-	 * Steps:
-	 * 		1. Policy is issued. 
-	 * 		2. Shift time to R-35 Execute Renewal_Offer_Generation_Part1 and Part2. 
-	 * 		3. Shift time to R-10 Execute preRenewalReminderGenerationAsyncJob. 
-	 * Expected result: 
-	 * 		The following form is generated: AHRRXX
-	 * 
+	 * <p> <b>Steps:</b>
+	 * <p>	1. Policy is issued. 
+	 * <p>	2. Shift time to R-35 Execute Renewal_Offer_Generation_Part1 and Part2. 
+	 * <p>	3. Shift time to R-10 Execute preRenewalReminderGenerationAsyncJob. 
+	 * <p> <b>Expected result:</b> The following form is generated: AHRRXX
+	 * <p>
 	 * @param state
 	 */
 	@Parameters({"state"})
@@ -68,17 +67,17 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	
 	/**
 	 * OnlineBatch: Scenario 54 - RENEWAL_BILL: AHRBXX, AH35XX
-	 * Precondition: 
-	 * 		(a) Policy is issued: Monthly Payment Plan, AutoPay IS active. 
-	 * 		(b) Policy is issued: Monthly Payment Plan, AutoPay is NOT active. 
-	 * Steps: 
-	 * 		1. Set time to R-35 and run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
-	 * 		Result is Renewal in status Proposed. 
-	 * 		2. Set time to R-20 and run aaaRenewalNoticeBillAsyncJob to generate a bill.
-	 * Expected result: 
-	 * 		(a) The following forms are generated: AHRBXX, AH35XX. 
-	 * 		(b) AHRBXX form is generated, AH35XX is not generated. 
-	 * 
+	 * <p> <b>Precondition:</b> 
+	 * <p>		(a) Policy is issued: Monthly Payment Plan, AutoPay IS active. 
+	 * <p>		(b) Policy is issued: Monthly Payment Plan, AutoPay is NOT active. 
+	 * <p> <b>Steps:</b> 
+	 * <p>		1. Set time to R-35 and run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
+	 * <p>		- Result is Renewal in status Proposed. 
+	 * <p>		2. Set time to R-20 and run aaaRenewalNoticeBillAsyncJob to generate a bill.
+	 * <p> <b>Expected result:</b> 
+	 * <p>		(a) The following forms are generated: AHRBXX, AH35XX. 
+	 * <p>		(b) AHRBXX form is generated, AH35XX is not generated. 
+	 * <p>
 	 * @param state
 	 */
 	@Parameters({"state"})
@@ -118,18 +117,17 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	
 	/**
 	 * OnlineBatch - Scenario 55 - RENEWAL_ISSUE: AASR22
-	 * Precondition: 
-	 * 		Policy is issued: Driver with Financial Responsibility = Yes. 
-	 * Steps: 
-	 * 		1. Set time to R-35. 
-	 * 		2. Run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
-	 * 		Result is Renewal in status Proposed.
-	 * 		3. Set time to R-20 and run aaaRenewalNoticeBillAsyncJob to generate a bill. 
-	 * 		4. Pay bill. 
-	 * 		5. Set time to R+1 and run policyStatusUpdateJob.
-	 * Expected result: 
-	 * 		Form AASR22 is NOT generated. 		
-	 * 
+	 * <p> <b>Precondition:</b> 
+	 * <p>		Policy is issued: Driver with Financial Responsibility = Yes. 
+	 * <p> <b>Steps:</b> 
+	 * <p>		1. Set time to R-35. 
+	 * <p>		2. Run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
+	 * <p>		- Result is Renewal in status Proposed.
+	 * <p>		3. Set time to R-20 and run aaaRenewalNoticeBillAsyncJob to generate a bill. 
+	 * <p>		4. Pay bill. 
+	 * <p>		5. Set time to R+1 and run policyStatusUpdateJob.
+	 * <p> <b>Expected result:</b> Form AASR22 is NOT generated. 		
+	 * <p>
 	 * @param state
 	 */
 	@Parameters({"state"})
@@ -169,19 +167,19 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	/**
 	 * OnlineBatch Scenario 56 - RENEWAL_OFFER: 
 	 * AA02AZ + AAAEAZ2, AA10XX, AHAUXX, AHMVCNV, AHPIFNXX, AAAEXX2, AHRBXX
-	 * Preconditions: 
-	 * 		Policy is issued: 
-	 * 		- No Excluded Drivers, 
-	 * 		- Uninsured and Underinsured Coverages = recommended, 
-	 * 		- No Vehicles enrolled in UBI, 
-	 * 		- AutoPay is NOT active. 
-	 * Steps: 
-	 * 		1. Set time to R-35. 
-	 * 		2. Run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
-	 * 		Result is Renewal in status Proposed.
-	 * Expected result: 
-	 * 		Only following forms are generated: AA10XX, AA02AZ, AAAEAZ2, AHPNXX, AARNXX. 
-	 * 		Not generated: AH35XX, AA43AZ, AA52AZ, AADNUBI, AAPNUBI, ACPPNUBI, AAINXX1
+	 * <p> <b>Preconditions:</b> 
+	 * <p>		Policy is issued: 
+	 * <p>		- No Excluded Drivers, 
+	 * <p>		- Uninsured and Underinsured Coverages = recommended, 
+	 * <p>		- No Vehicles enrolled in UBI, 
+	 * <p>		- AutoPay is NOT active. 
+	 * <p> <b>Steps:</b> 
+	 * <p>		1. Set time to R-35. 
+	 * <p>		2. Run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
+	 * <p>		- Result is Renewal in status Proposed.
+	 * <p> <b>Expected result:</b> 
+	 * <p>		- Only following forms are generated: AA10XX, AA02AZ, AAAEAZ2, AHPNXX, AARNXX. 
+	 * <p>		- Not generated: AH35XX, AA43AZ, AA52AZ, AADNUBI, AAPNUBI, ACPPNUBI, AAINXX1
 	 * 
 	 * @param state
 	 */
@@ -210,20 +208,20 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	
 	/**
 	 * OnlineBatch Scenario 58 - RENEWAL_OFFER: AA43AZ
-	 * Precondition: 
-	 * 		(a) Policy is issued: 
-	 * 			- Add Excluded Driver, 
-	 * 			- Uninsured and Underinsured Coverages = recommended, 
-	 * 			- No Vehicles enrolled in UBI, 
-	 * 			- AutoPay is active. 
-	 * 		(b) Policy is issued without Excluded Driver. On Endorsement add Excluded Driver. 
-	 * Steps: 
-	 * 		1. Set time to R-35. 
-	 * 		2. Run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
-	 * 		Result is Renewal in status Proposed. 
-	 * Expected result: 
-	 * 		(a) Not generated: AA43AZ
-	 * 		(b) Not generated: AA43AZ
+	 * <p> <b>Precondition:</b> 
+	 * <p>		(a) Policy is issued: 
+	 * <p>			- Add Excluded Driver, 
+	 * <p>			- Uninsured and Underinsured Coverages = recommended, 
+	 * <p>			- No Vehicles enrolled in UBI, 
+	 * <p>			- AutoPay is active. 
+	 * <p>		(b) Policy is issued without Excluded Driver. On Endorsement add Excluded Driver. 
+	 * <p> <b>Steps:</b> 
+	 * <p>		1. Set time to R-35. 
+	 * <p>		2. Run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
+	 * <p>		- Result is Renewal in status Proposed. 
+	 * <p> <b>Expected result:</b> 
+	 * <p>		(a) Not generated: AA43AZ
+	 * <p>		(b) Not generated: AA43AZ
 	 * 
 	 * @param state
 	 */
@@ -258,19 +256,18 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	
 	/**
 	 * OnlineBatch Scenario 59 - RENEWAL_OFFER: AA52AZ
-	 * Precondition: 
-	 * 		Policy is issued: 
-	 * 		- No Excluded Drivers, 
-	 * 		- Uninsured and Underinsured Coverages less than recommended, 
-	 * 		- No Vehicles enrolled in UBI, 
-	 * 		- AutoPay is NOT active. 
-	 * Steps: 
-	 * 		1. Set time to R-35. 
-	 * 		2. Run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
-	 * 		Result is Renewal in status Proposed. 
-	 * Expected result: 
-	 * 		Not generated: AA52AZ
-	 * 
+	 * <p> <b>Precondition:</b> 
+	 * <p>		Policy is issued: 
+	 * <p>		- No Excluded Drivers, 
+	 * <p>		- Uninsured and Underinsured Coverages less than recommended, 
+	 * <p>		- No Vehicles enrolled in UBI, 
+	 * <p>		- AutoPay is NOT active. 
+	 * <p> <b>Steps:</b> 
+	 * <p>		1. Set time to R-35. 
+	 * <p>		2. Run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
+	 * <p>		- Result is Renewal in status Proposed. 
+	 * <p> <b>Expected result:</b> Not generated: AA52AZ
+	 * <p>
 	 * @param state
 	 */
 	@Parameters({"state"})
@@ -296,20 +293,20 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	
 	/**
 	 * OnlineBatch Scenario 60 - RENEWAL_OFFER: AAPNUBI, ACPPNUBI 
-	 * Precondition: 
-	 * 		(a) Policy is issued: 
-	 * 			- No Excluded Drivers, 
-	 * 			- Uninsured and Underinsured Coverages = recommended, 
-	 * 			- Vehicle is enrolled in UBI, 
-	 * 			- AutoPay is NOT active. 
-	 * 		(b) Policy is issued without Vehicle Enrolled in UBI. On Endorsement add Vehicle Enrolled in UBI (has Score). 
-	 * Steps: 
-	 * 		1. Set time to R-35. 
-	 * 		2. Run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
-	 * 		Result is Renewal in status Proposed. 
-	 * Expected result: 
-	 * 		(a) The following forms are generated: AAPNUBI, ACPPNUBI. Not generated: AADNUBI 
-	 * 		(b) The following forms are generated: AAPNUBI, ACPPNUBI. Not generated: AADNUBI
+	 * <p> <b>Precondition:</b> 
+	 * <p>		(a) Policy is issued: 
+	 * <p>			- No Excluded Drivers, 
+	 * <p>			- Uninsured and Underinsured Coverages = recommended, 
+	 * <p>			- Vehicle is enrolled in UBI, 
+	 * <p>			- AutoPay is NOT active. 
+	 * <p>		(b) Policy is issued without Vehicle Enrolled in UBI. On Endorsement add Vehicle Enrolled in UBI (has Score). 
+	 * <p> <b>Steps:</b> 
+	 * <p>		1. Set time to R-35. 
+	 * <p>		2. Run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
+	 * <p>		Result is Renewal in status Proposed. 
+	 * <p> <b>Expected result:</b> 
+	 * <p>		(a) The following forms are generated: AAPNUBI, ACPPNUBI. Not generated: AADNUBI 
+	 * <p>		(b) The following forms are generated: AAPNUBI, ACPPNUBI. Not generated: AADNUBI
 	 * 		
 	 * @param state
 	 */
@@ -351,21 +348,21 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	
 	/**
 	 * OnlineBatch Scenario 61 - RENEWAL_OFFER: AADNUBI
-	 * Precondition: 
-	 * 		(a) Policy is issued: 
-	 * 			- No Excluded Drivers, 
-	 * 			- Uninsured and Underinsured Coverages = recommended, 
-	 * 			- Vehicle is enrolled in UBI (has NO Score), 
-	 * 			- AutoPay is NOT active.
-	 * 		(b) Policy is issued without Vehicle Enrolled in UBI. On Endorsement add Vehicle Enrolled in UBI (has NO Score). 
-	 * Steps: 
-	 * 		1. Set time to R-35. 
-	 * 		2. Run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
-	 * 		Result is Renewal in status Proposed.
-	 * Expected result: 
-	 * 		(a) The following forms are generated: AAPNUBI, ACPPNUBI, AADNUBI. 
-	 * 		(b) The following forms are generated: AAPNUBI, ACPPNUBI, AADNUBI. 
-	 * 
+	 * <p> <b>Precondition:</b> 
+	 * <p>		(a) Policy is issued: 
+	 * <p>			- No Excluded Drivers, 
+	 * <p>			- Uninsured and Underinsured Coverages = recommended, 
+	 * <p>			- Vehicle is enrolled in UBI (has NO Score), 
+	 * <p>			- AutoPay is NOT active.
+	 * <p>		(b) Policy is issued without Vehicle Enrolled in UBI. On Endorsement add Vehicle Enrolled in UBI (has NO Score). 
+	 * <p> <b>Steps:</b> 
+	 * <p>		1. Set time to R-35. 
+	 * <p>		2. Run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
+	 * <p>		Result is Renewal in status Proposed.
+	 * <p> <b>Expected result:</b> 
+	 * <p>		(a) The following forms are generated: AAPNUBI, ACPPNUBI, AADNUBI. 
+	 * <p>		(b) The following forms are generated: AAPNUBI, ACPPNUBI, AADNUBI. 
+	 * <p>
 	 * @param state
 	 */
 	@Parameters({"state"})
