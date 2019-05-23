@@ -561,6 +561,8 @@ PremiumAndCoveragesTab_MDD: {
 TestData_MDD_Endorse: {
   GeneralTab: {},
   DriverTab: ['@Driver_three_MatureDriver_discount'],
+  MembershipTab: '@<auto_ca_select>@DataGather@MembershipTab',
+  VehicleTab: '@Vehicle_Endorse',
   AssignmentTab: '@AssignmentTab_Endorse'
 }
 Driver_three_MatureDriver_discount: {
@@ -582,6 +584,33 @@ Driver_three_MatureDriver_discount: {
   "License #": C1234558,
   Mature driver course completed within 36 months: 'Yes',
   Mature Driver Course Completion Date: $<today-8M>,
+}
+Vehicle_Endorse: {
+  Add Vehicle: Click,
+  Type: 'Regular',
+  VIN: 9BWFL61J244023215,
+  Primary Use: 'Commute (to/from work and school)',
+  Anti-theft Recovery Device: Vehicle Recovery Device,
+  Existing Damage: Normal Wear and Tear,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 15,
+  Odometer Reading: 80,
+  Odometer Reading Date: $<today-2y>,
+  Customer Declared Annual Miles: 10000,
+}
+AssignmentTab_Endorse: {
+  DriverVehicleRelationshipTable: [{
+                                     Primary Driver: index=1,
+                                     Manually Rated Driver: index=3
+                                   },
+                                   {
+                                     Primary Driver: index=2,
+                                     Manually Rated Driver: index=1
+                                   },
+                                   {
+                                     Primary Driver: index=3,
+                                     Manually Rated Driver: index=2
+                                   }]
 }
 TestData_Activity_MDD_Endorse: {
   DriverTab: '@DriverTab_Activity_Endorse',
@@ -624,14 +653,4 @@ Activity2Endorse: {
   Occurrence Date: '$<today-2M:MM/dd/yyyy>',
   Description: 'Driving under the influence of alcohol',
   "Include in Points and/or YAF?": 'Yes'
-}
-AssignmentTab_Endorse: {
-  DriverVehicleRelationshipTable: [{
-                                     Primary Driver: index=1,
-                                     Manually Rated Driver: index=3
-                                   },
-                                   {
-                                     Primary Driver: index=2,
-                                     Manually Rated Driver: index=1
-                                   }]
 }

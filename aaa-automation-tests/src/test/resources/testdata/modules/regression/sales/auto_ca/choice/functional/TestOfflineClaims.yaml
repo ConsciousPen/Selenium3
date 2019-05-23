@@ -378,7 +378,6 @@ Driver_GoodStudent_NewDriver_Discount: {
   New Driver Course Completion Date: $<today>,
   New Driver Certification Number: 33333,
 }
-
 Driver_two_MatureDriver_discount: {
   DriverSearchDialog: {},
   Driver Type: Available for Rating,
@@ -466,6 +465,9 @@ Vehicle1MDD: {
 Vehicle2MDD: {
   "Are there any additional interest(s)?": 'No'
 }
+Vehicle3MDD: {
+  "Are there any additional interest(s)?": 'No'
+}
 DriverTab_Activity_MDD: {
   ActivityInformation: ['@Activity1MDD', '@Activity2MDD','@Activity3MDD']
 }
@@ -504,6 +506,8 @@ PremiumAndCoveragesTab_MDD: {
 TestData_MDD_Endorse: {
   GeneralTab: {},
   DriverTab: ['@Driver_three_MatureDriver_discount'],
+  MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab',
+  VehicleTab: '@Vehicle_Endorse',
   AssignmentTab: '@AssignmentTab_Endorse'
 }
 Driver_three_MatureDriver_discount: {
@@ -546,9 +550,11 @@ TestData_Activity_MDD_Endorse: {
     RequiredToIssue: {
       Proof of Good Student Discount: 'Yes',
       Proof of Anti-Theft Recovery Device: 'Yes'
-    }
+    },
+    VehicleInformation: ['@Vehicle3MDD']
+  }
    }
-}
+
 DriverTab_Activity: {
   ActivityInformation: ['@Activity1_Endorse', '@Activity2_Endorse']
 }
@@ -572,11 +578,23 @@ Activity2_Endorse: {
 AssignmentTab_Endorse: {
   DriverVehicleRelationshipTable: [{
                                      Primary Driver: index=1,
-                                     Manually Rated Driver: index=3
-                                   },
-                                   {
+                                   }, {
                                      Primary Driver: index=2,
-                                     Manually Rated Driver: index=1
-                                   }]
+                                   },{
+                                       Primary Driver: index=3,
+                                    }]
 }
 
+Vehicle_Endorse: {
+  Add Vehicle: Click,
+  Type: 'Regular',
+  VIN: 9BWFL61J244023215,
+  Primary Use: 'Commute (to/from work and school)',
+  Anti-theft Recovery Device: Vehicle Recovery Device,
+  Existing Damage: Normal Wear and Tear,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 15,
+  Odometer Reading: 80,
+  Odometer Reading Date: $<today-2y>,
+  Customer Declared Annual Miles: 10000,
+}
