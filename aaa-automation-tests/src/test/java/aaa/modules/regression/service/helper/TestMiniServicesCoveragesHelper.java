@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import oracle.jdbc.driver.Const;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
@@ -1626,7 +1627,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//NOTE: Validation of Change History is too complicated for automation - have to update every coverage. Should be tested manually if needed.
 	}
 
-	private void verifyViewUpdateCoverageOrder(ETCSCoreSoftAssertions softly, List<String> orderOfPolicyLevelCoveragesExpected, List<String> orderOfVehicleLevelCoveragesExpected, List<String> orderOfDriverLevelCoveragesExpected, String policyNumber) {
+	protected void verifyViewUpdateCoverageOrder(ETCSCoreSoftAssertions softly, List<String> orderOfPolicyLevelCoveragesExpected, List<String> orderOfVehicleLevelCoveragesExpected, List<String> orderOfDriverLevelCoveragesExpected, String policyNumber) {
 		//Run viewEndorsementCoverages and validate order of coverages in response
 		PolicyCoverageInfo policyCoverageInfo = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		validateOrderOfAllLevelCoverages(softly, orderOfPolicyLevelCoveragesExpected, orderOfVehicleLevelCoveragesExpected, orderOfDriverLevelCoveragesExpected, policyCoverageInfo);

@@ -277,3 +277,17 @@ PremiumAndCoveragesTab_NoCompColl: {
   }
   ]
 }
+
+#RREIM, TOWINGLABOR and SPECEQUIP is in response, but customerDisplay=false
+TestData_OrderOfCoverages_LOAN: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "ETEC", "ALLRISK", "OEM", "RIDESHARE", "TOWINGLABOR", "SPECEQUIP"],
+  DriverLevelCoverages:["ADB"]
+}
+
+#RREIM, TOWINGLABOR and SPECEQUIP is in response, but customerDisplay=false
+TestData_OrderOfCoverages_NEWCAR: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "RREIM", "ETEC", "ALLRISK", "OEM", "RIDESHARE", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}

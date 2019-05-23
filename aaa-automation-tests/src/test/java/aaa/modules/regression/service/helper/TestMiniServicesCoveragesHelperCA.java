@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.CoverageInfo;
@@ -15,6 +16,7 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoveragesHelper {
 
@@ -598,5 +600,34 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 				softly.assertThat(covRideShareActual).isEqualTo(covRideShareExpected);
 			});
 		}
+	}
+
+	protected void pas19057_OrderOfCoverageBodyCA(ETCSCoreSoftAssertions softly, boolean isOwnedVehicle) {
+		TestData td = getPolicyDefaultTD();
+		List<String> orderOfVehicleLevelCoveragesExpected;
+		if (isOwnedVehicle) {
+			td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("VehicleTab_NewVehicle2"));// Owned vehicle to have NEWCAR coverage
+			orderOfVehicleLevelCoveragesExpected = getTestSpecificTD("TestData_OrderOfCoverages_NEWCAR").getList("VehicleLevelCoverages");
+		} else {
+			td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("VehicleTab_NewVehicle1"));// Leased vehicle to have LOAN coverage
+			orderOfVehicleLevelCoveragesExpected = getTestSpecificTD("TestData_OrderOfCoverages_LOAN").getList("VehicleLevelCoverages");
+		}
+		td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("VehicleTab_NewVehicle1"))// Leased vehicle to have LOAN coverage
+				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("AssingmentTab_1Veh"))
+				.resolveLinks();
+
+		List<String> orderOfPolicyLevelCoveragesExpected = getTestSpecificTD("TestData_OrderOfCoverages").getList("PolicyLevelCoverages");
+		List<String> orderOfDriverLevelCoveragesExpected = getTestSpecificTD("TestData_OrderOfCoverages").getList("DriverLevelCoverages");
+
+		mainApp().open();
+		String policyNumber;
+		createCustomerIndividual();
+		policyNumber = createPolicy(td);
+
+		//Perform Endorsement
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		verifyViewUpdateCoverageOrder(softly, orderOfPolicyLevelCoveragesExpected, orderOfVehicleLevelCoveragesExpected, orderOfDriverLevelCoveragesExpected, policyNumber);
+
+		//NOTE: Validation of Change History is too complicated for automation - have to update every coverage. Should be tested manually if needed.
 	}
 }

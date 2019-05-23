@@ -1424,6 +1424,8 @@
                     <include name="pas28579_updatePolicyLevelCoveragesCA"/>
                     <include name="pas15423_rideSharingCoverageCA"/>
                     <include name="pas26668_viewVehicleLevelCoveragesCA"/>
+                    <include name="pas19057_OrderOfCoverageCATC01"/>
+                    <include name="pas19057_OrderOfCoverageCATC02"/>
                 </methods>
             </class>
         </classes>

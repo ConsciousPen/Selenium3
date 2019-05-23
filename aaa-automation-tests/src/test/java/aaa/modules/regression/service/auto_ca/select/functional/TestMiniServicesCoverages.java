@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.auto_ca.select.functional;
 
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -224,5 +225,33 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
 	public void pas15424_viewUpdateOEMCoverageLessThan10yNoOEMCATC010(@Optional("CA") String state) {
 		pas15424_viewUpdateOEMCoveragelessThan10yNoOEMCATC010Body();
+	}
+
+	/**
+	 * @author Megha Gubbala, Maris Strazds
+	 * @name Verify Policy and Vehicle level coverages Order and Driver level coverages order
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-19057"})
+	public void pas19057_OrderOfCoverageCATC01(@Optional("CA") String state) {
+		assertSoftly(softly -> {
+			pas19057_OrderOfCoverageBodyCA(softly, true);
+		});
+	}
+
+	/**
+	 * @author Megha Gubbala, Maris Strazds
+	 * @name Verify Policy and Vehicle level coverages Order and Driver level coverages order
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-19057"})
+	public void pas19057_OrderOfCoverageCATC02(@Optional("CA") String state) {
+		assertSoftly(softly -> {
+			pas19057_OrderOfCoverageBodyCA(softly, false);
+		});
 	}
 }
