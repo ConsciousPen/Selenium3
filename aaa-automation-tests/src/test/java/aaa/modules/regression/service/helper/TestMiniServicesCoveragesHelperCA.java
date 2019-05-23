@@ -290,6 +290,246 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 
 	}
 
+	protected void pas15424_viewUpdateOEMCoverageCATC01Body() {
+		String policyNumber = openAppAndCreatePolicy();
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateViewPolicyCoveragesIsTheSameAsViewEndorsementCoverage(policyNumber, viewEndorsementCoverages);
+
+		Coverage covCOMPDEDExpected = Coverage.create(CoverageInfo.COMPDED_CA).changeLimit(CoverageLimits.COV_250);
+		Coverage covCOLLDEDExpected = Coverage.create(CoverageInfo.COLLDED_CA).changeLimit(CoverageLimits.COV_500);
+		Coverage covOEMExpected = Coverage.create(CoverageInfo.OEM_CA);
+		Vehicle vehicle = HelperCommon.viewEndorsementVehicles(policyNumber).vehicleList.get(0);
+		VehicleCoverageInfo veh1Coverages = findVehicleCoverages(viewEndorsementCoverages, vehicle.oid);
+		Coverage covOEMActual = findCoverage(veh1Coverages.coverages, CoverageInfo.OEM_CA.getCode());
+		assertThat(covOEMActual).isEqualTo(covOEMExpected);
+
+		//Add vehicle
+		String newVin = "1FMCU9GD5JUB71878"; // 2018 Ford Escape (less than 10y old)
+		String newVehicleOid = helperMiniServices.addVehicleWithChecks(policyNumber, "2015-02-11", newVin, true);
+		viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		VehicleCoverageInfo veh2Coverages = findVehicleCoverages(viewEndorsementCoverages, newVehicleOid);
+		Coverage covCOMPDEDActualVeh2 = findCoverage(veh2Coverages.coverages, CoverageInfo.COMPDED_CA.getCode());
+		Coverage covCOLLDEDActualVeh2 = findCoverage(veh2Coverages.coverages, CoverageInfo.COLLDED_CA.getCode());
+		Coverage covOEMActualVeh2 = findCoverage(veh2Coverages.coverages, CoverageInfo.OEM_CA.getCode());
+		assertThat(covCOMPDEDActualVeh2).isEqualTo(covCOMPDEDExpected);
+		assertThat(covCOLLDEDActualVeh2).isEqualTo(covCOLLDEDExpected);
+		Coverage covOEMExpectedVeh2 = Coverage.create(CoverageInfo.OEM_CA).changeLimit(CoverageLimits.COV_0);
+		assertThat(covOEMActualVeh2).isEqualTo(covOEMExpectedVeh2);
+
+		//Apply OEM
+		Coverage covOEMYesExpected = Coverage.create(CoverageInfo.OEM_CA).changeLimit(CoverageLimits.COV_1);
+		updateVehLevelCoverageAndCheckResponses(policyNumber, newVehicleOid, covOEMYesExpected, covOEMYesExpected, covCOMPDEDExpected, covCOLLDEDExpected);
+
+		//Update COLLDED to 0
+		covCOLLDEDExpected.changeLimit(CoverageLimits.COV_NO_COV);
+		covOEMExpectedVeh2.disableCanChange().disableCustomerDisplay();
+		updateVehLevelCoverageAndCheckResponses(policyNumber, newVehicleOid, covCOLLDEDExpected, covCOLLDEDExpected, covCOMPDEDExpected, covOEMExpected);
+
+		//Update COLLDED back to other than 0
+		covCOLLDEDExpected.changeLimit(CoverageLimits.COV_250);
+		covOEMExpectedVeh2.enableCanChange().enableCustomerDisplay();
+		updateVehLevelCoverageAndCheckResponses(policyNumber, newVehicleOid, covCOLLDEDExpected, covCOLLDEDExpected, covCOMPDEDExpected, covOEMExpected);
+
+		//Update COMPDED 0
+		covCOMPDEDExpected.changeLimit(CoverageLimits.COV_NO_COV);
+		covOEMExpectedVeh2.disableCustomerDisplay().disableCanChange();
+		updateVehLevelCoverageAndCheckResponses(policyNumber, newVehicleOid, covCOMPDEDExpected, covCOMPDEDExpected, covOEMExpected);
+
+		//Update COLLDED also to 0
+		covCOLLDEDExpected.changeLimit(CoverageLimits.COV_NO_COV);
+		covOEMExpectedVeh2.disableCanChange().disableCustomerDisplay();
+		updateVehLevelCoverageAndCheckResponses(policyNumber, newVehicleOid, covCOLLDEDExpected, covCOLLDEDExpected, covCOMPDEDExpected, covOEMExpected);
+	}
+
+	protected void pas15424_viewUpdateOEMCoverageVehOlderThan10yCATC02Body() {
+		TestData td = getPolicyDefaultTD();
+		TestData testData = td.adjust(TestData.makeKeyPath(VehicleTab.class.getSimpleName(), AutoCaMetaData.VehicleTab.VIN.getLabel()), "5GAER23728J239640")//2008 Buick Enclave (more than 10y old)
+				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("AssingmentTab_1Veh"))
+				.resolveLinks();
+
+		String policyNumber = openAppAndCreatePolicy(testData);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateViewPolicyCoveragesIsTheSameAsViewEndorsementCoverage(policyNumber, viewEndorsementCoverages);
+		String vinExistingVehicle = HelperCommon.viewEndorsementVehicles(policyNumber).vehicleList.get(0).oid;
+		verifyOEMTC02_pas15424(policyNumber, vinExistingVehicle);
+
+		//Add vehicle more than 10y old
+		String newVehicleOid = helperMiniServices.addVehicleWithChecks(policyNumber, "2015-02-11", "1FAHP24W98G151839", true);//2008 Ford Taurus (more than 10y old)
+		verifyOEMTC02_pas15424(policyNumber, newVehicleOid);
+	}
+
+	private void verifyOEMTC02_pas15424(String policyNumber, String vehOid) {
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		VehicleCoverageInfo vehicleCoverages = findVehicleCoverages(viewEndorsementCoverages, vehOid);
+		Coverage covCOMPDED = findCoverage(vehicleCoverages.coverages, CoverageInfo.COMPDED_CA.getCode());
+		Coverage covCOLLDED = findCoverage(vehicleCoverages.coverages, CoverageInfo.COLLDED_CA.getCode());
+		Coverage covOEMActual = findCoverage(vehicleCoverages.coverages, CoverageInfo.OEM_CA.getCode());
+
+		assertThat(covCOMPDED.getCoverageLimit()).as("Precondition: should have COMPDED applied").isNotEqualTo(CoverageLimits.COV_NO_COV.getLimit());
+		assertThat(covCOLLDED.getCoverageLimit()).as("Precondition: should have COLLDED applied").isNotEqualTo(CoverageLimits.COV_NO_COV.getLimit());
+		assertThat(covOEMActual.getCustomerDisplayed()).as("OEM should not be customerDisplayed if Vehicle is older than 10 years").isFalse();
+		assertThat(covOEMActual.getCanChangeCoverage()).as("OEM should not be changable if Vehicle is older than 10 years").isFalse();
+	}
+
+	protected void pas15424_viewUpdateOEMCoverageNewVehNoCompCollCABody(boolean hasCOMPDED, boolean hasCOLLDED) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateViewPolicyCoveragesIsTheSameAsViewEndorsementCoverage(policyNumber, viewEndorsementCoverages);
+
+		//Add vehicle less than 10y old
+		String newVehOid = helperMiniServices.addVehicleWithChecks(policyNumber, "2015-02-11", "1FMCU9GD5JUB71878", true);// 2018 Ford Escape (less than 10y old)
+
+		verifyOEMVehNoCompColl(hasCOMPDED, hasCOLLDED, policyNumber, newVehOid);
+
+	}
+
+	protected void pas15424_viewUpdateOEMCoverageExistingVehicleNoCompCollTC06Body(boolean hasCOMPDED, boolean hasCOLLDED) {
+		TestData td = getPolicyDefaultTD();
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_OEMYes").getTestDataList("VehicleTab"))
+				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("TestData_OEMYes").getTestData("AssignmentTab"))
+				.adjust(new PremiumAndCoveragesTab().getMetaKey(), getTestSpecificTD("TestData_OEMYes").getTestData("PremiumAndCoveragesTab"))
+				.resolveLinks();
+
+		String policyNumber = openAppAndCreatePolicy(testData);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		String vehOid = HelperCommon.viewEndorsementVehicles(policyNumber).vehicleList.get(0).oid;
+		validateViewPolicyCoveragesIsTheSameAsViewEndorsementCoverage(policyNumber, viewEndorsementCoverages);
+
+		VehicleCoverageInfo vehicleCoverages = findVehicleCoverages(viewEndorsementCoverages, vehOid);
+		Coverage covCOMPDED = findCoverage(vehicleCoverages.coverages, CoverageInfo.COMPDED_CA.getCode());
+		Coverage covCOLLDED = findCoverage(vehicleCoverages.coverages, CoverageInfo.COLLDED_CA.getCode());
+		Coverage covOEMActual = findCoverage(vehicleCoverages.coverages, CoverageInfo.OEM_CA.getCode());
+		Coverage covOEMExpected = Coverage.create(CoverageInfo.OEM_CA).changeLimit(CoverageLimits.COV_1);
+
+		assertThat(covCOMPDED.getCoverageLimit()).as("Precondition: should have COMPDED applied").isNotEqualTo(CoverageLimits.COV_NO_COV.getLimit());
+		assertThat(covCOLLDED.getCoverageLimit()).as("Precondition: should have COLLDED applied").isNotEqualTo(CoverageLimits.COV_NO_COV.getLimit());
+		assertThat(covOEMActual).isEqualTo(covOEMExpected);
+
+		verifyOEMVehNoCompColl(hasCOMPDED, hasCOLLDED, policyNumber, vehOid);
+
+	}
+
+	protected void pas15424_viewUpdateOEMCoverageCATC09Body() {
+		TestData td = getPolicyDefaultTD();
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_LessThan10yOldNoCompColl").getTestDataList("VehicleTab"))
+				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("TestData_LessThan10yOldNoCompColl").getTestData("AssignmentTab"))
+				.adjust(new PremiumAndCoveragesTab().getMetaKey(), getTestSpecificTD("TestData_LessThan10yOldNoCompColl").getTestData("PremiumAndCoveragesTab"))
+				.resolveLinks();
+
+		String policyNumber = openAppAndCreatePolicy(testData);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		ViewVehicleResponse viewVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
+		String oidVeh1 = TestMiniServicesVehiclesHelper.findVehicleByVin(viewVehicleResponse.vehicleList, testData.getTestDataList("VehicleTab").get(0).getValue("VIN")).oid;//without COMPDED
+		String oidVeh2 = TestMiniServicesVehiclesHelper.findVehicleByVin(viewVehicleResponse.vehicleList, testData.getTestDataList("VehicleTab").get(1).getValue("VIN")).oid;//without COLLDED
+		String oidVeh3 = TestMiniServicesVehiclesHelper.findVehicleByVin(viewVehicleResponse.vehicleList, testData.getTestDataList("VehicleTab").get(2).getValue("VIN")).oid;//without COMP and COLL
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateViewPolicyCoveragesIsTheSameAsViewEndorsementCoverage(policyNumber, viewEndorsementCoverages);
+
+		verifyOEMForVehicleTC09_pas15424(oidVeh1, viewEndorsementCoverages);
+		verifyOEMForVehicleTC09_pas15424(oidVeh2, viewEndorsementCoverages);
+		verifyOEMForVehicleTC09_pas15424(oidVeh3, viewEndorsementCoverages);
+
+		//Apply COMPDED and/or OLLDED and check
+		applyCompColl(true, false, policyNumber, oidVeh1);//apply COMPDED
+		applyCompColl(false, true, policyNumber, oidVeh2);//apply COLLDED
+		applyCompColl(true, true, policyNumber, oidVeh3);//apply COMPDED and COLLDED
+	}
+
+	private void verifyOEMForVehicleTC09_pas15424(String oidVeh, PolicyCoverageInfo viewEndorsementCoverages) {
+		VehicleCoverageInfo vehicleCoverageInfo = findVehicleCoverages(viewEndorsementCoverages, oidVeh);
+		Coverage covOEMActualVeh1 = findCoverage(vehicleCoverageInfo.coverages, CoverageInfo.OEM_CA.getCode());
+		assertThat(covOEMActualVeh1.getCustomerDisplayed()).as("OEM should not be customerDisplayed if COMPDED and/or COLLDED is not applied").isFalse();
+		assertThat(covOEMActualVeh1.getCanChangeCoverage()).as("OEM should not be changable if COMPDED and/or COLLDED is not applied").isFalse();
+	}
+
+	private void verifyOEMVehNoCompColl(boolean hasCOMPDED, boolean hasCOLLDED, String policyNumber, String vehOid) {
+		PolicyCoverageInfo viewEndorsementCoverages;
+		if (hasCOMPDED) {
+			//Updated COMPDED to No Coverage
+			updateVehicleCoverage(policyNumber, vehOid, CoverageInfo.COMPDED_CA.getCode(), CoverageLimits.COV_NO_COV.getLimit());
+		}
+
+		if (hasCOLLDED) {
+			//Updated COLLDED to No Coverage
+			updateVehicleCoverage(policyNumber, vehOid, CoverageInfo.COLLDED_CA.getCode(), CoverageLimits.COV_NO_COV.getLimit());
+		}
+
+		viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		VehicleCoverageInfo newVehicleCoverages = findVehicleCoverages(viewEndorsementCoverages, vehOid);
+		Coverage covCOMPDED = findCoverage(newVehicleCoverages.coverages, CoverageInfo.COMPDED_CA.getCode());
+		Coverage covCOLLDED = findCoverage(newVehicleCoverages.coverages, CoverageInfo.COLLDED_CA.getCode());
+		Coverage covOEMActual = findCoverage(newVehicleCoverages.coverages, CoverageInfo.OEM_CA.getCode());
+
+		assertThat(covCOMPDED.getCoverageLimit().equals(CoverageLimits.COV_NO_COV.getLimit())).isEqualTo(hasCOMPDED);
+		assertThat(covCOLLDED.getCoverageLimit().equals(CoverageLimits.COV_NO_COV.getLimit())).isEqualTo(hasCOLLDED);
+		assertThat(covOEMActual.getCustomerDisplayed()).as("OEM should not be customerDisplayed if COMPDED and/or COLLDED is not applied").isFalse();
+		assertThat(covOEMActual.getCanChangeCoverage()).as("OEM should not be changable if COMPDED and/or COLLDED is not applied").isFalse();
+	}
+
+	private void applyCompColl(boolean applyCOMPDED, boolean applyCOLLDED, String policyNumber, String vehOid) {
+		PolicyCoverageInfo viewEndorsementCoverages;
+		if (applyCOMPDED) {
+			//Updated COMPDED to No Coverage
+			updateVehicleCoverage(policyNumber, vehOid, CoverageInfo.COMPDED_CA.getCode(), CoverageLimits.COV_150.getLimit());
+		}
+
+		if (applyCOLLDED) {
+			//Updated COLLDED to No Coverage
+			updateVehicleCoverage(policyNumber, vehOid, CoverageInfo.COLLDED_CA.getCode(), CoverageLimits.COV_150.getLimit());
+		}
+
+		viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		VehicleCoverageInfo newVehicleCoverages = findVehicleCoverages(viewEndorsementCoverages, vehOid);
+		Coverage covCOMPDED = findCoverage(newVehicleCoverages.coverages, CoverageInfo.COMPDED_CA.getCode());
+		Coverage covCOLLDED = findCoverage(newVehicleCoverages.coverages, CoverageInfo.COLLDED_CA.getCode());
+		Coverage covOEMActual = findCoverage(newVehicleCoverages.coverages, CoverageInfo.OEM_CA.getCode());
+		Coverage covOEMExpected = Coverage.create(CoverageInfo.OEM_CA).changeLimit(CoverageLimits.COV_0);
+
+		assertThat(covCOMPDED.getCoverageLimit().equals(CoverageLimits.COV_150.getLimit())).isEqualTo(applyCOMPDED);
+		assertThat(covCOLLDED.getCoverageLimit().equals(CoverageLimits.COV_150.getLimit())).isEqualTo(applyCOLLDED);
+		assertThat(covOEMActual).as("Should have OEM available if COMPDED and COLLDED is applied").isEqualTo(covOEMExpected);
+
+		//Apply OEM
+		covOEMExpected.changeLimit(CoverageLimits.COV_1);
+		updateVehLevelCoverageAndCheck(policyNumber, covOEMExpected, covOEMExpected);
+	}
+
+	protected void pas15424_viewUpdateOEMCoveragelessThan10yNoOEMCATC010Body() {
+		TestData td = getPolicyDefaultTD();
+		TestData testData = td.adjust(TestData.makeKeyPath(VehicleTab.class.getSimpleName(), AutoCaMetaData.VehicleTab.VIN.getLabel()), "1FMCU9GD5JUB71878")// 2018 Ford Escape (less than 10y old)
+				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("AssingmentTab_1Veh"))
+				.adjust(new PremiumAndCoveragesTab().getMetaKey(), getTestSpecificTD("PremiumAndCoveragesTab_OEMNo"))
+				.resolveLinks();
+
+		String policyNumber = openAppAndCreatePolicy(testData);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateViewPolicyCoveragesIsTheSameAsViewEndorsementCoverage(policyNumber, viewEndorsementCoverages);
+
+		VehicleCoverageInfo vehicleCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class).vehicleLevelCoverages.get(0);
+		Coverage covCOMPDED = findCoverage(vehicleCoverages.coverages, CoverageInfo.COMPDED_CA.getCode());
+		Coverage covCOLLDED = findCoverage(vehicleCoverages.coverages, CoverageInfo.COLLDED_CA.getCode());
+		Coverage covOEMActual = findCoverage(vehicleCoverages.coverages, CoverageInfo.OEM_CA.getCode());
+		Coverage covOEMExpected = Coverage.create(CoverageInfo.OEM_CA).changeLimit(CoverageLimits.COV_0);
+
+		assertThat(covCOMPDED.getCoverageLimit()).as("Precondition: should have COMPDED applied at NB").isNotEqualTo(CoverageLimits.COV_NO_COV.getLimit());
+		assertThat(covCOLLDED.getCoverageLimit()).as("Precondition: should have COLLDED applied at NB").isNotEqualTo(CoverageLimits.COV_NO_COV.getLimit());
+		assertThat(covOEMActual).isEqualTo(covOEMExpected);
+
+		//Apply OEM
+		covOEMExpected.changeLimit(CoverageLimits.COV_1);
+		updateVehLevelCoverageAndCheck(policyNumber, covOEMExpected, covOEMExpected, covCOMPDED, covCOLLDED);
+	}
+
 	private void verifyCoveragesPASUI_pas26668(List<Coverage> expectedCoveragesVeh4) {
 		openPendedEndorsementInquiryAndNavigateToPC();
 		for (Coverage expectedCoverage : expectedCoveragesVeh4) {

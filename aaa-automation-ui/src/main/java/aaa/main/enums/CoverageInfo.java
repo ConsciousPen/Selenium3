@@ -171,7 +171,7 @@ public enum CoverageInfo {
 	LOAN_CA("LOAN", "Vehicle Loan/Lease Protection", CoverageLimits.COV_0, AvailableCoverageLimits.LOAN_CA, null),
 	ETEC_CA("ETEC", "Enhanced Transportation Expense", CoverageLimits.COV_25750, AvailableCoverageLimits.ETEC_CA, "Per Day/Maximum"),
 	ALLRISK_CA("ALLRISK", "All Risk", CoverageLimits.COV_NO_COV, AvailableCoverageLimits.ALLRISK_CA, null),
-	OEM_CA("OEM", "Original Equipment Manufacturer Parts", CoverageLimits.COV_FALSE, AvailableCoverageLimits.OEM_CA, null),
+	OEM_CA("OEM", "Original Equipment Manufacturer Parts", CoverageLimits.COV_0, AvailableCoverageLimits.OEM_CA, null),
 	NEWCAR_CA("NEWCAR", "New Car Added Protection", CoverageLimits.COV_FALSE, AvailableCoverageLimits.NEWCAR_CA, null);
 
 	private final String code;

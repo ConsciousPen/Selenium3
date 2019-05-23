@@ -4391,6 +4391,13 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertThat(updateCoverageResponse).isEqualToComparingFieldByFieldRecursively(viewEndorsementCoverages);
 	}
 
+	private void validateViewEndorsementCoveragesIsTheSameAsUpdateCoverageVehicleLevel(String policyNumber, PolicyCoverageInfo updateCoverageResponse, String vehicleOid) {
+		PolicyCoverageInfo viewEndorsementCoverages;
+		viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		VehicleCoverageInfo vehicleCoverages= findVehicleCoverages(viewEndorsementCoverages, vehicleOid);
+		assertThat(updateCoverageResponse.vehicleLevelCoverages.get(0)).isEqualToComparingFieldByFieldRecursively(vehicleCoverages);//Update response contains only update vehicle
+	}
+
 	protected void validateViewPolicyCoveragesIsTheSameAsViewEndorsementCoverage(String policyNumber, PolicyCoverageInfo viewEndorsementCoverages) {
 		PolicyCoverageInfo viewPolicyCoverages = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		assertThat(viewPolicyCoverages).isEqualToComparingFieldByFieldRecursively(viewEndorsementCoverages);
@@ -7219,6 +7226,11 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		validateCoverageLimitInPASUI(expectedCoveragesToCheck);
 	}
 
+	protected void updateVehLevelCoverageAndCheck(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
+		updateCoverageAndCheckResponses(policyNumber, covToUpdate, expectedCoveragesToCheck);
+		validateCoverageLimitInPASUI(expectedCoveragesToCheck);
+	}
+
 	private void updateCoverageAndCheck_PIPPRIMINSpas23975(String policyNumber, Coverage covToUpdatePIPPRIMINS, Coverage... expectedCoveragesToCheck) {
 		PolicyCoverageInfo updateCoverageResponse = updateCoverageWithInsNameAndCertNum(policyNumber, covToUpdatePIPPRIMINS);
 		validatePolicyLevelCoverageChangeLog(policyNumber, CoverageInfo.PIP_NJ.getCode(), expectedCoveragesToCheck);
@@ -7278,6 +7290,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		return updateCoverageResponse;
 	}
 
+	protected PolicyCoverageInfo updateVehLevelCoverageAndCheckResponses(String policyNumber,String vehicleOid, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
+		PolicyCoverageInfo updateCoverageResponse = updateVehicleCoverage(policyNumber, vehicleOid, covToUpdate);
+		VehicleCoverageInfo vehicleCoverages = findVehicleCoverages(updateCoverageResponse, vehicleOid);
+		validateCoveragesDXP(vehicleCoverages.coverages, expectedCoveragesToCheck);
+		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverageVehicleLevel(policyNumber, updateCoverageResponse, vehicleOid);
+		return updateCoverageResponse;
+	}
+
 	private void coverageUpdateAndValidate(String policyNumber, Coverage pipExpected, String coverageCd, CoverageLimits coverageLimits) {
 		PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber, coverageCd, coverageLimits.getLimit());
 		pipExpected.changeLimit(coverageLimits);
@@ -7294,6 +7314,16 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	private PolicyCoverageInfo updateCoverage(String policyNumber, Coverage updateData) {
 		return HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(updateData.getCoverageCd(),
 				updateData.getCoverageLimit()), PolicyCoverageInfo.class);
+	}
+
+	protected PolicyCoverageInfo updateVehicleCoverage(String policyNumber, String vehicleOid, Coverage updateData) {
+		return updateVehicleCoverage(policyNumber, vehicleOid, updateData.getCoverageCd(), updateData.getCoverageLimit());
+
+	}
+
+	protected PolicyCoverageInfo updateVehicleCoverage(String policyNumber, String vehicleOid, String coverageCd, String coverageLimit) {
+		return HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd,
+				coverageLimit), PolicyCoverageInfo.class);
 	}
 
 	/**

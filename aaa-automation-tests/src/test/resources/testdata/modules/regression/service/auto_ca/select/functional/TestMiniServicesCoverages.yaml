@@ -5,8 +5,20 @@ TestData_VehicleOtherTypes: {
 
 TestData_VehicleLevelCoverages: {
   VehicleTab: [ '@VehicleTab_OldVehicle', '@VehicleTab_NewVehicle1', '@VehicleTab_NewVehicle2'],
-  AssignmentTab: '@AssingmentTab_VehicleLevelCoverages',
+  AssignmentTab: '@AssingmentTab_3Veh',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_VehicleLevelCoverages'
+}
+
+TestData_OEMYes: {
+  VehicleTab: [ '@VehicleTab_NewVehicle2'],
+  AssignmentTab: '@AssingmentTab_1Veh',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_OEMYes'
+}
+
+TestData_LessThan10yOldNoCompColl: {
+  VehicleTab: [ '@VehicleTab_NewVehicle4', '@VehicleTab_NewVehicle2', '@VehicleTab_NewVehicle3'],
+  AssignmentTab: '@AssingmentTab_3Veh',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_NoCompColl'
 }
 
 VehicleTab_1: {
@@ -117,6 +129,26 @@ VehicleTab_NewVehicle2: {
   Odometer Reading Date: $<today>,
 }
 
+VehicleTab_NewVehicle3: {
+  Add Vehicle: Click,
+  Primary Use: 'contains=Commute',
+  Usage: Pleasure,
+  VIN: 2C3CDXBG8JH341636,
+  'Miles One-way to Work or School': '20',
+  Odometer Reading: '33000',
+  Odometer Reading Date: $<today>,
+}
+
+VehicleTab_NewVehicle4: {
+  Add Vehicle: Click,
+  Primary Use: 'contains=Commute',
+  Usage: Pleasure,
+  VIN: 1FA6P8TH0J5165644,
+  'Miles One-way to Work or School': '20',
+  Odometer Reading: '33000',
+  Odometer Reading Date: $<today>,
+}
+
 VehicleTab_OldVehicle: {
   Add Vehicle: Click,
   Primary Use: 'contains=Commute',
@@ -143,12 +175,27 @@ AssingmentTab_VehOtherTypes: {
                                    }]
 }
 
-AssingmentTab_VehicleLevelCoverages: {
+AssingmentTab_3Veh: {
   DriverVehicleRelationshipTable: [   {
                                         Primary Driver: index=1,
                                       }, {
                                         Primary Driver: index=1,
                                       }, {
+                                        Primary Driver: index=1,
+                                      }]
+}
+
+AssingmentTab_1Veh: {
+  DriverVehicleRelationshipTable: [   {
+                                        Primary Driver: index=1,
+                                      }]
+}
+
+AssingmentTab_2Veh: {
+  DriverVehicleRelationshipTable: [   {
+                                        Primary Driver: index=1,
+                                      },
+                                      {
                                         Primary Driver: index=1,
                                       }]
 }
@@ -188,6 +235,45 @@ PremiumAndCoveragesTab_VehicleLevelCoverages: {
     Purchase Date: '$<today-40d:MM/dd/yyyy>',
     Original Equipment Manufacturer Parts: 'contains=Yes',
     Ridesharing Coverage: 'contains=No'
+  }
+  ]
+}
+
+PremiumAndCoveragesTab_OEMYes: {
+  Payment Plan: Annual,
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  DetailedVehicleCoverages: [
+  {
+    Original Equipment Manufacturer Parts: 'contains=Yes',
+  }
+  ]
+}
+
+PremiumAndCoveragesTab_OEMNo: {
+  Payment Plan: Annual,
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  DetailedVehicleCoverages: [
+  {
+    Original Equipment Manufacturer Parts: 'contains=No',
+  }
+  ]
+}
+
+PremiumAndCoveragesTab_NoCompColl: {
+  Payment Plan: Annual,
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  DetailedVehicleCoverages: [
+  {
+    Comprehensive Deductible: 'contains=No',
+    Collision Deductible: 'contains=$500',
+  },
+  {
+    Comprehensive Deductible: 'contains=$250',
+    Collision Deductible: 'contains=No',
+  },
+  {
+    Comprehensive Deductible: 'contains=No',
+    Collision Deductible: 'contains=No',
   }
   ]
 }

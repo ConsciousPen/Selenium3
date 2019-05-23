@@ -87,4 +87,142 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	public void pas26668_viewVehicleLevelCoveragesCA(@Optional("CA") String state) {
 		pas26668_viewVehicleLevelCoveragesCABody();
 	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name View/Update Coverages - OEM - CA Select
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Add vehicle less than 10y old
+	 * 4. Apply OEM and check
+	 * 5. Remove COM and/or COLL and check that OEM is removed
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
+	public void pas15424_viewUpdateOEMCoverageCATC01(@Optional("CA") String state) {
+		pas15424_viewUpdateOEMCoverageCATC01Body();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name View/Update Coverages - OEM - CA Select
+	 * @scenario
+	 * 1. Create policy in PAS with vehicle more than 10y old vehicle
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsmentCoverages service and Verify that vehicle older than 10y doesn't have OEM available (existing vehicle)
+	 * 4. Add vehicle more than 10y old
+	 * 5. Run viewEndorsmentCoverages service and Verify that vehicle older than 10y doesn't have OEM available (newly added vehicle)
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
+	public void pas15424_viewUpdateOEMCoverageVehOlderThan10yCATC02(@Optional("CA") String state) {
+		pas15424_viewUpdateOEMCoverageVehOlderThan10yCATC02Body();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name View/Update Coverages - OEM - CA Select
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Add vehicle Less than 10y old
+	 * 4. Check that it has OEM available
+	 * 5. Remove COMPDED and/or COLLDED and verify that OEM is not available anymore
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
+	public void pas15424_viewUpdateOEMCoverageCATC03(@Optional("CA") String state) {
+		pas15424_viewUpdateOEMCoverageNewVehNoCompCollCABody(false, true);
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
+	public void pas15424_viewUpdateOEMCoverageCATC04(@Optional("CA") String state) {
+		pas15424_viewUpdateOEMCoverageNewVehNoCompCollCABody(true, false);
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
+	public void pas15424_viewUpdateOEMCoverageCATC05(@Optional("CA") String state) {
+		pas15424_viewUpdateOEMCoverageNewVehNoCompCollCABody(false, false);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name View/Update Coverages - OEM - CA Select
+	 * @scenario
+	 * 1. Create policy in PAS with vehicle Less than 10y old
+	 * 2. Create endorsement through service
+	 * 3. Check that it has OEM available
+	 * 4. Remove COMPDED and/or COLLDED and verify that OEM is not available anymore
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
+	public void pas15424_viewUpdateOEMCoverageCATC06(@Optional("CA") String state) {
+		pas15424_viewUpdateOEMCoverageExistingVehicleNoCompCollTC06Body(false, true);
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
+	public void pas15424_viewUpdateOEMCoverageCATC07(@Optional("CA") String state) {
+		pas15424_viewUpdateOEMCoverageExistingVehicleNoCompCollTC06Body(true, false);
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
+	public void pas15424_viewUpdateOEMCoverageCATC08(@Optional("CA") String state) {
+		pas15424_viewUpdateOEMCoverageExistingVehicleNoCompCollTC06Body(false, false);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name View/Update Coverages - OEM - CA Select
+	 * @scenario
+	 * 1. Create policy in PAS with vehicle without COMPDED and/or COLLDED (and no OEM)
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsement coverages and verify thaat OEM is not available as has not applied COMPDED and/or COLLDED
+	 * 4. Apply COMPDED and/or COLLDED and check that OEM is available
+	 * 5. Apply OEM
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
+	public void pas15424_viewUpdateOEMCoverageCATC09(@Optional("CA") String state) {
+		pas15424_viewUpdateOEMCoverageCATC09Body();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name View/Update Coverages - OEM - CA Select
+	 * @scenario
+	 * 1. Create policy in PAS with less than 10y old vehicle without OEM applied (but with COMPDED and COLLDED applied)
+	 * 2. Create endorsement through service
+	 * 3. Check that OEM is available
+	 * 4. Applie OEM
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
+	public void pas15424_viewUpdateOEMCoverageLessThan10yNoOEMCATC010(@Optional("CA") String state) {
+		pas15424_viewUpdateOEMCoveragelessThan10yNoOEMCATC010Body();
+	}
 }

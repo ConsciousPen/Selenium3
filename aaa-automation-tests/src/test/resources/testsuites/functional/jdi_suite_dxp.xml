@@ -1426,6 +1426,25 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="CA Coverages - OEM Coverage" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15424_viewUpdateOEMCoverageCATC01"/>
+                    <include name="pas15424_viewUpdateOEMCoverageVehOlderThan10yCATC02"/>
+                    <include name="pas15424_viewUpdateOEMCoverageCATC03"/>
+                    <include name="pas15424_viewUpdateOEMCoverageCATC04"/>
+                    <include name="pas15424_viewUpdateOEMCoverageCATC05"/>
+                    <include name="pas15424_viewUpdateOEMCoverageCATC06"/>
+                    <include name="pas15424_viewUpdateOEMCoverageCATC07"/>
+                    <include name="pas15424_viewUpdateOEMCoverageCATC08"/>
+                    <include name="pas15424_viewUpdateOEMCoverageCATC09"/>
+                    <include name="pas15424_viewUpdateOEMCoverageLessThan10yNoOEMCATC010"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="MVR and CLUE order CA" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>

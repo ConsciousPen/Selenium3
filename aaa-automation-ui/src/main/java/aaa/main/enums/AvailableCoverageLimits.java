@@ -552,8 +552,8 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_500
 	)),
 	OEM_CA(ImmutableList.of(
-			CoverageLimits.COV_FALSE,
-			CoverageLimits.COV_TRUE
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_1
 	)),
 	NEWCAR_CA(ImmutableList.of(
 			CoverageLimits.COV_0,
