@@ -7,6 +7,26 @@ TestData_withoutAutoPay: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Monthly'
 }
 
+# ---- Scenario 55
+TestData_FinancialDriver: {
+  DriverTab: '@DriverTab_FinancialDriver', 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_FinancialDriver'
+}
+
+TestData_Conversion_FinancialDriver: {
+  DriverTab: '@DriverTab_FinancialDriver', 
+  FormsTab: {
+    Driver Forms: {
+      SR22: {
+        Action: Edit,
+        Case Number: 123456789,
+        State: AZ
+      }
+    }
+  },
+  #DocumentsAndBindTab: '@DocumentsAndBindTab_FinancialDriver'
+}
+
 # ---- Scenario 58
 TestData_ExcludedDriver: {
   DriverTab: ['@DriverTab_RegularDriver', '@DriverTab_ExcludedDriver'], 
@@ -90,6 +110,16 @@ DriverTab_ExcludedDriver: {
   License Number: A22345678
 }
 
+DriverTab_FinancialDriver: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'AZ', 
+  License Number: A12345678, 
+  Financial Responsibility Filing Needed: 'Yes', 
+  Filling State: AZ
+}
+
 # --------- VehicleTab ---------
 VehicleTab_EnrolledInUBI: {
   Usage: Pleasure,
@@ -161,6 +191,17 @@ DocumentsAndBindTab_AddExcludedDriver: {
   RequiredToBind: {
     Named Driver Exclusion: Physically Signed
   }
+}
+
+DocumentsAndBindTab_FinancialDriver: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }, 
+  Case Number: '12345'
 }
 
 DocumentsAndBindTab_UMandUIMLessThanBI: {

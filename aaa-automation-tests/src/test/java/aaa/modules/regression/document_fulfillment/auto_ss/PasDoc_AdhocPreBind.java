@@ -25,15 +25,72 @@ import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-//import toolkit.db.DBService;
-
 public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 
+	/**
+	 * <b>Adhoc preBind - Scenario 1: PreBind page UI</b>
+	 * <b>Adhoc preBind - Scenario 2: Forms availability: Quote - adding, Endorse - removing, Renew - adding</b>
+	 * Precondition: 
+	 * 		Quote is created with data: 
+	 * 		- Policy Type = Standard, 
+	 * 		- No Excluded Driver, 
+	 * 		- Vehicle is NOT enrolled in UBI, 
+	 * 		- Uninsured and Underinsured Coverages = BI.
+	 * 1.1. Open 'Document & Bind' tab and check on UI: "Generate Documents" and "Generate eSignature Documents" buttons 
+	 * 		are shown and enabled under the "Documents Available for Printing" section
+	 * 2.1. On 'Documents & Bind' tab verify the following forms are present and enabled in 'Available for Printing' section:
+	 * 		- Auto Insurance Quote (AAIQAZ), 
+	 * 		- Auto Insurance Application (AA11AZ), 
+	 * 		- AutoPay Authorization Form (AHAPXX), 
+	 * 		- Uninsured and Underinsured Motorist Coverage Selection (AA52AZ). 
+	 * 2.2. Check the following forms are present in 'Required to Bind' section: 
+	 * 		- Auto Insurance Application (AA11AZ)
+	 * 2.3. Add Excluded Diver, go to 'Documents & Bind' tab and verify Named Driver Exclusion (AA43AZ) form 
+	 * 		is shown in both 'Documents Available for Printing' and 'Required to Bind' sections. 
+	 * 2.4. Add Driver with Age = 16 (teenage driver), go to 'Documents & Bind' tab and verify  
+	 * 		Critical Information for Teenage Drivers and Their Parents (AATSXX) form is shown only in 'Documents Available for Printing' section. 
+	 * 2.5.  Set Uninsured and Underinsured Coverages < BI, go to 'Documents & Bind' tab and  verify
+	 * 		Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) form added to 'Required to Bind' section. 
+	 * 2.6. Add Vehicle enrolled in UBI, go to 'Documents & Bind' tab and verify 'Documents Available for Printing' section contains forms: 
+	 * 		- AAA Usage Based Insurance Program Terms and Conditions (AAUBI), 
+	 * 		- ACP SMARTtrek Subscription Terms and Conditions (ACPUBI), 
+	 * 		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy policies (AAUBI1). 
+	 * 		and 'Required to Bind' section contains:
+	 * 		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy policies (AAUBI1).
+	 * 2.7. Issue Policy, Start 'Inquiry' action, Go to 'Documents & Bind' tab: 
+	 * 		The same values as were on Quote before Purchasing except: Auto Insurance Quote (AAIQAZ) should NOT be shown. 
+	 * 2.8. Start 'Endorsement' action, calculate premium, go to 'Documents & Bind' tab and verify 
+	 * 		Auto Insurance Quote (AAIQAZ) is not shown, the other forms are the same.
+	 * 2.9. Remove Excluded Driver and verify Named Driver Exclusion (AA43AZ) is NOT shown. 
+	 * 2.10. Remove Teenage Driver and verify Critical Information for Teenage Drivers and Their Parents (AATSXX) is NOT shown. 
+	 * 2.11. Remove Vehicle enrolled in UBI and verify 3 UBI forms are NOT shown: 
+	 * 		- AAA Usage Based Insurance Program Terms and Conditions (AAUBI), 
+	 * 		- ACP SMARTtrek Subscription Terms and Conditions (ACPUBI), 
+	 * 		- AAA with SMARTtrek Acknowledgement of T&Cs and Privacy Policies (AAUBI1).
+	 * 2.12. Set Uninsured and Underinsured Coverages = BI and verify 
+	 * 		Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) is shown only in 'Available for Printing' section. 
+	 * 2.13. Purchase Endorsement. 
+	 * 2.14. Start 'Renewal' action.
+	 * 2.15. Add Excluded Diver and verify Named Driver Exclusion (AA43AZ) form 
+	 * 		is shown in both 'Documents Available for Printing' and 'Required to Bind' sections. 
+	 * 2.16. Add Driver with Age = 16, go to 'Documents & Bind' tab and verify 
+	 * 		Critical Information for Teenage Drivers and Their Parents (AATSXX) form is shown only in 'Documents Available for Printing' section. 
+	 * 2.17. Set Uninsured and Underinsured Coverages < BI, Go to 'Documents & Bind' tab and verify 
+	 * 		Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) form added to 'Required to Bind' section. 
+	 * 2.18. Add Vehicle enrolled in UBI, go to 'Documents & Bind' tab and verify 'Documents Available for Printing' section contains forms:
+	 * 		- AAA Usage Based Insurance Program Terms and Conditions (AAUBI), 
+	 * 		- ACP SMARTtrek Subscription Terms and Conditions (ACPUBI), 
+	 * 		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy policies (AAUBI1), 
+	 * 		and 'Required to Bind' section contains:
+	 * 		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy policies (AAUBI1).
+	 * 2.19. Purchase Renewal. 
+	 * 
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario1_2(@Optional("") String state) {
-		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		
@@ -82,7 +139,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		});
 		documentsGeneration();
 
-		//2.7
+		//2.7 (only issue policy is covered, verification in Inquiry mode is not covered in test)
 		policy.getDefaultView().fillFromTo(td_sc2, DocumentsAndBindTab.class, PurchaseTab.class, true);
 		new PurchaseTab().submitTab();		
 		log.info("TEST: Policy created #" + PolicySummaryPage.getPolicyNumber());
@@ -148,21 +205,39 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		log.info("TEST: Renewal created for policy #" + PolicySummaryPage.getPolicyNumber());	
 	}	
 
-
+	/**
+	 * <b>Adhoc preBind - Scenario 3: Forms availability NANO</b>
+	 * Precondition: 
+	 * 		Quote create with Policy Type = Non-Owner. 
+	 * 3.1. Go to 'Documents & Bind' tab and verify the following forms are present and available in 'Available for Printing' section:
+	 * 		- Auto Insurance Quote (AAIQAZ), 
+	 * 		- Auto Insurance Application (AA11AZ), 
+	 * 		- AutoPay Authorization Form (AHAPXX),  
+	 * 		- Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) and Non-Owner Automobile Endorsement (AA41XX) forms are shown 
+	 * 		in both 'Available for Printing' and 'Required to Bind' sections. 
+	 * 3.2. Issue Policy. (Verifications in Inquiry mode are not covered)
+	 * 3.3. Start 'Endorsement' action, calculate premium, go to 'Documents & Bind' tab and verify 
+	 * 		the following forms are present and available for selection in 'Available for Printing' section: 
+	 * 		- Auto Insurance Application (AA11AZ), 
+	 * 		- AutoPay Authorization Form (AHAPXX), 
+	 * 		- Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) and Non-Owner Automobile Endorsement (AA41XX) forms are shown 
+	 * 		in both 'Available for Printing' and 'Required to Bind' sections. 
+	 * 		Purchase Endorsement. 
+	 * 3.4. Start 'Renewal' action, calculate premium, go to 'Documents & Bind' tab and verify the results are the same as on step 3.3.
+	 * 
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario3(@Optional("") String state) {
-		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
-		
-		//3.1
 		TestData td = getPolicyTD().adjust(getTestSpecificTD("TestData_SC3").resolveLinks());
 		policy.getDefaultView().fillUpTo(td, DocumentsAndBindTab.class); 
-		DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
-		
+		//3.1
+		DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();		
 		CustomSoftAssertions.assertSoftly(softly -> {
 			//Available for Printing
 			softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
@@ -244,12 +319,47 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		log.info("TEST: Renewal created for policy #" + PolicySummaryPage.getPolicyNumber());
 	}
 	
-	
+	/**
+	 * <b>Adhoc preBind - Scenario 4 </b>
+	 * <b>Forms availability: Endorse - adding, Renew - removing</b>
+	 * 
+	 * Precondition: 
+	 * 		Policy is issued: 
+	 * 		- Policy Type = Standard, 
+	 * 		- No Excluded Driver, 
+	 * 		- Vehicle is NOT enrolled in UBI,  
+	 * 		- Uninsured and Underinsured Coverages = BI. 
+	 * 4.1. Start 'Endorsement' action. 
+	 * 4.2. Add Excluded Diver, go to 'Documents & Bind' tab and verify form 
+	 * 		Named Driver Exclusion (AA43AZ) is shown in both 'Documents Available for Printing' and 'Required to Bind' sections. 
+	 * 4.3. Add Driver with Age = 16, go to 'Documents & Bind' tab and verify 
+	 * 		Critical Information for Teenage Drivers and Their Parents (AATSXX) is shown only in 'Documents Available for Printing' section.  		
+	 * 4.4. Set Uninsured and Underinsured Coverages < BI, go to 'Documents & Bind' tab and verify  
+	 * 		Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) added to 'Required to Bind' section.
+	 * 4.5. Add Vehicle enrolled in UBI, go to 'Documents & Bind' tab and verify 'Documents Available for Printing' section contains forms:
+	 * 		- AAA Usage Based Insurance Program Terms and Conditions (AAUBI), 
+	 * 		- ACP SMARTtrek Subscription Terms and Conditions (ACPUBI), 
+	 * 		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy policies (AAUBI1), 
+	 * 		and 'Required to Bind' section contains: 
+	 * 		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy policies (AAUBI1). 
+	 * 4.6. Purchase Endorsement. 
+	 * 4.7. Start 'Renewal' action. 
+	 * 		Remove Excluded Driver and verify form Named Driver Exclusion (AA43AZ) is NOT shown. 
+	 * 4.8. Remove Teenage Driver and verify form Critical Information for Teenage Drivers and Their Parents (AATSXX) is NOT shown. 
+	 * 4.9. Remove Vehicle enrolled in UBI and verify 3 UBI forms are NOT shown: 
+	 * 		- AAA Usage Based Insurance Program Terms and Conditions (AAUBI), 
+	 * 		- ACP SMARTtrek Subscription Terms and Conditions (ACPUBI), 
+	 * 		- AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy Policies (AAUBI1). 
+	 * 4.10. Set Uninsured and Underinsured Coverages = BI and verify 
+	 * 		Uninsured and Underinsured Motorist Coverage Selection (AA52AZ) is shown only in 'Available for Printing' section. 
+	 * 4.11. Purchase Renewal. 		 
+	 * 
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario4(@Optional("") String state) {
-		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
@@ -285,7 +395,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		log.info("TEST: Endorsement created for policy #" + PolicySummaryPage.getPolicyNumber());
 		
 		//Renewal
-		//4.6
+		//4.7
 		policy.renew().perform();
 		//4.7 - 4.10
 		removeAdditionalData(getTestSpecificTD("TestData_Endorsement_SC2"));		
@@ -303,10 +413,45 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		documentsGeneration();
 		//4.11
 		documentsAndBindTab.submitTab();
-		log.info("TEST: Renewal created for policy #" + PolicySummaryPage.getPolicyNumber());
-		
+		log.info("TEST: Renewal created for policy #" + PolicySummaryPage.getPolicyNumber());		
 	}
 	
+	/**
+	 * <b>Adhoc preBind - Scenario 5: Generate eSignature Documents: quote, endorsement, renewal</b>
+	 * 
+	 * Precondition: 
+	 * 		Quote created with data: 
+	 * 		- Policy Type = Standard, 
+	 * 		- Excluded Driver is added, 
+	 * 		- Driver with Age = 16 (teenage driver) is added, 
+	 * 		- Vehicle enrolled in UBI, 
+	 * 		- Uninsured and Underinsured Coverages < than BI recommended. 
+	 * 5.1. Go to 'Documents & Bind' tab, select all documents in "Documents Available for Printing" section (9 forms). 
+	 * 		Click "Generate Documents" and verify all selected documents are generated.
+	 * 5.2. Select Auto Insurance Quote (AAIQAZ), click "Generate Documents" and verify only selected document is generated. 
+	 * 5.3. Select Auto Insurance Application (AA11AZ), click "Generate Documents" 
+	 * 		and verify selected document is generated with Personal Information Privacy Notice (AHPNXX).
+	 * 5.4. Select AutoPay Authorization Form (AHAPXX), click "Generate Documents" and verify only selected document is generated. 
+	 * 5.5. Select Uninsured and Underinsured Motorist Coverage Selection (AA52AZ), click "Generate Documents" 
+	 * 		and verify only selected document is generated. 
+	 * 5.6. Select Named Driver Exclusion (AA43AZ), click "Generate Documents" and verify only selected document is generated. 
+	 * 5.7. Select Critical Information for Teenage Drivers and Their Parents (AATSXX), click "Generate Documents" 
+	 * 		and verify only selected document is generated. 
+	 * 5.8. Select AAA Usage Based Insurance Program Terms and Conditions (AAUBI), click "Generate Documents" 
+	 * 		and verify only selected document is generated + AAPNUBI.
+	 * 5.9. Select ACP SMARTtrek Subscription Terms and Conditions (ACPUBI), click "Generate Documents" 
+	 * 		and verify only selected document is generated + ACPPNUBI. 
+	 * 5.10. Select AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy Policies (AAUBI1), click "Generate Documents" 
+	 * 		and verify only selected document is generated.
+	 * 5.11. Issue Policy. 
+	 * 5.12. Start "Endorsement" action, calculate premium, go to 'Documents & Bind' tab. Repeat steps 5.1, 5.3-5.10 
+	 * 		and verify the same results as in steps 5.1, 5.3-5.10. 
+	 * 		Issue Endorsement. 
+	 * 5.13. Start "Renewal" action, calculate premium, go to 'Documents & Bind' tab. 
+	 * 		Repeat steps 5.1, 5.3-5.10 and verify the same results as in steps 5.1, 5.3-5.10. Issue Renewal.
+	 * 
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
@@ -319,8 +464,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		}
 		else {
 			td_sc5 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC5_NO_PASDOC").resolveLinks());
-		}
-		
+		}		
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(td_sc5, DocumentsAndBindTab.class, true);
 		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
@@ -357,6 +501,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		generateAndVerifyDoc(getTestSpecificTD("TestData_Gen_AAUBI1"), quoteNumber, AAUBI1);
 		//5.1b
 		//log.info("Distribution Channel is: " + getDistributionChannel(quoteNumber));
+		//5.11
 		docsAndBindTab.submitTab();
 		new PurchaseTab().fillTab(getPolicyTD());
 		new PurchaseTab().submitTab();
@@ -404,6 +549,21 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		log.info("TEST: Renewal created for policy#" + PolicySummaryPage.getPolicyNumber());		
 	}
 	
+	/**
+	 * <b>Adhoc preBind - Scenario 6: Generate Documents NANO</b>
+	 * Precondition: 
+	 * 		Quote created with Policy Type = Non-Owner. 
+	 * 6.1. Go to 'Documents & Bind' tab, select Non-Owner Automobile Endorsement (AA41XX) in "Documents Available for Printing" section. 
+	 * 		Click "Generate Documents" and verify that new tab with the documents is opened and only selected document is generated. 
+	 * 		Issue Policy. 
+	 * 6.2. Start "Endorsement" action, calculate premium, go to 'Documents & Bind' tab. 
+	 * 		Repeat step 6.1 and verify the result is the same as in step 6.1. 
+	 * 		Issue Endorsement. 
+	 * 6.3. Start "Renewal" action, calculate premium, Go to 'Documents & Bind' tab. 
+	 * 		Repeat step 6.1 and verify the result is the same as in step 6.1. 
+	 * 
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
@@ -454,22 +614,57 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		log.info("TEST: Renewal created for policy#" + PolicySummaryPage.getPolicyNumber());		
 	}
 	
+	/**
+	 * <b>Adhoc preBind - Scenario 7: Generate eSignature Documents": quote, endorsement, renewal</b>
+	 * Precondition: 
+	 * 		Quote created with data: 
+	 * 		- Policy Type = Standard, 
+	 * 		- Excluded Driver is added, 
+	 * 		- Driver with Age = 16 (teenage driver) is added, 
+	 * 		- Vehicle enrolled in UBI, 
+	 * 		- Uninsured and Underinsured Coverages < than BI recommended.  
+	 * 7.1. Go to 'Documents & Bind' tab, select all documents in "Documents Available for Printing" section (9 forms), 
+	 * 		click "Generate eSignature Documents" and verify the popup with "Recipient Email Address" field is opened. 
+	 * 7.2. Select Auto Insurance Quote (AAIQAZ) and verify "Generate eSignature Documents" is disabled 
+	 * 		(because AAIQAZ form is not eSignable). 
+	 * 7.3. Select Auto Insurance Application (AA11AZ), click "Generate eSignature Documents"
+	 * 		and verify eSignature link is sent. 
+	 * 7.4. Select AutoPay Authorization Form (AHAPXX), click "Generate eSignature Documents" 
+	 * 		and verify eSignature link is sent. 
+	 * 7.5. Select Uninsured and Underinsured Motorist Coverage Selection (AA52AZ), click "Generate eSignature Documents" 
+	 * 		and verify eSignature link is sent. 
+	 * 7.6. Select Named Driver Exclusion (AA43AZ), click "Generate eSignature Documents"  
+	 * 		and verify eSignature link is sent. 
+	 * 7.7. Select Critical Information for Teenage Drivers and Their Parents (AATSXX) and verify  
+	 * 		"Generate eSignature Documents" is disabled (because AATSXX form is not eSignable). 
+	 * 7.8. Select AAA Usage Based Insurance Program Terms and Conditions (AAUBI) and verify 
+	 * 		"Generate eSignature Documents" is disabled (because AAUBI form is not eSignable). 
+	 * 7.9. Select ACP SMARTtrek Subscription Terms and Conditions (ACPUBI) and verify  
+	 * 		"Generate eSignature Documents" is disabled (because ACPUBI form is not eSignable). 
+	 * 7.10. Select AAA Insurance with SMARTtrek Acknowledgement of T&Cs and Privacy Policies (AAUBI1), click "Generate eSignature Documents"  
+	 * 		and verify eSignature link is sent. 
+	 * 7.11. Issue Policy. 
+	 * 7.12. Start "Endorsement" action, calculate premium, go to 'Documents & Bind' tab. 
+	 * 		Repeat steps 7.1, 7.3-7.10 and verify the same results as in steps 7.1 (8 forms), 7.3-7.10.
+	 * 		Issue Endorsement. 
+	 * 7.13. Start "Renewal" action, calculate Premium, go to 'Documents & Bind' tab. 
+	 * 		Repeat steps 7.1, 7.3-7.10 and verify the same results as in steps 7.1 (8 forms), 7.3-7.10.
+	 * 
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario7(@Optional("") String state) {
-		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
-		createCustomerIndividual();
-		
+		createCustomerIndividual();		
 		TestData td_sc7;
 		if(DocGenHelper.isPasDocEnabled(getState(), getPolicyType())) {
 			td_sc7 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC5").resolveLinks());
 		}
 		else {
 			td_sc7 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC5_NO_PASDOC").resolveLinks());
-		}
-		
+		}		
 		//TestData td_sc7 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC5").resolveLinks());
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(td_sc7, DocumentsAndBindTab.class, true);
@@ -504,7 +699,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		generateESignatureDocs(getTestSpecificTD("TestData_Gen_ACPUBI"), false);
 		//7.10
 		generateESignatureDocs(getTestSpecificTD("TestData_Gen_AAUBI1"), true);
-		//7.12
+		//7.11
 		docsAndBindTab.submitTab();
 		new PurchaseTab().fillTab(getPolicyTD());
 		new PurchaseTab().submitTab();
@@ -549,15 +744,28 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		log.info("TEST: Renewal created for policy#" + PolicySummaryPage.getPolicyNumber());	
 	}
 	
+	/**
+	 * <b>Adhoc preBind - Scenario 8: Generate eSignature Documents NANO</b>
+	 * Precondition: 
+	 * 		Quote created with Policy Type = Non-Owner. 
+	 * 8.1. Go to 'Documents & Bind' tab, select Non-Owner Automobile Endorsement (AA41XX) in "Documents Available for Printing" section, 
+	 * 		click "Generate eSignature Documents" and verify the pop-up with "Recipient Email Address" field is opened. 
+	 * 		Issue Policy. 
+	 * 8.2. Start "Endorsement" action, calculate premium, go to 'Documents & Bind' tab. 
+	 * 		Repeat steps 8.1 and verify results are the same as in steps 8.1. 
+	 * 		Issue Endorsement. 
+	 * 8.3. Start "Renewal" action, calculate premium, go to 'Documents & Bind' tab. 
+	 * 		Repeat steps 8.1 and verify results are the same as in steps 8.1.
+	 * 
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario8(@Optional("") String state) {
-		//DocGenHelper.checkPasDocEnabled(getState(), getPolicyType(), true);
 		mainApp().open();
 		createCustomerIndividual();
-		TestData td_sc8 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC3").resolveLinks());	
-		
+		TestData td_sc8 = getPolicyTD().adjust(getTestSpecificTD("TestData_SC3").resolveLinks());			
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(td_sc8, DocumentsAndBindTab.class, true);
 		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
@@ -592,19 +800,20 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		log.info("TEST: Renewal created for policy#" + PolicySummaryPage.getPolicyNumber());
 	}
 	
-	/*
-	private String getDistributionChannel(String policyNumber) {
-		String getDistributionChannelFromDB = "select * from aaadocgenentity " 
-				+ "where entityid in (select id from policysummary where policynumber = '%s') order by id";
-		return DBService.get().getValue(String.format(getDistributionChannelFromDB, policyNumber)).get();
-	}
-	*/
-	
+	/**
+	 * The method clicks on Generate Documents button under 'Available For Printing' section
+	 */
 	private void documentsGeneration() {
 		DocumentsAndBindTab.btnGenerateDocuments.click();
 		WebDriverHelper.switchToDefault();
 	}
 	
+	/**
+	 * The method select documents on Document And Bind tab, generate selected documents and verify selected documents are generated
+	 * @param td_doc 		Documents should be selected on Documents And Bind tab
+	 * @param policyNum		Policy number
+	 * @param documents		Documents (forms) should be generated
+	 */
 	private void generateAndVerifyDoc(TestData td_doc, String policyNum, DocGenEnum.Documents... documents) {
 		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
 		docsAndBindTab.fillTab(td_doc);
@@ -617,6 +826,11 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		}
 	}
 	
+	/**
+	 * The method select documents and generate eSignature documents if 'Generate eSignature Documents' button is enabled. 
+	 * @param td_doc		Documents should be selected on Documents And Bind tab
+	 * @param isActiveBtn	Flag shows enabled or disabled 'Generate eSignature Documents' button
+	 */
 	private void generateESignatureDocs(TestData td_doc, boolean isActiveBtn) {
 		DocumentsAndBindTab docsAndBindTab = new DocumentsAndBindTab();
 		docsAndBindTab.fillTab(td_doc);
@@ -657,38 +871,66 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		new PremiumAndCoveragesTab().calculatePremium();
 	}
 	
+	/**
+	 * The method verifies the documents: 'Named Driver Exclusion' (AA43AZ) and 
+	 * 'Critical Information for Teenage Drivers and Their Parents' (AATSXX) 
+	 * are present or absent on Documents And Bind tab
+	 * @param value
+	 * @param softly
+	 */
 	private void verifyDriverDocsPresent(boolean value, ETCSCoreSoftAssertions softly) {
-		//Docs in Available For Printing section
+		//Documents in Available For Printing section
 		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.NAMED_DRIVER_EXCLUSION_ELECTION)).isPresent(value);			
 		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.CRITICAL_INFORMATION_FOR_TEENAGE_DRIVERS_AND_THEIR_PARENTS)).isPresent(value);
-		//Doc in Required to Bind section
+		//Document in Required to Bind section
 		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NAMED_DRIVER_EXCLUSION)).isPresent(value);
 	}
 	
+	/**
+	 * The method verifies the documents: 'Named Driver Exclusion' (AA43AZ) and 
+	 * 'Critical Information for Teenage Drivers and Their Parents' (AATSXX) are present on Documents And Bind tab
+	 * @param softly
+	 */
 	private void verifyDriverDocsPresent(ETCSCoreSoftAssertions softly) {
 		verifyDriverDocsPresent(true, softly);
 	}
 	
+	/**
+	 * The method verifies the documents related to Enrolled in UBI Vehicle are present or absent 
+	 * on both 'Available For Printing' and 'Required To Bind' sections 
+	 * @param value
+	 * @param softly
+	 */
 	private void verifyVehicleDocsPresent(boolean value, ETCSCoreSoftAssertions softly) {
-		//Docs in Available for Printing section
+		//Documents in Available for Printing section
 		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AAA_USAGE_BASED_INSURANCE_PROGRAM_TERMS_AND_CONDITIONS)).isPresent(value);
 		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT)).isPresent(value);
 		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.ACP_SMARTTRECK_SUBSCRIPTION_TERMS)).isPresent(value);
-		//Doc in Required to Bind section
+		//Document in Required to Bind section
 		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS)).isPresent(value);
 	}
 	
+	/**
+	 * The method verifies the documents related to Enrolled in UBI Vehicle are present
+	 * on both 'Available For Printing' and 'Required To Bind' sections
+	 * @param softly
+	 */
 	private void verifyVehicleDocsPresent(ETCSCoreSoftAssertions softly) {
 		verifyVehicleDocsPresent(true, softly);
 	}
 	
+	/**
+	 * The method verifies the document 'Uninsured and Underinsured Motorist Coverage Selection' (AA52AZ)
+	 * is present in both 'Available For Printing' and 'Required To Bind' sections
+	 * @param softly
+	 */
 	private void verifyCoverageDocPresent(ETCSCoreSoftAssertions softly) {
 		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION)).isPresent();

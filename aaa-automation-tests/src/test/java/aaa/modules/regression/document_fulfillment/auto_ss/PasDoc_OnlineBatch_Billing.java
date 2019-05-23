@@ -51,6 +51,22 @@ public class PasDoc_OnlineBatch_Billing extends AutoSSBaseTest {
 	
 	private TestData tdBilling = testDataManager.billingAccount;
 	
+	/**
+	 * OnlineBatch - Scenario 22: AUTO_STATEMENT: AHIBXX
+	 * Preconditions: 
+	 * 		(a) Issue policy with AutoPay is NOT active. 
+	 * 		(b) Issue policy with AutoPay is NOT active. 
+	 * 		(c) Issue policy with AutoPay is active.
+	 * Steps: 
+	 * 		(a) Generate Billing invoice manually ('Generate Future Statement' action on Billing tab) and 
+	 * 		verify that form AHIBXX is generated. 
+	 * 		(b) Set time to DD1-20 and run aaaBillingInvoiceAsyncTaskJob to generate bill, and verify 
+	 * 		that form AHIBXX is generated. 
+	 * 		(c) Generate Billing invoice manually ('Generate Future Statement' action on Billing tab) and 
+	 * 		verify that form AHIBXX is NOT generated. 
+	 * 
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
@@ -92,6 +108,15 @@ public class PasDoc_OnlineBatch_Billing extends AutoSSBaseTest {
 		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy2_notActiveAutoPay, EventName.AUTO_STATEMENT, AHIBXX);		
 	}
 	
+	/**
+	 * OnlineBatch - Scenario 23: APPLY_BILLING_TRANSACTION: AH35XX
+	 * Precondition: 
+	 * 		Policy is issued: Payment Plan with more than one installment and AutoPay is active. 
+	 * Steps: 
+	 * 		1. On Billing tab add payment manually and verify that form AH35XX is generated. 
+	 * 
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
@@ -110,6 +135,21 @@ public class PasDoc_OnlineBatch_Billing extends AutoSSBaseTest {
         PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_activeAutoPay, EventName.PAYMENT, AH35XX);
 	}
 	
+	/**
+	 * OnlineBatch - Scenario 25 - AUTO_PAY_METHOD_REMOVED: 60 5004
+	 * Precondition: 
+	 * 		Policy is issued: Monthly payment plan and AutoPay is active. 
+	 * Steps: 
+	 * 		1. Set time to DD1-20 and run aaaBillingInvoiceAsyncTaskJob to generate bill. 
+	 * 		2. Set time to DD1 and run aaaRecurringPaymentsProcessingJob to make a payment. 
+	 * 		3. Import feed file stating that the payment was declined to D:\AAA\JobFolders\PMT_E_PMTCTRL_PASSYS_7002_D\inbound
+	 * 		4. Run AAARecurringPaymentsResponseProcessAsyncJob. As a result payment will be declined and enrollment in autopay 
+	 * 		removed form the policy.
+	 * Expected result: 
+	 * 		The following form is generated: 60 5004
+	 * 
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
@@ -162,7 +202,20 @@ public class PasDoc_OnlineBatch_Billing extends AutoSSBaseTest {
 		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_activeAutoPay, EventName.AUTO_PAY_METHOD_REMOVED, _60_5004);
 	}
 	
-	
+	/**
+	 * OnlineBatch - Scenario 65 - AUTO_PAY_METHOD_CHANGED: AH35XX
+	 * Precondition: 
+	 * 		(a) Policy is issued with AutoPay is NOT active. 
+	 * 		(b) Policy is issued with AutoPay is active and Payment Method e.g. Visa. 
+	 * Steps: 
+	 * 		(a) On Billing tab activate AutoPay and verify form AH35XX is generated. 
+	 * 		(b) 1. On Billing tab add payment method e.g. Master Card, select it for AutoPay 
+	 * 		and verify AH35XX form is generated.
+	 * 		(b) 2. On Billing tab add payment method e.g. Checking/Savings, select it for AutoPay 
+	 * 		and verify AH35XX form is generated. 
+	 * 
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)	
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
