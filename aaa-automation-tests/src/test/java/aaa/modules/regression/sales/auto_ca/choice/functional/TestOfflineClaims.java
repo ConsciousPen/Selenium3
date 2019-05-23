@@ -262,7 +262,7 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * @scenario Test Steps:
      * Scenario 1 - CA Choice Quote
      * 1) In a CA Choice quote, Add a rated driver
-     * 2) Override the product Choice to Select
+     * 2) Keep the product as Choice
      * 3) Order the Clue and MVR report in DAR page
      * 4) Navigate back to driver tab and add the below company activities (include in points)
      * - three at fault accident with injury with include in points

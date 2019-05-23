@@ -1353,7 +1353,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         premiumAndCoveragesTab.submitTab();
     }
 
-
     /**
      * Method/Test for CA Choice & Select: PROD ELIGIBILITY: update uw rule so PU YES claims not counted (10015015 - select) (common code, fix all 4)
      */
@@ -1380,13 +1379,12 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         updateUWPUFlag();
 
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
-        documentsAndBindTab.submitTab(); // Verifying the rules are not triggered and proceed to create a policy
+        documentsAndBindTab.submitTab(); // Verified the rules are not triggered and proceed to create a policy
 
         purchaseTab.fillTab(adjusted).submitTab();
         policyNumber = labelPolicyNumber.getValue();
 
        //Initiate Endorsement
-
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         //Change the FNI to second named insured
         generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(1);
@@ -1397,7 +1395,16 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         generalTab.submitTab();
         //Add the second driver for the named insured
         driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         policy.getDefaultView().fillUpTo(getTestSpecificTD("Add_Driver2_EndorsementUWRules"), DriverTab.class, true);
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.submitTab();
+        driverActivityReportsTab.fillTab(getTestSpecificTD("Add_Driver2_EndorsementUWRules"));
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        tableDriverList.selectRow(1);
+        driverTab.fillTab(getTestSpecificTD("DriverTab_EndorsementActivity_UWRules"));
 
         bindEndorsement();
         //Assertion to verify the rules are triggered and go back to driver tab to set the PU flag as YES for claims
@@ -1409,6 +1416,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
                 .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
         driverActivityReportsTab.fillTab(maskedDriverActivityTd);
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
-        documentsAndBindTab.submitTab(); // Verifying the rules are not triggered and proceed to bind the endorsement
+        documentsAndBindTab.submitTab(); // Verified the rules are not triggered and proceed to bind the endorsement
     }
 }

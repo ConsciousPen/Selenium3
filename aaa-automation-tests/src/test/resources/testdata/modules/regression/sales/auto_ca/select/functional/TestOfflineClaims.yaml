@@ -17,30 +17,30 @@ TestData_DriverTab_ClueReconcileFNIclaims_PU_CA: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ca_select>@DataGather@GeneralTab',
   DriverTab:  ['@Driver1','@Driver6'],
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab'
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Select'
 }
 
 TestData_DriverTab_ViolationsMVRFNIclaims_PU_CA: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ca_select>@DataGather@GeneralTab',
   DriverTab:  ['@Driver7','@Driver6'],
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Select',
 }
 
 TestData_Change_FNI_NB_Endorsement_PU_CA: {
   PrefillTab:  '@PrefillTab',
   GeneralTab: '@TwoNamedInsuredGeneralTab',
   DriverTab:  ['@Driver8','@Driver9'],
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Select',
 }
 
 TestData_Change_FNI_Renewal_PU_CA: {
   GeneralTab: '@TwoNamedInsuredGeneralTab',
   DriverTab:  ['@Driver1','@Driver9'],
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Select',
 }
 
-PremiumAndCoveragesTab: {
+PremiumAndCoveragesTab_Select: {
   Product: CA Select,
   Payment Plan: Annual,
   Apply eValue Discount: 'Yes',
@@ -431,7 +431,7 @@ TestData_DriverTab_UpdateUWRules_PU_CA: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@TwoNamedInsuredGeneralTab',
   DriverTab:  ['@Driver10'],
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Select',
 }
 
 Driver10: {
@@ -452,7 +452,7 @@ Add Driver: Click,
 
 TestData_Activity_UWRules: {
   DriverTab: '@DriverTab_Activity_UWRules',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Select',
   DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@<auto_ca_select>@DataGather@DocumentsAndBindTab',
 }
@@ -486,11 +486,20 @@ ContactInformation: {
 
 Add_Driver2_EndorsementUWRules: {
 DriverTab: ['@Driver11'],
+PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
 DriverActivityReportsTab: '@DriverActivityReportsTab'
 }
 
+DriverTab_EndorsementActivity_UWRules: {
+  DriverTab: '@EndorsementActivity_UWRules'
+}
+
+EndorsementActivity_UWRules: {
+ ActivityInformation: ['@Activity1', '@Activity2', '@Activity3', '@Activity4']
+}
+
 Driver11: {
-Add Driver: Click,
+  Add Driver: Click,
   DriverSearchDialog:{},
   Named Insured: "Kathy Smith",
   Driver Type: Available for Rating,
@@ -503,11 +512,12 @@ Add Driver: Click,
   License State: CA,
   Permit Before License: 'Yes',
   "License #": D5439898,
-  Age First Licensed: 18,
-  ActivityInformation: ['@Activity1', '@Activity2', '@Activity3', '@Activity4']
+  Age First Licensed: 18
   }
 
 DriverActivityReportsTab: {
   Sales Agent Agreement: I Agree,
   Validate Driving History: click
 }
+
+
