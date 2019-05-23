@@ -164,6 +164,7 @@ public final class ErrorEnum {
 		ERROR_AAA_CSA9231984("AAA_CSA9231984", "At least one phone number must be provided (AAA_CSA9231984) [for AAADocumentRulesComponent.attributeForRules]"),
 		ERROR_AAA_CAC7150833("AAA_CAC7150833_CA_CHOICE", "Driver with more than 2 Major violations in the last 3 years is unacceptable"),
 		ERROR_AAA_CSACN0100("AAA_CSACN0100", "Current Term Policy was Reinstated Late (AAA_CSACN0100) [for Policy.effective]"),
+		ERROR_AAA_CSA190521("AAA_CSA190521", "One or more drivers have an unacceptable MVR license status (AAA_CSA190521) [for AAADARTabBindRules.attributeForRules]"),
 		ERROR_AAA_CA_HOCN0400("AAA_CA_HOCN0400", "A high level premium variance has been detected between the legacy renewal pr"),
 		ERROR_AAA_HO_SS_MAIG_IS_REPORT("AAA_HO_SS_MAIG_IS_REPORT", "A valid insurance score report for at least one named insured or insurance sc"),
 		ERROR_AAA_HO_CA7230928("AAA_HO_CA7230928", "'Loan number' is required (AAA_HO_CA7230928) [for AAAHOMortgageeInfo.accountN"),
