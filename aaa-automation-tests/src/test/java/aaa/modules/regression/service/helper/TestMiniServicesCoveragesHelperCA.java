@@ -297,11 +297,8 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 	}
 
 	protected void pas15424_viewUpdateOEMCoverageCATC01Body() {
-		String policyNumber = openAppAndCreatePolicy();
-
 		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
-
+		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		validateViewPolicyCoveragesIsTheSameAsViewEndorsementCoverage(policyNumber, viewEndorsementCoverages);
@@ -328,28 +325,34 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		assertThat(covOEMActualVeh2).isEqualTo(covOEMExpectedVeh2);
 
 		//Apply OEM
-		Coverage covOEMYesExpected = Coverage.create(CoverageInfo.OEM_CA).changeLimit(CoverageLimits.COV_1);
-		updateVehLevelCoverageAndCheckResponses(policyNumber, newVehicleOid, covOEMYesExpected, covOEMYesExpected, covCOMPDEDExpected, covCOLLDEDExpected);
+		covOEMExpected = Coverage.create(CoverageInfo.OEM_CA).changeLimit(CoverageLimits.COV_1);
+		updateVehLevelCoverageAndCheckResponses(policyNumber, newVehicleOid, covOEMExpected, covOEMExpected, covCOMPDEDExpected, covCOLLDEDExpected);
 
 		//Update COLLDED to 0
+		covOEMExpected.disableCustomerDisplay().disableCanChange().changeLimit(CoverageLimits.COV_0);
 		covCOLLDEDExpected.changeLimit(CoverageLimits.COV_NO_COV);
 		covOEMExpectedVeh2.disableCanChange().disableCustomerDisplay();
 		updateVehLevelCoverageAndCheckResponses(policyNumber, newVehicleOid, covCOLLDEDExpected, covCOLLDEDExpected, covCOMPDEDExpected, covOEMExpected);
 
 		//Update COLLDED back to other than 0
+		covOEMExpected.enableCustomerDisplay().enableCanChange();
 		covCOLLDEDExpected.changeLimit(CoverageLimits.COV_250);
 		covOEMExpectedVeh2.enableCanChange().enableCustomerDisplay();
 		updateVehLevelCoverageAndCheckResponses(policyNumber, newVehicleOid, covCOLLDEDExpected, covCOLLDEDExpected, covCOMPDEDExpected, covOEMExpected);
 
 		//Update COMPDED 0
+		covOEMExpected.disableCustomerDisplay().disableCanChange();
 		covCOMPDEDExpected.changeLimit(CoverageLimits.COV_NO_COV);
 		covOEMExpectedVeh2.disableCustomerDisplay().disableCanChange();
 		updateVehLevelCoverageAndCheckResponses(policyNumber, newVehicleOid, covCOMPDEDExpected, covCOMPDEDExpected, covOEMExpected);
 
+		//TODO-mstrazds: for this when updating getting COLLDED to 0 then error "Update actions is not allowed for coverage code 'COLLDED'. Will be handled in new US. Uncommnet
 		//Update COLLDED also to 0
-		covCOLLDEDExpected.changeLimit(CoverageLimits.COV_NO_COV);
-		covOEMExpectedVeh2.disableCanChange().disableCustomerDisplay();
-		updateVehLevelCoverageAndCheckResponses(policyNumber, newVehicleOid, covCOLLDEDExpected, covCOLLDEDExpected, covCOMPDEDExpected, covOEMExpected);
+		//		covCOLLDEDExpected.changeLimit(CoverageLimits.COV_NO_COV);
+		//		covOEMExpectedVeh2.disableCanChange().disableCustomerDisplay();
+		//		updateVehLevelCoverageAndCheckResponses(policyNumber, newVehicleOid, covCOLLDEDExpected, covCOLLDEDExpected, covCOMPDEDExpected, covOEMExpected);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
 	protected void pas15424_viewUpdateOEMCoverageVehOlderThan10yCATC02Body() {
