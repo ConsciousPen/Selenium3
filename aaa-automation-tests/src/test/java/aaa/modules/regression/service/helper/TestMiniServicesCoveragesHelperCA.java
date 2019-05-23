@@ -626,8 +626,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 			td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("VehicleTab_NewVehicle1"));// Leased vehicle to have LOAN coverage
 			orderOfVehicleLevelCoveragesExpected = getTestSpecificTD("TestData_OrderOfCoverages_LOAN").getList("VehicleLevelCoverages");
 		}
-		td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("VehicleTab_NewVehicle1"))// Leased vehicle to have LOAN coverage
-				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("AssingmentTab_1Veh"))
+		td.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("AssingmentTab_1Veh"))
 				.resolveLinks();
 
 		List<String> orderOfPolicyLevelCoveragesExpected = getTestSpecificTD("TestData_OrderOfCoverages").getList("PolicyLevelCoverages");
