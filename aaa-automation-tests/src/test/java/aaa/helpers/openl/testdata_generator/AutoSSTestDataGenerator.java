@@ -239,8 +239,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		boolean isFirstDriver = true;
 		boolean isEmployeeSet = false;
 		boolean isAARPSet = false;
-		int driversWithADB = Integer.parseInt(openLPolicy.getVehicles().stream().map(AutoSSOpenLVehicle::getCoverages).flatMap(List::stream).filter(c -> "ADB".equals(c.getCoverageCd())).findFirst().get().getLimit());
-		assertThat(driversWithADB).as("Number of drivers with ADB is more than total number of drivers").isLessThanOrEqualTo(openLPolicy.getDrivers().size());
+		int driversWithADB = 0;
+		if (openLPolicy.getVehicles().stream().map(AutoSSOpenLVehicle::getCoverages).flatMap(List::stream).anyMatch(c -> "ADB".equals(c.getCoverageCd()))) {
+			driversWithADB = Integer.parseInt(openLPolicy.getVehicles().stream().map(AutoSSOpenLVehicle::getCoverages).flatMap(List::stream).filter(c -> "ADB".equals(c.getCoverageCd())).findFirst().get().getLimit());
+			assertThat(driversWithADB).as("Number of drivers with ADB is more than total number of drivers").isLessThanOrEqualTo(openLPolicy.getDrivers().size());
+		}
 		int aggregateCompClaims = openLPolicy.getAggregateCompClaims() != null ? openLPolicy.getAggregateCompClaims() : 0;
 		int nafAccidents = openLPolicy.getNafAccidents() != null ? openLPolicy.getNafAccidents() : 0;
 
