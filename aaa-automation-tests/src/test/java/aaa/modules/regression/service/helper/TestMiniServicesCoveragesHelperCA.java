@@ -5,9 +5,9 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.CoverageInfo;
@@ -269,6 +269,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 
 		//Update to Leased and Check Coverages
 		//Update vehicle Leased Financed Info
+		String financedOrLeased = getRandomFinancedOrLeased();
 		VehicleUpdateDto updateVehicleLeasedFinanced = new VehicleUpdateDto();
 		updateVehicleLeasedFinanced.vehicleOwnership = new VehicleOwnership();
 		updateVehicleLeasedFinanced.vehicleOwnership.addressLine1 = "Line1";
@@ -276,11 +277,11 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		updateVehicleLeasedFinanced.vehicleOwnership.city = "LA";
 		updateVehicleLeasedFinanced.vehicleOwnership.stateProvCd = "CA";
 		updateVehicleLeasedFinanced.vehicleOwnership.postalCode = "90201";
-		updateVehicleLeasedFinanced.vehicleOwnership.ownership = "LSD";
+		updateVehicleLeasedFinanced.vehicleOwnership.ownership = financedOrLeased;
 		updateVehicleLeasedFinanced.vehicleOwnership.name = "John";
 		updateVehicleLeasedFinanced.vehicleOwnership.secondName = "Benny";
 		VehicleUpdateResponseDto ownershipUpdateResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
-		assertThat(ownershipUpdateResponse.vehicleOwnership.ownership).isEqualTo("LSD");
+		assertThat(ownershipUpdateResponse.vehicleOwnership.ownership).isEqualTo(financedOrLeased);
 
 		covCOMPDEDExpected4.removeAvailableLimit(CoverageLimits.COV_NO_COV);
 		covCOLLDEDExpected4.removeAvailableLimit(CoverageLimits.COV_NO_COV);
@@ -290,6 +291,8 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		VehicleCoverageInfo veh4CoveragesLeased = TestMiniServicesCoveragesHelper.findVehicleCoverages(viewEndorsementCoverages3, newVehicleOid);
 		checkCoverages_pas26668(expectedCoveragesVeh4, veh4CoveragesLeased);
 		verifyCoveragesPASUI_pas26668(expectedCoveragesVeh4);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 	}
 
@@ -600,6 +603,15 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 				softly.assertThat(covRideShareActual).isEqualTo(covRideShareExpected);
 			});
 		}
+	}
+
+	private String getRandomFinancedOrLeased() {
+		List<String> list = new ArrayList<>();
+		list.add("LSD");//Single
+		list.add("FNC");//Divorced
+
+		Random rand = new Random();
+		return list.get(rand.nextInt(list.size()));
 	}
 
 	protected void pas19057_OrderOfCoverageBodyCA(ETCSCoreSoftAssertions softly, boolean isOwnedVehicle) {
