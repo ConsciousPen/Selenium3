@@ -354,8 +354,8 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_TRUE
 	)),
 	GLASS_CA(ImmutableList.of(
-			CoverageLimits.COV_FALSE_NO_COVERAGE,
-			CoverageLimits.COV_TRUE
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_1
 	)),
 	UMBI_CT(ImmutableList.of(
 			CoverageLimits.COV_2550,

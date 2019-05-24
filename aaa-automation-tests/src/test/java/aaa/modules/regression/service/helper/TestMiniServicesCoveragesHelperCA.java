@@ -157,62 +157,62 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 
 		//Expected coverages Vehicle 1 (the same as in PAS UI)
 		Coverage covCOMPDEDExpected1 = Coverage.create(CoverageInfo.COMPDED_CA).changeLimit(CoverageLimits.COV_250);
-		Coverage covGLASSxpected1 = Coverage.create(CoverageInfo.GLASS_CA).changeLimit(CoverageLimits.COV_FALSE_NO_COVERAGE);
+		Coverage covGLASSxpected1 = Coverage.create(CoverageInfo.GLASS_CA).changeLimit(CoverageLimits.COV_0);
 		Coverage covCOLLDEDDExpected1 = Coverage.create(CoverageInfo.COLLDED_CA).changeLimit(CoverageLimits.COV_500);
 		Coverage covETEExpected1 = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_25750);
 		Coverage covALLRISKExpected1 = Coverage.create(CoverageInfo.ALLRISK_CA).changeLimit(CoverageLimits.COV_NO_COV).disableCanChange();
 		Coverage covLOANExpected1 = Coverage.create(CoverageInfo.LOAN_CA).changeLimit(CoverageLimits.COV_0).disableCanChange().disableCustomerDisplay();
-		Coverage covNEWCARExpected1 = Coverage.create(CoverageInfo.NEWCAR_CA).changeLimit(CoverageLimits.COV_FALSE).disableCustomerDisplay().disableCanChange();
+		Coverage covNEWCARExpected1 = Coverage.create(CoverageInfo.NEWCAR_CA).changeLimit(CoverageLimits.COV_0).disableCustomerDisplay().disableCanChange();
 		Coverage covRIDESHAREExpected1 = Coverage.create(CoverageInfo.RIDESHARE_CA).disableCanChange();
 
 		List<Coverage> expectedCoveragesVeh1 = new ArrayList<>();
 		expectedCoveragesVeh1.add(covCOMPDEDExpected1);
-		//expectedCoveragesVeh1.add(covGLASSxpected1);
+		expectedCoveragesVeh1.add(covGLASSxpected1);
 		expectedCoveragesVeh1.add(covCOLLDEDDExpected1);
 		expectedCoveragesVeh1.add(covETEExpected1);
 		expectedCoveragesVeh1.add(covALLRISKExpected1);
 		expectedCoveragesVeh1.add(covLOANExpected1);
-		//expectedCoveragesVeh1.add(covNEWCARExpected1);
+		expectedCoveragesVeh1.add(covNEWCARExpected1);
 		expectedCoveragesVeh1.add(covRIDESHAREExpected1);
 
 		//Expected coverages Vehicle 2 (the same as in PAS UI)
 		Coverage covCOMPDEDExpected2 = Coverage.create(CoverageInfo.COMPDED_CA).changeLimit(CoverageLimits.COV_250).removeAvailableLimit(CoverageLimits.COV_NO_COV);// Only Owned Vehicles have No Cov limit available
-		Coverage covGLASSxpected2 = Coverage.create(CoverageInfo.GLASS_CA).changeLimit(CoverageLimits.COV_TRUE);
+		Coverage covGLASSxpected2 = Coverage.create(CoverageInfo.GLASS_CA).changeLimit(CoverageLimits.COV_1);
 		Coverage covCOLLDEDDExpected2 = Coverage.create(CoverageInfo.COLLDED_CA).changeLimit(CoverageLimits.COV_500).removeAvailableLimit(CoverageLimits.COV_NO_COV);// Only Owned Vehicles have No Cov limit available
 		Coverage covETEXxpected2 = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_25750);
 		Coverage covALLRISKExpected2 = Coverage.create(CoverageInfo.ALLRISK_CA).changeLimit(CoverageLimits.COV_NO_COV).disableCanChange();
 		Coverage covLOANExpected2 = Coverage.create(CoverageInfo.LOAN_CA).changeLimit(CoverageLimits.COV_1);
-		Coverage covNEWCARExpected2 = Coverage.create(CoverageInfo.NEWCAR_CA).changeLimit(CoverageLimits.COV_FALSE).disableCanChange().disableCustomerDisplay();
+		Coverage covNEWCARExpected2 = Coverage.create(CoverageInfo.NEWCAR_CA).changeLimit(CoverageLimits.COV_0).disableCanChange().disableCustomerDisplay();
 		Coverage covRIDESHAREExpected2 = Coverage.create(CoverageInfo.RIDESHARE_CA).changeLimit(CoverageLimits.COV_0).disableCanChange();
 
 		List<Coverage> expectedCoveragesVeh2 = new ArrayList<>();
 		expectedCoveragesVeh2.add(covCOMPDEDExpected2);
-		//expectedCoveragesVeh2.add(covGLASSxpected2);// TODO-mstrazds: GLASS and NEWCAR will be done in next sprints, needs to be uncommented
+		expectedCoveragesVeh2.add(covGLASSxpected2);
 		expectedCoveragesVeh2.add(covCOLLDEDDExpected2);
 		expectedCoveragesVeh2.add(covETEXxpected2);
 		expectedCoveragesVeh2.add(covALLRISKExpected2);
 		expectedCoveragesVeh2.add(covLOANExpected2);
-		//expectedCoveragesVeh2.add(covNEWCARExpected2);// TODO-mstrazds: GLASS and NEWCAR will be done in next sprints, needs to be uncommented
+		expectedCoveragesVeh2.add(covNEWCARExpected2);
 		expectedCoveragesVeh2.add(covRIDESHAREExpected2);
 
 		//Expected coverages Vehicle 3 (the same as in PAS UI)
 		Coverage covCOMPDEDExpected3 = Coverage.create(CoverageInfo.COMPDED_CA).changeLimit(CoverageLimits.COV_250);
-		Coverage covGLASSxpected3 = Coverage.create(CoverageInfo.GLASS_CA).changeLimit(CoverageLimits.COV_TRUE);
+		Coverage covGLASSxpected3 = Coverage.create(CoverageInfo.GLASS_CA).changeLimit(CoverageLimits.COV_1);
 		Coverage covCOLLDEDDExpected3 = Coverage.create(CoverageInfo.COLLDED_CA).changeLimit(CoverageLimits.COV_500);
 		Coverage covETEXExpected3 = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_25750);
 		Coverage covALLRISKExpected3 = Coverage.create(CoverageInfo.ALLRISK_CA).changeLimit(CoverageLimits.COV_NO_COV).disableCanChange();
 		Coverage covLOANExpected3 = Coverage.create(CoverageInfo.LOAN_CA).changeLimit(CoverageLimits.COV_0).disableCanChange().disableCustomerDisplay();
-		Coverage covNEWCARExpected3 = Coverage.create(CoverageInfo.NEWCAR_CA).changeLimit(CoverageLimits.COV_TRUE).disableCanChange();
+		Coverage covNEWCARExpected3 = Coverage.create(CoverageInfo.NEWCAR_CA).changeLimit(CoverageLimits.COV_1).disableCanChange().disableCustomerDisplay();
 		Coverage covRIDESHAREExpected3 = Coverage.create(CoverageInfo.RIDESHARE_CA).changeLimit(CoverageLimits.COV_0).disableCanChange();
 
 		List<Coverage> expectedCoveragesVeh3 = new ArrayList<>();
 		expectedCoveragesVeh3.add(covCOMPDEDExpected3);
-		//expectedCoveragesVeh3.add(covGLASSxpected3);// TODO-mstrazds: GLASS and NEWCAR will be done in next sprints, needs to be uncommented
+		expectedCoveragesVeh3.add(covGLASSxpected3);
 		expectedCoveragesVeh3.add(covCOLLDEDDExpected3);
 		expectedCoveragesVeh3.add(covETEXExpected3);
 		expectedCoveragesVeh3.add(covALLRISKExpected3);
 		expectedCoveragesVeh3.add(covLOANExpected3);
-		//expectedCoveragesVeh3.add(covNEWCARExpected3);// TODO-mstrazds: GLASS and NEWCAR will be done in next sprints, needs to be uncommented
+		expectedCoveragesVeh3.add(covNEWCARExpected3);
 		expectedCoveragesVeh3.add(covRIDESHAREExpected3);
 
 		ViewVehicleResponse viewVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
@@ -235,22 +235,22 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 
 		//Expected coverages Newly added Vehicle
 		Coverage covCOMPDEDExpected4 = Coverage.create(CoverageInfo.COMPDED_CA).changeLimit(CoverageLimits.COV_250);
-		Coverage covGLASSxpected4 = Coverage.create(CoverageInfo.GLASS_CA).changeLimit(CoverageLimits.COV_FALSE_NO_COVERAGE);
+		Coverage covGLASSxpected4 = Coverage.create(CoverageInfo.GLASS_CA).changeLimit(CoverageLimits.COV_0);
 		Coverage covCOLLDEDExpected4 = Coverage.create(CoverageInfo.COLLDED_CA).changeLimit(CoverageLimits.COV_500);
 		Coverage covETEXExpected4 = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_25750);
 		Coverage covALLRISKExpected4 = Coverage.create(CoverageInfo.ALLRISK_CA).changeLimit(CoverageLimits.COV_NO_COV).disableCanChange();
 		Coverage covLOANExpected4 = Coverage.create(CoverageInfo.LOAN_CA).changeLimit(CoverageLimits.COV_0).disableCanChange().disableCustomerDisplay();
-		Coverage covNEWCARExpected4 = Coverage.create(CoverageInfo.NEWCAR_CA).changeLimit(CoverageLimits.COV_FALSE).disableCanChange();
+		Coverage covNEWCARExpected4 = Coverage.create(CoverageInfo.NEWCAR_CA).changeLimit(CoverageLimits.COV_0).disableCanChange();
 		Coverage covRIDESHAREExpected4 = Coverage.create(CoverageInfo.RIDESHARE_CA).changeLimit(CoverageLimits.COV_0).disableCanChange();
 
 		List<Coverage> expectedCoveragesVeh4 = new ArrayList<>();
 		expectedCoveragesVeh4.add(covCOMPDEDExpected4);
-		//expectedCoveragesVeh4.add(covGLASSxpected4);// TODO-mstrazds: GLASS and NEWCAR will be done in next sprints, needs to be uncommented
+		expectedCoveragesVeh4.add(covGLASSxpected4);
 		expectedCoveragesVeh4.add(covCOLLDEDExpected4);
 		expectedCoveragesVeh4.add(covETEXExpected4);
 		expectedCoveragesVeh4.add(covALLRISKExpected4);
 		expectedCoveragesVeh4.add(covLOANExpected4);
-		//expectedCoveragesVeh4.add(covNEWCARExpected4);// TODO-mstrazds: GLASS and NEWCAR will be done in next sprints, needs to be uncommented
+		expectedCoveragesVeh4.add(covNEWCARExpected4);
 		expectedCoveragesVeh4.add(covRIDESHAREExpected4);
 
 		PolicyCoverageInfo viewEndorsementCoverages2 = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
