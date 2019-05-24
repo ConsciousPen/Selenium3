@@ -306,5 +306,4 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
     public void pas27226_MatureDriverDiscount(@Optional("CA") @SuppressWarnings("unused") String state) {
 	    pas27226_MatureDriverDiscount();
     }
-
 }

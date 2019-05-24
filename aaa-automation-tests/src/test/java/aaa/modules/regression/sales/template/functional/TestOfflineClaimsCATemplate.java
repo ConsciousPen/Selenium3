@@ -1394,37 +1394,37 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
        }
         purchaseTab.fillTab(td_activity).submitTab();
         String policyNum = labelPolicyNumber.getValue();
-        //Endorsement Scenario
-        TestData td_activity1 = getTestSpecificTD("TestData_Activity_MDD_Endorse");
-        //Add a New Driver in Endorsement
-        initiateAddDriverEndorsement(policyNum,  td_activity1);
-        //Add a new Vehicle and assign it to the newly added driver
-        policy.getDefaultView().fillFromTo(td_driver_endorse,MembershipTab.class,AssignmentTab.class,true);
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
-        assignmentTab.fillTab(td_driver_endorse).submitTab();
-        // verify added Driver gets MDD discount
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Mature Driver Discount (Nike Johns)");
-        premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
-        driverActivityReportsTab.fillTab(td_activity1).submitTab();
-       //Navigate to Driver and add Activities
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-        tableDriverList.selectRow(3);
-        driverTab.fillTab(td_activity1);
-       //Assert that MDD does not exist for the newly added driver
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount (Nike Johns)");
-        premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
-        documentsAndBindTab.fillTab(td_activity1).submitTab();
-        if (errorTab.isVisible()) {
-          errorTab.overrideAllErrors();
-            errorTab.buttonOverride.click();
-            documentsAndBindTab.submitTab();
+//        //Endorsement Scenario
+//        TestData td_activity1 = getTestSpecificTD("TestData_Activity_MDD_Endorse");
+//        //Add a New Driver in Endorsement
+//        initiateAddDriverEndorsement(policyNum,  td_activity1);
+//        //Add a new Vehicle and assign it to the newly added driver
+//        policy.getDefaultView().fillFromTo(td_driver_endorse,MembershipTab.class,AssignmentTab.class,true);
+//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
+//        assignmentTab.fillTab(td_driver_endorse).submitTab();
+//        // verify added Driver gets MDD discount
+//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+//        assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Mature Driver Discount (Nike Johns)");
+//        premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
+//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+//        driverActivityReportsTab.fillTab(td_activity1).submitTab();
+//       //Navigate to Driver and add Activities
+//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+//        tableDriverList.selectRow(3);
+//        driverTab.fillTab(td_activity1);
+//       //Assert that MDD does not exist for the newly added driver
+//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+//        assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount (Nike Johns)");
+//        premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
+//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+//        documentsAndBindTab.fillTab(td_activity1).submitTab();
+//        if (errorTab.isVisible()) {
+//          errorTab.overrideAllErrors();
+//            errorTab.buttonOverride.click();
+//            documentsAndBindTab.submitTab();
         }
     }
-    }
+
 
 
 
