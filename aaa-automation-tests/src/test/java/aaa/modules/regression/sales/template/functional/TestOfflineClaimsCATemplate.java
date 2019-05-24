@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
-
-import aaa.main.enums.ProductConstants;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.testng.annotations.BeforeTest;
@@ -51,10 +49,8 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
-import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssertions;
 import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
@@ -83,17 +79,14 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     private static final String CLAIMS_URL = "https://claims-assignment-master.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1"; //Post-Permissive Use
     public static final String SQL_REMOVE_RENEWALCLAIMRECEIVEASYNCJOB_BATCH_JOB_CONTROL_ENTRY = "DELETE FROM BATCH_JOB_CONTROL_ENTRY WHERE jobname='renewalClaimReceiveAsyncJob'";
     public static final String CLAIMS_MICROSERVICE_ENDPOINT = "select * from PROPERTYCONFIGURERENTITY where propertyname = 'aaaClaimsMicroService.microServiceUrl'";
-
     protected TestData adjusted;
     protected LocalDateTime policyExpirationDate;
     protected LocalDateTime policyEffectiveDate;
     protected String policyNumber;
-    private String origQuoteNum;
-    private String quoteNum1;
     protected static DriverTab driverTab = new DriverTab();
     protected static GeneralTab generalTab = new GeneralTab();
     protected static PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-    protected static AssignmentTab assignmentTab=new AssignmentTab();
+    protected static AssignmentTab assignmentTab = new AssignmentTab();
     protected static DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
     protected static PurchaseTab purchaseTab = new PurchaseTab();
     protected static ErrorTab errorTab = new ErrorTab();
@@ -121,7 +114,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     private static final String PU_CLAIMS_DEFAULTING_2ND_DATA_MODEL = "pu_claims_defaulting_2nd_data_model.yaml"; //TODO: will be used after PAS-26322
     protected boolean updatePUFlag = false;
     protected boolean secondDriverFlag = false;
-    protected boolean MDD=true;
+    protected boolean MDD = true;
     protected boolean newBusinessFlag = false;
 
     @BeforeTest
@@ -222,16 +215,16 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     public void initiateAddDriverEndorsement(String policyNumber, TestData addDriverTd) {
 
         TestData td_driver_endorse = getTestSpecificTD("TestData_MDD_Endorse");
-       if(MDD==true) {
-           mainApp().open();
-           SearchPage.openPolicy(policyNumber);
-       policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus30Days"));
-      //Add a Driver who is Eligible for MDD in Mid Term Endorsement and Verify MDD is applied
-       NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-      driverTab.fillTab(td_driver_endorse).submitTab();
-      //Select the newly added Driver as "Manually Rated Driver" in the Assignment Tab
-                      return;
-       }
+        if (MDD == true) {
+            mainApp().open();
+            SearchPage.openPolicy(policyNumber);
+            policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus30Days"));
+            //Add a Driver who is Eligible for MDD in Mid Term Endorsement and Verify MDD is applied
+            NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+            driverTab.fillTab(td_driver_endorse).submitTab();
+            //Select the newly added Driver as "Manually Rated Driver" in the Assignment Tab
+            return;
+        }
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -1349,12 +1342,12 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      * 1. Create Customer.
      * 2. Create CA_Select /Choice Quote.
      * 3. Add 1 Driver who is eligible for MDD.
-     *   1. Driver is a rated driver AND
-     *   2. Driver is at least 50 years old AND
-     *   3. Driver had completed a Mature Driver Improvement Course approved by the California Department of Motor Vehicles within the past 3 years from the effective date of policy AND
-     *   4. Driver's License is not revoked or suspended after Mature Driver Course completion
-     *   OR
-     *   5.Driver has no at-fault accidents , Major Violation or Alcohol-Related Violation that occurred after after MD Course completion date
+     * 1. Driver is a rated driver AND
+     * 2. Driver is at least 50 years old AND
+     * 3. Driver had completed a Mature Driver Improvement Course approved by the California Department of Motor Vehicles within the past 3 years from the effective date of policy AND
+     * 4. Driver's License is not revoked or suspended after Mature Driver Course completion
+     * OR
+     * 5.Driver has no at-fault accidents , Major Violation or Alcohol-Related Violation that occurred after after MD Course completion date
      * 4. Verify MDD gets applied in the Premium and Coverages Discount Section for the Driver who has met the above Criteria.
      * 5. Navigate to Driver Tab and add all possible activities (Customer/Company Input) according with occurrence Date AFTER Mature Driver Discount Course Completion date
      * 6. Navigate to P&C Tab and Calculate Premium and assert that Mature Driver Discount is not applied in the Discount section for the Driver who has Convictions.
@@ -1381,51 +1374,50 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         tableDriverList.selectRow(2);
         driverTab.fillTab(td_activity);
         // Assert that Mature Driver Discount does not exist.
-         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-         assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount (Tom Johns)");
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount (Tom Johns)");
         //Calculate Premium and create policy
         premiumAndCoveragesTab.fillTab(td_activity).submitTab();
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.fillTab(td_activity).submitTab();
-       if (errorTab.isVisible()) {
+        if (errorTab.isVisible()) {
             errorTab.overrideAllErrors();
-           errorTab.buttonOverride.click();
-           documentsAndBindTab.submitTab();
-       }
+            errorTab.buttonOverride.click();
+            documentsAndBindTab.submitTab();
+        }
         purchaseTab.fillTab(td_activity).submitTab();
         String policyNum = labelPolicyNumber.getValue();
-//        //Endorsement Scenario
-//        TestData td_activity1 = getTestSpecificTD("TestData_Activity_MDD_Endorse");
-//        //Add a New Driver in Endorsement
-//        initiateAddDriverEndorsement(policyNum,  td_activity1);
-//        //Add a new Vehicle and assign it to the newly added driver
-//        policy.getDefaultView().fillFromTo(td_driver_endorse,MembershipTab.class,AssignmentTab.class,true);
-//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
-//        assignmentTab.fillTab(td_driver_endorse).submitTab();
-//        // verify added Driver gets MDD discount
-//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-//        assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Mature Driver Discount (Nike Johns)");
-//        premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
-//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
-//        driverActivityReportsTab.fillTab(td_activity1).submitTab();
-//       //Navigate to Driver and add Activities
-//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-//        tableDriverList.selectRow(3);
-//        driverTab.fillTab(td_activity1);
-//       //Assert that MDD does not exist for the newly added driver
-//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-//        assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount (Nike Johns)");
-//        premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
-//        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
-//        documentsAndBindTab.fillTab(td_activity1).submitTab();
-//        if (errorTab.isVisible()) {
-//          errorTab.overrideAllErrors();
-//            errorTab.buttonOverride.click();
-//            documentsAndBindTab.submitTab();
+        //Endorsement Scenario
+        TestData td_activity1 = getTestSpecificTD("TestData_Activity_MDD_Endorse");
+        //Add a New Driver in Endorsement
+        initiateAddDriverEndorsement(policyNum, td_activity1);
+        //Add a new Vehicle and assign it to the newly added driver
+        policy.getDefaultView().fillFromTo(td_driver_endorse, MembershipTab.class, AssignmentTab.class, true);
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
+        assignmentTab.fillTab(td_driver_endorse).submitTab();
+        // verify added Driver gets MDD discount
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Mature Driver Discount (Nike Johns)");
+        premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+        driverActivityReportsTab.fillTab(td_activity1).submitTab();
+        //Navigate to Driver and add Activities
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        tableDriverList.selectRow(3);
+        driverTab.fillTab(td_activity1);
+        //Assert that MDD does not exist for the newly added driver
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount (Nike Johns)");
+        premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+        documentsAndBindTab.fillTab(td_activity1).submitTab();
+        if (errorTab.isVisible()) {
+            errorTab.overrideAllErrors();
+            errorTab.buttonOverride.click();
+            documentsAndBindTab.submitTab();
         }
     }
-
-
+}
 
 
 
