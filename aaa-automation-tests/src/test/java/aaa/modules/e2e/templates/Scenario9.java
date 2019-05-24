@@ -250,12 +250,12 @@ public class Scenario9 extends ScenarioBaseTest {
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		
-		if (getState().equals(Constants.States.NJ)) { //autoSS
+		//if (getState().equals(Constants.States.NJ)) { //autoSS
 			//Dollar pligaFeeEndorse = BillingHelper.calculatePligaFee(transactionDate, currentTermDueAmount);
 			//Dollar pligaFeeEndorse = BillingHelper.calculatePligaFee(transactionDate);
 			// in this case it is simpler to hardcode pliga fee then calculate
-			currentTermDueAmount = currentTermDueAmount.add(1);
-		}
+			//currentTermDueAmount = currentTermDueAmount.add(1);
+		//}
 		if (getState().equals(Constants.States.NY)) {
 			currentTermDueAmount = currentTermDueAmount.add(10);
 		}
