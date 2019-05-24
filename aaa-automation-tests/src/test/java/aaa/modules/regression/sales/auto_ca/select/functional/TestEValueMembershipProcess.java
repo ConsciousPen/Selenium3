@@ -180,7 +180,7 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 			mainApp().reopen();
 			SearchPage.openPolicy(policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "", softly);
-			transactionHistoryRecordCountCheck(policyNumber, 3, "Membership Discount Removed", softly);
+			transactionHistoryRecordCountCheck(policyNumber, 3, "Discount validation failure, policy information updated", softly);
 			checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false, softly);
 		});
 	}
@@ -217,7 +217,7 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 			SearchPage.openPolicy(policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "", softly);
 
-			transactionHistoryRecordCountCheck(policyNumber, 3, "Membership Discount Removed", softly);
+			transactionHistoryRecordCountCheck(policyNumber, 3, "Discount validation failure, policy information updated", softly);
 			checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false, softly);
 		});
 	}
@@ -325,7 +325,7 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 				+ "        where POLICYNUMBER = '%s')\n"
 				+ "    order by pt.TXDATE desc)\n"
 				+ "    where rownum=1";
-		softly.assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).isEqualTo(value);
+		softly.assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).contains(value);
 	}
 
 	private void lastTransactionHistoryExit() {

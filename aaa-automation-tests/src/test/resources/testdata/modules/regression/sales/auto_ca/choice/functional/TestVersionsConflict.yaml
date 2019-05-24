@@ -1418,3 +1418,160 @@ NamedInsuredInformation_RenewalVersion1: {
   Validate Address Dialog: {
   }
 }
+
+TestData_AtomicMerge_Scenario1_NB_Policy: {
+  PrefillTab: '@<auto_ca_choice>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverInformation','@DriverTab1'],
+  MembershipTab: {},
+  VehicleTab: '@VehicleInformation',
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Primary Driver: "NBFirstName NBLastName",
+      Manually Rated Driver: "NBFirstName NBLastName"
+    }
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Product: CA Choice,
+  },
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Personal Auto Application: Physically Signed,
+      Deleting Uninsured Motorist Property Damage Coverage: Physically Signed,
+    },
+    RequiredToIssue: {
+      Proof of Mature Driver Course Completion: 'Yes',
+      Proof of Anti-Theft Recovery Device: 'Yes',
+    },
+    VehicleInformation:{
+      "Are there any additional interest(s)?": 'No',
+    },
+  },
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
+}
+
+TestData_AtomicMerge_Scenario1_Version1: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Primary Driver: "NBFirstName NBLastName",
+      #Manually Rated Driver: "NBFirstName NBLastName"
+    }
+  },
+}
+
+TestData_AtomicMerge_Scenario1_Version2: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Primary Driver: "Second Driver Version1",
+      #Manually Rated Driver: "Second Driver Version1"
+    }
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+TestData_AtomicMerge_Scenario2_NB_Policy: {
+  PrefillTab: '@<auto_ca_choice>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverInformation','@DriverTab1'],
+  MembershipTab: {},
+  VehicleTab: '@VehicleInformation',
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Primary Driver: "Second Driver Version1",
+      Manually Rated Driver: "Second Driver Version1"
+    }
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Product: CA Choice,
+  },
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Personal Auto Application: Physically Signed,
+      Deleting Uninsured Motorist Property Damage Coverage: Physically Signed,
+    },
+    RequiredToIssue: {
+      Proof of Mature Driver Course Completion: 'Yes',
+      Proof of Anti-Theft Recovery Device: 'Yes',
+    },
+    VehicleInformation:{
+      "Are there any additional interest(s)?": 'No',
+    },
+  },
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
+}
+
+TestData_AtomicMerge_Scenario2_Version1: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Primary Driver: "NBFirstName NBLastName",
+      #Manually Rated Driver: "NBFirstName NBLastName"
+    }
+  },
+}
+
+TestData_AtomicMerge_Scenario2_Version2: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: ['@VehicleInformation', '@VehicleInformation_Version2'],
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: ['@DriverVehicleRelationship_AtomicMerge_Scenario2','@DriverVehicleRelationship_AtomicMerge_Scenario2'],
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    RequiredToIssue: {
+      Photos showing all 4 sides of Salvaged Vehicle(s): 'Yes',
+    }
+  }
+}
+
+DriverVehicleRelationship_AtomicMerge_Scenario2: {
+  Primary Driver: "Second Driver Version1",
+}
+
+TestData_AtomicMerge_Scenario4_Version1: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Primary Driver: "New Driver Version2",
+      #Manually Rated Driver: "New Driver Version2"
+    }
+  },
+}
+
+TestData_AtomicMerge_Scenario4_Version2: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Primary Driver: "New Driver Version1",
+      #Manually Rated Driver: "New Driver Version1"
+    }
+  },
+}

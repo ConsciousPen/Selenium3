@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.rest.dtoDxp.*;
@@ -111,10 +112,19 @@ public class HelperMiniServices extends PolicyBaseTest {
 			//Check that DXP rate premium matches PAS UI premium after Bind
 			if (!getState().equals(Constants.States.CA)) { //TODO-mstrazds: implement also for CA
 				TestData autoCoveragesSummaryTestData = PolicySummaryPage.getAutoCoveragesSummaryTestData();
-				String totalActualPremiumUI = autoCoveragesSummaryTestData.getValue("Total Actual Premium").replace("$", "").replace(",", "").replace(".00", "");
-				String totalTermPremiumUI = autoCoveragesSummaryTestData.getValue("Total Term Premium").replace("$", "").replace(",", "").replace(".00", "");
-				softly.assertThat(endorsementRateResponse[0].actualAmt).isEqualTo(totalActualPremiumUI);
-				softly.assertThat(endorsementRateResponse[0].termPremium).isEqualTo(totalTermPremiumUI);
+				Dollar totalActualPremiumUI = new Dollar(autoCoveragesSummaryTestData.getValue("Total Actual Premium").replace("$", "").replace(",", ""));
+				Dollar totalTermPremiumUI = new Dollar(autoCoveragesSummaryTestData.getValue("Total Term Premium").replace("$", "").replace(",", ""));
+				//KY and WV has taxes in response
+				Dollar taxAmount = new Dollar();
+				if (getState().equals(Constants.States.KY) || getState().equals(Constants.States.WV)) {
+					for (PolicyPremiumInfo policyPremiumInfo : endorsementRateResponse) {
+						if ("TAX".equals(policyPremiumInfo.premiumType)) {
+							taxAmount = taxAmount.add(new Dollar(policyPremiumInfo.termPremium));
+						}
+					}
+				}
+				softly.assertThat(new Dollar(endorsementRateResponse[0].actualAmt)).isEqualTo(totalActualPremiumUI);
+				softly.assertThat(new Dollar(endorsementRateResponse[0].termPremium).subtract(taxAmount)).isEqualTo(totalTermPremiumUI);
 			}
 		});
 	}

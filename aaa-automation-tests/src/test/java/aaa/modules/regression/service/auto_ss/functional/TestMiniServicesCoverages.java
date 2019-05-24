@@ -1795,5 +1795,49 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas15363_viewUpdatePIPCoverageNYBody();
 	}
 
+	/**
+	 * @author Maris Strazds
+	 * @name New Jersey Coverage Includes - Add and Remove a Driver
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Add drivers through service
+	 * 4. Update Coverage Includes = Named Insureds and Family Members
+	 * 5. Verify that Coverage Includes contains added drivers
+	 * 6. Remove added drivers
+	 * 7. Verify that Coverage Includes does not contain removed drivers
+	 * 8. Add drivers
+	 * 9. Verify that Coverage Includes contains added drivers
+	 * 10. bind Endorsement
+	 * 11. Create new Endorsement
+	 * 12. Remove drivers
+	 * 13. Verify that Coverage Includes does not contain removed drivers
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-27867"})
+	public void pas27867_pipCovIncludesAddRemoveDriverTC01(@Optional("NJ") String state) {
+		pas27867_pipCovIncludesAddRemoveDriverTC01Body();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name New Jersey Coverage Includes - Add and Remove a Driver
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Remove drivers through service
+	 * 4. Update Coverge Includes = Named Insureds and Family Members
+	 * 5. Verify that Coverage Includes does not contain removed drivers
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-27867"})
+	public void pas27867_pipCovIncludesAddRemoveDriverTC02(@Optional("NJ") String state) {
+		pas27867_pipCovIncludesAddRemoveDriverTC02Body();
+	}
+
 }
 
