@@ -39,8 +39,8 @@ import toolkit.utils.datetime.DateTimeUtils;
 public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 
 	private static final Map<AaaDocGenEntityQueries.EventNames, List<JobGroup>> JOBS_FOR_EVENT = ImmutableMap.<AaaDocGenEntityQueries.EventNames, List<JobGroup>>builder()
-			.put(PRE_RENEWAL, ImmutableList.of(JobGroup.fromSingleJob(BatchJob.aaaBatchMarkerJob), JobGroup.fromSingleJob(BatchJob.aaaPreRenewalNoticeAsyncJob), JobGroup.fromSingleJob(BatchJob.aaaDocGenBatchJob)))
-			.put(RENEWAL_OFFER, ImmutableList.of(JobGroup.fromSingleJob(BatchJob.aaaBatchMarkerJob), BatchJob.renewalOfferGenerationPart2, JobGroup.fromSingleJob(BatchJob.aaaDocGenBatchJob)))
+			.put(PRE_RENEWAL, ImmutableList.of(/*JobGroup.fromSingleJob(BatchJob.aaaBatchMarkerJob),*/ JobGroup.fromSingleJob(BatchJob.aaaPreRenewalNoticeAsyncJob), JobGroup.fromSingleJob(BatchJob.aaaDocGenBatchJob)))
+			.put(RENEWAL_OFFER, ImmutableList.of(/*JobGroup.fromSingleJob(BatchJob.aaaBatchMarkerJob), */BatchJob.renewalOfferGenerationPart2, JobGroup.fromSingleJob(BatchJob.aaaDocGenBatchJob)))
 			.put(RENEWAL_BILL, ImmutableList.of(JobGroup.fromSingleJob(BatchJob.aaaRenewalNoticeBillAsyncJob), JobGroup.fromSingleJob(BatchJob.aaaDocGenBatchJob)))
 			.put(BILL_FIRST_RENEW_REMINDER_NOTICE, ImmutableList.of(JobGroup.fromSingleJob(BatchJob.aaaMortgageeRenewalReminderAndExpNoticeAsyncJob), JobGroup.fromSingleJob(BatchJob.aaaDocGenBatchJob)))
 			.put(MORTGAGEE_BILL_FINAL_EXP_NOTICE, ImmutableList.of(JobGroup.fromSingleJob(BatchJob.aaaMortgageeRenewalReminderAndExpNoticeAsyncJob), JobGroup.fromSingleJob(BatchJob.aaaDocGenBatchJob)))

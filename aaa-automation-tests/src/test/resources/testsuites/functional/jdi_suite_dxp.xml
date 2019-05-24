@@ -1240,6 +1240,8 @@
                     <include name="pas23997_updatePipCoveragesNJ"/>
                     <include name="pas25531_viewUpdatePipCoveragesIncludesNiAndRrNJ"/>
                     <include name="pas23975_viewUpdatePIPPrimaryInsurerNJ"/>
+                    <include name="pas27867_pipCovIncludesAddRemoveDriverTC01"/>
+                    <include name="pas27867_pipCovIncludesAddRemoveDriverTC02"/>
                 </methods>
             </class>
         </classes>
@@ -1350,6 +1352,7 @@
             <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesVehicles">
                 <methods>
                     <include name="pas25263_addVehicleMetadataCheck"/>
+                    <include name="pas29137_updateVehicleRegisteredOwnerAndStuff"/>
                 </methods>
             </class>
         </classes>
@@ -1377,6 +1380,19 @@
                     <include name="pas22513_ViewDiscountDriver"/>
                     <include name="pas28687_AddRideshareDriver"/>
                     <include name="pas25055_ViewDriverServiceMetadataServiceRideshareQuestion"/>
+                    <include name="pas15896_NamedInsuredMaritalStatus_MultipleMarital"/>
+                    <include name="pas15896_NamedInsuredAndTheRelationshipWhenFniEquivalentToMarried"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="CA Choice Driver" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas15896_NamedInsuredMaritalStatus_MultipleMarital"/>
+                    <include name="pas15896_NamedInsuredAndTheRelationshipWhenFniEquivalentToMarried"/>
                 </methods>
             </class>
         </classes>
@@ -1393,6 +1409,7 @@
                     <include name="pas15412_DriverAssignmentReplaceVehicle"/>
                     <include name="pas15412_DriverAssignmentReplaceVehicle1DMV"/>
                     <include name="pas15412_DriverAssignmentViewAssignments"/>
+                    <include name="pas29163_DriverAssignmentAndOddBalls"/>
                 </methods>
             </class>
         </classes>
@@ -1416,6 +1433,28 @@
                     <include name="pas15431_reportOrderAndDriver1"/>
                     <include name="pas15431_reportOrderAndDriver2"/>
                     <include name="pas16694_orderReports_not_Named_Insured_endorsement"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="Moratoriums - CA Select" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesMoratorium">
+                <methods>
+                    <include name="pas21466_GarageAddressUnderTheMoratorium"/>
+                    <include name="pas21466_GarageAddressUnderTheMoratoriumPart2"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="Moratoriums - CA Choice" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesMoratorium">
+                <methods>
+                    <include name="pas21466_GarageAddressUnderTheMoratorium"/>
+                    <include name="pas21466_GarageAddressUnderTheMoratoriumPart2"/>
                 </methods>
             </class>
         </classes>

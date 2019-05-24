@@ -325,6 +325,10 @@ TestData_2_Drivers: {
   DriverTab: ['@DriverTab_RegularDriver', '@DriverTab_RegularDriver2']
 }
 
+# ----- Scenario 20
+TestData_MembershipLapsed: {
+  GeneralTab: '@GeneralTab_MembershipLapsed'
+}
 
 # -------- GeneralTab ---------
 GeneralTab_OverrideCurrentCarrier: {
@@ -397,6 +401,19 @@ PolicyInformation_Endorse_NANO: {
   Change Policy Type Confirmation: {
     Continue: click
   }
+}
+
+GeneralTab_MembershipLapsed: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAMembership: '@AAAMembershipLapsed',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
+}
+
+AAAMembershipLapsed: {
+  Current AAA Member: 'Yes',
+  Membership Number: 9920702826992070
 }
 
 # --------- DriverTab ---------

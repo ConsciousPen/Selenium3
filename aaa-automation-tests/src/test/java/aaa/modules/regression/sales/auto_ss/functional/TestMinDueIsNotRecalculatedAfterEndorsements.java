@@ -34,9 +34,9 @@ import toolkit.utils.TestInfo;
  * 1. Create Customer
  * 2. Create Auto policy with Eleen Pay Standard plan
  * 3. Pay in full
- * 4. At time point R-96 run renewalOfferGenerationPart2 (renewal is initiated)
- * 5. At time point R-45 run renewalOfferGenerationPart1 and renewalOfferGenerationPart2 (renewal status is ‘Premium Calculated’)
- * 6. At time point R-35 run renewalOfferGenerationPart2 (renewal status is ‘Proposed’)
+ * 4. At time point R-96 run Renewal_Offer_Generation_Part2 (renewal is initiated)
+ * 5. At time point R-45 run Renewal_Offer_Generation_Part1 and Renewal_Offer_Generation_Part2 (renewal status is 'Premium Calculated')
+ * 6. At time point R-35 run Renewal_Offer_Generation_Part2 (renewal status is 'Proposed')
  * 7. At time point R-20 run aaaRenewalNoticeBillAsyncJob to generate renewal bill
  * 8. At time point R-17 initiate endorsement
  * 9. Navigate to P&C tab and process an endorsement that causes an additional premium (for example increase coverages)

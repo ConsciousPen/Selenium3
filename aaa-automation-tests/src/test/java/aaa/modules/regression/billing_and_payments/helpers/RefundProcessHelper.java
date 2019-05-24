@@ -160,7 +160,7 @@ public class RefundProcessHelper extends PolicyBilling {
 				acceptPaymentActionTab.back();
 
 				//TODO doesn't work in VDMs
-				RemoteHelper.get().waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, 10, policyNumber, transactionID);
+			RemoteHelper.get().waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, 20, policyNumber, transactionID);
 				String neededFilePath = RemoteHelper.get().waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, "csv", 10, policyNumber).get(0);
 				String fileName = neededFilePath.replace(REFUND_GENERATION_FOLDER_PATH, "");
 

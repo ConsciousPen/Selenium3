@@ -1209,7 +1209,7 @@ AA02AZ: {
     #VehMdelNm: {TextField: 'EXPRESS VAN SPORT VAN'},
     VehIdNum: {TextField: '1GNWGPFG8B6548273'},
     VehUnitNum: {TextField: '1'},
-    VehDiscDesc: {TextField: 'Hybrid Discount; Multi-Vehicle Discount; Passive Restraint Discount'},
+    #VehDiscDesc: {TextField: 'Hybrid Discount; Multi-Vehicle Discount; Passive Restraint Discount'},
     VehDiscNum: {TextField: '1'},
     VehGarZipPls4: {TextField: '85118'}
   },
@@ -3864,7 +3864,7 @@ AA02IN_ED: {
     VehMdelNm: {TextField: 'G55AMG WAGON 4 DOOR'},
     VehIdNum: {TextField: 'WDCYC7BB0B6729451'},
     VehUnitNum: {TextField: '2'},
-    VehDiscDesc: {TextField: 'Multi-Vehicle Discount; Passive Restraint Discount'},
+     #VehDiscDesc: {TextField: 'Multi-Vehicle Discount; Passive Restraint Discount'},
     VehDiscNum: {TextField: '2'},
     VehGarZipPls4: {TextField: '47714'}
    }
@@ -4275,7 +4275,7 @@ AA02OK_ED: {
     #VehMdelNm: {TextField: 'EXPRESS VAN SPORT VAN'},
     VehIdNum: {TextField: '1GNWGPFG8B6548273'},
     VehUnitNum: {TextField: '1'},
-    VehDiscDesc: {TextField: 'Hybrid Discount; Multi-Vehicle Discount; Passive Restraint Discount'},
+    #VehDiscDesc: {TextField: 'Hybrid Discount; Multi-Vehicle Discount; Passive Restraint Discount'},
     VehDiscNum: {TextField: '1'},
     VehGarZipPls4: {TextField: '73118'}
    },
@@ -4286,7 +4286,7 @@ AA02OK_ED: {
     VehMdelNm: {TextField: 'G55AMG WAGON 4 DOOR'},
     VehIdNum: {TextField: 'WDCYC7BB0B6729451'},
     VehUnitNum: {TextField: '2'},
-    VehDiscDesc: {TextField: 'Multi-Vehicle Discount; Passive Restraint Discount'},
+    #VehDiscDesc: {TextField: 'Multi-Vehicle Discount; Passive Restraint Discount'},
     VehDiscNum: {TextField: '2'},
     VehGarZipPls4: {TextField: '73118'}
    }
@@ -5724,7 +5724,7 @@ AA02OK_Renewal: {
     #VehMdelNm: {TextField: 'EXPRESS VAN SPORT VAN'},
     VehIdNum: {TextField: '1GNWGPFG8B6548273'},
     VehUnitNum: {TextField: '1'},
-    VehDiscDesc: {TextField: 'Hybrid Discount; Multi-Vehicle Discount; Passive Restraint Discount'},
+    #VehDiscDesc: {TextField: 'Hybrid Discount; Multi-Vehicle Discount; Passive Restraint Discount'},
     VehDiscNum: {TextField: '1'},
     VehGarZipPls4: {TextField: '73118'}
    },

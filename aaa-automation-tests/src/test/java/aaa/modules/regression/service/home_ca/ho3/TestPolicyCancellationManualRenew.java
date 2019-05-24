@@ -18,8 +18,8 @@ import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
@@ -176,7 +176,7 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 		minDue = new Dollar(BillingSummaryPage.tableBillsStatements.getRowContains(BillingConstants.BillingBillsAndStatmentsTable.TYPE,
 				BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE).getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
-		log.info("TEST: #L SBilling triggers PAS to reinstate the policy and updates the status of policy as ‘Active’");
+		log.info("TEST: #L SBilling triggers PAS to reinstate the policy and updates the status of policy as 'Active’");
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
 		log.info("TEST: #L DD6 bill is skipped");
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setDueDate(installmentDueDates.get(6)).verifyPresent(false);
@@ -285,7 +285,7 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		PolicySummaryPage.verifyDoNotRenewFlagPresent();
-		log.info("TEST: #V The underwriting letter ‘HSU07 CA Non-Renewal’ is generated at the Renewal Offer Generation date along with Non Renewal Notice");
+		log.info("TEST: #V The underwriting letter 'HSU07 CA Non-Renewal’ is generated at the Renewal Offer Generation date along with Non Renewal Notice");
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.HSU07CA);
 		log.info("TEST: #V  Non-Renewal Notice WU65CA is archived in Fastlane and available in the Policy E-folder Under Cancellation");
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.WU65CA);

@@ -296,14 +296,4 @@
             </class>
         </classes>
     </test>
-    <test name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPendingDC" parallel="methods" thread-count="1024">
-        <parameter name="state" value="DC"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
-                <methods>
-                    <include name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
 </suite>

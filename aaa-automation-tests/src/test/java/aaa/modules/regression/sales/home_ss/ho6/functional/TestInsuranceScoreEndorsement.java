@@ -40,8 +40,7 @@ public class TestInsuranceScoreEndorsement extends TestInsuranceScoreEndorsement
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-24663"})
 	public void pas24663_Endorsement_reorderAtRenewalNo(@Optional("") String state) {
-		testQualifiedNamedInsuredAddedOnMidTermEndorsement("TestData_EndorsementWithQualifiedNamedInsured",
-				"Yes", "No", false);
+		testQualifiedNamedInsuredAddedOnMidTermEndorsement("Yes", "No", false);
 	}
 
 	/**
@@ -66,8 +65,7 @@ public class TestInsuranceScoreEndorsement extends TestInsuranceScoreEndorsement
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-24663"})
 	public void pas24663_Endorsement_reorderAtRenewalYes(@Optional("") String state) {
-		testQualifiedNamedInsuredAddedOnMidTermEndorsement("TestData_EndorsementWithQualifiedNamedInsured",
-				"Yes", "Yes", false);
+		testQualifiedNamedInsuredAddedOnMidTermEndorsement("Yes", "Yes", false);
 	}
 
 	/**
@@ -91,8 +89,7 @@ public class TestInsuranceScoreEndorsement extends TestInsuranceScoreEndorsement
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-24663"})
 	public void pas24663_Endorsement_OrderInsuranceScoreDecline(@Optional("") String state) {
-		testQualifiedNamedInsuredAddedOnMidTermEndorsement("TestData_EndorsementWithQualifiedNamedInsured",
-				"Decline", "No", false);
+		testQualifiedNamedInsuredAddedOnMidTermEndorsement("Decline", "No", false);
 	}
 
 	/**
@@ -118,8 +115,76 @@ public class TestInsuranceScoreEndorsement extends TestInsuranceScoreEndorsement
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-24663"})
 	public void pas24663_Endorsement_AutomaticReorderingAt36months(@Optional("") String state) {
-		testQualifiedNamedInsuredAddedOnMidTermEndorsement("TestData_EndorsementWithQualifiedNamedInsured",
-				"Yes", "No", true);
+		testQualifiedNamedInsuredAddedOnMidTermEndorsement("Yes", "No", true);
 	}
 
+	/**
+	 * *@author Rokas Lazdauskas
+	 * *@name Test order insurance score on Renewal then Qualified named insured used in rating on NB is deleted during midterm
+	 * *@scenario
+	 * 1. Create Customer
+	 * 2. Create Policy
+	 * 2.1. Add Primary Insured, Spouse, Child, Parent (Spouse has highest insurance score).
+	 * 2.2. Check Scores used in rating
+	 * 2.3. Finish policy creation
+	 * 3. Do Endorsement - policy effective date +1 day atleast
+	 * 4. Navigate to Applicant tab
+	 * 5. Remove Qualified named insured with highest Insurance score (spouse)
+	 * 6. Navigate to reports tab
+	 * 7. Check that only Primary Insured is displayed in reports section
+	 * 8. Calculate Premium
+	 * 9. Open View Rating Details page
+	 * 10. Check that spouses score is still used during midterm endorsement
+	 * 11. Finish Endorsement
+	 * 12. Do Renewal
+	 * 13. Navigate to Reports tab
+	 * 14. Check that new Insurance Score Report was ordered
+	 * 15. Calculate premium
+	 * 16. Open View Rating Details page
+	 * 17. Check that the best score of Primary Insured is used in rating
+	 * *@details
+	 */
+	@Parameters({"state"})
+	@StateList(statesExcept = {Constants.States.CA, Constants.States.MD, Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-24664", "PAS-29054", "PAS-25628"})
+	public void pas24664_Endorsement_DeletingQualifiedNamedInsured_SpouseUsedInRating(@Optional("") String state) {
+		testQualifiedNamedInsuredDeletedOnMidTermEndorsement("ApplicantTab_SpouseIsHigher",
+				500, 600, 650);
+	}
+
+	/**
+	 * *@author Rokas Lazdauskas
+	 * *@name Test order insurance score on Renewal then Qualified named insured NOT used in rating on NB is deleted during midterm
+	 * *@scenario
+	 * 1. Create Customer
+	 * 2. Create Policy
+	 * 2.1. Add Primary Insured, Spouse, Child, Parent (Primary Insured has highest insurance score).
+	 * 2.2. Check Scores used in rating
+	 * 2.3. Finish policy creation
+	 * 3. Do Endorsement - policy effective date +1 day atleast
+	 * 4. Navigate to Applicant tab
+	 * 5. Remove Qualified named insured with NOT highest Insurance score (Spouse)
+	 * 6. Navigate to reports tab
+	 * 7. Check that only Primary Insured is displayed in reports section
+	 * 8. Calculate Premium
+	 * 9. Open View Rating Details page
+	 * 10. Check that spouses score is still used during midterm endorsement
+	 * 11. Finish Endorsement
+	 * 12. Do Renewal
+	 * 13. Navigate to Reports tab
+	 * 14. Check that new Insurance Score Report was ordered
+	 * 15. Calculate premium
+	 * 16. Open View Rating Details page
+	 * 17. Check that the best score of Primary Insured is used in rating
+	 * *@details
+	 */
+	@Parameters({"state"})
+	@StateList(statesExcept = {Constants.States.CA, Constants.States.MD, Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = {"PAS-24664", "PAS-29054", "PAS-25628"})
+	public void pas24664_Endorsement_DeletingQualifiedNamedInsured_PrimaryInsuredUsedInRating(@Optional("") String state) {
+		testQualifiedNamedInsuredDeletedOnMidTermEndorsement("ApplicantTab_SpouseIsLower",
+				650, 700, 500);
+	}
 }

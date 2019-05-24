@@ -201,9 +201,10 @@ public class TestTelematicsParticipationDiscount extends AutoSSBaseTest {
 			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 			//R-63
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(policyExpirationDate));
-			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+			//			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 			//R-45
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
+			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 			mainApp().open();
 			SearchPage.openPolicy(policyNum);

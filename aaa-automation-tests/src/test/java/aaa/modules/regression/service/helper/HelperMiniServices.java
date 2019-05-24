@@ -6,14 +6,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
-import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import org.apache.commons.lang.StringUtils;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class HelperMiniServices extends PolicyBaseTest {
@@ -103,12 +105,27 @@ public class HelperMiniServices extends PolicyBaseTest {
 			softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
 			softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
 			softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+			softly.assertThat(endorsementRateResponse[0].termPremium).isNotBlank();
 
 			//Bind endorsement
 			bindEndorsementWithCheck(policyNumber);
-			softly.assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
-			softly.assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
-			softly.assertThat(endorsementRateResponse[0].actualAmt).isNotBlank();
+			//Check that DXP rate premium matches PAS UI premium after Bind
+			if (!getState().equals(Constants.States.CA)) { //TODO-mstrazds: implement also for CA
+				TestData autoCoveragesSummaryTestData = PolicySummaryPage.getAutoCoveragesSummaryTestData();
+				Dollar totalActualPremiumUI = new Dollar(autoCoveragesSummaryTestData.getValue("Total Actual Premium").replace("$", "").replace(",", ""));
+				Dollar totalTermPremiumUI = new Dollar(autoCoveragesSummaryTestData.getValue("Total Term Premium").replace("$", "").replace(",", ""));
+				//KY and WV has taxes in response
+				Dollar taxAmount = new Dollar();
+				if (getState().equals(Constants.States.KY) || getState().equals(Constants.States.WV)) {
+					for (PolicyPremiumInfo policyPremiumInfo : endorsementRateResponse) {
+						if ("TAX".equals(policyPremiumInfo.premiumType)) {
+							taxAmount = taxAmount.add(new Dollar(policyPremiumInfo.termPremium));
+						}
+					}
+				}
+				softly.assertThat(new Dollar(endorsementRateResponse[0].actualAmt)).isEqualTo(totalActualPremiumUI);
+				softly.assertThat(new Dollar(endorsementRateResponse[0].termPremium).subtract(taxAmount)).isEqualTo(totalTermPremiumUI);
+			}
 		});
 	}
 
@@ -153,30 +170,38 @@ public class HelperMiniServices extends PolicyBaseTest {
 
 	public OrderReportsResponse orderReportErrors(String policyNumber, String driverOid, boolean errorExistsCheck, ErrorDxpEnum.Errors... errors) {
 		OrderReportsResponse orderReportErrorResponse = HelperCommon.orderReports(policyNumber, driverOid, OrderReportsResponse.class, 200);
-		for(ErrorDxpEnum.Errors error : errors) {
-			if(errorExistsCheck) {
+		for (ErrorDxpEnum.Errors error : errors) {
+			if (errorExistsCheck) {
 				assertThat(orderReportErrorResponse.validations.stream()
-						.anyMatch(valError ->  valError.message.contains(error.getMessage()))).isTrue();
+						.anyMatch(valError -> valError.message.contains(error.getMessage()))).isTrue();
 				assertThat(orderReportErrorResponse.validations.stream()
-						.anyMatch(valError ->  valError.errorCode.equals(error.getCode()))).isTrue();
+						.anyMatch(valError -> valError.errorCode.equals(error.getCode()))).isTrue();
 			} else {
 				assertThat(orderReportErrorResponse.validations.stream()
 						.noneMatch(valError -> valError.message.contains(error.getMessage()))).isTrue();
 				assertThat(orderReportErrorResponse.validations.stream()
-						.noneMatch(valError ->  valError.errorCode.equals(error.getCode()))).isTrue();
+						.noneMatch(valError -> valError.errorCode.equals(error.getCode()))).isTrue();
 			}
 		}
-		if(errors.length == 0) {
+		if (errors.length == 0) {
 			assertThat(orderReportErrorResponse.validations).isEmpty();
 		}
 		return orderReportErrorResponse;
 	}
 
-	boolean hasError(ErrorResponseDto errorResponseDto, ErrorDxpEnum.Errors expectedError) {
-		assertThat(errorResponseDto.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-		assertThat(errorResponseDto.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-		return errorResponseDto.errors.stream().anyMatch(error -> expectedError.getCode().equals(error.errorCode)
-						&& StringUtils.startsWith(error.message, expectedError.getMessage()));
+	public void bindEndorsementWithErrorCheck(String policyNumber, ErrorDxpEnum.Errors... errors) {
+		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "megha", 422);
+		assertThat(bindResponse.errorCode).contains(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+		assertThat(bindResponse.message).contains(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+		for (ErrorDxpEnum.Errors error : errors) {
+			assertThat(bindResponse.errors.stream()
+					.anyMatch(valError -> valError.message.contains(error.getMessage()))).isTrue();
+			assertThat(bindResponse.errors.stream()
+					.anyMatch(valError -> valError.errorCode.equals(error.getCode()))).isTrue();
+		}
+		if (errors.length == 0) {
+			assertThat(bindResponse.errors).isEmpty();
+		}
 	}
 
 	void validateUniqueVinError(ErrorResponseDto errorResponse, ETCSCoreSoftAssertions softly) {
@@ -185,19 +210,12 @@ public class HelperMiniServices extends PolicyBaseTest {
 		softly.assertThat(errorResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.UNIQUE_VIN.getCode());
 		softly.assertThat(errorResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.UNIQUE_VIN.getMessage());
 	}
-	public void bindEndorsementWithErrorCheck(String policyNumber, ErrorDxpEnum.Errors... errors) {
-		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, "megha", 422);
-		assertThat(bindResponse.errorCode).contains(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-		assertThat(bindResponse.message).contains(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-		for(ErrorDxpEnum.Errors error : errors) {
-			assertThat(bindResponse.errors.stream()
-					.anyMatch(valError -> valError.message.contains(error.getMessage()))).isTrue();
-			assertThat(bindResponse.errors.stream()
-					.anyMatch(valError -> valError.errorCode.equals(error.getCode()))).isTrue();
-		}
-		if(errors.length == 0) {
-			assertThat(bindResponse.errors).isEmpty();
-		}
+
+	boolean hasError(ErrorResponseDto errorResponseDto, ErrorDxpEnum.Errors expectedError) {
+		assertThat(errorResponseDto.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+		assertThat(errorResponseDto.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+		return errorResponseDto.errors.stream().anyMatch(error -> expectedError.getCode().equals(error.errorCode)
+				&& StringUtils.startsWith(error.message, expectedError.getMessage()));
 	}
 
 }

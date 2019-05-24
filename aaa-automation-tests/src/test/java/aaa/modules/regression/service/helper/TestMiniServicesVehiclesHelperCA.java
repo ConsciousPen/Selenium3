@@ -2,9 +2,15 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.main.metadata.policy.AutoCaMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL;
 import static aaa.main.metadata.policy.AutoCaMetaData.VehicleTab.VIN;
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import javax.ws.rs.core.Response;
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
+import org.assertj.core.api.AssertionsForClassTypes;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import aaa.common.enums.NavigationEnum;
@@ -22,13 +28,8 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
-import org.assertj.core.api.AssertionsForClassTypes;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import javax.ws.rs.core.Response;
-import org.apache.commons.lang.BooleanUtils;
 
 public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 
@@ -343,7 +344,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 		String ownership1 = vehicleTab.getInquiryAssetList().getInquiryAssetList(AutoCaMetaData.VehicleTab.OWNERSHIP)
 				.getStaticElement(AutoCaMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE).getValue().replace("Owned", "OWN");
 		String usage1 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.PRIMARY_USE).getValue().replace("Commute (to/from work and school)", "WC");
-		String garagingDifferent1 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).getValue().toLowerCase();
+		String garagingDifferent1 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).getValue().toLowerCase();
 		String antiTheft1 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.ANTI_THEFT).getValue().toUpperCase().replace("UNKNOWN", "UNK");
 		String vehType1 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.TYPE).getValue().replace("Regular", "Regular");
 		//Garaging address for first vehicle
@@ -367,7 +368,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 		String ownership2 = vehicleTab.getInquiryAssetList().getInquiryAssetList(AutoCaMetaData.VehicleTab.OWNERSHIP)
 				.getStaticElement(AutoCaMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE).getValue().replace("Owned", "OWN");
 		String usage2 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.PRIMARY_USE).getValue().replace("Commute (to/from work and school)", "WC");
-		String garagingDifferent2 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).getValue().toLowerCase();
+		String garagingDifferent2 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).getValue().toLowerCase();
 		String antiTheft2 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.ANTI_THEFT).getValue().toUpperCase().replace("D-IMMOBILIZER/KEYLSS ENTRY/ALARM", "STD");
 		String vehType2 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.TYPE).getValue().replace("Regular", "Regular");
 		//Get garaging address for second vehicle
@@ -504,7 +505,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 		String ownership3 = vehicleTab.getInquiryAssetList().getInquiryAssetList(AutoCaMetaData.VehicleTab.OWNERSHIP)
 				.getStaticElement(AutoCaMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE).getValue().replace("Owned", "OWN");
 		String usage3 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.PRIMARY_USE).getValue().replace("Commute (to/from work and school)", "WC");
-		String garagingDifferent3 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).getValue().toLowerCase();
+		String garagingDifferent3 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).getValue().toLowerCase();
 		String antiTheft3 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.ANTI_THEFT).getValue().toUpperCase().replace("N-NONE", "NONE");
 		String vehType3 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.TYPE).getValue().replace("Regular", "Regular");
 		//Garaging address for third vehicle
@@ -606,7 +607,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 		//CA specific fields
 		updateVehicleRequest.distanceOneWayToWork = "21";
 		updateVehicleRequest.odometerReading = "34000";
-		updateVehicleRequest.declaredAnnualMiles ="31500";
+		updateVehicleRequest.declaredAnnualMiles = "31500";
 
 		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
 		assertSoftly(softly -> {
@@ -924,7 +925,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 			policy.dataGather().start();
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 			VehicleTab.tableVehicleList.selectRow(2);
-			assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL)).hasValue("Yes");
+			assertThat(vehicleTab.getAssetList().getAsset(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL)).hasValue("Yes");
 			assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.ZIP_CODE)).hasValue(zipCode);
 			assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.ADDRESS_LINE_1)).hasValue(addressLine1);
 			assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.CITY)).hasValue(city);
@@ -951,6 +952,24 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 		assignmentTab.saveAndExit();
 	}
 
+	protected void pas29137_updateVehicleRegisteredOwnerAndStuffBody(ETCSCoreSoftAssertions softly) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		String vehicleOid = helperMiniServices.addVehicleWithChecks(policyNumber, "2013-01-20", "1C4BJWDG0JL847133", true);
+		VehicleUpdateDto updateVehicleRequest1 = new VehicleUpdateDto();
+		updateVehicleRequest1.registeredOwner = false;
+		updateVehicleRequest1.usage = "Business";
+		VehicleUpdateResponseDto updateVehicleResponse1 = HelperCommon.updateVehicle(policyNumber, vehicleOid, updateVehicleRequest1);
+		assertThat(updateVehicleResponse1.validations.size()).isGreaterThan(0);
+		assertThat(updateVehicleResponse1.validations.stream().anyMatch(validation -> StringUtils.startsWith(validation.errorCode, "AAA_CSA1007148"))).isTrue();
+		softly.assertThat(updateVehicleResponse1.usage).isEqualTo("Business");
+		assertThat(updateVehicleResponse1.validations.stream().anyMatch(validation -> StringUtils.startsWith(validation.errorCode, "AAA_CSA1007147"))).isTrue();
+		ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
+		softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.REGISTERED_OWNERS_CA)).isTrue();
+		softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.USAGE_IS_BUSINESS_CA)).isTrue();
+	}
+
 	protected void pas25263_addVehicleMetadataCheckBody(ETCSCoreSoftAssertions softly) {
 		mainApp().open();
 
@@ -959,7 +978,6 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 		//Create pended endorsement
 		PolicySummary response = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		AssertionsForClassTypes.assertThat(response.policyNumber).isEqualTo(policyNumber);
-
 
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -1049,9 +1067,6 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 		getAttributeMetadata(metaDataResponse2, "vehicleOwnership.city", true, true, false, null, "String");
 		getAttributeMetadata(metaDataResponse2, "vehicleOwnership.stateProvCd", true, true, false, null, "String");
 	}
-
-	;
-
 
 	AttributeMetadata getAttributeMetadata(AttributeMetadata[] metaDataResponse, String fieldName, boolean enabled, boolean visible, boolean required, String maxLength, String attributeType) {
 		AttributeMetadata metaDataFieldResponse = Arrays.stream(metaDataResponse).filter(attributeMetadata -> fieldName.equals(attributeMetadata.attributeName)).findFirst().orElse(null);

@@ -20,7 +20,7 @@ import toolkit.utils.TestInfo;
 public class TestChoiceStatCodeConversion extends AutoCaChoiceBaseTest {
 
     private static final String VINMATCH_CAC_C = "1FMCU937591212312";
-    private static final String VINMATCH_CAC_I = "JM3TB2MV9A5123526";
+	private static final String VINMATCH_CAC_D = "JM3TB38CX75123526";
 
     private VehicleTab vehicleTab = new VehicleTab();
     private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
@@ -34,7 +34,7 @@ public class TestChoiceStatCodeConversion extends AutoCaChoiceBaseTest {
      * @scenario
      * 1. Create Auto Choice quote and:
      * 1.1 Case1 - VIN Match: enter VIN which do have Liability symbol values in DB (Symbols: C);
-     * 1.2 Case2 - VIN Match: enter VIN which do have Liability symbol values in DB (Symbols: I);
+	 * 1.2 Case2 - VIN Match: enter VIN which do have Liability symbol values in DB (Symbols: D);
      * 1.3 Case3 - Partial Match: Liability symbol exist in DB for Best Match According to Y/M/M/S (Symbols: C);
      * 2. Proceed to the PremiumAndCoverages Tab;
      * 3. Verify VRD: liability symbols, Comp/Coll symbols and Special Hazard Surcharge Value
@@ -54,11 +54,11 @@ public class TestChoiceStatCodeConversion extends AutoCaChoiceBaseTest {
         createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
         checkVRD("C", "8", "Yes");
 
-        // Test Case 2 with VIN Match AND Not Converted Symbols = I
+		// Test Case 2 with VIN Match AND Not Converted Symbols = D
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
-        vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN).setValue(VINMATCH_CAC_I);
+		vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN).setValue(VINMATCH_CAC_D);
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        checkVRD("I", "15", "No");
+		checkVRD("D", "18", "Yes");
 
         // Test Case 3 with VIN Partial Match AND Not Converted Symbols = C
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());

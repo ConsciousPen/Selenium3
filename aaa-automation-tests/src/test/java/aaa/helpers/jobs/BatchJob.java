@@ -29,7 +29,7 @@ public class BatchJob {
 	public static Job aaaClueRenewAsyncBatchReceiveJob = new Job("aaaClueRenewAsyncBatchReceiveJob");
 	public static Job aaaClueRenewBatchOrderAsyncJob = new Job("aaaClueRenewBatchOrderAsyncJob");
 	public static Job aaaBalancingReallocationJob = new Job("aaaBalancingReallocationJob");
-	public static Job aaaCollectionCancellDebtBatchAsyncJob = new Job("aaaCollectionCancellDebtaaaBalancingReallocationJobBatchAsyncJob");
+	public static Job aaaCollectionCancellDebtBatchAsyncJob = new Job("aaaCollectionCancellDebtBatchAsyncJob");
 	public static Job aaaCompanyDeclineBatchJob = new Job("aaaCompanyDeclineBatchJob");
 	public static Job aaaConvertedPolicyStatusUpdateAsyncTaskJob = new Job("aaaConvertedPolicyStatusUpdateAsyncTaskJob");
 	public static Job aaaConvRenDetailBatchJob = new Job("aaaConvRenDetailBatchJob");

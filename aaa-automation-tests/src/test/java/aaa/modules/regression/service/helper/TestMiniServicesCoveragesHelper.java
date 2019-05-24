@@ -1,5 +1,21 @@
 package aaa.modules.regression.service.helper;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
+import javax.ws.rs.core.Response;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -15,29 +31,11 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
-import com.exigen.ipb.eisa.utils.Dollar;
-import com.exigen.ipb.eisa.utils.TimeSetterUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.RadioGroup;
-
-import javax.ws.rs.core.Response;
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
@@ -3102,7 +3100,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			covBI = covBI.changeLimit(CoverageLimits.COV_2550);
 			covUIMBI = covUIMBI.changeLimit(CoverageLimits.COV_2550).removeAvailableLimitsAbove(CoverageLimits.COV_2550);
-			;
 			covUMBI = covUMBI.changeLimit(CoverageLimits.COV_2550).removeAvailableLimitsAbove(CoverageLimits.COV_2550);
 			covUIMPD = covUIMPD.changeLimit(CoverageLimits.COV_50000);
 			covUMPD = covUMPD.changeLimit(CoverageLimits.COV_50000);
@@ -6601,6 +6598,163 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		updateCoverageAndCheck_pas15364(policyNumber, covWLBExpected, pipSubCoverages, aggPipSubCoverages);
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	protected void pas27867_pipCovIncludesAddRemoveDriverTC01Body() {
+		String policyNumber = openAppAndCreatePolicy();
+		//Create pended endorsement - future dated, because otherwise Insurance Score Report must be ordered for newly added NI
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		HelperCommon.createEndorsement(policyNumber, endorsementDate);
+
+		//Add 4 drivers and check that they "are displayed in the Coverage Includes section"
+		add4Drivers(policyNumber);
+		List<String> driverNameList = getDriverNameList(policyNumber);
+
+		PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber, CoverageInfo.PIPCOVINCLUDES_NJ.getCode(), CoverageLimits.COV_PIPCOVINCLUDES_NIFM.getLimit());
+		Coverage covPIPCOVINCLUDESExpected = Coverage.create(CoverageInfo.PIPCOVINCLUDES_NJ).changeLimit(CoverageLimits.COV_PIPCOVINCLUDES_NIFM).setRelativesCovered(driverNameList);
+		Coverage covPIPCOVINCLUDESActual = findPIPCOVINCLUDESActual(updateCoverageResponse);
+		verifyPIPCOVINCLUDESDXP_pas27867(covPIPCOVINCLUDESActual, covPIPCOVINCLUDESExpected);
+		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateCoverageResponse);
+		//Check in PAS UI
+		verifyRelativesNamesPASUI_pas27867(covPIPCOVINCLUDESExpected, policyNumber);
+		//Remove drivers, each with different code, and check
+		remove4DriversAndCheck_pas15363(policyNumber, covPIPCOVINCLUDESExpected);
+		//add 4 drivers again and bind endorsement
+		add4Drivers(policyNumber);
+		PolicyCoverageInfo policyCoverageInfo = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		covPIPCOVINCLUDESExpected = Coverage.create(CoverageInfo.PIPCOVINCLUDES_NJ).changeLimit(CoverageLimits.COV_PIPCOVINCLUDES_NIFM).setRelativesCovered(driverNameList);
+		covPIPCOVINCLUDESActual = findPIPCOVINCLUDESActual(policyCoverageInfo);
+		verifyPIPCOVINCLUDESDXP_pas27867(covPIPCOVINCLUDESActual, covPIPCOVINCLUDESExpected);
+		//Check in PAS UI
+		verifyRelativesNamesPASUI_pas27867(covPIPCOVINCLUDESExpected, policyNumber);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+		//Create pended endorsement - future dated, because otherwise Insurance Score Report must be ordered for newly added NI
+		HelperCommon.createEndorsement(policyNumber, endorsementDate);
+		//Check in PAS UI
+		covPIPCOVINCLUDESExpected.setRelativesCovered(getDriverNameList(policyNumber));
+		verifyRelativesNamesPASUI_pas27867(covPIPCOVINCLUDESExpected, policyNumber);
+		//Remove drivers, each with different code, and check
+		remove4DriversAndCheck_pas15363(policyNumber, covPIPCOVINCLUDESExpected);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	protected void pas27867_pipCovIncludesAddRemoveDriverTC02Body() {
+		String policyNumber = openAppAndCreatePolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+		add4Drivers(policyNumber);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+		//Create pended endorsement - future dated, because otherwise Insurance Score Report must be ordered for newly added NI
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		HelperCommon.createEndorsement(policyNumber, endorsementDate);
+
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		Coverage covPIPCOVINCLUDESActual = findPIPCOVINCLUDESActual(viewEndorsementCoverages);
+		Coverage covPIPCOVINCLUDESExpected = Coverage.create(CoverageInfo.PIPCOVINCLUDES_NJ);
+		verifyPIPCOVINCLUDESDXP_pas27867(covPIPCOVINCLUDESActual, covPIPCOVINCLUDESExpected);
+		remove4Drivers(policyNumber);
+
+		PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber, CoverageInfo.PIPCOVINCLUDES_NJ.getCode(), CoverageLimits.COV_PIPCOVINCLUDES_NIFM.getLimit());
+		covPIPCOVINCLUDESExpected = Coverage.create(CoverageInfo.PIPCOVINCLUDES_NJ).changeLimit(CoverageLimits.COV_PIPCOVINCLUDES_NIFM).
+				setRelativesCovered(HelperCommon.viewEndorsementDrivers(policyNumber).driverList.stream().//RelativesCovered has only FNI as all other are removed
+						filter(driver -> "FNI".equals(driver.namedInsuredType)).map(driver -> (driver.firstName + " " + String.valueOf(driver.middleName).
+						replace("null", "") + " " + driver.lastName).replace("  ", " ")).collect(Collectors.toList()));
+		covPIPCOVINCLUDESActual = findPIPCOVINCLUDESActual(updateCoverageResponse);
+		verifyPIPCOVINCLUDESDXP_pas27867(covPIPCOVINCLUDESActual, covPIPCOVINCLUDESExpected);
+		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateCoverageResponse);
+		//Check in PAS UI
+		verifyRelativesNamesPASUI_pas27867(covPIPCOVINCLUDESExpected, policyNumber);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	private void remove4DriversAndCheck_pas15363(String policyNumber, Coverage covPIPCOVINCLUDESExpected) {
+		remove4Drivers(policyNumber);
+		ViewDriversResponse endorsementDrivers = HelperCommon.viewEndorsementDrivers(policyNumber);
+		covPIPCOVINCLUDESExpected.setRelativesCovered(endorsementDrivers.driverList.stream().filter(driver -> "FNI".equals(driver.namedInsuredType)).map(driver -> (driver.firstName + " " + String.valueOf(driver.middleName).replace("null", "") + " " + driver.lastName).replace("  ", " ")).collect(Collectors.toList()));
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		Coverage covPIPCOVINCLUDESActual = findPIPCOVINCLUDESActual(viewEndorsementCoverages);
+		verifyPIPCOVINCLUDESDXP_pas27867(covPIPCOVINCLUDESActual, covPIPCOVINCLUDESExpected);
+		verifyRelativesNamesPASUI_pas27867(covPIPCOVINCLUDESExpected, policyNumber);
+	}
+
+	private void remove4Drivers(String policyNumber) {
+		ViewDriversResponse endorsementDrivers = HelperCommon.viewEndorsementDrivers(policyNumber);
+		List<DriversDto> listOfDriversExceptFNI = endorsementDrivers.driverList.stream().filter(driver -> !"FNI".equals(driver.namedInsuredType)).collect(Collectors.toList());
+		assertThat(listOfDriversExceptFNI.size()).isEqualTo(4);
+		RemoveDriverRequest removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest("RD001");
+		HelperCommon.removeDriver(policyNumber, listOfDriversExceptFNI.get(0).oid, removeDriverRequest);
+
+		removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest("RD002");
+		HelperCommon.removeDriver(policyNumber, listOfDriversExceptFNI.get(1).oid, removeDriverRequest);
+
+		removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest("RD003");
+		HelperCommon.removeDriver(policyNumber, listOfDriversExceptFNI.get(2).oid, removeDriverRequest);
+
+		removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest("RD004");
+		HelperCommon.removeDriver(policyNumber, listOfDriversExceptFNI.get(3).oid, removeDriverRequest);
+	}
+
+	private List<String> getDriverNameList(String policyNumber) {
+		ViewDriversResponse endorsementDrivers = HelperCommon.viewEndorsementDrivers(policyNumber);
+		return endorsementDrivers.driverList.stream().map(driver -> (driver.firstName + " " + String.valueOf(driver.middleName).replace("null", "") + " " + driver.lastName).replace("  ", " ")).collect(Collectors.toList());
+	}
+
+	private void add4Drivers(String policyNumber) {
+		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("David", "A", "Onth", "1979-02-13", "III");
+		DriversDto addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D32329585", 16, "VA", "CH", "MSS");
+		HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
+		HelperCommon.orderReports(policyNumber, addDriverResponse.oid, OrderReportsResponse.class, 200);
+
+		addDriverRequest = DXPRequestFactory.createAddDriverRequest("Tom", "B", "Twonh", "1978-02-13", "III");
+		addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
+		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D32329586", 16, "VA", "CH", "MSS");
+		HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
+		HelperCommon.orderReports(policyNumber, addDriverResponse.oid, OrderReportsResponse.class, 200);
+
+		addDriverRequest = DXPRequestFactory.createAddDriverRequest("Trevis", "C", "Thor", "1970-02-13", "III");
+		addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
+		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D32329587", 16, "VA", "CH", "MSS");
+		HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
+		HelperCommon.orderReports(policyNumber, addDriverResponse.oid, OrderReportsResponse.class, 200);
+
+		addDriverRequest = DXPRequestFactory.createAddDriverRequest("Tim", "D", "Tom", "1975-02-13", "III");
+		addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
+		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D32329588", 16, "VA", "CH", "MSS");
+		HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
+		HelperCommon.orderReports(policyNumber, addDriverResponse.oid, OrderReportsResponse.class, 200);
+	}
+
+	private void verifyPIPCOVINCLUDESDXP_pas27867(Coverage covPIPCOVINCLUDESActual, Coverage covPIPCOVINCLUDESExpected) {
+		assertThat(covPIPCOVINCLUDESActual).isEqualToIgnoringGivenFields(covPIPCOVINCLUDESExpected, "relativesCovered");
+		assertThat(covPIPCOVINCLUDESActual.relativesCovered).containsOnlyElementsOf(covPIPCOVINCLUDESExpected.relativesCovered);
+	}
+
+	private Coverage findPIPCOVINCLUDESActual(PolicyCoverageInfo updateCoverageResponse) {
+		Coverage covAPIPActual = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.APIP_NJ.getCode());
+		return findCoverage(covAPIPActual.getSubCoverages(), CoverageInfo.PIPCOVINCLUDES_NJ.getCode());
+	}
+
+	private void verifyRelativesNamesPASUI_pas27867(Coverage covPIPCOVINCLUDESExpected, String policyNumber) {
+		SearchPage.openPolicy(policyNumber);
+		openPendedEndorsementInquiryAndNavigateToPC();
+		List<String> relativesNamesPASUI = new ArrayList<>();
+		relativesNamesPASUI.add(premiumAndCoveragesTab.getInquiryAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES)
+				.getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.RELATIVES_NAME1.getLabel()).getValue().toString());
+		relativesNamesPASUI.add(premiumAndCoveragesTab.getInquiryAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES)
+				.getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.RELATIVES_NAME2.getLabel()).getValue().toString());
+		relativesNamesPASUI.add(premiumAndCoveragesTab.getInquiryAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES)
+				.getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.RELATIVES_NAME3.getLabel()).getValue().toString());
+		relativesNamesPASUI.add(premiumAndCoveragesTab.getInquiryAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES)
+				.getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.RELATIVES_NAME4.getLabel()).getValue().toString());
+		relativesNamesPASUI.add(premiumAndCoveragesTab.getInquiryAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES)
+				.getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.RELATIVES_NAME5.getLabel()).getValue().toString());
+		relativesNamesPASUI.add(premiumAndCoveragesTab.getInquiryAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES)
+				.getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.RELATIVES_NAME6.getLabel()).getValue().toString());
+		relativesNamesPASUI.removeIf(name -> name.isEmpty());
+		assertThat(relativesNamesPASUI).containsOnlyElementsOf(covPIPCOVINCLUDESExpected.relativesCovered);
+		premiumAndCoveragesTab.cancel();
 	}
 
 	private void updateCoverageAndCheck_pas15364(String policyNumber, Coverage covToUpdate, List<Coverage> expectedPIPSubCoverages, List<Coverage> expectedAGGPIPSubCoverages) {

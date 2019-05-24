@@ -26,7 +26,7 @@ public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBillPaidInFull exte
 
 	/**
 	 * @author Maksim Piatrouski
-	 * Objectives:  For a new business policy, make an installment payment for the ‘To Pay in Full’
+	 * Objectives:  For a new business policy, make an installment payment for the 'To Pay in Full'
 	 * amount where the installment payment is the last installment.
 	 * TC Steps:
 	 * 1. Create Policy

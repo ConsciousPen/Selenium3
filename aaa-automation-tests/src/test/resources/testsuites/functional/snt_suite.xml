@@ -433,5 +433,52 @@
             </class>
         </classes>
     </test>
-
+    <test name="Atomic Merge Assignment Tab CA Select" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas27125_ooseConflictManualAtomicMergeAssignment_Scenario1"/>
+                    <include name="pas27125_ooseConflictAutoAtomicMergeAssignment_Scenario1"/>
+                    <include name="pas27125_renewalMergeAtomicMergeAssignment_Scenario1"/>
+                    <include name="pas27125_ooseConflictManualAtomicMergeAssignment_Scenario2"/>
+                    <include name="pas27125_ooseConflictAutoAtomicMergeAssignment_Scenario2"/>
+                    <include name="pas27125_ooseConflictManualAtomicMergeAssignment_Scenario3"/>
+                    <include name="pas27125_ooseConflictManualAtomicMergeAssignment_Scenario4"/>
+                    <include name="pas27125_ooseConflictAutoAtomicMergeAssignment_Scenario4"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Atomic Merge Assignment Tab CA Choice" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas27125_ooseConflictManualAtomicMergeAssignment_Scenario1"/>
+                    <include name="pas27125_ooseConflictAutoAtomicMergeAssignment_Scenario1"/>
+                    <include name="pas27125_renewalMergeAtomicMergeAssignment_Scenario1"/>
+                    <include name="pas27125_ooseConflictManualAtomicMergeAssignment_Scenario2"/>
+                    <include name="pas27125_ooseConflictAutoAtomicMergeAssignment_Scenario2"/>
+                    <include name="pas27125_ooseConflictManualAtomicMergeAssignment_Scenario3"/>
+                    <include name="pas27125_ooseConflictManualAtomicMergeAssignment_Scenario4"/>
+                    <include name="pas27125_ooseConflictAutoAtomicMergeAssignment_Scenario4"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Regression OOSE" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyOose">
+            </class>
+        </classes>
+    </test>
+    <test name="Regression Renewal OOSE" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyRenewOose">
+            </class>
+        </classes>
+    </test>
 </suite>

@@ -982,15 +982,10 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		if (StringUtils.isBlank(carrierCode)) {
 			immediatePriorCarrier = "index=2";
 		} else {
-			switch (carrierCode) {
-				case "CSAA Affinity Insurance Company (formerly Keystone Insurance Company) ":
-					immediatePriorCarrier = "CSAA Affinity Insurance Company";
-					break;
-				/*case "CSAA General Insurance Company":
-					immediatePriorCarrier = "AAA Insurance";
-					break;*/
-				default:
-					immediatePriorCarrier = carrierCode;
+			if (carrierCode.contains("CSAA Affinity Insurance Company")) {
+				immediatePriorCarrier = "CSAA Affinity Insurance Company";
+			} else {
+				immediatePriorCarrier = carrierCode;
 			}
 		}
 		return immediatePriorCarrier;

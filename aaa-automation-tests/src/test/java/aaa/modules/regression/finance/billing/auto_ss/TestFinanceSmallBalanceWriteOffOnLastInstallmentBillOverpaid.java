@@ -27,7 +27,7 @@ public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBillOverpaid extend
 	/**
 	 * @author Maksim Piatrouski
 	 * Objectives:  For a new business policy, make an installment payment for an
-	 * amount over the ‘Pay in Full’ amount where the installment payment is the last installment.
+	 * amount over the 'Pay in Full' amount where the installment payment is the last installment.
 	 * TC Steps:
 	 * 1. Create Policy
 	 * 2. Make all installment payments (last payment - add 1$)

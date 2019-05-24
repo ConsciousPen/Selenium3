@@ -220,11 +220,11 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 	 * 1. Create Individual Customer / Account
 	 * 2. Create converted SS home policy
 	 * 3. navigate to the “Premiums & Coverages” – “Product offering” tab
-	 * 4. Click the “Calculate Premiums’ button.
+	 * 4. Click the “Calculate Premiums' button.
 	 * 5. Assert that Capping Lock is disabled.
 	 * 6. Assert that Capping Lock does not get selected.
 	 * 7. navigate to the “Premiums & Coverages” – “Quote” tab
-	 * 8. Click the “Calculate Premiums’ button.
+	 * 8. Click the “Calculate Premiums' button.
 	 * 9. navigate to the “Premiums & Coverages” – “Product offering” tab
 	 * 10. Assert that Capping Lock is disabled.
 	 * 11. Assert that Capping Lock get selected.

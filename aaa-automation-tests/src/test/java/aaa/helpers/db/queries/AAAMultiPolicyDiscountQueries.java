@@ -1,11 +1,8 @@
 package aaa.helpers.db.queries;
 
-import toolkit.db.DBService;
-
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
+import javax.annotation.Nonnull;
+import toolkit.db.DBService;
 
 public class AAAMultiPolicyDiscountQueries {
 
@@ -35,8 +32,19 @@ public class AAAMultiPolicyDiscountQueries {
         return DBService.get().getValue(query);
     }
 
-    public static Optional<String> getMPDVDocgenFromDB(@Nonnull String policyNumber) {
-        String query = String.format(SELECT_MPD_DECPAGE_ENDO_COUNT, policyNumber);
-        return DBService.get().getValue(query);
-    }
+	public static Optional<String> getMPDVDocgenFromDB(@Nonnull String policyNumber) {
+		String query = String.format(SELECT_MPD_DECPAGE_ENDO_COUNT, policyNumber);
+		return DBService.get().getValue(query);
+	}
+
+	public static Optional<String> getDecPage(@Nonnull String policyNumber) {
+		String query =
+				"select DATA from AAADOCGENENTITY " +
+						"where ENTITYID in " +
+						"(Select id from policySummary " +
+						"where POLICYNUMBER='" + policyNumber + "') " +
+						"order by id desc";
+
+		return DBService.get().getValue(query);
+	}
 }

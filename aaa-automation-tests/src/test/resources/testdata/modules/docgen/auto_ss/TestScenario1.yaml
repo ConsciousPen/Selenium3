@@ -258,9 +258,9 @@ AHIBXX_IN: {
    NmdInsrdStAbrv: {TextField: 'IN'},
    NmdInsrdZipPls4: {TextField: '47714'}
  },
- VehicleDetails: {
-   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
- },
+  # VehicleDetails: {
+  #   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
+  # },
 }
 
 
@@ -298,9 +298,9 @@ AH34XX_IN: {
     PayYN: {TextField: 'N'},
     MrtGgeYN: {TextField: 'N'},
   },
-  VehicleDetails: {
-   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
- }
+  #  VehicleDetails: {
+  #   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
+  # }
 }
 
 TestData_AH67XX_Verification_IN: {
@@ -328,9 +328,9 @@ AH67XX_IN: {
     PlcyTransCd: {TextField: 'LPSE'},
     CancEffDt: {DateTimeField: ''},
   },
-  VehicleDetails: {
-   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
- }
+  #  VehicleDetails: {
+  #   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
+  # }
 }
 
 
@@ -368,9 +368,9 @@ AH62XX_IN: {
     AutoPayYN:  {TextField: 'N'},
     ReinstmtFee: {TextField: ''}
   },
-  VehicleDetails: {
-   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
- },
+  #VehicleDetails: {
+  # PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
+  #},
  PaymentDetails: {
   PlcyPayFullAmt: {TextField: ''},
  }

@@ -191,6 +191,7 @@ public class Scenario5 extends ScenarioBaseTest {
 	public void generateFirstEPBillOneDayBefore() {
 		LocalDateTime epDate = getTimePoints().getEarnedPremiumBillFirst(installmentDueDates.get(2)).minusDays(1);
 		TimeSetterUtil.getInstance().nextPhase(epDate);
+		JobUtils.executeJob(BatchJob.aaaCollectionCancellDebtBatchAsyncJob);
 		JobUtils.executeJob(BatchJob.earnedPremiumBillGenerationJob);
 
 		mainApp().open();
@@ -278,6 +279,7 @@ public class Scenario5 extends ScenarioBaseTest {
 
 	protected void generateAndCheckEarnedPremiumBill(LocalDateTime date, DocGenEnum.Documents document) {
 		TimeSetterUtil.getInstance().nextPhase(date);
+		JobUtils.executeJob(BatchJob.aaaCollectionCancellDebtBatchAsyncJob);
 		JobUtils.executeJob(BatchJob.earnedPremiumBillGenerationJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, document);
 		mainApp().open();

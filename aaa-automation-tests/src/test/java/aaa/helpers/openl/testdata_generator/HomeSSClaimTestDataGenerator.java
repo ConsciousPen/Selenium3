@@ -1,16 +1,15 @@
 package aaa.helpers.openl.testdata_generator;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class HomeSSClaimTestDataGenerator {
 
@@ -30,11 +29,11 @@ public class HomeSSClaimTestDataGenerator {
 	public HomeSSClaimTestDataGenerator(HomeSSOpenLPolicy openLPolicy) {
 		this.openLPolicy = openLPolicy;
 		state = openLPolicy.getPolicyAddress().getState();
-		dateOfLoss = openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyLossInformation().getRecentYCF());
 	}
 
 	public List<TestData> getClaimTestData(boolean isAAAClaim, boolean isFirstClaim) {
 		this.isAAAClaim = isAAAClaim;
+		dateOfLoss = openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyLossInformation().getRecentYCF()).minusDays(10);
 		String lookupName = isAAAClaim ? AAA_CLAIM_POINT : NOT_AAA_CLAIM_POINT;
 		int claimPoints = isAAAClaim ? openLPolicy.getPolicyLossInformation().getExpClaimPoint() : openLPolicy.getPolicyLossInformation().getPriorClaimPoint();
 
@@ -102,6 +101,7 @@ public class HomeSSClaimTestDataGenerator {
 	}
 
 	private TestData getClaim(Map<String, String> row) {
+		dateOfLoss = dateOfLoss.plusDays(1);
 		return DataProviderFactory.dataOf(
 				HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel(), dateOfLoss.format(DateTimeUtils.MM_DD_YYYY),
 				HomeSSMetaData.PropertyInfoTab.ClaimHistory.CAUSE_OF_LOSS.getLabel(), row.get("CAUSEOFLOSS"),

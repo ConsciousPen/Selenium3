@@ -397,7 +397,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		//move time to R-45 and run renewal batch job
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewPreviewGenerationDate(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		//		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		//move time to R-35 and run renewal batch job

@@ -528,7 +528,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		if ("N".equals(coverageLimit)) {
 			return "starts=No Coverage";
 		}
-		Dollar cLimit = new Dollar(coverageLimit.replace("Y", "").replace("F", "").replace("P", ""));
+		Dollar cLimit = new Dollar(coverageLimit.replace("Y", "").replace("F", "").replace("P", "").replace("N", ""));
 		if (isPolicyLevelCoverageCd(coverageCD) && !isFirstPartyBenefitsComboCoverage(coverageCD)) {
 			cLimit = cLimit.multiply(1000);
 		}

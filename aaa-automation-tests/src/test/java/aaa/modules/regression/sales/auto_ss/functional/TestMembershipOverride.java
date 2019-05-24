@@ -101,78 +101,10 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 
 	}
 
-	/**
-	 * @author Maris Strazds
-	 * @name Test Membership Override - PAS-6311 AC#1, AC#2, AC#3, PAS-9626 AC#3 (Endorsement)
-	 * @scenario
-	 * Precondition: Agent is expected to have the Membership override privilege.
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Policy with Membership "NO"
-	 * 3. Initiate Midterm Endorsement for the policy
-	 * 4. Select 'Membership Override' option in the 'Current AAA Member' drop-down (AC#1)
-	 * 5. Select the 'Override Type' (Term or Life). (AC#1)
-	 * 6. Do not enter Membership number. (AC#3)
-	 * 7. Do not enter 'Member Since Date' and click 'Continue' -----> Error ''Member Since Date'
-	 *    is required for override' should be displayed (AC#2)
-	 * 8. Enter the 'Member Since Date'. (AC#1)
-	 * 9. Navigate to Reports tab ----> Option to order Membership report should NOT be displayed. (PAS-9626 AC#3)
-	 * 10. Navigate to Premium & Coverages tab
-	 * 11. Click on 'View rating Details' link ----> overridden membership details should be displayed (PAS-9626 AC#3)
-	 * 12. Bind Endorsement ---> Endorsement should be bound (PAS-9626 AC#3)
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6311 PAS-9626")
-	public void pas6311_pas9626_Validate_Membership_Override_Endorsement1(@Optional("") String state) {
-
-		TestData testData = getPolicyTD();
-		//getTestSpecificTD("AAAMembership_Override_NoDate").resolveLinks();
-		testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
-				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
-				getTestSpecificTD("AAAMembership_MSNo").resolveLinks());
-
-		//testData.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "A00000000");
-
-		mainApp().open();
-		createCustomerIndividual();
-		createPolicy(testData);
-
-		//initiate endorsement
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
-
-		TestData tdSpecific = getTestSpecificTD("TestData_Endorsement").resolveLinks();
-
-		new GeneralTab().fillTab(tdSpecific);
-		new GeneralTab().submitTab();
-
-		checkMemberSinceWarningMessage();
-
-		// Enter "Current AAA Membership:" = "Override Membership"
-		new GeneralTab().getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Membership Override");
-
-		// Enter "Override Type" = "Life"
-		new GeneralTab().getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE).setValue("Life");
-
-		// Enter 'Member Since Date' and click Continue
-		new GeneralTab().getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE).setValue("01/04/2009");
-		new GeneralTab().submitTab();
-
-		policy.getDefaultView().fillFromTo(tdSpecific, DriverTab.class, RatingDetailReportsTab.class, false);
-
-		// Check AAA Membership report component is not displayed
-		RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
-		assertThat(ratingDetailReportsTab.getAssetList().getAsset("AAAMembershipReport").isPresent()).isFalse();
-
-		policy.getDefaultView().fillFromTo(tdSpecific, RatingDetailReportsTab.class, PremiumAndCoveragesTab.class, true);
-
-		checkMembershipInPCTab(true, true, "", "Yes", "1/04/2009");
-
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		new DocumentsAndBindTab().submitTab();
-		new ErrorTab().overrideAllErrors();
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
+	static void jobsNBplus15plus30runNoChecks() {
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
+		//the job might not exist in AWS
+		JobUtils.executeJob(BatchJob.membershipValidationJob);
 	}
 
 	/**
@@ -491,24 +423,6 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 
 	//////////Start of PAS-6314
 
-	static void jobsNBplus15plus30runNoChecks() {
-		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
-		//the job might not exist in AWS
-		if (JobUtils.isJobExist(BatchJob.membershipValidationJob)) {
-			JobUtils.executeJob(BatchJob.membershipValidationJob);
-		} else {
-			//JobUtils.executeJob(BatchJob.aaaBatchMarkerJob); //OSI: job is not required
-			JobUtils.executeJob(BatchJob.aaaAutomatedProcessingInitiationJob);
-			JobUtils.executeJob(BatchJob.automatedProcessingRatingJob);
-			JobUtils.executeJob(BatchJob.automatedProcessingRunReportsServicesJob);
-			JobUtils.executeJob(BatchJob.automatedProcessingIssuingOrProposingJob);
-			JobUtils.executeJob(BatchJob.automatedProcessingStrategyStatusUpdateJob);
-			//BUG INC0635200 PAS-ASM: multiple VDMs: We have a failing job on the VDMs. - the next line is closed as not a defect and this one was opened
-			//BUG PAS-6162 automatedProcessingBypassingAndErrorsReportGenerationJob is failing with Error, failed to retrieve 'placeholder' Report Entity
-			JobUtils.executeJob(BatchJob.automatedProcessingBypassingAndErrorsReportGenerationJob);
-		}
-	}
-
 	/**
 	 * @author Maris Strazds
 	 * @name PAS-6314 Membership batch order job needs to account for membership override (Renewal) (AC#1)
@@ -636,36 +550,6 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		//validate that membership discount is applied (displayed) in P&C tab
 		checkMembershipInPCTab2(true, "Yes", "", "");
 	}
-	//////////End of PAS-6314
-
-	private void checkMembershipInPCTab(Boolean shouldHaveDiscount, Boolean isEndorsement, String Value1, String Value2, String memberSinceDate) {
-		//validate that membership discount is applied (displayed) in P&C tab
-		if (shouldHaveDiscount) {
-			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges).valueContains("Membership Discount");
-		} else {
-			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isFalse();
-		}
-
-		//click on 'View Rating Details' and validate that overridden membership details are displayed
-		PremiumAndCoveragesTab.RatingDetailsView.open();
-
-		if (isEndorsement) {
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount")).isPresent();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount").getCell(5).getValue().contains(Value1)).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount").getCell(6).getValue().contains(Value2)).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6)).isPresent();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6).getValue().contains(memberSinceDate)).isTrue();
-
-		} else {
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount")).exists();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount").getCell(4).getValue().contains(Value1)).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(3).getValue().contains("Member Since Date")).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(4).getValue().contains(memberSinceDate)).isTrue();
-		}
-
-		PremiumAndCoveragesTab.RatingDetailsView.close();
-
-	}
 
 	/**IGNORED TEST:@Test(enabled = false)
 	 * @author Maris Strazds
@@ -753,6 +637,110 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		//validate that membership discount is applied (displayed) in P&C tab
 		checkMembershipInPCTab2(true, "Yes", "", "01/04/2009");
+	}
+	//////////End of PAS-6314
+
+	/**
+	 * @author Maris Strazds
+	 * @name Test Membership Override - PAS-6311 AC#1, AC#2, AC#3, PAS-9626 AC#3 (Endorsement)
+	 * @scenario
+	 * Precondition: Agent is expected to have the Membership override privilege.
+	 * 1. Create Customer.
+	 * 2. Create Auto SS Policy with Membership "NO"
+	 * 3. Initiate Midterm Endorsement for the policy
+	 * 4. Select 'Membership Override' option in the 'Current AAA Member' drop-down (AC#1)
+	 * 5. Select the 'Override Type' (Term or Life). (AC#1)
+	 * 6. Do not enter Membership number. (AC#3)
+	 * 7. Do not enter 'Member Since Date' and click 'Continue' -----> Error ''Member Since Date'
+	 *    is required for override' should be displayed (AC#2)
+	 * 8. Enter the 'Member Since Date'. (AC#1)
+	 * 9. Navigate to Reports tab ----> Option to order Membership report should NOT be displayed. (PAS-9626 AC#3)
+	 * 10. Navigate to Premium & Coverages tab
+	 * 11. Click on 'View rating Details' link ----> overridden membership details should be displayed (PAS-9626 AC#3)
+	 * 12. Bind Endorsement ---> Endorsement should be bound (PAS-9626 AC#3)
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6311 PAS-9626")
+	public void pas6311_pas9626_Validate_Membership_Override_Endorsement1(@Optional("") String state) {
+
+		TestData testData = getPolicyTD();
+		//getTestSpecificTD("AAAMembership_Override_NoDate").resolveLinks();
+		testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
+				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
+				getTestSpecificTD("AAAMembership_MSNo").resolveLinks());
+
+		//testData.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "A00000000");
+
+		mainApp().open();
+		createCustomerIndividual();
+		createPolicy(testData);
+
+		//initiate endorsement
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
+
+		TestData tdSpecific = getTestSpecificTD("TestData_Endorsement").resolveLinks();
+
+		new GeneralTab().fillTab(tdSpecific);
+		new GeneralTab().submitTab();
+
+		checkMemberSinceWarningMessage();
+
+		// Enter "Current AAA Membership:" = "Override Membership"
+		new GeneralTab().getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Membership Override");
+
+		// Enter "Override Type" = "Life"
+		new GeneralTab().getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE).setValue("Life");
+
+		// Enter 'Member Since Date' and click Continue
+		new GeneralTab().getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE).setValue("01/04/2009");
+		new GeneralTab().submitTab();
+
+		policy.getDefaultView().fillFromTo(tdSpecific, DriverTab.class, RatingDetailReportsTab.class, false);
+
+		// Check AAA Membership report component is not displayed
+		RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
+		assertThat(ratingDetailReportsTab.getAssetList().getAsset("AAAMembershipReport").isPresent()).isFalse();
+
+		policy.getDefaultView().fillFromTo(tdSpecific, RatingDetailReportsTab.class, PremiumAndCoveragesTab.class, true);
+
+		checkMembershipInPCTab(true, true, "None", "Yes", "1/04/2009");
+
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		new ErrorTab().overrideAllErrors();
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+	}
+
+	private void checkMembershipInPCTab(Boolean shouldHaveDiscount, Boolean isEndorsement, String Value1, String Value2, String memberSinceDate) {
+		//validate that membership discount is applied (displayed) in P&C tab
+		if (shouldHaveDiscount) {
+			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges).valueContains("Membership Discount");
+		} else {
+			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isFalse();
+		}
+
+		//click on 'View Rating Details' and validate that overridden membership details are displayed
+		PremiumAndCoveragesTab.RatingDetailsView.open();
+
+		if (isEndorsement) {
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount")).isPresent();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(2).getValue().contains(Value1)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(3).getValue().contains(Value2)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6)).isPresent();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6).getValue().contains(memberSinceDate)).isTrue();
+
+		} else {
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount")).exists();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(2).getValue().contains(Value1)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(3).getValue().contains("Member Since Date")).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(4).getValue().contains(memberSinceDate)).isTrue();
+		}
+
+		PremiumAndCoveragesTab.RatingDetailsView.close();
+
 	}
 
 	private void checkMemberSinceWarningMessage() {

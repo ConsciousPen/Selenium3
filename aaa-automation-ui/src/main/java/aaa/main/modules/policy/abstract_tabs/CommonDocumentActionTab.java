@@ -34,6 +34,8 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 	public StaticElement errorMsg = new StaticElement(By.xpath("//div[@id ='policyDataGatherForm:errorDialog_content']/span/table/tbody/tr/td/span"));
 	public Button closeErrorDialogBtn = new Button(id("policyDataGatherForm:cancelBtn"));
 	public TextBox eSignatureEmail = new TextBox(By.xpath("//input[@id='recipientEmailAddressFormPasdoc:recpEmail' or @id='recipientEmailAddressForm:recpEmail']"));
+	public TextBox eSignatureEmailError = new TextBox(By.xpath("//span[text() = 'Invalid email address format']"));
+
 	public Button eSignatureOkBtn = new Button(By.xpath("//input[@id='recipientEmailAddressFormPasdoc:okButton' or @id='recipientEmailAddressForm:okButton']"));
 	
 	protected CommonDocumentActionTab(Class<? extends MetaData> mdClass) {

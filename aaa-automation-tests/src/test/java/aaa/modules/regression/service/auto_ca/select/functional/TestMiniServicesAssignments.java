@@ -3,8 +3,6 @@
 package aaa.modules.regression.service.auto_ca.select.functional;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-
-import aaa.modules.regression.service.helper.TestMiniServicesAssignmentsCAHelper;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -12,6 +10,7 @@ import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.service.helper.TestMiniServicesAssignmentsCAHelper;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
@@ -21,7 +20,6 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsCAHe
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_SELECT;
 	}
-
 
 	@Parameters({"state"})
 	@StateList(states = Constants.States.CA)
@@ -211,4 +209,22 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsCAHe
 	public void pas15412_DriverAssignmentViewAssignments(@Optional("CA") String state) {
 		pas15412_DriverAssignmentViewAssignmentsBody();
 	}
+
+	/**
+	 * @author Megha Gubbala
+	 * 1. Create a policy with 2D and 6 vehicles (2 PPA ,trailer ,camper,AntiqueClassic,motorhome)
+	 *2. FNI is assigned to 1 PPA vehicle Driver 2 assigned to all other vehicle
+	 * 3. Verify Driver assignemt shpould have 2 assignable driver 2 assignable vehicle D1 assigned to vehicle 1 nd driver 2 assigned to vehicle 2
+	 * 4. remove vehicle Trailer Verify no impact on DA
+	 * 5.remove driver 2 And verify vehicle to automatically assigned to D1
+	 * 6.rate and bind
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-29163"})
+	public void pas29163_DriverAssignmentAndOddBalls(@Optional("CA") String state) {
+		pas29163_DriverAssignmentAndOddBallsBody(getPolicyType());
+	}
+
 }
