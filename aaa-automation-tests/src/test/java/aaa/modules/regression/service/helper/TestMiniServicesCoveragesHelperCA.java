@@ -202,7 +202,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		Coverage covETEXExpected3 = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_25750);
 		Coverage covALLRISKExpected3 = Coverage.create(CoverageInfo.ALLRISK_CA).changeLimit(CoverageLimits.COV_NO_COV).disableCanChange();
 		Coverage covLOANExpected3 = Coverage.create(CoverageInfo.LOAN_CA).changeLimit(CoverageLimits.COV_0).disableCanChange().disableCustomerDisplay();
-		Coverage covNEWCARExpected3 = Coverage.create(CoverageInfo.NEWCAR_CA).changeLimit(CoverageLimits.COV_1).disableCanChange().disableCustomerDisplay();
+		Coverage covNEWCARExpected3 = Coverage.create(CoverageInfo.NEWCAR_CA).changeLimit(CoverageLimits.COV_1).disableCanChange();
 		Coverage covRIDESHAREExpected3 = Coverage.create(CoverageInfo.RIDESHARE_CA).changeLimit(CoverageLimits.COV_0).disableCanChange();
 
 		List<Coverage> expectedCoveragesVeh3 = new ArrayList<>();
