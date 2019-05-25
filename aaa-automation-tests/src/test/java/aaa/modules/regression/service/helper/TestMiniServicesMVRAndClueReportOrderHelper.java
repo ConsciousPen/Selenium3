@@ -702,19 +702,19 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 	}
 	protected void pas27222_UnderwritingRulesCASelectAAA_CSA3292736_Body(ETCSCoreSoftAssertions softly) {
 		mainApp().open();
-		String policyNumber = "CAAS952918567";
+		String policyNumber =  getCopiedPolicy();
 
-		/*String oidDriver1 = addAndUpdateDriver(policyNumber, "White", "Shoes", "1970-01-01", "N3734401", "CH", "CA", "male");
+		String oidDriver1 = addAndUpdateDriver(policyNumber, "White", "Shoes", "1970-01-01", "N3734401", "CH", "CA", "male");
 		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DRIVER_WITH_SUSPENDED);
 
 		String oidDriver2 = addAndUpdateDriver(policyNumber, "Two", "DragRacing", "1970-01-01", "N3734402", "CH", "CA", "male");
-		helperMiniServices.orderReportErrors(policyNumber, oidDriver2, ErrorDxpEnum.Errors.MAJOR_CONVICTION);*/
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver2, ErrorDxpEnum.Errors.MAJOR_CONVICTION);
 
-	/*	String oidDriver3 = addAndUpdateDriver(policyNumber, "Three", "SpeedingCA", "1970-01-01", "N3734403", "CH", "CA", "male");
-		helperMiniServices.orderReportErrors(policyNumber, oidDriver3, ErrorDxpEnum.Errors.MAJOR_VIOLATION); */
+		String oidDriver3 = addAndUpdateDriver(policyNumber, "Three", "SpeedingCA", "1970-01-01", "N3734403", "CH", "CA", "male");
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver3, ErrorDxpEnum.Errors.MAJOR_VIOLATION);
 
 		String oidDriver4 = addAndUpdateDriver(policyNumber, "DUI", "DrugsCA", "1970-01-01", "N3734406", "CH", "CA", "male");
-		helperMiniServices.orderReportErrors(policyNumber, oidDriver4, ErrorDxpEnum.Errors.DRUG_FELONY, ErrorDxpEnum.Errors.DRIVER_TEN_YEAR_MAJOR_CONVICTION);
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver4, ErrorDxpEnum.Errors.DRIVER_TEN_YEAR_MAJOR_CONVICTION, ErrorDxpEnum.Errors.DRUG_FELONY);
 
 		String oidDriver5 = addAndUpdateDriver(policyNumber, "Two", "AtFault", "1970-01-01", "B15383001", "CH", "AZ", "male");
 		helperMiniServices.orderReportErrors(policyNumber, oidDriver5, ErrorDxpEnum.Errors.INJYRY_ACCIDENT);
@@ -722,7 +722,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		String oidDriver6 = addAndUpdateDriver(policyNumber, "Karen", "Stark", "1997-10-16", "D1278333", "CH", "CA", "male");
 		helperMiniServices.orderReportErrors(policyNumber, oidDriver6, ErrorDxpEnum.Errors.TWO_AT_FAULT);
 
-		String oidDriver7 = addAndUpdateDriver(policyNumber, "Megha", "Stark", "1997-01-01", "N3734407", "CH", "CA", "male");
+		String oidDriver7 = addAndUpdateDriver(policyNumber, "Megha", "Stark", "1970-01-01", "N3734407", "CH", "CA", "male");
 		helperMiniServices.orderReportErrors(policyNumber, oidDriver7, ErrorDxpEnum.Errors.COMBINATION_FAULT_ACCIDENT);
 	}
 	protected void pas15369_reportOrderAndDriverOtherStateBody(String policyNumber) {

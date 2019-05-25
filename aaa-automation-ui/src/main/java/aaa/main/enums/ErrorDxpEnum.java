@@ -107,12 +107,12 @@ public final class ErrorDxpEnum {
 		VEHICLE_CANNOT_BE_ADDED_ERROR("AAA_SS181009-lwY5B", "Vehicles cannot be added with a purchase date within 30 days from the transaction effective date."),
 		DRIVER_WITH_MORE_THAN_TWO_AT_FAULT_VIOLATION_C("200105_C", "Driver with 3 or more Non-fault accidents are unacceptable."),
 		MAJOR_CONVICTION("10015002_C", "A driver must not have a major conviction within the last thirty-six (36) months"),
-		DRUG_FELONY("AAA_CSA3292736", "Driver with narcotics, drug or felony conviction involving a motor vehicle is unacceptable"),
-		DRIVER_TEN_YEAR_MAJOR_CONVICTION("AAA_CAC7133540", "Driver with a 10 year major conviction within the last 10 years is unacceptable"),
-		MAJOR_VIOLATION("10015004_C", "Driver with more than 2 minor violations are unacceptable"),
-		INJYRY_ACCIDENT("10015021_C", "Driver with more than 1 at fault injyry accident is unacceptable"),
-		TWO_AT_FAULT("10015023_C", "Driver with more than 2 at fault accidents in the past 3 years"),
-		COMBINATION_FAULT_ACCIDENT("10015015_C", "Driver with a combination of at least one Minor violation AND at least one At-Fault Accident within last 36 months is unacceptable"),
+		DRUG_FELONY("AAA_CAC7133540_C", "Driver with a narcotics, drug or felony conviction involving a motor vehicle is unacceptable."),
+		DRIVER_TEN_YEAR_MAJOR_CONVICTION("AAA_CSA3292736_C", "Driver with 10 year Major conviction within the last 10  years is unacceptable"),
+		MAJOR_VIOLATION("10015004_C", "Driver with more than 2 Minor violations are unacceptable."),
+		INJYRY_ACCIDENT("10015021_C", "Driver with more than 1 At-fault injury accident is unacceptable"),
+		TWO_AT_FAULT("10015023_C", "Driver must not have more than 2 At-fault accidents in the past 3 years"),
+		COMBINATION_FAULT_ACCIDENT("10015015_C", "Driver with a combination of at least one Minor violation AND at least one At-fault accident within last 36 months is unacceptable."),
 		DRIVER_WITH_SUSPENDED("10001001_C", "Driver with a suspended or revoked drivers license in the last 36 months is unacceptable");
 
 		private final String code;
