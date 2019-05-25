@@ -40,7 +40,6 @@
         </dependency>
     </dependencies>
     <build>
-
         <resources>
             <resource>
                 <directory>${browser.pool.path}</directory>
