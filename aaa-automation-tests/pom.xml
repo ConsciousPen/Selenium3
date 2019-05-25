@@ -38,6 +38,7 @@
             <scope>provided</scope>
             <version>1.18.2</version>
         </dependency>
+    </dependencies>
     <build>
         <resources>
             <resource>
