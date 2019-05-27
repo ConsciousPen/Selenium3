@@ -25,177 +25,26 @@ import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.utils.datetime.DateTimeUtils;
 
 public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 
 	private TestData tdBilling = testDataManager.billingAccount;
 	private TestData check_payment = tdBilling.getTestData("AcceptPayment", "TestData_Check");
-	private TestData policyWithMontlyPaymentPlan = getPolicyTD()
-			.adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Eleven Pay - Standard");
 	private IBillingAccount billing = new BillingAccount();
 
 	/**
-	 * <b> Test PasDoc Scenarios - Remove Cancel Notice </b>
-	 * <p> Steps:
-	 * <p> Create policy
-	 * <p> Cancel Notice
-	 * <p> Remove Cancel Notice
-	 * <p> Verify document - AHCWXX(true), AH35XX(false)
-	 *
-	 * @param state
-	 * @author Denis Semenov
-	 */
-
-	@Parameters({"state"})
-	@StateList(states = Constants.States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-	public void testScenario52(@Optional("") String state) {
-
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
-
-		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
-		PolicySummaryPage.verifyCancelNoticeFlagPresent();
-
-		policy.deleteCancelNotice().perform(new SimpleDataProvider());
-		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
-
-		PasDocImpl.verifyDocumentsGenerated(true, policyNumber, AHCWXX);
-		PasDocImpl.verifyDocumentsGenerated(false, policyNumber, AH35XX);
-	}
-
-	/**
-	 * <b> Test PasDoc Scenarios - Remove Cancel Notice </b>
-	 * <p> Steps:
-	 * <p> Create policy with Auto Pay
-	 * <p> Cancel Notice (Reason - UW)
-	 * <p> Remove Cancel Notice
-	 * <p> Verify document - AHCWXX(true), AH35XX(true)
-	 *
-	 * @author Denis Semenov
-	 * @param state
-	 */
-
-	@Parameters({"state"})
-	@StateList(states = Constants.States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-	public void testScenario53(@Optional("") String state) {
-		mainApp().open();
-		createCustomerIndividual();
-		//Select payment plan = Monthly and activate AutoPay
-		TestData tdAutoPay = getPolicyTD().adjust(getTestSpecificTD("TestData_EnabledAutoPay").resolveLinks());
-		String policyNumber = createPolicy(tdAutoPay);
-
-		PasDocImpl.verifyDocumentsGenerated(true, policyNumber, AH35XX);
-
-		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData").adjust(TestData
-						.makeKeyPath("CancelNoticeActionTab", "Cancellation Reason"),
-				"Underwriting - Fraudulent Misrepresentation"));
-		PolicySummaryPage.verifyCancelNoticeFlagPresent();
-		policy.deleteCancelNotice().perform(new SimpleDataProvider());
-		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
-
-		PasDocImpl.verifyDocumentsGenerated(true, policyNumber, AHCWXX);
-	}
-
-	/**
-	 * <b> Test PasDoc Scenarios - Remove Cancel Notice </b>
-	 * <p> Steps:
-	 * <p> Create policy
-	 * <p> Shift time to R-35 and execute both renewalOfferGeneration
-	 * <p> Shift time to R-20 and execute aaaRenewalNoticeBillAsyncJob
-	 * <p> Shift time to R and execute aaaDataUpdateJob
-	 * <p> Shift time to R+10 and execute aaaRenewalNoticeBillAsyncJob
-	 * <p> Verify document - AH64XX
-	 *
-	 * @author Denis Semenov
-	 * @param state
-	 */
-
-	@Parameters({"state"})
-	@StateList(states = Constants.States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-	public void testScenario43(@Optional("") String state) {
-		LocalDateTime renewalDate;
-
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
-		renewalDate = PolicySummaryPage.getExpirationDate();
-
-		//R-35
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
-		//R-20
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalDate));
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
-
-		//R
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(renewalDate));
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-		mainApp().open();
-
-		//R+10
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getInsuranceRenewalReminderDate(renewalDate));
-		JobUtils.executeJob(Jobs.aaaRenewalReminderGenerationAsyncJob);
-
-		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH64XX);
-	}
-
-	/**
-	 * <b> Test PasDoc Scenarios - Remove Cancel Notice </b>
-	 * <p> Steps:
-	 * <p> Create policy
-	 * <p> Shift time to R-35 and execute both renewalOfferGeneration
-	 * <p> Shift time to R-20 and execute aaaRenewalNoticeBillAsyncJob
-	 * <p> Shift time to R and execute aaaDataUpdateJob
-	 * <p> Shift time to R+10 and execute aaaRenewalNoticeBillAsyncJob
-	 * <p> Verify document - AH64XX
-	 *
-	 * @author Denis Semenov
-	 * @param state
-	 */
-
-	@Parameters({"state"})
-	@StateList(states = Constants.States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-	public void testScenario44(@Optional("") String state) {
-		Dollar amount = new Dollar(300);
-		TestData card_payment = tdBilling.getTestData("AcceptPayment", "TestData_CC");
-		TestData checkRefund = tdBilling.getTestData("Refund", "TestData_Check");
-
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
-		BillingSummaryPage.open();
-		billing.acceptPayment().perform(card_payment, amount);
-		billing.refund().perform(checkRefund, amount);
-		billing.approveRefund().perform(amount);
-		billing.issueRefund().perform(amount);
-
-		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusMonths(9));
-		JobUtils.executeJob(Jobs.aaaGenerateLTRNoticeJob);
-
-		//		PasDocImpl.verifyDocumentsGenerated(policyNumber,_60_5010);
-	}
-
-	/**
 	 * <b> Test PasDoc Scenarios - Decline Payment </b>
-	 * <p> Steps:
-	 * <p> Create policy with Monthly Payment Plan
-	 * <p> Accept Payment
-	 * <p> Decline Payment(reason - No Fee No oRestriction) and verify Document - 60_5002
-	 * <p> Accept Payment
-	 * <p> Decline Payment(reason - Fee N oRestriction) and verify Document - 60_5001
-	 * <p> Update Billing Account - Add AutoPay
-	 * <p> Shift time with execution jobs: aaaBillingInvoiceAsyncTaskJob and aaaRecurringPaymentsProcessingJob
-	 * <p> Decline Payment(reason - Fee Restriction) and verify Document - 60_5003
-	 * <p> Run job policyUpdateStatus
-	 * <p> Decline Payment(reason - Fee Restriction) and verify Document - 60_5000
+	 * <p>  Steps:
+	 * <p>  Create policy with Monthly Payment Plan
+	 * <p>  Accept Payment
+	 * <p>  Decline Payment(reason - No Fee No oRestriction) and verify Document - 60_5002
+	 * <p>  Accept Payment
+	 * <p>  Decline Payment(reason - Fee N oRestriction) and verify Document - 60_5001
+	 * <p>  Update Billing Account - Add AutoPay
+	 * <p>  Shift time with execution jobs: aaaBillingInvoiceAsyncTaskJob and aaaRecurringPaymentsProcessingJob
+	 * <p>  Decline Payment(reason - Fee Restriction) and verify Document - 60_5003
+	 * <p>  Run job policyUpdateStatus
+	 * <p>  Decline Payment(reason - Fee Restriction) and verify Document - 60_5000
 	 *
 	 * @param state
 	 * @author Denis Semenov
@@ -246,7 +95,7 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 			//Scenario 41.2
 			if (dueDate == 3) {
 				TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(installmentDueDates.get(3)));
-				declinePayment(policyNum, dueDate, "TestData_FeeRestriction");
+				declinePayment(policyNum, 3, "TestData_FeeRestriction");
 				PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5003);
 			}
 		}
@@ -257,7 +106,8 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario42(@Optional("") String state) {
 		List<LocalDateTime> installmentDueDates;
-		//вынести
+		TestData policyWithMontlyPaymentPlan = getPolicyTD()
+				.adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Eleven Pay - Standard");
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -281,6 +131,8 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario42_1(@Optional("") String state) {
 		List<LocalDateTime> installmentDueDates;
+		TestData policyWithMontlyPaymentPlan = getPolicyTD()
+				.adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Eleven Pay - Standard");
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNum = createPolicy(policyWithMontlyPaymentPlan);
@@ -298,6 +150,117 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 		declinePayment(policyNum, 1, "TestData_FeeRestriction");
 		PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5000);
 
+	}
+
+	/**
+	 * <b> Test PasDoc Scenarios - EXPIRATION NOTICE </b>
+	 * <p>  Steps:
+	 * <p>  Create policy
+	 * <p>  Shift time to R-35 and execute both renewalOfferGeneration
+	 * <p>  Shift time to R-20 and execute aaaRenewalNoticeBillAsyncJob
+	 * <p>  Shift time to R and execute aaaDataUpdateJob
+	 * <p>  Shift time to R+10 and execute aaaRenewalNoticeBillAsyncJob
+	 * <p>  Verify document - AH64XX
+	 *
+	 * @author Denis Semenov
+	 * @param state
+	 */
+
+	@Parameters({"state"})
+	@StateList(states = Constants.States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	public void testScenario43(@Optional("") String state) {
+		LocalDateTime renewalDate;
+
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy();
+		renewalDate = PolicySummaryPage.getExpirationDate();
+
+		//R-35
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalDate));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		//R-20
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalDate));
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+
+		//R
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(renewalDate));
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		mainApp().open();
+
+		//R+10
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getInsuranceRenewalReminderDate(renewalDate));
+		JobUtils.executeJob(Jobs.aaaRenewalReminderGenerationAsyncJob);
+
+		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH64XX);
+	}
+
+	/**
+	 * <b> Test PasDoc Scenarios - Remove Cancel Notice </b>
+	 * <p>  Steps:
+	 * <p>  Create policy
+	 * <p>  Cancel Notice
+	 * <p>  Remove Cancel Notice
+	 * <p>  Verify document - AHCWXX(true), AH35XX(false)
+	 *
+	 * @param state
+	 * @author Denis Semenov
+	 */
+
+	@Parameters({"state"})
+	@StateList(states = Constants.States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	public void testScenario52(@Optional("") String state) {
+
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy();
+
+		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
+		PolicySummaryPage.verifyCancelNoticeFlagPresent();
+
+		policy.deleteCancelNotice().perform(new SimpleDataProvider());
+		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
+
+		PasDocImpl.verifyDocumentsGenerated(true, policyNumber, AHCWXX);
+		PasDocImpl.verifyDocumentsGenerated(false, policyNumber, AH35XX);
+	}
+
+	/**
+	 * <b> Test PasDoc Scenarios - Remove Cancel Notice </b>
+	 * <p>  Steps:
+	 * <p>  Create policy with Auto Pay
+	 * <p>  Cancel Notice (Reason - UW)
+	 * <p>  Remove Cancel Notice
+	 * <p>  Verify document - AHCWXX(true), AH35XX(true)
+	 *
+	 * @author Denis Semenov
+	 * @param state
+	 */
+
+	@Parameters({"state"})
+	@StateList(states = Constants.States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	public void testScenario53(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		//Select payment plan = Monthly and activate AutoPay
+		TestData tdAutoPay = getPolicyTD().adjust(getTestSpecificTD("TestData_EnabledAutoPay").resolveLinks());
+		String policyNumber = createPolicy(tdAutoPay);
+
+		PasDocImpl.verifyDocumentsGenerated(true, policyNumber, AH35XX);
+
+		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData").adjust(TestData
+						.makeKeyPath("CancelNoticeActionTab", "Cancellation Reason"),
+				"Underwriting - Fraudulent Misrepresentation"));
+		PolicySummaryPage.verifyCancelNoticeFlagPresent();
+		policy.deleteCancelNotice().perform(new SimpleDataProvider());
+		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
+
+		PasDocImpl.verifyDocumentsGenerated(true, policyNumber, AHCWXX);
 	}
 
 	private void declinePayment(String policyNumber, int dueDate, String declineReason) {

@@ -10,3 +10,57 @@ PremiumAndCoveragesTab_Monthly: {
   Comprehensive Deductible: 'contains=$750',
 }
 
+# ---- Scenario 45
+
+TestData_With_MembershipOverride: {
+  GeneralTab: '@GeneralTab'
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
+}
+
+AAAMembership: {
+  Current AAA Member: 'Membership Override',
+  Override Type: 'Term',
+  Member Since Date: 01/01/2006
+}
+
+# ---- Scenario 46
+TestData_QuarterlyPaymentPlan: {
+  GeneralTab: '@GeneralTab2',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Monthly',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'
+}
+
+
+
+TestData_QuarterlyPaymentPlanWithAutoPay: {
+  GeneralTab: '@GeneralTab2',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Monthly',
+}
+
+GeneralTab2: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAMembership: '@AAAMembership',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation_Override',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Quarterly'
+}
+
+CurrentCarrierInformation_Override: {
+  "Override Prefilled Current Carrier?": 'Yes',
+  Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
+  Agent Entered Inception Date: $<today-1y>,
+  Agent Entered Expiration Date: $<today-1d>,
+  Agent Entered BI Limits: '$500,000/$500,000',
+}
+
+PremiumAndCoveragesTab_Quarterly: {
+  Payment Plan: Quarterly,
+}
