@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
-import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.jobs.JobUtils;
@@ -15,6 +14,7 @@ import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -22,11 +22,17 @@ import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 
 public class ManualConversionTemplate extends PolicyBaseTest {
+	LocalDateTime effDate;
+	String policyNum;
 
 	protected void manualRenewalEntryToActivePolicy() {
 		ErrorTab errorTab = new ErrorTab();
 		// This date is specific for Manual Review and not equal to RENEW_GENERATE_DATE
-		LocalDateTime effDate = TimeSetterUtil.getInstance().getPhaseStartTime().plusDays(45);
+		if (getPolicyType().equals(PolicyType.PUP) && getState().equals("WY")) {
+			effDate = TimeSetterUtil.getInstance().getPhaseStartTime().plusDays(48);
+		} else {
+			effDate = TimeSetterUtil.getInstance().getPhaseStartTime().plusDays(45);
+		}
 		mainApp().open();
 		createCustomerIndividual();
 		TestData policyTd = getConversionPolicyDefaultTD();
@@ -38,19 +44,9 @@ public class ManualConversionTemplate extends PolicyBaseTest {
 			policy.getDefaultView().getTab(DocumentsAndBindTab.class).submitTab();
 		}
 		Tab.buttonBack.click();
-		String policyNum = PolicySummaryPage.getPolicyNumber();
-
+		policyNum = PolicySummaryPage.getPolicyNumber();
 		SearchPage.openPolicy(policyNum);
-		if (!getState().equals(Constants.States.MT)
-				&& !(getState().equals(Constants.States.WY) && !getPolicyType().isAutoPolicy())
-				&& !getState().equals(Constants.States.MD))
-		{
-			new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
-			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
-			JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-			mainApp().open();
-			SearchPage.openPolicy(policyNum);
-		}
+		setStatusProposedIfNot();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(effDate));
@@ -67,5 +63,15 @@ public class ManualConversionTemplate extends PolicyBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+	}
+
+	private void setStatusProposedIfNot() {
+		if (PolicySummaryPage.tableRenewals.getColumn("Status").getValue().get(0).equals(ProductConstants.PolicyStatus.PREMIUM_CALCULATED)) {
+			new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
+			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
+			JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+			mainApp().open();
+			SearchPage.openPolicy(policyNum);
+		}
 	}
 }
