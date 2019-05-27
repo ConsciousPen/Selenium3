@@ -1,4 +1,4 @@
-package com.exigen.ipb.etcsa.controls;
+package aaa.toolkit.webdriver.customcontrols;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +21,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * {@code valueListXpath} - locator of option.
  *
  */
-public class ClickComboBox extends ComboBox {
+public class ClickComboBoxBroken extends ComboBox {
 	@ClassConfigurator.Configurable
 	private static By valueListOpenerLocator = By.xpath(".//div/label[contains(@class, 'ui-selectonemenu-label')]");
 	@ClassConfigurator.Configurable
@@ -32,23 +32,23 @@ public class ClickComboBox extends ComboBox {
 	private static int timeout = 1000;
 
 	static {
-		ClassConfigurator configurator = new ClassConfigurator(ClickComboBox.class);
+		ClassConfigurator configurator = new ClassConfigurator(ClickComboBoxBroken.class);
 		configurator.applyConfiguration();
 	}
 
-	public ClickComboBox(By locator) {
+	public ClickComboBoxBroken(By locator) {
 		super(locator, Waiters.DEFAULT);
 	}
 
-	public ClickComboBox(By locator, Waiter waitBy) {
+	public ClickComboBoxBroken(By locator, Waiter waitBy) {
 		super(locator, waitBy);
 	}
 
-	public ClickComboBox(BaseElement<?, ?> parent, By locator) {
+	public ClickComboBoxBroken(BaseElement<?, ?> parent, By locator) {
 		super(parent, locator, Waiters.DEFAULT);
 	}
 
-	public ClickComboBox(BaseElement<?, ?> parent, By locator, Waiter waitBy) {
+	public ClickComboBoxBroken(BaseElement<?, ?> parent, By locator, Waiter waitBy) {
 		super(parent, locator, waitBy);
 	}
 
