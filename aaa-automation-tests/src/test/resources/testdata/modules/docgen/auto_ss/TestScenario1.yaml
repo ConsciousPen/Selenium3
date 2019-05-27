@@ -368,9 +368,9 @@ AH62XX_IN: {
     AutoPayYN:  {TextField: 'N'},
     ReinstmtFee: {TextField: ''}
   },
-  VehicleDetails: {
-   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
- },
+  #VehicleDetails: {
+  # PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
+ #},
  PaymentDetails: {
   PlcyPayFullAmt: {TextField: ''},
  }
