@@ -1351,7 +1351,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				.isTrue();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
-		assertThat(errorTab.tableErrors.getRow(1).getCell("Message").getValue()).isEqualTo(PAPERLESS_PREFERENCES_NOT_ENROLLED_2);
+		assertThat(errorTab.tableErrors.getRow(1).getCell("Message").getValue()).contains(PAPERLESS_PREFERENCES_NOT_ENROLLED_2);
 		errorTab.cancel();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");

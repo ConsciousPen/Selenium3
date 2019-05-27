@@ -196,11 +196,14 @@ public final class ErrorEnum {
 		ERROR_AAA_200203("200203", "If Uninsured/Underinsured Motorist (UM/UIM) Coverage is rejected. A signed Un"),
 		ERROR_AAA_10006002_CA("10006002", "Do not bind the endorsement more than 30 days in advance. (10006002) [for Pol"),
 		ERROR_AAA_validate_pu_clue_claim_2("AAA_validate_pu_clue_claim_2", "Confirm CLUE activity is a permissive use claim based on a CLUE report or oth"),
-		ERROR_AAA_10015021_CA_SELECT("10015021", "Driver with more than 1 At-fault injury accident is unacceptable (10015021) ["),
+		ERROR_AAA_10015021_CA_SELECT("10015021", "Driver with more than 1 At-fault injury accident is unacceptable (10015021) [for Driver.attributeForRules]"),
 		ERROR_AAA_10004001_CA("10004001", "Driver must possess a valid license status (10004001) [for Driver.attributeFo" ),
 		ERROR_AAA_CAC7100525_CA_CHOICE("AAA_CAC7100525_CA_CHOICE","Any Driver on the policy with an out-of-state U.S., Canadian, or Foreign lice"),
 		ERROR_AAA_200108_1_CA_SELECT("200108_1", "Driver with a Foreign or International License is unacceptable (200108_1) [fo"),
 		AAA_SS02012019("AAA_SS02012019", "Policy cannot be bound with an unbound companion policy."),
+        ERROR_AAA_10015015_CA_SELECT("10015015", "Driver with a combination of at least one Minor violation AND at least one At-fault accident within last 36 months is unacceptable. (10015015) [for Driver.attributeForRules]"),
+        ERROR_AAA_10015023_CA_SELECT_CHOICE("10015023", "Driver must not have more than 2 At-fault accidents in the past 3 years (10015023) [for Driver.attributeForRules]"),
+		ERROR_AAA_CAC7161836_CA_CHOICE("AAA_CAC7161836_CA_CHOICE", "A driver with more than 26 Violation points is unacceptable (AAA_CAC7161836) [for Driver.attributeForRules]"),
 
 		//MEMBERSHIP Errors
 		ERROR_AAA_AUTO_SS_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm Member details."),
