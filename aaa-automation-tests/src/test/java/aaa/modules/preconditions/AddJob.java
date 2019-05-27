@@ -33,5 +33,8 @@ public class AddJob {
 		if (!service.isJobExist(JobGroup.fromSingleJob(Jobs.aaaRecurringPaymentsProcessingJob.getJobName()))) {
 			service.createJob(JobGroup.fromSingleJob(Jobs.aaaRecurringPaymentsProcessingJob.getJobName()));
 		}
+		if (!service.isJobExist(JobGroup.fromSingleJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob.getJobName()))) {
+			service.createJob(JobGroup.fromSingleJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob.getJobName()));
+		}
 	}
 }
