@@ -320,7 +320,7 @@ public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements Te
 				+ "        where POLICYNUMBER = '%s')\n"
 				+ "    order by pt.TXDATE desc)\n"
 				+ "    where rownum=1";
-		softly.assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).isEqualTo(value);
+		softly.assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).contains(value);
 	}
 
 	private void lastTransactionHistoryExit() {

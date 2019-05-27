@@ -6513,7 +6513,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		PolicyCoverageInfo viewEndorsementCoveragesResponse2 = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, oid, PolicyCoverageInfo.class);
 
 		softly.assertThat(viewEndorsementCoveragesResponse2.vehicleLevelCoverages.get(0).coverages.get(2).getCoverageLimit()).isEqualTo("25000");
-		softly.assertThat(viewEndorsementCoveragesResponse2.vehicleLevelCoverages.get(1).coverages.get(2).getCoverageLimit()).isEqualTo("0");
 	}
 
 	protected void pas15363_viewUpdatePIPCoverageNYBody() {

@@ -203,7 +203,7 @@ PolicyInfo_ID: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Oregon - 500001021',
   Agency Location: 'Beaverton - 500005277 - Portland',
-  AAgent: 'House Agent Pocatello',
+  Agent: 'House Agent Pocatello',
   Commission Type: New Business
 }
 
@@ -401,7 +401,7 @@ TestData_NV: {
   EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
   PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
   UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: 'DocumentsTab_NV',
+  DocumentsTab: '@DocumentsTab_NV',
   BindTab: '@<pup>@DataGather@BindTab'
 }
 

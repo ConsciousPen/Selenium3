@@ -28,6 +28,8 @@ public final class ErrorDxpEnum {
 		MAX_NUMBER_OF_DRIVERS("AAA_SS4100066", "This policy already has 7 drivers that are not excluded.  Please contact underwriting to create a continuation policy."),
 		USAGE_IS_BUSINESS("AAA_SS1007147", "Usage is Business"),
 		REGISTERED_OWNERS("AAA_SS1007148", "Registered Owners"),
+		REGISTERED_OWNERS_CA("AAA_CSA1007148", "Registered Owners"),
+		USAGE_IS_BUSINESS_CA("AAA_CSA1007147", "Usage is Business"),
 		MORATORIUM_EXIST("AAA_SS181109", "Moratorium Exists"),
 		INSURER_NAME_POLICY_GROUP_CERTIFICATE_BLANK_NJ("AAA_SS4030000", "\"Insurer name\",\"Policy/Group #/Certificate #\" mandatory fields value cannot be left blank and  \r\n"
 				+ "Requires at least 3 characters. (AAA_SS4030000)"),
@@ -103,7 +105,15 @@ public final class ErrorDxpEnum {
 		VEHICLE_CANNOT_BE_REMOVED_ERROR("ERROR_SERVICE_VALIDATION", "Vehicle cannot be removed. Remove action is not available on vehicle."),
 		DRIVER_WITH_MORE_THAN_TWO_AT_FAULT_VIOLATION("200105", "Driver with 3 or more Non-fault accidents are unacceptable"),
 		VEHICLE_CANNOT_BE_ADDED_ERROR("AAA_SS181009-lwY5B", "Vehicles cannot be added with a purchase date within 30 days from the transaction effective date."),
-		DRIVER_WITH_MORE_THAN_TWO_AT_FAULT_VIOLATION_C("200105_C", "Driver with 3 or more Non-fault accidents are unacceptable.");
+		DRIVER_WITH_MORE_THAN_TWO_AT_FAULT_VIOLATION_C("200105_C", "Driver with 3 or more Non-fault accidents are unacceptable."),
+		MAJOR_CONVICTION("10015002_C", "A driver must not have a major conviction within the last thirty-six (36) months"),
+		DRUG_FELONY("AAA_CAC7133540_C", "Driver with a narcotics, drug or felony conviction involving a motor vehicle is unacceptable."),
+		DRIVER_TEN_YEAR_MAJOR_CONVICTION("AAA_CSA3292736_C", "Driver with 10 year Major conviction within the last 10  years is unacceptable"),
+		MAJOR_VIOLATION("10015004_C", "Driver with more than 2 Minor violations are unacceptable."),
+		INJYRY_ACCIDENT("10015021_C", "Driver with more than 1 At-fault injury accident is unacceptable"),
+		TWO_AT_FAULT("10015023_C", "Driver must not have more than 2 At-fault accidents in the past 3 years"),
+		COMBINATION_FAULT_ACCIDENT("10015015_C", "Driver with a combination of at least one Minor violation AND at least one At-fault accident within last 36 months is unacceptable."),
+		DRIVER_WITH_SUSPENDED("10001001_C", "Driver with a suspended or revoked drivers license in the last 36 months is unacceptable");
 
 		private final String code;
 		private final String message;
