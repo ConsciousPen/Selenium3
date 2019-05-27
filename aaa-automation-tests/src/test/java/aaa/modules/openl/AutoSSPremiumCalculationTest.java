@@ -107,7 +107,7 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 		//update VIN codes or you will get error 500 on Premium tab
 		for (AutoSSOpenLVehicle vehicle : openLPolicy.getVehicles()) {
 			if (StringUtils.isNotBlank(vehicle.getVinCode())) {
-				vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.LIST_OF_VEHICLE).getTable().getRow(openLPolicy.getVehicles().indexOf(vehicle)+1).
+				vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.LIST_OF_VEHICLE).getTable().getRow(openLPolicy.getVehicles().indexOf(vehicle) + 1).
 						getCell(5).controls.links.get("View/Edit").click();
 				vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).clear();
 				vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).waitForPageUpdate();

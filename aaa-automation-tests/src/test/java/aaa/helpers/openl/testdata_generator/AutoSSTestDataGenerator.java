@@ -126,7 +126,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		TestData namedInsuredInformationData = DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(), getGeneralTabResidence(openLPolicy.isHomeOwner()),
 				AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel(),
-				Constants.States.MD.equals(openLPolicy.getState()) && openLPolicy.isLegacyConvPolicy() && !openLPolicy.getDrivers().get(0).isCleanDriver() ? openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY) : openLPolicy.getEffectiveDate().minusYears(openLPolicy.getAaaInsurancePersistency()).format(DateTimeUtils.MM_DD_YYYY));    //
+				openLPolicy.getAaaInsurancePersistency() < 0 || Constants.States.MD.equals(openLPolicy.getState()) && openLPolicy.isLegacyConvPolicy() && !openLPolicy.getDrivers().get(0).isCleanDriver() ? openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY) : openLPolicy.getEffectiveDate().minusYears(openLPolicy.getAaaInsurancePersistency()).format(DateTimeUtils.MM_DD_YYYY));    //
 
 		Map<String, Object> currentAAAMembershipData = new HashMap<>();
 		currentAAAMembershipData.put(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()));
@@ -812,7 +812,13 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		TestData td = new SimpleDataProvider(vehicleInformation);
 		if (vehicle.getCoverages().stream().anyMatch(c -> "LOAN".equals(c.getCoverageCd()))) {
-			TestData ownershipData = DataProviderFactory.dataOf(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE.getLabel(), "Leased");
+			TestData ownershipData = DataProviderFactory.dataOf(
+					AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE.getLabel(), "Leased",
+					AutoSSMetaData.VehicleTab.Ownership.ZIP_CODE.getLabel(), zipCode,
+					AutoSSMetaData.VehicleTab.Ownership.ADDRESS_LINE_1.getLabel(), "111 Address1",
+					AutoSSMetaData.VehicleTab.Ownership.VALIDATE_ADDRESS_BTN.getLabel(), "click",
+					AutoSSMetaData.VehicleTab.Ownership.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.dataOf("Street number", "111", "Street Name", "Address1")
+			);
 			td.adjust(AutoSSMetaData.VehicleTab.OWNERSHIP.getLabel(), ownershipData);
 		}
 
