@@ -1,0 +1,62 @@
+MoratoriumDXPConfig: {
+  AddMoratoriumTab: {
+    Moratorium Type: Non-catastrophe,
+    Moratorium Name: '$<rx:Test Moratorium Automated \d{5}>',
+    Moratorium Reason: Testing,
+    Effective Date: '$<today>',
+    Expiration Date: '$<today+1d>',
+    Countries: United States,
+    States: United States - CA,
+    Cities: Hayward,
+    Zip Codes: 94541,
+    Products: California Auto,
+    AddRuleSection: {
+      New Business Premium Calculation: Soft Stop,
+      New Business Bind: Hard Stop,
+      Endorsement Issue: Hard Stop,
+      Endorsement Bind: Hard Stop,
+      Endorsement Initiation: Soft Stop,
+      Display Message: '$<rx:Test Moratorium Message \d{5}>'
+    }
+  }
+}
+
+VehicleWithMoratorium: {
+  VehicleTab: {
+    Usage: PL,
+    VIN: 3FAFP31341R200709,
+    Primary Use: 'PL',
+    'Is Garaging different from Residential?': 'true',
+    'Address Line 1': '992 Silverado Rd',
+    City: 'Hayward',
+    State: 'CA',
+    Zip Code: '94541',
+    'Odometer Reading': 10000,
+    'Miles One-way to Work or School': '500',
+  }
+}
+
+VehicleWithoutMoratorium: {
+  VehicleTab: {
+    Usage: PL,
+    VIN: 1FTYR14U32PA42653,
+    Primary Use: 'PL',
+    'Is Garaging different from Residential?': 'Yes',
+    'Address Line 1': '2999 W 6th St',
+    City: 'Los Angeles',
+    State: 'CA',
+    Zip Code: '90020',
+    'Odometer Reading': 10000,
+    'Miles One-way to Work or School': '500',
+  }
+}
+
+VehicleGaragingSame: {
+  VehicleTab: {
+    Usage: PL,
+    VIN: 1HGCD5603VA139404,
+    Primary Use: 'PL',
+    'Odometer Reading': 10000,
+    'Miles One-way to Work or School': '500',
+  }
+}

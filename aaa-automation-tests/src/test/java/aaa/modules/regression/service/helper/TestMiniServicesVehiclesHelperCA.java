@@ -22,9 +22,11 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
+import org.apache.commons.lang.StringUtils;
 import org.assertj.core.api.AssertionsForClassTypes;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.Ownership.IS_REGISTERED_OWNER_DIFFERENT_THAN_NAMED_INSURED;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import javax.ws.rs.core.Response;
@@ -606,7 +608,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 		//CA specific fields
 		updateVehicleRequest.distanceOneWayToWork = "21";
 		updateVehicleRequest.odometerReading = "34000";
-		updateVehicleRequest.declaredAnnualMiles ="31500";
+		updateVehicleRequest.declaredAnnualMiles = "31500";
 
 		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
 		assertSoftly(softly -> {
@@ -951,6 +953,24 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 		assignmentTab.saveAndExit();
 	}
 
+	protected void pas29137_updateVehicleRegisteredOwnerAndStuffBody(ETCSCoreSoftAssertions softly) {
+		mainApp().open();
+		String policyNumber =  getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		String vehicleOid = helperMiniServices.addVehicleWithChecks(policyNumber, "2013-01-20", "1C4BJWDG0JL847133", true);
+		VehicleUpdateDto updateVehicleRequest1 = new VehicleUpdateDto();
+		updateVehicleRequest1.registeredOwner = false;
+		updateVehicleRequest1.usage = "Business";
+		VehicleUpdateResponseDto updateVehicleResponse1 = HelperCommon.updateVehicle(policyNumber, vehicleOid, updateVehicleRequest1);
+		assertThat(updateVehicleResponse1.validations.size()).isGreaterThan(0);
+		assertThat(updateVehicleResponse1.validations.stream().anyMatch(validation -> StringUtils.startsWith(validation.errorCode, "AAA_CSA1007148"))).isTrue();
+		softly.assertThat(updateVehicleResponse1.usage).isEqualTo("Business");
+		assertThat(updateVehicleResponse1.validations.stream().anyMatch(validation -> StringUtils.startsWith(validation.errorCode, "AAA_CSA1007147"))).isTrue();
+		ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
+		softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.REGISTERED_OWNERS_CA)).isTrue();
+		softly.assertThat(helperMiniServices.hasError(rateResponse, ErrorDxpEnum.Errors.USAGE_IS_BUSINESS_CA)).isTrue();
+	}
+
 	protected void pas25263_addVehicleMetadataCheckBody(ETCSCoreSoftAssertions softly) {
 		mainApp().open();
 
@@ -959,7 +979,6 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 		//Create pended endorsement
 		PolicySummary response = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		AssertionsForClassTypes.assertThat(response.policyNumber).isEqualTo(policyNumber);
-
 
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -1051,7 +1070,6 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 	}
 
 	;
-
 
 	AttributeMetadata getAttributeMetadata(AttributeMetadata[] metaDataResponse, String fieldName, boolean enabled, boolean visible, boolean required, String maxLength, String attributeType) {
 		AttributeMetadata metaDataFieldResponse = Arrays.stream(metaDataResponse).filter(attributeMetadata -> fieldName.equals(attributeMetadata.attributeName)).findFirst().orElse(null);

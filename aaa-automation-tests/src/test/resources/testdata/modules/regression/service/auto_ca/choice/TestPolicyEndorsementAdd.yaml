@@ -20,7 +20,8 @@ NamedInsuredInformation: {
   Add: Click,
   InsuredSearchDialog: {},
   First Name: Tom,
-  Last Name: Harris
+  Last Name: Harris,
+  #Insured Date of Birth: 12/05/1962
 }
 
 PolicyInformation: {
