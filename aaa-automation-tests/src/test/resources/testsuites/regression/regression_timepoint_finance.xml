@@ -3,7 +3,7 @@
     <parameter name="timeshift-scenario-mode" value="method"/>
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
     <test name="AZ Home" parallel="methods">
         <parameter name="state" value="AZ"/>
