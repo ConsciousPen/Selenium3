@@ -5,23 +5,23 @@ import org.testng.Assert;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.utils.TestInfo;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import toolkit.utils.TestInfo;
 
 
 /**
  * @author Yonggang Sun
- * @name Test Create PUP Policy Full
- * @scenario
- * 1. Create new or open existent Customer;
- * 2. Create Umbrella Quote
- * 3. Issue policy;
- * 4. Check Policy status is Active.
+ * <b> Test Create PUP Policy Full </b>
+ * <p> Steps:
+ * <p> 1. Create new or open existent Customer;
+ * <p> 2. Create Umbrella Quote
+ * <p> 3. Issue policy;
+ * <p> 4. Check Policy status is Active.
  */
 public class TestPolicyCreationFull extends PersonalUmbrellaBaseTest {
 

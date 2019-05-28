@@ -5,15 +5,14 @@ package aaa.modules.regression.service.pup;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.utils.TestInfo;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.template.PolicyRenewWithLapse;
+import toolkit.utils.TestInfo;
 
 /**
- * {@inheritDoc}
+ * <p> {@inheritDoc}
  * @author Yonggang Sun
  */
 public class TestPolicyRenewWithLapse extends PolicyRenewWithLapse {
@@ -28,6 +27,6 @@ public class TestPolicyRenewWithLapse extends PolicyRenewWithLapse {
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
     public void testPolicyRenewWithLapse(@Optional("") String state) {
-        super.testPolicyRenewWithLapse();
+		testPolicyRenewWithLapse();
     }
 }

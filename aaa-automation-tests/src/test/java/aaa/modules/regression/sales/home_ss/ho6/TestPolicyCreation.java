@@ -17,12 +17,12 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Viachaslau Markouski
- * @name Test Create Home Quote
- * @scenario
- * 1. Create Customer
- * 2. Create Home (Preconfigured) Quote
- * 3. Verify quote status is 'Premium Calculated'
- * @details
+ * <b> Test Create Home Quote </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create Home (Preconfigured) Quote
+ * <p> 3. Verify quote status is 'Premium Calculated'
+ *
  */
 public class TestPolicyCreation extends HomeSSHO6BaseTest {
 

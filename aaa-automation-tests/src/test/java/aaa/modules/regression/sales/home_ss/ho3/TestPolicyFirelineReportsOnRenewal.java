@@ -1,5 +1,13 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.List;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.MainPage;
@@ -20,35 +28,25 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static toolkit.verification.CustomAssertions.assertThat;
-
 /**
  * @author Sushil Sivaram
- * @name Test Create SS Home Policy
- * @scenario 1. Create new or open existed customer.
- * 2. Initiate HSS quote creation.
- * 3. Fill all mandatory fields on all tabs, order reports, calculate premium.
- * 4. Purchase policy.
- * 5. Verify policy status is Active on Consolidated policy view.
- * 6. Run iso batch recieve job at R-63
- * 7. Move policy to first renewal
- * 8. Assert Fireline and PPC reports are not ordered at renewal batch
- * 9. Run iso batch recieve job at 2R-63
- * 10. move policy to second renewal
- * 11.Assert Fireline is not ordered
- * @details
+ * <b> Test Create SS Home Policy </b>
+ * <p> Steps: 1. Create new or open existed customer.
+ * <p> 2. Initiate HSS quote creation.
+ * <p> 3. Fill all mandatory fields on all tabs, order reports, calculate premium.
+ * <p> 4. Purchase policy.
+ * <p> 5. Verify policy status is Active on Consolidated policy view.
+ * <p> 6. Run iso batch recieve job at R-63
+ * <p> 7. Move policy to first renewal
+ * <p> 8. Assert Fireline and PPC reports are not ordered at renewal batch
+ * <p> 9. Run iso batch recieve job at 2R-63
+ * <p> 10. move policy to second renewal
+ * <p> 11.Assert Fireline is not ordered
+ *
  */
 public class TestPolicyFirelineReportsOnRenewal extends HomeSSHO3BaseTest {
 

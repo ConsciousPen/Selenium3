@@ -6,8 +6,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -26,15 +26,15 @@ import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author Jelena Dembovska
- * @name Test Endorsement for Auto Policy with removal
- * @scenario
- * 1. initiate endorsement
- * 2. remove second named insured
- * 3. driver tab is opened, driver which is related to removed insured is removed automatically
- * 4. go to Vehicle tab, remove second vehicle
- * 5. fill all mandatory fields required to bind
- * 6. check drivers and vehicles are removed
- * @details
+ * <b> Test Endorsement for Auto Policy with removal </b>
+ * <p> Steps:
+ * <p> 1. initiate endorsement
+ * <p> 2. remove second named insured
+ * <p> 3. driver tab is opened, driver which is related to removed insured is removed automatically
+ * <p> 4. go to Vehicle tab, remove second vehicle
+ * <p> 5. fill all mandatory fields required to bind
+ * <p> 6. check drivers and vehicles are removed
+ *
  */
 public class TestPolicyEndorsementRemove extends AutoCaSelectBaseTest {
 

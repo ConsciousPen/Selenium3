@@ -30,135 +30,135 @@ import toolkit.webdriver.controls.TextBox;
 
 /**
  * @author Ryan Yu
- * Objectives : Validate BI/PD/CSL limits.
- * <pre>
- * TC Steps:
- * 1. Create new or open existent Customer;
- * 2. Initiate Pup quote creation.
- * 3. Fill Prefill and General tabs, 
- * 4. Navigate to Underlying Risks tab - > Auto,
- * 
- * 5. Verify a limit for single type coverage for Automobile
- *        Add Automobile.
- *        Fill all mandatory fields.
- *        Set "Coverage Type" to "Single"
- *        Set wrong value for "Combined Single Limit"
- *        Press "Add" button.
- *        Check error message appears.
- *        Set right value for "Combined Single Limit"
- *        Press "Add" button.
- *        Check that vehicle was added (remove it)
- *        
- * 6. Verify a limit for single type coverage for Motorcycle
- *        Add Motorcycle.
- *        Fill all mandatory fields.
- *        Set "Coverage Type" to "Single"
- *        Set wrong value for "Combined Single Limit"
- *        Press "Add" button.
- *        Check error message appears.
- *        Set right value for "Combined Single Limit"
- *        Press "Add" button.
- *        Check that vehicle was added (remove it)
- *        
- * 7. Verify a limit for single type coverage for MotorHome
- *        Add MotorHome.
- *        Fill all mandatory fields.
- *        Set "Coverage Type" to "Single"
- *        Set wrong value for "Combined Single Limit"
- *        Press "Add" button.
- *        Check error message appears.
- *        Set right value for "Combined Single Limit"
- *        Press "Add" button.
- *        Check that vehicle was added (remove it) 
- *        
- * 8. Verify a limit for single type coverage for Recreational vehicle
- *        Navigate to Underlying Risks tab - > Other Vehicles,
- *        Add Recreational vehicle.
- *        Fill all mandatory fields.
- *        Set "Coverage Type" to "Single"
- *        Set wrong value for "Combined Single Limit"
- *        Press "Add" button.
- *        Check error message appears.
- *        Set right value for "Combined Single Limit"
- *        Press "Add" button.
- *        Check that vehicle was added (remove it) 
+ * <p> Objectives : Validate BI/PD/CSL limits.
+ * <p> <pre>
+ * <p> TC Steps:
+ * <p> 1. Create new or open existent Customer;
+ * <p> 2. Initiate Pup quote creation.
+ * <p> 3. Fill Prefill and General tabs,
+ * <p> 4. Navigate to Underlying Risks tab - > Auto,
+ * <p>
+ * <p> 5. Verify a limit for single type coverage for Automobile
+ * <p>        Add Automobile.
+ * <p>        Fill all mandatory fields.
+ * <p>        Set "Coverage Type" to "Single"
+ * <p>        Set wrong value for "Combined Single Limit"
+ * <p>        Press "Add" button.
+ * <p>        Check error message appears.
+ * <p>        Set right value for "Combined Single Limit"
+ * <p>        Press "Add" button.
+ * <p>        Check that vehicle was added (remove it)
+ * <p>
+ * <p> 6. Verify a limit for single type coverage for Motorcycle
+ * <p>        Add Motorcycle.
+ * <p>        Fill all mandatory fields.
+ * <p>        Set "Coverage Type" to "Single"
+ * <p>        Set wrong value for "Combined Single Limit"
+ * <p>        Press "Add" button.
+ * <p>        Check error message appears.
+ * <p>        Set right value for "Combined Single Limit"
+ * <p>        Press "Add" button.
+ * <p>        Check that vehicle was added (remove it)
+ * <p>
+ * <p> 7. Verify a limit for single type coverage for MotorHome
+ * <p>        Add MotorHome.
+ * <p>        Fill all mandatory fields.
+ * <p>        Set "Coverage Type" to "Single"
+ * <p>        Set wrong value for "Combined Single Limit"
+ * <p>        Press "Add" button.
+ * <p>        Check error message appears.
+ * <p>        Set right value for "Combined Single Limit"
+ * <p>        Press "Add" button.
+ * <p>        Check that vehicle was added (remove it)
+ * <p>
+ * <p> 8. Verify a limit for single type coverage for Recreational vehicle
+ * <p>        Navigate to Underlying Risks tab - > Other Vehicles,
+ * <p>        Add Recreational vehicle.
+ * <p>        Fill all mandatory fields.
+ * <p>        Set "Coverage Type" to "Single"
+ * <p>        Set wrong value for "Combined Single Limit"
+ * <p>        Press "Add" button.
+ * <p>        Check error message appears.
+ * <p>        Set right value for "Combined Single Limit"
+ * <p>        Press "Add" button.
+ * <p>        Check that vehicle was added (remove it)
  *
- * 9. Verify a coverage limits for split type coverage for Automobile
- *        Add Automobile.
- *        Fill all mandatory fields.
- *        Set "Coverage Type" to "Split"
- *        Set wrong value for "First BI Limit" all the rest limits set with correct values
- *        Press "Add" button.
- *        Check error message appears.
- *        Set wrong value for "Second BI Limit" all the rest limits set with correct values
- *        Press "Add" button.
- *        Check error message appears.
- *        Set wrong value for "PD Limit" all the rest limits set with correct values
- *        Press "Add" button.
- *        Check error message appears.
- *        Set correct values for all limits
- *        Press "Add" button.
- *        Check that vehicle was added (remove it)
- *        
- * 10. Verify a coverage limits for split type coverage for Motorcycle
- *        Add Motorcycle.
- *        Fill all mandatory fields.
- *        Set "Coverage Type" to "Split"
- *        Set wrong value for "First BI Limit" all the rest limits set with correct values
- *        Press "Add" button.
- *        Check error message appears.
- *        Set wrong value for "Second BI Limit" all the rest limits set with correct values
- *        Press "Add" button.
- *        Check error message appears.
- *        Set wrong value for "PD Limit" all the rest limits set with correct values
- *        Press "Add" button.
- *        Check error message appears.
- *        Set correct values for all limits
- *        Press "Add" button.
- *        Check that vehicle was added (remove it)
- *        
- * 11. Verify a coverage limits for split type coverage for Motorhome
- *        Add Motorhome.
- *        Fill all mandatory fields.
- *        Set "Coverage Type" to "Split"
- *        Set wrong value for "First BI Limit" all the rest limits set with correct values
- *        Press "Add" button.
- *        Check error message appears.
- *        Set wrong value for "Second BI Limit" all the rest limits set with correct values
- *        Press "Add" button.
- *        Check error message appears.
- *        Set wrong value for "PD Limit" all the rest limits set with correct values
- *        Press "Add" button.
- *        Check error message appears.
- *        Set correct values for all limits
- *        Press "Add" button.
- *        Check that vehicle was added (remove it) 
- *        
- * 12. Verify a coverage limits for split type coverage for Recreational vehicle
- *        Navigate to Underlying Risks tab - > Other Vehicles
- *        Add Recreational vehicle.
- *        Fill all mandatory fields.
- *        Set "Coverage Type" to "Split"
- *        Set wrong value for "First BI Limit" all the rest limits set with correct values
- *        Press "Add" button.
- *        Check error message appears.
- *        Set wrong value for "Second BI Limit" all the rest limits set with correct values
- *        Press "Add" button.
- *        Check error message appears.
- *        Set wrong value for "PD Limit" all the rest limits set with correct values
- *        Press "Add" button.
- *        Check error message appears.
- *        Set correct values for all limits
- *        Press "Add" button.
- *        Check that vehicle was added (remove it)       
- *       
- *  // Stories
- *  14337 - US : PUP: Validate BI/PD/CSL limits.
- *  18256:US CA PUP Capture Motorcycle Information
- *  18251:US CA PUP Capture Motorhome Information
- *  18337:US CA PUP-Capture Recreational Vehicles (Off-road) Information
- *  21644:US CA PUP Capture Private Passenger auto Information v2.0
- * </pre>
+ * <p> 9. Verify a coverage limits for split type coverage for Automobile
+ * <p>        Add Automobile.
+ * <p>        Fill all mandatory fields.
+ * <p>        Set "Coverage Type" to "Split"
+ * <p>        Set wrong value for "First BI Limit" all the rest limits set with correct values
+ * <p>        Press "Add" button.
+ * <p>        Check error message appears.
+ * <p>        Set wrong value for "Second BI Limit" all the rest limits set with correct values
+ * <p>        Press "Add" button.
+ * <p>        Check error message appears.
+ * <p>        Set wrong value for "PD Limit" all the rest limits set with correct values
+ * <p>        Press "Add" button.
+ * <p>        Check error message appears.
+ * <p>        Set correct values for all limits
+ * <p>        Press "Add" button.
+ * <p>        Check that vehicle was added (remove it)
+ * <p>
+ * <p> 10. Verify a coverage limits for split type coverage for Motorcycle
+ * <p>        Add Motorcycle.
+ * <p>        Fill all mandatory fields.
+ * <p>        Set "Coverage Type" to "Split"
+ * <p>        Set wrong value for "First BI Limit" all the rest limits set with correct values
+ * <p>        Press "Add" button.
+ * <p>        Check error message appears.
+ * <p>        Set wrong value for "Second BI Limit" all the rest limits set with correct values
+ * <p>        Press "Add" button.
+ * <p>        Check error message appears.
+ * <p>        Set wrong value for "PD Limit" all the rest limits set with correct values
+ * <p>        Press "Add" button.
+ * <p>        Check error message appears.
+ * <p>        Set correct values for all limits
+ * <p>        Press "Add" button.
+ * <p>        Check that vehicle was added (remove it)
+ * <p>
+ * <p> 11. Verify a coverage limits for split type coverage for Motorhome
+ * <p>        Add Motorhome.
+ * <p>        Fill all mandatory fields.
+ * <p>        Set "Coverage Type" to "Split"
+ * <p>        Set wrong value for "First BI Limit" all the rest limits set with correct values
+ * <p>        Press "Add" button.
+ * <p>        Check error message appears.
+ * <p>        Set wrong value for "Second BI Limit" all the rest limits set with correct values
+ * <p>        Press "Add" button.
+ * <p>        Check error message appears.
+ * <p>        Set wrong value for "PD Limit" all the rest limits set with correct values
+ * <p>        Press "Add" button.
+ * <p>        Check error message appears.
+ * <p>        Set correct values for all limits
+ * <p>        Press "Add" button.
+ * <p>        Check that vehicle was added (remove it)
+ * <p>
+ * <p> 12. Verify a coverage limits for split type coverage for Recreational vehicle
+ * <p>        Navigate to Underlying Risks tab - > Other Vehicles
+ * <p>        Add Recreational vehicle.
+ * <p>        Fill all mandatory fields.
+ * <p>        Set "Coverage Type" to "Split"
+ * <p>        Set wrong value for "First BI Limit" all the rest limits set with correct values
+ * <p>        Press "Add" button.
+ * <p>        Check error message appears.
+ * <p>        Set wrong value for "Second BI Limit" all the rest limits set with correct values
+ * <p>        Press "Add" button.
+ * <p>        Check error message appears.
+ * <p>        Set wrong value for "PD Limit" all the rest limits set with correct values
+ * <p>        Press "Add" button.
+ * <p>        Check error message appears.
+ * <p>        Set correct values for all limits
+ * <p>        Press "Add" button.
+ * <p>        Check that vehicle was added (remove it)
+ * <p>
+ * <p>  // Stories
+ * <p>  14337 - US : PUP: Validate BI/PD/CSL limits.
+ * <p>  18256:US CA PUP Capture Motorcycle Information
+ * <p>  18251:US CA PUP Capture Motorhome Information
+ * <p>  18337:US CA PUP-Capture Recreational Vehicles (Off-road) Information
+ * <p>  21644:US CA PUP Capture Private Passenger auto Information v2.0
+ * <p> </pre>
  **/
 public class TestCoverLimitsValidation  extends PersonalUmbrellaBaseTest {
 	private PrefillTab prefillTab = policy.getDefaultView().getTab(PrefillTab.class);

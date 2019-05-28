@@ -1,24 +1,22 @@
 package aaa.modules.regression.service.auto_ss;
 
-
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.template.PolicyCancelReinstate;
 import aaa.utils.StateList;
-
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 /**
  * @author amitjukovs
- * @name Test Cancellation flat and Reinstate Auto SS Policy
- * @scenario
- * see parent class
- * @details
+ * <b> Test Cancellation flat and Reinstate Auto SS Policy </b>
+ * <p> Steps:
+ * <p> see parent class
+ *
  */
 public class TestPolicyCancelReinstate extends PolicyCancelReinstate {
 
@@ -32,8 +30,8 @@ public class TestPolicyCancelReinstate extends PolicyCancelReinstate {
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
     public void testPolicyCancelReinstate(@Optional("") String state) {
-        
-    	super.testPolicyCancelReinstate();
+
+		testPolicyCancelReinstate();
         
     }
 }

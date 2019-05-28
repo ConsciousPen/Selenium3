@@ -6,7 +6,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -20,13 +19,13 @@ import toolkit.utils.datetime.DateTimeUtils;
 
 /**
  * @author Xiaolan Ge
- * @name Test Backdated Auto CA Select policy creation
- * @scenario
- * 1. Create Customer
- * 2. Create Backdated Auto CA Select policy
- * 3. Verify Policy status is 'Policy Active'
- * 4. Verify Policy is backdated
- * @details
+ * <b> Test Backdated Auto CA Select policy creation </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create Backdated Auto CA Select policy
+ * <p> 3. Verify Policy status is 'Policy Active'
+ * <p> 4. Verify Policy is backdated
+ *
  */
 public class TestPolicyBackdated extends AutoCaSelectBaseTest {
 

@@ -1,25 +1,25 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 /**
  * @author Dmitry Kozakevich
- * @name Test Create and Copy HomeCA Quote
- * @scenario
- * 1. Create Customer
- * 2. Create HomeCA Quote
- * 3. Verify Quote exist and had "Premium Calculated" status
- * 4. Copy Quote
- * 5. Verify that status of the copied Quote is "Gathering Info"
+ * <b> Test Create and Copy HomeCA Quote </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create HomeCA Quote
+ * <p> 3. Verify Quote exist and had "Premium Calculated" status
+ * <p> 4. Copy Quote
+ * <p> 5. Verify that status of the copied Quote is "Gathering Info"
  */
 public class TestCreateAndCopyQuote extends HomeCaHO3BaseTest {
 

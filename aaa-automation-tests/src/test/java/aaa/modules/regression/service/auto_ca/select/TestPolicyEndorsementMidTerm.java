@@ -2,18 +2,16 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ca.select;
 
-import aaa.common.enums.Constants.States;
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
-import aaa.modules.regression.service.template.PolicyEndorsementMidTerm;
-import aaa.utils.StateList;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
+import aaa.common.enums.Constants.States;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.policy.AutoCaSelectBaseTest;
+import aaa.modules.regression.service.template.PolicyEndorsementMidTerm;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -22,12 +20,12 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Xiaolan Ge
- * @name Test Midterm Endorsement for Auto Policy
- * @scenario
- * 1. Create customer
- * 2. Create backdated policy
- * 3. Endorse policy with current date
- * @details
+ * <b> Test Midterm Endorsement for Auto Policy </b>
+ * <p> Steps:
+ * <p> 1. Create customer
+ * <p> 2. Create backdated policy
+ * <p> 3. Endorse policy with current date
+ *
  */
 public class TestPolicyEndorsementMidTerm extends PolicyEndorsementMidTerm {
 
@@ -46,6 +44,6 @@ public class TestPolicyEndorsementMidTerm extends PolicyEndorsementMidTerm {
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT)
 	public void testPolicyEndorsementMidTerm(@Optional("CA") String state) {
-		super.testPolicyEndorsementMidTerm();
+		testPolicyEndorsementMidTerm();
 	}
 }

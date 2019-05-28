@@ -2,31 +2,29 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss;
 
-import aaa.common.enums.Constants.States;
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
-import aaa.modules.policy.AutoSSBaseTest;
-import aaa.modules.regression.service.template.PolicyRenewFlatCancellation;
-import aaa.utils.StateList;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
+import aaa.common.enums.Constants.States;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
+import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.regression.service.template.PolicyRenewFlatCancellation;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 /**
  * @author Yonggang Sun
- * @name Test renew flat cancellation for Auto Policy
- * @scenario
- * 1. Create Customer
- * 2. Create Auto (AAA) Policy
- * 3. Manual Renew for Policy
- * 4. Cancellation Policy Renewal
- * 5. Verify Policy status is 'Cancellation Pending'
- * @details
+ * <b> Test renew flat cancellation for Auto Policy </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create Auto (AAA) Policy
+ * <p> 3. Manual Renew for Policy
+ * <p> 4. Cancellation Policy Renewal
+ * <p> 5. Verify Policy status is 'Cancellation Pending'
+ *
  */
 public class TestPolicyRenewFlatCancellation extends PolicyRenewFlatCancellation {
 
@@ -43,6 +41,6 @@ public class TestPolicyRenewFlatCancellation extends PolicyRenewFlatCancellation
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS )
     public void testPolicyRenewFlatCancellation(@Optional("") String state) {
-        super.testPolicyRenewFlatCancellation();
+		testPolicyRenewFlatCancellation();
     }
 }

@@ -23,15 +23,15 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Ryan Yu
- * @name Test Quote Prefill
- * @scenario
- * 1. Create new or open existent Customer.
- * 2. Start PUP quote creation.
- * 6. Click Add AAA Policy button. Enter wrong search criteria. Click Search button. Verify no results message.
- * 7. Input correct request to get data from stub(HO3 and Auto policies). Click found policies links. Verify Found policies are added to AAA policies table.
- * 8. Fill other tabs for bind quote. Bind quote. Verify policy status is Active.
- * 9. Precondition. Should be at least one existed PUP Policy with known First Name/Last Name/Zip code combintion. Go to advanced search. Search for existent Policy, by First, Second Name and Zip code combination of the primary insurade person
- * @details
+ * <b> Test Quote Prefill </b>
+ * <p> Steps:
+ * <p> 1. Create new or open existent Customer.
+ * <p> 2. Start PUP quote creation.
+ * <p> 6. Click Add AAA Policy button. Enter wrong search criteria. Click Search button. Verify no results message.
+ * <p> 7. Input correct request to get data from stub(HO3 and Auto policies). Click found policies links. Verify Found policies are added to AAA policies table.
+ * <p> 8. Fill other tabs for bind quote. Bind quote. Verify policy status is Active.
+ * <p> 9. Precondition. Should be at least one existed PUP Policy with known First Name/Last Name/Zip code combintion. Go to advanced search. Search for existent Policy, by First, Second Name and Zip code combination of the primary insurade person
+ *
  */
 public class TestQuotePrefill extends PersonalUmbrellaBaseTest {
 	private PrefillTab prefillTab = policy.getDefaultView().getTab(PrefillTab.class);

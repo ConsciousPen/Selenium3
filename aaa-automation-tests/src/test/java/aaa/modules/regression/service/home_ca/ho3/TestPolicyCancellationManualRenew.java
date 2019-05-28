@@ -40,20 +40,20 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author tsaltsevich
- * @name TestPolicyCancellationManualRenew ("CL-CP-101")
+ * <b> TestPolicyCancellationManualRenew ("CL-CP-101") </b>
  *
- * Test Case Description:
- * 1. Generate Cancellation Notice due to Nonpayment of Premium on the state specific number of days after bill due date (Cancellation Notice generation date)
- * 2. Generate Lapse Notice upon cancellation effective for nonpayment and policy Is eligible for reinstatement
- * 3. Generate Cancellation Notice Withdrawn when payment is sufficient (on a Non-Payment Cancel) to lift pending cancel status
- * 4. Process Renewal when DNR is removed
- * 5. Set DNR at Renewal (Current policy is expiring in next R-X (Renewal
- *  Image Creation for authorized users) to R-X (Last Day of DNR
- *  setting) days"
- * 6. Generate Non-Renewal letter via central print (Underwriting NonRenewal Letter HSU07XX)
- * 7. Generate Non-Renewal Notice XX days prior to the Renewal Effective Date if the policy is set for non-renewal
- * 8. DNR has been set on the policy any time prior to R-X (Last Day of DNR setting)
- * 9. Authorized User wants to manually renew the policy without lapse when the status on the Renewal Image is Proposed i,e, from R+0 to R+15.
+ * <p> Test Case Description:
+ * <p> 1. Generate Cancellation Notice due to Nonpayment of Premium on the state specific number of days after bill due date (Cancellation Notice generation date)
+ * <p> 2. Generate Lapse Notice upon cancellation effective for nonpayment and policy Is eligible for reinstatement
+ * <p> 3. Generate Cancellation Notice Withdrawn when payment is sufficient (on a Non-Payment Cancel) to lift pending cancel status
+ * <p> 4. Process Renewal when DNR is removed
+ * <p> 5. Set DNR at Renewal (Current policy is expiring in next R-X (Renewal
+ * <p>  Image Creation for authorized users) to R-X (Last Day of DNR
+ * <p>  setting) days"
+ * <p> 6. Generate Non-Renewal letter via central print (Underwriting NonRenewal Letter HSU07XX)
+ * <p> 7. Generate Non-Renewal Notice XX days prior to the Renewal Effective Date if the policy is set for non-renewal
+ * <p> 8. DNR has been set on the policy any time prior to R-X (Last Day of DNR setting)
+ * <p> 9. Authorized User wants to manually renew the policy without lapse when the status on the Renewal Image is Proposed i,e, from R+0 to R+15.
  *
  **/
 

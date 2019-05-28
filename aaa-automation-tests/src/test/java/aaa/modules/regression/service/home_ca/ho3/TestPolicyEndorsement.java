@@ -3,11 +3,9 @@
 package aaa.modules.regression.service.home_ca.ho3;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.Constants.UserGroups;
 import aaa.common.pages.MainPage;
@@ -25,16 +23,16 @@ import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author Olga Reva
- * @name Test CA Home Policy Endorsement
- * @scenario
- * 1. Create new or open existed customer.
- * 2. Find CAH quote or create new if quote does not exist.
- * 3. Perform Endorsement action.
- * 4. Add Named Insured, fill sections: Mailing Address, Recreational Equipment, Detached Structures.
- * 5. Calculate premium.
- * 6. Bind endorsement. 
- * 7. Check that endorsement was added.
- * @details
+ * <b> Test CA Home Policy Endorsement </b>
+ * <p> Steps:
+ * <p> 1. Create new or open existed customer.
+ * <p> 2. Find CAH quote or create new if quote does not exist.
+ * <p> 3. Perform Endorsement action.
+ * <p> 4. Add Named Insured, fill sections: Mailing Address, Recreational Equipment, Detached Structures.
+ * <p> 5. Calculate premium.
+ * <p> 6. Bind endorsement.
+ * <p> 7. Check that endorsement was added.
+ *
  */
 public class TestPolicyEndorsement extends HomeCaHO3BaseTest {
 

@@ -26,16 +26,16 @@ import toolkit.utils.TestInfo;
 public class TestCAFairPlanSignature extends HomeCaHO3BaseTest {
     /**
      * @author Robert Boles
-     * @name Test CA FAIR Plan Signature - PAS-13239 (AC#1_2_HO3)
-     * @scenario 1. Create new Customer;
-     * 2. Initiate CAH quote creation, set effective date to today, set Policy Form=HO3;
-     * 3. Fill all mandatory fields;
-     * 4. Calculate premium without FAIR Plan Endorsement;
-     * 5. Add FAIR Plan Companion endorsement;
-     * 6. Navigate to Documents tab;
-     * 7. Validate that for the FPCECA endorsement, 'Not Signed' is defaulted;
-     * 8. Validate that when no signature provided, the user is prevented from binding
-     * @details
+	 * <b> Test CA FAIR Plan Signature - PAS-13239 (AC#1_2_HO3) </b>
+	 * <p> Steps: 1. Create new Customer;
+	 * <p> 2. Initiate CAH quote creation, set effective date to today, set Policy Form=HO3;
+	 * <p> 3. Fill all mandatory fields;
+	 * <p> 4. Calculate premium without FAIR Plan Endorsement;
+	 * <p> 5. Add FAIR Plan Companion endorsement;
+	 * <p> 6. Navigate to Documents tab;
+	 * <p> 7. Validate that for the FPCECA endorsement, 'Not Signed' is defaulted;
+	 * <p> 8. Validate that when no signature provided, the user is prevented from binding
+	 *
      */
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "PAS-13239 18.5: CA FAIR Plan: Signature required to bind HO3")
