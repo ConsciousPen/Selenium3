@@ -70,7 +70,7 @@ public class PasDoc_OnlineBatch_Reinstatement extends AutoSSBaseTest {
 	 * <p>  Steps:
 	 * <p>  Create policy  with AutoPay
 	 * <p>  Cancel policy
-	 * <p>  Reinstatement policy
+	 * <p>  Reinstatement policy with lapse
 	 * <p>  Verify document - AH35XX(true)
 	 *
 	 * @author Denis Semenov
@@ -88,9 +88,9 @@ public class PasDoc_OnlineBatch_Reinstatement extends AutoSSBaseTest {
 		String policyNumber = createPolicy(tdAutoPay);
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
+		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData_Plus10Days"));
 
-		PasDocImpl.verifyDocumentsGenerated(null, true, false, policyNumber, DocGenEnum.EventName.POLICY_ISSUE, AH35XX);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policyNumber, DocGenEnum.EventName.REINSTATEMENT, AH35XX);
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class PasDoc_OnlineBatch_Reinstatement extends AutoSSBaseTest {
 	 * <p>  Steps:
 	 * <p>  Create policy without AutoPay
 	 * <p>  Cancel policy
-	 * <p>  Reinstatement policy
+	 * <p>  Reinstatement policy with lapse
 	 * <p>  Verify document - AH35XX(false)
 	 *
 	 * @author Denis Semenov
@@ -115,8 +115,8 @@ public class PasDoc_OnlineBatch_Reinstatement extends AutoSSBaseTest {
 		String policyNumber = createPolicy();
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
+		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData_Plus10Days"));
 
-		PasDocImpl.verifyDocumentsGenerated(null, false, false, policyNumber, DocGenEnum.EventName.POLICY_ISSUE, AH35XX);
+		PasDocImpl.verifyDocumentsGenerated(null, false, false, policyNumber, DocGenEnum.EventName.REINSTATEMENT, AH35XX);
 	}
 }
