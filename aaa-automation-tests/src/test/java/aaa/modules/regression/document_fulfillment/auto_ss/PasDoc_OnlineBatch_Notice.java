@@ -2,6 +2,7 @@ package aaa.modules.regression.document_fulfillment.auto_ss;
 
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -17,6 +18,7 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.docgen.impl.PasDocImpl;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.BillingConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
@@ -174,7 +176,6 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(installmentDueDates.get(1)));
 		declinePayment(policyNum, 1, "TestData_FeeRestriction");
 		PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5000);
-
 	}
 
 	/**
@@ -295,7 +296,13 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 		}
 		List<LocalDateTime> installmentDueDates = BillingHelper.getInstallmentDueDates();
 		String amount = "(" + BillingHelper.getBillDueAmount(installmentDueDates.get(dueDate), "Bill") + ")";
-		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", declineReason), amount);
+		HashMap<String, String> map = new HashMap<>();
+		map.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, installmentDueDates.get(dueDate).toString());
+		map.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PAYMENT);
+		map.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RECURRING_PAYMENT);
+		map.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.STATUS, BillingConstants.PaymentsAndOtherTransactionStatus.ISSUED);
+		map.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT, "(" + amount + ")");
+		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", declineReason), map);
 	}
 
 	private void verifyPaymentDeclined(String amount) {
