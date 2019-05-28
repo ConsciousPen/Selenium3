@@ -192,6 +192,7 @@ public final class DocGenEnum {
 		AHRCTXX("Insured Receipt For Funds Received By Agent"),
 		AHRCTXXAUTO("AHRCTXX", "Insured Receipt for Funds"),
 		AHRCTXXPUP("AHRCTXX", "Insured Receipt for Funds Received by Agent"),
+		AHRRXX("AHRRXX"),
 		AHTPC("Third Party Designee Cover Page"),
 		AHTPCCA(""),
 		AHMVCNV("Membership Validation Letter"),
@@ -558,6 +559,7 @@ public final class DocGenEnum {
 		APPLY_BILLING_TRANSACTION("APPLY_BILLING_TRANSACTION"), 
 		PAYMENT("PAYMENT"), 
 		RENEWAL_OFFER("RENEWAL_OFFER"),
+		RENEWAL_ISSUE("RENEWAL_ISSUE"),
 		RENEWAL_BILL("RENEWAL_BILL");
 
 		private String id;

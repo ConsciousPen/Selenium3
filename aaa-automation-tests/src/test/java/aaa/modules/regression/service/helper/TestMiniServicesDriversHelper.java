@@ -24,6 +24,7 @@ import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.BooleanUtils;
+
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.ETCSCoreSoftAssertions;
@@ -43,7 +44,6 @@ import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.MIDDLE_NAME;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import static toolkit.webdriver.controls.composite.assets.metadata.MetaData.getAssets;
-
 public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	protected static final List<String> MARRIED_STATUSES = ImmutableList.of("Married", "Registered Domestic Partner",
 			"Civil Union", "Common Law", "Registered Domestic Partner/Civil Union");
@@ -58,7 +58,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	protected static final String DRIVER_FIRST_NAME_INSURED = "FNI";
 	protected static final String DRIVER_NAME_INSURED = "NI";
 	protected static final String DRIVER_STATUS_ACTIVE = "active";
-
 	private DriverTab driverTab = new DriverTab();
 	private aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab driverTabCA = new aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab();
 	private FormsTab formsTab = new FormsTab();
