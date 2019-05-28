@@ -1,32 +1,5 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static aaa.common.pages.SearchPage.tableSearchResults;
-import static aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.*;
-import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
-import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Files.contentOf;
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.BooleanUtils;
-import org.testng.annotations.BeforeTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.PrivilegeEnum;
 import aaa.common.pages.NavigationPage;
@@ -44,9 +17,13 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
-import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableMap;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.BooleanUtils;
+import org.testng.annotations.BeforeTest;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -55,6 +32,30 @@ import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
+
+import javax.annotation.Nonnull;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static aaa.common.pages.SearchPage.tableSearchResults;
+import static aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.*;
+import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
+import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Files.contentOf;
 
 /**
  * This template is used to test Batch Claim Logic.
@@ -79,15 +80,17 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     private static final String CLAIMS_URL = "https://claims-assignment-master.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1"; //Post-Permissive Use
     public static final String SQL_REMOVE_RENEWALCLAIMRECEIVEASYNCJOB_BATCH_JOB_CONTROL_ENTRY = "DELETE FROM BATCH_JOB_CONTROL_ENTRY WHERE jobname='renewalClaimReceiveAsyncJob'";
     public static final String CLAIMS_MICROSERVICE_ENDPOINT = "select * from PROPERTYCONFIGURERENTITY where propertyname = 'aaaClaimsMicroService.microServiceUrl'";
+
     protected TestData adjusted;
     protected LocalDateTime policyExpirationDate;
     protected LocalDateTime policyEffectiveDate;
     protected String policyNumber;
+
     protected static DriverTab driverTab = new DriverTab();
     protected static GeneralTab generalTab = new GeneralTab();
     protected static PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-    protected static AssignmentTab assignmentTab = new AssignmentTab();
     protected static DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+    protected static AssignmentTab assignmentTab = new AssignmentTab();
     protected static PurchaseTab purchaseTab = new PurchaseTab();
     protected static ErrorTab errorTab = new ErrorTab();
     protected static DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
@@ -114,8 +117,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     private static final String PU_CLAIMS_DEFAULTING_2ND_DATA_MODEL = "pu_claims_defaulting_2nd_data_model.yaml"; //TODO: will be used after PAS-26322
     protected boolean updatePUFlag = false;
     protected boolean secondDriverFlag = false;
-    protected boolean MDD = true;
     protected boolean newBusinessFlag = false;
+    protected boolean MDD = true;
 
     @BeforeTest
     public void prepare() {
@@ -341,7 +344,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         documentsAndBindTab.submitTab();
 
-        new PurchaseTab().fillTab(adjusted).submitTab();
+        purchaseTab.fillTab(adjusted).submitTab();
         policyNumber = PolicySummaryPage.getPolicyNumber();
         log.info("Policy created successfully. Policy number is " + policyNumber);
         mainApp().close();
@@ -980,7 +983,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         premiumAndCoveragesTab.submitTab();
         overrideErrorTab();
         policy.getDefaultView().fillFromTo(adjusted, DriverActivityReportsTab.class, PurchaseTab.class, true);
-        new PurchaseTab().submitTab();
+        purchaseTab.submitTab();
         policyNumber = labelPolicyNumber.getValue();
         log.info("Policy created successfully. Policy number is " + policyNumber);
         mainApp().close();
@@ -1249,9 +1252,10 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, PremiumAndCoveragesTab.class, true);
         premiumAndCoveragesTab.submitTab();
         overrideErrorTab();
+
         //Continue to bind the policy and save the policy number
         policy.getDefaultView().fillFromTo(adjusted, DriverActivityReportsTab.class, PurchaseTab.class, true);
-        new PurchaseTab().submitTab();
+        purchaseTab.submitTab();
         policyNumber = labelPolicyNumber.getValue();
         log.info("Policy created successfully. Policy number is " + policyNumber);
 
@@ -1335,6 +1339,100 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     }
 
     /**
+     * Method for CA Choice & Select: Assert the UW rules are triggered and set the PU flag as Yes in the Driver tab
+     */
+    private void updateUWPUFlag() {
+        int i = 1, j = 4;
+
+        if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+            errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_CAC7161836_CA_CHOICE);
+        } else {
+            j = 3;
+            errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_10015021_CA_SELECT);
+            errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_10015015_CA_SELECT);
+        }
+        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_10015023_CA_SELECT_CHOICE);
+        errorTab.cancel();
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        tableDriverList.selectRow(1);
+        while (i <= j) {
+            tableActivityInformationList.selectRow(i);
+            activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).setValue("Yes");
+            i++;
+        }
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.submitTab();
+    }
+
+    /**
+     * Method/Test for CA Choice & Select: PROD ELIGIBILITY: update uw rule so PU YES claims not counted (10015015 - select) (common code, fix all 4)
+     */
+    public void pas27908_UpdateUWRulesWithPUFlag() {
+        //Create a quote with 2 named insured and one driver and order the reports in DAR page
+        TestData testDataForUWrules = getTestSpecificTD("TestData_DriverTab_UpdateUWRules_PU").resolveLinks();
+        adjusted = getPolicyTD().adjust(testDataForUWrules);
+        createQuoteAndFillUpTo(adjusted, DriverActivityReportsTab.class);
+
+        //Add activities to the driver
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        TestData tdActivityUWRules = getTestSpecificTD("TestData_Activity_UWRules");
+        driverTab.fillTab(tdActivityUWRules);
+
+        TestData tdActivityUWRulesAdjusted = tdActivityUWRules
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT.getLabel()))
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        policy.getDefaultView().fillFromTo(tdActivityUWRulesAdjusted, PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
+        documentsAndBindTab.submitTab();
+        //Assertion to verify the rules are triggered and go back to driver tab to set the PU flag as YES for claims
+        updateUWPUFlag();
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+        documentsAndBindTab.submitTab(); // Verified the rules are not triggered and proceed to create a policy
+
+        purchaseTab.fillTab(adjusted).submitTab();
+        policyNumber = labelPolicyNumber.getValue();
+
+       //Initiate Endorsement
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        //Change the FNI to second named insured
+        generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(1);
+        Page.dialogConfirmation.confirm();
+        generalTab.viewInsured(2);
+        generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue("6025557777");
+        generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
+        generalTab.submitTab();
+        //Add the second driver for the named insured
+        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        policy.getDefaultView().fillUpTo(getTestSpecificTD("Add_Driver2_EndorsementUWRules"), DriverTab.class, true);
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.submitTab();
+        driverActivityReportsTab.fillTab(getTestSpecificTD("Add_Driver2_EndorsementUWRules"));
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        tableDriverList.selectRow(1);
+        driverTab.fillTab(getTestSpecificTD("DriverTab_EndorsementActivity_UWRules"));
+
+        bindEndorsement();
+        //Assertion to verify the rules are triggered and go back to driver tab to set the PU flag as YES for claims
+        updateUWPUFlag();
+
+        TestData maskedDriverActivityTd = getPolicyTD()
+                .adjust(getTestSpecificTD("Add_Driver2_EndorsementUWRules"))
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
+        driverActivityReportsTab.fillTab(maskedDriverActivityTd);
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+        documentsAndBindTab.submitTab(); // Verified the rules are not triggered and proceed to bind the endorsement
+    }
+    /**
      * @author Saranya Hariharan
      * PAS-27226- CA Mature Driver Discount doesn't work according to rules
      * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added
@@ -1373,7 +1471,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         tableDriverList.selectRow(2);
         driverTab.fillTab(td_activity);
-        // Assert that Mature Driver Discount does not exist.
+        //Assert that Mature Driver Discount does not exist.
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount (Tom Johns)");
         //Calculate Premium and create policy
@@ -1415,9 +1513,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
             errorTab.overrideAllErrors();
             errorTab.buttonOverride.click();
             documentsAndBindTab.submitTab();
-        }
-    }
+        } }
 }
-
-
 

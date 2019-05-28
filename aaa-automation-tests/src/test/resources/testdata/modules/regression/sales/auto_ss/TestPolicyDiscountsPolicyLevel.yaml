@@ -108,7 +108,7 @@ VehicleTab: {
 FormsTab: {}
 
 PremiumAndCoveragesTab: {
-  Payment Plan: 'Monthly'
+  #Payment Plan: 'Monthly'
 }
 
 DriverActivityReportsTab: {

@@ -36,7 +36,7 @@ public class PreDeployConfigUpdate implements EvalueInsertSetupPreConditions {
 			DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/" + PropertyProvider.getProperty(CsaaTestProperties.APP_HOST) + "/policy/preferences"));
 			DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE_WIREMOCK, PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE), PropertyProvider.getProperty(CsaaTestProperties.APP_HOST)));
 			DBService.get().executeUpdate(PENDING_REFUND_CONFIGURATION_UPDATE);
-			if (!PropertyProvider.getProperty(CsaaTestProperties.SCRUM_ENVS_SSH, false)) {
+			if (PropertyProvider.getProperty(CsaaTestProperties.SCRUM_ENVS_SSH, false)) {
 				DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.checkTokenEndpointUrl", PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/as/token.oauth2"));
 				DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.clientId", "cc_PAS"));
 				DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.clientSecret", "vFS9ez6zISomQXShgJ5Io8mo9psGPHHiPiIdW6bwjJKOf4dbrd2m1AYUuB6HGjqx"));

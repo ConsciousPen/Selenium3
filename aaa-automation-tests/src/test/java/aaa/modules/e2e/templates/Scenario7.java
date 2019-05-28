@@ -432,6 +432,9 @@ public class Scenario7 extends ScenarioBaseTest {
 
 	protected void generateFirstRenewalBill() {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1).plusYears(1));
+		if (DateTimeUtils.getCurrentDateTime().isAfter(billGenDate)) {
+			billGenDate = DateTimeUtils.getCurrentDateTime();
+		}
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
 		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 
@@ -440,7 +443,7 @@ public class Scenario7 extends ScenarioBaseTest {
 
 		new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.BILL).setDueDate(installmentDueDates.get(1).plusYears(1)).verifyPresent(false);
 		// No new transactions
-		new BillingPaymentsAndTransactionsVerifier().setType(PaymentsAndOtherTransactionType.FEE).setTransactionDate(billGenDate).verifyPresent(false);
+		//new BillingPaymentsAndTransactionsVerifier().setType(PaymentsAndOtherTransactionType.FEE).setTransactionDate(billGenDate).verifyPresent(false);
 		CustomAssertions.assertThat(BillingHelper.getPremiumTransactionsCount(policyNum)).isEqualTo(premiumTransuctionsCount);
 
 	}
@@ -449,6 +452,8 @@ public class Scenario7 extends ScenarioBaseTest {
 		LocalDateTime declineDate = getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(declineDate);
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		
+		premiumTransuctionsCount = premiumTransuctionsCount+1;
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);

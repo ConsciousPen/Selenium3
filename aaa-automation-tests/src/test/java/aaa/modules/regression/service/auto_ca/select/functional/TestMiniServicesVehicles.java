@@ -226,6 +226,28 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 		assertSoftly(softly -> pas25263_addVehicleMetadataCheckBody(softly));
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name Add Vehicle -Registered owner and other stuff
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement.
+	 * 3. Add new vehicle.
+	 * 4. set usage Business and registeredOwner = false;
+	 * 5. Validate the Vehicle update vehicle response gives error rate policy validate error
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.CA})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-29137"})
+	public void pas29137_updateVehicleRegisteredOwnerAndStuff(@Optional("CA") String state) {
+
+		assertSoftly(softly -> pas29137_updateVehicleRegisteredOwnerAndStuffBody(softly));
+	}
+
+
+
+
+
 }
 
 

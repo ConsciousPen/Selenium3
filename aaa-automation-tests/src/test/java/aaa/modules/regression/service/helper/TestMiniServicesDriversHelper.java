@@ -24,6 +24,7 @@ import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.BooleanUtils;
+
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.ETCSCoreSoftAssertions;
@@ -43,7 +44,6 @@ import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.MIDDLE_NAME;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import static toolkit.webdriver.controls.composite.assets.metadata.MetaData.getAssets;
-
 public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	protected static final List<String> MARRIED_STATUSES = ImmutableList.of("Married", "Registered Domestic Partner",
 			"Civil Union", "Common Law", "Registered Domestic Partner/Civil Union");
@@ -58,7 +58,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	protected static final String DRIVER_FIRST_NAME_INSURED = "FNI";
 	protected static final String DRIVER_NAME_INSURED = "NI";
 	protected static final String DRIVER_STATUS_ACTIVE = "active";
-
 	private DriverTab driverTab = new DriverTab();
 	private aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab driverTabCA = new aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab();
 	private FormsTab formsTab = new FormsTab();
@@ -561,8 +560,17 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		 * to execute the rest of the test. Once that's done, it moves on to "Widowed", which is not a married marital
 		 * status, so the test completes.
 		 */
+		List<String> marriedStatuses;
+		List<String> spouseRelationshipStatuses;
+		if (getState().equals(Constants.States.CA)) {
+			marriedStatuses = ImmutableList.copyOf(MARRIED_STATUSES_CA);
+			spouseRelationshipStatuses = ImmutableList.copyOf(SPOUSE_RELATIONSHIP_STATUSES_CA);
+		} else {
+			marriedStatuses = ImmutableList.copyOf(MARRIED_STATUSES);
+			spouseRelationshipStatuses = ImmutableList.copyOf(SPOUSE_RELATIONSHIP_STATUSES);
+		}
 		stateMaritalStatuses.forEach((key, value) -> {
-			if (MARRIED_STATUSES.contains(value)) {
+			if (marriedStatuses.contains(value)) {
 				/*
 				 * First step for each marital status that is considered married is to first update the first named
 				 * insured and set the marital status of the FNI driver to the marital status that's being tested. Then
@@ -579,7 +587,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 				 * validations. If it isn't, the test moves on to the next relationship status.
 				 */
 				relationshipsToInsured.forEach((relationshipKey, relationshipValue) -> {
-					if (SPOUSE_RELATIONSHIP_STATUSES.contains(relationshipValue)) {
+					if (spouseRelationshipStatuses.contains(relationshipValue)) {
 						helperMiniServices.createEndorsementWithCheck(policyNumber);
 						checkSpAndFniMaritalStatus_pas16610(policyNumber, fniDriverOid, key, relationshipKey, value);
 					}

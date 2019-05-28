@@ -1,10 +1,12 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.helper.TestMiniServicesMVRAndClueReportOrderHelper;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -262,9 +264,10 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15369", "PAS-17924"})
 	public void pas15369_reportOrderAndDriver(@Optional("VA") String state) {
-
-		pas15369_reportOrderAndDriverBody();
-	}
+		assertSoftly(softly ->
+				pas15369_reportOrderAndDriverBody(softly)
+		);
+			}
 
 	/**
 	 * @author Megha Gubbala
