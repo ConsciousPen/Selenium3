@@ -67,7 +67,7 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 
 	@Override
 	protected String createCustomerIndividual(AutoSSOpenLPolicy openLPolicy) {
-		int driverAge = openLPolicy.isNewRenPasCappedPolicy() ? openLPolicy.getDrivers().get(0).getDriverAge() - 1 : openLPolicy.getDrivers().get(0).getDriverAge();
+		int driverAge = (openLPolicy.isNewRenPasCappedPolicy() && openLPolicy.getTerm()==12) ? openLPolicy.getDrivers().get(0).getDriverAge() - 1 : openLPolicy.getDrivers().get(0).getDriverAge();
 		TestData td = getCustomerIndividualTD("DataGather", "TestData")
 				.adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.DATE_OF_BIRTH.getLabel()),
 						AutoSSTestDataGenerator.getDriverTabDateOfBirth(driverAge, openLPolicy.getEffectiveDate()));

@@ -297,7 +297,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				String[] firstLastName = driver.getName().split("\\s", 2);
 				String firstName = firstLastName[0];
 				String lastName = firstLastName.length > 1 ? firstLastName[1] : firstName;
-				int driverAge = openLPolicy.isNewRenPasCappedPolicy() ? driver.getDriverAge() - 1 : driver.getDriverAge();
+				int driverAge = (openLPolicy.isNewRenPasCappedPolicy() && openLPolicy.getTerm()==12) ? driver.getDriverAge() - 1 : driver.getDriverAge();
 				driverData.put(AutoSSMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), DataProviderFactory.emptyData());
 				driverData.put(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), firstName);
 				driverData.put(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), lastName);
