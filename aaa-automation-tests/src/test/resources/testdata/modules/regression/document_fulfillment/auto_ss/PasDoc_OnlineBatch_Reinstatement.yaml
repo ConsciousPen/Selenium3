@@ -1,11 +1,8 @@
-# ---- Scenario 51
-TestData_EnabledAutoPay: {
+TestData_Monthly_Autopay: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Monthly',
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'
 }
 
 PremiumAndCoveragesTab_Monthly: {
   Payment Plan: Eleven Pay - Standard,
-  Bodily Injury Liability: 'contains=$100,000/$300,000',
-  Comprehensive Deductible: 'contains=$750',
 }

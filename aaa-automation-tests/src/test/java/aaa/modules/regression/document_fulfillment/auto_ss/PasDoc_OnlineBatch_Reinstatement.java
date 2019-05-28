@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.impl.PasDocImpl;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -37,7 +38,7 @@ public class PasDoc_OnlineBatch_Reinstatement extends AutoSSBaseTest {
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
-		PasDocImpl.verifyDocumentsGenerated(policyNumber, AHCWXX);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policyNumber, DocGenEnum.EventName.REINSTATEMENT, AHCWXX);
 	}
 
 	/**
@@ -61,7 +62,7 @@ public class PasDoc_OnlineBatch_Reinstatement extends AutoSSBaseTest {
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData_Plus10Days"));
-		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH62XX);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policyNumber, DocGenEnum.EventName.REINSTATEMENT, AH62XX);
 	}
 
 	/**
@@ -83,13 +84,13 @@ public class PasDoc_OnlineBatch_Reinstatement extends AutoSSBaseTest {
 
 		mainApp().open();
 		createCustomerIndividual();
-		TestData tdAutoPay = getPolicyTD().adjust(getTestSpecificTD("TestData_EnabledAutoPay").resolveLinks());
+		TestData tdAutoPay = getPolicyTD().adjust(getTestSpecificTD("TestData_Monthly_Autopay").resolveLinks());
 		String policyNumber = createPolicy(tdAutoPay);
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
 
-		PasDocImpl.verifyDocumentsGenerated(true, policyNumber, AH35XX);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policyNumber, DocGenEnum.EventName.POLICY_ISSUE, AH35XX);
 	}
 
 	/**
@@ -116,6 +117,6 @@ public class PasDoc_OnlineBatch_Reinstatement extends AutoSSBaseTest {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
 
-		PasDocImpl.verifyDocumentsGenerated(false, policyNumber, AH35XX);
+		PasDocImpl.verifyDocumentsGenerated(null, false, false, policyNumber, DocGenEnum.EventName.POLICY_ISSUE, AH35XX);
 	}
 }
