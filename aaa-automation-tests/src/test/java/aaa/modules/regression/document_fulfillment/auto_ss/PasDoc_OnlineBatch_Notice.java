@@ -39,12 +39,10 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 	 * <p>  Accept Payment
 	 * <p>  Decline Payment(reason - No Fee No oRestriction) and verify Document - 60_5002
 	 * <p>  Accept Payment
-	 * <p>  Decline Payment(reason - Fee N oRestriction) and verify Document - 60_5001
+	 * <p>  Decline Payment(reason - Fee No Restriction) and verify Document - 60_5001
 	 * <p>  Update Billing Account - Add AutoPay
 	 * <p>  Shift time with execution jobs: aaaBillingInvoiceAsyncTaskJob and aaaRecurringPaymentsProcessingJob
 	 * <p>  Decline Payment(reason - Fee Restriction) and verify Document - 60_5003
-	 * <p>  Run job policyUpdateStatus
-	 * <p>  Decline Payment(reason - Fee Restriction) and verify Document - 60_5000
 	 *
 	 * @param state
 	 * @author Denis Semenov
@@ -52,8 +50,8 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 
 	@Parameters({"state"})
 	@StateList(states = Constants.States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-	public void testScenario39(@Optional("") String state) {
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
+	public void testScenario39_41(@Optional("") String state) {
 		List<LocalDateTime> installmentDueDates;
 		TestData td = getPolicyTD()
 				.adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Eleven Pay - Standard");
@@ -101,10 +99,23 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 		}
 	}
 
+	/**
+	 * <b> Test PasDoc Scenarios - NSF Notice </b>
+	 * <p>  Steps:
+	 * <p>  Create policy with Monthly Payment Plan
+	 * <p>  Update Billing account - Add AutoPay
+	 * <p>  Shift time to DD1-20 (Bill generation date) and run aaaBillingInvoiceAsyncTaskJob
+	 * <p>  Shift time to DD1-20 (Bill Due date) and run aaaRecurringPaymentsProcessingJob
+	 * <p>  Decline Payment(reason - Fee Restriction) and verify Document - 60_5000
+	 *
+	 * @param state
+	 * @author Denis Semenov
+	 */
+
 	@Parameters({"state"})
 	@StateList(states = Constants.States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-	public void testScenario42(@Optional("") String state) {
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
+	public void testScenario42_1(@Optional("") String state) {
 		List<LocalDateTime> installmentDueDates;
 		TestData policyWithMontlyPaymentPlan = getPolicyTD()
 				.adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Eleven Pay - Standard");
@@ -126,10 +137,24 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 		PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5000);
 	}
 
+	/**
+	 * <b> Test PasDoc Scenarios - NSF Notice </b>
+	 * <p>  Steps:
+	 * <p>  Create policy with Monthly Payment Plan
+	 * <p>  Update Billing account - Add AutoPay
+	 * <p>  Shift time to DD1-20 (Bill generation date) and run aaaBillingInvoiceAsyncTaskJob
+	 * <p>  Shift time to DD1-20 (Bill Due date) and run aaaRecurringPaymentsProcessingJob
+	 * <p>  Shift time to DD1+1 (Update Status)
+	 * <p>  Decline Payment(reason - Fee Restriction) and verify Document - 60_5000
+	 *
+	 * @param state
+	 * @author Denis Semenov
+	 */
+
 	@Parameters({"state"})
 	@StateList(states = Constants.States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
-	public void testScenario42_1(@Optional("") String state) {
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
+	public void testScenario42_2(@Optional("") String state) {
 		List<LocalDateTime> installmentDueDates;
 		TestData policyWithMontlyPaymentPlan = getPolicyTD()
 				.adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Eleven Pay - Standard");
@@ -168,7 +193,7 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 
 	@Parameters({"state"})
 	@StateList(states = Constants.States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario43(@Optional("") String state) {
 		LocalDateTime renewalDate;
 

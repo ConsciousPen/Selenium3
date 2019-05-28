@@ -16,6 +16,17 @@ import toolkit.datax.TestData;
 
 public class PasDoc_OnlineBatch_Reinstatement extends AutoSSBaseTest {
 
+	/**
+	 * <b> Test PasDoc Scenarios - Reinstatement </b>
+	 * <p>  Steps:
+	 * <p>  Create policy
+	 * <p>  Cancel policy
+	 * <p>  Reinstatement policy
+	 * <p>  Verify document - AHCWXX(true)
+	 *
+	 * @author Denis Semenov
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@StateList(states = Constants.States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
@@ -29,6 +40,17 @@ public class PasDoc_OnlineBatch_Reinstatement extends AutoSSBaseTest {
 		PasDocImpl.verifyDocumentsGenerated(policyNumber, AHCWXX);
 	}
 
+	/**
+	 * <b> Test PasDoc Scenarios - Reinstatement </b>
+	 * <p>  Steps:
+	 * <p>  Create policy
+	 * <p>  Cancel policy
+	 * <p>  Reinstatement policy in 10 days
+	 * <p>  Verify document - AHCWXX(true)
+	 *
+	 * @author Denis Semenov
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@StateList(states = Constants.States.AZ)
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
@@ -41,6 +63,18 @@ public class PasDoc_OnlineBatch_Reinstatement extends AutoSSBaseTest {
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData_Plus10Days"));
 		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH62XX);
 	}
+
+	/**
+	 * <b> Test PasDoc Scenarios - Reinstatement </b>
+	 * <p>  Steps:
+	 * <p>  Create policy  with AutoPay
+	 * <p>  Cancel policy
+	 * <p>  Reinstatement policy
+	 * <p>  Verify document - AH35XX(true)
+	 *
+	 * @author Denis Semenov
+	 * @param state
+	 */
 
 	@Parameters({"state"})
 	@StateList(states = Constants.States.AZ)
@@ -57,6 +91,18 @@ public class PasDoc_OnlineBatch_Reinstatement extends AutoSSBaseTest {
 
 		PasDocImpl.verifyDocumentsGenerated(true, policyNumber, AH35XX);
 	}
+
+	/**
+	 * <b> Test PasDoc Scenarios - Reinstatement </b>
+	 * <p>  Steps:
+	 * <p>  Create policy without AutoPay
+	 * <p>  Cancel policy
+	 * <p>  Reinstatement policy
+	 * <p>  Verify document - AH35XX(false)
+	 *
+	 * @author Denis Semenov
+	 * @param state
+	 */
 
 	@Parameters({"state"})
 	@StateList(states = Constants.States.AZ)
