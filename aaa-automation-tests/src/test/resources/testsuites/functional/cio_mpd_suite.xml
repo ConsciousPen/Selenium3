@@ -11,8 +11,7 @@
     <test name="Multi Policy Discount SS">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMultiPolicyDiscount">
-            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMultiPolicyDiscount"/>
         </classes>
     </test>
 
