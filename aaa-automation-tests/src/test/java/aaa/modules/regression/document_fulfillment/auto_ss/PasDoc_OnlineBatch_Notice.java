@@ -27,12 +27,14 @@ import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.utils.datetime.DateTimeUtils;
 
 public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 
 	private TestData tdBilling = testDataManager.billingAccount;
 	private TestData check_payment = tdBilling.getTestData("AcceptPayment", "TestData_Check");
 	private IBillingAccount billing = new BillingAccount();
+
 
 	/**
 	 * <b> Test PasDoc Scenarios - Decline Payment </b>
@@ -86,16 +88,16 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 			JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 
 			if (dueDate == 1) {
-				declinePayment(policyNum, 1, "TestData_FeeRestriction");
+				declineRecurringPayment(policyNum, installmentDueDates.get(1), "TestData_FeeRestriction");
 			}
 			if (dueDate == 2) {
-				declinePayment(policyNum, 2, "TestData_FeeRestriction");
+				declineRecurringPayment(policyNum, installmentDueDates.get(2), "TestData_FeeRestriction");
 				PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5003);
 			}
 			//Scenario 41.2
 			if (dueDate == 3) {
 				TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(installmentDueDates.get(3)));
-				declinePayment(policyNum, 3, "TestData_FeeRestriction");
+				declineRecurringPayment(policyNum, installmentDueDates.get(3), "TestData_FeeRestriction");
 				PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5003);
 			}
 		}
@@ -135,7 +137,7 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(1)));
 		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 
-		declinePayment(policyNum, 1, "TestData_FeeRestriction");
+		declineRecurringPayment(policyNum, installmentDueDates.get(1), "TestData_FeeRestriction");
 		PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5000);
 	}
 
@@ -165,16 +167,16 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 		String policyNum = createPolicy(policyWithMontlyPaymentPlan);
 		SearchPage.openBilling(policyNum);
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-
+		LocalDateTime dueDate1 = installmentDueDates.get(1);
 		new BillingAccount().update().perform(tdBilling.getTestData("Update", "TestData_AddAutopay"));
 
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(1)));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dueDate1));
 		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(1)));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(dueDate1));
 		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(installmentDueDates.get(1)));
-		declinePayment(policyNum, 1, "TestData_FeeRestriction");
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(dueDate1));
+		declineRecurringPayment(policyNum, dueDate1, "TestData_FeeRestriction");
 		PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5000);
 	}
 
@@ -289,15 +291,14 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 		PasDocImpl.verifyDocumentsGenerated(true, policyNumber, AHCWXX);
 	}
 
-	private void declinePayment(String policyNumber, int dueDate, String declineReason) {
+	private void declineRecurringPayment(String policyNumber, LocalDateTime installmentDueDate, String declineReason) {
 		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
 			mainApp().open();
 			SearchPage.openBilling(policyNumber);
 		}
-		List<LocalDateTime> installmentDueDates = BillingHelper.getInstallmentDueDates();
-		String amount = "(" + BillingHelper.getBillDueAmount(installmentDueDates.get(dueDate), "Bill") + ")";
+		String amount = BillingHelper.getBillDueAmount(installmentDueDate, "Bill").toString();
 		HashMap<String, String> map = new HashMap<>();
-		map.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, installmentDueDates.get(dueDate).toString());
+		map.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, getTimePoints().getBillDueDate(installmentDueDate).format(DateTimeUtils.MM_DD_YYYY));
 		map.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PAYMENT);
 		map.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RECURRING_PAYMENT);
 		map.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.STATUS, BillingConstants.PaymentsAndOtherTransactionStatus.ISSUED);
