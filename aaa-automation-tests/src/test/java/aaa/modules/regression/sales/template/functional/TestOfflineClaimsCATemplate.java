@@ -181,7 +181,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         // Retrieve policy and enter renewal image
         retrieveRenewal(policyNumber);
 
-        //PAS-29098: Verify Claim Order and Receipt dates are NOT blank
+        //PAS-29098: Verify Claim Order and Receipt dates on the Driver and Activity Reports Tab are NOT blank
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
         int x = 1;
         while (x < 4 ){
