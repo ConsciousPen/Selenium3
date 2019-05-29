@@ -180,10 +180,21 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         // Retrieve policy and enter renewal image
         retrieveRenewal(policyNumber);
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+
+        //PAS-29098: Verify Claim Order and Receipt dates are NOT blank
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+        int x = 1;
+        while (x < 4 ){
+            assertThat(DriverActivityReportsTab.tableInternalClaim.getRow(x)
+                    .getCell(AutoCaMetaData.DriverActivityReportsTab.OrderInternalClaimsRow.ORDER_DATE.getLabel()).getValue()).isNotEmpty();
+            assertThat(DriverActivityReportsTab.tableInternalClaim.getRow(x)
+                    .getCell(AutoCaMetaData.DriverActivityReportsTab.OrderInternalClaimsRow.RECEIPT_DATE.getLabel()).getValue()).isNotEmpty();
+            x++;
+        }
 
         // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
         // Check 2nd driver: Has DL match claim
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
         mainApp().close();
 
