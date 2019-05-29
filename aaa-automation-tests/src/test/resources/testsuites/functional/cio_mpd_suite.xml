@@ -5,12 +5,26 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
+
+    <!--MPD Tests -->
+
+    <test name="Multi Policy Discount SS">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMultiPolicyDiscount">
+            </class>
+        </classes>
+    </test>
+
+    <!-- Daily Regression Tests for MPD Branch -->
+
     <test name="Common Regression Tests" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.common.TestAccountUpdate"/>
         </classes>
     </test>
+
     <test name="UT Auto Regression Tests" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
@@ -52,6 +66,7 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestTriggersAH35XX"/>
         </classes>
     </test>
+
     <test name="AZ Auto Regression Tests" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -63,6 +78,7 @@
             </class>
         </classes>
     </test>
+
     <test name="CA Select Auto Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
@@ -98,6 +114,7 @@
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestContactInformation"/>
         </classes>
     </test>
+
     <test name="UT Home Regression Tests" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
@@ -149,6 +166,7 @@
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments"/>
         </classes>
     </test>
+
     <test name="UT PUP Regression Tests" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
@@ -179,6 +197,7 @@
             <class name="aaa.modules.regression.service.pup.TestPolicyRenewFlatCancellation"/>
         </classes>
     </test>
+
     <test name="AZ Home Regression Tests" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -194,12 +213,14 @@
             </class>
         </classes>
     </test>
+
     <test name="PA HSS Regression Tests" parallel="methods">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
         </classes>
     </test>
+
     <test name="CA HSS Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
@@ -246,6 +267,7 @@
             <class name="aaa.modules.regression.sales.home_ca.ho6.TestSeniorDiscount"/>
         </classes>
     </test>
+
     <test name="CA PUP Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
@@ -275,6 +297,7 @@
             <class name="aaa.modules.regression.service.pup.TestPolicyRenewFlatCancellation"/>
         </classes>
     </test>
+
     <test name="Auto SS TestAutoPoliciesLock AIP and NAF">
         <parameter name="state" value="CT"/>
         <classes>
@@ -285,6 +308,7 @@
             </class>
         </classes>
     </test>
+
     <test name="Auto SS TestAutoPoliciesLock ASD">
         <parameter name="state" value="CO"/>
         <classes>
@@ -295,11 +319,5 @@
             </class>
         </classes>
     </test>
-    <test name="CIO MPD TEST CASES">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMultiPolicyDiscount">
-            </class>
-        </classes>
-    </test>
+
 </suite>
