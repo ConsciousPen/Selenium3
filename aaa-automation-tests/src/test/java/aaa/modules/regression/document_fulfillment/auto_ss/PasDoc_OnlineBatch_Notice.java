@@ -88,9 +88,9 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 		//Scenario 41.1 Decline deposit payment with reason "Fee + No Restriction" (to get 605003)
 		new BillingAccount().update().perform(tdBilling.getTestData("Update", "TestData_AddAutopay"));
 		for (int dueDate = 1; dueDate <= 5; dueDate++) {
-			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dueDate1));
+			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(dueDate)));
 			JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
-			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(dueDate1));
+			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(dueDate)));
 			JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 
 			if (dueDate == 1) {
@@ -102,7 +102,7 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 			}
 			//Scenario 41.2
 			if (dueDate == 3) {
-				TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(dueDate3));
+				TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(installmentDueDates.get(3)));
 				declineRecurringPayment(policyNum, dueDate3, "TestData_FeeRestriction");
 				PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5003);
 			}
