@@ -1,11 +1,14 @@
 package aaa.modules.regression.document_fulfillment.auto_ss;
 
+import static aaa.main.enums.DocGenEnum.Documents.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
@@ -19,27 +22,14 @@ import aaa.helpers.xml.model.pasdoc.DataElement;
 import aaa.helpers.xml.model.pasdoc.Document;
 import aaa.helpers.xml.model.pasdoc.DocumentGenerationRequest;
 import aaa.main.enums.DocGenEnum;
-import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.DocGenEnum.EventName;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
-import static aaa.main.enums.DocGenEnum.Documents.*;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	

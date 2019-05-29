@@ -2,17 +2,16 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.pages.summary;
 
-import java.time.LocalDateTime;
-import org.openqa.selenium.By;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.components.Dialog;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.BillingConstants;
 import aaa.toolkit.webdriver.customcontrols.TableWithPages;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.openqa.selenium.By;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
@@ -20,11 +19,13 @@ import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
 
+import java.time.LocalDateTime;
+
 public class BillingSummaryPage extends SummaryPage {
 	private static final ByT PAGINATION_LOCATOR = ByT.xpath("//table[@id='%s']/ancestor::tr[1]/following-sibling::tr[1]/descendant::span[1]");
 	public static StaticElement labelBillingAccountNumber = new StaticElement(By.id("billingDetailedForm:general_info_table:0:accountNumber"));
 	public static StaticElement labelBillingAccountName = new StaticElement(By.xpath("//*[@id='billingInfoForm']/div/table/tbody/tr[1]/td[1]//div[2]/span"));
-	public static StaticElement labelBillingAccountStatus = new StaticElement(By.id("billingInfoForm:accountStatus"));
+    public static StaticElement labelBillingAccountStatus = new StaticElement(By.id("billingInfoForm:status"));
 	public static Table tableBillingGeneralInformation = new Table(By.id("billingDetailedForm:general_info_table"));
 	public static Table tableBillingAccountPolicies = new Table(By.id("billingDetailedForm:billing_policies_info_table"));
 	public static TableWithPages tableInstallmentSchedule = new TableWithPages(By.id("billingDetailedForm:billing_installments_info_table"), PAGINATION_LOCATOR
