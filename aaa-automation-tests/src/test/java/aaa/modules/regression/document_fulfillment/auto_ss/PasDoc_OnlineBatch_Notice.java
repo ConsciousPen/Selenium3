@@ -110,6 +110,7 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(dueDate3));
 		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(dueDate3));
+
 		declineRecurringPayment(policyNum, dueDate3, "TestData_FeeRestriction");
 		PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5003);
 	}
