@@ -589,7 +589,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@StateList(states = {Constants.States.NY, Constants.States.VA})
+	@StateList(states = {Constants.States.NY, Constants.States.VA, Constants.States.AZ})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10227"})
 	public void pas10227_ViewPremiumServicePolicy(@Optional("VA") String state) {
 
