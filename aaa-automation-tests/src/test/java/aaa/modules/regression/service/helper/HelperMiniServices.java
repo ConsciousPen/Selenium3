@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang.StringUtils;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.rest.dtoDxp.*;
@@ -53,6 +53,12 @@ public class HelperMiniServices extends PolicyBaseTest {
 
 		//Update Vehicle with proper Usage and Registered Owner
 		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+		if (getState().equals(Constants.States.CA)) {
+			VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
+			updateVehicleUsageRequest.distanceOneWayToWork = "15";
+			updateVehicleUsageRequest.odometerReading = "32000";
+			HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
+		}
 
 		ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
 		assertThat(viewEndorsementVehicleResponse.canAddVehicle).isEqualTo(allowedToAddVehicle);
