@@ -98,11 +98,13 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	 * 3. Add vehicle less than 10y old
 	 * 4. Apply OEM and check
 	 * 5. Remove COM and/or COLL and check that OEM is removed
+	 * @scenario
+	 * Check ETEC in the same scenario
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424", "PAS-30268"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424", "PAS-30268", "PAS-15420"})
 	public void pas15424_viewUpdateOEMCoverageCATC01(@Optional("CA") String state) {
 		pas15424_viewUpdateOEMCoverageCATC01Body();
 	}
@@ -116,11 +118,13 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	 * 3. Run viewEndorsmentCoverages service and Verify that vehicle older than 10y doesn't have OEM available (existing vehicle)
 	 * 4. Add vehicle more than 10y old
 	 * 5. Run viewEndorsmentCoverages service and Verify that vehicle older than 10y doesn't have OEM available (newly added vehicle)
+	 * @scenario
+	 * Check ETEC in the same scenario
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424", "PAS-15420"})
 	public void pas15424_viewUpdateOEMCoverageVehOlderThan10yCATC02(@Optional("CA") String state) {
 		pas15424_viewUpdateOEMCoverageVehOlderThan10yCATC02Body();
 	}
@@ -134,11 +138,13 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	 * 3. Add vehicle Less than 10y old
 	 * 4. Check that it has OEM available
 	 * 5. Remove COMPDED and/or COLLDED and verify that OEM is not available anymore
+	 * @scenario
+	 * Check ETEC in the same scenario
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424", "PAS-15420"})
 	public void pas15424_viewUpdateOEMCoverageCATC03(@Optional("CA") String state) {
 		pas15424_viewUpdateOEMCoverageNewVehNoCompCollCABody(false, true);
 	}
@@ -146,7 +152,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424", "PAS-15420"})
 	public void pas15424_viewUpdateOEMCoverageCATC04(@Optional("CA") String state) {
 		pas15424_viewUpdateOEMCoverageNewVehNoCompCollCABody(true, false);
 	}
@@ -154,7 +160,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424", "PAS-30268"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424", "PAS-30268", "PAS-15420"})
 	public void pas15424_viewUpdateOEMCoverageCATC05(@Optional("CA") String state) {
 		pas15424_viewUpdateOEMCoverageNewVehNoCompCollCABody(true, true);
 	}
@@ -167,6 +173,8 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	 * 2. Create endorsement through service
 	 * 3. Check that it has OEM available
 	 * 4. Remove COMPDED and/or COLLDED and verify that OEM is not available anymore
+	 * @scenario
+	 * Check ETEC in the same scenario
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
@@ -179,7 +187,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424", "PAS-15420"})
 	public void pas15424_viewUpdateOEMCoverageCATC07(@Optional("CA") String state) {
 		pas15424_viewUpdateOEMCoverageExistingVehicleNoCompCollTC06Body(true, false);
 	}
@@ -187,7 +195,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424", "PAS-30268"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424", "PAS-30268", "PAS-15420"})
 	public void pas15424_viewUpdateOEMCoverageCATC08(@Optional("CA") String state) {
 		pas15424_viewUpdateOEMCoverageExistingVehicleNoCompCollTC06Body(true, true);
 	}
@@ -201,11 +209,13 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	 * 3. Run viewEndorsement coverages and verify thaat OEM is not available as has not applied COMPDED and/or COLLDED
 	 * 4. Apply COMPDED and/or COLLDED and check that OEM is available
 	 * 5. Apply OEM
+	 * @scenario
+	 * Check ETEC in the same scenario
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424", "PAS-15420"})
 	public void pas15424_viewUpdateOEMCoverageCATC09(@Optional("CA") String state) {
 		pas15424_viewUpdateOEMCoverageCATC09Body();
 	}
@@ -225,6 +235,23 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15424"})
 	public void pas15424_viewUpdateOEMCoverageLessThan10yNoOEMCATC010(@Optional("CA") String state) {
 		pas15424_viewUpdateOEMCoverageLessThan10yNoOEMCATC010Body();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name View/Update Coverages - ETEC - CA Select
+	 * @scenario
+	 * 1. Create policy in PAS with so that all vehicles has other than 25/750 ETEC limit
+	 * 2. Create endorsement through service
+	 * 3. Add vehicle and check that ETEC Limit is defaulted to 25/750 wit correct available limits
+	 * 4. Remove COLLDED/COMPDED, then put it back and check that ETEC is defaulted to 25/750 wit correct available limits
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15420"})
+	public void pas15420_ETECWhenNotAllVehiclesHasDefaultLimit24750(@Optional("CA") String state) {
+		pas15420_ETECWhenNotAllVehiclesHasDefaultLimit24750Body();
 	}
 
 	/**

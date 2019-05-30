@@ -21,6 +21,12 @@ TestData_LessThan10yOldNoCompColl: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_NoCompColl'
 }
 
+TestData_AllVehiclesETEIsOtherThan25750: {
+  VehicleTab: [ '@VehicleTab_NewVehicle4', '@VehicleTab_NewVehicle2', '@VehicleTab_NewVehicle3'],
+  AssignmentTab: '@AssingmentTab_3Veh',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_ETECOtherThan25750ForAllVehicles'
+}
+
 VehicleTab_1: {
   Add Vehicle: Click,
   Primary Use: 'contains=Commute',
@@ -270,6 +276,23 @@ PremiumAndCoveragesTab_NoCompColl: {
   {
     Comprehensive Deductible: 'contains=$250',
     Collision Deductible: 'contains=No',
+  },
+  {
+    Comprehensive Deductible: 'contains=No',
+    Collision Deductible: 'contains=No',
+  }
+  ]
+}
+
+PremiumAndCoveragesTab_ETECOtherThan25750ForAllVehicles: {
+  Payment Plan: Annual,
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  DetailedVehicleCoverages: [
+  {
+    Enhanced Transportation Expense: 'contains=$50/$1,500', #Because of defect, When creating policy, only the same limit is is possible for all vehicles. When fixed, test can be updated to to select different cov limti for each vehicle
+  },
+  {
+    Enhanced Transportation Expense: 'contains=$50/$1,500', #Because of defect, When creating policy, only the same limit is is possible for all vehicles. When fixed, test can be updated to to select different cov limti for each vehicle
   },
   {
     Comprehensive Deductible: 'contains=No',
