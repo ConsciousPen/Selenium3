@@ -474,7 +474,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		Coverage covETECExpected = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_00).disableCanChange();
 		assertThat(covOEMActualVeh.getCustomerDisplayed()).as("OEM should not be customerDisplayed if COMPDED and/or COLLDED is not applied").isFalse();
 		assertThat(covOEMActualVeh.getCanChangeCoverage()).as("OEM should not be changable if COMPDED and/or COLLDED is not applied").isFalse();
-		assertThat(covETECActualVeh).isEqualTo(covETECExpected);
+		assertThat(covETECActualVeh).isEqualToIgnoringGivenFields(covETECExpected, "availableLimits");
 	}
 
 	private void verifyOEMVehNoCompColl(boolean removeCOMPDED, boolean removeCOLLDED, String policyNumber, String vehOid) {
@@ -536,7 +536,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		Coverage covOEMActual = findCoverage(newVehicleCoverages.coverages, CoverageInfo.OEM_CA.getCode());
 		Coverage covOEMExpected = Coverage.create(CoverageInfo.OEM_CA).changeLimit(CoverageLimits.COV_0);
 		Coverage covETECActual = findCoverage(newVehicleCoverages.coverages, CoverageInfo.ETEC_CA.getCode());
-		Coverage covETECExpected = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_00);
+		Coverage covETECExpected = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_25750);
 
 		assertThat(covCOMPDED.getCoverageLimit().equals(CoverageLimits.COV_150.getLimit())).isEqualTo(applyCOMPDED);
 		assertThat(covCOLLDED.getCoverageLimit().equals(CoverageLimits.COV_150.getLimit())).isEqualTo(applyCOLLDED);
