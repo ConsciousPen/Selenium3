@@ -227,6 +227,10 @@ public final class BillingAccountMetaData {
 		public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First Name", TextBox.class);
 		public static final AssetDescriptor<TextBox> MIDDLE_NAME = declare("Middle Name", TextBox.class);
 		public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last Name", TextBox.class);
+		public static final AssetDescriptor<TextBox> ZELLE_CONFIRM_FIRST_NAME = declare("Confirm First Name", TextBox.class);
+		public static final AssetDescriptor<TextBox> ZELLE_CONFIRM_LAST_NAME = declare("Confirm Last Name", TextBox.class);
+		public static final AssetDescriptor<TextBox> ZELLE_EMAIL_PHONE_NUMBER = declare("Email Address or Mobile Number", TextBox.class);
+		public static final AssetDescriptor<TextBox> ZELLE_CONFIRM_EMAIL_PHONE_NUMBER = declare("Confirm Email Address or Mobile Number", TextBox.class);
 	}
 
 	public static final class AdvancedAllocationsActionTab extends MetaData {
