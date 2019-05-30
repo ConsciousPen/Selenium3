@@ -136,6 +136,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas15344_ViewUpdateUmpdNV"/>
+                    <include name="pas29904_nevadaMedicalExpense"/>
                 </methods>
             </class>
         </classes>
