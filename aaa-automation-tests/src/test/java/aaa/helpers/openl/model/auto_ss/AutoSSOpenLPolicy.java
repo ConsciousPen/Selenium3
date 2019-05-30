@@ -113,7 +113,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 
 	@Override
 	public boolean isCappedPolicy() {
-		return getCappingDetails().getTermCappingFactor() != null && getCappingDetails().getTermCappingFactor() != 1;
+		return getCappingDetails().getTermCappingFactor() != null;
 	}
 
 	@Override
