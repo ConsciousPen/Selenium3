@@ -1680,10 +1680,10 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 5. Verify updates to EMB coverages in DXP, PAS UI & change log.
 	 * */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.PA,Constants.States.NV})
+	@StateList(states = {Constants.States.PA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23299"})
-	public void pas23299_EMBCoveragePA(@Optional("NV") String state) {
+	public void pas23299_EMBCoveragePA(@Optional("PA") String state) {
 		pas23299_EMBCoveragePABody();
 	}
 

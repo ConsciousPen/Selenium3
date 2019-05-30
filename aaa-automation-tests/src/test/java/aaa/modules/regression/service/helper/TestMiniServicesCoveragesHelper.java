@@ -6313,17 +6313,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas23299_EMBCoveragePABody() {
 		mainApp().open();
-		String policyNumber = "NVSS952918604";
+		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
 		Coverage covEMBNo = Coverage.create(CoverageInfo.EMB);
 
-		if (getState().equals("NV")) {
-			Coverage covMedPay = Coverage.create(CoverageInfo.MEDPM_NV).disableCanChange();
-			PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
-			validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covMedPay);
-		}
 		//Check viewEndorsementCoverages default response
 		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covEMBNo);
