@@ -861,7 +861,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario20(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();			
