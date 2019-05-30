@@ -1680,10 +1680,10 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 5. Verify updates to EMB coverages in DXP, PAS UI & change log.
 	 * */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.PA})
+	@StateList(states = {Constants.States.PA,Constants.States.NV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23299"})
-	public void pas23299_EMBCoveragePA(@Optional("PA") String state) {
+	public void pas23299_EMBCoveragePA(@Optional("NV") String state) {
 		pas23299_EMBCoveragePABody();
 	}
 
@@ -1837,6 +1837,24 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-27867"})
 	public void pas27867_pipCovIncludesAddRemoveDriverTC02(@Optional("NJ") String state) {
 		pas27867_pipCovIncludesAddRemoveDriverTC02Body();
+	}
+
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Nevada - Let's Turn off Medical Expense
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Run view vehicle coverage
+	 * 4. Verify "canChangeCoverage": false, for MEDPM
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NV})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-29904"})
+	public void pas29904_nevadaMedicalExpense(@Optional("NV") String state) {
+		pas29904_nevadaMedicalExpenseBody();
 	}
 
 }

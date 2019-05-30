@@ -588,6 +588,7 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_100000
 
 	)),
+
 	MEDPM_CA(ImmutableList.of(
 			CoverageLimits.COV_0,
 			CoverageLimits.COV_1000,
@@ -693,6 +694,14 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_500500,
 			CoverageLimits.COV_5001000,
 			CoverageLimits.COV_10001000
+	)),
+	MEDPM_NV(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_1000,
+			CoverageLimits.COV_2000,
+			CoverageLimits.COV_5000,
+			CoverageLimits.COV_10000,
+			CoverageLimits.COV_25000
 	)),
 
 	COV_PIPLENINCCONT_NJ(ImmutableList.of(

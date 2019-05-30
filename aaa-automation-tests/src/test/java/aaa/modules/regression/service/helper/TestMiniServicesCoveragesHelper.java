@@ -4395,7 +4395,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	private void validateViewEndorsementCoveragesIsTheSameAsUpdateCoverageVehicleLevel(String policyNumber, PolicyCoverageInfo updateCoverageResponse, String vehicleOid) {
 		PolicyCoverageInfo viewEndorsementCoverages;
 		viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-		VehicleCoverageInfo vehicleCoverages= findVehicleCoverages(viewEndorsementCoverages, vehicleOid);
+		VehicleCoverageInfo vehicleCoverages = findVehicleCoverages(viewEndorsementCoverages, vehicleOid);
 		assertThat(updateCoverageResponse.vehicleLevelCoverages.get(0)).isEqualToComparingFieldByFieldRecursively(vehicleCoverages);//Update response contains only update vehicle
 	}
 
@@ -6313,12 +6313,17 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas23299_EMBCoveragePABody() {
 		mainApp().open();
-		String policyNumber = getCopiedPolicy();
+		String policyNumber = "NVSS952918604";
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
 		Coverage covEMBNo = Coverage.create(CoverageInfo.EMB);
 
+		if (getState().equals("NV")) {
+			Coverage covMedPay = Coverage.create(CoverageInfo.MEDPM_NV).disableCanChange();
+			PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+			validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covMedPay);
+		}
 		//Check viewEndorsementCoverages default response
 		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covEMBNo);
@@ -6608,6 +6613,18 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		updateCoverageAndCheck_pas15364(policyNumber, covWLBExpected, pipSubCoverages, aggPipSubCoverages);
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	protected void pas29904_nevadaMedicalExpenseBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		Coverage covMedPay = Coverage.create(CoverageInfo.MEDPM_NV).disableCanChange();
+		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covMedPay);
+
 	}
 
 	protected void pas27867_pipCovIncludesAddRemoveDriverTC01Body() {
@@ -7258,7 +7275,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//Check MEE coverage in PAS UI
 		openPendedEndorsementDataGatherAndNavigateToPC();
 		assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(covToUpdateMEE.getCoverageDescription())).isEqualTo(covToUpdateMEE.getCoverageLimitDisplay());
-		if (covToUpdateMEE.getCoverageLimitDisplay().equals(CoverageLimits.COV_MEE_NAMED_INSURED_ONLY.getDisplay())|| covToUpdateMEE.getCoverageLimitDisplay().equals(CoverageLimits.COV_MEE_NAMED_INSURED_AND_RELATIVES.getDisplay())) {
+		if (covToUpdateMEE.getCoverageLimitDisplay().equals(CoverageLimits.COV_MEE_NAMED_INSURED_ONLY.getDisplay()) || covToUpdateMEE.getCoverageLimitDisplay().equals(CoverageLimits.COV_MEE_NAMED_INSURED_AND_RELATIVES.getDisplay())) {
 			assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.INSURER_NAME.getLabel())).isEqualTo(covToUpdateMEE.getInsurerName());
 			assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_GROUP_NUM_CERTIFICATE_NUM.getLabel())).isEqualTo(covToUpdateMEE.getCertNum());
 		} else {
@@ -7285,7 +7302,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		return updateCoverageResponse;
 	}
 
-	protected PolicyCoverageInfo updateVehLevelCoverageAndCheckResponses(String policyNumber,String vehicleOid, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
+	protected PolicyCoverageInfo updateVehLevelCoverageAndCheckResponses(String policyNumber, String vehicleOid, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
 		PolicyCoverageInfo updateCoverageResponse = updateVehicleCoverage(policyNumber, vehicleOid, covToUpdate);
 		VehicleCoverageInfo vehicleCoverages = findVehicleCoverages(updateCoverageResponse, vehicleOid);
 		validateCoveragesDXP(vehicleCoverages.coverages, expectedCoveragesToCheck);
