@@ -61,7 +61,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	public void testScenario1(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();		
-		//Scenario 1: Driver with chargeable activity
+		//Scenario 1a: Driver with chargeable activity
 		TestData td_driverWithActivity = getPolicyTD().adjust(getTestSpecificTD("TestData_DriverWithActivity").resolveLinks());
 		String policy_driverWithActivity = createPolicy(td_driverWithActivity);
 		log.info("PAS DOC: Scenario 1: Policy with driver with chargeable activity created: " + policy_driverWithActivity);
@@ -151,7 +151,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	public void testScenario4(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
-		//Scenario 4: Add Driver with Financial Responsibility = Yes
+		//Scenario 4a: Add Driver with Financial Responsibility = Yes
 		TestData td_financialDriver = getPolicyTD().adjust(getTestSpecificTD("TestData_FinancialDriver").resolveLinks());
 		String policy_financialDriver = createPolicy(td_financialDriver);
 		log.info("PAS DOC: Scenario 4: Policy with financial driver created: " + policy_financialDriver);
@@ -184,7 +184,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	public void testScenario5(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
-		//Scenario 5: Vehicle with Existing Damage
+		//Scenario 5a: Vehicle with Existing Damage
 		TestData td_vehicleWithDamage = getPolicyTD().adjust(getTestSpecificTD("TestData_VehicleWithDamage").resolveLinks());
 		String policy_vehicleWithDamage = createPolicy(td_vehicleWithDamage);
 		log.info("PAS DOC: Scenario 5: Policy with vehicle with damage created: " + policy_vehicleWithDamage);
@@ -215,7 +215,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	public void testScenario6(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
-		//Scenario 6: add Vehicle Type = Golf Cart 
+		//Scenario 6a: add Vehicle Type = Golf Cart 
 		TestData td_golfCart = getPolicyTD().adjust(getTestSpecificTD("TestData_GolfCart").resolveLinks());
 		String policy_golfCart = createPolicy(td_golfCart);
 		log.info("PAS DOC: Scenario 6: Policy with Golf Cart created: " + policy_golfCart);
@@ -250,7 +250,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	public void testScenario7(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
-		//Scenario 7: Uninsured Motorists Bodily Injury limits (UM) < BI Liability Limits
+		//Scenario 7a: Uninsured Motorists Bodily Injury limits (UM) < BI Liability Limits
 		TestData td_UMLessThanBI = getPolicyTD().adjust(getTestSpecificTD("TestData_UMLessThanBI").resolveLinks());
 		String policy_UMLessThanBI = createPolicy(td_UMLessThanBI);
 		log.info("PAS DOC: Scenario 7: Policy with Uninsured Motorist BI limits (UM) < BI limits created: " + policy_UMLessThanBI);
@@ -288,7 +288,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	public void testScenario8(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
-		//Scenario 8: Set 'Not signed' for documents in 'Required to Bind'
+		//Scenario 8a: Set 'Not signed' for documents in 'Required to Bind'
 		TestData td_docNotSigned = getPolicyTD().adjust(getTestSpecificTD("TestData_DocNotSigned").resolveLinks());
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(td_docNotSigned, ErrorTab.class, true);
@@ -372,7 +372,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		
-		//Scenario 11: Purchase Endorsement: add a Vehicle (Type not Trailer)
+		//Scenario 11a: Purchase Endorsement: add a Vehicle (Type not Trailer)
 		createPolicy();
 		TestData td_addVehicle = getTestSpecificTD("TestData_Endorsement_AddVehicle").adjust(getPolicyTD("Endorsement", "TestData"));
 		policy.endorse().performAndFill(td_addVehicle);
@@ -851,7 +851,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario20(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();			

@@ -52,7 +52,38 @@ public class PasDoc_OnlineBatch_Billing extends AutoSSBaseTest {
 	private TestData tdBilling = testDataManager.billingAccount;
 	
 	/**
-	 * OnlineBatch - Scenario 22: AUTO_STATEMENT: AHIBXX
+	 * <p> OnlineBatch Scenario 21: ENDORSEMENT_ISSUE: AH35XX 
+	 * <p> 	<b>(a)</b>	1. Issue policy with Monthly payment plan and active AutoPay. 
+	 * <p>		2. Purchase Endorsement with premium AP/RP changes, and verify AH35XX form is generated. 
+	 * <p>
+	 * <p>	<b>(b)</b> 1. Issue policy with Monthly payment plan and active AutoPay. 
+	 * <p>		2. Purchase Endorsement: change payment plan e.g. to Quarterly, and verify AH35XX form is generated. 
+	 * <p>
+	 * @param state
+	 */
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	public void testScenario21(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td_monthly_withAutoPay = getPolicyTD().adjust(getTestSpecificTD("TestData_ActiveAutoPay").resolveLinks()); 
+		TestData td_endorse = getPolicyTD("Endorsement", "TestData");
+		TestData td_endorse_changePremium = getTestSpecificTD("TestData_Endorsement_ChangePremium").adjust(td_endorse);
+		String policy1 = createPolicy(td_monthly_withAutoPay); 
+		log.info("PAS DOC: Scenario 21a: Policy 1 is created: " + policy1);
+		policy.endorse().performAndFill(td_endorse_changePremium);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy1, EventName.ENDORSEMENT_ISSUE, AH35XX);
+		
+		String policy2 = createPolicy(td_monthly_withAutoPay);
+		log.info("PAS DOC: Scenario 21b: Policy 2 is created: " + policy1);
+		TestData td_endorse_changePaymentPlan = getTestSpecificTD("TestData_Endorsement_ChangePaymentPlan").adjust(td_endorse);
+		policy.endorse().performAndFill(td_endorse_changePaymentPlan);
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy2, EventName.ENDORSEMENT_ISSUE, AH35XX);
+	}
+	
+	/**
+	 * <p> OnlineBatch - Scenario 22: AUTO_STATEMENT: AHIBXX
 	 * <p>	<b>(a)</b> 1. Issue policy with AutoPay is NOT active. 
 	 * <p>		2. Generate Billing invoice manually ('Generate Future Statement' action on Billing tab). 
 	 * <p>		3. Verify form AHIBXX is generated. 	
@@ -69,7 +100,7 @@ public class PasDoc_OnlineBatch_Billing extends AutoSSBaseTest {
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario22(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();	
@@ -109,7 +140,7 @@ public class PasDoc_OnlineBatch_Billing extends AutoSSBaseTest {
 	}
 	
 	/**
-	 * OnlineBatch - Scenario 23: APPLY_BILLING_TRANSACTION: AH35XX
+	 * <p> OnlineBatch - Scenario 23: APPLY_BILLING_TRANSACTION: AH35XX
 	 * <p>
 	 * <p>	1. Policy is issued: Payment Plan with more than one installment and AutoPay is active. 
 	 * <p>	2. On Billing tab add payment manually and verify that form AH35XX is generated. 
@@ -135,7 +166,7 @@ public class PasDoc_OnlineBatch_Billing extends AutoSSBaseTest {
 	}
 	
 	/**
-	 * OnlineBatch - Scenario 25 - AUTO_PAY_METHOD_REMOVED: 60 5004 
+	 * <p> OnlineBatch - Scenario 25 - AUTO_PAY_METHOD_REMOVED: 60 5004 
 	 * <p>
 	 * <p> <b>Precondition:</b> Policy is issued with Monthly payment plan and AutoPay is active.
 	 * <p> <b>Steps:</b>  
@@ -150,7 +181,7 @@ public class PasDoc_OnlineBatch_Billing extends AutoSSBaseTest {
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario25(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -200,8 +231,53 @@ public class PasDoc_OnlineBatch_Billing extends AutoSSBaseTest {
 		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy_activeAutoPay, EventName.AUTO_PAY_METHOD_REMOVED, _60_5004);
 	}
 	
+	/** 
+	 * <p>OnlineBatch Scenario 46: OFFCYCLE_BILL: AHIBXX, AH35XX
+	 * <p>  <b>Precondition:</b> 
+	 * <p>	<b>(a)</b> Policy is created:
+	 * <p>		- Quarterly or Semi-annual payment plan. 
+	 * <p>		- Current Carrier Information overriden (BI limits set not the smallest ones). 
+	 * <p>		- AutoPay is NOT active.
+	 * <p>	<b>(b)</b> Policy is created: 
+	 * <p>		- Quarterly or Semi-annual payment plan. 
+	 * <p>		- Membership is active. 
+	 * <p>		- Current Carrier Information overriden (BI limits set not the smallest ones). 
+	 * <p>		- AutoPay is active. 
+	 * <p>	<b>Steps:</b> 
+	 * <p>	1. Set time to DD1 - 20 and run aaaBillingInvoicAsyncTaskJob. 
+	 * <p>	2. Bill is NOT paid. 
+	 * <p>	3. Set time to DD1 + 11 and run aaaOffCycleBillingInvoiceAsyncJob. 
+	 * <p>	<b>Expected result:</b> 
+	 * <p> <b>(a)</b> The following form is generated: AHIBXX.
+	 * <p> <b>(b)</b> The following form is generated: AH35XX.
+	 * <p>
+	 * @param state
+	 */
+	@Parameters({"state"})
+	@StateList(states = States.AZ)
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
+	public void testScenario46(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td_withoutAutoPay = getPolicyTD().adjust(getTestSpecificTD("TestData_SemiAnnual_withoutAutoPay").resolveLinks());
+		String policy1 = createPolicy(td_withoutAutoPay);
+		BillingSummaryPage.open();
+		List<LocalDateTime> installmentDueDates = BillingHelper.getInstallmentDueDates();		
+		TestData td_withAutoPay = getPolicyTD().adjust(getTestSpecificTD("TestData_SemiAnnual_withAutoPay").resolveLinks());
+		String policy2 = createPolicy(td_withAutoPay);
+		
+		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1));
+		TimeSetterUtil.getInstance().nextPhase(billGenDate);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);		
+		TimeSetterUtil.getInstance().nextPhase(installmentDueDates.get(1).plusDays(11));
+		JobUtils.executeJob(Jobs.offCycleBillingInvoiceAsyncJob);
+		
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy1, EventName.OFFCYCLE_BILL, AHIBXX);	
+		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy2, EventName.OFFCYCLE_BILL, AH35XX);
+	}
+	
 	/**
-	 * OnlineBatch - Scenario 65 - AUTO_PAY_METHOD_CHANGED: AH35XX
+	 * <p> OnlineBatch - Scenario 65 - AUTO_PAY_METHOD_CHANGED: AH35XX
 	 * <p>	<b>(a)</b> 1. Policy is issued with AutoPay is NOT active. 
 	 * <p>		2. On Billing tab activate AutoPay and verify form AH35XX is generated. 
 	 * <p>

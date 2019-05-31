@@ -48,7 +48,7 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario48(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();	
@@ -82,7 +82,7 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario54(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();	
@@ -132,7 +132,7 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario55(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -185,7 +185,7 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario56(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();	
@@ -227,7 +227,7 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario58(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();			
@@ -272,7 +272,7 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario59(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();	
@@ -312,7 +312,7 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario60(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();	
@@ -367,7 +367,7 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario61(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();	
