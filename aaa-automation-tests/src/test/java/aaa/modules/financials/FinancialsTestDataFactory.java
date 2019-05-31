@@ -450,7 +450,11 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                     td = getEmptyTestDataSSPup();
                 }
                 td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
-                        PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.CALCULATE_PREMIUM.getLabel(), "Click"));
+                        PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.CALCULATE_PREMIUM.getLabel(), "Click"))
+                        .adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.class.getSimpleName(),
+                                PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()), DataProviderFactory.dataOf(
+                                        PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.MAKE.getLabel(), "CHEVROLET",
+                                        PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.MODEL.getLabel(), "C1500"));
                 break;
             default:
                 throw new IstfException("No Policy Type was matched!");
