@@ -26,11 +26,6 @@
                     <include name="pas7342_preRenewalLetterPupConvHSPRNMXX"/>
                 </methods>
             </class> <!-- aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3 -->
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestRestrictedPaymentPlan">
-                <methods>
-                    <include name="pas10894_restrictionPaymentPlansMembershipPending"/>
-                </methods>
-            </class> <!-- aaa.modules.regression.sales.home_ss.ho3.functional.TestRestrictedPaymentPlan -->
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestEarnedPremiumWriteOff">
                 <methods>
                     <include name="pas11697_testEarnedPremiumWriteOffLessDecline"/>
@@ -514,13 +509,6 @@
                     <include name="testNewDriverBetterScore"/>
                 </methods>
             </class> <!-- aaa.modules.regression.document_fulfillment.auto_ss.functional.TestCinRenewalAutoSS -->
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRestrictedPaymentPlan">
-                <methods>
-                    <include name="pas10870_restrictionPaymentPlansMembershipPending"/>
-                    <include name="pas10870_restrictionPaymentPlansMembershipNo"/>
-                    <include name="pas11366_restrictionPaymentPlansMembershipOverride"/>
-                </methods>
-            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestRestrictedPaymentPlan -->
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestEarnedPremiumWriteOff">
                 <methods>
                     <include name="pas11697_testEarnedPremiumWriteOffEqualDecline"/>
@@ -575,11 +563,6 @@
                     <include name="pas14738_testAccidentSurchargeWaiverNB"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver -->
-            <class name="aaa.modules.regression.service.auto_ss.TestTelematicsParticipationDiscount">
-                <methods>
-                    <include name="testTelematicsParticipationDiscount"/>
-                </methods>
-            </class> <!-- aaa.modules.regression.service.auto_ss.TestTelematicsParticipationDiscount -->
             <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSEndorsement">
                 <methods>
                     <include name="pas20277_testFinanceEPCalculationOOSEndorsement"/>

@@ -424,7 +424,7 @@ Activity7: {
 
 TestData_DriverTab_UpdateUWRules_PU_CA: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@TwoNamedInsuredGeneralTab',
+  GeneralTab: '@TwoNamedInsuredGeneralTab2',
   DriverTab:  ['@Driver10']
 }
 
@@ -455,7 +455,7 @@ DriverTab_Activity_UWRules: {
   ActivityInformation: ['@Activity1', '@Activity2', '@Activity3', '@Activity4', '@Activity5', '@Activity6', '@Activity7' ]
 }
 
-TwoNamedInsuredGeneralTab: {
+TwoNamedInsuredGeneralTab2: {
   NamedInsuredInformation: ['@NamedInsuredInformation3', '@NamedInsuredInformation4'],
   AAAProductOwned: '@<auto_ca_choice>@DataGather@AAAProductOwned',
   ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',

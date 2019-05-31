@@ -74,30 +74,16 @@ public abstract class TestInsuranceScoreEndorsementTemplate extends PolicyBaseTe
 		applicantTab.submitTab();
 		reportsTab.fillTab(policyTD);
 
-//		//In Insurance score report section can can only be seen Primary Insured and Spouse
-//		assertThat(reportsTab.tblInsuranceScoreReport.getValue().toString().contains(primaryInsuredFN)).isEqualTo(Boolean.TRUE);
-//		assertThat(reportsTab.tblInsuranceScoreReport.getValue().toString().contains(spouseFN)).isEqualTo(Boolean.TRUE);
-//		assertThat(reportsTab.tblInsuranceScoreOverride.getValue().toString().contains(primaryInsuredFN)).isEqualTo(Boolean.TRUE);
-//		assertThat(reportsTab.tblInsuranceScoreOverride.getValue().toString().contains(spouseFN)).isEqualTo(Boolean.FALSE);
-//
-//		//Insurance Score should be ordered only for Primary Insured
-//		assertThat(reportsTab.tblInsuranceScoreOverride.getRowsCount()).isEqualTo(1);
+		//In Insurance score report section can can only be seen Primary Insured and Spouse
+		assertThat(reportsTab.tblInsuranceScoreReport.getValue().toString().contains(primaryInsuredFN)).isEqualTo(Boolean.TRUE);
+		assertThat(reportsTab.tblInsuranceScoreReport.getValue().toString().contains(spouseFN)).isEqualTo(Boolean.TRUE);
+		assertThat(reportsTab.tblInsuranceScoreOverride.getValue().toString().contains(primaryInsuredFN)).isEqualTo(Boolean.TRUE);
 
 		//User should not be able to order insurance score manually on midterm endorsement
 		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", primaryInsuredFN)
 				.getCell("Report").getValue()).isNotEqualTo("Order report");
 //		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", spouseFN)
 //				.getCell("Report")).isNotEqualTo("Order report");
-
-//		PAS-27928 - Primary Insured - 'Order Insurance Score' should be automatically selected as 'Yes' and should be enabled
-//		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", primaryInsuredFN)
-//				.getCell("Order Insurance Score").controls.radioGroups.getFirst().getValue()).isEqualTo("Yes");
-//		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", primaryInsuredFN)
-//				.getCell("Order Insurance Score").controls.radioGroups.getFirst().isEnabled()).isEqualTo(Boolean.TRUE);
-//		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", primaryInsuredFN)
-//				.getCell("Reorder at renewal").controls.radioGroups.getFirst().getValue()).isEqualTo("No");
-//		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", primaryInsuredFN)
-//				.getCell("Reorder at renewal").controls.radioGroups.getFirst().isEnabled()).isEqualTo(Boolean.TRUE);
 
 		//PAS-27382 - Spouse - 'Order Insurance Score' should be automatically selected as 'Yes' and should be enabled
 		assertThat(reportsTab.tblInsuranceScoreReport.getRowContains("Named Insured", spouseFN)
