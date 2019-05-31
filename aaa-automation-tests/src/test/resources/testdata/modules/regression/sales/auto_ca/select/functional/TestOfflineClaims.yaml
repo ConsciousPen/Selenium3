@@ -392,7 +392,6 @@ Activity1: {
   Description: 'Fault accident with injury',
   Loss Payment Amount: '2000',
   Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-  "Permissive Use Loss?": 'No',
   "Include in Points and/or YAF?": 'Yes'
 }
 
@@ -403,7 +402,6 @@ Activity2: {
   Description: 'Fault accident, no injury, damage > $1000',
   Loss Payment Amount: '2000',
   Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-  "Permissive Use Loss?": 'No',
   "Include in Points and/or YAF?": 'Yes'
 }
 
@@ -426,6 +424,21 @@ Activity4: {
     "Include in Points and/or YAF?": 'Yes'
   }
 
+Activity5: {
+    Activity Source: Company Input,
+    Type: '10-yr Major Violation',
+    Occurrence Date: '$<today-2M:MM/dd/yyyy>',
+    Description: 'Driving under the influence of alcohol',
+    "Include in Points and/or YAF?": 'Yes'
+  }
+
+Activity6: {
+  Activity Source: Customer Input,
+  Type: 'Suspension/Revocation',
+  Description: 'Alcohol Related Suspension',
+  Suspension Date: '$<today-3M:MM/dd/yyyy>',
+  "Include in Points and/or YAF?": 'Yes'
+}
 
 TestData_DriverTab_UpdateUWRules_PU_CA: {
   PrefillTab: '@PrefillTab',
@@ -529,14 +542,10 @@ TestData_Discounts: {
   AssignmentTab: '@AssignmentTab',
   FormsTab: '@FormsTab',
 }
+
 Driver_GoodStudent_NewDriver_Discount: {
   DriverSearchDialog: {},
-  #  Driver Type: Available for Rating,
-  #  'Rel. to First Named Insured': Child,
-  #  First Name: 'Third Driver',
-  #  Last Name: 'Version2',
   Date of Birth: $<today-23y>,
-  #  Gender: Female,
   Marital Status: Single,
   Occupation: 'Student',
   Age First Licensed: 16,
@@ -607,7 +616,7 @@ AssignmentTab: {
 
 FormsTab: {}
 TestData_Activity_MDD: {
-  DriverTab: '@DriverTab_Activity',
+  DriverTab: '@DriverTab_Activity_MDD',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_MDD',
   DriverActivityReportsTab: {
     "Has the customer expressed interest in purchasing the policy?": 'Yes',
@@ -636,35 +645,10 @@ TestData_Activity_MDD: {
   }
 }
 
-DriverTab_Activity: {
-  ActivityInformation: ['@Activity1', '@Activity2','@Activity3']
+DriverTab_Activity_MDD: {
+  ActivityInformation: ['@Activity1', '@Activity5','@Activity6']
 }
 
-Activity1: {
-  Activity Source: Company Input,
-  Type: 'Accident',
-  Occurrence Date: '$<today-1M:MM/dd/yyyy>',
-  Description: 'Fault accident with injury',
-  Loss Payment Amount: '2000',
-  Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-  #"Permissive Use Loss?": 'No',
-  "Include in Points and/or YAF?": 'Yes'
-}
-
-Activity2: {
-  Activity Source: Company Input,
-  Type: '10-yr Major Violation',
-  Occurrence Date: '$<today-2M:MM/dd/yyyy>',
-  Description: 'Driving under the influence of alcohol',
-  "Include in Points and/or YAF?": 'Yes'
-}
-Activity3: {
-  Activity Source: Customer Input,
-  Type: 'Suspension/Revocation',
-  Description: 'Alcohol Related Suspension',
-  Suspension Date: '$<today-3M:MM/dd/yyyy>',
-  "Include in Points and/or YAF?": 'Yes'
-}
 PremiumAndCoveragesTab_MDD: {
   Product: 'CA Select',
   Bodily Injury Liability: 'contains=$100,000/$300,000',
@@ -747,24 +731,8 @@ TestData_Activity_MDD_Endorse: {
     }
   }
 }
+
 DriverTab_Activity_Endorse: {
-  ActivityInformation: ['@Activity1Endorse', '@Activity2Endorse']
-}
-Activity1Endorse: {
-  Activity Source: Company Input,
-  Type: 'Accident',
-  Occurrence Date: '$<today-1M:MM/dd/yyyy>',
-  Description: 'Fault accident with injury',
-  Loss Payment Amount: '2000',
-  Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-  #"Permissive Use Loss?": 'No',
-  "Include in Points and/or YAF?": 'Yes'
-}
-Activity2Endorse: {
-  Activity Source: Company Input,
-  Type: '10-yr Major Violation',
-  Occurrence Date: '$<today-2M:MM/dd/yyyy>',
-  Description: 'Driving under the influence of alcohol',
-  "Include in Points and/or YAF?": 'Yes'
+  ActivityInformation: ['@Activity1', '@Activity5']
 }
 

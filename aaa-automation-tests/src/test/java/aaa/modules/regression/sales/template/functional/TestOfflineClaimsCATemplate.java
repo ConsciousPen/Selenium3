@@ -118,7 +118,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     protected boolean updatePUFlag = false;
     protected boolean secondDriverFlag = false;
     protected boolean newBusinessFlag = false;
-    protected boolean MDD = true;
+    protected boolean MDD = false;
 
     @BeforeTest
     public void prepare() {
@@ -218,7 +218,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     public void initiateAddDriverEndorsement(String policyNumber, TestData addDriverTd) {
 
         TestData td_driver_endorse = getTestSpecificTD("TestData_MDD_Endorse");
-        if (MDD == true) {
+        if (MDD){
             mainApp().open();
             SearchPage.openPolicy(policyNumber);
             policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus30Days"));
@@ -1488,6 +1488,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Endorsement Scenario
         TestData td_activity1 = getTestSpecificTD("TestData_Activity_MDD_Endorse");
         //Add a New Driver in Endorsement
+        MDD = true;
         initiateAddDriverEndorsement(policyNum, td_activity1);
         //Add a new Vehicle and assign it to the newly added driver
         policy.getDefaultView().fillFromTo(td_driver_endorse, MembershipTab.class, AssignmentTab.class, true);
@@ -1498,7 +1499,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Mature Driver Discount (Nike Johns)");
         premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
-        driverActivityReportsTab.fillTab(td_activity1).submitTab();
         //Navigate to Driver and add Activities
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         tableDriverList.selectRow(3);
@@ -1506,13 +1506,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Assert that MDD does not exist for the newly added driver
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount (Nike Johns)");
-        premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
-        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
-        documentsAndBindTab.fillTab(td_activity1).submitTab();
-        if (errorTab.isVisible()) {
-            errorTab.overrideAllErrors();
-            errorTab.buttonOverride.click();
-            documentsAndBindTab.submitTab();
-        } }
+    }
 }
 
