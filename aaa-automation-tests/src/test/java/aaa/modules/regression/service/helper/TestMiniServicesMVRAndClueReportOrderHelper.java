@@ -627,7 +627,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 
 		if (getState().equals(Constants.States.CA)) {
 			pasDriverActivityReport(policyNumber, "Permanently Revoked", "OSI1000 Test3");
-			softly.assertThat(response3.mvrReports.get(0).choicePointLicenseStatus).isEqualTo("2  SUSPENDED");
+			softly.assertThat(response3.mvrReports.get(0).choicePointLicenseStatus).isEqualTo("3  REVOKED");
 		} else {
 			pasDriverActivityReport(policyNumber, "2 SUSPENDED", "OSI1000 Test3");
 			assertThat(response3.mvrReports.get(0).choicePointLicenseStatus).isEqualTo("2  SUSPENDED");
