@@ -127,7 +127,7 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test(description = "batchJob19.xml")
 	public void BCT_BTCH_Automated_Renewal_Premium_Calculation_007(@Optional("") String state){
-		executeBatchTest(Jobs.renewalImageRatingAsyncTaskJob);
+		executeBatchTest(GroupJobs.grouprenewalImageRatingAsyncTaskJob);
 	}
 
 	@Parameters({"state"})
