@@ -286,7 +286,9 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		covCOMPDEDExpected4.removeAvailableLimit(CoverageLimits.COV_NO_COV);
 		covCOLLDEDExpected4.removeAvailableLimit(CoverageLimits.COV_NO_COV);
 		covLOANExpected4.enableCustomerDisplay().enableCanChange();
+		covNEWCARExpected4.disableCustomerDisplay();
 		expectedCoveragesVeh4.add(covLOANExpected4);
+		expectedCoveragesVeh4.remove(covNEWCARExpected4);//not in UI for Leased vehicle
 		PolicyCoverageInfo viewEndorsementCoverages3 = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		VehicleCoverageInfo veh4CoveragesLeased = TestMiniServicesCoveragesHelper.findVehicleCoverages(viewEndorsementCoverages3, newVehicleOid);
 		checkCoverages_pas26668(expectedCoveragesVeh4, veh4CoveragesLeased);
