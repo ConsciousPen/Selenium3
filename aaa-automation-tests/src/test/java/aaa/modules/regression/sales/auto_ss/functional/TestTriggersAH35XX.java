@@ -47,13 +47,13 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test backdated policy
-	 * @scenario 1. Create new Policy with Non-Annual Payment Plan
-	 * 2. Add ACH, CC_Visa, CC_Master
-	 * 3. Set Autopay to EFT, run DocGenJob, check AH35XX generated and contains EFT data
-	 * 4. Set Autopay to CC_Visa, run DocGenJob, check AH35XX generated and contains EFT data
-	 * 5. Set Autopay to CC_Master, run DocGenJob, check AH35XX generated and contains EFT data
-	 * @details
+	 * <b> Test backdated policy </b>
+	 * <p> Steps: 1. Create new Policy with Non-Annual Payment Plan
+	 * <p> 2. Add ACH, CC_Visa, CC_Master
+	 * <p> 3. Set Autopay to EFT, run DocGenJob, check AH35XX generated and contains EFT data
+	 * <p> 4. Set Autopay to CC_Visa, run DocGenJob, check AH35XX generated and contains EFT data
+	 * <p> 5. Set Autopay to CC_Master, run DocGenJob, check AH35XX generated and contains EFT data
+	 *
 	 */
 	@Parameters({"state"})
 	@StateList(statesExcept = Constants.States.CA)
@@ -138,7 +138,7 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 	}
 
 	private void documentPaymentMethodCheckInDb(String policyNum, String numberCCACH, int numberOfDocuments, ETCSCoreSoftAssertions softly) {
-		String visaNumberScreened = numberCCACH.substring(numberCCACH.length() - 4, numberCCACH.length());
+		String visaNumberScreened = numberCCACH.substring(numberCCACH.length() - 4);
 		String query = GET_DOCUMENT_BY_EVENT_NAME + " and data like '%%" + visaNumberScreened + "%%'";
 		String queryFull = String.format(query, policyNum, "AH35XX", "AUTO_PAY_METNOD_CHANGED");
 		softly.assertThat(DbAwaitHelper.waitForQueryResult(queryFull, 5)).isTrue();

@@ -17,14 +17,14 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Automation team
- * @name Test Create Home Quote
- * @scenario
- * 1. Create Customer
- * 2. Initiate HSS HO4 quote creation.
- * 3. Fill all mandatory fields on all tabs, order reports, calculate premium.
- * 4. Purchase policy.
- * 5. Verify policy status is Active on Consolidated policy view.
- * @details
+ * <b> Test Create Home Quote </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Initiate HSS HO4 quote creation.
+ * <p> 3. Fill all mandatory fields on all tabs, order reports, calculate premium.
+ * <p> 4. Purchase policy.
+ * <p> 5. Verify policy status is Active on Consolidated policy view.
+ *
  */
 public class TestPolicyCreation extends HomeSSHO4BaseTest {
 

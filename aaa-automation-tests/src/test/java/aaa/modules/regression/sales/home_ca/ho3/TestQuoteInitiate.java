@@ -18,12 +18,12 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Ryan Yu
- * @name Test Initiate Home Quote
- * @scenario
- * 1. Create Customer
- * 2. Initiated Home Quote
- * 3. Verify quote status is 'Data Gathering' and policy number is present
- * @details
+ * <b> Test Initiate Home Quote </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Initiated Home Quote
+ * <p> 3. Verify quote status is 'Data Gathering' and policy number is present
+ *
  */
 public class TestQuoteInitiate extends HomeCaHO3BaseTest {
 

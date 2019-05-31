@@ -23,19 +23,19 @@ public class TestSeniorDiscount extends HomeCaHO4BaseTest {
 
 	 /**
 	 * @author Oleg Stasyuk
-	 * @name Test HO3 Policy Senior Discounts
-	 * @scenario 1.  Create a quote effective today
-	 * 2.  Set DOB to be 65 years in past from quote Effective date, check Senior Discount is applied
-	 * 3.  Check Boundary conditions +/-1 day
-	 * 4.  Set Quote effective date to be some days in the past
-	 * 5.  Set DOB to be 65 years in past from quote Effective date, check Senior Discount is applied
-	 * 6.  Check Boundary conditions +/-1 day
-	 * 7.  Set Quote effective date to be some days in the future
-	 * 8.  Set DOB to be 65 years in past from quote Effective date, check Senior Discount is applied
-	 * 9.  Check Boundary conditions +/-1 day
-	 * 10.  Set Dwelling usage <> Primary, check discount is not applied
-	 * 11.  Set Dwelling usage = Primary, check discount is applied
-	 * check age calculation in the middle
+	  * <b> Test HO3 Policy Senior Discounts </b>
+	  * <p> Steps: 1.  Create a quote effective today
+	  * <p> 2.  Set DOB to be 65 years in past from quote Effective date, check Senior Discount is applied
+	  * <p> 3.  Check Boundary conditions +/-1 day
+	  * <p> 4.  Set Quote effective date to be some days in the past
+	  * <p> 5.  Set DOB to be 65 years in past from quote Effective date, check Senior Discount is applied
+	  * <p> 6.  Check Boundary conditions +/-1 day
+	  * <p> 7.  Set Quote effective date to be some days in the future
+	  * <p> 8.  Set DOB to be 65 years in past from quote Effective date, check Senior Discount is applied
+	  * <p> 9.  Check Boundary conditions +/-1 day
+	  * <p> 10.  Set Dwelling usage <> Primary, check discount is not applied
+	  * <p> 11.  Set Dwelling usage = Primary, check discount is applied
+	  * <p> check age calculation in the middle
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})

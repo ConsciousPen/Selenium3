@@ -5,7 +5,6 @@ package aaa.modules.regression.billing_and_payments.auto_ss;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -16,15 +15,15 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Jelena Dembovska
- * @name Test Billing functionality
- * @scenario 1. Find customer or create new if customer does not exist;
- * 2. Create new Auto Policy;
- * 3. Move to Billing tab
- * 4. Make 4 different payments(Accept Payment with Payments types: Cash, Check, Credit Card, EFT);
- * 6. Verify payments are displayed in Payments & Other Transactions section.
- * 7. Make Refund with Payment type Check
- * 8. Verify Refund is displayed in Payments & Other Transactions section.
- * @details
+ * <b> Test Billing functionality </b>
+ * <p> Steps: 1. Find customer or create new if customer does not exist;
+ * <p> 2. Create new Auto Policy;
+ * <p> 3. Move to Billing tab
+ * <p> 4. Make 4 different payments(Accept Payment with Payments types: Cash, Check, Credit Card, EFT);
+ * <p> 6. Verify payments are displayed in Payments & Other Transactions section.
+ * <p> 7. Make Refund with Payment type Check
+ * <p> 8. Verify Refund is displayed in Payments & Other Transactions section.
+ *
  */
 
 public class TestPolicyBilling extends PolicyBilling {
@@ -40,7 +39,7 @@ public class TestPolicyBilling extends PolicyBilling {
 	@Test(groups = {Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS)
 	public void testBillingPayments(@Optional("") String state) {
-		super.testBillingPayments();
+		testBillingPayments();
 	}
 	
 	@Parameters({"state"})
@@ -48,7 +47,7 @@ public class TestPolicyBilling extends PolicyBilling {
 	@Test(groups = {Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS)
 	public void testBillingRefund(@Optional("") String state) {
-		super.testBillingRefund();
+		testBillingRefund();
 	}
 
 }

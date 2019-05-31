@@ -2,14 +2,13 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ca.select;
 
-import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
-import aaa.main.pages.summary.PolicySummaryPage;
-
+import static aaa.main.metadata.policy.AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION;
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -17,20 +16,22 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoCaMetaData.DriverTab;
 import aaa.main.metadata.policy.AutoCaMetaData.GeneralTab.NamedInsuredInformation;
+import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PrefillTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import static aaa.main.metadata.policy.AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * @author Jelena Dembovska
- * @name Test Prefill tab
- * @scenario
- * @details
+ * <b> Test Prefill tab </b>
+ * <p> Steps:
+ *
  */
 public class TestQuotePrefill extends AutoCaSelectBaseTest {
 
@@ -74,7 +75,7 @@ public class TestQuotePrefill extends AutoCaSelectBaseTest {
 		prefillTab.submitTab();
 
 		//check GeneralTab
-		aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab generalTab = new aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab();
+		GeneralTab generalTab = new GeneralTab();
 
 		MultiInstanceAfterAssetList namedInsuredInfo = generalTab.getNamedInsuredInfoAssetList();
 		assertThat(generalTab.getNamedInsuredInfoAssetList().getAsset(NamedInsuredInformation.FIRST_NAME)).hasValue(expectedFN);
@@ -150,9 +151,9 @@ public class TestQuotePrefill extends AutoCaSelectBaseTest {
 		prefillTab.submitTab();
 
 		//check GeneralTab
-		aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab generalTab = new aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab();
+		GeneralTab generalTab = new GeneralTab();
 		assertThat(generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED)).hasValue(expectedNI_1);
-		assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab.tableInsuredList).hasRows(2);
+		assertThat(GeneralTab.tableInsuredList).hasRows(2);
 		generalTab.fillTab(getTestSpecificTD("TestDataFill_1_CA"));
 		
 		generalTab.viewInsured(2);
@@ -172,13 +173,13 @@ public class TestQuotePrefill extends AutoCaSelectBaseTest {
 		aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.viewDriver(2);
 		driverTab.fillTab(getTestSpecificTD("DriverTab2"));
 		driverTab.submitTab();
-		
-		aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab membershipTab = new aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab();
+
+		MembershipTab membershipTab = new MembershipTab();
 		membershipTab.fillTab(getTestSpecificTD("MembershipTab"));
 		membershipTab.submitTab();
 		
 		//check Vehicle tab
-		aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab vehicleTab = new aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab();
+		VehicleTab vehicleTab = new VehicleTab();
 		
 		VehicleTab.tableVehicleList.selectRow(1);
 		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN)).hasValue(VIN_1);

@@ -44,18 +44,18 @@ public class TestPolicyMoratorium extends PolicyMoratorium {
 
 	/**
 	 * @author Maija Strazda
-	 * @name Soft Stop Moratorium set on New Business Premium Calculation and Hard Stop on New Business Bind - PST-352
-	 * @scenario
-	 * 1. Add ZIP Code entry in lookupvalue table if not exists.
-	 * 2. Set Soft Stop moratorium on Premium Calculation and Hard Stop moratorium on Bind.
-	 * 3. Create a customer.
-	 * 4. Initiate a Home SS quote and go to Premium and Coverages Product Offering tab.
-	 * 5. Press Calculate Premium button on Product Offering tab, validate Soft Stop pop-up dialog and press Cancel.
-	 * 6. Press Calculate Premium button on Quote tab, validate Soft Stop pop-up dialog and press OK.
-	 * 7. Go to Bind page, press Purchase, validate Hard Stop pop-up dialog and press Cancel.
-	 * 8. Expire moratorium.
-	 * 9. Create the same policy to make sure moratorium is not triggering anymore.
-	 * @details
+	 * <b> Soft Stop Moratorium set on New Business Premium Calculation and Hard Stop on New Business Bind - PST-352 </b>
+	 * <p> Steps:
+	 * <p> 1. Add ZIP Code entry in lookupvalue table if not exists.
+	 * <p> 2. Set Soft Stop moratorium on Premium Calculation and Hard Stop moratorium on Bind.
+	 * <p> 3. Create a customer.
+	 * <p> 4. Initiate a Home SS quote and go to Premium and Coverages Product Offering tab.
+	 * <p> 5. Press Calculate Premium button on Product Offering tab, validate Soft Stop pop-up dialog and press Cancel.
+	 * <p> 6. Press Calculate Premium button on Quote tab, validate Soft Stop pop-up dialog and press OK.
+	 * <p> 7. Go to Bind page, press Purchase, validate Hard Stop pop-up dialog and press Cancel.
+	 * <p> 8. Expire moratorium.
+	 * <p> 9. Create the same policy to make sure moratorium is not triggering anymore.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "PST-352: Soft Stop Moratorium set on New Business Premium Calculation and Hard Stop on New Business Bind")
@@ -129,17 +129,17 @@ public class TestPolicyMoratorium extends PolicyMoratorium {
 
 	/**
 	 * @author Maija Strazda
-	 * @name Hard Stop (Overridable) Moratorium set on New Business Bind action - PST-352
-	 * @scenario
-	 * 1. Add ZIP Code entry in lookupvalue table if not exists.
-	 * 2. Set Hard Stop (Overridable) level 4 moratorium on Bind action.
-	 * 3. Create a customer.
-	 * 4. Initiate a Home SS quote, fill it including Bind tab.
-	 * 5. Press Purchase button, validate Hard Stop pop-up dialog and override it.
-	 * 6. Bind/issue the quote.
-	 * 7. Expire moratorium.
-	 * 8. Create the same policy to make sure moratorium is not triggering anymore.
-	 * @details
+	 * <b> Hard Stop (Overridable) Moratorium set on New Business Bind action - PST-352 </b>
+	 * <p> Steps:
+	 * <p> 1. Add ZIP Code entry in lookupvalue table if not exists.
+	 * <p> 2. Set Hard Stop (Overridable) level 4 moratorium on Bind action.
+	 * <p> 3. Create a customer.
+	 * <p> 4. Initiate a Home SS quote, fill it including Bind tab.
+	 * <p> 5. Press Purchase button, validate Hard Stop pop-up dialog and override it.
+	 * <p> 6. Bind/issue the quote.
+	 * <p> 7. Expire moratorium.
+	 * <p> 8. Create the same policy to make sure moratorium is not triggering anymore.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "PST-352: Hard Stop (Overridable) Moratorium set on New Business Bind action")

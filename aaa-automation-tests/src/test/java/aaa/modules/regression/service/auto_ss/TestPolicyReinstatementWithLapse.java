@@ -5,7 +5,6 @@ package aaa.modules.regression.service.auto_ss;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -16,16 +15,16 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Lina Li
- * @name Test Policy Reinstate with lapse
- * @scenario
- * 1. Find customer or create new if customer does not exist;
- * 2. Create new Policy;
- * 3. Cancel the Policy
- * 4. Verify Policy status is 'Policy Cancelled'
- * 5. Reinstate Policy with Lapse
- * 6. Verify Policy status is 'Policy Active'
- * 7. Verify 'Term includes lapse period' flag is displayed in the policy consolidated view header
- * @details
+ * <b> Test Policy Reinstate with lapse </b>
+ * <p> Steps:
+ * <p> 1. Find customer or create new if customer does not exist;
+ * <p> 2. Create new Policy;
+ * <p> 3. Cancel the Policy
+ * <p> 4. Verify Policy status is 'Policy Cancelled'
+ * <p> 5. Reinstate Policy with Lapse
+ * <p> 6. Verify Policy status is 'Policy Active'
+ * <p> 7. Verify 'Term includes lapse period' flag is displayed in the policy consolidated view header
+ *
  */
 
 public class TestPolicyReinstatementWithLapse extends PolicyReinstatementWithLapse {
@@ -41,6 +40,6 @@ public class TestPolicyReinstatementWithLapse extends PolicyReinstatementWithLap
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
     public void testPolicyReinstatementWithLapse(@Optional("") String state) {
 
-        super.testPolicyReinstatementWithLapse();
+		testPolicyReinstatementWithLapse();
     }
 }

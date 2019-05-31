@@ -5,7 +5,6 @@ package aaa.modules.regression.service.home_ca.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -16,16 +15,16 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Ryan Yu
- * @name Test Reinstatement Home Policy with Lapse
- * @scenario
- * 1. Create Customer
- * 2. Create Home (Preconfigured) Policy
- * 3. Cancel Policy
- * 4. Verify Policy status is 'Policy Cancelled'
- * 5. Reinstate Policy with Lapse
- * 6. Verify Policy status is 'Policy Active'
- * 7. Verify 'Term includes lapse period' flag is displayed in the policy consolidated view header
- * @details
+ * <b> Test Reinstatement Home Policy with Lapse </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create Home (Preconfigured) Policy
+ * <p> 3. Cancel Policy
+ * <p> 4. Verify Policy status is 'Policy Cancelled'
+ * <p> 5. Reinstate Policy with Lapse
+ * <p> 6. Verify Policy status is 'Policy Active'
+ * <p> 7. Verify 'Term includes lapse period' flag is displayed in the policy consolidated view header
+ *
  */
 public class TestPolicyReinstatementWithLapse extends PolicyReinstatementWithLapse {
 
@@ -39,7 +38,7 @@ public class TestPolicyReinstatementWithLapse extends PolicyReinstatementWithLap
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
 	public void testPolicyReinstatementWithLapse(@Optional("CA") String state) {
-		super.testPolicyReinstatementWithLapse();
+		testPolicyReinstatementWithLapse();
 	}
 
 }
