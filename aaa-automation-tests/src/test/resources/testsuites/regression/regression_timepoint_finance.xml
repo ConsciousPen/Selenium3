@@ -147,18 +147,6 @@
             <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationCancelFlagTransactions"/>
         </classes>
     </test> <!-- PA Home -->
-    <test name="NY Auto" parallel="methods">
-        <parameter name="state" value="NY"/>
-        <groups>
-            <run>
-                <include name="Regression"/>
-            </run>
-        </groups>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison"/>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict"/>
-        </classes>
-    </test> <!-- NY Auto -->
     <test name="WV Auto" parallel="methods">
         <parameter name="state" value="WV"/>
         <groups>
