@@ -2,14 +2,19 @@ package aaa.helpers.jobs;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
 import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
+import com.exigen.ipb.etcsa.utils.batchjob.ws.model.WSJobSummary;
 import com.exigen.istf.exec.core.TimedTestContext;
 import com.exigen.istf.exec.testng.TimeShiftTestUtil;
 import aaa.config.CsaaTestProperties;
@@ -121,6 +126,31 @@ public class JobUtils {
 			throw new IstfException(String.format("SOAP jobGroup '%s' run failed:\n", jobGroup), ie);
 		}
 	}
+
+	/**
+	 * This methods grabs all job execution and select the latest run, according to todays date.
+	 * @param jobGroup
+	 * @return latest today's job run
+	 */
+
+	public static WSJobSummary getLatestJobRun(JobGroup jobGroup) {
+		SoapJobActions soapJobActions = new SoapJobActions();
+		// Get list of all job runs
+		List<WSJobSummary> jobSummaries = soapJobActions.getJobStatusResponse(jobGroup).getBatchSummary().getJobSummary();
+		// store all jobSummaries ended today
+		List<WSJobSummary> mostRecentJobSummaries = jobSummaries.stream().filter(wsJobSummary -> wsJobSummary.getEndTime().contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))).collect(Collectors.toList());
+
+		if (mostRecentJobSummaries.isEmpty()) {
+			throw new IstfException("Job summary is not present for this date " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		}
+		// Select jobSummary with biggest/latest EndTime
+		return mostRecentJobSummaries.stream().max(Comparator.comparing(WSJobSummary::getEndTime)).get();
+	}
+
+	public static com.exigen.ipb.etcsa.utils.batchjob.Job convertToIpb(Job job) {
+		return new com.exigen.ipb.etcsa.utils.batchjob.Job(job.getJobName(), job.getJobParameters(),job.getJobFolders());
+	}
+
 
 	private static void executeJobLocally(Job job) {
 		try {
