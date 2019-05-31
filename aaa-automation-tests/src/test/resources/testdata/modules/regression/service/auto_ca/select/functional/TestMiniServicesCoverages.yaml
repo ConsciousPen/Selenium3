@@ -21,6 +21,44 @@ TestData_LessThan10yOldNoCompColl: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_NoCompColl'
 }
 
+TestData_VehicleOtherTypesLoanLease: {
+  VehicleTab: ['@Vehicle1','@Vehicle2'],
+  AssignmentTab: '@AssingmentTab_LoanLeaseVehicle'
+}
+
+Vehicle1: {
+  Add Vehicle: Click,
+  Primary Use: 'contains=Commute',
+  Usage: Pleasure,
+  VIN: 5YFBURHE2JP848194,
+  'Miles One-way to Work or School': '15',
+  Odometer Reading: '29000',
+  Odometer Reading Date: $<today>,
+  Ownership Type: Owned,
+}
+
+Vehicle2: {
+  Add Vehicle: Click,
+  Primary Use: 'contains=Commute',
+  Usage: Pleasure,
+  VIN: 1HGCV1F1XJA129560,
+  'Miles One-way to Work or School': '5',
+  Odometer Reading: '13000',
+  Odometer Reading Date: $<today>,
+  Ownership Type: Financed,
+}
+
+Vehicle3: {
+  Add Vehicle: Click,
+  Primary Use: 'contains=Commute',
+  Usage: Pleasure,
+  VIN: 2G1105S36J9108082,
+  'Miles One-way to Work or School': '5',
+  Odometer Reading: '13000',
+  Odometer Reading Date: $<today>,
+  Ownership Type: Leased,
+}
+
 VehicleTab_1: {
   Add Vehicle: Click,
   Primary Use: 'contains=Commute',
@@ -159,6 +197,13 @@ VehicleTab_OldVehicle: {
   Odometer Reading Date: $<today>,
 }
 
+AssingmentTab_LoanLeaseVehicle: {
+  DriverVehicleRelationshipTable: [{
+                                     Primary Driver: index=1,
+                                   }, {
+                                     Primary Driver: index=1,
+                                   }]
+}
 AssingmentTab_VehOtherTypes: {
   DriverVehicleRelationshipTable: [{
                                      Primary Driver: index=1,
@@ -174,7 +219,6 @@ AssingmentTab_VehOtherTypes: {
                                      Primary Driver: index=1,
                                    }]
 }
-
 AssingmentTab_3Veh: {
   DriverVehicleRelationshipTable: [   {
                                         Primary Driver: index=1,

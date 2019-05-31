@@ -399,7 +399,17 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 
 	}
 
-		protected void pas15424_viewUpdateOEMCoverageExistingVehicleNoCompCollTC06Body(boolean removeCOMPDED, boolean removeCOLLDED) {
+	protected void pas29905_newCarAddedProtectionLoanLeaseCABody() {
+
+		TestData td = getPolicyDefaultTD();
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleOtherTypesLoanLease").getTestDataList("VehicleTab"))
+				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("TestData_VehicleOtherTypes").getTestData("AssignmentTab")).resolveLinks();
+
+		String policyNumber = openAppAndCreatePolicy(testData);
+
+	}
+
+	protected void pas15424_viewUpdateOEMCoverageExistingVehicleNoCompCollTC06Body(boolean removeCOMPDED, boolean removeCOLLDED) {
 		TestData td = getPolicyDefaultTD();
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_OEMYes").getTestDataList("VehicleTab"))
 				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("TestData_OEMYes").getTestData("AssignmentTab"))

@@ -6059,7 +6059,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas23997_updatePipCoveragesNJbody(ETCSCoreSoftAssertions softly) {
 		mainApp().open();
-		String policyNumber = openAppAndCreatePolicy();
+		String policyNumber = "NJSS952918565";
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		//expected
@@ -6088,6 +6088,13 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		Coverage covPIPNONMEDEXPExpected = Coverage.create(CoverageInfo.PIPNONMEDEXP_NJ).changeLimit(CoverageLimits.COV_FALSE);//subCoverages
 		PolicyCoverageInfo updateResponse2 = updateCoverage(policyNumber, covPIPNONMEDEXPExpected);
 		Coverage covPIPExpected = Coverage.createWithCdAndDescriptionOnly(CoverageInfo.PIP_NJ);
+		Coverage covAPIPPExpected = Coverage.create(CoverageInfo.APIP_NJ).disableCanChange().disableCustomerDisplay();
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+
+		validatePolicyLevelCoverageChangeLog(policyNumber, CoverageInfo.PIP_NJ.getCode(), covPIPNONMEDEXPExpected);
+
+		validatePolicyLevelCoverageChangeLog(policyNumber, covAPIPPExpected);
 
 		Coverage covPIPActual = findCoverage(updateResponse2.policyCoverages, covPIPExpected.getCoverageCd());
 		List<Coverage> subCoveragesPIPActual = covPIPActual.getSubCoverages();

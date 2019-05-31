@@ -1597,7 +1597,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * change Weekly Income Continuation Benefits and Length of Income Continuation
 	 * 10. Check response.
 	 *
-	 * Note: "Coverage Includes" coverage was covered with PAS-25531
+	 * Note: "Coverage Includes" coverage pas23997_updatePipCoveragesNJbody was covered with PAS-25531
 	 * and "Primary Insurer" with PAS-23975
 	 */
 	@Parameters({"state"})

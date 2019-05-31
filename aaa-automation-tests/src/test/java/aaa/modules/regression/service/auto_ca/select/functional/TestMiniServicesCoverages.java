@@ -254,4 +254,13 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 			pas19057_OrderOfCoverageBodyCA(softly, false);
 		});
 	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-29905"})
+	public void pas29905_newCarAddedProtectionLoanLeaseCA(@Optional("CA") String state) {
+		pas29905_newCarAddedProtectionLoanLeaseCABody();
+	}
 }
+
