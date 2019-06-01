@@ -27,6 +27,35 @@ TestData_AllVehiclesETEIsOtherThan25750: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_ETECOtherThan25750ForAllVehicles'
 }
 
+TestData_2Drivers: {
+  DriverTab:['@Driver1', '@Driver2']
+}
+
+Driver1: {
+  DriverSearchDialog: {},
+  Occupation: 'Driver',
+  Age First Licensed: 18,
+  License Type: 'Valid',
+  "License #": 'B1234567',
+  Permit Before License: 'Yes'
+}
+
+Driver2: {
+  DriverSearchDialog: {},
+  Driver Type: 'Available for Rating',
+  Rel. to First Named Insured: Father,
+  First Name: 'Tom',
+  Last Name: 'Yokomoko',
+  Date of Birth: '05/01/1956',
+  Gender: 'Male',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'C1234568'
+}
+
 VehicleTab_1: {
   Add Vehicle: Click,
   Primary Use: 'contains=Commute',

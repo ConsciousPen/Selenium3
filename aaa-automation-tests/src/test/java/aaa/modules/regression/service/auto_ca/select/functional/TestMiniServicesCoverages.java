@@ -80,11 +80,15 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	 * 3. Add vehicle through service
 	 * 4. Run viewEndorsementCoverages service
 	 * 5. Verify Vehicle Level Coverages
+	 * PAS-29261
+	 * 6. Replace vehicles with keepCoverages=yes and verify that coverages that are expected to retain are retained and coverages that are not expected to retain are not retained
+	 * PAS-15405
+	 * 7. Replace vehicles with keepAssignments=yes/no and check result
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-26668"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-26668", "PAS-29261", "PAS-15405"})
 	public void pas26668_viewVehicleLevelCoveragesCA(@Optional("CA") String state) {
 		pas26668_viewVehicleLevelCoveragesCABody();
 	}

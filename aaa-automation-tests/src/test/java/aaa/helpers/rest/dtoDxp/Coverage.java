@@ -1,5 +1,6 @@
 package aaa.helpers.rest.dtoDxp;
 
+import aaa.main.enums.AvailableCoverageLimits;
 import aaa.main.enums.CoverageInfo;
 import aaa.main.enums.CoverageLimits;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -98,6 +99,15 @@ public class Coverage {
 	public Coverage changeAvailableLimits(CoverageLimits... limitToAdd) {
 		availableLimits.clear();
 		for (CoverageLimits coverageLimit : limitToAdd) {
+			CoverageLimit limit = new CoverageLimit().setCoverageLimit(coverageLimit.getLimit()).setCoverageLimitDisplay(coverageLimit.getDisplay());
+			availableLimits.add(limit);
+		}
+		return this;
+	}
+
+	public Coverage changeAvailableLimits(AvailableCoverageLimits limitsToAdd) {
+		availableLimits.clear();
+		for (CoverageLimits coverageLimit : limitsToAdd.getAvailableLimits()) {
 			CoverageLimit limit = new CoverageLimit().setCoverageLimit(coverageLimit.getLimit()).setCoverageLimitDisplay(coverageLimit.getDisplay());
 			availableLimits.add(limit);
 		}
