@@ -6,6 +6,13 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
 
+    <!-- MPD Tests -->
 
+    <test name="Multi Policy Discount SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMultiPolicyDiscount"/>
+        </classes>
+    </test>
 
 </suite>

@@ -1,11 +1,9 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.Tab;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.Constants.UserGroups;
@@ -25,12 +23,12 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author oreva
- * @name Test Policy Inquiry
- * @scenario
- * 1. Find customer or create new. 
- * 2. Create a new Auto SS policy.
- * 3. Select 'Inquiry' in Take Action drop down. 
- * 4. Verify that policy is opened in Inquiry mode.
+ * <b> Test Policy Inquiry </b>
+ * <p> Steps:
+ * <p> 1. Find customer or create new.
+ * <p> 2. Create a new Auto SS policy.
+ * <p> 3. Select 'Inquiry' in Take Action drop down.
+ * <p> 4. Verify that policy is opened in Inquiry mode.
  */
 public class TestPolicyInquiry extends HomeSSHO3BaseTest{
 	

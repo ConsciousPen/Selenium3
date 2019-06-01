@@ -3,12 +3,10 @@
 package aaa.modules.regression.service.auto_ss;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.Constants.UserGroups;
 import aaa.common.pages.MainPage;
@@ -26,12 +24,12 @@ import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author Jelena Dembovska
- * @name Test Endorsement for Auto Policy
- * @scenario
- * 1. Open existing policy and initiate flat endorsement
- * 2. Add additional insured, driver and vehicle
- * 3. Bind endorsement
- * @details
+ * <b> Test Endorsement for Auto Policy </b>
+ * <p> Steps:
+ * <p> 1. Open existing policy and initiate flat endorsement
+ * <p> 2. Add additional insured, driver and vehicle
+ * <p> 3. Bind endorsement
+ *
  */
 public class TestPolicyEndorsementAdd extends AutoSSBaseTest {
 

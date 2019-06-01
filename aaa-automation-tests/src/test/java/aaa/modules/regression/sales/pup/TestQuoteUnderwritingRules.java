@@ -18,23 +18,23 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Lina Li
- * @name Test Quote Underwriting rules
- * @scenario
- * 1. Create new or open existed customer.
- * 2. Initiate PUP quote creation.
- * 3. Fill all mandatory fields on all tabs, order reports, calculate premium. 
- * 4. Navigate to Underwriting And Approval tab.
- * 5. Fill tab according to "TestData_UW1",
- * 6. Press Continue and verify error messages displaying on tab:   
- * 7. Fill tab according to "TestData_UW2",
- * 8. Press Continue button and verify that all Remarks fields are displaying error messages. 
- * 9. Fill tab according to "TestData_UW3",
- * 10. Navigate to Bind tab and click Purchase button. 
- * 11. Verify Error tab is opened with errors messages: 
- * 12. Navigate to Underwriting And Approval tab and fill tab with correct values (TestData_UW4). 
- * 13. Purchase policy.
- * 14. Verify policy status is Active on Consolidated policy view.
- * @details
+ * <b> Test Quote Underwriting rules </b>
+ * <p> Steps:
+ * <p> 1. Create new or open existed customer.
+ * <p> 2. Initiate PUP quote creation.
+ * <p> 3. Fill all mandatory fields on all tabs, order reports, calculate premium.
+ * <p> 4. Navigate to Underwriting And Approval tab.
+ * <p> 5. Fill tab according to "TestData_UW1",
+ * <p> 6. Press Continue and verify error messages displaying on tab:
+ * <p> 7. Fill tab according to "TestData_UW2",
+ * <p> 8. Press Continue button and verify that all Remarks fields are displaying error messages.
+ * <p> 9. Fill tab according to "TestData_UW3",
+ * <p> 10. Navigate to Bind tab and click Purchase button.
+ * <p> 11. Verify Error tab is opened with errors messages:
+ * <p> 12. Navigate to Underwriting And Approval tab and fill tab with correct values (TestData_UW4).
+ * <p> 13. Purchase policy.
+ * <p> 14. Verify policy status is Active on Consolidated policy view.
+ *
  */
 
 public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest {

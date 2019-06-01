@@ -3,8 +3,8 @@ package aaa.modules.regression.billing_and_payments.auto_ca.select.functional;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -46,18 +46,18 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	}
 
 	/**
-	 * @name Test Earned premium write off generation
-	 * @scenario 1. Create Customer
-	 * 2. Create active policy.
-	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
-	 * 4. Do AP Endorsement at R-10.
-	 * 5. Move time to R and run status update job.
-	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
-	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
-	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
-	 * 9. Make payment less that earned premium write off.
-	 * 10. Verify that earned premium became less (earned premium write off reversal transaction).
-	 * @details
+	 * <b> Test Earned premium write off generation </b>
+	 * <p> Steps: 1. Create Customer
+	 * <p> 2. Create active policy.
+	 * <p> 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * <p> 4. Do AP Endorsement at R-10.
+	 * <p> 5. Move time to R and run status update job.
+	 * <p> 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * <p> 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * <p> 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * <p> 9. Make payment less that earned premium write off.
+	 * <p> 10. Verify that earned premium became less (earned premium write off reversal transaction).
+	 *
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
@@ -69,18 +69,18 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	}
 
 	/**
-	 * @name Test Earned premium write off generation
-	 * @scenario 1. Create Customer
-	 * 2. Create active policy.
-	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
-	 * 4. Do AP Endorsement at R-10.
-	 * 5. Move time to R and run status update job.
-	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
-	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
-	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
-	 * 9. Make payment equal to earned premium write off.
-	 * 10. Verify that earned premium is fully reversed.
-	 * @details
+	 * <b> Test Earned premium write off generation </b>
+	 * <p> Steps: 1. Create Customer
+	 * <p> 2. Create active policy.
+	 * <p> 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * <p> 4. Do AP Endorsement at R-10.
+	 * <p> 5. Move time to R and run status update job.
+	 * <p> 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * <p> 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * <p> 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * <p> 9. Make payment equal to earned premium write off.
+	 * <p> 10. Verify that earned premium is fully reversed.
+	 *
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
@@ -92,18 +92,18 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	}
 
 	/**
-	 * @name Test Earned premium write off generation
-	 * @scenario 1. Create Customer
-	 * 2. Create active policy.
-	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
-	 * 4. Do AP Endorsement at R-10.
-	 * 5. Move time to R and run status update job.
-	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
-	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
-	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
-	 * 9. Make payment more than earned premium write off.
-	 * 10. Verify that earned premium is fully reversed.
-	 * @details
+	 * <b> Test Earned premium write off generation </b>
+	 * <p> Steps: 1. Create Customer
+	 * <p> 2. Create active policy.
+	 * <p> 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * <p> 4. Do AP Endorsement at R-10.
+	 * <p> 5. Move time to R and run status update job.
+	 * <p> 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * <p> 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * <p> 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * <p> 9. Make payment more than earned premium write off.
+	 * <p> 10. Verify that earned premium is fully reversed.
+	 *
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
@@ -115,19 +115,19 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	}
 
 	/**
-	 * @name Test Earned premium write off generation
-	 * @scenario 1. Create Customer
-	 * 2. Create active policy.
-	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
-	 * 4. Do AP Endorsement at R-10.
-	 * 5. Move time to R and run status update job.
-	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
-	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
-	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
-	 * 9. Change status to Proposed.
-	 * 10. Make payment less that earned premium write off.
-	 * 11. Verify that earned premium became less (earned premium write off reversal transaction).
-	 * @details
+	 * <b> Test Earned premium write off generation </b>
+	 * <p> Steps: 1. Create Customer
+	 * <p> 2. Create active policy.
+	 * <p> 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * <p> 4. Do AP Endorsement at R-10.
+	 * <p> 5. Move time to R and run status update job.
+	 * <p> 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * <p> 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * <p> 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * <p> 9. Change status to Proposed.
+	 * <p> 10. Make payment less that earned premium write off.
+	 * <p> 11. Verify that earned premium became less (earned premium write off reversal transaction).
+	 *
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
@@ -139,19 +139,19 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	}
 
 	/**
-	 * @name Test Earned premium write off generation
-	 * @scenario 1. Create Customer
-	 * 2. Create active policy.
-	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
-	 * 4. Do AP Endorsement at R-10.
-	 * 5. Move time to R and run status update job.
-	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
-	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
-	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
-	 * 9. Change status to Proposed.
-	 * 10. Make payment equal to earned premium write off.
-	 * 11. Verify that earned premium is fully reversed.
-	 * @details
+	 * <b> Test Earned premium write off generation </b>
+	 * <p> Steps: 1. Create Customer
+	 * <p> 2. Create active policy.
+	 * <p> 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * <p> 4. Do AP Endorsement at R-10.
+	 * <p> 5. Move time to R and run status update job.
+	 * <p> 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * <p> 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * <p> 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * <p> 9. Change status to Proposed.
+	 * <p> 10. Make payment equal to earned premium write off.
+	 * <p> 11. Verify that earned premium is fully reversed.
+	 *
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
@@ -163,19 +163,19 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	}
 
 	/**
-	 * @name Test Earned premium write off generation
-	 * @scenario 1. Create Customer
-	 * 2. Create active policy.
-	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
-	 * 4. Do AP Endorsement at R-10.
-	 * 5. Move time to R and run status update job.
-	 * 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
-	 * 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
-	 * 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
-	 * 9. Change status to Proposed.
-	 * 10. Make payment more than earned premium write off.
-	 * 11. Verify that earned premium is fully reversed.
-	 * @details
+	 * <b> Test Earned premium write off generation </b>
+	 * <p> Steps: 1. Create Customer
+	 * <p> 2. Create active policy.
+	 * <p> 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * <p> 4. Do AP Endorsement at R-10.
+	 * <p> 5. Move time to R and run status update job.
+	 * <p> 6. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * <p> 7. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * <p> 8. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * <p> 9. Change status to Proposed.
+	 * <p> 10. Make payment more than earned premium write off.
+	 * <p> 11. Verify that earned premium is fully reversed.
+	 *
 	 */
 	@Override
 	@Parameters({STATE_PARAM})
@@ -187,16 +187,16 @@ public class TestEarnedPremiumWriteOff extends TestEarnedPremiumWriteOffAbstract
 	}
 
 	/**
-	 * @name Test Earned premium write off generation
-	 * @scenario 1. Create Customer
-	 * 2. Create active policy.
-	 * 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
-	 * 4. Move time to R and run status update job.
-	 * 5. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
-	 * 6. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
-	 * 7. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
-	 * 8. Earned premium write off is absent on policy
-	 * @details
+	 * <b> Test Earned premium write off generation </b>
+	 * <p> Steps: 1. Create Customer
+	 * <p> 2. Create active policy.
+	 * <p> 3. Go to R-45/R-35/R-20 and run all needed renewal jobs and renewal notice job
+	 * <p> 4. Move time to R and run status update job.
+	 * <p> 5. Move time to R+10 and run policyLapsedRenewalProcessAsyncJob
+	 * <p> 6. Move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
+	 * <p> 7. Move time to R+60 and run earnedpremiumWriteoffprocessingjob
+	 * <p> 8. Earned premium write off is absent on policy
+	 *
 	 */
 	@Override
 	@Parameters({STATE_PARAM})

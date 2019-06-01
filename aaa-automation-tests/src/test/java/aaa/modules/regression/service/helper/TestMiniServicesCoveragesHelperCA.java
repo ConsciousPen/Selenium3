@@ -453,7 +453,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 
 	}
 
-	protected void pas15424_viewUpdateOEMCoverageExistingVehicleNoCompCollTC06Body(boolean removeCOMPDED, boolean removeCOLLDED) {
+		protected void pas15424_viewUpdateOEMCoverageExistingVehicleNoCompCollTC06Body(boolean removeCOMPDED, boolean removeCOLLDED) {
 		TestData td = getPolicyDefaultTD();
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_OEMYes").getTestDataList("VehicleTab"))
 				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("TestData_OEMYes").getTestData("AssignmentTab"))

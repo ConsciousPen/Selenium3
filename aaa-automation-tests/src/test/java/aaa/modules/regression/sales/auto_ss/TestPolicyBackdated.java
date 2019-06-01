@@ -6,7 +6,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -21,13 +20,13 @@ import toolkit.utils.datetime.DateTimeUtils;
 
 /**
  * @author Jelena Dembovska
- * @name Test backdated policy
- * @scenario
- * 1. Create new quote
- * 2. Set Quote effective date < current date
- * 3. Check that appropriate rule about backdated Policy is fired
- * 4. Override rule and bind policy
- * @details
+ * <b> Test backdated policy </b>
+ * <p> Steps:
+ * <p> 1. Create new quote
+ * <p> 2. Set Quote effective date < current date
+ * <p> 3. Check that appropriate rule about backdated Policy is fired
+ * <p> 4. Override rule and bind policy
+ *
  */
 public class TestPolicyBackdated extends AutoSSBaseTest {
 

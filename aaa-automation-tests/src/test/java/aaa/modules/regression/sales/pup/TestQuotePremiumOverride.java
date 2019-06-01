@@ -4,11 +4,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
-
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -18,25 +14,27 @@ import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderwritingAndApprovalTab;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
 
 /**
  * @author Xiaolan Ge
- * @name Test PUP Quote Premium Override
- * @scenario 
- * 1. Create new or open existent Customer;
- * 2. Start PUP quote creation;
- * 3. Fill all mandatory fields;
- * 4. Calculate premium.
- * 5. On Premium and coverage tab change "Personal Umbrella" and check that calculated premium resets to zero.
- * 6. Calculate premium.
- * 7. Invoke Override Premium Dialog.
- * 8. Override premium by -101%, check error message appears. Cancel Override.
- * 9. Override premium by Percentage (20%), check calculated values. Cancel Override.
- * 10. Override premium by Percentage (100%), check calculated values. Cancel Override.
- * 11.Override premium by Percentage (-20%), check calculated values. Confirm Override.
- * 12.Check override success message.
- * 13.Issue Policy;
- * 14.Check Policy status is Active.
+ * <b> Test PUP Quote Premium Override </b>
+ * <p> Steps:
+ * <p> 1. Create new or open existent Customer;
+ * <p> 2. Start PUP quote creation;
+ * <p> 3. Fill all mandatory fields;
+ * <p> 4. Calculate premium.
+ * <p> 5. On Premium and coverage tab change "Personal Umbrella" and check that calculated premium resets to zero.
+ * <p> 6. Calculate premium.
+ * <p> 7. Invoke Override Premium Dialog.
+ * <p> 8. Override premium by -101%, check error message appears. Cancel Override.
+ * <p> 9. Override premium by Percentage (20%), check calculated values. Cancel Override.
+ * <p> 10. Override premium by Percentage (100%), check calculated values. Cancel Override.
+ * <p> 11.Override premium by Percentage (-20%), check calculated values. Confirm Override.
+ * <p> 12.Check override success message.
+ * <p> 13.Issue Policy;
+ * <p> 14.Check Policy status is Active.
  */
 
 public class TestQuotePremiumOverride extends PersonalUmbrellaBaseTest {   

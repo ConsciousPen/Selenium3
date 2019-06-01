@@ -6,9 +6,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -19,16 +17,16 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Yonggang Sun
- * @name Test OOS Endorsement for Umbrella Policy
- * @scenario
- * 1. Create Customer
- * 2. Create Umbrella (AAA) Policy
- * 3. Create Midterm Endorsement
- * 4. Create OOS Endorsement
- * 5. Verify 'Pended Endorsement' button is disabled
- * 6. Verify Policy status is 'Pending out of sequence completion'
- * 7. Verify Policy Premium is changed
- * @details
+ * <b> Test OOS Endorsement for Umbrella Policy </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create Umbrella (AAA) Policy
+ * <p> 3. Create Midterm Endorsement
+ * <p> 4. Create OOS Endorsement
+ * <p> 5. Verify 'Pended Endorsement' button is disabled
+ * <p> 6. Verify Policy status is 'Pending out of sequence completion'
+ * <p> 7. Verify Policy Premium is changed
+ *
  */
 public class TestPolicyEndorsementOos extends PersonalUmbrellaBaseTest {
 	

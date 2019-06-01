@@ -5,8 +5,6 @@ package aaa.modules.regression.service.pup;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -15,13 +13,13 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Lina Li
- * @name Test renew decline by company for Umbrella Policy
- * @scenario 1. Create Customer
- * 2. Create Personal Umbrella Policy
- * 3. Renew Policy
- * 4. Decline by company
- * 5. Verify Policy status is 'Company Declined'
- * @details
+ * <b> Test renew decline by company for Umbrella Policy </b>
+ * <p> Steps: 1. Create Customer
+ * <p> 2. Create Personal Umbrella Policy
+ * <p> 3. Renew Policy
+ * <p> 4. Decline by company
+ * <p> 5. Verify Policy status is 'Company Declined'
+ *
  */
 public class TestPolicyRenewDeclineByCompany extends PolicyRenewDeclineByCompany {
 
@@ -36,6 +34,6 @@ public class TestPolicyRenewDeclineByCompany extends PolicyRenewDeclineByCompany
 	@TestInfo(component = ComponentConstant.Service.PUP)
 	public void testPolicyRenewDeclineByCompany(@Optional("") String state) {
 
-		super.testPolicyRenewDeclineByCompany();
+		testPolicyRenewDeclineByCompany();
 	}
 }
