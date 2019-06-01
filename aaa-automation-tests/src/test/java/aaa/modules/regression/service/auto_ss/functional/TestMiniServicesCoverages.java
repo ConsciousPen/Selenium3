@@ -1603,7 +1603,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23997"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23997,Pas-19163,Pas-19161"})
 	public void pas23997_updatePipCoveragesNJ(@Optional("NJ") String state) {
 		assertSoftly(softly ->
 				pas23997_updatePipCoveragesNJbody(softly))
