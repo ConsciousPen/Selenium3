@@ -31,6 +31,7 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * PAS-18341 - Added PermissiveUse tag to Claims Service Contract
      * PAS-18300 - PERMISSIVE_USE match to FNI when dateOfLoss param = claim dateOfLoss
      * PAS-23269 - UI-CA: Show Permissive Use Indicator on Driver Tab
+     * PAS-29098 - Order and receipt dates are not updated for CA auto policies after internal claims are ordered during renewal.
      * @name Test Offline STUB/Mock Data Claims
      * @scenario Test Steps:
      * 1. Create a Policy with 3 drivers; 1 with no STUB data match, 2, and 3 with STUB data match
