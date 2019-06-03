@@ -183,6 +183,14 @@
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="HomeSS [OK] Premium Calculation Test 2019" preserve-order="true">
+        <parameter name="fileName" value="OKTests-20190611.xls"/>
+        <parameter name="policyNumbers" value="140, 170"/>
+        <parameter name="testsDir" value="aaa-rating-rules-home/src/test/openl/rules"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="HomeSS [OR] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="ORTests-20171023.xls"/>
         <parameter name="policyNumbers" value="1,2"/>
