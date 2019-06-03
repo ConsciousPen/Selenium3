@@ -6,7 +6,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -19,9 +18,9 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Jelena Dembovska
- * @name Test Named-non-owner auto policy creation
- * @scenario
- * @details
+ * <b> Test Named-non-owner auto policy creation </b>
+ * <p> Steps:
+ *
  */
 public class TestPolicyNano extends AutoSSBaseTest {
 

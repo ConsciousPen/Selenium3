@@ -1839,5 +1839,23 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas27867_pipCovIncludesAddRemoveDriverTC02Body();
 	}
 
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Nevada - Let's Turn off Medical Expense
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Run view vehicle coverage
+	 * 4. Verify "canChangeCoverage": false, for MEDPM
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NV})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-29904"})
+	public void pas29904_nevadaMedicalExpense(@Optional("NV") String state) {
+		pas29904_nevadaMedicalExpenseBody();
+	}
+
 }
 

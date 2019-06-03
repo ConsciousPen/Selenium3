@@ -5,11 +5,9 @@ package aaa.modules.regression.service.home_ca.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.regression.service.template.PolicyEndorsementMidTerm;
@@ -19,15 +17,15 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Ryan Yu
- * @name Test Midterm Endorsement for Home Policy
- * @scenario
- * 1. Create Customer
- * 2. Create Home Policy
- * 3. Create endorsement
- * 4. Verify 'Pended Endorsement' button is disabled
- * 5. Verify Policy status is 'Policy Active'
- * 6. Verify Ending Premium is changed
- * @details
+ * <b> Test Midterm Endorsement for Home Policy </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create Home Policy
+ * <p> 3. Create endorsement
+ * <p> 4. Verify 'Pended Endorsement' button is disabled
+ * <p> 5. Verify Policy status is 'Policy Active'
+ * <p> 6. Verify Ending Premium is changed
+ *
  */
 public class TestPolicyEndorsementMidTerm extends PolicyEndorsementMidTerm {
 
@@ -46,6 +44,6 @@ public class TestPolicyEndorsementMidTerm extends PolicyEndorsementMidTerm {
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
 	public void testPolicyEndorsementMidTerm(@Optional("CA") String state) {
-		super.testPolicyEndorsementMidTerm();
+		testPolicyEndorsementMidTerm();
 	}
 }

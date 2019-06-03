@@ -36,15 +36,15 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 
 	/**
 	 * @author Dmitry Chubkov
-	 * @name Fill and clear all search criteria fields check
+	 * <b> Fill and clear all search criteria fields check </b>
 	 *
-	 * @scenario
-	 * 1. Open search page and choose any "Search For" criteria except "Policy"
-	 * 2. Fill all search by criteria fields with any random values and press "Search" button
-	 * 3. Verify that all search by criteria fields have same filled values from step 2
-	 * 4. Press "Clear" button
-	 * 5. Verify that all search by criteria fields have empty values except "Search For" which resets to default "Policy" value
-	 * @details
+	 * <p> Steps:
+	 * <p> 1. Open search page and choose any "Search For" criteria except "Policy"
+	 * <p> 2. Fill all search by criteria fields with any random values and press "Search" button
+	 * <p> 3. Verify that all search by criteria fields have same filled values from step 2
+	 * <p> 4. Press "Clear" button
+	 * <p> 5. Verify that all search by criteria fields have empty values except "Search For" which resets to default "Policy" value
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
@@ -75,32 +75,32 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 			if (searchByField.equals(SearchPage.LABEL_SEARCH)) {
 				//((RadioGroup) searchByControl).verify.value(defaultSearchForCriteria.get());
 			} else {
-				assertThat(((AbstractStringElement<?>) searchByControl)).hasValue("");
+				assertThat((AbstractStringElement<?>) searchByControl).hasValue("");
 			}
 		}
 	}
 
 	/**
 	 * @author Dmitry Chubkov
-	 * @name Search criteria length and format warnings checks
+	 * <b> Search criteria length and format warnings checks </b>
 	 *
-	 * @scenario
-	 * 1. Open search page and choose any "Search For" criteria
-	 * 2. Fill any search criteria which produces too broad search results (e.g. set "Product ID" = "Auto") and press "Search" button
-	 * 3. Check that result set too large warning message appear
-	 * 4. Fill all search by fields with less than minimum allowable criteria length and press "Search" button
-	 * 5. Check that appropriate criteria length warning messages appear
-	 * 6. Fill all search by fields with minimum allowable criteria length and press "Search" button
-	 * 7. Check that appropriate criteria length warning messages disappear
-	 * 8. Fill all search by fields with more than maximum allowable criteria length and press "Search" button
-	 * 9. Check that appropriate criteria length warning messages appear
-	 * 10. Fill all search by fields with maximum allowable criteria length and press "Search" button
-	 * 11. Check that appropriate criteria length warning messages disappear
-	 * 12. Fill all search by fields with criteria in wrong format (e.g. letters in phone or account number) and press "Search" button
-	 * 13. Check that appropriate criteria format warning messages appear
-	 * 14. Press "Clear" button and then "Search" button
-	 * 15. Check that warning message about not entered criteria appears
-	 * @details
+	 * <p> Steps:
+	 * <p> 1. Open search page and choose any "Search For" criteria
+	 * <p> 2. Fill any search criteria which produces too broad search results (e.g. set "Product ID" = "Auto") and press "Search" button
+	 * <p> 3. Check that result set too large warning message appear
+	 * <p> 4. Fill all search by fields with less than minimum allowable criteria length and press "Search" button
+	 * <p> 5. Check that appropriate criteria length warning messages appear
+	 * <p> 6. Fill all search by fields with minimum allowable criteria length and press "Search" button
+	 * <p> 7. Check that appropriate criteria length warning messages disappear
+	 * <p> 8. Fill all search by fields with more than maximum allowable criteria length and press "Search" button
+	 * <p> 9. Check that appropriate criteria length warning messages appear
+	 * <p> 10. Fill all search by fields with maximum allowable criteria length and press "Search" button
+	 * <p> 11. Check that appropriate criteria length warning messages disappear
+	 * <p> 12. Fill all search by fields with criteria in wrong format (e.g. letters in phone or account number) and press "Search" button
+	 * <p> 13. Check that appropriate criteria format warning messages appear
+	 * <p> 14. Press "Clear" button and then "Search" button
+	 * <p> 15. Check that warning message about not entered criteria appears
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})

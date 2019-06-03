@@ -591,11 +591,11 @@ public final class AutoCaMetaData {
 
 			public static final AssetDescriptor<AdvancedComboBox> ENHANCED_TRASPORTATION_EXPENCE = declare("Enhanced Transportation Expense", AdvancedComboBox.class);
 			public static final AssetDescriptor<ComboBox> ALL_RISK = declare("All Risk", ComboBox.class);
-			public static final AssetDescriptor<ComboBox> NEW_CAR_ADDED_PROTECTION = declare("New Car Added Protection", ComboBox.class);
+			public static final AssetDescriptor<AdvancedComboBox> NEW_CAR_ADDED_PROTECTION = declare("New Car Added Protection", AdvancedComboBox.class);
 			public static final AssetDescriptor<TextBox> PURCHASE_DATE = declare("Purchase Date", TextBox.class);
-			public static final AssetDescriptor<ComboBox> VEHICLE_LOAN_OR_LEASE_PROTECTION = declare("Vehicle Loan/Lease Protection", ComboBox.class);
-			public static final AssetDescriptor<ComboBox> ORIGINAL_EQUIPMENT_MANUFACTURER_PARTS = declare("Original Equipment Manufacturer Parts", ComboBox.class);
-			public static final AssetDescriptor<ComboBox> RIDESHARING_COVERAGE = declare("Ridesharing Coverage", ComboBox.class);
+			public static final AssetDescriptor<AdvancedComboBox> VEHICLE_LOAN_OR_LEASE_PROTECTION = declare("Vehicle Loan/Lease Protection", AdvancedComboBox.class);
+			public static final AssetDescriptor<AdvancedComboBox> ORIGINAL_EQUIPMENT_MANUFACTURER_PARTS = declare("Original Equipment Manufacturer Parts", AdvancedComboBox.class);
+			public static final AssetDescriptor<AdvancedComboBox> RIDESHARING_COVERAGE = declare("Ridesharing Coverage", AdvancedComboBox.class);
 			// *** DO NOT DECLARE "Waive Liability" and "Vehicle Coverage" controls in this MetaData. They are added within DetailedVehicleCoveragesRepeatAssetList.class ***
 		}
 

@@ -300,7 +300,7 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
 			softly.assertThat(metaDataFieldResponseMarital.valueRange.get("P")).isEqualTo("Separated");
 
             getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "drivingLicense.stateLicensed", true, true, true, null, "String");
-            getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "drivingLicense.licenseNumber", true, true, false, "255", "String");
+            getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "drivingLicense.licenseNumber", true, true, false, null, "String");
             getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "ageFirstLicensed", true, true, true, "3", "Integer");
         });
     }

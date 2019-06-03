@@ -5,7 +5,6 @@ package aaa.modules.regression.service.auto_ca.choice;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -16,14 +15,14 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Lina Li
- * @name Test Policy Cancel Notice Add And Remove
- * @scenario 1. Create Customer
- * 2. Create Auto_CA_Choice Policy
- * 3. Cancel Notice for AutoSS Policy
- * 4. Verify 'Cancel Notice' flag is displayed in the policy overview header
- * 5. Delete Cancel Notice for Policy
- * 6. Verify 'Cancel Notice' flag is not displayed in the policy overview header
- * @details
+ * <b> Test Policy Cancel Notice Add And Remove </b>
+ * <p> Steps: 1. Create Customer
+ * <p> 2. Create Auto_CA_Choice Policy
+ * <p> 3. Cancel Notice for AutoSS Policy
+ * <p> 4. Verify 'Cancel Notice' flag is displayed in the policy overview header
+ * <p> 5. Delete Cancel Notice for Policy
+ * <p> 6. Verify 'Cancel Notice' flag is not displayed in the policy overview header
+ *
  */
 
 public class TestPolicyCancelNoticeAddDelete extends PolicyCancelNoticeAddDelete {
@@ -39,7 +38,7 @@ public class TestPolicyCancelNoticeAddDelete extends PolicyCancelNoticeAddDelete
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE)
 	public void testPolicyCancelNoticeAddDelete(@Optional("CA") String state) {
 
-		super.testPolicyCancelNoticeAddDelete();
+		testPolicyCancelNoticeAddDelete();
 	}
 
 }

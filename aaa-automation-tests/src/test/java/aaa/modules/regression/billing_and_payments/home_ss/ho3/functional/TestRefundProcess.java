@@ -1,8 +1,6 @@
 package aaa.modules.regression.billing_and_payments.home_ss.ho3.functional;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -14,7 +12,6 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.rest.wiremock.HelperWireMockStub;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
@@ -41,11 +38,11 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	/***
-	 * The test is used to debug 7025 generated file using minimu actions, when file is already generated
+	 * <p> The test is used to debug 7025 generated file using minimu actions, when file is already generated
 	 * @param state
-	 * @throws SftpException
-	 * @throws JSchException
-	 * @throws IOException
+	 * <p> @throws SftpException
+	 * <p> @throws JSchException
+	 * <p> @throws IOException
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})

@@ -19,12 +19,12 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Ryan Yu
- * @name Test Create PUP Pup Quote Voice Bind
- * @scenario
- * 1. Create new or open existent Customer;
- * 2. Create Umbrella Quote
- * 3. Issue policy;
- * 4. Check Policy status is Active.
+ * <b> Test Create PUP Pup Quote Voice Bind </b>
+ * <p> Steps:
+ * <p> 1. Create new or open existent Customer;
+ * <p> 2. Create Umbrella Quote
+ * <p> 3. Issue policy;
+ * <p> 4. Check Policy status is Active.
  */
 public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
 	//private final String VOICE_SIGNATURE_ERROR = "Voice Signature is not available if cash or check is selected as a payment method.";

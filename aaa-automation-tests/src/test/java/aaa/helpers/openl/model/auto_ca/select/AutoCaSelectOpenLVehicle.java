@@ -2,7 +2,6 @@ package aaa.helpers.openl.model.auto_ca.select;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.collections4.CollectionUtils;
 import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLVehicle;
@@ -15,7 +14,7 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 	@RequiredField
 	private List<AutoCaSelectOpenLCoverage> coverages;
 
-	private List<AutoCaSelectOpenLCoverage> optionalCoverages;
+	//private List<AutoCaSelectOpenLCoverage> optionalCoverages;
 
 	@RequiredField
 	private AutoCaSelectOpenLDriver primaryDriver;
@@ -173,11 +172,12 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 		this.manuallyAssignedUndesignatedDriverInd = manuallyAssignedUndesignatedDriverInd;
 	}
 
-	public List<AutoCaSelectOpenLCoverage> getOptionalCoverages() {
+	//disabled for now, cause optionalCoverages implementation was changed in OpenL generator
+	/*public List<AutoCaSelectOpenLCoverage> getOptionalCoverages() {
 		return CollectionUtils.isNotEmpty(optionalCoverages) ? new ArrayList<>(optionalCoverages) : null;
 	}
 
 	public void setOptionalCoverages(List<AutoCaSelectOpenLCoverage> optionalCoverages) {
 		this.optionalCoverages = CollectionUtils.isNotEmpty(optionalCoverages) ? new ArrayList<>(optionalCoverages) : null;
-	}
+	}*/
 }

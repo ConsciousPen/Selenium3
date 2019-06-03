@@ -5,7 +5,6 @@ package aaa.modules.regression.sales.auto_ca.choice.functional;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -21,13 +20,14 @@ public class TestContactInformation extends aaa.modules.regression.sales.auto_ca
     }
 
     /**
-     * * @author Viktoriia Lutsenko
-     * <p>
-     * PAS-270
-     * <p>
-     * See detailed steps in template file
-     * {@link aaa.modules.regression.sales.template.functional.TestContactInformationAbstract}
+     * <p> * @author Viktoriia Lutsenko
+     * <p> <p>
+     * <p> PAS-270
+     * <p> <p>
+     * <p> See detailed steps in template file
+     * <p> {@link aaa.modules.regression.sales.template.functional.TestContactInformationAbstract}
      */
+    @Override
     @Parameters({"state"})
     @StateList(states =  States.CA)
     @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})

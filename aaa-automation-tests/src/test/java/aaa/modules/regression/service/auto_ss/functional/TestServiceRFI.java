@@ -2288,7 +2288,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		verifyRFIHasNoDocuments(policyNumber);
 
 		//Update coverage
-		String vehicleOid = VEH_HELPER.findVehicleByVin(HelperCommon.viewEndorsementVehicles(policyNumber), vin).oid;
+		String vehicleOid = TestMiniServicesVehiclesHelper.findVehicleByVin(HelperCommon.viewEndorsementVehicles(policyNumber), vin).oid;
 		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest("COMPDED", "100"), PolicyCoverageInfo.class);
 		String docId;
 		DocGenEnum.Documents expectedDocument;

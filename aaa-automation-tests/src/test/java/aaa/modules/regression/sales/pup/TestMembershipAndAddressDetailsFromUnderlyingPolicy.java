@@ -1,5 +1,11 @@
 package aaa.modules.regression.sales.pup;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.HashMap;
+import java.util.Map;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -11,26 +17,18 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static toolkit.verification.CustomAssertions.assertThat;
-
 /**
  * @author mlaptsionak
- * @name Validate Membership details and Dwelling address details should be fetched from the underlying policy  ("PC81-M-F-PUP-CA-3604")
- * @scernario 1. Create a CA Auto policy with the valid membership number and bind the policy
- * 2. Create a HO policy with the same valid membership number as used in Auto policy and bind the policy
- * 3. Initiate a PUP policy and add those two Auto and HO as an underlying policy(Auto policy should be added first
- * 4. Enter all mandatory fields and click order prefill on corresponding underlying HO policy. Set HO policy sa Primary poliy.
- * 5. Navigate to general page and validate membership and dwelling address details got prefilled correctly from the underlying policy
- * Expected: Membership details and Dwelling address details should be fetched from the underlying policy and should not display empty.
+ * <b> Validate Membership details and Dwelling address details should be fetched from the underlying policy  ("PC81-M-F-PUP-CA-3604") </b>
+ * <p> Steps: 1. Create a CA Auto policy with the valid membership number and bind the policy
+ * <p> 2. Create a HO policy with the same valid membership number as used in Auto policy and bind the policy
+ * <p> 3. Initiate a PUP policy and add those two Auto and HO as an underlying policy(Auto policy should be added first
+ * <p> 4. Enter all mandatory fields and click order prefill on corresponding underlying HO policy. Set HO policy sa Primary poliy.
+ * <p> 5. Navigate to general page and validate membership and dwelling address details got prefilled correctly from the underlying policy
+ * <p> Expected: Membership details and Dwelling address details should be fetched from the underlying policy and should not display empty.
  */
 
 public class TestMembershipAndAddressDetailsFromUnderlyingPolicy extends PersonalUmbrellaBaseTest {

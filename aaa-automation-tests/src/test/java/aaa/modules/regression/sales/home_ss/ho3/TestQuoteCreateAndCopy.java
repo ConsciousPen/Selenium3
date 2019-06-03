@@ -4,7 +4,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -16,19 +15,19 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Olga Reva
- * @name Test Create and copy quote
- * @scenario
- * 1. Find customer or create new if customer does not exist.
- * 2. Initiate new HSS quote creation.
- * 3. Fill all mandatory fields on all tabs, order report, calculate premium.
- * 4. Save & Exit quote. 
- * 5. Verify quote status is Premium Calculated. 
- * 6. Perform Copy from Quote action.
- * 7. Verify status of copied quote is Gathering Info.
- * 8. Perform Data Gathering action for copied quote.
- * 9. Fill all unfilled fields in copied quote, calculate premium, bind and purchase.
- * 10. Verify that policy is created and in Active status.
- * @details
+ * <b> Test Create and copy quote </b>
+ * <p> Steps:
+ * <p> 1. Find customer or create new if customer does not exist.
+ * <p> 2. Initiate new HSS quote creation.
+ * <p> 3. Fill all mandatory fields on all tabs, order report, calculate premium.
+ * <p> 4. Save & Exit quote.
+ * <p> 5. Verify quote status is Premium Calculated.
+ * <p> 6. Perform Copy from Quote action.
+ * <p> 7. Verify status of copied quote is Gathering Info.
+ * <p> 8. Perform Data Gathering action for copied quote.
+ * <p> 9. Fill all unfilled fields in copied quote, calculate premium, bind and purchase.
+ * <p> 10. Verify that policy is created and in Active status.
+ *
  */
 public class TestQuoteCreateAndCopy extends HomeSSHO3BaseTest {
 	
