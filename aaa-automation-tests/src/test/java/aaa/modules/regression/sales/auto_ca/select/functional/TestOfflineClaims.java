@@ -342,6 +342,7 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
     public void pas27908_UpdateUWRulesWithPUFlag(@Optional("CA") @SuppressWarnings("unused") String state) {
         pas27908_UpdateUWRulesWithPUFlag();
     }
+
     /**
      * @author Saranya Hariharan
      * PAS-27226: CA Mature Driver Discount doesn't work according to rules

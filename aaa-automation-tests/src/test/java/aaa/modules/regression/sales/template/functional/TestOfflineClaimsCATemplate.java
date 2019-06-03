@@ -1462,20 +1462,24 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         TestData testDataForMDD = getTestSpecificTD("TestData_Discounts").resolveLinks();
         TestData td_activity = getTestSpecificTD("TestData_Activity_MDD");
         TestData td_driver_endorse = getTestSpecificTD("TestData_MDD_Endorse");
+
+        //Create policy with Driver who will qualify for the MDD. Fill to P&C Page and verify MDD
         createQuoteAndFillUpTo(testDataForMDD, PremiumAndCoveragesTab.class, false);
         CustomSoftAssertions.assertSoftly(softly -> {
             softly.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Mature Driver Discount (Tom Johns)");
-            //Order Reports in the DAR page
+
+            //Order Reports in the DAR page and then Navigate to Driver and Add Activities to the Second Driver who is Eligible for Mature Driver Discount
             NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
             driverActivityReportsTab.fillTab(td_activity).submitTab();
-            //Navigate to Driver and Add Activities to the Second Driver who is Eligible for Mature Driver Discount
             NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
             tableDriverList.selectRow(2);
             driverTab.fillTab(td_activity);
-            //Assert that Mature Driver Discount does not exist.
+
+            //Navigate to the P&C page amd assert that Mature Driver Discount does not exist - Driver is not a Assigned Rated Driver and would not get the discount
             NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
             softly.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount (Tom Johns)");
-            //Calculate Premium and create policy
+
+            //Calculate Premium and bind the policy
             premiumAndCoveragesTab.fillTab(td_activity).submitTab();
             NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
             documentsAndBindTab.fillTab(td_activity).submitTab();
@@ -1486,25 +1490,31 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
             }
             purchaseTab.fillTab(td_activity).submitTab();
             String policyNum = labelPolicyNumber.getValue();
-            //Endorsement Scenario
+
+            //Begin Endorsement Scenario
             TestData td_activity1 = getTestSpecificTD("TestData_Activity_MDD_Endorse");
             //Add a New Driver in Endorsement
             MDD = true;
             initiateAddDriverEndorsement(policyNum, td_activity1);
-            //Add a new Vehicle and assign it to the newly added driver
+
+            //Add a new Vehicle and assign it to the newly added driver (3rd driver)
             policy.getDefaultView().fillFromTo(td_driver_endorse, MembershipTab.class, AssignmentTab.class, true);
             NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
             assignmentTab.fillTab(td_driver_endorse).submitTab();
-            // verify added Driver gets MDD discount
+
+            //Verify added Driver gets MDD discount and that the existing driver does NOT magically get the MDD during endorsement
             NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
             softly.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains("Mature Driver Discount (Nike Johns)");
+            softly.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount (Tom Johns)");
             premiumAndCoveragesTab.fillTab(td_activity1).submitTab();
             NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
-            //Navigate to Driver and add Activities
+
+            //Navigate to Driver and add Activities/claims to the added driver
             NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
             tableDriverList.selectRow(3);
             driverTab.fillTab(td_activity1);
-            //Assert that MDD does not exist for the newly added driver
+
+            //Assert that MDD does not exist for the newly added driver - activity removed eligibility
             NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
             softly.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Mature Driver Discount (Nike Johns)");
         });
