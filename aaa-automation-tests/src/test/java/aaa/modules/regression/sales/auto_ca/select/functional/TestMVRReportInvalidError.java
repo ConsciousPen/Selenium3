@@ -135,6 +135,9 @@ public class TestMVRReportInvalidError extends AutoCaSelectBaseTest {
 			documentTab.fillTab(tdPolicy);
 			DocumentsAndBindTab.btnPurchase.click();
 
+			// Updating the message of the error to have exact driver name and lname
+			ErrorEnum.Errors.ERROR_AAA_CSA190521.setMessage("The MVR license status returned for " + name + " " + lname + " is unacceptable (AAA_CSA190521) [for AAADARTabBindRules.attributeForRules]");
+
 			new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_CSA190521);
 			new ErrorTab().overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSA190521);
 			new ErrorTab().override();
