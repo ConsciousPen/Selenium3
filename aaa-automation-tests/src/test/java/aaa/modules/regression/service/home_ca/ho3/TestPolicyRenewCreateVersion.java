@@ -28,16 +28,16 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author oreva
- * @name Renewal - Create Version
- * @scenario
- * 1. Create new or retrieve a customer.
- * 2. Create an Home CA policy. 
- * 3. Create a renewal, it should be in Premium Calculated status.
- * 4. Navigate to Inquiry mode of renewal version 1 and get renewal premium amount.
- * 5. Create renewal version 2. 
- * 6. Change a coverage, re-calculate premium and get premium amount of version 2. 
- * 7. Navigate to transaction history page by clicking on 'Renewal Quote Version' button.
- * 8. Verify that renewal version 1 and version 2 and appropriate premium amounts are displaying in Transaction History table.
+ * <b> Renewal - Create Version </b>
+ * <p> Steps:
+ * <p> 1. Create new or retrieve a customer.
+ * <p> 2. Create an Home CA policy.
+ * <p> 3. Create a renewal, it should be in Premium Calculated status.
+ * <p> 4. Navigate to Inquiry mode of renewal version 1 and get renewal premium amount.
+ * <p> 5. Create renewal version 2.
+ * <p> 6. Change a coverage, re-calculate premium and get premium amount of version 2.
+ * <p> 7. Navigate to transaction history page by clicking on 'Renewal Quote Version' button.
+ * <p> 8. Verify that renewal version 1 and version 2 and appropriate premium amounts are displaying in Transaction History table.
  */
 public class TestPolicyRenewCreateVersion extends HomeCaHO3BaseTest {
 	

@@ -5,7 +5,6 @@ package aaa.modules.regression.sales.pup;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -20,54 +19,54 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	
 	/**
 	 * @author Lina Li
-	 * @name Test Create Umbrella Quote
-	 * @scenario
-	 * 1. Create Customer
-	 * 2. Create Personal Umbrella Policy Quote
-	 * 3. Verify quote status is 'Premium Calculated'
-	 * @details
+	 * <b> Test Create Umbrella Quote </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer
+	 * <p> 2. Create Personal Umbrella Policy Quote
+	 * <p> 3. Verify quote status is 'Premium Calculated'
+	 *
 	 */
 	@Parameters({"state"})
 	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.PUP )
     public void testQuoteCreation(@Optional("") String state) {
-        super.testQuoteCreation();
+		testQuoteCreation();
     }
     
     /**
      * @author Xiaolan Ge
-     * @name Test Issue Umbrella Quote
-     * @scenario
-     * 1. Create Customer
-     * 2. Create Umbrella Quote
-     * 3. Issue Quote
-     * 4. Verify policy status is 'Policy Active'
-     * @details
+	 * <b> Test Issue Umbrella Quote </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer
+	 * <p> 2. Create Umbrella Quote
+	 * <p> 3. Issue Quote
+	 * <p> 4. Verify policy status is 'Policy Active'
+	 *
      */
 	@Parameters({"state"})
 	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.PUP )
     public void testQuoteIssue(@Optional("") String state) {
-    	super.testQuoteIssue();
+		testQuoteIssue();
     }
 	
 	/**
 	 * @author Jelena Dembovska
-	 * @name Test quote copy action
-	 * @scenario
-	 * 1. Create Customer
-	 * 2. Create Quote for corresponding product
-	 * 3. Select action "Copy from quote"
-	 * 4. Verify new quote status is 'Data Gathering'
-	 * @details
+	 * <b> Test quote copy action </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer
+	 * <p> 2. Create Quote for corresponding product
+	 * <p> 3. Select action "Copy from quote"
+	 * <p> 4. Verify new quote status is 'Data Gathering'
+	 *
 	 */	
 	@Parameters({"state"})
 	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.PUP)
 	public void testQuoteCopy(@Optional("") String state) {
-		super.testQuoteCopy();
+		testQuoteCopy();
 	}
 }

@@ -23,36 +23,36 @@ import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author Olga Reva
- * @name Test Policy Membership and Loyalty discounts
- * @scenario
- * 1. Find customer or create new if customer does not exist.
- * 2. Create new HSS policy 'Policy#1' with Current AAA Member = 'Yes'.
- * 		2a. During Policy#1 creation verify Membership and Loyalty discount discounts are applied on Discounts section and in Rating Details. 
- * 		2b. Verify status of Policy#1 is Active and term premium on Consolidated view equals of term premium calculated on Premiums&Coverages Quote tab. 
- * 3. Copy Policy#1 3 times to get Policy#2, Policy#3, Policy#4.
- * 4. Retrieve Policy#1 and initiate endorsement with effective date as 'Today'. 
- * 		4a. Initiate endorsement
- * 		4b. Order membership report. 
- * 		4c. Navigate to Premiums&Coverages Quote Tab, calculate premium and verify that Membership and Loyalty discounts are applied both on Discounts section and in Rating Details. 
- * 		4d. Bind endorsement. 
- * 		4e. Verify policy status is Active and term premium on Consolidated view equals to term premium calculated during endorsement.
- * 5. Retrieve Policy#2 and initiate endorsement with effective date as 'Today + 1 day'.  
- * 		5a. Navigate to Applicant tab and change Current AAA Member to 'Yes', enter membership# and Last Name. 
- * 		5b. Order membership report. 
- * 		5c. Navigate to Premiums&Coverages Quote Tab, calculate premium and verify that Membership and Loyalty discounts are applied both on Discounts section and in Rating Details. 
- * 		5d. Bind endorsement. 
- * 		5e. Verify policy status is Active and term premium on Consolidated view equals to term premium calculated during endorsement.
- * 6. Retrieve Policy#3 and initiate endorsement with effective date as 'Today'. 
- * 		6a. Navigate to Applicant tab and change Current AAA Member to 'No'. 
- * 		6b. Navigate to Premiums&Coverages Quote Tab, calculate premium and verify that Membership and Loyalty discounts are not applied on Discounts section and in Rating Details. 
- * 		6c. Bind endorsement. 
- * 		6d. Verify policy status is Active and term premium on Consolidated view equals to term premium calculated during endorsement.
- * 7. Retrieve Policy#3 and initiate endorsement with effective date as 'Today + 1 day'. 
- * 		7a. Navigate to Applicant tab and change Current AAA Member to 'No'. 
- * 		7b. Navigate to Premiums&Coverages Quote Tab, calculate premium and verify that Membership and Loyalty discounts are not applied on Discounts section and in Rating Details. 
- * 		7c. Bind endorsement. 
- * 		7d. Verify policy status is Active and term premium on Consolidated view equals to term premium calculated during endorsement.
- * @details
+ * <b> Test Policy Membership and Loyalty discounts </b>
+ * <p> Steps:
+ * <p> 1. Find customer or create new if customer does not exist.
+ * <p> 2. Create new HSS policy 'Policy#1' with Current AAA Member = 'Yes'.
+ * <p> 		2a. During Policy#1 creation verify Membership and Loyalty discount discounts are applied on Discounts section and in Rating Details.
+ * <p> 		2b. Verify status of Policy#1 is Active and term premium on Consolidated view equals of term premium calculated on Premiums&Coverages Quote tab.
+ * <p> 3. Copy Policy#1 3 times to get Policy#2, Policy#3, Policy#4.
+ * <p> 4. Retrieve Policy#1 and initiate endorsement with effective date as 'Today'.
+ * <p> 		4a. Initiate endorsement
+ * <p> 		4b. Order membership report.
+ * <p> 		4c. Navigate to Premiums&Coverages Quote Tab, calculate premium and verify that Membership and Loyalty discounts are applied both on Discounts section and in Rating Details.
+ * <p> 		4d. Bind endorsement.
+ * <p> 		4e. Verify policy status is Active and term premium on Consolidated view equals to term premium calculated during endorsement.
+ * <p> 5. Retrieve Policy#2 and initiate endorsement with effective date as 'Today + 1 day'.
+ * <p> 		5a. Navigate to Applicant tab and change Current AAA Member to 'Yes', enter membership# and Last Name.
+ * <p> 		5b. Order membership report.
+ * <p> 		5c. Navigate to Premiums&Coverages Quote Tab, calculate premium and verify that Membership and Loyalty discounts are applied both on Discounts section and in Rating Details.
+ * <p> 		5d. Bind endorsement.
+ * <p> 		5e. Verify policy status is Active and term premium on Consolidated view equals to term premium calculated during endorsement.
+ * <p> 6. Retrieve Policy#3 and initiate endorsement with effective date as 'Today'.
+ * <p> 		6a. Navigate to Applicant tab and change Current AAA Member to 'No'.
+ * <p> 		6b. Navigate to Premiums&Coverages Quote Tab, calculate premium and verify that Membership and Loyalty discounts are not applied on Discounts section and in Rating Details.
+ * <p> 		6c. Bind endorsement.
+ * <p> 		6d. Verify policy status is Active and term premium on Consolidated view equals to term premium calculated during endorsement.
+ * <p> 7. Retrieve Policy#3 and initiate endorsement with effective date as 'Today + 1 day'.
+ * <p> 		7a. Navigate to Applicant tab and change Current AAA Member to 'No'.
+ * <p> 		7b. Navigate to Premiums&Coverages Quote Tab, calculate premium and verify that Membership and Loyalty discounts are not applied on Discounts section and in Rating Details.
+ * <p> 		7c. Bind endorsement.
+ * <p> 		7d. Verify policy status is Active and term premium on Consolidated view equals to term premium calculated during endorsement.
+ *
  */
 public class TestPolicyDiscountMembership extends HomeSSHO3BaseTest {
 	

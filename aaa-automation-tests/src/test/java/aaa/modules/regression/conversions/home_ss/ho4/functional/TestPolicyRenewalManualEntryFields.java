@@ -40,7 +40,7 @@ public class TestPolicyRenewalManualEntryFields extends HomeSSHO4BaseTest {
 
     @Parameters({"state"})
     @StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.NJ})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO4, testCaseId = "PAS-6663")
     public void pas6663_PolicyRenewal(@Optional("") String state) {
 

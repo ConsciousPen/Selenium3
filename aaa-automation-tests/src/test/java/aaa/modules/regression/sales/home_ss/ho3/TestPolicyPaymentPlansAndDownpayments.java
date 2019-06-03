@@ -43,43 +43,43 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 
 	/**
 	 * @author Jurij Kuznecov
-	 * @name Test verify payment calculations for different payment plans
-	 * @scenario
-	 * 1.  Create new or open existent Customer
-	 * 2.  Create a new HO3 policy
-	 * 3.  Change payment plan to 'Quarterly' and calculate premium
-	 * 4.  Navigate to 'Payment Tab' an verify:
-	 * 		- Down payment = Total Premium * 25.0%
-	 * 		- Number of payments = 3
-	 * 		- Installment amount > 0
-	 * 		- Remaining balance due today value = Down payment
-	 * 		- Total remaining term premium = Total Premium - Down payment
-	 * 5.  Change payment plan to 'Eleven Pay' and calculate premium
-	 * 6.  Navigate to 'Payment Tab' an verify:
-	 * 		- Down payment = Total Premium * 16.67%
-	 * 		- Number of payments = 10
-	 * 		- Installment amount > 0
-	 * 		- Remaining balance due today value = Down payment
-	 * 		- Total remaining term premium = Total Premium - Down payment
-	 * 9.  Change payment plan to 'Pay in Full' and calculate premium
-	 * 10. Navigate to 'Payment Tab' an verify:
-	 * 		- Down payment = Total Premium * 100.00%
-	 * 		- Number of payments = 0
-	 * 		- Installment amount = 0
-	 * 		- Remaining balance due today value = Down payment
-	 * 		- Total remaining term premium = Total Premium - Down payment
-	 * 11. Change payment plan to 'Mortgagee Bill' and calculate premium
-	 * 12. Navigate to 'Payment Tab' an verify:
-	 * 		- Down payment = Total Premium * 0.00%
-	 * 		- Number of payments = 1
-	 * 		- Installment amount > 0
-	 * 13. Change payment plan to 'Semi Annual' and calculate premium
-	 * 14. Navigate to 'Payment Tab' an verify:
-	 * 		- Down payment = Total Premium * 50.00%
-	 * 		- Number of payments = 1
-	 * 		- Installment amount > 0
-	 * 		- Remaining balance due today value = Down payment
-	 * 		- Total remaining term premium = Total Premium - Down payment
+	 * <b> Test verify payment calculations for different payment plans </b>
+	 * <p> Steps:
+	 * <p> 1.  Create new or open existent Customer
+	 * <p> 2.  Create a new HO3 policy
+	 * <p> 3.  Change payment plan to 'Quarterly' and calculate premium
+	 * <p> 4.  Navigate to 'Payment Tab' an verify:
+	 * <p> 		- Down payment = Total Premium * <p> 25.0%
+	 * <p> 		- Number of payments = 3
+	 * <p> 		- Installment amount > 0
+	 * <p> 		- Remaining balance due today value = Down payment
+	 * <p> 		- Total remaining term premium = Total Premium - Down payment
+	 * <p> 5.  Change payment plan to 'Eleven Pay' and calculate premium
+	 * <p> 6.  Navigate to 'Payment Tab' an verify:
+	 * <p> 		- Down payment = Total Premium * <p> 16.67%
+	 * <p> 		- Number of payments = 10
+	 * <p> 		- Installment amount > 0
+	 * <p> 		- Remaining balance due today value = Down payment
+	 * <p> 		- Total remaining term premium = Total Premium - Down payment
+	 * <p> 9.  Change payment plan to 'Pay in Full' and calculate premium
+	 * <p> 10. Navigate to 'Payment Tab' an verify:
+	 * <p> 		- Down payment = Total Premium * <p> 100.00%
+	 * <p> 		- Number of payments = 0
+	 * <p> 		- Installment amount = 0
+	 * <p> 		- Remaining balance due today value = Down payment
+	 * <p> 		- Total remaining term premium = Total Premium - Down payment
+	 * <p> 11. Change payment plan to 'Mortgagee Bill' and calculate premium
+	 * <p> 12. Navigate to 'Payment Tab' an verify:
+	 * <p> 		- Down payment = Total Premium * 0.00%
+	 * <p> 		- Number of payments = 1
+	 * <p> 		- Installment amount > 0
+	 * <p> 13. Change payment plan to 'Semi Annual' and calculate premium
+	 * <p> 14. Navigate to 'Payment Tab' an verify:
+	 * <p> 		- Down payment = Total Premium * <p> 50.00%
+	 * <p> 		- Number of payments = 1
+	 * <p> 		- Installment amount > 0
+	 * <p> 		- Remaining balance due today value = Down payment
+	 * <p> 		- Total remaining term premium = Total Premium - Down payment
 	 */
 
 	@Parameters({"state"})
@@ -118,23 +118,23 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 	}
 	/**
 	 * @author Jurij Kuznecov
-	 * @name Test the ability to calculate the installment amount when the
-	 *       number of installments increases due to a payment plan change
-	 * @scenario
-	 * 1.  Create new or open existent Customer
-	 * 2.  Create a new HO3 policy with payment plan 'Semi Annual'
-	 * 3.  Endorse the policy and change payment plan to 'Quarterly'
-	 * 4.  Bind policy
-	 * 5.  Go to Billing tab
-	 * 6.  Verify Number of installments = 3
-	 * 7.  Verify that sum of installments values + deposit = term premium
-	 * 8.  Verify that deposit value doesn't change
-	 * 9.  Endorse the policy and change payment plan to 'Eleven Pay Standard'
-	 * 10. Bind policy
-	 * 11. Go to Billing tab
-	 * 12. Verify Number of installments = 10
-	 * 13. Verify that sum of installments values + deposit = term premium
-	 * 14. Verify that deposit value doesn't change
+	 * <b> Test the ability to calculate the installment amount when the </b>
+	 * <p>       number of installments increases due to a payment plan change
+	 * <p> Steps:
+	 * <p> 1.  Create new or open existent Customer
+	 * <p> 2.  Create a new HO3 policy with payment plan 'Semi Annual'
+	 * <p> 3.  Endorse the policy and change payment plan to 'Quarterly'
+	 * <p> 4.  Bind policy
+	 * <p> 5.  Go to Billing tab
+	 * <p> 6.  Verify Number of installments = 3
+	 * <p> 7.  Verify that sum of installments values + deposit = term premium
+	 * <p> 8.  Verify that deposit value doesn't change
+	 * <p> 9.  Endorse the policy and change payment plan to 'Eleven Pay Standard'
+	 * <p> 10. Bind policy
+	 * <p> 11. Go to Billing tab
+	 * <p> 12. Verify Number of installments = 10
+	 * <p> 13. Verify that sum of installments values + deposit = term premium
+	 * <p> 14. Verify that deposit value doesn't change
 	 */
 
 	@Parameters({"state"})
@@ -158,19 +158,19 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 
 	/**
 	 * @author Jurij Kuznecov
-	 * @name Test change the minimum required down payment
-	 * @scenario
-	 * 1. Create new or open existent Customer
-	 * 2. Initiate a new HO3 policy creation, fill all mandatory fields and bind quote
-	 * 3. In 'Purchase Tab'
-	 * 		- Enable "Change Minimum Down Payment" checkbox
+	 * <b> Test change the minimum required down payment </b>
+	 * <p> Steps:
+	 * <p> 1. Create new or open existent Customer
+	 * <p> 2. Initiate a new HO3 policy creation, fill all mandatory fields and bind quote
+	 * <p> 3. In 'Purchase Tab'
+	 * <p> 		- Enable "Change Minimum Down Payment" checkbox
 	 *		- Enter incorrect value to "Minimum required DownPayment"
 	 *			(incorrect value = System calculated downpayment + 50$)
-	 * 4. Check that error message appears
-	 * 5. Check that 'Apply payment' button is disabled
-	 * 6. Enter correct value to "Minimum required DownPayment"
-	 * 7. Check that 'Apply payment' button is enabled
-	 * 8. Apply payment and check policy status = "Active"
+	 * <p> 4. Check that error message appears
+	 * <p> 5. Check that 'Apply payment' button is disabled
+	 * <p> 6. Enter correct value to "Minimum required DownPayment"
+	 * <p> 7. Check that 'Apply payment' button is enabled
+	 * <p> 8. Apply payment and check policy status = "Active"
 	 */
 
 	@Parameters({"state"})
@@ -205,10 +205,10 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 
 	/**
 	 * @author Jurij Kuznecov
-	 * @name Test rewrite determine Downpayment
-	 * @scenario
-	 * 1.  Create new or open existent Customer
-	 * 2.
+	 * <b> Test rewrite determine Downpayment </b>
+	 * <p> Steps:
+	 * <p> 1.  Create new or open existent Customer
+	 * <p> 2.
 	 */
 
 	@Parameters({"state"})

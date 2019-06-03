@@ -1,6 +1,6 @@
 TestData_Full: {
   DriverTab: ['@DriverTab_FinancialDriver', '@DriverTab_ExcludedDriver', '@DriverTab_LearnersPermitDriver', '@DriverTab_WithActivity'],
-  VehicleTab: ['@VehicleTab_Regular', '@VehicleTab_EnrolledInUBI', '@VehicleTab_GolfCart', '@VehicleTab_Trailer', '@Vehicle_withDamage'], 
+  VehicleTab: ['@VehicleTab_Regular', '@VehicleTab_EnrolledInUBI', '@VehicleTab_GolfCart', '@VehicleTab_Trailer', '@Vehicle_withDamage'],
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Full', 
   DocumentsAndBindTab: '@DocumentsAndBindTab_Full', 
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'
@@ -48,7 +48,7 @@ TestData_FinancialDriver: {
 
 TestData_2FinancialDrivers: {
   GeneralTab: '@GeneralTab_2FinDrivers',
-  DriverTab: ['@DriverTab_FinancialDriver', '@DriverTab_FinancialDriver2'], 
+  DriverTab: ['@DriverTab_FinancialDriver', '@DriverTab_FinancialDriver2'],
   DocumentsAndBindTab: '@DocumentsAndBindTab_FinancialDriver'
 }
 
@@ -445,7 +445,7 @@ DriverTab_FinancialDriver: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
-  License Number: A12345678, 
+  License Number: A12345678,
   Financial Responsibility Filing Needed: 'Yes'
 }
 
@@ -495,9 +495,9 @@ DriverTab_ExcludedDriver2: {
 DriverTab_ExcludedDriver2: {
   Add Driver: click,
   DriverSearchDialog: {},
-  Driver Type: Excluded, 
-  Reason: index=1, 
-  'Rel. to First Named Insured': Spouse, 
+  Driver Type: Excluded,
+  Reason: index=1,
+  'Rel. to First Named Insured': Spouse,
   First Name: Excluded2,
   Last Name: Driver2,
   Date of Birth: 02/02/1982,
@@ -831,11 +831,11 @@ DocumentsAndBindTab_Endorse_NANO: {
 DocumentsAndBindTab_FinancialDriver: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed
-  }, 
-  Agreement: I agree, 
+  },
+  Agreement: I agree,
   RequiredToIssue: {
     Proof of Prior Insurance: 'Yes'
-  }, 
+  },
   Case Number: '12345'
 }
 

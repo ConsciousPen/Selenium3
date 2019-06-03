@@ -21,18 +21,18 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Olga Reva
- * @name Test CAH Policy Payments
- * @scenario
- * 1. Find customer or create new if customer does not exist.
- * 2. Create new CA HSS quote.
- * 3. Fill all tabs and navigate to Bind tab. 
- * 4. On Bind tab click Purchase button. 
- * 6. On Purchase screen add Credit Card and EFT payment methods. 
- * 7. Fill AutoPay section.
- * 8. Make 4 payments with all possible methods: 
- * 		Cash, Check, Credit Card, EFT to purchase the policy.
- * 9. Navigate to Billing tab and verify that all deposit payments are displaying. 
- * @details
+ * <b> Test CAH Policy Payments </b>
+ * <p> Steps:
+ * <p> 1. Find customer or create new if customer does not exist.
+ * <p> 2. Create new CA HSS quote.
+ * <p> 3. Fill all tabs and navigate to Bind tab.
+ * <p> 4. On Bind tab click Purchase button.
+ * <p> 6. On Purchase screen add Credit Card and EFT payment methods.
+ * <p> 7. Fill AutoPay section.
+ * <p> 8. Make 4 payments with all possible methods:
+ * <p> 		Cash, Check, Credit Card, EFT to purchase the policy.
+ * <p> 9. Navigate to Billing tab and verify that all deposit payments are displaying.
+ *
  */
 public class TestPolicyPayments extends HomeCaHO3BaseTest {
 

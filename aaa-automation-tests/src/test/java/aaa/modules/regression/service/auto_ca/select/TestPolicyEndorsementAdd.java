@@ -24,9 +24,9 @@ import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author Automation team
- * @name Test Flat Endorsement for Auto Policy
- * @scenario
- * @details
+ * <b> Test Flat Endorsement for Auto Policy </b>
+ * <p> Steps:
+ *
  */
 public class TestPolicyEndorsementAdd extends AutoCaSelectBaseTest {
 

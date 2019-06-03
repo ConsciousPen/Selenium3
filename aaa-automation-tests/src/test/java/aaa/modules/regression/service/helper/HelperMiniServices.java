@@ -53,6 +53,12 @@ public class HelperMiniServices extends PolicyBaseTest {
 
 		//Update Vehicle with proper Usage and Registered Owner
 		updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+		if (getState().equals(Constants.States.CA)) {
+			VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
+			updateVehicleUsageRequest.distanceOneWayToWork = "15";
+			updateVehicleUsageRequest.odometerReading = "32000";
+			HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
+		}
 
 		ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
 		assertThat(viewEndorsementVehicleResponse.canAddVehicle).isEqualTo(allowedToAddVehicle);

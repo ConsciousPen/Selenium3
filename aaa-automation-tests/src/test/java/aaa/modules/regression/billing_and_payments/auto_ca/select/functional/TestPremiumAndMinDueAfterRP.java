@@ -21,16 +21,16 @@ public class TestPremiumAndMinDueAfterRP extends TestPremiumAndMinDueAfterRPTemp
 
     /**
      * @author Reda Kazlauskiene
-     * @name Test CA Renewal Premium and Minimum Due to be accurately updated after an Return Premium endorsement
-     * @scenario
-     * 1. Create new Customer;
-     * 2. Create CA Auto Select Policy: Monthly or Annual payment plan
-     * 3. Create Renewal proposal at R-35
-     * 4. Create RP Endorsement for CURRENT TERM by reducing coverages
-     * 5. Navigate to Billing Account and review changes
-     * 6. Verify that the credit balance is not transferred automatically
-     * 7. Verify that first Offer is declined and New offer is created
-     * @details
+	 * <b> Test CA Renewal Premium and Minimum Due to be accurately updated after an Return Premium endorsement </b>
+	 * <p> Steps:
+	 * <p> 1. Create new Customer;
+	 * <p> 2. Create CA Auto Select Policy: Monthly or Annual payment plan
+	 * <p> 3. Create Renewal proposal at R-35
+	 * <p> 4. Create RP Endorsement for CURRENT TERM by reducing coverages
+	 * <p> 5. Navigate to Billing Account and review changes
+	 * <p> 6. Verify that the credit balance is not transferred automatically
+	 * <p> 7. Verify that first Offer is declined and New offer is created
+	 *
      */
     @Parameters({"state"})
     @StateList(states = {Constants.States.CA})
@@ -42,15 +42,15 @@ public class TestPremiumAndMinDueAfterRP extends TestPremiumAndMinDueAfterRPTemp
 
     /**
      * @author Reda Kazlauskiene
-     * @name Test CA Renewal Premium and Minimum Due to be accurately updated after an Return Premium endorsement
-     * @scenario
-     * 1. Create new Customer;
-     * 2. Create CA Auto Select Policy: Monthly or Annual payment plan
-     * 3. Create Renewal proposal at R-35
-     * 4. Create RP Endorsement for RENEWAL TERM by reducing coverages
-     * 5. Navigate to Billing Account and review changes
-     * 6. Verify that first Offer is declined and New offer is created
-     * @details
+	 * <b> Test CA Renewal Premium and Minimum Due to be accurately updated after an Return Premium endorsement </b>
+	 * <p> Steps:
+	 * <p> 1. Create new Customer;
+	 * <p> 2. Create CA Auto Select Policy: Monthly or Annual payment plan
+	 * <p> 3. Create Renewal proposal at R-35
+	 * <p> 4. Create RP Endorsement for RENEWAL TERM by reducing coverages
+	 * <p> 5. Navigate to Billing Account and review changes
+	 * <p> 6. Verify that first Offer is declined and New offer is created
+	 *
      */
     @Parameters({"state"})
     @StateList(states = {Constants.States.CA})

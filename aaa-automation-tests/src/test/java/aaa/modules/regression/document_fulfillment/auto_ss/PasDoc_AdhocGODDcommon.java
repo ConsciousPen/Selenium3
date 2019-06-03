@@ -35,10 +35,10 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	private GenerateOnDemandDocumentActionTab odd_tab = new GenerateOnDemandDocumentActionTab();
 
 	/**
-	 * <p> <b>Adhoc GODD Common Scenario 1: "Generate on Demand Document" UI</b>
-	 * <p> <b>Precondition:</b> 
+	 * <p>  <b>Adhoc GODD Common Scenario 1: "Generate on Demand Document" UI</b>
+	 * <p>  <b>Precondition:</b>
 	 * <p>		Policy is issued. 
-	 * <p> <b>Steps:</b>
+	 * <p>  <b>Steps:</b>
 	 * <p> 1.1. Start 'Generate on Demand Document" and check the UI. 
 	 * <p>		"Delivery Method" section is shown with the following options:
 	 * <p>		- Email, 
@@ -82,8 +82,8 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	}
 
 	/**
-	 * <p> <b>Adhoc GODD Common Scenario 2: Preview Documents - Standard Policy</b>
-	 * <p> <b>Precondition:</b> 
+	 * <p>  <b>Adhoc GODD Common Scenario 2: Preview Documents - Standard Policy</b>
+	 * <p>  <b>Precondition:</b>
 	 * <p>		Policy is Issued with: 
 	 * <p>		- Policy Type = Standard, 
 	 * <p>		- Excluded Driver is added, 
@@ -92,7 +92,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	 * <p>		- Vehicle: enrolled in UBI, 
 	 * <p>		- Uninsured and Underinsured Coverages < than recommended. 
 	 * <p>		Start 'Generate On Demand Document' action. 
-	 * <p> <b>Steps:</b>
+	 * <p>  <b>Steps:</b>
 	 * <p> 1.1. Select form AA10XX, click 'Preview Document' and verify document is opened on preview 
 	 * <p> 		(it means that xml is generated with tag <doc:EventName>ADHOC_DOC_ON_DEMAND_PREVIEW</doc:EventName>).
 	 * <p> 1.2. Select form AHRCTXX, click 'Preview Document' and verify document is opened on preview. 
@@ -162,11 +162,11 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	}
 
 	/**
-	 * <p> <b>Adhoc GODD Common Scenario 2: Preview Documents - NANO</b>
-	 * <p> <b>Precondition:<b> 
+	 * <p>  <b>Adhoc GODD Common Scenario 2: Preview Documents - NANO</b>
+	 * <p>  <b>Precondition: <b>
 	 * <p>		Policy is Issued with Policy Type = Non-Owner. 
 	 * <p>		Start 'Generate On Demand Document' action. 
-	 * <p> <b>Steps:</b>
+	 * <p>  <b>Steps:</b>
 	 * <p> 2.22. Select form AA41XX, click 'Preview Documents' and verify document is opened on preview 
 	 * <p>		(it means that xml is generated with tag <doc:EventName>ADHOC_DOC_ON_DEMAND_PREVIEW</doc:EventName>).
 	 * <p>
@@ -189,11 +189,11 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	}
 
 	/**
-	 * <p> <b>Adhoc GODD Common Scenario 2: Preview Documents - Quote</b>
-	 * <p> <b>Precondition:</b> 
+	 * <p>  <b>Adhoc GODD Common Scenario 2: Preview Documents - Quote</b>
+	 * <p>  <b>Precondition:</b>
 	 * <p>		Quote is Rated with Policy Type = Standard. 
 	 * <p>		Start 'Generate On Demand Document' action. 
-	 * <p> <b>Steps:</b>
+	 * <p>  <b>Steps:</b>
 	 * <p> 2.23. Select form AU03, specify data in the additional fields, click 'Preview Documents' and verify 
 	 * <p>		document is opened on preview (xml is generated with tag <do c:EventName>ADHOC_DOC_ON_DEMAND_PREVIEW</doc:EventName>). 
 	 * <p> 2.24. Select form AHFMXX, click 'Preview Document' and verify document is opened on preview. 
@@ -219,8 +219,8 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	}
 
 	/**
-	 * <p> <b>Adho c GODD Common Scenario 3: All/several documents are selected</b>
-	 * <p> <b>Precondition:</b>
+	 * <p>  <b>Adho c GODD Common Scenario 3: All/several documents are selected</b>
+	 * <p>  <b>Precondition:</b>
 	 * <p>		Policy is Issued: 
 	 * <p>		- Policy Type = Standard, 
 	 * <p>		- Excluded Driver is added, 
@@ -229,7 +229,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	 * <p>		- Vehicle: enrolled in UBI, 
 	 * <p>		- Uninsured and Underinsured Coverages < than recommended. 
 	 * <p>		Start 'Generate On Demand Document' action.
-	 * <p> <b>Steps:</b>
+	 * <p>  <b>Steps:</b>
 	 * <p> 3.1. Select all the documents, click 'Preview Documents' and verify all forms are opened on preview. 
 	 * <p> 3.2. Select several documents, click 'Preview Documents' and verify only selected forms are opened on preview. 
 	 * <p> 3.3. Select all the documents, set 'Delivery Method' = Email, click 'OK' and verify All forms are sent. 
@@ -340,10 +340,10 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	}
 
 	/**
-	 * <p> <b>Adhoc GODD Common Scenario 4: "Agent Advice Memo Document Operation" privilege for AA06XX</b>
-	 * <p> <b>Precondition:</b>
+	 * <p>  <b>Adhoc GODD Common Scenario 4: "Agent Advice Memo Document Operation" privilege for AA06XX</b>
+	 * <p>  <b>Precondition:</b>
 	 * <p>		Policy is issued. 
-	 * <p> <b>Steps:</b>
+	 * <p>  <b>Steps:</b>
 	 * <p> 4.1. Log in via User with 'Agent Advice Memo Document Operation' privilege and Group = B31. 
 	 * <p>		Open Policy and start 'Generate On Demand Document' action. 
 	 * <p>		Verify Form AA06XX is shown. 
@@ -382,11 +382,11 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	}
 
 	/**
-	 * <p> <b>Adhoc GODD Common Scenario 5: Several Excluded Drivers are added</b>
-	 * <p> <b>Precondition:</b>
+	 * <p>  <b>Adhoc GODD Common Scenario 5: Several Excluded Drivers are added</b>
+	 * <p>  <b>Precondition:</b>
 	 * <p>		Policy is issued with 2 or more Excluded Drivers are added. 
 	 * <p>		Start 'Generate On Demand Document' action. 
-	 * <p> <b>Steps:</b>
+	 * <p>  <b>Steps:</b>
 	 * <p> 5.1. Select form AA43XX. Click 'Preview Documents' or select 'Local Print' and click 'OK'. 
 	 * <p>		Verify that one document with the list of Excluded Drivers is generated. 
 	 * <p>
@@ -421,11 +421,11 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	}
 
 	/**
-	 * <p> <b>Adhoc GODD Common Scenario 6: Several Vehicles with UBI are added</b>
-	 * <p> <b>Precondition:</b> 
+	 * <p>  <b>Adhoc GODD Common Scenario 6: Several Vehicles with UBI are added</b>
+	 * <p>  <b>Precondition:</b>
 	 * <p>		Policy is issued with 2 or more Vehicles with UBI are added. 
 	 * <p>		Start 'Generate On Demand Document' action
-	 * <p> <b>Steps:</b>
+	 * <p>  <b>Steps:</b>
 	 * <p> 6.1. Select UBI forms. Click 'Preview Documents' or select 'Local Print' and click 'OK'. 
 	 * <p>		Verify One document per form is generated (not for every Vehicle).
 	 * <p>
@@ -477,7 +477,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	 * <p> <b>Precondition:</b> 
 	 * <p>		Policy is issued with 2 or more Drivers with Permit are added. 
 	 * <p>		Start 'Generate On Demand Document' action
-	 * <p> <b>Steps:</b>
+	 * <p>  <b>Steps:</b>
 	 * <p> 7.1. Select AAPDXX form. Click 'Preview Documents' or select 'Local Print' and click 'OK'. 
 	 * <p>		Verify that One document per form is generated with 1 page per permit driver.
 	 * <p>
@@ -513,11 +513,11 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	}
 
 	/**
-	 * <p> <b>Adhoc GODD Common Scenario 8: Several Drivers with Financial Responsibility</b>
-	 * <p> <b>Precondition:</b>
+	 * <p>  <b>Adhoc GODD Common Scenario 8: Several Drivers with Financial Responsibility</b>
+	 * <p>  <b>Precondition:</b>
 	 * <p>		Policy is issued with 2 or more Drivers with Financial Responsibility = Yes are added. 
 	 * <p>		Start 'Generate On Demand Document' action.
-	 * <p> <b>Steps:</b>
+	 * <p>  <b>Steps:</b>
 	 * <p> 8.1. Select AASR22 form/s. Click 'Preview Documents' or select 'Local Print' and click 'OK'. 
 	 * <p>		Verify that One document with multiple SR22 forms generated for all drivers.
 	 * <p>
@@ -569,7 +569,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	}
 
 	/**
-	 * Select <b>documents</b>, click <b>Preview Documents</b> button, unselect documents and than verify 
+	 * Select  <b>documents</b>, click  <b>Preview Documents</b> button, unselect documents and than verify
 	 * that documents are opened on preview (e.g. generated xml with <doc:EventName>ADHOC_DOC_ON_DEMAND_PREVIEW</doc:EventName>)
 	 * @param policyNumber  Policy number
 	 * @param td            TestData if selected documents have additional fields on GODD tab or null
@@ -594,7 +594,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	}
 
 	/**
-	 * The method verifies that only one <b>document</b> is generated. 
+	 * The method verifies that only one  <b>document</b> is generated.
 	 * Can be used only for NON-PAS DOC 
 	 * @param policyNum
 	 * @param document
@@ -605,7 +605,7 @@ public class PasDoc_AdhocGODDcommon extends AutoSSBaseTest {
 	}
 
 	/**
-	 * The method verifies that only one <b>document</b> ig generated or opened on preview (depends on <b>eventName</b>)
+	 * The method verifies that only one  <b>document</b> ig generated or opened on preview (depends on  <b>eventName</b>)
 	 * @param policyNumber
 	 * @param eventName
 	 * @param document

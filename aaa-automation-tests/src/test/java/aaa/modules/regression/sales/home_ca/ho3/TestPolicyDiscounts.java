@@ -22,20 +22,20 @@ public class TestPolicyDiscounts extends HomeCaHO3BaseTest {
 
     /**
       * @author Jurij Kuznecov
-      * @name Test CAH Policy Discounts
-      * @scenario 
-      * 1.  Create new or open existent Customer
-      * 2.  Start CAH quote creation
-      * 3.  Fill all mandatory fields till 'Premiums and Coverages' tab and calculate premium
-      * 4.  Navigate to 'Applicant' tab and add additional active AAA Policy (Auto)
-      * 5.  Calculate premium
-      * 6.  Check MultiPolicy Discount applied
-      * 7.  Issue policy, verify policy status is 'Active' and premium is calculated according to MultyPolicy discount
-      * 8.  Start Endorsement action
-      * 9.  Navigate to 'Applicant' tab and add additional active AAA Policy (PUP)
-      * 10. Calculate premium
-      * 11. Check MultiPolicy Discount applied
-      * 12. Bind policy, verify policy status is 'Active' and premium is calculated according to MultyPolicy discount
+	 * <b> Test CAH Policy Discounts </b>
+	 * <p> Steps:
+	 * <p> 1.  Create new or open existent Customer
+	 * <p> 2.  Start CAH quote creation
+	 * <p> 3.  Fill all mandatory fields till 'Premiums and Coverages' tab and calculate premium
+	 * <p> 4.  Navigate to 'Applicant' tab and add additional active AAA Policy (Auto)
+	 * <p> 5.  Calculate premium
+	 * <p> 6.  Check MultiPolicy Discount applied
+	 * <p> 7.  Issue policy, verify policy status is 'Active' and premium is calculated according to MultyPolicy discount
+	 * <p> 8.  Start Endorsement action
+	 * <p> 9.  Navigate to 'Applicant' tab and add additional active AAA Policy (PUP)
+	 * <p> 10. Calculate premium
+	 * <p> 11. Check MultiPolicy Discount applied
+	 * <p> 12. Bind policy, verify policy status is 'Active' and premium is calculated according to MultyPolicy discount
       */
 
     @Parameters({"state"})

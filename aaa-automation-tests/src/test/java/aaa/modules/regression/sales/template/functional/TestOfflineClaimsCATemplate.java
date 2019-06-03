@@ -44,7 +44,6 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
-import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import toolkit.config.PropertyProvider;
@@ -100,8 +99,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     private static final String CLAIM_NUMBER_1_GDD = "Claim-GDD-111";
     private static final String CLAIM_NUMBER_2_GDD = "Claim-GDD-222";
 
-    private static final String[] CLAIM_NUMBERS_PU_DEFAULTING = {"PU_DEFAULTING_CMP","PU_DEFAULTING_1","PU_DEFAULTING_2","PU_DEFAULTING_3",
-            "PU_DEFAULTING_4","PU_DEFAULTING_5","PU_DEFAULTING_6"};
+    private static final String[] CLAIM_NUMBERS_PU_DEFAULTING = {"PU_DEFAULTING_CMP", "PU_DEFAULTING_1", "PU_DEFAULTING_2", "PU_DEFAULTING_3",
+            "PU_DEFAULTING_4", "PU_DEFAULTING_5", "PU_DEFAULTING_6"};
 
     private static final String CAS_CLUE_CLAIM = "1002-10-8704";
     private static final String CLUE_CLAIM = "1002-10-8799";
@@ -113,9 +112,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     private static final String GDD_PU_CLAIMS_DATA_MODEL = "gdd_PUClaims_data_model.yaml";
     private static final String PU_CLAIMS_DEFAULTING_DATA_MODEL = "pu_claims_defaulting_data_model.yaml";
     private static final String PU_CLAIMS_DEFAULTING_2ND_DATA_MODEL = "pu_claims_defaulting_2nd_data_model.yaml"; //TODO: will be used after PAS-26322
-    protected boolean updatePUFlag = false;
-    protected boolean secondDriverFlag = false;
-    protected boolean newBusinessFlag = false;
+    protected boolean updatePUFlag;
+    protected boolean secondDriverFlag;
+    protected boolean newBusinessFlag;
 
     @BeforeTest
     public void prepare() {
@@ -262,6 +261,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * Method changes'First Named Insured' to the desired Insured. First Named Insured index starts at zero
+     *
      * @param namedInsuredNumber - Insured who will become the First Named Insured
      */
     public void changeFNIGeneralTab(int namedInsuredNumber) {
@@ -278,6 +278,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * Method opens app, retrieves policy, and enters data gathering in renewal image
+     *
      * @param policyNumber
      */
     public void retrieveRenewal(String policyNumber) {
@@ -327,7 +328,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         documentsAndBindTab.submitTab();
 
-        new PurchaseTab().fillTab(adjusted).submitTab();
+        purchaseTab.fillTab(adjusted).submitTab();
         policyNumber = PolicySummaryPage.getPolicyNumber();
         log.info("Policy created successfully. Policy number is " + policyNumber);
         mainApp().close();
@@ -451,7 +452,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         if (tableSearchResults.isPresent()) {
             tableSearchResults.getRow("Eff. Date",
-                    TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
+                    TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY))
                     .getCell(1).controls.links.getFirst().click();
         }
 
@@ -560,35 +561,30 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         return content;
     }
 
-    /**
-     * Method creates CAS Response file and updates required fields: Policy Number, Driver Licence, Claim Dates: Date Of Loss, Close Date, Open Date
-     *
-     * @param policyNumber         given Policy Number
-     * @param dataModelFileName    given CAS Response data model
-     * @param claimToDriverLicence if != null, given Driver Licence according to Claim Number
-     * @param claimDatesToUpdate   if != null, given Claim Dates according to Claim Number
+    /*
+    Method verifies that PU indicator has correct defaulted values:
+    used for pas25162_permissiveUseIndicatorDefaulting
      */
-    private void createCasClaimResponseAndUpload(String policyNumber, String dataModelFileName,
-                                                 Map<String, String> claimToDriverLicence, Map<String, String> claimDatesToUpdate) {
-        // Create Cas response file
-        String casResponseFileName = getCasResponseFileName();
-        BatchClaimHelper batchClaimHelper = new BatchClaimHelper(dataModelFileName, casResponseFileName);
-        File claimResponseFile = batchClaimHelper.processClaimTemplate((response) -> {
-            setPolicyNumber(policyNumber, response);
-            if (claimToDriverLicence != null)
-                updateDriverLicence(claimToDriverLicence, response);
-            if (claimDatesToUpdate != null) {
-                updateDatesForClaim(claimDatesToUpdate, response, ClaimCASResponseTags.TagNames.CLAIM_DATE_OF_LOSS);
-                updateDatesForClaim(claimDatesToUpdate, response, ClaimCASResponseTags.TagNames.CLAIM_CLOSE_DATE);
-                updateDatesForClaim(claimDatesToUpdate, response, ClaimCASResponseTags.TagNames.CLAIM_OPEN_DATE);
+    protected void verifyPUvalues() {
+        CustomSoftAssertions.assertSoftly(softly -> {
+            ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
+
+            // Check 1st driver: Contains 7 Matched Claims (Verifying PU default value)
+            softly.assertThat(tableActivityInformationList).hasRows(7);
+
+            // Verifying PU default value for all Claims
+            for (int i = 0; i <= 6; i++) {
+                tableActivityInformationList.selectRow(i + 1);
+                if (i == 6) { //PERMISSIVE_USE match = Yes
+                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[6]);
+                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("Yes");
+                } else {
+                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[i]);
+                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("No");
+                }
+
             }
         });
-        String content = contentOf(claimResponseFile, Charset.defaultCharset());
-        log.info("Generated CAS claim response filename {} content {}", casResponseFileName, content);
-
-        // Upload claim response
-        RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(),
-                BatchJob.getRenewalClaimOrderAsyncJobParameters().get(BatchJob.ParametersName.IMPORT_FOLDER) + File.separator + claimResponseFile.getName());
     }
 
     /**
@@ -696,7 +692,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     /*
     Method/Test for CA Choice & Select: TestClaimsImpactOnDiscounts.pas18303_goodDriverDiscountForPUClaims
      */
-    public void pas18303_goodDriverDiscountForPUClaims(){
+    public void pas18303_goodDriverDiscountForPUClaims() {
 
         String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(93).toLocalDate().toString();
         String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(80).toLocalDate().toString();
@@ -966,7 +962,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         premiumAndCoveragesTab.submitTab();
         overrideErrorTab();
         policy.getDefaultView().fillFromTo(adjusted, DriverActivityReportsTab.class, PurchaseTab.class, true);
-        new PurchaseTab().submitTab();
+        purchaseTab.submitTab();
         policyNumber = labelPolicyNumber.getValue();
         log.info("Policy created successfully. Policy number is " + policyNumber);
         mainApp().close();
@@ -1062,30 +1058,36 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         bindEndorsement();
     }
 
-    /*
-    Method verifies that PU indicator has correct defaulted values:
-    used for pas25162_permissiveUseIndicatorDefaulting
+    /**
+     * Method creates CAS Response file and updates required fields: Policy Number, Driver Licence, Claim Dates: Date Of Loss, Close Date, Open Date
+     *
+     * @param policyNumber         given Policy Number
+     * @param dataModelFileName    given CAS Response data model
+     * @param claimToDriverLicence if != null, given Driver Licence according to Claim Number
+     * @param claimDatesToUpdate   if != null, given Claim Dates according to Claim Number
      */
-    protected void verifyPUvalues() {
-        CustomSoftAssertions.assertSoftly(softly -> {
-            ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-
-            // Check 1st driver: Contains 7 Matched Claims (Verifying PU default value)
-            softly.assertThat(driverTab.tableActivityInformationList).hasRows(7);
-
-            // Verifying PU default value for all Claims
-            for (int i = 0; i <= 6; i++) {
-                driverTab.tableActivityInformationList.selectRow(i + 1);
-                if (i == 6) { //PERMISSIVE_USE match = Yes
-                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[i]);
-                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("Yes");
-                } else {
-                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[i]);
-                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("No");
-                }
-
+    private void createCasClaimResponseAndUpload(String policyNumber, String dataModelFileName,
+            Map<String, String> claimToDriverLicence, Map<String, String> claimDatesToUpdate) {
+        // Create Cas response file
+        String casResponseFileName = getCasResponseFileName();
+        BatchClaimHelper batchClaimHelper = new BatchClaimHelper(dataModelFileName, casResponseFileName);
+        File claimResponseFile = batchClaimHelper.processClaimTemplate(response -> {
+            setPolicyNumber(policyNumber, response);
+            if (claimToDriverLicence != null) {
+                updateDriverLicence(claimToDriverLicence, response);
+            }
+            if (claimDatesToUpdate != null) {
+                updateDatesForClaim(claimDatesToUpdate, response, ClaimCASResponseTags.TagNames.CLAIM_DATE_OF_LOSS);
+                updateDatesForClaim(claimDatesToUpdate, response, ClaimCASResponseTags.TagNames.CLAIM_CLOSE_DATE);
+                updateDatesForClaim(claimDatesToUpdate, response, ClaimCASResponseTags.TagNames.CLAIM_OPEN_DATE);
             }
         });
+        String content = contentOf(claimResponseFile, Charset.defaultCharset());
+        log.info("Generated CAS claim response filename {} content {}", casResponseFileName, content);
+
+        // Upload claim response
+        RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(),
+                BatchJob.getRenewalClaimOrderAsyncJobParameters().get(BatchJob.ParametersName.IMPORT_FOLDER) + File.separator + claimResponseFile.getName());
     }
 
     /*
@@ -1207,7 +1209,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      * 8. Complete and bind the endorsement
      * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver
      */
-    public void pas24652_ChangeFNIGeneralTabNBEndorsement(){
+    public void pas24652_ChangeFNIGeneralTabNBEndorsement() {
         //Create a policy with 2 drivers
         TestData testDataForFNI = getTestSpecificTD("TestData_Change_FNI_NB_Endorsement_PU_CA").resolveLinks();
         adjusted = getPolicyTD().adjust(testDataForFNI);
@@ -1219,26 +1221,26 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         //Assert that the PU claims have moved to the new FNI (Steve) and has a total of 3 claims now (one existing)
         tableDriverList.selectRow(1);
-        activityAssertions(2,1,3, 2, "Company Input", "", true); //assert the company input with Type Accident show up PU indicator
-        activityAssertions(2,1,3, 3, "Customer Input", "", true); //assert the company input with Type  Accident show up PU indicator
+        activityAssertions(2, 1, 3, 2, "Company Input", "", true); //assert the company input with Type Accident show up PU indicator
+        activityAssertions(2, 1, 3, 3, "Customer Input", "", true); //assert the company input with Type  Accident show up PU indicator
 
         //Assert that old FNI only has 2 Violation claims
         tableDriverList.selectRow(2);
-        activityAssertions(2,2,2, 1, "Company Input", "", false); //assert the company input with Type Violations do not show up PU indicator
-        activityAssertions(2,2,2, 2, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
+        activityAssertions(2, 2, 2, 1, "Company Input", "", false); //assert the company input with Type Violations do not show up PU indicator
+        activityAssertions(2, 2, 2, 2, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
 
         //Set 'Rel. to First Named Insured': Other
         driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
         driverTab.submitTab();
 
         //Continue policy until Driver Activity Reports tab
-        policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, PremiumAndCoveragesTab.class,true);
+        policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, PremiumAndCoveragesTab.class, true);
         premiumAndCoveragesTab.submitTab();
         overrideErrorTab();
 
         //Continue to bind the policy and save the policy number
         policy.getDefaultView().fillFromTo(adjusted, DriverActivityReportsTab.class, PurchaseTab.class, true);
-        new PurchaseTab().submitTab();
+        purchaseTab.submitTab();
         policyNumber = labelPolicyNumber.getValue();
         log.info("Policy created successfully. Policy number is " + policyNumber);
 
@@ -1251,15 +1253,15 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         //On Driver tab, assert the PU claims all move back to original FNI, Nicolas: 3 Violations, 2 PU claims
         tableDriverList.selectRow(1);
-        activityAssertions(2,1,5, 1, "Company Input", "", false);
-        activityAssertions(2,1,5, 2, "Customer Input", "", false);
-        activityAssertions(2,1,5, 3, "MVR", "", false);
-        activityAssertions(2,1,5, 4, "Company Input", "", true);
-        activityAssertions(2,1,5, 5, "Customer Input", "", true);
+        activityAssertions(2, 1, 5, 1, "Company Input", "", false);
+        activityAssertions(2, 1, 5, 2, "Customer Input", "", false);
+        activityAssertions(2, 1, 5, 3, "MVR", "", false);
+        activityAssertions(2, 1, 5, 4, "Company Input", "", true);
+        activityAssertions(2, 1, 5, 5, "Customer Input", "", true);
 
         //Verify the other insured only has one claim now
         tableDriverList.selectRow(2);
-        activityAssertions(2,2,1, 1, "Customer Input", "", false);
+        activityAssertions(2, 2, 1, 1, "Customer Input", "", false);
 
         //Set 'Rel. to First Named Insured': Other
         driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
@@ -1280,27 +1282,27 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      * 6. Navigate to General Tab and change the FNI to the second Insured
      * 7. Navigate to the Driver Tab and verify the new FNI has acquired the PU claims from the previous FNI
      */
-    public void pas24652_ChangeFNIGeneralTabRenewal(){
-	    // Create Customer and Policy with two named insured' and drivers
+    public void pas24652_ChangeFNIGeneralTabRenewal() {
+        // Create Customer and Policy with two named insured' and drivers
         TestData testDataForFNI;
-	    testDataForFNI = getTestSpecificTD("TestData_Change_FNI_Renewal_PU_CA").resolveLinks();
-	    adjusted = getPolicyTD().adjust(testDataForFNI);
-	    policyNumber = openAppAndCreatePolicy(adjusted);
-	    log.info("Policy created successfully. Policy number is " + policyNumber);
+        testDataForFNI = getTestSpecificTD("TestData_Change_FNI_Renewal_PU_CA").resolveLinks();
+        adjusted = getPolicyTD().adjust(testDataForFNI);
+        policyNumber = openAppAndCreatePolicy(adjusted);
+        log.info("Policy created successfully. Policy number is " + policyNumber);
 
-	    runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
-	    generateClaimRequest();        // Download claim request and assert it
+        runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
+        generateClaimRequest();        // Download claim request and assert it
 
-	    // Create the claim response - product doesn't matter here, we only need comp and pu claims match
+        // Create the claim response - product doesn't matter here, we only need comp and pu claims match
         createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL_SELECT, CLAIM_TO_DRIVER_LICENSE_SELECT);
 
-	    runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
+        runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
 
         // Retrieve policy and enter renewal image
         retrieveRenewal(policyNumber);
-	    NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
 
-	    // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
+        // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
         tableDriverList.selectRow(1);
         activityAssertions(2, 1, 2, 1, "Internal Claims", CLAIM_NUMBER_1, true);
         activityAssertions(2, 1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
@@ -1310,8 +1312,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         //Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
         tableDriverList.selectRow(1);
-        activityAssertions(2,1,2, 1, "Customer Input", "", true);
-        activityAssertions(2,1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
+        activityAssertions(2, 1, 2, 1, "Customer Input", "", true);
+        activityAssertions(2, 1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
 
         //Assert that old FNI only has 1 Internal Claims
         tableDriverList.selectRow(2);
@@ -1321,4 +1323,98 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         DriverTab.buttonSaveAndExit.click();
     }
 
+    /**
+     * Method for CA Choice & Select: Assert the UW rules are triggered and set the PU flag as Yes in the Driver tab
+     */
+    private void updateUWPUFlag() {
+        int i = 1, j = 4;
+
+        if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+            errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_CAC7161836_CA_CHOICE);
+        } else {
+            j = 3;
+            errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_10015021_CA_SELECT);
+            errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_10015015_CA_SELECT);
+        }
+        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_10015023_CA_SELECT_CHOICE);
+        errorTab.cancel();
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        tableDriverList.selectRow(1);
+        while (i <= j) {
+            tableActivityInformationList.selectRow(i);
+            activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS).setValue("Yes");
+            i++;
+        }
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.submitTab();
+    }
+
+    /**
+     * Method/Test for CA Choice & Select: PROD ELIGIBILITY: update uw rule so PU YES claims not counted (10015015 - select) (common code, fix all 4)
+     */
+    public void pas27908_UpdateUWRulesWithPUFlag() {
+        //Create a quote with 2 named insured and one driver and order the reports in DAR page
+        TestData testDataForUWrules = getTestSpecificTD("TestData_DriverTab_UpdateUWRules_PU").resolveLinks();
+        adjusted = getPolicyTD().adjust(testDataForUWrules);
+        createQuoteAndFillUpTo(adjusted, DriverActivityReportsTab.class);
+
+        //Add activities to the driver
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        TestData tdActivityUWRules = getTestSpecificTD("TestData_Activity_UWRules");
+        driverTab.fillTab(tdActivityUWRules);
+
+        TestData tdActivityUWRulesAdjusted = tdActivityUWRules
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT.getLabel()))
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        policy.getDefaultView().fillFromTo(tdActivityUWRulesAdjusted, PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
+        documentsAndBindTab.submitTab();
+        //Assertion to verify the rules are triggered and go back to driver tab to set the PU flag as YES for claims
+        updateUWPUFlag();
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+        documentsAndBindTab.submitTab(); // Verified the rules are not triggered and proceed to create a policy
+
+        purchaseTab.fillTab(adjusted).submitTab();
+        policyNumber = labelPolicyNumber.getValue();
+
+       //Initiate Endorsement
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        //Change the FNI to second named insured
+        generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(1);
+        Page.dialogConfirmation.confirm();
+        generalTab.viewInsured(2);
+        generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue("6025557777");
+        generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
+        generalTab.submitTab();
+        //Add the second driver for the named insured
+        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        policy.getDefaultView().fillUpTo(getTestSpecificTD("Add_Driver2_EndorsementUWRules"), DriverTab.class, true);
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.submitTab();
+        driverActivityReportsTab.fillTab(getTestSpecificTD("Add_Driver2_EndorsementUWRules"));
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        tableDriverList.selectRow(1);
+        driverTab.fillTab(getTestSpecificTD("DriverTab_EndorsementActivity_UWRules"));
+
+        bindEndorsement();
+        //Assertion to verify the rules are triggered and go back to driver tab to set the PU flag as YES for claims
+        updateUWPUFlag();
+
+        TestData maskedDriverActivityTd = getPolicyTD()
+                .adjust(getTestSpecificTD("Add_Driver2_EndorsementUWRules"))
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
+                .mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT_DMV.getLabel()));
+        driverActivityReportsTab.fillTab(maskedDriverActivityTd);
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+        documentsAndBindTab.submitTab(); // Verified the rules are not triggered and proceed to bind the endorsement
+    }
 }

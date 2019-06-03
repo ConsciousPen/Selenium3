@@ -1,8 +1,11 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import aaa.common.enums.NavigationEnum;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -13,31 +16,27 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.utils.StateList;
-
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 
 /**
- * Created by lkazarnovskiy on 8/8/2017.
- * <p>
- * 1. Create new or open existent Customer.
- * 2. Start HSS quote creation.
- * 3. Fill General, Applicant, Property Info tabs.
- * 4. Order reports.
- * 5. Navigate to Premiums and Coverages tab, Endorsement subtab.
- * 6.  Add HS 09 88 Endorsement.
- * 7. Click continue button.    VERIFY: There is HS 09 88 Endorsement in the Endorsement Forms table on the Premium page
- * 8. Navigate to Premiums and Coverages tab, Endorsement subtab.
- * 9.  Remove HS 09 88 Endorsement,
- * 10. Click continue button.   VERIFY: There is NO HS 09 88 Endorsement in the Endorsement Forms table on the Premium page.
- * 11. Navigate to Premiums and Coverages tab.
- * 12. Calculate premium.
- * 13. Fill Underwriting and Approval, Documents tabs
- * 14. Issue policy.
+ * <p> Created by lkazarnovskiy on 8/8/2017.
+ * <p> <p>
+ * <p> 1. Create new or open existent Customer.
+ * <p> 2. Start HSS quote creation.
+ * <p> 3. Fill General, Applicant, Property Info tabs.
+ * <p> 4. Order reports.
+ * <p> 5. Navigate to Premiums and Coverages tab, Endorsement subtab.
+ * <p> 6.  Add HS 09 88 Endorsement.
+ * <p> 7. Click continue button.    VERIFY: There is HS 09 88 Endorsement in the Endorsement Forms table on the Premium page
+ * <p> 8. Navigate to Premiums and Coverages tab, Endorsement subtab.
+ * <p> 9.  Remove HS 09 88 Endorsement,
+ * <p> 10. Click continue button.   VERIFY: There is NO HS 09 88 Endorsement in the Endorsement Forms table on the Premium page.
+ * <p> 11. Navigate to Premiums and Coverages tab.
+ * <p> 12. Calculate premium.
+ * <p> 13. Fill Underwriting and Approval, Documents tabs
+ * <p> 14. Issue policy.
  */
 public class TestPolicyRemoveForm extends HomeSSHO3BaseTest {
 

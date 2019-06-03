@@ -3,7 +3,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -33,24 +32,24 @@ public class TestContactInformation extends AutoSSBaseTest {
 
 	/**
 	 * @author Viktoriia Lutsenko
-	 * @name Absence of contact information for other named insureds than FNI.
-	 * @scenario
-	 * 1.Initiate quote creation.
-	 * 2.Add FNI with only email as contact information.
-	 * 3.Add 2nd named insured.
-	 * 4.Add 3rd named insured.
-	 * 5.Verify that FNI has Contact Information section, 2nd and 3rd named insureds don't have Contact Information section.
-	 * 6.Bind policy.
-	 * 7.Verify that system shows error, because rule for mandatory phone number is triggered for FNI only (AAA_SS10240324).
-	 * 8.Fill phone number for FNI.
-	 * 9.Change 2nd named insured to FNI, don't fill contact information.
-	 * 10.FNI has contact information section, others don't have.
-	 * 11.Bind policy.
-	 * 12.Verify that system shows error, because rule for mandatory phone number is triggered (AAA_SS10240324).
-	 * 13.Fill contact information for the FNI.
-	 * 14.Bind policy.
-	 * 15.Verify that policy is bound.
-	 * @details
+	 * <b> Absence of contact information for other named insureds than FNI. </b>
+	 * <p> Steps:
+	 * <p> 1.Initiate quote creation.
+	 * <p> 2.Add FNI with only email as contact information.
+	 * <p> 3.Add 2nd named insured.
+	 * <p> 4.Add 3rd named insured.
+	 * <p> 5.Verify that FNI has Contact Information section, 2nd and 3rd named insureds don't have Contact Information section.
+	 * <p> 6.Bind policy.
+	 * <p> 7.Verify that system shows error, because rule for mandatory phone number is triggered for FNI only (AAA_SS10240324).
+	 * <p> 8.Fill phone number for FNI.
+	 * <p> 9.Change 2nd named insured to FNI, don't fill contact information.
+	 * <p> 10.FNI has contact information section, others don't have.
+	 * <p> 11.Bind policy.
+	 * <p> 12.Verify that system shows error, because rule for mandatory phone number is triggered (AAA_SS10240324).
+	 * <p> 13.Fill contact information for the FNI.
+	 * <p> 14.Bind policy.
+	 * <p> 15.Verify that policy is bound.
+	 *
 	 */
 	@Parameters({"state"})
 	@StateList(states = Constants.States.UT)
@@ -66,7 +65,7 @@ public class TestContactInformation extends AutoSSBaseTest {
 	}
 
 	/**
-	 * Steps: #1-#4
+	 * <p> Steps: #1-#4
 	 */
 	private void initiateQuote() {
 		mainApp().open();
@@ -77,7 +76,7 @@ public class TestContactInformation extends AutoSSBaseTest {
 	}
 
 	/**
-	 * Steps: #5-#7
+	 * <p> Steps: #5-#7
 	 */
 	private void verifyContactInformationSection() {
 		assertContactsInformationPresent(true, false, false);
@@ -85,7 +84,7 @@ public class TestContactInformation extends AutoSSBaseTest {
 	}
 
 	/**
-	 * Steps: #8-#12
+	 * <p> Steps: #8-#12
 	 */
 	private void changeFNIAndVerifyContactInformationSection() {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
@@ -100,7 +99,7 @@ public class TestContactInformation extends AutoSSBaseTest {
 	}
 
 	/**
-	 * Steps: #13-#14
+	 * <p> Steps: #13-#14
 	 */
 	private void bindPolicy() {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
@@ -111,7 +110,7 @@ public class TestContactInformation extends AutoSSBaseTest {
 	}
 
 	/**
-	 * Steps: #15
+	 * <p> Steps: #15
 	 */
 	private void verifyPolicyStatus() {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);

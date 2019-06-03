@@ -257,6 +257,5 @@ public abstract class CommonErrorTab extends Tab {
 			}
 		}
 	}
-
 }
 

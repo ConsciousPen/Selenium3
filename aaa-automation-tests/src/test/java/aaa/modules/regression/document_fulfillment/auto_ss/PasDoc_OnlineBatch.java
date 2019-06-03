@@ -35,7 +35,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 
 	/**
 	 * OnlineBatch Scenario 1 - POLICY_ISSUE: AHAUXX, AHNBXX, AA02AZ + AAAEAZ2, AA10XX
-	 * <p>	<b>(a)</b> 1. Create policy with: 
+	 * <p>	 <b>(a)</b> 1. Create policy with:
 	 * <p>		- Policy Type = Standard, 
 	 * <p>		- Driver with chargeable activity, 
 	 * <p>		- No Excluded Drivers, 
@@ -47,10 +47,10 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	 * <p>		- No AutoPay. 
 	 * <p>		2. Verify the forms are generated: AHAUXX (Driver chargeable activity), AHNBXX, AA02AZ + AAAEAZ2, AA10XX. 
 	 * <p>
-	 * <p>	<b>(b)</b> 1. Create policy with ALL types of vehicles. 
+	 * <p>	 <b>(b)</b> 1. Create policy with ALL types of vehicles.
 	 * <p>		2. Verify form AA10XX is generated. 
 	 * <p>
-	 * <p>	<b>(c)</b> 1. Create policy with 6 or more Vehicles. 
+	 * <p>	 <b>(c)</b> 1. Create policy with 6 or more Vehicles.
 	 * <p>		2. Verify form AA10XX is generated. 
 	 *
 	 * @param state
@@ -60,8 +60,8 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
 	public void testScenario1(@Optional("") String state) {
 		mainApp().open();
-		createCustomerIndividual();
-		//Scenario 1: Driver with chargeable activity
+		createCustomerIndividual();		
+		//Scenario 1a: Driver with chargeable activity
 		TestData td_driverWithActivity = getPolicyTD().adjust(getTestSpecificTD("TestData_DriverWithActivity").resolveLinks());
 		String policy_driverWithActivity = createPolicy(td_driverWithActivity);
 		log.info("PAS DOC: Scenario 1: Policy with driver with chargeable activity created: " + policy_driverWithActivity);
@@ -104,11 +104,11 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 
 	/**
 	 * OnlineBatch Scenario 3 - POLICY_ISSUE: AA43AZ 
-	 * <p> <b>(a)</b> 1. Create policy with 1 Excluded Driver.   
+	 * <p>  <b>(a)</b> 1. Create policy with 1 Excluded Driver.
 	 * <p>	2. Check forms are generated: AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AA43AZ. 
 	 * <p> 	3. Check document AA02AZ contains form  AA43AZ. 
 	 * <p> 
-	 * <p> <b>(b)</b> 1. Create policy with 2 Excluded Drivers. 
+	 * <p>  <b>(b)</b> 1. Create policy with 2 Excluded Drivers.
 	 * <p> 	2. Check document AA43AZ is generated. 
 	 * <p> 	3. Check document AA02AZ contains form AA43AZ. 
 	 *
@@ -137,10 +137,10 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 
 	/**
 	 * OnlineBatch Scenario 4 - POLICY_ISSUE: AASR22 
-	 * <p> <b>(a)</b> 1. Create policy with Driver with Financial Responsibility = Yes. 
+	 * <p>  <b>(a)</b> 1. Create policy with Driver with Financial Responsibility = Yes.
 	 * <p>		2. Verify only these forms are generated: AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AASR22. 
 	 * <p>	
-	 * <p> <b>(b)</b> 1. Create policy with 2 Drivers with Financial Responsibility = Yes. 
+	 * <p>  <b>(b)</b> 1. Create policy with 2 Drivers with Financial Responsibility = Yes.
 	 * <p>		2. Verify 2 AASR22 forms are generated.
 	 *
 	 * @param state
@@ -151,7 +151,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	public void testScenario4(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
-		//Scenario 4: Add Driver with Financial Responsibility = Yes
+		//Scenario 4a: Add Driver with Financial Responsibility = Yes
 		TestData td_financialDriver = getPolicyTD().adjust(getTestSpecificTD("TestData_FinancialDriver").resolveLinks());
 		String policy_financialDriver = createPolicy(td_financialDriver);
 		log.info("PAS DOC: Scenario 4: Policy with financial driver created: " + policy_financialDriver);
@@ -170,10 +170,10 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 
 	/**
 	 * OnlineBatch Scenario 5 - POLICY_ISSUE: AA59XX
-	 * <p>	<b>(a)</b> 1. Policy created with 1 Vehicle with Existing Damage (NOT None). 
+	 * <p>	 <b>(a)</b> 1. Policy created with 1 Vehicle with Existing Damage (NOT None).
 	 * <p>		2. Verify forms are generated: AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AA59XX. 
 	 *
-	 * <p>	<b>(b)</b> 1. Policy created with 2 Vehicles with Existing Damage (NOT None). 
+	 * <p>	 <b>(b)</b> 1. Policy created with 2 Vehicles with Existing Damage (NOT None).
 	 * <p>		2. Verify 2 forms AA59XX are generated.
 	 *
 	 * @param state
@@ -184,7 +184,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	public void testScenario5(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
-		//Scenario 5: Vehicle with Existing Damage
+		//Scenario 5a: Vehicle with Existing Damage
 		TestData td_vehicleWithDamage = getPolicyTD().adjust(getTestSpecificTD("TestData_VehicleWithDamage").resolveLinks());
 		String policy_vehicleWithDamage = createPolicy(td_vehicleWithDamage);
 		log.info("PAS DOC: Scenario 5: Policy with vehicle with damage created: " + policy_vehicleWithDamage);
@@ -201,10 +201,10 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 
 	/**
 	 * OnlineBatch Scenario 6 - POLICY_ISSUE: AAGCAZ 
-	 * <p>	<b>(a)</b> 1. Create policy with Vehicle Type = Golf Cart. 
+	 * <p>	 <b>(a)</b> 1. Create policy with Vehicle Type = Golf Cart.
 	 * <p>		2. Verify these forms are generated: AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AAGCAZ. 
 	 * <p>
-	 * <p>	<b>(b)</b> 1. Create policy with 2 Vehicles with Type = Golf Cart. 
+	 * <p>	 <b>(b)</b> 1. Create policy with 2 Vehicles with Type = Golf Cart.
 	 * <p>		2. Verify only one AAGCAZ form is generated. 
 	 *
 	 * @param state
@@ -215,7 +215,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	public void testScenario6(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
-		//Scenario 6: add Vehicle Type = Golf Cart 
+		//Scenario 6a: add Vehicle Type = Golf Cart
 		TestData td_golfCart = getPolicyTD().adjust(getTestSpecificTD("TestData_GolfCart").resolveLinks());
 		String policy_golfCart = createPolicy(td_golfCart);
 		log.info("PAS DOC: Scenario 6: Policy with Golf Cart created: " + policy_golfCart);
@@ -230,15 +230,15 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 
 	/**
 	 * OnlineBatch Scenario 7 - POLICY_ISSUE: AA52AZ 
-	 * <p>	<b>(a)</b> 1. Create policy with Uninsured Motorists Bodily Injury limits (UM) < BI Liability Limits. 
+	 * <p>	 <b>(a)</b> 1. Create policy with Uninsured Motorists Bodily Injury limits (UM) < BI Liability Limits.
 	 * <p>		2. Verify forms are generated: AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AA52AZ. 
 	 * <p>		3. Verify AA52AZ form is mentioned in AA02AZ document. 
 	 * <p>
-	 * <p>	<b>(b)</b> 1. Create policy with Underinsured Motorists Bodily Injury limits (UIM) < BI Liability Limits. 
+	 * <p>	 <b>(b)</b> 1. Create policy with Underinsured Motorists Bodily Injury limits (UIM) < BI Liability Limits.
 	 * <p>		2. Verify form is generated: AA52AZ. 
 	 * <p>		3. Verify AA52AZ form is mentioned in AA02AZ document. 
 	 * <p>
-	 * <p>	<b>(c)</b> 1. Create policy with both UM and UIM limits < BI Liability limits. 
+	 * <p>	 <b>(c)</b> 1. Create policy with both UM and UIM limits < BI Liability limits.
 	 * <p>		2. Verify form is generated: AA52AZ. 
 	 * <p>		3. Verify AA52AZ form is mentioned in AA02AZ document. 
 	 *
@@ -250,7 +250,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	public void testScenario7(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
-		//Scenario 7: Uninsured Motorists Bodily Injury limits (UM) < BI Liability Limits
+		//Scenario 7a: Uninsured Motorists Bodily Injury limits (UM) < BI Liability Limits
 		TestData td_UMLessThanBI = getPolicyTD().adjust(getTestSpecificTD("TestData_UMLessThanBI").resolveLinks());
 		String policy_UMLessThanBI = createPolicy(td_UMLessThanBI);
 		log.info("PAS DOC: Scenario 7: Policy with Uninsured Motorist BI limits (UM) < BI limits created: " + policy_UMLessThanBI);
@@ -274,10 +274,10 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 
 	/**
 	 * OnlineBatch Scenario 8 - POLICY_ISSUE: AARFIXX
-	 * <p>	<b>(a)</b> 1. Create policy with 1 document 'Not signed' in 'Required to Bind'. 
+	 * <p>	 <b>(a)</b> 1. Create policy with 1 document 'Not signed' in 'Required to Bind'.
 	 * <p>		2. Verify forms are generated: AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AARFIXX. 
 	 * <p>
-	 * <p>	<b>(b)</b> 1. Create policy with 2 documents 'Not signed' in 'Required to Bind'. 
+	 * <p>	 <b>(b)</b> 1. Create policy with 2 documents 'Not signed' in 'Required to Bind'.
 	 * <p>		2. Verify forms are generated: AHAUXX, AHNBXX, AA02AZ, AA10XX, AAAEAZ2, AARFIXX. 
 	 *
 	 * @param state
@@ -288,7 +288,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	public void testScenario8(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
-		//Scenario 8: Set 'Not signed' for documents in 'Required to Bind'
+		//Scenario 8a: Set 'Not signed' for documents in 'Required to Bind'
 		TestData td_docNotSigned = getPolicyTD().adjust(getTestSpecificTD("TestData_DocNotSigned").resolveLinks());
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(td_docNotSigned, ErrorTab.class, true);
@@ -355,11 +355,11 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 
 	/**
 	 * OnlineBatch Scenario 11 - ENDORSEMENT_ISSUE: AA02AZ, AA10XX 
-	 * <p>	<b>(a)</b> 1. Create standard policy. 
+	 * <p>	 <b>(a)</b> 1. Create standard policy.
 	 * <p>		2. Start Endorsement action and add Vehicle with Type NOT Trailer.  
 	 * <p>		3. Verify the following forms are generated: AA02AZ (without AAAEAZ2), AA10XX. 
 	 * <p>
-	 * <p>	<b>(b)</b> 1. Create standard policy. 
+	 * <p>	 <b>(b)</b> 1. Create standard policy.
 	 * <p>		2. Start Endorsement action and add Vehicle with Type = Trailer. 
 	 * <p>		3. Verify AA10XX is NOT generated.
 	 *
@@ -371,8 +371,8 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	public void testScenario11(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
-
-		//Scenario 11: Purchase Endorsement: add a Vehicle (Type not Trailer)
+		
+		//Scenario 11a: Purchase Endorsement: add a Vehicle (Type not Trailer)
 		createPolicy();
 		TestData td_addVehicle = getTestSpecificTD("TestData_Endorsement_AddVehicle").adjust(getPolicyTD("Endorsement", "TestData"));
 		policy.endorse().performAndFill(td_addVehicle);
@@ -391,21 +391,21 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 
 	/**
 	 * OnlineBatch Scenario 12 - ENDORSEMENT_ISSUE: AA52AZ
-	 * <p>	<b>(a)</b> 1. Create policy with: both UM and UIM limits = BI Liability limits. 
+	 * <p>	 <b>(a)</b> 1. Create policy with: both UM and UIM limits = BI Liability limits.
 	 * <p>		2. Purchase endorsement: set UM and UIM limits < BI limits. 
 	 * <p>		3. Verify the following forms are generated: AA02AZ  (without AAAEAZ2), AA52AZ. AA52AZ form is mentioned in AA02AZ document. 
 	 * <p>
-	 * <p>	<b>(b)</b> 1. Create policy with: both UM and UIM limits = BI Liability limits. 
+	 * <p>	 <b>(b)</b> 1. Create policy with: both UM and UIM limits = BI Liability limits.
 	 * <p>		2. Purchase endorsement: set UIM limits < BI limits. 
 	 * <p>		3. Verify form AA52AZ is generated and AA52AZ form is mentioned in AA02AZ document. 
 	 * <p>
-	 * <p>	<b>(c)</b> 1. Create policy with: both UM and UIM limits = BI Liability limits. 
+	 * <p>	 <b>(c)</b> 1. Create policy with: both UM and UIM limits = BI Liability limits.
 	 * <p>		2. Purchase endorsement: set UM limits < BI limits. 
 	 * <p>		3. Verify form AA52AZ is generated and AA52AZ form is mentioned in AA02AZ document. 
 	 * <p>
-	 * <p>	<b>(d)</b> - not covered.
+	 * <p>	 <b>(d)</b> - not covered.
 	 * <p> 
-	 * <p>	<b>(e)</b>	1. Create policy with:  both UM and UIM limits < BI limits (AA52AZ form is generated). 
+	 * <p>	 <b>(e)</b>	1. Create policy with:  both UM and UIM limits < BI limits (AA52AZ form is generated).
 	 * <p>		2. Purchase endorsement: set both UM and UIM limits = BI limits. 
 	 * <p>		3. Verify form AA52AZ is NOT generated and AA52AZ form is NOT mentioned in AA02AZ document.
 	 *
@@ -458,20 +458,20 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 
 	/**
 	 * OnlineBatch Scenario 13 - ENDORSEMENT_ISSUE: AA43AZ
-	 * <p>	<b>(a)</b> 1. Create policy with: No Excluded Drivers. 
+	 * <p>	 <b>(a)</b> 1. Create policy with: No Excluded Drivers.
 	 * <p>		2. Purchase endorsement: add Excluded Driver. 
 	 * <p>		3. Verify the following forms are generated: AA02AZ (without AAAEAZ2), AA43AZ. 
 	 * <p>		AA43AZ form is mentioned in AA02AZ document. Excluded Driver is mentioned in AA02AZ document. 
 	 * <p>
-	 * <p>	<b>(b)</b> 1. Create policy with: 2 Not Excluded Drivers. 
+	 * <p>	 <b>(b)</b> 1. Create policy with: 2 Not Excluded Drivers.
 	 * <p>		2. Purchase endorsement: change Driver2 Type to Excluded. 
 	 * <p>		3. Verify the following forms are generated: AA02AZ (without AAAEAZ2), AA43AZ. 
 	 * <p>		AA43AZ form is mentioned in AA02AZ document. Excluded Driver is mentioned in AA02AZ document. 
 	 * <p>
-	 * <p>	<b>(c)</b> - not covered.
-	 * <p>	<b>(d)</b> - not covered. 
+	 * <p>	 <b>(c)</b> - not covered.
+	 * <p>	 <b>(d)</b> - not covered.
 	 * <p>
-	 * <p>	<b>(e)</b> 1. Create policy with: Excluded Driver. 
+	 * <p>	 <b>(e)</b> 1. Create policy with: Excluded Driver.
 	 * <p>		2. Purchase endorsement: remove Excluded Driver. 
 	 * <p>		3. Verify form AA43AZ is NOT generated, AA43AZ is NOT mentioned in AA02AZ document.
 	 *
@@ -551,21 +551,21 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 
 	/**
 	 * OnlineBatch Scenario 15 - ENDORSEMENT_ISSUE: AA59XX
-	 * <p>	<b>(a)</b> 1. Create policy with: Vehicle with Existing Damage = None. 
+	 * <p>	 <b>(a)</b> 1. Create policy with: Vehicle with Existing Damage = None.
 	 * <p>		2. Purchase endorsement with: set Existing Damage not None. 
 	 * <p>		3. Verify the following forms are generated: AA02AZ (without AAAEAZ2), AA59XX. 
 	 * <p>
-	 * <p>	<b>(b)</b> 1. Create policy with: Vehicle with Existing Damage = None. 
+	 * <p>	 <b>(b)</b> 1. Create policy with: Vehicle with Existing Damage = None.
 	 * <p>		2. Purchase endorsement: add Vehicle with Existing Damage not None. 
 	 * <p>		3. Verify the following forms are generated: AA02AZ (without AAAEAZ2), AA10XX, AA59XX. 
 	 * <p>
-	 * <p>	<b>(c)</b> 1. Create policy with: Vehicle1 and Vehicle2 with Existing Damage = None. 
+	 * <p>	 <b>(c)</b> 1. Create policy with: Vehicle1 and Vehicle2 with Existing Damage = None.
 	 * <p>		2. Purchase endorsement: for both Vehicle set Existing Damage not None. 
 	 * <p>		3. Verify the following forms are generated: AA02AZ (without AAAEAZ2), AA59XX for Vehicle1, AA59XX for Vehicle2. 
 	 * <p>
-	 * <p>	<b>(d)</b> - not covered. 
+	 * <p>	 <b>(d)</b> - not covered.
 	 * <p>
-	 * <p>	<b>(e)</b> 1. Create policy: Vehicle with Existing Damage not None. 
+	 * <p>	 <b>(e)</b> 1. Create policy: Vehicle with Existing Damage not None.
 	 * <p>		2. Purchase endorsement with: set Existing Damage = None. 
 	 * <p>		3. Verify form AA59XX is NOT generated and AA59XX form is NOT mentioned in AA02AZ document. 
 	 *
@@ -623,14 +623,14 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 
 	/**
 	 * OnlineBatch Scenario 16 - ENDORSEMENT_ISSUE: AAGCAZ
-	 * <p>	<b>(a)</b> 1. Create policy with: No Vehicle with Type = Golf Cart. 
+	 * <p>	 <b>(a)</b> 1. Create policy with: No Vehicle with Type = Golf Cart.
 	 * <p>		2. Purchase endorsement: add Vehicle with Type = Golf Cart. 
 	 * <p>		3. The following forms are generated: AA02AZ (without AAAEAZ2), AA10XX, AAGCAZ. Form AAGCAZ is mentioned in AA02AZ document.
 	 * <p>
-	 * <p>	<b>(b)</b> - not covered.
-	 * <p>	<b>(c)</b> - not covered. 
+	 * <p>	 <b>(b)</b> - not covered.
+	 * <p>	 <b>(c)</b> - not covered.
 	 * <p>
-	 * <p>	<b>(d)</b> 1. Create policy with Vehicle1 with Type = Golf Cart. 
+	 * <p>	 <b>(d)</b> 1. Create policy with Vehicle1 with Type = Golf Cart.
 	 * <p>		2. Purchase endorsement: remove Golf Cart. 
 	 * <p>		3. Verify AAGCAZ form is NOT generated and AAGCAZ form is NOT mentioned in AA02AZ document. 
 	 *
@@ -668,16 +668,16 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 
 	/**
 	 * OnlineBatch Scenario 17 - ENDORSEMENT_ISSUE: AASR22
-	 * <p>	<b>(a)</b> 1. Create policy with: Drivers with Financial Responsibility = No. 
+	 * <p>	 <b>(a)</b> 1. Create policy with: Drivers with Financial Responsibility = No.
 	 * <p>		2. Purchase endorsement: change Financial Responsibility to Yes. 
 	 * <p>		3. Verify the following forms are generated: AA02AZ (without AAAEAZ2), AASR22. 
-	 * <p>	<b>(b)</b> - not covered. 
-	 * <p>	<b>(c)</b> 1. Create policy: 2 Drivers with Financial Responsibility = No. 
+	 * <p>	 <b>(b)</b> - not covered.
+	 * <p>	 <b>(c)</b> 1. Create policy: 2 Drivers with Financial Responsibility = No.
 	 * <p>		2. Purchase endorsement: change Financial Responsibility to Yes for Driver1. 
 	 * <p>		3. Verify the following forms are generated: AA02AZ (without AAAEAZ2), AASR22 for Driver1. 
-	 * <p>	<b>(d)</b> - not covered, 
-	 * <p>	<b>(e)</b> - not covered. 
-	 *
+	 * <p>	 <b>(d)</b> - not covered,
+	 * <p>	 <b>(e)</b> - not covered.
+	 * 
 	 * @param state
 	 */
 	@Parameters({"state"})
@@ -711,16 +711,16 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 
 	/**
 	 * OnlineBatch Scenario 18 - ENDORSEMENT_ISSUE: AASR26
-	 * <p>	<b>(a)</b> 1. Create policy: Driver1 with Financial Responsibility = Yes. 
+	 * <p>	 <b>(a)</b> 1. Create policy: Driver1 with Financial Responsibility = Yes.
 	 * <p>		2. Purchase endorsement: change Financial Responsibility to No. 
 	 * <p>		3. Verify the following forms are generated: AA02AZ (without AAAEAZ2), AASR26.  
-	 * <p>	<b>(b)</b> - not covered, 
-	 * <p>	<b>(c)</b> - not covered.  
-	 * <p>	<b>(d)</b> 1. Create policy: Driver1 and Driver2 with Financial Responsibility = Yes. 
+	 * <p>	 <b>(b)</b> - not covered,
+	 * <p>	 <b>(c)</b> - not covered.
+	 * <p>	 <b>(d)</b> 1. Create policy: Driver1 and Driver2 with Financial Responsibility = Yes.
 	 * <p>		2. Purchase endorsement: change Financial Responsibility to No for both Drivers. 
 	 * <p>		3. Verify The following forms are generated: AA02AZ (without AAAEAZ2), AASR26 for Driver1, AASR26 for Driver2.  
-	 * <p>	<b>(e)</b> - not covered.  
-	 * <p>	<b>(f)</b> 1. Create policy: Driver1 and Driver2 with Financial Responsibility = Yes. 
+	 * <p>	 <b>(e)</b> - not covered.
+	 * <p>	 <b>(f)</b> 1. Create policy: Driver1 and Driver2 with Financial Responsibility = Yes.
 	 * <p>		2. Purchase Endorsement: change Financial Responsibility to No for Driver1, remove Driver2. 
 	 * <p>		3. Verify The following forms are generated: AA02AZ (without AAAEAZ2), AASR26 for Driver1, AASR26 for Driver2.
 	 *
@@ -782,19 +782,19 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 
 	/**
 	 * OnlineBatch Scenario 19 - ENDORSEMENT_ISSUE: AAPDXX
-	 * <p>	<b>(a)</b> 1. Create policy with regular Driver1.
+	 * <p>	 <b>(a)</b> 1. Create policy with regular Driver1.
 	 * <p>		2. Purchase Endorsement: add Driver2 with License Type = Learner's Permit.
 	 * <p>		3. Verify The following forms are generated: AA02AZ (without AAAEAZ2), AAPDXX for Driver2.
 	 * <p>
-	 * <p>	<b>(b)</b> 1. Create policy: Driver1 with License Type not Learner's Permit. 
+	 * <p>	 <b>(b)</b> 1. Create policy: Driver1 with License Type not Learner's Permit.
 	 * <p>		2. Purchase Endorsement: add 2 Drivers with License Type = Learner's Permit. 
 	 * <p>		3. Verify The following forms are generated: AA02AZ (without AAAEAZ2), AAPDXX for Driver2 and Driver3. 
 	 * <p>
-	 * <p>	<b>(c)</b> 1. Create policy with Driver2 with License Type not Learner's Permit. 
+	 * <p>	 <b>(c)</b> 1. Create policy with Driver2 with License Type not Learner's Permit.
 	 * <p>		2. Purchase Endorsement: change Driver2 License Type to Learner's Permit. 
 	 * <p>		3. Verify form AAPDXX is NOT generated. 
-	 * <p>	<b>(d)</b> - not covered. 
-	 *
+	 * <p>	 <b>(d)</b> - not covered.
+	 * 
 	 * @param state
 	 */
 	@Parameters({"state"})
@@ -839,19 +839,19 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 
 	/**
 	 * OnlineBatch Scenario 20 - ENDORSEMENT_ISSUE: AHDRXX 
-	 * <p>	<b>(a)</b> 1. Create policy1 with Membership Discount: 
+	 * <p>	 <b>(a)</b> 1. Create policy1 with Membership Discount:
 	 * <p>		- set Current AAA Member = Yes, 
 	 * <p>		- set Membership Number = 9920702826992070 (so on 'Rating Detail Report' Membership Status = Lapsed). 
 	 * <p>		2. Shift time to NB + 15 days and execute 'MembershipValidation' batch jobs. 
 	 * <p>		3. Shift time to NB + 30 days and execute 'MembershipValidation' batch jobs. 
 	 * <p>		4. Verify Automated endorsement is issued. Membership Discount is removed. Forms are generated: AA02AZ (without AAAEAZ2), AHDRXX.
-	 * <p>	<b>(b)</b> - not covered. 
-	 *
+	 * <p>	 <b>(b)</b> - not covered.
+	 * 
 	 * @param state
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario20(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -940,7 +940,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	}
 
 	/**
-	 * The method verifies that document AA02AZ contains or not (depends on <b>expectedPresent</b>) the <b>form</b> 
+	 * The method verifies that document AA02AZ contains or not (depends on  <b>expectedPresent</b>) the  <b>form</b>
 	 * @param policyNumber
 	 * @param eventName
 	 * @param form
@@ -966,7 +966,7 @@ public class PasDoc_OnlineBatch extends AutoSSBaseTest {
 	}
 
 	/**
-	 * The method counts <b>form</b> in generated xml for <b>policyNumber</b> and <b>eventName</b>
+	 * The method counts  <b>form</b> in generated xml for  <b>policyNumber</b> and  <b>eventName</b>
 	 * @param policyNumber
 	 * @param eventName
 	 * @param document

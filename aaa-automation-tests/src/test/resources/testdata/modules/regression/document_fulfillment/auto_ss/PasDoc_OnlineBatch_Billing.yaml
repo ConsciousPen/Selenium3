@@ -17,11 +17,59 @@ TestData_NotActiveAutoPayWithCC: {
   PurchaseTab: '@PurchaseTab_withCCPaymentMethod'
 }
 
+# ------- Scenario 46
+TestData_SemiAnnual_withAutoPay: {
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_SemiAnnual', 
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'
+}
+
+TestData_SemiAnnual_withoutAutoPay: {
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_SemiAnnual'
+}
+
+# ------
+TestData_Endorsement_ChangePremium: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_ChangePremium',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_Endorsement_ChangePaymentPlan: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_ChangePremium',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
 # ------ PremiumAndCoveragesTab ------- 
 PremiumAndCoveragesTab_Monthly: {
   Payment Plan: Eleven Pay - Standard, 
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Comprehensive Deductible: 'contains=$750'
+}
+
+PremiumAndCoveragesTab_Quarterly: {
+  Payment Plan: Quarterly
+}
+
+PremiumAndCoveragesTab_SemiAnnual: {
+  Payment Plan: Semi-Annual
+}
+
+
+PremiumAndCoveragesTab_ChangePremium: {
+  Bodily Injury Liability: 'contains=$500,000/$500,000', 
+  Property Damage Liability: 'contains=$500,000',  
+  Medical Payments: 'contains=$5,000'
 }
 
 # ------ PurchaseTab -------

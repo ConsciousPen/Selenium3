@@ -4,8 +4,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.utils.TestInfo;
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -14,20 +12,22 @@ import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.utils.StateList;
+import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.utils.TestInfo;
 
 public class TestPolicyManualRenew extends HomeCaHO3BaseTest {
 
     /**
      * @author Jurij Kuznecov
-     * @name Test CAH Policy Manual Renew
-     * @scenario
-     * 1. Create new or open existent Customer
-     * 2. Find CAH quote or create new if quote does not exist
-     * 3. Fill all mandatory fields
-     * 4. Calculate premium
-     * 5. Issue Policy
-     * 6. Perform Manual Renew action
-     * 7. Check Manual Renew flag
+	 * <b> Test CAH Policy Manual Renew </b>
+	 * <p> Steps:
+	 * <p> 1. Create new or open existent Customer
+	 * <p> 2. Find CAH quote or create new if quote does not exist
+	 * <p> 3. Fill all mandatory fields
+	 * <p> 4. Calculate premium
+	 * <p> 5. Issue Policy
+	 * <p> 6. Perform Manual Renew action
+	 * <p> 7. Check Manual Renew flag
      */
 
 	@Parameters({"state"})

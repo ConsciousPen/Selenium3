@@ -24,12 +24,12 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Jelena Dembovska
- * @name Test Create Auto SS policy
- * @scenario
- * 1. Create Customer
- * 2. Create Auto policy
- * 3. Verify policy status is active
- * @details
+ * <b> Test Create Auto SS policy </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create Auto policy
+ * <p> 3. Verify policy status is active
+ *
  */
 public class TestPolicyCreation extends AutoSSBaseTest {
 

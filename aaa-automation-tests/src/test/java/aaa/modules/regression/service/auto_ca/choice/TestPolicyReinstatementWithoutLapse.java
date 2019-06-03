@@ -1,5 +1,13 @@
 package aaa.modules.regression.service.auto_ca.choice;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.List;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
@@ -9,8 +17,8 @@ import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
-import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
@@ -22,45 +30,35 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
 import aaa.utils.StateList;
-import com.exigen.ipb.eisa.utils.Dollar;
-import com.exigen.ipb.eisa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 
 public class TestPolicyReinstatementWithoutLapse extends AutoCaChoiceBaseTest {
 
     /**
      * @author Denis Semenov
-     * @name scenario id C-AU-CAC-CA-244
-     * @scenario 1. Initiate Auto quote. Select Product as 'CA Choice
-     * 2. Run aaaDocgen batch job. Search for AARFIXX form in POLICY_ISSUE event in DB
-     * 3. Run aaaBillingInvoiceAsyncTaskJob to generate the Installment Bill
-     * 4. Run aaaCancellationNoticeAsyncJob and aaaDocGen
-     * 5. Search for AH34XX form in CANCEL_NOTICE event in DB
-     * 6. Make payment
-     * 6. Select 'Cancel Notice' action
-     * 7. Run aaaDocGenBatchJob
-     * 8. Search for AH61XX form in CANCEL_NOTICE event in DB
-     * 9. Run aaaCancellationConfirmationAsyncJob and policyStatusUpdateJob
-     * 10. Select 'Reinstatement' action
-     * 11. Run aaaBillingInvoiceAsyncTaskJob to generate the Installment Bill
-     * 12. Make Payment
-     * 13. Run aaaBillingInvoiceAsyncTaskJob to generate the Installment Bill
-     * 14. Make Payment
-     * 15. Run the following jobs: Renewal_Offer_Generation_Part2, Renewal_Offer_Generation_Part1,
-     * Renewal_Offer_Generation_Part2, Renewal_Offer_Generation_Part2
-     * 16. Make payment for renewal term
-     * 17. Run policyStatusUpdateJob
-     * @details
+     * <b> scenario id C-AU-CAC-CA-244 </b>
+     * <p> Steps: 1. Initiate Auto quote. Select Product as 'CA Choice
+     * <p> 2. Run aaaDocgen batch job. Search for AARFIXX form in POLICY_ISSUE event in DB
+     * <p> 3. Run aaaBillingInvoiceAsyncTaskJob to generate the Installment Bill
+     * <p> 4. Run aaaCancellationNoticeAsyncJob and aaaDocGen
+     * <p> 5. Search for AH34XX form in CANCEL_NOTICE event in DB
+     * <p> 6. Make payment
+     * <p> 6. Select 'Cancel Notice' action
+     * <p> 7. Run aaaDocGenBatchJob
+     * <p> 8. Search for AH61XX form in CANCEL_NOTICE event in DB
+     * <p> 9. Run aaaCancellationConfirmationAsyncJob and policyStatusUpdateJob
+     * <p> 10. Select 'Reinstatement' action
+     * <p> 11. Run aaaBillingInvoiceAsyncTaskJob to generate the Installment Bill
+     * <p> 12. Make Payment
+     * <p> 13. Run aaaBillingInvoiceAsyncTaskJob to generate the Installment Bill
+     * <p> 14. Make Payment
+     * <p> 15. Run the following jobs: Renewal_Offer_Generation_Part2, Renewal_Offer_Generation_Part1,
+     * <p> Renewal_Offer_Generation_Part2, Renewal_Offer_Generation_Part2
+     * <p> 16. Make payment for renewal term
+     * <p> 17. Run policyStatusUpdateJob
+     *
      */
     @Parameters({"state"})
     @StateList(states = Constants.States.CA)

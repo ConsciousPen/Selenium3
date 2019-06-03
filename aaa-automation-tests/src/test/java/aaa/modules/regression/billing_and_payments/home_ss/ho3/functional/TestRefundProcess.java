@@ -26,20 +26,12 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		return PolicyType.HOME_SS_HO3;
 	}
 
-	@Test(description = "Precondition for TestRefundProcess tests")
-	public void precondJobAdding() {
-		JobUtils.createJob(BatchJob.aaaRefundGenerationAsyncJob);
-		JobUtils.createJob(BatchJob.aaaRefundDisbursementAsyncJob);
-		JobUtils.createJob(BatchJob.aaaRefundsDisbursementReceiveInfoAsyncJob);
-		JobUtils.createJob(BatchJob.aaaRefundsDisbursementRejectionsAsyncJob);
-	}
-
 	/***
-	 * The test is used to debug 7025 generated file using minimu actions, when file is already generated
+	 * <p> The test is used to debug 7025 generated file using minimu actions, when file is already generated
 	 * @param state
-	 * @throws SftpException
-	 * @throws JSchException
-	 * @throws IOException
+	 * <p> @throws SftpException
+	 * <p> @throws JSchException
+	 * <p> @throws IOException
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})

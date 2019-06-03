@@ -27,96 +27,96 @@ import toolkit.utils.TestInfo;
 
 
 /**
- * Created by lkazarnovskiy on 8/16/2017.
- * <p>
- * Objectives: Validate premium bundle functionality.
- * <p>
- * TC Steps:
- * /*                         // Heritage Bundle
- * 1. Create a quote
- * 2. Test that only Heritage bundle is selected on Offering tab
- * 3. Verify "Select Variation" button on Heritage bundle is disabled
- * Verify "Remove Variation" button on Heritage bundle is disabled
- * Verify "Restore Defaults" button on Heritage bundle is enabled
- * Verify "Add additional variation" is disabled
- * 4. Check List of all endorsements which are included to Heritage bundle on Offering tab.
- * 5. Calculate Premium on Offering Tab
- * 6. Verify Total Premium = Sub Total Coverage Premium + Endorsement Premium On Offering Tab
- * 7. Check List of all endorsements which are included to Heritage bundle on Endorsement tab.
- * 8. Verify that Total Premium of selected bundle  = Total premium on Quote tab.
- * 9. Check List of all endorsements which are included to Heritage bundle on Quote tab.
- * <p>
- * <p>
- * // Legacy Bundle
- * <p>
- * 11.Verify presence of Heritage and Legacy bundle and absence of Prestige bundle.
- * 12.Verify "Select Variation" button on Legacy bundle is disabled
- * Verify "Remove Variation" button on Legacy bundle is disabled
- * Verify "Restore Defaults" button on Legacy bundle is enabled
- * Verify "Select Variation" button on Heritage bundle is enabled
- * Verify "Remove Variation" button on Heritage bundle is enabled
- * Verify "Restore Defaults" button on Heritage bundle is enabled
- * Verify "Add additional variation" is disabled
- * 13. Check List of all endorsements which is included to Legacy bundle on Offering tab.
- * 14. Calculate Premium on Offering Tab
- * 15. Verify Total Premium = Sub Total Coverage Premium + Endorsement Premium On Offering Tab
- * 16. Check List of all endorsements which is included to Legacy bundle on Endorsement tab.
- * 17. Verify that Total Premium of selected bundle  = Total premium on Quote tab.
- * 18. Check List of all endorsements which is included to Legacy bundle on Quote tab.
- * <p>
- * // Prestige Bundle
- * 19. Set conditions for Prestige bundle (Insurance Score = 870 and A Coverage = 280 000)
- * 20. Verify  Heritage,Legacy,Prestige bundles are present on Offering Tab
- * 21. Verify "Select Variation" button on Prestige bundle is disabled
- * Verify "Remove Variation" button on Prestige bundle is disabled
- * Verify "Restore Defaults" button on Prestige bundle is enabled
- * Verify "Select Variation" button on Heritage bundle is enabled
- * Verify "Remove Variation" button on Heritage bundle is enabled
- * Verify "Restore Defaults" button on Heritage bundle is enabled
- * Verify "Select Variation" button on Legacy bundle is enabled
- * Verify "Remove Variation" button on Legacy bundle is enabled
- * Verify "Restore Defaults" button on Legacy bundle is enabled
- * Verify "Add additional variation" is disabled
- * 22.Check List of all endorsements which is included to Prestige bundle on Offering tab.
- * 23.Calculate Premium on Offering Tab
- * 24.Verify Total Premium = Sub Total Coverage Premium + Endorsement Premium On Offering Tab
- * 25.Check List of all endorsements which is included to Prestige bundle on Endorsement tab.
- * 26.Verify that Total Premium of selected bundle  = Total premium on Quote tab.
- * 27.Check List of all endorsements which is included to Prestige bundle on Quote tab.
- * <p>
- * 28.Select Legacy bundle.
- * 29.Calculate Premium on Offering Tab
- * 30.Verify that Total Premium of selected bundle  = Total premium on Quote tab.
- * 31.Verify restore defaults on Legacy Bundle:  -> !!!Added in the block for Legacy Bundle tests
- * Set coverages:
- * CovB = "20%";
- * CovD = "40%";
- * CovE = "$200,000";
- * CovF = "$2,000";
- * Ded =  "$2,000";
- * Calculate premium.
- * Verify it's not equal to initial premium.
- * Press "Restore Defaults"
- * Calculate premium.
- * Verify calculated premium is equal to initial premium.
- * <p>
- * 32.Select Heritage bundle.   -> !!!Added in the block for Heritage Bundle tests
- * 33.Calculate Premium on Offering Tab -> !!!Added in the block for Heritage Bundle tests
- * 34.Verify that Total Premium of selected bundle  = Total premium on Quote tab.
- * 35.Verify restore defaults on Heritage Bundle
- * <p>
- * 36.Select Prestige bundle.
- * 37.Calculate Premium on Offering Tab
- * 38.Verify that Total Premium of selected bundle  = Total premium on Quote tab.
- * 39.Verify restore defaults on Prestige Bundle
- * <p>
- * 40.Remove Legacy Bundle
- * 41.Verify that only Heritage and Prestige bundles are present
- * 42.Add Legacy bundle back (press "Add additional variation" button)
- * 43.Verify Heritage,Legacy,Prestige bundles are present on Offering Tab
- * <p>
- * Req: 224895: 13928: US NB-MTC - Quote Comparison 18642: US CL NB-MTC
- * - Quote Comparison V2.0
+ * <p> Created by lkazarnovskiy on 8/16/2017.
+ * <p> <p>
+ * <p> Objectives: Validate premium bundle functionality.
+ * <p> <p>
+ * <p> TC Steps:
+ * <p> /*                         // Heritage Bundle
+ * <p> 1. Create a quote
+ * <p> 2. Test that only Heritage bundle is selected on Offering tab
+ * <p> 3. Verify "Select Variation" button on Heritage bundle is disabled
+ * <p> Verify "Remove Variation" button on Heritage bundle is disabled
+ * <p> Verify "Restore Defaults" button on Heritage bundle is enabled
+ * <p> Verify "Add additional variation" is disabled
+ * <p> 4. Check List of all endorsements which are included to Heritage bundle on Offering tab.
+ * <p> 5. Calculate Premium on Offering Tab
+ * <p> 6. Verify Total Premium = Sub Total Coverage Premium + Endorsement Premium On Offering Tab
+ * <p> 7. Check List of all endorsements which are included to Heritage bundle on Endorsement tab.
+ * <p> 8. Verify that Total Premium of selected bundle  = Total premium on Quote tab.
+ * <p> 9. Check List of all endorsements which are included to Heritage bundle on Quote tab.
+ * <p> <p>
+ * <p> <p>
+ * <p> // Legacy Bundle
+ * <p> <p>
+ * <p> 11.Verify presence of Heritage and Legacy bundle and absence of Prestige bundle.
+ * <p> 12.Verify "Select Variation" button on Legacy bundle is disabled
+ * <p> Verify "Remove Variation" button on Legacy bundle is disabled
+ * <p> Verify "Restore Defaults" button on Legacy bundle is enabled
+ * <p> Verify "Select Variation" button on Heritage bundle is enabled
+ * <p> Verify "Remove Variation" button on Heritage bundle is enabled
+ * <p> Verify "Restore Defaults" button on Heritage bundle is enabled
+ * <p> Verify "Add additional variation" is disabled
+ * <p> 13. Check List of all endorsements which is included to Legacy bundle on Offering tab.
+ * <p> 14. Calculate Premium on Offering Tab
+ * <p> 15. Verify Total Premium = Sub Total Coverage Premium + Endorsement Premium On Offering Tab
+ * <p> 16. Check List of all endorsements which is included to Legacy bundle on Endorsement tab.
+ * <p> 17. Verify that Total Premium of selected bundle  = Total premium on Quote tab.
+ * <p> 18. Check List of all endorsements which is included to Legacy bundle on Quote tab.
+ * <p> <p>
+ * <p> // Prestige Bundle
+ * <p> 19. Set conditions for Prestige bundle (Insurance Score = 870 and A Coverage = 280 000)
+ * <p> 20. Verify  Heritage,Legacy,Prestige bundles are present on Offering Tab
+ * <p> 21. Verify "Select Variation" button on Prestige bundle is disabled
+ * <p> Verify "Remove Variation" button on Prestige bundle is disabled
+ * <p> Verify "Restore Defaults" button on Prestige bundle is enabled
+ * <p> Verify "Select Variation" button on Heritage bundle is enabled
+ * <p> Verify "Remove Variation" button on Heritage bundle is enabled
+ * <p> Verify "Restore Defaults" button on Heritage bundle is enabled
+ * <p> Verify "Select Variation" button on Legacy bundle is enabled
+ * <p> Verify "Remove Variation" button on Legacy bundle is enabled
+ * <p> Verify "Restore Defaults" button on Legacy bundle is enabled
+ * <p> Verify "Add additional variation" is disabled
+ * <p> 22.Check List of all endorsements which is included to Prestige bundle on Offering tab.
+ * <p> 23.Calculate Premium on Offering Tab
+ * <p> 24.Verify Total Premium = Sub Total Coverage Premium + Endorsement Premium On Offering Tab
+ * <p> 25.Check List of all endorsements which is included to Prestige bundle on Endorsement tab.
+ * <p> 26.Verify that Total Premium of selected bundle  = Total premium on Quote tab.
+ * <p> 27.Check List of all endorsements which is included to Prestige bundle on Quote tab.
+ * <p> <p>
+ * <p> 28.Select Legacy bundle.
+ * <p> 29.Calculate Premium on Offering Tab
+ * <p> 30.Verify that Total Premium of selected bundle  = Total premium on Quote tab.
+ * <p> 31.Verify restore defaults on Legacy Bundle:  -> !!!Added in the block for Legacy Bundle tests
+ * <p> Set coverages:
+ * <p> CovB = "20%";
+ * <p> CovD = "40%";
+ * <p> CovE = "$200,000";
+ * <p> CovF = "$2,000";
+ * <p> Ded =  "$2,000";
+ * <p> Calculate premium.
+ * <p> Verify it's not equal to initial premium.
+ * <p> Press "Restore Defaults"
+ * <p> Calculate premium.
+ * <p> Verify calculated premium is equal to initial premium.
+ * <p> <p>
+ * <p> 32.Select Heritage bundle.   -> !!!Added in the block for Heritage Bundle tests
+ * <p> 33.Calculate Premium on Offering Tab -> !!!Added in the block for Heritage Bundle tests
+ * <p> 34.Verify that Total Premium of selected bundle  = Total premium on Quote tab.
+ * <p> 35.Verify restore defaults on Heritage Bundle
+ * <p> <p>
+ * <p> 36.Select Prestige bundle.
+ * <p> 37.Calculate Premium on Offering Tab
+ * <p> 38.Verify that Total Premium of selected bundle  = Total premium on Quote tab.
+ * <p> 39.Verify restore defaults on Prestige Bundle
+ * <p> <p>
+ * <p> 40.Remove Legacy Bundle
+ * <p> 41.Verify that only Heritage and Prestige bundles are present
+ * <p> 42.Add Legacy bundle back (press "Add additional variation" button)
+ * <p> 43.Verify Heritage,Legacy,Prestige bundles are present on Offering Tab
+ * <p> <p>
+ * <p> Req: 224895: 13928: US NB-MTC - Quote Comparison 18642: US CL NB-MTC
+ * <p> - Quote Comparison V2.0
  **/
 public class TestQuoteComparison extends HomeSSHO3BaseTest {
 
@@ -141,8 +141,8 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		policy.getDefaultView().fillUpTo(td, ProductOfferingTab.class);
 
 		/*
-		 * Heritage Bundle verification
-		 * Steps 1-9, 32-35
+		 * <p> Heritage Bundle verification
+		 * <p> Steps 1-9, 32-35
 		 */
 
 		//Steps 2-3
@@ -189,8 +189,8 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		log.info("Heritage bundle is verified successfully");
 
 		/*
-		 * Legacy Bundle verification
-		 * Steps 11-18, 28-31
+		 * <p> Legacy Bundle verification
+		 * <p> Steps 11-18, 28-31
 		 */
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING.get());
 		productOfferingTab.getAssetList().getAsset(LEGACY).selectVariation();
@@ -245,8 +245,8 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		log.info("Legacy bundle is verified successfully");
 
 		/*
-		 * Prestige Bundle verification
-		 * Steps 19-27, 36-39
+		 * <p> Prestige Bundle verification
+		 * <p> Steps 19-27, 36-39
 		 */
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING.get());
 		productOfferingTab.getAssetList().getAsset(PRESTIGE).selectVariation();
@@ -299,10 +299,10 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		log.info("Prestige bundle is verified successfully");
 
 		/*
-		 * 40.Remove Legacy Bundle
-		 * 41.Verify that only Heritage and Prestige bundles are present
-		 * 42.Add Legacy bundle back (press "Add additional variation" button)
-		 * 43.Verify Heritage,Legacy,Prestige bundles are present on Offering Tab
+		 * <p> 40.Remove Legacy Bundle
+		 * <p> 41.Verify that only Heritage and Prestige bundles are present
+		 * <p> 42.Add Legacy bundle back (press "Add additional variation" button)
+		 * <p> 43.Verify Heritage,Legacy,Prestige bundles are present on Offering Tab
 		 */
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING.get());
 		productOfferingTab.getAssetList().getAsset(LEGACY).removeVariation();

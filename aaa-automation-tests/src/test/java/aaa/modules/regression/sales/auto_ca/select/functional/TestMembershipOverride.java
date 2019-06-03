@@ -40,19 +40,19 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership Override - PAS-6311 AC#1, AC#2, AC#3 (New Business)
-	 * @scenario
-	 * Precondition: Agent is expected to have the Membership override privilege.
-	 * 1. Create Customer.
-	 * 2. Initiate Auto CA Quote.
-	 * 3. Select 'Membership Override' option in the 'Current AAA Member' drop-down (AC#1)
-	 * 4. Select the 'Override Type' (Term or Life). (AC#1)
-	 * 5. Do not enter Membership number. (AC#3)
-	 * 6. Navigate to Reports tab ----> Option to order Membership report is not displayed. (AC#1)
-	 * 7. Navigate to Premium & Coverages tab
-	 * 8. Click on 'View rating Details' link ----> overridden membership details should be displayed (AC#1)
-	 * 9. Bind policy ---> Policy should be bound (AC#1)
-	 * @details
+	 * <b> Test Membership Override - PAS-6311 AC#1, AC#2, AC#3 (New Business) </b>
+	 * <p> Steps:
+	 * <p> Precondition: Agent is expected to have the Membership override privilege.
+	 * <p> 1. Create Customer.
+	 * <p> 2. Initiate Auto CA Quote.
+	 * <p> 3. Select 'Membership Override' option in the 'Current AAA Member' drop-down (AC#1)
+	 * <p> 4. Select the 'Override Type' (Term or Life). (AC#1)
+	 * <p> 5. Do not enter Membership number. (AC#3)
+	 * <p> 6. Navigate to Reports tab ----> Option to order Membership report is not displayed. (AC#1)
+	 * <p> 7. Navigate to Premium & Coverages tab
+	 * <p> 8. Click on 'View rating Details' link ----> overridden membership details should be displayed (AC#1)
+	 * <p> 9. Bind policy ---> Policy should be bound (AC#1)
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
@@ -89,20 +89,20 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership Override - PAS-6311 AC#1, AC#2, AC#3, PAS-9626 AC#3 (Endorsement)
-	 * @scenario
-	 * Precondition: Agent is expected to have the Membership override privilege.
-	 * 1. Create Customer.
-	 * 2. Create Auto CA Policy with Membership "NO"
-	 * 3. Initiate Midterm Endorsement for the policy
-	 * 4. Select 'Membership Override' option in the 'Current AAA Member' drop-down (AC#1)
-	 * 5. Select the 'Override Type' (Term or Life). (AC#1)
-	 * 6. Do not enter Membership number. (AC#3)
-	 * 7. Navigate to Reports tab ----> Option to order Membership report should NOT be displayed. (PAS-9626 AC#3)
-	 * 8. Navigate to Premium & Coverages tab
-	 * 9. Click on 'View rating Details' link ----> overridden membership details should be displayed (PAS-9626 AC#3)
-	 * 10. Bind Endorsement ---> Endorsement should be bound (PAS-9626 AC#3)
-	 * @details
+	 * <b> Test Membership Override - PAS-6311 AC#1, AC#2, AC#3, PAS-9626 AC#3 (Endorsement) </b>
+	 * <p> Steps:
+	 * <p> Precondition: Agent is expected to have the Membership override privilege.
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto CA Policy with Membership "NO"
+	 * <p> 3. Initiate Midterm Endorsement for the policy
+	 * <p> 4. Select 'Membership Override' option in the 'Current AAA Member' drop-down (AC#1)
+	 * <p> 5. Select the 'Override Type' (Term or Life). (AC#1)
+	 * <p> 6. Do not enter Membership number. (AC#3)
+	 * <p> 7. Navigate to Reports tab ----> Option to order Membership report should NOT be displayed. (PAS-9626 AC#3)
+	 * <p> 8. Navigate to Premium & Coverages tab
+	 * <p> 9. Click on 'View rating Details' link ----> overridden membership details should be displayed (PAS-9626 AC#3)
+	 * <p> 10. Bind Endorsement ---> Endorsement should be bound (PAS-9626 AC#3)
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
@@ -141,18 +141,18 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership Override - PAS-9626 AC#1 (Endorsement)
-	 * @scenario
-	 * Precondition: Agent is expected to have the Membership override privilege.
-	 * 1. Create Customer.
-	 * 2. Create Auto CA Policy with Membership "Membership Override"
-	 * 3. Initiate Midterm Endorsement for the policy
-	 * 4. Select 'Yes' option in the 'Current AAA Member' drop-down, and enter ACTIVE membership number
-	 * 5. Navigate to Reports tab ----> Option to order Membership report IS displayed. (AC#1)
-	 * 6. Navigate to Premium & Coverages tab
-	 * 7. Click on 'View rating Details' link ----> overridden membership details should be displayed (AC#1)
-	 * 8. Bind Endorsement ---> Endorsement should be bound (AC#1)
-	 * @details
+	 * <b> Test Membership Override - PAS-9626 AC#1 (Endorsement) </b>
+	 * <p> Steps:
+	 * <p> Precondition: Agent is expected to have the Membership override privilege.
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto CA Policy with Membership "Membership Override"
+	 * <p> 3. Initiate Midterm Endorsement for the policy
+	 * <p> 4. Select 'Yes' option in the 'Current AAA Member' drop-down, and enter ACTIVE membership number
+	 * <p> 5. Navigate to Reports tab ----> Option to order Membership report IS displayed. (AC#1)
+	 * <p> 6. Navigate to Premium & Coverages tab
+	 * <p> 7. Click on 'View rating Details' link ----> overridden membership details should be displayed (AC#1)
+	 * <p> 8. Bind Endorsement ---> Endorsement should be bound (AC#1)
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
@@ -199,19 +199,19 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership Override - PAS-9626 AC#2 (Endorsement)
-	 * @scenario
-	 * Precondition: Agent is expected to have the Membership override privilege.
-	 * 1. Create Customer.
-	 * 2. Create Auto CA Policy with ACTIVE Membership
-	 * 3. Initiate Midterm Endorsement for the policy
-	 * 4. Select 'Membership Override' option in the 'Current AAA Member' drop-down
-	 * 5. Enter 'Member Since Date' and click 'Continue'
-	 * 5. Navigate to Reports tab ----> Option to order Membership report should not be displayed. (AC#2)
-	 * 6. Navigate to Premium & Coverages tab
-	 * 7. Click on 'View rating Details' link ----> overridden membership details should be displayed (AC#2)
-	 * 8. Bind Endorsement ---> Endorsement should be bound (#AC#2)
-	 * @details
+	 * <b> Test Membership Override - PAS-9626 AC#2 (Endorsement) </b>
+	 * <p> Steps:
+	 * <p> Precondition: Agent is expected to have the Membership override privilege.
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto CA Policy with ACTIVE Membership
+	 * <p> 3. Initiate Midterm Endorsement for the policy
+	 * <p> 4. Select 'Membership Override' option in the 'Current AAA Member' drop-down
+	 * <p> 5. Enter 'Member Since Date' and click 'Continue'
+	 * <p> 5. Navigate to Reports tab ----> Option to order Membership report should not be displayed. (AC#2)
+	 * <p> 6. Navigate to Premium & Coverages tab
+	 * <p> 7. Click on 'View rating Details' link ----> overridden membership details should be displayed (AC#2)
+	 * <p> 8. Bind Endorsement ---> Endorsement should be bound (#AC#2)
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
@@ -260,14 +260,14 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership Override - PAS-6316 (AC#2)
-	 * @scenario
-	 * Precondition: Agent is expected to have the Membership override privilege.
-	 * 1. Log in as user from group E-34
-	 * 2. Create Customer.
-	 * 3. Initiate Auto CA Quote.
-	 * 4. Validate that 'Membership Override' option is displayed in the 'Current AAA Member' drop-down for non E34 group user
-	 * @details
+	 * <b> Test Membership Override - PAS-6316 (AC#2) </b>
+	 * <p> Steps:
+	 * <p> Precondition: Agent is expected to have the Membership override privilege.
+	 * <p> 1. Log in as user from group E-34
+	 * <p> 2. Create Customer.
+	 * <p> 3. Initiate Auto CA Quote.
+	 * <p> 4. Validate that 'Membership Override' option is displayed in the 'Current AAA Member' drop-down for non E34 group user
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
@@ -283,14 +283,14 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership Override - PAS-6316 (AC#2)
-	 * @scenario
-	 * Precondition: Agent is expected to have the Membership override privilege.
-	 * 1. Log in as user from group L-41
-	 * 2. Create Customer.
-	 * 3. Initiate Auto CA Quote.
-	 * 4. Validate that 'Membership Override' option is displayed in the 'Current AAA Member' drop-down for non E34 group user
-	 * @details
+	 * <b> Test Membership Override - PAS-6316 (AC#2) </b>
+	 * <p> Steps:
+	 * <p> Precondition: Agent is expected to have the Membership override privilege.
+	 * <p> 1. Log in as user from group L-41
+	 * <p> 2. Create Customer.
+	 * <p> 3. Initiate Auto CA Quote.
+	 * <p> 4. Validate that 'Membership Override' option is displayed in the 'Current AAA Member' drop-down for non E34 group user
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
@@ -306,14 +306,14 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership Override - PAS-6316 (AC#2)
-	 * @scenario
-	 * Precondition: Agent is expected to have the Membership override privilege.
-	 * 1. Log in as user from DIFFERENT group than E-34/L41
-	 * 2. Create Customer.
-	 * 3. Initiate Auto CA Quote.
-	 * 4. Validate that 'Membership Override' option not displayed in the 'Current AAA Member' drop-down for non E34/L41 group user
-	 * @details
+	 * <b> Test Membership Override - PAS-6316 (AC#2) </b>
+	 * <p> Steps:
+	 * <p> Precondition: Agent is expected to have the Membership override privilege.
+	 * <p> 1. Log in as user from DIFFERENT group than E-34/L41
+	 * <p> 2. Create Customer.
+	 * <p> 3. Initiate Auto CA Quote.
+	 * <p> 4. Validate that 'Membership Override' option not displayed in the 'Current AAA Member' drop-down for non E34/L41 group user
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
@@ -332,16 +332,16 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Policy with overridden Membership should not be considered for Membership validation at NB+15/+30
-	 * @scenario
-	 * Precondition: Agent is expected to have the Membership override privilege.
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Policy with overridden Membership
-	 * 3. Run Membership Validation Batch Jobs at NB+15
-	 * 4. Retrieve policy in Inquiry mode and verify that policy is not considered for Membership validation and the membership discount is retained.
-	 * 5. Run Membership Validation Batch Jobs at NB+30
-	 * 6. Retrieve policy in Inquiry mode and verify that policy is not considered for Membership validation and the membership discount is retained.
-	 * @details
+	 * <b> Policy with overridden Membership should not be considered for Membership validation at NB+15/+30 </b>
+	 * <p> Steps:
+	 * <p> Precondition: Agent is expected to have the Membership override privilege.
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Policy with overridden Membership
+	 * <p> 3. Run Membership Validation Batch Jobs at NB+15
+	 * <p> 4. Retrieve policy in Inquiry mode and verify that policy is not considered for Membership validation and the membership discount is retained.
+	 * <p> 5. Run Membership Validation Batch Jobs at NB+30
+	 * <p> 6. Retrieve policy in Inquiry mode and verify that policy is not considered for Membership validation and the membership discount is retained.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
@@ -404,14 +404,14 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name PAS-6314 Membership batch order job needs to account for membership override (Renewal) (AC#1)
-	 * @scenario
-	 * Precondition: Agent is expected to have the Membership override privilege.
-	 * 1. Create Customer.
-	 * 2. Create Auto CA Policy with Membership Override for Term
-	 * 3. Run Membership Validation Batch Jobs at Renewal Time point 1 and Time point 2 (no membership found)
-	 * 4. Retrieve Renewal image and verify that Membership Override is discarded
-	 * @details
+	 * <b> PAS-6314 Membership batch order job needs to account for membership override (Renewal) (AC#1) </b>
+	 * <p> Steps:
+	 * <p> Precondition: Agent is expected to have the Membership override privilege.
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto CA Policy with Membership Override for Term
+	 * <p> 3. Run Membership Validation Batch Jobs at Renewal Time point 1 and Time point 2 (no membership found)
+	 * <p> 4. Retrieve Renewal image and verify that Membership Override is discarded
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
@@ -468,14 +468,14 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name PAS-6314 Membership batch order job needs to account for membership override (Renewal) (AC#2)
-	 * @scenario
-	 * Precondition: Agent is expected to have the Membership override privilege.
-	 * 1. Create Customer.
-	 * 2. Create Auto CA Policy with Membership Override for Life
-	 * 3. Run Membership Validation Batch Jobs at Renewal Time point 1 and Time point 2 (no membership found)
-	 * 4. Retrieve Renewal image and verify that Membership Override is ratained
-	 * @details
+	 * <b> PAS-6314 Membership batch order job needs to account for membership override (Renewal) (AC#2) </b>
+	 * <p> Steps:
+	 * <p> Precondition: Agent is expected to have the Membership override privilege.
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto CA Policy with Membership Override for Life
+	 * <p> 3. Run Membership Validation Batch Jobs at Renewal Time point 1 and Time point 2 (no membership found)
+	 * <p> 4. Retrieve Renewal image and verify that Membership Override is ratained
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
@@ -532,15 +532,15 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name PAS-6314 Membership batch order job needs to account for membership override (Renewal) (AC#3)
-	 * @scenario
-	 * Precondition: Agent is expected to have the Membership override privilege.
-	 * 1. Create Customer.
-	 * 2. Create Auto CA Policy without Membership Override for Term
-	 * 3. Revise Renewal before Renewal Time point 1 and Time point 2 (before renewal membership override job), by Overriding Membership for Term
-	 * 3. Run Membership Validation Batch Jobs at Renewal Time point 1 and Time point 2
-	 * 4. Retrieve Renewal image and verify that Membership Override is ratained
-	 * @details
+	 * <b> PAS-6314 Membership batch order job needs to account for membership override (Renewal) (AC#3) </b>
+	 * <p> Steps:
+	 * <p> Precondition: Agent is expected to have the Membership override privilege.
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto CA Policy without Membership Override for Term
+	 * <p> 3. Revise Renewal before Renewal Time point 1 and Time point 2 (before renewal membership override job), by Overriding Membership for Term
+	 * <p> 3. Run Membership Validation Batch Jobs at Renewal Time point 1 and Time point 2
+	 * <p> 4. Retrieve Renewal image and verify that Membership Override is ratained
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")

@@ -24,22 +24,22 @@ public class TestQuoteAdvancedRater extends HomeCaHO3BaseTest {
 
     /**
      * @author Jurij Kuznecov
-     * @name Test CAH Quote Advanced Rater
-     * @scenario
-     * 1.  Create new or open existent Customer
-     * 2.  Initiate HO3 quote creation
-     * 3.  Fill General, Applicant, Property Info tabs. Order reports. Navigate to P&C screen
-     * 4.  Click Calculate Premium button
-     * 5.  Check values sent to Rating Services has premium change of (+$0.00)
-     * 6.  Select other Deductible value
-     * 7.  Check System resets the premium to $0
-     * 8.  Click Calculate Premium button
-     * 9.  Check Premium changed according to selected value
-     * 10. Select other E Coverage value
-     * 11. Check System resets the premium to $0
-     * 12. Click Calculate Premium button
-     * 13. Check Premium changed according to selected value
-     * 14. Issue quote. Check Total Premium Summary
+	 * <b> Test CAH Quote Advanced Rater </b>
+	 * <p> Steps:
+	 * <p> 1.  Create new or open existent Customer
+	 * <p> 2.  Initiate HO3 quote creation
+	 * <p> 3.  Fill General, Applicant, Property Info tabs. Order reports. Navigate to P&C screen
+	 * <p> 4.  Click Calculate Premium button
+	 * <p> 5.  Check values sent to Rating Services has premium change of (+$0.00)
+	 * <p> 6.  Select other Deductible value
+	 * <p> 7.  Check System resets the premium to $0
+	 * <p> 8.  Click Calculate Premium button
+	 * <p> 9.  Check Premium changed according to selected value
+	 * <p> 10. Select other E Coverage value
+	 * <p> 11. Check System resets the premium to $0
+	 * <p> 12. Click Calculate Premium button
+	 * <p> 13. Check Premium changed according to selected value
+	 * <p> 14. Issue quote. Check Total Premium Summary
      */
 
     @Parameters({"state"})
