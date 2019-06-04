@@ -243,6 +243,7 @@ NamedInsuredInformation_MembershipValid: {
   First Name: Ronhald,
   Last Name: Ronaldjo,
   Base Date: '$<today:MM/dd/yyyy>',
+  Insured Date of Birth: '$<today-35y:MM/dd/yyyy>',
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
   "Home Phone #": 1234567890
