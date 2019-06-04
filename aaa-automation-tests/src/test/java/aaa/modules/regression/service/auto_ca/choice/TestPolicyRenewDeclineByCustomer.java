@@ -5,7 +5,6 @@ package aaa.modules.regression.service.auto_ca.choice;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -16,13 +15,13 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Lina Li
- * @name Test renew decline by customer for Auto Policy
- * @scenario 1. Create Customer
- * 2. Create AutoCA Choice Policy
- * 3. Renew Policy
- * 4. Decline by customer
- * 5. Verify Policy status is 'Customer Declined'
- * @details
+ * <b> Test renew decline by customer for Auto Policy </b>
+ * <p> Steps: 1. Create Customer
+ * <p> 2. Create AutoCA Choice Policy
+ * <p> 3. Renew Policy
+ * <p> 4. Decline by customer
+ * <p> 5. Verify Policy status is 'Customer Declined'
+ *
  */
 public class TestPolicyRenewDeclineByCustomer extends PolicyRenewDeclineByCustomer {
 
@@ -37,6 +36,6 @@ public class TestPolicyRenewDeclineByCustomer extends PolicyRenewDeclineByCustom
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE)
 	public void testPolicyRenewDeclineByCustomer(@Optional("CA") String state) {
 
-		super.testPolicyRenewDeclineByCustomer();
+		testPolicyRenewDeclineByCustomer();
 	}
 }

@@ -105,7 +105,7 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	public void pas25569_SpouseScoreFromIsHigher(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_SpouseScoreFromNBIsHigher",
 				500, 650, 600, 600,
-				true, true, false);
+				false, true, false);
 	}
 
 	@Parameters({"state"})
@@ -327,6 +327,16 @@ public class TestInsuranceScoreRenewal extends TestInsuranceScoreRenewalTemplate
 	public void pas25569_ReorderAtRenewal__automaticReorderingAt36Months_SpouseScoreOnRenewalIsLower(@Optional("") String state) {
 		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_PrimaryInsuredScoreOnRenewalIsHigher2",
 				500, 650, 800, 600,
+				true, true, true);
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CO, Constants.States.MT, Constants.States.NV, Constants.States.OK, Constants.States.VA, Constants.States.WV})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-25569", "PAS-25573", "PAS-23089", "PAS-26025"})
+	public void pas25569_ReorderAtRenewal_automaticReorderingAt36Months_SpouseGotLowestOnRenewal(@Optional("") String state) {
+		testInsuranceScoreThenReorderedAtRenewal("ApplicantTab_SpouseGotLowestOnRenewal",
+				500, 650, 600, 400,
 				true, true, true);
 	}
 

@@ -5,7 +5,6 @@ package aaa.modules.regression.service.auto_ss;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -16,13 +15,13 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Lina Li
- * @name Test renew decline by company for Auto Policy
- * @scenario 1. Create Customer
- * 2. Create AutoSS Policy
- * 3. Renew Policy
- * 4. Decline by company
- * 5. Verify Policy status is 'Company Declined'
- * @details
+ * <b> Test renew decline by company for Auto Policy </b>
+ * <p> Steps: 1. Create Customer
+ * <p> 2. Create AutoSS Policy
+ * <p> 3. Renew Policy
+ * <p> 4. Decline by company
+ * <p> 5. Verify Policy status is 'Company Declined'
+ *
  */
 public class TestPolicyRenewDeclineByCompany extends PolicyRenewDeclineByCompany {
 
@@ -37,6 +36,6 @@ public class TestPolicyRenewDeclineByCompany extends PolicyRenewDeclineByCompany
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void testPolicyRenewDeclineByCompany(@Optional("") String state) {
 
-		super.testPolicyRenewDeclineByCompany();
+		testPolicyRenewDeclineByCompany();
 	}
 }

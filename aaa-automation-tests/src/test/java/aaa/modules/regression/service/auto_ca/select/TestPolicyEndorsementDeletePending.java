@@ -5,7 +5,6 @@ package aaa.modules.regression.service.auto_ca.select;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -16,14 +15,14 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Xiaolan Ge
- * @name Test Delete Pending Endorsement for Auto Policy
- * @scenario
- * 1. Create Customer
- * 2. Create Auto_CA_Select Policy
- * 3. Create endorsement
- * 4. Delete Pended Transaction for Policy
- * 5. Verify 'Pended Endorsement' button is disabled
- * @details
+ * <b> Test Delete Pending Endorsement for Auto Policy </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create Auto_CA_Select Policy
+ * <p> 3. Create endorsement
+ * <p> 4. Delete Pended Transaction for Policy
+ * <p> 5. Verify 'Pended Endorsement' button is disabled
+ *
  */
 public class TestPolicyEndorsementDeletePending extends PolicyEndorsementDeletePending {
 
@@ -38,7 +37,7 @@ public class TestPolicyEndorsementDeletePending extends PolicyEndorsementDeleteP
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT)
 	public void testPolicyEndorsementDeletePending(@Optional("CA") String state) {
 
-		super.testPolicyEndorsementDeletePending();
+		testPolicyEndorsementDeletePending();
 
 	}
 }

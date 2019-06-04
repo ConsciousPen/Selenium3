@@ -35,15 +35,15 @@ import toolkit.utils.TestInfo;
 public class TestMembershipValidation extends AutoCaChoiceBaseTest {
     /**
      * @author Andrejs Mitjukovs
-     * @name Test Membership validation and override.
-     * @scenario
-     * 1. Create Customer.
-     * 2. Create Auto CA Choice.
-     * 3. Add member number on General tab with mismatching First Name, Last Name and DOB.
-     * 4. Fill All other required data up to Documents and Bind Tab.
-     * 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..."
-     * 6. Override the error and bind.
-     * @details
+     * <b> Test Membership validation and override. </b>
+     * <p> Steps:
+     * <p> 1. Create Customer.
+     * <p> 2. Create Auto CA Choice.
+     * <p> 3. Add member number on General tab with mismatching First Name, Last Name and DOB.
+     * <p> 4. Fill All other required data up to Documents and Bind Tab.
+     * <p> 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..."
+     * <p> 6. Override the error and bind.
+     *
      */
 
     private DocAndBindTabSubmit docAndBindTabSubmit = new DocAndBindTabSubmit();
@@ -81,19 +81,19 @@ public class TestMembershipValidation extends AutoCaChoiceBaseTest {
 
     /**
      * @author Andrejs Mitjukovs
-     * @name Test Membership validation for non-Primary membership members returned in membership Report and override.
-     * @scenario
-     * 1. Create Customer.
-     * 2. Create Auto CA Choice.
-     * 3. Add member number on General tab with matching First Name and Last Name with membership response 1st member.
-     * 4. Fill All other required data up to Documents and Bind Tab.
-     * 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..."
-     * 6  Change First Name and Last Name (dataset "TestData_Membership_Valid_First_Name") to match only First name of the Associated Member (2nd member) in membership response.
-     * 7. Fill All other required data up to Documents and Bind Tab.
-     * 8. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..."
-     * 9. Repeat steps 3-5 with matching Last Name only and DOB only
-     * 10. Override the error and bind.
-     * @details
+     * <b> Test Membership validation for non-Primary membership members returned in membership Report and override. </b>
+     * <p> Steps:
+     * <p> 1. Create Customer.
+     * <p> 2. Create Auto CA Choice.
+     * <p> 3. Add member number on General tab with matching First Name and Last Name with membership response 1st member.
+     * <p> 4. Fill All other required data up to Documents and Bind Tab.
+     * <p> 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..."
+     * <p> 6  Change First Name and Last Name (dataset "TestData_Membership_Valid_First_Name") to match only First name of the Associated Member (2nd member) in membership response.
+     * <p> 7. Fill All other required data up to Documents and Bind Tab.
+     * <p> 8. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..."
+     * <p> 9. Repeat steps 3-5 with matching Last Name only and DOB only
+     * <p> 10. Override the error and bind.
+     *
      */
     @Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -144,16 +144,16 @@ public class TestMembershipValidation extends AutoCaChoiceBaseTest {
 
     /**
      * @author Andrejs Mitjukovs
-     * @name Test Membership validation and override.
-     * @scenario
-     * 1. Create Customer.
-     * 2. Create Auto CA Choice Policy with membership NO.
-     * 3. Initiate ENDORSEMENT
-     * 3. Add member number on General tab with mismatching First Name, Last Name and DOB.
-     * 4. Fill All other required data up to Documents and Bind Tab.
-     * 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..."
-     * 6. Override the error and bind.
-     * @details
+     * <b> Test Membership validation and override. </b>
+     * <p> Steps:
+     * <p> 1. Create Customer.
+     * <p> 2. Create Auto CA Choice Policy with membership NO.
+     * <p> 3. Initiate ENDORSEMENT
+     * <p> 3. Add member number on General tab with mismatching First Name, Last Name and DOB.
+     * <p> 4. Fill All other required data up to Documents and Bind Tab.
+     * <p> 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..."
+     * <p> 6. Override the error and bind.
+     *
      */
     @Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -188,16 +188,16 @@ public class TestMembershipValidation extends AutoCaChoiceBaseTest {
 
     /**
      * @author Andrejs Mitjukovs
-     * @name Test Membership validation and override.
-     * @scenario
-     * 1. Create Customer.
-     * 2. Create Auto CA Choice Policy with membership NO.
-     * 3. Initiate RENEWAL
-     * 3. Add member number on General tab with mismatching First Name, Last Name and DOB.
-     * 4. Fill All other required data up to Documents and Bind Tab.
-     * 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..."
-     * 6. Override the error and bind.
-     * @details
+     * <b> Test Membership validation and override. </b>
+     * <p> Steps:
+     * <p> 1. Create Customer.
+     * <p> 2. Create Auto CA Choice Policy with membership NO.
+     * <p> 3. Initiate RENEWAL
+     * <p> 3. Add member number on General tab with mismatching First Name, Last Name and DOB.
+     * <p> 4. Fill All other required data up to Documents and Bind Tab.
+     * <p> 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..."
+     * <p> 6. Override the error and bind.
+     *
      */
     @Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -228,15 +228,15 @@ public class TestMembershipValidation extends AutoCaChoiceBaseTest {
 
     /**
      * @author Andrejs Mitjukovs
-     * @name Test Membership validation and override.
-     * @scenario
-     * 1. Create Customer.
-     * 2. Create Auto CA Choice Policy with membership NO.
-     * 3. Initiate Manual RENEWAL
-     * 3. Add DUMMY member number on General tab
-     * 4. Fill All other required data up to Documents and Bind Tab.
-     * 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..." is displayed (repeat for all DUMMY numbers)
-     * @details
+     * <b> Test Membership validation and override. </b>
+     * <p> Steps:
+     * <p> 1. Create Customer.
+     * <p> 2. Create Auto CA Choice Policy with membership NO.
+     * <p> 3. Initiate Manual RENEWAL
+     * <p> 3. Add DUMMY member number on General tab
+     * <p> 4. Fill All other required data up to Documents and Bind Tab.
+     * <p> 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..." is displayed (repeat for all DUMMY numbers)
+     *
      */
     @Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -262,15 +262,15 @@ public class TestMembershipValidation extends AutoCaChoiceBaseTest {
 
     /** IGNORED TEST:@Test(enabled = false): for now. Due to the automated batch job problems
      * @author Andrejs Mitjukovs
-     * @name Test Membership validation and override.
-     * @scenario
-     * 1. Create Customer.
-     * 2. Create Auto CA Choice Policy with membership NO.
-     * 3. Initiate Automated RENEWAL
-     * 3. Add DUMMY member number on General tab
-     * 4. Fill All other required data up to Documents and Bind Tab.
-     * 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..." is displayed (repeat for all DUMMY numbers)
-     * @details
+     * <b> Test Membership validation and override. </b>
+     * <p> Steps:
+     * <p> 1. Create Customer.
+     * <p> 2. Create Auto CA Choice Policy with membership NO.
+     * <p> 3. Initiate Automated RENEWAL
+     * <p> 3. Add DUMMY member number on General tab
+     * <p> 4. Fill All other required data up to Documents and Bind Tab.
+     * <p> 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..." is displayed (repeat for all DUMMY numbers)
+     *
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")

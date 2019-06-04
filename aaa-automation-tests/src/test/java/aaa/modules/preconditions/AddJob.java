@@ -36,5 +36,8 @@ public class AddJob {
 		if (!service.isJobExist(JobGroup.fromSingleJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob.getJobName()))) {
 			service.createJob(JobGroup.fromSingleJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob.getJobName()));
 		}
+		if (!service.isJobExist(JobGroup.fromSingleJob(Jobs.ledgerStatusUpdateJob.getJobName()))) {
+			service.createJob(JobGroup.fromSingleJob(Jobs.ledgerStatusUpdateJob.getJobName()));
+		}
 	}
 }

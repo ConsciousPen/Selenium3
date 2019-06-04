@@ -5,7 +5,6 @@ package aaa.modules.regression.service.pup;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -14,15 +13,15 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Yonggang Sun
- * @name Test Cancel and Delete Notice for Umbrella Policy
- * @scenario
- * 1. Create Customer
- * 2. Create Umbrella (Preconfigured) Policy
- * 3. Cancel Notice for Umbrella Policy
- * 4. Verify 'Cancel Notice' flag is displayed in the policy overview header
- * 5. Delete Cancel Notice for Policy
- * 6. Verify 'Cancel Notice' flag is not displayed in the policy overview header
- * @details
+ * <b> Test Cancel and Delete Notice for Umbrella Policy </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create Umbrella (Preconfigured) Policy
+ * <p> 3. Cancel Notice for Umbrella Policy
+ * <p> 4. Verify 'Cancel Notice' flag is displayed in the policy overview header
+ * <p> 5. Delete Cancel Notice for Policy
+ * <p> 6. Verify 'Cancel Notice' flag is not displayed in the policy overview header
+ *
  */
 public class TestPolicyCancelNoticeAddDelete extends PolicyCancelNoticeAddDelete {
 
@@ -37,6 +36,6 @@ public class TestPolicyCancelNoticeAddDelete extends PolicyCancelNoticeAddDelete
 	@TestInfo(component = ComponentConstant.Service.PUP )
     public void testPolicyCancelNoticeAddDelete(@Optional("") String state) {
 
-        super.testPolicyCancelNoticeAddDelete();
+		testPolicyCancelNoticeAddDelete();
     }
 }

@@ -31,15 +31,15 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - FN, LN and DOB don't match (New business)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Quote.
-	 * 3. Add member number on General tab with mismatching First Name, Last Name and DOB.
-	 * 4. Fill All other required data up to Documents and Bind Tab.
-	 * 5. Verify that Error is displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 6. Override the error and bind.
-	 * @details
+	 * <b> Test Membership validation - FN, LN and DOB don't match (New business) </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Quote.
+	 * <p> 3. Add member number on General tab with mismatching First Name, Last Name and DOB.
+	 * <p> 4. Fill All other required data up to Documents and Bind Tab.
+	 * <p> 5. Verify that Error is displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * <p> 6. Override the error and bind.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -51,15 +51,15 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - FN, LN and DOB match (New business)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Quote.
-	 * 3. Add member number on General tab with matching First Name, Last Name and DOB.
-	 * 4. Fill All other required data up to Documents and Bind Tab.
-	 * 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 6. Bind.
-	 * @details
+	 * <b> Test Membership validation - FN, LN and DOB match (New business) </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Quote.
+	 * <p> 3. Add member number on General tab with matching First Name, Last Name and DOB.
+	 * <p> 4. Fill All other required data up to Documents and Bind Tab.
+	 * <p> 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * <p> 6. Bind.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -71,15 +71,15 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - FN match, LN and DOB don't match (New business)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Quote.
-	 * 3. Add member number on General tab with matching First Name.
-	 * 4. Fill All other required data up to Documents and Bind Tab.
-	 * 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 6. Bind.
-	 * @details
+	 * <b> Test Membership validation - FN match, LN and DOB don't match (New business) </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Quote.
+	 * <p> 3. Add member number on General tab with matching First Name.
+	 * <p> 4. Fill All other required data up to Documents and Bind Tab.
+	 * <p> 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * <p> 6. Bind.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -91,15 +91,15 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - LN match, FN and DOB don't match (New business)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Quote.
-	 * 3. Add member number on General tab with matching Last Name .
-	 * 4. Fill All other required data up to Documents and Bind Tab.
-	 * 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 6. Bind.
-	 * @details
+	 * <b> Test Membership validation - LN match, FN and DOB don't match (New business) </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Quote.
+	 * <p> 3. Add member number on General tab with matching Last Name .
+	 * <p> 4. Fill All other required data up to Documents and Bind Tab.
+	 * <p> 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * <p> 6. Bind.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -111,15 +111,15 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - DOB match, FN and LN don't match (New business)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Quote.
-	 * 3. Add member number on General tab with matching DOB
-	 * 4. Fill All other required data up to Documents and Bind Tab.
-	 * 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 6. Bind.
-	 * @details
+	 * <b> Test Membership validation - DOB match, FN and LN don't match (New business) </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Quote.
+	 * <p> 3. Add member number on General tab with matching DOB
+	 * <p> 4. Fill All other required data up to Documents and Bind Tab.
+	 * <p> 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * <p> 6. Bind.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -131,16 +131,16 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - FN, LN, DOB don't match (Endorsement)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Policy without Membership Number.
-	 * 3. Initiate endorsement for the policy.
-	 * 4. Add member number on General tab with mismatching First Name, Last Name and DOB.
-	 * 5. Fill All other required data up to Documents and Bind Tab.
-	 * 6. Verify that Error is displayed -  "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 7. Override the error and bind.
-	 * @details
+	 * <b> Test Membership validation - FN, LN, DOB don't match (Endorsement) </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Policy without Membership Number.
+	 * <p> 3. Initiate endorsement for the policy.
+	 * <p> 4. Add member number on General tab with mismatching First Name, Last Name and DOB.
+	 * <p> 5. Fill All other required data up to Documents and Bind Tab.
+	 * <p> 6. Verify that Error is displayed -  "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * <p> 7. Override the error and bind.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -153,16 +153,16 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - FN, LN or DOB match (FN match) (Endorsement)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Policy without Membership Number.
-	 * 3. Initiate endorsement for the policy.
-	 * 4. Add member number on General tab with matching FN, LN or DOB match (FN match)
-	 * 5. Fill All other required data up to Documents and Bind Tab.
-	 * 6. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 7. Bind.
-	 * @details
+	 * <b> Test Membership validation - FN, LN or DOB match (FN match) (Endorsement) </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Policy without Membership Number.
+	 * <p> 3. Initiate endorsement for the policy.
+	 * <p> 4. Add member number on General tab with matching FN, LN or DOB match (FN match)
+	 * <p> 5. Fill All other required data up to Documents and Bind Tab.
+	 * <p> 6. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * <p> 7. Bind.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -175,16 +175,16 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - FN, LN, DOB don't match (Manual Renewal)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Policy without Membership Number.
-	 * 3. Initiate Manual renewal for the policy.
-	 * 4. Add member number on General tab with mismatching First Name, Last Name and DOB.
-	 * 5. Fill All other required data up to Documents and Bind Tab.
-	 * 6. Verify that Error is displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 7. Override the error and bind.
-	 * @details
+	 * <b> Test Membership validation - FN, LN, DOB don't match (Manual Renewal) </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Policy without Membership Number.
+	 * <p> 3. Initiate Manual renewal for the policy.
+	 * <p> 4. Add member number on General tab with mismatching First Name, Last Name and DOB.
+	 * <p> 5. Fill All other required data up to Documents and Bind Tab.
+	 * <p> 6. Verify that Error is displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * <p> 7. Override the error and bind.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -197,16 +197,16 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - FN, LN or DOB match (FN match) (Manual Renewal)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Policy without Membership Number.
-	 * 3. Initiate Manual renewal for the policy.
-	 * 4. Add member number on General tab with matching FN, LN or DOB match (FN match)
-	 * 5. Fill All other required data up to Documents and Bind Tab.
-	 * 6. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 7. Bind.
-	 * @details
+	 * <b> Test Membership validation - FN, LN or DOB match (FN match) (Manual Renewal) </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Policy without Membership Number.
+	 * <p> 3. Initiate Manual renewal for the policy.
+	 * <p> 4. Add member number on General tab with matching FN, LN or DOB match (FN match)
+	 * <p> 5. Fill All other required data up to Documents and Bind Tab.
+	 * <p> 6. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * <p> 7. Bind.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -219,15 +219,15 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - validate that rule fires at manual renewal if Membership dummy number is used
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Policy.
-	 * 3. Initiate Manual renewal for the policy.
-	 * 4. Enter Membership DUMMY number.
-	 * 5. Fill All other required data and bind.
-	 * 6. Verify that Error is displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * @details
+	 * <b> Test Membership validation - validate that rule fires at manual renewal if Membership dummy number is used </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Policy.
+	 * <p> 3. Initiate Manual renewal for the policy.
+	 * <p> 4. Enter Membership DUMMY number.
+	 * <p> 5. Fill All other required data and bind.
+	 * <p> 6. Verify that Error is displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -240,16 +240,16 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - validate that rule fires at automated renewal if Membership dummy number is used
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Policy.
-	 * 3. Run renewal batch jobs to generate renewal image
-	 * 4. Retrieve renewal image
-	 * 5. Enter Membership DUMMY number.
-	 * 5. Fill All other required data and bind.
-	 * 6. Verify that Error is displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * @details
+	 * <b> Test Membership validation - validate that rule fires at automated renewal if Membership dummy number is used </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Policy.
+	 * <p> 3. Run renewal batch jobs to generate renewal image
+	 * <p> 4. Retrieve renewal image
+	 * <p> 5. Enter Membership DUMMY number.
+	 * <p> 5. Fill All other required data and bind.
+	 * <p> 6. Verify that Error is displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -268,15 +268,15 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - FN, LN and DOB don't match (New business)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Quote.
-	 * 3. Add member number on General tab with mismatching First Name, Last Name and DOB.
-	 * 4. Fill All other required data up to Documents and Bind Tab.
-	 * 5. Verify that Error is displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 6. Override the error and bind.
-	 * @details
+	 * <b> Test Membership validation - FN, LN and DOB don't match (New business) </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Quote.
+	 * <p> 3. Add member number on General tab with mismatching First Name, Last Name and DOB.
+	 * <p> 4. Fill All other required data up to Documents and Bind Tab.
+	 * <p> 5. Verify that Error is displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * <p> 6. Override the error and bind.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -288,15 +288,15 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - FN, LN and DOB match (New business)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Quote.
-	 * 3. Add member number on General tab with matching First Name, Last Name and DOB.
-	 * 4. Fill All other required data up to Documents and Bind Tab.
-	 * 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 6. Bind.
-	 * @details
+	 * <b> Test Membership validation - FN, LN and DOB match (New business) </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Quote.
+	 * <p> 3. Add member number on General tab with matching First Name, Last Name and DOB.
+	 * <p> 4. Fill All other required data up to Documents and Bind Tab.
+	 * <p> 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * <p> 6. Bind.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -308,15 +308,15 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - FN match, LN and DOB don't match (New business)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Quote.
-	 * 3. Add member number on General tab with matching First Name.
-	 * 4. Fill All other required data up to Documents and Bind Tab.
-	 * 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 6. Bind.
-	 * @details
+	 * <b> Test Membership validation - FN match, LN and DOB don't match (New business) </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Quote.
+	 * <p> 3. Add member number on General tab with matching First Name.
+	 * <p> 4. Fill All other required data up to Documents and Bind Tab.
+	 * <p> 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * <p> 6. Bind.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -328,15 +328,15 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - LN match, FN and DOB don't match (New business)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Quote.
-	 * 3. Add member number on General tab with matching Last Name .
-	 * 4. Fill All other required data up to Documents and Bind Tab.
-	 * 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 6. Bind.
-	 * @details
+	 * <b> Test Membership validation - LN match, FN and DOB don't match (New business) </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Quote.
+	 * <p> 3. Add member number on General tab with matching Last Name .
+	 * <p> 4. Fill All other required data up to Documents and Bind Tab.
+	 * <p> 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * <p> 6. Bind.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -348,15 +348,15 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - DOB match, FN and LN don't match (New business)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Quote.
-	 * 3. Add member number on General tab with matching DOB
-	 * 4. Fill All other required data up to Documents and Bind Tab.
-	 * 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 6. Bind.
-	 * @details
+	 * <b> Test Membership validation - DOB match, FN and LN don't match (New business) </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Quote.
+	 * <p> 3. Add member number on General tab with matching DOB
+	 * <p> 4. Fill All other required data up to Documents and Bind Tab.
+	 * <p> 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * <p> 6. Bind.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -368,16 +368,16 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - FN, LN, DOB don't match (Endorsement)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Policy without Membership Number.
-	 * 3. Initiate endorsement for the policy.
-	 * 4. Add member number on General tab with mismatching First Name, Last Name and DOB.
-	 * 5. Fill All other required data up to Documents and Bind Tab.
-	 * 6. Verify that Error is displayed -  "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 7. Override the error and bind.
-	 * @details
+	 * <b> Test Membership validation - FN, LN, DOB don't match (Endorsement) </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Policy without Membership Number.
+	 * <p> 3. Initiate endorsement for the policy.
+	 * <p> 4. Add member number on General tab with mismatching First Name, Last Name and DOB.
+	 * <p> 5. Fill All other required data up to Documents and Bind Tab.
+	 * <p> 6. Verify that Error is displayed -  "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * <p> 7. Override the error and bind.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -390,16 +390,16 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - FN, LN or DOB match (FN match) (Endorsement)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Policy without Membership Number.
-	 * 3. Initiate endorsement for the policy.
-	 * 4. Add member number on General tab with matching FN, LN or DOB match (LN match)
-	 * 5. Fill All other required data up to Documents and Bind Tab.
-	 * 6. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 7. Bind.
-	 * @details
+	 * <b> Test Membership validation - FN, LN or DOB match (FN match) (Endorsement) </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Policy without Membership Number.
+	 * <p> 3. Initiate endorsement for the policy.
+	 * <p> 4. Add member number on General tab with matching FN, LN or DOB match (LN match)
+	 * <p> 5. Fill All other required data up to Documents and Bind Tab.
+	 * <p> 6. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * <p> 7. Bind.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -412,16 +412,16 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - FN, LN, DOB don't match (Manual Renewal)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Policy without Membership Number.
-	 * 3. Initiate Manual renewal for the policy.
-	 * 4. Add member number on General tab with mismatching First Name, Last Name and DOB.
-	 * 5. Fill All other required data up to Documents and Bind Tab.
-	 * 6. Verify that Error is displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 7. Override the error and bind.
-	 * @details
+	 * <b> Test Membership validation - FN, LN, DOB don't match (Manual Renewal) </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Policy without Membership Number.
+	 * <p> 3. Initiate Manual renewal for the policy.
+	 * <p> 4. Add member number on General tab with mismatching First Name, Last Name and DOB.
+	 * <p> 5. Fill All other required data up to Documents and Bind Tab.
+	 * <p> 6. Verify that Error is displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * <p> 7. Override the error and bind.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -434,16 +434,16 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - FN, LN or DOB match (FN match) (Manual Renewal)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Policy without Membership Number.
-	 * 3. Initiate Manual renewal for the policy.
-	 * 4. Add member number on General tab with matching FN, LN or DOB match (LN match)
-	 * 5. Fill All other required data up to Documents and Bind Tab.
-	 * 6. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 7. Bind.
-	 * @details
+	 * <b> Test Membership validation - FN, LN or DOB match (FN match) (Manual Renewal) </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer.
+	 * <p> 2. Create Auto SS Policy without Membership Number.
+	 * <p> 3. Initiate Manual renewal for the policy.
+	 * <p> 4. Add member number on General tab with matching FN, LN or DOB match (LN match)
+	 * <p> 5. Fill All other required data up to Documents and Bind Tab.
+	 * <p> 6. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * <p> 7. Bind.
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "30504: Membership Validation Critical Defect Stabilization")

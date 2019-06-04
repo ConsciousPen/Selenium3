@@ -34,18 +34,18 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 
 	/**
 	 * @author R. Kazlauskiene
-	 * @name Test View And Override Capping Details
-	 * @scenario
-	 * Preconditions: policy qualifies for capping and user have the capping privilege
-	 * 1. Create Individual Customer / Account
-	 * 2. Create converted SS home policy
-	 * 3. On the Quote tab of the "Premium & Coverages" page click Calculate Premium button
-	 * 4. Select the "View capping details" link
-	 * 5. Check Capping details
-	 * 6. Override Capping Factor
-	 * 7. Click Calculate and Save and Return to Premium & Coverages buttons
-	 * 8. Click Calculate Premium and then "View capping details" link
-	 * 9. Check Capping Factor and Capped Term Premium values
+	 * <b> Test View And Override Capping Details </b>
+	 * <p> Steps:
+	 * <p> Preconditions: policy qualifies for capping and user have the capping privilege
+	 * <p> 1. Create Individual Customer / Account
+	 * <p> 2. Create converted SS home policy
+	 * <p> 3. On the Quote tab of the "Premium & Coverages" page click Calculate Premium button
+	 * <p> 4. Select the "View capping details" link
+	 * <p> 5. Check Capping details
+	 * <p> 6. Override Capping Factor
+	 * <p> 7. Click Calculate and Save and Return to Premium & Coverages buttons
+	 * <p> 8. Click Calculate Premium and then "View capping details" link
+	 * <p> 9. Check Capping Factor and Capped Term Premium values
 	 *
 	 **/
 	@Parameters({"state"})
@@ -108,18 +108,18 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 
 /**
  * @author R. Kazlauskiene
- * @name Test check Capping Factor
- * @scenario
- * Preconditions: policy qualifies for capping and user have the capping privilege
- * 1. Create Individual Customer / Account
- * 2. Create converted SS home policy
- * 3. On the Quote tab of the "Premium & Coverages" page click Calculate Premium button
- * 4. Select the "View capping details" link
- * 5. Check Capping Factor
- * 6. Navigate to Product Offering tab and change variations
- * 7. Calculate Quote again from Quote tab
- * 7. Check Capping factor
- * **/
+ * <b> Test check Capping Factor </b>
+ * <p> Steps:
+ * <p> Preconditions: policy qualifies for capping and user have the capping privilege
+ * <p> 1. Create Individual Customer / Account
+ * <p> 2. Create converted SS home policy
+ * <p> 3. On the Quote tab of the "Premium & Coverages" page click Calculate Premium button
+ * <p> 4. Select the "View capping details" link
+ * <p> 5. Check Capping Factor
+ * <p> 6. Navigate to Product Offering tab and change variations
+ * <p> 7. Calculate Quote again from Quote tab
+ * <p> 7. Check Capping factor
+ * <p> **/
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.AZ, Constants.States.DE, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.UT})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
@@ -214,20 +214,20 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
 
 	/**
 	 * @author Parth Varmora
-	 * @name Test Check Capping Lock Indicator
-	 * @scenario
-	 * Preconditions: policy qualifies for capping and user have the capping privilege
-	 * 1. Create Individual Customer / Account
-	 * 2. Create converted SS home policy
-	 * 3. navigate to the “Premiums & Coverages” – “Product offering” tab
-	 * 4. Click the “Calculate Premiums' button.
-	 * 5. Assert that Capping Lock is disabled.
-	 * 6. Assert that Capping Lock does not get selected.
-	 * 7. navigate to the “Premiums & Coverages” – “Quote” tab
-	 * 8. Click the “Calculate Premiums' button.
-	 * 9. navigate to the “Premiums & Coverages” – “Product offering” tab
-	 * 10. Assert that Capping Lock is disabled.
-	 * 11. Assert that Capping Lock get selected.
+	 * <b> Test Check Capping Lock Indicator </b>
+	 * <p> Steps:
+	 * <p> Preconditions: policy qualifies for capping and user have the capping privilege
+	 * <p> 1. Create Individual Customer / Account
+	 * <p> 2. Create converted SS home policy
+	 * <p> 3. navigate to the “Premiums & Coverages” – “Product offering” tab
+	 * <p> 4. Click the “Calculate Premiums' button.
+	 * <p> 5. Assert that Capping Lock is disabled.
+	 * <p> 6. Assert that Capping Lock does not get selected.
+	 * <p> 7. navigate to the “Premiums & Coverages” – “Quote” tab
+	 * <p> 8. Click the “Calculate Premiums' button.
+	 * <p> 9. navigate to the “Premiums & Coverages” – “Product offering” tab
+	 * <p> 10. Assert that Capping Lock is disabled.
+	 * <p> 11. Assert that Capping Lock get selected.
 	 *
 	 **/
 	@Parameters({"state"})

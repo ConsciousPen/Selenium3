@@ -21,8 +21,8 @@ import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.composite.table.Table;
 
 /**
- * @Author - Tyrone C Jemison
- * @Description -
+ * @author - Tyrone C Jemison
+ * <p> Description -
  */
 @StateList(states = Constants.States.CA)
 public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
@@ -33,8 +33,8 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
     static String capturedPolicyNumber;
 
     /**
-     * @Author - Tyrone C Jemison
-     * @Description - Mixing and matching mutually exclusive endorsements. Should not be on same policy together.
+	 * @author - Tyrone C Jemison
+	 * <p> Description - Mixing and matching mutually exclusive endorsements. Should not be on same policy together.
      */
     @Parameters({"state"})
     @Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Mutually Exclusive Endorsements DP3")
@@ -69,8 +69,8 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
     }
 
     /**
-     * @Author - Tyrone C Jemison
-     * @Description - Adding FPCECADP during renewal will remove the auto-applied DW 04 75 endorsement.
+	 * @author - Tyrone C Jemison
+	 * <p> Description - Adding FPCECADP during renewal will remove the auto-applied DW 04 75 endorsement.
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Mutually Exclusive Endorsements DP3")
@@ -100,9 +100,9 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
     }
 
     /**
-     * @Author - Tyrone C Jemison
-     * @Description - A renewal image with the FPCECADP endorsement will not automatically add the
-     *  DW 04 75 endorsement.
+	 * @author - Tyrone C Jemison
+	 * <p> Description - A renewal image with the FPCECADP endorsement will not automatically add the
+	 * <p>  DW 04 75 endorsement.
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Mutually Exclusive Endorsements DP3")

@@ -9,8 +9,8 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -27,17 +27,17 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Jelena Dembovska
- * @name Test rules override tab
- * @scenario
- * 1. Create new quote, fill all mandatory fields
- * 2. On Documents tab set Yes for agreement, No for all documents required to bind
- * 3. Error override tab is opened, override rule, Save&Exit quote
- * 4. On Consolidated view select "Update Rules Override", change value for rule
- * 5. From consolidated view open quote in "Data Gathering" mode. Bind policy.
- * 6. From consolidated view select "Update Rules Override", check values on Override page
- * 7. Create manual renewal image
- * 8. Open "Update Rules Override" for renewal, check - rule which was overridden for life is still displayed
- * @details
+ * <b> Test rules override tab </b>
+ * <p> Steps:
+ * <p> 1. Create new quote, fill all mandatory fields
+ * <p> 2. On Documents tab set Yes for agreement, No for all documents required to bind
+ * <p> 3. Error override tab is opened, override rule, Save&Exit quote
+ * <p> 4. On Consolidated view select "Update Rules Override", change value for rule
+ * <p> 5. From consolidated view open quote in "Data Gathering" mode. Bind policy.
+ * <p> 6. From consolidated view select "Update Rules Override", check values on Override page
+ * <p> 7. Create manual renewal image
+ * <p> 8. Open "Update Rules Override" for renewal, check - rule which was overridden for life is still displayed
+ *
  */
 public class TestPolicyRulesOverride extends AutoSSBaseTest {
 

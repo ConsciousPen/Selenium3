@@ -1,14 +1,12 @@
 package aaa.modules.regression.document_fulfillment.auto_ss;
 
+import static aaa.main.enums.DocGenEnum.Documents.*;
 import java.time.LocalDateTime;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-
 import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
@@ -18,6 +16,8 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.impl.PasDocImpl;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.BillingConstants;
+import aaa.main.enums.DocGenEnum.EventName;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
@@ -27,9 +27,6 @@ import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomSoftAssertions;
-import aaa.main.enums.BillingConstants;
-import aaa.main.enums.DocGenEnum.EventName;
-import static aaa.main.enums.DocGenEnum.Documents.*;
 
 public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	
@@ -38,17 +35,17 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	
 	/**
 	 * OnlineBatch - Scenario 48 - PRE-RENEWAL_REMINDER_NOTICE: AHRRXX
-	 * <p> <b>Steps:</b>
+	 * <p>  <b>Steps:</b>
 	 * <p>	1. Policy is issued. 
 	 * <p>	2. Shift time to R-35 Execute Renewal_Offer_Generation_Part1 and Part2. 
 	 * <p>	3. Shift time to R-10 Execute preRenewalReminderGenerationAsyncJob. 
-	 * <p> <b>Expected result:</b> The following form is generated: AHRRXX
+	 * <p>  <b>Expected result:</b> The following form is generated: AHRRXX
 	 * <p>
 	 * @param state
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario48(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();	
@@ -67,14 +64,14 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	
 	/**
 	 * OnlineBatch: Scenario 54 - RENEWAL_BILL: AHRBXX, AH35XX
-	 * <p> <b>Precondition:</b> 
+	 * <p>  <b>Precondition:</b>
 	 * <p>		(a) Policy is issued: Monthly Payment Plan, AutoPay IS active. 
 	 * <p>		(b) Policy is issued: Monthly Payment Plan, AutoPay is NOT active. 
-	 * <p> <b>Steps:</b> 
+	 * <p>  <b>Steps:</b>
 	 * <p>		1. Set time to R-35 and run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
 	 * <p>		- Result is Renewal in status Proposed. 
 	 * <p>		2. Set time to R-20 and run aaaRenewalNoticeBillAsyncJob to generate a bill.
-	 * <p> <b>Expected result:</b> 
+	 * <p>  <b>Expected result:</b>
 	 * <p>		(a) The following forms are generated: AHRBXX, AH35XX. 
 	 * <p>		(b) AHRBXX form is generated, AH35XX is not generated. 
 	 * <p>
@@ -82,7 +79,7 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario54(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();	
@@ -117,22 +114,22 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	
 	/**
 	 * OnlineBatch - Scenario 55 - RENEWAL_ISSUE: AASR22
-	 * <p> <b>Precondition:</b> 
+	 * <p>  <b>Precondition:</b>
 	 * <p>		Policy is issued: Driver with Financial Responsibility = Yes. 
-	 * <p> <b>Steps:</b> 
+	 * <p>  <b>Steps:</b>
 	 * <p>		1. Set time to R-35. 
 	 * <p>		2. Run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
 	 * <p>		- Result is Renewal in status Proposed.
 	 * <p>		3. Set time to R-20 and run aaaRenewalNoticeBillAsyncJob to generate a bill. 
 	 * <p>		4. Pay bill. 
 	 * <p>		5. Set time to R+1 and run policyStatusUpdateJob.
-	 * <p> <b>Expected result:</b> Form AASR22 is NOT generated. 		
+	 * <p>  <b>Expected result:</b> Form AASR22 is NOT generated.
 	 * <p>
 	 * @param state
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario55(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -167,17 +164,17 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	/**
 	 * OnlineBatch Scenario 56 - RENEWAL_OFFER: 
 	 * AA02AZ + AAAEAZ2, AA10XX, AHAUXX, AHMVCNV, AHPIFNXX, AAAEXX2, AHRBXX
-	 * <p> <b>Preconditions:</b> 
+	 * <p>  <b>Preconditions:</b>
 	 * <p>		Policy is issued: 
 	 * <p>		- No Excluded Drivers, 
 	 * <p>		- Uninsured and Underinsured Coverages = recommended, 
 	 * <p>		- No Vehicles enrolled in UBI, 
 	 * <p>		- AutoPay is NOT active. 
-	 * <p> <b>Steps:</b> 
+	 * <p>  <b>Steps:</b>
 	 * <p>		1. Set time to R-35. 
 	 * <p>		2. Run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
 	 * <p>		- Result is Renewal in status Proposed.
-	 * <p> <b>Expected result:</b> 
+	 * <p>  <b>Expected result:</b>
 	 * <p>		- Only following forms are generated: AA10XX, AA02AZ, AAAEAZ2, AHPNXX, AARNXX. 
 	 * <p>		- Not generated: AH35XX, AA43AZ, AA52AZ, AADNUBI, AAPNUBI, ACPPNUBI, AAINXX1
 	 * 
@@ -185,7 +182,7 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario56(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();	
@@ -208,18 +205,18 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	
 	/**
 	 * OnlineBatch Scenario 58 - RENEWAL_OFFER: AA43AZ
-	 * <p> <b>Precondition:</b> 
+	 * <p>  <b>Precondition:</b>
 	 * <p>		(a) Policy is issued: 
 	 * <p>			- Add Excluded Driver, 
 	 * <p>			- Uninsured and Underinsured Coverages = recommended, 
 	 * <p>			- No Vehicles enrolled in UBI, 
 	 * <p>			- AutoPay is active. 
 	 * <p>		(b) Policy is issued without Excluded Driver. On Endorsement add Excluded Driver. 
-	 * <p> <b>Steps:</b> 
+	 * <p>  <b>Steps:</b>
 	 * <p>		1. Set time to R-35. 
 	 * <p>		2. Run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
 	 * <p>		- Result is Renewal in status Proposed. 
-	 * <p> <b>Expected result:</b> 
+	 * <p>  <b>Expected result:</b>
 	 * <p>		(a) Not generated: AA43AZ
 	 * <p>		(b) Not generated: AA43AZ
 	 * 
@@ -227,7 +224,7 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario58(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();			
@@ -256,23 +253,23 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	
 	/**
 	 * OnlineBatch Scenario 59 - RENEWAL_OFFER: AA52AZ
-	 * <p> <b>Precondition:</b> 
+	 * <p>  <b>Precondition:</b>
 	 * <p>		Policy is issued: 
 	 * <p>		- No Excluded Drivers, 
 	 * <p>		- Uninsured and Underinsured Coverages less than recommended, 
 	 * <p>		- No Vehicles enrolled in UBI, 
 	 * <p>		- AutoPay is NOT active. 
-	 * <p> <b>Steps:</b> 
+	 * <p>  <b>Steps:</b>
 	 * <p>		1. Set time to R-35. 
 	 * <p>		2. Run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
 	 * <p>		- Result is Renewal in status Proposed. 
-	 * <p> <b>Expected result:</b> Not generated: AA52AZ
+	 * <p>  <b>Expected result:</b> Not generated: AA52AZ
 	 * <p>
 	 * @param state
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario59(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();	
@@ -293,18 +290,18 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	
 	/**
 	 * OnlineBatch Scenario 60 - RENEWAL_OFFER: AAPNUBI, ACPPNUBI 
-	 * <p> <b>Precondition:</b> 
+	 * <p>  <b>Precondition:</b>
 	 * <p>		(a) Policy is issued: 
 	 * <p>			- No Excluded Drivers, 
 	 * <p>			- Uninsured and Underinsured Coverages = recommended, 
 	 * <p>			- Vehicle is enrolled in UBI, 
 	 * <p>			- AutoPay is NOT active. 
 	 * <p>		(b) Policy is issued without Vehicle Enrolled in UBI. On Endorsement add Vehicle Enrolled in UBI (has Score). 
-	 * <p> <b>Steps:</b> 
+	 * <p>  <b>Steps:</b>
 	 * <p>		1. Set time to R-35. 
 	 * <p>		2. Run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
 	 * <p>		Result is Renewal in status Proposed. 
-	 * <p> <b>Expected result:</b> 
+	 * <p>  <b>Expected result:</b>
 	 * <p>		(a) The following forms are generated: AAPNUBI, ACPPNUBI. Not generated: AADNUBI 
 	 * <p>		(b) The following forms are generated: AAPNUBI, ACPPNUBI. Not generated: AADNUBI
 	 * 		
@@ -312,7 +309,7 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario60(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();	
@@ -348,18 +345,18 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	
 	/**
 	 * OnlineBatch Scenario 61 - RENEWAL_OFFER: AADNUBI
-	 * <p> <b>Precondition:</b> 
+	 * <p>  <b>Precondition:</b>
 	 * <p>		(a) Policy is issued: 
 	 * <p>			- No Excluded Drivers, 
 	 * <p>			- Uninsured and Underinsured Coverages = recommended, 
 	 * <p>			- Vehicle is enrolled in UBI (has NO Score), 
 	 * <p>			- AutoPay is NOT active.
 	 * <p>		(b) Policy is issued without Vehicle Enrolled in UBI. On Endorsement add Vehicle Enrolled in UBI (has NO Score). 
-	 * <p> <b>Steps:</b> 
+	 * <p>  <b>Steps:</b>
 	 * <p>		1. Set time to R-35. 
 	 * <p>		2. Run Renewal_Offer_Generation_Part1 job and then  Renewal_Offer_Generation_Part2 job. 
 	 * <p>		Result is Renewal in status Proposed.
-	 * <p> <b>Expected result:</b> 
+	 * <p>  <b>Expected result:</b>
 	 * <p>		(a) The following forms are generated: AAPNUBI, ACPPNUBI, AADNUBI. 
 	 * <p>		(b) The following forms are generated: AAPNUBI, ACPPNUBI, AADNUBI. 
 	 * <p>
@@ -367,7 +364,7 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	 */
 	@Parameters({"state"})
 	@StateList(states = States.AZ)
-	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario61(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();	

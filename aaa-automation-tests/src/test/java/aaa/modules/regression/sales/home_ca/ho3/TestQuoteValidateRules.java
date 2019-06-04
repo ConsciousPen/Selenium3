@@ -4,26 +4,21 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.utils.TestInfo;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.webdriver.controls.composite.assets.AssetList;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.utils.StateList;
+import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 
 public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
 
@@ -31,15 +26,15 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
 
     /**
       * @author Jurij Kuznecov
-      * @name Test CAH Quote Futuredated
-      * @scenario 
-      * 1. Create a customer or open existed
-      * 2. Initiate new CAH quote creation
-      * 3. On General tab set Effective Date as Today + 91 days and verify error message is displaying under Effective Date field
-      * 4. Set Effective Date as Today + 10 days
-      * 5. Fill all mandatory fields on all tabs, order reports, calculate premium 
-      * 6. Bind a policy
-      * 7. Verify policy status is Policy Pending  
+	 * <b> Test CAH Quote Futuredated </b>
+	 * <p> Steps:
+	 * <p> 1. Create a customer or open existed
+	 * <p> 2. Initiate new CAH quote creation
+	 * <p> 3. On General tab set Effective Date as Today + 91 days and verify error message is displaying under Effective Date field
+	 * <p> 4. Set Effective Date as Today + 10 days
+	 * <p> 5. Fill all mandatory fields on all tabs, order reports, calculate premium
+	 * <p> 6. Bind a policy
+	 * <p> 7. Verify policy status is Policy Pending
       */
 
     @Parameters({"state"})
@@ -69,16 +64,16 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
 
     /**
     * @author Jurij Kuznecov
-    * @name Test CAH Quote Backdated
-    * @scenario
-    * 1. Create a customer or open existed
-    * 2. Initiate new CAH quote creation
-    * 3. On General tab set Effective Date as Today - 10 days 
-    * 4. Fill all mandatory fields on all tabs, order reports, calculate premium 
-    * 5. Bind a policy and verify Error tab is displaying with error message
-    * 6. Navigate to General tab, change Effective Date to Today - 3 days
-    * 7. Recalculate premium and bind policy
-    * 8. Verify policy status is Active
+	 * <b> Test CAH Quote Backdated </b>
+	 * <p> Steps:
+	 * <p> 1. Create a customer or open existed
+	 * <p> 2. Initiate new CAH quote creation
+	 * <p> 3. On General tab set Effective Date as Today - 10 days
+	 * <p> 4. Fill all mandatory fields on all tabs, order reports, calculate premium
+	 * <p> 5. Bind a policy and verify Error tab is displaying with error message
+	 * <p> 6. Navigate to General tab, change Effective Date to Today - 3 days
+	 * <p> 7. Recalculate premium and bind policy
+	 * <p> 8. Verify policy status is Active
     */
 
     @Parameters({"state"})
