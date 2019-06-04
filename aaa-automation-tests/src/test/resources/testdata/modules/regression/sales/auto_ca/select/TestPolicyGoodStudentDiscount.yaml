@@ -41,14 +41,14 @@ CopyFromPolicyActionTab: {
 }
 
 DriverTab_1: { 
-  Date of Birth: $<today-24y>, 
+  #Date of Birth: $<today-24y>,
   Marital Status: Separated, 
   Occupation: Homemaker, 
   Most Recent GPA: College Graduate  
 }
 
 DriverTab_2: { 
-  Date of Birth: $<today-23y>, 
+  #Date of Birth: $<today-23y>,
   Marital Status: Single, 
   Occupation: Farmer, 
   Most Recent GPA: College Graduate  
@@ -61,7 +61,7 @@ DriverTab_3: {
   #'Rel. to First Named Insured': Other,
   #First Name: Second,
   #Last Name: Driver,
-  Date of Birth: $<today-18y>, 
+  #Date of Birth: $<today-18y>,
   #Gender: Male,
   Marital Status: Single, 
   Occupation: Student, 
@@ -73,7 +73,7 @@ DriverTab_3: {
 }
 
 DriverTab_4: { 
-  Date of Birth: $<today-25y>, 
+  #Date of Birth: $<today-25y>,
   Marital Status: Divorced, 
   Occupation: Student, 
   Most Recent GPA: Pass  

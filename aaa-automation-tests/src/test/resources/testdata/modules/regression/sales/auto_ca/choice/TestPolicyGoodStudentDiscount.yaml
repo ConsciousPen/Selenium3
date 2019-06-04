@@ -53,7 +53,7 @@ CopyFromPolicyActionTab: {
 }
 
 DriverTab_1: { 
-  Date of Birth: $<today-24y>, 
+  #Date of Birth: $<today-24y>,
   Marital Status: Separated, 
   Occupation: Homemaker, 
   Age First Licensed: 18, 
@@ -61,7 +61,7 @@ DriverTab_1: {
 }
 
 DriverTab_2: { 
-  Date of Birth: $<today-23y>, 
+  #Date of Birth: $<today-23y>,
   Marital Status: Single, 
   Occupation: Farmer, 
   Age First Licensed: 18, 
@@ -75,7 +75,7 @@ DriverTab_3: {
   #'Rel. to First Named Insured': Other,
   #First Name: Second,
   #Last Name: Driver,
-  Date of Birth: $<today-16y>, 
+  #Date of Birth: $<today-16y>,
   #Gender: Male,
   Marital Status: Single, 
   Occupation: Student, 
@@ -87,7 +87,7 @@ DriverTab_3: {
 }
 
 DriverTab_4: { 
-  Date of Birth: $<today-25y>, 
+  #Date of Birth: $<today-25y>,
   Marital Status: Divorced, 
   Occupation: Student,
   Age First Licensed: 18, 
@@ -95,7 +95,7 @@ DriverTab_4: {
 }
 
 DriverTab_5: { 
-  Date of Birth: $<today-24y>, 
+  #Date of Birth: $<today-24y>,
   Marital Status: Separated, 
   Occupation: Homemaker, 
   Age First Licensed: 16, 
