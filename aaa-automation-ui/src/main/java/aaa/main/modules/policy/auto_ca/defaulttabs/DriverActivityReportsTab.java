@@ -21,6 +21,7 @@ public class DriverActivityReportsTab extends Tab {
 	private static final Object lock = new Object();
 	public static Table tableCLUEReports = new Table(By.id("policyDataGatherForm:extLossReports"));
 	public static Table tableMVRReports = new Table(By.id("policyDataGatherForm:mvrReports"));
+	public static Table tableInternalClaim = new Table(By.id("policyDataGatherForm:claimsReports"));
 
 	public DriverActivityReportsTab() {
 		super(AutoCaMetaData.DriverActivityReportsTab.class);

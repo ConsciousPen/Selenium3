@@ -31,6 +31,7 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * PAS-18341 - Added PermissiveUse tag to Claims Service Contract
      * PAS-18300 - PERMISSIVE_USE match to FNI when dateOfLoss param = claim dateOfLoss
      * PAS-23269 - UI-CA: Show Permissive Use Indicator on Driver Tab
+     * PAS-29098 - Order and receipt dates are not updated for CA auto policies after internal claims are ordered during renewal.
      * @name Test Offline STUB/Mock Data Claims
      * @scenario Test Steps:
      * 1. Create a Policy with 3 drivers; 1 with no STUB data match, 2, and 3 with STUB data match
@@ -341,5 +342,19 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-27908")
     public void pas27908_UpdateUWRulesWithPUFlag(@Optional("CA") @SuppressWarnings("unused") String state) {
         pas27908_UpdateUWRulesWithPUFlag();
+    }
+
+    /**
+     * @author Saranya Hariharan
+     * PAS-27226: CA Mature Driver Discount doesn't work according to rules
+     * @name Validate MDD does not gets applied to the Driver who has violated the Underlying rules.
+     * @scenario NB and Endorsement: See Template For Details and steps
+     * @details Clean Path. Expected Result is that Mature Driver Discount does not get applied if there are not according to discount eligibility rules.
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-27226")
+    public void pas27226_MatureDriverDiscount(@Optional("CA") @SuppressWarnings("unused") String state) {
+        pas27226_MatureDriverDiscount();
     }
 }
