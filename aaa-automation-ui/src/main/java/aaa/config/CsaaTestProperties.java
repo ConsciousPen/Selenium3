@@ -46,7 +46,6 @@ public class CsaaTestProperties extends TestProperties {
 	public static final String DXP_CLIENT_ID = "dxp.clientId";
 	public static final String DXP_CLIENT_SECRET = "dxp.clientSecret";
 	public static final String DXP_GRANT_TYPE = "dxp.grantType";
-	public static final String BATCHJOB_RUN_MODE = "batchjob.run.mode"; // available values: http, soap
 	public static final String RATING_REPO_USER = "rating.repo.user";
 	public static final String RATING_REPO_PASSWORD = "rating.repo.password";
 	public static final String RATING_REPO_BRANCH = "rating.repo.branch"; // for openl tests only - name of the branch from "pas-rating" repository from which test excel files should be taken

@@ -9,8 +9,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.interactions.Actions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.exigen.ipb.eisa.utils.RetryService;
 import com.github.rholder.retry.StopStrategies;
 import com.github.rholder.retry.WaitStrategies;
@@ -24,7 +22,6 @@ import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 
 public class Efolder {
-	private static final Logger LOGGER = LoggerFactory.getLogger(Efolder.class);
 	public static Link linkOpenEFolder = new Link(By.id("slide_panel_open_ctrl"));
 	public static Link linkCloseEFolder = new Link(By.id("slide_panel_hide_ctrl"));
 	private Workspace defaultView = new DefaultView();

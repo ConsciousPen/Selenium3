@@ -6,6 +6,7 @@ import com.exigen.ipb.eisa.base.app.ILogin;
 import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
+import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Link;
 
 public class RatingApplication extends Application {
@@ -33,5 +34,17 @@ public class RatingApplication extends Application {
 	public void setLogin(ILogin login) {
 		this.login = login;
 	}
+
+	@Override
+	public void open() {}
+
+	@Override
+	public void close() {}
+
+	@Override
+	public void open(TestData td) {}
+
+	@Override
+	public void reopen() {}
 
 }
