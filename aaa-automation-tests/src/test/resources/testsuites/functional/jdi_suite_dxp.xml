@@ -1332,6 +1332,8 @@
                     <include name="pas11618_UpdateVehicleLeasedInfo"/>
                     <include name="pas11618_UpdateVehicleFinancedInfo"/>
                     <include name="pas13252_UpdateVehicleGaragingAddressProblem"/>
+                    <include name="pas29136_vehicleDeleteCA"/>
+                    <include name="pas14497_TransactionInformationForEndorsementsReplaceVehicleCA"/>
                 </methods>
             </class>
         </classes>
