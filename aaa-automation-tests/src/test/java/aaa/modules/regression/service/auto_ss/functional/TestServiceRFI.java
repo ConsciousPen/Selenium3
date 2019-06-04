@@ -196,7 +196,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		assertSoftly(softly -> {
 			mainApp().open();
 			String policyNumber =
-					createPolicyForAA52VA("$25,000/$50,000 (-$32.00)", "Electronically Signed");
+					createPolicyForAA52VA("contains=$25,000/$50,000", "Electronically Signed");
 			// TO DO add db check no signed by in db
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			PolicySummaryPage.buttonPendedEndorsement.click();
@@ -1071,7 +1071,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	public void pas21366_VirginiaAndAA52VA(@Optional("VA") String state) {
 		assertSoftly(softly -> {
 
-			String policyNumber = createPolicyForAA52VA("$25,000/$50,000 (-$32.00)", "Physically Signed");
+			String policyNumber = createPolicyForAA52VA("contains=$25,000/$50,000", "Physically Signed");
 
 			checkIfRfiIsEmpty(policyNumber);
 
@@ -1123,7 +1123,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			policy.dataGather().start();
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY).setValue("$25,000/$50,000 (-$32.00)");
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY).setValue("contains=$25,000/$50,000");
 			premiumAndCoveragesTab.calculatePremium();
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).setValue("Not Signed");
