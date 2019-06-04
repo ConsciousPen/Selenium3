@@ -27,6 +27,7 @@ NamedInsuredInformation2: {
   InsuredSearchDialog: {},
   First Name: Tom,
   Last Name: Harris,
+  Insured Date of Birth: '07/28/1976',
   Base Date: '$<today:MM/dd/yyyy>'
 }
 
