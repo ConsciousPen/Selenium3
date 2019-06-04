@@ -89,7 +89,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @details
 	 */
 	public void pas29335_expirationNoticeFormGeneration(String state) throws NoSuchFieldException {
-		expirationNoticeFormGenerationOrganic(getConversionPolicyDefaultTD(), AH64XX);
+		expirationNoticeFormGenerationOrganic(AH64XX);
 	}
 	/**
 	 * @name Creation converted policy for checking Pre-renewal letter
@@ -173,20 +173,21 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * 5. Check that form is getting generated with correct content
 	 * @details
 	 */
-	private void expirationNoticeFormGenerationOrganic(TestData testData, DocGenEnum.Documents form) throws NoSuchFieldException {
+	private void expirationNoticeFormGenerationOrganic(DocGenEnum.Documents form) throws NoSuchFieldException {
+		//Create Policy with default test data
 		TestData testData1 = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
 		String policyNumber = openAppAndCreatePolicy(testData1);
-
-
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
+		//Move time and generate the renewal image, generate renewal bill, move to expiration date and generate expiration notice - Run necessary batch jobs at each step
 		expirationNoticeJobExecutionOrganic(policyExpirationDate);
 
+		//Wait for the specified document to be generated in the DB and grab it
 		DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, EXPIRATION_NOTICE);
 		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", EXPIRATION_NOTICE);
 
+		//Verify the correct transaction code is seen for the document
 		String expectedPolicyTransCode;
-
 		if (getPolicyType().equals(PolicyType.AUTO_SS)) {
 			switch (getState()) {
 				//PAS-21588: AUTO: AZ, NY: CANC; All other states: STMT
@@ -812,7 +813,8 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(expirationDate));
+//		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(expirationDate));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getPayLapsedRenewLong(expirationDate));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		JobUtils.executeJob(Jobs.aaaRenewalReminderGenerationAsyncJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
