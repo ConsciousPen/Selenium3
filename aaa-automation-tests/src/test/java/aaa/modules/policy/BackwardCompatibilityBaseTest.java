@@ -44,7 +44,7 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	/**
 	 * Execute job and calculate failure percentage.
 	 * if % of failed tasks > 5% hit production team or/and create a defect
-	 * if job processed 0 items, it is case for investigation
+	 * if job processed 0 items, it is case for investigation in case u are running this at env+prod data
 	 * @param job
 	 */
 	protected void executeBatchTest(Job job){
@@ -59,16 +59,6 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 
 		assertThat(latestJobRun.getTotalItems()).as("totalItems picked up by job should be > 0").isGreaterThan(0);
 		verifyErrorsCountLessFivePercents(latestJobRun);
-
-	}
-
-	protected void createAndExecuteJob(Job job){
-		JobGroup jobGroup = JobGroup.fromSingleJob(JobUtils.convertToIpb(job));
-		SoapJobActions service = new SoapJobActions();
-
-		service.createJob(jobGroup);
-
-		JobUtils.executeJob(jobGroup);
 	}
 
 	/**

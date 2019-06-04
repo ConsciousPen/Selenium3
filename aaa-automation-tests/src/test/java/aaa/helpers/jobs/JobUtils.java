@@ -134,11 +134,15 @@ public class JobUtils {
 	 */
 
 	public static WSJobSummary getLatestJobRun(JobGroup jobGroup) {
+		return getLatestJobRun(jobGroup,TimeSetterUtil.getInstance().getCurrentTime());
+	}
+
+	public static WSJobSummary getLatestJobRun(JobGroup jobGroup, LocalDateTime localDateTime) {
 		SoapJobActions soapJobActions = new SoapJobActions();
 		// Get list of all job runs
 		List<WSJobSummary> jobSummaries = soapJobActions.getJobStatusResponse(jobGroup).getBatchSummary().getJobSummary();
 		// store all jobSummaries ended today
-		List<WSJobSummary> mostRecentJobSummaries = jobSummaries.stream().filter(wsJobSummary -> wsJobSummary.getEndTime().contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))).collect(Collectors.toList());
+		List<WSJobSummary> mostRecentJobSummaries = jobSummaries.stream().filter(wsJobSummary -> wsJobSummary.getEndTime().contains(localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))).collect(Collectors.toList());
 
 		if (mostRecentJobSummaries.isEmpty()) {
 			throw new IstfException("Job summary is not present for this date " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
