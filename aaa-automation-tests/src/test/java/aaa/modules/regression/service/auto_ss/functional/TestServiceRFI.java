@@ -2183,11 +2183,9 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), docId1);
 
 			String queryExpectedDocument = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, expectedDocument.getIdInXml(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
-			if (!expectedDocument.equals(DocGenEnum.Documents.AAIFNYD)) {//TODO-mstrazds: Currently document not implemented for NY. Remove IF when implemented. (in next sprint)
-				assertSoftly(softly -> {
-					verifyDocInDb(softly, queryExpectedDocument, expectedDocument, true);
-				});
-			}
+			assertSoftly(softly -> {
+				verifyDocInDb(softly, queryExpectedDocument, expectedDocument, true);
+			});
 
 			//In PAS go to bind page verify document is electronically signed
 			mainApp().open();
@@ -2222,11 +2220,9 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 			//Bind policy with docId and document is electronically signed
 			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), docId1);
-			if (!expectedDocument.equals(DocGenEnum.Documents.AAIFNYD)) {//TODO-mstrazds: Currently document not implemented for NY. Remove IF when implemented. (in next sprint)
-				assertSoftly(softly -> {
-					verifyDocInDb(softly, queryExpectedDocument, expectedDocument, true);
-				});
-			}
+			assertSoftly(softly -> {
+				verifyDocInDb(softly, queryExpectedDocument, expectedDocument, true);
+			});
 			//create endorsement from PAS, go to bind page, verify document is electronically signed
 			mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
