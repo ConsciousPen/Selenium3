@@ -27,6 +27,7 @@ NamedInsuredInformation2: {
   InsuredSearchDialog: {},
   First Name: Diego,
   Last Name: Maradona,
+  Insured Date of Birth: '$today-37y',
   Base Date: '$<today:MM/dd/yyyy>'
 }
 
