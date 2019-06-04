@@ -50,7 +50,7 @@ DriverTab2: {
   Named Insured: 'Tom Harris',
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': Other,
-  Date of Birth: '07/28/1976',
+  #Date of Birth: '07/28/1976',
   Occupation: Self Employed,
   Gender: Male,
   Marital Status: Single,
