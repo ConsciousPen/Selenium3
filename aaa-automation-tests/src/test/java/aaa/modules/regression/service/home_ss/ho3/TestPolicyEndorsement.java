@@ -24,8 +24,6 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomSoftAssertions;
 
-import java.util.ArrayList;
-
 import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
@@ -91,11 +89,6 @@ public class TestPolicyEndorsement extends HomeSSHO3BaseTest {
 			policy.getDefaultView().fillUpTo(td, ApplicantTab.class, true);
 
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-
-			/*Adjust test data, added blank array list to InsuranceScoreReport so that report is not ordered as per New Insurance score Epic - PAS-22508
-			Insurance score can no longer be ordered mid term for any new users added for HO3 post this implementation
-			**/
-			td = td.adjust(TestData.makeKeyPath("ReportsTab", "InsuranceScoreReport"), new ArrayList<TestData>());
 
 			policy.getDefaultView().fillFromTo(td, ReportsTab.class, BindTab.class);
 			new BindTab().submitTab();
