@@ -32,10 +32,10 @@ public abstract class PolicyBillingAddZellePaymentType extends PolicyBaseTest {
 
         BillingSummaryPage.open();
         IBillingAccount billing = new BillingAccount();
-        TestData tdBilling = testDataManager.billingAccount;
+        TestData tdBilling = testDataManager.billingAccount.getTestData("Update", "TestData_AddPaymentMethod_Zelle");
 
         //Navigate to Update Billing Account tab and add CC and EFT payment methods
-        billing.update().perform(tdBilling.getTestData("ZellePaymentType", "TestData_AddPaymentMethods"));
+        billing.update().perform(tdBilling);
 
         //Navigate to Update Billing Account tab and verify that AutoPay Selection dropdown contains added Zelle payment method
         billing.update().start();
@@ -48,7 +48,7 @@ public abstract class PolicyBillingAddZellePaymentType extends PolicyBaseTest {
 
         ComboBox autopaySelectionCombobox = updateBillingAccountTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.AUTOPAY_SELECTION);
 
-        assertThat(autopaySelectionCombobox).as("AutoPay Selection dropdown doesn't contain Zelle payment method").containsOption(paymentMethodZelle);
+        assertThat(autopaySelectionCombobox).as("AutoPay Selection dropdown should NOT contain Zelle payment method").doesNotContainOption(paymentMethodZelle);
 
         //TODO Add additional test steps for performing a refund with Zelle once functionality is implemented. Also, add DB validation for storing Zelle info.
     }
