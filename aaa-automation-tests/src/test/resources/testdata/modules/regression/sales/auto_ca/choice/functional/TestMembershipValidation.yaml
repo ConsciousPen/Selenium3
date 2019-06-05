@@ -43,11 +43,9 @@ TestData_Membership_Valid_DOB: {
      NamedInsuredInformation: {
        First Name: INVALID,
        Last Name: INVALID,
+       Insured Date of Birth: 1/4/1962
      },
      ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation'
-   },
-   DriverTab: {
-    Date of Birth: 1/4/1962
    },
   DriverActivityReportsTab: { },
   DocumentsAndBindTab: {  }
