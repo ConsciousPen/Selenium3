@@ -123,7 +123,7 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(cancelDueDate2).setSubtypeReason(CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM).verifyPresent();
+		new BillingPaymentsAndTransactionsVerifier().setSubtypeReason(CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM).verifyPresent();
 		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH67XX);
 
 		//test scenario 28
