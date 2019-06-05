@@ -3365,8 +3365,13 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			TestData td = getPolicyTD("DataGather", "TestData");
 			TestData drivers = getTestSpecificTD("FourDrivers");
-			td.adjust(new DriverTab().getMetaKey(), drivers.getTestDataList("DriverTab")).resolveLinks();
-			td.adjust(new DocumentsAndBindTab().getMetaKey(), getTestSpecificTD("DocumentsAndBindTab")).resolveLinks();
+			if (getState().equals(Constants.States.CA)){
+				td.adjust(new aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab().getMetaKey(), drivers.getTestDataList("DriverTab")).resolveLinks();
+				td.adjust(new aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab().getMetaKey(), getTestSpecificTD("DocumentsAndBindTab")).resolveLinks();
+			}else{
+				td.adjust(new DriverTab().getMetaKey(), drivers.getTestDataList("DriverTab")).resolveLinks();
+				td.adjust(new DocumentsAndBindTab().getMetaKey(), getTestSpecificTD("DocumentsAndBindTab")).resolveLinks();
+			}
 
 			mainApp().open();
 			createCustomerIndividual();
@@ -3400,7 +3405,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			PolicySummaryPage.buttonPendedEndorsement.click();
 			policy.dataGather().start();
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-			softly.assertThat(PremiumAndCoveragesTab.tableFormsSummary.getRowContains("Forms", "ADB").isPresent()).isTrue();
+			if (getState().equals(Constants.States.CA)) {
+				softly.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.tableFormsSummary.getRowContains("Form", "ADBE").isPresent()).isTrue();
+			} else {
+				softly.assertThat(PremiumAndCoveragesTab.tableFormsSummary.getRowContains("Forms", "ADB").isPresent()).isTrue();
+			}
+
 			premiumAndCoveragesTab.saveAndExit();
 
 			HelperCommon.removeDriver(policyNumber, driverAFR, DXPRequestFactory.createRemoveDriverRequest("RD1004"));
