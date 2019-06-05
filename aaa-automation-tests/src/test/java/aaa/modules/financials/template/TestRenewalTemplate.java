@@ -1,5 +1,12 @@
 package aaa.modules.financials.template;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
@@ -8,17 +15,10 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestRenewalTemplate extends FinancialsBaseTest {
 
@@ -465,6 +465,166 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 
     }
 
+    /**
+     * @scenario
+     * 1.  Create policy WITHOUT employee benefit with monthly payment plan
+	 * 2.  Cancel policy for reason = non-payment
+	 * 3.  Advance time 1 month
+	 * 4.  Reinstate policy w/ lapse
+	 * 5.  Validate reinstatement
+     * 6.  Advance time to renewal offer generation date
+     * 7.  Create renewal image
+     * 8.  Add lapse to renewal offer
+     * 9.  Validate ledger entries
+     * @details RNW-05, RST-05
+     */
+    protected void testRenewalScenario_6() {
+
+        // Create policy WITHOUT employee benefit, monthly payment plan
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createFinancialPolicy(adjustTdMonthlyPaymentPlan(getPolicyTD()));
+        LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
+        LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
+
+        // cancel policy for non-payment of premium
+        policy.cancel().perform(getCancellationNonPaymentTd(effDate));
+
+        // Advance time one month, reinstate policy with lapse, waive reinstatement fee
+        TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1));
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_CANCELLED);
+        performReinstatement(policyNumber);
+
+		Dollar premiumAfterReinstatement = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		// taxes only applies to WV and KY and value needs added to premium amount for correct validation below
+		Dollar totalTaxesNB = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053");
+
+		//RST-05 validation
+		validateReinstatement(premiumAfterReinstatement, policyNumber, totalTaxesNB);
+
+        // Advance time to renewal time point and create renewal image
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalEffDate));
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        policy.renew().performAndFill(getRenewalFillTd());
+
+        // Add lapse for renewal term
+        PolicySummaryPage.buttonRenewals.click();
+        policy.manualRenewalWithOrWithoutLapse().perform(getChangeRenewalLapseTd(renewalEffDate.plusMonths(1)));
+
+		TimeSetterUtil.getInstance().nextPhase(renewalEffDate);
+		JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
+        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+
+		LocalDateTime dueDate = PolicySummaryPage.getEffectiveDate().plusMonths(1);
+		Dollar renewalPrem = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		// taxes only applies to WV and KY and value needs added to premium amount for correct validation below
+		Dollar totalTaxesRenewal = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1053");
+
+		//RNW-05 validation
+		validateRenewalBoundOnEffDate(policyNumber, renewalPrem, totalTaxesRenewal);
+
+		//OPR-01
+		// Advance time 1 month, generate and pay first installment bill
+		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(dueDate);
+		LocalDateTime billDueDate = getTimePoints().getBillDueDate(dueDate);
+		TimeSetterUtil.getInstance().nextPhase(billGenDate);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		TimeSetterUtil.getInstance().nextPhase(billDueDate);
+
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+		payMinAmountDue(METHOD_CASH);
+
+		waiveFeeByDateAndType(billGenDate, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE);
+
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getColumn(BillingConstants.BillingPaymentsAndOtherTransactionsTable
+				.SUBTYPE_REASON).getValue()).contains(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATE_PAYMENT);
+		//OPR-01 validation------------------------------
+
+		//OPR-02
+		// Advance time 1 month, generate and pay installment bill
+		LocalDateTime secondBillGenDate = getTimePoints().getBillGenerationDate(dueDate.plusMonths(1));
+
+		TimeSetterUtil.getInstance().nextPhase(secondBillGenDate);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+		payMinAmountDue(METHOD_CASH);
+
+		waiveFeeByDateAndType(billGenDate, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE);
+
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getColumn(BillingConstants.BillingPaymentsAndOtherTransactionsTable
+				.SUBTYPE_REASON).getValue()).contains(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATE_PAYMENT);
+		//OPR-02 validation------------------------------
+    }
+
+	/**
+	 * @scenario
+	 * 1.  Create policy WITHOUT employee benefit with monthly payment plan
+	 * 2.  Cancel policy for reason = non-payment
+	 * 3.  Advance time 1 month
+	 * 4.  Reinstate policy w/ lapse
+	 * 5.  Validate reinstatement
+	 * 6.  Advance time to renewal offer generation date
+	 * 7.  Create renewal image
+	 * 8.  Add lapse to renewal offer
+	 * 9.  Validate ledger entries
+	 * @details RNW-06, RST-06
+	 */
+	protected void testRenewalScenario_7() {
+
+		// Create policy WITH employee benefit
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(getPolicyTD()));
+		LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
+		LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
+
+		// cancel policy for non-payment of premium
+		policy.cancel().perform(getCancellationNonPaymentTd(effDate));
+
+		// Advance time one month, reinstate policy with lapse, waive reinstatement fee
+		TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1));
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		performReinstatement(policyNumber);
+
+		Dollar premiumAfterReinstatement = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		// taxes only applies to WV and KY and value needs added to premium amount for correct validation below
+		Dollar totalTaxesNB = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053");
+
+		//RST-06 validation
+		validateReinstatement(premiumAfterReinstatement, policyNumber, totalTaxesNB);
+
+		// Advance time to renewal time point and create renewal image
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalEffDate));
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		policy.renew().performAndFill(getRenewalFillTd());
+
+		// Add lapse for renewal term
+		PolicySummaryPage.buttonRenewals.click();
+		policy.manualRenewalWithOrWithoutLapse().perform(getChangeRenewalLapseTd(renewalEffDate.plusMonths(1)));
+
+		TimeSetterUtil.getInstance().nextPhase(renewalEffDate);
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
+
+		Dollar renewalPrem = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		// taxes only applies to WV and KY and value needs added to premium amount for correct validation below
+		Dollar totalTaxesRenewal = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1053");
+
+		//RNW-06 validation
+		validateRenewalBoundOnEffDate(policyNumber, renewalPrem, totalTaxesRenewal);
+	}
+
     private void openPolicyRenewal(String policyNumber) {
         SearchPage.openPolicy(policyNumber);
         if (PolicySummaryPage.buttonRenewals.isEnabled()) {
@@ -564,6 +724,27 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
             });
         }
     }
+
+	private void validateReinstatement(Dollar premAmt, String policyNumber, Dollar taxes) {
+		assertSoftly(softly -> {
+			softly.assertThat(premAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1044"));
+			softly.assertThat(premAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1015")
+					.subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1015")));
+			softly.assertThat(premAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1021")
+					.subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1021")));
+			softly.assertThat(premAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022")
+					.subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022")));
+		});
+
+		if (isTaxState()) {
+			assertSoftly(softly -> {
+				softly.assertThat(taxes).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053")
+						.subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1053")));
+				softly.assertThat(taxes).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1054")
+						.subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1054")));
+			});
+		}
+	}
 
     private void validateRenewalBoundBeforeEffDateAtTxDate(String policyNumber, Dollar renewalPrem, Dollar renewalTermTaxes) {
         // Validate RNW-03 and RNW-04
