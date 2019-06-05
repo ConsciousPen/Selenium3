@@ -227,4 +227,34 @@
             <class name="aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_OnlineBatch_Billing"/>
         </classes>
     </test>
+    <test name="PasDoc_OnlineBatch_Cancel" parallel="methods">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_OnlineBatch_Cancel"/>
+        </classes>
+    </test>
+    <test name="PasDoc_AdhocGODDdeliveryMethods" parallel="methods">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocGODDdeliveryMethods"/>
+        </classes>
+    </test>
+    <test name="PasDoc_OnlineBatch_Notice" parallel="methods">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_OnlineBatch_Notice"/>
+        </classes>
+    </test>
+    <test name="PasDoc_OnlineBatch_Reinstatement" parallel="methods">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_OnlineBatch_Reinstatement"/>
+        </classes>
+    </test>
+    <test name="PasDoc_OnlineBatch_Renewal_Scenarios" parallel="methods">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_OnlineBatch_Renewal"/>
+        </classes>
+    </test>
 </suite>

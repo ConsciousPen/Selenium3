@@ -5,7 +5,6 @@ package aaa.modules.regression.sales.auto_ss;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -23,12 +22,12 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	
 	/**
 	 * @author Lei Dai
-	 * @name Test Create Auto Quote
-	 * @scenario
-	 * 1. Create Customer
-	 * 2. Create Auto (Preconfigured) Quote
-	 * 3. Verify quote status is 'Premium Calculated'
-	 * @details
+	 * <b> Test Create Auto Quote </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer
+	 * <p> 2. Create Auto (Preconfigured) Quote
+	 * <p> 3. Verify quote status is 'Premium Calculated'
+	 *
 	 */
 
 	@Parameters({"state"})
@@ -36,56 +35,56 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testQuoteCreation(@Optional("") String state) {
-		super.testQuoteCreation();
+		testQuoteCreation();
 	}
 	
 	/**
 	 * @author Lina Li
-	 * @name Test Issue Auto Quote
-	 * @scenario
-	 * 1. Create Customer
-	 * 2. Create AutoSS Quote
-	 * 3. Issue Quote
-	 * 4. Verify policy status is 'Policy Active'
-	 * @details
+	 * <b> Test Issue Auto Quote </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer
+	 * <p> 2. Create AutoSS Quote
+	 * <p> 3. Issue Quote
+	 * <p> 4. Verify policy status is 'Policy Active'
+	 *
 	 */
 	@Parameters({"state"})
 	@StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testQuoteIssue(@Optional("") String state) {
-		super.testQuoteIssue();
+		testQuoteIssue();
 	}
 	
 	/**
 	 * @author Lina Li
-	 * @name Test Propose Auto Quote
-	 * @scenario
-	 * 1. Create Customer
-	 * 2. Create AutoSS Quote
-	 * 3. Try to propose quote(click 'Cancel' button on propose screen)
-	 * 4. Verify quote status id 'Premium Calculated'
-	 * 5. Propose Quote
-	 * 6. Verify quote status is 'Proposed'
-	 * @details
+	 * <b> Test Propose Auto Quote </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer
+	 * <p> 2. Create AutoSS Quote
+	 * <p> 3. Try to propose quote(click 'Cancel' button on propose screen)
+	 * <p> 4. Verify quote status id 'Premium Calculated'
+	 * <p> 5. Propose Quote
+	 * <p> 6. Verify quote status is 'Proposed'
+	 *
 	 */
 	@Parameters({"state"})
 	@StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testQuotePropose(@Optional("") String state) {
-		super.testQuotePropose();
+		testQuotePropose();
 	}
 	
 	/**
 	 * @author Jelena Dembovska
-	 * @name Test Customer Decline action
-	 * @scenario
-	 * 1. Create Customer
-	 * 2. Create Quote for corresponding product
-	 * 3. Select action "Decline by customer"
-	 * 4. Verify quote status is '"Customer Declined"'
-	 * @details
+	 * <b> Test Customer Decline action </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer
+	 * <p> 2. Create Quote for corresponding product
+	 * <p> 3. Select action "Decline by customer"
+	 * <p> 4. Verify quote status is '"Customer Declined"'
+	 *
 	 */
 	
 	@Parameters({"state"})
@@ -93,18 +92,18 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testQuoteDeclineByCustomer(@Optional("") String state) {
-		super.testQuoteDeclineByCustomer();
+		testQuoteDeclineByCustomer();
 	}
 	
 	/**
 	 * @author Jelena Dembovska
-	 * @name Test Company Decline action
-	 * @scenario
-	 * 1. Create Customer
-	 * 2. Create Quote for corresponding product
-	 * 3. Select action "Decline by company"
-	 * 4. Verify quote status is 'Company Declined'
-	 * @details
+	 * <b> Test Company Decline action </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer
+	 * <p> 2. Create Quote for corresponding product
+	 * <p> 3. Select action "Decline by company"
+	 * <p> 4. Verify quote status is 'Company Declined'
+	 *
 	 */
 	  
 	@Parameters({"state"})
@@ -112,24 +111,24 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testQuoteDeclineByCompany(@Optional("") String state) {
-		super.testQuoteDeclineByCompany();
+		testQuoteDeclineByCompany();
 	}
 	
 	/**
 	 * @author Jelena Dembovska
-	 * @name Test quote copy action
-	 * @scenario
-	 * 1. Create Customer
-	 * 2. Create Quote for corresponding product
-	 * 3. Select action "Copy from quote"
-	 * 4. Verify new quote status is 'Data Gathering'
-	 * @details
+	 * <b> Test quote copy action </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer
+	 * <p> 2. Create Quote for corresponding product
+	 * <p> 3. Select action "Copy from quote"
+	 * <p> 4. Verify new quote status is 'Data Gathering'
+	 *
 	 */	
 	@Parameters({"state"})
 	@StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testQuoteCopy(@Optional("") String state) {
-		super.testQuoteCopy();
+		testQuoteCopy();
 	}
 }

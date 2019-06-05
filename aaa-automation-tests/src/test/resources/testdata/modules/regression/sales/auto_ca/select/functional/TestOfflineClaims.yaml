@@ -17,30 +17,30 @@ TestData_DriverTab_ClueReconcileFNIclaims_PU_CA: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ca_select>@DataGather@GeneralTab',
   DriverTab:  ['@Driver1','@Driver6'],
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Select'
 }
 
 TestData_DriverTab_ViolationsMVRFNIclaims_PU_CA: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ca_select>@DataGather@GeneralTab',
   DriverTab:  ['@Driver7','@Driver6'],
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Select',
 }
 
 TestData_Change_FNI_NB_Endorsement_PU_CA: {
   PrefillTab:  '@PrefillTab',
   GeneralTab: '@TwoNamedInsuredGeneralTab',
   DriverTab:  ['@Driver8','@Driver9'],
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Select',
 }
 
 TestData_Change_FNI_Renewal_PU_CA: {
   GeneralTab: '@TwoNamedInsuredGeneralTab',
   DriverTab:  ['@Driver1','@Driver9'],
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Select',
 }
 
-PremiumAndCoveragesTab: {
+PremiumAndCoveragesTab_Select: {
   Product: CA Select,
   Payment Plan: Annual,
   Apply eValue Discount: 'Yes',
@@ -392,7 +392,6 @@ Activity1: {
   Description: 'Fault accident with injury',
   Loss Payment Amount: '2000',
   Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-  "Permissive Use Loss?": 'No',
   "Include in Points and/or YAF?": 'Yes'
 }
 
@@ -403,7 +402,337 @@ Activity2: {
   Description: 'Fault accident, no injury, damage > $1000',
   Loss Payment Amount: '2000',
   Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-  "Permissive Use Loss?": 'No',
   "Include in Points and/or YAF?": 'Yes'
+}
+
+Activity3: {
+  Activity Source: 'Company Input',
+  Type: 'Accident',
+  Occurrence Date: '$<today-4M:MM/dd/yyyy>',
+  Description: 'Fault accident with injury',
+  Loss Payment Amount: '5500',
+  Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+  "Include in Points and/or YAF?": 'Yes'
+  }
+
+Activity4: {
+    Activity Source: 'Company Input',
+    Type: 'Minor Violation',
+    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+    Description: 'Speeding',
+    Conviction Date: '$<today-3M:MM/dd/yyyy>',
+    "Include in Points and/or YAF?": 'Yes'
+  }
+
+Activity5: {
+    Activity Source: Company Input,
+    Type: '10-yr Major Violation',
+    Occurrence Date: '$<today-2M:MM/dd/yyyy>',
+    Description: 'Driving under the influence of alcohol',
+    "Include in Points and/or YAF?": 'Yes'
+  }
+
+Activity6: {
+  Activity Source: Customer Input,
+  Type: 'Suspension/Revocation',
+  Description: 'Alcohol Related Suspension',
+  Suspension Date: '$<today-3M:MM/dd/yyyy>',
+  "Include in Points and/or YAF?": 'Yes'
+}
+
+TestData_DriverTab_UpdateUWRules_PU_CA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@TwoNamedInsuredGeneralTab2',
+  DriverTab:  ['@Driver10'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Select',
+}
+
+Driver10: {
+Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': First Named Insured,
+  Date of Birth: 10/16/1997,
+  Age First Licensed: 18,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D1271211
+  }
+
+TestData_Activity_UWRules: {
+  DriverTab: '@DriverTab_Activity_UWRules',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Select',
+  DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ca_select>@DataGather@DocumentsAndBindTab',
+}
+
+DriverTab_Activity_UWRules: {
+  ActivityInformation: ['@Activity1', '@Activity2', '@Activity3', '@Activity4']
+}
+
+TwoNamedInsuredGeneralTab2: {
+  NamedInsuredInformation: ['@NamedInsuredInformation3', '@NamedInsuredInformation4'],
+  AAAProductOwned: '@<auto_ca_select>@DataGather@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation'
+}
+
+NamedInsuredInformation3: {
+  InsuredSearchDialog: {},
+  First Name: Nicolas,
+  Last Name: Smith
+}
+
+NamedInsuredInformation4: {
+  InsuredSearchDialog: {},
+  First Name: Kathy,
+  Last Name: Smith,
+}
+
+ContactInformation: {
+    Home Phone Number: 2342342345
+}
+
+Add_Driver2_EndorsementUWRules: {
+DriverTab: ['@Driver11'],
+PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+DriverTab_EndorsementActivity_UWRules: {
+  DriverTab: '@EndorsementActivity_UWRules'
+}
+
+EndorsementActivity_UWRules: {
+ ActivityInformation: ['@Activity1', '@Activity2', '@Activity3', '@Activity4']
+}
+
+Driver11: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Named Insured: "Kathy Smith",
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': First Named Insured,
+  Date of Birth: 07/04/1980,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Military,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5439898,
+  Age First Licensed: 18
+  }
+
+DriverActivityReportsTab: {
+  Sales Agent Agreement: I Agree,
+  Validate Driving History: click
+}
+
+TestData_Discounts: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ca_select>@DataGather@GeneralTab',
+  DriverTab: ['@Driver_GoodStudent_NewDriver_Discount', '@Driver_two_MatureDriver_discount'],
+  MembershipTab: '@<auto_ca_select>@DataGather@MembershipTab',
+  VehicleTab: ['@Vehicle1', '@Vehicle2'],
+  AssignmentTab: '@AssignmentTab',
+  FormsTab: '@FormsTab',
+}
+
+Driver_GoodStudent_NewDriver_Discount: {
+  DriverSearchDialog: {},
+  Date of Birth: $<today-23y>,
+  Marital Status: Single,
+  Occupation: 'Student',
+  Age First Licensed: 16,
+  Permit Before License: 'No',
+  "Licensed in US/Canada for 18 or More Months?": 'No',
+  "First US/Canada License Date": $<today-1M>,
+  License Type: 'Valid',
+  License State: CA,
+  "License #": C1234569,
+  Most Recent GPA: 'College Graduate',
+  New Driver Course Completed: 'Yes',
+  New Driver Course Completion Date: $<today>,
+  New Driver Certification Number: 33333,
+}
+
+Driver_two_MatureDriver_discount: {
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Spouse,
+  First Name: 'Tom',
+  Last Name: 'Johns',
+  Date of Birth: $<today-55y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: 'Dentist',
+  Age First Licensed: 17,
+  Permit Before License: 'No',
+  License Type: 'Valid',
+  "First US/Canada License Date": $<today-1y>,
+  License State: CA,
+  "License #": C1234568,
+  Mature driver course completed within 36 months: 'Yes',
+  Mature Driver Course Completion Date: $<today-6M>,
+}
+
+Vehicle1: {
+  Type: 'Regular',
+  VIN: 2HNYD28498H554858,
+  Primary Use: 'Commute (to/from work and school)',
+  Anti-theft Recovery Device: Vehicle Recovery Device,
+  Existing Damage: Normal Wear and Tear,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 15,
+  Odometer Reading: 80,
+  Odometer Reading Date: $<today-2y>,
+  Customer Declared Annual Miles: 10000,
+}
+
+Vehicle2: {
+  Type: 'Regular',
+  VIN: 1J4RR4GG8BC517114,
+  Primary Use: 'Commute (to/from work and school)',
+  Anti-theft Recovery Device: Vehicle Recovery Device,
+  Existing Damage: Normal Wear and Tear,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 15,
+  Odometer Reading: 80,
+  Odometer Reading Date: $<today-2y>,
+  Customer Declared Annual Miles: 10000,
+}
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [{
+                                     Primary Driver: index=1,
+                                   }, {
+                                     Primary Driver: index=2,
+                                   }]
+}
+
+FormsTab: {}
+TestData_Activity_MDD: {
+  DriverTab: '@DriverTab_Activity_MDD',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_MDD',
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the policy?": 'Yes',
+    Sales Agent Agreement: I Agree,
+    Sales Agent Agreement DMV: I Agree,
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+
+    RequiredToBind: {
+      California Car Policy Application: Electronically Signed,
+      Subscriber Agreement: Electronically Signed
+    },
+    RequiredToIssue: {
+      Policy Application: 'Yes',
+      Proof of Good Student Discount: 'Yes',
+      Auto Billing Plan Explanation: 'Yes',
+      Proof of New Driver Course Completion: 'Yes',
+      #Proof of Mature Driver Course Completion: 'Yes'
+    }
+  },
+  PurchaseTab: {
+    PaymentAllocation: {
+      Cash: /rest
+    }
+  }
+}
+
+DriverTab_Activity_MDD: {
+  ActivityInformation: ['@Activity1', '@Activity5','@Activity6']
+}
+
+PremiumAndCoveragesTab_MDD: {
+  Product: 'CA Select',
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Property Damage Liability: 'contains=$100,000'
+}
+
+TestData_MDD_Endorse: {
+  GeneralTab: {},
+  DriverTab: ['@Driver_three_MatureDriver_discount'],
+  MembershipTab: '@<auto_ca_select>@DataGather@MembershipTab',
+  VehicleTab: '@Vehicle_Endorse',
+  AssignmentTab: '@AssignmentTab_Endorse'
+}
+Driver_three_MatureDriver_discount: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Sibling,
+  First Name: 'Nike',
+  Last Name: 'Johns',
+  Date of Birth: $<today-54y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: 'Dentist',
+  Age First Licensed: 17,
+  Permit Before License: 'No',
+  License Type: 'Valid',
+  "First US/Canada License Date": $<today-1y>,
+  License State: CA,
+  "License #": C1234558,
+  Mature driver course completed within 36 months: 'Yes',
+  Mature Driver Course Completion Date: $<today-8M>,
+}
+Vehicle_Endorse: {
+  Add Vehicle: Click,
+  Type: 'Regular',
+  VIN: 9BWFL61J244023215,
+  Primary Use: 'Commute (to/from work and school)',
+  Anti-theft Recovery Device: Vehicle Recovery Device,
+  Existing Damage: Normal Wear and Tear,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 15,
+  Odometer Reading: 80,
+  Odometer Reading Date: $<today-2y>,
+  Customer Declared Annual Miles: 10000,
+}
+AssignmentTab_Endorse: {
+  DriverVehicleRelationshipTable: [{
+                                     Primary Driver: index=1,
+                                     Manually Rated Driver: index=3
+                                   },
+                                   {
+                                     Primary Driver: index=2,
+                                     Manually Rated Driver: index=1
+                                   },
+                                   {
+                                     Primary Driver: index=3,
+                                     Manually Rated Driver: index=2
+                                   }]
+}
+TestData_Activity_MDD_Endorse: {
+  DriverTab: '@DriverTab_Activity_Endorse',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_MDD',
+  DriverActivityReportsTab:
+    {
+      Sales Agent Agreement: I Agree,
+      Validate Driving History: click
+    },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      California Car Policy Application: Electronically Signed,
+      Subscriber Agreement: Electronically Signed
+    },
+    RequiredToIssue: {
+      Policy Application: 'Yes',
+      Proof of Good Student Discount: 'Yes',
+      Auto Billing Plan Explanation: 'Yes',
+      Proof of New Driver Course Completion: 'Yes',
+      # Proof of Mature Driver Course Completion: 'Yes'
+    }
+  }
+}
+
+DriverTab_Activity_Endorse: {
+  ActivityInformation: ['@Activity1', '@Activity5']
 }
 

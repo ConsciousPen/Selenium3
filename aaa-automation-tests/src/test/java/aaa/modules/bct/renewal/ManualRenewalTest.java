@@ -57,7 +57,7 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 	 * 1. User retrieves renewal image
 	 * 2. User updates renewal quote manually
 	 * 3. User navigates to bind tab
-	 * 4. User clicks ‘Propose’ to manually propose the policy
+	 * 4. User clicks 'Propose' to manually propose the policy
 	 * Check:
 	 * Policy has successfully been proposed for renewal
 	 */

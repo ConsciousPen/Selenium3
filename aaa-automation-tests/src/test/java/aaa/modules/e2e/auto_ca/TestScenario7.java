@@ -49,8 +49,9 @@ public class TestScenario7 extends Scenario7 {
 			endorsementAPAfterRenewal();
 			checkRenewalStatusAndPaymentNotGenerated();
 			expirePolicy();
-			generateFirstRenewalBill();
+			//generateFirstRenewalBill();
 			customerDeclineRenewal(); //customer declined for CA Auto on R+10 according to PASBB-624/PAS-624
+			generateFirstRenewalBill();
 			createRemittanceFile();
 			payRenewalBillByRemittance();
 			verifyDocGenForms(false, DocGenEnum.Documents._55_5003, DocGenEnum.Documents._55_5080);

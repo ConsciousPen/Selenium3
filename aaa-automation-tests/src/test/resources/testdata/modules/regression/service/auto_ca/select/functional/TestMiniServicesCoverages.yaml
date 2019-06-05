@@ -1,0 +1,346 @@
+TestData_VehicleOtherTypes: {
+  VehicleTab: ['@VehicleTab_1','@VehicleTab_Camper','@VehicleTab_2','@VehicleTab_Motor_Home', '@VehicleTab_AntiqueClassic', '@VehicleTab_Trailer'],
+  AssignmentTab: '@AssingmentTab_VehOtherTypes'
+}
+
+TestData_VehicleLevelCoverages: {
+  VehicleTab: [ '@VehicleTab_OldVehicle', '@VehicleTab_NewVehicle1', '@VehicleTab_NewVehicle2'],
+  AssignmentTab: '@AssingmentTab_3Veh',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_VehicleLevelCoverages'
+}
+
+TestData_OEMYes: {
+  VehicleTab: [ '@VehicleTab_NewVehicle2'],
+  AssignmentTab: '@AssingmentTab_1Veh',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_OEMYes'
+}
+
+TestData_LessThan10yOldNoCompColl: {
+  VehicleTab: [ '@VehicleTab_NewVehicle4', '@VehicleTab_NewVehicle2', '@VehicleTab_NewVehicle3'],
+  AssignmentTab: '@AssingmentTab_3Veh',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_NoCompColl'
+}
+
+TestData_AllVehiclesETEIsOtherThan25750: {
+  VehicleTab: [ '@VehicleTab_NewVehicle4', '@VehicleTab_NewVehicle2', '@VehicleTab_NewVehicle3'],
+  AssignmentTab: '@AssingmentTab_3Veh',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_ETECOtherThan25750ForAllVehicles'
+}
+
+TestData_2Drivers: {
+  DriverTab:['@Driver1', '@Driver2']
+}
+
+Driver1: {
+  DriverSearchDialog: {},
+  Occupation: 'Driver',
+  Age First Licensed: 18,
+  License Type: 'Valid',
+  "License #": 'B1234567',
+  Permit Before License: 'Yes'
+}
+
+Driver2: {
+  DriverSearchDialog: {},
+  Driver Type: 'Available for Rating',
+  Rel. to First Named Insured: Father,
+  First Name: 'Tom',
+  Last Name: 'Yokomoko',
+  Date of Birth: '05/01/1956',
+  Gender: 'Male',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '16',
+  Permit Before License: 'Yes',
+  "License #": 'C1234568'
+}
+
+VehicleTab_1: {
+  Add Vehicle: Click,
+  Primary Use: 'contains=Commute',
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451,
+  'Miles One-way to Work or School': '15',
+  Odometer Reading: '29000',
+  Odometer Reading Date: $<today>,
+}
+
+VehicleTab_Camper: {
+  Add Vehicle: Click,
+  Type: Camper,
+  Usage: Pleasure,
+  VIN: JDGKDIGDU,
+  Make: 'OTHER',
+  Other Make: 'Other Make',
+  Other Model: 'Model',
+  Other Series: 'Series',
+  'Other Body Style': 'Sedan',
+  'Value($)': '10000',
+  Primary Use: 'contains=Commute',
+  'Miles One-way to Work or School': '15',
+  Customer Declared Annual Miles: '3000',
+}
+
+VehicleTab_2: {
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: 1GAZG1FG7D1145543,
+  Primary Use: 'contains=Commute',
+  'Miles One-way to Work or School': '99',
+  Odometer Reading: '39000',
+  Odometer Reading Date: $<today>,
+}
+
+VehicleTab_Motor_Home: {
+  Add Vehicle: Click,
+  Type: Motor Home,
+  VIN: 5B4MP67G123353230,
+  Make: 'OTHER',
+  Other Make: 'Motor',
+  Other Model: 'Motor',
+  Other Series: 'Motor',
+  Other Body Style: 'Motor',
+  'Value($)': '50000',
+  Primary Use: 'contains=Commute',
+  'Miles One-way to Work or School': '12',
+  Odometer Reading: '49000',
+}
+
+VehicleTab_AntiqueClassic: {
+  Add Vehicle: Click,
+  Type: Antique / Classic,
+  Usage: Pleasure,
+  VIN: DDFDFCCVCVCV,
+  Year: '1950',
+  Make: 'OTHER',
+  Other Make: 'Other Make',
+  Other Model: 'Model',
+  Other Series: 'Series',
+  'Other Body Style': 'Sedan',
+  'Value($)': '10000',
+  Primary Use: 'contains=Commute',
+  'Miles One-way to Work or School': '12',
+  Odometer Reading: '28000',
+  Odometer Reading Date: $<today>,
+}
+
+VehicleTab_Trailer: {
+  Add Vehicle: Click,
+  Type: Trailer,
+  Usage: Pleasure,
+  VIN: KFLKFKF,
+  Make: 'OTHER',
+  Other Make: 'Other Make',
+  Other Model: 'Model',
+  Other Series: 'Series',
+  'Other Body Style': 'Sedan',
+  'Value($)': '10000',
+  Primary Use: 'contains=Commute',
+  'Miles One-way to Work or School': '15',
+}
+
+VehicleTab_NewVehicle1: {
+  Add Vehicle: Click,
+  Primary Use: 'contains=Commute',
+  Usage: Pleasure,
+  VIN: 5XXGU4L32JG232955,
+  'Miles One-way to Work or School': '15',
+  Odometer Reading: '29000',
+  Odometer Reading Date: $<today>,
+  Ownership: {
+    Ownership Type: Leased,
+    First Name: BANK OF AMERICA
+  }
+}
+
+VehicleTab_NewVehicle2: {
+  Add Vehicle: Click,
+  Primary Use: 'contains=Commute',
+  Usage: Pleasure,
+  VIN: 2FMGK5B80JBA22794,
+  'Miles One-way to Work or School': '20',
+  Odometer Reading: '33000',
+  Odometer Reading Date: $<today>,
+}
+
+VehicleTab_NewVehicle3: {
+  Add Vehicle: Click,
+  Primary Use: 'contains=Commute',
+  Usage: Pleasure,
+  VIN: 2C3CDXBG8JH341636,
+  'Miles One-way to Work or School': '20',
+  Odometer Reading: '33000',
+  Odometer Reading Date: $<today>,
+}
+
+VehicleTab_NewVehicle4: {
+  Add Vehicle: Click,
+  Primary Use: 'contains=Commute',
+  Usage: Pleasure,
+  VIN: 1FA6P8TH0J5165644,
+  'Miles One-way to Work or School': '20',
+  Odometer Reading: '33000',
+  Odometer Reading Date: $<today>,
+}
+
+VehicleTab_OldVehicle: {
+  Add Vehicle: Click,
+  Primary Use: 'contains=Commute',
+  Usage: Pleasure,
+  VIN: 5NPEB4AC4DH734438,
+  'Miles One-way to Work or School': '15',
+  Odometer Reading: '29000',
+  Odometer Reading Date: $<today>,
+}
+
+AssingmentTab_VehOtherTypes: {
+  DriverVehicleRelationshipTable: [{
+                                     Primary Driver: index=1,
+                                   }, {
+                                     Primary Driver: index=1,
+                                   }, {
+                                     Primary Driver: index=1,
+                                   }, {
+                                     Primary Driver: index=1,
+                                   }, {
+                                     Primary Driver: index=1,
+                                   }, {
+                                     Primary Driver: index=1,
+                                   }]
+}
+
+AssingmentTab_3Veh: {
+  DriverVehicleRelationshipTable: [   {
+                                        Primary Driver: index=1,
+                                      }, {
+                                        Primary Driver: index=1,
+                                      }, {
+                                        Primary Driver: index=1,
+                                      }]
+}
+
+AssingmentTab_1Veh: {
+  DriverVehicleRelationshipTable: [   {
+                                        Primary Driver: index=1,
+                                      }]
+}
+
+AssingmentTab_2Veh: {
+  DriverVehicleRelationshipTable: [   {
+                                        Primary Driver: index=1,
+                                      },
+                                      {
+                                        Primary Driver: index=1,
+                                      }]
+}
+
+PremiumAndCoveragesTab_VehicleLevelCoverages: {
+  Payment Plan: Annual,
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  DetailedVehicleCoverages: [
+  {
+    Comprehensive  Deductible: 'contains=$250',
+    Full Safety Glass: 'No Coverage',
+    Collision Deductible: 'contains=$500',
+    Enhanced Transportation Expense: 'contains=$25/$750',
+    All Risk: 'contains=No',
+    Original Equipment Manufacturer Parts: 'contains=No',
+    Ridesharing Coverage: 'contains=No'
+  },
+  {
+    Comprehensive  Deductible: 'contains=$250',
+    Full Safety Glass: 'Yes',
+    Collision Deductible: 'contains=$500',
+    Enhanced Transportation Expense: 'contains=$25/$750',
+    All Risk: 'contains=No',
+    Vehicle Loan/Lease Protection: 'contains=Yes',
+#    New Car Added Protection: 'contains=Yes', # Currently if Vehicle has Loan/Lease then New Car added Protection is not available
+    Original Equipment Manufacturer Parts: 'contains=Yes',
+    Ridesharing Coverage: 'contains=No'
+  },
+  {
+    Comprehensive  Deductible: 'contains=$250',
+    Full Safety Glass: 'Yes',
+    Collision Deductible: 'contains=$500',
+    Enhanced Transportation Expense: 'contains=$25/$750',
+    All Risk: 'contains=No',
+#    Vehicle Loan/Lease Protection: 'contains=Yes', # Currently if Vehicle is Owned then Loan/Lease Protection is not available
+    New Car Added Protection: 'contains=Yes',
+    Purchase Date: '$<today-40d:MM/dd/yyyy>',
+    Original Equipment Manufacturer Parts: 'contains=Yes',
+    Ridesharing Coverage: 'contains=No'
+  }
+  ]
+}
+
+PremiumAndCoveragesTab_OEMYes: {
+  Payment Plan: Annual,
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  DetailedVehicleCoverages: [
+  {
+    Original Equipment Manufacturer Parts: 'contains=Yes',
+  }
+  ]
+}
+
+PremiumAndCoveragesTab_OEMNo: {
+  Payment Plan: Annual,
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  DetailedVehicleCoverages: [
+  {
+    Original Equipment Manufacturer Parts: 'contains=No',
+  }
+  ]
+}
+
+PremiumAndCoveragesTab_NoCompColl: {
+  Payment Plan: Annual,
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  DetailedVehicleCoverages: [
+  {
+    Comprehensive Deductible: 'contains=No',
+    Collision Deductible: 'contains=$500',
+  },
+  {
+    Comprehensive Deductible: 'contains=$250',
+    Collision Deductible: 'contains=No',
+  },
+  {
+    Comprehensive Deductible: 'contains=No',
+    Collision Deductible: 'contains=No',
+  }
+  ]
+}
+
+PremiumAndCoveragesTab_ETECOtherThan25750ForAllVehicles: {
+  Payment Plan: Annual,
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  DetailedVehicleCoverages: [
+  {
+    Enhanced Transportation Expense: 'contains=$50/$1,500', #Because of defect, When creating policy, only the same limit is is possible for all vehicles. When fixed, test can be updated to to select different cov limti for each vehicle
+  },
+  {
+    Enhanced Transportation Expense: 'contains=$50/$1,500', #Because of defect, When creating policy, only the same limit is is possible for all vehicles. When fixed, test can be updated to to select different cov limti for each vehicle
+  },
+  {
+    Comprehensive Deductible: 'contains=No',
+    Collision Deductible: 'contains=No',
+  }
+  ]
+}
+
+#RREIM, TOWINGLABOR and SPECEQUIP is in response, but customerDisplay=false
+TestData_OrderOfCoverages_LOAN: {
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "ETEC", "ALLRISK", "OEM", "RIDESHARE", "TOWINGLABOR", "SPECEQUIP"],
+}
+
+#RREIM, TOWINGLABOR and SPECEQUIP is in response, but customerDisplay=false
+TestData_OrderOfCoverages_NEWCAR: {
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "RREIM", "ETEC", "ALLRISK", "OEM", "RIDESHARE", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+}
+
+TestData_OrderOfCoverages: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "MEDPM"],
+  DriverLevelCoverages:["ADB"]
+}

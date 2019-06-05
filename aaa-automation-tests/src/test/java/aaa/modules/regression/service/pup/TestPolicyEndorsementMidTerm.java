@@ -2,27 +2,27 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.pup;
 
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
-import aaa.modules.regression.service.template.PolicyEndorsementMidTerm;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.utils.TestInfo;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.service.template.PolicyEndorsementMidTerm;
+import toolkit.utils.TestInfo;
 
 
 /**
  * @author Lina Li
- * @name Test Midterm Endorsement for Umbrella Policy
- * @scenario
- * 1. Create Customer
- * 2. Create UPersonal Umbrella Policy 
- * 3. Create endorsement
- * 4. Verify 'Pended Endorsement' button is disabled
- * 5. Verify Policy status is 'Policy Active'
- * 6. Verify Ending Premium is changed
- * @details
+ * <b> Test Midterm Endorsement for Umbrella Policy </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create UPersonal Umbrella Policy
+ * <p> 3. Create endorsement
+ * <p> 4. Verify 'Pended Endorsement' button is disabled
+ * <p> 5. Verify Policy status is 'Policy Active'
+ * <p> 6. Verify Ending Premium is changed
+ *
  */
 public class TestPolicyEndorsementMidTerm extends PolicyEndorsementMidTerm {
 
@@ -36,6 +36,6 @@ public class TestPolicyEndorsementMidTerm extends PolicyEndorsementMidTerm {
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
 	public void testPolicyEndorsementMidTerm(@Optional("") String state) {
-		super.testPolicyEndorsementMidTerm();
+		testPolicyEndorsementMidTerm();
 	}
 }

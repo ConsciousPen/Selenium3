@@ -5,8 +5,6 @@ import java.util.HashMap;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
 import aaa.common.enums.Constants.States;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
@@ -23,19 +21,21 @@ import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.utils.StateList;
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
 
 public class TestPolicyCancelWithActivePUP extends HomeCaHO3BaseTest {
 
     /**
      * @author Jurij Kuznecov
-     * @name Test CAH Policy Cancel With Active PUP
-     * @scenario 
-     * 1.  Create new or open existent Customer
-     * 2.  Create a new PUP policy (CAH-HO3 + CA-Auto)
-     * 3.  Navigate to CAH policy
-     * 4.  Initiate 'Cancellation' action
-     * 5.  Verify alert message
-     * 6.  Confirm cancellation and verify Policy Status 'Policy Cancelled'
+	 * <b> Test CAH Policy Cancel With Active PUP </b>
+	 * <p> Steps:
+	 * <p> 1.  Create new or open existent Customer
+	 * <p> 2.  Create a new PUP policy (CAH-HO3 + CA-Auto)
+	 * <p> 3.  Navigate to CAH policy
+	 * <p> 4.  Initiate 'Cancellation' action
+	 * <p> 5.  Verify alert message
+	 * <p> 6.  Confirm cancellation and verify Policy Status 'Policy Cancelled'
      */
 
 	@Parameters({"state"})

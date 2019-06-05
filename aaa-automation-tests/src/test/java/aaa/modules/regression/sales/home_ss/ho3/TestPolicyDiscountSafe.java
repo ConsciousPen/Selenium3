@@ -2,23 +2,17 @@ package aaa.modules.regression.sales.home_ss.ho3;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
-
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.DocumentsTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.utils.StateList;
@@ -28,20 +22,20 @@ import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author Olga Reva
- * @name Test Policy Safe discounts
- * @scenario
- * 1. Find customer or create new if customer does not exist.
- * 2. Initiate new HSS policy creation. 
- * 3. Fill all mandatory fields on all tabs, calculate premium. 
- * 4. Navigate to Property Info tab and set check boxes: 
- * 		Central fire alarm, Full residential sprinklers, 
- * 		Central theft alarm, Gated community.
- * 5. Navigate to Premiums&Coverages Quote tab and re-calculate premium. 
- * 6. Verify Theft Protection, Newer Home, Fire Protection discounts are applied and displaying in Discounts section and in Rating Details. 
- * 7. Verify that premium changed after discounts applied.
- * 8. Bind and purchase policy. 
- * 9. Verify policy status is Active and premium is the same as on P&C screen.
- * @details
+ * <b> Test Policy Safe discounts </b>
+ * <p> Steps:
+ * <p> 1. Find customer or create new if customer does not exist.
+ * <p> 2. Initiate new HSS policy creation.
+ * <p> 3. Fill all mandatory fields on all tabs, calculate premium.
+ * <p> 4. Navigate to Property Info tab and set check boxes:
+ * <p> 		Central fire alarm, Full residential sprinklers,
+ * <p> 		Central theft alarm, Gated community.
+ * <p> 5. Navigate to Premiums&Coverages Quote tab and re-calculate premium.
+ * <p> 6. Verify Theft Protection, Newer Home, Fire Protection discounts are applied and displaying in Discounts section and in Rating Details.
+ * <p> 7. Verify that premium changed after discounts applied.
+ * <p> 8. Bind and purchase policy.
+ * <p> 9. Verify policy status is Active and premium is the same as on P&C screen.
+ *
  */
 
 public class TestPolicyDiscountSafe extends HomeSSHO3BaseTest {

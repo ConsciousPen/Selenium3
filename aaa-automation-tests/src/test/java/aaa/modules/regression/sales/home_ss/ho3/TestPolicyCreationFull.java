@@ -6,8 +6,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -23,18 +23,18 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Olga Reva
- * @name Test Create HSS Policy HO3-Full
- * @scenario
- * 1. Create new or open existed customer.
- * 2. Initiate HSS quote creation.
- * 3. Fill all fields on all tabs, order reports. 
- * 4. Add HS 04 92 endorsement form 
- * (after form HS 04 92 added, should go back to Reports tab and order PPC report for added in form address).
- * 5. Navigate to Premiums&Coverages Quote tab and calculate premium.
- * 6. Fill the rest of tabs.
- * 7. Purchase policy.
- * 8. Verify policy status is Active on Consolidated policy view.
- * @details
+ * <b> Test Create HSS Policy HO3-Full </b>
+ * <p> Steps:
+ * <p> 1. Create new or open existed customer.
+ * <p> 2. Initiate HSS quote creation.
+ * <p> 3. Fill all fields on all tabs, order reports.
+ * <p> 4. Add HS 04 92 endorsement form
+ * <p> (after form HS 04 92 added, should go back to Reports tab and order PPC report for added in form address).
+ * <p> 5. Navigate to Premiums&Coverages Quote tab and calculate premium.
+ * <p> 6. Fill the rest of tabs.
+ * <p> 7. Purchase policy.
+ * <p> 8. Verify policy status is Active on Consolidated policy view.
+ *
  */
 public class TestPolicyCreationFull extends HomeSSHO3BaseTest {
 

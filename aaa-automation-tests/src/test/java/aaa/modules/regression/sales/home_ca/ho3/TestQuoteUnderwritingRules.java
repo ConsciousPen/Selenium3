@@ -1,26 +1,26 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import aaa.main.enums.ErrorEnum;
-import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.utils.TestInfo;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.UnderwritingAndApprovalTab;
+import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.utils.StateList;
+import toolkit.utils.TestInfo;
 
 public class TestQuoteUnderwritingRules extends HomeCaHO3BaseTest {
 
@@ -28,18 +28,18 @@ public class TestQuoteUnderwritingRules extends HomeCaHO3BaseTest {
 
     /**
       * @author Jurij Kuznecov
-      * @name Test CAH Quote Underwriting Rules
-      * @scenario 
-      * 1.  Create new or open existent Customer
-      * 2.  Start CAH quote creation
-      * 3.  Fill all mandatory fields, calculate premium. Navigate to UW&A tab
-      * 4.  Fill UW tab according to "TestQuoteUnderwritingRules" "TestData_Wrong" dataset
-      * 5.  Check error messages
-      * 6.  Set 3 to Total number of part time and full time resident employees, fill Remarks, check WM0541 error on Bind action
-      * 7.  Fill UW with correct values
-      * 8.  Check Remarks fields and WM0533, WM0534, WM0535, WM0533, WM0540, WM9801 errors on Bind action
-      * 9.  Fill the rest tabs and issue policy
-      * 10. Check Policy status is Active
+	 * <b> Test CAH Quote Underwriting Rules </b>
+	 * <p> Steps:
+	 * <p> 1.  Create new or open existent Customer
+	 * <p> 2.  Start CAH quote creation
+	 * <p> 3.  Fill all mandatory fields, calculate premium. Navigate to UW&A tab
+	 * <p> 4.  Fill UW tab according to "TestQuoteUnderwritingRules" "TestData_Wrong" dataset
+	 * <p> 5.  Check error messages
+	 * <p> 6.  Set 3 to Total number of part time and full time resident employees, fill Remarks, check WM0541 error on Bind action
+	 * <p> 7.  Fill UW with correct values
+	 * <p> 8.  Check Remarks fields and WM0533, WM0534, WM0535, WM0533, WM0540, WM9801 errors on Bind action
+	 * <p> 9.  Fill the rest tabs and issue policy
+	 * <p> 10. Check Policy status is Active
       */
 
     @Parameters({"state"})

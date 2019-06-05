@@ -24,19 +24,19 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author R. Kazlauskiene
- * @name Test View And Override Capping Details
- * @scenario
- * Preconditions: policy qualifies for capping and
- * user have the capping privilege
- * 1. Create Individual Customer / Account
- * 2. Create converted SS home policy
- * 3. On the Quote tab of the "Premium & Coverages" page click Calculate Premium button
- * 4. Select the "View capping details" link
- * 5. Check Capping details
- * 6. Override Capping Factor
- * 7. Click Calculate and Save and Return to Premium & Coverages buttons
- * 8. Click Calculate Premium and then "View capping details" link
- * 9. Check Capping Factor and Capped Term Premium values
+ * <b> Test View And Override Capping Details </b>
+ * <p> Steps:
+ * <p> Preconditions: policy qualifies for capping and
+ * <p> user have the capping privilege
+ * <p> 1. Create Individual Customer / Account
+ * <p> 2. Create converted SS home policy
+ * <p> 3. On the Quote tab of the "Premium & Coverages" page click Calculate Premium button
+ * <p> 4. Select the "View capping details" link
+ * <p> 5. Check Capping details
+ * <p> 6. Override Capping Factor
+ * <p> 7. Click Calculate and Save and Return to Premium & Coverages buttons
+ * <p> 8. Click Calculate Premium and then "View capping details" link
+ * <p> 9. Check Capping Factor and Capped Term Premium values
  *
  **/
 
@@ -75,7 +75,7 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO6BaseTe
 
 	    //Check that coverages are rounded to dollar value
 	    List<String> currentValues = new ArrayList<>();
-	    currentValues.addAll(Arrays.asList(premiumsAndCoveragesQuoteTab.tableCoverages.getRow(3).getCell(2).getValue()));
+		currentValues.addAll(Arrays.asList(PremiumsAndCoveragesQuoteTab.tableCoverages.getRow(3).getCell(2).getValue()));
 	    for(String value : currentValues.toString().split("\n")) {
 		    assertThat(value).as("Coverages should be rounded to dollar value").contains(".00");
 	    }
@@ -106,7 +106,7 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO6BaseTe
 
 	    assertThat(PremiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR))
 			    .isEqualTo(String.format("%s.00%%", getTestSpecificTD("TestData_OverideCappingDetails").getTestData
-                ("PremiumsAndCoveragesQuoteTab", "View Capping Details").getValue(PolicyConstants.ViewCappingDetailsTable.MANUAL_CAPPING_FACTOR).toString()));
+						("PremiumsAndCoveragesQuoteTab", "View Capping Details").getValue(PolicyConstants.ViewCappingDetailsTable.MANUAL_CAPPING_FACTOR)));
 	    assertThat(PremiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.CAPPED_TERM_PREMIUM)).isNotEqualTo(cappedTermPremium);
     }
 }

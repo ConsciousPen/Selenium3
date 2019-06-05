@@ -17,12 +17,12 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Automation team
- * @name Test Create Home Quote
- * @scenario
- * 1. Create Customer
- * 2. Create Home HO6 policy
- * 3. Verify policy status is 'Policy Active'
- * @details
+ * <b> Test Create Home Quote </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create Home HO6 policy
+ * <p> 3. Verify policy status is 'Policy Active'
+ *
  */
 public class TestPolicyCreation extends HomeCaHO6BaseTest {
 

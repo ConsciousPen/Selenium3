@@ -32,7 +32,7 @@ public class TestPolicyRmeMpdDiscountButton extends HomeSSHO6BaseTest {
 
     @Parameters({"state"})
     @StateList(states = {Constants.States.NJ})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO6, testCaseId = "PAS-2293,PAS-7979")
     public void testPolicyRmeMpd (@Optional("NJ") String state) {
 

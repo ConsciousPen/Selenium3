@@ -2,11 +2,9 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss;
 
-import toolkit.verification.CustomSoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -16,12 +14,13 @@ import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author Jelena Dembovska
- * @name Test Auto policy creation with 2 NI/2Drivers/2Vehicles
- * @scenario
- * @details
+ * <b> Test Auto policy creation with 2 NI/2Drivers/2Vehicles </b>
+ * <p> Steps:
+ *
  */
 public class TestPolicyCreationBig extends AutoSSBaseTest {
 

@@ -22,6 +22,7 @@ import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -402,7 +403,9 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 	/**
 	 * @author Lev Kazarnovskiy
+	 * @author Chris Johns
 	 * PAS-4253 Restrict VIN Refresh by Vehicle Type
+	 * PAS-27309 "Restrict VIN Refresh" should not apply when Select Quote Changes to Choice
 	 * @name Restrict VIN Refresh by Vehicle Type.
 	 * @scenario
 	 * 0. Create customer
@@ -411,6 +414,8 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 	 * 3. On Administration tab in Admin upload Excel files to update this VIN in the system
 	 * 4. Open application and quote
 	 * 5. Verify that VIN was NOT updated and all fields are populated with previous info
+	 * 6. Change CA Product type and calculate premium
+	 * 7. Verify that COMP and COLL values are updated per product
 	 * @details
 	 */
 	protected void pas4253_restrictVehicleRefreshNB(String vinTableFile, String vinNumber) {
@@ -423,7 +428,6 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		createQuoteAndFillUpTo(testData, VehicleTab.class);
 
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		assertSoftly(softly -> {
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE).getValue()).isEqualTo("Motor Home");
@@ -431,7 +435,17 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE).getValue()).isEqualTo("Motorhome");
 		});
 
-		VehicleTab.buttonSaveAndExit.click();
+		//Navigate to the P&C Page and grab the comp and coll symbols on the VRD:
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.calculatePremium();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
+
+		//PAS-27309: Grab CA Select Symbols
+		String selectCompSymbol = tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue();
+		String selectCollSymbol = tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
+		PremiumAndCoveragesTab.buttonSaveAndExit.click();
+
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
@@ -449,49 +463,43 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
+		//Verify the CA Choice Symbols are shown, and are not equal to to the Select Symbols
 		assertSoftly(softly -> {
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE)).hasValue("Motor Home");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE)).hasValue("Motorhome");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL)).hasValue("OTHER");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL)).hasValue("Other Model");
 		});
-	}
 
-	/*
-	Comp/Coll symbols refreshed from VIN table VIN partial match
-	*/
-	protected void MSRPRefreshCompColl(String vinTableFile, String vinNumber) {
+		//PAS-27309: Navigate to the P&C Page and Verify the Vehicle details did not refresh
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "Passenger Van");
-
-		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
-
+		//Calculate premium and grab the comp and coll symbols on the VRD
+		premiumAndCoveragesTab.calculatePremium();
 		PremiumAndCoveragesTab.RatingDetailsView.open();
-		String compSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue();
-		String collSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
+
+		//Verify the CA Select Symbols are shown and have not been changed
+		assertSoftly(softly -> {
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isEqualTo(selectCompSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isEqualTo(selectCollSymbol);
+		});
 		PremiumAndCoveragesTab.RatingDetailsView.close();
 
-		VehicleTab.buttonSaveAndExit.click();
+		//PAS-27309: Change CA Product and calculate premium; vehicle data should refresh
+		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT).setValue("CA Choice");
+		} else {
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT).setValue("CA Select");
+		}
+		premiumAndCoveragesTab.calculatePremium();
 
-		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-
-		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-		adminApp().open();
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		uploadToVINTableTab.uploadVinTable(vinTableFile);
-
-		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
-		findAndRateQuote(testData, quoteNumber);
-
+		//PAS-27309: Verify the CA Choice Symbols are shown, and are not equal to to the Select Symbols
 		PremiumAndCoveragesTab.RatingDetailsView.open();
 		assertSoftly(softly -> {
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isNotEqualTo(compSymbol);
-			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isNotEqualTo(collSymbol);
-
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isNotEqualTo(selectCompSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isNotEqualTo(selectCollSymbol);
 		});
+
 		PremiumAndCoveragesTab.RatingDetailsView.close();
 	}
 

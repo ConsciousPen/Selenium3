@@ -2,33 +2,31 @@ package aaa.modules.regression.service.pup;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Map;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.waiters.Waiters;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * @author Lina Li
- * @name Test PolicyChangeInsuredDeceased
- * @scenario
- * 1. Create an individual policy
- * 2. Create Pup Policy with more than one named insured
- * 3. Initiate Endorsement and navigate to Applicant tab
- * 4. Change the 'Relationship to Primary Named Insured' to 'Deceased' for one or more named insureds, except at least one surviving insured, but don't mark him/her as primary
- * 5. Check the error <ER-0387>
- * 6. Change the status of the surviving named insured to 'Primary Insured'
- * 7. Rate and Bind the policy
- * @details
+ * <b> Test PolicyChangeInsuredDeceased </b>
+ * <p> Steps:
+ * <p> 1. Create an individual policy
+ * <p> 2. Create Pup Policy with more than one named insured
+ * <p> 3. Initiate Endorsement and navigate to Applicant tab
+ * <p> 4. Change the 'Relationship to Primary Named Insured' to 'Deceased' for one or more named insureds, except at least one surviving insured, but don't mark him/her as primary
+ * <p> 5. Check the error <ER-0387>
+ * <p> 6. Change the status of the surviving named insured to 'Primary Insured'
+ * <p> 7. Rate and Bind the policy
+ *
  */
 
 public class TestPolicyChangeInsuredDeceased extends PersonalUmbrellaBaseTest{

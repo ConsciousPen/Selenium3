@@ -23,39 +23,39 @@ import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author Olga Reva
- * @name Test Quote Underwriting rules
- * @scenario
- * 1. Create new or open existed customer.
- * 2. Initiate HSS quote creation.
- * 3. Fill all mandatory fields on all tabs, order reports, calculate premium. 
- * 4. Navigate to Underwriting And Approval tab.
- * 5. Fill tab according to "TestData_UW1": 
- * 		Set Yes to "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?";
- * 		Set Yes to "Do employees of any resident or applicant reside in the dwelling?" 
- * 			and enter "Total number of part time and full time resident employees" = 2; 
- * 		Set Yes to "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?".
- * 6. Press Continue and verify error messages displaying on tab: 
- * 		"Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting 
- * 			history are unacceptable. Underwriting review will occur post bind.";  
- *      "Risk must be endorsed with the appropriate business or farming endorsement when an eligible business or incidental 
- *      	farming exposure is present. Applicants that perform a home day care, including child, adult or pet day care, are unacceptable.";     
- * 7. Fill tab according to "TestData_UW2": 
- * 		Set No to "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?"
- * 			and "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?"; 
- * 		Set Yes to all other questions; 
- * 		Change "Total number of part time and full time resident employees" to 3. 
- * 8. Press Continue button and verify that all Remarks fields are displaying error messages. 
- * 9. Fill tab according to "TestData_UW3": 
- * 		Fill all 'Remark' fields.
- * 10. Navigate to Bind tab and click Purchase button. 
- * 11. Verify Error tab is opened with errors messages: 
- * 		"Risks with more than 2 resident employees are ineligible."
- * 		"Applicants who have been cancelled, refused insurance or non-renewed in the p..." 
- * 		"Dwelling must not have been in foreclosure within the past 18 months unless a..."
- * 12. Navigate to Underwriting And Approval tab and fill tab with correct values (TestData_UW4). 
- * 13. Purchase policy.
- * 14. Verify policy status is Active on Consolidated policy view.
- * @details
+ * <b> Test Quote Underwriting rules </b>
+ * <p> Steps:
+ * <p> 1. Create new or open existed customer.
+ * <p> 2. Initiate HSS quote creation.
+ * <p> 3. Fill all mandatory fields on all tabs, order reports, calculate premium.
+ * <p> 4. Navigate to Underwriting And Approval tab.
+ * <p> 5. Fill tab according to "TestData_UW1":
+ * <p> 		Set Yes to "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?";
+ * <p> 		Set Yes to "Do employees of any resident or applicant reside in the dwelling?"
+ * <p> 			and enter "Total number of part time and full time resident employees" = 2;
+ * <p> 		Set Yes to "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?".
+ * <p> 6. Press Continue and verify error messages displaying on tab:
+ * <p> 		"Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting
+ * <p> 			history are unacceptable. Underwriting review will occur post bind.";
+ * <p>      "Risk must be endorsed with the appropriate business or farming endorsement when an eligible business or incidental
+ * <p>      	farming exposure is present. Applicants that perform a home day care, including child, adult or pet day care, are unacceptable.";
+ * <p> 7. Fill tab according to "TestData_UW2":
+ * <p> 		Set No to "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?"
+ * <p> 			and "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?";
+ * <p> 		Set Yes to all other questions;
+ * <p> 		Change "Total number of part time and full time resident employees" to 3.
+ * <p> 8. Press Continue button and verify that all Remarks fields are displaying error messages.
+ * <p> 9. Fill tab according to "TestData_UW3":
+ * <p> 		Fill all 'Remark' fields.
+ * <p> 10. Navigate to Bind tab and click Purchase button.
+ * <p> 11. Verify Error tab is opened with errors messages:
+ * <p> 		"Risks with more than 2 resident employees are ineligible."
+ * <p> 		"Applicants who have been cancelled, refused insurance or non-renewed in the p..."
+ * <p> 		"Dwelling must not have been in foreclosure within the past 18 months unless a..."
+ * <p> 12. Navigate to Underwriting And Approval tab and fill tab with correct values (TestData_UW4).
+ * <p> 13. Purchase policy.
+ * <p> 14. Verify policy status is Active on Consolidated policy view.
+ *
  */
 public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
 

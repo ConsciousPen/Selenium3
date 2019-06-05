@@ -40,20 +40,20 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author tsaltsevich
- * @name TestPolicyCancellationManualRenew ("CL-CP-101")
+ * <b> TestPolicyCancellationManualRenew ("CL-CP-101") </b>
  *
- * Test Case Description:
- * 1. Generate Cancellation Notice due to Nonpayment of Premium on the state specific number of days after bill due date (Cancellation Notice generation date)
- * 2. Generate Lapse Notice upon cancellation effective for nonpayment and policy Is eligible for reinstatement
- * 3. Generate Cancellation Notice Withdrawn when payment is sufficient (on a Non-Payment Cancel) to lift pending cancel status
- * 4. Process Renewal when DNR is removed
- * 5. Set DNR at Renewal (Current policy is expiring in next R-X (Renewal
- *  Image Creation for authorized users) to R-X (Last Day of DNR
- *  setting) days"
- * 6. Generate Non-Renewal letter via central print (Underwriting NonRenewal Letter HSU07XX)
- * 7. Generate Non-Renewal Notice XX days prior to the Renewal Effective Date if the policy is set for non-renewal
- * 8. DNR has been set on the policy any time prior to R-X (Last Day of DNR setting)
- * 9. Authorized User wants to manually renew the policy without lapse when the status on the Renewal Image is Proposed i,e, from R+0 to R+15.
+ * <p> Test Case Description:
+ * <p> 1. Generate Cancellation Notice due to Nonpayment of Premium on the state specific number of days after bill due date (Cancellation Notice generation date)
+ * <p> 2. Generate Lapse Notice upon cancellation effective for nonpayment and policy Is eligible for reinstatement
+ * <p> 3. Generate Cancellation Notice Withdrawn when payment is sufficient (on a Non-Payment Cancel) to lift pending cancel status
+ * <p> 4. Process Renewal when DNR is removed
+ * <p> 5. Set DNR at Renewal (Current policy is expiring in next R-X (Renewal
+ * <p>  Image Creation for authorized users) to R-X (Last Day of DNR
+ * <p>  setting) days"
+ * <p> 6. Generate Non-Renewal letter via central print (Underwriting NonRenewal Letter HSU07XX)
+ * <p> 7. Generate Non-Renewal Notice XX days prior to the Renewal Effective Date if the policy is set for non-renewal
+ * <p> 8. DNR has been set on the policy any time prior to R-X (Last Day of DNR setting)
+ * <p> 9. Authorized User wants to manually renew the policy without lapse when the status on the Renewal Image is Proposed i,e, from R+0 to R+15.
  *
  **/
 
@@ -175,7 +175,7 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 		minDue = new Dollar(BillingSummaryPage.tableBillsStatements.getRowContains(BillingConstants.BillingBillsAndStatmentsTable.TYPE,
 				BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE).getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
-		log.info("TEST: #L SBilling triggers PAS to reinstate the policy and updates the status of policy as ‘Active’");
+		log.info("TEST: #L SBilling triggers PAS to reinstate the policy and updates the status of policy as 'Active’");
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
 		log.info("TEST: #L DD6 bill is skipped");
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setDueDate(installmentDueDates.get(6)).verifyPresent(false);
@@ -284,7 +284,7 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		PolicySummaryPage.verifyDoNotRenewFlagPresent();
-		log.info("TEST: #V The underwriting letter ‘HSU07 CA Non-Renewal’ is generated at the Renewal Offer Generation date along with Non Renewal Notice");
+		log.info("TEST: #V The underwriting letter 'HSU07 CA Non-Renewal’ is generated at the Renewal Offer Generation date along with Non Renewal Notice");
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.HSU07CA);
 		log.info("TEST: #V  Non-Renewal Notice WU65CA is archived in Fastlane and available in the Policy E-folder Under Cancellation");
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.WU65CA);

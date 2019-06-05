@@ -5,7 +5,6 @@ package aaa.modules.regression.sales.home_ca.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -21,54 +20,54 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	
 	/**
 	 * @author Ryan Yu
-	 * @name Test Create Home Quote
-	 * @scenario
-	 * 1. Create Customer
-	 * 2. Create Home Quote
-	 * 3. Verify quote status is 'Premium Calculated'
-	 * @details
+	 * <b> Test Create Home Quote </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer
+	 * <p> 2. Create Home Quote
+	 * <p> 3. Verify quote status is 'Premium Calculated'
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
 	public void testQuoteCreation(@Optional("CA") String state) {
-		super.testQuoteCreation();
+		testQuoteCreation();
 	}
 	
 	/**
 	 * @author Ryan Yu
-	 * @name Test Issue Home Quote
-	 * @scenario
-	 * 1. Create Customer
-	 * 2. Create Home Quote
-	 * 3. Issue Quote
-	 * 4. Verify policy status is 'Policy Active'
-	 * @details
+	 * <b> Test Issue Home Quote </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer
+	 * <p> 2. Create Home Quote
+	 * <p> 3. Issue Quote
+	 * <p> 4. Verify policy status is 'Policy Active'
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
 	public void testQuoteIssue(@Optional("CA") String state) {
-		super.testQuoteIssue();
+		testQuoteIssue();
 	}
 	
 	/**
 	 * @author Ryan Yu
-	 * @name Test Propose Home Quote
-	 * @scenario
-	 * 1. Create Customer
-	 * 2. Create Home Quote
-	 * 3. Try to propose quote(click 'Cancel' button on propose screen)
-	 * 4. Verify quote status id 'Premium Calculated'
-	 * 5. Propose Quote
-	 * 6. Verify eFolder 'Applications and Proposals/New Business' was created
-	 * 7. Verify quote status is 'Proposed'
-	 * @details
+	 * <b> Test Propose Home Quote </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer
+	 * <p> 2. Create Home Quote
+	 * <p> 3. Try to propose quote(click 'Cancel' button on propose screen)
+	 * <p> 4. Verify quote status id 'Premium Calculated'
+	 * <p> 5. Propose Quote
+	 * <p> 6. Verify eFolder 'Applications and Proposals/New Business' was created
+	 * <p> 7. Verify quote status is 'Proposed'
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
 	public void testQuotePropose(@Optional("CA") String state) {
-		super.testQuotePropose();
+		testQuotePropose();
 	}
 }
