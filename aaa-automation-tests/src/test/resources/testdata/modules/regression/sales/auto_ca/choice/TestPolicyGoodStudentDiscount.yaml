@@ -1,5 +1,6 @@
 TestData_1: {
-  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  GeneralTab: '@GeneralTab_1',
   DriverTab: '@DriverTab_1', 
   MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab', 
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
@@ -9,7 +10,8 @@ TestData_1: {
 }
 
 TestData_2: {
-  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  GeneralTab: '@GeneralTab_2',
   DriverTab: '@DriverTab_2', 
   MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
@@ -19,7 +21,8 @@ TestData_2: {
 }
 
 TestData_3: {
-  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  GeneralTab: '@GeneralTab_3',
   DriverTab: '@DriverTab_3', 
   MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
@@ -29,7 +32,8 @@ TestData_3: {
 }
 
 TestData_4: {
-  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  GeneralTab: '@GeneralTab_4',
   DriverTab: '@DriverTab_4', 
   MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
@@ -39,7 +43,8 @@ TestData_4: {
 }
 
 TestData_5: {
-  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  GeneralTab: '@GeneralTab_5',
   DriverTab: '@DriverTab_5', 
   MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
@@ -52,6 +57,12 @@ CopyFromPolicyActionTab: {
   Quote Effective Date: '$<today>'
 }
 
+GeneralTab_1: {
+  NamedInsuredInformation: {
+    Insured Date of Birth: $<today-24y>
+  }
+}
+
 DriverTab_1: { 
   #Date of Birth: $<today-24y>,
   Marital Status: Separated, 
@@ -60,12 +71,24 @@ DriverTab_1: {
   Most Recent GPA: College Graduate  
 }
 
+GeneralTab_2: {
+  NamedInsuredInformation: {
+    Insured Date of Birth: $<today-23y>
+  }
+}
+
 DriverTab_2: { 
   #Date of Birth: $<today-23y>,
   Marital Status: Single, 
   Occupation: Farmer, 
   Age First Licensed: 18, 
   Most Recent GPA: College Graduate  
+}
+
+GeneralTab_3: {
+  NamedInsuredInformation: {
+    Insured Date of Birth: $<today-16y>
+  }
 }
 
 DriverTab_3: { 
@@ -86,12 +109,24 @@ DriverTab_3: {
   Most Recent GPA: B Student
 }
 
+GeneralTab_4: {
+  NamedInsuredInformation: {
+    Insured Date of Birth: $<today-25y>
+  }
+}
+
 DriverTab_4: { 
   #Date of Birth: $<today-25y>,
   Marital Status: Divorced, 
   Occupation: Student,
   Age First Licensed: 18, 
   Most Recent GPA: Pass  
+}
+
+GeneralTab_5: {
+  NamedInsuredInformation: {
+    Insured Date of Birth: $<today-24y>
+  }
 }
 
 DriverTab_5: { 
