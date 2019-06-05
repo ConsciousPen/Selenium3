@@ -809,12 +809,12 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(expirationDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(expirationDate));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(expirationDate));
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 
-//		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(expirationDate));
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getPayLapsedRenewLong(expirationDate));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(expirationDate));
+//		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getInsuranceRenewalReminderDate(expirationDate));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		JobUtils.executeJob(Jobs.aaaRenewalReminderGenerationAsyncJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
