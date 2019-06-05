@@ -3268,11 +3268,13 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		return findVehicleByVin(viewVehicleResponse.vehicleList, vin);
 	}
 
+	public static Vehicle findVehicleByVin( String policyNumber, String vin) {
+		ViewVehicleResponse viewVehiclesResponse = HelperCommon.viewPolicyVehicles(policyNumber);
+		return findVehicleByVin(viewVehiclesResponse.vehicleList, vin);
+	}
+
 	public static Vehicle findVehicleByVin(List<Vehicle> vehicleList, String vin) {
 		return vehicleList.stream().filter(vehicle -> vehicle.vehIdentificationNo.equals(vin)).findFirst()
 				.orElseThrow(() -> new IllegalArgumentException("No Vehicle found for vin: " + vin));
 	}
 }
-
-
-

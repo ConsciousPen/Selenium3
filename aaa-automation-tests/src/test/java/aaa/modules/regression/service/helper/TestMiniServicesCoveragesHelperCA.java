@@ -8,15 +8,14 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableList;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.rest.dtoDxp.*;
+import aaa.main.enums.AvailableCoverageLimits;
 import aaa.main.enums.CoverageInfo;
 import aaa.main.enums.CoverageLimits;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
@@ -150,6 +149,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		TestData td = getPolicyDefaultTD();
 		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleLevelCoverages").getTestDataList("VehicleTab"))
+				.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_2Drivers").getTestDataList("DriverTab"))
 				.adjust(AutoCaMetaData.ErrorTab.class.getSimpleName(), tdError)
 				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("TestData_VehicleLevelCoverages").getTestData("AssignmentTab"))
 				.adjust(new PremiumAndCoveragesTab().getMetaKey(), getTestSpecificTD("TestData_VehicleLevelCoverages").getTestData("PremiumAndCoveragesTab")).resolveLinks();
@@ -167,6 +167,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		Coverage covLOANExpected1 = Coverage.create(CoverageInfo.LOAN_CA).changeLimit(CoverageLimits.COV_0).disableCanChange().disableCustomerDisplay();
 		Coverage covNEWCARExpected1 = Coverage.create(CoverageInfo.NEWCAR_CA).changeLimit(CoverageLimits.COV_0).disableCustomerDisplay().disableCanChange();
 		Coverage covRIDESHAREExpected1 = Coverage.create(CoverageInfo.RIDESHARE_CA).disableCanChange();
+		Coverage covOEMExpected1 = Coverage.create(CoverageInfo.OEM_CA).changeLimit(CoverageLimits.COV_0);
 
 		List<Coverage> expectedCoveragesVeh1 = new ArrayList<>();
 		expectedCoveragesVeh1.add(covCOMPDEDExpected1);
@@ -177,6 +178,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		expectedCoveragesVeh1.add(covLOANExpected1);
 		expectedCoveragesVeh1.add(covNEWCARExpected1);
 		expectedCoveragesVeh1.add(covRIDESHAREExpected1);
+		expectedCoveragesVeh1.add(covOEMExpected1);
 
 		//Expected coverages Vehicle 2 (the same as in PAS UI)
 		Coverage covCOMPDEDExpected2 = Coverage.create(CoverageInfo.COMPDED_CA).changeLimit(CoverageLimits.COV_250).removeAvailableLimit(CoverageLimits.COV_NO_COV);// Only Owned Vehicles have No Cov limit available
@@ -187,6 +189,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		Coverage covLOANExpected2 = Coverage.create(CoverageInfo.LOAN_CA).changeLimit(CoverageLimits.COV_1);
 		Coverage covNEWCARExpected2 = Coverage.create(CoverageInfo.NEWCAR_CA).changeLimit(CoverageLimits.COV_0).disableCanChange().disableCustomerDisplay();
 		Coverage covRIDESHAREExpected2 = Coverage.create(CoverageInfo.RIDESHARE_CA).changeLimit(CoverageLimits.COV_0).disableCanChange();
+		Coverage covOEMExpected2 = Coverage.create(CoverageInfo.OEM_CA).changeLimit(CoverageLimits.COV_1);
 
 		List<Coverage> expectedCoveragesVeh2 = new ArrayList<>();
 		expectedCoveragesVeh2.add(covCOMPDEDExpected2);
@@ -197,6 +200,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		expectedCoveragesVeh2.add(covLOANExpected2);
 		expectedCoveragesVeh2.add(covNEWCARExpected2);
 		expectedCoveragesVeh2.add(covRIDESHAREExpected2);
+		expectedCoveragesVeh2.add(covOEMExpected2);
 
 		//Expected coverages Vehicle 3 (the same as in PAS UI)
 		Coverage covCOMPDEDExpected3 = Coverage.create(CoverageInfo.COMPDED_CA).changeLimit(CoverageLimits.COV_250);
@@ -207,6 +211,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		Coverage covLOANExpected3 = Coverage.create(CoverageInfo.LOAN_CA).changeLimit(CoverageLimits.COV_0).disableCanChange().disableCustomerDisplay();
 		Coverage covNEWCARExpected3 = Coverage.create(CoverageInfo.NEWCAR_CA).changeLimit(CoverageLimits.COV_1).disableCanChange();
 		Coverage covRIDESHAREExpected3 = Coverage.create(CoverageInfo.RIDESHARE_CA).changeLimit(CoverageLimits.COV_0).disableCanChange();
+		Coverage covOEMExpected3 = Coverage.create(CoverageInfo.OEM_CA).changeLimit(CoverageLimits.COV_1);
 
 		List<Coverage> expectedCoveragesVeh3 = new ArrayList<>();
 		expectedCoveragesVeh3.add(covCOMPDEDExpected3);
@@ -217,6 +222,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		expectedCoveragesVeh3.add(covLOANExpected3);
 		expectedCoveragesVeh3.add(covNEWCARExpected3);
 		expectedCoveragesVeh3.add(covRIDESHAREExpected3);
+		expectedCoveragesVeh3.add(covOEMExpected3);
 
 		ViewVehicleResponse viewVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
 		Vehicle vehicle1 = TestMiniServicesVehiclesHelper.findVehicleByVin(viewVehicleResponse, testData.getTestDataList("VehicleTab").get(0).getValue("VIN"));
@@ -228,9 +234,9 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		VehicleCoverageInfo veh3Coverages = TestMiniServicesCoveragesHelper.findVehicleCoverages(viewEndorsementCoverages, vehicle3.oid);
 
 		//Check coverages
-		checkCoverages_pas26668(expectedCoveragesVeh1, veh1Coverages);
-		checkCoverages_pas26668(expectedCoveragesVeh2, veh2Coverages);
-		checkCoverages_pas26668(expectedCoveragesVeh3, veh3Coverages);
+		checkCoverages_pas26668(expectedCoveragesVeh1, veh1Coverages);//etec
+		checkCoverages_pas26668(expectedCoveragesVeh2, veh2Coverages);//glass, loan, etec, oem
+		checkCoverages_pas26668(expectedCoveragesVeh3, veh3Coverages);//newcar, glass, oem, etec
 
 		//Add vehicle
 		String newVin = "1FMCU9GD5JUB71878";
@@ -285,18 +291,53 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		updateVehicleLeasedFinanced.vehicleOwnership.secondName = "Benny";
 		VehicleUpdateResponseDto ownershipUpdateResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
 		assertThat(ownershipUpdateResponse.vehicleOwnership.ownership).isEqualTo(financedOrLeased);
+		VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
+		updateVehicleUsageRequest.distanceOneWayToWork = "15";
+		updateVehicleUsageRequest.odometerReading = "32000";
+		HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
 
 		covCOMPDEDExpected4.removeAvailableLimit(CoverageLimits.COV_NO_COV);
 		covCOLLDEDExpected4.removeAvailableLimit(CoverageLimits.COV_NO_COV);
 		covLOANExpected4.enableCustomerDisplay().enableCanChange();
+		covNEWCARExpected4.disableCustomerDisplay();
 		expectedCoveragesVeh4.add(covLOANExpected4);
+		expectedCoveragesVeh4.remove(covNEWCARExpected4);//not in UI for Leased vehicle
 		PolicyCoverageInfo viewEndorsementCoverages3 = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		VehicleCoverageInfo veh4CoveragesLeased = TestMiniServicesCoveragesHelper.findVehicleCoverages(viewEndorsementCoverages3, newVehicleOid);
 		checkCoverages_pas26668(expectedCoveragesVeh4, veh4CoveragesLeased);
 		verifyCoveragesPASUI_pas26668(expectedCoveragesVeh4);
 
-		helperMiniServices.endorsementRateAndBind(policyNumber);
+		//replace vehicle and check coverages
+		replaceVehicleAndCheck_pas29261(policyNumber, "1FADP3F27JL304472", covCOMPDEDExpected2, covGLASSxpected2, covCOLLDEDDExpected2, covLOANExpected2, covNEWCARExpected2, covOEMExpected2, expectedCoveragesVeh2, vehicle2, true);
+		Vehicle vehicleNotKeptAssignments = replaceVehicleAndCheck_pas29261(policyNumber, "1C4RJEAG4JC253223", covCOMPDEDExpected3, covGLASSxpected3, covCOLLDEDDExpected3, covLOANExpected3, covNEWCARExpected3, covOEMExpected3, expectedCoveragesVeh3, vehicle3, false);
 
+		//check assignments (PAS-15405)
+		ViewDriverAssignmentResponse viewDriverAssignmentResponse = HelperCommon.viewEndorsementAssignments(policyNumber);
+		assertThat(viewDriverAssignmentResponse.unassignedVehicles).containsExactlyInAnyOrder(vehicleNotKeptAssignments.oid, newVehicleOid);
+		assertThat(viewDriverAssignmentResponse.driverVehicleAssignments.size()).isEqualTo(2);//Totally 4 Vehicles, Replaced with not kept assignments amd Newly added don't have assignments
+		assertThat(viewDriverAssignmentResponse.assignableDrivers.size()).isEqualTo(2);
+		assertThat(viewDriverAssignmentResponse.assignableVehicles.size()).isEqualTo(4);
+
+		//Assign drivers and Calculate premium - just in case
+		for (String unassignedVehicle : viewDriverAssignmentResponse.unassignedVehicles) {
+			HelperCommon.updateDriverAssignment(policyNumber, unassignedVehicle, ImmutableList.of(viewDriverAssignmentResponse.assignableDrivers.stream().findFirst().orElse(null)));
+		}
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+	}
+
+	private Vehicle replaceVehicleAndCheck_pas29261(String policyNumber, String vin, Coverage covCOMPDEDExpected, Coverage covGLASSExpected, Coverage covCOLLDEDDExpected, Coverage covLOANExpected, Coverage covNEWCARExpected, Coverage covOEMExpected, List<Coverage> expectedCoveragesVeh, Vehicle vehicle, boolean keepAssignments) {
+		ReplaceVehicleRequest replaceVehicleRequest = DXPRequestFactory.createReplaceVehicleRequest(vin, "2013-03-31", keepAssignments, true);//Ford Focus
+		Vehicle replaceVehicleResponse = HelperCommon.replaceVehicle(policyNumber, vehicle.oid, replaceVehicleRequest, Vehicle.class, 200);
+		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, replaceVehicleResponse.oid);
+		PolicyCoverageInfo vehReplacedCoverages = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replaceVehicleResponse.oid, PolicyCoverageInfo.class);
+		expectedCoveragesVeh.remove(covLOANExpected);
+		covCOMPDEDExpected.changeAvailableLimits(AvailableCoverageLimits.COMPDED_CA);
+		covCOLLDEDDExpected.changeAvailableLimits(AvailableCoverageLimits.COLLDED_CA);//expecting all available limits including No Coverage as vehicle is now Owned
+		covOEMExpected.changeLimit(CoverageLimits.COV_0);
+		covNEWCARExpected.enableCustomerDisplay().changeLimit(CoverageLimits.COV_0);
+		checkCoverages_pas26668(expectedCoveragesVeh, vehReplacedCoverages.vehicleLevelCoverages.get(0)); //BUG: PAS-30473 GLASS coverage is not retained when replacing vehicle
+		return replaceVehicleResponse;
 	}
 
 	protected void pas15424_viewUpdateOEMCoverageCATC01Body() {
@@ -309,10 +350,13 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		Coverage covCOMPDEDExpected = Coverage.create(CoverageInfo.COMPDED_CA).changeLimit(CoverageLimits.COV_250);
 		Coverage covCOLLDEDExpected = Coverage.create(CoverageInfo.COLLDED_CA).changeLimit(CoverageLimits.COV_500);
 		Coverage covOEMExpected = Coverage.create(CoverageInfo.OEM_CA);
+		Coverage covETECExpected = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_25750);
 		Vehicle vehicle = HelperCommon.viewEndorsementVehicles(policyNumber).vehicleList.get(0);
 		VehicleCoverageInfo veh1Coverages = findVehicleCoverages(viewEndorsementCoverages, vehicle.oid);
 		Coverage covOEMActual = findCoverage(veh1Coverages.coverages, CoverageInfo.OEM_CA.getCode());
+		Coverage covETECActual = findCoverage(veh1Coverages.coverages, CoverageInfo.ETEC_CA.getCode());
 		assertThat(covOEMActual).isEqualTo(covOEMExpected);
+		assertThat(covETECActual).isEqualTo(covETECExpected);
 
 		//Add vehicle
 		String newVin = "1FMCU9GD5JUB71878"; // 2018 Ford Escape (less than 10y old)
@@ -322,10 +366,13 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		Coverage covCOMPDEDActualVeh2 = findCoverage(veh2Coverages.coverages, CoverageInfo.COMPDED_CA.getCode());
 		Coverage covCOLLDEDActualVeh2 = findCoverage(veh2Coverages.coverages, CoverageInfo.COLLDED_CA.getCode());
 		Coverage covOEMActualVeh2 = findCoverage(veh2Coverages.coverages, CoverageInfo.OEM_CA.getCode());
+		Coverage covETECActualVeh2 = findCoverage(veh2Coverages.coverages, CoverageInfo.ETEC_CA.getCode());
 		assertThat(covCOMPDEDActualVeh2).isEqualTo(covCOMPDEDExpected);
 		assertThat(covCOLLDEDActualVeh2).isEqualTo(covCOLLDEDExpected);
 		Coverage covOEMExpectedVeh2 = Coverage.create(CoverageInfo.OEM_CA).changeLimit(CoverageLimits.COV_0);
+		Coverage covETECExpectedVeh2 = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_25750);//Defaulted to $25/$750 and all available limits are included as all active vehicles has ETEC $25/$750
 		assertThat(covOEMActualVeh2).isEqualTo(covOEMExpectedVeh2);
+		assertThat(covETECActualVeh2).isEqualTo(covETECExpectedVeh2);
 
 		//Apply OEM
 		covOEMExpected = Coverage.create(CoverageInfo.OEM_CA).changeLimit(CoverageLimits.COV_1);
@@ -381,11 +428,15 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		VehicleCoverageInfo vehicleCoverages = findVehicleCoverages(viewEndorsementCoverages, vehOid);
 		Coverage covCOMPDED = findCoverage(vehicleCoverages.coverages, CoverageInfo.COMPDED_CA.getCode());
 		Coverage covCOLLDED = findCoverage(vehicleCoverages.coverages, CoverageInfo.COLLDED_CA.getCode());
+		Coverage covETEC = findCoverage(vehicleCoverages.coverages, CoverageInfo.ETEC_CA.getCode());
 		Coverage covOEMActual = findCoverage(vehicleCoverages.coverages, CoverageInfo.OEM_CA.getCode(), false);
 
 		assertThat(covCOMPDED.getCoverageLimit()).as("Precondition: should have COMPDED applied").isNotEqualTo(CoverageLimits.COV_NO_COV.getLimit());
 		assertThat(covCOLLDED.getCoverageLimit()).as("Precondition: should have COLLDED applied").isNotEqualTo(CoverageLimits.COV_NO_COV.getLimit());
 		assertThat(covOEMActual).isNull();
+		assertThat(covOEMActual).isNull();
+		Coverage covETECExpected = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_25750);
+		assertThat(covETEC).isEqualTo(covETECExpected);
 	}
 
 	protected void pas15424_viewUpdateOEMCoverageNewVehNoCompCollCABody(boolean removeCOMPDED, boolean removeCOLLDED) {
@@ -420,10 +471,13 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		Coverage covCOLLDED = findCoverage(vehicleCoverages.coverages, CoverageInfo.COLLDED_CA.getCode());
 		Coverage covOEMActual = findCoverage(vehicleCoverages.coverages, CoverageInfo.OEM_CA.getCode());
 		Coverage covOEMExpected = Coverage.create(CoverageInfo.OEM_CA).changeLimit(CoverageLimits.COV_1);
+		Coverage covETECActual = findCoverage(vehicleCoverages.coverages, CoverageInfo.ETEC_CA.getCode());
+		Coverage covETECExpected = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_25750);
 
 		assertThat(covCOMPDED.getCoverageLimit()).as("Precondition: should have COMPDED applied").isNotEqualTo(CoverageLimits.COV_NO_COV.getLimit());
 		assertThat(covCOLLDED.getCoverageLimit()).as("Precondition: should have COLLDED applied").isNotEqualTo(CoverageLimits.COV_NO_COV.getLimit());
 		assertThat(covOEMActual).isEqualTo(covOEMExpected);
+		assertThat(covETECActual).isEqualTo(covETECExpected);
 
 		verifyOEMVehNoCompColl(removeCOMPDED, removeCOLLDED, policyNumber, vehOid);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
@@ -460,8 +514,11 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 	private void verifyOEMForVehicleTC09_pas15424(String oidVeh, PolicyCoverageInfo viewEndorsementCoverages) {
 		VehicleCoverageInfo vehicleCoverageInfo = findVehicleCoverages(viewEndorsementCoverages, oidVeh);
 		Coverage covOEMActualVeh = findCoverage(vehicleCoverageInfo.coverages, CoverageInfo.OEM_CA.getCode());
+		Coverage covETECActualVeh = findCoverage(vehicleCoverageInfo.coverages, CoverageInfo.ETEC_CA.getCode());
+		Coverage covETECExpected = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_00).disableCanChange();
 		assertThat(covOEMActualVeh.getCustomerDisplayed()).as("OEM should not be customerDisplayed if COMPDED and/or COLLDED is not applied").isFalse();
 		assertThat(covOEMActualVeh.getCanChangeCoverage()).as("OEM should not be changable if COMPDED and/or COLLDED is not applied").isFalse();
+		assertThat(covETECActualVeh).isEqualToIgnoringGivenFields(covETECExpected, "availableLimits");
 	}
 
 	private void verifyOEMVehNoCompColl(boolean removeCOMPDED, boolean removeCOLLDED, String policyNumber, String vehOid) {
@@ -480,11 +537,30 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		Coverage covCOMPDED = findCoverage(newVehicleCoverages.coverages, CoverageInfo.COMPDED_CA.getCode());
 		Coverage covCOLLDED = findCoverage(newVehicleCoverages.coverages, CoverageInfo.COLLDED_CA.getCode());
 		Coverage covOEMActual = findCoverage(newVehicleCoverages.coverages, CoverageInfo.OEM_CA.getCode());
+		Coverage covETECActual = findCoverage(newVehicleCoverages.coverages, CoverageInfo.ETEC_CA.getCode());
+		Coverage covETECExpected = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_00).disableCanChange();
 
 		assertThat(covCOMPDED.getCoverageLimit().equals(CoverageLimits.COV_NO_COV.getLimit())).isEqualTo(removeCOMPDED);
 		assertThat(covCOLLDED.getCoverageLimit().equals(CoverageLimits.COV_NO_COV.getLimit())).isEqualTo(removeCOLLDED);
 		assertThat(covOEMActual.getCustomerDisplayed()).as("OEM should not be customerDisplayed if COMPDED and/or COLLDED is not applied").isFalse();
 		assertThat(covOEMActual.getCanChangeCoverage()).as("OEM should not be changable if COMPDED and/or COLLDED is not applied").isFalse();
+		assertThat(covETECActual).isEqualToIgnoringGivenFields(covETECExpected, "availableLimits");//don't care about availableLimits as canChange = false
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);//just in case
+
+		//Add COMPDED and/or COLLDED back to the vehicle (AC#6). All active vehicles on the policy have Enhanced Transportation Expense = $25/$750
+		if (removeCOMPDED) {
+			//Updated COMPDED back to other than No Coverage
+			updateVehicleCoverage(policyNumber, vehOid, CoverageInfo.COMPDED_CA.getCode(), CoverageLimits.COV_750.getLimit());
+		}
+		if (removeCOLLDED) {
+			//Updated COLLDED back to other than No Coverage
+			updateVehicleCoverage(policyNumber, vehOid, CoverageInfo.COLLDED_CA.getCode(), CoverageLimits.COV_1000.getLimit());
+		}
+		PolicyCoverageInfo viewEndorsementCoverages2 = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		VehicleCoverageInfo newVehicleCoverages2 = findVehicleCoverages(viewEndorsementCoverages2, vehOid);
+		Coverage covETECActual2 = findCoverage(newVehicleCoverages2.coverages, CoverageInfo.ETEC_CA.getCode());
+		Coverage covETECExpected2 = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_25750);//defaulted to 25/750
+		assertThat(covETECActual2).isEqualTo(covETECExpected2);
 	}
 
 	private void applyCompColl(boolean applyCOMPDED, boolean applyCOLLDED, String policyNumber, String vehOid) {
@@ -503,10 +579,13 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		Coverage covCOLLDED = findCoverage(newVehicleCoverages.coverages, CoverageInfo.COLLDED_CA.getCode());
 		Coverage covOEMActual = findCoverage(newVehicleCoverages.coverages, CoverageInfo.OEM_CA.getCode());
 		Coverage covOEMExpected = Coverage.create(CoverageInfo.OEM_CA).changeLimit(CoverageLimits.COV_0);
+		Coverage covETECActual = findCoverage(newVehicleCoverages.coverages, CoverageInfo.ETEC_CA.getCode());
+		Coverage covETECExpected = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_25750);
 
 		assertThat(covCOMPDED.getCoverageLimit().equals(CoverageLimits.COV_150.getLimit())).isEqualTo(applyCOMPDED);
 		assertThat(covCOLLDED.getCoverageLimit().equals(CoverageLimits.COV_150.getLimit())).isEqualTo(applyCOLLDED);
 		assertThat(covOEMActual).as("Should have OEM available if COMPDED and COLLDED is applied").isEqualTo(covOEMExpected);
+		assertThat(covETECActual).isEqualTo(covETECExpected);
 
 		//Apply OEM
 		covOEMExpected.changeLimit(CoverageLimits.COV_1);
@@ -538,6 +617,54 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		//Apply OEM
 		covOEMExpected.changeLimit(CoverageLimits.COV_1);
 		updateVehLevelCoverageAndCheckResponses(policyNumber, vehicleCoverages.oid, covOEMExpected, covOEMExpected, covCOMPDED, covCOLLDED);
+	}
+
+	protected void pas15420_ETECWhenNotAllVehiclesHasDefaultLimit24750Body() {
+		TestData td = getPolicyDefaultTD();
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_AllVehiclesETEIsOtherThan25750").getTestDataList("VehicleTab"))
+				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("TestData_AllVehiclesETEIsOtherThan25750").getTestData("AssignmentTab"))
+				.adjust(new PremiumAndCoveragesTab().getMetaKey(), getTestSpecificTD("TestData_AllVehiclesETEIsOtherThan25750").getTestData("PremiumAndCoveragesTab"))
+				.resolveLinks();
+
+		String policyNumber = openAppAndCreatePolicy(testData);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateViewPolicyCoveragesIsTheSameAsViewEndorsementCoverage(policyNumber, viewEndorsementCoverages);
+
+		//AC#4
+		//Add vehicle
+		String newVin = "1FMCU9GD5JUB71878"; // 2018 Ford Escape (less than 10y old)
+		String newVehicleOid = helperMiniServices.addVehicleWithChecks(policyNumber, "2015-02-11", newVin, true);
+		viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		VehicleCoverageInfo veh2Coverages = findVehicleCoverages(viewEndorsementCoverages, newVehicleOid);
+		Coverage covETECActualVeh2 = findCoverage(veh2Coverages.coverages, CoverageInfo.ETEC_CA.getCode());
+		Coverage covETECDefaultExpected = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_25750).removeAvailableLimitsAll().changeAvailableLimits(CoverageLimits.COV_25750, CoverageLimits.COV_501500);//Defaulted to $25/$750 AND only the limit applied on the active vehicles OR the limit selected on the other vehicle is available
+		assertThat(covETECActualVeh2).isEqualTo(covETECDefaultExpected);
+
+		//AC#7
+		//Remove COLLDED and put it back to see that it is correctly defaulted to 27/750
+		removeAndPutBackCOMPCOLLAndCheckETC_pas15420(policyNumber, newVehicleOid, CoverageInfo.COLLDED_CA.getCode());
+
+		//Remove COMPDED and put it back to see that it is correctly defaulted to 27/750
+		removeAndPutBackCOMPCOLLAndCheckETC_pas15420(policyNumber, newVehicleOid, CoverageInfo.COMPDED_CA.getCode());
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	private void removeAndPutBackCOMPCOLLAndCheckETC_pas15420(String policyNumber, String vehicleOid, String compdedColldedCd) {
+		//Remove COMP/COLL and check
+		PolicyCoverageInfo updateCoverageResponse = updateVehicleCoverage(policyNumber, vehicleOid, compdedColldedCd, CoverageLimits.COV_NO_COV.getLimit());
+		Coverage covETECActual = findCoverage(findVehicleCoverages(updateCoverageResponse, vehicleOid).coverages, CoverageInfo.ETEC_CA.getCode());
+		Coverage covETECNoCovExpected = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_00).disableCanChange();
+		assertThat(covETECActual).isEqualToIgnoringGivenFields(covETECNoCovExpected, "availableLimits");// don't care about availableLimits as canChange = false
+
+		//Add COMP/COLL back and check
+		updateCoverageResponse = updateVehicleCoverage(policyNumber, vehicleOid, compdedColldedCd, CoverageLimits.COV_150.getLimit());
+		covETECActual = findCoverage(findVehicleCoverages(updateCoverageResponse, vehicleOid).coverages, CoverageInfo.ETEC_CA.getCode());
+		Coverage covETECDefaultExpected = Coverage.create(CoverageInfo.ETEC_CA).changeLimit(CoverageLimits.COV_25750).removeAvailableLimitsAll().changeAvailableLimits(CoverageLimits.COV_25750, CoverageLimits.COV_501500);//Defaulted to $25/$750 AND only the limit applied on the active vehicles OR the limit selected on the other vehicle is available
+		assertThat(covETECActual).isEqualTo(covETECDefaultExpected);
+
+		validateThatUpdateVehicleCoverageIsTheSameAsViewVehicleCoverages(policyNumber, updateCoverageResponse);
 	}
 
 	private void verifyCoveragesPASUI_pas26668(List<Coverage> expectedCoveragesVeh4) {

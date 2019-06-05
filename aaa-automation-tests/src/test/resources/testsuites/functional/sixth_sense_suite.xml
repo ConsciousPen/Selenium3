@@ -23,6 +23,13 @@
         </classes>
     </test>
 
+    <test name="Test MVR Report Invalid License Error" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMVRReportInvalidError"/>
+        </classes>
+    </test>
+
     <test name="Test SS newly added Driver License number formats MO/AL" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
