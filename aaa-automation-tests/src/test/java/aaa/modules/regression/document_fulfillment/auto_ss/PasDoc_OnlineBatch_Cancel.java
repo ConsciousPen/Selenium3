@@ -87,13 +87,11 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		//1c cancelDueDate(+8)
 		LocalDateTime cancelDueDate = getTimePoints().getCancellationDate(DateTimeUtils.getCurrentDateTime());
 		TimeSetterUtil.getInstance().nextPhase(cancelDueDate);
-		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
 		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(cancelDueDate).setSubtypeReason(CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM).verifyPresent();
+		new BillingPaymentsAndTransactionsVerifier().setSubtypeReason(CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM).verifyPresent();
 
 		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH67XX);
 
