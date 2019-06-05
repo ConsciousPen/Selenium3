@@ -3,7 +3,6 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -27,6 +26,7 @@ import toolkit.webdriver.controls.CheckBox;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
@@ -39,6 +39,7 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
     // Static data used throughout test class.
     private enum eTimepoints {STG1, STG2, STG3, STG4}
     private enum eThresholdTest {BEFORE, ON, AFTER}
+    private enum eMembershipType {ACTIVE, CANCELLED}
     static private int CATCHUP_TIMEFRAME_VALUE = 4;
     static private boolean _bExpectingPolicyToBeProcessed = true;
 
@@ -81,26 +82,39 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
                 {"UT", eThresholdTest.AFTER, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE + 1, false}};
     }
 
+    @DataProvider(name = "reconcilePendedEndorsements_ActiveNotProcessed")
+    public static Object[][] reconcilePendedEndorsements_ActiveNotProcessed() {
+        return new Object[][]{
+                {"AZ", eThresholdTest.BEFORE, eTimepoints.STG1, CATCHUP_TIMEFRAME_VALUE - 1, true},
+                {"AZ", eThresholdTest.ON, eTimepoints.STG1, CATCHUP_TIMEFRAME_VALUE, true},
+                {"AZ", eThresholdTest.AFTER, eTimepoints.STG1, CATCHUP_TIMEFRAME_VALUE + 1, false},
+                {"AZ", eThresholdTest.BEFORE, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE - 1, true},
+                {"AZ", eThresholdTest.ON, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE, true},
+                {"AZ", eThresholdTest.AFTER, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE + 1, false}
+        };
+    }
 
     // TEST CASES:
 
     @Parameters({"state"})
     @Test(dataProvider = "reconcilePendedEndorsements_MembershipTestData", groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
     public void pas28489_reconcilePendedEndorsements_Membership(@Optional String state, eThresholdTest typeOfBoundryTest, eTimepoints stg_x, Integer daysAfterNB, Boolean bExpectingPolicyToBeProcessed) {
         TestData testLevelTD = prepareTestData();
         prepareForPolicyCreation(testLevelTD, bExpectingPolicyToBeProcessed);
-        handlePolicyCreation(testLevelTD, true, false);
+        handlePolicyCreation(testLevelTD, true, false, eMembershipType.CANCELLED);
         addPendedEndorsement();
         validatePendedEndorsementPresent();
         advanceJVMToTimepoint(stg_x, daysAfterNB, typeOfBoundryTest);
-        runBatchJobs(stg_x);
+        runBatchJobs(stg_x, false);
+        assertPolicyProcessedStatus();
         queryDBForNumberOfPendingEndorsements(_bExpectingPolicyToBeProcessed);
+        setTimeToToday();
     }
 
     @Parameters({"state"})
     @Test(dataProvider = "reconcilePendedEndorsements_EValueTestData", groups = { Groups.CIO, Groups.EVALUE, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-21672")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
     public void pas28489_reconcilePendedEndorsements_Evalue(@Optional String state, eThresholdTest typeOfBoundryTest, eTimepoints stg_x, Integer daysAfterNB, Boolean bExpectingPolicyToBeProcessed) {
         _bExpectingPolicyToBeProcessed = bExpectingPolicyToBeProcessed;
         createEvaluePolicy();
@@ -108,22 +122,44 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         validatePendedEndorsementPresent();
         validateEValueDiscountPresent(_storedPolicyNumber);
         advanceJVMToTimepoint(stg_x, daysAfterNB, typeOfBoundryTest);
-        runBatchJobs(stg_x);
+        runBatchJobs(stg_x, false);
+        assertPolicyProcessedStatus();
         queryDBForNumberOfPendingEndorsements(_bExpectingPolicyToBeProcessed);
+        setTimeToToday();
     }
 
     @Parameters({"state"})
     @Test(dataProvider = "reconcilePendedEndorsements_MPDTestData", groups = { Groups.CIO, Groups.MPD, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-21672")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
     public void pas28489_reconcilePendedEndorsements_MPD(@Optional String state, eThresholdTest typeOfBoundryTest, eTimepoints stg_x, Integer daysAfterNB, Boolean bExpectingPolicyToBeProcessed) {
         TestData testLevelTD = prepareTestData();
         prepareForPolicyCreation(testLevelTD, bExpectingPolicyToBeProcessed);
-        handlePolicyCreation(testLevelTD, true, true);
+        handlePolicyCreation(testLevelTD, true, true, eMembershipType.CANCELLED);
         addPendedEndorsement();
         validatePendedEndorsementPresent();
         advanceJVMToTimepoint(stg_x, daysAfterNB, typeOfBoundryTest);
-        runBatchJobs(stg_x);
+        runBatchJobs(stg_x, false);
+        assertPolicyProcessedStatus();
         queryDBForNumberOfPendingEndorsements(_bExpectingPolicyToBeProcessed);
+        setTimeToToday();
+    }
+
+    @Parameters({"state"})
+    @Test(dataProvider = "reconcilePendedEndorsements_ActiveNotProcessed", groups = { Groups.CIO, Groups.MPD, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
+    public void ActiveMembershipNotProcessed(@Optional String state, eThresholdTest typeOfBoundryTest, eTimepoints stg_x, Integer daysAfterNB, Boolean bExpectingPolicyToBeProcessed) {
+        TestData testLevelTD = prepareTestData();
+        prepareForPolicyCreation(testLevelTD, bExpectingPolicyToBeProcessed);
+        handlePolicyCreation(testLevelTD, true, false, eMembershipType.ACTIVE);
+        advanceJVMToTimepoint(stg_x, daysAfterNB, typeOfBoundryTest);
+        runBatchJobs(stg_x, true);
+        assertPolicyProcessedStatus();
+    }
+
+    @Test(enabled = false, groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+    public void NoDuplicateEndorsements_MembershipSTG2(@Optional String state, eTimepoints stg_x, Integer daysAfterNB) {
+        // TODO: Add regression coverage to ensure no duplicate endorsements are created at STG2 by re-running membership validation job n the same day.
     }
 
     // TEST METHODS:
@@ -131,8 +167,8 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
     private TestData prepareTestData(){
         //Create TestData that has AAA Membership == NO initially.
         TestData createdTD = getPolicyDefaultTD();
-        createdTD = TestDataHelper.adjustTD(createdTD, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
-        createdTD = TestDataHelper.maskTD(createdTD, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+        createdTD = TestDataHelper.adjustTD(createdTD, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
+        createdTD = TestDataHelper.adjustTD(createdTD, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), "3111111111111121");
 
         return createdTD;
     }
@@ -159,21 +195,14 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         _policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
     }
 
-    private void getEvaluePolicy(String policyNumber){
-        SearchPage.openPolicy(policyNumber);
-
-        _storedPolicyNumber = PolicySummaryPage.getPolicyNumber();
-        _policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-    }
-
     /**
      * This method should begin when the web-driver is viewing the GeneralTab.
      * @param bHasMembership Should the test add a AAA Membership?
      * @param bHasMPD Should the test add MPD?
      */
-    private void handlePolicyCreation(TestData in_td, Boolean bHasMembership, Boolean bHasMPD){
+    private void handlePolicyCreation(TestData in_td, Boolean bHasMembership, Boolean bHasMPD, eMembershipType membershipType){
         if(bHasMembership){
-            addMembershipToGeneralTab();
+            addMembershipToGeneralTab(membershipType);
         }
 
         if(bHasMPD){
@@ -182,7 +211,10 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
 
         // Continue to next page (Driver's Tab). Then complete policy bind.
         Tab.buttonNext.click();
-        policy.getDefaultView().fillFromTo(in_td, DriverTab.class, PurchaseTab.class, true);
+        policy.getDefaultView().fillFromTo(in_td, DriverTab.class, PurchaseTab.class, false);
+        //HACK BEGIN
+        new ErrorTab().overrideAllErrors();
+        _purchaseTab.fillTab(in_td); //HACK END
         _purchaseTab.submitTab();
         _storedPolicyNumber = PolicySummaryPage.getPolicyNumber();
         _policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -240,15 +272,16 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
                 break;
             case ON:
                 CustomAssertions.assertThat(rightNow).isEqualToIgnoringHours(thresholdMaxDate);
-                log.debug(String.format("QALOGS -> VALIDATED SYSTEM DATE (%s) IS AFTER %s and BEFORE the threshold cut off on %s.",
+                log.debug(String.format("QALOGS -> VALIDATED SYSTEM DATE (%s) IS AFTER %s and ON the threshold cut off on %s.",
                         rightNow.toLocalDate().toString(), nbDate.toString(), thresholdMaxDate.toString()));
                 break;
             case AFTER:
                 CustomAssertions.assertThat(rightNow).isAfter(thresholdMaxDate);
-                log.debug(String.format("QALOGS -> VALIDATED SYSTEM DATE (%s) IS AFTER %s and BEFORE the threshold cut off on %s.",
+                log.debug(String.format("QALOGS -> VALIDATED SYSTEM DATE (%s) IS AFTER %s and AFTER the threshold cut off on %s.",
                         rightNow.toLocalDate().toString(), nbDate.toString(), thresholdMaxDate.toString()));
                 // Handle another edge case where Threshold date lands on weekend and job is not expecting to run to pick it up the following weekday.
-                if(thresholdMaxDate.getDayOfWeek()==DayOfWeek.SATURDAY || thresholdMaxDate.getDayOfWeek()==DayOfWeek.SUNDAY){
+                if(rightNow.getDayOfWeek()==DayOfWeek.SATURDAY || rightNow.getDayOfWeek()==DayOfWeek.SUNDAY){
+                    log.debug(String.format("QALOGS -> Threshold Date = %s (%s). Updated Result Expectations.", thresholdMaxDate.toString(), thresholdMaxDate.getDayOfWeek()));
                     _bExpectingPolicyToBeProcessed = true;
                 }
                 break;
@@ -260,16 +293,20 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         // Handle the fact that the job doesn't run on the weekends.
         if(rightNow.getDayOfWeek()== DayOfWeek.SATURDAY){
             rightNow = rightNow.plusDays(2);
+            log.debug(String.format("QALOGS -> Moving to new date = %s", rightNow.toString()));
             TimeSetterUtil.getInstance().nextPhase(rightNow);
         }
         if(rightNow.getDayOfWeek()== DayOfWeek.SUNDAY){
             rightNow = rightNow.plusDays(1);
+            log.debug(String.format("QALOGS -> Moving to new date = %s", rightNow.toString()));
             TimeSetterUtil.getInstance().nextPhase(rightNow);
         }
     }
 
-    private void runBatchJobs(eTimepoints STG_N){
-        AAAMembershipQueries.updateLatestNewBusinessAAAMembershipStatusInSQL(_storedPolicyNumber, AAAMembershipQueries.AAAMembershipStatus.No_Hit);
+    private void runBatchJobs(eTimepoints STG_N, boolean bSetMembershipActive){
+        if(bSetMembershipActive){
+            AAAMembershipQueries.updateLatestNewBusinessAAAMembershipStatusInSQL(_storedPolicyNumber, AAAMembershipQueries.AAAMembershipStatus.ACTIVE);
+        }
 
         switch(STG_N){
             case STG1:
@@ -297,24 +334,40 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         }
     }
 
-    private void addMembershipToGeneralTab(){
+    private void assertPolicyProcessedStatus(){
+        java.util.Optional<AAAMembershipQueries.AAABestMembershipStatus> dbResponse = AAAMembershipQueries.getAAABestMembershipStatusFromSQL(_storedPolicyNumber);
+        if(_bExpectingPolicyToBeProcessed){
+
+            CustomAssertions.assertThat(dbResponse.toString()).containsIgnoringCase("FOUND");
+        }
+        else{
+            CustomAssertions.assertThat(dbResponse.toString()).doesNotContain("FOUND");
+        }
+        log.debug(String.format(System.lineSeparator() + "<QALOGS> Ran 'assertPolicyProcessedStatus();' DB RESPONSE = ", dbResponse) + System.lineSeparator());
+    }
+
+    private void addMembershipToGeneralTab(eMembershipType membershipType){
         _generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
-        _generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("9999999999999995");
+        switch(membershipType){
+            case ACTIVE:
+                _generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("9999999999999995");
+                break;
+            case CANCELLED:
+                _generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("3111111111111121");
+                break;
+            default:
+                _generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("No");
+                break;
+        }
     }
 
     private void addCompanionPolicyToGeneralTab(){
-        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getControlClass()).click();
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getControlClass()).setValue("Customer Details");
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ZIP_CODE.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ZIP_CODE.getControlClass()).setValue("85395");
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.FIRST_NAME.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.FIRST_NAME.getControlClass()).setValue("Mike");
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.LAST_NAME.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.LAST_NAME.getControlClass()).setValue("Tyson");
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.DATE_OF_BIRTH.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.DATE_OF_BIRTH.getControlClass()).setValue("01/01/2000");
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADDRESS_LINE_1.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADDRESS_LINE_1.getControlClass()).setValue("123 Fake St.");
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.CITY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.CITY.getControlClass()).setValue("Goodyear");
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getLabel(), (AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getControlClass())).setValue("AZ");
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
+        _generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME).setValue("REFRESH_PQ");
+        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH).click();
+    }
 
-        new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + String.valueOf(0) + ":customerSelected")).setValue(true);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN.getControlClass()).click();
+    public void setTimeToToday() {
+        log.info("Current application date: " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")));
+        TimeSetterUtil.getInstance().adjustTime();
     }
 }
