@@ -1,7 +1,5 @@
 package aaa.modules.regression.billing_and_payments.template;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-
 import aaa.common.Tab;
 import aaa.common.enums.Constants.UserGroups;
 import aaa.common.pages.MainPage;
@@ -19,6 +17,8 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.ComboBox;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public abstract class PolicyBillingAddPaymentMethod extends PolicyBaseTest{
 
@@ -54,9 +54,10 @@ public abstract class PolicyBillingAddPaymentMethod extends PolicyBaseTest{
 			assertThat(BillingSummaryPage.buttonAcceptPayment).as("Button 'Accept Payment' should be disabled for B31 user").isDisabled();
 		}
 		else {
-			mainApp().open();
+			/*mainApp().open();
 			getCopiedPolicy();
-			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);*/
+			searchForPolicy("CAAS952918543");
 	        
 			BillingSummaryPage.open();
 	        IBillingAccount billing = new BillingAccount();

@@ -24,7 +24,7 @@ EFT: {
   "Account #": '1234567890'
 }
 
-Zelle: {
+ZelleMobile: {
   Payment Method: 'Zelle',
   First Name: 'Peter',
   Confirm First Name: 'Peter',
@@ -32,4 +32,14 @@ Zelle: {
   Confirm Last Name: 'Parker',
   Email Address or Mobile Number: '4805555555',
   Confirm Email Address or Mobile Number: '4805555555',
+}
+
+ZelleEmail: {
+  Payment Method: 'Zelle',
+  First Name: 'Peter',
+  Confirm First Name: 'Peter',
+  Last Name: 'Parker',
+  Confirm Last Name: 'Parker',
+  Email Address or Mobile Number: 'test@csaa.com',
+  Confirm Email Address or Mobile Number: 'test@csaa.com',
 }

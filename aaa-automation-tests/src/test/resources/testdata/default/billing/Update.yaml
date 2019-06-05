@@ -44,6 +44,6 @@ TestData_AddPaymentMetods: {
 
 TestData_AddPaymentMethod_Zelle: {
   UpdateBillingAccountActionTab: {
-    PaymentMethods: ['@PaymentMethods@Zelle']
+    PaymentMethods: ['@PaymentMethods@ZelleMobile', '@PaymentMethods@ZelleEmail']
   }
 }

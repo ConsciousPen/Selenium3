@@ -1,17 +1,13 @@
 package aaa.modules.regression.billing_and_payments.template;
 
-import aaa.common.Tab;
-import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
-import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import toolkit.datax.TestData;
-import toolkit.webdriver.controls.ComboBox;
 
-import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public abstract class PolicyBillingAddZellePaymentType extends PolicyBaseTest {
 
@@ -23,7 +19,7 @@ public abstract class PolicyBillingAddZellePaymentType extends PolicyBaseTest {
      * 4. Select 'Update' action in Take Action dropdown.
      * 5. Click on 'Add Credit Card/Bank Account' button in AutoPay Setup section.
      * 6. Add 'Zelle' payment type.
-     * 7. Navigate back to Update Billing Account tab and verify that added payment methods present in 'Autopay Selection' dropdown.
+     * 7. Navigate back to Add Payment Method page and verify that Zelle payment methods are listed correctly.
      */
     public void testAddZellePaymentType() {
         mainApp().open();
@@ -32,23 +28,32 @@ public abstract class PolicyBillingAddZellePaymentType extends PolicyBaseTest {
 
         BillingSummaryPage.open();
         IBillingAccount billing = new BillingAccount();
-        TestData tdBilling = testDataManager.billingAccount.getTestData("Update", "TestData_AddPaymentMethod_Zelle");
+        TestData tdBilling = testDataManager.billingAccount;
+        String expectedZelleMobile = "Zelle " + tdBilling.getTestData("PaymentMethods").getValue("ZelleMobile", "Email Address or Mobile Number");
+        String expectedZelleEmail = "Zelle " + tdBilling.getTestData("PaymentMethods").getValue("ZelleEmail", "Email Address or Mobile Number");
 
         //Navigate to Update Billing Account tab and add CC and EFT payment methods
-        billing.update().perform(tdBilling);
+        billing.update().perform(tdBilling.getTestData("Update", "TestData_AddPaymentMethod_Zelle"));
 
-        //Navigate to Update Billing Account tab and verify that AutoPay Selection dropdown contains added Zelle payment method
+        //Navigate to Update Billing Account tab and verify that Zelle payment methods are listed correctly
         billing.update().start();
-        UpdateBillingAccountActionTab updateBillingAccountTab = new UpdateBillingAccountActionTab();
-        AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
-        String paymentMethodZelle = AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").getValue();
-        Tab.buttonBack.click();
 
+        AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
+        String paymentMethodZelleMobile = AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").getValue();
+        String paymentMethodZelleEmail = AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(2).getCell("Payment Method").getValue();
+        assertSoftly(softly -> {
+            softly.assertThat(paymentMethodZelleMobile).as("Payment method is labeled incorrectly").contains(expectedZelleMobile);
+            softly.assertThat(paymentMethodZelleEmail).as("Payment method is labeled incorrectly").contains(expectedZelleEmail);
+        });
+        //Tab.buttonBack.click();
+
+        //TODO Uncomment this code once we disallow Zelle as an AutoPay option
+        /*UpdateBillingAccountActionTab updateBillingAccountTab = new UpdateBillingAccountActionTab();
         updateBillingAccountTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).setValue(true);
 
         ComboBox autopaySelectionCombobox = updateBillingAccountTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.AUTOPAY_SELECTION);
 
-        assertThat(autopaySelectionCombobox).as("AutoPay Selection dropdown should NOT contain Zelle payment method").doesNotContainOption(paymentMethodZelle);
+        assertThat(autopaySelectionCombobox).as("AutoPay Selection dropdown should NOT contain Zelle payment method").doesNotContainOption(paymentMethodZelle);*/
 
         //TODO Add additional test steps for performing a refund with Zelle once functionality is implemented. Also, add DB validation for storing Zelle info.
     }
