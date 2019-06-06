@@ -6059,7 +6059,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas23997_updatePipCoveragesNJbody(ETCSCoreSoftAssertions softly) {
 		mainApp().open();
-		String policyNumber = "NJSS952918565";
+		String policyNumber =  openAppAndCreatePolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		//expected
