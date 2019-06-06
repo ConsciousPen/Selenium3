@@ -173,64 +173,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind at NB")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-18315")
     public void pas18315_CIO_Prevent_Unquoted_Bind_NB(@Optional("") String state) {
-
-        // Data and tools setup
-        TestData testData = getPolicyTD();
-
-        // Create customer and move to general tab. //
-        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-
-        ArrayList<HashMap<mpdPolicyType, Boolean>> scenarioList = getUnquotedManualScenarios();
-
-        // Perform the following for each scenario. Done this way to avoid recreating users every scenario.
-        for (int i = 0; i < scenarioList.size(); i++ ) {
-
-            HashMap <mpdPolicyType, Boolean> currentScenario = scenarioList.get(i);
-
-            // Set unquoted policies //
-            setUnquotedCheckboxes(currentScenario);
-
-            // On first iteration fill in data. Else jump to Documents & Bind page
-            if (i == 0) {
-                // Continue to next tab then move to Documents & Bind Tab tab //
-                _generalTab.submitTab();
-
-                policy.getDefaultView().fillFromTo(testData, DriverTab.class, DocumentsAndBindTab.class, true);
-            }
-            else {
-                NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-                _pncTab.btnCalculatePremium().click(Waiters.AJAX);
-                NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-
-                // Ensure Physically sign Auto Insurance Application set -- COMMENTED OUT DUE TO ELEMENT NO LONGER BEING IN APP.
-                //_documentsAndBindTab.getRequiredToBindAssetList().getAsset(
-                //       AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION)
-                //        .setValue("Physically Signed");
-            }
-
-            // Attempt to bind
-            DocumentsAndBindTab.btnPurchase.click(Waiters.AJAX);
-
-            // If any unquoted was checked ("true") then error message appears.
-            if (currentScenario.containsValue(true)) {
-                // Hard stop error page should be present
-                String errorMsg = _errorTab.tableErrors.
-                        getRow("Code", "MPD_COMPANION_UNQUOTED_VALIDATION").
-                        getCell("Message").getValue();
-
-                assertThat(errorMsg).startsWith("Policy cannot be bound with an unquoted companion policy.");
-
-                _errorTab.cancel(true);
-            }else{
-                // Purchase confirmation should be present
-                Button buttonNo = DocumentsAndBindTab.confirmPurchase.buttonNo;
-                assertThat(buttonNo.isPresent() && buttonNo.isVisible()).isTrue();
-                buttonNo.click(Waiters.AJAX);
-            }
-
-            // Return to General tab.
-            NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        }
+        pas18315_CIO_Prevent_Unquoted_Bind_NB_Template(state);
     }
 
     /**
@@ -2099,9 +2042,13 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     }
 
     @Override
-    protected Tab getPurchaseTab(){
-        return _purchaseTab;
-    }
+    protected Tab getDocumentsAndBindTab() { return _documentsAndBindTab; }
+
+    @Override
+    protected Tab getPurchaseTab(){ return _purchaseTab; }
+
+    @Override
+    protected Tab getErrorTab() { return _errorTab; }
 
     @Override
     protected void navigateToGeneralTab(){
@@ -2126,6 +2073,26 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     @Override
     protected String getPnCTab_DiscountsAndSurcharges(){
         return PremiumAndCoveragesTab.discountsAndSurcharges.getValue();
+    }
+
+    @Override
+    protected Button getPnCTab_BtnCalculatePremium() {
+        return _pncTab.btnCalculatePremium();
+    }
+
+    @Override
+    protected Button getDocumentsAndBindTab_BtnPurchase(){
+        return DocumentsAndBindTab.btnPurchase;
+    }
+
+    @Override
+    protected Button getDocumentsAndBindTab_ConfirmPurchase_ButtonYes(){
+        return DocumentsAndBindTab.confirmPurchase.buttonYes;
+    }
+
+    @Override
+    protected Button getDocumentsAndBindTab_ConfirmPurchase_ButtonNo(){
+        return DocumentsAndBindTab.confirmPurchase.buttonNo;
     }
 
     @Override

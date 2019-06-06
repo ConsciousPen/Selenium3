@@ -320,6 +320,78 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     }
 
     /**
+     * This test validates that New Business scenarios that have unquoted options checked result in error at bind time.
+     * @param state the test will run against.
+     * @scenario PAS-18315 Test 1
+     * 1. Create new customer with default test data.
+     * 2. Create new quote checking the current scenario boxes that are marked yes.
+     * 3. Finish running through the quote and attempt to bind.
+     * 4. Verify all scenarios but #7 block binding with hard stop error message: Policy cannot be bound with an unquoted companion policy.
+     * @author Brian Bond - CIO
+     */
+    public void pas18315_CIO_Prevent_Unquoted_Bind_NB_Template(@Optional("") String state) {
+
+        // Data and tools setup
+        TestData testData = getPolicyTD();
+
+        // Create customer and move to general tab. //
+        createQuoteAndFillUpTo(testData, getGeneralTab().getClass(), true);
+
+        ArrayList<HashMap<mpdPolicyType, Boolean>> scenarioList = getUnquotedManualScenarios();
+
+        // Perform the following for each scenario. Done this way to avoid recreating users every scenario.
+        for (int i = 0; i < scenarioList.size(); i++ ) {
+
+            HashMap <mpdPolicyType, Boolean> currentScenario = scenarioList.get(i);
+
+            // Set unquoted policies //
+            setUnquotedCheckboxes(currentScenario);
+
+            // On first iteration fill in data. Else jump to Documents & Bind page
+            if (i == 0) {
+                // Continue to next tab then move to Documents & Bind Tab tab //
+                getGeneralTab().submitTab();
+
+                policy.getDefaultView().fillFromTo(testData, getDriverTab().getClass(),
+                        getDocumentsAndBindTab().getClass(), true);
+            }
+            else {
+                NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+                getPnCTab_BtnCalculatePremium().click(Waiters.AJAX);
+                NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+
+                // Ensure Physically sign Auto Insurance Application set -- COMMENTED OUT DUE TO ELEMENT NO LONGER BEING IN APP.
+                //_documentsAndBindTab.getRequiredToBindAssetList().getAsset(
+                //       AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION)
+                //        .setValue("Physically Signed");
+            }
+
+            // Attempt to bind
+            getDocumentsAndBindTab_BtnPurchase().click(Waiters.AJAX);
+
+            // If any unquoted was checked ("true") then error message appears.
+            if (currentScenario.containsValue(true)) {
+                // Hard stop error page should be present
+                String errorMsg = getErrorTab_TableErrors().
+                        getRow("Code", "MPD_COMPANION_UNQUOTED_VALIDATION").
+                        getCell("Message").getValue();
+
+                assertThat(errorMsg).startsWith("Policy cannot be bound with an unquoted companion policy.");
+
+                getErrorTab().cancel(true);
+            }else{
+                // Purchase confirmation should be present
+                Button buttonNo = getDocumentsAndBindTab_ConfirmPurchase_ButtonNo();
+                assertThat(buttonNo.isPresent() && buttonNo.isVisible()).isTrue();
+                buttonNo.click(Waiters.AJAX);
+            }
+
+            // Return to General tab.
+            navigateToGeneralTab();
+        }
+    }
+
+    /**
      * @return Test Data for an AZ SS policy with no other active policies
      */
     protected abstract TestData getTdAuto();
@@ -338,7 +410,11 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
 
     protected abstract Tab getPremiumsAndCoveragesTab();
 
+    protected abstract Tab getDocumentsAndBindTab();
+
     protected abstract Tab getPurchaseTab();
+
+    protected abstract Tab getErrorTab();
 
     protected abstract Table getErrorTab_TableErrors();
 
@@ -354,9 +430,17 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
 
     protected abstract void closePnCTab_ViewRatingDetails();
 
+    protected abstract Button getPnCTab_BtnCalculatePremium();
+
     protected abstract String getPnCTab_DiscountsAndSurcharges();
 
     protected abstract Table getGeneralTab_OtherAAAProductTable();
+
+    protected abstract Button getDocumentsAndBindTab_BtnPurchase();
+
+    protected abstract Button getDocumentsAndBindTab_ConfirmPurchase_ButtonYes();
+
+    protected abstract Button getDocumentsAndBindTab_ConfirmPurchase_ButtonNo();
 
     protected abstract void setUnquotedCheckbox(mpdPolicyType policyType, Boolean fillInCheckbox);
 
