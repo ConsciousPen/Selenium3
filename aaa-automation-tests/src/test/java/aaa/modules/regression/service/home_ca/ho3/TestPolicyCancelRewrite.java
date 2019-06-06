@@ -3,7 +3,6 @@ package aaa.modules.regression.service.home_ca.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -14,10 +13,10 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Jelena Dembovska
- * @name Test Policy rewrite
- * @scenario
- * see parent class
- * @details
+ * <b> Test Policy rewrite </b>
+ * <p> Steps:
+ * <p> see parent class
+ *
  */
 public class TestPolicyCancelRewrite extends PolicyCancelRewrite {
 
@@ -32,7 +31,7 @@ public class TestPolicyCancelRewrite extends PolicyCancelRewrite {
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
 	public void testPolicyCancelRewrite(@Optional("CA") String state) {
 
-		super.testPolicyCancelRewrite();
+		testPolicyCancelRewrite();
 
 	}
 }

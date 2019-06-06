@@ -21,37 +21,37 @@ public class TestPolicyCancellation extends PolicyCancellation {
 	
 	/**
 	 * @author Yonggang Sun
-	 * @name Test Cancellation flat Umbrella Policy
-	 * @scenario
-	 * 1. Create Customer
-	 * 2. Create Umbrella  Policy
-	 * 3. Cancel policy
-	 * 4. Verify Policy status is 'Policy Cancelled'
-	 * @details
+	 * <b> Test Cancellation flat Umbrella Policy </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer
+	 * <p> 2. Create Umbrella  Policy
+	 * <p> 3. Cancel policy
+	 * <p> 4. Verify Policy status is 'Policy Cancelled'
+	 *
 	 */
 	@Parameters({"state"})
 	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
 	public void testPolicyCancellationFlat(@Optional("") String state) {
-		super.testPolicyCancellationFlat();
+		testPolicyCancellationFlat();
 	}
 	
 	/**
 	 * @author Yongagng Sun
-	 * @name Test Midterm Cancellation Umbrella Policy
-	 * @scenario
-	 * 1. Create Customer
-	 * 2. Create Umbrella (AAA) Policy
-	 * 3. Midterm Cancellation Policy
-	 * 4. Verify Policy status is "Policy Cancelled"
-	 * @details
+	 * <b> Test Midterm Cancellation Umbrella Policy </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer
+	 * <p> 2. Create Umbrella (AAA) Policy
+	 * <p> 3. Midterm Cancellation Policy
+	 * <p> 4. Verify Policy status is "Policy Cancelled"
+	 *
 	 */
 	@Parameters({"state"})
 	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
     public void testPolicyCancellationMidTerm(@Optional("") String state) {
-		super.testPolicyCancellationMidTerm();
+		testPolicyCancellationMidTerm();
 	}
 }

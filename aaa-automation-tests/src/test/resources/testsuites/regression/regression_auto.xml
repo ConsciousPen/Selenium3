@@ -553,9 +553,4 @@
             <class name="aaa.modules.regression.sales.auto_ca.choice.TestSpecialHazardSurcharge"/>
         </classes>
     </test>
-	<test name="OR Regression Tests" parallel="methods">
-        <classes>
-            <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCreate"/>
-        </classes>
-    </test>
 </suite>

@@ -3,7 +3,6 @@ package aaa.modules.regression.service.auto_ca.choice;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -14,10 +13,10 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Lina Li
- * @name Test Policy Cancel Reinstate
- * @scenario
- * see parent class
- * @details
+ * <b> Test Policy Cancel Reinstate </b>
+ * <p> Steps:
+ * <p> see parent class
+ *
  */
 public class TestPolicyCancelReinstate extends PolicyCancelReinstate {
 
@@ -31,8 +30,8 @@ public class TestPolicyCancelReinstate extends PolicyCancelReinstate {
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE)
     public void testPolicyCancelReinstate(@Optional("CA") String state) {
-        
-    	super.testPolicyCancelReinstate();
+
+		testPolicyCancelReinstate();
         
     }
 }

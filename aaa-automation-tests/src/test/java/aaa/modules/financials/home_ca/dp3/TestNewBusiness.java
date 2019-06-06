@@ -20,28 +20,28 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
 	public void testNewBusinessScenario_1(@Optional("CA") String state) {
 		testNewBusinessScenario_1();
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
 	public void testNewBusinessScenario_2(@Optional("CA") String state) {
 		testNewBusinessScenario_2();
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
 	public void testNewBusinessScenario_3(@Optional("CA") String state) {
 		testNewBusinessScenario_3();
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
 	public void testNewBusinessScenario_4(@Optional("CA") String state) {
 		testNewBusinessScenario_4();

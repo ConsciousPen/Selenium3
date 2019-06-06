@@ -1,31 +1,31 @@
 package aaa.modules.regression.service.pup;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 
 /**
  * @author Dmitry Kozakevich
- * @name Test Cancel and Rewrite Personal Umbrella Policy
- * @scenario
- * 1. Create Customer
- * 2. Create Personal Umbrella Policy
- * 3. Verify that Policy status is "Policy Active"
- * 4. Cancel the policy created in step 2
- * 5. Verify that Policy status is "Cancelled"
- * 6. Initiate Rewrite action for the policy cancelled in step 5
- * 7. Verify that status of the Quote is "Gathering Info"
- * 8. Issue the Quote from the step 7
- * 9. Verify that Policy status is "Policy Active"
- * 10. Verify that Policy Number of the initial policy is not the same as for the rewritten policy
+ * <b> Test Cancel and Rewrite Personal Umbrella Policy </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create Personal Umbrella Policy
+ * <p> 3. Verify that Policy status is "Policy Active"
+ * <p> 4. Cancel the policy created in step 2
+ * <p> 5. Verify that Policy status is "Cancelled"
+ * <p> 6. Initiate Rewrite action for the policy cancelled in step 5
+ * <p> 7. Verify that status of the Quote is "Gathering Info"
+ * <p> 8. Issue the Quote from the step 7
+ * <p> 9. Verify that Policy status is "Policy Active"
+ * <p> 10. Verify that Policy Number of the initial policy is not the same as for the rewritten policy
  */
 public class TestPolicyCancelRewrite extends PersonalUmbrellaBaseTest {
 

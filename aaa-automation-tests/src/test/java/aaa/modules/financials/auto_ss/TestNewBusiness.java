@@ -20,35 +20,35 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testNewBusinessScenario_1(@Optional("") String state) {
 		testNewBusinessScenario_1();
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testNewBusinessScenario_2(@Optional("") String state) {
 		testNewBusinessScenario_2();
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testNewBusinessScenario_3(@Optional("") String state) {
 		testNewBusinessScenario_3();
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testNewBusinessScenario_4(@Optional("") String state) {
 		testNewBusinessScenario_4();
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.CFT})
+	@Test(groups = {Groups.REGRESSION, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testNewBusinessScenario_5(@Optional("") String state) {
 		testNewBusinessScenario_5();

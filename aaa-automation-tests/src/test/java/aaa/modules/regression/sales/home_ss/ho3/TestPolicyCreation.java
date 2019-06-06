@@ -6,10 +6,9 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.Constants.UserGroups;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -25,13 +24,13 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Olga Reva
- * @name Test Create SS Home Policy
- * @scenario 1. Create new or open existed customer.
- * 2. Initiate HSS quote creation.
- * 3. Fill all mandatory fields on all tabs, order reports, calculate premium.
- * 4. Purchase policy.
- * 5. Verify policy status is Active on Consolidated policy view.
- * @details
+ * <b> Test Create SS Home Policy </b>
+ * <p> Steps: 1. Create new or open existed customer.
+ * <p> 2. Initiate HSS quote creation.
+ * <p> 3. Fill all mandatory fields on all tabs, order reports, calculate premium.
+ * <p> 4. Purchase policy.
+ * <p> 5. Verify policy status is Active on Consolidated policy view.
+ *
  */
 public class TestPolicyCreation extends HomeSSHO3BaseTest {
 

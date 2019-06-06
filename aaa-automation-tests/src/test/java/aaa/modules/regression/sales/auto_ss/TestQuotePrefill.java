@@ -2,22 +2,24 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss;
 
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData.DriverTab;
-import aaa.main.metadata.policy.AutoSSMetaData.VehicleTab;
 import aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.NamedInsuredInformation;
+import aaa.main.metadata.policy.AutoSSMetaData.VehicleTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
@@ -25,13 +27,12 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * @author Jelena Dembovska
- * @name Test Prefill tab
- * @scenario
- * @details
+ * <b> Test Prefill tab </b>
+ * <p> Steps:
+ *
  */
 public class TestQuotePrefill extends AutoSSBaseTest {
 
@@ -77,7 +78,7 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 
 		CustomSoftAssertions.assertSoftly(softly -> {
 			//check GeneralTab
-			aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab generalTab = new aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab();
+			GeneralTab generalTab = new GeneralTab();
 
 			MultiAssetList namedInsuredInfo = generalTab.getNamedInsuredInfoAssetList();
 			softly.assertThat(namedInsuredInfo.getAsset(NamedInsuredInformation.FIRST_NAME)).hasValue(expectedFN);
@@ -149,7 +150,7 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 		prefillTab.submitTab();
 
 		//check GeneralTab
-		aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab generalTab = new aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab();
+		GeneralTab generalTab = new GeneralTab();
 
 		assertThat(generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.FIRST_NAMED_INSURED)).hasValue(expectedNI_1);
 
@@ -174,7 +175,7 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 		driverTab.fillTab(getTestSpecificTD("TestData_Fill_Insured2").resolveLinks());
 		driverTab.submitTab();
 
-		aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab ratingDetailReportsTab = new aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab();
+		RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
 		ratingDetailReportsTab.fillTab(getTestSpecificTD("TestData_Fill_Insured1").resolveLinks());
 
 		//check Vehicle tab

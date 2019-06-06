@@ -6582,8 +6582,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		aggPipSubCoverages.add(covOTHERNECEXPExpected);
 		aggPipSubCoverages.add(covDEATHBENEFITExpected);
 
-		//update APIP = No Coverage
-		covAPIPExpected.changeLimit(CoverageLimits.COV_50000_FULL);
+		//update APIP = other than No Coverage
+		covAPIPExpected.changeLimit(CoverageLimits.COV_50000_APIP);
 		covMAXMONTHLYLOSSExpected.changeLimit(CoverageLimits.COV_4000);
 		covOTHERNECEXPExpected.changeLimit(CoverageLimits.COV_50);
 		updateCoverageAndCheck_pas15364(policyNumber, covAPIPExpected, pipSubCoverages, aggPipSubCoverages);
@@ -6837,7 +6837,21 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		List<Coverage> allCoveragesToCheckInUI = new ArrayList<>();
 		allCoveragesToCheckInUI.addAll(expectedPIPSubCoverages);
 		allCoveragesToCheckInUI.remove(covAGGPIPExpected);//AGGPIP and subCoverages are not displayed in PAS UI
+
+		//in PAS UI APIP limits contain 'Full'
+		if (covAPIPExpected.getCoverageLimit().equals(CoverageLimits.COV_50000_APIP.getLimit())) {
+			covAPIPExpected.changeLimit(CoverageLimits.COV_50000_APIP_PASUI);
+		} else if (covAPIPExpected.getCoverageLimit().equals(CoverageLimits.COV_100000_APIP.getLimit())) {
+			covAPIPExpected.changeLimit(CoverageLimits.COV_100000_APIP_PASUI);
+		}
 		validateCoverageLimitInPASUI(allCoveragesToCheckInUI);
+
+		//remove 'Full' from APIP limits to check in DXP
+		if (covAPIPExpected.getCoverageLimit().equals(CoverageLimits.COV_50000_APIP_PASUI.getLimit())) {
+			covAPIPExpected.changeLimit(CoverageLimits.COV_50000_APIP);
+		} else if (covAPIPExpected.getCoverageLimit().equals(CoverageLimits.COV_100000_APIP_PASUI.getLimit())) {
+			covAPIPExpected.changeLimit(CoverageLimits.COV_100000_APIP);
+		}
 
 		//Validate PIP changeLog
 		validatePolicyLevelCoverageChangeLog(policyNumber, covPIPExpected);
@@ -7378,6 +7392,11 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected static VehicleCoverageInfo findVehicleCoverages(PolicyCoverageInfo policyCoverageInfo, String oid) {
 		return policyCoverageInfo.vehicleLevelCoverages.stream().filter(vehicleCoverageInfo -> oid.equals(vehicleCoverageInfo.oid)).findFirst().orElse(null);
+	}
+
+	protected void validateThatUpdateVehicleCoverageIsTheSameAsViewVehicleCoverages(String policyNumber, PolicyCoverageInfo updateVehicleCoverageResponse) {
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, updateVehicleCoverageResponse.vehicleLevelCoverages.get(0).oid, PolicyCoverageInfo.class);//update vehicle contains only updated vehicle
+		assertThat(viewEndorsementCoverages).isEqualToComparingFieldByFieldRecursively(updateVehicleCoverageResponse);
 	}
 
 }

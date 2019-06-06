@@ -30,7 +30,7 @@ public class TestPolicyRmeEffDateTimeLine extends HomeSSHO3BaseTest {
 
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.AZ, Constants.States.KY, Constants.States.WV, Constants.States.NJ, Constants.States.MD, Constants.States.PA})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-14206,PAS-14207,PAS-14208")
 	public void testPolicyRmeTimeLine(@Optional("") String state) {
 

@@ -685,11 +685,22 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         // Enter renewal image and verify claim presence
         buttonRenewals.click();
         policy.dataGather().start();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+        //PAS-29098: Verify Claim Order and Receipt dates on the Driver and Activity Reports Tab are NOT blank
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+        int x = 1;
+        while (x < 4 ){
+            assertThat(DriverActivityReportsTab.tableInternalClaim.getRow(x)
+                    .getCell(AutoSSMetaData.DriverActivityReportsTab.OrderInternalClaimsReport.ORDER_DATE.getLabel()).getValue()).isNotEmpty();
+            assertThat(DriverActivityReportsTab.tableInternalClaim.getRow(x)
+                    .getCell(AutoSSMetaData.DriverActivityReportsTab.OrderInternalClaimsReport.RECEIPT_DATE.getLabel()).getValue()).isNotEmpty();
+            x++;
+        }
 
         // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
         // Check 2nd driver: Has DL match claim
         // Propose the renewal version
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
         driverTab.submitTab();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());

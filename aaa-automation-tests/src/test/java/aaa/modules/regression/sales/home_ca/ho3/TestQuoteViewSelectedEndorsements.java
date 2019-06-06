@@ -6,10 +6,8 @@ import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.composite.table.Table;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -21,25 +19,27 @@ import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.utils.StateList;
+import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.composite.table.Table;
 
 public class TestQuoteViewSelectedEndorsements extends HomeCaHO3BaseTest {
 
     /**
      * @author Jurij Kuznecov
-     * @name Test CAH Quote View Selected Endorsements
-     * @scenario 
-     * 1.  Create new or open existent Customer
-     * 2.  Start creation of HO3 policy
-     * 3.  Add one structure rented to others and excluded animal in the PropertyInfo tab
-     * 4.  Add one Mortgagee, one Additional Insured and one Additional Interest in the Mortgagee tab
-     * 5.  Navigate to Endorsements tab, verify forms are selected:
-     *     HO-28    - Limited Home Replacement Cost 
-     *     HO-90    - Workers' Compensation and Employers' Liability Insurance
-     *     HO-40    - Other Structures - Rented To Others 
-     *     HO-41    - Additional Insured - Residence Premises 
-     *     HO 04 10 - Additional Interests - Residence Premises
-     *     F1759C   - Animal Exclusion Endorsement 
-     * 6.  Navigate to Quote tab and verify the same 
+	 * <b> Test CAH Quote View Selected Endorsements </b>
+	 * <p> Steps:
+	 * <p> 1.  Create new or open existent Customer
+	 * <p> 2.  Start creation of HO3 policy
+	 * <p> 3.  Add one structure rented to others and excluded animal in the PropertyInfo tab
+	 * <p> 4.  Add one Mortgagee, one Additional Insured and one Additional Interest in the Mortgagee tab
+	 * <p> 5.  Navigate to Endorsements tab, verify forms are selected:
+	 * <p>     HO-28    - Limited Home Replacement Cost
+	 * <p>     HO-90    - Workers' Compensation and Employers' Liability Insurance
+	 * <p>     HO-40    - Other Structures - Rented To Others
+	 * <p>     HO-41    - Additional Insured - Residence Premises
+	 * <p>     HO 04 10 - Additional Interests - Residence Premises
+	 * <p>     F1759C   - Animal Exclusion Endorsement
+	 * <p> 6.  Navigate to Quote tab and verify the same
      */
 
     @Parameters({"state"})

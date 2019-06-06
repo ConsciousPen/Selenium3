@@ -21,15 +21,15 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Mantas Garsvinskas
- * @name Test Membership Error when Membership is not ordered during New Business (NB) and during Endorsement
- * @scenario
- * 1. Create Customer
- * 2. Initiate new Auto CA quote creation
- * 3. Validate Not Ordered Error after pressing Continue button [NB Quote]
- * 4. Validate Not Ordered Error after pressing on other Tab [NB Quote]
- * 5. Validate Not Ordered Error after pressing Continue button [Endorsement Quote]
- * 6. Validate Not Ordered Error after pressing on other Tab [Endorsement Quote]
- * @details
+ * <b> Test Membership Error when Membership is not ordered during New Business (NB) and during Endorsement </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Initiate new Auto CA quote creation
+ * <p> 3. Validate Not Ordered Error after pressing Continue button [NB Quote]
+ * <p> 4. Validate Not Ordered Error after pressing on other Tab [NB Quote]
+ * <p> 5. Validate Not Ordered Error after pressing Continue button [Endorsement Quote]
+ * <p> 6. Validate Not Ordered Error after pressing on other Tab [Endorsement Quote]
+ *
  **/
 @StateList(states = Constants.States.CA)
 public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
