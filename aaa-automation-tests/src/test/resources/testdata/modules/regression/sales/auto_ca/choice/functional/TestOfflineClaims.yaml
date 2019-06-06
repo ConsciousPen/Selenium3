@@ -475,7 +475,7 @@ TwoNamedInsuredGeneralTab2: {
 NamedInsuredInformation3: {
   InsuredSearchDialog: {},
   First Name: Nicolas,
-  Last Name: Smith
+  Last Name: Smith,
   Insured Date of Birth: 10/16/1997
 }
 
