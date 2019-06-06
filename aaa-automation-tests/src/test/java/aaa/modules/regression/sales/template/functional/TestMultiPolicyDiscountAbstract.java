@@ -392,6 +392,42 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     }
 
     /**
+     * This test validates the endorsement scenario with unquoted options checked result in error at bind time.
+     * @param state the test will run against.
+     * @scenario PAS-18315 Test 2
+     * 1. Bind policy with no MPD.
+     * 2. Create an endorsement
+     * 3. Check all unquoted checkboxes
+     * 4. Attempt to complete the endorsement
+     * 5. Verify error message stops you from completing endorsement
+     * @author Brian Bond - CIO
+     */
+    public void pas18315_CIO_Prevent_Unquoted_Bind_Endorsment_Template(@Optional("") String state) {
+        // Step 1
+        openAppAndCreatePolicy();
+
+        // Step 2
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+
+        // Step 3 (Using the first scenario which is check all)
+        setUnquotedCheckboxes(getUnquotedManualScenarios().get(0));
+
+        // Step 4
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        getPnCTab_BtnCalculatePremium().click(Waiters.AJAX);
+
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        getDocumentsAndBindTab().submitTab();
+
+        // Step 5
+        String errorMsg = getErrorTab_TableErrors().
+                getRow("Code", "MPD_COMPANION_UNQUOTED_VALIDATION").
+                getCell("Message").getValue();
+
+        assertThat(errorMsg).startsWith("Policy cannot be bound with an unquoted companion policy.");
+    }
+
+    /**
      * @return Test Data for an AZ SS policy with no other active policies
      */
     protected abstract TestData getTdAuto();
