@@ -227,7 +227,6 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         // REFRESH_P will come back with all 3 property types
         addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
-
         getGeneralTab_OtherAAAProductsOwned_RefreshAsset().click(Waiters.AJAX);
 
         // Step 3:
@@ -356,9 +355,9 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
                         getDocumentsAndBindTab().getClass(), true);
             }
             else {
-                NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+                navigateToPremiumAndCoveragesTab();
                 getPnCTab_BtnCalculatePremium().click(Waiters.AJAX);
-                NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+                navigateToDocumentsAndBindTab();
 
                 // Ensure Physically sign Auto Insurance Application set -- COMMENTED OUT DUE TO ELEMENT NO LONGER BEING IN APP.
                 //_documentsAndBindTab.getRequiredToBindAssetList().getAsset(
@@ -413,10 +412,46 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         setUnquotedCheckboxes(getUnquotedManualScenarios().get(0));
 
         // Step 4
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        navigateToPremiumAndCoveragesTab();
         getPnCTab_BtnCalculatePremium().click(Waiters.AJAX);
 
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        navigateToDocumentsAndBindTab();
+        getDocumentsAndBindTab().submitTab();
+
+        // Step 5
+        String errorMsg = getErrorTab_TableErrors().
+                getRow("Code", "MPD_COMPANION_UNQUOTED_VALIDATION").
+                getCell("Message").getValue();
+
+        assertThat(errorMsg).startsWith("Policy cannot be bound with an unquoted companion policy.");
+    }
+
+    /**
+     * This test validates the Amended Renewal scenario with unquoted options checked result in error at bind time.
+     * @param state the test will run against.
+     * @scenario PAS-18315 Test 3
+     * 1. Bind policy with no MPD.
+     * 2. Create and rate renewal image. Create an endorsement on renewal image (testing UI lockout so no need to run the timechange job execution process).
+     * 3. Check all unquoted checkboxes
+     * 4. Attempt to complete the endorsement
+     * 5. Verify error message stops you from completing endorsement
+     * @author Brian Bond - CIO
+     */
+    public void pas18315_CIO_Prevent_Unquoted_Bind_Amended_Renewal_Template(@Optional("") String state) {
+        // Step 1
+        openAppAndCreatePolicy();
+
+        // Step 2
+        policy.createRenewal(getPolicyTD("InitiateRenewalEntry", "TestData"));
+
+        // Step 3 (Using the first scenario which is check all)
+        setUnquotedCheckboxes(getUnquotedManualScenarios().get(0));
+
+        // Step 4
+        navigateToPremiumAndCoveragesTab();
+        getPnCTab_BtnCalculatePremium().click(Waiters.AJAX);
+
+        navigateToDocumentsAndBindTab();
         getDocumentsAndBindTab().submitTab();
 
         // Step 5
@@ -458,9 +493,11 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
 
     protected abstract void errorTabOverride();
 
+    protected abstract void navigateToGeneralTab();
+
     protected abstract void navigateToPremiumAndCoveragesTab();
 
-    protected abstract void navigateToGeneralTab();
+    protected abstract void navigateToDocumentsAndBindTab();
 
     protected abstract TestData getPnCTab_RatingDetailsQuoteInfoData();
 
