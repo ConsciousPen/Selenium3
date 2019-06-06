@@ -23,6 +23,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.regression.sales.template.functional.TestMultiPolicyDiscountAbstract;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -40,11 +41,10 @@ import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.BrowserController;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.table.Row;
+import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 import java.time.DayOfWeek;
 import javax.xml.parsers.DocumentBuilder;
@@ -63,11 +63,17 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 @StateList(statesExcept = Constants.States.CA)
-public class TestMultiPolicyDiscount extends AutoSSBaseTest {
+public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
 
-    public enum mpdPolicyType{
-        home, renters, condo, life, motorcycle
+    @Override
+    protected PolicyType getPolicyType() {
+        return PolicyType.AUTO_SS;
     }
+
+
+    //public enum mpdPolicyType{
+    //    home, renters, condo, life, motorcycle
+    //}
 
     public static List<String> _listOfMPDTableColumnNames = Arrays.asList("Policy Number / Address", "Policy Type", "Customer Name/DOB", "Expiration Date", "Status", "MPD");
     public static List<String> _listOfMPDSearchResultsTableColumnNames = Arrays.asList("Customer Name/Address", "Date of Birth", "Policy Type", "Other AAA Products/Policy Address", "Status", "Select");
@@ -77,6 +83,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     private ArrayList<String> motorcycleSupportedStates = new ArrayList<>(Arrays.asList(Constants.States.AZ));
 
     private GeneralTab _generalTab = new GeneralTab();
+    private DriverTab _driverTab = new DriverTab();
     private ErrorTab _errorTab = new ErrorTab();
     private PremiumAndCoveragesTab _pncTab = new PremiumAndCoveragesTab();
     private DocumentsAndBindTab _documentsAndBindTab = new DocumentsAndBindTab();
@@ -93,45 +100,9 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Provide 'Reason' type for a MTC to show generic wording when MPD discount is added/removed/change")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-29273")
-    public void pas29273_updateReasonMPDRemoval(@Optional("UT") String state) {
-        TestData testData = getTdAuto();
-        mainApp().open();
-        createCustomerIndividual();
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(testData, GeneralTab.class,true);
-        _generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
-        //Set the membership number to active
-        _generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("4290074030137505");
-            //puts quoted products into the MPD table with REFRESH_Q@yeah.com
-        _generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.EMAIL).setValue("REFRESH_Q@yeah.com");
-        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
-                    .click(Waiters.AJAX);
-        _generalTab.submitTab();
-        policy.getDefaultView().fillFromTo(testData, DriverTab.class, PurchaseTab.class, true);
-        if (_errorTab.tableErrors.isPresent()) {
-            _errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_MVR_order_validation_SS);
-            _errorTab.override();
-            PurchaseTab purchaseTab = new PurchaseTab();
-            purchaseTab.submitTab();
-        } else {
-            PurchaseTab purchaseTab = new PurchaseTab();
-            purchaseTab.submitTab();
-        }
-        String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-        log.info("Policy Number " + PolicySummaryPage.getPolicyNumber());
-        LocalDateTime policyEffectiveDatePlus30 = PolicySummaryPage.getEffectiveDate();
-        if(policyEffectiveDatePlus30.getDayOfWeek() == DayOfWeek.SATURDAY) {
-            policyEffectiveDatePlus30 = policyEffectiveDatePlus30.plusDays(2);
-        } else if (policyEffectiveDatePlus30.getDayOfWeek() == DayOfWeek.SUNDAY) {
-            policyEffectiveDatePlus30 = policyEffectiveDatePlus30.plusDays(1);
-        }
-        TimeSetterUtil.getInstance().nextPhase(policyEffectiveDatePlus30.plusDays(30));
-        log.info("Time Setter Move " + policyEffectiveDatePlus30.plusDays(30));
-
-        jobsNBplus30runNoChecks();
-        mainApp().reopen();
-        SearchPage.openPolicy(policyNumber);
-        transactionHistoryRecordCountCheck(policyNumber, 2, "Discount validation failure, policy information updated.", new ETCSCoreSoftAssertions());
+    public void pas29273_updateReasonMPDRemoval(@Optional("") String state) {
+        pas29273_updateReasonMPDRemoval_Template(state);
+        setTimeToToday();
     }
 
     /**
@@ -144,76 +115,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Rate SS Auto with Quoted/Unquoted Products")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23983")
     public void pas23983_MPD_unquoted_rate_and_show_discounts(@Optional("") String state) {
-
-        // Data and tools setup
-        TestData testData = getPolicyTD();
-
-        // Create customer and move to general tab. //
-        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-
-        ArrayList<HashMap<mpdPolicyType, Boolean>> scenarioList = getUnquotedManualScenarios();
-
-        // Perform the following for each scenario. Done this way to avoid recreating users every scenario.
-        for (int i = 0; i < scenarioList.size(); i++ ) {
-
-            HashMap <mpdPolicyType, Boolean> currentScenario = scenarioList.get(i);
-
-            // Set unquoted policies //
-            setUnquotedCheckboxes(currentScenario);
-
-            // On first iteration fill in data. Else jump to PnC page
-            if (i == 0) {
-                // Continue to next tab then move to P&C tab //
-                _generalTab.submitTab();
-
-                policy.getDefaultView().fillFromTo(testData, DriverTab.class, PremiumAndCoveragesTab.class, true);
-            }
-            else {
-                NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-            }
-
-            assertSoftly(softly -> {
-
-                // Check in View Rating details for Multi-Policy Discount //
-                String mpdDiscountApplied =
-                        _pncTab.getRatingDetailsQuoteInfoData().getValue("AAA Multi-Policy Discount");
-
-                // Close the VRD Popup
-                PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
-
-                // If any value is true then the VRD MPD Discount should be Yes. Else None.
-                String mpdVRDExpectedValue = currentScenario.containsValue(true) ? "Yes" : "None";
-
-                softly.assertThat(mpdDiscountApplied).isEqualTo(mpdVRDExpectedValue);
-
-
-                // Validate Discount and Surcharges //
-                String discountsAndSurcharges = PremiumAndCoveragesTab.discountsAndSurcharges.getValue();
-
-                // Check against any property string. Done this way because only one property type listed in Discounts.
-                Boolean propertyValuesPresent =
-                        currentScenario.get(mpdPolicyType.home) ||
-                                currentScenario.get(mpdPolicyType.renters) ||
-                                currentScenario.get(mpdPolicyType.condo);
-
-                Boolean propertyValuePresentInString =
-                        discountsAndSurcharges.contains("Home") ||
-                                discountsAndSurcharges.contains("Condo") ||
-                                discountsAndSurcharges.contains("Renters");
-
-                softly.assertThat(propertyValuePresentInString).isEqualTo(propertyValuesPresent);
-
-                // MC and Life always show if added.
-                softly.assertThat(currentScenario.get(mpdPolicyType.motorcycle)).
-                        isEqualTo(discountsAndSurcharges.contains("Motorcycle"));
-
-                softly.assertThat(currentScenario.get(mpdPolicyType.life)).
-                        isEqualTo(discountsAndSurcharges.contains("Life"));
-            });
-
-            // Return to General tab.
-            NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        }
+        pas23983_MPD_unquoted_rate_and_show_discounts_Template(state);
     }
 
     /**
@@ -231,43 +133,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Rate SS Auto with Quoted/Unquoted Products")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-21481")
     public void pas_21481_MPD_Unquoted_Companion_Product_AC2_AC3(@Optional("") String state) {
-
-        // Step 1
-        TestData testData = getPolicyTD();
-
-        // Create customer and move to general tab. //
-        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-
-        // Step 2
-
-        // REFRESH_P will come back with all 3 property types
-        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
-
-        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
-                .click(Waiters.AJAX);
-
-        // Step 3:
-        // Note: If following fails on first assert, validate hitting refresh comes back with
-        // Home, Renters, and Condo policies. If not, check test pre-reqs have been met.
-        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isFalse();
-        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).isEnabled()).isFalse();
-        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).isEnabled()).isFalse();
-        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE).isEnabled()).isTrue();
-
-        // Only add motorcycle in supported states
-        if (motorcycleSupportedStates.contains(getState())){
-            assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE).isEnabled()).isTrue();
-        }
-        else{
-            assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE).isPresent()).isFalse();
-        }
-
-        // Step 4
-        removeAllOtherAAAProductsOwnedTablePolicies();
-
-        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isTrue();
-        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).isEnabled()).isTrue();
-        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).isEnabled()).isTrue();
+        pas_21481_MPD_Unquoted_Companion_Product_AC2_AC3_Template(state);
     }
 
 
@@ -1530,52 +1396,6 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         }
     }
 
-    /**
-     * Adds another named insured and fills out required data.
-     * @param firstName is named insured's first name.
-     * @param lastName is named insured's last name.
-     * @param dateOfBirth is named insured's date of birth in mm/dd/yyyy format
-     * @param livedHereLessThan3Years is "Yes" or "No" if named insured has lived at location for less than 3 years.
-     * @param residence can be any option in the Residence drop down.
-     */
-    public void addNamedInsured(String firstName, String lastName, String dateOfBirth, String livedHereLessThan3Years, String residence){
-        GeneralTab generalTab = new GeneralTab();
-
-        // Click Add Insured Button
-        _generalTab.getNamedInsuredInfoAssetList()
-                .getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADD_INSURED.getLabel(),
-                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADD_INSURED.getControlClass()).click(Waiters.AJAX);
-
-        // Click cancel on the Named Insured Popup
-        _generalTab.getNamedInsuredInfoAssetList()
-                .getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_SEARCH_DIALOG.getLabel(),
-                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_SEARCH_DIALOG.getControlClass()).cancel();
-
-        // First Name
-        _generalTab.getNamedInsuredInfoAssetList().
-                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel(),
-                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getControlClass()).setValue(firstName);
-
-        // Last Name
-        _generalTab.getNamedInsuredInfoAssetList().
-                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel(),
-                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getControlClass()).setValue(lastName);
-
-        // Date of Birth
-        _generalTab.getNamedInsuredInfoAssetList().
-                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_DATE_OF_BIRTH.getLabel(),
-                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_DATE_OF_BIRTH.getControlClass()).setValue(dateOfBirth);
-
-        // Lived here less than 3 years
-        _generalTab.getNamedInsuredInfoAssetList().
-                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS.getLabel(),
-                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS.getControlClass()).setValue(livedHereLessThan3Years);
-
-        // Residence
-        _generalTab.getNamedInsuredInfoAssetList().
-                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(),
-                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getControlClass()).setValue(residence);
-    }
 
     public void otherAAAProducts_SearchAndManuallyAddCompanionPolicy(String policyType, String policyNumber){
         otherAAAProducts_SearchByPolicyNumber(policyType, policyNumber);
@@ -1842,38 +1662,6 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         for (mpdPolicyType fillInCheckbox : checkboxMap.keySet()) {
 
             setUnquotedCheckbox(fillInCheckbox, checkboxMap.get(fillInCheckbox));
-        }
-    }
-
-    /**
-     * Sets an individual checkbox to whatever is passed in.
-     * @param policyType is which policy type unquoted box to fill in.
-     * @param fillInCheckbox true = check, false = uncheck.
-     */
-    private void setUnquotedCheckbox(mpdPolicyType policyType, Boolean fillInCheckbox){
-
-        GeneralTab generalTab = new GeneralTab();
-
-        switch (policyType){
-            case condo:
-                getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).setValue(fillInCheckbox);
-                break;
-
-            case home:
-                getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).setValue(fillInCheckbox);
-                break;
-
-            case renters:
-                getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).setValue(fillInCheckbox);
-                break;
-
-            case life:
-                getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE).setValue(fillInCheckbox);
-                break;
-
-            case motorcycle:
-                getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE).setValue(fillInCheckbox);
-                break;
         }
     }
 
@@ -2253,10 +2041,12 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         return arrayOfCheckboxesFound.size();
     }
 
+
     /**
      * @return Test Data for an AZ SS policy with no other active policies
      */
-    private TestData getTdAuto() {
+    @Override
+    protected TestData getTdAuto() {
         return getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData")
                 .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()))
                 .mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()));
@@ -2306,4 +2096,208 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         softly.assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).isEqualTo(value);
     }
 
+    @Override
+    protected ComboBox getGeneralTab_CurrentAAAMemberAsset() {
+        return _generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER);
+    }
+
+    @Override
+    protected TextBox getGeneralTab_MembershipNumberAsset(){
+        return _generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER);
+    }
+
+    @Override
+    protected TextBox getGeneralTab_ContactInformation_EmailAsset(){
+        return _generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.EMAIL);
+    }
+
+    @Override
+    protected Button getGeneralTab_OtherAAAProductsOwned_RefreshAsset(){
+        return _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH);
+    }
+
+    @Override
+    protected Table getErrorTab_TableErrors(){
+        return _errorTab.tableErrors;
+    }
+
+    @Override
+    protected void errorTabOverrideErrors(ErrorEnum.Errors... errors) {
+        _errorTab.overrideErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER, errors);
+    }
+
+    @Override
+    protected void errorTabOverride() {
+        _errorTab.override();
+    }
+
+    @Override
+    protected Tab getGeneralTab(){
+        return _generalTab;
+    }
+
+    @Override
+    protected Tab getDriverTab(){
+        return _driverTab;
+    }
+
+    @Override
+    protected Tab getPremiumsAndCoveragesTab(){
+        return _pncTab;
+    }
+
+    @Override
+    protected Tab getPurchaseTab(){
+        return _purchaseTab;
+    }
+
+    @Override
+    protected void navigateToGeneralTab(){
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+    }
+
+    @Override
+    protected void navigateToPremiumAndCoveragesTab(){
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+    }
+
+    @Override
+    protected TestData getPnCTab_RatingDetailsQuoteInfoData(){
+        return  _pncTab.getRatingDetailsQuoteInfoData();
+    }
+
+    @Override
+    protected void closePnCTab_ViewRatingDetails(){
+        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+    }
+
+    @Override
+    protected String getPnCTab_DiscountsAndSurcharges(){
+        return PremiumAndCoveragesTab.discountsAndSurcharges.getValue();
+    }
+
+    @Override
+    protected Table getGeneralTab_OtherAAAProductTable(){
+        return _generalTab.getOtherAAAProductTable();
+    }
+
+    /**
+     * Adds another named insured and fills out required data.
+     * @param firstName is named insured's first name.
+     * @param lastName is named insured's last name.
+     * @param dateOfBirth is named insured's date of birth in mm/dd/yyyy format
+     * @param livedHereLessThan3Years is "Yes" or "No" if named insured has lived at location for less than 3 years.
+     * @param residence can be any option in the Residence drop down.
+     */
+    @Override
+    public void addNamedInsured(String firstName, String lastName, String dateOfBirth, String livedHereLessThan3Years, String residence){
+        // Click Add Insured Button
+        _generalTab.getNamedInsuredInfoAssetList()
+                .getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADD_INSURED.getLabel(),
+                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADD_INSURED.getControlClass()).click(Waiters.AJAX);
+
+        // Click cancel on the Named Insured Popup
+        _generalTab.getNamedInsuredInfoAssetList()
+                .getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_SEARCH_DIALOG.getLabel(),
+                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_SEARCH_DIALOG.getControlClass()).cancel();
+
+        // First Name
+        _generalTab.getNamedInsuredInfoAssetList().
+                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel(),
+                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getControlClass()).setValue(firstName);
+
+        // Last Name
+        _generalTab.getNamedInsuredInfoAssetList().
+                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel(),
+                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getControlClass()).setValue(lastName);
+
+        // Date of Birth
+        _generalTab.getNamedInsuredInfoAssetList().
+                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_DATE_OF_BIRTH.getLabel(),
+                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_DATE_OF_BIRTH.getControlClass()).setValue(dateOfBirth);
+
+        // Lived here less than 3 years
+        _generalTab.getNamedInsuredInfoAssetList().
+                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS.getLabel(),
+                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS.getControlClass()).setValue(livedHereLessThan3Years);
+
+        // Residence
+        _generalTab.getNamedInsuredInfoAssetList().
+                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(),
+                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getControlClass()).setValue(residence);
+    }
+
+    /**
+     * Returns Unquoted Checkbox control based on passed in data.
+     * @param policyType Which checkbox to return checkbox.
+     * @return Checkbox representing requested control.
+     */
+    @Override
+    protected CheckBox getUnquotedCheckBox(mpdPolicyType policyType){
+
+        CheckBox unquotedCheckBox = null;
+        switch(policyType){
+            case home:
+                unquotedCheckBox = _generalTab.getOtherAAAProductOwnedAssetList().
+                        getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME);
+                break;
+
+            case renters:
+                unquotedCheckBox = _generalTab.getOtherAAAProductOwnedAssetList().
+                        getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS);
+                break;
+
+            case condo:
+                unquotedCheckBox = _generalTab.getOtherAAAProductOwnedAssetList().
+                        getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO);
+                break;
+
+            case life:
+                unquotedCheckBox = _generalTab.getOtherAAAProductOwnedAssetList().
+                        getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE);
+                break;
+
+            case motorcycle:
+                unquotedCheckBox = _generalTab.getOtherAAAProductOwnedAssetList().
+                        getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE);
+                break;
+        }
+
+        if (unquotedCheckBox == null){
+            CustomAssertions.fail("getUnquotedCheckBox(mpdPolicyType policyType) Unsupported policy type " +
+                    policyType.toString());
+        }
+        return unquotedCheckBox;
+    }
+
+    /**
+     * Sets an individual checkbox to whatever is passed in.
+     * @param policyType is which policy type unquoted box to fill in.
+     * @param fillInCheckbox true = check, false = uncheck.
+     */
+    @Override
+    protected void setUnquotedCheckbox(mpdPolicyType policyType, Boolean fillInCheckbox){
+
+        switch (policyType){
+            case condo:
+                getUnquotedCheckBox(mpdPolicyType.condo).setValue(fillInCheckbox);
+                break;
+
+            case home:
+                getUnquotedCheckBox(mpdPolicyType.home).setValue(fillInCheckbox);
+                break;
+
+            case renters:
+                getUnquotedCheckBox(mpdPolicyType.renters).setValue(fillInCheckbox);
+                break;
+
+            case life:
+                getUnquotedCheckBox(mpdPolicyType.life).setValue(fillInCheckbox);
+                break;
+
+            case motorcycle:
+                getUnquotedCheckBox(mpdPolicyType.motorcycle).setValue(fillInCheckbox);
+                break;
+        }
+    }
 }
