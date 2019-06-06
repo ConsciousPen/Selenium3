@@ -24,6 +24,7 @@ import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.inject.internal.ImmutableList;
 import com.google.inject.internal.ImmutableMap;
+import org.apache.commons.lang.StringUtils;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 
@@ -175,9 +176,9 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 */
 	private void expirationNoticeFormGenerationOrganic(DocGenEnum.Documents form) throws NoSuchFieldException {
 		//Create Policy with default test data
-		TestData testData1 = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
+		TestData testData1 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO4), "DataGather", "TestData");
 		String policyNumber = openAppAndCreatePolicy(testData1);
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getEffectiveDate().plusYears(1);
 
 		//Move time and generate the renewal image, generate renewal bill, move to expiration date and generate expiration notice - Run necessary batch jobs at each step
 		expirationNoticeJobExecutionOrganic(policyExpirationDate);
@@ -187,29 +188,12 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", EXPIRATION_NOTICE);
 
 		//Verify the correct transaction code is seen for the document
-		String expectedPolicyTransCode;
-		if (getPolicyType().equals(PolicyType.AUTO_SS)) {
-			switch (getState()) {
-				//PAS-21588: AUTO: AZ, NY: CANC; All other states: STMT
-				case Constants.States.AZ:
-				case Constants.States.NY:
-					expectedPolicyTransCode = "CANC";
-					break;
-				default:
-					expectedPolicyTransCode = "STMT";
-					break;
-			}
-		} else {
-			//PAS-20836
-			switch (getState()) {
-				case Constants.States.AZ:
-				case Constants.States.NY:
-				case Constants.States.OH:
-					expectedPolicyTransCode = "CANB";
-					break;
-				default:
-					expectedPolicyTransCode = "STMT";
-					break;
+		String expectedPolicyTransCode = StringUtils.EMPTY;
+		if (getPolicyType().equals(PolicyType.HOME_SS_HO4)) {
+			if(getState().equals(Constants.States.AZ) || getState().equals(Constants.States.NY) || getState().equals(Constants.States.DC) || getState().equals(Constants.States.OH)){
+				expectedPolicyTransCode = "CANB";
+			}else{
+				expectedPolicyTransCode = "STMT";
 			}
 		}
 		assertThat(policyTransactionCode).as("PlcyTransCd is not correct for " + getState()).isEqualTo(expectedPolicyTransCode);

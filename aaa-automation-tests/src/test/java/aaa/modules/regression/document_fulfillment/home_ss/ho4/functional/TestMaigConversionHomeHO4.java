@@ -373,7 +373,7 @@ public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
     @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-29335"})
-    public void pas29335_expirationNoticeFormGeneration(@Optional("NJ") String state) throws NoSuchFieldException {
+    public void pas29335_expirationNoticeFormGeneration(@Optional("AZ") String state) throws NoSuchFieldException {
         super.pas29335_expirationNoticeFormGeneration(state);
     }
 
