@@ -1,6 +1,9 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -12,35 +15,31 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.utils.StateList;
-
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 /**
- * Created by lkazarnovskiy on 8/11/2017.
- * TC Steps:
- * 1. Create new or open existent Customer;
- * 2. Start HSS quote creation;
- * 3. Fill all mandatory fields;
- * 4. Calculate premium.
- * 4. On Premium and coverage tab change "Coverage F" and check that calculated premium resets to zero.
- * 5. Calculate premium.
- * 6. Invoke Override Premium Dialog.
- * 7. Override premium by -101%, check error message appears. Cancel Override.
- * 8. Override premium by Percentage (20%), check calculated values. Cancel Override.
- * 9. Override premium by Flat Amount ($400), check calculated values. Cancel Override.
- * 10.Override premium by Percentage (20%), check calculated values. Confirm Override.
- * 11.Check override success message.
- * 12.Issue Policy;
- * 13.Check Policy status is Active.
- * 14.Check Policy premium summary.
- * // Stories
- * 13736:US NB - Calculate Premium - Premium Override
- * 14891:US Calculate Premium - reset premium after change
+ * <p> Created by lkazarnovskiy on 8/11/2017.
+ * <p> TC Steps:
+ * <p> 1. Create new or open existent Customer;
+ * <p> 2. Start HSS quote creation;
+ * <p> 3. Fill all mandatory fields;
+ * <p> 4. Calculate premium.
+ * <p> 4. On Premium and coverage tab change "Coverage F" and check that calculated premium resets to zero.
+ * <p> 5. Calculate premium.
+ * <p> 6. Invoke Override Premium Dialog.
+ * <p> 7. Override premium by -101%, check error message appears. Cancel Override.
+ * <p> 8. Override premium by Percentage (20%), check calculated values. Cancel Override.
+ * <p> 9. Override premium by Flat Amount ($400), check calculated values. Cancel Override.
+ * <p> 10.Override premium by Percentage (20%), check calculated values. Confirm Override.
+ * <p> 11.Check override success message.
+ * <p> 12.Issue Policy;
+ * <p> 13.Check Policy status is Active.
+ * <p> 14.Check Policy premium summary.
+ * <p> // Stories
+ * <p> 13736:US NB - Calculate Premium - Premium Override
+ * <p> 14891:US Calculate Premium - reset premium after change
  */
 public class TestQuotePremiumOverride extends HomeSSHO3BaseTest {
 

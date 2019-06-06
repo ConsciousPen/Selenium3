@@ -1,7 +1,9 @@
 package aaa.modules.regression.sales.home_ca.dp3;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -9,23 +11,19 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
 import aaa.utils.StateList;
-
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 /**
- * Created by lkazarnovskiy on 8/7/2017.
- * @name TestPolicyCreation CA DP3 Full
- * @scenario:
- * 1. Create new or open existent Customer;
- * 2. Initiate CA DP3 quote creation, set effective date to today, set Policy Form=HO6;
- * 3. Fill all mandatory fields;
- * 4. Add Endorsement form
- * 5. Calculate premium;
- * 6. Issue policy;
- * 7. Check Policy status is Active.
+ * <p> Created by lkazarnovskiy on 8/7/2017.
+ * <b> TestPolicyCreation CA DP3 Full </b>
+ * <p> Steps::
+ * <p> 1. Create new or open existent Customer;
+ * <p> 2. Initiate CA DP3 quote creation, set effective date to today, set Policy Form=HO6;
+ * <p> 3. Fill all mandatory fields;
+ * <p> 4. Add Endorsement form
+ * <p> 5. Calculate premium;
+ * <p> 6. Issue policy;
+ * <p> 7. Check Policy status is Active.
  */
 public class TestPolicyCreationFull extends HomeCaDP3BaseTest {
 

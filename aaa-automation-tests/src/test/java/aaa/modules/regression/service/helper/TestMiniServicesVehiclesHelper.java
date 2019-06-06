@@ -1225,9 +1225,9 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		testEValueDiscount.secondEndorsementIssueCheck();
 	}
 
-	private void checkLOANIsDisabledForNY_pas29118(String policyNumber, String vehicleOid) {
+	private static void checkLOANIsDisabledForNY_pas29118(String policyNumber, String vehicleOid) {
 		PolicyCoverageInfo coverageInfo = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
-		List<Coverage> vehicleCoverages = TEST_MINI_SERVICES_COVERAGES_HELPER.findVehicleCoverages(coverageInfo, vehicleOid).coverages;
+		List<Coverage> vehicleCoverages = TestMiniServicesCoveragesHelper.findVehicleCoverages(coverageInfo, vehicleOid).coverages;
 		Coverage covLOAN = TEST_MINI_SERVICES_COVERAGES_HELPER.findCoverage(vehicleCoverages, "LOAN");
 		if (getState().equals(Constants.States.NY)) {
 			assertThat(covLOAN.getCanChangeCoverage()).isFalse();
@@ -3264,11 +3264,17 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 				.orElseThrow(() -> new IllegalArgumentException("No Vehicle found for oid: " + oid));
 	}
 
-	public Vehicle findVehicleByVin(ViewVehicleResponse viewVehicleResponse, String vin) {
-		return viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehicle.vehIdentificationNo.equals(vin)).findFirst()
+	public static Vehicle findVehicleByVin(ViewVehicleResponse viewVehicleResponse, String vin) {
+		return findVehicleByVin(viewVehicleResponse.vehicleList, vin);
+	}
+
+	public static Vehicle findVehicleByVin( String policyNumber, String vin) {
+		ViewVehicleResponse viewVehiclesResponse = HelperCommon.viewPolicyVehicles(policyNumber);
+		return findVehicleByVin(viewVehiclesResponse.vehicleList, vin);
+	}
+
+	public static Vehicle findVehicleByVin(List<Vehicle> vehicleList, String vin) {
+		return vehicleList.stream().filter(vehicle -> vehicle.vehIdentificationNo.equals(vin)).findFirst()
 				.orElseThrow(() -> new IllegalArgumentException("No Vehicle found for vin: " + vin));
 	}
 }
-
-
-

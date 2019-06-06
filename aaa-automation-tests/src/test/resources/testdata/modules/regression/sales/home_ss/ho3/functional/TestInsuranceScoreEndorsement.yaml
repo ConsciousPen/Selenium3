@@ -69,5 +69,6 @@ NamedInsuredChild: {
 
 TestData_Endorsement_ReportsTab: {
   Sales Agent Agreement: 'I Agree',
-  CLUEreport: [{Report: 'Order report'}]
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees'}],
+  CLUEreport: [{Report: 'Re-order report'}]
 }

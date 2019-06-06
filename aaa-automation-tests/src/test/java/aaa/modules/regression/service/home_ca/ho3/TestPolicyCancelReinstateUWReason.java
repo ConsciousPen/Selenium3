@@ -6,10 +6,7 @@ import java.util.HashMap;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.webdriver.controls.composite.assets.AbstractContainer;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
@@ -31,32 +28,34 @@ import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.utils.StateList;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 
 public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
 
     /**
       * @author Jurij Kuznecov
-      * @name Test CAH Policy Cancel Reinstate UW Reason
-      * @scenario 
-      * 1.  Create new or open existent Customer
-      * 2.  Create a new HO3 policy
-      * 3.  Start policy Cancellation process
-      * 4.  Verify that fields 'Cancellation effective date', 'Cancellation reason' and 'Description' are presented on 'Cancellation' tab
-      * 5.  Verify that default value in 'Cancellation effective date' field is today + 1 day
-      * 6.  Leave the cancellation date and cancellation reason fields empty, click Ok and verify that error message is appears
-      * 7.  Change the cancellation date to other than policy effective date and verify that error message is appears
-      * 8.  Change the cancellation date to policy effective date and verify that policy status is 'Policy Cancelled'
-      * 9.  Click transaction history link and verify that cancellation transaction appears in transaction history
-      * 10. Navigate to Billing page and verify that Transaction is created in Payments & Other Transactions section 
-      * 11. Navigate to Policy Summary page and check that policy consolidated screen contains an alert with cancellation reason
-      * 12. Start policy Reinstatement process and verify fields 'Cancellation effective date' and 'Reinstate date'
-      * 13. Leave the reinstate date field empty, click Ok and verify that error message is appears
-      * 14. Fill in the 'Reinstate date' field with the date 30 days later than policy cancellation effective date and verify that error message is appears
-      * 15. Change the reinstate date to policy cancellation effective date and verify that policy status is 'Policy Active' and policy effective date = policy cancellation date
-      * 16. Click transaction history link and verify that reinstate transaction appears in transaction history
-      * 17. Navigate to Billing page and verify that no reinstatement fee is applied
+	 * <b> Test CAH Policy Cancel Reinstate UW Reason </b>
+	 * <p> Steps:
+	 * <p> 1.  Create new or open existent Customer
+	 * <p> 2.  Create a new HO3 policy
+	 * <p> 3.  Start policy Cancellation process
+	 * <p> 4.  Verify that fields 'Cancellation effective date', 'Cancellation reason' and 'Description' are presented on 'Cancellation' tab
+	 * <p> 5.  Verify that default value in 'Cancellation effective date' field is today + 1 day
+	 * <p> 6.  Leave the cancellation date and cancellation reason fields empty, click Ok and verify that error message is appears
+	 * <p> 7.  Change the cancellation date to other than policy effective date and verify that error message is appears
+	 * <p> 8.  Change the cancellation date to policy effective date and verify that policy status is 'Policy Cancelled'
+	 * <p> 9.  Click transaction history link and verify that cancellation transaction appears in transaction history
+	 * <p> 10. Navigate to Billing page and verify that Transaction is created in Payments & Other Transactions section
+	 * <p> 11. Navigate to Policy Summary page and check that policy consolidated screen contains an alert with cancellation reason
+	 * <p> 12. Start policy Reinstatement process and verify fields 'Cancellation effective date' and 'Reinstate date'
+	 * <p> 13. Leave the reinstate date field empty, click Ok and verify that error message is appears
+	 * <p> 14. Fill in the 'Reinstate date' field with the date 30 days later than policy cancellation effective date and verify that error message is appears
+	 * <p> 15. Change the reinstate date to policy cancellation effective date and verify that policy status is 'Policy Active' and policy effective date = policy cancellation date
+	 * <p> 16. Click transaction history link and verify that reinstate transaction appears in transaction history
+	 * <p> 17. Navigate to Billing page and verify that no reinstatement fee is applied
       */
 
     @Parameters({"state"})

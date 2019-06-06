@@ -82,7 +82,7 @@ public class PolicySummaryPage extends SummaryPage {
 	public static Table tablePremiumAudit = new Table(By.xpath(".//div[@id='productConsolidatedViewForm:scolumn_CLPolicyPremiumAuditConsolidatedView']//table"));
 	public static Table tablePolicyDrivers = new Table(By.id("productConsolidatedViewForm:body_scolumn_DriverView"));
 	public static Table tablePolicyVehicles = new Table(By.id("productConsolidatedViewForm:body_scolumn_VehicleAndGaragingInformationMVO"));
-	public static Table tableCoverageSummary = new Table(By.id("productConsolidatedViewForm:body_scolumn_GroupCoverageSplitComponent"));
+    public static Table tableCoverageSummary = new Table(By.id("productConsolidatedViewForm:coverageSummaryTable"));
 	public static Table tablePolicyList = new Table(By.id("policyForm:body_policy_list_table_holder"));
 	public static Table tableCertificatePolicies = new Table(By.id("productConsolidatedViewForm:rootInstancesTable_certificate"));
 	public static Table tableGeneralInformation = new Table(By.xpath("//div[@id='scolumn_GeneralInformation' " + "or @id='productConsolidatedViewForm:consolidatedInfoPanelPolicy' "

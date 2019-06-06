@@ -4,7 +4,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.utils.TestInfo;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
@@ -21,20 +20,21 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.main.pages.summary.TaskDetailsSummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.utils.StateList;
+import toolkit.utils.TestInfo;
 
 public class TestQuoteTaskManager extends HomeCaHO3BaseTest {
 
     /**
       * @author Jurij Kuznecov
-      * @name Test CAH Quote Task Manager
-      * @scenario 
-      * 1.  Create new or open existent Customer
-      * 2.  Initiate HO3 policy creation
-      * 3.  Fill all mandatory fields on all tabs, set Coverage A Dwelling Limit on 'PropertyInfo' tab to $95000
-      * 4.  Purchase policy with refer for approval and override
-      * 5.  Check that System creates an Override Approval task
-      * 6.  Complete task
-      * 7.  Check task is completed
+	 * <b> Test CAH Quote Task Manager </b>
+	 * <p> Steps:
+	 * <p> 1.  Create new or open existent Customer
+	 * <p> 2.  Initiate HO3 policy creation
+	 * <p> 3.  Fill all mandatory fields on all tabs, set Coverage A Dwelling Limit on 'PropertyInfo' tab to $95000
+	 * <p> 4.  Purchase policy with refer for approval and override
+	 * <p> 5.  Check that System creates an Override Approval task
+	 * <p> 6.  Complete task
+	 * <p> 7.  Check task is completed
       */
 
     @Parameters({"state"})

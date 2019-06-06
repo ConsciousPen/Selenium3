@@ -16,12 +16,12 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author xiaolan ge
- * @name Test Initiate Umbrella Quote
- * @scenario
- * 1. Create Customer
- * 2. Initiated Umbrella Quote
- * 3. Verify quote status is 'Data Gathering' and policy number is present
- * @details
+ * <b> Test Initiate Umbrella Quote </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Initiated Umbrella Quote
+ * <p> 3. Verify quote status is 'Data Gathering' and policy number is present
+ *
  */
 public class TestQuoteInitiate extends PersonalUmbrellaBaseTest {
 

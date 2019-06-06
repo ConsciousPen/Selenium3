@@ -113,7 +113,7 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <test name="AUTOSS [NV] Premium Calculation Test" preserve-order="true">
+    <test name="AutoSS [NV] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="NVTests-20190601_part5.xls"/>
         <parameter name="policyNumbers" value="854, 819"/>
         <classes>

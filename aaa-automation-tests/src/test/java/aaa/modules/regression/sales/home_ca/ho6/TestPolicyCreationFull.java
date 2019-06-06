@@ -1,15 +1,16 @@
 package aaa.modules.regression.sales.home_ca.ho6;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-
-import aaa.common.enums.Constants.States;
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
-import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants.States;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
+import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO6BaseTest;
 import aaa.utils.StateList;
@@ -18,17 +19,17 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Kazarnovskiy Lev
- * @name TestPolicyCreation CaHO6 Full
- * @scenario:
- * 1. Create new or open existent Customer;
- * 2. Initiate CAH quote creation, set effective date to today, set Policy Form=HO6;
- * 3. Fill all mandatory fields;
- * 4. Add Endorsement form
- * 5. Calculate premium;
- * 6. Issue policy;
- * 7. Check Policy status is Active.
+ * <b> TestPolicyCreation CaHO6 Full </b>
+ * <p> Steps::
+ * <p> 1. Create new or open existent Customer;
+ * <p> 2. Initiate CAH quote creation, set effective date to today, set Policy Form=HO6;
+ * <p> 3. Fill all mandatory fields;
+ * <p> 4. Add Endorsement form
+ * <p> 5. Calculate premium;
+ * <p> 6. Issue policy;
+ * <p> 7. Check Policy status is Active.
  *
- * @details
+ *
  */
 public class TestPolicyCreationFull extends HomeCaHO6BaseTest {
 
