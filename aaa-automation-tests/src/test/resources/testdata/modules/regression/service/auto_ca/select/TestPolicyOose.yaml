@@ -68,7 +68,8 @@ NamedInsuredInformation2: {
   Add: Click,
   InsuredSearchDialog: {},
   First Name: Violeta,
-  Last Name: Minolta
+  Last Name: Minolta,
+  Insured Date of Birth: '07/28/1976'
 }
 
 PolicyInformation2: {
@@ -81,7 +82,7 @@ DriverTab2: {
   Named Insured: 'Violeta Minolta',
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': Other,
-  Date of Birth: '07/28/1976',
+  #Date of Birth: '07/28/1976',
   Occupation: Accountant,
   Gender: Female,
   Marital Status: Single,
