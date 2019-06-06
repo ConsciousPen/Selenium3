@@ -159,7 +159,7 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
     @Test(enabled = false, groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void NoDuplicateEndorsements_MembershipSTG2(@Optional String state, eTimepoints stg_x, Integer daysAfterNB) {
-        // TODO: Add regression coverage to ensure no duplicate endorsements are created at STG2 by re-running membership validation job n the same day.
+        // TODO: Once fix is in, add regression coverage to ensure no duplicate endorsements are created at STG2 by re-running membership validation job n the same day.
     }
 
     // TEST METHODS:
@@ -212,9 +212,10 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         // Continue to next page (Driver's Tab). Then complete policy bind.
         Tab.buttonNext.click();
         policy.getDefaultView().fillFromTo(in_td, DriverTab.class, PurchaseTab.class, false);
-        //HACK BEGIN
+
+        // Override unexpected errors.
         new ErrorTab().overrideAllErrors();
-        _purchaseTab.fillTab(in_td); //HACK END
+        _purchaseTab.fillTab(in_td);
         _purchaseTab.submitTab();
         _storedPolicyNumber = PolicySummaryPage.getPolicyNumber();
         _policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
