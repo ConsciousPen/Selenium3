@@ -134,12 +134,9 @@ public class TestMVRReportInvalidError extends AutoCaSelectBaseTest {
 	public void pas30347_testMVRReportInvalidErrorOverrideRenewal(@Optional("CA") String state) {
 
 		// Cancelled License
-//		testInvalidLicenseError("Cool4", "Boy4", "A3222296");
-//		new PurchaseTab().fillTab(getPolicyTD());
-//		new PurchaseTab().submitTab();
-		mainApp().open();
-		createCustomerIndividual();
-		createPolicy();
+		testInvalidLicenseError("Cool4", "Boy4", "A3222296");
+		new PurchaseTab().fillTab(getPolicyTD());
+		new PurchaseTab().submitTab();
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
