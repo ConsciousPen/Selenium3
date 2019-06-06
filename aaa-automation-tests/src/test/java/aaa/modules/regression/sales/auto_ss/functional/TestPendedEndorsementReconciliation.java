@@ -235,7 +235,7 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
 
     private void validateEValueDiscountPresent(String policyNumber){
         String status = AAAMembershipQueries.getEValueStatus(_storedPolicyNumber);
-        CustomAssertions.assertThat(status).isNotNull().isEqualTo("Active");
+        CustomAssertions.assertThat(status).isNotNull().isEqualTo("Pending");
     }
 
     private void advanceJVMToTimepoint(eTimepoints STG_N, Integer in_daysAfterNB, eThresholdTest in_typeOfBoundryTest){
