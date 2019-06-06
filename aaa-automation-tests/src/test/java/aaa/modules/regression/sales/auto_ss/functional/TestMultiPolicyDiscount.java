@@ -156,55 +156,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-21481")
     public void pas_21481_MPD_Unquoted_Companion_Product_AC5(@Optional("") String state) {
 
-        // Step 1
-        TestData testData = getPolicyTD();
-
-        // Create customer and move to general tab. //
-        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-
-        // Step 2
-        setUnquotedCheckbox(mpdPolicyType.home, true);
-        setUnquotedCheckbox(mpdPolicyType.renters, true);
-        setUnquotedCheckbox(mpdPolicyType.condo, true);
-
-        // Step 3
-
-        // REFRESH_P will come back with all 3 property types
-        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
-        
-        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
-                .click(Waiters.AJAX);
-
-        // Step 4
-        String policyTypeMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
-        String policyStatusMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.STATUS.getLabel();
-
-        // Find row matching policyType, then pull the status cell out of it to assert on.
-        String homeStatusColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
-                policyTypeMetaDataLabel,mpdPolicyType.home.toString())
-                .getCell(policyStatusMetaDataLabel)
-                .getValue();
-
-        String rentersStatusColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
-                policyTypeMetaDataLabel,mpdPolicyType.renters.toString())
-                .getCell(policyStatusMetaDataLabel)
-                .getValue();
-
-        String condoStatusColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
-                policyTypeMetaDataLabel,mpdPolicyType.condo.toString())
-                .getCell(policyStatusMetaDataLabel)
-                .getValue();
-
-        // Expected to be replaced with an Active or Quoted status. If not, make sure prereq is met.
-        String unexpected = "UNQUOTED";
-        assertThat(homeStatusColumnValue).isNotEqualTo(unexpected);
-        assertThat(rentersStatusColumnValue).isNotEqualTo(unexpected);
-        assertThat(condoStatusColumnValue).isNotEqualTo(unexpected);
-
-        // Step 5
-        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).isEnabled()).isFalse();
-        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).isEnabled()).isFalse();
-        assertThat(getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).isEnabled()).isFalse();
+        pas_21481_MPD_Unquoted_Companion_Product_AC5_Template(state);
     }
 
     /**
@@ -2179,6 +2131,16 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     @Override
     protected Table getGeneralTab_OtherAAAProductTable(){
         return _generalTab.getOtherAAAProductTable();
+    }
+
+    @Override
+    protected String getPolicyTypeMetaDataLabel(){
+        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
+    }
+
+    @Override
+    protected String getPolicyStatusMetaDataLabel(){
+        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.STATUS.getLabel();
     }
 
     /**

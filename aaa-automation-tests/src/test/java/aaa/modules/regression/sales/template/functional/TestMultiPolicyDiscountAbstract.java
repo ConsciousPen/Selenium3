@@ -255,6 +255,71 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     }
 
     /**
+     * This tests that when unquoted HO policies are checked, that refresh button returned policies replace them in the table and
+     * the unquoted options for those become disabled.
+     * @param state the test will run against.
+     * @scenario
+     * Prereqs: enterpriseSearchService.enterpriseCustomersSearchUri setup to return all 3 homeowner types on refresh.
+     * 1. Using standard test data, create customer, start auto quote, fill up to general tab with default data.
+     * 2. Check unquoted Home, Condo, and Renters.
+     * 3. Add second NI that has correct response pattern to get 3 property policies back. Click the refresh button.
+     * 4. Verify the the MDM returned policies replace the unquoted options. (Based on prereqs, should be all HO)
+     * 5. Verify the checkboxes are disabled for Home, Renters, and Condo.
+     * @author Brian Bond - CIO
+     */
+    public void pas_21481_MPD_Unquoted_Companion_Product_AC5_Template(@Optional("") String state) {
+
+        // Step 1
+        TestData testData = getPolicyTD();
+
+        // Create customer and move to general tab. //
+        createQuoteAndFillUpTo(testData, getGeneralTab().getClass(), true);
+
+        // Step 2
+        setUnquotedCheckbox(mpdPolicyType.home, true);
+        setUnquotedCheckbox(mpdPolicyType.renters, true);
+        setUnquotedCheckbox(mpdPolicyType.condo, true);
+
+        // Step 3
+
+        // REFRESH_P will come back with all 3 property types
+        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+
+        getGeneralTab_OtherAAAProductsOwned_RefreshAsset().click(Waiters.AJAX);
+
+        // Step 4
+        String policyTypeMetaDataLabel = getPolicyTypeMetaDataLabel();
+        String policyStatusMetaDataLabel = getPolicyStatusMetaDataLabel();
+
+        // Find row matching policyType, then pull the status cell out of it to assert on.
+        String homeStatusColumnValue = getGeneralTab_OtherAAAProductTable().getRowContains(
+                policyTypeMetaDataLabel,mpdPolicyType.home.toString())
+                .getCell(policyStatusMetaDataLabel)
+                .getValue();
+
+        String rentersStatusColumnValue = getGeneralTab_OtherAAAProductTable().getRowContains(
+                policyTypeMetaDataLabel,mpdPolicyType.renters.toString())
+                .getCell(policyStatusMetaDataLabel)
+                .getValue();
+
+        String condoStatusColumnValue = getGeneralTab_OtherAAAProductTable().getRowContains(
+                policyTypeMetaDataLabel,mpdPolicyType.condo.toString())
+                .getCell(policyStatusMetaDataLabel)
+                .getValue();
+
+        // Expected to be replaced with an Active or Quoted status. If not, make sure prereq is met.
+        String unexpected = "UNQUOTED";
+        assertThat(homeStatusColumnValue).isNotEqualTo(unexpected);
+        assertThat(rentersStatusColumnValue).isNotEqualTo(unexpected);
+        assertThat(condoStatusColumnValue).isNotEqualTo(unexpected);
+
+        // Step 5
+        assertThat(getUnquotedCheckBox(mpdPolicyType.home).isEnabled()).isFalse();
+        assertThat(getUnquotedCheckBox(mpdPolicyType.renters).isEnabled()).isFalse();
+        assertThat(getUnquotedCheckBox(mpdPolicyType.condo).isEnabled()).isFalse();
+    }
+
+    /**
      * @return Test Data for an AZ SS policy with no other active policies
      */
     protected abstract TestData getTdAuto();
@@ -294,6 +359,10 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     protected abstract Table getGeneralTab_OtherAAAProductTable();
 
     protected abstract void setUnquotedCheckbox(mpdPolicyType policyType, Boolean fillInCheckbox);
+
+    protected abstract String getPolicyTypeMetaDataLabel();
+
+    protected abstract String getPolicyStatusMetaDataLabel();
 
     /**
      * Returns Unquoted Checkbox control based on passed in data.
