@@ -165,8 +165,9 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 		LocalDateTime updateStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(updateStatusDate);
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-		//JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
-		PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_finDriver, EventName.RENEWAL_ISSUE, AASR22);
+		//PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_finDriver, EventName.RENEWAL_ISSUE, AASR22);		
+		assertThat(PasDocImpl.waitAndCheckDocumentsAppearance(policy_finDriver, EventName.RENEWAL_ISSUE, AASR22)).isFalse();
+
 	}
 	
 	/**
