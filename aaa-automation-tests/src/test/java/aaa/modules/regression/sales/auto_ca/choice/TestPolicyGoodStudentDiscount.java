@@ -108,10 +108,7 @@ public class TestPolicyGoodStudentDiscount extends AutoCaChoiceBaseTest {
 		policy.policyCopy().perform(td_quote);
 		policy.dataGather().start();
 
-		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-		new DriverTab().fillTab(td_quote);
-		new DriverTab().submitTab();
-		new MembershipTab().fillTab(td_quote).submitTab();
+		policy.getDefaultView().fillFromTo(td_quote, GeneralTab.class, MembershipTab.class, true);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
 		new PremiumAndCoveragesTab().fillTab(td_quote);
@@ -132,9 +129,8 @@ public class TestPolicyGoodStudentDiscount extends AutoCaChoiceBaseTest {
 		 PremiumAndCoveragesTab.RatingDetailsView.close();
 		new PremiumAndCoveragesTab().submitTab();
 
-		new DriverActivityReportsTab().fillTab(td_quote).submitTab();
-		new DocumentsAndBindTab().fillTab(td_quote).submitTab();
-		new PurchaseTab().fillTab(td_quote).submitTab();
+		policy.getDefaultView().fillFromTo(td_quote, DriverActivityReportsTab.class, PurchaseTab.class, true);
+		new PurchaseTab().submitTab();
 
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		return PolicySummaryPage.labelPolicyNumber.getValue();
@@ -145,10 +141,8 @@ public class TestPolicyGoodStudentDiscount extends AutoCaChoiceBaseTest {
 		policy.policyCopy().perform(td_quote);
 		policy.dataGather().start();
 
-		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-		new DriverTab().fillTab(td_quote);
-		new DriverTab().submitTab();
-		new MembershipTab().fillTab(td_quote).submitTab();
+		policy.getDefaultView().fillFromTo(td_quote, GeneralTab.class, MembershipTab.class, true);
+
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
 		new PremiumAndCoveragesTab().fillTab(td_quote);
 		new PremiumAndCoveragesTab().calculatePremium();

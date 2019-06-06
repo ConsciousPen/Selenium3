@@ -7378,4 +7378,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		return policyCoverageInfo.vehicleLevelCoverages.stream().filter(vehicleCoverageInfo -> oid.equals(vehicleCoverageInfo.oid)).findFirst().orElse(null);
 	}
 
+	protected void validateThatUpdateVehicleCoverageIsTheSameAsViewVehicleCoverages(String policyNumber, PolicyCoverageInfo updateVehicleCoverageResponse) {
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, updateVehicleCoverageResponse.vehicleLevelCoverages.get(0).oid, PolicyCoverageInfo.class);//update vehicle contains only updated vehicle
+		assertThat(viewEndorsementCoverages).isEqualToComparingFieldByFieldRecursively(updateVehicleCoverageResponse);
+	}
+
 }

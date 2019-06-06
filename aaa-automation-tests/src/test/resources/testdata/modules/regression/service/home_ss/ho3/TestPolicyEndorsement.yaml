@@ -22,15 +22,7 @@ ApplicantTab: {
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
-  InsuranceScoreReport: ['@InsuranceScoreReport'],
   CLUEreport: [{Report: 'Re-order report'}],
-}
-
-InsuranceScoreReport: {
-  Named Insured: 'Stanly Kubrik', 
-  Order Insurance Score: 'Yes', 
-  Customer Agreement: 'Customer agrees',
-  Report: 'Order report'
 }
 
 PropertyInfoTab: {
