@@ -255,6 +255,17 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 		});
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name New Car Added Protection and Loan Lease Coverage
+	 * @scenario
+	 * 1. Create policy in PAS bunch of different vehicles
+	 * 2. Create endorsement through service
+	 * 3. run view coverage service
+	 * 4. verify AND I have a vehicle with New Car Added Protection
+	 * AND my vehicle has ownership = financed
+	 * I see Loan Lease Coverage with canChangeCoverage = false
+	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
