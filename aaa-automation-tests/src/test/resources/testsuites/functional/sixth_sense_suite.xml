@@ -26,7 +26,11 @@
     <test name="Test MVR Report Invalid License Error" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMVRReportInvalidError"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMVRReportInvalidError">
+            <methods>
+                <exclude name="pas30347_testMVRReportInvalidErrorOverrideRenewal"/>
+            </methods>
+            </class>
         </classes>
     </test>
 

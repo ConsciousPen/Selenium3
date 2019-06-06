@@ -129,9 +129,9 @@ public class TestMVRReportInvalidError extends AutoCaSelectBaseTest {
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-30347")
-	public void pas29837_testMVRReportInvalidErrorOverrideRenewal(@Optional("CA") String state) {
+	public void pas30347_testMVRReportInvalidErrorOverrideRenewal(@Optional("CA") String state) {
 
 		// Cancelled License
 //		testInvalidLicenseError("Cool4", "Boy4", "A3222296");
