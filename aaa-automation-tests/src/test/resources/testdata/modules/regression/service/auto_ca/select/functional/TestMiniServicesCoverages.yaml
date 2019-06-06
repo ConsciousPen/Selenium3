@@ -63,7 +63,7 @@ Driver2: {
 Driver_NAFR: {
   DriverSearchDialog: {},
   Driver Type: 'Not Available for Rating',
-  Reason: 'index=1',
+  Reason: 'Insured with another carrier',
   Carrier: 'index=8',
   Policy Number: '12345',
   Rel. to First Named Insured: Child,
