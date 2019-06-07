@@ -47,8 +47,6 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
     static private LocalDateTime _policyEffectiveDate = null;
     private GeneralTab _generalTab = new GeneralTab();
     private PurchaseTab _purchaseTab = new PurchaseTab();
-    private PremiumAndCoveragesTab pncTab = new PremiumAndCoveragesTab();
-    private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 
     @DataProvider(name = "reconcilePendedEndorsements_MembershipTestData")
     public static Object[][] reconcilePendedEndorsements_MembershipTestData() {
@@ -59,18 +57,6 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
                 {"AZ", eThresholdTest.BEFORE, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE - 1, true},
                 {"AZ", eThresholdTest.ON, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE, true},
                 {"AZ", eThresholdTest.AFTER, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE + 1, false}
-        };
-    }
-
-    @DataProvider(name = "reconcilePendedEndorsements_EValueTestData")
-    public static Object[][] reconcilePendedEndorsements_EValueTestData() {
-        return new Object[][]{
-                {"DC", eThresholdTest.BEFORE, eTimepoints.STG1, CATCHUP_TIMEFRAME_VALUE - 1, true},
-                {"DC", eThresholdTest.ON, eTimepoints.STG1, CATCHUP_TIMEFRAME_VALUE, true},
-                {"DC", eThresholdTest.AFTER, eTimepoints.STG1, CATCHUP_TIMEFRAME_VALUE + 1, false},
-                {"DC", eThresholdTest.BEFORE, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE - 1, true},
-                {"DC", eThresholdTest.ON, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE, true},
-                {"DC", eThresholdTest.AFTER, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE + 1, false}
         };
     }
 
@@ -105,22 +91,6 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         handlePolicyCreation(testLevelTD, true, false, eMembershipType.CANCELLED);
         addPendedEndorsement();
         validatePendedEndorsementPresent();
-        advanceJVMToTimepoint(stg_x, daysAfterNB, typeOfBoundryTest);
-        runBatchJobs(stg_x, false);
-        assertPolicyProcessedStatus();
-        queryDBForNumberOfPendingEndorsements(_bExpectingPolicyToBeProcessed);
-        setTimeToToday();
-    }
-
-    @Parameters({"state"})
-    @Test(dataProvider = "reconcilePendedEndorsements_EValueTestData", groups = { Groups.CIO, Groups.EVALUE, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
-    public void pas28489_reconcilePendedEndorsements_Evalue(@Optional String state, eThresholdTest typeOfBoundryTest, eTimepoints stg_x, Integer daysAfterNB, Boolean bExpectingPolicyToBeProcessed) {
-        _bExpectingPolicyToBeProcessed = bExpectingPolicyToBeProcessed;
-        createEvaluePolicy();
-        addPendedEndorsement();
-        validatePendedEndorsementPresent();
-        validateEValueDiscountPresent(_storedPolicyNumber);
         advanceJVMToTimepoint(stg_x, daysAfterNB, typeOfBoundryTest);
         runBatchJobs(stg_x, false);
         assertPolicyProcessedStatus();
@@ -181,20 +151,6 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         _bExpectingPolicyToBeProcessed = in_bExpectingPolicyToBeProcessed;
     }
 
-    private void createEvaluePolicy(){
-        TestData td = getPolicyDefaultTD();
-        testEValueDiscount.eValueQuoteCreation();
-        policy.dataGather().start();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        pncTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-        pncTab.calculatePremium();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().submitTab();
-
-        _storedPolicyNumber = PolicySummaryPage.getPolicyNumber();
-        _policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-    }
-
     /**
      * This method should begin when the web-driver is viewing the GeneralTab.
      * @param bHasMembership Should the test add a AAA Membership?
@@ -231,11 +187,6 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
     private void validatePendedEndorsementPresent(){
         // If this is not true, there's no point in continuing the test.
         assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled();
-    }
-
-    private void validateEValueDiscountPresent(String policyNumber){
-        String status = AAAMembershipQueries.getEValueStatus(_storedPolicyNumber);
-        CustomAssertions.assertThat(status).isNotNull().isEqualTo("Pending");
     }
 
     private void advanceJVMToTimepoint(eTimepoints STG_N, Integer in_daysAfterNB, eThresholdTest in_typeOfBoundryTest){
