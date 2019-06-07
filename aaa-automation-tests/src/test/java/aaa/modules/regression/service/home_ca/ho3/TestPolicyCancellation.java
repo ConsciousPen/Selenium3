@@ -5,7 +5,6 @@ package aaa.modules.regression.service.home_ca.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -30,37 +29,37 @@ public class TestPolicyCancellation extends PolicyCancellation {
 
 	/**
 	 * @author Ryan Yu
-	 * @name Test Cancellation flat Home Policy
-	 * @scenario
-	 * 1. Create Customer
-	 * 2. Create Home CA Policy
-	 * 3. Cancel policy
-	 * 4. Verify Policy status is 'Policy Cancelled'
-	 * @details
+	 * <b> Test Cancellation flat Home Policy </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer
+	 * <p> 2. Create Home CA Policy
+	 * <p> 3. Cancel policy
+	 * <p> 4. Verify Policy status is 'Policy Cancelled'
+	 *
 	 */
 	@Parameters({"state"})
 	@StateList(states =  States.CA)
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
 	public void testPolicyCancellationFlat(@Optional("CA") String state) {
-		super.testPolicyCancellationFlat();
+		testPolicyCancellationFlat();
 	}
 	
 	/**
-	 * @Author Ryan Yu
-	 * @name Test Midterm Cancellation Home Policy
-	 * @scenario
-	 * 1. Create Customer
-	 * 2. Create Home Policy
-	 * 3. Midterm Cancellation Policy
-	 * 4. Verify Policy status is "Policy Cancelled"
-	 * @details
+	 * @author Ryan Yu
+	 * <b> Test Midterm Cancellation Home Policy </b>
+	 * <p> Steps:
+	 * <p> 1. Create Customer
+	 * <p> 2. Create Home Policy
+	 * <p> 3. Midterm Cancellation Policy
+	 * <p> 4. Verify Policy status is "Policy Cancelled"
+	 *
 	 */
 	@Parameters({"state"})
 	@StateList(states =  States.CA)
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
 	public void testPolicyCancellationMidTerm(@Optional("CA") String state) {
-		super.testPolicyCancellationMidTerm();
+		testPolicyCancellationMidTerm();
 	}
 }

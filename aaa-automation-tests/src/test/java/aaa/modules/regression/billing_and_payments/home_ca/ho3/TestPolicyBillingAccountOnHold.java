@@ -4,41 +4,41 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.utils.TestInfo;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.BillingConstants.BillingHoldsAndMoratoriumsTable;
 import aaa.main.enums.BillingConstants.BillingAddOnHoldPoliciesTable;
-import aaa.main.enums.BillingConstants.HoldsAndMoratoriumsActions;
+import aaa.main.enums.BillingConstants.BillingHoldsAndMoratoriumsTable;
 import aaa.main.enums.BillingConstants.BillingStatus;
+import aaa.main.enums.BillingConstants.HoldsAndMoratoriumsActions;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AddHoldActionTab;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.utils.StateList;
+import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.utils.TestInfo;
 
 public class TestPolicyBillingAccountOnHold extends HomeCaHO3BaseTest {
 
     /**
      * @author Jurij Kuznecov
-     * @name Test CAH Policy Add Billing Account On Hold
-     * @scenario 
-     * 1.  Create new or open existent Customer
-     * 2.  Create a new HO3 policy
-     * 3.  On Billing Tab select action 'Hold'
-     * 4.  Enter 'Effective Date' = current date - 2 days
-     * 5.  Enter 'Expiration Date' = current date - 3 days
-     * 6.  Fill other mandatory fields, submit tab and verify errors
-     * 7.  Change 'Effective Date' = current date, 'Expiration Date' = current date + 2 days, 'Reason' to 'Other' and verify error 
-     * 8.  Fill 'Additional information' field
-     * 9.  Verify billing account status is "On hold"
-     * 10. Remove Hold
-     * 11. Verify billing account status is "Active"
+	 * <b> Test CAH Policy Add Billing Account On Hold </b>
+	 * <p> Steps:
+	 * <p> 1.  Create new or open existent Customer
+	 * <p> 2.  Create a new HO3 policy
+	 * <p> 3.  On Billing Tab select action 'Hold'
+	 * <p> 4.  Enter 'Effective Date' = current date - 2 days
+	 * <p> 5.  Enter 'Expiration Date' = current date - 3 days
+	 * <p> 6.  Fill other mandatory fields, submit tab and verify errors
+	 * <p> 7.  Change 'Effective Date' = current date, 'Expiration Date' = current date + 2 days, 'Reason' to 'Other' and verify error
+	 * <p> 8.  Fill 'Additional information' field
+	 * <p> 9.  Verify billing account status is "On hold"
+	 * <p> 10. Remove Hold
+	 * <p> 11. Verify billing account status is "Active"
      */
 
 	@Parameters({"state"})

@@ -1,5 +1,6 @@
 package aaa.modules.regression.document_fulfillment.auto_ss;
 
+import static aaa.main.enums.DocGenEnum.Documents.*;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -12,7 +13,6 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.docgen.impl.PasDocImpl;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.DocGenEnum.EventName;
-import static aaa.main.enums.DocGenEnum.Documents.*;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -28,15 +28,15 @@ import toolkit.webdriver.controls.waiters.Waiters;
 public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 
 	/**
-	 * <p> <b>Adhoc preBind Scenario 1: PreBind page UI</b>
-	 * <p> <b>Adhoc preBind Scenario 2: Forms availability: Quote - adding, Endorse - removing, Renew - adding</b>
-	 * <p> <b>Precondition:</b> 
+	 * <p>  <b>Adhoc preBind Scenario 1: PreBind page UI</b>
+	 * <p>  <b>Adhoc preBind Scenario 2: Forms availability: Quote - adding, Endorse - removing, Renew - adding</b>
+	 * <p>  <b>Precondition:</b>
 	 * <p>		Quote is created with data: 
 	 * <p>		- Policy Type = Standard, 
 	 * <p>		- No Excluded Driver, 
 	 * <p>		- Vehicle is NOT enrolled in UBI, 
 	 * <p>		- Uninsured and Underinsured Coverages = BI.
-	 * <p> <b>Steps:</b>
+	 * <p>  <b>Steps:</b>
 	 * <p> 1.1. Open 'Document & Bind' tab and check on UI: "Generate Documents" and "Generate eSignature Documents" buttons 
 	 * <p> are shown and enabled under the "Documents Available for Printing" section
 	 * <p> 2.1. On 'Documents & Bind' tab verify the following forms are present and enabled in 'Available for Printing' section:
@@ -207,8 +207,8 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	}	
 
 	/**
-	 * <p> <b>Adhoc preBind Scenario 3: Forms availability NANO</b>
-	 * <p> <b>Precondition:</b> 
+	 * <p>  <b>Adhoc preBind Scenario 3: Forms availability NANO</b>
+	 * <p>  <b>Precondition:</b>
 	 * <p>		Quote create with Policy Type = Non-Owner. 
 	 * <p> 3.1. Go to 'Documents & Bind' tab and verify the following forms are present and available in 'Available for Printing' section:
 	 * <p>		- Auto Insurance Quote (AAIQAZ), 
@@ -321,14 +321,14 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	}
 	
 	/**
-	 * <p> <b>Adhoc preBind Scenario 4: Forms availability: Endorse - adding, Renew - removing</b>
-	 * <p> <b>Precondition:</b>
+	 * <p>  <b>Adhoc preBind Scenario 4: Forms availability: Endorse - adding, Renew - removing</b>
+	 * <p>  <b>Precondition:</b>
 	 * <p>		Policy is issued: 
 	 * <p>		- Policy Type = Standard, 
 	 * <p>		- No Excluded Driver, 
 	 * <p>		- Vehicle is NOT enrolled in UBI,  
 	 * <p>		- Uninsured and Underinsured Coverages = BI. 
-	 * <p> <b>Steps:</b>
+	 * <p>  <b>Steps:</b>
 	 * <p> 4.1. Start 'Endorsement' action. 
 	 * <p> 4.2. Add Excluded Diver, go to 'Documents & Bind' tab and verify form 
 	 * <p>		Named Driver Exclusion (AA43AZ) is shown in both 'Documents Available for Printing' and 'Required to Bind' sections. 
@@ -417,16 +417,16 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	}
 	
 	/**
-	 * <p> <b>Adhoc preBind Scenario 5: Generate eSignature Documents: quote, endorsement, renewal</b>
+	 * <p>  <b>Adhoc preBind Scenario 5: Generate eSignature Documents: quote, endorsement, renewal</b>
 	 * <p>
-	 * <p> <b>Precondition:</b> 
+	 * <p>  <b>Precondition:</b>
 	 * <p>		Quote created with data: 
 	 * <p>		- Policy Type = Standard, 
 	 * <p>		- Excluded Driver is added, 
 	 * <p>		- Driver with Age = 16 (teenage driver) is added, 
 	 * <p>		- Vehicle enrolled in UBI, 
 	 * <p>		- Uninsured and Underinsured Coverages < than BI recommended.
-	 * <p> <b>Steps:</b> 
+	 * <p>  <b>Steps:</b>
 	 * <p> 5.1. Go to 'Documents & Bind' tab, select all documents in "Documents Available for Printing" section (9 forms). 
 	 * <p>		Click "Generate Documents" and verify all selected documents are generated.
 	 * <p> 5.2. Select Auto Insurance Quote (AAIQAZ), click "Generate Documents" and verify only selected document is generated. 
@@ -550,11 +550,11 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 		log.info("TEST: Renewal created for policy#" + PolicySummaryPage.getPolicyNumber());		
 	}
 	
-	/** 
-	 * <p> <b>Adhoc preBind Scenario 6: Generate Documents NANO</b>
-	 * <p> <b>Precondition:</b> 
+	/**
+	 * <p>  <b>Adhoc preBind Scenario 6: Generate Documents NANO</b>
+	 * <p>  <b>Precondition:</b>
 	 * <p>		Quote created with Policy Type = Non-Owner. 
-	 * <p> <b>Steps:</b>
+	 * <p>  <b>Steps:</b>
 	 * <p> 6.1. Go to 'Documents & Bind' tab, select Non-Owner Automobile Endorsement (AA41XX) in "Documents Available for Printing" section. 
 	 * <p>		Click "Generate Documents" and verify that new tab with the documents is opened and only selected document is generated. 
 	 * <p>		Issue Policy. 
@@ -617,15 +617,15 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	}
 	
 	/**
-	 * <p> <b>Adhoc preBind Scenario 7: Generate eSignature Documents": quote, endorsement, renewal</b>
-	 * <p> <b>Precondition:</b> 
+	 * <p>  <b>Adhoc preBind Scenario 7: Generate eSignature Documents": quote, endorsement, renewal</b>
+	 * <p>  <b>Precondition:</b>
 	 * <p>		Quote created with data: 
 	 * <p>		- Policy Type = Standard, 
 	 * <p>		- Excluded Driver is added, 
 	 * <p>		- Driver with Age = 16 (teenage driver) is added, 
 	 * <p>		- Vehicle enrolled in UBI, 
 	 * <p>		- Uninsured and Underinsured Coverages < than BI recommended. 
-	 * <p> <b>Steps:</b>
+	 * <p>  <b>Steps:</b>
 	 * <p> 7.1. Go to 'Documents & Bind' tab, select all documents in "Documents Available for Printing" section (9 forms), 
 	 * <p> 		click "Generate eSignature Documents" and verify the popup with "Recipient Email Address" field is opened. 
 	 * <p> 7.2. Select Auto Insurance Quote (AAIQAZ) and verify "Generate eSignature Documents" is disabled 
@@ -748,10 +748,10 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	}
 	
 	/**
-	 * <p> <b>Adhoc preBind Scenario 8: Generate eSignature Documents NANO</b>
-	 * <p> <b>Precondition:</b> 
+	 * <p>  <b>Adhoc preBind Scenario 8: Generate eSignature Documents NANO</b>
+	 * <p>  <b>Precondition:</b>
 	 * <p>		Quote created with Policy Type = Non-Owner. 
-	 * <p> <b>Steps:</b>
+	 * <p>  <b>Steps:</b>
 	 * <p> 8.1. Go to 'Documents & Bind' tab, select Non-Owner Automobile Endorsement (AA41XX) in "Documents Available for Printing" section, 
 	 * <p>		click "Generate eSignature Documents" and verify the pop-up with "Recipient Email Address" field is opened. 
 	 * <p>		Issue Policy. 

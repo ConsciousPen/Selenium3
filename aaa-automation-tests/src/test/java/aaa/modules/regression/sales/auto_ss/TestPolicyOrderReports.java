@@ -7,8 +7,8 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -25,10 +25,9 @@ import toolkit.utils.datetime.DateTimeUtils;
 
 /**
  * @author Jelena Dembovska
- * @name Test order reports
- * @scenario
-
- * @details
+ * <b> Test order reports </b>
+ * <p> Steps:
+ *
  */
 public class TestPolicyOrderReports extends AutoSSBaseTest {
 

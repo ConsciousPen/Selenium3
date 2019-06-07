@@ -83,11 +83,11 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         String type = getPolicyType().getShortName();
         String date = formatDateToString(effDate);
         switch (type) {
-            case CA_SELECT:
             case CA_CHOICE:
-                td.adjust(TestData.makeKeyPath(AutoCaMetaData.CancellationActionTab.class.getSimpleName(), AutoCaMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=2");
+                td.adjust(TestData.makeKeyPath(AutoCaMetaData.CancellationActionTab.class.getSimpleName(), AutoCaMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "contains=Insured's Request");
                 td.adjust(TestData.makeKeyPath(AutoCaMetaData.CancellationActionTab.class.getSimpleName(), AutoCaMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
                 break;
+            case CA_SELECT:
             case AUTO_SS:
                 td.adjust(TestData.makeKeyPath(AutoSSMetaData.CancellationActionTab.class.getSimpleName(), AutoSSMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=1");
                 td.adjust(TestData.makeKeyPath(AutoSSMetaData.CancellationActionTab.class.getSimpleName(), AutoSSMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
@@ -450,7 +450,11 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                     td = getEmptyTestDataSSPup();
                 }
                 td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
-                        PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.CALCULATE_PREMIUM.getLabel(), "Click"));
+                        PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.CALCULATE_PREMIUM.getLabel(), "Click"))
+                        .adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.class.getSimpleName(),
+                                PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel()), DataProviderFactory.dataOf(
+                                        PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.MAKE.getLabel(), "CHEVROLET",
+                                        PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.MODEL.getLabel(), "AVEO"));
                 break;
             default:
                 throw new IstfException("No Policy Type was matched!");

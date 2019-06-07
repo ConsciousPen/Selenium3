@@ -43,11 +43,9 @@ TestData_Membership_Valid_DOB: {
      NamedInsuredInformation: {
        First Name: INVALID,
        Last Name: INVALID,
+       Insured Date of Birth: 1/4/1962
      },
      ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation'
-   },
-   DriverTab: {
-    Date of Birth: 1/4/1962
    },
   DriverActivityReportsTab: { },
   DocumentsAndBindTab: {  }
@@ -243,6 +241,7 @@ NamedInsuredInformation_MembershipValid: {
   First Name: Ronhald,
   Last Name: Ronaldjo,
   Base Date: '$<today:MM/dd/yyyy>',
+  Insured Date of Birth: '$<today-35y:MM/dd/yyyy>',
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
   "Home Phone #": 1234567890

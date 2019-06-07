@@ -6,7 +6,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -17,20 +16,20 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Ryan Yu
- * @name Test Reinstatement Change Lapse option for Home Policy
- * @scenario
- * 1. Create Customer
- * 2. Create Home Policy
- * 3. Cancel Policy
- * 4. Reinstate Policy without Lapse
- * 5. Verify 'Term includes lapse period' flag is not displayed in the policy consolidated view header
- * 6. Add Lapse Period for Policy
- * 7. Verify 'Term includes lapse period' flag is displayed in the policy consolidated view header
- * 8. Change Lapse Period for Policy
- * 9. Verify 'Term includes lapse period' flag is displayed
- * 10. Remove Lapse Period for Policy
- * 11. Verify 'Term includes lapse period' flag is not displayed
- * @details
+ * <b> Test Reinstatement Change Lapse option for Home Policy </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create Home Policy
+ * <p> 3. Cancel Policy
+ * <p> 4. Reinstate Policy without Lapse
+ * <p> 5. Verify 'Term includes lapse period' flag is not displayed in the policy consolidated view header
+ * <p> 6. Add Lapse Period for Policy
+ * <p> 7. Verify 'Term includes lapse period' flag is displayed in the policy consolidated view header
+ * <p> 8. Change Lapse Period for Policy
+ * <p> 9. Verify 'Term includes lapse period' flag is displayed
+ * <p> 10. Remove Lapse Period for Policy
+ * <p> 11. Verify 'Term includes lapse period' flag is not displayed
+ *
  */
 public class TestPolicyReinstatementChangeLapse extends HomeCaHO3BaseTest {
 

@@ -3,13 +3,10 @@
 package aaa.modules.regression.service.auto_ca.select;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.Constants.UserGroups;
 import aaa.common.pages.MainPage;
@@ -27,9 +24,9 @@ import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author Automation team
- * @name Test Flat Endorsement for Auto Policy
- * @scenario
- * @details
+ * <b> Test Flat Endorsement for Auto Policy </b>
+ * <p> Steps:
+ *
  */
 public class TestPolicyEndorsementAdd extends AutoCaSelectBaseTest {
 

@@ -5,9 +5,6 @@ package aaa.modules.regression.service.home_ca.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -15,17 +12,19 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.regression.service.template.PolicyRenewFlatCancellation;
 import aaa.utils.StateList;
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
 
 /**
  * @author Xiaolan Ge
- * @name Test renew flat cancellation for Umbrella Policy
- * @scenario
- * 1. Create Customer
- * 2. Create Umbrella (AAA) Policy
- * 3. Manual Renew for Policy
- * 4. Cancellation Policy Renewal
- * 5. Verify Policy status is 'Cancellation Pending'
- * @details
+ * <b> Test renew flat cancellation for Umbrella Policy </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create Umbrella (AAA) Policy
+ * <p> 3. Manual Renew for Policy
+ * <p> 4. Cancellation Policy Renewal
+ * <p> 5. Verify Policy status is 'Cancellation Pending'
+ *
  */
 public class TestPolicyRenewFlatCancellation extends PolicyRenewFlatCancellation {
 
@@ -43,6 +42,6 @@ public class TestPolicyRenewFlatCancellation extends PolicyRenewFlatCancellation
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3 )
     public void testPolicyRenewFlatCancellation(@Optional("CA") String state) {
-        super.testPolicyRenewFlatCancellation();
+		testPolicyRenewFlatCancellation();
     }
 }

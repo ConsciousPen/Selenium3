@@ -1,43 +1,41 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
+import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.SALES_AGENT_AGREEMENT;
+import java.time.LocalDateTime;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.renewal.RenewalHelper_Home;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.renewal.RenewalHelper_Home;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 
-import java.time.LocalDateTime;
-
-import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.SALES_AGENT_AGREEMENT;
-
 /**
  *
- * Test Membership Validation and override in NB, Endorsement & Renewal <br>
- * 1. New Business <br>
- * 2. Endorsement <br>
- * 3. Flat Endorsement <br>
- * 4. Renewal <br>
- * 5. Dummy Number NB, Endorsement, and Renewal
+ * <p> Test Membership Validation and override in NB, Endorsement & Renewal <br>
+ * <p> 1. New Business <br>
+ * <p> 2. Endorsement <br>
+ * <p> 3. Flat Endorsement <br>
+ * <p> 4. Renewal <br>
+ * <p> 5. Dummy Number NB, Endorsement, and Renewal
  * @author Tyrone Jemison
  **/
 @StateList(states = Constants.States.AZ)
@@ -52,8 +50,8 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
     TestDataHelper _myTestDataHelper = new TestDataHelper();
 
     /**
-     * This is the new version of pas3786_validateMembership that is targeted at improving the previous version in several ways to include: <br>
-     *     1. Improved Stability; 2. Improved Stability; 3. Improved Traceability; 4. Reduced Upkeep. <br>
+	 * <p> This is the new version of pas3786_validateMembership that is targeted at improving the previous version in several ways to include: <br>
+	 * <p>     1. Improved Stability; 2. Improved Stability; 3. Improved Traceability; 4. Reduced Upkeep. <br>
      * @param state
      */
     @Parameters({"state"})
@@ -63,9 +61,9 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
 
         // Create Test Data for New Business IN-ACTIVE Member first. Will not match and will throw error.
         TestData _inActiveMemberTD = getPolicyDefaultTD();
-        _myTestDataHelper.adjustTD(_inActiveMemberTD, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.FIRST_NAME.getLabel(), "ABC");
-        _myTestDataHelper.adjustTD(_inActiveMemberTD, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel(), "XYZ");
-        _myTestDataHelper.adjustTD(_inActiveMemberTD, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel(), "01/01/1942");
+		TestDataHelper.adjustTD(_inActiveMemberTD, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.FIRST_NAME.getLabel(), "ABC");
+		TestDataHelper.adjustTD(_inActiveMemberTD, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel(), "XYZ");
+		TestDataHelper.adjustTD(_inActiveMemberTD, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel(), "01/01/1942");
         createQuoteAndFillUpTo(_inActiveMemberTD, BindTab.class, true);
         bindTab.btnPurchase.click();
 
@@ -92,8 +90,8 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
     }
 
     /**
-     * This test will leverage a policy created by 'pas3786_validateMembership_NewBusiness' if available and perform
-     *     an endorsement test for Membership Validation. <br>
+	 * <p> This test will leverage a policy created by 'pas3786_validateMembership_NewBusiness' if available and perform
+	 * <p>     an endorsement test for Membership Validation. <br>
      * @param state
      */
     @Parameters({"state"})
@@ -141,8 +139,8 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
     }
 
     /**
-     * This test will leverage a policy created by 'pas3786_validateMembership_NewBusiness' if available and perform
-     *     an endorsement test for Membership Validation. <br>
+	 * <p> This test will leverage a policy created by 'pas3786_validateMembership_NewBusiness' if available and perform
+	 * <p>     an endorsement test for Membership Validation. <br>
      * @param state
      */
     @Parameters({"state"})
@@ -187,9 +185,9 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
     }
 
     /**
-     *  Handles Membership Validation Testing during Renewals.
+	 * <p>  Handles Membership Validation Testing during Renewals.
      * @param state
-     * @runTime ~15min.
+	 * <p> Runtime: ~15min.
      */
     @Parameters({"state"})
     @Test(enabled = true, priority = 4, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "30504: Membership Validation Critical Defect Stabilization")
@@ -249,7 +247,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
 
         // Create NB Quote and go to Bind Tab.
         TestData _dummyMemberTD = getPolicyDefaultTD();
-        _myTestDataHelper.adjustTD(_dummyMemberTD, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), DUMMYNUMBER);
+		TestDataHelper.adjustTD(_dummyMemberTD, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), DUMMYNUMBER);
         createQuoteAndFillUpTo(_dummyMemberTD, BindTab.class, true);
 
         // Bind and Purchase with No UW Rule Errors.
