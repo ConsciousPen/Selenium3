@@ -6050,6 +6050,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		Coverage covPIPCOVINCLUDESActualUpdate2 = findCoverage(subCoveragesAPIPActualUpdate2, CoverageInfo.PIPCOVINCLUDES_NJ.getCode());
 		assertThat(covPIPCOVINCLUDESExpectedNi).isEqualTo(covPIPCOVINCLUDESActualUpdate2);
 
+
 		//Check PAS UI
 		checkPasUiPIPCOVINCLUDES(policyNumber, null, false);
 	}
