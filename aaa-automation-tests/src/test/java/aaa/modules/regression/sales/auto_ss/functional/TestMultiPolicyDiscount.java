@@ -226,35 +226,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Removing a NI and associated companion products")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3622")
     public void pas_3622_CIO_Remove_NI_Companion_AC1_1(@Optional("") String state) {
-        // Data and tools setup
-        TestData testData = getPolicyTD();
-
-        // Create customer and move to general tab. //
-        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-
-        // Add second NI
-        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
-
-        // Move to documents and bind tab.
-        _generalTab.submitTab();
-
-        policy.getDefaultView().fillFromTo(testData, DriverTab.class, DocumentsAndBindTab.class, true);
-
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-
-        // Remove Second NI
-        _generalTab.removeInsured(2);
-
-        // Attempt to Bind
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        _documentsAndBindTab.submitTab();
-
-        // Check for error.
-        String errorMsg = _errorTab.tableErrors.
-                getRow("Code", "Unprepared data").
-                getCell("Message").getValue();
-
-        assertThat(errorMsg).startsWith("Cannot issue policy which was not rated!");
+        pas_3622_CIO_Remove_NI_Companion_AC1_1_Template(state);
     }
 
     /**
@@ -2117,6 +2089,11 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         _generalTab.getNamedInsuredInfoAssetList().
                 getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(),
                         AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getControlClass()).setValue(residence);
+    }
+
+    @Override
+    protected void generalTab_RemoveInsured(int index){
+        _generalTab.removeInsured(index);
     }
 
     /**

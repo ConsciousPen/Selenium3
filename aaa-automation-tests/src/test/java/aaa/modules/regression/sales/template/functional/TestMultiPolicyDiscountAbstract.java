@@ -463,6 +463,48 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     }
 
     /**
+     * This test validates that removing named insureds without rating results in error message at bind time.
+     * @param state the test will run against.
+     * @scenario
+     * 1. Create quote with 2 NIs
+     * 2. Remove one of the NI (NO mpd data returned)
+     * 3. Navigate to Doc and Bind tab and bind
+     * 4. Verify a hard stop error occurs directing user to Re-Rate the policy.
+     * @author Brian Bond - CIO
+     */
+    public void pas_3622_CIO_Remove_NI_Companion_AC1_1_Template(@Optional("") String state) {
+        // Data and tools setup
+        TestData testData = getPolicyTD();
+
+        // Create customer and move to general tab. //
+        createQuoteAndFillUpTo(testData, getGeneralTab().getClass(), true);
+
+        // Add second NI
+        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+
+        // Move to documents and bind tab.
+        getGeneralTab().submitTab();
+
+        policy.getDefaultView().fillFromTo(testData, getDriverTab().getClass(), getDocumentsAndBindTab().getClass(), true);
+
+        navigateToGeneralTab();
+
+        // Remove Second NI
+        generalTab_RemoveInsured(2);
+
+        // Attempt to Bind
+        navigateToDocumentsAndBindTab();
+        getDocumentsAndBindTab().submitTab();
+
+        // Check for error.
+        String errorMsg = getErrorTab_TableErrors().
+                getRow("Code", "Unprepared data").
+                getCell("Message").getValue();
+
+        assertThat(errorMsg).startsWith("Cannot issue policy which was not rated!");
+    }
+
+    /**
      * @return Test Data for an AZ SS policy with no other active policies
      */
     protected abstract TestData getTdAuto();
@@ -520,6 +562,8 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     protected abstract String getPolicyTypeMetaDataLabel();
 
     protected abstract String getPolicyStatusMetaDataLabel();
+
+    protected abstract void generalTab_RemoveInsured(int index);
 
     /**
      * Returns Unquoted Checkbox control based on passed in data.
