@@ -176,7 +176,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 */
 	private void expirationNoticeFormGenerationOrganic(DocGenEnum.Documents form) throws NoSuchFieldException {
 		//Create Policy with default test data
-		TestData testData1 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_SS_HO4), "DataGather", "TestData");
+		TestData testData1 = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
 		String policyNumber = openAppAndCreatePolicy(testData1);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getEffectiveDate().plusYears(1);
 
@@ -189,7 +189,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 
 		//Verify the correct transaction code is seen for the document
 		String expectedPolicyTransCode = StringUtils.EMPTY;
-		if (getPolicyType().equals(PolicyType.HOME_SS_HO4)) {
+		if (getPolicyType().equals(PolicyType.HOME_SS_HO4) || getPolicyType().equals(PolicyType.HOME_SS_HO3) || getPolicyType().equals(PolicyType.HOME_SS_HO6) || getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
 			if(getState().equals(Constants.States.AZ) || getState().equals(Constants.States.NY) || getState().equals(Constants.States.DC) || getState().equals(Constants.States.OH)){
 				expectedPolicyTransCode = "CANB";
 			}else{
@@ -798,7 +798,6 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(expirationDate));
-//		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getInsuranceRenewalReminderDate(expirationDate));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		JobUtils.executeJob(Jobs.aaaRenewalReminderGenerationAsyncJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
