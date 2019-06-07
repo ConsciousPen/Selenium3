@@ -1,6 +1,5 @@
 package aaa.modules.financials.template;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -15,7 +14,6 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
@@ -479,16 +477,16 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
      * @details RNW-05, RST-05
      */
     protected void testRenewalScenario_6() {
-
         // Create policy WITHOUT employee benefit, monthly payment plan
         mainApp().open();
         createCustomerIndividual();
         String policyNumber = createFinancialPolicy(adjustTdMonthlyPaymentPlan(getPolicyTD()));
-        LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
-        LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
+		LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
 
-        // cancel policy for non-payment of premium
-        policy.cancel().perform(getCancellationNonPaymentTd(effDate));
+		SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		// cancel policy for non-payment of premium
+		LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
+		policy.cancel().perform(getCancellationNonPaymentTd(effDate));
 
         // Advance time one month, reinstate policy with lapse, waive reinstatement fee
         TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1));
@@ -520,48 +518,12 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
 
-		LocalDateTime dueDate = PolicySummaryPage.getEffectiveDate().plusMonths(1);
 		Dollar renewalPrem = PolicySummaryPage.TransactionHistory.getEndingPremium();
 		// taxes only applies to WV and KY and value needs added to premium amount for correct validation below
 		Dollar totalTaxesRenewal = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1053");
 
 		//RNW-05 validation
 		validateRenewalBoundOnEffDate(policyNumber, renewalPrem, totalTaxesRenewal);
-
-		//OPR-01
-		// Advance time 1 month, generate and pay first installment bill
-		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(dueDate);
-		LocalDateTime billDueDate = getTimePoints().getBillDueDate(dueDate);
-		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
-		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-
-		mainApp().open();
-		SearchPage.openBilling(policyNumber);
-		payMinAmountDue(METHOD_CASH);
-
-		waiveFeeByDateAndType(billGenDate, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE);
-
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getColumn(BillingConstants.BillingPaymentsAndOtherTransactionsTable
-				.SUBTYPE_REASON).getValue()).contains(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATE_PAYMENT);
-		//OPR-01 validation------------------------------
-
-		//OPR-02
-		// Advance time 1 month, generate and pay installment bill
-		LocalDateTime secondBillGenDate = getTimePoints().getBillGenerationDate(dueDate.plusMonths(1));
-
-		TimeSetterUtil.getInstance().nextPhase(secondBillGenDate);
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
-
-		mainApp().open();
-		SearchPage.openBilling(policyNumber);
-		payMinAmountDue(METHOD_CASH);
-
-		waiveFeeByDateAndType(billGenDate, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE);
-
-		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getColumn(BillingConstants.BillingPaymentsAndOtherTransactionsTable
-				.SUBTYPE_REASON).getValue()).contains(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATE_PAYMENT);
-		//OPR-02 validation------------------------------
     }
 
 	/**
@@ -578,7 +540,6 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 	 * @details RNW-06, RST-06
 	 */
 	protected void testRenewalScenario_7() {
-
 		// Create policy WITH employee benefit
 		mainApp().open();
 		createCustomerIndividual();

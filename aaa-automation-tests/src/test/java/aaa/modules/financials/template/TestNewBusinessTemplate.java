@@ -1,5 +1,12 @@
 package aaa.modules.financials.template;
 
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
@@ -20,13 +27,6 @@ import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
@@ -607,6 +607,95 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         }
 
+    }
+
+    protected void testNewBusinessScenario_6() {
+        // Create policy WITHOUT employee benefit, monthly payment plan
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createFinancialPolicy(adjustTdMonthlyPaymentPlan(getPolicyTD()));
+        LocalDateTime dueDate = PolicySummaryPage.getEffectiveDate().plusMonths(1);
+
+        //OPR-01
+        // Advance time 1 month, generate and pay first installment bill
+        LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(dueDate);
+        LocalDateTime billDueDate = getTimePoints().getBillDueDate(dueDate);
+        TimeSetterUtil.getInstance().nextPhase(billGenDate);
+        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+        TimeSetterUtil.getInstance().nextPhase(billDueDate);
+
+        mainApp().open();
+        SearchPage.openBilling(policyNumber);
+        payMinAmountDue(METHOD_CASH);
+
+        waiveFeeByDateAndType(billGenDate, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE);
+        assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getColumn(BillingConstants.BillingPaymentsAndOtherTransactionsTable
+                .SUBTYPE_REASON).getValue()).contains(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATE_PAYMENT);
+
+        Dollar reallocationAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATED_PAYMENT);
+        Dollar totalFeeNB = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE);
+        Map<String, Dollar> adjustmentAllocations = getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATED_PAYMENT, billDueDate);
+        Map<String, Dollar> paymentAllocations = getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATE_PAYMENT, billDueDate);
+
+        //OPR-01 validation
+        assertSoftly(softly -> {
+            softly.assertThat(reallocationAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1001"));
+            softly.assertThat(reallocationAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1001"));
+            softly.assertThat(paymentAllocations.get("Net Premium")).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1044"));
+            softly.assertThat(adjustmentAllocations.get("Net Premium")).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1044"));
+            softly.assertThat(totalFeeNB).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(billDueDate, policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1034"));
+            softly.assertThat(BillingHelper.DZERO).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(billDueDate, policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1034"));
+        });
+        // Tax Validations
+        if (isTaxState()) {
+            assertSoftly(softly -> {
+                softly.assertThat(adjustmentAllocations.get("Taxes")).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1053"));
+                softly.assertThat(paymentAllocations.get("Taxes")).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1053"));
+            });
+        }
+        //OPR-02
+        // Advance time 1 month, generate and pay installment bill
+        LocalDateTime secondBillGenDate = getTimePoints().getBillGenerationDate(dueDate.plusMonths(1));
+        TimeSetterUtil.getInstance().nextPhase(secondBillGenDate);
+        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+
+        mainApp().open();
+        SearchPage.openBilling(policyNumber);
+        payMinAmountDue(METHOD_CASH);
+
+        waiveFeeByDateAndType(secondBillGenDate, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE);
+        assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getColumn(BillingConstants.BillingPaymentsAndOtherTransactionsTable
+                .SUBTYPE_REASON).getValue()).contains(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATE_PAYMENT);
+
+        Dollar secondReallocationAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATED_PAYMENT);
+        Dollar secondTalFeeNB = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE);
+        Map<String, Dollar> secondAdjustmentAllocations = getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATED_PAYMENT, secondBillGenDate);
+        Map<String, Dollar> secondPaymentAllocations = getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATE_PAYMENT, secondBillGenDate);
+
+        //OPR-02 validation
+        assertSoftly(softly -> {
+            softly.assertThat(reallocationAmount.add(secondReallocationAmount)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1001"));
+            softly.assertThat(reallocationAmount.add(secondReallocationAmount)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1001"));
+            softly.assertThat(paymentAllocations.get("Net Premium").add(secondPaymentAllocations.get("Net Premium"))).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1044"));
+            softly.assertThat(adjustmentAllocations.get("Net Premium").add(secondAdjustmentAllocations.get("Net Premium"))).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1044"));
+            softly.assertThat(secondTalFeeNB).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(billDueDate, policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1034"));
+            softly.assertThat(BillingHelper.DZERO).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(billDueDate, policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1034"));
+        });
+        // Tax Validations
+        if (isTaxState()) {
+            assertSoftly(softly -> {
+                softly.assertThat(adjustmentAllocations.get("Taxes").add(secondAdjustmentAllocations.get("Taxes"))).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1053"));
+                softly.assertThat(paymentAllocations.get("Taxes").add(secondPaymentAllocations.get("Taxes"))).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1053"));
+            });
+        }
     }
 
     private void validateCancellationTx(Dollar refundAmt, String policyNumber, Dollar taxes) {
