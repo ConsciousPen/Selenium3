@@ -391,7 +391,7 @@ PT-3244:
     messages: ["Errors: 'Roof shape' is not in within range"]
   - tests: [aaa.modules.bct.service.*]
     messages: ["//input[@id='policyDataGatherForm:premiumRecalcCov' or @id='policyDataGatherForm:actionButton_AAAHORateAction']"]
-PT-3617:
+PAS-29959:
   summary: "Regression BCT: \"Cancel Notice\" flag is present after accepting payment"
   reason: PROD
   failures:
