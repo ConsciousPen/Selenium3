@@ -279,58 +279,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Removing a NI and associated companion products")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3622")
     public void pas_3622_CIO_Remove_NI_Companion_AC2_2(@Optional("") String state) {
-
-        // Data and tools setup
-        TestData testData = getPolicyTD();
-
-        // Create customer and move to general tab.
-        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-
-        // Add second NI
-        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
-
-        // Trigger refresh
-        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH)
-                .click(Waiters.AJAX);
-
-        // Complete purchase
-        _generalTab.submitTab();
-
-        policy.getDefaultView().fillFromTo(testData, DriverTab.class, PurchaseTab.class, true);
-
-        _purchaseTab.submitTab();
-
-        // Start renewal
-        policy.createRenewal(getPolicyTD("InitiateRenewalEntry", "TestData"));
-
-        // Remove driver 2
-        _generalTab.removeInsured(2);
-
-        // Pull customer names out of table
-        String policyTypeMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
-        String customerNameDOBMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.CUSTOMER_NAME_DOB.getLabel();
-
-        // Find row matching policyType, then pull the status cell out of it to assert on.
-        String homeStatusColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
-                policyTypeMetaDataLabel,mpdPolicyType.home.toString())
-                .getCell(customerNameDOBMetaDataLabel)
-                .getValue();
-
-        String rentersStatusColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
-                policyTypeMetaDataLabel,mpdPolicyType.renters.toString())
-                .getCell(customerNameDOBMetaDataLabel)
-                .getValue();
-
-        String condoStatusColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
-                policyTypeMetaDataLabel,mpdPolicyType.condo.toString())
-                .getCell(customerNameDOBMetaDataLabel)
-                .getValue();
-
-        // Verify no refresh on table by checking Peter Parker has not reverted to default response
-        String expectedName = "PETER PARKER";
-        assertThat(homeStatusColumnValue).startsWith(expectedName);
-        assertThat(rentersStatusColumnValue).startsWith(expectedName);
-        assertThat(condoStatusColumnValue).startsWith(expectedName);
+        pas_3622_CIO_Remove_NI_Companion_AC2_2_Template(state);
     }
 
     /**
