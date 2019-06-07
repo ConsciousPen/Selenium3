@@ -1,4 +1,4 @@
-package aaa.modules.regression.billing_and_payments.auto_ca.choice;
+package aaa.modules.regression.billing_and_payments.auto_ca.choice.functional;
 
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
