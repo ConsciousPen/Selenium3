@@ -287,6 +287,24 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	}
 
 	/**
+	 * @author Maris Strazds
+	 * @name Update Coverage - ADB
+	 * @scenario1
+	 * 1. Create policy With multiple drivers
+	 * 2. Verify ADB coverage showing only for AFR drivers.
+	 * 3. Run View Premium service save the Premium
+	 * 4. Update Coverage Service add adb coverage to the AFR driver verify Premium should increased
+	 * 5. Update Coverage Service add adb coverage for 2 AFR driver verify Premium should increased
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-17642", "PAS-30778"})
+	public void pas17642_UpdateCoverageADB_CA(@Optional("CA") String state) {
+		pas17642_UpdateCoverageADBBody();
+	}
+
+	/**
 	 * @author Megha Gubbala
 	 * @name New Car Added Protection and Loan Lease Coverage
 	 * @scenario

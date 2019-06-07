@@ -100,6 +100,10 @@ TestData_2Drivers: {
   DriverTab:['@Driver1', '@Driver2']
 }
 
+FourDrivers: {
+  DriverTab:['@Driver1', '@Driver_NAFR', '@Driver2', '@Driver_EXCL']
+}
+
 Driver1: {
   DriverSearchDialog: {},
   Occupation: 'Driver',
@@ -123,6 +127,46 @@ Driver2: {
   Age First Licensed: '16',
   Permit Before License: 'Yes',
   "License #": 'C1234568'
+}
+
+Driver_NAFR: {
+  DriverSearchDialog: {},
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Insured with another carrier',
+  Carrier: 'index=8',
+  Policy Number: '12345',
+  Rel. to First Named Insured: Child,
+  First Name: 'Laura',
+  Middle Name: 'Sara',
+  Last Name: 'Smith',
+  Suffix: 'III',
+  Date of Birth: '12/12/1991',
+  Gender: 'Female',
+  Marital Status: Divorced,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '18',
+  Permit Before License: 'Yes',
+  "License #": 'C1234569',
+}
+
+Driver_EXCL: {
+  DriverSearchDialog: {},
+  Driver Type: Excluded,
+  Reason: 'index=1',
+  Rel. to First Named Insured: Employee,
+  First Name: 'John',
+  Middle Name: 'Jonny',
+  Last Name: 'Jeff',
+  Suffix: 'III',
+  Date of Birth: '12/12/1993',
+  Gender: 'Male',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Valid',
+  Age First Licensed: '18',
+  Permit Before License: 'Yes',
+  "License #": 'C1234570',
 }
 
 VehicleTab_1: {
@@ -410,6 +454,19 @@ PremiumAndCoveragesTab_ETECOtherThan25750ForAllVehicles: {
     Collision Deductible: 'contains=No',
   }
   ]
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    California Car Policy Application: Physically Signed,
+    Operator Exclusion Endorsement and Uninsured Motorist Coverage Deletion Endorsement: Physically Signed,
+    Subscriber Agreement: Physically Signed,
+  },
+  RequiredToIssue: {
+    Policy Application: 'Yes',
+    Auto Billing Plan Explanation: 'Yes'
+  },
+  Agreement: I agree
 }
 
 #RREIM, TOWINGLABOR and SPECEQUIP is in response, but customerDisplay=false
