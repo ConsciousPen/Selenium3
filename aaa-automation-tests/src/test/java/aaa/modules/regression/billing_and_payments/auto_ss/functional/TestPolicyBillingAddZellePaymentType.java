@@ -1,4 +1,4 @@
-package aaa.modules.regression.billing_and_payments.auto_ss;
+package aaa.modules.regression.billing_and_payments.auto_ss.functional;
 
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
@@ -20,7 +20,7 @@ public class TestPolicyBillingAddZellePaymentType extends PolicyBillingAddZelleP
 	
 	@Parameters({"state"})
 	@StateList(statesExcept = States.CA)
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS)
 	public void test_addPaymentMethods(@Optional("") String state) {
 		
