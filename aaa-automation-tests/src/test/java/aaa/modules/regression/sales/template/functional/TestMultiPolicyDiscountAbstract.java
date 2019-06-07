@@ -553,6 +553,69 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     }
 
     /**
+     * This test validates that removing named insureds on endorsements does not refresh MPD table.
+     * @param state the test will run against.
+     * @scenario
+     * 1. Bind a policy with 2 NI (one of the NI is REFRESH_P) with MPD table populated
+     * 2. Create Endorsement
+     * 3. Remove REFRESH_P
+     * 4. Verify Table does not refresh when removing REFRESH_P (Data will stay Peter Parker instead of reverting to default).
+     * @author Brian Bond - CIO
+     */
+    public void pas_3622_CIO_Remove_NI_Companion_AC2_1_Template(@Optional("") String state) {
+
+        // Data and tools setup
+        TestData testData = getPolicyTD();
+
+        // Create customer and move to general tab.
+        createQuoteAndFillUpTo(testData, getGeneralTab().getClass(), true);
+
+        // Add second NI
+        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+
+        // Trigger refresh
+        getGeneralTab_OtherAAAProductsOwned_RefreshAsset().click(Waiters.AJAX);
+
+        // Complete purchase
+        getGeneralTab().submitTab();
+
+        policy.getDefaultView().fillFromTo(testData, getDriverTab().getClass(), getPurchaseTab().getClass(), true);
+
+        getPurchaseTab().submitTab();
+
+        // Start endorsement
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+
+        generalTab_RemoveInsured(2);
+
+        // Pull customer names out of table
+        String policyTypeMetaDataLabel = getPolicyTypeMetaDataLabel();
+        String customerNameDOBMetaDataLabel = getCustomerNameDOBMetaDataLabel();
+
+        // Find row matching policyType, then pull the status cell out of it to assert on.
+        String homeStatusColumnValue = getGeneralTab_OtherAAAProductTable().getRowContains(
+                policyTypeMetaDataLabel,mpdPolicyType.home.toString())
+                .getCell(customerNameDOBMetaDataLabel)
+                .getValue();
+
+        String rentersStatusColumnValue = getGeneralTab_OtherAAAProductTable().getRowContains(
+                policyTypeMetaDataLabel,mpdPolicyType.renters.toString())
+                .getCell(customerNameDOBMetaDataLabel)
+                .getValue();
+
+        String condoStatusColumnValue = getGeneralTab_OtherAAAProductTable().getRowContains(
+                policyTypeMetaDataLabel,mpdPolicyType.condo.toString())
+                .getCell(customerNameDOBMetaDataLabel)
+                .getValue();
+
+        // Verify no refresh on table by checking Peter Parker has not reverted to default response
+        String expectedName = "PETER PARKER";
+        assertThat(homeStatusColumnValue).startsWith(expectedName);
+        assertThat(rentersStatusColumnValue).startsWith(expectedName);
+        assertThat(condoStatusColumnValue).startsWith(expectedName);
+    }
+
+    /**
      * @return Test Data for an AZ SS policy with no other active policies
      */
     protected abstract TestData getTdAuto();
@@ -611,7 +674,10 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
 
     protected abstract String getPolicyStatusMetaDataLabel();
 
+    protected abstract String getCustomerNameDOBMetaDataLabel();
+
     protected abstract void generalTab_RemoveInsured(int index);
+
 
     /**
      * Returns Unquoted Checkbox control based on passed in data.
