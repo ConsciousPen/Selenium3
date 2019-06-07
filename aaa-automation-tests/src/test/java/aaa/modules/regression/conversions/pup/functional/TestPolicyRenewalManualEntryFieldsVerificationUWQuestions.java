@@ -1,5 +1,9 @@
 package aaa.modules.regression.conversions.pup.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -7,13 +11,8 @@ import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.UnderwritingAndApprovalTab;
 import aaa.modules.regression.conversions.ConvPUPBaseTest;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * @author S. Sushil
@@ -33,7 +32,7 @@ public class TestPolicyRenewalManualEntryFieldsVerificationUWQuestions extends C
 
     @Parameters({"state"})
     @StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.MD,Constants.States.NJ, Constants.States.AZ, Constants.States.OR})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.PUP, testCaseId = "PAS-9525")
     public void PolicyRenewalActions(@Optional("NJ") String state) {
 

@@ -32,7 +32,7 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
         @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15431"})
         public void pas15431_reportOrderAndDriver(@Optional("CA") String state) {
                 assertSoftly(softly ->
-            pas15369_reportOrderAndDriverBody(softly)//TODO-mstrazds: Not in suite. Needs to be finished verified in scope of PAS-29245 in Sprint 55
+            pas15369_reportOrderAndDriverBody(softly)
         );
         }
 
