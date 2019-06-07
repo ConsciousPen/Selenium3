@@ -135,7 +135,7 @@ public class SoapJobActions implements JobActions {
 		return currentState;
 	}
 
-	protected BatchStatusResponse getJobStatusResponse(JobGroup jobGroup) {
+	public BatchStatusResponse getJobStatusResponse(JobGroup jobGroup) {
 		checkExecutionServiceIsAlive();
 		BatchStatusResponse result = null;
 		BatchStatusRequest request = new BatchStatusRequest();
