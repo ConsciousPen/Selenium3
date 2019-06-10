@@ -78,7 +78,6 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		expirationNoticeFormGeneration(getConversionPolicyDefaultTD(), AH64XX);
 	}
 
-	//pas29335_expirationNoticeFormGeneration
 	/**
 	 * @name Creation converted policy for checking 'Expiration Notice' letter
 	 * @scenario
