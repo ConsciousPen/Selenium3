@@ -24,7 +24,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.inject.internal.ImmutableList;
 import com.google.inject.internal.ImmutableMap;
-import org.apache.commons.lang.StringUtils;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 
