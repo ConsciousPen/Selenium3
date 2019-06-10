@@ -7,8 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
+import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.Job;
+import aaa.helpers.jobs.JobUtils;
 import aaa.modules.policy.BackwardCompatibilityBaseTest;
 
 public class AgingJobs extends BackwardCompatibilityBaseTest {
@@ -30,7 +33,7 @@ public class AgingJobs extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test()
 	public void RUN_03_AAAPOLICYAUTOMATEDRENEWALASYNCTASKGENERATIONJOB(@Optional("") String state) {
-		executeBatchTest(policyAutomatedRenewalAsyncTaskGenerationJob);
+		executeBatchTest(aaaPolicyAutomatedRenewalAsyncTaskGenerationJob);
 	}
 
 	@Parameters({"state"})
@@ -54,7 +57,7 @@ public class AgingJobs extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test()
 	public void RUN_07_AAARECURRINGPAYMENTSASYNCPROCESSJOB(@Optional("") String state) {
-		executeBatchTest(aaaRecurringPaymentsProcessingJob);
+		executeBatchTest(new Job("aaaRecurringPaymentsAsyncProcessJob"));
 	}
 
 	@Parameters({"state"})
@@ -90,7 +93,7 @@ public class AgingJobs extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test()
 	public void RUN_13_AAACOLLECTIONCANCELLDEBTBATCHASYNCJOB(@Optional("") String state) {
-		executeBatchTest(aaaCollectionCancelDebtBatchAsyncJob);
+		executeBatchTest(new Job("aaaCollectionCancellDebtBatchAsyncJob"));
 	}
 
 	@Parameters({"state"})
@@ -237,21 +240,43 @@ public class AgingJobs extends BackwardCompatibilityBaseTest {
 		executeBatchTest(ledgerStatusUpdateJob);
 	}
 
+	@Test()
+	public void createAgingJobs(){
+		SoapJobActions soapJobActions = new SoapJobActions();
+		int totalAmount = getAgingJobsLogicalSequence().size(), jobCreated = 0, jobsExist = 0;
+
+		for(Job job : getAgingJobsLogicalSequence()){
+			JobGroup jobGroup = JobGroup.fromSingleJob(JobUtils.convertToIpb(job));
+			if(soapJobActions.isJobExist(jobGroup)){
+				log.info("{} exist", job.getJobName());
+				jobsExist++;
+			}else{
+				soapJobActions.createJob(jobGroup);
+				log.info("{} was created", job.getJobName());
+				jobCreated++;
+			}
+			--totalAmount;
+
+			log.info("jobs to process:{} from Total:{}, Job created:{}, jobs exist:{}", totalAmount, getAgingJobsLogicalSequence().size(), jobCreated, jobsExist);
+		}
+	}
+
 	private ArrayList<Job> getAgingJobsLogicalSequence() {
+
 		ArrayList<Job> list = new ArrayList<Job>();
 		list.add(aaaBatchMarkerJob);
 		list.add(policyStatusUpdateJob);
-		list.add(policyAutomatedRenewalAsyncTaskGenerationJob);
+		list.add(aaaPolicyAutomatedRenewalAsyncTaskGenerationJob);
 		list.add(renewalValidationAsyncTaskJob);
 		list.add(renewalImageRatingAsyncTaskJob);
 		list.add(aaaRemittanceFeedAsyncBatchReceiveJob);
-		list.add(aaaRecurringPaymentsProcessingJob);
+		list.add(new Job("aaaRecurringPaymentsAsyncProcessJob"));
 		list.add(bofaRecurringPaymentJob);
 		list.add(premiumReceivablesOnPolicyEffectiveJob);
-		list.add(changeCancellationPendingPoliciesStatus);
+		list.add(new Job("changeCancellationPendingPoliciesStatusJob"));
 		list.add(aaaCancellationNoticeAsyncJob);
 		list.add(aaaCancellationConfirmationAsyncJob);
-		list.add(aaaCollectionCancelDebtBatchAsyncJob);
+		list.add(new Job("aaaCollectionCancellDebtBatchAsyncJob"));
 		list.add(collectionFeedBatchorderJob);
 		list.add(earnedPremiumWriteoffProcessingJob);
 		list.add(offCycleBillingInvoiceAsyncJob);
@@ -276,6 +301,7 @@ public class AgingJobs extends BackwardCompatibilityBaseTest {
 		list.add(automatedProcessingStrategyStatusUpdateJob);
 		list.add(automatedProcessingBypassingAndErrorsReportGenerationJob);
 		list.add(ledgerStatusUpdateJob);
+
 		return list;
 	}
 }
