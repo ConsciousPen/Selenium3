@@ -324,8 +324,7 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario60(@Optional("") String state) {
 		mainApp().open();
-		createCustomerIndividual();	
-		
+		createCustomerIndividual();			
 		TestData td_vehicleEnrolledInUBI = getPolicyTD().adjust(getTestSpecificTD("TestData_VehicleEnrolledInUBI").resolveLinks());
 		String policy1_EnrolledInUBI = createPolicy(td_vehicleEnrolledInUBI);
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
@@ -379,8 +378,7 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 	@Test(groups = {Groups.DOCGEN, Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	public void testScenario61(@Optional("") String state) {
 		mainApp().open();
-		createCustomerIndividual();	
-		
+		createCustomerIndividual();			
 		TestData td_vehicleEnrolledInUBI = getPolicyTD().adjust(getTestSpecificTD("TestData_VehicleEnrolledInUBI_NoScore").resolveLinks());
 		String policy1_EnrolledInUBI = createPolicy(td_vehicleEnrolledInUBI);
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
