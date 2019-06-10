@@ -160,7 +160,7 @@ public class TestMVRReportInvalidError extends AutoCaSelectBaseTest {
 				.adjust(AutoCaMetaData.DriverTab.FIRST_NAME.getLabel(), "Cool3")
 				.adjust(AutoCaMetaData.DriverTab.LAST_NAME.getLabel(), "Boy3")
 				.adjust(AutoCaMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), "06/10/1990")
-				.adjust(AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel(), "A3222296")
+				.adjust(AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel(), "A3222297")
 				.adjust(AutoCaMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click");
 
 		TestData tdEndorsementFill = DataProviderFactory.dataOf(AutoCaMetaData.GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData(),
