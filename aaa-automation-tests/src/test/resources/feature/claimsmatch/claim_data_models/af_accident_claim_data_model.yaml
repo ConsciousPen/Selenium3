@@ -4,7 +4,7 @@ claimLineItemList:
     claimList:
       - accidentFault: AT_FAULT
         claimCause: cause5
-        claimCloseDate: '2018-08-12'
+        claimCloseDate: $<today+1y>
         claimCoverageList:
           - {claimCoverageAmount: '1', claimCoverageCurrencyCode: USD, coverageId: COV_014,
              coverageName: MEDICAL_PAYMENTS}
@@ -14,12 +14,12 @@ claimLineItemList:
              coverageName: TOWING_N_LABOR}
           - {claimCoverageAmount: '100', claimCoverageCurrencyCode: USD, coverageId: COV_017,
              coverageName: COMP_DED_400}
-        claimDateOfLoss: '2018-05-26'
+        claimDateOfLoss: $<today-100d>
         claimDeductibleAmount: '0'
         claimDeductibleCurrencyCode: USD
         claimNumber: 123-AZ456-01
         claimPrefix: ''
-        claimOpenDate: '2018-05-26'
+        claimOpenDate: $<today-100d>
         claimPolicyReferenceNumber: AZSS203552391
         claimStatusCode: OPEN
         claimType: Accident
