@@ -211,7 +211,7 @@ NamedInsuredInformation: {
   First Name: NBFirstName,
   Middle Name: NB,
   Last Name: NBLastName,
-  Suffix: JR,
+  Suffix: Jr,
   Base Date: $<today>,
   Zip Code: 90201,
   Address Line 1: NB residence address 1,
