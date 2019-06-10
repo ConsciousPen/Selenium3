@@ -178,6 +178,7 @@ public class TestMVRReportInvalidError extends AutoCaSelectBaseTest {
 		new DriverActivityReportsTab().getAssetList().getAsset(AutoCaMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY).click();
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
 		DocumentsAndBindTab.btnPurchase.click();
+		DocumentsAndBindTab.confirmEndorsementPurchase.buttonYes.click();
 
 		// Updating the message of the error to have exact driver name and lname
 		ErrorEnum.Errors.ERROR_AAA_CSA190521.setMessage("The MVR license status returned for " + "Cool3" + " " + "Boy3" + " is unacceptable (AAA_CSA190521) [for AAADARTabBindRules.attributeForRules]");
@@ -186,7 +187,7 @@ public class TestMVRReportInvalidError extends AutoCaSelectBaseTest {
 		new ErrorTab().overrideAllErrors(ErrorEnum.Duration.TERM, ErrorEnum.ReasonForOverride.OTHER);
 		new ErrorTab().override();
 		documentTab.submitTab();
-		assertThat(new PurchaseTab().isVisible()).isTrue();
+		PolicySummaryPage.getPolicyNumber();
 
 	}
 
