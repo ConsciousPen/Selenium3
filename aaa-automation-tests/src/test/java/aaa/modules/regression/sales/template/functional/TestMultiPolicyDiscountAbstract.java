@@ -679,6 +679,167 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         assertThat(condoStatusColumnValue).startsWith(expectedName);
     }
 
+    public enum EndorsementType {Flat, MidTerm, FutureDated}
+
+    /**
+     * This test validates that removing named insureds without rating results in error message at bind time.
+     * @param endorsementType What scenario to run.
+     */
+    protected void run_pas28659_DiscountRemovalTest_Template(TestData testData, EndorsementType endorsementType){
+        String policyNumber = pas28659_SetupScenario_Template(testData);
+
+        //String decPageBeforeRemovalXML = AAAMultiPolicyDiscountQueries.getDecPage(policyNumber).orElse("Null");
+
+        //String decPageBeforeRemoval = getAHDRXXValueFromNodeName("PlcyDiscDesc", decPageBeforeRemovalXML);
+
+        // Assert all available MPD are present before removal.
+        //validateAllMPDiscounts(parseXMLDocMPDList(decPageBeforeRemoval), true);
+
+        switch (endorsementType){
+            case Flat:
+                policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+                break;
+
+            case MidTerm:
+                TimeSetterUtil.getInstance().nextPhase(LocalDateTime.now().plusDays(2));
+                JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+                JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+                mainApp().open();
+                SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+                policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+                break;
+
+            case FutureDated:
+                policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
+                break;
+        }
+
+        // Navigate to the Premiums & Coverages (P&C) tab and note the premium, Discounts & Surcharges sections, and the View Rating Details (VRD).
+        navigateToPremiumAndCoveragesTab();
+
+        Dollar discountedPremium =  getPnCTab_getPolicyCoveragePremium();
+
+        // Remove discounts from General Tab
+        navigateToGeneralTab();
+
+        removeAllOtherAAAProductsOwnedTablePolicies();
+
+        // Calculate premium.
+        navigateToPremiumAndCoveragesTab();
+        getPnCTab_BtnCalculatePremium().click(Waiters.AJAX);
+
+        // Validate Discount and Surcharges //
+        List<String> discountsAndSurcharges =
+                parseDiscountAndSurchargesString(getPnCTab_DiscountsAndSurcharges());
+
+        assertThat(discountsAndSurcharges).doesNotContain("Multi-Policy Discount");
+
+        navigateToDocumentsAndBindTab();
+        getDocumentsAndBindTab().submitTab();
+
+        /*
+        // Check document
+        String decPageAfterRemovalXML = AAAMultiPolicyDiscountQueries.getDecPage(policyNumber).orElse("Null");
+
+        String decPageAfterRemoval = getAHDRXXValueFromNodeName("PlcyDiscDesc", decPageAfterRemovalXML);
+
+        // Assert all available MPD are NOT present after removal.
+        validateAllMPDiscounts(parseXMLDocMPDList(decPageAfterRemoval), false);
+         */
+
+        // Check VRD (Done this way to not have to redo how _pncTab.getRatingDetailsQuoteInfoData() works
+        if (endorsementType == EndorsementType.FutureDated){
+            policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
+        }else {
+            policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        }
+
+        // Calculate premium.
+        navigateToPremiumAndCoveragesTab();
+        getPnCTab_BtnCalculatePremium().click(Waiters.AJAX);
+
+        Dollar removedMPDPremium = getPnCTab_getPolicyCoveragePremium();
+
+        assertThat(discountedPremium.lessThan(removedMPDPremium)).isTrue();
+
+        // Check in View Rating details for Multi-Policy Discount
+        // Needs to finish and open a second endorsement to show up.
+        String mpdDiscountApplied =
+                getPnCTab_RatingDetailsQuoteInfoData().getValue("AAA Multi-Policy Discount");
+
+        assertThat(mpdDiscountApplied).isEqualTo("None");
+
+        // Close the VRD Popup
+        closePnCTab_ViewRatingDetails();
+    }
+
+    /**
+     * Creates a new policy with REFRESH_P search and added Life and MC (if AZ)
+     */
+    private String pas28659_SetupScenario_Template(TestData testData){
+
+        mainApp().open();
+        createCustomerIndividual();
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(testData, getGeneralTab().getClass(),true);
+
+        otherAAAProducts_SearchAndManuallyAddCompanionPolicy("Life", "L123456789");
+
+        if (getState().equalsIgnoreCase("AZ")) {
+            otherAAAProducts_SearchAndManuallyAddCompanionPolicy("Motorcycle", "M123456789");
+        }
+
+        otherAAAProducts_SearchByPolicyNumber("Home", "REFRESH_P");
+
+        // Add home, condo, renters by index.
+        otherAAAProductsSearchTable_addSelected(new int[]{0, 1, 2});
+
+        getGeneralTab().submitTab();
+
+        policy.getDefaultView().fillFromTo(testData, getDriverTab().getClass(), getPurchaseTab().getClass(), true);
+
+        getPurchaseTab().submitTab();
+
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+        log.info("Policy " + policyNumber + " was created.");
+
+        return policyNumber;
+    }
+
+    /**
+     * Given a list of indexes, this will iterate through the list, select each index as true, then click the add selected button.
+     * @param indexList
+     */
+    protected void otherAAAProductsSearchTable_addSelected(int[] indexList){
+        for(int index : indexList)
+        {
+            new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + String.valueOf(index) + ":customerSelected")).setValue(true);
+        }
+
+        getGeneralTab_OtherAAAProductsOwned_ManualPolicyAddButton().click();
+    }
+
+    /**
+     * Parses the Discount And Surcharges string retrieved from PremiumAndCoveragesTab.discountsAndSurcharges.getValue();
+     * @param rawDAndCValue comes from PremiumAndCoveragesTab.discountsAndSurcharges.getValue();
+     * @return parsed list of discounts
+     */
+    protected static List<String> parseDiscountAndSurchargesString(String rawDAndCValue){
+        String[] parsedValues = rawDAndCValue.split(":")[1].split(",");
+
+        for (String value : parsedValues){
+            value = value.trim();
+        }
+
+        return Arrays.asList(parsedValues);
+    }
+
+    public void otherAAAProducts_SearchAndManuallyAddCompanionPolicy(String policyType, String policyNumber){
+        otherAAAProducts_SearchByPolicyNumber(policyType, policyNumber);
+        otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(policyType);
+    }
+
     /**
      * @return Test Data for an AZ SS policy with no other active policies
      */
@@ -691,6 +852,8 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     protected abstract TextBox getGeneralTab_ContactInformation_EmailAsset();
 
     protected abstract Button getGeneralTab_OtherAAAProductsOwned_RefreshAsset();
+
+    protected abstract Button getGeneralTab_OtherAAAProductsOwned_ManualPolicyAddButton();
 
     protected abstract Tab getGeneralTab();
 
@@ -728,6 +891,8 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
 
     protected abstract Button getDocumentsAndBindTab_BtnPurchase();
 
+    protected abstract Dollar getPnCTab_getPolicyCoveragePremium();
+
     protected abstract Button getDocumentsAndBindTab_ConfirmPurchase_ButtonYes();
 
     protected abstract Button getDocumentsAndBindTab_ConfirmPurchase_ButtonNo();
@@ -741,6 +906,18 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     protected abstract String getCustomerNameDOBMetaDataLabel();
 
     protected abstract void generalTab_RemoveInsured(int index);
+
+    /**
+     * Conducts a basic search using the input String as a policy number.
+     * @param inputPolicyNumber
+     */
+    protected abstract void otherAAAProducts_SearchByPolicyNumber(String policyType, String inputPolicyNumber);
+
+    /**
+     * This method is used when viewing the Search Other AAA Products popup after searching via Policy Number. <br>
+     * Clicks 'Add' button, unless provided instruction to change data.
+     */
+    protected abstract void otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(String policyType);
 
 
     /**

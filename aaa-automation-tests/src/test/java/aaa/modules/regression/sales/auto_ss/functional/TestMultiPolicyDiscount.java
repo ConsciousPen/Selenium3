@@ -339,96 +339,17 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         run_pas28659_DiscountRemovalTest(EndorsementType.MidTerm);
     }
 
-    public enum EndorsementType {Flat, MidTerm, FutureDated}
-
     /**
      * This test validates that removing named insureds without rating results in error message at bind time.
      * @param endorsementType What scenario to run.
      */
     private void run_pas28659_DiscountRemovalTest(EndorsementType endorsementType){
-        String policyNumber = pas28659_SetupScenario();
 
-        String decPageBeforeRemovalXML = AAAMultiPolicyDiscountQueries.getDecPage(policyNumber).orElse("Null");
+        TestData testData = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData")
+                .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()))
+                .mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()));
 
-        String decPageBeforeRemoval = getAHDRXXValueFromNodeName("PlcyDiscDesc", decPageBeforeRemovalXML);
-
-        // Assert all available MPD are present before removal.
-        validateAllMPDiscounts(parseXMLDocMPDList(decPageBeforeRemoval), true);
-
-        switch (endorsementType){
-            case Flat:
-                policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-                break;
-
-            case MidTerm:
-                TimeSetterUtil.getInstance().nextPhase(LocalDateTime.now().plusDays(2));
-                JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-                JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-                mainApp().open();
-                SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-                policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-                break;
-
-            case FutureDated:
-                policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
-                break;
-        }
-
-        // Navigate to the Premiums & Coverages (P&C) tab and note the premium, Discounts & Surcharges sections, and the View Rating Details (VRD).
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-
-        Dollar discountedPremium = _pncTab.getPolicyCoveragePremium();
-
-        // Remove discounts from General Tab
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-
-        removeAllOtherAAAProductsOwnedTablePolicies();
-
-        // Calculate premium.
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        _pncTab.btnCalculatePremium().click(Waiters.AJAX);
-
-        // Validate Discount and Surcharges //
-        List<String> discountsAndSurcharges =
-                parseDiscountAndSurchargesString(PremiumAndCoveragesTab.discountsAndSurcharges.getValue());
-
-        assertThat(discountsAndSurcharges).doesNotContain("Multi-Policy Discount");
-
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        _documentsAndBindTab.submitTab();
-
-        // Check document
-        String decPageAfterRemovalXML = AAAMultiPolicyDiscountQueries.getDecPage(policyNumber).orElse("Null");
-
-        String decPageAfterRemoval = getAHDRXXValueFromNodeName("PlcyDiscDesc", decPageAfterRemovalXML);
-
-        // Assert all available MPD are NOT present after removal.
-        validateAllMPDiscounts(parseXMLDocMPDList(decPageAfterRemoval), false);
-
-        // Check VRD (Done this way to not have to redo how _pncTab.getRatingDetailsQuoteInfoData() works
-        if (endorsementType == EndorsementType.FutureDated){
-            policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
-        }else {
-            policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        }
-
-        // Calculate premium.
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        _pncTab.btnCalculatePremium().click(Waiters.AJAX);
-
-        Dollar removedMPDPremium = _pncTab.getPolicyCoveragePremium();
-
-        assertThat(discountedPremium.lessThan(removedMPDPremium)).isTrue();
-
-        // Check in View Rating details for Multi-Policy Discount
-        // Needs to finish and open a second endorsement to show up.
-        String mpdDiscountApplied =
-                _pncTab.getRatingDetailsQuoteInfoData().getValue("AAA Multi-Policy Discount");
-
-        assertThat(mpdDiscountApplied).isEqualTo("None");
-
-        // Close the VRD Popup
-        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+        run_pas28659_DiscountRemovalTest_Template(testData, endorsementType);
     }
 
     /**
@@ -493,20 +414,6 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         return Arrays.asList(mpdParsed);
     }
 
-    /**
-     * Parses the Discount And Surcharges string retrieved from PremiumAndCoveragesTab.discountsAndSurcharges.getValue();
-     * @param rawDAndCValue comes from PremiumAndCoveragesTab.discountsAndSurcharges.getValue();
-     * @return parsed list of discounts
-     */
-    public static List<String> parseDiscountAndSurchargesString(String rawDAndCValue){
-        String[] parsedValues = rawDAndCValue.split(":")[1].split(",");
-
-        for (String value : parsedValues){
-            value = value.trim();
-        }
-
-        return Arrays.asList(parsedValues);
-    }
 
     /**
      * Pulls a specific value from AHDRXX.
@@ -564,7 +471,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
 
     /**
      * Creates a new policy with REFRESH_P search and added Life and MC (if AZ)
-     */
+     */ /*
     private String pas28659_SetupScenario(){
         TestData testData = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData")
                 .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()))
@@ -597,7 +504,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         log.info("Policy " + policyNumber + " was created.");
 
         return policyNumber;
-    }
+    }*/
 
     /**
      * This test is provides coverage for validating that the Under Writer rerate rule is thrown as an error whenever the following conditions are met: <br>
@@ -1094,10 +1001,11 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     }
 
     /**
-     * Simply conducts a basic search using the input String as a policy number.
+     * Conducts a basic search using the input String as a policy number.
      * @param inputPolicyNumber
      */
-    public void otherAAAProducts_SearchByPolicyNumber(String policyType, String inputPolicyNumber){
+    @Override
+    protected void otherAAAProducts_SearchByPolicyNumber(String policyType, String inputPolicyNumber){
         _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getControlClass()).click();
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getControlClass()).setValue("Policy Number");
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_TYPE.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_TYPE.getControlClass()).setValue(policyType);
@@ -1111,9 +1019,10 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
 
     /**
      * This method is used when viewing the Search Other AAA Products popup after searching via Policy Number. <br>
-     * Will simply click 'Add' button, unless provided instruction to change data.
+     * Clicks 'Add' button, unless provided instruction to change data.
      */
-    public void otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(String policyType){
+    @Override
+    protected void otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(String policyType){
         if(policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME.getLabel()) || policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS.getLabel()) ||
                 policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO.getLabel())){
 
@@ -1219,17 +1128,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN.getControlClass()).click();
     }
 
-    /**
-     * Given a list of indexes, this will iterate through the list, select each index as true, then click the add selected button.
-     * @param indexList
-     */
-    public void otherAAAProductsSearchTable_addSelected(int[] indexList){
-        for(int index : indexList)
-        {
-            new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + String.valueOf(index) + ":customerSelected")).setValue(true);
-        }
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN.getControlClass()).click();
-    }
+
 
     /**
      * Returns 'Policy Number / Address', 'Date of Birth', etc. data via the given row index.
@@ -1808,6 +1707,12 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     }
 
     @Override
+    protected Button getGeneralTab_OtherAAAProductsOwned_ManualPolicyAddButton(){
+        return _generalTab.getSearchOtherAAAProducts().getAsset(
+                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN);
+    }
+
+    @Override
     protected Table getErrorTab_TableErrors(){
         return _errorTab.tableErrors;
     }
@@ -1902,6 +1807,11 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     }
 
     @Override
+    protected Dollar getPnCTab_getPolicyCoveragePremium(){
+        return _pncTab.getPolicyCoveragePremium();
+    }
+
+    @Override
     protected String getPolicyTypeMetaDataLabel(){
         return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
     }
@@ -1915,6 +1825,8 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     protected String getCustomerNameDOBMetaDataLabel(){
         return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.CUSTOMER_NAME_DOB.getLabel();
     }
+
+
 
     /**
      * Adds another named insured and fills out required data.
