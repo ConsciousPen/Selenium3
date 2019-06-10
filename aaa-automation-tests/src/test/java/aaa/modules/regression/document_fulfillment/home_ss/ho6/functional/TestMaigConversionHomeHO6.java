@@ -411,25 +411,6 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
         super.pas20836_expirationNoticeFormGeneration(state);
     }
 
-    /**
-     * @name Creation organic policy for checking 'Expiration Notice' letter AH64XX transaction code
-     * @scenario
-     * 1. Create Customer
-     * 2. Create Conversion Policy
-     * 3. Generate Bill at R-20
-     * 4. Generate 'Expiration Notice' at R+10
-     * 5. Check that form is getting generated with correct content
-     * @details
-     */
-    @Override
-    @Parameters({STATE_PARAM})
-    @StateList(statesExcept = {States.CA})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-29335"})
-    public void pas29335_expirationNoticeFormGeneration(@Optional("OH") String state) throws NoSuchFieldException {
-        super.pas29335_expirationNoticeFormGeneration(state);
-    }
-
     @Override
     protected PolicyType getPolicyType() {
         return PolicyType.HOME_SS_HO6;

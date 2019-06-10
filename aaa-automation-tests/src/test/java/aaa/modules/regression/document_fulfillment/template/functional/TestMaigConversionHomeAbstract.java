@@ -79,19 +79,6 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	}
 
 	/**
-	 * @name Creation converted policy for checking 'Expiration Notice' letter
-	 * @scenario
-	 * 1. Create Customer
-	 * 2. Create Conversion Policy
-	 * 3. Generate Bill at R-20
-	 * 4. Generate 'Expiration Notice' at R+10
-	 * 5. Check that form is getting generated with correct content
-	 * @details
-	 */
-	public void pas29335_expirationNoticeFormGeneration(String state) throws NoSuchFieldException {
-		expirationNoticeFormGenerationOrganic(AH64XX);
-	}
-	/**
 	 * @name Creation converted policy for checking Pre-renewal letter
 	 * @scenario 1. Create Customer
 	 * 2. Initiate Renewal Entry
@@ -162,42 +149,6 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		}
 		assertThat(policyTransactionCode).as("PlcyTransCd is not correct for " + getState()).isEqualTo(expectedPolicyTransCode);
 	}
-
-	/**
-	 * @name Creation converted policy for checking 'Expiration Notice' letter
-	 * @scenario
-	 * 1. Create Customer
-	 * 2. Create Conversion Policy
-	 * 3. Generate Bill at R-20
-	 * 4. Generate 'Expiration Notice' at R+10
-	 * 5. Check that form is getting generated with correct content
-	 * @details
-	 */
-	private void expirationNoticeFormGenerationOrganic(DocGenEnum.Documents form) throws NoSuchFieldException {
-		//Create Policy with default test data
-		TestData testData1 = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
-		String policyNumber = openAppAndCreatePolicy(testData1);
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getEffectiveDate().plusYears(1);
-
-		//Move time and generate the renewal image, generate renewal bill, move to expiration date and generate expiration notice - Run necessary batch jobs at each step
-		expirationNoticeJobExecutionOrganic(policyExpirationDate);
-
-		//Wait for the specified document to be generated in the DB and grab it
-		DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, EXPIRATION_NOTICE);
-		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", EXPIRATION_NOTICE);
-
-		//Verify the correct transaction code is seen for the document
-		String expectedPolicyTransCode = StringUtils.EMPTY;
-		if (getPolicyType().equals(PolicyType.HOME_SS_HO4) || getPolicyType().equals(PolicyType.HOME_SS_HO3) || getPolicyType().equals(PolicyType.HOME_SS_HO6) || getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
-			if(getState().equals(Constants.States.AZ) || getState().equals(Constants.States.NY) || getState().equals(Constants.States.DC) || getState().equals(Constants.States.OH)){
-				expectedPolicyTransCode = "CANB";
-			}else{
-				expectedPolicyTransCode = "STMT";
-			}
-		}
-		assertThat(policyTransactionCode).as("PlcyTransCd is not correct for " + getState()).isEqualTo(expectedPolicyTransCode);
-	}
-
 
 	/**
 	 * @name Test Conversion Document generation (Pre-renewal package)
@@ -783,25 +734,6 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		JOBS_FOR_EVENT.get(RENEWAL_BILL).forEach(job -> JobUtils.executeJob(job));
 	}
 
-	private void renewalBillJobExecutionOrganic(LocalDateTime expirationDate){
-
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(expirationDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(expirationDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(expirationDate));
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
-
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(expirationDate));
-		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
-		JobUtils.executeJob(Jobs.aaaRenewalReminderGenerationAsyncJob);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-	}
-
 	private void mortgageeBillFirstRenewalReminderNoticeJobExecution(LocalDateTime expirationDate){
 		renewalBillJobExecution(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(expirationDate));
@@ -827,10 +759,6 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getInsuranceRenewalReminderDate(expirationDate));
 		JOBS_FOR_EVENT.get(EXPIRATION_NOTICE).forEach(job -> JobUtils.executeJob(job));
-	}
-
-	private void expirationNoticeJobExecutionOrganic(LocalDateTime expirationDate){
-		renewalBillJobExecutionOrganic(expirationDate);
 	}
 
 	/**
