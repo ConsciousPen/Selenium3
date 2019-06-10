@@ -155,7 +155,7 @@ public enum CoverageInfo {
 	MEE_NY("MEE", "Medical Expense Elimination", CoverageLimits.COV_MEE_NONE, AvailableCoverageLimits.MEE_NY, null),
 	UM_SUM_NY("UM/SUM", "Supplementary Uninsured/Underinsured Motorists Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UM_SUM, "Per Person/Per Accident"),
 	UM_SUM_2550_NY("UM/SUM", "Uninsured Motorists Bodily Injury", CoverageLimits.COV_2550, AvailableCoverageLimits.UM_SUM, "Per Person/Per Accident"),
-	MEDPM_NV("MEDPM", "Medical Payments", CoverageLimits.COV_5000, AvailableCoverageLimits.MEDPM_NV, "Per Person"),
+	MEDPM_NV("MEDPM", "Medical Payments", CoverageLimits.COV_MEDPM, AvailableCoverageLimits.MEDPM_NV, "Per Person"),
 	//CA Policy Level Coverages
 	BI_CA("BI", "Bodily Injury Liability", CoverageLimits.COV_500500, AvailableCoverageLimits.BI_CA, "Per Person/Per Accident"),
 	PD_CA("PD", "Property Damage Liability", CoverageLimits.COV_100000, AvailableCoverageLimits.PD_CA, "Per Accident"),

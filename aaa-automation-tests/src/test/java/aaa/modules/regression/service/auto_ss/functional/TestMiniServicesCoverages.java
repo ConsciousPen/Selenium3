@@ -1597,13 +1597,13 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * change Weekly Income Continuation Benefits and Length of Income Continuation
 	 * 10. Check response.
 	 *
-	 * Note: "Coverage Includes" coverage pas23997_updatePipCoveragesNJbody was covered with PAS-25531
+	 * Note: "Coverage Includes" coverage was covered with PAS-25531
 	 * and "Primary Insurer" with PAS-23975
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23997,Pas-19163,Pas-19161"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23997"})
 	public void pas23997_updatePipCoveragesNJ(@Optional("NJ") String state) {
 		assertSoftly(softly ->
 				pas23997_updatePipCoveragesNJbody(softly))

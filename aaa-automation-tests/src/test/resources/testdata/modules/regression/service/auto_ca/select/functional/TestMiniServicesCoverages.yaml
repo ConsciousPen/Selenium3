@@ -21,75 +21,6 @@ TestData_LessThan10yOldNoCompColl: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_NoCompColl'
 }
 
-TestData_VehicleOtherTypesLoanLease: {
-  VehicleTab: ['@Vehicle1','@Vehicle2','@Vehicle3','@Vehicle4','@Vehicle5'],
-  AssignmentTab: '@AssingmentTab_LoanLeaseVehicle'
-
-}
-
-Vehicle1: {
-  Add Vehicle: Click,
-  Primary Use: 'contains=Commute',
-  Usage: Pleasure,
-  VIN: 5YFBURHE2JP848194,
-  'Miles One-way to Work or School': '15',
-  Odometer Reading: '29000',
-  Odometer Reading Date: $<today>,
-  Ownership Type: Owned,
-}
-
-Vehicle2: {
-  Add Vehicle: Click,
-  Primary Use: 'contains=Commute',
-  Usage: Pleasure,
-  VIN: 1HGCV1F1XJA129560,
-  'Miles One-way to Work or School': '5',
-  Odometer Reading: '13000',
-  Odometer Reading Date: $<today>,
-  Ownership: {
-    Ownership Type: Financed,
-    First Name: BANK OF AMERICA
-  }
-
-}
-
-Vehicle3: {
-  Add Vehicle: Click,
-  Primary Use: 'contains=Commute',
-  Usage: Pleasure,
-  VIN: 2G1105S36J9108082,
-  'Miles One-way to Work or School': '5',
-  Odometer Reading: '13000',
-  Odometer Reading Date: $<today>,
-  Ownership: {
-    Ownership Type: Leased,
-    First Name: BANK OF AMERICA
-  }
-}
-Vehicle4: {
-  Add Vehicle: Click,
-  Primary Use: 'contains=Commute',
-  Usage: Pleasure,
-  VIN: 2C3CCABT0JH159944,
-  'Miles One-way to Work or School': '5',
-  Odometer Reading: '13000',
-  Odometer Reading Date: $<today>,
-  Ownership Type: Owned,
-}
-Vehicle5: {
-  Add Vehicle: Click,
-  Primary Use: 'contains=Commute',
-  Usage: Pleasure,
-  VIN: JF2GTAMC4JH202246,
-  'Miles One-way to Work or School': '5',
-  Odometer Reading: '13000',
-  Odometer Reading Date: $<today>,
-  Ownership: {
-    Ownership Type: Financed,
-    First Name: BANK OF AMERICA
-  }
-
-}
 TestData_AllVehiclesETEIsOtherThan25750: {
   VehicleTab: [ '@VehicleTab_NewVehicle4', '@VehicleTab_NewVehicle2', '@VehicleTab_NewVehicle3'],
   AssignmentTab: '@AssingmentTab_3Veh',
@@ -307,43 +238,30 @@ VehicleTab_OldVehicle: {
   Odometer Reading Date: $<today>,
 }
 
-AssingmentTab_LoanLeaseVehicle: {
+AssingmentTab_VehOtherTypes: {
   DriverVehicleRelationshipTable: [{
-                                        Primary Driver: index=1,
-                                      }, {
-                                        Primary Driver: index=1,
-                                      }, {
-                                        Primary Driver: index=1,
-                                      }, {
-                                        Primary Driver: index=1,
-                                      }, {
-                                        Primary Driver: index=1,
-                                      }]
+                                     Primary Driver: index=1,
+                                   }, {
+                                     Primary Driver: index=1,
+                                   }, {
+                                     Primary Driver: index=1,
+                                   }, {
+                                     Primary Driver: index=1,
+                                   }, {
+                                     Primary Driver: index=1,
+                                   }, {
+                                     Primary Driver: index=1,
+                                   }]
 }
 
-AssingmentTab_VehOtherTypes: {
+AssingmentTab_3Veh: {
   DriverVehicleRelationshipTable: [   {
                                         Primary Driver: index=1,
                                       }, {
                                         Primary Driver: index=1,
                                       }, {
                                         Primary Driver: index=1,
-                                      }, {
-                                        Primary Driver: index=1,
-                                      }, {
-                                        Primary Driver: index=1,
-                                      }, {
-                                        Primary Driver: index=1,
                                       }]
-}
-AssingmentTab_3Veh: {
-  DriverVehicleRelationshipTable: [      {
-                                           Primary Driver: index=1,
-                                         }, {
-                                           Primary Driver: index=1,
-                                         }, {
-                                           Primary Driver: index=1,
-                                         }]
 }
 
 AssingmentTab_1Veh: {
@@ -381,7 +299,7 @@ PremiumAndCoveragesTab_VehicleLevelCoverages: {
     Enhanced Transportation Expense: 'contains=$25/$750',
     All Risk: 'contains=No',
     Vehicle Loan/Lease Protection: 'contains=Yes',
-    #    New Car Added Protection: 'contains=Yes', # Currently if Vehicle has Loan/Lease then New Car added Protection is not available
+#    New Car Added Protection: 'contains=Yes', # Currently if Vehicle has Loan/Lease then New Car added Protection is not available
     Original Equipment Manufacturer Parts: 'contains=Yes',
     Ridesharing Coverage: 'contains=No'
   },
@@ -391,7 +309,7 @@ PremiumAndCoveragesTab_VehicleLevelCoverages: {
     Collision Deductible: 'contains=$500',
     Enhanced Transportation Expense: 'contains=$25/$750',
     All Risk: 'contains=No',
-    #    Vehicle Loan/Lease Protection: 'contains=Yes', # Currently if Vehicle is Owned then Loan/Lease Protection is not available
+#    Vehicle Loan/Lease Protection: 'contains=Yes', # Currently if Vehicle is Owned then Loan/Lease Protection is not available
     New Car Added Protection: 'contains=Yes',
     Purchase Date: '$<today-40d:MM/dd/yyyy>',
     Original Equipment Manufacturer Parts: 'contains=Yes',
