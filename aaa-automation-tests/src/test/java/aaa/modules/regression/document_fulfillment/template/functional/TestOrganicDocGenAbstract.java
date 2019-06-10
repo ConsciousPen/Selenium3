@@ -24,11 +24,6 @@ public class TestOrganicDocGenAbstract extends PolicyBaseTest {
     /**
      * @name Creation organic policy for checking 'Expiration Notice' letter
      * @scenario
-     * 1. Create Customer
-     * 2. Create Organic Policy
-     * 3. Generate Bill at R-20
-     * 4. Generate 'Expiration Notice' at R+10
-     * 5. Check that form is getting generated with correct content
      * @details
      */
     public void pas29335_expirationNoticeFormGeneration(String state) throws NoSuchFieldException {
@@ -37,11 +32,6 @@ public class TestOrganicDocGenAbstract extends PolicyBaseTest {
     /**
      * @name Creation organic policy for checking 'Expiration Notice' letter
      * @scenario
-     * 1. Create Customer
-     * 2. Create Organic Policy
-     * 3. Generate Bill at R-20
-     * 4. Generate 'Expiration Notice' at R+10
-     * 5. Check that form is getting generated with correct content
      * @details
      */
     private void expirationNoticeFormGenerationOrganic(DocGenEnum.Documents form) throws NoSuchFieldException {
