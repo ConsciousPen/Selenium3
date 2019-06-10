@@ -303,4 +303,24 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	public void pas17642_UpdateCoverageADB_CA(@Optional("CA") String state) {
 		pas17642_UpdateCoverageADBBody();
 	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name New Car Added Protection and Loan Lease Coverage
+	 * @scenario
+	 * 1. Create policy in PAS bunch of different vehicles
+	 * 2. Create endorsement through service
+	 * 3. run view coverage service
+	 * 4. verify AND I have a vehicle with New Car Added Protection
+	 * AND my vehicle has ownership = financed
+	 * I see Loan Lease Coverage with canChangeCoverage = false
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-29905"})
+	public void pas29905_newCarAddedProtectionLoanLeaseCA(@Optional("CA") String state) {
+		pas29905_newCarAddedProtectionLoanLeaseCABody();
+	}
 }
+

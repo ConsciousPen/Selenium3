@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import com.google.common.collect.ImmutableList;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.rest.dtoDxp.*;
@@ -16,12 +18,13 @@ import aaa.main.enums.CoverageInfo;
 import aaa.main.enums.CoverageLimits;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoveragesHelper {
-
+	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
 	protected void pas15412_viewCAPolicyLevelCoveragesBody() {
@@ -453,7 +456,72 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 
 	}
 
-		protected void pas15424_viewUpdateOEMCoverageExistingVehicleNoCompCollTC06Body(boolean removeCOMPDED, boolean removeCOLLDED) {
+	protected void pas29905_newCarAddedProtectionLoanLeaseCABody() {
+		mainApp().open();
+		createCustomerIndividual();
+
+		TestData td = getPolicyDefaultTD();
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleOtherTypesLoanLease").getTestDataList("VehicleTab"))
+				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("TestData_VehicleOtherTypesLoanLease").getTestData("AssignmentTab"));
+         createQuote(testData);
+
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(1, AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.NEW_CAR_ADDED_PROTECTION.getLabel(),"Yes");
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(1, AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.PURCHASE_DATE.getLabel(),"06/03/2019");
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(2, AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.NEW_CAR_ADDED_PROTECTION.getLabel(),"Yes");
+		premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(2, AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.PURCHASE_DATE.getLabel(),"06/03/2019");
+		premiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		ViewVehicleResponse listOfVehicles = HelperCommon.viewEndorsementVehicles(policyNumber);
+		//vehicle owned  and new car protection  added.
+		String Vehicle1 = listOfVehicles.vehicleList.get(0).oid;
+
+		PolicyCoverageInfo coverageResponse1= HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, Vehicle1, PolicyCoverageInfo.class);
+		Coverage covActual =  findCoverage(coverageResponse1.vehicleLevelCoverages.get(0).coverages,CoverageInfo.LOAN_CA.getCode());
+		assertThat(covActual.getCanChangeCoverage().equals(true));
+		assertThat(covActual.getCustomerDisplayed().equals(true));
+
+		//Owned vehicle with new car protection
+		String Vehicle2 = listOfVehicles.vehicleList.get(1).oid;
+		PolicyCoverageInfo coverageResponse2= HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, Vehicle2, PolicyCoverageInfo.class);
+		Coverage covActua2 =  findCoverage(coverageResponse2.vehicleLevelCoverages.get(0).coverages, CoverageInfo.NEWCAR_CA.getCode());
+		assertThat(covActua2.getCanChangeCoverage().equals(true));
+		assertThat(covActua2.getCustomerDisplayed().equals(false));
+
+		//new car pro yes financed
+		String Vehicle3 = listOfVehicles.vehicleList.get(2).oid;
+		PolicyCoverageInfo coverageResponse3= HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, Vehicle3, PolicyCoverageInfo.class);
+		Coverage covActua3 =  findCoverage(coverageResponse3.vehicleLevelCoverages.get(0).coverages, CoverageInfo.NEWCAR_CA.getCode());
+		Coverage covActua4 =  findCoverage(coverageResponse3.vehicleLevelCoverages.get(0).coverages, CoverageInfo.LOAN_CA.getCode());
+		assertThat(covActua3.getCanChangeCoverage().equals(true));
+		assertThat(covActua3.getCustomerDisplayed().equals(false));
+		assertThat(covActua4.getCanChangeCoverage().equals(true));
+		assertThat(covActua4.getCustomerDisplayed().equals(false));
+
+        //Leased  not have new car available
+		String Vehicle4 = listOfVehicles.vehicleList.get(3).oid;
+		PolicyCoverageInfo coverageResponse4= HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, Vehicle4, PolicyCoverageInfo.class);
+		Coverage covActua6 =  findCoverage(coverageResponse4.vehicleLevelCoverages.get(0).coverages, CoverageInfo.LOAN_CA.getCode());
+		assertThat(covActua6.getCanChangeCoverage().equals(true));
+		assertThat(covActua6.getCustomerDisplayed().equals(true));
+
+		// new car protection is no owned
+		String Vehicle5= listOfVehicles.vehicleList.get(4).oid;
+		PolicyCoverageInfo coverageResponse5= HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, Vehicle5, PolicyCoverageInfo.class);
+		Coverage covActua5=  findCoverage(coverageResponse5.vehicleLevelCoverages.get(0).coverages, CoverageInfo.NEWCAR_CA.getCode());
+		assertThat(covActua5.getCanChangeCoverage().equals(true));
+		assertThat(covActua5.getCustomerDisplayed().equals(false));
+
+
+
+	}
+
+	protected void pas15424_viewUpdateOEMCoverageExistingVehicleNoCompCollTC06Body(boolean removeCOMPDED, boolean removeCOLLDED) {
 		TestData td = getPolicyDefaultTD();
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_OEMYes").getTestDataList("VehicleTab"))
 				.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("TestData_OEMYes").getTestData("AssignmentTab"))

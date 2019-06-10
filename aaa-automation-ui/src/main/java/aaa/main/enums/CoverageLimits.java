@@ -125,7 +125,7 @@ public enum CoverageLimits {
 	COV_EMB_1000("1000", "Yes"),
 	COV_NO_LOL("FALSE", "No Limitation on Lawsuit"),
 	COV_LOL("TRUE", "Limitation on Lawsuit"),
-	COV_MEDPM("5000", "$5,000"),
+
 	COV_2YR("2YR", "Two Years"),
 	COV_UNL("UNL", "Unlimited"),
 	COV_MEE_NONE("0", "None"),

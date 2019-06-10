@@ -1416,6 +1416,7 @@
                     <include name="pas19057_OrderOfCoverageCATC01"/>
                     <include name="pas19057_OrderOfCoverageCATC02"/>
                     <include name="pas17642_UpdateCoverageADB_CA"/>
+                    <include name="pas29905_newCarAddedProtectionLoanLeaseCA"/>
                 </methods>
             </class>
         </classes>
