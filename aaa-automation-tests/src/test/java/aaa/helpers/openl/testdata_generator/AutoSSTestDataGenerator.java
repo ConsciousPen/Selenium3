@@ -44,9 +44,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		licenseNumber = ratingDataPattern.getTestData(DriverTab.class.getSimpleName()).getValue(AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel());
 		ratingDataPattern = ratingDataPattern.mask(new DriverTab().getMetaKey()).resolveLinks();
 
-		if (openLPolicy.getReinstatements() != null && openLPolicy.getReinstatements() > 0) {
-			//TODO-dchubkov: to be implemented...
-			throw new NotImplementedException("Test data generation for \"reinstatements\" greater than 0 is not implemented.");
+		if (openLPolicy.getReinstatements() != null && openLPolicy.getReinstatements() > 0 && !openLPolicy.isNewRenPasCappedPolicy()) {
+			throw new IstfException("Not possible to create reinstatement's for LegacyConv or new quote policy");
 		}
 		assertThat(getState()).as("State from TestDataGenerator differs from openl file's state").isEqualTo(openLPolicy.getCappingDetails().getState());
 
