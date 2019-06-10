@@ -5,8 +5,6 @@ package aaa.modules.regression.service.pup;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -15,17 +13,17 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Yongagng Sun
- * @name Test Renew 'Do Not Renew' flag for Umbrella Policy
- * @scenario
- * 1. Create Customer
- * 2. Create Umbrella (AAA) Policy
- * 3. Set 'Do Not Renew' for Policy
- * 4. Verify Policy status is 'Policy Active'
- * 5. Verify 'Do Not Renew' flag is displayed in the policy overview header
- * 6. Move Server Date = Policy Expiration Date - 60 days (number of days configured in Renewal Automated Processing Strategy)
- * 7. Go to com.exigen.ipb.etcsa.admin's panel and run 'policyAutomatedRenewalAsyncTaskGenerationJob' job
- * 8. Verify 'Renewals' button is not displayed in the policy overview header
- * @details
+ * <b> Test Renew 'Do Not Renew' flag for Umbrella Policy </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create Umbrella (AAA) Policy
+ * <p> 3. Set 'Do Not Renew' for Policy
+ * <p> 4. Verify Policy status is 'Policy Active'
+ * <p> 5. Verify 'Do Not Renew' flag is displayed in the policy overview header
+ * <p> 6. Move Server Date = Policy Expiration Date - 60 days (number of days configured in Renewal Automated Processing Strategy)
+ * <p> 7. Go to com.exigen.ipb.etcsa.admin's panel and run 'policyAutomatedRenewalAsyncTaskGenerationJob' job
+ * <p> 8. Verify 'Renewals' button is not displayed in the policy overview header
+ *
  */
 public class TestPolicyDoNotRenewWithRenew extends PolicyDoNotRenewWithRenew {
 
@@ -40,7 +38,7 @@ public class TestPolicyDoNotRenewWithRenew extends PolicyDoNotRenewWithRenew {
 	@TestInfo(component = ComponentConstant.Service.PUP)
     public void TC01_CreatePolicyAddDoNotRenew(@Optional("") String state) {
 
-        super.TC01_CreatePolicyAddDoNotRenewTemplate();
+		TC01_CreatePolicyAddDoNotRenewTemplate();
     }
     
 	@Parameters({"state"})
@@ -49,6 +47,6 @@ public class TestPolicyDoNotRenewWithRenew extends PolicyDoNotRenewWithRenew {
 			groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP)
 	public void TC02_RenewPolicy(@Optional("") String state) {
-		super.TC02_RenewPolicyTemplate();
+		TC02_RenewPolicyTemplate();
 	}
 }

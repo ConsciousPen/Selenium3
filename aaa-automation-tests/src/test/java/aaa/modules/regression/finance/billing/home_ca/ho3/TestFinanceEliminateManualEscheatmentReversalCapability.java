@@ -19,13 +19,13 @@ public class TestFinanceEliminateManualEscheatmentReversalCapability extends Pol
 
 	/**
 	 * @author Maksim Piatrouski
-	 * Objectives : check "Escheatment" not displayed in Transaction Subtype drop down section
-	 * on the PAS UI billing page - the Other Transactions button under the payments and other transactions section
-	 * TC Steps:
-	 * 1. Create Policy
-	 * 2. Navigate Billing - Other Transactions
-	 * 3. Set Transaction Type = "Adjustment"
-	 * 4. Check "Escheatment" not displayed in Transaction Subtype drop down
+	 * <p> Objectives : check "Escheatment" not displayed in Transaction Subtype drop down section
+	 * <p> on the PAS UI billing page - the Other Transactions button under the payments and other transactions section
+	 * <p> TC Steps:
+	 * <p> 1. Create Policy
+	 * <p> 2. Navigate Billing - Other Transactions
+	 * <p> 3. Set Transaction Type = "Adjustment"
+	 * <p> 4. Check "Escheatment" not displayed in Transaction Subtype drop down
 	 */
 
 	OtherTransactionsActionTab otherTransactionsActionTab = new OtherTransactionsActionTab();

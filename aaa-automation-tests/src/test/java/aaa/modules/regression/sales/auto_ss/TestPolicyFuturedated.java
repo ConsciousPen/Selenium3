@@ -2,22 +2,20 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss;
 
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import toolkit.utils.TestInfo;
 import aaa.modules.regression.sales.template.PolicyFuturedated;
 import aaa.utils.StateList;
+import toolkit.utils.TestInfo;
 
 /**
  * @author Tanya Dabolina
- * @name Test Create Auto SS in Future dated
+ * <b> Test Create Auto SS in Future dated </b>
  */
 
 public class TestPolicyFuturedated extends PolicyFuturedated {
@@ -32,8 +30,8 @@ public class TestPolicyFuturedated extends PolicyFuturedated {
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void testPolicyFuturedated(@Optional("") String state) {
-    	
-    	super.testPolicyFuturedated();
+
+		testPolicyFuturedated();
         
     }
 }

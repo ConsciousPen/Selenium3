@@ -6,29 +6,28 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.AccountMetaData;
-import aaa.main.pages.summary.CustomerSummaryPage;
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
-import aaa.modules.BaseTest;
-import aaa.common.pages.NavigationPage;
-import aaa.common.enums.NavigationEnum;
 import aaa.main.modules.account.Account;
 import aaa.main.modules.account.actiontabs.AcctInfoTab;
+import aaa.main.pages.summary.CustomerSummaryPage;
+import aaa.modules.BaseTest;
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
 
 
 /**
  * @author N. Belakova
- * @name Test Update Account
- * @scenario
- * 1. Create Customer / Account 
- * 2. Update Customer
- * 3. Add second Customer to Account
- * 4. Update Account
- * @details
+ * <b> Test Update Account </b>
+ * <p> Steps:
+ * <p> 1. Create Customer / Account
+ * <p> 2. Update Customer
+ * <p> 3. Add second Customer to Account
+ * <p> 4. Update Account
+ *
  */
 public class TestAccountUpdate extends BaseTest {
 

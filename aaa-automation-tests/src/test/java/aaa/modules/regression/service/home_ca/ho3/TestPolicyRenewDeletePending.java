@@ -5,7 +5,6 @@ package aaa.modules.regression.service.home_ca.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -16,14 +15,14 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Ryan Yu
- * @name Test renew delete pended transaction for Home Policy
- * @scenario
- * 1. Create Customer
- * 2. Create Home_CA_HO3 Policy
- * 3. Renew Policy
- * 4. Delete Pended Transaction
- * 5. Verify 'Renewals' button is disabled
- * @details
+ * <b> Test renew delete pended transaction for Home Policy </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create Home_CA_HO3 Policy
+ * <p> 3. Renew Policy
+ * <p> 4. Delete Pended Transaction
+ * <p> 5. Verify 'Renewals' button is disabled
+ *
  */
 public class TestPolicyRenewDeletePending extends PolicyRenewDeletePending {
 
@@ -38,7 +37,7 @@ public class TestPolicyRenewDeletePending extends PolicyRenewDeletePending {
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
 	public void testPolicyRenewDeletePending(@Optional("CA") String state) {
 
-		super.testPolicyRenewDeletePending();
+		testPolicyRenewDeletePending();
 
 	}
 }

@@ -6,7 +6,6 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -20,9 +19,9 @@ import toolkit.verification.CustomSoftAssertions;
 
 /**
  * @author
- * @name Test Flat Endorsement for Auto Policy
- * @scenario
- * @details
+ * <b> Test Flat Endorsement for Auto Policy </b>
+ * <p> Steps:
+ *
  */
 public class TestPolicyEndorsementAdd extends AutoCaChoiceBaseTest {
 

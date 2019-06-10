@@ -22,29 +22,29 @@ import toolkit.utils.TestInfo;
 /**
  * @author Olga Reva
  *
- * <pre>
- * TestPolicyFuturedated steps:
- * 1. Create a customer or open existed.
- * 2. Initiate new HSS quote creation.
- * 3. On General tab set Effective Date as Today + 91 days and verify error message is displaying under Effective Date field.
- * 4. Set Effective Date as Today + 10 days. 
- * 5. Fill all mandatory fields on all tabs, order reports, calculate premium. 
- * 6. Bind a policy.
- * 7. Verify policy status is Policy Pending.  
+ * <p> <pre>
+ * <p> TestPolicyFuturedated steps:
+ * <p> 1. Create a customer or open existed.
+ * <p> 2. Initiate new HSS quote creation.
+ * <p> 3. On General tab set Effective Date as Today + 91 days and verify error message is displaying under Effective Date field.
+ * <p> 4. Set Effective Date as Today + 10 days.
+ * <p> 5. Fill all mandatory fields on all tabs, order reports, calculate premium.
+ * <p> 6. Bind a policy.
+ * <p> 7. Verify policy status is Policy Pending.
  *
- * TestPolicyBackdated steps:
- * 1. Create a customer or open existed.
- * 2. Initiate new HSS quote creation.
- * 3. On General tab set Effective Date as Today - 10 days. 
- * 4. Fill all mandatory fields on all tabs, order reports, calculate premium. 
- * 5. Bind a policy and verify Error tab is displaying with error message. 
- * 6. Navigate to General tab, change Effective Date to Today - 3 days. 
- * 7. Recalculate premium and bind policy. 
- * 8. Verify policy status is Active.
+ * <p> TestPolicyBackdated steps:
+ * <p> 1. Create a customer or open existed.
+ * <p> 2. Initiate new HSS quote creation.
+ * <p> 3. On General tab set Effective Date as Today - 10 days.
+ * <p> 4. Fill all mandatory fields on all tabs, order reports, calculate premium.
+ * <p> 5. Bind a policy and verify Error tab is displaying with error message.
+ * <p> 6. Navigate to General tab, change Effective Date to Today - 3 days.
+ * <p> 7. Recalculate premium and bind policy.
+ * <p> 8. Verify policy status is Active.
  *
- * 5700:US PO-02 Capture Effective Date
- * 19740:US CL Capture Effective Date - V02
- * </pre>
+ * <p> 5700:US PO-02 Capture Effective Date
+ * <p> 19740:US CL Capture Effective Date - V02
+ * <p> </pre>
  **/
 public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
 	@Parameters({"state"})

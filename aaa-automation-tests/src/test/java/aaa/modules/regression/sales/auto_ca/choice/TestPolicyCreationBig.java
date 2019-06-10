@@ -6,7 +6,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.Tab;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AutoCaTab;
@@ -22,14 +21,14 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 /**
- * @author 
- * @name Test Create CA Choice Auto Policy with 2 NIs/Drivers/Vehicles
- * @scenario 
- * 1. Create Customer 
- * 2. Create CA Choice Auto Policy
- * 3. Verify Policy status is 'Policy Active'
- * 4. Inqury Policy and verify Policy Product is 'CA Choice'
- * @details
+ * @author
+ * <b> Test Create CA Choice Auto Policy with 2 NIs/Drivers/Vehicles </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create CA Choice Auto Policy
+ * <p> 3. Verify Policy status is 'Policy Active'
+ * <p> 4. Inqury Policy and verify Policy Product is 'CA Choice'
+ *
  */
 public class TestPolicyCreationBig extends AutoCaChoiceBaseTest {
 

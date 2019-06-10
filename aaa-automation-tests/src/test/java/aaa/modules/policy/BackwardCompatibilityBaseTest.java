@@ -1,6 +1,8 @@
 package aaa.modules.policy;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
 import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
+import com.exigen.ipb.etcsa.utils.batchjob.ws.model.WSJobSummary;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.Job;
 import aaa.helpers.jobs.JobUtils;
@@ -18,7 +21,6 @@ import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.batch.BackendJobNames;
 import aaa.modules.bct.BctType;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
@@ -40,32 +42,33 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	}
 
 	/**
-	 * Execute job and calculate failure percentage, if % of failed tasks > 5% hit production team or/and create a defect
+	 * Execute job and calculate failure percentage.
+	 * if % of failed tasks > 5% hit production team or/and create a defect
+	 * if job processed 0 items, it is case for investigation in case u are running this at env+prod data
 	 * @param job
 	 */
 	protected void executeBatchTest(Job job){
-		// Get job start date
-		String startDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern(ddMMyy)).toUpperCase();
-		JobUtils.executeJob(job);
-		// Get sql compatible job name, based on parameter
-		String backEndJobName = BackendJobNames.getBackendJobNames(job);
-		String query = String.format(SELECT_ALL_FROM_JOB_SUMMARY, "%" + backEndJobName + "%", startDate);
-		// Verify that failure % is below 5%
-		assertThat(getFailurePercentage(backEndJobName, query)).as("Percentage of failed tasks is more 5%").isEqualTo(true);
+		JobGroup jobGroup = JobGroup.fromSingleJob(JobUtils.convertToIpb(job));
+		SoapJobActions soapJobActions = new SoapJobActions();
+
+		if(soapJobActions.isJobExist(jobGroup)){
+			soapJobActions.createJob(jobGroup);
+		}
+		soapJobActions.startJob(jobGroup);
+		WSJobSummary latestJobRun = JobUtils.getLatestJobRun(jobGroup);
+
+		assertThat(latestJobRun.getTotalItems()).as("totalItems picked up by job should be > 0").isGreaterThan(0);
+		verifyErrorsCountLessFivePercents(latestJobRun);
 	}
 
-	protected void createAndExecuteJob(Job job){
-		JobGroup jobGroup = JobGroup.fromSingleJob(convertToIpb(job));
-		SoapJobActions service = new SoapJobActions();
-
-		service.createJob(jobGroup);
-
-		JobUtils.executeJob(jobGroup);
-	}
-
-	private com.exigen.ipb.etcsa.utils.batchjob.Job convertToIpb(Job job) {
-		return new com.exigen.ipb.etcsa.utils.batchjob.Job(job.getJobName(), job.getJobParameters(),job.getJobFolders());
-
+	/**
+	 * @param wsJobSummary the Job summary
+	 * @return true in case if % of failures < 5% from total amount of tasks
+	 */
+	private void verifyErrorsCountLessFivePercents(WSJobSummary wsJobSummary) {
+		double percentage = (double) wsJobSummary.getTotalFailure() / (double) wsJobSummary.getTotalItems() * 100 ;
+		log.info("Job processed \n totalItems: {}\n totalFailure: {}\n failed is {}% from total", wsJobSummary.getTotalItems(), wsJobSummary.getTotalFailure(), percentage);
+		assertThat(new BigDecimal(percentage).setScale(2, RoundingMode.HALF_UP).doubleValue()).describedAs("Number of failed tasks is more then 5 percents").isLessThan(5);
 	}
 
 	protected List<String> getPoliciesByQuery(String testName, String queryName) {
@@ -171,41 +174,6 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 
 	public String getMethodName() {
 		return Thread.currentThread().getStackTrace()[2].getMethodName();
-	}
-
-	private Boolean getFailurePercentage(String backEndJobName, String sql) {
-		Boolean failurePercentageExceeded;
-		Map<String, String> lastJobResult = DBService.get().getRow(sql);
-		assertThat(lastJobResult).as(String.format("Results for %s were not found in database", backEndJobName)).isNotEmpty();
-
-		long processedCount = Long.parseLong(lastJobResult.get("TOTALITEMS"));
-		long successCount = Long.parseLong(lastJobResult.get("TOTALSUCCESS"));
-		long errorCount = Long.parseLong(lastJobResult.get("TOTALFAIL"));
-
-		if(processedCount == 0){
-			failurePercentageExceeded = true;
-		}
-		else{
-			failurePercentageExceeded = isErrorsCountLessFivePercents(processedCount, errorCount);
-		}
-		return failurePercentageExceeded;
-	}
-
-	private boolean isErrorsCountLessFivePercents(long processedCount, long errorCount) {
-		boolean erorrsCountLessOfFivePercents = false;
-		long percentage = 0;
-		if(processedCount > 0){
-			if(errorCount > 0){
-				percentage = (errorCount * 100)/processedCount ;
-				erorrsCountLessOfFivePercents = percentage > 5; // false if > 5% of errors
-			}
-			erorrsCountLessOfFivePercents = true; // if processed count > 0 and errorCount 0
-		}else {
-			erorrsCountLessOfFivePercents = false; // if processed count = 0 or job failed.. or ..
-		}
-
-		log.info("Job processed items count {}\nErrors count {}\nPercent of failed items {}",errorCount,processedCount,percentage);
-		return erorrsCountLessOfFivePercents;
 	}
 
 }

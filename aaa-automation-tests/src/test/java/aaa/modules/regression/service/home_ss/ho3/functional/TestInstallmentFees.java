@@ -20,7 +20,7 @@ public class TestInstallmentFees extends TestInstallmentFeesAbstract {
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Check installment fees service returns correct values for Product/State
+	 * <b> Check installment fees service returns correct values for Product/State </b>
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})

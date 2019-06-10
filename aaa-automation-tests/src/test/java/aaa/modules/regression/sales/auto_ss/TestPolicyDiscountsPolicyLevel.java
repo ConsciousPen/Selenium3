@@ -21,50 +21,50 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 
 	/**
 	 * @author Natalija Belakova
-	 * @name Policy Level discounts (US 29094)
-	 * @scenario
-	 * 1. Create quote without discounts and check discounts not displayed
-	 * 2. Enter data to apply discounts and check discounts displayed:
-	 *    Affinity Discount: Driver is Available for Rating, Driver is Named Insured, Affinity group is 'AAA Employee'
-	 *    Membership Discount: Current Member is 'Membership Pending', 
-	 *    Payment Plan Discount: Payment Plan is 'Annual', Term is 'Annual'
-	 *    Multi-policy discount (Motorcycle, Life, Home): Motorcycle = Yes, Life = Yes, Home = Yes, Renters = Yes, Condo = yes
-	 *    Loyalty discount: Days Lapsed = 0, Months with Carrier = 35
-	 * 3. Check discounts is NOT displayed:   
-	 *    Non-stacking discount: UMBI, UIMBI and MP has Coverage, but 1 PPA and not applicable (applicable only for NV)
-	 *    Employee Benefit: not applicable (applicable only for CA Select)
-	 *    Persistency Discount: Months with Carrier = 35 but not applicable (applicable only for CA Choice)
-	 * 4. Enter data to update discounts and check discounts displayed:
-	 *    Multi-policy discount (Motorcycle, Life, Condo): Motorcycle = Yes, Life = Yes, Home = No, Renters = Yes, Condo = yes
-	 * 5. Enter data to update discounts and check discounts NOT displayed:
-	 *    Loyalty discount: Days Lapsed = 4, Months with Carrier = 35
-	 * 6. Perform Flat Endorsement
-	 * 7. Enter data to update discounts and check discounts displayed:
-	 *    Multi-policy discount (Motorcycle, Life, Renters): Motorcycle = Yes, Life = Yes, Home = No, Renters = Yes, Condo = No
-	 *    Loyalty discount: Days Lapsed = 3, Months with Carrier = 12
-	 * 8. Perform Mid-term Endorsement 1
-	 * 9. Enter data to update discounts and check discounts displayed:
-	 *    Affinity Discount: Driver is Available for Rating, Driver is Named Insured, Affinity group is 'None' - can NOT be removed at Midterm
-	 *    Multi-policy discount (Motorcycle, Life, Renters): Motorcycle = No, Life = No, Home = No, Renters = No, Condo = No - can NOT be removed at Midterm
-	 * 10.Enter data to update discounts and check discounts NOT displayed:   
-	 *    Payment Plan Discount: Payment Plan is 'Eleven Pay - Standard', Term is 'Annual'
-	 *    Membership Discount: Current Member is 'No'
-	 * 11.Perform Mid-term Endorsement 2
-	 * 12.Enter data to update discounts and check discounts displayed:
-	 *    Affinity Discount: Driver is Available for Rating, Driver is Named Insured, Affinity group is 'None' - can NOT be removed at Midterm
-	 *    Multi-policy discount (Motorcycle, Life, Home): Motorcycle = No, Life = No, Home = Yes, Renters = No, Condo = No 
-	 *    Membership Discount: Current Member is 'Yes'
-	 *    Payment Plan Discount: Payment Plan is 'Quarterly', Term is 'Annual'
-	 * 13.Perform Manual Renewal
-	 * 14.Check discounts displayed:   
-	 *    Payment Plan Discount: Payment Plan is 'Quarterly', Term is 'Annual'
-	 *    Membership Discount: Current Member is 'Yes'
-	 *    Multi-policy discount (Home): Motorcycle = No, Life = No, Home = Yes, Renters = No, Condo = No
-	 *    Loyalty discount: Days Lapsed = 368, Months with Carrier = 12, BUT Current Member is 'Yes'
-	 * 15.Check discounts NOT displayed:
-	 *    Affinity Discount: Driver is Available for Rating, Driver is Named Insured, Affinity group is 'None' 
-	 *    Non-stacking discount: UMBI, UIMBI and MP has Coverage, but 1 PPA and not applicable (applicable only for NV)
-	 *    Employee Benefit: not applicable (applicable only for CA Select)    
+	 * <b> Policy Level discounts (US 29094) </b>
+	 * <p> Steps:
+	 * <p> 1. Create quote without discounts and check discounts not displayed
+	 * <p> 2. Enter data to apply discounts and check discounts displayed:
+	 * <p>    Affinity Discount: Driver is Available for Rating, Driver is Named Insured, Affinity group is 'AAA Employee'
+	 * <p>    Membership Discount: Current Member is 'Membership Pending',
+	 * <p>    Payment Plan Discount: Payment Plan is 'Annual', Term is 'Annual'
+	 * <p>    Multi-policy discount (Motorcycle, Life, Home): Motorcycle = Yes, Life = Yes, Home = Yes, Renters = Yes, Condo = yes
+	 * <p>    Loyalty discount: Days Lapsed = 0, Months with Carrier = 35
+	 * <p> 3. Check discounts is NOT displayed:
+	 * <p>    Non-stacking discount: UMBI, UIMBI and MP has Coverage, but 1 PPA and not applicable (applicable only for NV)
+	 * <p>    Employee Benefit: not applicable (applicable only for CA Select)
+	 * <p>    Persistency Discount: Months with Carrier = 35 but not applicable (applicable only for CA Choice)
+	 * <p> 4. Enter data to update discounts and check discounts displayed:
+	 * <p>    Multi-policy discount (Motorcycle, Life, Condo): Motorcycle = Yes, Life = Yes, Home = No, Renters = Yes, Condo = yes
+	 * <p> 5. Enter data to update discounts and check discounts NOT displayed:
+	 * <p>    Loyalty discount: Days Lapsed = 4, Months with Carrier = 35
+	 * <p> 6. Perform Flat Endorsement
+	 * <p> 7. Enter data to update discounts and check discounts displayed:
+	 * <p>    Multi-policy discount (Motorcycle, Life, Renters): Motorcycle = Yes, Life = Yes, Home = No, Renters = Yes, Condo = No
+	 * <p>    Loyalty discount: Days Lapsed = 3, Months with Carrier = 12
+	 * <p> 8. Perform Mid-term Endorsement 1
+	 * <p> 9. Enter data to update discounts and check discounts displayed:
+	 * <p>    Affinity Discount: Driver is Available for Rating, Driver is Named Insured, Affinity group is 'None' - can NOT be removed at Midterm
+	 * <p>    Multi-policy discount (Motorcycle, Life, Renters): Motorcycle = No, Life = No, Home = No, Renters = No, Condo = No - can NOT be removed at Midterm
+	 * <p> 10.Enter data to update discounts and check discounts NOT displayed:
+	 * <p>    Payment Plan Discount: Payment Plan is 'Eleven Pay - Standard', Term is 'Annual'
+	 * <p>    Membership Discount: Current Member is 'No'
+	 * <p> 11.Perform Mid-term Endorsement 2
+	 * <p> 12.Enter data to update discounts and check discounts displayed:
+	 * <p>    Affinity Discount: Driver is Available for Rating, Driver is Named Insured, Affinity group is 'None' - can NOT be removed at Midterm
+	 * <p>    Multi-policy discount (Motorcycle, Life, Home): Motorcycle = No, Life = No, Home = Yes, Renters = No, Condo = No
+	 * <p>    Membership Discount: Current Member is 'Yes'
+	 * <p>    Payment Plan Discount: Payment Plan is 'Quarterly', Term is 'Annual'
+	 * <p> 13.Perform Manual Renewal
+	 * <p> 14.Check discounts displayed:
+	 * <p>    Payment Plan Discount: Payment Plan is 'Quarterly', Term is 'Annual'
+	 * <p>    Membership Discount: Current Member is 'Yes'
+	 * <p>    Multi-policy discount (Home): Motorcycle = No, Life = No, Home = Yes, Renters = No, Condo = No
+	 * <p>    Loyalty discount: Days Lapsed = 368, Months with Carrier = 12, BUT Current Member is 'Yes'
+	 * <p> 15.Check discounts NOT displayed:
+	 * <p>    Affinity Discount: Driver is Available for Rating, Driver is Named Insured, Affinity group is 'None'
+	 * <p>    Non-stacking discount: UMBI, UIMBI and MP has Coverage, but 1 PPA and not applicable (applicable only for NV)
+	 * <p>    Employee Benefit: not applicable (applicable only for CA Select)
 	 */
 	
 	@Parameters({"state"})
@@ -237,10 +237,10 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 	
 	/**
 	 * @author Natalija Belakova
-	 * @name Policy Level discounts: Advanced Shopping Discount (US 29094)
-	 * @scenario
-	 * 1. Create quote without discounts and check discounts not displayed
-	 * 2. Enter data to apply/remove discounts and check discounts displayed/not displayed
+	 * <b> Policy Level discounts: Advanced Shopping Discount (US 29094) </b>
+	 * <p> Steps:
+	 * <p> 1. Create quote without discounts and check discounts not displayed
+	 * <p> 2. Enter data to apply/remove discounts and check discounts displayed/not displayed
 	 */
 	
 	@Parameters({"state"})
