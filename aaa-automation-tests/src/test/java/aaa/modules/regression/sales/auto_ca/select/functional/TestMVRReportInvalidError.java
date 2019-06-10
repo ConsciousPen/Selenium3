@@ -21,13 +21,12 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.actiontabs.UpdateRulesOverrideActionTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
+import aaa.modules.regression.sales.auto_ca.select.TestPolicyCreationBig;
 import aaa.utils.StateList;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -147,6 +146,48 @@ public class TestMVRReportInvalidError extends AutoCaSelectBaseTest {
 		PolicySummaryPage.buttonRenewals.click();
 		policy.updateRulesOverride().start();
 		checkOverridenRule();
+	}
+
+
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-30347")
+	public void pas30347_testMVRReportInvalidErrorOverrideEndorsement(@Optional("CA") String state) {
+
+		TestData driverTab = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName()).get(1)
+				.mask(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel())
+				.adjust(AutoCaMetaData.DriverTab.FIRST_NAME.getLabel(), "Cool3")
+				.adjust(AutoCaMetaData.DriverTab.LAST_NAME.getLabel(), "Boy3")
+				.adjust(AutoCaMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), "06/10/1990")
+				.adjust(AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel(), "A3222296")
+				.adjust(AutoCaMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click");
+
+		TestData tdEndorsementFill = DataProviderFactory.dataOf(AutoCaMetaData.GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData(),
+				DriverTab.class.getSimpleName(), driverTab);
+
+		// Cancelled License
+		testInvalidLicenseError("Cool4", "Boy4", "A3222296");
+		new PurchaseTab().fillTab(getPolicyTD());
+		new PurchaseTab().submitTab();
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
+		policy.getDefaultView().fill(tdEndorsementFill);
+		new PremiumAndCoveragesTab().calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+		new DriverActivityReportsTab().getAssetList().getAsset(AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).setValue("I Agree");
+		new DriverActivityReportsTab().getAssetList().getAsset(AutoCaMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY).click();
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+		DocumentsAndBindTab.btnPurchase.click();
+
+		// Updating the message of the error to have exact driver name and lname
+		ErrorEnum.Errors.ERROR_AAA_CSA190521.setMessage("The MVR license status returned for " + "Cool3" + " " + "Boy3" + " is unacceptable (AAA_CSA190521) [for AAADARTabBindRules.attributeForRules]");
+
+		new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_CSA190521);
+		new ErrorTab().overrideAllErrors(ErrorEnum.Duration.TERM, ErrorEnum.ReasonForOverride.OTHER);
+		new ErrorTab().override();
+		documentTab.submitTab();
+		assertThat(new PurchaseTab().isVisible()).isTrue();
+
 	}
 
 
