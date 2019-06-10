@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import org.testng.annotations.Optional;
@@ -14,6 +15,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ErrorEnum;
@@ -137,7 +139,20 @@ public class TestMVRReportInvalidError extends AutoCaSelectBaseTest {
 		new PurchaseTab().fillTab(getPolicyTD());
 		new PurchaseTab().submitTab();
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+		LocalDateTime expDate = PolicySummaryPage.getExpirationDate();
+
+		// Create renewal image at R-63 with renewal jobs
+		mainApp().close();
+		TimeSetterUtil.getInstance().nextPhase(expDate.minusDays(63));
+
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		TimeSetterUtil.getInstance().nextPhase(expDate.minusDays(35));
+
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
