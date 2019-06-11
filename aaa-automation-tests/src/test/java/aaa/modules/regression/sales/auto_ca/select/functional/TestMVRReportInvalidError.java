@@ -226,8 +226,9 @@ public class TestMVRReportInvalidError extends AutoCaSelectBaseTest {
 
 			// Updating the message of the error to have exact driver name and lname
 			ErrorEnum.Errors.ERROR_AAA_CSA190521.setMessage("The MVR license status returned for " + name + " " + lname + " is unacceptable (AAA_CSA190521) [for AAADARTabBindRules.attributeForRules]");
-
+            ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME.setMessage("Membership Validation Failed. Please review the Membership Report and confirm Member details. (AAA_AUTO_CA_MEM_LASTNAME) [for ExistingPolicies.attributeForRules]");
 			new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_CSA190521);
+            new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME);
 			new ErrorTab().overrideAllErrors(ErrorEnum.Duration.TERM, ErrorEnum.ReasonForOverride.OTHER);
 			new ErrorTab().override();
 			documentTab.submitTab();
