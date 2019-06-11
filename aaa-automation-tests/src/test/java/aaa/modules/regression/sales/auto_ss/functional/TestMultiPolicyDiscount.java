@@ -349,37 +349,6 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     }
 
     /**
-     * Will check that property, life, and motorcycle (if applicable) are present/not present depending on discountExpected.
-     * @param mpdDiscounts List of discounts that were present in XML. See parseXMLDocMPDList() for more info.
-     * @param discountExpected Property, Life, and Motorcycle if applicable are there if True, not if False.
-     */
-    private static void validateAllMPDiscounts(List<String> mpdDiscounts, Boolean discountExpected){
-
-        // Only one of the property discounts will be listed.
-        Boolean homeDiscount = mpdDiscounts.contains("Home") ||
-                mpdDiscounts.contains("Condo") ||
-                mpdDiscounts.contains("Renters");
-
-        if (discountExpected) {
-
-            assertThat(homeDiscount).isTrue();
-            assertThat(mpdDiscounts.contains("Life")).isTrue();
-
-            if (getState().equals("AZ")) {
-                assertThat(mpdDiscounts.contains("Motorcycle")).isTrue();
-            }
-
-        }else{
-            assertThat(homeDiscount).isFalse();
-            assertThat(mpdDiscounts.contains("Life")).isFalse();
-
-            if (getState().equals("AZ")) {
-                assertThat(mpdDiscounts.contains("Motorcycle")).isFalse();
-            }
-        }
-    }
-
-    /**
      * This test is provides coverage for validating that the Under Writer rerate rule is thrown as an error whenever the following conditions are met: <br>
      *     1. A rated quote has an MPD element edited (policy type or policy number). <br>
      *     2. A rated quote has an MPD element added. <br>
@@ -1203,21 +1172,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         return scenarioList;
     }
 
-    private void doMPDEligibilityTest(String in_policyType){
-        // Using default test data.
-        TestData testData = getPolicyTD();
 
-        // Add MPD Element manually (after no results found)
-        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-        otherAAAProducts_SearchAndManuallyAddCompanionPolicy(in_policyType, "NOT_FOUND");
-
-        // Continue towards purchase of quote.
-        policy.getDefaultView().fillFromTo(testData, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnPurchase.click();
-
-        // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
-        validateMPDCompanionError(in_policyType);
-    }
 
     private void doMPDEligibilityTest_MidTerm(Boolean bFlatEndorsement, String in_policyType){
         // Create Policy and Initiate Endorsement
@@ -1329,13 +1284,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         return createPolicy(td);
     }
 
-    private void validateMPDCompanionError(String thePolicyType){
-        if (!thePolicyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !thePolicyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
-            new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.MPD_COMPANION_VALIDATION);
-        }else {
-            CustomAssertions.assertThat(PolicySummaryPage.labelPolicyNumber.isPresent());
-        }
-    }
+
 
     private void validateMTEBindError(){
         new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.AAA_SS02012019);
@@ -1592,6 +1541,16 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     }
 
     @Override
+    protected String getGeneralTab_OtherAAAProducts_LifePolicyCheckboxLabel(){
+        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel();
+    }
+
+    @Override
+    protected String getGeneralTab_OtherAAAProducts_MotorcyclePolicyCheckboxLabel(){
+        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel();
+    }
+
+    @Override
     protected String getGeneralTab_CustomerNameDOBMetaDataLabel(){
         return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.CUSTOMER_NAME_DOB.getLabel();
     }
@@ -1604,6 +1563,11 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     @Override
     protected String getErrorTab_ErrorOverride_ErrorCodeValue(){
         return getErrorTab_TableErrors().getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString();
+    }
+
+    @Override
+    protected void errorTab_Verify_ErrorsPresent(boolean expectedValue, ErrorEnum.Errors... errors){
+        new ErrorTab().verify.errorsPresent(expectedValue, errors);
     }
 
     /**

@@ -21,6 +21,7 @@ import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.*;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
@@ -883,6 +884,31 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         doRerate();
     }
 
+    protected void doMPDEligibilityTest(String in_policyType){
+        // Using default test data.
+        TestData testData = getPolicyTD();
+
+        // Add MPD Element manually (after no results found)
+        createQuoteAndFillUpTo(testData, getGeneralTab().getClass(), true);
+        otherAAAProducts_SearchAndManuallyAddCompanionPolicy(in_policyType, "NOT_FOUND");
+
+        // Continue towards purchase of quote.
+        policy.getDefaultView().fillFromTo(testData, getGeneralTab().getClass(), getDocumentsAndBindTab().getClass(), true);
+        getDocumentsAndBindTab_BtnPurchase().click();
+
+        // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
+        validateMPDCompanionError(in_policyType);
+    }
+
+    protected void validateMPDCompanionError(String thePolicyType){
+        if (!thePolicyType.equalsIgnoreCase(getGeneralTab_OtherAAAProducts_LifePolicyCheckboxLabel()) &&
+                !thePolicyType.equalsIgnoreCase(getGeneralTab_PolicyStatusMetaDataLabel())){
+            errorTab_Verify_ErrorsPresent( true, ErrorEnum.Errors.MPD_COMPANION_VALIDATION);
+        }else {
+            CustomAssertions.assertThat(PolicySummaryPage.labelPolicyNumber.isPresent());
+        }
+    }
+
     /**
      * Returns the 'Remove' link object, given an index. <br>
      * @param index Index represents desired Row, where the edit link is contained.
@@ -994,6 +1020,8 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     protected abstract Button getGeneralTab_OtherAAAProductsOwned_RefreshAsset();
     protected abstract Button getGeneralTab_OtherAAAProductsOwned_ManualPolicyAddButton();
     protected abstract void setGeneralTab_OtherAAAProductsOwned_UnquotedCheckbox(mpdPolicyType policyType, Boolean fillInCheckbox);
+    protected abstract String getGeneralTab_OtherAAAProducts_LifePolicyCheckboxLabel();
+    protected abstract String getGeneralTab_OtherAAAProducts_MotorcyclePolicyCheckboxLabel();
 
     // General Tab -> OtherAAAProductsOwned (MPD Section) -> ListOfProductsRows
     protected abstract ComboBox getGeneralTab_OtherAAAProductsOwned_ListOfProductsRows_PolicyTypeEditAsset();
@@ -1039,6 +1067,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     protected abstract void errorTabOverrideAllErrors();
     protected abstract String getErrorTab_ErrorOverride_ErrorCodeValue();
     protected abstract Button getErrorTab_ButtonOverrideAsset();
+    protected abstract void errorTab_Verify_ErrorsPresent(boolean expectedValue, ErrorEnum.Errors... errors);
 
     /**
      * Conducts a basic search using the input String as a policy number.
