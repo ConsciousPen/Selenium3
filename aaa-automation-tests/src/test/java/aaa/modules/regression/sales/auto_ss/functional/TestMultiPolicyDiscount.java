@@ -10,19 +10,16 @@ import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.db.queries.AAAMultiPolicyDiscountQueries;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ErrorEnum;
-import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.template.functional.TestMultiPolicyDiscountAbstract;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -46,7 +43,7 @@ import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
-import java.time.DayOfWeek;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathConstants;
@@ -60,7 +57,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 @StateList(statesExcept = Constants.States.CA)
 public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
@@ -470,43 +466,6 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     }
 
     /**
-     * Creates a new policy with REFRESH_P search and added Life and MC (if AZ)
-     */ /*
-    private String pas28659_SetupScenario(){
-        TestData testData = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData")
-                .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()))
-                .mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()));
-
-        mainApp().open();
-        createCustomerIndividual();
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(testData, GeneralTab.class,true);
-
-        otherAAAProducts_SearchAndManuallyAddCompanionPolicy("Life", "L123456789");
-
-        if (getState().equalsIgnoreCase("AZ")) {
-            otherAAAProducts_SearchAndManuallyAddCompanionPolicy("Motorcycle", "M123456789");
-        }
-
-        otherAAAProducts_SearchByPolicyNumber("Home", "REFRESH_P");
-
-        // Add home, condo, renters by index.
-        otherAAAProductsSearchTable_addSelected(new int[]{0, 1, 2});
-
-        _generalTab.submitTab();
-
-        policy.getDefaultView().fillFromTo(testData, DriverTab.class, PurchaseTab.class, true);
-
-        _purchaseTab.submitTab();
-
-        String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-        log.info("Policy " + policyNumber + " was created.");
-
-        return policyNumber;
-    }*/
-
-    /**
      * This test is provides coverage for validating that the Under Writer rerate rule is thrown as an error whenever the following conditions are met: <br>
      *     1. A rated quote has an MPD element edited (policy type or policy number). <br>
      *     2. A rated quote has an MPD element added. <br>
@@ -519,25 +478,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Trigger Re-rate event when companion policies are edited or removed")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24021")
     public void pas24021_MPD_ValidateRerateRuleFires(@Optional("") String state) {
-
-        // Using default test data.
-        TestData testData = getPolicyTD();
-
-        // Set pre-conditions by creating a quote, rating and filling up to purchase.
-        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-        otherAAAProducts_SearchAndManuallyAddCompanionPolicy("Home", "NOT_FOUND");
-
-        // Added MPD element, filling up to purchase point. Includes hacky methods to get around system error.
-        policy.getDefaultView().fillFromTo(testData, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnPurchase.click();
-        ErrorTab.buttonCancel.click();
-
-        editMPDAndRerate(0, "Renters", "ABC1"); // Editing only the policyType in this scenario.
-        editMPDAndRerate(0, "Renters", "XYZ2"); // Editing only the policyNumber in this scenario.
-
-        addMPDAndRerate("Home", "NOT_FOUND");
-
-        removeMPDAndRerate(0);
+        pas24021_MPD_ValidateRerateRuleFiresTemplate(state);
     }
 
 
@@ -1077,36 +1018,8 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
     }
 
-    public void otherAAAProducts_EditPolicyInMPDTable(int index, String newPolicyType, String newPolicyNumber){
-        otherAAAProductsTable_getEditLinkByIndex(index).click();
-        _generalTab.getListOfProductsRowsAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE_EDIT.getLabel(),
-                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE_EDIT.getControlClass()).setValue(newPolicyType);
-        _generalTab.getListOfProductsRowsAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.QUOTE_POLICY_NUMBER_EDIT.getLabel(),
-                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.QUOTE_POLICY_NUMBER_EDIT.getControlClass()).setValue(newPolicyNumber);
-        _generalTab.getListOfProductsRowsAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.SAVE_BTN.getLabel(),
-                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.SAVE_BTN.getControlClass()).click();
-    }
-
     public Button otherAAAProducts_getRefreshButton() {
         return _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getLabel(), Button.class);
-    }
-
-    /**
-     * Returns the 'Remove' link object, given an index. <br>
-     * @param index Index represents desired Row, where the edit link is contained.
-     * @return
-     */
-    public Link otherAAAProductsTable_getRemoveLinkByIndex(int index) {
-        return new Link(By.id("policyDataGatherForm:otherAAAProductsTable:" + String.valueOf(index) + ":removeMPDPolicyLink"));
-    }
-
-    /**
-     * Returns the 'Edit' link object, given an index. <br>
-     * @param index Index represents desired Row, where the edit link is contained.
-     * @return
-     */
-    public Link otherAAAProductsTable_getEditLinkByIndex(int index){
-        return new Link(By.id("policyDataGatherForm:otherAAAProductsTable:" + String.valueOf(index) + ":editMPDPolicyLink"));
     }
 
     /**
@@ -1251,7 +1164,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
 
         for (mpdPolicyType fillInCheckbox : checkboxMap.keySet()) {
 
-            setUnquotedCheckbox(fillInCheckbox, checkboxMap.get(fillInCheckbox));
+            setGeneralTab_OtherAAAProductsOwned_UnquotedCheckbox(fillInCheckbox, checkboxMap.get(fillInCheckbox));
         }
     }
 
@@ -1374,91 +1287,6 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         });
 
         return scenarioList;
-    }
-
-    /**
-     * Handles looping through editing an mpd element, throwing the rerating error, validating its presence, re-calculating premium, then ensuring the rerate error is gone. <br>
-     *     Returns the state of the test to a loopable position so the method can be called again directly, ending on the Documents and Bind Tab.
-     * @param in_newPolicyType
-     * @param in_newPolicyNumber
-     */
-    private void editMPDAndRerate(int index, String in_newPolicyType, String in_newPolicyNumber){
-        // Change MPD Policy and Attempt to Purchase
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        otherAAAProducts_EditPolicyInMPDTable(index, in_newPolicyType, in_newPolicyNumber);
-        doRerate();
-    }
-
-    /**
-     * Removes MPD policy and calls doRerate().
-     * @param index
-     */
-    private void removeMPDAndRerate(int index){
-        // Change MPD Policy and Attempt to Purchase
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        otherAAAProductsTable_getRemoveLinkByIndex(0).click();
-        doRerate();
-    }
-
-    /**
-     * Adds MPD policy and calls doRerate().
-     * @param in_newPolicyType
-     * @param in_newPolicyNumber
-     */
-    private void addMPDAndRerate(String in_newPolicyType, String in_newPolicyNumber){
-        // Change MPD Policy and Attempt to Purchase
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        otherAAAProducts_SearchAndManuallyAddCompanionPolicy(in_newPolicyType, in_newPolicyNumber);
-        doRerate();
-    }
-
-    /**
-     * Handles validating the error message requiring rerate. Wrapped for short, clean method calls. <br>
-     * Has try/catch to handle event where we anticipate no element is found. <br>
-     * Will fail attempting to get the object, but assert that the failure was expected and that we're at an expected point.
-     * @param bExpected
-     */
-    private void ValidateRerateErrorMessage(boolean bExpected){
-        try{
-            if(_errorTab.tableErrors.getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString().contains("Unprepared data")){
-                CustomAssertions.assertThat(_errorTab.tableErrors.getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString().contains("Unprepared data")).isEqualTo(bExpected);
-            }
-            else{
-                _errorTab.overrideAllErrors();
-                _errorTab.buttonOverride.click();
-                _documentsAndBindTab.btnPurchase.click();
-                CustomAssertions.assertThat(_errorTab.tableErrors.getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString().contains("Unprepared data")).isEqualTo(bExpected);
-            }
-        }catch(IstfException ex){
-            CustomAssertions.assertThat(Page.dialogConfirmation.buttonNo.isPresent()).isTrue();
-            CustomAssertions.assertThat(bExpected).isFalse(); // Making sure we were expecting it to be false here.
-        }
-    }
-
-    /**
-     * After making an edit to the policy, this method drives through validating the UW rule being fired and then validates removing the rule.
-     */
-    private void doRerate(){
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        _documentsAndBindTab.submitTab();
-
-        // Validate Error
-        ValidateRerateErrorMessage(true);
-
-        // Return to P&C Tab and Re-Rate
-        _errorTab.buttonCancel.click();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        _pncTab.btnCalculatePremium().click();
-
-        // Return to Documents and Bind
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        //_documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel(),
-        //        AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getControlClass()).setValue("Physically Signed");
-        _documentsAndBindTab.btnPurchase.click();
-
-        // Validate No UW Error
-        ValidateRerateErrorMessage(false);
-        Page.dialogConfirmation.buttonNo.click();
     }
 
     private void doMPDEligibilityTest(String in_policyType){
@@ -1713,8 +1541,31 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     }
 
     @Override
+    protected ComboBox getGeneralTab_OtherAAAProductsOwned_ListOfProductsRows_PolicyTypeEditAsset(){
+        return _generalTab.getListOfProductsRowsAssetList()
+                .getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE_EDIT);
+    }
+
+    @Override
+    protected TextBox getGeneralTab_OtherAAAProductsOwned_ListOfProductsRows_QuotePolicyNumberEditAsset(){
+        return _generalTab.getListOfProductsRowsAssetList()
+                .getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.QUOTE_POLICY_NUMBER_EDIT);
+    }
+
+    @Override
+    protected Button getGeneralTab_OtherAAAProductsOwned_ListOfProductsRows_SaveBtnAsset(){
+        return _generalTab.getListOfProductsRowsAssetList()
+                .getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.SAVE_BTN);
+    }
+
+    @Override
     protected Table getErrorTab_TableErrors(){
         return _errorTab.tableErrors;
+    }
+
+    @Override
+    protected Button getErrorTab_ButtonCancel(){
+        return ErrorTab.buttonCancel;
     }
 
     @Override
@@ -1725,6 +1576,11 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     @Override
     protected void errorTabOverride() {
         _errorTab.override();
+    }
+
+    @Override
+    protected void errorTabOverrideAllErrors() {
+        _errorTab.overrideAllErrors();
     }
 
     @Override
@@ -1812,21 +1668,29 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     }
 
     @Override
-    protected String getPolicyTypeMetaDataLabel(){
+    protected String getGeneralTab_PolicyTypeMetaDataLabel(){
         return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
     }
 
     @Override
-    protected String getPolicyStatusMetaDataLabel(){
+    protected String getGeneralTab_PolicyStatusMetaDataLabel(){
         return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.STATUS.getLabel();
     }
 
     @Override
-    protected String getCustomerNameDOBMetaDataLabel(){
+    protected String getGeneralTab_CustomerNameDOBMetaDataLabel(){
         return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.CUSTOMER_NAME_DOB.getLabel();
     }
 
+    @Override
+    protected Button getErrorTab_ButtonOverrideAsset(){
+        return _errorTab.buttonOverride;
+    }
 
+    @Override
+    protected String getErrorTab_ErrorOverride_ErrorCodeValue(){
+        return getErrorTab_TableErrors().getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString();
+    }
 
     /**
      * Adds another named insured and fills out required data.
@@ -1928,7 +1792,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      * @param fillInCheckbox true = check, false = uncheck.
      */
     @Override
-    protected void setUnquotedCheckbox(mpdPolicyType policyType, Boolean fillInCheckbox){
+    protected void setGeneralTab_OtherAAAProductsOwned_UnquotedCheckbox(mpdPolicyType policyType, Boolean fillInCheckbox){
 
         switch (policyType){
             case condo:
