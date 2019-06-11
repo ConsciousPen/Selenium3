@@ -736,7 +736,7 @@ DriverInformation: {
 }
 
 DriverInformation_Version1: {
-  Date of Birth: $<today-55y>,
+  #Date of Birth: $<today-55y>,
   Gender: Male,
   Marital Status: Married,
   Occupation: 'Dentist',
@@ -750,8 +750,8 @@ DriverInformation_Version1: {
   Employee Benefit Type: None,
   #should be No always
   #ADB Coverage: 'Yes',
-  Mature driver course completed within 36 months: 'Yes',
-  Mature Driver Course Completion Date: $<today-2M>,
+  #Mature driver course completed within 36 months: 'Yes',
+  #Mature Driver Course Completion Date: $<today-2M>,
   "Smoker: Cigarettes, cigars or pipes": 'No',
   Financial Responsibility Filling Needed: 'Yes',
   Filling Type: SR-22,
@@ -768,7 +768,7 @@ DriverInformation_Version1: {
 }
 
 DriverInformation_Version2: {
-  Date of Birth: $<today-18y>,
+  #Date of Birth: $<today-18y>,
   Gender: Female,
   Marital Status: Single,
   Occupation: 'Student',
