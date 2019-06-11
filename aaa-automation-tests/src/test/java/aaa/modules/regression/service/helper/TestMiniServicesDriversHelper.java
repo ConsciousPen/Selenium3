@@ -2920,11 +2920,11 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	protected String getRandomDriverRemovalCode(boolean happyPath) {
 		ArrayList<String> removalReasonCodes = new ArrayList<>();
 		if (happyPath) {
-			removalReasonCodes.add("RD001"); //driver status will be changed to "pendingRemoval" during removal
-			removalReasonCodes.add("RD002"); //driver status will be changed to "pendingRemoval" during removal
+			removalReasonCodes.add("RD1001"); //driver status will be changed to "pendingRemoval" during removal
+			removalReasonCodes.add("RD1002"); //driver status will be changed to "pendingRemoval" during removal
 		} else {
-			removalReasonCodes.add("RD003"); //driver status will be changed to "driverTypeChanged" during removal
-			removalReasonCodes.add("RD004"); //driver status will be changed to "driverTypeChanged" during removal
+			removalReasonCodes.add("RD1003"); //driver status will be changed to "driverTypeChanged" during removal
+			removalReasonCodes.add("RD1004"); //driver status will be changed to "driverTypeChanged" during removal
 		}
 		// Get Removal Reason Code from ArrayList using Random().nextInt()
 		String removalReasonCode = removalReasonCodes.get(new Random().nextInt(removalReasonCodes.size()));
