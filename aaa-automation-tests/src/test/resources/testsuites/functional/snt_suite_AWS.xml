@@ -363,7 +363,7 @@
     </test>
 
 
-    <test name="Premium And Coverages/Comparison CA Select" parallel="methods" thread-count="1024">
+    <!--<test name="Premium And Coverages/Comparison CA Select" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
@@ -384,7 +384,7 @@
                 </methods>
             </class>
         </classes>
-    </test>
+    </test>-->
 
     <test name="Premium And Coverages/Conflict SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
