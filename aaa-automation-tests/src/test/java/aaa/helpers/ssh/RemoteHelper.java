@@ -287,6 +287,38 @@ public final class RemoteHelper {
 		log.info("Found file(s): {} after {} milliseconds", foundFiles, searchTime);
 		return foundFiles;
 	}
+	
+	/**
+	 * Wait and check document(s) with <b>textsToSearchPatterns</b> is appeared in <b>sourceFolder</b>
+	 * @param sourceFolder		folder where file(s) search will be performed
+	 * @param timeoutInSeconds	timeout in seconds
+	 * @param textsToSearchPatterns		texts to be searched patterns
+	 * @return	<b>true</b> - if document(s) with <b>textsToSearchPatterns</b> is appeared; <b>false</b> - if document(s) with <b>textsToSearchPatterns</b> is not appeared
+	 */
+	public boolean waitAndCheckDocumentAppearance(String sourceFolder, int timeoutInSeconds, List<String> textsToSearchPatterns) {
+		long searchStart = System.currentTimeMillis();
+		long timeout = searchStart + timeoutInSeconds * 1000L;
+		long conditionCheckPoolingIntervalInSeconds = 1;
+		List<String> foundFiles;
+		boolean isDocGenerated = false;
+		do {
+			foundFiles = getFilesListBySearchPattern(sourceFolder, "xml", textsToSearchPatterns);
+			if (!foundFiles.isEmpty()) {
+				isDocGenerated = true;
+				long searchTime = System.currentTimeMillis() - searchStart;
+				log.info("Found file(s): {} after {} milliseconds", foundFiles, searchTime);
+				break;
+			}
+			try {
+				TimeUnit.SECONDS.sleep(conditionCheckPoolingIntervalInSeconds);
+			} catch (InterruptedException e) {
+				log.error(e.getMessage());
+			}
+		}
+		while (timeout > System.currentTimeMillis());
+		
+		return isDocGenerated; 
+	}
 
 	public LocalDateTime getLastModifiedTime(String path) {
 		log.info("SSH: Getting last modified time for \"{}\"", path);

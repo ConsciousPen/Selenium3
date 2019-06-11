@@ -1332,6 +1332,8 @@
                     <include name="pas11618_UpdateVehicleLeasedInfo"/>
                     <include name="pas11618_UpdateVehicleFinancedInfo"/>
                     <include name="pas13252_UpdateVehicleGaragingAddressProblem"/>
+                    <include name="pas29136_vehicleDeleteCA"/>
+                    <include name="pas14497_TransactionInformationForEndorsementsReplaceVehicleCA"/>
                 </methods>
             </class>
         </classes>
@@ -1415,6 +1417,7 @@
                     <include name="pas26668_viewVehicleLevelCoveragesCA"/>
                     <include name="pas19057_OrderOfCoverageCATC01"/>
                     <include name="pas19057_OrderOfCoverageCATC02"/>
+                    <include name="pas17642_UpdateCoverageADB_CA"/>
                 </methods>
             </class>
         </classes>
