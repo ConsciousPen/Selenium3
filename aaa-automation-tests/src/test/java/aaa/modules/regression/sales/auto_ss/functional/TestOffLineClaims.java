@@ -309,4 +309,22 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     public void pas25162_permissiveUseIndicatorDefaulting(@Optional("AZ") @SuppressWarnings("unused") String state) {
         pas25162_permissiveUseIndicatorDefaulting();
     }
+
+
+    /**
+     * @author Chris Johns
+     * PAS-28399 -
+     * @name
+     * @scenario
+     * @details Clean Path.
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24652")
+    public void pas28399_RestrictChangeFNIGeneralTabQuoteEndorsement(@Optional("AZ") @SuppressWarnings("unused") String state) {
+        pas28399_RestrictChangeFNIGeneralTabQuoteEndorsement();
+    }
+
+
+
 }

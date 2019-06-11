@@ -1109,6 +1109,50 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         DriverTab.buttonSaveAndExit.click();
     }
 
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+    public void pas28399_RestrictChangeFNIGeneralTabQuoteEndorsement(){
+        // Create Customer and Policy with three named insured' and two drivers
+        adjusted = getPolicyTD().adjust(getTestSpecificTD("TestData_Restrict_FNI_NB_PU_AZ").resolveLinks());
+
+        //Initiate a quote and fill up to the driver tab
+        createQuoteAndFillUpTo(adjusted, DriverTab.class);
+
+        //Navigate back to General tab and change the FNI to Scott (Not a Driver)
+        changeFNIGeneralTab(2);  //Index starts at 0
+//        TODO ADDRESS THE NEW ERROR POP-UP HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        //Continue to bind the policy
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
+        policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class, PurchaseTab.class, true);
+        new PurchaseTab().submitTab();
+        policyNumber = getPolicyNumber();
+
+        //Initiate an endorsement: Try to change FNI again - verify error pop-up
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        changeFNIGeneralTab(2);  //Index starts at 0
+//        TODO ADDRESS THE NEW ERROR POP-UP HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        //Add third NI as a driver to resolve pop-up
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        TestData addDriverTd = getTestSpecificTD("Add_NI_Driver_Endorsement_AZ");
+        policy.getDefaultView().fill(addDriverTd);
+
+        //change FNI again - verify error pop-up does NOT appear
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        changeFNIGeneralTab(2);  //Index starts at 0
+//        TODO ADDRESS THE NEW ERROR POP-UP HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        //Continue to bind the endorsement
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.submitTab();
+    }
+    ///////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////
+
+
     /*
    Method/Test for CA Choice & Select: TestOfflineClaims.pas25162_permissiveUseIndicatorDefaulting
     */
