@@ -300,8 +300,17 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * @author Chris Johns
      * PAS-28399 -CHANGE FNI - General Tab: don't allow if "changed to FNI" not correctly set up as driver
      * @name Restring FNI change on general tab when NI is not a Driver
-     * @scenario Renewal: See Template For Details and steps
-     * @details Clean Path.
+     * @scenario NB and Enrosement
+     * 1. Initiate a quote with 3 NI and 2 Drivers
+     * 2. Change the FNI to the NI that is NOT a driver
+     * 3. Pop-up Error message stops the action: "The select named insured has not been established as a ‘named insured driver’ on the driver tab.”
+     * 4. Bind the policy and initiate an endorsement OR Renewal
+     * 5. Change the FNI to the NI that is NOT a driver
+     * 6. Pop-up Error message stops the action: "The select named insured has not been established as a ‘named insured driver’ on the driver tab.”
+     * 7. Add third NI as a driver
+     * 8. Change the FNI to newly added driver
+     * 9. Pop-up Error does NOT appear and does not stop the action
+     */
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
@@ -312,10 +321,9 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
 
     /**
      * @author Chris Johns
-     * PAS-28399 -CHANGE FNI - General Tab: don't allow if "changed to FNI" not correctly set up as driver
+     * PAS-28399 - CHANGE FNI - General Tab: don't allow if "changed to FNI" not correctly set up as driver
      * @name Restring FNI change on general tab when NI is not a Driver
-     * @scenario Renewal: See Template For Details and steps
-     * @details Clean Path.
+     * @scenario NB and Renewal: Steps Mentioned above: Renewal flow
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
