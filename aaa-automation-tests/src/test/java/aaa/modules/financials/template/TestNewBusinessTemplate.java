@@ -609,6 +609,17 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
     }
 
+    /**
+     * @scenario
+     * 1. Create policy with monthly payment plan
+     * 2. Advance time, generate and pay first installment bill
+     * 3. Waive Fee
+     * 4. Validate Reallocation Adjustment ledger entries
+	 * 5. Generate and pay second installment bill - Future dated
+	 * 6. Waive Fee
+	 * 7. Validate Reallocation Adjustment ledger entries
+     * @details OPR-01, OPR-02
+     */
     protected void testNewBusinessScenario_6() {
         // Create policy WITHOUT employee benefit, monthly payment plan
         mainApp().open();
@@ -617,7 +628,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         LocalDateTime dueDate = PolicySummaryPage.getEffectiveDate().plusMonths(1);
 
         //OPR-01
-        // Advance time 1 month, generate and pay first installment bill
+        //Advance time, generate and pay first installment bill
         LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(dueDate);
         LocalDateTime billDueDate = getTimePoints().getBillDueDate(dueDate);
         TimeSetterUtil.getInstance().nextPhase(billGenDate);
