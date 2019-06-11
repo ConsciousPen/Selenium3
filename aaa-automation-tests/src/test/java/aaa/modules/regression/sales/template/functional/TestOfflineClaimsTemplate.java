@@ -1111,43 +1111,60 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////
-    public void pas28399_RestrictChangeFNIGeneralTabQuoteEndorsement(){
+    public void pas28399_RestrictChangeFNIGeneralTab(String SCENARIO){
         // Create Customer and Policy with three named insured' and two drivers
         adjusted = getPolicyTD().adjust(getTestSpecificTD("TestData_Restrict_FNI_NB_PU_AZ").resolveLinks());
+        TestData addDriverTd = getTestSpecificTD("Add_NI_Driver_Endorsement_AZ");
 
         //Initiate a quote and fill up to the driver tab
         createQuoteAndFillUpTo(adjusted, DriverTab.class);
-
         //Navigate back to General tab and change the FNI to Scott (Not a Driver)
         changeFNIGeneralTab(2);  //Index starts at 0
 //        TODO ADDRESS THE NEW ERROR POP-UP HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
         //Continue to bind the policy
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
         policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         policyNumber = getPolicyNumber();
 
-        //Initiate an endorsement: Try to change FNI again - verify error pop-up
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        changeFNIGeneralTab(2);  //Index starts at 0
-//        TODO ADDRESS THE NEW ERROR POP-UP HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-        //Add third NI as a driver to resolve pop-up
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        TestData addDriverTd = getTestSpecificTD("Add_NI_Driver_Endorsement_AZ");
-        policy.getDefaultView().fill(addDriverTd);
-
-        //change FNI again - verify error pop-up does NOT appear
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        changeFNIGeneralTab(2);  //Index starts at 0
-//        TODO ADDRESS THE NEW ERROR POP-UP HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-        //Continue to bind the endorsement
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        premiumAndCoveragesTab.calculatePremium();
-        premiumAndCoveragesTab.submitTab();
+        //ENDORSEMENT or RENEWAL:
+        switch (SCENARIO){
+            case "ENDORSEMENT":
+                //Initiate an endorsement: Try to change FNI again - verify error pop-up
+                policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+                changeFNIGeneralTab(2);  //Index starts at 0
+                //        TODO ADDRESS THE NEW ERROR POP-UP HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //Add third NI as a driver to resolve pop-up
+                NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+                policy.getDefaultView().fill(addDriverTd);
+                //change FNI again - verify error pop-up does NOT appear
+                changeFNIGeneralTab(2);  //Index starts at 0
+                //        TODO ADDRESS THE NEW ERROR POP-UP HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //Continue to bind the endorsement
+                tableDriverList.selectRow(1);
+                driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
+                tableDriverList.selectRow(2);
+                driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
+                driverTab.submitTab();
+                policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class, PurchaseTab.class, true);
+                new PurchaseTab().submitTab();
+                break;
+            case "RENEWAL":
+                //Run the renewal job and pay the bill
+                moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+                //Retrieve policy and enter renewal image: Try to change FNI again - verify error pop-up
+                retrieveRenewal(policyNumber);
+                changeFNIGeneralTab(2);  //Index starts at 0
+                //        TODO ADDRESS THE NEW ERROR POP-UP HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //Add third NI as a driver to resolve pop-up
+                NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+                policy.getDefaultView().fill(addDriverTd);
+                //Change FNI again - verify error pop-up does NOT appear
+                changeFNIGeneralTab(2);  //Index starts at 0
+                //        TODO ADDRESS THE NEW ERROR POP-UP HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //Save and Exit the renewal
+                GeneralTab.buttonSaveAndExit.click();
+                break;
+        }
     }
     ///////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////
