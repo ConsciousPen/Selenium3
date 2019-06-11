@@ -37,6 +37,13 @@
         </classes>
     </test>
 
+    <test name="Test SS driver with no drivers license error override" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLicenseNumberEmptyOverride"/>
+        </classes>
+    </test>
+
     <test name="Test CARCO Task Not Created" parallel="methods" thread-count="1024">
         <parameter name="state" value="NJ, NY"/>
         <classes>

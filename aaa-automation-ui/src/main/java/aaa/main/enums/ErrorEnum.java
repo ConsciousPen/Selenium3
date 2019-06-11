@@ -205,6 +205,7 @@ public final class ErrorEnum {
 		AAA_SS02012019("AAA_SS02012019", "Policy cannot be bound with an unbound companion policy."),
         ERROR_AAA_10015015_CA_SELECT("10015015", "Driver with a combination of at least one Minor violation AND at least one At-fault accident within last 36 months is unacceptable. (10015015) [for Driver.attributeForRules]"),
         ERROR_AAA_10015023_CA_SELECT_CHOICE("10015023", "Driver must not have more than 2 At-fault accidents in the past 3 years (10015023) [for Driver.attributeForRules]"),
+		ERROR_AAA_SS190605("AAA_SS190605", "Driver Name LName has a blank license number (AAA_SS190605) [for Driver.attributeForRules]"),
 		ERROR_AAA_CAC7161836_CA_CHOICE("AAA_CAC7161836_CA_CHOICE", "A driver with more than 26 Violation points is unacceptable (AAA_CAC7161836) [for Driver.attributeForRules]"),
 
 		//MEMBERSHIP Errors
