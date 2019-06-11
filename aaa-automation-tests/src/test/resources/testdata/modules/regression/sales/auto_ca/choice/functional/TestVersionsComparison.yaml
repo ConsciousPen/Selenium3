@@ -142,7 +142,7 @@ NamedInsuredInformation: {
   First Name: NBFirstName,
   Middle Name: NB,
   Last Name: NBLastName,
-  Suffix: JR,
+  Suffix: Jr,
   Base Date: $<today>,
   Zip Code: 90201,
   Address Line 1: NB residence address 1,
@@ -172,7 +172,7 @@ NamedInsuredInformation_Version1: {
   First Name: VIFirstName,
   Middle Name: VI,
   Last Name: VILastName,
-  Suffix: 'SR.',
+  Suffix: Sr,
   Base Date: $<today-1M>,
   Zip Code: 90255,
   Address Line 1: VI residence address 1,
@@ -625,7 +625,7 @@ DriverInformation: {
 }
 
 DriverInformation_Version1: {
-  Date of Birth: $<today-55y>,
+  #Date of Birth: $<today-55y>,
   Gender: Male,
   Marital Status: Married,
   Occupation: 'Dentist',
@@ -639,8 +639,8 @@ DriverInformation_Version1: {
   Employee Benefit Type: None,
   #should be No always
   #ADB Coverage: 'Yes',
-  Mature driver course completed within 36 months: 'Yes',
-  Mature Driver Course Completion Date: $<today-2M>,
+  #Mature driver course completed within 36 months: 'Yes',
+  #Mature Driver Course Completion Date: $<today-2M>,
   "Smoker: Cigarettes, cigars or pipes": 'No',
   Financial Responsibility Filling Needed: 'Yes',
   Filling Type: SR-22,
