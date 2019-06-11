@@ -406,8 +406,6 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         doMPDEligibilityTest_Renewal("Condo");
     }
 
-
-
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23456")
@@ -858,36 +856,8 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(policyType);
     }
 
-    /**
-     * Used to search an MPD policy, via Customer Details. Applies provided string over 'First Name' <br>
-     * All of the other fields are populated using 'Junk' data, allowing a tester to call the method using only the parameter that controls the wire-mock response.
-     * @param searchFieldValue This variable is applied to the First Name field of the Customer Details Search and can manipulate response results. <br>
-     */
-    public void otherAAAProducts_SearchCustomerDetails_UsePrefilledData(String searchFieldValue){
-        otherAAAProducts_SearchCustomerDetails(searchFieldValue, "JunkLastName", "01/01/1980", "JunkAddress", "JunkCity", "AZ", "JunkZip");
-    }
 
-    /**
-     * Used to search an MPD policy, via Customer Details. <br>
-     * @param firstName This parameter has been chosen to drive the search results/response. Edit this field with mapped MPD search string to manipulate which response comes back. <br>
-     * @param lastName Customer Last Name. <br>
-     * @param dateOfBirth Customer Date of Birth in 'mm/dd/yyyy' format. <br>
-     * @param address Customer Street Address. <br>
-     * @param city Customer City. <br>
-     * @param zipCode Customer Zip Code. <br>
-     */
-    public void otherAAAProducts_SearchCustomerDetails(String firstName, String lastName, String dateOfBirth, String address, String city, String state, String zipCode){
-        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getControlClass()).click();
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getControlClass()).setValue("Customer Details");
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ZIP_CODE.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ZIP_CODE.getControlClass()).setValue(zipCode);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.FIRST_NAME.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.FIRST_NAME.getControlClass()).setValue(firstName);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.LAST_NAME.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.LAST_NAME.getControlClass()).setValue(lastName);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.DATE_OF_BIRTH.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.DATE_OF_BIRTH.getControlClass()).setValue(dateOfBirth);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADDRESS_LINE_1.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADDRESS_LINE_1.getControlClass()).setValue(address);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.CITY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.CITY.getControlClass()).setValue(city);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getLabel(), (AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getControlClass())).setValue(state);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
-    }
+
 
     public Button otherAAAProducts_getRefreshButton() {
         return _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getLabel(), Button.class);
@@ -903,14 +873,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         return new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + String.valueOf(index) + ":customerSelected"));
     }
 
-    /**
-     * Given an index beginning from 0, this will select and add the chosen system returned policy.
-     * @param index
-     */
-    public void otherAAAProductsSearchTable_addSelected(int index){
-        new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + String.valueOf(index) + ":customerSelected")).setValue(true);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN.getControlClass()).click();
-    }
+
 
 
 
@@ -1160,24 +1123,6 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         return scenarioList;
     }
 
-
-
-    private void doMTEPreventBindTest(Boolean bFlatEndorsement, String in_policyType){
-        // Create Policy and Initiate Endorsement
-        openAppAndCreatePolicy();
-
-        handleEndorsementType(bFlatEndorsement);
-
-        // Add MPD Element via Customer Search
-        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
-        otherAAAProductsSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
-
-        fillFromGeneralTabToErrorMsg();
-
-        // Validate error message appears.
-        validateMTEBindError();
-    }
-
     private void doMTEAllowBindTest(Boolean bFlatEndorsement, String in_policyType){
         // Create Policy and Initiate Endorsement
         openAppAndCreatePolicy();
@@ -1218,8 +1163,9 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         validateMTEBindError();
     }
 
-    private void validateMTEBindError(){
-        new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.AAA_SS02012019);
+    @Override
+    protected void validateMTEBindError(){
+        errorTab_Verify_ErrorsPresent(true, ErrorEnum.Errors.AAA_SS02012019);
     }
 
     private void validateMTEBindErrorDoesNotOccur(){
@@ -1339,6 +1285,12 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     protected Button getGeneralTab_OtherAAAProductsOwned_ListOfProductsRows_SaveBtnAsset(){
         return _generalTab.getListOfProductsRowsAssetList()
                 .getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.SAVE_BTN);
+    }
+
+    @Override
+    protected Button getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_AddSelectedBtnAsset(){
+       return  _generalTab.getSearchOtherAAAProducts()
+               .getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN);
     }
 
     @Override
@@ -1614,4 +1566,28 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
                 break;
         }
     }
+
+    /**
+     * Used to search an MPD policy, via Customer Details. <br>
+     * @param firstName This parameter has been chosen to drive the search results/response. Edit this field with mapped MPD search string to manipulate which response comes back. <br>
+     * @param lastName Customer Last Name. <br>
+     * @param dateOfBirth Customer Date of Birth in 'mm/dd/yyyy' format. <br>
+     * @param address Customer Street Address. <br>
+     * @param city Customer City. <br>
+     * @param zipCode Customer Zip Code. <br>
+     */
+    @Override
+    protected void otherAAAProducts_SearchCustomerDetails(String firstName, String lastName, String dateOfBirth, String address, String city, String state, String zipCode){
+        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getControlClass()).click();
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getControlClass()).setValue("Customer Details");
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ZIP_CODE.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ZIP_CODE.getControlClass()).setValue(zipCode);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.FIRST_NAME.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.FIRST_NAME.getControlClass()).setValue(firstName);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.LAST_NAME.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.LAST_NAME.getControlClass()).setValue(lastName);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.DATE_OF_BIRTH.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.DATE_OF_BIRTH.getControlClass()).setValue(dateOfBirth);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADDRESS_LINE_1.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADDRESS_LINE_1.getControlClass()).setValue(address);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.CITY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.CITY.getControlClass()).setValue(city);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getLabel(), (AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getControlClass())).setValue(state);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
+    }
+
 }

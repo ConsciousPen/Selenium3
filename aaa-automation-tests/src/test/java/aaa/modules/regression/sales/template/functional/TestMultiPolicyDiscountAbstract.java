@@ -926,6 +926,42 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         validateMPDCompanionError(in_policyType);
     }
 
+    protected void doMTEPreventBindTest(Boolean bFlatEndorsement, String in_policyType){
+        // Create Policy and Initiate Endorsement
+        openAppAndCreatePolicy();
+
+        handleEndorsementType(bFlatEndorsement);
+
+        // Add MPD Element via Customer Search
+        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
+        otherAAAProductsSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
+
+        fillFromGeneralTabToErrorMsg();
+
+        // Validate error message appears.
+        //errorTab_Verify_ErrorsPresent(true, ErrorEnum.Errors.AAA_SS02012019);
+        validateMTEBindError();
+    }
+
+    /**
+     * Given an index beginning from 0, this will select and add the chosen system returned policy.
+     * @param index
+     */
+    protected void otherAAAProductsSearchTable_addSelected(int index){
+        new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + String.valueOf(index) + ":customerSelected")).setValue(true);
+        getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_AddSelectedBtnAsset().click();
+    }
+
+    /**
+     * Used to search an MPD policy, via Customer Details. Applies provided string over 'First Name' <br>
+     * All of the other fields are populated using 'Junk' data, allowing a tester to call the method using only the parameter that controls the wire-mock response.
+     * @param searchFieldValue This variable is applied to the First Name field of the Customer Details Search and can manipulate response results. <br>
+     */
+    protected void otherAAAProducts_SearchCustomerDetails_UsePrefilledData(String searchFieldValue){
+        otherAAAProducts_SearchCustomerDetails(searchFieldValue,
+                "JunkLastName", "01/01/1980", "JunkAddress", "JunkCity", "AZ", "JunkZip");
+    }
+
     protected void createPolicyAdvanceToRenewalImage(){
         String policyNumber = openAppAndCreatePolicy();
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -1091,6 +1127,9 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     protected abstract TextBox getGeneralTab_OtherAAAProductsOwned_ListOfProductsRows_QuotePolicyNumberEditAsset();
     protected abstract Button getGeneralTab_OtherAAAProductsOwned_ListOfProductsRows_SaveBtnAsset();
 
+    // General Tab -> OtherAAAProductsOwned (MPD Section_ -> SearchOtherAAAProducts
+    protected abstract Button getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_AddSelectedBtnAsset();
+
     ////////////////////////
     // Driver Tab Helpers //
     ////////////////////////
@@ -1130,6 +1169,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     protected abstract void errorTabOverrideAllErrors();
     protected abstract String getErrorTab_ErrorOverride_ErrorCodeValue();
     protected abstract Button getErrorTab_ButtonOverrideAsset();
+    protected abstract void validateMTEBindError();
     protected abstract void errorTab_Verify_ErrorsPresent(boolean expectedValue, ErrorEnum.Errors... errors);
 
     /**
@@ -1370,4 +1410,15 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
             rows.get(i).getCell(7).controls.links.get("Remove").click(Waiters.AJAX);
         }
     }
+
+    /**
+     * Used to search an MPD policy, via Customer Details. <br>
+     * @param firstName This parameter has been chosen to drive the search results/response. Edit this field with mapped MPD search string to manipulate which response comes back. <br>
+     * @param lastName Customer Last Name. <br>
+     * @param dateOfBirth Customer Date of Birth in 'mm/dd/yyyy' format. <br>
+     * @param address Customer Street Address. <br>
+     * @param city Customer City. <br>
+     * @param zipCode Customer Zip Code. <br>
+     */
+    protected abstract void otherAAAProducts_SearchCustomerDetails(String firstName, String lastName, String dateOfBirth, String address, String city, String state, String zipCode);
 }
