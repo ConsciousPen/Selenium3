@@ -49,7 +49,8 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     public static final String _XPATH_TO_ALL_SEARCH_RESULT_CHECKBOXES = "*//input[contains(@id, 'customerSelected')]";
 
     // Add more states here if they get MC policy support.
-    private ArrayList<String> motorcycleSupportedStates = new ArrayList<>(Arrays.asList(Constants.States.AZ));
+    private ArrayList<String> motorcycleSupportedStates =
+            new ArrayList<>(Arrays.asList(Constants.States.AZ, Constants.States.CA));
 
     /**
      *  Creates a policy with MPD discount
@@ -761,7 +762,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
 
         otherAAAProducts_SearchAndManuallyAddCompanionPolicy("Life", "L123456789");
 
-        if (getState().equalsIgnoreCase("AZ")) {
+        if (motorcycleSupportedStates.contains(getState())) {
             otherAAAProducts_SearchAndManuallyAddCompanionPolicy("Motorcycle", "M123456789");
         }
 
