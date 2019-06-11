@@ -7,7 +7,6 @@ import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
@@ -29,8 +28,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.*;
 import org.testng.annotations.Optional;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
@@ -44,15 +41,6 @@ import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -1172,21 +1160,11 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         return scenarioList;
     }
 
-    private void doMPDEligibilityTest_Renewal(String in_policyType){
-        // Create Policy
-        createPolicyAdvanceToRenewalImage();
 
-        // In Renewal Image, Add MPD Element and Bind
-        otherAAAProducts_SearchAndManuallyAddCompanionPolicy(in_policyType, "NOT_FOUND");
-        fillFromGeneralTabToErrorMsg();
-
-        // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
-        validateMPDCompanionError(in_policyType);
-    }
 
     private void doMTEPreventBindTest(Boolean bFlatEndorsement, String in_policyType){
         // Create Policy and Initiate Endorsement
-        openAppCreatePolicy();
+        openAppAndCreatePolicy();
 
         handleEndorsementType(bFlatEndorsement);
 
@@ -1202,7 +1180,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
 
     private void doMTEAllowBindTest(Boolean bFlatEndorsement, String in_policyType){
         // Create Policy and Initiate Endorsement
-        openAppCreatePolicy();
+        openAppAndCreatePolicy();
 
         handleEndorsementType(bFlatEndorsement);
 
@@ -1239,37 +1217,6 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         // Validate error message appears.
         validateMTEBindError();
     }
-
-    private void createPolicyAdvanceToRenewalImage(){
-        String policyNumber = openAppCreatePolicy();
-        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-        LocalDateTime _renewalImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
-        mainApp().close();
-
-        // Advance JVM to Image Creation Date
-        TimeSetterUtil.getInstance().nextPhase(_renewalImageGenDate);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
-        // Go to Policy and Open Renewal Image
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
-        PolicySummaryPage.buttonRenewals.click();
-        Tab.buttonGo.click();
-        Tab.buttonOk.click();
-        Page.dialogConfirmation.buttonOk.click();
-    }
-
-    private String openAppCreatePolicy(){
-        TestData td = getPolicyDefaultTD();
-        mainApp().open();
-        createCustomerIndividual();
-        return createPolicy(td);
-    }
-
-
 
     private void validateMTEBindError(){
         new ErrorTab().verify.errorsPresent(true, ErrorEnum.Errors.AAA_SS02012019);

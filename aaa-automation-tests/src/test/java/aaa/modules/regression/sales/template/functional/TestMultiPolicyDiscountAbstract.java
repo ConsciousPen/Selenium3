@@ -914,6 +914,40 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         validateMPDCompanionError(in_policyType);
     }
 
+    protected void doMPDEligibilityTest_Renewal(String in_policyType){
+        // Create Policy
+        createPolicyAdvanceToRenewalImage();
+
+        // In Renewal Image, Add MPD Element and Bind
+        otherAAAProducts_SearchAndManuallyAddCompanionPolicy(in_policyType, "NOT_FOUND");
+        fillFromGeneralTabToErrorMsg();
+
+        // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
+        validateMPDCompanionError(in_policyType);
+    }
+
+    protected void createPolicyAdvanceToRenewalImage(){
+        String policyNumber = openAppAndCreatePolicy();
+        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        LocalDateTime _renewalImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
+        mainApp().close();
+
+        // Advance JVM to Image Creation Date
+        TimeSetterUtil.getInstance().nextPhase(_renewalImageGenDate);
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+        JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+        // Go to Policy and Open Renewal Image
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        PolicySummaryPage.buttonRenewals.click();
+        Tab.buttonGo.click();
+        Tab.buttonOk.click();
+        Page.dialogConfirmation.buttonOk.click();
+    }
+
     protected void fillFromGeneralTabToErrorMsg(){
         policy.getDefaultView().fillFromTo(getPolicyTD("Endorsement", "TestData_Empty_Endorsement"),
                 getGeneralTab().getClass(), getDocumentsAndBindTab().getClass(), true);
