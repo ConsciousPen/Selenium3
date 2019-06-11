@@ -319,4 +319,33 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
     public void pas27226_MatureDriverDiscount(@Optional("CA") @SuppressWarnings("unused") String state) {
         pas27226_MatureDriverDiscount();
     }
+
+    /**
+     * @author Chris Johns
+     * PAS-28399 -CHANGE FNI - General Tab: don't allow if "changed to FNI" not correctly set up as driver
+     * @name Restring FNI change on general tab when NI is not a Driver
+     * @scenario Renewal: See Template For Details and steps
+     * @details Clean Path.
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-27226")
+    public void pas28399_RestrictChangeFNIGeneralTabEndorsement (@Optional("CA") @SuppressWarnings("unused") String state) {
+        pas28399_RestrictChangeFNIGeneralTab("ENDORSEMENT");
+    }
+
+    /**
+     * @author Chris Johns
+     * PAS-28399 -CHANGE FNI - General Tab: don't allow if "changed to FNI" not correctly set up as driver
+     * @name Restring FNI change on general tab when NI is not a Driver
+     * @scenario Renewal: See Template For Details and steps
+     * @details Clean Path.
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-27226")
+    public void pas28399_RestrictChangeFNIGeneralTabRenewal (@Optional("CA") @SuppressWarnings("unused") String state) {
+        pas28399_RestrictChangeFNIGeneralTab("RENEWAL");
+    }
+
 }

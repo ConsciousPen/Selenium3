@@ -37,6 +37,12 @@ TestData_Change_FNI_Renewal_PU_CA: {
   DriverTab:  ['@Driver1','@Driver9']
 }
 
+TestData_Restrict_FNI_NB_PU_CA: {
+  GeneralTab: '@ThreeNamedInsuredGeneralTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_PUDefaulting',
+  DriverTab:  ['@Driver1','@Driver9']
+}
+
 PrefillTab: {
   First Name: Nicolas,
   Last Name: Smith,
@@ -52,6 +58,13 @@ PrefillTab: {
 
 TwoNamedInsuredGeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@<auto_ca_choice>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ca_choice>@DataGather@PolicyInformation'
+}
+
+ThreeNamedInsuredGeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2', 'NamedInsuredInformation5'],
   AAAProductOwned: '@<auto_ca_choice>@DataGather@AAAProductOwned',
   ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ca_choice>@DataGather@PolicyInformation'
@@ -484,6 +497,13 @@ NamedInsuredInformation4: {
   First Name: Kathy,
   Last Name: Smith,
   Insured Date of Birth: 07/04/1980
+}
+
+NamedInsuredInformation5: {
+  InsuredSearchDialog: {},
+  First Name: Scott,
+  Last Name: Lang,
+  Insured Date of Birth: 09/09/1980
 }
 
 Add_Driver2_EndorsementUWRules: {

@@ -1122,6 +1122,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         changeFNIGeneralTab(2);  //Index starts at 0
 //        TODO ADDRESS THE NEW ERROR POP-UP HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //Continue to bind the policy
+        driverTab.submitTab();
         policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         policyNumber = getPolicyNumber();
