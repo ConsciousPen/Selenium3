@@ -901,6 +901,34 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         validateMPDCompanionError(in_policyType);
     }
 
+    protected void doMPDEligibilityTest_MidTerm(Boolean bFlatEndorsement, String in_policyType){
+        // Create Policy and Initiate Endorsement
+        openAppAndCreatePolicy();
+
+        handleEndorsementType(bFlatEndorsement);
+
+        otherAAAProducts_SearchAndManuallyAddCompanionPolicy(in_policyType, "NOT_FOUND");
+        fillFromGeneralTabToErrorMsg();
+
+        // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
+        validateMPDCompanionError(in_policyType);
+    }
+
+    protected void fillFromGeneralTabToErrorMsg(){
+        policy.getDefaultView().fillFromTo(getPolicyTD("Endorsement", "TestData_Empty_Endorsement"),
+                getGeneralTab().getClass(), getDocumentsAndBindTab().getClass(), true);
+        getDocumentsAndBindTab_BtnPurchase().click();
+        Page.dialogConfirmation.buttonYes.click();
+    }
+
+    protected void handleEndorsementType(boolean bFlatEndorsement){
+        if (bFlatEndorsement){
+            policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        }else{
+            policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
+        }
+    }
+
     protected void validateMPDCompanionError(String thePolicyType){
         if (!thePolicyType.equalsIgnoreCase(getGeneralTab_OtherAAAProducts_LifePolicyCheckboxLabel()) &&
                 !thePolicyType.equalsIgnoreCase(getGeneralTab_PolicyStatusMetaDataLabel())){

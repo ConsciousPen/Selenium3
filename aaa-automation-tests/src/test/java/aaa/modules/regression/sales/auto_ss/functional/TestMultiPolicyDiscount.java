@@ -1172,21 +1172,6 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         return scenarioList;
     }
 
-
-
-    private void doMPDEligibilityTest_MidTerm(Boolean bFlatEndorsement, String in_policyType){
-        // Create Policy and Initiate Endorsement
-        openAppCreatePolicy();
-
-        handleEndorsementType(bFlatEndorsement);
-
-        otherAAAProducts_SearchAndManuallyAddCompanionPolicy(in_policyType, "NOT_FOUND");
-        fillFromGeneralTabToErrorMsg();
-
-        // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
-        validateMPDCompanionError(in_policyType);
-    }
-
     private void doMPDEligibilityTest_Renewal(String in_policyType){
         // Create Policy
         createPolicyAdvanceToRenewalImage();
@@ -1298,19 +1283,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         }
     }
 
-    private void fillFromGeneralTabToErrorMsg(){
-        policy.getDefaultView().fillFromTo(getPolicyTD("Endorsement", "TestData_Empty_Endorsement"), GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnPurchase.click();
-        Page.dialogConfirmation.buttonYes.click();
-    }
 
-    private void handleEndorsementType(boolean bFlatEndorsement){
-        if (bFlatEndorsement){
-            policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        }else{
-            policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
-        }
-    }
 
     /***
      * This method will use an open-ended xpath to capture the total number of checkboxes visible in search results. <br>
