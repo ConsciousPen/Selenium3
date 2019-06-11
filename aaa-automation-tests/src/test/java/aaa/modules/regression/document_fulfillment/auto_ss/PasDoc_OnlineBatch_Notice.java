@@ -60,6 +60,7 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 		LocalDateTime dueDate1;
 		LocalDateTime dueDate2;
 		LocalDateTime dueDate3;
+		LocalDateTime billDueDate;
 		TestData td = getPolicyTD()
 				.adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Eleven Pay - Standard");
 
@@ -87,26 +88,35 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 
 		//Scenario 41.1 Decline deposit payment with reason "Fee + No Restriction" (to get 605003)
 		new BillingAccount().update().perform(tdBilling.getTestData("Update", "TestData_AddAutopay"));
-		for (int dueDate = 1; dueDate <= 5; dueDate++) {
-			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(dueDate)));
-			JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
-			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(dueDate)));
-			JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
+		//DD1
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dueDate1));
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		billDueDate = getTimePoints().getBillDueDate(dueDate1);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(dueDate1));
+		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 
-			if (dueDate == 1) {
-				declineRecurringPayment(policyNum, dueDate1, "TestData_FeeRestriction");
-			}
-			if (dueDate == 2) {
-				declineRecurringPayment(policyNum, dueDate2, "TestData_FeeRestriction");
-				PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5003);
-			}
-			//Scenario 41.2
-			if (dueDate == 3) {
-				TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(installmentDueDates.get(3)));
-				declineRecurringPayment(policyNum, dueDate3, "TestData_FeeRestriction");
-				PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5003);
-			}
-		}
+		declineRecurringPayment(policyNum, billDueDate, "TestData_FeeRestriction");
+
+		//DD2
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dueDate2));
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		billDueDate = getTimePoints().getBillDueDate(dueDate2);
+		TimeSetterUtil.getInstance().nextPhase(billDueDate);
+		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
+
+		declineRecurringPayment(policyNum, billDueDate, "TestData_FeeRestriction");
+		PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5003);
+
+		//DD3 Scenario 41.2
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dueDate3));
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		billDueDate = getTimePoints().getBillDueDate(dueDate3);
+		TimeSetterUtil.getInstance().nextPhase(billDueDate);
+		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(dueDate3));
+
+		declineRecurringPayment(policyNum, billDueDate, "TestData_FeeRestriction");
+		PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5003);
 	}
 
 	/**
@@ -128,6 +138,7 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 	public void testScenario42_1(@Optional("") String state) {
 		List<LocalDateTime> installmentDueDates;
 		LocalDateTime dueDate1;
+		LocalDateTime billDueDate;
 		TestData policyWithMontlyPaymentPlan = getPolicyTD()
 				.adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Eleven Pay - Standard");
 
@@ -142,10 +153,11 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dueDate1));
 		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(dueDate1));
+		billDueDate = getTimePoints().getBillDueDate(dueDate1);
+		TimeSetterUtil.getInstance().nextPhase(billDueDate);
 		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 
-		declineRecurringPayment(policyNum, dueDate1, "TestData_FeeRestriction");
+		declineRecurringPayment(policyNum, billDueDate, "TestData_FeeRestriction");
 		PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5000);
 	}
 
@@ -169,6 +181,7 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 	public void testScenario42_2(@Optional("") String state) {
 		List<LocalDateTime> installmentDueDates;
 		LocalDateTime dueDate1;
+		LocalDateTime billDueDate;
 		TestData policyWithMontlyPaymentPlan = getPolicyTD()
 				.adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Eleven Pay - Standard");
 		mainApp().open();
@@ -181,11 +194,12 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dueDate1));
 		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(dueDate1));
+		billDueDate = getTimePoints().getBillDueDate(dueDate1);
+		TimeSetterUtil.getInstance().nextPhase(billDueDate);
 		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(dueDate1));
-		declineRecurringPayment(policyNum, dueDate1, "TestData_FeeRestriction");
+		declineRecurringPayment(policyNum, billDueDate, "TestData_FeeRestriction");
 		PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5000);
 	}
 
@@ -305,13 +319,12 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 			mainApp().open();
 			SearchPage.openBilling(policyNumber);
 		}
-		String amount = BillingHelper.getBillDueAmount(installmentDueDate, "Bill").toString();
+
 		HashMap<String, String> map = new HashMap<>();
 		map.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, getTimePoints().getBillDueDate(installmentDueDate).format(DateTimeUtils.MM_DD_YYYY));
 		map.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PAYMENT);
 		map.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RECURRING_PAYMENT);
 		map.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.STATUS, BillingConstants.PaymentsAndOtherTransactionStatus.ISSUED);
-		map.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT, "(" + amount + ")");
 		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", declineReason), map);
 	}
 

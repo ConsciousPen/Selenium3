@@ -6714,16 +6714,16 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		ViewDriversResponse endorsementDrivers = HelperCommon.viewEndorsementDrivers(policyNumber);
 		List<DriversDto> listOfDriversExceptFNI = endorsementDrivers.driverList.stream().filter(driver -> !"FNI".equals(driver.namedInsuredType)).collect(Collectors.toList());
 		assertThat(listOfDriversExceptFNI.size()).isEqualTo(4);
-		RemoveDriverRequest removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest("RD001");
+		RemoveDriverRequest removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest("RD1001");
 		HelperCommon.removeDriver(policyNumber, listOfDriversExceptFNI.get(0).oid, removeDriverRequest);
 
-		removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest("RD002");
+		removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest("RD1002");
 		HelperCommon.removeDriver(policyNumber, listOfDriversExceptFNI.get(1).oid, removeDriverRequest);
 
-		removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest("RD003");
+		removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest("RD1003");
 		HelperCommon.removeDriver(policyNumber, listOfDriversExceptFNI.get(2).oid, removeDriverRequest);
 
-		removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest("RD004");
+		removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest("RD1004");
 		HelperCommon.removeDriver(policyNumber, listOfDriversExceptFNI.get(3).oid, removeDriverRequest);
 	}
 

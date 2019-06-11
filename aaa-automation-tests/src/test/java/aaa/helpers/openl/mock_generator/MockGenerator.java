@@ -329,8 +329,8 @@ public class MockGenerator {
 			mResponse.setErsUsageCountPerActiveMember(7.0);
 		}
 		mResponse.setErsUsageAbuse(true);
-		mResponse.setResponseMessageRuleDecision("Membership Details are retrieved from CDX");
-		mResponse.setService("CDX");
+		mResponse.setResponseMessageRuleDecision("Membership Details are retrieved from AAA");
+		mResponse.setService("AAANormal");
 		mResponse.setMemberStartDate(memberStartDate);
 		mResponse.setStatus("Active");
 		mResponse.setServiceDate(serviceDate);
