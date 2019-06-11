@@ -372,7 +372,7 @@
                 </methods>
             </class>
         </classes>
-    </test>-->
+    </test> -->
 
 
     <test name="Premium And Coverages/Comparison SS" parallel="methods" thread-count="1024">
