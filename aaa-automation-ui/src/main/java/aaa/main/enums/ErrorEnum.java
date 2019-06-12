@@ -211,7 +211,7 @@ public final class ErrorEnum {
 		ERROR_AAA_AUTO_SS_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm Member details."),
 		ERROR_AAA_HO_SS_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm Member details."),
 		ERROR_AAA_HO_CA_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm Member details."),
-		ERROR_AAA_AUTO_CA_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm Member details."),
+		ERROR_AAA_AUTO_CA_MEM_LASTNAME("AAA_AUTO_CA_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm Member details."),
 		ERROR_AAA_MES_IRE_06("MES-IRE-06", "Too early to rate a policy in PAS."),
 		ERROR_AAA_MES_IRE_07("MES-IRE-07", "Too late to rate a policy in PAS."),
 		ERROR_AAA_MES_IRE_08("MES-IRE-08", "already created for previous policy.");
