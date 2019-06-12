@@ -256,13 +256,6 @@ public class AAAMembershipQueries {
                     "Arg policyNumber: " + policyNumber);
         }
 
-        // Validate column to update is in Membership Summary Entity table.
-        if (!"mse.membershipstatus".toLowerCase().startsWith("mse.")){
-            throw new IllegalArgumentException(
-                    "getStandardMSEUpdateSQL() only works with membership summary entity columns. " +
-                            "Column must be prefixed from the membership summary entity table (mse.).");
-        }
-
         // If limitUpdateToNumberOfRows is null or less than 1, update all rows.
         String rowLimiterLine = "fetch first row only";
 

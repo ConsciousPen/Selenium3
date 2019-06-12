@@ -48,82 +48,89 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
     private GeneralTab _generalTab = new GeneralTab();
     private PurchaseTab _purchaseTab = new PurchaseTab();
 
-    @DataProvider(name = "reconcilePendedEndorsements_MembershipTestData")
-    public static Object[][] reconcilePendedEndorsements_MembershipTestData() {
-        return new Object[][]{
-                {"AZ", eThresholdTest.BEFORE, eTimepoints.STG1, CATCHUP_TIMEFRAME_VALUE - 1, true},
-                {"AZ", eThresholdTest.ON, eTimepoints.STG1, CATCHUP_TIMEFRAME_VALUE, true},
-                {"AZ", eThresholdTest.AFTER, eTimepoints.STG1, CATCHUP_TIMEFRAME_VALUE + 1, false},
-                {"AZ", eThresholdTest.BEFORE, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE - 1, true},
-                {"AZ", eThresholdTest.ON, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE, true},
-                {"AZ", eThresholdTest.AFTER, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE + 1, false}
-        };
-    }
-
-    @DataProvider(name = "reconcilePendedEndorsements_MPDTestData")
-    public static Object[][] reconcilePendedEndorsements_MPDTestData() {
-        return new Object[][]{
-                {"UT", eThresholdTest.BEFORE, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE - 1, true},
-                {"UT", eThresholdTest.ON, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE, true},
-                {"UT", eThresholdTest.AFTER, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE + 1, false}};
-    }
-
-    @DataProvider(name = "reconcilePendedEndorsements_ActiveNotProcessed")
-    public static Object[][] reconcilePendedEndorsements_ActiveNotProcessed() {
-        return new Object[][]{
-                {"AZ", eThresholdTest.BEFORE, eTimepoints.STG1, CATCHUP_TIMEFRAME_VALUE - 1, true},
-                {"AZ", eThresholdTest.ON, eTimepoints.STG1, CATCHUP_TIMEFRAME_VALUE, true},
-                {"AZ", eThresholdTest.AFTER, eTimepoints.STG1, CATCHUP_TIMEFRAME_VALUE + 1, false},
-                {"AZ", eThresholdTest.BEFORE, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE - 1, true},
-                {"AZ", eThresholdTest.ON, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE, true},
-                {"AZ", eThresholdTest.AFTER, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE + 1, false}
-        };
-    }
-
     // TEST CASES:
 
     @Parameters({"state"})
-    @Test(dataProvider = "reconcilePendedEndorsements_MembershipTestData", groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
+    @Test(groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
-    public void pas28489_reconcilePendedEndorsements_Membership(@Optional String state, eThresholdTest typeOfBoundryTest, eTimepoints stg_x, Integer daysAfterNB, Boolean bExpectingPolicyToBeProcessed) {
-        TestData testLevelTD = prepareTestData();
-        prepareForPolicyCreation(testLevelTD, bExpectingPolicyToBeProcessed);
-        handlePolicyCreation(testLevelTD, true, false, eMembershipType.CANCELLED);
-        addPendedEndorsement();
-        validatePendedEndorsementPresent();
-        advanceJVMToTimepoint(stg_x, daysAfterNB, typeOfBoundryTest);
-        runBatchJobs(stg_x, false);
-        assertPolicyProcessedStatus();
-        queryDBForNumberOfPendingEndorsements(_bExpectingPolicyToBeProcessed);
-        setTimeToToday();
+    public void pas28489_reconcilePendedEndorsements_Membership_STG1_BeforeThreshold(@Optional("AZ") String state) {
+        doMembershipTest(eThresholdTest.BEFORE, eTimepoints.STG1, CATCHUP_TIMEFRAME_VALUE - 1, true);
     }
 
     @Parameters({"state"})
-    @Test(dataProvider = "reconcilePendedEndorsements_MPDTestData", groups = { Groups.CIO, Groups.MPD, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
+    @Test(groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
-    public void pas28489_reconcilePendedEndorsements_MPD(@Optional String state, eThresholdTest typeOfBoundryTest, eTimepoints stg_x, Integer daysAfterNB, Boolean bExpectingPolicyToBeProcessed) {
-        TestData testLevelTD = prepareTestData();
-        prepareForPolicyCreation(testLevelTD, bExpectingPolicyToBeProcessed);
-        handlePolicyCreation(testLevelTD, true, true, eMembershipType.CANCELLED);
-        addPendedEndorsement();
-        validatePendedEndorsementPresent();
-        advanceJVMToTimepoint(stg_x, daysAfterNB, typeOfBoundryTest);
-        runBatchJobs(stg_x, false);
-        assertPolicyProcessedStatus();
-        queryDBForNumberOfPendingEndorsements(_bExpectingPolicyToBeProcessed);
-        setTimeToToday();
+    public void pas28489_reconcilePendedEndorsements_Membership_STG1_OnThreshold(@Optional("AZ") String state) {
+        doMembershipTest(eThresholdTest.ON, eTimepoints.STG1, CATCHUP_TIMEFRAME_VALUE, true);
     }
 
     @Parameters({"state"})
-    @Test(dataProvider = "reconcilePendedEndorsements_ActiveNotProcessed", groups = { Groups.CIO, Groups.MPD, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
+    @Test(groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
-    public void ActiveMembershipNotProcessed(@Optional String state, eThresholdTest typeOfBoundryTest, eTimepoints stg_x, Integer daysAfterNB, Boolean bExpectingPolicyToBeProcessed) {
-        TestData testLevelTD = prepareTestData();
-        prepareForPolicyCreation(testLevelTD, bExpectingPolicyToBeProcessed);
-        handlePolicyCreation(testLevelTD, true, false, eMembershipType.ACTIVE);
-        advanceJVMToTimepoint(stg_x, daysAfterNB, typeOfBoundryTest);
-        runBatchJobs(stg_x, true);
-        assertPolicyProcessedStatus();
+    public void pas28489_reconcilePendedEndorsements_Membership_STG1_AfterThreshold(@Optional("AZ") String state) {
+        doMembershipTest(eThresholdTest.AFTER, eTimepoints.STG1, CATCHUP_TIMEFRAME_VALUE + 1, false);
+    }
+
+    @Parameters({"state"})
+    @Test(groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
+    public void pas28489_reconcilePendedEndorsements_Membership_STG2_BeforeThreshold(@Optional("AZ") String state) {
+        doMembershipTest(eThresholdTest.BEFORE, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE - 1, true);
+    }
+
+    @Parameters({"state"})
+    @Test(groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
+    public void pas28489_reconcilePendedEndorsements_Membership_STG2_OnThreshold(@Optional("AZ") String state) {
+        doMembershipTest(eThresholdTest.ON, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE, true);
+    }
+
+    @Parameters({"state"})
+    @Test(groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
+    public void pas28489_reconcilePendedEndorsements_Membership_STG2_AfterThreshold(@Optional("AZ") String state) {
+        doMembershipTest(eThresholdTest.AFTER, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE + 1, false);
+    }
+
+    @Parameters({"state"})
+    @Test(groups = { Groups.CIO, Groups.MPD, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
+    public void pas28489_reconcilePendedEndorsements_MPD_BeforeThreshold(@Optional("UT")String state) {
+        doMPDTest(eThresholdTest.BEFORE, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE - 1, true);
+    }
+
+    @Parameters({"state"})
+    @Test(groups = { Groups.CIO, Groups.MPD, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
+    public void pas28489_reconcilePendedEndorsements_MPD_OnThreshold(@Optional("UT")String state) {
+        doMPDTest(eThresholdTest.ON, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE, true);
+    }
+
+    @Parameters({"state"})
+    @Test(groups = { Groups.CIO, Groups.MPD, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
+    public void pas28489_reconcilePendedEndorsements_MPD_AfterThreshold(@Optional("UT")String state) {
+        doMPDTest(eThresholdTest.AFTER, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE + 1, false);
+    }
+
+    /**
+     * Stand-Alone functional test used to regress that an Active Membership is not processed at Stage 1 or Stage 2.
+     */
+    @Parameters({"state"})
+    @Test(groups = { Groups.CIO, Groups.MPD, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
+    public void ActiveMembershipNotProcessed_STG1(@Optional("AZ") String state) {
+        doActiveMembershipNotPickedUpTest(eThresholdTest.BEFORE, eTimepoints.STG1, CATCHUP_TIMEFRAME_VALUE - 1, false);
+    }
+
+    /**
+     * Stand-Alone functional test used to regress that an Active Membership is not processed at Stage 1 or Stage 2.
+     */
+    @Parameters({"state"})
+    @Test(groups = { Groups.CIO, Groups.MPD, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
+    public void ActiveMembershipNotProcessed_STG2(@Optional("AZ") String state) {
+        doActiveMembershipNotPickedUpTest(eThresholdTest.BEFORE, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE - 1, false);
     }
 
     @Test(enabled = false, groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
@@ -321,5 +328,54 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
     public void setTimeToToday() {
         log.info("Current application date: " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")));
         TimeSetterUtil.getInstance().adjustTime();
+    }
+
+    private void doMembershipTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean in_bExpectingPolicyToBeProcessed){
+        eThresholdTest typeOfBoundryTest = in_typeOfBoundryTest;
+        eTimepoints stg_x = in_stg_x;
+        Integer daysAfterNB = in_daysAfterNB;
+        Boolean bExpectingPolicyToBeProcessed = in_bExpectingPolicyToBeProcessed;
+
+        TestData testLevelTD = prepareTestData();
+        prepareForPolicyCreation(testLevelTD, bExpectingPolicyToBeProcessed);
+        handlePolicyCreation(testLevelTD, true, false, eMembershipType.CANCELLED);
+        addPendedEndorsement();
+        validatePendedEndorsementPresent();
+        advanceJVMToTimepoint(stg_x, daysAfterNB, typeOfBoundryTest);
+        runBatchJobs(stg_x, false);
+        assertPolicyProcessedStatus();
+        queryDBForNumberOfPendingEndorsements(_bExpectingPolicyToBeProcessed);
+    }
+
+    private void doMPDTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean in_bExpectingPolicyToBeProcessed){
+        eThresholdTest typeOfBoundryTest = in_typeOfBoundryTest;
+        eTimepoints stg_x = in_stg_x;
+        Integer daysAfterNB = in_daysAfterNB;
+        Boolean bExpectingPolicyToBeProcessed = in_bExpectingPolicyToBeProcessed;
+
+        TestData testLevelTD = prepareTestData();
+        prepareForPolicyCreation(testLevelTD, bExpectingPolicyToBeProcessed);
+        handlePolicyCreation(testLevelTD, true, true, eMembershipType.CANCELLED);
+        addPendedEndorsement();
+        validatePendedEndorsementPresent();
+        advanceJVMToTimepoint(stg_x, daysAfterNB, typeOfBoundryTest);
+        runBatchJobs(stg_x, false);
+        assertPolicyProcessedStatus();
+        queryDBForNumberOfPendingEndorsements(_bExpectingPolicyToBeProcessed);
+        setTimeToToday();
+    }
+
+    private void doActiveMembershipNotPickedUpTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean in_bExpectingPolicyToBeProcessed){
+        eThresholdTest typeOfBoundryTest = in_typeOfBoundryTest;
+        eTimepoints stg_x = in_stg_x;
+        Integer daysAfterNB = in_daysAfterNB;
+        Boolean bExpectingPolicyToBeProcessed = in_bExpectingPolicyToBeProcessed;
+
+        TestData testLevelTD = prepareTestData();
+        prepareForPolicyCreation(testLevelTD, bExpectingPolicyToBeProcessed);
+        handlePolicyCreation(testLevelTD, true, false, eMembershipType.ACTIVE);
+        advanceJVMToTimepoint(stg_x, daysAfterNB, typeOfBoundryTest);
+        runBatchJobs(stg_x, true);
+        assertPolicyProcessedStatus();
     }
 }
