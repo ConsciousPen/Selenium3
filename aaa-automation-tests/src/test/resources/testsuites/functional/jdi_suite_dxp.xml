@@ -1199,6 +1199,17 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="AZ RFI" parallel="methods">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas28573_rfiAA52AZ"/>
+                    <include name="pas28573_rfiAA52AZRuleOverridden"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="pas25042_endorsementValidateAllowedForAllStates SS" parallel="methods">
         <parameter name="state" value="NY, VA, NJ"/>
         <classes>
