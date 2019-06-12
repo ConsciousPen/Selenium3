@@ -727,7 +727,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
     private Dollar generateManualRefund() {
         AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
         billingAccount.refund().start();
-        Dollar amount = new Dollar(RefundActionTab.tblAllocations.getRow(1).getCell("Paid").getValue()).abs();
+        Dollar amount = new Dollar(RefundActionTab.tblAllocations.getRow(1).getCell("Balance Due").getValue()).abs();
         acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue("Check");
         acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(amount.toString());
         acceptPaymentActionTab.submitTab();
