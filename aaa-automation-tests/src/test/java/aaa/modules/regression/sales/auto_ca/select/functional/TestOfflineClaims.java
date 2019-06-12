@@ -311,7 +311,6 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * 8. Change the FNI to newly added driver
      * 9. Pop-up Error does NOT appear and does not stop the action
      */
-     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24652")
