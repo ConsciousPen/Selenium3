@@ -236,7 +236,7 @@ NamedInsuredInformation_Version1: {
   First Name: VIFirstName,
   Middle Name: VI,
   Last Name: VILastName,
-  Suffix: 'SR.',
+  Suffix: Sr,
   Base Date: $<today-1M>,
   Zip Code: 90255,
   Address Line 1: VI residence address 1,
@@ -703,7 +703,7 @@ TestData_AddDriverInformation_Version2: {
 }
 
 DriverInformation: {
-  Date of Birth: $<today-35y>,
+  #Date of Birth: $<today-35y>,
   Gender: Female,
   Marital Status: Divorced,
   Occupation: 'Farmer',
@@ -1369,7 +1369,7 @@ NamedInsuredInformation_RenewalVersion1: {
   First Name: Second,
   Middle Name: VI,
   Last Name: Insured,
-  Suffix: 'SR.',
+  Suffix: Sr,
   Base Date: $<today-1M>,
   Zip Code: 90255,
   Address Line 1: VI residence address 1,
