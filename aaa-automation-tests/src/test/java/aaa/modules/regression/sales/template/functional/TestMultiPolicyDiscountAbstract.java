@@ -14,14 +14,15 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.Optional;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
+import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.*;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
@@ -36,17 +37,11 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
 
-    public enum genericTabs {
-        PrefillTab, GeneralTab, DriverTab, MembershipTab, VehicleTab, AssignmentTab, FormsTab, PremiumAndCoveragesTab, DriverActivityReportsTab, DocumentsAndBindTab
-    }
-
     public enum mpdPolicyType{
         home, renters, condo, life, motorcycle
     }
 
-    public static List<String> _listOfMPDTableColumnNames = Arrays.asList("Policy Number / Address", "Policy Type", "Customer Name/DOB", "Expiration Date", "Status", "MPD");
-    public static List<String> _listOfMPDSearchResultsTableColumnNames = Arrays.asList("Customer Name/Address", "Date of Birth", "Policy Type", "Other AAA Products/Policy Address", "Status", "Select");
-    public static final String _XPATH_TO_ALL_SEARCH_RESULT_CHECKBOXES = "*//input[contains(@id, 'customerSelected')]";
+    private static final String _XPATH_TO_ALL_SEARCH_RESULT_CHECKBOXES = "*//input[contains(@id, 'customerSelected')]";
 
     // Add more states here if they get MC policy support.
     private ArrayList<String> motorcycleSupportedStates =
@@ -817,6 +812,44 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     }
 
     /**
+     * Validates that a NB policy can be bound when adding a System-Validated Home policy.
+     * @param state
+     */
+    public void pas23456_MPD_Allow_NBBindWithSystemValidatedPolicyTemplate(@Optional("") String state) {
+        TestData testData = getPolicyTD();
+        createQuoteAndFillUpTo(testData, getGeneralTab().getClass(), true);
+        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
+        otherAAAProductsSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
+        policy.getDefaultView().fillFromTo(testData, getGeneralTab().getClass(), getPurchaseTab().getClass(), true);
+
+        getPurchaseTab_btnApplyPayment().click();
+        Page.dialogConfirmation.buttonYes.click();
+        CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue().contains("Active")).isTrue();
+    }
+
+    public void pas27241_MPDPaginationTemplate(@Optional("AZ") String state){
+
+        int numberOfResultsRequiredForSuccessfulValidation = 6;
+        // Handles getting us a policy and moves us up to our testing point, on the General Tab.
+        createQuoteAndFillUpTo(getPolicyDefaultTD(), getGeneralTab().getClass(), false);
+
+        // Test Results > 50 display error on UI.
+        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMERS_51");
+
+        // Validate Error appears and count the number of results on the page.
+        CustomAssertions.assertThat(getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_ExceededLimitMessageAsset()).isPresent();
+        CustomAssertions.assertThat(getSearchResultsCount()).isEqualTo(numberOfResultsRequiredForSuccessfulValidation);
+        otherAAAProductsSearchTable_addSelected(new int[]{0, 1, 2, 3, 4, 5});
+
+        // Test Results <= 50 DO NOT display error on UI.
+        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_GBY");
+
+        // Validate Error does NOT appear and count the number of results on the page.
+        CustomAssertions.assertThat(getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_ExceededLimitMessageAsset()).isAbsent();
+        CustomAssertions.assertThat(getSearchResultsCount()).isEqualTo(numberOfResultsRequiredForSuccessfulValidation);
+    }
+
+    /**
      * Handles looping through editing an mpd element, throwing the rerating error, validating its presence, re-calculating premium, then ensuring the rerate error is gone. <br>
      *     Returns the state of the test to a loopable position so the method can be called again directly, ending on the Documents and Bind Tab.
      * @param in_newPolicyType
@@ -1082,6 +1115,16 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         }
     }
 
+    /***
+     * This method will use an open-ended xpath to capture the total number of checkboxes visible in search results. <br>
+     *     This value can be used to count the total number of results returned, due to the difficulty of navigating the MPD Table DOM.
+     * @return
+     */
+    protected int getSearchResultsCount(){
+        List<WebElement> arrayOfCheckboxesFound = BrowserController.get().driver().findElements(By.xpath(_XPATH_TO_ALL_SEARCH_RESULT_CHECKBOXES));
+        return arrayOfCheckboxesFound.size();
+    }
+
     /**
      * Given a list of indexes, this will iterate through the list, select each index as true, then click the add selected button.
      * @param indexList
@@ -1169,6 +1212,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
 
     // General Tab -> OtherAAAProductsOwned (MPD Section_ -> SearchOtherAAAProducts
     protected abstract Button getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_AddSelectedBtnAsset();
+    protected abstract StaticElement getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_ExceededLimitMessageAsset();
 
     ////////////////////////
     // Driver Tab Helpers //
@@ -1197,6 +1241,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     // Purchase Tab Helpers //
     //////////////////////////
     protected abstract Tab getPurchaseTab();
+    protected abstract Button getPurchaseTab_btnApplyPayment();
 
     ///////////////////////
     // Error Tab Helpers //
@@ -1440,7 +1485,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     /**
      * Removes all policies from the Other AAA Products Owned table.
      */
-    public void removeAllOtherAAAProductsOwnedTablePolicies(){
+    protected void removeAllOtherAAAProductsOwnedTablePolicies(){
         List<Row> rows = getGeneralTab_OtherAAAProductTable().getRows();
 
         int zeroBasedRowIterator = rows.size() - 1;

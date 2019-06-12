@@ -1,50 +1,27 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import aaa.common.Tab;
-import aaa.common.components.OtherAAAProductsSearchTableElement;
-import aaa.common.components.OtherAAAProductsTableElement;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.docgen.AaaDocGenEntityQueries;
-import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestMultiPolicyDiscountAbstract;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.apache.commons.lang.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.*;
 import org.testng.annotations.Optional;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
-import toolkit.verification.ETCSCoreSoftAssertions;
-import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.*;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
-
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 @StateList(statesExcept = Constants.States.CA)
 public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
@@ -53,18 +30,6 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     protected PolicyType getPolicyType() {
         return PolicyType.AUTO_SS;
     }
-
-
-    //public enum mpdPolicyType{
-    //    home, renters, condo, life, motorcycle
-    //}
-
-    public static List<String> _listOfMPDTableColumnNames = Arrays.asList("Policy Number / Address", "Policy Type", "Customer Name/DOB", "Expiration Date", "Status", "MPD");
-    public static List<String> _listOfMPDSearchResultsTableColumnNames = Arrays.asList("Customer Name/Address", "Date of Birth", "Policy Type", "Other AAA Products/Policy Address", "Status", "Select");
-    public static final String _XPATH_TO_ALL_SEARCH_RESULT_CHECKBOXES = "*//input[contains(@id, 'customerSelected')]";
-
-    // Add more states here if they get MC policy support.
-    private ArrayList<String> motorcycleSupportedStates = new ArrayList<>(Arrays.asList(Constants.States.AZ));
 
     private GeneralTab _generalTab = new GeneralTab();
     private DriverTab _driverTab = new DriverTab();
@@ -119,8 +84,6 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     public void pas_21481_MPD_Unquoted_Companion_Product_AC2_AC3(@Optional("") String state) {
         pas_21481_MPD_Unquoted_Companion_Product_AC2_AC3_Template(state);
     }
-
-
 
     /**
      * This tests that when unquoted HO policies are checked, that refresh button returned policies replace them in the table and
@@ -427,7 +390,6 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         doMTEPreventBindTest_Renewals("Renters", false);
     }
 
-    // BondTODO: Next
     /**
      * Validates that a NB policy can be bound when adding a System-Validated Home policy.
      * @param state
@@ -436,381 +398,19 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
     public void pas23456_MPD_Allow_NBBindWithSystemValidatedPolicy(@Optional("") String state) {
-        TestData testData = getPolicyTD();
-        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
-        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
-        otherAAAProductsSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
-        policy.getDefaultView().fillFromTo(testData, GeneralTab.class, PurchaseTab.class, true);
-        PurchaseTab.btnApplyPayment.click();
-        Page.dialogConfirmation.buttonYes.click();
-        CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue().contains("Active")).isTrue();
+        pas23456_MPD_Allow_NBBindWithSystemValidatedPolicyTemplate(state);
     }
 
+    // Removed docgen deprecated tests for PAS-22193
 
-
-    /**
-     * This test validates that adding an unquoted HOME companion product appears on a generated AH11AZ document. <br>
-     *     This test has been disabled until new DOCGEN process has been implemented.
-     * @param state
-     */
-    @Parameters({"state"})
-    @Test(enabled = false, groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
-    public void pas22193_AH11AZDocGen_QAAC1(@Optional("AZ") String state){
-        DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
-        String policyNumber = "";
-        AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
-
-        // Create AutoSS quote with Unquoted Home Companion Policy added.
-        TestData td = getPolicyDefaultTD();
-        createQuoteAndFillUpTo(td, GeneralTab.class, true);
-        getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).setValue(true);
-        policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnGenerateDocuments.click();
-        policyNumber = Tab.labelPolicyNumber.getValue();
-
-        DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
-        //TODO: Add new DocGen assertion methods here.
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Home)");
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "HOME-UNQUOTED");
-    }
-
-    /**
-     * This test validates that adding an unquoted RENTERS companion product appears on a generated AH11AZ document. <br>
-     *      *     This test has been disabled until new DOCGEN process has been implemented.
-     * @param state
-     */
-    @Parameters({"state"})
-    @Test(enabled = false, groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
-    public void pas22193_AH11AZDocGen_QAAC1dot1(@Optional("AZ") String state){
-        DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
-        String policyNumber = "";
-        AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
-
-        // Create AutoSS quote with Unquoted Home Companion Policy added.
-        TestData td = getPolicyDefaultTD();
-        createQuoteAndFillUpTo(td, GeneralTab.class, true);
-        getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).setValue(true);
-        policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnGenerateDocuments.click();
-        policyNumber = Tab.labelPolicyNumber.getValue();
-
-        DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
-        //TODO: Add new DocGen assertion methods here.
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Renters)");
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "RENTERS-UNQUOTED");
-    }
-
-    /**
-     * This test validates that adding an unquoted CONDO companion product appears on a generated AH11AZ document. <br>
-     *      *     This test has been disabled until new DOCGEN process has been implemented.
-     * @param state
-     */
-    @Parameters({"state"})
-    @Test(enabled = false, groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
-    public void pas22193_AH11AZDocGen_QAAC1dot2(@Optional("AZ") String state){
-        DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
-        String policyNumber = "";
-        AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
-
-        // Create AutoSS quote with Unquoted Home Companion Policy added.
-        TestData td = getPolicyDefaultTD();
-        createQuoteAndFillUpTo(td, GeneralTab.class, true);
-        getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).setValue(true);
-        policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnGenerateDocuments.click();
-        policyNumber = Tab.labelPolicyNumber.getValue();
-
-        DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
-        //TODO: Add new DocGen assertion methods here.
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Condo)");
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "CONDO-UNQUOTED");
-    }
-
-    /**
-     * This test validates that adding multiple unquoted companion product appears on a generated AH11AZ document. <br>
-     *      *     This test has been disabled until new DOCGEN process has been implemented.
-     * @param state
-     */
-    @Parameters({"state"})
-    @Test(enabled = false, groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
-    public void pas22193_AH11AZDocGen_QAAC1dot3(@Optional("AZ") String state){
-        DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
-        String policyNumber = "";
-        AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
-
-        // Create AutoSS quote with Unquoted Home Companion Policy added.
-        TestData td = getPolicyDefaultTD();
-        createQuoteAndFillUpTo(td, GeneralTab.class, true);
-        getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).setValue(true);
-        getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).setValue(true);
-        getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).setValue(true);
-        getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE).setValue(true);
-        getUnquotedCheckBox(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE).setValue(true);
-        policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnGenerateDocuments.click();
-        policyNumber = Tab.labelPolicyNumber.getValue();
-
-        DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
-        //TODO: Add new DocGen assertion methods here.
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Life, Motorcycle, Home)");
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "HOME-UNQUOTED");
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "LIFE-UNQUOTED");
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "MOTORCYCLE-UNQUOTED");
-    }
-
-    /**
-     * This test validates that two quoted companion products of different types appear on a generated AH11AZ document. <br>
-     *      *     This test has been disabled until new DOCGEN process has been implemented.
-     * @param state
-     */
-    @Parameters({"state"})
-    @Test(enabled = false, groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
-    public void pas22193_AH11AZDocGen_QAAC2(@Optional("AZ") String state){
-        DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
-        String policyNumber = "";
-        AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
-
-        // Create AutoSS quote with Quoted Home Companion Policy added.
-        TestData td = getPolicyDefaultTD();
-        createQuoteAndFillUpTo(td, GeneralTab.class, true);
-
-        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
-        otherAAAProductsSearchTable_addSelected(0);
-        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
-        otherAAAProductsSearchTable_addSelected(1);
-
-        String policyTypeMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
-        String policyNumberMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_NUMBER.getLabel();
-
-        // Find row in MPD table matching policyType, then pull the policy num / address cell out of it to assert on. Remove address with split.
-        String homeCompanionPolicyNumberColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
-                policyTypeMetaDataLabel,mpdPolicyType.home.toString())
-                .getCell(policyNumberMetaDataLabel)
-                .getValue().split("\\n")[0];
-
-        policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnGenerateDocuments.click();
-        policyNumber = Tab.labelPolicyNumber.getValue();
-
-        DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
-        //TODO: Add new DocGen assertion methods here.
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Home)");
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, homeCompanionPolicyNumberColumnValue); //"QAZH3206557376"); //Asserts that the Mockwire Home policy shows up instead of the Renters policy.
-    }
-
-    /**
-     * This test validates that two agent entered companion products of same types appear on a generated AH11AZ document. <br>
-     *      *     This test has been disabled until new DOCGEN process has been implemented.
-     * @param state
-     */
-    @Parameters({"state"})
-    @Test(enabled = false, groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
-    public void pas22193_AH11AZDocGen_QAAC3(@Optional("AZ") String state){
-        DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
-        String policyNumber = "";
-        AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
-
-        // Create AutoSS quote with Unquoted Home Companion Policy added.
-        TestData td = getPolicyDefaultTD();
-        createQuoteAndFillUpTo(td, GeneralTab.class, true);
-
-        otherAAAProducts_SearchByPolicyNumber("Home", "NOT_FOUND");
-        otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound("Home", "TestHome_FirstAdded");
-        otherAAAProducts_SearchByPolicyNumber("Home", "NOT_FOUND");
-        otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound("Home", "TestHome_SecondAdded");
-
-        policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnGenerateDocuments.click();
-        policyNumber = Tab.labelPolicyNumber.getValue();
-
-        DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
-        //TODO: Add new DocGen assertion methods here.
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Home)");
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "TestHome_FirstAdded"); //Asserts that the Mockwire Home policy shows up instead of the Renters policy.
-    }
-
-    /**
-     * This test validates that ineligible companion products do not appear on a generated AH11AZ document. <br>
-     *      *     This test has been disabled until new DOCGEN process has been implemented.
-     * @param state
-     */
-    @Parameters({"state"})
-    @Test(enabled = false, groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
-    public void pas22193_AH11AZDocGen_QAAC4(@Optional("AZ") String state){
-        DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
-        String policyNumber = "";
-        AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
-
-        // Create AutoSS quote with Unquoted Home Companion Policy added.
-        TestData td = getPolicyDefaultTD();
-        createQuoteAndFillUpTo(td, GeneralTab.class, true);
-
-        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_NE");
-        otherAAAProductsSearchTable_addSelected(0);
-        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_NE");
-        otherAAAProductsSearchTable_addSelected(1);
-        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_NE");
-        otherAAAProductsSearchTable_addSelected(2);
-
-        policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnGenerateDocuments.click();
-        policyNumber = Tab.labelPolicyNumber.getValue();
-
-        DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
-        //TODO: Add new DocGen assertion methods here.
-        //String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, document.getId(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
-        //try {
-        //    CustomAssertions.assertThat(DocGenHelper.getDocument(document, query).toString().contains("Multi-Policy Discount")).isFalse();
-        //}catch(NoSuchElementException ex){
-        //    CustomAssertions.assertThat(ex).hasMessage("No value present");
-        //}
-    }
-
-    /**
-     * This test validates that an eligible home, life and motorcycle companion products appear on a generated AH11AZ document. <br>
-     *      *     This test has been disabled until new DOCGEN process has been implemented.
-     * @param state
-     */
-    @Parameters({"state"})
-    @Test(enabled = false, groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
-    public void pas22193_AH11AZDocGen_QAAC5(@Optional("AZ") String state){
-        DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
-        String policyNumber = "";
-        AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
-
-        // Create AutoSS quote with Unquoted Home Companion Policy added.
-        TestData td = getPolicyDefaultTD();
-        createQuoteAndFillUpTo(td, GeneralTab.class, true);
-
-        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
-        otherAAAProductsSearchTable_addSelected(0);
-        otherAAAProducts_SearchAndManuallyAddCompanionPolicy("Motorcycle", "NOT_FOUND");
-        otherAAAProducts_SearchByPolicyNumber("Life", "NOT_FOUND");
-        otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound( "Life", "TestLife");
-
-        String policyTypeMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
-        String policyNumberMetaDataLabel = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_NUMBER.getLabel();
-
-        // Find row in MPD table matching policyType, then pull the policy num / address cell out of it to assert on. Remove address with split.
-        String homeCompanionPolicyNumberColumnValue =_generalTab.getOtherAAAProductTable().getRowContains(
-                policyTypeMetaDataLabel,mpdPolicyType.home.toString())
-                .getCell(policyNumberMetaDataLabel)
-                .getValue().split("\\n")[0];
-
-        policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnGenerateDocuments.click();
-        policyNumber = Tab.labelPolicyNumber.getValue();
-
-        DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
-        //TODO: Add new DocGen assertion methods here.
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Motorcycle, Life, Home)");
-
-        // Checking Affinity Group Section for Listed Policies.
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, homeCompanionPolicyNumberColumnValue);
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "NOT_FOUND");
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "TestLife");
-    }
-
-    /**
-     * This test validates that an ineligible companion product does not appear on a generated AH11AZ document, but the life policy does. <br>
-     *      *     This test has been disabled until new DOCGEN process has been implemented.
-     * @param state
-     */
-    @Parameters({"state"})
-    @Test(enabled = false, groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-22193,PAS-22901")
-    public void pas22193_AH11AZDocGen_QAAC6(@Optional("AZ") String state){
-        DocGenEnum.Documents document = DocGenEnum.Documents.AA11AZ;
-        String policyNumber = "";
-        AaaDocGenEntityQueries.EventNames event = AaaDocGenEntityQueries.EventNames.ADHOC_DOC_GENERATE;
-
-        // Create AutoSS quote with Unquoted Home Companion Policy added.
-        TestData td = getPolicyDefaultTD();
-        createQuoteAndFillUpTo(td, GeneralTab.class, true);
-
-        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_NE");
-        otherAAAProductsSearchTable_addSelected(0);
-        otherAAAProducts_SearchAndManuallyAddCompanionPolicy("Life", "TestLifePolicy");
-
-        policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class, true);
-        _documentsAndBindTab.btnGenerateDocuments.click();
-        policyNumber = Tab.labelPolicyNumber.getValue();
-
-        DocGenHelper.waitForDocumentsAppearanceInDB(document, policyNumber, event);
-        //TODO: Add new DocGen assertion methods here.
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "Multi-Policy Discount (Life)");
-        //DocGenHelper.DoesDocumentFromDBContainString(document, policyNumber, event, "TestLifePolicy");
-    }
-
-    /**
-     *
-     * @param state
-     */
     @Parameters({"state"})
     @Test(enabled = true, groups = {Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27241")
     public void pas27241_MPDPagination(@Optional("AZ") String state){
-
-        int numberOfResultsRequiredForSuccessfulValidation = 6;
-        // Handles getting us a policy and moves us up to our testing point, on the General Tab.
-        createQuoteAndFillUpTo(getPolicyDefaultTD(), GeneralTab.class, false);
-
-        // Test Results > 50 display error on UI.
-        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMERS_51");
-
-        // Validate Error appears and count the number of results on the page.
-        CustomAssertions.assertThat(_generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.EXCEEDED_LIMIT_MESSAGE)).isPresent();
-        CustomAssertions.assertThat(getSearchResultsCount()).isEqualTo(numberOfResultsRequiredForSuccessfulValidation);
-        otherAAAProductsSearchTable_addSelected(new int[]{0, 1, 2, 3, 4, 5});
-
-        // Test Results <= 50 DO NOT display error on UI.
-        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_GBY");
-
-        // Validate Error does NOT appear and count the number of results on the page.
-        CustomAssertions.assertThat(_generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.EXCEEDED_LIMIT_MESSAGE)).isAbsent();
-        CustomAssertions.assertThat(getSearchResultsCount()).isEqualTo(numberOfResultsRequiredForSuccessfulValidation);
+        pas27241_MPDPaginationTemplate(state);
     }
 
     // CLASS METHODS
-
-    /**
-     * Returns Unquoted Checkbox control based on passed in data.
-     * @param assetDescriptor AssetDescriptor for each checkbox.
-     * @return Checkbox representing requested control.
-     */
-    public CheckBox getUnquotedCheckBox(AssetDescriptor<CheckBox> assetDescriptor){
-        return _generalTab.getOtherAAAProductOwnedAssetList().getAsset(assetDescriptor);
-    }
-
-    /**
-     * Removes all policies from the Other AAA Products Owned table.
-     */
-    public void removeAllOtherAAAProductsOwnedTablePolicies(){
-        List<Row> rows = _generalTab.getOtherAAAProductTable().getRows();
-
-        int zeroBasedRowIterator = rows.size() - 1;
-
-        // Start at end of list since table gets smaller
-        for (int i = zeroBasedRowIterator; i >= 0; i-- ){
-            // Uses cell index due to column not labelled
-            rows.get(i).getCell(7).controls.links.get("Remove").click(Waiters.AJAX);
-        }
-    }
-
-
-    public void otherAAAProducts_SearchAndManuallyAddCompanionPolicy(String policyType, String policyNumber){
-        otherAAAProducts_SearchByPolicyNumber(policyType, policyNumber);
-        otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(policyType);
-    }
-
     /**
      * Conducts a basic search using the input String as a policy number.
      * @param inputPolicyNumber
@@ -825,7 +425,6 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         if (!policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
             _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
         }
-
     }
 
     /**
@@ -844,288 +443,6 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         }
     }
 
-    /**
-     * This method is used when viewing the Search Other AAA Products popup after searching via Policy Number. <br>
-     * Will simply click 'Add' button after changing policy data. <br>
-     * @param policyType The type of policy being entered.
-     * @param inputPolicyNumber The policy number to search for. This field also manipulates mockwire response results, if given a mapped string.
-     */
-    public void otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(String policyType, String inputPolicyNumber){
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_TYPE.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_TYPE.getControlClass()).setValue(policyType);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getControlClass()).setValue(inputPolicyNumber);
-
-        otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(policyType);
-    }
-
-
-
-
-    public Button otherAAAProducts_getRefreshButton() {
-        return _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH.getLabel(), Button.class);
-    }
-
-    /**
-     * Used to access the selectable checkbox directly
-     * @param index
-     * @return
-     */
-    public CheckBox otherAAAProductsSearchTable_getSelectBoxByIndex(int index){
-        index = otherAAAProductsTableIndexWatchDog(index);
-        return new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + String.valueOf(index) + ":customerSelected"));
-    }
-
-
-
-
-
-    /**
-     * Returns 'Policy Number / Address', 'Date of Birth', etc. data via the given row index.
-     * @param index First row of data begins at index 1, not index 0.
-     * @return
-     */
-    public String otherAAAProductsTable_viewData(String columnName, int index) {
-        index = otherAAAProductsTableIndexWatchDog(index);
-        return _generalTab.getOtherAAAProductTable().getColumn(columnName).getCell(index).getValue();
-    }
-
-    /**
-     * Returns 'Policy Number / Address', 'Date of Birth', etc. data via the given row index.
-     * @param index First row of data begins at index 1, not index 0.
-     * @return
-     */
-    public String otherAAAProductsSearchTable_viewData(String columnName, int index) {
-        index = otherAAAProductsTableIndexWatchDog(index);
-        return _generalTab.getManualSearchResultTable().getColumn(columnName).getCell(index).getValue();
-    }
-
-    public ArrayList<String> otherAAAProductsTable_viewAllRowDataByColumn(String columnName) {
-        ArrayList<String> myStringArray = new ArrayList<>();
-        for(int i = 1; i <= _generalTab.getOtherAAAProductTable().getRowsCount(); i++) {
-            myStringArray.add(otherAAAProductsTable_viewData(columnName, i));
-        }
-        return myStringArray;
-    }
-
-    /**
-     *
-     * @param index_RowToGet Index begins at 1.
-     * @return
-     */
-    public ArrayList<String> otherAAAProductsTable_viewAllColumnDataByRow(int index_RowToGet) {
-        index_RowToGet = otherAAAProductsTableIndexWatchDog(index_RowToGet);
-        ArrayList<String> myStringArray = new ArrayList<>();
-
-        for(String columnName: _listOfMPDTableColumnNames){
-            myStringArray.add(otherAAAProductsTable_viewData(columnName, index_RowToGet));
-        }
-        return myStringArray;
-    }
-
-    /**
-     *
-     * @param index_RowToGet Index begins at 1.
-     * @return
-     */
-    public ArrayList<String> otherAAAProductsSearchTable_viewAllColumnDataByRow(int index_RowToGet) {
-        index_RowToGet = otherAAAProductsTableIndexWatchDog(index_RowToGet);
-        ArrayList<String> myStringArray = new ArrayList<>();
-
-        for(String columnName: _listOfMPDSearchResultsTableColumnNames){
-            myStringArray.add(otherAAAProductsSearchTable_viewData(columnName, index_RowToGet));
-        }
-        return myStringArray;
-    }
-
-    /**
-     * Used to create a java object to represent a chosen companion policy, via index. <br>
-     * This method is used to capture an element on the OtherAAAProducts table on the General Tab.
-     * @param index_RowToGet Index begins at 1.
-     * @return
-     */
-    public OtherAAAProductsTableElement otherAAAProductsTable_getTableRowAsObject(int index_RowToGet) {
-        index_RowToGet = otherAAAProductsTableIndexWatchDog(index_RowToGet);
-        ArrayList<String> dataAsArray = otherAAAProductsTable_viewAllColumnDataByRow(index_RowToGet);
-
-        OtherAAAProductsTableElement _rowAsObject = new OtherAAAProductsTableElement(
-                dataAsArray.get(0), dataAsArray.get(1), dataAsArray.get(2), dataAsArray.get(3), dataAsArray.get(4), dataAsArray.get(5)
-        );
-        return _rowAsObject;
-    }
-
-    /**
-     * Used to create a java object to represent a chosen companion policy, via index. <br>
-     * This method is used to capture an element when viewing search results in the OtherAAAProducts search table.
-     * @param index_RowToGet Index begins at 1.
-     * @return
-     */
-    public OtherAAAProductsSearchTableElement otherAAAProductsSearchResultsTable_getTableRowAsObject(int index_RowToGet){
-        index_RowToGet = otherAAAProductsTableIndexWatchDog(index_RowToGet);
-        ArrayList<String> dataAsArray = otherAAAProductsSearchTable_viewAllColumnDataByRow(index_RowToGet);
-
-        OtherAAAProductsSearchTableElement _rowAsObject = new OtherAAAProductsSearchTableElement(
-                dataAsArray.get(0), dataAsArray.get(1), dataAsArray.get(2), dataAsArray.get(3), dataAsArray.get(4)
-        );
-
-        return _rowAsObject;
-    }
-
-    /**
-     * Used to silently correct improper index input to mpd methods. Some methods that involve MPD tables do not begin with index 0. <br>
-     *     This method will catch an input of 0 and silently convert it to 1, which should be the row the user intended to access.
-     * @param i The input integer.
-     * @return If i = 0, returns 1.
-     */
-    protected int otherAAAProductsTableIndexWatchDog(int i){
-        if(i==0){
-            i = 1;
-        }
-        return i;
-    }
-
-    /**
-     * Sets the unquoted policy checkboxes based of passed in checkboxMap.
-     * @param checkboxMap is what to set each checkbox to. Expects all 5 product keys with bool value where true checks and false unchecks.
-     */
-    private void setUnquotedCheckboxes(HashMap <mpdPolicyType, Boolean> checkboxMap)throws IllegalArgumentException{
-
-        // Only some states supports MC. If in the list, only check against mpdPolicyType length. Otherwise subtract 1 so no error thrown.
-        int adjustForMotorcycle = motorcycleSupportedStates.contains(getState()) ? 0 : 1 ;
-
-        // Check values
-        if (checkboxMap.size() != mpdPolicyType.values().length - adjustForMotorcycle){
-            throw new IllegalArgumentException("setUnquotedCheckboxes requires that every policy type has a boolean included. " +
-                    "Make sure that all values in mpdPolicyType enum are present with associated booleans for checkboxMap");
-        }
-
-        for (mpdPolicyType fillInCheckbox : checkboxMap.keySet()) {
-
-            setGeneralTab_OtherAAAProductsOwned_UnquotedCheckbox(fillInCheckbox, checkboxMap.get(fillInCheckbox));
-        }
-    }
-
-    /**
-     * Preconfigured pairwise scenarios for testing Unquoted or Manual Add scenarios. Generated using AllPairs.exe
-     * @return List of scenarios to be iterated through.
-     */
-    private ArrayList<HashMap <mpdPolicyType, Boolean>> getUnquotedManualScenarios(){
-        ArrayList<HashMap <mpdPolicyType, Boolean>> scenarioList = new ArrayList<>();
-        /*
-        Pair Testing Scenario
-        Scenario	Home	Renters	Condo	Life	Motorcycle
-        1	        Yes	    Yes 	Yes 	Yes 	Yes
-        2	        Yes 	No  	No  	No  	No
-        3	        No  	Yes 	No  	Yes 	No
-        4	        No  	No  	Yes 	No  	Yes
-        5	        ~Yes	Yes 	Yes 	No  	No
-        6	        ~Yes	No  	No  	Yes 	Yes
-        7	        No  	No  	No  	No  	No
-         */
-
-        String currentState = getState();
-
-        // Scenario 1
-        scenarioList.add(new HashMap<mpdPolicyType, Boolean>() {
-            {
-                put(mpdPolicyType.home, true);
-                put(mpdPolicyType.renters, true);
-                put(mpdPolicyType.condo, true);
-                put(mpdPolicyType.life, true);
-
-                if (motorcycleSupportedStates.contains(currentState)) {
-                    put(mpdPolicyType.motorcycle, true);
-                }
-            }
-        });
-
-        // Scenario 2
-        scenarioList.add(new HashMap<mpdPolicyType, Boolean>() {
-            {
-                put(mpdPolicyType.home, true);
-                put(mpdPolicyType.renters, false);
-                put(mpdPolicyType.condo, false);
-                put(mpdPolicyType.life, false);
-
-                if (motorcycleSupportedStates.contains(currentState)) {
-                    put(mpdPolicyType.motorcycle, false);
-                }
-            }
-        });
-
-        // Scenario 3
-        scenarioList.add(new HashMap<mpdPolicyType, Boolean>() {
-            {
-                put(mpdPolicyType.home, false);
-                put(mpdPolicyType.renters, true);
-                put(mpdPolicyType.condo, false);
-                put(mpdPolicyType.life, true);
-
-                if (motorcycleSupportedStates.contains(currentState)) {
-                    put(mpdPolicyType.motorcycle, false);
-                }
-            }
-        });
-
-        // Scenario 4
-        scenarioList.add(new HashMap<mpdPolicyType, Boolean>() {
-            {
-                put(mpdPolicyType.home, false);
-                put(mpdPolicyType.renters, false);
-                put(mpdPolicyType.condo, true);
-                put(mpdPolicyType.life, false);
-
-                if (motorcycleSupportedStates.contains(currentState)) {
-                    put(mpdPolicyType.motorcycle, true);
-                }
-            }
-        });
-
-        // Scenario 5
-        scenarioList.add(new HashMap<mpdPolicyType, Boolean>() {
-            {
-                put(mpdPolicyType.home, true);
-                put(mpdPolicyType.renters, true);
-                put(mpdPolicyType.condo, true);
-                put(mpdPolicyType.life, false);
-
-                if (motorcycleSupportedStates.contains(currentState)) {
-                    put(mpdPolicyType.motorcycle, false);
-                }
-            }
-        });
-
-        // Scenario 6
-        scenarioList.add(new HashMap<mpdPolicyType, Boolean>() {
-            {
-                put(mpdPolicyType.home, true);
-                put(mpdPolicyType.renters, false);
-                put(mpdPolicyType.condo, false);
-                put(mpdPolicyType.life, true);
-
-                if (motorcycleSupportedStates.contains(currentState)) {
-                    put(mpdPolicyType.motorcycle, true);
-                }
-            }
-        });
-
-        // Scenario 7
-        scenarioList.add(new HashMap<mpdPolicyType, Boolean>() {
-            {
-                put(mpdPolicyType.home, false);
-                put(mpdPolicyType.renters, false);
-                put(mpdPolicyType.condo, false);
-                put(mpdPolicyType.life, false);
-
-                if (motorcycleSupportedStates.contains(currentState)) {
-                    put(mpdPolicyType.motorcycle, false);
-                }
-            }
-        });
-
-        return scenarioList;
-    }
-
-
-
     @Override
     protected void validateMTEBindError(){
         errorTab_Verify_ErrorsPresent(true, ErrorEnum.Errors.AAA_SS02012019);
@@ -1140,17 +457,6 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         }
     }
 
-    /***
-     * This method will use an open-ended xpath to capture the total number of checkboxes visible in search results. <br>
-     *     This value can be used to count the total number of results returned, due to the difficulty of navigating the MPD Table DOM.
-     * @return
-     */
-    public int getSearchResultsCount(){
-        List<WebElement> arrayOfCheckboxesFound = BrowserController.get().driver().findElements(By.xpath(_XPATH_TO_ALL_SEARCH_RESULT_CHECKBOXES));
-        return arrayOfCheckboxesFound.size();
-    }
-
-
     /**
      * @return Test Data for an AZ SS policy with no other active policies
      */
@@ -1159,50 +465,6 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         return getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData")
                 .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()))
                 .mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()));
-    }
-
-    /**
-     * Jobset needed to process MPD discount validation at NB +30
-     */
-    private void jobsNBplus30runNoChecks() {
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
-        JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
-        JobUtils.executeJob(Jobs.automatedProcessingRunReportsServicesJob);
-        JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
-        JobUtils.executeJob(Jobs.automatedProcessingStrategyStatusUpdateJob);
-        JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
-        log.info("Current application date: " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")));
-        TimeSetterUtil.getInstance().adjustTime();
-    }
-
-    /**
-     *
-     * @param policyNumber policy number in test
-     * @param rowCount which row of the table (how many transactions in history)
-     * @param value value to be present in Reason field
-     * @param softly for assertions
-     */
-    private void transactionHistoryRecordCountCheck(String policyNumber, int rowCount, String value, ETCSCoreSoftAssertions softly) {
-        PolicySummaryPage.buttonTransactionHistory.click();
-        softly.assertThat(PolicySummaryPage.tableTransactionHistory).hasRows(rowCount);
-
-        String valueShort = "";
-        if (!StringUtils.isEmpty(value)) {
-            valueShort = value.substring(0, 20);
-            assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getHintValue()).contains(value);
-        }
-        softly.assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getValue()).contains(valueShort);
-
-        String transactionHistoryQuery = "select * from(\n"
-                + "select pt.TXREASONTEXT\n"
-                + "from PolicyTransaction pt\n"
-                + "where POLICYID in \n"
-                + "        (select id from POLICYSUMMARY \n"
-                + "        where POLICYNUMBER = '%s')\n"
-                + "    order by pt.TXDATE desc)\n"
-                + "    where rownum=1";
-        softly.assertThat(DBService.get().getValue(String.format(transactionHistoryQuery, policyNumber)).orElse(StringUtils.EMPTY)).isEqualTo(value);
     }
 
     @Override
@@ -1302,6 +564,11 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     protected Tab getPurchaseTab(){ return _purchaseTab; }
 
     @Override
+    protected Button getPurchaseTab_btnApplyPayment(){
+        return PurchaseTab.btnApplyPayment;
+    }
+
+    @Override
     protected Tab getErrorTab() { return _errorTab; }
 
     @Override
@@ -1387,6 +654,11 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     @Override
     protected String getGeneralTab_CustomerNameDOBMetaDataLabel(){
         return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.CUSTOMER_NAME_DOB.getLabel();
+    }
+
+    @Override
+    protected StaticElement getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_ExceededLimitMessageAsset(){
+        return _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.EXCEEDED_LIMIT_MESSAGE);
     }
 
     @Override
@@ -1551,5 +823,4 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getLabel(), (AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getControlClass())).setValue(state);
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
     }
-
 }
