@@ -926,6 +926,24 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         validateMPDCompanionError(in_policyType);
     }
 
+    protected void doMTEAllowBindTest(Boolean bFlatEndorsement, String in_policyType){
+        // Create Policy and Initiate Endorsement
+        openAppAndCreatePolicy();
+
+        handleEndorsementType(bFlatEndorsement);
+
+        // Add MPD Element via Customer Search
+        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_E");
+        otherAAAProductsSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
+        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_NE");
+        otherAAAProductsSearchTable_addSelected(1);
+
+        fillFromGeneralTabToErrorMsg();
+
+        // Validate error message appears.
+        validateMTEBindErrorDoesNotOccur();
+    }
+
     protected void doMTEPreventBindTest(Boolean bFlatEndorsement, String in_policyType){
         // Create Policy and Initiate Endorsement
         openAppAndCreatePolicy();
@@ -940,6 +958,28 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
 
         // Validate error message appears.
         //errorTab_Verify_ErrorsPresent(true, ErrorEnum.Errors.AAA_SS02012019);
+        validateMTEBindError();
+    }
+
+    protected void doMTEPreventBindTest_Renewals(String in_policyType, boolean bAmendedRenew){
+        // Get into Renewal Image
+        createPolicyAdvanceToRenewalImage();
+
+        if(bAmendedRenew) {
+            // Provide blank data for renewal image. Complete and save it.
+            fillFromGeneralTabToErrorMsg();
+            // From policy summary page, begin endorsement on the renewal image.
+            policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        }
+
+        // Add MPD Home element.
+        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
+        otherAAAProductsSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
+
+        // Complete Endorsement.
+        fillFromGeneralTabToErrorMsg();
+
+        // Validate error message appears.
         validateMTEBindError();
     }
 
@@ -1170,6 +1210,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     protected abstract String getErrorTab_ErrorOverride_ErrorCodeValue();
     protected abstract Button getErrorTab_ButtonOverrideAsset();
     protected abstract void validateMTEBindError();
+    protected abstract void validateMTEBindErrorDoesNotOccur();
     protected abstract void errorTab_Verify_ErrorsPresent(boolean expectedValue, ErrorEnum.Errors... errors);
 
     /**

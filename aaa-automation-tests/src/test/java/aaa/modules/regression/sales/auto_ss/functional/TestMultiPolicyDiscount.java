@@ -427,6 +427,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         doMTEPreventBindTest_Renewals("Renters", false);
     }
 
+    // BondTODO: Next
     /**
      * Validates that a NB policy can be bound when adding a System-Validated Home policy.
      * @param state
@@ -1123,60 +1124,21 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         return scenarioList;
     }
 
-    private void doMTEAllowBindTest(Boolean bFlatEndorsement, String in_policyType){
-        // Create Policy and Initiate Endorsement
-        openAppAndCreatePolicy();
 
-        handleEndorsementType(bFlatEndorsement);
-
-        // Add MPD Element via Customer Search
-        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_E");
-        otherAAAProductsSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
-        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("CUSTOMER_NE");
-        otherAAAProductsSearchTable_addSelected(1);
-
-        fillFromGeneralTabToErrorMsg();
-
-        // Validate error message appears.
-        validateMTEBindErrorDoesNotOccur();
-    }
-
-    private void doMTEPreventBindTest_Renewals(String in_policyType, boolean bAmendedRenew){
-        // Get into Renewal Image
-        createPolicyAdvanceToRenewalImage();
-
-        if(bAmendedRenew) {
-            // Provide blank data for renewal image. Complete and save it.
-            fillFromGeneralTabToErrorMsg();
-            // From policy summary page, begin endorsement on the renewal image.
-            policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        }
-
-        // Add MPD Home element.
-        otherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
-        otherAAAProductsSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
-
-        // Complete Endorsement.
-        fillFromGeneralTabToErrorMsg();
-
-        // Validate error message appears.
-        validateMTEBindError();
-    }
 
     @Override
     protected void validateMTEBindError(){
         errorTab_Verify_ErrorsPresent(true, ErrorEnum.Errors.AAA_SS02012019);
     }
 
-    private void validateMTEBindErrorDoesNotOccur(){
+    @Override
+    protected void validateMTEBindErrorDoesNotOccur(){
         try{
-            new ErrorTab().verify.errorsPresent(false, ErrorEnum.Errors.AAA_SS02012019);
+            errorTab_Verify_ErrorsPresent(false, ErrorEnum.Errors.AAA_SS02012019);
         }catch(IstfException ex){
             CustomAssertions.assertThat(ex.getMessage()).isEqualToIgnoringCase("Column Code was not found in the table");
         }
     }
-
-
 
     /***
      * This method will use an open-ended xpath to capture the total number of checkboxes visible in search results. <br>
