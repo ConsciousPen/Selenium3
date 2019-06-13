@@ -393,11 +393,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			//Verify Signed by is not there in XML when Signed from PAS UI.
 			if (checkDocXML) {
 				if ((document.equals(DocGenEnum.Documents.AA52UPAA) || document.equals(DocGenEnum.Documents.AA52IPAA) || document.equals(DocGenEnum.Documents.AAFPPA)) && !isRuleOverridden) { //isRuleOverridden means that Document was not signed.
-					if (DocGenHelper.isPasDocEnabled(policyNumber)) {
-						PasDocImpl.verifyDocumentsGenerated(false, policyNumber, document);// Document does not exist
-					} else {
-						DocGenHelper.checkDocumentsDoesNotExistInXml(policyNumber, AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE, document);// Document does not exist
-					}
+					verifyDocumentXMLDoNotExist(policyNumber, document);
 				} else {
 					validateDocSignTagsNotExist(policyNumber, document, query); //Document doesn't contain DocSignTags if signed in PAS
 				}
@@ -1761,7 +1757,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-28573"})
-	public void pas28573_rfiAA52AZ(@Optional("AZ") String state) {
+	public void pas28573_rfiAA52AZTriggered(@Optional("AZ") String state) {
 		assertSoftly(softly -> {
 			DocGenEnum.Documents document = DocGenEnum.Documents.AA52AZ;
 			AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION;
@@ -1777,11 +1773,11 @@ public class TestServiceRFI extends AutoSSBaseTest {
 					CoverageLimits.COV_0.getLimit(), CoverageLimits.COV_50100.getDisplay(), document, documentAsset, error, td, true, false);
 
 			//Update UIM to less than BI in DXP, then to No Coverage in PAS
-			verifyRFIScenarios("UIM", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY,
+			verifyRFIScenarios("UIM", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY,
 					CoverageLimits.COV_50100.getLimit(), CoverageLimits.COV_0.getDisplay(), document, documentAsset, error, td, true, false);
 
 			//Update UIM to No Coverage in DXP, then to less than BI in PAS
-			verifyRFIScenarios("UIM", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY,
+			verifyRFIScenarios("UIM", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY,
 					CoverageLimits.COV_0.getLimit(), CoverageLimits.COV_50100.getDisplay(), document, documentAsset, error, td, true, false);
 		});
 	}
@@ -1790,7 +1786,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	 * @author Maris Strazds
 	 * @name
 	 * @scenario
-	 * 1. Create policy in PAS with overrridden rule ERROR_AAA_200037
+	 * 1. Create policy in PAS with overridden rule ERROR_AAA_200037
 	 * 2. Create endorsement outside of PAS/inside PAS
 	 * 3. Update UM/UIM to No Coverage and verify that document AA52AZ is NOT triggered and error is NOT displayed if it is not signed as Rule is overridden
 	 * 4. Update UM/UIM to limit lower than BI and verify that document AA52AZ is NOT triggered and error is NOT displayed if it is not signed as Rule is overridden
@@ -1799,7 +1795,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-28573"})
-	public void pas28573_rfiAA52AZRuleOverridden(@Optional("AZ") String state) {
+	public void pas28573_rfiAA52AZNotTriggeredWhenRuleOverridden(@Optional("AZ") String state) {
 		assertSoftly(softly -> {
 			DocGenEnum.Documents document = DocGenEnum.Documents.AA52AZ;
 			AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION;
@@ -1809,7 +1805,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			//Rule overridden at NB scenario - UM
 			TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
 			td.adjust(TestData.makeKeyPath(premiumAndCoveragesTab.getMetaKey(),
-					AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel()), "contains=$50,000/1300,000"); //Value less than BI
+					AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel()), "contains=$50,000/1300,000"); //Value less than BI
 			td.adjust(TestData.makeKeyPath(documentsAndBindTab.getMetaKey(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(),
 					AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION.getLabel()), "Not Signed");
 			td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
@@ -1830,6 +1826,147 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			verifyRFIScenarios("UIM", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY,
 					CoverageLimits.COV_0.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td2, true, true);
 		});
+	}
+
+	/**
+	 * @name RFI AA52AZ Form and UM update in DXP
+	 * @scenario AA52AZ not triggered (DXP)
+	 * 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 4. Update UM coverage to limit not lower than BI limit. Rate.
+	 * 5. Hit RFI service, check if document is not in the list.
+	 * 9. Run bind service.
+	 * 10. go to pas inquiry and verify if policy is bound
+	 * 11. Go to document and bind page and verify if document is electronically signed.
+	 * 12. Check DB that document was generated and DocSignedBy and DocSignedDate fields are present
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-24562"})
+	public void pas28573_rfiAA52AZUpdateUMInDXPDocumentNotTriggered(@Optional("AZ") String state) {
+		DocGenEnum.Documents document = DocGenEnum.Documents.AA52AZ;
+		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION;
+		TestData td = getPolicyDefaultTD();
+		verifyRFIDocumentNotTriggeredInDXP(document, documentAsset, "UM", CoverageLimits.COV_250500.getDisplay(), td);
+	}
+
+	/**
+	 * @name RFI AA52AZ Form and UIM update in DXP
+	 * @scenario AA52AZ not triggered (DXP)
+	 * 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 4. Update UIM coverage to limit not lower than BI limit. Rate.
+	 * 5. Hit RFI service, check if document is not in the list.
+	 * 9. Run bind service.
+	 * 10. go to pas inquiry and verify if policy is bound
+	 * 11. Go to document and bind page and verify if document is electronically signed.
+	 * 12. Check DB that document was generated and DocSignedBy and DocSignedDate fields are present
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-24562"})
+	public void pas28573_rfiAA52AZUpdateUIMInDXPDocumentNotTriggered(@Optional("AZ") String state) {
+		DocGenEnum.Documents document = DocGenEnum.Documents.AA52AZ;
+		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION;
+		// scenario 1
+		TestData td = getPolicyDefaultTD();
+		verifyRFIDocumentNotTriggeredInDXP(document, documentAsset, "UIM", CoverageLimits.COV_250500.getDisplay(), td);
+	}
+
+	/**
+	 * @name RFI AA52AZ Form and UM update in PAS
+	 * @scenario AA52AZ not triggered (PAS)
+	 * 1. Create policy.
+	 * 2. Create endorsement in PAS.
+	 * 3. Update UM coverage to limit not less than BI. Rate.
+	 * 4. Verify Documents & Bind page. Document is not displayed on UI
+	 * 5. Bind endorsement
+	 * 9. Check xml that AA52AZ is not generated
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NY})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-24562"})
+	public void pas28573_rfiAA52AZUpdateUMInPASDocumentNotTriggered(@Optional("NY") String state) {
+		DocGenEnum.Documents document = DocGenEnum.Documents.AA52AZ;
+		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION;
+		AssetDescriptor<ComboBox> coverageAsset = AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY;
+		TestData td = getPolicyDefaultTD();
+		verifyRFIDocumentNotTriggeredInPAS(document, documentAsset, coverageAsset, CoverageLimits.COV_250500.getDisplay(), td);
+	}
+
+	/**
+	 * @name RFI AA52AZ Form and UM update in PAS
+	 * @scenario AA52AZ not triggered (PAS)
+	 * 1. Create policy.
+	 * 2. Create endorsement in PAS.
+	 * 3. Update UIM coverage to limit not less than BI. Rate.
+	 * 4. Verify Documents & Bind page. Document is not displayed on UI
+	 * 5. Bind endorsement
+	 * 9. Check xml that AA52AZ is not generated
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NY})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-24562"})
+	public void pas28573_rfiAA52AZUpdateUIMInPASDocumentNotTriggered(@Optional("NY") String state) {
+		DocGenEnum.Documents document = DocGenEnum.Documents.AA52AZ;
+		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION;
+		AssetDescriptor<ComboBox> coverageAsset = AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY;
+		TestData td = getPolicyDefaultTD();
+		verifyRFIDocumentNotTriggeredInPAS(document, documentAsset, coverageAsset, CoverageLimits.COV_250500.getDisplay(), td);
+	}
+
+	private void verifyRFIDocumentNotTriggeredInDXP(DocGenEnum.Documents document, AssetDescriptor<RadioGroup> documentAsset, String coverageToUpdateCd, String updateToLimit, TestData td) {
+		//Create Policy
+		String policyNumber = openAppAndCreatePolicy(td);
+		//Verify BI update in DXP
+		assertSoftly(softly -> {
+			//validate there is not document in new business
+			verifyRFINoDocumentInInquiry(softly, policyNumber, documentAsset);
+			//Create endorsement
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			//update the coverage
+			HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageToUpdateCd, updateToLimit), PolicyCoverageInfo.class);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+			//Check RFI document do not exist
+			verifyRFINoDocumentInDXP(softly, policyNumber, document.getId());
+			//Check RFI document do not exist
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+			verifyRFINoDocumentInInquiry(softly, policyNumber, documentAsset);
+			verifyDocumentXMLDoNotExist(policyNumber, document);
+		});
+	}
+
+	private void verifyRFIDocumentNotTriggeredInPAS(DocGenEnum.Documents document, AssetDescriptor<RadioGroup> documentAsset, AssetDescriptor<ComboBox> coverageAsset, String updateToLimit, TestData td) {
+		//Create Policy
+		String policyNumber = openAppAndCreatePolicy(td);
+		assertSoftly(softly -> {
+			verifyRFINoDocumentInInquiry(softly, policyNumber, documentAsset);
+			//Create endorsement
+			policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+			//Got to P&C and change the coverage
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			premiumAndCoveragesTab.setPolicyCoverageDetailsValue(coverageAsset.getLabel(), updateToLimit);
+			premiumAndCoveragesTab.calculatePremium();
+			//Go to D&B check that document is not displayed on UI
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset)).isPresent(false);
+			documentsAndBindTab.submitTab();
+			//Make sure that Endorsement is bound
+			assertThat(PolicySummaryPage.buttonTransactionHistory).isPresent(); //indicates that endorsement is bound and Policy Summary page is displayed
+			verifyDocumentXMLDoNotExist(policyNumber, document);
+		});
+	}
+
+	private void verifyDocumentXMLDoNotExist(String policyNumber, DocGenEnum.Documents document) {
+		if (DocGenHelper.isPasDocEnabled(policyNumber)) {
+			PasDocImpl.verifyDocumentsGenerated(false, policyNumber, document);// Document does not exist
+		} else {
+			DocGenHelper.checkDocumentsDoesNotExistInXml(policyNumber, AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE, document);// Document does not exist
+		}
 	}
 
 	private void verifyRFINoDocumentInDXP(ETCSCoreSoftAssertions softly, String policyNumber, String documentCode) {
