@@ -33,7 +33,7 @@ public final class MyWorkMetaData {
 	}
 
 	public static final class CreateTaskActionTab extends MetaData {
-		public static final AssetDescriptor<ClickComboBox> TYPE = declare("Type", ClickComboBox.class, Waiters.AJAX.then(Waiters.SLEEP(2000)));
+		public static final AssetDescriptor<ClickComboBoxBroken> TYPE = declare("Type", ClickComboBoxBroken.class, Waiters.AJAX.then(Waiters.SLEEP(2000)));
 		/* TODO Revert back to #ClickComboBox if https://csaaig.atlassian.net/browse/PASSOPS-1494 will be fixed */
 		public static final AssetDescriptor<ClickComboBoxBroken> TASK_NAME = declare("Task Name", ClickComboBoxBroken.class, Waiters.AJAX.then(Waiters.SLEEP(2000)));
 		public static final AssetDescriptor<TextBox> REFERENCE_ID = declare("Reference ID", TextBox.class, Waiters.AJAX);
