@@ -64,7 +64,7 @@ TwoNamedInsuredGeneralTab: {
 }
 
 ThreeNamedInsuredGeneralTab: {
-  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2', 'NamedInsuredInformation5'],
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2', '@NamedInsuredInformation5'],
   AAAProductOwned: '@<auto_ca_choice>@DataGather@AAAProductOwned',
   ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ca_choice>@DataGather@PolicyInformation'

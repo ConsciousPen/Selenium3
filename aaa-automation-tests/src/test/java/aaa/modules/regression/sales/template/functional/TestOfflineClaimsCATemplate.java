@@ -1361,10 +1361,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         // Create Customer and Policy with three named insured' and two drivers
         adjusted = getPolicyTD().adjust(getTestSpecificTD("TestData_Restrict_FNI_NB_PU_CA").resolveLinks());
         TestData addDriverTd = getTestSpecificTD("Add_NI_Driver_Endorsement_CA");
-
-//        TestData addDriverTd = getTestSpecificTD("Add_PU_Claim_Driver_Endorsement");
-//        initiateAddDriverEndorsement(policyNumber, addDriverTd);
-
         //Initiate a quote and fill up to the driver tab
         createQuoteAndFillUpTo(adjusted, DriverTab.class);
         //Navigate back to General tab and change the FNI to Scott (Not a Driver) - Method checks for 28399 Restrict FNI message
@@ -1382,7 +1378,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
                 //Navigate back to General tab and change the FNI to Scott (Not a Driver) - Method checks for 28399 Restrict FNI message
                 changeFNIGeneralTab(2);  //Index starts at 0
                 //Add third NI as a driver to resolve pop-up
-                NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+                NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
                 policy.getDefaultView().fill(addDriverTd);
                 //change FNI again - verify error pop-up does NOT appear
                 changeFNIGeneralTab(2);  //Index starts at 0
@@ -1392,8 +1388,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
                 tableDriverList.selectRow(2);
                 driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
                 driverTab.submitTab();
-                policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, PurchaseTab.class, true);
-                new PurchaseTab().submitTab();
+//                policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, PurchaseTab.class, true);
+                NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+                premiumAndCoveragesTab.buttonSaveAndExit.click();
                 break;
             case "RENEWAL":
                 //Run the renewal job and pay the bill
@@ -1408,7 +1405,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
                 //Change FNI again - verify error pop-up does NOT appear
                 changeFNIGeneralTab(2);  //Index starts at 0
                 //Save and Exit the renewal
-                GeneralTab.buttonSaveAndExit.click();
+                NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+                premiumAndCoveragesTab.buttonSaveAndExit.click();
                 break;
         }
     }
