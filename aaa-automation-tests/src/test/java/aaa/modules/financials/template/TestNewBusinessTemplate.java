@@ -1,5 +1,11 @@
 package aaa.modules.financials.template;
 
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
@@ -20,13 +26,6 @@ import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
