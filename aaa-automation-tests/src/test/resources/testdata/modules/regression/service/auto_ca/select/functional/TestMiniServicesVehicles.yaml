@@ -3,6 +3,11 @@ TestData_VehiclesGaragingAddress: {
     AssignmentTab: '@AssignmentTab'
 }
 
+TestData_3Vehicles: {
+  VehicleTab: ['@VehicleTab_GaragingAddress_1', '@VehicleTab_GaragingAddress_2', '@VehicleTab_Vehicle3'],
+  AssignmentTab: '@AssignmentTab_3Vehicles'
+}
+
 VehicleTab_GaragingAddress_1: {
     Add Vehicle: Click,
     Usage: Pleasure,
@@ -32,6 +37,16 @@ VehicleTab_GaragingAddress_2: {
    Order Prefill: click
 }
 
+VehicleTab_Vehicle3: {
+  Add Vehicle: Click,
+  Primary Use: 'contains=Commute',
+  Usage: Pleasure,
+  VIN: 3FA6P0HD9JR260434,
+  'Miles One-way to Work or School': '15',
+  Odometer Reading: '29000',
+  Odometer Reading Date: $<today>,
+}
+
 AssignmentTab: {
         DriverVehicleRelationshipTable: [{
                    Primary Driver: index=1,
@@ -39,6 +54,17 @@ AssignmentTab: {
                     Primary Driver: index=1,
                                          }]
     }
+
+AssignmentTab_3Vehicles: {
+  DriverVehicleRelationshipTable: [{
+                                     Primary Driver: index=1,
+                                   }, {
+                                     Primary Driver: index=1,
+                                   },
+                                  {
+                                     Primary Driver: index=1,
+                                   }]
+}
 
 TestData_VehicleOtherTypes: {
     VehicleTab: ['@VehicleTab_1','@VehicleTab_Camper','@VehicleTab_2','@VehicleTab_Motor_Home', '@VehicleTab_AntiqueClassic', '@VehicleTab_Trailer'],

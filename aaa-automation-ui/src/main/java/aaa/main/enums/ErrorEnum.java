@@ -205,13 +205,14 @@ public final class ErrorEnum {
 		AAA_SS02012019("AAA_SS02012019", "Policy cannot be bound with an unbound companion policy."),
         ERROR_AAA_10015015_CA_SELECT("10015015", "Driver with a combination of at least one Minor violation AND at least one At-fault accident within last 36 months is unacceptable. (10015015) [for Driver.attributeForRules]"),
         ERROR_AAA_10015023_CA_SELECT_CHOICE("10015023", "Driver must not have more than 2 At-fault accidents in the past 3 years (10015023) [for Driver.attributeForRules]"),
+		ERROR_AAA_SS190605("AAA_SS190605", "Driver Name LName has a blank license number (AAA_SS190605) [for Driver.attributeForRules]"),
 		ERROR_AAA_CAC7161836_CA_CHOICE("AAA_CAC7161836_CA_CHOICE", "A driver with more than 26 Violation points is unacceptable (AAA_CAC7161836) [for Driver.attributeForRules]"),
 
 		//MEMBERSHIP Errors
 		ERROR_AAA_AUTO_SS_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm Member details."),
 		ERROR_AAA_HO_SS_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm Member details."),
 		ERROR_AAA_HO_CA_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm Member details."),
-		ERROR_AAA_AUTO_CA_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm Member details."),
+		ERROR_AAA_AUTO_CA_MEM_LASTNAME("AAA_AUTO_CA_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm Member details."),
 		ERROR_AAA_MES_IRE_06("MES-IRE-06", "Too early to rate a policy in PAS."),
 		ERROR_AAA_MES_IRE_07("MES-IRE-07", "Too late to rate a policy in PAS."),
 		ERROR_AAA_MES_IRE_08("MES-IRE-08", "already created for previous policy.");

@@ -1,5 +1,11 @@
 package aaa.modules.financials.template;
 
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
@@ -20,13 +26,6 @@ import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
@@ -490,11 +489,10 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         Dollar reducedPrem = performRPEndorsement(policyNumber, effDate);
         SearchPage.openBilling(policyNumber);
         Dollar endorsementRefund = generateManualRefund();
-        Dollar fees = BillingHelper.getFeesValue(today);
 
         // Validate PMT-05
         assertSoftly(softly -> {
-            softly.assertThat(endorsementRefund.subtract(fees)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1065"));
+            softly.assertThat(endorsementRefund).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1065"));
             softly.assertThat(endorsementRefund).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_REFUND, "1060"));
         });
 
@@ -727,7 +725,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
     private Dollar generateManualRefund() {
         AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
         billingAccount.refund().start();
-        Dollar amount = new Dollar(RefundActionTab.tblAllocations.getRow(1).getCell("Paid").getValue()).abs();
+        Dollar amount = new Dollar(RefundActionTab.tblAllocations.getRow(1).getCell("Balance Due").getValue()).abs();
         acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue("Check");
         acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(amount.toString());
         acceptPaymentActionTab.submitTab();

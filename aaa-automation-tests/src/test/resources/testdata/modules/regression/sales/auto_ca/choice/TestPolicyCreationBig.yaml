@@ -48,6 +48,7 @@ PolicyInformation: {
 }
 
 DriverTab: {
+  #Date of Birth: '$<today-37y:MM/dd/yyyy>',
   Occupation: Self Employed,
   Age First Licensed: 37,
   Permit Before License: 'No',
