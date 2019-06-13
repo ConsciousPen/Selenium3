@@ -285,7 +285,7 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
 			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "firstName", false, true, true, null, "String");
 			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "middleName", false, true, false, null, "String");
 			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "lastName", false, true, true, null, "String");
-			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "birthDate", true, true, true, null, "Date");
+			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "birthDate", false, true, true, null, "Date");
 
 			AttributeMetadata metaDataFieldResponseGender = getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "gender", true, true, true, null, "String");
 			softly.assertThat(metaDataFieldResponseGender.valueRange.get("male")).isEqualTo("Male");
