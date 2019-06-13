@@ -1755,6 +1755,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	 * 2. Create endorsement outside of PAS/inside PAS
 	 * 3. Update UM/UIM to No Coverage and verify that document AA52AZ is triggered and error is displayed if it is not signed
 	 * 4. Update UM/UIM to limit lower than BI and verify that document AA52AZ is triggered and error is displayed if it is not signed
+	 * 5. Sign document and verify that it is signed
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.AZ})
