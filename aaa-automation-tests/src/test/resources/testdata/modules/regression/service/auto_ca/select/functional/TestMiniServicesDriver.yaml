@@ -43,7 +43,9 @@ DocumentsAndBindTab_ExcludedDriver: {
   },
   RequiredToIssue: {
     Policy Application: 'Yes',
-    Auto Billing Plan Explanation: 'Yes'
+    Auto Billing Plan Explanation: 'Yes',
+    Proof of Good Student Discount: 'Yes',
+    Proof of New Driver Course Completion: 'Yes'
   }
 
 }
@@ -56,11 +58,11 @@ ContactInformation: {
 AAAProductOwned: {
   Current AAA Member: 'Yes',
   Membership Number: 4290023667710001,
-  Home: 'Yes',
-  ListOfProducts:[{
-    'column=7': 'Edit',
-    Policy Number: '123',
-    Save: 'click'}]
+#  Home: 'Yes',
+#  ListOfProducts:[{
+#    'column=7': 'Edit',
+#    Policy Number: '123',
+#    Save: 'click'}]
 
 
 }
@@ -153,7 +155,7 @@ Driver_Son_CA: {
   Driver Type: 'Excluded',
   Reason: 'Insured Requested - premium',
   Rel. to First Named Insured: Son,
-  Date of Birth: '01/01/2000',
+  #Date of Birth: '01/01/2000',
   Gender: 'Male',
   Marital Status: Single,
   Occupation: 'index=1',
@@ -207,7 +209,7 @@ Driver_Father_CA: {
   Named Insured: 'Christopher Branwen',
   Driver Type: 'Available for Rating',
   Rel. to First Named Insured: Father,
-  Date of Birth: '05/01/1956',
+  #Date of Birth: '05/01/1956',
   Gender: 'Male',
   Marital Status: Single,
   Occupation: 'index=1',
@@ -223,7 +225,7 @@ Driver_Mother_CA: {
   Driver Type: 'Not Available for Rating',
   Reason: 'Unlicensed spouse',
   Rel. to First Named Insured: Mother,
-  Date of Birth: '05/01/1958',
+  #Date of Birth: '05/01/1958',
   Gender: 'Female',
   Marital Status: Single,
   Occupation: 'index=1',
@@ -276,6 +278,7 @@ NamedInsuredInformation2_CA: {
   First Name: Orlaith,
   Last Name: Branwen,
   Base Date: $<today>,
+  Insured Date of Birth: '05/01/1958',
   "Has lived here for less than three years?": 'No'
 }
 
@@ -284,6 +287,7 @@ NamedInsuredInformation3_CA: {
   First Name: Christopher,
   Last Name: Branwen,
   Base Date: $<today>,
+  Insured Date of Birth: '05/01/1956',
   "Has lived here for less than three years?": 'No'
 }
 
@@ -292,6 +296,7 @@ NamedInsuredInformation4_CA: {
   First Name: Vincent,
   Last Name: Branwen,
   Base Date: $<today>,
+  Insured Date of Birth: '01/01/2000',
   "Has lived here for less than three years?": 'No'
 }
 
