@@ -1077,7 +1077,9 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 
 	private boolean insuranceScoreReport(String state) {return !"MD".equals(state);}
 
-	private boolean isVisibleProofOfPEHCR(HomeSSOpenLPolicy openLPolicy) {return openLPolicy.getPolicyDwellingRatingInfo().getYearBuilt() < 1940;}
+	private boolean isVisibleProofOfPEHCR(HomeSSOpenLPolicy openLPolicy) {
+		return openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDwellingRatingInfo().getHomeAge()).getYear() < 1940;
+	}
 
 	private boolean receiptIsRequired(HomeSSOpenLPolicy openLPolicy) {
 		for (HomeSSOpenLForm form : openLPolicy.getForms()) {
