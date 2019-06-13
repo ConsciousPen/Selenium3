@@ -1806,7 +1806,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			ErrorEnum.Errors error = ERROR_AAA_200037;
 			TestData td = getPolicyDefaultTD();
 
-			//Rule overridden scenario - UM
+			//Rule overridden at NB scenario - UM
 			TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
 			td.adjust(TestData.makeKeyPath(premiumAndCoveragesTab.getMetaKey(),
 					AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel()), "contains=$50,000/1300,000"); //Value less than BI
@@ -1818,7 +1818,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			verifyRFIScenarios("UM", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY,
 					CoverageLimits.COV_0.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, true, true);
 
-			//Rule overridden scenario - UIM
+			//Rule overridden at NB scenario - UIM
 			TestData td2 = getPolicyDefaultTD();
 			td2.adjust(TestData.makeKeyPath(premiumAndCoveragesTab.getMetaKey(),
 					AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel()), "contains=$50,000/1300,000"); //Value less than BI
