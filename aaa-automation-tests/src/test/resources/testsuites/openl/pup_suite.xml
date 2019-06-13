@@ -137,6 +137,13 @@
             <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="PUP [OH] Premium Calculation Test 2019" preserve-order="true">
+        <parameter name="fileName" value="OHTests-20190803.xls"/>
+        <parameter name="policyNumbers" value="75,120"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="PUP [NJ] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="NJTests.xls"/>
         <parameter name="policyNumbers" value="745,2057"/>
