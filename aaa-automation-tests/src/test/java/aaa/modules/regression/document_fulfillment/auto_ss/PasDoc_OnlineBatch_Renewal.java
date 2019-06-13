@@ -1,7 +1,11 @@
 package aaa.modules.regression.document_fulfillment.auto_ss;
 
 import static aaa.main.enums.DocGenEnum.Documents.*;
+import static toolkit.verification.CustomAssertions.assertThat;
+
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -57,11 +61,22 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest {
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+		billingAccount.generateFutureStatement().perform();
+
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(10));
 		JobUtils.executeJob(BatchJob.preRenewalReminderGenerationAsyncJob);
+		//Workaround
+		try {
+			TimeUnit.MINUTES.sleep(2);
+		} catch (InterruptedException e) {
+			log.error(e.getMessage());
+		}
+
 		PasDocImpl.verifyDocumentsGenerated(null, true, false, policyNumber, AHRRXX);
 	}
-
+	
 	/**
 	 * OnlineBatch: Scenario 54 - RENEWAL_BILL: AHRBXX, AH35XX
 	 * <p>  <b>Precondition:</b>
@@ -92,6 +107,10 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest {
 		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
+		//WORKAROUND: pay total due amount for policy without AutoPay (to avoid cancellation)
+		payPolicyTotalDueAmount(policyWithoutAutoPay);
+		payPolicyTotalDueAmount(policyWithAutoPay);
+
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
 		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
@@ -103,8 +122,7 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
 		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
-		//mainApp().open();
-		//SearchPage.openBilling(policyWithAutoPay);
+
 		CustomSoftAssertions.assertSoftly(softly -> {
 			PasDocImpl.verifyDocumentsGenerated(softly, true, false, policyWithAutoPay, EventName.RENEWAL_BILL, AHRBXX, AH35XX);
 			PasDocImpl.verifyDocumentsGenerated(softly, true, false, policyWithoutAutoPay, EventName.RENEWAL_BILL, AHRBXX);
@@ -157,8 +175,9 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest {
 		LocalDateTime updateStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(updateStatusDate);
 		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
-		//JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
-		PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_finDriver, EventName.RENEWAL_ISSUE, AASR22);
+		//PasDocImpl.verifyDocumentsGenerated(null, false, false, policy_finDriver, EventName.RENEWAL_ISSUE, AASR22);
+		assertThat(PasDocImpl.waitAndCheckDocumentsAppearance(policy_finDriver, EventName.RENEWAL_ISSUE, AASR22)).isFalse();
+
 	}
 
 	/**
@@ -277,6 +296,9 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest {
 		String policy_UMandUIMLessThanBI = createPolicy(td_UMandUIMLessThanBI);
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 		LocalDateTime effectiveDate = PolicySummaryPage.getEffectiveDate();
+
+		//WORKAROUND: pay total due amount for policy without AutoPay (to avoid cancellation)
+		payPolicyTotalDueAmount(policy_UMandUIMLessThanBI);
 
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
@@ -402,5 +424,12 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(effectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(expirationDate);
 		BillingSummaryPage.hidePriorTerms();
+	}
+
+	private void payPolicyTotalDueAmount(String policyNumber) {
+		SearchPage.openBilling(policyNumber);
+		Dollar amount = BillingHelper.getPolicyTotalDueAmount(policyNumber);
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), amount);
+		assertThat(BillingSummaryPage.getTotalDue()).isEqualTo(new Dollar(0));
 	}
 }

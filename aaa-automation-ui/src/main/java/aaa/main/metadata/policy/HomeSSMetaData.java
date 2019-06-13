@@ -408,7 +408,8 @@ public final class HomeSSMetaData {
 		public static final class AdditionalAddress extends MetaData {
 			public static final AssetDescriptor<RadioGroup> ARE_THERE_ANY_ADDITIONAL_ADDRESSES = declare("Are there any additional address", RadioGroup.class, Waiters.AJAX, false, By
 					.xpath("//table[@id='policyDataGatherForm:sedit_AAAHOAddiDwellAddrMVO_proxiedComponents_PreconfigDwell_addAddressInd']"));
-			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
+			/* TODO Revert back to #TextBox if https://csaaig.atlassian.net/browse/PASSOPS-1494 will be fixed */
+			public static final AssetDescriptor<TextBoxBroken> ZIP_CODE = declare("Zip code", TextBoxBroken.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);

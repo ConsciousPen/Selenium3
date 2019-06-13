@@ -69,6 +69,10 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				new PersonalPropertyTab().getMetaKey(), getPersonalPropertyTabData(openLPolicy)
 		);
 
+		if (openLPolicy.getPolicyNamedInsured().getTotalNoReinstatements() != null && openLPolicy.getPolicyNamedInsured().getTotalNoReinstatements() > 0 && !openLPolicy.isNewRenPasCappedPolicy()) {
+			throw new IstfException("Not possible to create reinstatement's for LegacyConv or new quote policy");
+		}
+
 		if ("HO3".equals(openLPolicy.getPolicyType())) {
 			td.adjust(TestData.makeKeyPath(new ProductOfferingTab().getMetaKey()), getProductOfferingTabData(openLPolicy));
 		}
@@ -1010,6 +1014,9 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 					swimmingPoolType = "Restricted access with diving board only";
 					break;
 				case "Not fenced or no locking gate":
+					swimmingPoolType = "Unrestricted access";
+					break;
+				case "Not Fenced with no Accessories":
 					swimmingPoolType = "Unrestricted access";
 					break;
 				default:

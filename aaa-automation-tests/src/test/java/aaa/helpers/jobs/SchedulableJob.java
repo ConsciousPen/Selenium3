@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Set;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.exigen.ipb.eisa.utils.batchjob.Job;
-import com.exigen.ipb.eisa.utils.batchjob.JobGroup;
-import com.exigen.ipb.eisa.utils.batchjob.SoapJobActions;
 import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.AAAMembershipQueries;
@@ -32,8 +30,6 @@ public class SchedulableJob {
 
     public final Job job;
 
-    private static SoapJobActions service = new SoapJobActions();
-
     /**
      * Uses JobOffsetType to add or substract number of days.
      */
@@ -47,16 +43,6 @@ public class SchedulableJob {
     public SchedulableJob(Job jobToSchedule, JobOffsetType jobOffsetOperationType, int jobOffsetByDays){
 
         job = jobToSchedule;
-
-        // Batch marker job always runs after timeshift changes. Validate present.
-		if (!service.isJobExist(JobGroup.fromSingleJob(BatchJob.aaaBatchMarkerJob.getJobName()))) {
-			service.createJob(JobGroup.fromSingleJob(BatchJob.aaaBatchMarkerJob.getJobName()));
-        }
-
-        // Validate Job Group exists for passed in job.
-        if (!service.isJobExist(JobGroup.fromSingleJob(job.getJobName()))) {
-            service.createJob(JobGroup.fromSingleJob(job.getJobName()));
-        }
 
         if (jobOffsetByDays == SchedulableJobs.jobNotApplicableValue){
             offsetType = JobOffsetType.Job_Not_Applicable;

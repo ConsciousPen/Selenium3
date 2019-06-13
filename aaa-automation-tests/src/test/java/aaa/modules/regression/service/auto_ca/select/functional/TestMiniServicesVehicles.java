@@ -224,8 +224,50 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 		assertSoftly(softly -> pas29137_updateVehicleRegisteredOwnerAndStuffBody(softly));
 	}
 
+	/**
+	 * @author Megha Gubbala, Maris Strazds
+	 * @name Remove/Replace Vehicle and check fields
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement.
+	 * 3. run delete vehicle service and delete vehicle using Oid
+	 * 4. verify response status should be pending removal
+	 * 5. rate endorsement
+	 * 6. bind endorsement
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.CA})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-29136"})
+	public void pas29136_vehicleDeleteCA(@Optional("CA") String state) {
 
+		pas488_VehicleDeleteBody(getPolicyType());
+	}
 
+	/**
+	 * @author Jovita Pukenaite, Maris Strazds
+	 * @name Transaction Information For Endorsements outside of PAS - Replace vehicle
+	 * @scenario 1. Create policy with three vehicles.
+	 * 2. Start do endorsement outside of PAS.
+	 * 3. Hit "Transaction History Service". Check if response is empty.
+	 * 4. Replace V1 and V2.
+	 * 5. Remove V3.
+	 * 6. Hit "Transaction History Service". Check info.
+	 * 7. Rate and Bind.
+	 * 8. Create new endorsement outside of PAS.
+	 * 9. Hit "Transaction History Service". Check if response is empty.
+	 * 10. Replace Vehicle which was already replaced.
+	 * 11. Hit "Transaction History Service". Check if only one vehicle exist in response.
+	 * 12. Rate and Bind.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.CA})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-14497"})
+	public void pas14497_TransactionInformationForEndorsementsReplaceVehicleCA(@Optional("CA") String state) {
+		assertSoftly(softly ->
+				pas14497_TransactionInformationForEndorsementsReplaceVehicleBody(getPolicyType(), softly)
+		);
+	}
 
 
 }

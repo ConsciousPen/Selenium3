@@ -1,6 +1,8 @@
 package aaa.helpers.jobs;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicReference;
@@ -11,7 +13,7 @@ import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.exigen.ipb.eisa.utils.batchjob.Job;
 import com.exigen.ipb.eisa.utils.batchjob.JobGroup;
-import com.exigen.ipb.eisa.utils.batchjob.SoapJobActions;
+import com.exigen.ipb.eisa.utils.batchjob.ws.model.WSJobSummary;
 import com.exigen.istf.exec.testng.TimeShiftTestUtil;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.modules.BaseTest;
@@ -44,7 +46,7 @@ public class JobUtils {
 	}
 
 	public static void createJob(JobGroup job) {
-		SoapJobActions soapJob = new SoapJobActions();
+		CsaaSoapJobService soapJob = new CsaaSoapJobService();
 		if (!soapJob.isJobExist(job)) {
 			soapJob.createJob(job);
 		}
@@ -55,17 +57,41 @@ public class JobUtils {
 	}
 
 	public static Boolean isJobExist(JobGroup job) {
-		return new SoapJobActions().isJobExist(job);
+		return new CsaaSoapJobService().isJobExist(job);
 	}
 
 	public static Boolean isJobExist(Job job) {
 		return isJobExist(new JobGroup(job));
 	}
 
+	/**
+	 * This methods grabs all job execution and select the latest run, according to todays date.
+	 * @param jobGroup
+	 * @return latest today's job run
+	 */
+
+	public static WSJobSummary getLatestJobRun(JobGroup jobGroup) {
+		return getLatestJobRun(jobGroup, TimeSetterUtil.getInstance().getCurrentTime());
+	}
+
+	public static WSJobSummary getLatestJobRun(JobGroup jobGroup, LocalDateTime localDateTime) {
+		CsaaSoapJobService soapJobActions = new CsaaSoapJobService();
+		// Get list of all job runs
+		List<WSJobSummary> jobSummaries = soapJobActions.getStatusResponse(jobGroup).getBatchSummary().getJobSummary();
+		// store all jobSummaries ended today
+		List<WSJobSummary> mostRecentJobSummaries = jobSummaries.stream().filter(wsJobSummary -> wsJobSummary.getEndTime().contains(localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))).collect(Collectors.toList());
+
+		if (mostRecentJobSummaries.isEmpty()) {
+			throw new IstfException("Job summary is not present for this date " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		}
+		// Select jobSummary with biggest/latest EndTime
+		return mostRecentJobSummaries.stream().max(Comparator.comparing(WSJobSummary::getEndTime)).get();
+	}
+
 	private static void executeJobImpl(JobGroup jobName) {
 		log.info(getFullName() + " is running job: " + jobName);
 		try {
-			SoapJobActions soapJob = new SoapJobActions();
+			CsaaSoapJobService soapJob = new CsaaSoapJobService();
 			if (!soapJob.isJobExist(jobName)) {
 				soapJob.createJob(jobName);
 			}
@@ -76,7 +102,7 @@ public class JobUtils {
 	}
 
 	private static void executeJobLocally(JobGroup job) {
-	//	clearFolders(job);
+		//	clearFolders(job);
 		executeJobImpl(job);
 	}
 

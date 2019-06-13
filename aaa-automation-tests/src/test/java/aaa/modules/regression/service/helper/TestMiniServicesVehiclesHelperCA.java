@@ -26,12 +26,11 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
-public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
+public class TestMiniServicesVehiclesHelperCA extends TestMiniServicesVehiclesHelper {
 
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private GeneralTab generalTab = new GeneralTab();
@@ -242,7 +241,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 					softly.assertThat(response1.garagingDifferent).isEqualTo(false);
 					softly.assertThat(response1.vehTypeCd).isEqualTo("Regular");
 					softly.assertThat(response1.odometerReadingDate).isEqualTo(endorsementDate);
-					softly.assertThat(response1.declaredAnnualMiles).isEqualTo("13000");
+					softly.assertThat(response1.declaredAnnualMiles).isEqualTo(DEFAULT_DECLAREDANNUALMILES_CA);
 					softly.assertThat(response1.garagingAddress.postalCode).isEqualTo(zipCodeDefault);
 					softly.assertThat(response1.garagingAddress.addressLine1).isEqualTo(addressDefault);
 					softly.assertThat(response1.garagingAddress.city).isEqualTo(cityDefault);

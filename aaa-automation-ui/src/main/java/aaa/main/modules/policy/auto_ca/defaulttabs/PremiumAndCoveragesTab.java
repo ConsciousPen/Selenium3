@@ -47,6 +47,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table tableRatingDetailsVehicles = new Table(By.id("ratingDetailsPopupForm:vehicle_summary"));
 	public static Table tableRatingDetailsDrivers = new Table(By.id("ratingDetailsPopupForm:driver_summary"));
 	public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountSurchargeSummaryTable"));
+	public static Table tableFormsSummary = new Table(By.id("policyDataGatherForm:formSummaryTableDetails"));
 	public static Table tablePolicyLevelLiabilityCoverages = new Table(By.id("policyDataGatherForm:policyCoverageDetail"));
 	public static ByT tableVehicleCoverageDetails = ByT.xpath("//table[@id='policyDataGatherForm:vehicle_detail_%s']");
 

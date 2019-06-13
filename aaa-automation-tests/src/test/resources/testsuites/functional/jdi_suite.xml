@@ -15,34 +15,6 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="TestEValueDiscountVA" parallel="methods">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
-                <methods>
-                    <include name="pas265_MinimumStateLimitsForBIPreBind"/>
-                    <include name="pas278_eValueeSignedPledgeDocumentAHEVAXX"/>
-                    <include name="pas300_eValueStatusConsViewPaperPrefPendingVa"/>
-                    <include name="pas300_eValueStatusConsViewPaperPrefYes"/>
-                    <include name="pas305_eValueDiscountApplied"/>
-                    <include name="pas325_eValueCommissionRelatedFields"/>
-                    <include name="pas436_eValueDiscountVariations"/>
-                    <include name="pas436_eValuePriorBiCurrentBiConfigurationDependency"/>
-                    <include name="pas3694_eValueBlueBoxAndStaticText"/>
-                    <include name="pas333_eValueDiscountRemovedBySystem"/>
-                    <include name="pas339_eValueDiscountRemovedBySystemFuturePolicy"/>
-                    <include name="pas12294_PriorCarrierWithLapsePriorCarrierRequired"/>
-                    <include name="pas12294_PriorCarrierLessThanSixMonthsPriorCarrierRequired"/>
-                    <include name="pas12294_PriorCarrierNone"/>
-                    <include name="pas297_MidTermOptInNotificationToAgentAboutPaperlessPreferences"/>
-                    <include name="pas295_autopayKeepValueMessage"/>
-                    <include name="pas281_eValueIssuedWithDebitCard"/>
-                    <include name="pas321_eValueAtRenewalOrMidtermNoAutopay"/>
-                    <include name="pas317_membershipAndBiForRenewal"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test thread-count="1024" name="TestEValueDiscountOR" parallel="methods">
         <parameter name="state" value="OR"/>
         <classes>
@@ -369,4 +341,33 @@
             </class>
         </classes>
     </test>
+    <!--Commented out tests that are transferred to regression-->
+    <!--<test thread-count="1024" name="TestEValueDiscountVA" parallel="methods">-->
+        <!--<parameter name="state" value="VA"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">-->
+                <!--<methods>-->
+                    <!--<include name="pas265_MinimumStateLimitsForBIPreBind"/>-->
+                    <!--<include name="pas278_eValueeSignedPledgeDocumentAHEVAXX"/>-->
+                    <!--<include name="pas300_eValueStatusConsViewPaperPrefPendingVa"/>-->
+                    <!--<include name="pas300_eValueStatusConsViewPaperPrefYes"/>-->
+                    <!--<include name="pas305_eValueDiscountApplied"/>-->
+                    <!--<include name="pas325_eValueCommissionRelatedFields"/>-->
+                    <!--<include name="pas436_eValueDiscountVariations"/>-->
+                    <!--<include name="pas436_eValuePriorBiCurrentBiConfigurationDependency"/>-->
+                    <!--<include name="pas3694_eValueBlueBoxAndStaticText"/>-->
+                    <!--<include name="pas333_eValueDiscountRemovedBySystem"/>-->
+                    <!--<include name="pas339_eValueDiscountRemovedBySystemFuturePolicy"/>-->
+                    <!--<include name="pas12294_PriorCarrierWithLapsePriorCarrierRequired"/>-->
+                    <!--<include name="pas12294_PriorCarrierLessThanSixMonthsPriorCarrierRequired"/>-->
+                    <!--<include name="pas12294_PriorCarrierNone"/>-->
+                    <!--<include name="pas297_MidTermOptInNotificationToAgentAboutPaperlessPreferences"/>-->
+                    <!--<include name="pas295_autopayKeepValueMessage"/>-->
+                    <!--<include name="pas281_eValueIssuedWithDebitCard"/>-->
+                    <!--<include name="pas321_eValueAtRenewalOrMidtermNoAutopay"/>-->
+                    <!--<include name="pas317_membershipAndBiForRenewal"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
 </suite>

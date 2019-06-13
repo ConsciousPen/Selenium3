@@ -305,7 +305,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 
 
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-28114","PAS-13367"})
 	public void pas22140_renewalComparisonPremiumAndCoverages(@Optional("AZ") String state) {
 		renewalComparison(getTDNBPolicy(), getTDPremiumCoveragesVersion1(), getTDPremiumCoveragesVersion2(), VersionsComparisonConstants.ENDORSEMENT_RENEWAL_PREMIUM_AND_COVERAGES, "PremiumAndCoveragesTab", "PremiumCoveragesInformation");
