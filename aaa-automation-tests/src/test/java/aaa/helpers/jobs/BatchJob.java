@@ -253,8 +253,8 @@ public class BatchJob {
 	public static JobGroup collectionFeedBatch_earnedPremiumWriteOff = new JobGroup("collectionFeedBatch_earnedPremiumWriteOff", Arrays.asList(collectionFeedBatchOrderJob, earnedPremiumWriteoffProcessingJob));
 	public static JobGroup earnedPremiumBillGenerationJob = new JobGroup("earnedPremiumBillGenerationJob", Arrays.asList(aaaCollectionCancellDebtBatchAsyncJob, aaaDocGenBatchJob));
 	public static JobGroup membershipValidationJob = new JobGroup("membershipValidationJob", getMembershipValidationJob_batchJobs());
-	public static JobGroup renewalOfferGenerationPart1 = new JobGroup("renewalOfferGenerationPart1", getRenewal_Offer_Generation_Part1_batchJobs());
-	public static JobGroup renewalOfferGenerationPart2 = new JobGroup("renewalOfferGenerationPart2", getRenewal_Offer_Generation_Part2_batchJobs());
+	public static JobGroup renewalOfferGenerationPart1 = new JobGroup("Renewal_Offer_Generation_Part1", getRenewal_Offer_Generation_Part1_batchJobs());
+	public static JobGroup renewalOfferGenerationPart2 = new JobGroup("Renewal_Offer_Generation_Part2", getRenewal_Offer_Generation_Part2_batchJobs());
 
 
 	public static HashMap<String, String> getRenewalClaimOrderAsyncJobParameters() {
