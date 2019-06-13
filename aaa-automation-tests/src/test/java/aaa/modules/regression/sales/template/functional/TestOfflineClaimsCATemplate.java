@@ -119,6 +119,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     protected boolean secondDriverFlag = false;
     protected boolean newBusinessFlag = false;
     protected boolean MDD = false;
+    private static final String RESTRICT_FNI_MASSAGE = "The select named insured has not been established as a \"named insured driver\" on the driver tab";
 
     @BeforeTest
     public void prepare() {
@@ -295,10 +296,11 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
         generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(namedInsuredNumber);
         //PAS-28399: Check for Restrict FNI message
-        if (Page.dialogConfirmation.labelMessage.getValue().contains("The select named insured has not been established as a \"named insured driver\" on the driver tab")) {
+        if (Page.dialogConfirmation.labelMessage.getValue().contains(RESTRICT_FNI_MASSAGE)) {
+            assertThat(Page.dialogConfirmation.labelMessage.getValue()).contains(RESTRICT_FNI_MASSAGE);
             Page.dialogConfirmation.buttonCancel.click();
         } else {
-            assertThat(Page.dialogConfirmation.labelMessage.getValue()).doesNotContain("The select named insured has not been established as a \"named insured driver\" on the driver tab");
+            assertThat(Page.dialogConfirmation.labelMessage.getValue()).doesNotContain(RESTRICT_FNI_MASSAGE);
             Page.dialogConfirmation.confirm();
         }
         //Reset Contact Info - blanks out after FNI change at New Business
@@ -1359,6 +1361,10 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         // Create Customer and Policy with three named insured' and two drivers
         adjusted = getPolicyTD().adjust(getTestSpecificTD("TestData_Restrict_FNI_NB_PU_CA").resolveLinks());
         TestData addDriverTd = getTestSpecificTD("Add_NI_Driver_Endorsement_CA");
+
+//        TestData addDriverTd = getTestSpecificTD("Add_PU_Claim_Driver_Endorsement");
+//        initiateAddDriverEndorsement(policyNumber, addDriverTd);
+
         //Initiate a quote and fill up to the driver tab
         createQuoteAndFillUpTo(adjusted, DriverTab.class);
         //Navigate back to General tab and change the FNI to Scott (Not a Driver) - Method checks for 28399 Restrict FNI message

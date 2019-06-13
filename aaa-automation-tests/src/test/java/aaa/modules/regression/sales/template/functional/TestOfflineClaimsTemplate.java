@@ -126,6 +126,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     private static final String INC_RATING_CLAIM_2 = "IIRatingClaim2";
     private static final String INC_RATING_CLAIM_3 = "IIRatingClaim3";
     private static final String INC_RATING_CLAIM_4 = "IIRatingClaim4";
+    private static final String RESTRICT_FNI_MASSAGE = "The select named insured has not been established as a \"named insured driver\" on the driver tab";
 
 
     protected boolean newBusinessFlag = false;
@@ -1219,10 +1220,11 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
         generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(namedInsuredNumber);
         //PAS-28399: Check for Restrict FNI message
-        if (Page.dialogConfirmation.labelMessage.getValue().contains("The select named insured has not been established as a \"named insured driver\" on the driver tab")) {
+        if (Page.dialogConfirmation.labelMessage.getValue().contains(RESTRICT_FNI_MASSAGE)) {
+            assertThat(Page.dialogConfirmation.labelMessage.getValue()).contains(RESTRICT_FNI_MASSAGE);
             Page.dialogConfirmation.buttonCancel.click();
         } else {
-            assertThat(Page.dialogConfirmation.labelMessage.getValue()).doesNotContain("The select named insured has not been established as a \"named insured driver\" on the driver tab");
+            assertThat(Page.dialogConfirmation.labelMessage.getValue()).doesNotContain(RESTRICT_FNI_MASSAGE);
             Page.dialogConfirmation.confirm();
         }
         //Reset Contact Info - it is blanked out after FNI change at New Business
