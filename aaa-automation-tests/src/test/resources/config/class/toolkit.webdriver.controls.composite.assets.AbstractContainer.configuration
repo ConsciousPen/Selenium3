@@ -27,6 +27,8 @@
     "aaa.toolkit.webdriver.customcontrols.ConfirmationComboBox": "//select",
     "aaa.toolkit.webdriver.customcontrols.CalendarBox": "/.",
     "aaa.toolkit.webdriver.customcontrols.JavaScriptButton": "//input",
-    "aaa.toolkit.webdriver.customcontrols.dialog.SelectSearchDialog": "/."
+    "aaa.toolkit.webdriver.customcontrols.dialog.SelectSearchDialog": "/.",
+    "aaa.toolkit.webdriver.customcontrols.ClickComboBoxBroken": "/.",
+    "aaa.toolkit.webdriver.customcontrols.TextBoxBroken": "//*[self::input or self::textarea]"
   }
 }
