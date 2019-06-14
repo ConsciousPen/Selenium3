@@ -28,4 +28,9 @@ public class MiniServicesSetupEnableCoverages extends MiniServicesSetup {
 	public static void enableMEDPMForCO() {
 		enableCoverageForState(Constants.States.CO, "MEDPM");
 	}
+
+	@Test(description = "Enabling 'canChange' for UMBI for CT on test environment", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public static void enableUMBIForCT() {
+		enableCoverageForState(Constants.States.CT, "UMBI");
+	}
 }
