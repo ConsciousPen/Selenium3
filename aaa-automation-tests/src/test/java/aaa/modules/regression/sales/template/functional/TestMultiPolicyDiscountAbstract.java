@@ -41,7 +41,16 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     private ArrayList<String> motorcycleSupportedStates = new ArrayList<>(Arrays.asList(Constants.States.AZ, Constants.States.CA));
 
     protected enum mpdPolicyType{
-        HOME, RENTERS, CONDO, LIFE, MOTORCYCLE
+        HOME("Home"), RENTERS("Renters"), CONDO("Condo"), LIFE("Life"), MOTORCYCLE("Motorcycle");
+
+        private final String type;
+        mpdPolicyType(String type) {
+            this.type = type;
+        }
+
+        public String getValue() {
+            return this.type;
+        }
     }
 
     protected enum EndorsementType {FLAT, MIDTERM, FUTURE_DATED}
@@ -388,17 +397,17 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
 
         // Find row matching policyType, then pull the status cell out of it to assert on.
         String homeStatusColumnValue = getGeneralTab_OtherAAAProductTable().getRowContains(
-                policyTypeMetaDataLabel,mpdPolicyType.HOME.toString())
+                policyTypeMetaDataLabel,mpdPolicyType.HOME.getValue())
                 .getCell(policyStatusMetaDataLabel)
                 .getValue();
 
         String rentersStatusColumnValue = getGeneralTab_OtherAAAProductTable().getRowContains(
-                policyTypeMetaDataLabel,mpdPolicyType.RENTERS.toString())
+                policyTypeMetaDataLabel,mpdPolicyType.RENTERS.getValue())
                 .getCell(policyStatusMetaDataLabel)
                 .getValue();
 
         String condoStatusColumnValue = getGeneralTab_OtherAAAProductTable().getRowContains(
-                policyTypeMetaDataLabel,mpdPolicyType.CONDO.toString())
+                policyTypeMetaDataLabel,mpdPolicyType.CONDO.getValue())
                 .getCell(policyStatusMetaDataLabel)
                 .getValue();
 
@@ -684,17 +693,17 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
 
         // Find row matching policyType, then pull the status cell out of it to assert on.
         String homeStatusColumnValue = getGeneralTab_OtherAAAProductTable().getRowContains(
-                policyTypeMetaDataLabel,mpdPolicyType.HOME.toString())
+                policyTypeMetaDataLabel,mpdPolicyType.HOME.getValue())
                 .getCell(customerNameDOBMetaDataLabel)
                 .getValue();
 
         String rentersStatusColumnValue = getGeneralTab_OtherAAAProductTable().getRowContains(
-                policyTypeMetaDataLabel,mpdPolicyType.RENTERS.toString())
+                policyTypeMetaDataLabel,mpdPolicyType.RENTERS.getValue())
                 .getCell(customerNameDOBMetaDataLabel)
                 .getValue();
 
         String condoStatusColumnValue = getGeneralTab_OtherAAAProductTable().getRowContains(
-                policyTypeMetaDataLabel,mpdPolicyType.CONDO.toString())
+                policyTypeMetaDataLabel,mpdPolicyType.CONDO.getValue())
                 .getCell(customerNameDOBMetaDataLabel)
                 .getValue();
 
@@ -747,17 +756,17 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
 
         // Find row matching policyType, then pull the status cell out of it to assert on.
         String homeStatusColumnValue = getGeneralTab_OtherAAAProductTable().getRowContains(
-                policyTypeMetaDataLabel,mpdPolicyType.HOME.toString())
+                policyTypeMetaDataLabel,mpdPolicyType.HOME.getValue())
                 .getCell(customerNameDOBMetaDataLabel)
                 .getValue();
 
         String rentersStatusColumnValue = getGeneralTab_OtherAAAProductTable().getRowContains(
-                policyTypeMetaDataLabel,mpdPolicyType.RENTERS.toString())
+                policyTypeMetaDataLabel,mpdPolicyType.RENTERS.getValue())
                 .getCell(customerNameDOBMetaDataLabel)
                 .getValue();
 
         String condoStatusColumnValue = getGeneralTab_OtherAAAProductTable().getRowContains(
-                policyTypeMetaDataLabel,mpdPolicyType.CONDO.toString())
+                policyTypeMetaDataLabel,mpdPolicyType.CONDO.getValue())
                 .getCell(customerNameDOBMetaDataLabel)
                 .getValue();
 
