@@ -326,11 +326,6 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH).click();
     }
 
-    public void setTimeToToday() {
-        log.info("Current application date: " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")));
-        TimeSetterUtil.getInstance().adjustTime();
-    }
-
     private void doMembershipTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean in_bExpectingPolicyToBeProcessed){
         eThresholdTest typeOfBoundryTest = in_typeOfBoundryTest;
         eTimepoints stg_x = in_stg_x;
@@ -363,7 +358,6 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         runBatchJobs(stg_x, false);
         assertPolicyProcessedStatus();
         queryDBForNumberOfPendingEndorsements(_bExpectingPolicyToBeProcessed);
-        setTimeToToday();
     }
 
     private void doActiveMembershipNotPickedUpTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean in_bExpectingPolicyToBeProcessed){
