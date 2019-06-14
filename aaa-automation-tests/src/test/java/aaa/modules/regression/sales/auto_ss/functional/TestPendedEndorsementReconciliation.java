@@ -40,11 +40,11 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
     private enum eTimepoints {STG1, STG2, STG3, STG4}
     private enum eThresholdTest {BEFORE, ON, AFTER}
     private enum eMembershipType {ACTIVE, CANCELLED}
-    static private int CATCHUP_TIMEFRAME_VALUE = 4;
-    static private boolean _bExpectingPolicyToBeProcessed = true;
+    private static int CATCHUP_TIMEFRAME_VALUE = 4;
+    private boolean _bExpectingPolicyToBeProcessed = true;
 
-    static private String _storedPolicyNumber = null;
-    static private LocalDateTime _policyEffectiveDate = null;
+    private String _storedPolicyNumber = null;
+    private LocalDateTime _policyEffectiveDate = null;
     private GeneralTab _generalTab = new GeneralTab();
     private PurchaseTab _purchaseTab = new PurchaseTab();
 
@@ -198,17 +198,29 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
 
     private void advanceJVMToTimepoint(eTimepoints STG_N, Integer in_daysAfterNB, eThresholdTest in_typeOfBoundryTest){
         // Move JVM to appropriate Stage.
+        LocalDateTime date = null;
         switch(STG_N){
             case STG1:
-                TimeSetterUtil.getInstance().nextPhase(_policyEffectiveDate.plusDays(15 + in_daysAfterNB));
+                date = _policyEffectiveDate.plusDays(15 + in_daysAfterNB);
                 break;
             case STG2:
-                TimeSetterUtil.getInstance().nextPhase(_policyEffectiveDate.plusDays(30 + in_daysAfterNB));
+                date = _policyEffectiveDate.plusDays(30 + in_daysAfterNB);
                 break;
             default:
                 CustomAssertions.fail("STG_N has an unexpected/unhandled value: " + STG_N.toString());
                 break;
         }
+
+        // Handle the fact that the job doesn't run on the weekends.
+        if(date.getDayOfWeek()== DayOfWeek.SATURDAY){
+            date = date.plusDays(2);
+            log.debug(String.format("QALOGS -> Moving to new date = %s", date.toString()));
+        }
+        if(date.getDayOfWeek()== DayOfWeek.SUNDAY){
+            date = date.plusDays(1);
+            log.debug(String.format("QALOGS -> Moving to new date = %s", date.toString()));
+        }
+        TimeSetterUtil.getInstance().nextPhase(date);
 
         // Get System date. Is JVM within desired timeframe for test?
         LocalDateTime rightNow = TimeSetterUtil.getInstance().getCurrentTime();
@@ -249,17 +261,6 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
                 break;
         }
 
-        // Handle the fact that the job doesn't run on the weekends.
-        if(rightNow.getDayOfWeek()== DayOfWeek.SATURDAY){
-            rightNow = rightNow.plusDays(2);
-            log.debug(String.format("QALOGS -> Moving to new date = %s", rightNow.toString()));
-            TimeSetterUtil.getInstance().nextPhase(rightNow);
-        }
-        if(rightNow.getDayOfWeek()== DayOfWeek.SUNDAY){
-            rightNow = rightNow.plusDays(1);
-            log.debug(String.format("QALOGS -> Moving to new date = %s", rightNow.toString()));
-            TimeSetterUtil.getInstance().nextPhase(rightNow);
-        }
     }
 
     private void runBatchJobs(eTimepoints STG_N, boolean bSetMembershipActive){
@@ -325,11 +326,6 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH).click();
     }
 
-    public void setTimeToToday() {
-        log.info("Current application date: " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")));
-        TimeSetterUtil.getInstance().adjustTime();
-    }
-
     private void doMembershipTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean in_bExpectingPolicyToBeProcessed){
         eThresholdTest typeOfBoundryTest = in_typeOfBoundryTest;
         eTimepoints stg_x = in_stg_x;
@@ -362,7 +358,6 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         runBatchJobs(stg_x, false);
         assertPolicyProcessedStatus();
         queryDBForNumberOfPendingEndorsements(_bExpectingPolicyToBeProcessed);
-        setTimeToToday();
     }
 
     private void doActiveMembershipNotPickedUpTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean in_bExpectingPolicyToBeProcessed){
