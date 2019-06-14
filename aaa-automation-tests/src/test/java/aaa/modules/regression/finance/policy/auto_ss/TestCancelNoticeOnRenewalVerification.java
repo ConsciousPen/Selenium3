@@ -110,6 +110,7 @@ public class TestCancelNoticeOnRenewalVerification extends PolicyOperations {
 		log.info("TEST: Cancel Notice for Policy #" + policyNumber);
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
 		assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
+
 		createRenewalOffer(policyNumber, expirationDate);
 
 		PolicySummaryPage.buttonRenewals.click();
@@ -145,7 +146,7 @@ public class TestCancelNoticeOnRenewalVerification extends PolicyOperations {
 	@StateList(states = {Constants.States.KY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-30649")
-	public void pas30649_testCancelNoticeOnRenewalPremiumCalculated(@Optional("KY") String state) {
+	public void pas30649_testCancelNoticeOnRenewalPremiumCalculated(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		TestData policyTD = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData")
