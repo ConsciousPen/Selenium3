@@ -1394,6 +1394,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
                 break;
             case "RENEWAL":
                 //Run the renewal job and pay the bill
+                policyExpirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
                 moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
                 //Retrieve policy and enter renewal image: Try to change FNI again - verify error pop-up
                 retrieveRenewal(policyNumber);

@@ -1140,12 +1140,12 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
                 driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
                 tableDriverList.selectRow(2);
                 driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
-                driverTab.submitTab();
-                policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class, PurchaseTab.class, true);
-                new PurchaseTab().submitTab();
+                NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+                premiumAndCoveragesTab.buttonSaveAndExit.click();
                 break;
             case "RENEWAL":
                 //Run the renewal job and pay the bill
+                policyExpirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
                 moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
                 //Retrieve policy and enter renewal image: Try to change FNI again - verify error pop-up
                 retrieveRenewal(policyNumber);

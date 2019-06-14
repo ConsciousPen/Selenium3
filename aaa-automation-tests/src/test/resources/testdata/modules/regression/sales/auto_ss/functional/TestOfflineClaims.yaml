@@ -265,9 +265,8 @@ Driver7: {
 Driver8: {
   Add Driver: Click,
   DriverSearchDialog:{},
+  Named Insured: "Scott Lang",
   Driver Type: Available for Rating,
-  First Name: Scott,
-  Last Name: Lang,
   'Rel. to First Named Insured': Sibling,
 #  Date of Birth: 09/09/1980,
   Gender: Male,
