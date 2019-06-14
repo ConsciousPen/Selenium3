@@ -1204,8 +1204,10 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
                 <methods>
-                    <include name="pas28573_rfiAA52AZTriggered"/>
-                    <include name="pas28573_rfiAA52AZNotTriggeredWhenRuleOverridden"/>
+                    <include name="pas28573_rfiAA52AZTriggeredUM"/>
+                    <include name="pas28573_rfiAA52AZTriggeredUIM"/>
+                    <include name="pas28573_rfiAA52AZNotTriggeredWhenRuleOverriddenUM"/>
+                    <include name="pas28573_rfiAA52AZNotTriggeredWhenRuleOverriddenUIM"/>
                     <include name="pas28573_rfiAA52AZUpdateUMInDXPDocumentNotTriggered"/>
                     <include name="pas28573_rfiAA52AZUpdateUIMInDXPDocumentNotTriggered"/>
                     <include name="pas28573_rfiAA52AZUpdateUMInPASDocumentNotTriggered"/>

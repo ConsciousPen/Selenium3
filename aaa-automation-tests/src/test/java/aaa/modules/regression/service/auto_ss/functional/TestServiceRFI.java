@@ -1757,7 +1757,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-28573"})
-	public void pas28573_rfiAA52AZTriggered(@Optional("AZ") String state) {
+	public void pas28573_rfiAA52AZTriggeredUM(@Optional("AZ") String state) {
 		assertSoftly(softly -> {
 			DocGenEnum.Documents document = DocGenEnum.Documents.AA52AZ;
 			AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION;
@@ -1771,6 +1771,30 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			//Update UM to No Coverage in DXP, then to less than BI in PAS
 			verifyRFIScenarios("UM", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY,
 					CoverageLimits.COV_0.getLimit(), CoverageLimits.COV_50100.getDisplay(), document, documentAsset, error, td, true, false);
+
+		});
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy.
+	 * 2. Create endorsement outside of PAS/inside PAS
+	 * 3. Update UM/UIM to No Coverage and verify that document AA52AZ is triggered and error is displayed if it is not signed
+	 * 4. Update UM/UIM to limit lower than BI and verify that document AA52AZ is triggered and error is displayed if it is not signed
+	 * 5. Sign document and verify that it is signed
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-28573"})
+	public void pas28573_rfiAA52AZTriggeredUIM(@Optional("AZ") String state) {
+		assertSoftly(softly -> {
+			DocGenEnum.Documents document = DocGenEnum.Documents.AA52AZ;
+			AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION;
+			ErrorEnum.Errors error = ERROR_AAA_200037;
+			TestData td = getPolicyDefaultTD();
 
 			//Update UIM to less than BI in DXP, then to No Coverage in PAS
 			verifyRFIScenarios("UIM", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY,
@@ -1795,7 +1819,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-28573"})
-	public void pas28573_rfiAA52AZNotTriggeredWhenRuleOverridden(@Optional("AZ") String state) {
+	public void pas28573_rfiAA52AZNotTriggeredWhenRuleOverriddenUM(@Optional("AZ") String state) {
 		assertSoftly(softly -> {
 			DocGenEnum.Documents document = DocGenEnum.Documents.AA52AZ;
 			AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION;
@@ -1814,17 +1838,40 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			verifyRFIScenarios("UM", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY,
 					CoverageLimits.COV_0.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, true, true);
 
+		});
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS with overridden rule ERROR_AAA_200037
+	 * 2. Create endorsement outside of PAS/inside PAS
+	 * 3. Update UM/UIM to No Coverage and verify that document AA52AZ is NOT triggered and error is NOT displayed if it is not signed as Rule is overridden
+	 * 4. Update UM/UIM to limit lower than BI and verify that document AA52AZ is NOT triggered and error is NOT displayed if it is not signed as Rule is overridden
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-28573"})
+	public void pas28573_rfiAA52AZNotTriggeredWhenRuleOverriddenUIM(@Optional("AZ") String state) {
+		assertSoftly(softly -> {
+			DocGenEnum.Documents document = DocGenEnum.Documents.AA52AZ;
+			AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION;
+			ErrorEnum.Errors error = ERROR_AAA_200037;
+
 			//Rule overridden at NB scenario - UIM
-			TestData td2 = getPolicyDefaultTD();
-			td2.adjust(TestData.makeKeyPath(premiumAndCoveragesTab.getMetaKey(),
+			TestData td = getPolicyDefaultTD();
+			TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+			td.adjust(TestData.makeKeyPath(premiumAndCoveragesTab.getMetaKey(),
 					AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel()), "contains=$50,000/1300,000"); //Value less than BI
-			td2.adjust(TestData.makeKeyPath(documentsAndBindTab.getMetaKey(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(),
+			td.adjust(TestData.makeKeyPath(documentsAndBindTab.getMetaKey(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(),
 					AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION.getLabel()), "Not Signed");
-			td2 = td2.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+			td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
 			verifyRFIScenarios("UIM", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY,
-					CoverageLimits.COV_2550.getLimit(), CoverageLimits.COV_0.getDisplay(), document, documentAsset, error, td2, true, true);
+					CoverageLimits.COV_2550.getLimit(), CoverageLimits.COV_0.getDisplay(), document, documentAsset, error, td, true, true);
 			verifyRFIScenarios("UIM", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY,
-					CoverageLimits.COV_0.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td2, true, true);
+					CoverageLimits.COV_0.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, true, true);
 		});
 	}
 
@@ -1843,7 +1890,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-24562"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-28573"})
 	public void pas28573_rfiAA52AZUpdateUMInDXPDocumentNotTriggered(@Optional("AZ") String state) {
 		DocGenEnum.Documents document = DocGenEnum.Documents.AA52AZ;
 		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION;
@@ -1866,7 +1913,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-24562"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-28573"})
 	public void pas28573_rfiAA52AZUpdateUIMInDXPDocumentNotTriggered(@Optional("AZ") String state) {
 		DocGenEnum.Documents document = DocGenEnum.Documents.AA52AZ;
 		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION;
@@ -1888,7 +1935,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.NY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-24562"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-28573"})
 	public void pas28573_rfiAA52AZUpdateUMInPASDocumentNotTriggered(@Optional("NY") String state) {
 		DocGenEnum.Documents document = DocGenEnum.Documents.AA52AZ;
 		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION;
@@ -1910,7 +1957,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.NY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-24562"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-28573"})
 	public void pas28573_rfiAA52AZUpdateUIMInPASDocumentNotTriggered(@Optional("NY") String state) {
 		DocGenEnum.Documents document = DocGenEnum.Documents.AA52AZ;
 		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION;
