@@ -198,17 +198,19 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
 
     private void advanceJVMToTimepoint(eTimepoints STG_N, Integer in_daysAfterNB, eThresholdTest in_typeOfBoundryTest){
         // Move JVM to appropriate Stage.
+        LocalDateTime date = null;
         switch(STG_N){
             case STG1:
-                TimeSetterUtil.getInstance().nextPhase(_policyEffectiveDate.plusDays(15 + in_daysAfterNB));
+                date = _policyEffectiveDate.plusDays(15 + in_daysAfterNB);
                 break;
             case STG2:
-                TimeSetterUtil.getInstance().nextPhase(_policyEffectiveDate.plusDays(30 + in_daysAfterNB));
+                date = _policyEffectiveDate.plusDays(30 + in_daysAfterNB);
                 break;
             default:
                 CustomAssertions.fail("STG_N has an unexpected/unhandled value: " + STG_N.toString());
                 break;
         }
+        TimeSetterUtil.getInstance().nextPhase(date);
 
         // Get System date. Is JVM within desired timeframe for test?
         LocalDateTime rightNow = TimeSetterUtil.getInstance().getCurrentTime();
