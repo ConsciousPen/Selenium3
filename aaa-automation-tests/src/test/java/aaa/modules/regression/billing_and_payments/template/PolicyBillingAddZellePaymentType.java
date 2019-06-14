@@ -1,5 +1,6 @@
 package aaa.modules.regression.billing_and_payments.template;
 
+import aaa.common.Tab;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
@@ -45,15 +46,7 @@ public abstract class PolicyBillingAddZellePaymentType extends PolicyBaseTest {
             softly.assertThat(paymentMethodZelleMobile).as("Payment method is labeled incorrectly").contains(expectedZelleMobile);
             softly.assertThat(paymentMethodZelleEmail).as("Payment method is labeled incorrectly").contains(expectedZelleEmail);
         });
-        //Tab.buttonBack.click();
-
-        //TODO Uncomment this code once we disallow Zelle as an AutoPay option
-        /*UpdateBillingAccountActionTab updateBillingAccountTab = new UpdateBillingAccountActionTab();
-        updateBillingAccountTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).setValue(true);
-
-        ComboBox autopaySelectionCombobox = updateBillingAccountTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.AUTOPAY_SELECTION);
-
-        assertThat(autopaySelectionCombobox).as("AutoPay Selection dropdown should NOT contain Zelle payment method").doesNotContainOption(paymentMethodZelle);*/
+        Tab.buttonBack.click();
 
         //TODO Add additional test steps for performing a refund with Zelle once functionality is implemented. Also, add DB validation for storing Zelle info.
     }
