@@ -210,6 +210,16 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
                 CustomAssertions.fail("STG_N has an unexpected/unhandled value: " + STG_N.toString());
                 break;
         }
+
+        // Handle the fact that the job doesn't run on the weekends.
+        if(date.getDayOfWeek()== DayOfWeek.SATURDAY){
+            date = date.plusDays(2);
+            log.debug(String.format("QALOGS -> Moving to new date = %s", date.toString()));
+        }
+        if(date.getDayOfWeek()== DayOfWeek.SUNDAY){
+            date = date.plusDays(1);
+            log.debug(String.format("QALOGS -> Moving to new date = %s", date.toString()));
+        }
         TimeSetterUtil.getInstance().nextPhase(date);
 
         // Get System date. Is JVM within desired timeframe for test?
@@ -251,17 +261,6 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
                 break;
         }
 
-        // Handle the fact that the job doesn't run on the weekends.
-        if(rightNow.getDayOfWeek()== DayOfWeek.SATURDAY){
-            rightNow = rightNow.plusDays(2);
-            log.debug(String.format("QALOGS -> Moving to new date = %s", rightNow.toString()));
-            TimeSetterUtil.getInstance().nextPhase(rightNow);
-        }
-        if(rightNow.getDayOfWeek()== DayOfWeek.SUNDAY){
-            rightNow = rightNow.plusDays(1);
-            log.debug(String.format("QALOGS -> Moving to new date = %s", rightNow.toString()));
-            TimeSetterUtil.getInstance().nextPhase(rightNow);
-        }
     }
 
     private void runBatchJobs(eTimepoints STG_N, boolean bSetMembershipActive){
