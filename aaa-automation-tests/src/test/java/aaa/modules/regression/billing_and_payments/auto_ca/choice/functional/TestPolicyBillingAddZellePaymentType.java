@@ -21,7 +21,7 @@ public class TestPolicyBillingAddZellePaymentType extends PolicyBillingAddZelleP
 	@Parameters({"state"})
 	@StateList(states = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_CHOICE)
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_CHOICE, testCaseId = {"PAS-29419"})
 	public void test_addPaymentMethods(@Optional("CA") String state) {
 		
 		super.testAddZellePaymentType();
