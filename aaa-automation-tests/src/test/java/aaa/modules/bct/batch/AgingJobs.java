@@ -33,7 +33,7 @@ public class AgingJobs extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test()
 	public void RUN_03_AAAPOLICYAUTOMATEDRENEWALASYNCTASKGENERATIONJOB(@Optional("") String state) {
-		executeBatchTest(aaaPolicyAutomatedRenewalAsyncTaskGenerationJob);
+		executeBatchTest(policyAutomatedRenewalAsyncTaskGenerationJob);
 	}
 
 	@Parameters({"state"})
@@ -266,7 +266,7 @@ public class AgingJobs extends BackwardCompatibilityBaseTest {
 		ArrayList<Job> list = new ArrayList<Job>();
 		list.add(aaaBatchMarkerJob);
 		list.add(policyStatusUpdateJob);
-		list.add(aaaPolicyAutomatedRenewalAsyncTaskGenerationJob);
+		list.add(policyAutomatedRenewalAsyncTaskGenerationJob);
 		list.add(renewalValidationAsyncTaskJob);
 		list.add(renewalImageRatingAsyncTaskJob);
 		list.add(aaaRemittanceFeedAsyncBatchReceiveJob);

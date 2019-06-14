@@ -801,7 +801,10 @@ AssignmentTabEP_VA: {
   ExcessVehiclesTable: [{}]
 }
 
-Driver1_VA: {}
+Driver1_VA: {
+  Driver: 'contains=Smith',
+  Select Vehicle: 'contains=CHEVROLET'
+}
 
 Driver2_VA: {
   Driver: 'Violeta Minolta',

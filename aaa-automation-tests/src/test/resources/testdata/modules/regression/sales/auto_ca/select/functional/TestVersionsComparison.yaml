@@ -564,11 +564,7 @@ TestData_DriverInformation_Version1: {
     Sales Agent Agreement DMV: I Agree,
     Validate Driving History: click
   },
-  DocumentsAndBindTab: {
-    RequiredToIssue:{
-      Proof of Mature Driver Course Completion: 'Yes',
-    }
-  },
+  DocumentsAndBindTab: {}
 }
 
 TestData_DriverInformation_Version2: {
@@ -580,12 +576,7 @@ TestData_DriverInformation_Version2: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    RequiredToIssue: {
-      Proof of Good Student Discount: 'Yes',
-      Proof of New Driver Course Completion: 'Yes'
-    }
-  },
+  DocumentsAndBindTab: {}
 }
 
 DriverInformation: {
@@ -633,8 +624,8 @@ DriverInformation_Version1: {
   "License #": A2222222,
   Employee Benefit Type: None,
   ADB Coverage: 'Yes',
-  Mature driver course completed within 36 months: 'Yes',
-  Mature Driver Course Completion Date: $<today-2M>,
+  #Mature driver course completed within 36 months: 'Yes',
+  #Mature Driver Course Completion Date: $<today-2M>,
   "Smoker: Cigarettes, cigars or pipes": 'No',
   Financial Responsibility Filling Needed: 'Yes',
   Filling Type: SR-22,
@@ -651,7 +642,7 @@ DriverInformation_Version1: {
 }
 
 DriverInformation_Version2: {
-  Date of Birth: $<today-18y>,
+  #Date of Birth: $<today-18y>,
   Gender: Female,
   Marital Status: Single,
   Occupation: 'Student',
@@ -663,10 +654,10 @@ DriverInformation_Version2: {
   "License #": 333333333,
   Employee Benefit Type: Surviving spouse,
   ADB Coverage: 'No',
-  Most Recent GPA: 'A Student',
-  New Driver Course Completed: 'Yes',
-  New Driver Course Completion Date: $<today>,
-  New Driver Certification Number: 33333,
+  #Most Recent GPA: 'A Student',
+  #New Driver Course Completed: 'Yes',
+  #New Driver Course Completion Date: $<today>,
+  #New Driver Certification Number: 33333,
   "Smoker: Cigarettes, cigars or pipes": 'Yes',
   Financial Responsibility Filling Needed: 'No',
   Ridesharing Coverage: 'No',
