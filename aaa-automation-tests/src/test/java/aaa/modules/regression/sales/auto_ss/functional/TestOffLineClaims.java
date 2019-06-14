@@ -337,7 +337,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
      * @author Chris Johns
      * PAS-28399 - CHANGE FNI - General Tab: don't allow if "changed to FNI" not correctly set up as driver
      * @name Restring FNI change on general tab when NI is not a Driver
-     * @scenario NB and Renewal: Steps Mentioned above: Renewal flow
+     * @scenario NB and Renewal: Steps Mentioned above 'pas28399_RestrictChangeFNIGeneralTabEndorsement'
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
