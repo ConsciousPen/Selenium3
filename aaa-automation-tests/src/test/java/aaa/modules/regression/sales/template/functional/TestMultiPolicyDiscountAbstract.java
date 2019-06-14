@@ -41,7 +41,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     private ArrayList<String> motorcycleSupportedStates = new ArrayList<>(Arrays.asList(Constants.States.AZ, Constants.States.CA));
 
     protected enum mpdPolicyType{
-        HOME("Home"), RENTERS("Renters"), CONDO("Condo"), LIFE("Life"), MOTORCYCLE("Motorcycle");
+        HOME("home"), RENTERS("renters"), CONDO("condo"), LIFE("life"), MOTORCYCLE("motorcycle");
 
         private final String type;
         mpdPolicyType(String type) {
