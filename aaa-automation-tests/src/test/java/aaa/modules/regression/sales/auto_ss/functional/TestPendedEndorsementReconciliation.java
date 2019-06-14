@@ -40,11 +40,11 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
     private enum eTimepoints {STG1, STG2, STG3, STG4}
     private enum eThresholdTest {BEFORE, ON, AFTER}
     private enum eMembershipType {ACTIVE, CANCELLED}
-    static private int CATCHUP_TIMEFRAME_VALUE = 4;
-    static private boolean _bExpectingPolicyToBeProcessed = true;
+    private static int CATCHUP_TIMEFRAME_VALUE = 4;
+    private boolean _bExpectingPolicyToBeProcessed = true;
 
-    static private String _storedPolicyNumber = null;
-    static private LocalDateTime _policyEffectiveDate = null;
+    private String _storedPolicyNumber = null;
+    private LocalDateTime _policyEffectiveDate = null;
     private GeneralTab _generalTab = new GeneralTab();
     private PurchaseTab _purchaseTab = new PurchaseTab();
 
