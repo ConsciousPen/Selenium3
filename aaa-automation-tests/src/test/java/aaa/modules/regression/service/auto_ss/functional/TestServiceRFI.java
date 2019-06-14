@@ -2314,11 +2314,10 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			//Bind policy with docId and document is electronically signed
 			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), docId);
 			String queryExpectedDocument = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, expectedDocument.getIdInXml(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
-			if (!expectedDocument.equals(DocGenEnum.Documents.AAIFNYD)) {//TODO-mstrazds: Currently document not implemented for NY. Remove IF when implemented. (in next sprint)
-				assertSoftly(softly -> {
-					verifyDocInDb(softly, queryExpectedDocument, expectedDocument, true);
-				});
-			}
+
+			assertSoftly(softly -> {
+				verifyDocInDb(softly, queryExpectedDocument, expectedDocument, true);
+			});
 
 		} else {
 			HelperCommon.endorsementRate(policyNumber, 200);
