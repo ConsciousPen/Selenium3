@@ -15,11 +15,4 @@
         </classes>
     </test>
 
-    <test name="Test Pended Endorsement Reconciliation SS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPendedEndorsementReconciliation"/>
-        </classes>
-    </test>
-
 </suite>

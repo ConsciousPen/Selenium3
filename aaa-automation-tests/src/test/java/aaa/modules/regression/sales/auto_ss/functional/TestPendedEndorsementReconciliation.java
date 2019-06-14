@@ -14,12 +14,15 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.openqa.selenium.By;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
+import toolkit.webdriver.controls.CheckBox;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -193,7 +196,7 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled();
     }
 
-    private synchronized void advanceTimeAndRunJobs(eTimepoints STG_N, Integer in_daysAfterNB, eThresholdTest in_typeOfBoundryTest, boolean bSetMembershipActive){
+    private void advanceJVMToTimepoint(eTimepoints STG_N, Integer in_daysAfterNB, eThresholdTest in_typeOfBoundryTest){
         // Move JVM to appropriate Stage.
         switch(STG_N){
             case STG1:
@@ -257,12 +260,6 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
             log.debug(String.format("QALOGS -> Moving to new date = %s", rightNow.toString()));
             TimeSetterUtil.getInstance().nextPhase(rightNow);
         }
-
-        if(bSetMembershipActive){
-            AAAMembershipQueries.updateLatestNewBusinessAAAMembershipStatusInSQL(_storedPolicyNumber, AAAMembershipQueries.AAAMembershipStatus.ACTIVE);
-        }
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.membershipValidationJob);
     }
 
     private void runBatchJobs(eTimepoints STG_N, boolean bSetMembershipActive){
@@ -344,8 +341,8 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         handlePolicyCreation(testLevelTD, true, false, eMembershipType.CANCELLED);
         addPendedEndorsement();
         validatePendedEndorsementPresent();
-        advanceTimeAndRunJobs(stg_x, daysAfterNB, typeOfBoundryTest, false);
-//        runBatchJobs(stg_x, false);
+        advanceJVMToTimepoint(stg_x, daysAfterNB, typeOfBoundryTest);
+        runBatchJobs(stg_x, false);
         assertPolicyProcessedStatus();
         queryDBForNumberOfPendingEndorsements(_bExpectingPolicyToBeProcessed);
     }
@@ -361,8 +358,8 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         handlePolicyCreation(testLevelTD, true, true, eMembershipType.CANCELLED);
         addPendedEndorsement();
         validatePendedEndorsementPresent();
-        advanceTimeAndRunJobs(stg_x, daysAfterNB, typeOfBoundryTest, false);
-//        runBatchJobs(stg_x, false);
+        advanceJVMToTimepoint(stg_x, daysAfterNB, typeOfBoundryTest);
+        runBatchJobs(stg_x, false);
         assertPolicyProcessedStatus();
         queryDBForNumberOfPendingEndorsements(_bExpectingPolicyToBeProcessed);
         setTimeToToday();
@@ -377,8 +374,8 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         TestData testLevelTD = prepareTestData();
         prepareForPolicyCreation(testLevelTD, bExpectingPolicyToBeProcessed);
         handlePolicyCreation(testLevelTD, true, false, eMembershipType.ACTIVE);
-        advanceTimeAndRunJobs(stg_x, daysAfterNB, typeOfBoundryTest, true);
-//        runBatchJobs(stg_x, true);
+        advanceJVMToTimepoint(stg_x, daysAfterNB, typeOfBoundryTest);
+        runBatchJobs(stg_x, true);
         assertPolicyProcessedStatus();
     }
 }
