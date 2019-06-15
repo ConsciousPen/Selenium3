@@ -1933,10 +1933,10 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	 * 9. Check xml that AA52AZ is not generated
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.NY})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-28573"})
-	public void pas28573_rfiAA52AZUpdateUMInPASDocumentNotTriggered(@Optional("NY") String state) {
+	public void pas28573_rfiAA52AZUpdateUMInPASDocumentNotTriggered(@Optional("AZ") String state) {
 		DocGenEnum.Documents document = DocGenEnum.Documents.AA52AZ;
 		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION;
 		AssetDescriptor<ComboBox> coverageAsset = AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY;
@@ -1955,10 +1955,10 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	 * 9. Check xml that AA52AZ is not generated
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.NY})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-28573"})
-	public void pas28573_rfiAA52AZUpdateUIMInPASDocumentNotTriggered(@Optional("NY") String state) {
+	public void pas28573_rfiAA52AZUpdateUIMInPASDocumentNotTriggered(@Optional("AZ") String state) {
 		DocGenEnum.Documents document = DocGenEnum.Documents.AA52AZ;
 		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION;
 		AssetDescriptor<ComboBox> coverageAsset = AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY;
