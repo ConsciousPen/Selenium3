@@ -1406,8 +1406,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
                 //Change FNI again - verify error pop-up does NOT appear
                 changeFNIGeneralTab(2);  //Index starts at 0
                 //Save and Exit the renewal
-                NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-                premiumAndCoveragesTab.buttonSaveAndExit.click();
+                GeneralTab.buttonSaveAndExit.click();
                 break;
         }
     }
