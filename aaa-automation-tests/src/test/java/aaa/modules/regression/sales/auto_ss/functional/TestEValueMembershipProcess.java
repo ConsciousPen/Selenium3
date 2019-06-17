@@ -381,7 +381,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "ACTIVE", softly);
 			membershipLogicActivitiesAndNotesCheck(true, "ACTIVE", softly);
-			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 3, "Membership Discount Removed", softly);
+			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 3, "Discount validation failure, policy information updated", softly);
 			latestTransactionMembershipAndEvalueDiscountsCheck(false, true, membershipDiscountEligibilitySwitch, softly);
 			//BUG PAS-7149 AHDRXX is generated when MembershipEligibility=FALSE and eValue discount is not removed
 			checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false, softly);
