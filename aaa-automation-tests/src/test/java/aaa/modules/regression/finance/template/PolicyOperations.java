@@ -32,25 +32,32 @@ public abstract class PolicyOperations extends PolicyBaseTest {
 	 */
 	protected void renewalImageGeneration(String policyNum, LocalDateTime policyExpirationDate) {
 		LocalDateTime renewDateImage = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
+		createRenewalImage(policyNum, policyExpirationDate, renewDateImage);
+		PolicyHelper.verifyAutomatedRenewalGenerated(renewDateImage);
+	}
+
+	protected void createRenewalImage(String policyNum, LocalDateTime policyExpirationDate, LocalDateTime renewDateImage) {
 		TimeSetterUtil.getInstance().nextPhase(renewDateImage);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		PolicyHelper.verifyAutomatedRenewalGenerated(renewDateImage);
 	}
 
 	protected void renewalPreviewGeneration(String policyNum, LocalDateTime policyExpirationDate) {
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
-		searchForPolicy(policyNum);
+		createRenewalPreviewGeneration(policyNum, policyExpirationDate);
 		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
+	}
+
+	protected void createRenewalPreviewGeneration(String policyNum, LocalDateTime policyExpirationDate) {
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		searchForPolicy(policyNum);
 	}
 
 	protected void renewalOfferGeneration(String policyNum, LocalDateTime policyExpirationDate) {
