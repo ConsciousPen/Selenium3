@@ -40,6 +40,12 @@ TestData_Change_FNI_Renewal_PU_CA: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Select',
 }
 
+TestData_Restrict_FNI_NB_PU_CA: {
+  GeneralTab: '@ThreeNamedInsuredGeneralTab',
+  DriverTab:  ['@Driver1','@Driver9'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Select',
+}
+
 PremiumAndCoveragesTab_Select: {
   Product: CA Select,
   Payment Plan: Annual,
@@ -62,6 +68,13 @@ PrefillTab: {
 
 TwoNamedInsuredGeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@<auto_ca_select>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation'
+}
+
+ThreeNamedInsuredGeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2', '@NamedInsuredInformation5'],
   AAAProductOwned: '@<auto_ca_select>@DataGather@AAAProductOwned',
   ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation'
@@ -343,6 +356,10 @@ GeneralTab: {},
 DriverTab: ['@Driver6']
 }
 
+Add_NI_Driver_Endorsement_CA: {
+  DriverTab: ['@Driver12']
+}
+
 TestData_PUDefaulting: {
   PrefillTab: '@PrefillTab_PUDefaulting',
   DriverTab: '@Driver_PUDefaulting_FNI',
@@ -495,6 +512,13 @@ NamedInsuredInformation4: {
   Insured Date of Birth: 07/04/1980
 }
 
+NamedInsuredInformation5: {
+  InsuredSearchDialog: {},
+  First Name: Scott,
+  Last Name: Lang,
+  Insured Date of Birth: 09/09/1980
+}
+
 ContactInformation: {
     Home Phone Number: 2342342345
 }
@@ -529,6 +553,23 @@ Driver11: {
   "License #": D5439898,
   Age First Licensed: 18
   }
+
+Driver12: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Named Insured: "Scott Lang",
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Sibling,
+  #  Date of Birth: 07/04/1980,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Military,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5437171,
+  Age First Licensed: 18
+}
 
 DriverActivityReportsTab: {
   Sales Agent Agreement: I Agree,

@@ -21,6 +21,7 @@
                     <include name="pas22172_ReconcilePUEndorsementAFRD"/>
                     <include name="pas18159_offlineClaimsAnalytics"/>
                     <include name="pas25162_permissiveUseIndicatorDefaulting"/>
+                    <include name="pas28399_RestrictChangeFNIGeneralTabRenewal"/>
                 </methods>
             </class>
         </classes>
@@ -39,6 +40,7 @@
                     <include name="pas24587_ClueReconcilePUAFRUserFlagged"/>
                     <include name="pas25162_permissiveUseIndicatorDefaulting"/>
                     <include name="pas24652_ChangeFNIGeneralTabRenewal"/>
+                    <include name="pas28399_RestrictChangeFNIGeneralTabRenewal"/>
                 </methods>
             </class>
         </classes>
@@ -56,6 +58,7 @@
                     <include name="pas24587_ClueReconcilePUAFRUserFlagged"/>
                     <include name="pas25162_permissiveUseIndicatorDefaulting"/>
                     <include name="pas24652_ChangeFNIGeneralTabRenewal"/>
+                    <include name="pas28399_RestrictChangeFNIGeneralTabRenewal"/>
                 </methods>
             </class>
         </classes>

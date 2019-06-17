@@ -126,6 +126,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     private static final String INC_RATING_CLAIM_2 = "IIRatingClaim2";
     private static final String INC_RATING_CLAIM_3 = "IIRatingClaim3";
     private static final String INC_RATING_CLAIM_4 = "IIRatingClaim4";
+    private static final String RESTRICT_FNI_MASSAGE = "The select named insured has not been established as a \"named insured driver\" on the driver tab";
 
 
     protected boolean newBusinessFlag = false;
@@ -1109,6 +1110,58 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         DriverTab.buttonSaveAndExit.click();
     }
 
+    public void pas28399_RestrictChangeFNIGeneralTab(String SCENARIO){
+        // Create Customer and Policy with three named insured' and two drivers
+        adjusted = getPolicyTD().adjust(getTestSpecificTD("TestData_Restrict_FNI_NB_PU_AZ").resolveLinks());
+        TestData addDriverTd = getTestSpecificTD("Add_NI_Driver_Endorsement_AZ");
+        //Initiate a quote and fill up to the driver tab
+        createQuoteAndFillUpTo(adjusted, DriverTab.class);
+        //Navigate back to General tab and change the FNI to Scott (Not a Driver) - Method checks for 28399 Restrict FNI message
+        changeFNIGeneralTab(2);  //Index starts at 0
+        //Continue to bind the policy
+        driverTab.submitTab();
+        policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class, PurchaseTab.class, true);
+        new PurchaseTab().submitTab();
+        policyNumber = getPolicyNumber();
+        //ENDORSEMENT or RENEWAL:
+        switch (SCENARIO){
+            case "ENDORSEMENT":
+                //Initiate an endorsement: Try to change FNI again - verify error pop-up
+                policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+                //Navigate back to General tab and change the FNI to Scott (Not a Driver) - Method checks for 28399 Restrict FNI message
+                changeFNIGeneralTab(2);  //Index starts at 0
+                //Add third NI as a driver to resolve pop-up
+                NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+                policy.getDefaultView().fill(addDriverTd);
+                //change FNI again - verify error pop-up does NOT appear
+                changeFNIGeneralTab(2);  //Index starts at 0
+                //Continue to bind the endorsement
+                tableDriverList.selectRow(1);
+                driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
+                tableDriverList.selectRow(2);
+                driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
+                NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+                premiumAndCoveragesTab.buttonSaveAndExit.click();
+                break;
+            case "RENEWAL":
+                //Run the renewal job and pay the bill
+                policyExpirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
+                moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+                //Retrieve policy and enter renewal image: Try to change FNI again - verify error pop-up
+                retrieveRenewal(policyNumber);
+                //Navigate back to General tab and change the FNI to Scott (Not a Driver) - Method checks for 28399 Restrict FNI message
+                changeFNIGeneralTab(2);  //Index starts at 0
+                //Add third NI as a driver to resolve pop-up
+                NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+                policy.getDefaultView().fill(addDriverTd);
+                //Change FNI again - verify error pop-up does NOT appear
+                changeFNIGeneralTab(2);  //Index starts at 0
+                //Save and Exit the renewal
+                GeneralTab.buttonSaveAndExit.click();
+                break;
+        }
+    }
+
     /*
    Method/Test for CA Choice & Select: TestOfflineClaims.pas25162_permissiveUseIndicatorDefaulting
     */
@@ -1166,8 +1219,15 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     public void changeFNIGeneralTab(int namedInsuredNumber) {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
         generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(namedInsuredNumber);
-        Page.dialogConfirmation.confirm();
-        //Reset Contact Info - blanks out after FNI change at New Business
+        //PAS-28399: Check for Restrict FNI message
+        if (Page.dialogConfirmation.labelMessage.getValue().contains(RESTRICT_FNI_MASSAGE)) {
+            assertThat(Page.dialogConfirmation.labelMessage.getValue()).contains(RESTRICT_FNI_MASSAGE);
+            Page.dialogConfirmation.buttonCancel.click();
+        } else {
+            assertThat(Page.dialogConfirmation.labelMessage.getValue()).doesNotContain(RESTRICT_FNI_MASSAGE);
+            Page.dialogConfirmation.confirm();
+        }
+        //Reset Contact Info - it is blanked out after FNI change at New Business
         if (newBusinessFlag) {
             generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue("6025557777");
             generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
