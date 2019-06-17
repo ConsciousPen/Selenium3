@@ -1,12 +1,6 @@
 package aaa.modules.financials.template;
 
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.HashMap;
