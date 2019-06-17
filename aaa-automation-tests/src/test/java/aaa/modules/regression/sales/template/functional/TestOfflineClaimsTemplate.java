@@ -936,9 +936,9 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         activityAssertions(2, 1, 3, 3, "Customer Input", "", false, "NA");
 
         tableDriverList.selectRow(2);
-        //Uncomment when the fix is implemented
+
         //Verify the non FNI driver does not show the option of "First Named Insured" in drop down
-        //assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+        assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
 
         driverTab.submitTab();
         policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class, DriverActivityReportsTab.class, true);
@@ -968,9 +968,9 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isEnabled()).isFalse();
 
         tableDriverList.selectRow(2);
-        //Uncomment when the fix is implemented
+
         //Verify the non FNI driver does not show the option of "First Named Insured" in drop down
-        //assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+        assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
 
         //Driver2 clue claim is reassigned to driver1
         tableActivityInformationList.selectRow(1);
@@ -1132,9 +1132,9 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         activityAssertions(2, 1, 3, 3, "Internal Claims", CLAIM_NUMBER_3, true, "NA");
 
         tableDriverList.selectRow(2);
-        //Uncomment when the fix is implemented
+
         //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
-        //assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+        assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
 
         //Navigate to the General Tab and change the FNI to the second insured (Steve)
         changeFNIGeneralTab(1);  //Index starts at 0
@@ -1149,9 +1149,9 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         activityAssertions(2,1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true, "NA");
 
         tableDriverList.selectRow(2);
-        //Uncomment when the fix is implemented
+
         //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
-        //assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+        assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
 
         //Assert that old FNI  has 1 Internal Claims and 1 existing MVR claim
         activityAssertions(2, 2, 2, 2, "Internal Claims", CLAIM_NUMBER_1, false, "NA");

@@ -1251,7 +1251,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         tableDriverList.selectRow(2);
         //Uncomment when the fix is implemented
         //Verify the non FNI driver does not show the option of "First Named Insured" in drop down
-        //assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
         //or this
        //assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).getAllValues().contains("First Named Insured")).isFalse();
 
@@ -1271,7 +1271,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         tableDriverList.selectRow(2);
         //Uncomment when the fix is implemented
         //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
-        //assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
 
         //Assert that old FNI only has 2 Violation claims
         activityAssertions(2, 2, 2, 1, "Company Input", "", false); //assert the company input with Type Violations do not show up PU indicator
@@ -1314,7 +1314,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         tableDriverList.selectRow(2);
         //Uncomment when the fix is implemented
         //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
-        //assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
 
         //Verify the other insured only has one claim now
         activityAssertions(2, 2, 1, 1, "Customer Input", "", false);
@@ -1370,9 +1370,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         activityAssertions(2, 1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
 
         tableDriverList.selectRow(2);
-        //Uncomment when the fix is implemented
+
         //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
-        //assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
 
         //Navigate to the General Tab and change the FNI to the second insured (Steve)
         changeFNIGeneralTab(1);  //Index starts at 0
@@ -1387,9 +1387,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         activityAssertions(2, 1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
 
         tableDriverList.selectRow(2);
-        //Uncomment when the fix is implemented
+
         //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
-        //assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
 
         //Assert that old FNI only has 1 Internal Claims
         activityAssertions(2, 2, 1, 1, "Internal Claims", CLAIM_NUMBER_1, false);
