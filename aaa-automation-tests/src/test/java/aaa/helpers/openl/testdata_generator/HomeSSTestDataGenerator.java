@@ -69,6 +69,10 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				new PersonalPropertyTab().getMetaKey(), getPersonalPropertyTabData(openLPolicy)
 		);
 
+		if (openLPolicy.getPolicyNamedInsured().getTotalNoReinstatements() != null && openLPolicy.getPolicyNamedInsured().getTotalNoReinstatements() > 0 && !openLPolicy.isNewRenPasCappedPolicy()) {
+			throw new IstfException("Not possible to create reinstatement's for LegacyConv or new quote policy");
+		}
+
 		if ("HO3".equals(openLPolicy.getPolicyType())) {
 			td.adjust(TestData.makeKeyPath(new ProductOfferingTab().getMetaKey()), getProductOfferingTabData(openLPolicy));
 		}
@@ -261,7 +265,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "Yes");
 		}
 		if (isVisibleProofOfPEHCR(openLPolicy)) {
-			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION.getLabel(), "Yes");
+			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS.getLabel(), "Yes");
 		}
 		if (receiptIsRequired(openLPolicy)) {
 			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.APPRAISALS_SALES_RECEIPTS_FOR_SCHEDULED_PROPERTY.getLabel(), "Yes");
@@ -1012,6 +1016,9 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				case "Not fenced or no locking gate":
 					swimmingPoolType = "Unrestricted access";
 					break;
+				case "Not Fenced with no Accessories":
+					swimmingPoolType = "Unrestricted access";
+					break;
 				default:
 					throw new IstfException("Unknown mapping for swimmingPoolType=" + openLPolicy.getPolicyConstructionInfo().getSwimmingPoolType());
 			}
@@ -1071,16 +1078,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	private boolean insuranceScoreReport(String state) {return !"MD".equals(state);}
 
 	private boolean isVisibleProofOfPEHCR(HomeSSOpenLPolicy openLPolicy) {
-		boolean isVisibleProofOfPEHCR = false;
-		//TODO clarify logic of proof
-		//		if (openLPolicy.getPolicyDwellingRatingInfo().getHomeAge() >= 10 &&
-		//				(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovPlumbing() < 10 ||
-		//						openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovHeatOrCooling() < 10 ||
-		//						openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovElectrical() < 10 ||
-		//						openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovRoof() < 10)) {
-		//			isVisibleProofOfPEHCR = true;
-		//		}
-		return isVisibleProofOfPEHCR;
+		return openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDwellingRatingInfo().getHomeAge()).getYear() < 1940;
 	}
 
 	private boolean receiptIsRequired(HomeSSOpenLPolicy openLPolicy) {

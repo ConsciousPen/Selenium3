@@ -74,7 +74,8 @@ NamedInsuredInformation1: {
 NamedInsuredInformation2: {
   InsuredSearchDialog: {},
   First Name: Steve,
-  Last Name: Rogers
+  Last Name: Rogers,
+  Insured Date of Birth: 07/04/1918
 }
 
 Driver1: {
@@ -82,7 +83,7 @@ Driver1: {
   DriverSearchDialog:{},
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': First Named Insured,
-  Date of Birth: 10/16/1997,
+#  Date of Birth: 10/16/1997,
   Age First Licensed: 18,
   Gender: Male,
   Marital Status: Married,
@@ -199,7 +200,7 @@ Add Driver: Click,
   DriverSearchDialog:{},
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': First Named Insured,
-  Date of Birth: 10/16/1997,
+#  Date of Birth: 10/16/1997,
   Age First Licensed: 21,
   Gender: Male,
   Marital Status: Married,
@@ -252,7 +253,7 @@ Driver8: {
   DriverSearchDialog:{},
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': First Named Insured,
-  Date of Birth: 10/16/1997,
+#  Date of Birth: 10/16/1997,
   Age First Licensed: 21,
   Gender: Male,
   Marital Status: Married,
@@ -308,7 +309,7 @@ Driver9: {
   Named Insured: "Steve Rogers",
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: 07/04/1918,
+#  Date of Birth: 07/04/1918,
   Gender: Male,
   Marital Status: Married,
   Occupation: Military,
@@ -452,7 +453,7 @@ Add Driver: Click,
   DriverSearchDialog:{},
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': First Named Insured,
-  Date of Birth: 10/16/1997,
+#  Date of Birth: 10/16/1997,
   Age First Licensed: 18,
   Gender: Male,
   Marital Status: Married,
@@ -491,6 +492,7 @@ NamedInsuredInformation4: {
   InsuredSearchDialog: {},
   First Name: Kathy,
   Last Name: Smith,
+  Insured Date of Birth: 07/04/1980
 }
 
 ContactInformation: {
@@ -517,7 +519,7 @@ Driver11: {
   Named Insured: "Kathy Smith",
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': First Named Insured,
-  Date of Birth: 07/04/1980,
+#  Date of Birth: 07/04/1980,
   Gender: Female,
   Marital Status: Married,
   Occupation: Military,

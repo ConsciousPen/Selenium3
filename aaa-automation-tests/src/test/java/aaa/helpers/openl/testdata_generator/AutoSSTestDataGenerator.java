@@ -44,9 +44,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		licenseNumber = ratingDataPattern.getTestData(DriverTab.class.getSimpleName()).getValue(AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel());
 		ratingDataPattern = ratingDataPattern.mask(new DriverTab().getMetaKey()).resolveLinks();
 
-		if (openLPolicy.getReinstatements() != null && openLPolicy.getReinstatements() > 0) {
-			//TODO-dchubkov: to be implemented...
-			throw new NotImplementedException("Test data generation for \"reinstatements\" greater than 0 is not implemented.");
+		if (openLPolicy.getReinstatements() != null && openLPolicy.getReinstatements() > 0 && !openLPolicy.isNewRenPasCappedPolicy()) {
+			throw new IstfException("Not possible to create reinstatement's for LegacyConv or new quote policy");
 		}
 		assertThat(getState()).as("State from TestDataGenerator differs from openl file's state").isEqualTo(openLPolicy.getCappingDetails().getState());
 
@@ -94,7 +93,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	public TestData getCappingData(AutoSSOpenLPolicy openLPolicy) {
 		double manualCappingFactor = openLPolicy.isCappedPolicy() ? openLPolicy.getCappingDetails().getTermCappingFactor() * 100 : 100;
 		return DataProviderFactory.dataOf(AutoSSMetaData.PremiumAndCoveragesTab.VIEW_CAPPING_DETAILS_DIALOG.getLabel(), DataProviderFactory.dataOf(
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.MANUAL_CAPPING_FACTOR.getLabel(), manualCappingFactor,
+				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.MANUAL_CAPPING_FACTOR.getLabel(), Math.round(manualCappingFactor * 100.0) / 100.0,
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.CAPPING_OVERRIDE_REASON.getLabel(), "index=1",
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.BUTTON_CALCULATE.getLabel(), "click"));
 	}
@@ -297,7 +296,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				String[] firstLastName = driver.getName().split("\\s", 2);
 				String firstName = firstLastName[0];
 				String lastName = firstLastName.length > 1 ? firstLastName[1] : firstName;
-				int driverAge = (openLPolicy.isNewRenPasCappedPolicy() && openLPolicy.getTerm()==12) ? driver.getDriverAge() - 1 : driver.getDriverAge();
+				int driverAge = openLPolicy.isNewRenPasCappedPolicy() && openLPolicy.getTerm() == 12 ? driver.getDriverAge() - 1 : driver.getDriverAge();
 				driverData.put(AutoSSMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), DataProviderFactory.emptyData());
 				driverData.put(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), firstName);
 				driverData.put(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), lastName);

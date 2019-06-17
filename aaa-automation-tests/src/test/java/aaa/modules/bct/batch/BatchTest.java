@@ -4,6 +4,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.jobs.GroupJobs;
+import aaa.helpers.jobs.Job;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.modules.bct.BctType;
@@ -109,7 +110,7 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test(description = "batchJob16.xml")
 	public void BCT_BTCH_Automated_Renewal_Image_Data_Gather_001(@Optional("") String state){
-		executeBatchTest(GroupJobs.groupaaapolicyAutomatedRenewalAsyncTaskGenerationJob);
+		executeBatchTest(new Job("groupaaaPolicyAutomatedRenewalAsyncTaskGenerationJob"));
 	}
 
 	@Parameters({"state"})

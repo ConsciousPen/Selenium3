@@ -265,7 +265,7 @@ public class TestDataHelper {
 	 * @return Adjusted Test Data Object
 	 * @author Tyrone Jemison
 	 */
-	public TestData maskTD(TestData td, Class<? extends Tab> tabElementIsOn, String subChunkLabel, String elementLabel){
+	public static TestData maskTD(TestData td, Class<? extends Tab> tabElementIsOn, String subChunkLabel, String elementLabel){
 		td.mask(TestData.makeKeyPath(tabElementIsOn.getSimpleName(), subChunkLabel, elementLabel));
 		return td;
 	}
@@ -278,7 +278,7 @@ public class TestDataHelper {
 	 * @return Adjusted Test Data Object
 	 * @author Tyrone Jemison
 	 */
-	public TestData maskTD(TestData td, Class<? extends Tab> tabElementIsOn, String elementLabel){
+	public static TestData maskTD(TestData td, Class<? extends Tab> tabElementIsOn, String elementLabel){
 		td.mask(TestData.makeKeyPath(tabElementIsOn.getSimpleName(), elementLabel));
 		return td;
 	}
