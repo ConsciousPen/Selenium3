@@ -161,6 +161,17 @@
         </classes>
     </test>
 
+    <test name="New Business 6 - SS HO3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="KY, WV, AZ, NJ"/>
+        <classes>
+            <class name="aaa.modules.financials.home_ss.ho3.TestNewBusiness">
+                <methods>
+                    <include name="testNewBusinessScenario_6"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test name="New Business - CA PUP" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
