@@ -936,7 +936,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         activityAssertions(2, 1, 3, 3, "Customer Input", "", false, "NA");
 
         tableDriverList.selectRow(2);
-
         //Verify the non FNI driver does not show the option of "First Named Insured" in drop down
         assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
 
@@ -968,7 +967,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isEnabled()).isFalse();
 
         tableDriverList.selectRow(2);
-
         //Verify the non FNI driver does not show the option of "First Named Insured" in drop down
         assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
 
@@ -1132,7 +1130,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         activityAssertions(2, 1, 3, 3, "Internal Claims", CLAIM_NUMBER_3, true, "NA");
 
         tableDriverList.selectRow(2);
-
         //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
         assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
 
@@ -1149,7 +1146,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         activityAssertions(2,1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true, "NA");
 
         tableDriverList.selectRow(2);
-
         //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
         assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
 

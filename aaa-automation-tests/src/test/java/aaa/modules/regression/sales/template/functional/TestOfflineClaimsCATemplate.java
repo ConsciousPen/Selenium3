@@ -1249,11 +1249,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isEnabled()).isFalse();
 
         tableDriverList.selectRow(2);
-        //Uncomment when the fix is implemented
         //Verify the non FNI driver does not show the option of "First Named Insured" in drop down
         assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
-        //or this
-       //assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).getAllValues().contains("First Named Insured")).isFalse();
 
         //Navigate to the General Tab and change the FNI to the second insured (Steve)
         newBusinessFlag = true;
@@ -1269,7 +1266,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         activityAssertions(2, 1, 3, 3, "Customer Input", "", true); //assert the company input with Type  Accident show up PU indicator
 
         tableDriverList.selectRow(2);
-        //Uncomment when the fix is implemented
         //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
         assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
 
@@ -1312,7 +1308,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         activityAssertions(2, 1, 5, 5, "Customer Input", "", true);
 
         tableDriverList.selectRow(2);
-        //Uncomment when the fix is implemented
         //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
         assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
 
@@ -1370,7 +1365,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         activityAssertions(2, 1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
 
         tableDriverList.selectRow(2);
-
         //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
         assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
 
@@ -1387,7 +1381,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         activityAssertions(2, 1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
 
         tableDriverList.selectRow(2);
-
         //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
         assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
 
