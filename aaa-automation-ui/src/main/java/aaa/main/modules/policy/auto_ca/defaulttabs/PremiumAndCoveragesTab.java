@@ -28,6 +28,8 @@ import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+
 //import toolkit.verification.CustomAssert;
 
 /**
@@ -50,6 +52,8 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table tableFormsSummary = new Table(By.id("policyDataGatherForm:formSummaryTableDetails"));
 	public static Table tablePolicyLevelLiabilityCoverages = new Table(By.id("policyDataGatherForm:policyCoverageDetail"));
 	public static ByT tableVehicleCoverageDetails = ByT.xpath("//table[@id='policyDataGatherForm:vehicle_detail_%s']");
+
+	public static StaticElement discountsAndSurcharges = new StaticElement(By.id("policyDataGatherForm:discountSurchargeSummaryTable"));
 
 	// -- old controls
 	public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:AAAPremiumSummary"));
@@ -111,6 +115,30 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	}
 
+	public TestData getRatingDetailsQuoteInfoData() {
+		if (!tableRatingDetailsQuoteInfo.isPresent()) {
+			RatingDetailsView.open();
+		}
+
+		Map<String, Object> map = new LinkedHashMap<>();
+		List<String> keys = tableRatingDetailsQuoteInfo.getColumn(1).getValue();
+		List<String> values = tableRatingDetailsQuoteInfo.getColumn(2).getValue();
+		assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
+
+		for (int i = 0; i < keys.size(); i++) {
+			map.put(keys.get(i), values.get(i));
+		}
+
+		keys = tableRatingDetailsQuoteInfo.getColumn(3).getValue();
+		values = tableRatingDetailsQuoteInfo.getColumn(4).getValue();
+		assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
+		for (int i = 0; i < keys.size(); i++) {
+			map.put(keys.get(i), values.get(i));
+		}
+
+		return new SimpleDataProvider(map);
+	}
+
 	@Override
 	public Tab fillTab(TestData td) {
 		super.fillTab(td);
@@ -169,7 +197,7 @@ public class PremiumAndCoveragesTab extends Tab {
 				}
 
 				//CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
-				CustomAssertions.assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
+				assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
 
 				for (int i = 0; i < keys.size(); i++) {
 					map.put(keys.get(i), values.get(i));
@@ -196,5 +224,9 @@ public class PremiumAndCoveragesTab extends Tab {
 		public static void close() {
 			buttonRatingDetailsOk.click();
 		}
+	}
+
+	public Dollar getPolicyCoveragePremium() {
+		return new Dollar(tablePolicyLevelLiabilityCoverages.getRow(1).getCell(3).getValue());
 	}
 }
