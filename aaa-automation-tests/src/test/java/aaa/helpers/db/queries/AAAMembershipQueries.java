@@ -4,6 +4,8 @@ import toolkit.db.DBService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class AAAMembershipQueries {
@@ -239,6 +241,43 @@ public class AAAMembershipQueries {
         DBService.get().executeUpdate(query);
     }
 
+    /**
+     * Changes the Membership Status *After* policy was created to specific status. <br>
+     * Does NOT support Quotes or Renewals.
+     * @param policyNumber is the policy number to query against.
+     * @param updatedStatus is what AAA Membership Status to set in the database.
+     * @throws IllegalArgumentException When given a Quote Number.
+     */
+    public static void updateLatestNewBusinessAAAMembershipStatusInSQL(String policyNumber, AAAMembershipStatus updatedStatus)
+            throws IllegalArgumentException {
+
+        if (isQuote(policyNumber)) {
+            throw new IllegalArgumentException("updateAAAMembershipStatusInSQL() does not support Quotes. " +
+                    "Arg policyNumber: " + policyNumber);
+        }
+
+        // If limitUpdateToNumberOfRows is null or less than 1, update all rows.
+        String rowLimiterLine = "fetch first row only";
+
+        String query =
+                String.format(
+                        "UPDATE %1s SET %2s = '%3s' " +
+                                "WHERE mse.id IN (" +
+                                "SELECT ms.id FROM policysummary ps " +
+                                "JOIN membershipsummaryentity ms ON ms.id = ps.membershipsummary_id " +
+                                "AND PS.policynumber='%4s' " +
+                                "AND ps.currentRevisionInd =1 " + //LINE ADDED SO QUERY DOESN'T APPLY TO PENDED ENDORSEMENTS INSTEAD OF POLICY. TOLD THIS WONT WORK FOR RENEWALS.
+                                "ORDER BY ps.EFFECTIVE DESC " + // Makes sure first returned row is latest DB Entry.
+                                "%5s)",
+                        "membershipsummaryentity mse",            //%1s
+                        "mse.membershipstatus",           //%2s
+                        updatedStatus.name(),             //%3s
+                        policyNumber,    //%4s
+                        rowLimiterLine );       //%5s
+
+        DBService.get().executeUpdate(query);
+    }
+
     public static void updatePriorAAAMembershipNumberInSQL(String policyNumber, String newMembershipNumber)
             throws IllegalArgumentException {
 
@@ -426,6 +465,40 @@ public class AAAMembershipQueries {
         String response = null;
         if(dbResponse.isPresent()){
             response = dbResponse.get();
+
+        }
+        return response;
+    }
+
+    public static Integer getNumberOfPendedEndorsements(String policyNumber) throws IllegalArgumentException {
+        String query = String.format("select " +
+                "p.id,p.policyNumber,p.policyStatusCd,p.txType " +
+                "from PolicySummary p " +
+                "left outer join premiumEntry pe on  p.id=pe.policySummary_id " +
+                "where p.txType = 'endorsement' " +
+                "and p.policyStatusCd in ('initiated','dataGather','rated') " +
+                "and p.policyNumber in ('" + policyNumber + "') " +
+                "and p.renewalCycle = 0 " +
+                "and (pe.premiumCd = 'GWT' or pe.premiumCd is null) " +
+                "and exists (select 1 from QuoteVersion qv where qv.policyId = p.id)");
+
+        List<Map<String, String>> dbResult =  DBService.get().getRows(query);
+        Integer responseLength = dbResult.size();
+        return responseLength;
+    }
+
+    public static String getEValueStatus(String policyNumber){
+        String query = "select evalueStatus from (\n"
+                + "  select ps.policynumber, emd.evaluestatus\n"
+                + "  from PolicySummary ps, AAAEMemberDetailsEntity emd\n"
+                + "  where ps.ememberdetail_id = emd.id\n"
+                + "  and ps.policynumber = '" + policyNumber + "'\n"
+                + "  order by emd.id desc)\n"
+                + "where rownum = 1";
+        Optional<String> dbResult =  DBService.get().getValue(query);
+        String response = null;
+        if(dbResult.isPresent()){
+            response = dbResult.get();
 
         }
         return response;

@@ -1,11 +1,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Financials Validation Test Suite - New Business" verbose="1" parallel="tests" thread-count="1024">
+<suite name="Finance Tests New Business" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
-
     <test name="New Business 1/2 - SS PUP" parallel="methods" thread-count="1024">
         <parameter name="state" value="KY, WV"/>
         <classes>
@@ -17,7 +16,6 @@
             </class>
         </classes>
     </test>
-
     <test name="New Business 3/4 - SS PUP" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -29,7 +27,6 @@
             </class>
         </classes>
     </test>
-
     <test name="New Business 1/2 - SS Auto" parallel="methods" thread-count="1024">
         <parameter name="state" value="KY, WV"/>
         <classes>
@@ -41,7 +38,6 @@
             </class>
         </classes>
     </test>
-
     <test name="New Business 3/4 - SS Auto" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -53,7 +49,6 @@
             </class>
         </classes>
     </test>
-
     <test name="New Business 5 - SS Auto Fees" parallel="methods" thread-count="1024">
         <parameter name="state" value="NJ, NY, WV"/>
         <classes>
@@ -64,7 +59,6 @@
             </class>
         </classes>
     </test>
-
     <test name="New Business 1/2 - SS DP3" parallel="methods" thread-count="1024">
         <parameter name="state" value="KY, WV"/>
         <classes>
@@ -76,7 +70,6 @@
             </class>
         </classes>
     </test>
-
     <test name="New Business 3/4 - SS DP3" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -88,7 +81,6 @@
             </class>
         </classes>
     </test>
-
     <test name="New Business 1/2 - SS HO3" parallel="methods" thread-count="1024">
         <parameter name="state" value="KY, WV"/>
         <classes>
@@ -100,7 +92,6 @@
             </class>
         </classes>
     </test>
-
     <test name="New Business 3/4 - SS HO3" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -112,7 +103,6 @@
             </class>
         </classes>
     </test>
-
     <test name="New Business 1/2 - SS HO4" parallel="methods" thread-count="1024">
         <parameter name="state" value="KY, WV"/>
         <classes>
@@ -124,7 +114,6 @@
             </class>
         </classes>
     </test>
-
     <test name="New Business 3/4 - SS HO4" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -136,7 +125,6 @@
             </class>
         </classes>
     </test>
-
     <test name="New Business 1/2 - SS HO6" parallel="methods" thread-count="1024">
         <parameter name="state" value="KY, WV"/>
         <classes>
@@ -148,7 +136,6 @@
             </class>
         </classes>
     </test>
-
     <test name="New Business 3/4 - SS HO6" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -160,65 +147,46 @@
             </class>
         </classes>
     </test>
-
-    <test name="New Business 6 - SS HO3" parallel="methods" thread-count="1024">
-        <parameter name="state" value="KY, WV, AZ, NJ"/>
-        <classes>
-            <class name="aaa.modules.financials.home_ss.ho3.TestNewBusiness">
-                <methods>
-                    <include name="testNewBusinessScenario_6"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
     <test name="New Business - CA PUP" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.pup.TestNewBusiness"/>
         </classes>
     </test>
-
     <test name="New Business - CA Choice" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.auto_ca.choice.TestNewBusiness"/>
         </classes>
     </test>
-
     <test name="New Business - CA Select" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.auto_ca.select.TestNewBusiness"/>
         </classes>
     </test>
-
     <test name="New Business - CA DP3" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.dp3.TestNewBusiness"/>
         </classes>
     </test>
-
     <test name="New Business - CA HO3" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.ho3.TestNewBusiness"/>
         </classes>
     </test>
-
     <test name="New Business - CA HO4" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.ho4.TestNewBusiness"/>
         </classes>
     </test>
-
     <test name="New Business - CA HO6" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.ho6.TestNewBusiness"/>
         </classes>
     </test>
-
 </suite>

@@ -14,6 +14,12 @@ GeneralTab: '@TwoNamedInsuredGeneralTab',
 DriverTab:  ['@Driver1','@Driver7']
 }
 
+TestData_Restrict_FNI_NB_PU_AZ: {
+  PrefillTab:  '@PrefillTab',
+  GeneralTab: '@ThreeNamedInsuredGeneralTab',
+  DriverTab:  ['@Driver1','@Driver7']
+}
+
 TwoNamedInsuredGeneralTab: {
   NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation2'],
   AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
@@ -22,15 +28,34 @@ TwoNamedInsuredGeneralTab: {
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
 }
 
+ThreeNamedInsuredGeneralTab: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation2', '@NamedInsuredInformation3'],
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
+}
+
 NamedInsuredInformation2: {
-Add: Click,
-InsuredSearchDialog: {},
-First Name: Steve,
-Last Name: Rogers,
-Social Security Number: 123456789,
-Insured Date of Birth: 12/12/1987,
-"Has lived here for less than three years?": 'No',
-Residence: Own Home
+  Add: Click,
+  InsuredSearchDialog: {},
+  First Name: Steve,
+  Last Name: Rogers,
+  Social Security Number: 123456789,
+  Insured Date of Birth: 12/12/1987,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
+}
+
+NamedInsuredInformation3: {
+  Add: Click,
+  InsuredSearchDialog: {},
+  First Name: Scott,
+  Last Name: Lang,
+  Social Security Number: 234567890,
+  Insured Date of Birth: 09/09/1980,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
 }
 
 TestData_PUDefaulting: {
@@ -237,10 +262,30 @@ Driver7: {
   ]
 }
 
+Driver8: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Named Insured: "Scott Lang",
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Sibling,
+#  Date of Birth: 09/09/1980,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Clergy,
+  License Type: "Licensed (US)",
+  License State: AZ,
+  "License Number": D88888888,
+  Age First Licensed: 18
+}
 
 ############### Add 5th Driver at endorsement
 Add_PU_Claim_Driver_Endorsement_AZ: {
   DriverTab: ['@Driver5'],
+}
+
+############### Add 5th Driver at endorsement
+Add_NI_Driver_Endorsement_AZ: {
+  DriverTab: ['@Driver8'],
 }
 
 TestData_Blank: {

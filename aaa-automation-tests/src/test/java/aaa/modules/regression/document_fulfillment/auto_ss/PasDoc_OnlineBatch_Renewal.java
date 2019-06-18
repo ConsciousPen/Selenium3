@@ -4,6 +4,8 @@ import static aaa.main.enums.DocGenEnum.Documents.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -65,6 +67,13 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(10));
 		JobUtils.executeJob(Jobs.preRenewalReminderGenerationAsyncJob);
+		//Workaround
+		try {
+			TimeUnit.MINUTES.sleep(2);
+		} catch (InterruptedException e) {
+			log.error(e.getMessage());
+		}
+		
 		PasDocImpl.verifyDocumentsGenerated(null, true, false, policyNumber, AHRRXX);		
 	}
 	
@@ -100,6 +109,7 @@ public class PasDoc_OnlineBatch_Renewal extends AutoSSBaseTest{
 		
 		//WORKAROUND: pay total due amount for policy without AutoPay (to avoid cancellation)
 		payPolicyTotalDueAmount(policyWithoutAutoPay);	
+		payPolicyTotalDueAmount(policyWithAutoPay);
 		
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);

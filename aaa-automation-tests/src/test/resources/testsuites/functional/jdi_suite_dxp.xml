@@ -837,19 +837,21 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="pas18643_CancelRemoveDriver (Revert Deleted Driver)" parallel="methods">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
-                <methods>
-                    <include name="pas18643_CancelRemoveDriverWithoutChangesPendingRemoval"/>
-                    <include name="pas18643_CancelRemoveDriverWithoutChangesDriverTypeChanged"/>
-                    <include name="pas18643_CancelRemoveDriverWithChangesPendingRemoval"/>
-                    <include name="pas18643_CancelRemoveDriverWithChangesDriverTypeChanged"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
+    <!--Commented out because Digital does not use Driver revert option. Tests should be uncommented when Digital starts to use this functionality-->
+    <!--Currently have bug PAS-30871 DXP: can not revert driver that is removed using removal reason code RD1003/RD1004 related to this.-->
+    <!--<test thread-count="1024" name="pas18643_CancelRemoveDriver (Revert Deleted Driver)" parallel="methods">-->
+        <!--<parameter name="state" value="VA"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">-->
+                <!--<methods>-->
+                    <!--<include name="pas18643_CancelRemoveDriverWithoutChangesPendingRemoval"/>-->
+                    <!--<include name="pas18643_CancelRemoveDriverWithoutChangesDriverTypeChanged"/>-->
+                    <!--<include name="pas18643_CancelRemoveDriverWithChangesPendingRemoval"/>-->
+                    <!--<include name="pas18643_CancelRemoveDriverWithChangesDriverTypeChanged"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
     <test thread-count="1024" name="Revert Deleted/Replaced Vehicle" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
@@ -1332,6 +1334,8 @@
                     <include name="pas11618_UpdateVehicleLeasedInfo"/>
                     <include name="pas11618_UpdateVehicleFinancedInfo"/>
                     <include name="pas13252_UpdateVehicleGaragingAddressProblem"/>
+                    <include name="pas29136_vehicleDeleteCA"/>
+                    <include name="pas14497_TransactionInformationForEndorsementsReplaceVehicleCA"/>
                 </methods>
             </class>
         </classes>

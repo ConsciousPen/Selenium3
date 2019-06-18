@@ -242,7 +242,7 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
 						"S", "male", "2000-01-01", 16, "CA", "B1234567", driver));
 		viewDriversResponse.driverList.stream().filter(driver -> "Iseult".equals(driver.firstName)).findFirst().ifPresent(driver ->
 				validateExistingDriver("Iseult", "Branwen", "Not a Named Insured", "afr", "CH",
-						"S", "female", "2000-05-01", 16, "CA", "A1234567", driver));
+						"S", "female", "2003-05-01", 16, "CA", "A1234567", driver));
 		viewDriversResponse.driverList.stream().filter(driver -> "Iona".equals(driver.firstName)).findFirst().ifPresent(driver ->
 				validateExistingDriver("Iona", "Branwen", "Not a Named Insured", "nafr", "CH",
 						"S", "female", "2000-05-01", 16, "CA", "G1234567", driver));
@@ -285,7 +285,7 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
 			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "firstName", false, true, true, null, "String");
 			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "middleName", false, true, false, null, "String");
 			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "lastName", false, true, true, null, "String");
-			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "birthDate", true, true, true, null, "Date");
+			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "birthDate", false, true, true, null, "Date");
 
 			AttributeMetadata metaDataFieldResponseGender = getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "gender", true, true, true, null, "String");
 			softly.assertThat(metaDataFieldResponseGender.valueRange.get("male")).isEqualTo("Male");

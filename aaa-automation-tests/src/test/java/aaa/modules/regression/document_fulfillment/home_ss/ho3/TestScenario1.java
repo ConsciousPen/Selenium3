@@ -5,7 +5,6 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-
 import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
@@ -46,7 +45,7 @@ public class TestScenario1 extends HomeSSHO3BaseTest {
 		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
 		//TODO aperapecha: DocGen - remove shift after upgrade
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(3));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, DocGenEnum.Documents.AH62XX);
 	}

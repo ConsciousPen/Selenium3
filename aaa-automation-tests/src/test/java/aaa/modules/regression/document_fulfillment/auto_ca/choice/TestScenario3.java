@@ -3,7 +3,6 @@ package aaa.modules.regression.document_fulfillment.auto_ca.choice;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
@@ -26,7 +25,7 @@ public class TestScenario3 extends AutoCaChoiceBaseTest {
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData_SubstantialIncrease"));
 
 		//TODO aperapecha: DocGen - remove shift after upgrade
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(3));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH61XX);
 
@@ -36,7 +35,7 @@ public class TestScenario3 extends AutoCaChoiceBaseTest {
 
 		policy.reinstate().perform(getTestSpecificTD("TestData_Reinstate"));
 		//TODO aperapecha: DocGen - remove shift after upgrade
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(3));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH62XX);
 	}

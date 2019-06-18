@@ -3,6 +3,7 @@ package aaa.modules.preconditions;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
 import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
+import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 
 public class AddJob {
@@ -39,5 +40,6 @@ public class AddJob {
 		if (!service.isJobExist(JobGroup.fromSingleJob(Jobs.ledgerStatusUpdateJob.getJobName()))) {
 			service.createJob(JobGroup.fromSingleJob(Jobs.ledgerStatusUpdateJob.getJobName()));
 		}
+		JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
 	}
 }

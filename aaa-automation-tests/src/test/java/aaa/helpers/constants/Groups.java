@@ -21,6 +21,10 @@ public class Groups {
 	public static final String JDI              = "JDI";
 	public static final String CIO              = "CIO";
 	public static final String SCRUM_N_TONIC    = "SCRUM N TONIC";
-	public static final String UNINCORNS        = "UNICORNS";
+	public static final String UNICORNS        	= "UNICORNS";
 	public static final String SCORPIONS        = "SCORPIONS";
+
+	public static final String MEMBERSHIP		= "Membership";
+	public static final String MPD				= "MPD";
+	public static final String EVALUE			= "EVALUE";
 }
