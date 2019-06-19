@@ -75,7 +75,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
     @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921"})
     public void pas30921_testMajorMovingViolation(@Optional("CA") String state) {
 
-        validateProductType("OneMajor");
+        validateProductDetermination("OneMajor");
 
     }
 
@@ -96,7 +96,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
     @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921"})
     public void pas30921_testThreeMinorMovingViolations(@Optional("CA") String state) {
 
-        validateProductType("ThreeMinor");
+        validateProductDetermination("ThreeMinor");
 
     }
 
@@ -288,16 +288,16 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
         // Validate product type is Choice
         validateProductType(CHOICE);
 
-        // Change date of most recent activity to qualify for Select
+        // Change date of oldest activity to push it out of 36 month window
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         String newDate = driverTab.getEffectiveDate().minusMonths(37).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-        LocalDate mostRecentDate = LocalDate.of(1900, Month.JANUARY, 1);
+        LocalDate oldestDate = LocalDate.of(2500, Month.JANUARY, 1);
         int row = 0;
         for (int i = 1; i <= DriverTab.tableActivityInformationList.getRowsCount(); i++) {
             String thisRowDateString = DriverTab.tableActivityInformationList.getRow(1).getCell("Date").getValue().substring(0, 10);
             LocalDate thisRowDate = LocalDate.parse(thisRowDateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-            if (thisRowDate.isAfter(mostRecentDate)) {
-                //                mostRecentDate = thisRowDate;
+            if (thisRowDate.isBefore(oldestDate)) {
+                oldestDate = thisRowDate;
                 row = i;
             }
         }
@@ -307,7 +307,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
         if (driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.REINSTATEMENT_DATE).isPresent()) {
             dateField = driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.REINSTATEMENT_DATE);
         } else {
-            dateField = driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CONVICTION_DATE);
+            dateField = driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE);
         }
         dateField.setValue(newDate);
 
