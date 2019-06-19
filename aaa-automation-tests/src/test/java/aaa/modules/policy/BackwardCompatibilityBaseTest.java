@@ -51,7 +51,7 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		JobGroup jobGroup = JobGroup.fromSingleJob(JobUtils.convertToIpb(job));
 		SoapJobActions soapJobActions = new SoapJobActions();
 
-		if(soapJobActions.isJobExist(jobGroup)){
+		if(!soapJobActions.isJobExist(jobGroup)){
 			soapJobActions.createJob(jobGroup);
 		}
 		soapJobActions.startJob(jobGroup);
