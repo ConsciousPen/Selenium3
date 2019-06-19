@@ -35,8 +35,6 @@
                     <include name="pas28480_AA52COA_UMBIUpdateInPAS"/>
                     <include name="pas28481_AA52COB_UMBIUpdateInDXP"/>
                     <include name="pas28481_AA52COB_UMBIUpdateInPAS"/>
-                    <include name="pas28573_rfiAA52AZUpdateUMInPASDocumentNotTriggered"/>
-                    <include name="pas28573_rfiAA52AZUpdateUIMInPASDocumentNotTriggered"/>
                 </methods>
             </class>
         </classes>
