@@ -35,10 +35,7 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
     private enum eThresholdTest {BEFORE, ON, AFTER}
     private enum eMembershipType {ACTIVE, CANCELLED}
     private static int CATCHUP_TIMEFRAME_VALUE = 4;
-    private boolean _bExpectingPolicyToBeProcessed;
 
-    private String _storedPolicyNumber;
-    private LocalDateTime _policyEffectiveDate;
     private GeneralTab _generalTab = new GeneralTab();
     private PurchaseTab _purchaseTab = new PurchaseTab();
 
@@ -147,9 +144,8 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
     /**
      * Initiate the test. Open the app, create a customer and initiate a quote.
      */
-    private void prepareForPolicyCreation(TestData in_td, boolean in_bExpectingPolicyToBeProcessed){
+    private void prepareForPolicyCreation(TestData in_td){
         createQuoteAndFillUpTo(in_td, GeneralTab.class, true);
-        _bExpectingPolicyToBeProcessed = in_bExpectingPolicyToBeProcessed;
     }
 
     /**
@@ -157,7 +153,7 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
      * @param bHasMembership Should the test add a AAA Membership?
      * @param bHasMPD Should the test add MPD?
      */
-    private void handlePolicyCreation(TestData in_td, Boolean bHasMembership, Boolean bHasMPD, eMembershipType membershipType){
+    private String handlePolicyCreation(TestData in_td, Boolean bHasMembership, Boolean bHasMPD, eMembershipType membershipType){
         if(bHasMembership){
             addMembershipToGeneralTab(membershipType);
         }
@@ -174,8 +170,8 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         new ErrorTab().overrideAllErrors();
         _purchaseTab.fillTab(in_td);
         _purchaseTab.submitTab();
-        _storedPolicyNumber = PolicySummaryPage.getPolicyNumber();
-        _policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+        return PolicySummaryPage.getPolicyNumber();
+        //_policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
     }
 
     private void addPendedEndorsement(){
@@ -190,18 +186,18 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled();
     }
 
-    private void advanceJVMToTimepoint(eTimepoints STG_N, Integer in_daysAfterNB, eThresholdTest in_typeOfBoundryTest){
+    private void advanceJVMToTimepoint(eTimepoints STG_N, Integer in_daysAfterNB, eThresholdTest in_typeOfBoundryTest, LocalDateTime policyEffDate){
         // Move JVM to appropriate Stage.
         LocalDateTime date = null;
         switch(STG_N){
             case STG1:
-                date = _policyEffectiveDate.plusDays(15 + in_daysAfterNB);
+                date = policyEffDate.plusDays(15 + in_daysAfterNB);
                 break;
             case STG2:
-                date = _policyEffectiveDate.plusDays(30 + in_daysAfterNB);
+                date = policyEffDate.plusDays(30 + in_daysAfterNB);
                 break;
             default:
-                CustomAssertions.fail("STG_N has an unexpected/unhandled value: " + STG_N.toString());
+                CustomAssertions.fail("STG_N has an unexpected/unhandled value: " + STG_N);
                 break;
         }
 
@@ -226,10 +222,10 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         // Get System date. Is JVM within desired timeframe for test?
         LocalDateTime nbDate = null;
         if (STG_N == eTimepoints.STG1){
-            nbDate = _policyEffectiveDate.plusDays(15);
+            nbDate = policyEffDate.plusDays(15);
         }
         if (STG_N == eTimepoints.STG2){
-            nbDate = _policyEffectiveDate.plusDays(30);
+            nbDate = policyEffDate.plusDays(30);
         }
 
         LocalDateTime thresholdMaxDate = nbDate.plusDays(CATCHUP_TIMEFRAME_VALUE);
@@ -260,9 +256,9 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
 
     }
 
-    private void runBatchJobs(eTimepoints STG_N, boolean bSetMembershipActive){
+    private void runBatchJobs(eTimepoints STG_N, boolean bSetMembershipActive, String policyNumber){
         if(bSetMembershipActive){
-            AAAMembershipQueries.updateLatestNewBusinessAAAMembershipStatusInSQL(_storedPolicyNumber, AAAMembershipQueries.AAAMembershipStatus.ACTIVE);
+            AAAMembershipQueries.updateLatestNewBusinessAAAMembershipStatusInSQL(policyNumber, AAAMembershipQueries.AAAMembershipStatus.ACTIVE);
         }
 
         switch(STG_N){
@@ -280,8 +276,8 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         }
     }
 
-    private void queryDBForNumberOfPendingEndorsements(Boolean bShouldEndorsementsBeDeleted){
-        Integer numberOfRowsReturnedFromQuery = AAAMembershipQueries.getNumberOfPendedEndorsements(_storedPolicyNumber);
+    private void queryDBForNumberOfPendingEndorsements(Boolean bShouldEndorsementsBeDeleted, String policyNumber){
+        Integer numberOfRowsReturnedFromQuery = AAAMembershipQueries.getNumberOfPendedEndorsements(policyNumber);
 
         if(bShouldEndorsementsBeDeleted){
             assertThat(numberOfRowsReturnedFromQuery).isEqualTo(0);
@@ -291,9 +287,9 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         }
     }
 
-    private void assertPolicyProcessedStatus(){
-        java.util.Optional<AAAMembershipQueries.AAABestMembershipStatus> dbResponse = AAAMembershipQueries.getAAABestMembershipStatusFromSQL(_storedPolicyNumber);
-        if(_bExpectingPolicyToBeProcessed){
+    private void assertPolicyProcessedStatus(String policyNumber, Boolean expectingPolicyToBeProcessed){
+        java.util.Optional<AAAMembershipQueries.AAABestMembershipStatus> dbResponse = AAAMembershipQueries.getAAABestMembershipStatusFromSQL(policyNumber);
+        if(expectingPolicyToBeProcessed){
 
             assertThat(dbResponse.toString()).containsIgnoringCase("FOUND");
         }
@@ -323,39 +319,39 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH).click();
     }
 
-    private void doMembershipTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean in_bExpectingPolicyToBeProcessed){
-        _bExpectingPolicyToBeProcessed = in_bExpectingPolicyToBeProcessed;
+    private void doMembershipTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean expectingPolicyToBeProcessed){
         TestData testLevelTD = prepareTestData();
-        prepareForPolicyCreation(testLevelTD, in_bExpectingPolicyToBeProcessed);
-        handlePolicyCreation(testLevelTD, true, false, eMembershipType.CANCELLED);
+        prepareForPolicyCreation(testLevelTD);
+        String policyNumber = handlePolicyCreation(testLevelTD, true, false, eMembershipType.CANCELLED);
+        LocalDateTime policyEffDate = PolicySummaryPage.getEffectiveDate();
         addPendedEndorsement();
         validatePendedEndorsementPresent();
-        advanceJVMToTimepoint(in_stg_x, in_daysAfterNB, in_typeOfBoundryTest);
-        runBatchJobs(in_stg_x, false);
-        assertPolicyProcessedStatus();
-        queryDBForNumberOfPendingEndorsements(_bExpectingPolicyToBeProcessed);
+        advanceJVMToTimepoint(in_stg_x, in_daysAfterNB, in_typeOfBoundryTest, policyEffDate);
+        runBatchJobs(in_stg_x, false, policyNumber);
+        assertPolicyProcessedStatus(policyNumber, expectingPolicyToBeProcessed);
+        queryDBForNumberOfPendingEndorsements(expectingPolicyToBeProcessed, policyNumber);
     }
 
-    private void doMPDTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean in_bExpectingPolicyToBeProcessed){
-        _bExpectingPolicyToBeProcessed = in_bExpectingPolicyToBeProcessed;
+    private void doMPDTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean expectingPolicyToBeProcessed){
         TestData testLevelTD = prepareTestData();
-        prepareForPolicyCreation(testLevelTD, in_bExpectingPolicyToBeProcessed);
-        handlePolicyCreation(testLevelTD, true, true, eMembershipType.CANCELLED);
+        prepareForPolicyCreation(testLevelTD);
+        String policyNumber = handlePolicyCreation(testLevelTD, true, true, eMembershipType.CANCELLED);
+        LocalDateTime policyEffDate = PolicySummaryPage.getEffectiveDate();
         addPendedEndorsement();
         validatePendedEndorsementPresent();
-        advanceJVMToTimepoint(in_stg_x, in_daysAfterNB, in_typeOfBoundryTest);
-        runBatchJobs(in_stg_x, false);
-        assertPolicyProcessedStatus();
-        queryDBForNumberOfPendingEndorsements(_bExpectingPolicyToBeProcessed);
+        advanceJVMToTimepoint(in_stg_x, in_daysAfterNB, in_typeOfBoundryTest, policyEffDate);
+        runBatchJobs(in_stg_x, false, policyNumber);
+        assertPolicyProcessedStatus(policyNumber, expectingPolicyToBeProcessed);
+        queryDBForNumberOfPendingEndorsements(expectingPolicyToBeProcessed, policyNumber);
     }
 
-    private void doActiveMembershipNotPickedUpTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean in_bExpectingPolicyToBeProcessed){
-        _bExpectingPolicyToBeProcessed = in_bExpectingPolicyToBeProcessed;
+    private void doActiveMembershipNotPickedUpTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean expectingPolicyToBeProcessed){
         TestData testLevelTD = prepareTestData();
-        prepareForPolicyCreation(testLevelTD, in_bExpectingPolicyToBeProcessed);
-        handlePolicyCreation(testLevelTD, true, false, eMembershipType.ACTIVE);
-        advanceJVMToTimepoint(in_stg_x, in_daysAfterNB, in_typeOfBoundryTest);
-        runBatchJobs(in_stg_x, true);
-        assertPolicyProcessedStatus();
+        prepareForPolicyCreation(testLevelTD);
+        String policyNumber = handlePolicyCreation(testLevelTD, true, false, eMembershipType.ACTIVE);
+        LocalDateTime policyEffDate = PolicySummaryPage.getEffectiveDate();
+        advanceJVMToTimepoint(in_stg_x, in_daysAfterNB, in_typeOfBoundryTest, policyEffDate);
+        runBatchJobs(in_stg_x, true, policyNumber);
+        assertPolicyProcessedStatus(policyNumber, expectingPolicyToBeProcessed);
     }
 }
