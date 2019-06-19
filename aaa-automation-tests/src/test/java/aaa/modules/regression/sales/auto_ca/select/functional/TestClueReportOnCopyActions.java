@@ -42,7 +42,7 @@ public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemp
      * @details
      */
     @Parameters({"state"})
-   // @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-8271")
     public void pas8271_testClueReportOnCopyPolicyActionCA_Select(@Optional("CA") String state) {
 
