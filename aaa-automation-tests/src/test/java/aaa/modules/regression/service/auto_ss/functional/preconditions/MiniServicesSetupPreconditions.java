@@ -60,7 +60,7 @@ public class MiniServicesSetupPreconditions {
 			+ "values((SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAAPortalCoveragesSettings'), 'AAAPortalCoveragesSettingsLookupValue', 'coverageEditable', 'TRUE', 'AAA_SS', '%s', '%s')";
 
 	public static final String AAA_LOOKUP_CONFIG_ENABLE_CANCHANGE_FOR_STATE_COVERAGE_UPDATE = "UPDATE PASADM.LOOKUPVALUE SET DISPLAYVALUE = 'TRUE' WHERE DTYPE = 'AAAPortalCoveragesSettingsLookupValue'\n"
-			+ "AND PRODUCTCD = 'AAA_SS' AND RISKSTATECD = '%s' AND COVERAGECD = '%s';";
+			+ "AND PRODUCTCD = 'AAA_SS' AND RISKSTATECD = '%s' AND COVERAGECD = '%s'";
 
 	public static final String AAA_LOOKUP_CONFIG_GET_CANCHANGE_FOR_STATE_COVERAGE = "select * from LOOKUPVALUE WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAAPortalCoveragesSettings'\n)"
 			+ "and CODE = 'coverageEditable' and riskstatecd = '%s'\n"
