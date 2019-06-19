@@ -156,7 +156,7 @@ public class PasDocImpl extends DocumentWrapper {
 
 		for (DocGenEnum.Documents document : documents) {
 			String docPolicyNum = documentGenerationRequest.getDocumentData().getPolicyNumber();
-			Document doc = documentGenerationRequest.getDocuments().stream().filter(document1 -> document1.getTemplateId().equals(document.getIdInXml())).findFirst().orElse(null);
+			Document doc = documentGenerationRequest.findDocument(document);
 			String errorMessagePolicy = String.format("Policy number in generated document '%s' doesn't match expected '%s'", docPolicyNum, policyNumber);
 			String errorMessageDocId;
 			if (doc != null) {
