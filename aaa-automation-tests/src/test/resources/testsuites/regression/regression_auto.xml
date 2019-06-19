@@ -514,7 +514,6 @@
                     <exclude name="pas6313_Validate_Membership_Override_NB15NB30"/>
                 </methods>
             </class>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestProductDetermination"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
                 <methods>
                     <include name="pas14162_endorsementsComparisonPremiumAndCoverages"/>
