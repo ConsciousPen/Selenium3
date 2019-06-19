@@ -207,16 +207,19 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
 
         // Handle the fact that the job doesn't run on the weekends.
         if(date.getDayOfWeek()== DayOfWeek.SATURDAY){
-            date = date.minusDays(1);
+            if (in_daysAfterNB == CATCHUP_TIMEFRAME_VALUE + 1) {
+                date = date.plusDays(2);
+            } else {
+                date = date.minusDays(1);
+            }
             log.debug(String.format("QALOGS -> Moving to new date = %s", date.toString()));
         }
         if(date.getDayOfWeek()== DayOfWeek.SUNDAY){
-            if (in_daysAfterNB == CATCHUP_TIMEFRAME_VALUE - 1 || in_daysAfterNB == CATCHUP_TIMEFRAME_VALUE + 1) {
-                date = date.plusDays(1);
-            } else {
+            if (in_daysAfterNB == CATCHUP_TIMEFRAME_VALUE) {
                 date = date.minusDays(2);
+            } else {
+                date = date.plusDays(1);
             }
-            date = date.plusDays(1);
             log.debug(String.format("QALOGS -> Moving to new date = %s", date.toString()));
         }
 
