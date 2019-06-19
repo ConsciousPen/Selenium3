@@ -33,4 +33,9 @@ public class MiniServicesSetupEnableCoverages extends MiniServicesSetup {
 	public static void enableUMBIForCT() {
 		enableCoverageForState(Constants.States.CT, "UMBI");
 	}
+
+	@Test(description = "Enabling 'canChange' for UIMCONV for CT on test environment", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public static void enableUIMCONVForCT() {
+		enableCoverageForState(Constants.States.CT, "UIMCONV");
+	}
 }

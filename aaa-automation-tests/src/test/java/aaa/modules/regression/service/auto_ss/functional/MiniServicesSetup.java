@@ -10,7 +10,7 @@ import aaa.helpers.listeners.AaaTestListener;
 import aaa.modules.regression.service.auto_ss.functional.preconditions.MiniServicesSetupPreconditions;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
-import static toolkit.verification.CustomAssertions.assertThat;
+import static aaa.modules.BaseTest.printToLog;
 
 @Listeners({AaaTestListener.class})
 public class MiniServicesSetup extends MiniServicesSetupPreconditions {
@@ -64,10 +64,14 @@ public class MiniServicesSetup extends MiniServicesSetupPreconditions {
 	}
 
 	protected static void enableCoverageForState(String state, String coverageCd) {
-		//check that the coverage is Disabled by default for the state
-		assertThat(DBService.get().executeUpdate(String.format(AAA_LOOKUP_CONFIG_GET_CANCHANGE_FOR_STATE_COVERAGE, state, coverageCd)))
-				.as("Is (and should) 'canChange' enabled for " + coverageCd + " for " + state + "? If so, please remove this precondition as it is no more needed.").isEqualTo(0);
-		//enable the Coverage for the State
-		DBService.get().executeUpdate(String.format(AAA_LOOKUP_CONFIG_ENABLE_CANCHANGE_FOR_STATE_COVERAGE, state, coverageCd));
+		if (DBService.get().executeUpdate(String.format(AAA_LOOKUP_CONFIG_GET_CANCHANGE_FOR_STATE_COVERAGE, state, coverageCd)) == 0) {
+			printToLog("Configuration does not exist for the Coverage. Inserting new configuration...");
+			DBService.get().executeUpdate(String.format(AAA_LOOKUP_CONFIG_ENABLE_CANCHANGE_FOR_STATE_COVERAGE_INSERT, state, coverageCd));
+			printToLog("...configuration inserted for the Coverage.");
+		} else {
+			printToLog("Configuration already exist for the Coverage. Updating existing configuration...");
+			DBService.get().executeUpdate(String.format(AAA_LOOKUP_CONFIG_ENABLE_CANCHANGE_FOR_STATE_COVERAGE_UPDATE, state, coverageCd));
+			printToLog("...configuration updated for the Coverage.");
+		}
 	}
 }
