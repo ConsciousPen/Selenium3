@@ -117,7 +117,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     private static final String PU_CLAIMS_DEFAULTING_2ND_DATA_MODEL = "pu_claims_defaulting_2nd_data_model.yaml"; //TODO: will be used after PAS-26322
     protected boolean updatePUFlag = false;
     protected boolean secondDriverFlag = false;
-    protected boolean newBusinessFlag = false;
+    protected boolean fillContactInfo = false;
     protected boolean MDD = false;
     private static final String RESTRICT_FNI_MASSAGE = "The select named insured has not been established as a \"named insured driver\" on the driver tab";
 
@@ -304,7 +304,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
             Page.dialogConfirmation.confirm();
         }
         //Reset Contact Info - blanks out after FNI change at New Business
-        if (newBusinessFlag) {
+        if (fillContactInfo) {
             generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue("6025557777");
             generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
         }
@@ -1250,7 +1250,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         createQuoteAndFillUpTo(adjusted, DriverTab.class);
 
         //Navigate to the General Tab and change the FNI to the second insured (Steve)
-        newBusinessFlag = true;
+        fillContactInfo = true;
         changeFNIGeneralTab(1);  //Index starts at 0
 
         //Assert that the PU claims have moved to the new FNI (Steve) and has a total of 3 claims now (one existing)
@@ -1282,7 +1282,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
         //Change FNI back to First Insured (Nicolas)
-        newBusinessFlag = false;
+        fillContactInfo = false;
         changeFNIGeneralTab(1);
 
         //On Driver tab, assert the PU claims all move back to original FNI, Nicolas: 3 Violations, 2 PU claims
@@ -1471,24 +1471,31 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         purchaseTab.fillTab(adjusted).submitTab();
         policyNumber = labelPolicyNumber.getValue();
 
-       //Initiate Endorsement
+       //Initiate Endorsement - Add the second driver for the named insured
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        //Change the FNI to second named insured
-        generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(1);
-        Page.dialogConfirmation.confirm();
         generalTab.viewInsured(2);
-        generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue("6025557777");
-        generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
-        generalTab.submitTab();
-        //Add the second driver for the named insured
-        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
-
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         policy.getDefaultView().fillUpTo(getTestSpecificTD("Add_Driver2_EndorsementUWRules"), DriverTab.class, true);
+//        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
+
+        //Change the FNI to second named insured
+        fillContactInfo = true;
+        changeFNIGeneralTab(1);
+//        generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(1);
+//        Page.dialogConfirmation.confirm();
+//        generalTab.viewInsured(2);
+//        generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue("6025557777");
+//        generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
+//        generalTab.submitTab();
+//        policy.getDefaultView().fillUpTo(getTestSpecificTD("Add_Driver2_EndorsementUWRules"), DriverTab.class, true);
+        tableDriverList.selectRow(2);
+        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         premiumAndCoveragesTab.calculatePremium();
         premiumAndCoveragesTab.submitTab();
         driverActivityReportsTab.fillTab(getTestSpecificTD("Add_Driver2_EndorsementUWRules"));
+
+
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         tableDriverList.selectRow(1);
         driverTab.fillTab(getTestSpecificTD("DriverTab_EndorsementActivity_UWRules"));

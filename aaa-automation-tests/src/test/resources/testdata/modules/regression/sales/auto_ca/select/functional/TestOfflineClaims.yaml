@@ -542,7 +542,7 @@ Driver11: {
   DriverSearchDialog:{},
   Named Insured: "Kathy Smith",
   Driver Type: Available for Rating,
-  'Rel. to First Named Insured': First Named Insured,
+  'Rel. to First Named Insured': Other,
 #  Date of Birth: 07/04/1980,
   Gender: Female,
   Marital Status: Married,
