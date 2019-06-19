@@ -11,12 +11,15 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
+import aaa.helpers.mock.ApplicationMocksManager;
+import aaa.main.enums.OS;
 import toolkit.exceptions.IstfException;
 
 public final class RemoteHelper {
@@ -26,6 +29,7 @@ public final class RemoteHelper {
 
 	private ConnectionParams connectionParams;
 	private Ssh ssh;
+	private static OS currentOS;
 
 	private RemoteHelper(ConnectionParams connectionParams) {
 		this.connectionParams = connectionParams;
@@ -287,7 +291,7 @@ public final class RemoteHelper {
 		log.info("Found file(s): {} after {} milliseconds", foundFiles, searchTime);
 		return foundFiles;
 	}
-	
+
 	/**
 	 * Wait and check document(s) with <b>textsToSearchPatterns</b> is appeared in <b>sourceFolder</b>
 	 * @param sourceFolder		folder where file(s) search will be performed
@@ -316,8 +320,8 @@ public final class RemoteHelper {
 			}
 		}
 		while (timeout > System.currentTimeMillis());
-		
-		return isDocGenerated; 
+
+		return isDocGenerated;
 	}
 
 	public LocalDateTime getLastModifiedTime(String path) {
@@ -327,11 +331,29 @@ public final class RemoteHelper {
 
 	public List<String> getFilesListBySearchPattern(String sourceFolder, String fileExtension, List<String> textsToSearchPatterns) {
 		StringBuilder grepCmd = new StringBuilder();
-		for (String textToSearch : textsToSearchPatterns) {
-			grepCmd.append(" | xargs -r grep -li '").append(textToSearch).append("'");
+		String correctedFileExtension = fileExtension == null ? "*" : fileExtension;
+		String cmd;
+		switch (ApplicationMocksManager.getCurrentOS()) {
+			case WINDOWS:
+				for (String textToSearch : textsToSearchPatterns) {
+					grepCmd.append(" findstr /s /i /m \"").append(textToSearch).append("\" *./FILE_EXTENSION/ |");
+				}
+				cmd = StringUtils.removeEnd(String.format("cmd /c cd %1$s && %2$s",
+						sourceFolder, grepCmd.toString()).replace("/FILE_EXTENSION/", correctedFileExtension),"|");
+				break;
+			case LINUX:
+			case MAC_OS:
+				for (String textToSearch : textsToSearchPatterns) {
+					grepCmd.append(" | xargs -r grep -li '").append(textToSearch).append("'");
+				}
+
+				cmd = String.format("cd %1$s; find . -type f -iname '*.%2$s' -print%3$s | xargs -r ls -t | xargs -r readlink -f", sourceFolder,
+						correctedFileExtension, grepCmd.toString());
+				break;
+			case UNKNOWN:
+			default:
+				throw new IstfException(String.format("Unknown OS %s, unable to execute command",ApplicationMocksManager.getCurrentOS()));
 		}
-		String cmd = String.format("cd %1$s; find . -type f -iname '*.%2$s' -print%3$s | xargs -r ls -t | xargs -r readlink -f", sourceFolder,
-				fileExtension == null ? "*" : fileExtension, grepCmd.toString());
 		String commandOutput = executeCommand(cmd).getOutput();
 		return !commandOutput.isEmpty() ? Arrays.asList(commandOutput.split("\n")) : new ArrayList<>();
 	}

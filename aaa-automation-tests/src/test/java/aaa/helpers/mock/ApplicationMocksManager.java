@@ -1,5 +1,6 @@
 package aaa.helpers.mock;
 
+import static aaa.main.enums.OS.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +23,7 @@ import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.ssh.CommandResults;
 import aaa.helpers.ssh.ExecutionParams;
 import aaa.helpers.ssh.RemoteHelper;
+import aaa.main.enums.OS;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
 import aaa.utils.excel.bind.ReflectionHelper;
 import toolkit.config.PropertyProvider;
@@ -145,13 +147,13 @@ public class ApplicationMocksManager {
 		if (currentOS == null) {
 			String osType = getRemoteHelper().executeCommand("uname -s").getOutput();
 			if (osType.contains("Unable to execute command or shell on remote system") || osType.contains("CYGWIN") || osType.contains("MINGW32") || osType.contains("MSYS")) {
-				currentOS = OS.WINDOWS;
+				currentOS = WINDOWS;
 			} else if (osType.contains("Linux")) {
-				currentOS = OS.LINUX;
+				currentOS = LINUX;
 			} else if (osType.contains("Darwin")) {
-				currentOS = OS.MAC_OS;
+				currentOS = MAC_OS;
 			} else {
-				currentOS = OS.UNKNOWN;
+				currentOS = UNKNOWN;
 			}
 		}
 		return currentOS;
@@ -246,12 +248,5 @@ public class ApplicationMocksManager {
 
 	private static class TimeSetterClientHolder {
 		private static final TimeSetterClient timeSetterClient = new TimeSetterClient();
-	}
-
-	private enum OS {
-		WINDOWS,
-		LINUX,
-		MAC_OS,
-		UNKNOWN
 	}
 }
