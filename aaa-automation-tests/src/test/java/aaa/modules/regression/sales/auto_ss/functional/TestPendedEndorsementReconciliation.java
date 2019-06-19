@@ -14,20 +14,14 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.openqa.selenium.By;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
-import toolkit.webdriver.controls.CheckBox;
-
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
@@ -43,8 +37,8 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
     private static int CATCHUP_TIMEFRAME_VALUE = 4;
     private boolean _bExpectingPolicyToBeProcessed = true;
 
-    private String _storedPolicyNumber = null;
-    private LocalDateTime _policyEffectiveDate = null;
+    private String _storedPolicyNumber;
+    private LocalDateTime _policyEffectiveDate;
     private GeneralTab _generalTab = new GeneralTab();
     private PurchaseTab _purchaseTab = new PurchaseTab();
 
@@ -213,17 +207,20 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
 
         // Handle the fact that the job doesn't run on the weekends.
         if(date.getDayOfWeek()== DayOfWeek.SATURDAY){
-            date = date.plusDays(2);
+            date = date.minusDays(1);
             log.debug(String.format("QALOGS -> Moving to new date = %s", date.toString()));
         }
         if(date.getDayOfWeek()== DayOfWeek.SUNDAY){
+            if (in_daysAfterNB == CATCHUP_TIMEFRAME_VALUE - 1 || in_daysAfterNB == CATCHUP_TIMEFRAME_VALUE + 1) {
+                date = date.plusDays(1);
+            } else {
+                date = date.minusDays(2);
+            }
             date = date.plusDays(1);
             log.debug(String.format("QALOGS -> Moving to new date = %s", date.toString()));
         }
-        TimeSetterUtil.getInstance().nextPhase(date);
 
         // Get System date. Is JVM within desired timeframe for test?
-        LocalDateTime rightNow = TimeSetterUtil.getInstance().getCurrentTime();
         LocalDateTime nbDate = null;
         if (STG_N == eTimepoints.STG1){
             nbDate = _policyEffectiveDate.plusDays(15);
@@ -236,30 +233,27 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
 
         switch(in_typeOfBoundryTest){
             case BEFORE:
-                CustomAssertions.assertThat(rightNow).isAfter(nbDate);
-                CustomAssertions.assertThat(rightNow).isBefore(thresholdMaxDate);
+                assertThat(date).isAfter(nbDate);
+                assertThat(date).isBeforeOrEqualTo(thresholdMaxDate);
                 log.debug(String.format("QALOGS -> VALIDATED SYSTEM DATE (%s) IS AFTER %s and BEFORE the threshold cut off on %s.",
-                        rightNow.toLocalDate().toString(), nbDate.toString(), thresholdMaxDate.toString()));
+                        date.toLocalDate().toString(), nbDate.toString(), thresholdMaxDate.toString()));
                 break;
             case ON:
-                CustomAssertions.assertThat(rightNow).isEqualToIgnoringHours(thresholdMaxDate);
+                assertThat(date).isBeforeOrEqualTo(thresholdMaxDate);
                 log.debug(String.format("QALOGS -> VALIDATED SYSTEM DATE (%s) IS AFTER %s and ON the threshold cut off on %s.",
-                        rightNow.toLocalDate().toString(), nbDate.toString(), thresholdMaxDate.toString()));
+                        date.toLocalDate().toString(), nbDate.toString(), thresholdMaxDate.toString()));
                 break;
             case AFTER:
-                CustomAssertions.assertThat(rightNow).isAfter(thresholdMaxDate);
+                assertThat(date).isAfter(thresholdMaxDate);
                 log.debug(String.format("QALOGS -> VALIDATED SYSTEM DATE (%s) IS AFTER %s and AFTER the threshold cut off on %s.",
-                        rightNow.toLocalDate().toString(), nbDate.toString(), thresholdMaxDate.toString()));
-                // Handle another edge case where Threshold date lands on weekend and job is not expecting to run to pick it up the following weekday.
-                if(rightNow.getDayOfWeek()==DayOfWeek.SATURDAY || rightNow.getDayOfWeek()==DayOfWeek.SUNDAY){
-                    log.debug(String.format("QALOGS -> Threshold Date = %s (%s). Updated Result Expectations.", thresholdMaxDate.toString(), thresholdMaxDate.getDayOfWeek()));
-                    _bExpectingPolicyToBeProcessed = true;
-                }
+                        date.toLocalDate().toString(), nbDate.toString(), thresholdMaxDate.toString()));
                 break;
             default:
                 CustomAssertions.fail("Unexpected value for 'typeOfThresholdTest'. Force failing test.");
                 break;
         }
+
+        TimeSetterUtil.getInstance().nextPhase(date);
 
     }
 
@@ -278,7 +272,7 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
                 JobUtils.executeJob(Jobs.membershipValidationJob);
                 break;
             default:
-                CustomAssertions.fail("STG_N has an unexpected/unhandled value: " + STG_N.toString());
+                CustomAssertions.fail("STG_N has an unexpected/unhandled value: " + STG_N);
                 break;
         }
     }
@@ -287,10 +281,10 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         Integer numberOfRowsReturnedFromQuery = AAAMembershipQueries.getNumberOfPendedEndorsements(_storedPolicyNumber);
 
         if(bShouldEndorsementsBeDeleted){
-            CustomAssertions.assertThat(numberOfRowsReturnedFromQuery).isEqualTo(0);
+            assertThat(numberOfRowsReturnedFromQuery).isEqualTo(0);
         }
         else{
-            CustomAssertions.assertThat(numberOfRowsReturnedFromQuery).isEqualTo(1);
+            assertThat(numberOfRowsReturnedFromQuery).isEqualTo(1);
         }
     }
 
@@ -298,10 +292,10 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
         java.util.Optional<AAAMembershipQueries.AAABestMembershipStatus> dbResponse = AAAMembershipQueries.getAAABestMembershipStatusFromSQL(_storedPolicyNumber);
         if(_bExpectingPolicyToBeProcessed){
 
-            CustomAssertions.assertThat(dbResponse.toString()).containsIgnoringCase("FOUND");
+            assertThat(dbResponse.toString()).containsIgnoringCase("FOUND");
         }
         else{
-            CustomAssertions.assertThat(dbResponse.toString()).doesNotContain("FOUND");
+            assertThat(dbResponse.toString()).doesNotContain("FOUND");
         }
         log.debug(String.format(System.lineSeparator() + "<QALOGS> Ran 'assertPolicyProcessedStatus();' DB RESPONSE = ", dbResponse) + System.lineSeparator());
     }
@@ -327,50 +321,35 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
     }
 
     private void doMembershipTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean in_bExpectingPolicyToBeProcessed){
-        eThresholdTest typeOfBoundryTest = in_typeOfBoundryTest;
-        eTimepoints stg_x = in_stg_x;
-        Integer daysAfterNB = in_daysAfterNB;
-        Boolean bExpectingPolicyToBeProcessed = in_bExpectingPolicyToBeProcessed;
-
         TestData testLevelTD = prepareTestData();
-        prepareForPolicyCreation(testLevelTD, bExpectingPolicyToBeProcessed);
+        prepareForPolicyCreation(testLevelTD, in_bExpectingPolicyToBeProcessed);
         handlePolicyCreation(testLevelTD, true, false, eMembershipType.CANCELLED);
         addPendedEndorsement();
         validatePendedEndorsementPresent();
-        advanceJVMToTimepoint(stg_x, daysAfterNB, typeOfBoundryTest);
-        runBatchJobs(stg_x, false);
+        advanceJVMToTimepoint(in_stg_x, in_daysAfterNB, in_typeOfBoundryTest);
+        runBatchJobs(in_stg_x, false);
         assertPolicyProcessedStatus();
         queryDBForNumberOfPendingEndorsements(_bExpectingPolicyToBeProcessed);
     }
 
     private void doMPDTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean in_bExpectingPolicyToBeProcessed){
-        eThresholdTest typeOfBoundryTest = in_typeOfBoundryTest;
-        eTimepoints stg_x = in_stg_x;
-        Integer daysAfterNB = in_daysAfterNB;
-        Boolean bExpectingPolicyToBeProcessed = in_bExpectingPolicyToBeProcessed;
-
         TestData testLevelTD = prepareTestData();
-        prepareForPolicyCreation(testLevelTD, bExpectingPolicyToBeProcessed);
+        prepareForPolicyCreation(testLevelTD, in_bExpectingPolicyToBeProcessed);
         handlePolicyCreation(testLevelTD, true, true, eMembershipType.CANCELLED);
         addPendedEndorsement();
         validatePendedEndorsementPresent();
-        advanceJVMToTimepoint(stg_x, daysAfterNB, typeOfBoundryTest);
-        runBatchJobs(stg_x, false);
+        advanceJVMToTimepoint(in_stg_x, in_daysAfterNB, in_typeOfBoundryTest);
+        runBatchJobs(in_stg_x, false);
         assertPolicyProcessedStatus();
         queryDBForNumberOfPendingEndorsements(_bExpectingPolicyToBeProcessed);
     }
 
     private void doActiveMembershipNotPickedUpTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean in_bExpectingPolicyToBeProcessed){
-        eThresholdTest typeOfBoundryTest = in_typeOfBoundryTest;
-        eTimepoints stg_x = in_stg_x;
-        Integer daysAfterNB = in_daysAfterNB;
-        Boolean bExpectingPolicyToBeProcessed = in_bExpectingPolicyToBeProcessed;
-
         TestData testLevelTD = prepareTestData();
-        prepareForPolicyCreation(testLevelTD, bExpectingPolicyToBeProcessed);
+        prepareForPolicyCreation(testLevelTD, in_bExpectingPolicyToBeProcessed);
         handlePolicyCreation(testLevelTD, true, false, eMembershipType.ACTIVE);
-        advanceJVMToTimepoint(stg_x, daysAfterNB, typeOfBoundryTest);
-        runBatchJobs(stg_x, true);
+        advanceJVMToTimepoint(in_stg_x, in_daysAfterNB, in_typeOfBoundryTest);
+        runBatchJobs(in_stg_x, true);
         assertPolicyProcessedStatus();
     }
 }
