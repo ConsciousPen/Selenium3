@@ -48,7 +48,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
     @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921"})
     public void pas30921_testSuspendedRevokedLicense(@Optional("CA") String state) {
 
-        TestData td = getTdForSpecificCustomer("SuspendedOne");
+        TestData td = getTdForSpecificCustomer("Suspended");
 
         // Create quote and validate product type is Select
         createQuoteAndFillUpTo(td, PremiumAndCoveragesTab.class);
@@ -174,6 +174,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
                 .adjust(TestData.makeKeyPath(PremiumAndCoveragesTab.class.getSimpleName(), AutoCaMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel()), "contains=$100,000/$300,000")
                 .adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(), AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel()), "Jimbo")
                 .adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(), AutoCaMetaData.PrefillTab.LAST_NAME.getLabel()), lastName)
+                .adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(), AutoCaMetaData.PrefillTab.DATE_OF_BIRTH.getLabel()), "12/12/1980")
                 .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "B3698701");
     }
 
