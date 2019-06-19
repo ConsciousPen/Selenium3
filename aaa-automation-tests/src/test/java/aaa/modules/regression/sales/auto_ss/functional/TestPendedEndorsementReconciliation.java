@@ -35,7 +35,7 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
     private enum eThresholdTest {BEFORE, ON, AFTER}
     private enum eMembershipType {ACTIVE, CANCELLED}
     private static int CATCHUP_TIMEFRAME_VALUE = 4;
-    private boolean _bExpectingPolicyToBeProcessed = true;
+    private boolean _bExpectingPolicyToBeProcessed;
 
     private String _storedPolicyNumber;
     private LocalDateTime _policyEffectiveDate;
@@ -324,6 +324,7 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
     }
 
     private void doMembershipTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean in_bExpectingPolicyToBeProcessed){
+        _bExpectingPolicyToBeProcessed = in_bExpectingPolicyToBeProcessed;
         TestData testLevelTD = prepareTestData();
         prepareForPolicyCreation(testLevelTD, in_bExpectingPolicyToBeProcessed);
         handlePolicyCreation(testLevelTD, true, false, eMembershipType.CANCELLED);
@@ -336,6 +337,7 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
     }
 
     private void doMPDTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean in_bExpectingPolicyToBeProcessed){
+        _bExpectingPolicyToBeProcessed = in_bExpectingPolicyToBeProcessed;
         TestData testLevelTD = prepareTestData();
         prepareForPolicyCreation(testLevelTD, in_bExpectingPolicyToBeProcessed);
         handlePolicyCreation(testLevelTD, true, true, eMembershipType.CANCELLED);
@@ -348,6 +350,7 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
     }
 
     private void doActiveMembershipNotPickedUpTest(eThresholdTest in_typeOfBoundryTest, eTimepoints in_stg_x, Integer in_daysAfterNB, Boolean in_bExpectingPolicyToBeProcessed){
+        _bExpectingPolicyToBeProcessed = in_bExpectingPolicyToBeProcessed;
         TestData testLevelTD = prepareTestData();
         prepareForPolicyCreation(testLevelTD, in_bExpectingPolicyToBeProcessed);
         handlePolicyCreation(testLevelTD, true, false, eMembershipType.ACTIVE);
