@@ -276,7 +276,6 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
                 .adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(), AutoCaMetaData.PrefillTab.DATE_OF_BIRTH.getLabel()), "12/12/1980")
                 .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "B3698701");
 
-        // Create quote, validate product type is Select, order reports
         // Create quote and validate product type is Select
         createQuoteAndFillUpTo(td, PremiumAndCoveragesTab.class);
         validateProductType(SELECT);
@@ -294,7 +293,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
         LocalDate oldestDate = LocalDate.of(2500, Month.JANUARY, 1);
         int row = 0;
         for (int i = 1; i <= DriverTab.tableActivityInformationList.getRowsCount(); i++) {
-            String thisRowDateString = DriverTab.tableActivityInformationList.getRow(1).getCell("Date").getValue().substring(0, 10);
+            String thisRowDateString = DriverTab.tableActivityInformationList.getRow(i).getCell("Date").getValue().substring(0, 10);
             LocalDate thisRowDate = LocalDate.parse(thisRowDateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
             if (thisRowDate.isBefore(oldestDate)) {
                 oldestDate = thisRowDate;
