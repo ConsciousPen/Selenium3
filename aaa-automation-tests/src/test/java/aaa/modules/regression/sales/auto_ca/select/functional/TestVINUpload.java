@@ -403,6 +403,24 @@ public class TestVINUpload extends TestVINUploadTemplate {
         pas12872_VINRefreshNoMatchOnRenewalAutoCA(NEW_VIN9, vinTableFile, vehYear, vehMake, vehModel, vehSeries, vehBodyStyle, expectedYear, expectedMake, expectedModel);
     }
 
+
+    /**
+     * @author Chris Johns
+     * PAS-29402 Product specific vehicle symbol is inconsistent across CA Select and Choice
+     * 1. Create a quote with a vehicle that has Select vin rows, but NOT Choice VIN rows
+     * 2. Fill quote details and navigate to the P&C Page
+     * 3. Assert the Select choice symbol values are seen in the VRD
+     * 4. Change the product to Choice and assert the correct Choice Symbols are seen
+     * 5. Change the product back and forth a couple more times and assert the correct values are seen.
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-29402")
+    public void pas29402_GetCorrectCAProductSymbols(@Optional("CA") String state) {
+        VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
+        pas29402_GetCorrectCAProductSymbols(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN2.get()), NEW_VIN2);
+    }
+
     @AfterClass(alwaysRun = true)
     protected void vinTablesCleaner() {
         VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
