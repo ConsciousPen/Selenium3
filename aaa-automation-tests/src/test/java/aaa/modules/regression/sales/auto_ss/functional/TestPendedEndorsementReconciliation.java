@@ -49,64 +49,56 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
     }
 
     @Parameters({"state"})
-    @Test(groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations",
-            dependsOnMethods = {"pas28489_reconcilePendedEndorsements_Membership_STG1_BeforeThreshold","ActiveMembershipNotProcessed_STG1"})
+    @Test(groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
     public void pas28489_reconcilePendedEndorsements_Membership_STG1_OnThreshold(@Optional("AZ") String state) {
         doMembershipTest(eThresholdTest.ON, eTimepoints.STG1, CATCHUP_TIMEFRAME_VALUE, true);
     }
 
     @Parameters({"state"})
-    @Test(groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations",
-            dependsOnMethods = {"pas28489_reconcilePendedEndorsements_Membership_STG1_OnThreshold"})
+    @Test(enabled = false, groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
     public void pas28489_reconcilePendedEndorsements_Membership_STG1_AfterThreshold(@Optional("AZ") String state) {
         doMembershipTest(eThresholdTest.AFTER, eTimepoints.STG1, CATCHUP_TIMEFRAME_VALUE + 1, false);
     }
 
     @Parameters({"state"})
-    @Test(groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations",
-            dependsOnMethods = {"pas28489_reconcilePendedEndorsements_Membership_STG1_AfterThreshold"})
+    @Test(groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
     public void pas28489_reconcilePendedEndorsements_Membership_STG2_BeforeThreshold(@Optional("AZ") String state) {
         doMembershipTest(eThresholdTest.BEFORE, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE - 1, true);
     }
 
     @Parameters({"state"})
-    @Test(groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations",
-            dependsOnMethods = {"pas28489_reconcilePendedEndorsements_Membership_STG2_BeforeThreshold","pas28489_reconcilePendedEndorsements_MPD_BeforeThreshold","ActiveMembershipNotProcessed_STG2"})
+    @Test(groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
     public void pas28489_reconcilePendedEndorsements_Membership_STG2_OnThreshold(@Optional("AZ") String state) {
         doMembershipTest(eThresholdTest.ON, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE, true);
     }
 
     @Parameters({"state"})
-    @Test(groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations",
-            dependsOnMethods = {"pas28489_reconcilePendedEndorsements_Membership_STG2_OnThreshold","pas28489_reconcilePendedEndorsements_MPD_OnThreshold"})
+    @Test(enabled = false, groups = { Groups.CIO, Groups.MEMBERSHIP, Groups.FUNCTIONAL }, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
     public void pas28489_reconcilePendedEndorsements_Membership_STG2_AfterThreshold(@Optional("AZ") String state) {
         doMembershipTest(eThresholdTest.AFTER, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE + 1, false);
     }
 
     @Parameters({"state"})
-    @Test(groups = { Groups.CIO, Groups.MPD, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations",
-            dependsOnMethods = {"pas28489_reconcilePendedEndorsements_Membership_STG1_AfterThreshold"})
+    @Test(groups = { Groups.CIO, Groups.MPD, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
     public void pas28489_reconcilePendedEndorsements_MPD_BeforeThreshold(@Optional("UT")String state) {
         doMPDTest(eThresholdTest.BEFORE, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE - 1, true);
     }
 
     @Parameters({"state"})
-    @Test(groups = { Groups.CIO, Groups.MPD, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations",
-            dependsOnMethods = {"pas28489_reconcilePendedEndorsements_Membership_STG2_BeforeThreshold","pas28489_reconcilePendedEndorsements_MPD_BeforeThreshold","ActiveMembershipNotProcessed_STG2"})
+    @Test(groups = { Groups.CIO, Groups.MPD, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
     public void pas28489_reconcilePendedEndorsements_MPD_OnThreshold(@Optional("UT")String state) {
         doMPDTest(eThresholdTest.ON, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE, true);
     }
 
     @Parameters({"state"})
-    @Test(groups = { Groups.CIO, Groups.MPD, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations",
-            dependsOnMethods = {"pas28489_reconcilePendedEndorsements_Membership_STG2_OnThreshold","pas28489_reconcilePendedEndorsements_MPD_OnThreshold"})
+    @Test(enabled = false, groups = { Groups.CIO, Groups.MPD, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
     public void pas28489_reconcilePendedEndorsements_MPD_AfterThreshold(@Optional("UT")String state) {
         doMPDTest(eThresholdTest.AFTER, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE + 1, false);
@@ -126,8 +118,7 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
      * Stand-Alone functional test used to regress that an Active Membership is not processed at Stage 1 or Stage 2.
      */
     @Parameters({"state"})
-    @Test(groups = { Groups.CIO, Groups.MPD, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations",
-            dependsOnMethods = {"pas28489_reconcilePendedEndorsements_Membership_STG1_AfterThreshold"})
+    @Test(groups = { Groups.CIO, Groups.MPD, Groups.FUNCTIONAL}, description = "MPD Validation Phase 3: Delete pended endorsements during post-NB MPD validations")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28489")
     public void ActiveMembershipNotProcessed_STG2(@Optional("AZ") String state) {
         doActiveMembershipNotPickedUpTest(eThresholdTest.BEFORE, eTimepoints.STG2, CATCHUP_TIMEFRAME_VALUE - 1, false);
