@@ -418,7 +418,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-29402")
     public void pas29402_GetCorrectCAProductSymbols(@Optional("CA") String state) {
-//        VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
         pas29402_GetCorrectCAProductSymbolsBody(NEW_VIN10);
     }
 

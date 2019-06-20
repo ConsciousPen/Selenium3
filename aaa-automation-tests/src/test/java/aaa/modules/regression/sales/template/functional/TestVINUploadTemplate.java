@@ -603,12 +603,12 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		// Add specified Vin to test data and Mask Vehicle from DriverVehicleRelationshipTable
 		TestData testData = getPolicyTD();
 		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber);
+		testData.adjust(TestData.makeKeyPath(premiumAndCoveragesTab.getMetaKey(), AutoCaMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel()), "contains=$10,000");
 		TestData firstAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver");
 		testData.adjust(assignmentTab.getMetaKey(), new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", firstAssignment));
 
 		//Initiate quote, fill to the P&C Page, then open the VRD:
-		createQuoteAndFillUpTo(testData, VehicleTab.class);
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 		premiumAndCoveragesTab.calculatePremium();
 		PremiumAndCoveragesTab.RatingDetailsView.open();
 
