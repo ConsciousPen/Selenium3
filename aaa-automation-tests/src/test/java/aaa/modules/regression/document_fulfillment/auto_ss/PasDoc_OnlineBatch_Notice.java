@@ -1,14 +1,5 @@
 package aaa.modules.regression.document_fulfillment.auto_ss;
 
-import static aaa.main.enums.DocGenEnum.Documents.*;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
@@ -24,9 +15,20 @@ import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+
+import static aaa.main.enums.DocGenEnum.Documents.*;
 
 public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 
@@ -63,6 +65,7 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 		TestData td = getPolicyTD()
 				.adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Eleven Pay - Standard");
 
+        TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusMonths(2).with(DateTimeUtils.nextWorkingDay));
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNum = createPolicy(td);
