@@ -1,5 +1,6 @@
 package aaa.helpers.ssh;
 
+import static aaa.helpers.ssh.RemoteHelper.OS.*;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
@@ -18,8 +19,6 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
-import aaa.helpers.mock.ApplicationMocksManager;
-import aaa.main.enums.OS;
 import toolkit.exceptions.IstfException;
 
 public final class RemoteHelper {
@@ -329,20 +328,35 @@ public final class RemoteHelper {
 		return ssh.getLastModifiedTime(path);
 	}
 
+	public static synchronized OS getCurrentOS() {
+		if (currentOS == null) {
+			String osType = get().executeCommand("uname -s").getOutput();
+			if (osType.contains("Unable to execute command or shell on remote system") || osType.contains("CYGWIN") || osType.contains("MINGW32") || osType.contains("MSYS")) {
+				currentOS = WINDOWS;
+			} else if (osType.contains("Linux")) {
+				currentOS = LINUX;
+			} else if (osType.contains("Darwin")) {
+				currentOS = MAC_OS;
+			} else {
+				currentOS = UNKNOWN;
+			}
+		}
+		return currentOS;
+	}
+
 	public List<String> getFilesListBySearchPattern(String sourceFolder, String fileExtension, List<String> textsToSearchPatterns) {
 		StringBuilder grepCmd = new StringBuilder();
 		String correctedFileExtension = fileExtension == null ? "*" : fileExtension;
 		String cmd;
-		switch (ApplicationMocksManager.getCurrentOS()) {
+		switch (getCurrentOS()) {
 			case WINDOWS:
 				for (String textToSearch : textsToSearchPatterns) {
 					grepCmd.append(" findstr /s /i /m \"").append(textToSearch).append("\" *./FILE_EXTENSION/ |");
 				}
-				cmd = StringUtils.removeEnd(String.format("cmd /c cd %1$s && %2$s",
+				cmd = StringUtils.removeEnd(String.format("cmd /c cd /d %1$s && %2$s",
 						sourceFolder, grepCmd.toString()).replace("/FILE_EXTENSION/", correctedFileExtension),"|");
 				break;
 			case LINUX:
-			case MAC_OS:
 				for (String textToSearch : textsToSearchPatterns) {
 					grepCmd.append(" | xargs -r grep -li '").append(textToSearch).append("'");
 				}
@@ -352,7 +366,7 @@ public final class RemoteHelper {
 				break;
 			case UNKNOWN:
 			default:
-				throw new IstfException(String.format("Unknown OS %s, unable to execute command",ApplicationMocksManager.getCurrentOS()));
+				throw new IstfException(String.format("Unknown OS %s, unable to execute command", getCurrentOS()));
 		}
 		String commandOutput = executeCommand(cmd).getOutput();
 		return !commandOutput.isEmpty() ? Arrays.asList(commandOutput.split("\n")) : new ArrayList<>();
@@ -371,5 +385,9 @@ public final class RemoteHelper {
 		long date = TimeSetterUtil.getInstance().getCurrentTime().atZone(ZoneId.systemDefault()).toEpochSecond();
 
 		return date - Long.parseLong(m.group(1)) < delta;
+	}
+
+	public enum OS {
+		LINUX, MAC_OS, UNKNOWN, WINDOWS
 	}
 }

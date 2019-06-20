@@ -1,6 +1,5 @@
 package aaa.helpers.mock;
 
-import static aaa.main.enums.OS.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +22,6 @@ import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.ssh.CommandResults;
 import aaa.helpers.ssh.ExecutionParams;
 import aaa.helpers.ssh.RemoteHelper;
-import aaa.main.enums.OS;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
 import aaa.utils.excel.bind.ReflectionHelper;
 import toolkit.config.PropertyProvider;
@@ -44,7 +42,6 @@ public class ApplicationMocksManager {
 	private static final String APP_MOCKS_SCRIPT_STOP = String.format(PropertyProvider.getProperty(CsaaTestProperties.APP_STUB_SCRIPT_STOP), ENV_NAME);
 	private static final String START_STUB_KNOWN_EXCEPTION = "com.ibm.websphere.management.exception.ConnectorException: java.net.SocketTimeoutException: Async operation timed out";
 	private static final int START_STUB_FAILURE_EXIT_CODE = 103;
-	private static OS currentOS;
 
 	private static MocksCollection appMocks = new MocksCollection();
 
@@ -143,22 +140,6 @@ public class ApplicationMocksManager {
 		return results;
 	}
 
-	public static synchronized OS getCurrentOS() {
-		if (currentOS == null) {
-			String osType = getRemoteHelper().executeCommand("uname -s").getOutput();
-			if (osType.contains("Unable to execute command or shell on remote system") || osType.contains("CYGWIN") || osType.contains("MINGW32") || osType.contains("MSYS")) {
-				currentOS = WINDOWS;
-			} else if (osType.contains("Linux")) {
-				currentOS = LINUX;
-			} else if (osType.contains("Darwin")) {
-				currentOS = MAC_OS;
-			} else {
-				currentOS = UNKNOWN;
-			}
-		}
-		return currentOS;
-	}
-
 	private static <M extends UpdatableMock> M getMockDataObject(Class<M> mockDataClass, String fileName) {
 		String mockSourcePath = Paths.get(APP_MOCKS_FOLDER, fileName).normalize().toString();
 		String mockTempDestinationPath = Paths.get(TEMP_MOCKS_FOLDER, RandomStringUtils.randomNumeric(10) + "_" + fileName).normalize().toString();
@@ -222,7 +203,7 @@ public class ApplicationMocksManager {
 	}
 
 	private static String getExecuteScriptCommand(String scriptFileName) {
-		switch (getCurrentOS()) {
+		switch (RemoteHelper.getCurrentOS()) {
 			case WINDOWS:
 				return String.format("cmd /c cd %1$s && cmd /c %2$s", APP_MOCKS_SCRIPT_WORKDIR, scriptFileName);
 			case LINUX:
