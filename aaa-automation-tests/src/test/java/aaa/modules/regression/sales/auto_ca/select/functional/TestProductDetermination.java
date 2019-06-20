@@ -240,27 +240,6 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
 
     /**
      * @author Josh Carpenter
-     * @name Test Choice vs. Select Product determination for conviction of insurance fraud ever
-     * @scenario
-     * 1. Create new customer
-     * 2. Create quote and validate product type is Select
-     * 3. Continue with quote and order reports
-     * 4. Validate product type is Choice
-     * 5. Change date of reinstatement to 37 months ago
-     * 6. Validate product type is Select
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921"})
-    public void pas30921_testConvictedOfInsuranceFraud(@Optional("CA") String state) {
-
-        // TODO not sure how to mock this up
-
-    }
-
-    /**
-     * @author Josh Carpenter
      * @name Test Choice vs. Select Product determination for no valid US or Canadian license
      * @scenario
      * 1. Create new customer
