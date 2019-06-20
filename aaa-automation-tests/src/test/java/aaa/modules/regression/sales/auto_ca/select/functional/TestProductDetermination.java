@@ -308,15 +308,13 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
         }
         DriverTab.tableActivityInformationList.selectRow(row);
         driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OVERRIDE_ACTIVITY_DETAILS).setValue("Yes");
-        TextBox dateField;
-        if (driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.REINSTATEMENT_DATE).isPresent()) {
-            dateField = driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.REINSTATEMENT_DATE);
+        if ("Suspended".equals(lastName)) {
+            driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.REINSTATEMENT_DATE).setValue(newDate);
         } else if ("DUI".equals(lastName)) {
-            dateField = driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CONVICTION_DATE);
+            driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CONVICTION_DATE).setValue(newDate);
         } else {
-            dateField = driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE);
+            driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).setValue(newDate);
         }
-        dateField.setValue(newDate);
 
         // Validate product type is Select
         validateProductType(SELECT);
