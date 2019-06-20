@@ -311,6 +311,8 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
         TextBox dateField;
         if (driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.REINSTATEMENT_DATE).isPresent()) {
             dateField = driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.REINSTATEMENT_DATE);
+        } else if ("DUI".equals(lastName)) {
+            dateField = driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CONVICTION_DATE);
         } else {
             dateField = driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE);
         }
