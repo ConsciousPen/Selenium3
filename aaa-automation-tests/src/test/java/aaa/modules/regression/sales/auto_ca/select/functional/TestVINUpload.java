@@ -49,6 +49,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
     private static final String HHHNK2CC7F9455583 = "HHHNK2CC7F9455583"; // New9VIN_CA_SELECT
     private static final String NEW_VIN8 = "ABXKN3DDXE0344466";
     private static final String NEW_VIN9 = "LLXKN3DD0E0344466";
+    private static final String NEW_VIN10 = "1C4RJEAT3H1111111";
 
     private VehicleTab vehicleTab = new VehicleTab();
     private UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
@@ -403,7 +404,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
         pas12872_VINRefreshNoMatchOnRenewalAutoCA(NEW_VIN9, vinTableFile, vehYear, vehMake, vehModel, vehSeries, vehBodyStyle, expectedYear, expectedMake, expectedModel);
     }
 
-
     /**
      * @author Chris Johns
      * PAS-29402 Product specific vehicle symbol is inconsistent across CA Select and Choice
@@ -412,13 +412,14 @@ public class TestVINUpload extends TestVINUploadTemplate {
      * 3. Assert the Select choice symbol values are seen in the VRD
      * 4. Change the product to Choice and assert the correct Choice Symbols are seen
      * 5. Change the product back and forth a couple more times and assert the correct values are seen.
+     * VIN Choices: NM0LE7H71J1111111, KMHD74LEXJ1111111 , and 1C4RJEAT3H1111111 (used in test)
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-29402")
     public void pas29402_GetCorrectCAProductSymbols(@Optional("CA") String state) {
-        VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-        pas29402_GetCorrectCAProductSymbols(vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN2.get()), NEW_VIN2);
+//        VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
+        pas29402_GetCorrectCAProductSymbolsBody(NEW_VIN10);
     }
 
     @AfterClass(alwaysRun = true)

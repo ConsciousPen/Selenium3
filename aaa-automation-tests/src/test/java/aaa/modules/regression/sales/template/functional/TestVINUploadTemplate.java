@@ -599,67 +599,57 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		softly.close();
 	}
 
-	protected void pas29402_GetCorrectCAProductSymbols(String vinTableFile, String vinNumber) {
-		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), TestMSRPRefreshTemplate.getVehicleMotorHomeTestData("2018"));
-		// Add Vin to test data
+	protected void pas29402_GetCorrectCAProductSymbolsBody(String vinNumber) {
+		// Add specified Vin to test data and Mask Vehicle from DriverVehicleRelationshipTable
+		TestData testData = getPolicyTD();
 		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber);
-		// Mask Vehicle from DriverVehicleRelationshipTable
 		TestData firstAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver");
 		testData.adjust(assignmentTab.getMetaKey(), new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", firstAssignment));
+
+		//Initiate quote, fill to the P&C Page, then open the VRD:
 		createQuoteAndFillUpTo(testData, VehicleTab.class);
-		//Navigate to the P&C Page and grab the comp and coll symbols on the VRD:
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.calculatePremium();
 		PremiumAndCoveragesTab.RatingDetailsView.open();
-		//PAS-27309: Grab CA Select Symbols
+
+		//Grab CA Select Symbols
 		String selectCompSymbol = tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue();
 		String selectCollSymbol = tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
+		String selectBISymbol = tableRatingDetailsVehicles.getRow(1, "BI Symbol").getCell(2).getValue();
+		String selectPDSymbol = tableRatingDetailsVehicles.getRow(1, "PD Symbol").getCell(2).getValue();
+		String selectUMSymbol = tableRatingDetailsVehicles.getRow(1, "UM Symbol").getCell(2).getValue();
+		String selectMPSymbol = tableRatingDetailsVehicles.getRow(1, "MP Symbol").getCell(2).getValue();
 		PremiumAndCoveragesTab.RatingDetailsView.close();
-		PremiumAndCoveragesTab.buttonSaveAndExit.click();
-		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
-		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-		adminApp().open();
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		uploadToVINTableTab.uploadVinTable(vinTableFile);
-
-		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.calculatePremium();
-
-		//PAS-27309: Navigate to the P&C Page and Verify the Vehicle details did not refresh
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-
-		//Calculate premium and grab the comp and coll symbols on the VRD
+		//29402: Change CA Product and calculate premium; vehicle data should refresh
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT).setValue("CA Choice");
+		//May need to set coverage:
 		premiumAndCoveragesTab.calculatePremium();
 		PremiumAndCoveragesTab.RatingDetailsView.open();
 
+		//Verify the CA Select Symbols are shown and have been changed
+		assertSoftly(softly -> {
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isNotEqualTo(selectCompSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isNotEqualTo(selectCollSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "BI Symbol").getCell(2).getValue()).isNotEqualTo(selectBISymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "PD Symbol").getCell(2).getValue()).isNotEqualTo(selectPDSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "UM Symbol").getCell(2).getValue()).isNotEqualTo(selectUMSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "MP Symbol").getCell(2).getValue()).isNotEqualTo(selectMPSymbol);
+		});
+
+		//29402: Change CA Product and calculate premium; vehicle data should refresh
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT).setValue("CA Select");
+		premiumAndCoveragesTab.calculatePremium();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		//Verify the CA Select Symbols are shown and have not been changed
 		assertSoftly(softly -> {
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isEqualTo(selectCompSymbol);
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isEqualTo(selectCollSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "BI Symbol").getCell(2).getValue()).isEqualTo(selectBISymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "PD Symbol").getCell(2).getValue()).isEqualTo(selectPDSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "UM Symbol").getCell(2).getValue()).isEqualTo(selectUMSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "MP Symbol").getCell(2).getValue()).isEqualTo(selectMPSymbol);
 		});
-		PremiumAndCoveragesTab.RatingDetailsView.close();
-
-		//PAS-27309: Change CA Product and calculate premium; vehicle data should refresh
-		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
-			premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT).setValue("CA Choice");
-		} else {
-			premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT).setValue("CA Select");
-		}
-		premiumAndCoveragesTab.calculatePremium();
-
-		//PAS-27309: Verify the CA Choice Symbols are shown, and are not equal to to the Select Symbols
-		PremiumAndCoveragesTab.RatingDetailsView.open();
-		assertSoftly(softly -> {
-			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isNotEqualTo(selectCompSymbol);
-			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isNotEqualTo(selectCollSymbol);
-		});
-
 		PremiumAndCoveragesTab.RatingDetailsView.close();
 	}
 
