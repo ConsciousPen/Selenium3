@@ -267,20 +267,8 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
 			softly.assertThat(metaDataFieldResponseDriverType.valueRange.get(DRIVER_TYPE_AVAILABLE_FOR_RATING)).isEqualTo("Available for Rating");
 			softly.assertThat(metaDataFieldResponseDriverType.valueRange.get(DRIVER_TYPE_EXCLUDED)).isEqualTo("Excluded");
 
-			AttributeMetadata metaDataFieldResponseDriverRelation = getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "relationToApplicantCd", true, true, true, null, "String");
+			AttributeMetadata metaDataFieldResponseDriverRelation = getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "relationToApplicantCd", false, true, true, null, "String");
 			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("IN")).isEqualTo("First Named Insured");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("SP")).isEqualTo("Spouse");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("CH")).isEqualTo("Child");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("PA")).isEqualTo("Parent");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("SI")).isEqualTo("Sibling");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("ORR")).isEqualTo("Other Resident Relative");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("EMP")).isEqualTo("Employee");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("OT")).isEqualTo("Other");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("DP")).isEqualTo("Domestic Partner");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("S")).isNull();
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("D")).isNull();
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("FR")).isNull();
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("MR")).isNull();
 
 			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "firstName", false, true, true, null, "String");
 			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "middleName", false, true, false, null, "String");
