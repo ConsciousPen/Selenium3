@@ -255,9 +255,14 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
     @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921"})
     public void pas30921_testNonUSCanadianLicense(@Optional("CA") String state) {
 
-        createQuoteAndFillUpTo(getPolicyTD(), DriverActivityReportsTab.class);
+        TestData td = getPolicyTD()
+                .adjust(TestData.makeKeyPath(PremiumAndCoveragesTab.class.getSimpleName(), AutoCaMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel()), "contains=$100,000/$300,000");
+
+        // Create quote and validate product type is Select
+        createQuoteAndFillUpTo(td, DriverActivityReportsTab.class);
         validateProductType(SELECT);
 
+        // Update license type to 'Foreign', validate product type is Choice
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.LICENSE_TYPE).setValueContains("Foreign");
         validateProductType(CHOICE);
@@ -273,7 +278,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
                 .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel()), licenseNum);
 
         int months = 37;
-        if ("DUI".equals(licenseNum)) {
+        if ("DUI".equals(lastName)) {
             months = 121;
         }
 
