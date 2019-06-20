@@ -1230,7 +1230,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * @author Chris Johns
+     * @author Kiruthika Rajendran
      * PAS-22172 - END - CAS: reconcile permissive use claims when driver/named insured is added (avail for rating)
+     * PAS-25271 - DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
      * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added
      * @scenario Test Steps:
      * 1. Create a Policy with 2 names Insured and drivers
@@ -1249,17 +1251,33 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         adjusted = getPolicyTD().adjust(testDataForFNI);
         createQuoteAndFillUpTo(adjusted, DriverTab.class);
 
+        tableDriverList.selectRow(1);
+        //PAS-25271 DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
+        //Verify the Rel to FNI field is not editable for FNI driver
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isEnabled()).isFalse();
+
+        tableDriverList.selectRow(2);
+        //Verify the non FNI driver does not show the option of "First Named Insured" in drop down
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+
         //Navigate to the General Tab and change the FNI to the second insured (Steve)
         newBusinessFlag = true;
         changeFNIGeneralTab(1);  //Index starts at 0
 
-        //Assert that the PU claims have moved to the new FNI (Steve) and has a total of 3 claims now (one existing)
         tableDriverList.selectRow(1);
+        //PAS-25271 DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
+        //Verify the Rel to FNI field is not editable for new FNI driver
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isEnabled()).isFalse();
+
+        //Assert that the PU claims have moved to the new FNI (Steve) and has a total of 3 claims now (one existing)
         activityAssertions(2, 1, 3, 2, "Company Input", "", true); //assert the company input with Type Accident show up PU indicator
         activityAssertions(2, 1, 3, 3, "Customer Input", "", true); //assert the company input with Type  Accident show up PU indicator
 
-        //Assert that old FNI only has 2 Violation claims
         tableDriverList.selectRow(2);
+        //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+
+        //Assert that old FNI only has 2 Violation claims
         activityAssertions(2, 2, 2, 1, "Company Input", "", false); //assert the company input with Type Violations do not show up PU indicator
         activityAssertions(2, 2, 2, 2, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
 
@@ -1287,14 +1305,21 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         //On Driver tab, assert the PU claims all move back to original FNI, Nicolas: 3 Violations, 2 PU claims
         tableDriverList.selectRow(1);
+        //PAS-25271 DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
+        //Verify the Rel to FNI field is not editable for new FNI driver
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isEnabled()).isFalse();
+
         activityAssertions(2, 1, 5, 1, "Company Input", "", false);
         activityAssertions(2, 1, 5, 2, "Customer Input", "", false);
         activityAssertions(2, 1, 5, 3, "MVR", "", false);
         activityAssertions(2, 1, 5, 4, "Company Input", "", true);
         activityAssertions(2, 1, 5, 5, "Customer Input", "", true);
 
-        //Verify the other insured only has one claim now
         tableDriverList.selectRow(2);
+        //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+
+        //Verify the other insured only has one claim now
         activityAssertions(2, 2, 1, 1, "Customer Input", "", false);
 
         //Set 'Rel. to First Named Insured': Other
@@ -1305,7 +1330,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * @author Chris Johns
+     * @author Kiruthika Rajendran
      * PAS-22172 - END - CAS: reconcile permissive use claims when driver/named insured is added (avail for rating)
+     * PAS-25271 - DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
      * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added
      * @scenario Test Steps:
      * 1. Create a Policy with 2 names Insured and drivers
@@ -1336,21 +1363,36 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         retrieveRenewal(policyNumber);
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
 
-        // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
         tableDriverList.selectRow(1);
+        //PAS-25271 DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
+        //Verify the Rel to FNI field is not editable for new FNI driver
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isEnabled()).isFalse();
+
+        // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
         activityAssertions(2, 1, 2, 1, "Internal Claims", CLAIM_NUMBER_1, true);
         activityAssertions(2, 1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
+
+        tableDriverList.selectRow(2);
+        //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
 
         //Navigate to the General Tab and change the FNI to the second insured (Steve)
         changeFNIGeneralTab(1);  //Index starts at 0
 
-        //Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
         tableDriverList.selectRow(1);
+        //PAS-25271 DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
+        //Verify the Rel to FNI field is not editable for new FNI driver
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isEnabled()).isFalse();
+
+        //Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
         activityAssertions(2, 1, 2, 1, "Customer Input", "", true);
         activityAssertions(2, 1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
 
-        //Assert that old FNI only has 1 Internal Claims
         tableDriverList.selectRow(2);
+        //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+
+        //Assert that old FNI only has 1 Internal Claims
         activityAssertions(2, 2, 1, 1, "Internal Claims", CLAIM_NUMBER_1, false);
 
         //Save and exit the Renewal
