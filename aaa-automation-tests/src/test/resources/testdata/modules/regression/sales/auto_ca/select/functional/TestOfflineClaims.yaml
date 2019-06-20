@@ -410,6 +410,7 @@ Activity1: {
   Description: 'Fault accident with injury',
   Loss Payment Amount: '2000',
   Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+  "Permissive Use Loss?":'No',
   "Include in Points and/or YAF?": 'Yes'
 }
 
@@ -420,6 +421,7 @@ Activity2: {
   Description: 'Fault accident, no injury, damage > $1000',
   Loss Payment Amount: '2000',
   Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+  "Permissive Use Loss?":'No',
   "Include in Points and/or YAF?": 'Yes'
 }
 
@@ -430,6 +432,7 @@ Activity3: {
   Description: 'Fault accident with injury',
   Loss Payment Amount: '5500',
   Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+  "Permissive Use Loss?":'No',
   "Include in Points and/or YAF?": 'Yes'
   }
 
@@ -457,6 +460,17 @@ Activity6: {
   Suspension Date: '$<today-3M:MM/dd/yyyy>',
   "Include in Points and/or YAF?": 'Yes'
 }
+
+Activity7: {
+  Activity Source: Company Input,
+  Type: 'Accident',
+  Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+  Description: 'Fault accident with injury',
+  Loss Payment Amount: '2000',
+  Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+  "Include in Points and/or YAF?": 'Yes'
+}
+
 
 TestData_DriverTab_UpdateUWRules_PU_CA: {
   PrefillTab: '@PrefillTab',
@@ -588,7 +602,7 @@ TestData_Discounts: {
 
 Driver_GoodStudent_NewDriver_Discount: {
   DriverSearchDialog: {},
-  Date of Birth: $<today-23y>,
+  #Date of Birth: $<today-23y>,
   Marital Status: Single,
   Occupation: 'Student',
   Age First Licensed: 16,
@@ -689,7 +703,7 @@ TestData_Activity_MDD: {
 }
 
 DriverTab_Activity_MDD: {
-  ActivityInformation: ['@Activity1', '@Activity5','@Activity6']
+  ActivityInformation: ['@Activity7', '@Activity5','@Activity6']
 }
 
 PremiumAndCoveragesTab_MDD: {
@@ -776,6 +790,6 @@ TestData_Activity_MDD_Endorse: {
 }
 
 DriverTab_Activity_Endorse: {
-  ActivityInformation: ['@Activity1', '@Activity5']
+  ActivityInformation: ['@Activity7', '@Activity5']
 }
 

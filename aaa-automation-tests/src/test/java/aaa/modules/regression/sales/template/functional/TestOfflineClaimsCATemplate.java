@@ -1471,7 +1471,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         purchaseTab.fillTab(adjusted).submitTab();
         policyNumber = labelPolicyNumber.getValue();
 
-       //Initiate Endorsement - Add the second driver for the named insured
+        //Initiate Endorsement - Add the second driver for the named insured
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         generalTab.viewInsured(2);
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
