@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
+import static aaa.modules.regression.service.auto_ss.functional.MiniServicesSetup.enableCoverageForState;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
@@ -7,7 +8,7 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.listeners.AaaTestListener;
 
 @Listeners({AaaTestListener.class})
-public class MiniServicesSetupEnableCoverages extends MiniServicesSetup {
+public class MiniServicesSetupEnableCoverages {
 
 	@Test(description = "Enabling 'canChange' for UM for AZ on test environment", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void enableUMForAZ() {
