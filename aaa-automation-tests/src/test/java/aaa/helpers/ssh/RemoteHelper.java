@@ -328,7 +328,7 @@ public final class RemoteHelper {
 		return ssh.getLastModifiedTime(path);
 	}
 
-	public synchronized OS getCurrentOS() {
+	public OS getCurrentOS() {
 		if (currentOS == null) {
 			String osType = get().executeCommand("uname -s").getOutput();
 			if (osType.contains("Unable to execute command or shell on remote system") || osType.contains("CYGWIN") || osType.contains("MINGW32") || osType.contains("MSYS")) {
