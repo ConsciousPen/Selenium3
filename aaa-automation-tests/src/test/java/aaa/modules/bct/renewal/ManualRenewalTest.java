@@ -39,7 +39,9 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 		IPolicy policy = findAndOpenPolicy(getMethodName(), PolicyType.AUTO_SS);
 
 		policy.doNotRenew().start();
-		Page.dialogConfirmation.confirm();
+		if(Page.dialogConfirmation.isPresent()){ // workaround if Pending renewals exist for this policy.
+			Page.dialogConfirmation.confirm();
+		}
 		policy.doNotRenew().getView().fill(getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DoNotRenew", "TestData"));
 		policy.doNotRenew().submit();
 		assertThat(PolicySummaryPage.labelDoNotRenew).isPresent();

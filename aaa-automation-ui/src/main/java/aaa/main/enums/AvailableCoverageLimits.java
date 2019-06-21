@@ -172,7 +172,7 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_1000000
 	)),
 	PD_CA(ImmutableList.of(
-			CoverageLimits.COV_5000,//5000 will be removed starting from 2019-06-07
+			//CoverageLimits.COV_5000,//5000 is removed starting from 2019-06-07
 			CoverageLimits.COV_10000,
 			CoverageLimits.COV_25000,
 			CoverageLimits.COV_50000,

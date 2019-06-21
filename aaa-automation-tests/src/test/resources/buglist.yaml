@@ -566,3 +566,14 @@ PAS-30913:
   failures:
     - tests: [aaa.modules.bct.billing_and_payments.*]
       messages: ["To keep the eValue Discount, the customer must choose AutoPay"]
+PAS-31508:
+  summary: "Regression: PAS DOC: Auto AZ: Can't generate documents on GODD tab, Documents & Bind tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.docgen.auto_ss.TestScenario5.testDocGenScenario05, 
+              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocGODDcommon.*, 
+              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocGODDdeliveryMethods.testScenario4, 
+              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocPreBind.testScenario5, 
+              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocPreBind.testScenario6, 
+              aaa.modules.regression.document_fulfillment.auto_ss.TestScenario4.TC01_CreatePolicy]
+      messages: ["No files have been found containing text pattern(s)"]

@@ -33,10 +33,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		validateViewPolicyCoveragesIsTheSameAsViewEndorsementCoverage(policyNumber, viewEndorsementCoverages);
 
 		Coverage covBIExpected = Coverage.create(CoverageInfo.BI_CA);
-		Coverage covPDExpected = Coverage.create(CoverageInfo.PD_CA);
-		if (TimeSetterUtil.getInstance().getCurrentTime().toLocalDate().isAfter(LocalDate.parse("2019-06-07"))) { //Starting from 2019-06-08, PD should not have availableLimit 5000
-			covPDExpected.removeAvailableLimit(CoverageLimits.COV_5000);
-		}
+		Coverage covPDExpected = Coverage.create(CoverageInfo.PD_CA);//Note: Starting from 2019-06-08, PD should not have availableLimit 5000
 		Coverage covUMBIExpected = Coverage.create(CoverageInfo.UMBI_CA).removeAvailableLimitsAbove(CoverageLimits.COV_500500);
 		Coverage covUIMBIExpected = Coverage.create(CoverageInfo.UIMBI_CA).disableCanChange();
 		Coverage covMEDPMExpected = Coverage.create(CoverageInfo.MEDPM_CA);

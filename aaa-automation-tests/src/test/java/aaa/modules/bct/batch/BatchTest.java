@@ -56,7 +56,7 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test(description = "batchJob07.xml")
 	public void BCT_BTCH_Manage_Payment_Exceptions_Payment_033(@Optional("") String state){
-		executeBatchTest(GroupJobs.groupapplyPendingTransactionsAsyncJob);
+		executeBatchTest(new Job("applyPendingTransactionsAsyncJob"));
 	}
 
 	@Parameters({"state"})
