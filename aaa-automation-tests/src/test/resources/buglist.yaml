@@ -566,3 +566,11 @@ PAS-30913:
   failures:
     - tests: [aaa.modules.bct.billing_and_payments.*]
       messages: ["To keep the eValue Discount, the customer must choose AutoPay"]
+PAS-31187:
+  summary: "Regression Master: KY Auto - City and County taxes aren't displayed in 'State and Local Taxes & Premium Surcharges' table on Renewal"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
+    messages: ["expected:<$5,[691.00]> but was:<$5,[804.82]>"]
+  - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
+    messages: ["expected:<$4,[412.00]> but was:<$4,[500.24]>"]
