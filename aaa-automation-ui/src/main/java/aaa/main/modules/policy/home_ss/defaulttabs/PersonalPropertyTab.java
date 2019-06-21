@@ -6,8 +6,6 @@ package aaa.main.modules.policy.home_ss.defaulttabs;
 
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
-import aaa.toolkit.webdriver.customcontrols.PersonalPropertyMultiAssetList;
 
 /**
  * Implementation of a specific tab in a workspace.
