@@ -2338,7 +2338,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 				name = DocGenHelper.getDocumentDataElemByName("DocSignedBy", docInXml).getDataElementChoice().getTextField();
 				date = DocGenHelper.getDocumentDataElemByName("DocSignedDate", docInXml).getDataElementChoice().getDateTimeField();
 			}
-			String currentDate = DateTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			String currentDate = HelperMiniServices.getAZCurrentDate();
 			softly.assertThat(name).isEqualTo("Megha Gubbala");
 			softly.assertThat(date).startsWith(currentDate);
 			softly.assertThat(date).endsWith("-07:00"); // validates that the document's DocSignedDate ends with an AZ timestamp
