@@ -49,6 +49,10 @@ public class DocumentGenerationRequest {
 		return documents;
 	}
 
+	public Document findDocument(DocGenEnum.Documents document) {
+		return this.getDocuments().stream().filter(doc -> doc.getTemplateId().equals(document.getIdInXml())).findFirst().orElse(null);
+	}
+
 	public DocumentGenerationRequest setDocuments(List<Document> documents) {
 		this.documents = documents;
 		return this;

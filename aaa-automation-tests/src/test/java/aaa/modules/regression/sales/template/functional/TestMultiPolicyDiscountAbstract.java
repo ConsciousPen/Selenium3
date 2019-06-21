@@ -797,7 +797,6 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
                 break;
 
             case MIDTERM:
-                TimeSetterUtil.getInstance().nextPhase(LocalDateTime.now().plusDays(2));
                 JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
                 JobUtils.executeJob(Jobs.policyStatusUpdateJob);
                 mainApp().open();
