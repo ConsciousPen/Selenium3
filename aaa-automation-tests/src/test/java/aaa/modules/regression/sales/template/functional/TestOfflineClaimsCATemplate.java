@@ -1509,7 +1509,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab(); // Verified the rules are not triggered and proceed to create a policy
-
         purchaseTab.fillTab(adjusted).submitTab();
         policyNumber = labelPolicyNumber.getValue();
 
@@ -1518,25 +1517,16 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         generalTab.viewInsured(2);
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         policy.getDefaultView().fillUpTo(getTestSpecificTD("Add_Driver2_EndorsementUWRules"), DriverTab.class, true);
-//        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
 
         //Change the FNI to second named insured
         fillContactInfo = true;
         changeFNIGeneralTab(1);
-//        generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(1);
-//        Page.dialogConfirmation.confirm();
-//        generalTab.viewInsured(2);
-//        generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue("6025557777");
-//        generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
-//        generalTab.submitTab();
-//        policy.getDefaultView().fillUpTo(getTestSpecificTD("Add_Driver2_EndorsementUWRules"), DriverTab.class, true);
         tableDriverList.selectRow(2);
         driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         premiumAndCoveragesTab.calculatePremium();
         premiumAndCoveragesTab.submitTab();
         driverActivityReportsTab.fillTab(getTestSpecificTD("Add_Driver2_EndorsementUWRules"));
-
 
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         tableDriverList.selectRow(1);
@@ -1554,6 +1544,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab(); // Verified the rules are not triggered and proceed to bind the endorsement
     }
+
     /**
      * @author Saranya Hariharan
      * PAS-27226- CA Mature Driver Discount doesn't work according to rules
