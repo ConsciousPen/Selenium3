@@ -464,7 +464,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Override
     protected TestData getTdAuto() {
-        return getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData")
+        return getStateTestData(testDataManager.policy.get(PolicyType.AUTO_CA_SELECT).getTestData("DataGather"), "TestData")
                 .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoCaMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()))
                 .mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoCaMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()));
     }
