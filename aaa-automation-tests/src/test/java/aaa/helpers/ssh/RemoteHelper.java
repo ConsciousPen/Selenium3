@@ -28,7 +28,7 @@ public final class RemoteHelper {
 
 	private ConnectionParams connectionParams;
 	private Ssh ssh;
-	private static OS currentOS;
+	private OS currentOS;
 
 	private RemoteHelper(ConnectionParams connectionParams) {
 		this.connectionParams = connectionParams;
@@ -328,7 +328,7 @@ public final class RemoteHelper {
 		return ssh.getLastModifiedTime(path);
 	}
 
-	public static synchronized OS getCurrentOS() {
+	public synchronized OS getCurrentOS() {
 		if (currentOS == null) {
 			String osType = get().executeCommand("uname -s").getOutput();
 			if (osType.contains("Unable to execute command or shell on remote system") || osType.contains("CYGWIN") || osType.contains("MINGW32") || osType.contains("MSYS")) {
@@ -356,17 +356,13 @@ public final class RemoteHelper {
 				cmd = StringUtils.removeEnd(String.format("cmd /c cd /d %1$s && %2$s",
 						sourceFolder, grepCmd.toString()).replace("/FILE_EXTENSION/", correctedFileExtension),"|");
 				break;
-			case LINUX:
+			default:
 				for (String textToSearch : textsToSearchPatterns) {
 					grepCmd.append(" | xargs -r grep -li '").append(textToSearch).append("'");
 				}
 
 				cmd = String.format("cd %1$s; find . -type f -iname '*.%2$s' -print%3$s | xargs -r ls -t | xargs -r readlink -f", sourceFolder,
 						correctedFileExtension, grepCmd.toString());
-				break;
-			case UNKNOWN:
-			default:
-				throw new IstfException(String.format("Unknown OS %s, unable to execute command", getCurrentOS()));
 		}
 		String commandOutput = executeCommand(cmd).getOutput();
 		return !commandOutput.isEmpty() ? Arrays.asList(commandOutput.split("\n")) : new ArrayList<>();
