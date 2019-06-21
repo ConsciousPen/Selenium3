@@ -4,10 +4,15 @@ TestData_Bicycles: {
 }
 
 PersonalPropertyTab_Bicycles: {
-  Bicycles: {
+  Bicycles: [
+  {
     Limit of liability: '10000',
     Description: 'aaa'
-  }
+  },
+  {
+    Limit of liability: '20000',
+    Description: 'aaa'
+  }]
 }
 
 # Cameras SPP test data
