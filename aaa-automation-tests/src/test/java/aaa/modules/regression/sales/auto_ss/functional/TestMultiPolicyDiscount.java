@@ -290,7 +290,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     private void run_pas28659_DiscountRemovalTest(EndorsementType endorsementType){
 
-        TestData testData = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData")
+        TestData testData = getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("DataGather"), "TestData")
                 .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()))
                 .mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()));
 
@@ -605,6 +605,16 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     }
 
     @Override
+    protected TestData getDocumentsAndBindTab_getRequiredToIssueAssetList(){
+        return _documentsAndBindTab.getRequiredToIssueAssetList().getValue();
+    }
+
+    @Override
+    protected void getDocumentsAndBindTab_setRequiredToIssueAssetList(TestData testData){
+        _documentsAndBindTab.getRequiredToIssueAssetList().setValue(testData);
+    }
+
+    @Override
     protected Button getDocumentsAndBindTab_BtnPurchase(){
         return DocumentsAndBindTab.btnPurchase;
     }
@@ -628,6 +638,9 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     protected Dollar getPnCTab_getPolicyCoveragePremium(){
         return _pncTab.getPolicyCoveragePremium();
     }
+
+    @Override
+    protected String pncTab_ViewRatingDetails_MPDAppliedKVPLabel(){return "AAA Multi-Policy Discount";}
 
     @Override
     protected String getGeneralTab_PolicyTypeMetaDataLabel(){

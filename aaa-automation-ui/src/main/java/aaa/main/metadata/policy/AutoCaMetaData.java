@@ -115,7 +115,7 @@ public final class AutoCaMetaData {
 			// public static final AssetDescriptor<TextBox> MOBILE_PHONE_NUMBER = declare("Mobile Phone #", TextBox.class);
 			// public static final AssetDescriptor<ComboBox> PREFERED_PHONE_NUMBER = declare("Preferred Phone #", ComboBox.class);
 			// public static final AssetDescriptor<TextBox> EMAIL = declare("Email", TextBox.class);
-			public static final AssetDescriptor<ComboBox> RESIDENCE = declare("Residence", ComboBox.class);
+
 			public static final AssetDescriptor<Button> VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateAddressButton"));
 			public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, AddressValidation.class, By
 					.id(".//*[@id='addressValidationPopupAAAInsuredAddressValidation_container']"));

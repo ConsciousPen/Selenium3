@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ca.choice.functional;
+package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
@@ -29,7 +29,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.AUTO_CA_CHOICE;
+        return PolicyType.AUTO_CA_SELECT;
     }
 
     private GeneralTab _generalTab = new GeneralTab();
@@ -49,7 +49,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Provide 'Reason' type for a MTC to show generic wording when MPD discount is added/removed/change")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-29273")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-29273")
     public void pas29273_updateReasonMPDRemoval(@Optional("") String state) {
         pas29273_updateReasonMPDRemoval_Template();
     }
@@ -62,7 +62,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Rate SS Auto with Quoted/Unquoted Products")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23983")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-23983")
     public void pas23983_MPD_unquoted_rate_and_show_discounts(@Optional("") String state) {
         pas23983_MPD_unquoted_rate_and_show_discounts_Template();
     }
@@ -80,7 +80,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Rate SS Auto with Quoted/Unquoted Products")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-21481")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-21481")
     public void pas_21481_MPD_Unquoted_Companion_Product_AC2_AC3(@Optional("") String state) {
         pas_21481_MPD_Unquoted_Companion_Product_AC2_AC3_Template();
     }
@@ -100,7 +100,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Rate SS Auto with Quoted/Unquoted Products")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-21481")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-21481")
     public void pas_21481_MPD_Unquoted_Companion_Product_AC5(@Optional("") String state) {
         pas_21481_MPD_Unquoted_Companion_Product_AC5_Template();
     }
@@ -115,9 +115,10 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      * 4. Verify all scenarios but #7 block binding with hard stop error message: Policy cannot be bound with an unquoted companion policy.
      * @author Brian Bond - CIO
      */
+    // BondTODO: Re-test this when bind error is implemented
     @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind at NB")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-18315")
+    @Test( enabled = false, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind at NB")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-18315")
     public void pas18315_CIO_Prevent_Unquoted_Bind_NB(@Optional("") String state) {
         pas18315_CIO_Prevent_Unquoted_Bind_NB_Template();
     }
@@ -133,9 +134,10 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      * 5. Verify error message stops you from completing endorsement
      * @author Brian Bond - CIO
      */
+    // BondTODO: Re-test this when bind error is implemented
     @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind during Endorsment")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-18315")
+    @Test( enabled = false, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind during Endorsment")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-18315")
     public void pas18315_CIO_Prevent_Unquoted_Bind_Endorsment(@Optional("") String state) {
         pas18315_CIO_Prevent_Unquoted_Bind_Endorsement_Template();
     }
@@ -151,9 +153,10 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      * 5. Verify error message stops you from completing endorsement
      * @author Brian Bond - CIO
      */
+    // BondTODO: Re-test this when bind error is implemented
     @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind during Amended Renewal")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-18315")
+    @Test(enabled = false, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind during Amended Renewal")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-18315")
     public void pas18315_CIO_Prevent_Unquoted_Bind_Amended_Renewal(@Optional("") String state) {
         pas18315_CIO_Prevent_Unquoted_Bind_Amended_Renewal_Template();
     }
@@ -170,7 +173,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Removing a NI and associated companion products")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-3622")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-3622")
     public void pas_3622_CIO_Remove_NI_Companion_AC1_1(@Optional("") String state) {
         pas_3622_CIO_Remove_NI_Companion_AC1_1_Template();
     }
@@ -189,7 +192,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Removing a NI and associated companion products")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-3622")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-3622")
     public void pas_3622_CIO_Remove_NI_Companion_AC1_2(@Optional("") String state) {
         pas_3622_CIO_Remove_NI_Companion_AC1_2_Template();
     }
@@ -206,7 +209,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Removing a NI and associated companion products")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-3622")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-3622")
     public void pas_3622_CIO_Remove_NI_Companion_AC2_1(@Optional("") String state) {
         pas_3622_CIO_Remove_NI_Companion_AC2_1_Template();
     }
@@ -223,7 +226,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Removing a NI and associated companion products")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-3622")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-3622")
     public void pas_3622_CIO_Remove_NI_Companion_AC2_2(@Optional("") String state) {
         pas_3622_CIO_Remove_NI_Companion_AC2_2_Template();
     }
@@ -242,7 +245,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Remove MPD flat endorsement when companion product is removed")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-28659")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-28659")
     public void pas28659_Discount_Removed_Flat_Endorsement(@Optional("") String state) {
         run_pas28659_DiscountRemovalTest(EndorsementType.FLAT);
     }
@@ -261,7 +264,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Remove MPD Future-Dated endorsement when companion product is removed")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-28659")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-28659")
     public void pas28659_Discount_Removed_FutureDated_Endorsement(@Optional("") String state) {
         run_pas28659_DiscountRemovalTest(EndorsementType.FUTURE_DATED);
     }
@@ -280,7 +283,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Remove MPD Mid-Term endorsement when companion product is removed")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-28659")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-28659")
     public void pas28659_Discount_Removed_MidTerm_Endorsement(@Optional("") String state) {
         run_pas28659_DiscountRemovalTest(EndorsementType.MIDTERM);
     }
@@ -291,7 +294,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     private void run_pas28659_DiscountRemovalTest(EndorsementType endorsementType){
 
-        TestData testData = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData")
+        TestData testData = getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("DataGather"), "TestData")
                 .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoCaMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()))
                 .mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoCaMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()));
 
@@ -308,8 +311,8 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      * @runtime 4 minutes
      */
     @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Trigger Re-rate event when companion policies are edited or removed")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-24021")
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Trigger Re-rate event when companion policies are edited or removed")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24021")
     public void pas24021_MPD_ValidateRerateRuleFires(@Optional("") String state) {
         pas24021_MPD_ValidateRerateRuleFiresTemplate();
     }
@@ -323,8 +326,8 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      * @Runtime 2min
      */
     @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-24729")
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24729")
     public void pas3649_MPD_ValidateEligibilityRuleFires_Home(@Optional("") String state) {
         doMPDEligibilityTest("Home");
     }
@@ -336,8 +339,8 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      * @Runtime 2min
      */
     @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-24729")
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24729")
     public void pas3649_MPD_ValidateEligibilityRuleFires_Life(@Optional("") String state) {
         doMPDEligibilityTest("Life");
     }
@@ -349,8 +352,8 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      * @Runtime 3min
      */
     @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-24729")
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24729")
     public void pas3649_MPD_ValidateEligibility_MidTerm_Renters(@Optional("") String state) {
         doMPDEligibilityTest_MidTerm(false, "Renters");
     }
@@ -363,39 +366,39 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-24729")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24729")
     public void pas3649_MPD_ValidateEligibility_Renewal_Home(@Optional("") String state) {
         doMPDEligibilityTest_Renewal("Condo");
     }
 
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23456")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-23456")
     public void pas23456_MPD_Prevent_MTEBind(@Optional("") String state) {
         doMTEPreventBindTest(false, "Home");
     }
 
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23456")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-23456")
     public void pas23456_MPD_Allow_MTEBind(@Optional("") String state) {
         doMTEAllowBindTest(false, "Home");
     }
 
+
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-24729")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24729")
     public void pas23456_MPD_Prevent_Renewal(@Optional("") String state) {
         doMTEPreventBindTest_Renewals("Renters", false);
     }
-
     /**
      * Validates that a NB policy can be bound when adding a System-Validated Home policy.
      * @param state
      */
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-24729")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24729")
     public void pas23456_MPD_Allow_NBBindWithSystemValidatedPolicy(@Optional("") String state) {
         pas23456_MPD_Allow_NBBindWithSystemValidatedPolicyTemplate();
     }
@@ -404,8 +407,8 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
 
     @Parameters({"state"})
     @Test(enabled = true, groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-27241")
-    public void pas27241_MPDPagination(@Optional("AZ") String state){
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-27241")
+    public void pas27241_MPDPagination(@Optional("") String state){
         pas27241_MPDPaginationTemplate();
     }
 
@@ -444,13 +447,13 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
 
     @Override
     protected void validateMTEBindError(){
-        errorTab_Verify_ErrorsPresent(true, ErrorEnum.Errors.AAA_SS02012019);
+        errorTab_Verify_ErrorsPresent(true, ErrorEnum.Errors.AAA_CSA02012019);
     }
 
     @Override
     protected void validateMTEBindErrorDoesNotOccur(){
         try{
-            errorTab_Verify_ErrorsPresent(false, ErrorEnum.Errors.AAA_SS02012019);
+            errorTab_Verify_ErrorsPresent(false, ErrorEnum.Errors.AAA_CSA02012019);
         }catch(IstfException ex){
             CustomAssertions.assertThat(ex.getMessage()).isEqualToIgnoringCase("Column Code was not found in the table");
         }
@@ -560,6 +563,16 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     protected Tab getDocumentsAndBindTab() { return _documentsAndBindTab; }
 
     @Override
+    protected TestData getDocumentsAndBindTab_getRequiredToIssueAssetList(){
+     return _documentsAndBindTab.getRequiredToIssueAssetList().getValue();
+    }
+
+    @Override
+    protected void getDocumentsAndBindTab_setRequiredToIssueAssetList(TestData testData){
+        _documentsAndBindTab.getRequiredToIssueAssetList().setValue(testData);
+    }
+
+    @Override
     protected Tab getPurchaseTab(){ return _purchaseTab; }
 
     @Override
@@ -589,6 +602,9 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     protected TestData getPnCTab_RatingDetailsQuoteInfoData(){
         return  _pncTab.getRatingDetailsQuoteInfoData();
     }
+
+    @Override
+    protected String pncTab_ViewRatingDetails_MPDAppliedKVPLabel(){return "Multi-policy Discount";}
 
     @Override
     protected void closePnCTab_ViewRatingDetails(){
@@ -715,10 +731,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
                 getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS.getLabel(),
                         AutoCaMetaData.GeneralTab.NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS.getControlClass()).setValue(livedHereLessThan3Years);
 
-        // Residence
-        _generalTab.getNamedInsuredInfoAssetList().
-                getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(),
-                        AutoCaMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getControlClass()).setValue(residence);
+        // CA does not have Residence Dropdown like SS. Do not use parameter for CA.
     }
 
     @Override
