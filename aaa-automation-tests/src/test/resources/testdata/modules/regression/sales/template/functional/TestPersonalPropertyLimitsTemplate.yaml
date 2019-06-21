@@ -1,0 +1,155 @@
+# Bicycles SPP test data
+TestData_Bicycles: {
+  PersonalPropertyTab: '@PersonalPropertyTab_Bicycles'
+}
+
+PersonalPropertyTab_Bicycles: {
+  Bicycles: {
+    Limit of liability: '10000',
+    Description: 'aaa'
+  }
+}
+
+# Cameras SPP test data
+TestData_Cameras: {
+  PersonalPropertyTab: '@PersonalPropertyTab_Cameras'
+}
+
+PersonalPropertyTab_Cameras: {
+  Cameras: {
+    Limit of liability: '10000',
+    Description: 'aaa'
+  }
+}
+
+# Coins SPP test data
+TestData_Coins: {
+  PersonalPropertyTab: '@PersonalPropertyTab_Coins'
+}
+
+PersonalPropertyTab_Coins: {
+  Coins: {
+    Limit of liability: '10000',
+    Description: 'aaa'
+  }
+}
+
+# Fine arts SPP test data
+TestData_Fine_arts: {
+  PersonalPropertyTab: '@PersonalPropertyTab_Fine_arts'
+}
+
+PersonalPropertyTab_Fine_arts: {
+  'Fine arts': {
+    Limit of liability: '10000',
+    Description: 'aaa'
+  }
+}
+
+# Firearms SPP test data
+TestData_Firearms: {
+  PersonalPropertyTab: '@PersonalPropertyTab_Firearms'
+}
+
+PersonalPropertyTab_Firearms: {
+  Firearms: {
+    Limit of liability: '10000',
+    Description: 'aaa'
+  }
+}
+
+# Furs SPP test data
+TestData_Furs: {
+  PersonalPropertyTab: '@PersonalPropertyTab_Furs'
+}
+
+PersonalPropertyTab_Furs: {
+  Furs: {
+    Limit of liability: '10000',
+    Description: 'aaa'
+  }
+}
+
+# Golf equipment SPP test data
+TestData_Golf_equipment: {
+  PersonalPropertyTab: '@PersonalPropertyTab_Golf_equipment'
+}
+
+PersonalPropertyTab_Golf_equipment: {
+  'Golf equipment': {
+    Limit of liability: '10000',
+    Description: 'aaa'
+  }
+}
+
+# Jewelry SPP test data
+TestData_Jewelry: {
+  PersonalPropertyTab: '@PersonalPropertyTab_Jewelry'
+}
+
+PersonalPropertyTab_Jewelry: {
+  Jewelry: {
+    Limit of liability: '10000',
+    Description: 'aaa'
+  }
+}
+
+# Medical devices SPP test data
+TestData_Medical_devices: {
+  PersonalPropertyTab: '@PersonalPropertyTab_Medical_devices'
+}
+
+PersonalPropertyTab_Medical_devices: {
+  'Medical devices': {
+    Limit of liability: '10000',
+    Description: 'aaa'
+  }
+}
+
+# Musical instruments SPP test data
+TestData_Musical_instruments: {
+  PersonalPropertyTab: '@PersonalPropertyTab_Musical_instruments'
+}
+
+PersonalPropertyTab_Musical_instruments: {
+  'Musical instruments': {
+    Limit of liability: '10000',
+    Description: 'aaa'
+  }
+}
+
+# Postage stamps SPP test data
+TestData_Postage_stamps: {
+  PersonalPropertyTab: '@PersonalPropertyTab_Postage_stamps'
+}
+
+PersonalPropertyTab_Postage_stamps: {
+  'Postage stamps': {
+    Limit of liability: '10000',
+    Description: 'aaa'
+  }
+}
+
+# Silverware SPP test data
+TestData_Silverware: {
+  PersonalPropertyTab: '@PersonalPropertyTab_Silverware'
+}
+
+PersonalPropertyTab_Silverware: {
+  Silverware: {
+    Limit of liability: '10000',
+    Description: 'aaa'
+  }
+}
+
+# Trading cards or comics SPP test data
+TestData_Trading_cards_or_comics: {
+  PersonalPropertyTab: '@PersonalPropertyTab_Trading_cards_or_comics'
+}
+
+PersonalPropertyTab_Trading_cards_or_comics: {
+  'Trading cards or comics': {
+    Limit of liability: '10000',
+    Description: 'aaa'
+  }
+}
