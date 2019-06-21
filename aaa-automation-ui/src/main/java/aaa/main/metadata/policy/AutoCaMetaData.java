@@ -289,6 +289,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<TextBox> OCCURENCE_DATE = declare("Occurrence Date", TextBox.class);
 			public static final AssetDescriptor<AdvancedComboBox> DESCRIPTION = declare("Description", AdvancedComboBox.class);
 			public static final AssetDescriptor<TextBox> SUSPENSION_DATE = declare("Suspension Date", TextBox.class);
+			public static final AssetDescriptor<TextBox> REINSTATEMENT_DATE = declare("Reinstatement Date", TextBox.class);
 			public static final AssetDescriptor<TextBox> LOSS_PAYMENT_AMOUNT = declare("Loss Payment Amount", TextBox.class);
 			public static final AssetDescriptor<TextBox> ACCIDENT_POINTS = declare("Accident Points", TextBox.class);
 			public static final AssetDescriptor<TextBox> CONVICTION_POINTS = declare("Conviction Points", TextBox.class);
