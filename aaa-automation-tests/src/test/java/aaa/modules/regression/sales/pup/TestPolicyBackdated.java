@@ -6,23 +6,22 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.utils.TestInfo;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import toolkit.utils.TestInfo;
 
 /**
  * @author YongGang Sun
- * @name Test backdated policy
- * @scenario
- * 1. Create new quote
- * 2. Set Quote effective date < current date
- * 3. Check that appropriate rule about backdated Policy is fired
- * 4. Override rule and bind policy
- * @details
+ * <b> Test backdated policy </b>
+ * <p> Steps:
+ * <p> 1. Create new quote
+ * <p> 2. Set Quote effective date < current date
+ * <p> 3. Check that appropriate rule about backdated Policy is fired
+ * <p> 4. Override rule and bind policy
+ *
  */
 public class TestPolicyBackdated extends PersonalUmbrellaBaseTest {
 

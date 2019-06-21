@@ -1,9 +1,11 @@
 package aaa.modules.preconditions;
 
 import org.testng.annotations.Test;
-import aaa.helpers.jobs.Jobs;
 import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
 import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
+
 public class AddJob {
 
 	@Test
@@ -35,5 +37,9 @@ public class AddJob {
 		if (!service.isJobExist(JobGroup.fromSingleJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob.getJobName()))) {
 			service.createJob(JobGroup.fromSingleJob(Jobs.aaaCollectionCancelDebtBatchAsyncJob.getJobName()));
 		}
+		if (!service.isJobExist(JobGroup.fromSingleJob(Jobs.ledgerStatusUpdateJob.getJobName()))) {
+			service.createJob(JobGroup.fromSingleJob(Jobs.ledgerStatusUpdateJob.getJobName()));
+		}
+		JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
 	}
 }

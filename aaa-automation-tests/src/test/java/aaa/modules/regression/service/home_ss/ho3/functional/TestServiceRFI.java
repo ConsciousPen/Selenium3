@@ -51,14 +51,14 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name RFI
-	 * @scenario
-	 * Signed policy application - Not Signed
-	 * Proof of ENERGY STAR appliances or green home features - No
-	 * Proof of central fire alarm - No
-	 * Proof of central theft alarm - No
-	 * Proof of plumbing, electrical, heating/cooling system and roof renovations - No
-	 * @details
+	 * <b> RFI </b>
+	 * <p> Steps:
+	 * <p> Signed policy application - Not Signed
+	 * <p> Proof of ENERGY STAR appliances or green home features - No
+	 * <p> Proof of central fire alarm - No
+	 * <p> Proof of central theft alarm - No
+	 * <p> Proof of plumbing, electrical, heating/cooling system and roof renovations - No
+	 *
 	 */
 	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Parameters({"state"})
@@ -134,15 +134,15 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name RFI
-	 * @scenario
-	 * 1.Initiate quote creation.
-	 * Signed policy application - Not Signed
-	 * Proof of ENERGY STAR appliances or green home features - No
-	 * Proof of central fire alarm - No
-	 * Proof of central theft alarm - No
-	 * Proof of home renovations for the Home Modernization discount - No
-	 * @details
+	 * <b> RFI </b>
+	 * <p> Steps:
+	 * <p> 1.Initiate quote creation.
+	 * <p> Signed policy application - Not Signed
+	 * <p> Proof of ENERGY STAR appliances or green home features - No
+	 * <p> Proof of central fire alarm - No
+	 * <p> Proof of central theft alarm - No
+	 * <p> Proof of home renovations for the Home Modernization discount - No
+	 *
 	 */
 	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Parameters({"state"})

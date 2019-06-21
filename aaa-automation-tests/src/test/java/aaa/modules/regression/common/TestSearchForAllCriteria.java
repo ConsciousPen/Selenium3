@@ -36,16 +36,16 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 
 	/**
 	 * @author Dmitry Chubkov
-	 * @name Search for Account by its number and by all other criteria simultaneously
+	 * <b> Search for Account by its number and by all other criteria simultaneously </b>
 	 *
-	 * @scenario
-	 * 1. Open search page and choose "Account" as "Search For" criteria
-	 * 2. Fill existing "Account #" and press "Search" button
-	 * 3. Verify that search is successful: Account page opens for searched account number
-	 * 4. Open search page and choose "Account" as "Search For" criteria
-	 * 5. Fill all search by fields with valid values of same existed policy/customer, press "Search" button
-	 * 6. Verify that search is successful: Account page opens for searched criteria
-	 * @details
+	 * <p> Steps:
+	 * <p> 1. Open search page and choose "Account" as "Search For" criteria
+	 * <p> 2. Fill existing "Account #" and press "Search" button
+	 * <p> 3. Verify that search is successful: Account page opens for searched account number
+	 * <p> 4. Open search page and choose "Account" as "Search For" criteria
+	 * <p> 5. Fill all search by fields with valid values of same existed policy/customer, press "Search" button
+	 * <p> 6. Verify that search is successful: Account page opens for searched criteria
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
@@ -85,16 +85,16 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 
 	/**
 	 * @author Dmitry Chubkov
-	 * @name Search for Customer by its number and by all other criteria simultaneously
+	 * <b> Search for Customer by its number and by all other criteria simultaneously </b>
 	 *
-	 * @scenario
-	 * 1. Open search page and choose "Customer" as "Search For" criteria
-	 * 2. Fill existing "Customer #" and press "Search" button
-	 * 3. Verify that search is successful: Customer page opens for searched customer number
-	 * 4. Open search page and choose "Customer" as "Search For" criteria
-	 * 5. Fill all search by fields with valid values of same existed policy/customer, press "Search" button
-	 * 6. Verify that search is successful: Customer page opens for searched criteria
-	 * @details
+	 * <p> Steps:
+	 * <p> 1. Open search page and choose "Customer" as "Search For" criteria
+	 * <p> 2. Fill existing "Customer #" and press "Search" button
+	 * <p> 3. Verify that search is successful: Customer page opens for searched customer number
+	 * <p> 4. Open search page and choose "Customer" as "Search For" criteria
+	 * <p> 5. Fill all search by fields with valid values of same existed policy/customer, press "Search" button
+	 * <p> 6. Verify that search is successful: Customer page opens for searched criteria
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
@@ -123,16 +123,16 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 
 	/**
 	 * @author Dmitry Chubkov
-	 * @name Search for Billing Account by its number and by all other criteria simultaneously
+	 * <b> Search for Billing Account by its number and by all other criteria simultaneously </b>
 	 *
-	 * @scenario
-	 * 1. Open search page and choose "Billing" as "Search For" criteria
-	 * 2. Fill existing "Billing Account #" and press "Search" button
-	 * 3. Verify that search is successful: Billing page opens for searched billing account number
-	 * 4. Open search page and choose "Billing" as "Search For" criteria
-	 * 5. Fill all search by fields with valid values of same existed policy/customer, press "Search" button
-	 * 6. Verify that search is successful: Billing page opens for searched criteria
-	 * @details
+	 * <p> Steps:
+	 * <p> 1. Open search page and choose "Billing" as "Search For" criteria
+	 * <p> 2. Fill existing "Billing Account #" and press "Search" button
+	 * <p> 3. Verify that search is successful: Billing page opens for searched billing account number
+	 * <p> 4. Open search page and choose "Billing" as "Search For" criteria
+	 * <p> 5. Fill all search by fields with valid values of same existed policy/customer, press "Search" button
+	 * <p> 6. Verify that search is successful: Billing page opens for searched criteria
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
@@ -162,16 +162,16 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 
 	/**
 	 * @author Dmitry Chubkov
-	 * @name Search for Policy by its number and by all other criteria simultaneously
+	 * <b> Search for Policy by its number and by all other criteria simultaneously </b>
 	 *
-	 * @scenario
-	 * 1. Open search page and choose "Policy" as "Search For" criteria
-	 * 2. Fill "Policy/Quote #" of existing policy and press "Search" button
-	 * 3. Verify that search is successful: Policy page opens for searched policy number
-	 * 4. Open search page and choose "Policy" as "Search For" criteria
-	 * 5. Fill all search by fields with valid values of same existed policy/customer, press "Search" button
-	 * 6. Verify that search is successful: Policy page opens for searched criteria
-	 * @details
+	 * <p> Steps:
+	 * <p> 1. Open search page and choose "Policy" as "Search For" criteria
+	 * <p> 2. Fill "Policy/Quote #" of existing policy and press "Search" button
+	 * <p> 3. Verify that search is successful: Policy page opens for searched policy number
+	 * <p> 4. Open search page and choose "Policy" as "Search For" criteria
+	 * <p> 5. Fill all search by fields with valid values of same existed policy/customer, press "Search" button
+	 * <p> 6. Verify that search is successful: Policy page opens for searched criteria
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
@@ -201,16 +201,16 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 
 	/**
 	 * @author Dmitry Chubkov
-	 * @name Search for Quote by its number and by all other criteria simultaneously
+	 * <b> Search for Quote by its number and by all other criteria simultaneously </b>
 	 *
-	 * @scenario
-	 * 1. Open search page and choose "Quote" as "Search For" criteria
-	 * 2. Fill "Policy/Quote #" of existing quote and press "Search" button
-	 * 3. Verify that search is successful: Quote page opens for searched quote number
-	 * 4. Open search page and choose "Quote" as "Search For" criteria
-	 * 5. Fill all search by fields with valid values of same existed quote/customer, press "Search" button
-	 * 6. Verify that search is successful: Quote page opens for searched criteria
-	 * @details
+	 * <p> Steps:
+	 * <p> 1. Open search page and choose "Quote" as "Search For" criteria
+	 * <p> 2. Fill "Policy/Quote #" of existing quote and press "Search" button
+	 * <p> 3. Verify that search is successful: Quote page opens for searched quote number
+	 * <p> 4. Open search page and choose "Quote" as "Search For" criteria
+	 * <p> 5. Fill all search by fields with valid values of same existed quote/customer, press "Search" button
+	 * <p> 6. Verify that search is successful: Quote page opens for searched criteria
+	 *
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})

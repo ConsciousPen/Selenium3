@@ -44,9 +44,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		licenseNumber = ratingDataPattern.getTestData(DriverTab.class.getSimpleName()).getValue(AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel());
 		ratingDataPattern = ratingDataPattern.mask(new DriverTab().getMetaKey()).resolveLinks();
 
-		if (openLPolicy.getReinstatements() != null && openLPolicy.getReinstatements() > 0) {
-			//TODO-dchubkov: to be implemented...
-			throw new NotImplementedException("Test data generation for \"reinstatements\" greater than 0 is not implemented.");
+		if (openLPolicy.getReinstatements() != null && openLPolicy.getReinstatements() > 0 && !openLPolicy.isNewRenPasCappedPolicy()) {
+			throw new IstfException("Not possible to create reinstatement's for LegacyConv or new quote policy");
 		}
 		assertThat(getState()).as("State from TestDataGenerator differs from openl file's state").isEqualTo(openLPolicy.getCappingDetails().getState());
 
@@ -94,7 +93,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	public TestData getCappingData(AutoSSOpenLPolicy openLPolicy) {
 		double manualCappingFactor = openLPolicy.isCappedPolicy() ? openLPolicy.getCappingDetails().getTermCappingFactor() * 100 : 100;
 		return DataProviderFactory.dataOf(AutoSSMetaData.PremiumAndCoveragesTab.VIEW_CAPPING_DETAILS_DIALOG.getLabel(), DataProviderFactory.dataOf(
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.MANUAL_CAPPING_FACTOR.getLabel(), manualCappingFactor,
+				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.MANUAL_CAPPING_FACTOR.getLabel(), Math.round(manualCappingFactor * 100.0) / 100.0,
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.CAPPING_OVERRIDE_REASON.getLabel(), "index=1",
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.BUTTON_CALCULATE.getLabel(), "click"));
 	}
@@ -126,7 +125,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		TestData namedInsuredInformationData = DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(), getGeneralTabResidence(openLPolicy.isHomeOwner()),
 				AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel(),
-				Constants.States.MD.equals(openLPolicy.getState()) && openLPolicy.isLegacyConvPolicy() && !openLPolicy.getDrivers().get(0).isCleanDriver() ? openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY) : openLPolicy.getEffectiveDate().minusYears(openLPolicy.getAaaInsurancePersistency()).format(DateTimeUtils.MM_DD_YYYY));    //
+				openLPolicy.getAaaInsurancePersistency() < 0 || Constants.States.MD.equals(openLPolicy.getState()) && openLPolicy.isLegacyConvPolicy() && !openLPolicy.getDrivers().get(0).isCleanDriver() ? openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY) : openLPolicy.getEffectiveDate().minusYears(openLPolicy.getAaaInsurancePersistency()).format(DateTimeUtils.MM_DD_YYYY));    //
 
 		Map<String, Object> currentAAAMembershipData = new HashMap<>();
 		currentAAAMembershipData.put(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()));
@@ -239,7 +238,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		boolean isFirstDriver = true;
 		boolean isEmployeeSet = false;
 		boolean isAARPSet = false;
-		boolean setADBCoverage = openLPolicy.getVehicles().stream().map(AutoSSOpenLVehicle::getCoverages).flatMap(List::stream).anyMatch(c -> "ADB".equals(c.getCoverageCd()));
+		int driversWithADB = 0;
+		if (openLPolicy.getVehicles().stream().map(AutoSSOpenLVehicle::getCoverages).flatMap(List::stream).anyMatch(c -> "ADB".equals(c.getCoverageCd()))) {
+			driversWithADB = Integer.parseInt(openLPolicy.getVehicles().stream().map(AutoSSOpenLVehicle::getCoverages).flatMap(List::stream).filter(c -> "ADB".equals(c.getCoverageCd())).findFirst().get().getLimit());
+			assertThat(driversWithADB).as("Number of drivers with ADB is more than total number of drivers").isLessThanOrEqualTo(openLPolicy.getDrivers().size());
+		}
 		int aggregateCompClaims = openLPolicy.getAggregateCompClaims() != null ? openLPolicy.getAggregateCompClaims() : 0;
 		int nafAccidents = openLPolicy.getNafAccidents() != null ? openLPolicy.getNafAccidents() : 0;
 
@@ -293,7 +296,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				String[] firstLastName = driver.getName().split("\\s", 2);
 				String firstName = firstLastName[0];
 				String lastName = firstLastName.length > 1 ? firstLastName[1] : firstName;
-				int driverAge = openLPolicy.isNewRenPasCappedPolicy() ? driver.getDriverAge() - 1 : driver.getDriverAge();
+				int driverAge = openLPolicy.isNewRenPasCappedPolicy() && openLPolicy.getTerm() == 12 ? driver.getDriverAge() - 1 : driver.getDriverAge();
 				driverData.put(AutoSSMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), DataProviderFactory.emptyData());
 				driverData.put(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), firstName);
 				driverData.put(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), lastName);
@@ -427,9 +430,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				}
 			}
 
-			if (setADBCoverage) {
+			if (driversWithADB-- > 0) {
 				driverData.put(AutoSSMetaData.DriverTab.ADB_COVERAGE.getLabel(), "Yes");
-				setADBCoverage = false;
 			}
 
 			driversTestDataList.add(new SimpleDataProvider(driverData));
@@ -809,7 +811,14 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		TestData td = new SimpleDataProvider(vehicleInformation);
 		if (vehicle.getCoverages().stream().anyMatch(c -> "LOAN".equals(c.getCoverageCd()))) {
-			TestData ownershipData = DataProviderFactory.dataOf(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE.getLabel(), "Leased");
+			TestData ownershipData = DataProviderFactory.dataOf(
+					AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE.getLabel(), "Leased",
+					AutoSSMetaData.VehicleTab.Ownership.FIRST_NAME.getLabel(), "Other",
+					AutoSSMetaData.VehicleTab.Ownership.ZIP_CODE.getLabel(), zipCode,
+					AutoSSMetaData.VehicleTab.Ownership.ADDRESS_LINE_1.getLabel(), "111 Address1",
+					AutoSSMetaData.VehicleTab.Ownership.VALIDATE_ADDRESS_BTN.getLabel(), "click",
+					AutoSSMetaData.VehicleTab.Ownership.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.dataOf("Street number", "111", "Street Name", "Address1")
+			);
 			td.adjust(AutoSSMetaData.VehicleTab.OWNERSHIP.getLabel(), ownershipData);
 		}
 

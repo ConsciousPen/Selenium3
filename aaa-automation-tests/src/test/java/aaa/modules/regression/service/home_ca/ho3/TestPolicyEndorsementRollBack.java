@@ -5,7 +5,6 @@ package aaa.modules.regression.service.home_ca.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -17,17 +16,17 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Ryan Yu
- * @name Test Roll Back Endorsement for Home Policy
- * @scenario
- * 1. Create Customer
- * 2. Create Home Policy
- * 3. Create Midterm Endorsement
- * 4. Verify 'Pended Endorsement' button is disabled
- * 5. Verify Policy status is 'Policy Active'
- * 6. Verify Ending Premium is changed
- * 7. Roll Back Endorsement
- * 8. Verify Ending Premium was roll back
- * @details
+ * <b> Test Roll Back Endorsement for Home Policy </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create Home Policy
+ * <p> 3. Create Midterm Endorsement
+ * <p> 4. Verify 'Pended Endorsement' button is disabled
+ * <p> 5. Verify Policy status is 'Policy Active'
+ * <p> 6. Verify Ending Premium is changed
+ * <p> 7. Roll Back Endorsement
+ * <p> 8. Verify Ending Premium was roll back
+ *
  */
 public class TestPolicyEndorsementRollBack extends PolicyEndorsementRollBack {
 
@@ -42,7 +41,7 @@ public class TestPolicyEndorsementRollBack extends PolicyEndorsementRollBack {
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
 	public void testPolicyEndormentRollBack(@Optional("CA") String state) {
 
-		super.testPolicyEndorsementRollBack();
+		testPolicyEndorsementRollBack();
 
 	}
 }

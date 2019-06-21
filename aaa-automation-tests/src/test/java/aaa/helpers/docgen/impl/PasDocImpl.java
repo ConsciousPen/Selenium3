@@ -77,6 +77,21 @@ public class PasDocImpl extends DocumentWrapper {
 		return RemoteHelper.get().waitForDocAppearance(PASDOC_SOURCE_FOLDER, DOCUMENT_GENERATION_TIMEOUT, policyNumber, textsToSearchPatterns);
 	}
 
+	public static boolean waitAndCheckDocumentsAppearance(String policyNumber, DocGenEnum.EventName eventName, DocGenEnum.Documents... documents) {
+		List<String> textsToSearchPatterns = new ArrayList<>();
+		textsToSearchPatterns.add(String.format("<%1$s:PolicyNumber>%2$s</%1$s:PolicyNumber>", DocGenEnum.XmlnsNamespaces.DOC_PREFIX, policyNumber));
+		if (eventName != null) {
+			textsToSearchPatterns.add(String.format("<%1$s:EventName>%2$s</%1$s:EventName>", DocGenEnum.XmlnsNamespaces.DOC_PREFIX, eventName));
+		}
+		for (int i = 0; i < documents.length; i++) {
+			Arrays.asList(documents).stream().forEach(documents1 ->
+					textsToSearchPatterns.add(String.format("<%1$s:TemplateId>%2$s</%1$s:TemplateId>", DocGenEnum.XmlnsNamespaces.DOC_PREFIX, documents1.getIdInXml()))
+			);
+		}
+		
+		return RemoteHelper.get().waitAndCheckDocumentAppearance(PASDOC_SOURCE_FOLDER, 10, textsToSearchPatterns);
+	}
+	
 	public static DocumentGenerationRequest verifyDocumentsGenerated(String policyNumber, DocGenEnum.Documents... documents) {
 		return verifyDocumentsGenerated(null, true, false, policyNumber, documents);
 	}
@@ -141,7 +156,7 @@ public class PasDocImpl extends DocumentWrapper {
 
 		for (DocGenEnum.Documents document : documents) {
 			String docPolicyNum = documentGenerationRequest.getDocumentData().getPolicyNumber();
-			Document doc = documentGenerationRequest.getDocuments().stream().filter(document1 -> document1.getTemplateId().equals(document.getIdInXml())).findFirst().orElse(null);
+			Document doc = documentGenerationRequest.findDocument(document);
 			String errorMessagePolicy = String.format("Policy number in generated document '%s' doesn't match expected '%s'", docPolicyNum, policyNumber);
 			String errorMessageDocId;
 			if (doc != null) {
@@ -174,4 +189,5 @@ public class PasDocImpl extends DocumentWrapper {
 		log.info("Documents generation verification has been successfully passed.");
 		return documentGenerationRequest;
 	}
+	
 }

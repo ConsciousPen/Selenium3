@@ -73,8 +73,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last Name", TextBox.class);
 			public static final AssetDescriptor<ComboBox> SUFFIX = declare("Suffix", ComboBox.class);
 			// public static final AssetDescriptor<TextBox> SOCIAL_SECURITY_NUMBER = declare("Social Security Number", TextBox.class);
-			//TODO: uncomment this when the CA DOB branch is merged to master feature/PAS-19369-CA-DOB-19.8
-			//public static final AssetDescriptor<TextBox> INSURED_DATE_OF_BIRTH = declare ("Insured Date of Birth", TextBox.class);
+			public static final AssetDescriptor<TextBox> INSURED_DATE_OF_BIRTH = declare ("Insured Date of Birth", TextBox.class);
 			public static final AssetDescriptor<TextBox> BASE_DATE = declare("Base Date", TextBox.class);
 			public static final AssetDescriptor<ComboBox> ADDRESS_TYPE = declare("Address Type", ComboBox.class);
 			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip Code", TextBox.class);
@@ -232,6 +231,8 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<ComboBox> NAMED_INSURED = declare("Named Insured", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> DRIVER_TYPE = declare("Driver Type", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> REASON = declare("Reason", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> CARRIER = declare("Carrier", ComboBox.class);
+		public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class);
 		public static final AssetDescriptor<AdvancedComboBox> REL_TO_FIRST_NAMED_INSURED = declare("Rel. to First Named Insured", AdvancedComboBox.class);
 		public static final AssetDescriptor<ComboBox> TITLE = declare("Title", ComboBox.class);
 		public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First Name", TextBox.class);
@@ -591,11 +592,11 @@ public final class AutoCaMetaData {
 
 			public static final AssetDescriptor<AdvancedComboBox> ENHANCED_TRASPORTATION_EXPENCE = declare("Enhanced Transportation Expense", AdvancedComboBox.class);
 			public static final AssetDescriptor<ComboBox> ALL_RISK = declare("All Risk", ComboBox.class);
-			public static final AssetDescriptor<ComboBox> NEW_CAR_ADDED_PROTECTION = declare("New Car Added Protection", ComboBox.class);
+			public static final AssetDescriptor<AdvancedComboBox> NEW_CAR_ADDED_PROTECTION = declare("New Car Added Protection", AdvancedComboBox.class);
 			public static final AssetDescriptor<TextBox> PURCHASE_DATE = declare("Purchase Date", TextBox.class);
-			public static final AssetDescriptor<ComboBox> VEHICLE_LOAN_OR_LEASE_PROTECTION = declare("Vehicle Loan/Lease Protection", ComboBox.class);
-			public static final AssetDescriptor<ComboBox> ORIGINAL_EQUIPMENT_MANUFACTURER_PARTS = declare("Original Equipment Manufacturer Parts", ComboBox.class);
-			public static final AssetDescriptor<ComboBox> RIDESHARING_COVERAGE = declare("Ridesharing Coverage", ComboBox.class);
+			public static final AssetDescriptor<AdvancedComboBox> VEHICLE_LOAN_OR_LEASE_PROTECTION = declare("Vehicle Loan/Lease Protection", AdvancedComboBox.class);
+			public static final AssetDescriptor<AdvancedComboBox> ORIGINAL_EQUIPMENT_MANUFACTURER_PARTS = declare("Original Equipment Manufacturer Parts", AdvancedComboBox.class);
+			public static final AssetDescriptor<AdvancedComboBox> RIDESHARING_COVERAGE = declare("Ridesharing Coverage", AdvancedComboBox.class);
 			// *** DO NOT DECLARE "Waive Liability" and "Vehicle Coverage" controls in this MetaData. They are added within DetailedVehicleCoveragesRepeatAssetList.class ***
 		}
 

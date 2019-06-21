@@ -20,12 +20,12 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Lina Li
- * @name Test Initiate Auto Quote
- * @scenario
- * 1. Create Customer
- * 2. Initiated AutoSS Quote
- * 3. Verify quote status is 'Data Gathering' and policy number is present
- * @details
+ * <b> Test Initiate Auto Quote </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Initiated AutoSS Quote
+ * <p> 3. Verify quote status is 'Data Gathering' and policy number is present
+ *
  */
 public class TestQuoteInitiate extends AutoSSBaseTest {
 

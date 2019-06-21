@@ -1,5 +1,10 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import java.util.Map;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.google.common.collect.ArrayListMultimap;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -11,14 +16,8 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.modules.regression.sales.template.functional.TestComparisonConflictAbstract;
 import aaa.utils.StateList;
-import com.google.common.collect.ArrayListMultimap;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import java.util.Map;
 
 @StateList(states = Constants.States.AZ)
 public class TestVersionsConflict extends TestComparisonConflictAbstract {
@@ -164,7 +163,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 
 	//Atomic merge for Contact Information
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-27234"})
 	public void pas27234_renewalAtomicMergeContactInformation(@Optional("AZ") String state) {
 		renewalMerge(getTDNBPolicy(), getTDContactInformationVersion3(), getTDContactInformationVersion4(), VersionsConflictConstants.CONTACT_INFORMATION,  VersionsConflictConstants.CONTACT_INFORMATION_VERSION_3,  "GeneralTab", "ContactInformation");
@@ -418,7 +417,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 
 
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-27030"})
 	public void pas27030_ooseConflictManualPremiumAndCoverages(@Optional("AZ") String state) {
 		ooseConflict(getTDNBPolicy(), getTDPremiumAndCoveragesVersion1(), getTDPremiumAndCoveragesVersion2(), VersionsConflictConstants.PREMIUM_AND_COVERAGES,  VersionsConflictConstants.PREMIUM_AND_COVERAGES_VERSION_2, VersionsConflictConstants.PREMIUM_AND_COVERAGES_VERSION_1,  "PremiumAndCoveragesTab", "PremiumAndCoverages", false);

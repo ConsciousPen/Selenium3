@@ -22,7 +22,6 @@ public class TestPersistentMatchScore extends AutoSSBaseTest {
     GeneralTab _generalTab = new GeneralTab();
     /**
      * This test will evaluate if the Match Score Value associated with customer searches is populated in the DB after adding a companion policy.
-     * @implNote Team: CIO
      * @param state
      */
     @Parameters({"state"})

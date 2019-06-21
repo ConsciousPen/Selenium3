@@ -20,38 +20,51 @@ public class TestRenewal extends TestRenewalTemplate {
     }
 
     @Parameters({"state"})
-    @Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+    @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CFT})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
     public void testRenewalScenario_1(@Optional("") String state) {
         testRenewalScenario_1();
     }
 
     @Parameters({"state"})
-    @Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+    @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CFT})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
     public void testRenewalScenario_2(@Optional("") String state) {
         testRenewalScenario_2();
     }
 
     @Parameters({"state"})
-    @Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+    @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CFT})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
     public void testRenewalScenario_3(@Optional("") String state) {
         testRenewalScenario_3();
     }
 
     @Parameters({"state"})
-    @Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+    @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CFT})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
     public void testRenewalScenario_4(@Optional("") String state) {
         testRenewalScenario_4();
     }
 
     @Parameters({"state"})
-    @Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+    @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CFT})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
     public void testRenewalScenario_5(@Optional("") String state) {
         testRenewalScenario_5();
     }
 
+    @Parameters({"state"})
+    @Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
+    public void testRenewalScenario_6(@Optional("") String state) {
+        testRenewalScenario_6();
+    }
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
+	public void testRenewalScenario_7(@Optional("") String state) {
+		testRenewalScenario_7();
+	}
 }

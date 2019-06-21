@@ -5,7 +5,6 @@ package aaa.modules.regression.service.pup;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -14,14 +13,14 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Lina Li
- * @name Test delete pending renewals
- * @scenario
- * 1. Create Customer
- * 2. Create Personal Umbrella Policy 
- * 3. Renew Policy
- * 4. Delete Pended Transaction
- * 5. Verify 'Renewals' button is disabled
- * @details
+ * <b> Test delete pending renewals </b>
+ * <p> Steps:
+ * <p> 1. Create Customer
+ * <p> 2. Create Personal Umbrella Policy
+ * <p> 3. Renew Policy
+ * <p> 4. Delete Pended Transaction
+ * <p> 5. Verify 'Renewals' button is disabled
+ *
  */
 public class TestPolicyRenewDeletePending extends PolicyRenewDeletePending {
 
@@ -36,7 +35,7 @@ public class TestPolicyRenewDeletePending extends PolicyRenewDeletePending {
 	@TestInfo(component = ComponentConstant.Service.PUP)
 	public void testPolicyRenewDeletePending(@Optional("") String state) {
 
-		super.testPolicyRenewDeletePending();
+		testPolicyRenewDeletePending();
 
 	}
 }

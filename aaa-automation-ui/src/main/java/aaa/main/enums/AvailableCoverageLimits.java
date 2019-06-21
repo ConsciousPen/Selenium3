@@ -69,8 +69,8 @@ public enum AvailableCoverageLimits {
 	)),
 	APIP_NY(ImmutableList.of(
 			CoverageLimits.COV_0,
-			CoverageLimits.COV_50000_FULL,
-			CoverageLimits.COV_100000_FULL
+			CoverageLimits.COV_50000_APIP,
+			CoverageLimits.COV_100000_APIP
 	)),
 	COV_PIPDEDAPPTO_DE(ImmutableList.of(
 			CoverageLimits.COV_PIPDEDAPPTO_NIO,
@@ -172,7 +172,7 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_1000000
 	)),
 	PD_CA(ImmutableList.of(
-			CoverageLimits.COV_5000,//5000 will be removed starting from 2019-06-07
+			//CoverageLimits.COV_5000,//5000 is removed starting from 2019-06-07
 			CoverageLimits.COV_10000,
 			CoverageLimits.COV_25000,
 			CoverageLimits.COV_50000,
@@ -353,6 +353,10 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_FALSE_NO_COVERAGE,
 			CoverageLimits.COV_TRUE
 	)),
+	GLASS_CA(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_1
+	)),
 	UMBI_CT(ImmutableList.of(
 			CoverageLimits.COV_2550,
 			CoverageLimits.COV_4080,
@@ -434,6 +438,7 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_500500
 	)),
 	UIMBI_CA(ImmutableList.of(
+			CoverageLimits.COV_00,//this limit should not be available, but it doesn't matter as canChange is always false
 			CoverageLimits.COV_1530,
 			CoverageLimits.COV_2550,
 			CoverageLimits.COV_3060,
@@ -499,6 +504,19 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_750,
 			CoverageLimits.COV_1000
 			)),
+	COMPDED_CA(ImmutableList.of(
+			CoverageLimits.COV_NO_COV,
+			CoverageLimits.COV_50,
+			CoverageLimits.COV_100,
+			CoverageLimits.COV_150,
+			CoverageLimits.COV_200,
+			CoverageLimits.COV_250,
+			CoverageLimits.COV_300,
+			CoverageLimits.COV_400,
+			CoverageLimits.COV_500,
+			CoverageLimits.COV_750,
+			CoverageLimits.COV_1000
+	)),
 	COLLDED(ImmutableList.of(
 			CoverageLimits.COV_100,
 			CoverageLimits.COV_250,
@@ -506,7 +524,38 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_750,
 			CoverageLimits.COV_1000
 	)),
+	COLLDED_CA(ImmutableList.of(
+			CoverageLimits.COV_NO_COV,
+			CoverageLimits.COV_150,
+			CoverageLimits.COV_250,
+			CoverageLimits.COV_500,
+			CoverageLimits.COV_750,
+			CoverageLimits.COV_1000
+	)),
 	LOAN(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_1
+	)),
+	LOAN_CA(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_1
+	)),
+	ETEC_CA(ImmutableList.of(
+			CoverageLimits.COV_25750,
+			CoverageLimits.COV_30900,
+			CoverageLimits.COV_401200,
+			CoverageLimits.COV_501500
+	)),
+	ALLRISK_CA(ImmutableList.of(
+			CoverageLimits.COV_NO_COV,
+			CoverageLimits.COV_250,
+			CoverageLimits.COV_500
+	)),
+	OEM_CA(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_1
+	)),
+	NEWCAR_CA(ImmutableList.of(
 			CoverageLimits.COV_0,
 			CoverageLimits.COV_1
 	)),
@@ -539,6 +588,7 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_100000
 
 	)),
+
 	MEDPM_CA(ImmutableList.of(
 			CoverageLimits.COV_0,
 			CoverageLimits.COV_1000,
@@ -546,6 +596,10 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_5000,
 			CoverageLimits.COV_10000,
 			CoverageLimits.COV_25000
+	)),
+	RIDESHARE_CA(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_1
 	)),
 	IL_PA(ImmutableList.of(
 			CoverageLimits.COV_00,
@@ -640,6 +694,14 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_500500,
 			CoverageLimits.COV_5001000,
 			CoverageLimits.COV_10001000
+	)),
+	MEDPM_NV(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_1000,
+			CoverageLimits.COV_2000,
+			CoverageLimits.COV_5000,
+			CoverageLimits.COV_10000,
+			CoverageLimits.COV_25000
 	)),
 
 	COV_PIPLENINCCONT_NJ(ImmutableList.of(

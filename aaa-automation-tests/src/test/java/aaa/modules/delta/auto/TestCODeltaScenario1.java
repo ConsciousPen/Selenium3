@@ -143,7 +143,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
                     Arrays.asList("Available for Rating", "Not Available for Rating", "Excluded"));
 
             softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class)).hasOptions(
-                    Arrays.asList("First Named Insured", "Spouse", "Child", "Parent", "Sibling", "Other Resident Relative", "Employee", "Other", "Registered Domestic Partner/Civil Union"));
+                    Arrays.asList("Spouse", "Child", "Parent", "Sibling", "Other Resident Relative", "Employee", "Other", "Registered Domestic Partner/Civil Union"));
 
             softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.GENDER.getLabel(), ComboBox.class)).hasOptions(Arrays.asList("Male", "Female"));
 

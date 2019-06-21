@@ -1,5 +1,9 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -12,16 +16,11 @@ import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 
@@ -32,23 +31,23 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 
 	/**
 	  * @author Jurij Kuznecov
-	  * @name Test CAH Quote Determine Eligibility
-	  *     rules for:
-	  *     - Detached Structures
-	  *     - Roof Type/Condition
-	  *     - Stoves
-	  * @scenario 
-	  * 1.  Create new or open existent Customer
-	  * 2.  Create a new HO3 quote and fill mandatory fields
-	  * 3.  Verify an eligibility error if 4 not rented detached structures are added
-	  * 4.  Verify an eligibility error if 3 rented detached structures are added
-	  * 5.  Verify an eligibility error if Limit of Liabilities + CovB > CovA
-	  * 6.  Verify an eligibility error if Limit of Liabilities >= 50% * CovA
-	  * 7.  Verify an eligibility error if Roof renovation = "3+ layers"  
-	  * 8.  Verify an eligibility error if Roof shape = "Flat"
-	  * 9.  Verify an eligibility error if Wood Stove Is Sole Source Of Heat
-	  * 10. Verify an eligibility error if there is a Wood Stove but no fire alarm
-	  * 11. Verify an eligibility error if Wood Stove wasn't installed professionally    
+	 * <b> Test CAH Quote Determine Eligibility </b>
+	 * <p>     rules for:
+	 * <p>     - Detached Structures
+	 * <p>     - Roof Type/Condition
+	 * <p>     - Stoves
+	 * <p> Steps:
+	 * <p> 1.  Create new or open existent Customer
+	 * <p> 2.  Create a new HO3 quote and fill mandatory fields
+	 * <p> 3.  Verify an eligibility error if 4 not rented detached structures are added
+	 * <p> 4.  Verify an eligibility error if 3 rented detached structures are added
+	 * <p> 5.  Verify an eligibility error if Limit of Liabilities + CovB > CovA
+	 * <p> 6.  Verify an eligibility error if Limit of Liabilities >= 50% * <p> CovA
+	 * <p> 7.  Verify an eligibility error if Roof renovation = "3+ layers"
+	 * <p> 8.  Verify an eligibility error if Roof shape = "Flat"
+	 * <p> 9.  Verify an eligibility error if Wood Stove Is Sole Source Of Heat
+	 * <p> 10. Verify an eligibility error if there is a Wood Stove but no fire alarm
+	 * <p> 11. Verify an eligibility error if Wood Stove wasn't installed professionally
 	  */
 	@Parameters({"state"})
 	@StateList(states =  States.CA)
@@ -84,7 +83,7 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 		goToBindAndVerifyError(Errors.ERROR_AAA_HO_CA12240000);
 		removeAllDetachedStructures();
 
-		// 6. Verify an eligibility error if Limit of Liabilities >= 50% * CovA
+		// 6. Verify an eligibility error if Limit of Liabilities >= 50% * <p> CovA
 		propertyInfoTab.fillTab(getTestSpecificTD("DetachedStructures_TotalGreaterHalfCovA"));
 		goToBindAndVerifyError(Errors.ERROR_AAA_HO_CA12240080);
 		removeAllDetachedStructures();
@@ -145,18 +144,18 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 
 	/**
 	  * @author Jurij Kuznecov
-	  * @name Test CAH Quote Determine Eligibility SC2
-	  *     rules for:
-	  *     - Year Built
-	  *     - Loss Info
-	  *     - Animal Info
-	  * @scenario 
-	  * 1.  Create new or open existent Customer
-	  * 2.  Create a new HO3 quote and fill mandatory fields
-	  * 3.  Verify an eligibility error if Year built < 1900
-	  * 4.  Verify an eligibility error if there is one liability loss claim
-	  * 5.  Verify an eligibility error if Claim is more than 25000 in 3 years
-	  * 6.  Verify error if animal count is > 100
+	 * <b> Test CAH Quote Determine Eligibility SC2 </b>
+	 * <p>     rules for:
+	 * <p>     - Year Built
+	 * <p>     - Loss Info
+	 * <p>     - Animal Info
+	 * <p> Steps:
+	 * <p> 1.  Create new or open existent Customer
+	 * <p> 2.  Create a new HO3 quote and fill mandatory fields
+	 * <p> 3.  Verify an eligibility error if Year built < 1900
+	 * <p> 4.  Verify an eligibility error if there is one liability loss claim
+	 * <p> 5.  Verify an eligibility error if Claim is more than 25000 in 3 years
+	 * <p> 6.  Verify error if animal count is > 100
 	  */
 
 	@Parameters({"state"})
@@ -203,20 +202,20 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 
 	/**
 	 * @author Jurij Kuznecov
-	 * @name Test CAH Quote Determine Eligibility SC3
-	 *     rules for:
-	 *     - Coverage - HO3
-	 *     - Additional Insured Count
-	 *     - Home Renovation
-	 * @scenario 
-	 * 1.  Create new or open existent Customer
-	 * 2.  Create a new HO3 quote and fill mandatory fields
-	 * 3.  Verify an eligibility error if  CovA  is more than 20% ABOVE the home replacement cost from ISO
-	 * 4.  Verify an eligibility error if there are > 2 Additional Insured
-	 * 5.  Verify an eligibility error if electrical renovation is not eligible
-	 * 6.  Verify an eligibility error if roof renovation is not eligible
-	 * 7.  Verify an eligibility error if heat renovation is not eligible
-	 * 8.  Verify an eligibility error if plumbing renovation is not eligible
+	 * <b> Test CAH Quote Determine Eligibility SC3 </b>
+	 * <p>     rules for:
+	 * <p>     - Coverage - HO3
+	 * <p>     - Additional Insured Count
+	 * <p>     - Home Renovation
+	 * <p> Steps:
+	 * <p> 1.  Create new or open existent Customer
+	 * <p> 2.  Create a new HO3 quote and fill mandatory fields
+	 * <p> 3.  Verify an eligibility error if  CovA  is more than 20% ABOVE the home replacement cost from ISO
+	 * <p> 4.  Verify an eligibility error if there are > 2 Additional Insured
+	 * <p> 5.  Verify an eligibility error if electrical renovation is not eligible
+	 * <p> 6.  Verify an eligibility error if roof renovation is not eligible
+	 * <p> 7.  Verify an eligibility error if heat renovation is not eligible
+	 * <p> 8.  Verify an eligibility error if plumbing renovation is not eligible
 	 */
 	@Parameters({"state"})
 	@StateList(states =  States.CA)

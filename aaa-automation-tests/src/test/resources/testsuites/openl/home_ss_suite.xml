@@ -8,13 +8,6 @@
     <!-- Local tests execution parameters -->
     <!--<parameter name="testsDir" value="src/test/resources/openl/home_ss"/>-->
     <!--<parameter name="localTests" value="true"/>-->
-    <test name="HomeSS [AZ] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="AZTests-20170920_part1.xls"/>
-        <parameter name="policyNumbers" value="2,33"/>
-        <classes>
-            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
-        </classes>
-    </test>
     <test name="HomeSS [AZ] Premium Calculation Test 2019" preserve-order="true">
         <parameter name="fileName" value="AZTests-20190618.xls"/>
         <parameter name="policyNumbers" value="175,184"/>
@@ -171,7 +164,7 @@
     </test>
     <test name="HomeSS [OH] Premium Calculation Test 2019" preserve-order="true">
         <parameter name="fileName" value="OHTests-20190702.xls"/>
-        <parameter name="policyNumbers" value="201, 189"/>
+        <parameter name="policyNumbers" value="201, 134"/>
         <classes>
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
@@ -179,6 +172,14 @@
     <test name="HomeSS [OK] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="OKTests-20180426.xls"/>
         <parameter name="policyNumbers" value="73,74"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="HomeSS [OK] Premium Calculation Test 2019" preserve-order="true">
+        <parameter name="fileName" value="OKTests-20190611.xls"/>
+        <parameter name="policyNumbers" value="140, 170"/>
+        <parameter name="testsDir" value="aaa-rating-rules-home/src/test/openl/rules"/>
         <classes>
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
