@@ -425,6 +425,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		// Mask Vehicle from DriverVehicleRelationshipTable
 		TestData firstAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver");
 		testData.adjust(assignmentTab.getMetaKey(), new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", firstAssignment));
+		testData.adjust(TestData.makeKeyPath(premiumAndCoveragesTab.getMetaKey(), AutoCaMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel()), "contains=$10,000");
 
 		createQuoteAndFillUpTo(testData, VehicleTab.class);
 
@@ -436,8 +437,8 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		});
 
 		//Navigate to the P&C Page and grab the comp and coll symbols on the VRD:
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
+		policy.getDefaultView().fillFromTo(testData, AssignmentTab.class, PremiumAndCoveragesTab.class, true);
 		PremiumAndCoveragesTab.RatingDetailsView.open();
 
 		//PAS-27309: Grab CA Select Symbols
