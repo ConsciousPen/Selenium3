@@ -53,16 +53,6 @@ public class MiniServicesSetup extends MiniServicesSetupPreconditions {
 		DBService.get().executeUpdate(MiniServicesSetupPreconditions.AAA_LOOKUP_CONFIG_INSERT_UPDATE_COVERAGES);
 	}
 
-	@Test(description = "Enabling 'canChange' for UMBI and UMPD for VA on test environment. This is turned off by default till atleast 19.5", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
-	public static void enableUMBIForVA() {
-		enableCoverageForState(Constants.States.VA, "UMBI");
-	}
-
-	@Test(description = "Enabling 'canChange' for UMBI and UMPD for VA on test environment. This is turned off by default till atleast 19.5", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
-	public static void enableUMPDForVA() {
-		enableCoverageForState(Constants.States.VA, "UMPD");
-	}
-
 	protected static void enableCoverageForState(String state, String coverageCd) {
 		if (DBService.get().executeUpdate(String.format(AAA_LOOKUP_CONFIG_GET_CANCHANGE_FOR_STATE_COVERAGE, state, coverageCd)) == 0) {
 			printToLog("Configuration does not exist for the Coverage. Inserting new configuration...");
