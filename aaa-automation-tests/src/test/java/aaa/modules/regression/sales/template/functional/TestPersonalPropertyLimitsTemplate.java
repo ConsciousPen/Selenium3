@@ -119,13 +119,13 @@ public class TestPersonalPropertyLimitsTemplate extends PolicyBaseTest {
             log.info("VALIDATIONS PASSED FOR " + getPolicyType().getShortName() + ": " + entry.getKey());
         }
 
-        // Add items at max threshold from multiple categories until 50% of cov C is exceeded
+        // Add items at half of max threshold from multiple categories until 50% of cov C is exceeded
         Dollar currentTotal = new Dollar(0);
         PersonalPropertyMultiAssetList lastAsset = personalPropertyTab.getAssetList().getAsset(PolicyConstants.ScheduledPersonalPropertyTable.BICYCLES, PersonalPropertyMultiAssetList.class);
         for (Map.Entry<String, Dollar> entry : articleTypes.entrySet()) {
             PersonalPropertyMultiAssetList thisAsset = personalPropertyTab.getAssetList().getAsset(entry.getKey(), PersonalPropertyMultiAssetList.class);
-            thisAsset.fill(getCategoryTd(entry.getKey(), entry.getValue().toPlaingString(), 1));
-            currentTotal = currentTotal.add(entry.getValue());
+            thisAsset.fill(getCategoryTd(entry.getKey(), entry.getValue().divide(2).toPlaingString(), 1));
+            currentTotal = currentTotal.add(entry.getValue().divide(2));
             if (currentTotal.moreThan(covC50)) {
                 lastAsset = thisAsset;
                 break;
