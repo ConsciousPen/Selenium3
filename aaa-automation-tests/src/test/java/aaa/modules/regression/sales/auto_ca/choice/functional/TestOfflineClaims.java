@@ -302,7 +302,6 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
      * 9) Verify the above overrides should not show up and it should bind the endorsement
      * @details Clean Path. Expected Result is that UW override rules does not show when PU flag is set as Yes
      */
-
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-27908")
