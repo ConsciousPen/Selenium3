@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.ho3.functional;
+package aaa.modules.regression.sales.home_ss.ho4.functional;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -13,7 +13,7 @@ public class TestPersonalPropertyLimits extends TestPersonalPropertyLimitsTempla
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.HOME_SS_HO3;
+        return PolicyType.HOME_SS_HO4;
     }
 
     /**
@@ -29,7 +29,7 @@ public class TestPersonalPropertyLimits extends TestPersonalPropertyLimitsTempla
      * 7.  Add multiple items each under threshold and aggregate total above category threshold
      * 8.  Navigate back to SPP tab and update last item
      * 9.  Navigate to Bind, validate no errors
-     * 10. Start data gather mode and navigate to SPP tab and remove entries
+     * 10. Start data gather mode and navigate to SPP tab and remove entries4
      * 11. Add items at max threshold from multiple categories until 50% of cov C is exceeded
      * 12. Navigate to bind tab and validate error
      * 13. Navigate back to SPP tab and remove last item
@@ -37,7 +37,7 @@ public class TestPersonalPropertyLimits extends TestPersonalPropertyLimitsTempla
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-29091")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-29091")
     public void pas29091_testScheduledPersonalPropertyMaxLimits(@Optional("") String state) {
         testScheduledPersonalPropertyMaxLimitsNB();
 

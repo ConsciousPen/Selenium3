@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.ho3.functional;
+package aaa.modules.regression.sales.home_ss.ho6.functional;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -13,7 +13,7 @@ public class TestPersonalPropertyLimits extends TestPersonalPropertyLimitsTempla
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.HOME_SS_HO3;
+        return PolicyType.HOME_SS_HO6;
     }
 
     /**
@@ -37,10 +37,11 @@ public class TestPersonalPropertyLimits extends TestPersonalPropertyLimitsTempla
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-29091")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-29091")
     public void pas29091_testScheduledPersonalPropertyMaxLimits(@Optional("") String state) {
         testScheduledPersonalPropertyMaxLimitsNB();
 
     }
 
 }
+

@@ -11,6 +11,7 @@ import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.PersonalPropertyMultiAssetList;
 import toolkit.datax.DataProviderFactory;
@@ -112,11 +113,13 @@ public class TestPersonalPropertyLimitsTemplate extends PolicyBaseTest {
 
         // Add items at max threshold from multiple categories until 50% of cov C is exceeded
         Dollar currentTotal = new Dollar(0);
+        PersonalPropertyMultiAssetList lastAsset = personalPropertyTab.getAssetList().getAsset(PolicyConstants.ScheduledPersonalPropertyTable.BICYCLES, PersonalPropertyMultiAssetList.class);
         for (Map.Entry<String, Dollar> entry : articleTypes.entrySet()) {
             PersonalPropertyMultiAssetList thisAsset = personalPropertyTab.getAssetList().getAsset(entry.getKey(), PersonalPropertyMultiAssetList.class);
             thisAsset.fill(getCategoryTd(entry.getKey(), entry.getValue().toPlaingString(), 1));
             currentTotal = currentTotal.add(entry.getValue());
             if (currentTotal.moreThan(covC50)) {
+                lastAsset = thisAsset;
                 break;
             }
         }
@@ -125,6 +128,14 @@ public class TestPersonalPropertyLimitsTemplate extends PolicyBaseTest {
         navigateToBindTabAndSubmit();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS4230108);
 
+        // Navigate back to SPP tab and remove last item
+        navigateToSPPTab();
+        lastAsset.removeAll();
+
+        // Bind policy and validate
+        navigateToBindTabAndSubmit();
+        purchaseTab.fillTab(getPolicyTD()).submitTab();
+        assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
     }
 
     private TestData getCategoryTd(String category, String limit, int numItems) {

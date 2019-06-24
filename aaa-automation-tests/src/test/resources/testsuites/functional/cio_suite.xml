@@ -15,4 +15,13 @@
         </classes>
     </test>
 
+    <test name="Test Scheduled Personal Property Max Values SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPersonalPropertyLimits"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPersonalPropertyLimits"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPersonalPropertyLimits"/>
+        </classes>
+    </test>
+
 </suite>
