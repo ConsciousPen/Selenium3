@@ -102,10 +102,10 @@ public class TestPersonalPropertyLimitsTemplate extends PolicyBaseTest {
             navigateToBindTabAndSubmit();
             errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS4230168);
 
-            // Navigate back to SPP tab and update last item
+            // Navigate back to SPP tab and update last item so just under category threshold
             errorTab.cancel();
             navigateToSPPTab();
-            thisAsset.getAsset(limitOfLiability, TextBox.class).setValue(perItemValue.toPlaingString());
+            thisAsset.getAsset(limitOfLiability, TextBox.class).setValue(perItemValue.subtract(new Dollar(1)).toPlaingString());
 
             // Navigate to Bind, validate no errors
             navigateToBindTabAndSubmit();
@@ -116,7 +116,7 @@ public class TestPersonalPropertyLimitsTemplate extends PolicyBaseTest {
             policy.dataGather().start();
             navigateToSPPTab();
             thisAsset.removeAll();
-            log.info(entry.getKey() + " PASSED VALIDATIONS");
+            log.info("VALIDATIONS PASSED FOR " + getPolicyType().getShortName() + ": " + entry.getKey());
         }
 
         // Add items at max threshold from multiple categories until 50% of cov C is exceeded
