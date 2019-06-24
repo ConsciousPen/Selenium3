@@ -67,7 +67,7 @@ public class TestPersonalPropertyLimitsTemplate extends PolicyBaseTest {
         Dollar covC50 = covC.getPercentage(50);
 
         // Calculate amount to reach 25% of cov C for category (for use in loop)
-        int numItems = 5;
+        int numItems = 3;
         Dollar perItemValue = covC25.divide(numItems);
 
         // Navigate to SPP section and add HS 04 61 endorsement
@@ -136,6 +136,7 @@ public class TestPersonalPropertyLimitsTemplate extends PolicyBaseTest {
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS4230108);
 
         // Navigate back to SPP tab and remove last item
+        errorTab.cancel();
         navigateToSPPTab();
         lastAsset.removeAll();
 
