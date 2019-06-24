@@ -78,6 +78,7 @@ public class TestPersonalPropertyLimitsTemplate extends PolicyBaseTest {
 
         // Loop through each article type
         for (Map.Entry<String, Dollar> entry : articleTypes.entrySet()) {
+            log.info("STARTING VALIDATION FOR " + getPolicyType().getShortName() + ": " + entry.getKey());
             PersonalPropertyMultiAssetList thisAsset = personalPropertyTab.getAssetList().getAsset(entry.getKey(), PersonalPropertyMultiAssetList.class);
 
             // Add one item above threshold
@@ -115,7 +116,7 @@ public class TestPersonalPropertyLimitsTemplate extends PolicyBaseTest {
             policy.dataGather().start();
             navigateToSPPTab();
             thisAsset.removeAll();
-
+            log.info(entry.getKey() + " PASSED VALIDATIONS");
         }
 
         // Add items at max threshold from multiple categories until 50% of cov C is exceeded
