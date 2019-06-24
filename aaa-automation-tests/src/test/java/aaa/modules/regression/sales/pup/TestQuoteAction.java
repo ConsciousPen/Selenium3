@@ -46,7 +46,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
      */
 	@Parameters({"state"})
 	//@StateList("All")
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	//@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.PUP )
     public void testQuoteIssue(@Optional("") String state) {
 		testQuoteIssue();
