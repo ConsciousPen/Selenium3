@@ -6,48 +6,34 @@ import java.util.stream.IntStream;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.SearchPage;
 import aaa.main.enums.EndorsementForms;
 import aaa.main.enums.ErrorEnum;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.PersonalPropertyMultiAssetList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.webdriver.controls.TextBox;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestPersonalPropertyLimitsTemplate extends PolicyBaseTest {
 
-//    private static final String BICYCLES = "Bicycles";
-//    private static final String CAMERAS = "Cameras";
-//    private static final String COINS = "Coins";
-//    private static final String FINE_ARTS = "Fine arts";
-//    private static final String FIREARMS = "Firearms";
-//    private static final String FURS = "Furs";
-//    private static final String GOLF_EQUIPMENT = "Golf equipment";
-//    private static final String JEWELRY = "Jewelry";
-//    private static final String MEDICAL_DEVICES = "Medical devices";
-//    private static final String MUSICAL_INSTRUMENTS = "Musical instruments";
-//    private static final String POSTAGE_STAMPS = "Postage stamps";
-//    private static final String SILVERWARE = "Silverware";
-//    private static final String TRADING_CARDS_COMICS = "Trading cards or comics";
-
-
     private Map<String, Dollar> articleTypes = new LinkedHashMap<String, Dollar>() {{
-        put("Bicycles", new Dollar(10000));
-        put("Cameras", new Dollar(10000));
-        put("Coins", new Dollar(10000));
-        put("Fine arts", new Dollar(20000));
-        put("Firearms", new Dollar(10000));
-        put("Furs", new Dollar(20000));
-        put("Golf equipment", new Dollar(20000));
-        put("Jewelry", new Dollar(50000));
-        put("Medical devices", new Dollar(20000));
-        put("Musical instruments", new Dollar(20000));
-        put("Postage stamps", new Dollar(10000));
-        put("Silverware", new Dollar(20000));
-        put("Trading cards or comics", new Dollar(10000));
+        put(HomeSSMetaData.PersonalPropertyTab.BICYCLES.getLabel(), new Dollar(10000));
+        put(HomeSSMetaData.PersonalPropertyTab.CAMERAS.getLabel(), new Dollar(10000));
+        put(HomeSSMetaData.PersonalPropertyTab.COINS.getLabel(), new Dollar(10000));
+        put(HomeSSMetaData.PersonalPropertyTab.FINE_ARTS.getLabel(), new Dollar(20000));
+        put(HomeSSMetaData.PersonalPropertyTab.FIREARMS.getLabel(), new Dollar(10000));
+        put(HomeSSMetaData.PersonalPropertyTab.FURS.getLabel(), new Dollar(20000));
+        put(HomeSSMetaData.PersonalPropertyTab.GOLF_EQUIPMENT.getLabel(), new Dollar(20000));
+        put(HomeSSMetaData.PersonalPropertyTab.JEWELRY.getLabel(), new Dollar(50000));
+        put(HomeSSMetaData.PersonalPropertyTab.MEDICAL_DEVICES.getLabel(), new Dollar(20000));
+        put(HomeSSMetaData.PersonalPropertyTab.MUSICAL_INSTRUMENTS.getLabel(), new Dollar(20000));
+        put(HomeSSMetaData.PersonalPropertyTab.POSTAGE_STAMPS.getLabel(), new Dollar(10000));
+        put(HomeSSMetaData.PersonalPropertyTab.SILVERWARE.getLabel(), new Dollar(20000));
+        put(HomeSSMetaData.PersonalPropertyTab.TRADING_CARDS_OR_COMICS.getLabel(), new Dollar(10000));
     }};
 
     private PersonalPropertyTab personalPropertyTab = new PersonalPropertyTab();
@@ -58,23 +44,23 @@ public class TestPersonalPropertyLimitsTemplate extends PolicyBaseTest {
     private ErrorTab errorTab = new ErrorTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
 
+    private static String limitOfLiability = HomeSSMetaData.PersonalPropertyTab.Bicycles.LIMIT_OF_LIABILITY.getLabel();
+    private static String description = HomeSSMetaData.PersonalPropertyTab.Bicycles.DESCRIPTION.getLabel();
+
     protected void testScheduledPersonalPropertyMaxLimitsNB() {
 
         // Initiate quote and fill up to Documents Tab
         createQuoteAndFillUpTo(getPolicyTD(), DocumentsTab.class);
         premiumsAndCoveragesQuoteTab.calculatePremium();
 
-        // ****************************************************
-//        mainApp().open();
-//        SearchPage.openQuote("QAZH3952918574");
-//        policy.dataGather().start();
-//        premiumsAndCoveragesQuoteTab.calculatePremium();
-        // ****************************************************
-
         // Capture Coverage C and calculate percentages
         Dollar covC = new Dollar(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C).getValue());
         Dollar covC25 = covC.getPercentage(25);
         Dollar covC50 = covC.getPercentage(50);
+
+        // Calculate amount to reach 25% of cov C for category (for use in loop)
+        int numItems = 5;
+        Dollar perItemValue = covC25.divide(numItems);
 
         // Navigate to SPP section and add HS 04 61 endorsement
         NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_ENDORSEMENT.get());
@@ -86,53 +72,92 @@ public class TestPersonalPropertyLimitsTemplate extends PolicyBaseTest {
         for (Map.Entry<String, Dollar> entry : articleTypes.entrySet()) {
             PersonalPropertyMultiAssetList thisAsset = personalPropertyTab.getAssetList().getAsset(entry.getKey(), PersonalPropertyMultiAssetList.class);
 
-            // Calculate number of items to reach 25% of cov C for category
-            Dollar catMax = entry.getValue();
-            int maxItems = (int)Math.floor(covC25.divide(catMax));
-
             // Add one item above threshold
-            thisAsset.fill(getCategoryTd(entry.getKey(), 1)
-                    .adjust(TestData.makeKeyPath(entry.getKey() + "[0]", "Limit of liability"), entry.getValue().add(new Dollar(1)).toString()));
+            thisAsset.fill(getCategoryTd(entry.getKey(), entry.getValue().add(new Dollar(1)).toString(), 1));
 
             // Navigate to Bind, validate error message
             navigateToBindTabAndSubmit();
             errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3282281);
+            if (entry.getValue().equals(covC25) || entry.getValue().moreThan(covC25)) {
+                errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS4230168);
+            }
 
             // Navigate back to SPP tab and remove items
             errorTab.cancel();
             navigateToSPPTab();
             thisAsset.removeAll();
 
-            // Add multiple items each under threshold and total above category threshold
-            thisAsset.fill(getCategoryTd(entry.getKey(), maxItems + 1));
+            // Add multiple items each under threshold and aggregate total above category threshold
+            thisAsset.fill(getCategoryTd(entry.getKey(), perItemValue.toPlaingString(), numItems).resolveLinks()
+                    .adjust(TestData.makeKeyPath(entry.getKey() + "[" + (numItems - 1) + "]", limitOfLiability), perItemValue.add(new Dollar(1)).toPlaingString()));
             navigateToBindTabAndSubmit();
             errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS4230168);
 
-            // Navigate back to SPP tab and remove one item
+            // Navigate back to SPP tab and update last item
             errorTab.cancel();
             navigateToSPPTab();
-            thisAsset.removeSection(1);
+            thisAsset.getAsset(limitOfLiability, TextBox.class).setValue(perItemValue.toPlaingString());
 
             // Navigate to Bind, validate no errors
             navigateToBindTabAndSubmit();
             assertThat(purchaseTab.isVisible()).isTrue();
             PurchaseTab.buttonCancel.click();
 
-            // Start data gather mode and navigate to SPP tab
+            // Start data gather mode and navigate to SPP tab and remove entries
             policy.dataGather().start();
             navigateToSPPTab();
+            thisAsset.removeAll();
 
         }
 
-        // TODO add testing for above overall threshold
+        // Add items at max threshold from multiple categories until 50% of cov C is exceeded
+        Dollar currentTotal = new Dollar(0);
+        for (Map.Entry<String, Dollar> entry : articleTypes.entrySet()) {
+            PersonalPropertyMultiAssetList thisAsset = personalPropertyTab.getAssetList().getAsset(entry.getKey(), PersonalPropertyMultiAssetList.class);
+            thisAsset.fill(getCategoryTd(entry.getKey(), entry.getValue().toPlaingString(), 1));
+            currentTotal = currentTotal.add(entry.getValue());
+            if (currentTotal.moreThan(covC50)) {
+                break;
+            }
+        }
 
-        // TODO add testing for 2+ groups under cat thresholds and under overall threshold and bind
+        // Navigate to bind tab and validate error
+        navigateToBindTabAndSubmit();
+        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS4230108);
+
     }
 
-    private TestData getCategoryTd(String category, int numItems) {
-        TestData td = DataProviderFactory.dataOf(
-                "Limit of liability", articleTypes.get(category),
-                "Description", "test");
+    private TestData getCategoryTd(String category, String limit, int numItems) {
+        TestData td;
+        switch (category) {
+            case PolicyConstants.ScheduledPersonalPropertyTable.COINS:
+                td = DataProviderFactory.dataOf(limitOfLiability, limit, HomeSSMetaData.PersonalPropertyTab.Coins.NUMBER_OF_ARTICLES.getLabel(), "3", description, "test");
+                break;
+            case PolicyConstants.ScheduledPersonalPropertyTable.FINE_ARTS:
+                td = DataProviderFactory.dataOf(limitOfLiability, limit, HomeSSMetaData.PersonalPropertyTab.FineArts.FORM_OF_ART.getLabel(), "Painting", description, "test");
+                break;
+            case PolicyConstants.ScheduledPersonalPropertyTable.GOLF_EQUIPMENT:
+                td = DataProviderFactory.dataOf(limitOfLiability, limit, HomeSSMetaData.PersonalPropertyTab.GolfEquipment.LEFT_OR_RIGHT_HANDED_CLUB.getLabel(), "contains=Left", description, "test");
+                break;
+            case PolicyConstants.ScheduledPersonalPropertyTable.JEWELRY:
+                td = DataProviderFactory.dataOf(limitOfLiability, limit, HomeSSMetaData.PersonalPropertyTab.Jewelry.JEWELRY_CATEGORY.getLabel(), "Ring", description, "test");
+                break;
+            case PolicyConstants.ScheduledPersonalPropertyTable.MEDICAL_DEVICES:
+                td = DataProviderFactory.dataOf(limitOfLiability, limit, HomeSSMetaData.PersonalPropertyTab.MedicalDevices.TYPE_OF_DEVICE.getLabel(), "Hearing Aid", description, "test");
+                break;
+            case PolicyConstants.ScheduledPersonalPropertyTable.POSTAGE_STAMPS:
+                td = DataProviderFactory.dataOf(limitOfLiability, limit, HomeSSMetaData.PersonalPropertyTab.PostageStamps.NUMBER_OF_STAMPS.getLabel(), "2", description, "test");
+                break;
+            case PolicyConstants.ScheduledPersonalPropertyTable.SILVERWARE:
+                td = DataProviderFactory.dataOf(limitOfLiability, limit, HomeSSMetaData.PersonalPropertyTab.Silverware.SET_OR_INDIVIDUAL_PIECE.getLabel(), "Set", description, "test");
+                break;
+            case PolicyConstants.ScheduledPersonalPropertyTable.TRADING_CARDS_COMICS:
+                td = DataProviderFactory.dataOf(limitOfLiability, limit, HomeSSMetaData.PersonalPropertyTab.TradingCardsOrComics.NUMBER_OF_COMIC_BOOKS_OR_CARDS.getLabel(), "2",
+                        HomeSSMetaData.PersonalPropertyTab.TradingCardsOrComics.CERTIFICATE_OF_AUTHENTICITY_RECEIVED.getLabel(), "Yes", description, "test");
+                break;
+            default:
+                td = DataProviderFactory.dataOf(limitOfLiability, limit, description, "test");
+        }
         List<TestData> list = new ArrayList<>();
         for (int i = 0; i < numItems; i++) {
             list.add(td);
