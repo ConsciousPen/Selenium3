@@ -10,6 +10,7 @@ import aaa.main.enums.EndorsementForms;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -55,7 +56,13 @@ public class TestPersonalPropertyLimitsTemplate extends PolicyBaseTest {
         premiumsAndCoveragesQuoteTab.calculatePremium();
 
         // Capture Coverage C and calculate percentages
-        Dollar covC = new Dollar(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C).getValue());
+        Dollar covC;
+        if (getPolicyType().equals(PolicyType.HOME_SS_HO4)) {
+            covC = new Dollar(PremiumsAndCoveragesQuoteTab.tableCoverages.getRowContains("Description", HomeSSMetaData.PremiumsAndCoveragesQuoteTab.HomeSSCoverages.COVERAGE_C.get())
+                    .getCell("Limits ($)").getValue());
+        } else {
+            covC = new Dollar(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C).getValue());
+        }
         Dollar covC25 = covC.getPercentage(25);
         Dollar covC50 = covC.getPercentage(50);
 
