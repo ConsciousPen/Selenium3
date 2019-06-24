@@ -577,3 +577,11 @@ PAS-31508:
               aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocPreBind.testScenario6, 
               aaa.modules.regression.document_fulfillment.auto_ss.TestScenario4.TC01_CreatePolicy]
       messages: ["No files have been found containing text pattern(s)"]
+PAS-31187:
+  summary: "Regression Master: KY Auto - City and County taxes aren't displayed in 'State and Local Taxes & Premium Surcharges' table on Renewal"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
+    messages: ["expected:<$4,[412.00]> but was:<$4,[500.24]"]
+  - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
+    messages: ["expected:<$5,[691.00]> but was:<$5,[804.82]>"]
