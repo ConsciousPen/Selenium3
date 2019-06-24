@@ -49,7 +49,8 @@ public class TestVINUpload extends TestVINUploadTemplate {
     private static final String HHHNK2CC7F9455583 = "HHHNK2CC7F9455583"; // New9VIN_CA_SELECT
     private static final String NEW_VIN8 = "ABXKN3DDXE0344466";
     private static final String NEW_VIN9 = "LLXKN3DD0E0344466";
-    private static final String NEW_VIN10 = "1C4RJEAT3H1111111";
+    private static final String NEW_VIN10 = "NM0LE7H71J1111111"; //Cargo Van - no choice vin row
+//    private static final String NEW_VIN11 = "1C4RJEAT3H1111111"; //Jeep  - no choice vin row
 
     private VehicleTab vehicleTab = new VehicleTab();
     private UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();

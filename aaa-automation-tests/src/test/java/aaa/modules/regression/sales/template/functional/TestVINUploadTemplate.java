@@ -605,15 +605,19 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		TestData testData = getPolicyTD();
 		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber);
 		testData.adjust(TestData.makeKeyPath(premiumAndCoveragesTab.getMetaKey(), AutoCaMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel()), "contains=$10,000");
-		TestData firstAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver");
-		testData.adjust(assignmentTab.getMetaKey(), new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", firstAssignment));
+		testData.adjust("AssignmentTab", getTwoAssignmentsTestData()).resolveLinks();
 
 		//Initiate quote, fill to the P&C Page, then open the VRD:
-		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
+		createQuoteAndFillUpTo(testData, VehicleTab.class);
+		VehicleTab.buttonAddVehicle.click();
+		vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN).setValue(vinNumber);
+		vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.PRIMARY_USE).setValue("Pleasure (recreational driving only)");
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
+		policy.getDefaultView().fillFromTo(testData, AssignmentTab.class, PremiumAndCoveragesTab.class, true);
 		premiumAndCoveragesTab.calculatePremium();
 		PremiumAndCoveragesTab.RatingDetailsView.open();
 
-		//Grab CA Select Symbols
+		//Grab CA Select Symbols for vehicle 1
 		String selectCompSymbol = tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue();
 		String selectCollSymbol = tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
 		String selectBISymbol = tableRatingDetailsVehicles.getRow(1, "BI Symbol").getCell(2).getValue();
@@ -624,7 +628,6 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		//29402: Change CA Product and calculate premium; vehicle data should refresh
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT).setValue("CA Choice");
-		//May need to set coverage:
 		premiumAndCoveragesTab.calculatePremium();
 		PremiumAndCoveragesTab.RatingDetailsView.open();
 
@@ -636,12 +639,20 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "PD Symbol").getCell(2).getValue()).isNotEqualTo(selectPDSymbol);
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "UM Symbol").getCell(2).getValue()).isNotEqualTo(selectUMSymbol);
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "MP Symbol").getCell(2).getValue()).isNotEqualTo(selectMPSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(3).getValue()).isNotEqualTo(selectCompSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(3).getValue()).isNotEqualTo(selectCollSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "BI Symbol").getCell(3).getValue()).isNotEqualTo(selectBISymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "PD Symbol").getCell(3).getValue()).isNotEqualTo(selectPDSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "UM Symbol").getCell(3).getValue()).isNotEqualTo(selectUMSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "MP Symbol").getCell(3).getValue()).isNotEqualTo(selectMPSymbol);
 		});
 
 		//29402: Change CA Product and calculate premium; vehicle data should refresh
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT).setValue("CA Select");
-		premiumAndCoveragesTab.calculatePremium();
+		ErrorTab errorTab = new ErrorTab(); //Missing vehicle details - Tab is expected
+		errorTab.cancel();
 		PremiumAndCoveragesTab.RatingDetailsView.open();
+
 		//Verify the CA Select Symbols are shown and have not been changed
 		assertSoftly(softly -> {
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isEqualTo(selectCompSymbol);
@@ -650,10 +661,15 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "PD Symbol").getCell(2).getValue()).isEqualTo(selectPDSymbol);
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "UM Symbol").getCell(2).getValue()).isEqualTo(selectUMSymbol);
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "MP Symbol").getCell(2).getValue()).isEqualTo(selectMPSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(3).getValue()).isEqualTo(selectCompSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(3).getValue()).isEqualTo(selectCollSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "BI Symbol").getCell(3).getValue()).isEqualTo(selectBISymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "PD Symbol").getCell(3).getValue()).isEqualTo(selectPDSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "UM Symbol").getCell(3).getValue()).isEqualTo(selectUMSymbol);
+			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "MP Symbol").getCell(3).getValue()).isEqualTo(selectMPSymbol);
 		});
 		PremiumAndCoveragesTab.RatingDetailsView.close();
 	}
-
 
 	private TestData getTestDataTwoVehicles(String vinNumber) {
 		// Build test data with 2 vehicles
