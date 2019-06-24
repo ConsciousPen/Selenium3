@@ -459,7 +459,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      * @return Test Data for an AZ SS policy with no other active policies
      */
     @Override
-    protected TestData getTdAuto() {
+    protected TestData getTdAuto_mask_CurrentCarrier_RequiredToIssue() {
         return getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData")
                 .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()))
                 .mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()));
@@ -696,7 +696,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      * @param residence can be any option in the Residence drop down.
      */
     @Override
-    public void addNamedInsured(String firstName, String lastName, String dateOfBirth, String livedHereLessThan3Years, String residence){
+    public void generalTab_addNamedInsured(String firstName, String lastName, String dateOfBirth, String livedHereLessThan3Years, String residence){
         // Click Add Insured Button
         _generalTab.getNamedInsuredInfoAssetList()
                 .getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADD_INSURED.getLabel(),

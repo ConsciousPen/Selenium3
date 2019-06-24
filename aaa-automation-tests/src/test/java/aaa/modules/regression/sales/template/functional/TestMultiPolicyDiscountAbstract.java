@@ -58,7 +58,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     /**
      * @return Test Data for an AZ SS policy with no other active policies
      */
-    protected abstract TestData getTdAuto();
+    protected abstract TestData getTdAuto_mask_CurrentCarrier_RequiredToIssue();
 
     ////////////////////////
     // Navigation Helpers //
@@ -101,6 +101,16 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     // General Tab -> OtherAAAProductsOwned (MPD Section_ -> SearchOtherAAAProducts
     protected abstract Button getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_AddSelectedBtnAsset();
     protected abstract StaticElement getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_ExceededLimitMessageAsset();
+
+    /**
+     * Adds another named insured and fills out required data.
+     * @param firstName is named insured's first name.
+     * @param lastName is named insured's last name.
+     * @param dateOfBirth is named insured's date of birth in mm/dd/yyyy format
+     * @param livedHereLessThan3Years is "Yes" or "No" if named insured has lived at location for less than 3 years.
+     * @param residence can be any option in the Residence drop down.
+     */
+    protected abstract void generalTab_addNamedInsured(String firstName, String lastName, String dateOfBirth, String livedHereLessThan3Years, String residence);
 
     ////////////////////////
     // Driver Tab Helpers //
@@ -170,16 +180,6 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     protected abstract CheckBox getUnquotedCheckBox(mpdPolicyType policyType);
 
     /**
-     * Adds another named insured and fills out required data.
-     * @param firstName is named insured's first name.
-     * @param lastName is named insured's last name.
-     * @param dateOfBirth is named insured's date of birth in mm/dd/yyyy format
-     * @param livedHereLessThan3Years is "Yes" or "No" if named insured has lived at location for less than 3 years.
-     * @param residence can be any option in the Residence drop down.
-     */
-    protected abstract void addNamedInsured(String firstName, String lastName, String dateOfBirth, String livedHereLessThan3Years, String residence);
-
-    /**
      * Used to search an MPD policy, via Customer Details. <br>
      * @param firstName This parameter has been chosen to drive the search results/response. Edit this field with mapped MPD search string to manipulate which response comes back. <br>
      * @param lastName Customer Last Name. <br>
@@ -197,7 +197,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
      * @author Robert Boles - CIO
      */
     protected void pas29273_updateReasonMPDRemoval_Template() {
-        TestData testData = getTdAuto();
+        TestData testData = getTdAuto_mask_CurrentCarrier_RequiredToIssue();
         mainApp().open();
         createCustomerIndividual();
         policy.initiate();
@@ -334,7 +334,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         // Step 2
 
         // REFRESH_P will come back with all 3 property types
-        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        generalTab_addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         getGeneralTab_OtherAAAProductsOwned_RefreshAsset().click(Waiters.AJAX);
 
@@ -390,7 +390,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         // Step 3
 
         // REFRESH_P will come back with all 3 property types
-        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        generalTab_addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         getGeneralTab_OtherAAAProductsOwned_RefreshAsset().click(Waiters.AJAX);
 
@@ -584,7 +584,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         createQuoteAndFillUpTo(testData, getGeneralTab().getClass(), true);
 
         // Add second NI
-        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        generalTab_addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         // Move to documents and bind tab.
         getGeneralTab().submitTab();
@@ -628,7 +628,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         createQuoteAndFillUpTo(testData, getGeneralTab().getClass(), true);
 
         // Add second NI
-        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        generalTab_addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         // Trigger refresh
         getGeneralTab_OtherAAAProductsOwned_RefreshAsset().click(Waiters.AJAX);
@@ -673,7 +673,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         createQuoteAndFillUpTo(testData, getGeneralTab().getClass(), true);
 
         // Add second NI
-        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        generalTab_addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         // Trigger refresh
         getGeneralTab_OtherAAAProductsOwned_RefreshAsset().click(Waiters.AJAX);
@@ -735,7 +735,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         createQuoteAndFillUpTo(testData, getGeneralTab().getClass(), true);
 
         // Add second NI
-        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        generalTab_addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         // Trigger refresh
         getGeneralTab_OtherAAAProductsOwned_RefreshAsset().click(Waiters.AJAX);
