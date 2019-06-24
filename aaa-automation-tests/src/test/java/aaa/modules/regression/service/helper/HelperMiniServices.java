@@ -23,6 +23,10 @@ public class HelperMiniServices extends PolicyBaseTest {
 
 	public void createEndorsementWithCheck(String policyNumber) {
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		createEndorsementWithCheck(policyNumber, endorsementDate);
+	}
+
+	public void createEndorsementWithCheck(String policyNumber, String endorsementDate) {
 		ZonedDateTime localDateTimeEndorsement = LocalDateTime.of(LocalDate.parse(endorsementDate), LocalTime.MIDNIGHT).atZone(ZoneId.systemDefault());
 		String endorsementDateDXP = convertDateToAZDate(localDateTimeEndorsement);
 		PolicySummary response = HelperCommon.createEndorsement(policyNumber, endorsementDate);
@@ -54,6 +58,11 @@ public class HelperMiniServices extends PolicyBaseTest {
 	private static String convertDateToAZDate(ZonedDateTime zonedDateTime) {
 		ZonedDateTime zonedDateTimePHX = ZonedDateTime.ofInstant(zonedDateTime.toInstant(), ZoneId.of("America/Phoenix"));
 		return zonedDateTimePHX.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+	}
+
+	public static String convertDateToAZDate(String date){
+		ZonedDateTime zonedDateTime = LocalDateTime.of(LocalDate.parse(date), LocalTime.MIDNIGHT).atZone(ZoneId.systemDefault());
+		return convertDateToAZDate(zonedDateTime);
 	}
 
 	public String addVehicleWithChecks(String policyNumber, String purchaseDate, String vin, boolean allowedToAddVehicle) {

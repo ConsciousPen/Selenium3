@@ -36,7 +36,7 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
 		assertSoftly(softly -> {
 			softly.assertThat(addDriverResponse.aaaMaritalStatusCd).isNull();
 			softly.assertThat(addDriverResponse.ageFirstLicensed).isNull();
-			softly.assertThat(addDriverResponse.birthDate).isEqualTo("1960-02-08");
+			softly.assertThat(addDriverResponse.birthDate).isEqualTo(HelperMiniServices.convertDateToAZDate("1960-02-08"));
 			softly.assertThat(addDriverResponse.driverStatus).isEqualTo("pendingAdd");
 			softly.assertThat(addDriverResponse.birthDate).isEqualTo("1960-02-08");
 			softly.assertThat(addDriverResponse.gender).isNull();

@@ -799,8 +799,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(todayDateEndorsementResponse.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(todayDateEndorsementResponse.policyStatus).isEqualTo("dataGather");
 			softly.assertThat(todayDateEndorsementResponse.timedPolicyStatus).isEqualTo("dataGather");
-			softly.assertThat(todayDateEndorsementResponse.effectiveDate).isEqualTo(todayDateEndorsement);
-			softly.assertThat(todayDateEndorsementResponse.expirationDate).isEqualTo(expirationDate);
+			softly.assertThat(todayDateEndorsementResponse.effectiveDate).isEqualTo(HelperMiniServices.convertDateToAZDate(todayDateEndorsement));
+			softly.assertThat(todayDateEndorsementResponse.expirationDate).isEqualTo(HelperMiniServices.convertDateToAZDate(expirationDate));
 			softly.assertThat(todayDateEndorsementResponse.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(todayDateEndorsementResponse.renewalCycle).isEqualTo(0);
 			softly.assertThat(todayDateEndorsementResponse.eValueStatus).isEqualTo("NOTENROLLED");
@@ -811,24 +811,24 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(todayDateEndorsementResponse.residentialAddress.city).isNotEmpty();
 			softly.assertThat(todayDateEndorsementResponse.residentialAddress.stateProvCd).isNotEmpty();
 			softly.assertThat(todayDateEndorsementResponse.residentialAddress.postalCode).isNotEmpty();
-			softly.assertThat(todayDateEndorsementResponse.transactionEffectiveDate).isEqualTo(todayDateEndorsement);
+			softly.assertThat(todayDateEndorsementResponse.transactionEffectiveDate).isEqualTo(HelperMiniServices.convertDateToAZDate(todayDateEndorsement));
 			softly.assertThat(todayDateEndorsementResponse.productCd).isEqualTo(getProductCd());
 			softly.assertThat(todayDateEndorsementResponse.policyFormCd).isEqualTo(getPolicyFormCd());
 
 			PolicySummary pendingEndorsementImageInfo1 = HelperCommon.viewPendingEndorsementImageInfo(policyNumber);
-			softly.assertThat(pendingEndorsementImageInfo1.transactionEffectiveDate).isEqualTo(todayDateEndorsement);
+			softly.assertThat(pendingEndorsementImageInfo1.transactionEffectiveDate).isEqualTo(HelperMiniServices.convertDateToAZDate(todayDateEndorsement));
 
 			//Future endorsement
 			String futureDateEndorsement = TimeSetterUtil.getInstance().getCurrentTime().plusDays(5).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 			PolicySummary futureDateEndorsementResponse = HelperCommon.createEndorsement(policyNumber, futureDateEndorsement);
-			softly.assertThat(futureDateEndorsementResponse.transactionEffectiveDate).isEqualTo(futureDateEndorsement);
+			softly.assertThat(futureDateEndorsementResponse.transactionEffectiveDate).isEqualTo(HelperMiniServices.convertDateToAZDate(futureDateEndorsement));
 
 			PolicySummary pendingEndorsementImageInfo2 = HelperCommon.viewPendingEndorsementImageInfo(policyNumber);
-			softly.assertThat(pendingEndorsementImageInfo2.transactionEffectiveDate).isEqualTo(futureDateEndorsement);
+			softly.assertThat(pendingEndorsementImageInfo2.transactionEffectiveDate).isEqualTo(HelperMiniServices.convertDateToAZDate(futureDateEndorsement));
 
 			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(7));
 			PolicySummary pendingEndorsementImageInfo3 = HelperCommon.viewPendingEndorsementImageInfo(policyNumber);
-			softly.assertThat(pendingEndorsementImageInfo3.transactionEffectiveDate).isEqualTo(futureDateEndorsement);
+			softly.assertThat(pendingEndorsementImageInfo3.transactionEffectiveDate).isEqualTo(HelperMiniServices.convertDateToAZDate(futureDateEndorsement));
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
@@ -873,8 +873,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyPending.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyPending.policyStatus).isEqualTo("issued");
 			softly.assertThat(responsePolicyPending.timedPolicyStatus).isEqualTo("inForcePending");
-			softly.assertThat(responsePolicyPending.effectiveDate).isEqualTo(policyEffectiveDate.toLocalDate().toString());
-			softly.assertThat(responsePolicyPending.expirationDate).isEqualTo(policyExpirationDate.toLocalDate().toString());
+			softly.assertThat(responsePolicyPending.effectiveDate).isEqualTo(HelperMiniServices.convertDateToAZDate(policyEffectiveDate.toLocalDate().toString()));
+			softly.assertThat(responsePolicyPending.expirationDate).isEqualTo(HelperMiniServices.convertDateToAZDate(policyExpirationDate.toLocalDate().toString()));
 			softly.assertThat(responsePolicyPending.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyPending.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyPending, state, "NOTENROLLED");
@@ -902,8 +902,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyActive.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyActive.policyStatus).isEqualTo("issued");
 			softly.assertThat(responsePolicyActive.timedPolicyStatus).isEqualTo("inForce");
-			softly.assertThat(responsePolicyPending.effectiveDate).isEqualTo(policyEffectiveDate.toLocalDate().toString());
-			softly.assertThat(responsePolicyPending.expirationDate).isEqualTo(policyExpirationDate.toLocalDate().toString());
+			softly.assertThat(responsePolicyPending.effectiveDate).isEqualTo(HelperMiniServices.convertDateToAZDate(policyEffectiveDate.toLocalDate().toString()));
+			softly.assertThat(responsePolicyPending.expirationDate).isEqualTo(HelperMiniServices.convertDateToAZDate(policyExpirationDate.toLocalDate().toString()));
 			softly.assertThat(responsePolicyActive.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyActive.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyPending, state, "NOTENROLLED");

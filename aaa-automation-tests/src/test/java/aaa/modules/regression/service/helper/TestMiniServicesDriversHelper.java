@@ -390,7 +390,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(driver1.relationToApplicantCd).isEqualTo("IN");
 			softly.assertThat(driver1.maritalStatusCd).isEqualTo("MSS");
 			softly.assertThat(driver1.driverStatus).isEqualTo("active");
-			softly.assertThat(driver1.birthDate).isEqualTo("1962-12-05");
+			softly.assertThat(driver1.birthDate).isEqualTo(HelperMiniServices.convertDateToAZDate("1962-12-05"));
 
 			softly.assertThat(driver2.oid).isNotNull();
 			softly.assertThat(driver2.firstName).isEqualTo("Justin");
@@ -401,7 +401,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(driver2.relationToApplicantCd).isEqualTo(null);
 			softly.assertThat(driver2.maritalStatusCd).isEqualTo(null);
 			softly.assertThat(driver2.driverStatus).isEqualTo("pendingAdd");
-			softly.assertThat(driver2.birthDate).isEqualTo("1960-02-08");
+			softly.assertThat(driver2.birthDate).isEqualTo(HelperMiniServices.convertDateToAZDate("1960-02-08"));
 		});
 
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "D32329999", 16, "AZ", "CH", "MSS");
@@ -1149,7 +1149,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(driverResponseDto.firstName).isEqualTo(addDriverRequest.firstName);
 			softly.assertThat(driverResponseDto.middleName).isEqualTo(addDriverRequest.middleName);
 			softly.assertThat(driverResponseDto.lastName).isEqualTo(addDriverRequest.lastName);
-			softly.assertThat(driverResponseDto.birthDate).isEqualTo(birthDateNoError).isEqualTo(addDriverRequest.birthDate);
+			softly.assertThat(driverResponseDto.birthDate).isEqualTo(birthDateNoError).isEqualTo(HelperMiniServices.convertDateToAZDate(addDriverRequest.birthDate));
 			softly.assertThat(driverResponseDto.suffix).isEqualTo(addDriverRequest.suffix);
 
 			//Validate view drivers response
@@ -1157,7 +1157,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(responseNewDriverFiltered.firstName).isEqualTo(addDriverRequest.firstName);
 			softly.assertThat(responseNewDriverFiltered.middleName).isEqualTo(addDriverRequest.middleName);
 			softly.assertThat(responseNewDriverFiltered.lastName).isEqualTo(addDriverRequest.lastName);
-			softly.assertThat(responseNewDriverFiltered.birthDate).isEqualTo(birthDateNoError).isEqualTo(addDriverRequest.birthDate);
+			softly.assertThat(responseNewDriverFiltered.birthDate).isEqualTo(birthDateNoError).isEqualTo(HelperMiniServices.convertDateToAZDate(addDriverRequest.birthDate));
 			softly.assertThat(responseNewDriverFiltered.suffix).isEqualTo(addDriverRequest.suffix);
 		});
 
