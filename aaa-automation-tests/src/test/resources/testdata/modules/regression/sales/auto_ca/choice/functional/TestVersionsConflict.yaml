@@ -642,7 +642,7 @@ TestData_DriverInformation_Version1: {
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
     RequiredToIssue:{
-      Proof of Mature Driver Course Completion: 'Yes',
+      #Proof of Mature Driver Course Completion: 'Yes',
     }
   },
 }
@@ -659,7 +659,7 @@ TestData_DriverInformation_Version2: {
   DocumentsAndBindTab: {
     RequiredToIssue: {
       #Proof of New Driver Course Completion: 'Yes',
-      Proof of Good Student Discount: 'Yes',
+      #Proof of Good Student Discount: 'Yes',
     }
   },
 }
@@ -782,10 +782,10 @@ DriverInformation_Version2: {
   Employee Benefit Type: Surviving spouse,
   #should be No always
   #ADB Coverage: 'No',
-  Most Recent GPA: 'A Student',
-  New Driver Course Completed: 'Yes',
-  New Driver Course Completion Date: $<today>,
-  New Driver Certification Number: 33333,
+  #Most Recent GPA: 'A Student',
+  #New Driver Course Completed: 'Yes',
+  #New Driver Course Completion Date: $<today>,
+  #New Driver Certification Number: 33333,
   "Smoker: Cigarettes, cigars or pipes": 'Yes',
   Financial Responsibility Filling Needed: 'No',
   Ridesharing Coverage: 'No',

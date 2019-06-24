@@ -542,6 +542,12 @@ PAS-29024:
               aaa.modules.financials.auto_ss.TestRenewal.testRenewalScenario_3,
               aaa.modules.financials.auto_ss.TestRenewal.testRenewalScenario_4]
       messages: ["caused by PAS-29024"]
+PT-3774:
+  summary: "SD DP3 Manual SIS Conversion hangs up on Premiums & Coverages screen"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.conversions.home_ss.dp3.ManualConversionTest.manualRenewalEntryToActivePolicy]
+      messages: ["Cannot set value of AssetList {PremiumsAndCoveragesQuoteTab:"]
 PAS-30859:
   summary: "Regression 19.7: CA Auto - Wrong Error Code - For Membership Last Name Validation Message"
   reason: PROD
@@ -570,10 +576,10 @@ PAS-31508:
   summary: "Regression: PAS DOC: Auto AZ: Can't generate documents on GODD tab, Documents & Bind tab"
   reason: PROD
   failures:
-    - tests: [aaa.modules.docgen.auto_ss.TestScenario5.testDocGenScenario05, 
-              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocGODDcommon.*, 
-              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocGODDdeliveryMethods.testScenario4, 
-              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocPreBind.testScenario5, 
-              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocPreBind.testScenario6, 
+    - tests: [aaa.modules.docgen.auto_ss.TestScenario5.testDocGenScenario05,
+              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocGODDcommon.*,
+              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocGODDdeliveryMethods.testScenario4,
+              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocPreBind.testScenario5,
+              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocPreBind.testScenario6,
               aaa.modules.regression.document_fulfillment.auto_ss.TestScenario4.TC01_CreatePolicy]
       messages: ["No files have been found containing text pattern(s)"]
