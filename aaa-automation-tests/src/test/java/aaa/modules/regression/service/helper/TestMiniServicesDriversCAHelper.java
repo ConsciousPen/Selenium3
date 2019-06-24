@@ -241,7 +241,7 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
 						"S", "male", "2000-01-01", 16, "CA", "B1234567", driver));
 		viewDriversResponse.driverList.stream().filter(driver -> "Iseult".equals(driver.firstName)).findFirst().ifPresent(driver ->
 				validateExistingDriver("Iseult", "Branwen", "Not a Named Insured", "afr", "CH",
-						"S", "female", "2000-05-01", 16, "CA", "A1234567", driver));
+						"S", "female", "2003-05-01", 16, "CA", "A1234567", driver));
 		viewDriversResponse.driverList.stream().filter(driver -> "Iona".equals(driver.firstName)).findFirst().ifPresent(driver ->
 				validateExistingDriver("Iona", "Branwen", "Not a Named Insured", "nafr", "CH",
 						"S", "female", "2000-05-01", 16, "CA", "G1234567", driver));
@@ -266,25 +266,13 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
 			softly.assertThat(metaDataFieldResponseDriverType.valueRange.get(DRIVER_TYPE_AVAILABLE_FOR_RATING)).isEqualTo("Available for Rating");
 			softly.assertThat(metaDataFieldResponseDriverType.valueRange.get(DRIVER_TYPE_EXCLUDED)).isEqualTo("Excluded");
 
-			AttributeMetadata metaDataFieldResponseDriverRelation = getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "relationToApplicantCd", true, true, true, null, "String");
+			AttributeMetadata metaDataFieldResponseDriverRelation = getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "relationToApplicantCd", false, true, true, null, "String");
 			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("IN")).isEqualTo("First Named Insured");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("SP")).isEqualTo("Spouse");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("CH")).isEqualTo("Child");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("PA")).isEqualTo("Parent");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("SI")).isEqualTo("Sibling");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("ORR")).isEqualTo("Other Resident Relative");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("EMP")).isEqualTo("Employee");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("OT")).isEqualTo("Other");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("DP")).isEqualTo("Domestic Partner");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("S")).isNull();
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("D")).isNull();
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("FR")).isNull();
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("MR")).isNull();
 
 			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "firstName", false, true, true, null, "String");
 			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "middleName", false, true, false, null, "String");
 			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "lastName", false, true, true, null, "String");
-			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "birthDate", true, true, true, null, "Date");
+			getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "birthDate", false, true, true, null, "Date");
 
 			AttributeMetadata metaDataFieldResponseGender = getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "gender", true, true, true, null, "String");
 			softly.assertThat(metaDataFieldResponseGender.valueRange.get("male")).isEqualTo("Male");

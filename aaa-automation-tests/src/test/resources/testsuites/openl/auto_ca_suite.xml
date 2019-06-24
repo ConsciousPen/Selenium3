@@ -16,8 +16,15 @@
         </classes>
     </test>
     <test name="Auto CA Select Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="TestsCASelectTest-20180101.xls"/>
-        <parameter name="policyNumbers" value="7,8"/>
+        <parameter name="fileName" value="TestsCASelectTest-20180101_part3.xls"/>
+        <parameter name="policyNumbers" value="2649"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoCaPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="Auto CA Select Premium Calculation Test 2" preserve-order="true">
+        <parameter name="fileName" value="TestsCASelectTest-20180101_part5.xls"/>
+        <parameter name="policyNumbers" value="4651"/>
         <classes>
             <class name="aaa.modules.openl.AutoCaPremiumCalculationTest"/>
         </classes>

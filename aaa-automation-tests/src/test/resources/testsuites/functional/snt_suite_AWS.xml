@@ -7,7 +7,7 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
 
-   <!-- <test name="General tab/Named Insured Information section/Comparison SS" parallel="methods" thread-count="1024">
+    <test name="General tab/Named Insured Information section/Comparison SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
@@ -349,9 +349,9 @@
                 </methods>
             </class>
         </classes>
-    </test>-->
+    </test>
 
-    <!--<test name="Premium And Coverages/Comparison CA Choice" parallel="methods" thread-count="1024">
+    <test name="Premium And Coverages/Comparison CA Choice" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
@@ -372,7 +372,7 @@
                 </methods>
             </class>
         </classes>
-    </test> -->
+    </test>
 
 
     <test name="Premium And Coverages/Comparison SS" parallel="methods" thread-count="1024">

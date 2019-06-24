@@ -373,7 +373,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	}
 
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = {"PAS-14162"})
 	public void pas14162_endorsementsComparisonPremiumAndCoverages(@Optional("CA") String state) {
 		endorsementComparison(getTDNBPolicy(), getTDPremiumCoveragesVersion1(), getTDPremiumCoveragesVersion2(), VersionsComparisonConstants.ENDORSEMENT_RENEWAl_PREMIUM_AND_COVERAGES, "PremiumAndCoveragesTab", "PremiumCoveragesInformation");

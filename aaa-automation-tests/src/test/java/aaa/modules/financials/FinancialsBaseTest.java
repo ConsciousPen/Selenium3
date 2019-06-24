@@ -2,22 +2,25 @@ package aaa.modules.financials;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import org.openqa.selenium.By;
 import com.exigen.ipb.eisa.utils.Dollar;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.billing.BillingHelper;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.products.HomeSSConstants;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.actiontabs.AdvancedAllocationsActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
@@ -26,6 +29,9 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.composite.table.Row;
+import toolkit.webdriver.controls.composite.table.Table;
 
 public class FinancialsBaseTest extends FinancialsTestDataFactory {
 
@@ -35,6 +41,7 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 	protected static final String STATE = "state";
 	protected static final String COUNTY = "county";
 	protected static final String TOTAL = "total";
+	private AdvancedAllocationsActionTab advancedAllocationsActionTab = new AdvancedAllocationsActionTab();
 
 	protected String createFinancialPolicy() {
 		return createFinancialPolicy(getPolicyTD());
@@ -179,6 +186,42 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 
 	protected boolean isTaxState() {
 		return getState().equals(Constants.States.KY) || getState().equals(Constants.States.WV);
+	}
+
+	protected Map<String, Dollar> getAllocationsFromTransaction(String type, String subtype) {
+		return getAllocationsFromTransaction(type, subtype, null);
+	}
+
+	protected Map<String, Dollar> getAllocationsFromTransaction(String type, String subtype, LocalDateTime txDate) {
+		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		}
+		Map<String, String> query = new HashMap<>();
+		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, type);
+		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, subtype);
+		if (txDate != null) {
+			query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, formatDateToString(txDate));
+		}
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE).click();
+		advancedAllocationsActionTab.linkAdvancedAllocation.click();
+
+		return collectAllocationAmounts();
+	}
+
+	protected Map<String, Dollar> collectAllocationAmounts() {
+		Map<String, Dollar> allocations = new HashMap<>();
+		StaticElement netPremium = new StaticElement(By.xpath("//td[contains(text(), 'Net Premium')]//following-sibling::td[1]/input"));
+		Dollar netPremiumTotal = new Dollar(netPremium.getAttribute("value"));
+		allocations.put("Net Premium", netPremiumTotal);
+		Table tableAdvancedAllocationsTax = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:netPremiumAmount')]//ancestor::table[1]"));
+		Dollar totalAmount = BillingHelper.DZERO;
+		for (Row row : tableAdvancedAllocationsTax.getRows()) {
+			totalAmount= totalAmount.add(new Dollar(row.getCell(2).controls.textBoxes.getFirst().getValue()));
+		}
+		allocations.put("Taxes", totalAmount.subtract(netPremiumTotal));
+		Tab.buttonBack.click();
+		Tab.buttonBack.click();
+		return allocations;
 	}
 
 	protected Map<String, Dollar> getTaxAmountsForPolicy(String policyNumber) {

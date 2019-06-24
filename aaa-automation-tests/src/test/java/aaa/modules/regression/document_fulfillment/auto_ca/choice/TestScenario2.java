@@ -1,9 +1,7 @@
 package aaa.modules.regression.document_fulfillment.auto_ca.choice;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-
 import java.util.List;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;

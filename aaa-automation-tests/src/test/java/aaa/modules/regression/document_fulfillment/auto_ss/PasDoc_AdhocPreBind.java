@@ -888,7 +888,7 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.CRITICAL_INFORMATION_FOR_TEENAGE_DRIVERS_AND_THEIR_PARENTS)).isPresent(value);
 		//Document in Required to Bind section
 		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(
-				AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NAMED_DRIVER_EXCLUSION)).isPresent(value);
+				AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NAMED_DRIVER_EXCLUSION_ELECTION)).isPresent(value);
 	}
 
 	/**

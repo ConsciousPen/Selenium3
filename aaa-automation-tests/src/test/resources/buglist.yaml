@@ -194,7 +194,7 @@ PAS-5102:
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.*]
-      messages: ["Errors: Data relevant to ISO 360 has changed."]
+      messages: ["Data relevant to ISO 360 has changed"]
 PAS-15177:
   summary: "KY Taxes: Tax amount and total premium value are reduced during Empty endorsement"
   reason: PROD
@@ -289,7 +289,7 @@ PASBB-818:
     messages: ["[Row with values {Subtype/Reason=Reinstatement Fee, Status=Applied, Type=Fee, Amount=$10.00} in table 'Payments & Other Transactions' is present.] expected:<[tru]e> but was:<[fals]e>"]
   - tests: [aaa.modules.bct.service.*]
     messages: ["[Row with values {Subtype/Reason=Reinstatement Fee, Status=Applied, Type=Fee, Amount=$10.00} in table 'Payments & Other Transactions' is present.] expected:<[tru]e> but was:<[fals]e>"]
-PASBB-855:
+PT-3765:
   summary: "Auto Tier not locked on Home policy during endorsement"
   reason: PROD
   failures:
@@ -429,7 +429,7 @@ PT-3481:
   summary: "Regression BCT, 19.3 : \"Address requires validation before proceeding\" appears during Empty endorsement at the Applicant tab"
   reason: PROD
   failures:
-    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+    - tests: [aaa.modules.bct.service.*]
       messages: ['Errors: Address requires validation before proceeding']
 PT-3482:
   summary: "Errors: 'Description' is required"
@@ -542,3 +542,44 @@ PAS-29024:
               aaa.modules.financials.auto_ss.TestRenewal.testRenewalScenario_3,
               aaa.modules.financials.auto_ss.TestRenewal.testRenewalScenario_4]
       messages: ["caused by PAS-29024"]
+PT-3774:
+  summary: "SD DP3 Manual SIS Conversion hangs up on Premiums & Coverages screen"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.conversions.home_ss.dp3.ManualConversionTest.manualRenewalEntryToActivePolicy]
+      messages: ["Cannot set value of AssetList {PremiumsAndCoveragesQuoteTab:"]
+PAS-30859:
+  summary: "Regression 19.7: CA Auto - Wrong Error Code - For Membership Last Name Validation Message"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ca.select.functional.TestMVRReportInvalidError.*]
+      messages: ["Errors: Wrong Error Code is displayed for CA Auto Membership Validation"]
+PAS-30870:
+  summary: "Regression BCT 19.7 : \"Timeout session error\" during endorsement action for PUP policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.pup.TestEndorsement.BCT_ONL_EmptyEndorsementPUP]
+      messages: ["Time out. No session available"]
+PAS-30909:
+  summary: "Regression BCT 19.7 : Source policy # is missing for DESS209575296 policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.pup.TestEndorsement.BCT_ONL_EmptyEndorsementPUP]
+      messages: ["Time out. No session available"]
+PAS-30913:
+  summary: "Regression BCT 19.7 : eValue discount still applied when AutoPay is not activated and Payment Plan = Monthly"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.billing_and_payments.*]
+      messages: ["To keep the eValue Discount, the customer must choose AutoPay"]
+PAS-31508:
+  summary: "Regression: PAS DOC: Auto AZ: Can't generate documents on GODD tab, Documents & Bind tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.docgen.auto_ss.TestScenario5.testDocGenScenario05,
+              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocGODDcommon.*,
+              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocGODDdeliveryMethods.testScenario4,
+              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocPreBind.testScenario5,
+              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocPreBind.testScenario6,
+              aaa.modules.regression.document_fulfillment.auto_ss.TestScenario4.TC01_CreatePolicy]
+      messages: ["No files have been found containing text pattern(s)"]

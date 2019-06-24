@@ -192,7 +192,7 @@ public class TestCTDeltaScenario1 extends AutoSSBaseTest {
         List<String> expectedDriverType = Arrays.asList("Excluded", "Available for Rating", "Not Available for Rating");
         assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DRIVER_TYPE).getAllValues()).containsSequence(expectedDriverType);
 
-        List<String> expectedRelationToNI = Arrays.asList("First Named Insured", "Spouse", "Child", "Parent",
+        List<String> expectedRelationToNI = Arrays.asList("Spouse", "Child", "Parent",
                 "Sibling", "Other Resident Relative", "Employee", "Other");
         assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED).getAllValues()).containsSequence(expectedRelationToNI);
 

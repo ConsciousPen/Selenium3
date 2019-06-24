@@ -43,6 +43,7 @@
                 <methods>
                     <include name="pas8310_nameDobYobMatchMoreManual"/>
                     <include name="pas22608_verifyPermissiveUseIndicator"/>
+                    <include name="pas28399_RestrictChangeFNIGeneralTabEndorsement"/>
                 </methods>
             </class>
         </classes>
@@ -57,6 +58,7 @@
                     <include name="pas20828_productDetermineWithPUClaims"/>
                     <include name="pas24652_ChangeFNIGeneralTabNBEndorsement"/>
                     <include name="pas27908_UpdateUWRulesWithPUFlag"/>
+                    <include name="pas28399_RestrictChangeFNIGeneralTabEndorsement"/>
                 </methods>
             </class>
         </classes>
@@ -70,6 +72,7 @@
                     <include name="pas25463_ViolationsMVRPUIndicatorCheck"/>
                     <include name="pas24652_ChangeFNIGeneralTabNBEndorsement"/>
                     <include name="pas27908_UpdateUWRulesWithPUFlag"/>
+                    <include name="pas28399_RestrictChangeFNIGeneralTabEndorsement"/>
                 </methods>
             </class>
         </classes>

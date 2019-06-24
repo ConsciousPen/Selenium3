@@ -229,7 +229,9 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
 
     /**
      * @author Chris Johns
+     * @author Kiruthika Rajendran
      * PAS-24652 - CHANGE FNI - General Tab (CA): move PU Yes claims when FNI changed via "dropdown" (endorsement and quote) (changed to FNI already exists as driver)
+     * PAS-25271 - DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
      * @name Test Offline STUB/Mock: validate permissive use claims 'move' to new FNI when FNI is changed to existing FNI on general tab
      * @scenario New Business and Endorsement: See Template For Details and steps
      * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver
@@ -243,8 +245,10 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
 
     /**
      * @author Chris Johns
+     * @author Kiruthika Rajendran
      * PAS-22172 - END - CAS: reconcile permissive use claims when driver/named insured is added (avail for rating)
      * PAS-24652 - CHANGE FNI - General Tab (CA): move PU Yes claims when FNI changed via "dropdown" (endorsement and quote) (changed to FNI already exists as driver)
+     * PAS-25271 - DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
      * @name Test Offline STUB/Mock: validate permissive use claims 'move' to new FNI when FNI is changed to existing FNI on general tab
      * @scenario Renewal: See Template For Details and steps
      * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver
@@ -319,4 +323,33 @@ public class TestOfflineClaims extends TestOfflineClaimsCATemplate {
     public void pas27226_MatureDriverDiscount(@Optional("CA") @SuppressWarnings("unused") String state) {
         pas27226_MatureDriverDiscount();
     }
+
+    /**
+     * @author Chris Johns
+     * PAS-28399 -CHANGE FNI - General Tab: don't allow if "changed to FNI" not correctly set up as driver
+     * @name Restring FNI change on general tab when NI is not a Driver
+     * @scenario Renewal: See Template For Details and steps
+     * @details Clean Path.
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-27226")
+    public void pas28399_RestrictChangeFNIGeneralTabEndorsement (@Optional("CA") @SuppressWarnings("unused") String state) {
+        pas28399_RestrictChangeFNIGeneralTab("ENDORSEMENT");
+    }
+
+    /**
+     * @author Chris Johns
+     * PAS-28399 -CHANGE FNI - General Tab: don't allow if "changed to FNI" not correctly set up as driver
+     * @name Restring FNI change on general tab when NI is not a Driver
+     * @scenario Renewal: See Template For Details and steps
+     * @details Clean Path.
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-27226")
+    public void pas28399_RestrictChangeFNIGeneralTabRenewal (@Optional("CA") @SuppressWarnings("unused") String state) {
+        pas28399_RestrictChangeFNIGeneralTab("RENEWAL");
+    }
+
 }

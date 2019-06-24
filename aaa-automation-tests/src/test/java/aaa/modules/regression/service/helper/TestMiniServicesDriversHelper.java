@@ -1280,7 +1280,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(metaDataFieldResponseDriverType.valueRange.get(DRIVER_TYPE_AVAILABLE_FOR_RATING)).isEqualTo("Available for Rating");
 
 			AttributeMetadata metaDataFieldResponseDriverRelation = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "relationToApplicantCd", true, true, true, null, "String");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("IN")).isEqualTo("First Named Insured");
 			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("SP")).isEqualTo("Spouse");
 			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("CH")).isEqualTo("Child");
 			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("PA")).isEqualTo("Parent");

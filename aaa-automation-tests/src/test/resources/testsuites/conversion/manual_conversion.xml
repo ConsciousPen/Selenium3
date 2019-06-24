@@ -6,7 +6,7 @@
 	</listeners>
 
     <test name="Auto SS Manual SIS Conversion Test" parallel="methods" thread-count="200">
-        <parameter name="state" value="CT, UT, SD"/>
+        <parameter name="state" value="CT" />
         <classes>
             <class name="aaa.modules.regression.conversions.auto_ss.ManualConversionTest"/>
         </classes>

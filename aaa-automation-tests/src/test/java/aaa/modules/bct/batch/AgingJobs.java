@@ -2,6 +2,7 @@ package aaa.modules.bct.batch;
 
 import static aaa.helpers.jobs.BatchJob.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Optional;
@@ -32,7 +33,7 @@ public class AgingJobs extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test()
 	public void RUN_03_AAAPOLICYAUTOMATEDRENEWALASYNCTASKGENERATIONJOB(@Optional("") String state) {
-		executeBatchTest(aaaPolicyAutomatedRenewalAsyncTaskGenerationJob);
+		executeBatchTest(new Job("policyAutomatedRenewalAsyncTaskGenerationJob", Collections.singletonMap("JOB_UI_PARAMS", "t")));
 	}
 
 	@Parameters({"state"})
