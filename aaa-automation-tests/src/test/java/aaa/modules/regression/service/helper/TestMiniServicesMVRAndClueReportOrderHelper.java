@@ -471,7 +471,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 
 				softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
 						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.ORDER_DATE.getLabel()).getValue())
-						.isEqualToIgnoringCase(HelperMiniServices.convertDateToAZDate(TimeSetterUtil.getInstance().getCurrentTime().atZone(ZoneId.systemDefault())));
+						.isEqualToIgnoringCase(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
 
 				softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
 						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.RECEIPT_DATE.getLabel()).getValue())
