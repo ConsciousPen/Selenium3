@@ -78,7 +78,7 @@ public class TestServiceRFI extends TestRFIHelper {
 
         // scenario 1
         TestData td = getPolicyDefaultTD();
-        verifyRFIScenarios("UMBI", AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_2550.getLimit(), CoverageLimits.COV_00.getDisplay(), document, documentAsset, error, td, false, false);
+        verifyRFIScenarios("UMBI", AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_2550.getLimit(), CoverageLimits.COV_00.getDisplay(), document, documentAsset, error, td, true, false);
 
         // sceanrio 2
         // Create policy and override rule
