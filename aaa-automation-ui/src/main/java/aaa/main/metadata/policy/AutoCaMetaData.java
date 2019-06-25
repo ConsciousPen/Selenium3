@@ -43,10 +43,6 @@ public final class AutoCaMetaData {
 
 	public static final class GeneralTab extends MetaData {
 
-		// BondTODO: AAA_PRODUCT_OWNED may have changed
-		public static final AssetDescriptor<AssetList> AAA_PRODUCT_OWNED = declare("AAAProductOwned", AssetList.class, AAAProductOwned.class, By
-				.xpath(".//div[@id='policyDataGatherForm:componentView_ExistingPolicies']"));
-
 		public static final AssetDescriptor<AssetList> CURRENT_CARRIER_INFORMATION = declare("CurrentCarrierInformation", AssetList.class, CurrentCarrierInformation.class, By
 				.xpath(".//div[@id='policyDataGatherForm:componentView_OtherOrPriorPolicy']"));
 		public static final AssetDescriptor<AgencyAutoCaAssetList> POLICY_INFORMATION = declare("PolicyInformation", AgencyAutoCaAssetList.class, PolicyInformation.class);
@@ -219,23 +215,13 @@ public final class AutoCaMetaData {
 
 		// Old UI
 		public static final class AAAProductOwned extends MetaData {
-			public static final AssetDescriptor<ComboBox> CURRENT_AAA_MEMBER = declare("Current AAA Member", ComboBox.class);
-			public static final AssetDescriptor<ComboBox> OVERRIDE_TYPE = declare("Override Type", ComboBox.class);
-			public static final AssetDescriptor<TextBox> MEMBERSHIP_NUMBER = declare("Membership Number", TextBox.class);
-			//public static final AssetDescriptor<TextBox> MEMBER_LAST_NAME = declare("Member Last Name", TextBox.class);
+
 			public static final AssetDescriptor<RadioGroup> MOTORCYCLE = declare("Motorcycle", RadioGroup.class);
-			public static final AssetDescriptor<TextBox> MOTORCYCLE_POLICY_NUM = declare("Motorcycle Policy #", TextBox.class, By.id("policyDataGatherForm:sedit_ExistingPolicies_motorPolicyNumber"));
 			public static final AssetDescriptor<RadioGroup> LIFE = declare("Life", RadioGroup.class);
-			public static final AssetDescriptor<TextBox> LIFE_POLICY_NUM = declare("Life Policy #", TextBox.class, By.id("policyDataGatherForm:sedit_ExistingPolicies_lifePolicyNumber"));
 			public static final AssetDescriptor<RadioGroup> HOME = declare("Home", RadioGroup.class);
-			public static final AssetDescriptor<TextBox> HOME_POLICY_NUM = declare("Home Motorcycle Policy #", TextBox.class, By.id("policyDataGatherForm:sedit_ExistingPolicies_homePolicyNumber"));
 			public static final AssetDescriptor<RadioGroup> RENTERS = declare("Renters", RadioGroup.class);
-			public static final AssetDescriptor<TextBox> RENTERS_POLICY_NUM = declare("Renters Policy #", TextBox.class, By.id("policyDataGatherForm:sedit_ExistingPolicies_rentersPolicyNumber"));
 			public static final AssetDescriptor<RadioGroup> CONDO = declare("Condo", RadioGroup.class);
-			public static final AssetDescriptor<TextBox> CONDO_POLICY_NUM = declare("Condo Policy #", TextBox.class, By.id("policyDataGatherForm:sedit_ExistingPolicies_condoPolicyNumber"));
 			public static final AssetDescriptor<RadioGroup> PUP = declare("PUP", RadioGroup.class);
-			public static final AssetDescriptor<TextBox> PUP_POLICY_NUM = declare("PUP Motorcycle Policy #", TextBox.class, By.id("policyDataGatherForm:sedit_ExistingPolicies_pupPolicyNumber"));
-			public static final AssetDescriptor<TextBox> ATTRIBUTE_FOR_RULES = declare("Attribute for rules", TextBox.class);
 		}
 
 		public static final class ContactInformation extends MetaData {
@@ -756,24 +742,7 @@ public final class AutoCaMetaData {
 		// public static final AssetDescriptor<RadioGroup> AGREEMENT = declare("Agreement", RadioGroup.class, Waiters.AJAX, false,
 		// By.xpath("//table[@id='policyDataGatherForm:AAADocAgreement_agreement']"));
 
-		public static final AssetDescriptor<RadioGroup> MOTORCYCLE = declare("Motorcycle", RadioGroup.class);
-		public static final AssetDescriptor<TextBox> MOTORCYCLE_POLICY_NUM = declare("Motorcycle Policy #", TextBox.class, By
-				.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_aaaExistingPoliciesDto_motorPolicyNumber"));
-		public static final AssetDescriptor<RadioGroup> LIFE = declare("Life", RadioGroup.class);
-		public static final AssetDescriptor<TextBox> LIFE_POLICY_NUM = declare("Life Policy #", TextBox.class, By
-				.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_aaaExistingPoliciesDto_lifePolicyNumber"));
-		public static final AssetDescriptor<RadioGroup> HOME = declare("Home", RadioGroup.class);
-		public static final AssetDescriptor<TextBox> HOME_POLICY_NUM = declare("Home Motorcycle Policy #", TextBox.class, By
-				.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_aaaExistingPoliciesDto_homePolicyNumber"));
-		public static final AssetDescriptor<RadioGroup> RENTERS = declare("Renters", RadioGroup.class);
-		public static final AssetDescriptor<TextBox> RENTERS_POLICY_NUM = declare("Renters Policy #", TextBox.class, By
-				.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_aaaExistingPoliciesDto_rentersPolicyNumber"));
-		public static final AssetDescriptor<RadioGroup> CONDO = declare("Condo", RadioGroup.class);
-		public static final AssetDescriptor<TextBox> CONDO_POLICY_NUM = declare("Condo Policy #", TextBox.class, By
-				.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_aaaExistingPoliciesDto_condoPolicyNumber"));
-		public static final AssetDescriptor<RadioGroup> PUP = declare("PUP", RadioGroup.class);
-		public static final AssetDescriptor<TextBox> PUP_POLICY_NUM = declare("PUP Motorcycle Policy #", TextBox.class, By
-				.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_aaaExistingPoliciesDto_pupPolicyNumber"));
+
 
 		public static final AssetDescriptor<TextBox> WORK_PHONE_NUM = declare("Work Phone #", TextBox.class);
 		public static final AssetDescriptor<TextBox> MOBILE_PHONE_NUM = declare("Mobile Phone #", TextBox.class);

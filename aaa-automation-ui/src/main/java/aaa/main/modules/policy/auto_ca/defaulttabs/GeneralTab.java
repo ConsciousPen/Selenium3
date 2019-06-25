@@ -44,10 +44,6 @@ public class GeneralTab extends Tab {
 		return getAssetList().getAsset(AutoCaMetaData.GeneralTab.LIST_OF_PRODUCT_ROWS.getLabel(), AutoCaMetaData.GeneralTab.LIST_OF_PRODUCT_ROWS.getControlClass());
 	}
 
-	public AssetList getAAAProductOwnedAssetList() {
-		return getAssetList().getAsset(AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AssetList.class);
-	}
-
 	public Table getOtherAAAProductTable() {
 		return getOtherAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.LIST_OF_PRODUCTS_OWNED.getLabel(), FillableTable.class).getTable();
 	}

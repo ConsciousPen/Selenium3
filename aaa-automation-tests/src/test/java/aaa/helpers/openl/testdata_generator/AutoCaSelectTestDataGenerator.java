@@ -399,7 +399,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 
 		return DataProviderFactory.dataOf(
 				AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), namedInsuredInformationData,
-				AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), aaaProductOwnedData,
+				AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), aaaProductOwnedData,
 				AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), policyInformationData);
 	}
 
