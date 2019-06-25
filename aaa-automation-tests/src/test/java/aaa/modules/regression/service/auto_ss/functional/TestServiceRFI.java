@@ -1379,7 +1379,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			softly.assertThat(rfiDocument.parent).isEqualTo("policy");
 			softly.assertThat(rfiDocument.parentOid).isNotEmpty();
 
-			if (PropertyProvider.getProperty("app.host").contains("aws")) {// Not checking document generation on AWS servers as DCS is not available from them
+			if (!PropertyProvider.getProperty("app.host").contains("aws")) {// Not checking document generation on AWS servers as DCS is not available from them
 
 				RFIDocuments rfiServiceResponse2 = HelperCommon.rfiViewService(policyNumber, true);
 				softly.assertThat(rfiServiceResponse2.url).endsWith(".pdf");
