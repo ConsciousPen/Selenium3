@@ -129,7 +129,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     private static final String RESTRICT_FNI_MASSAGE = "The select named insured has not been established as a \"named insured driver\" on the driver tab";
 
 
-    protected boolean newBusinessFlag = false;
+    protected boolean fillContactInfo = false;
     protected static aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab generalTab = new aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab();
     private static final String[] CLAIM_NUMBERS_PU_DEFAULTING = {"PU_DEFAULTING_CMP","PU_DEFAULTING_1","PU_DEFAULTING_2","PU_DEFAULTING_3",
             "PU_DEFAULTING_4","PU_DEFAULTING_5","PU_DEFAULTING_6"};
@@ -1275,7 +1275,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             Page.dialogConfirmation.confirm();
         }
         //Reset Contact Info - it is blanked out after FNI change at New Business
-        if (newBusinessFlag) {
+        if (fillContactInfo) {
             generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue("6025557777");
             generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
         }

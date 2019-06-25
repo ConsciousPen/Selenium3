@@ -439,7 +439,6 @@
                     <include name="pas17144_ooseConflictManualDriverInformation"/>
                     <include name="pas14121_renewalMergeVehicleInformation"/>
                     <include name="pas19839_ooseConflictManualAddNamedInsuredInformation"/>
-                    <include name="pas19839_renewalMergeAutomaticRemoveNamedInsured"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict -->
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidation">
