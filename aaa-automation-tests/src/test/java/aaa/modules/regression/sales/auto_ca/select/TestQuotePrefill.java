@@ -4,6 +4,9 @@ package aaa.modules.regression.sales.auto_ca.select;
 
 import static aaa.main.metadata.policy.AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION;
 import static toolkit.verification.CustomAssertions.assertThat;
+
+import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -16,10 +19,6 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoCaMetaData.DriverTab;
 import aaa.main.metadata.policy.AutoCaMetaData.GeneralTab.NamedInsuredInformation;
-import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PrefillTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
@@ -153,7 +152,7 @@ public class TestQuotePrefill extends AutoCaSelectBaseTest {
 		//check GeneralTab
 		GeneralTab generalTab = new GeneralTab();
 		assertThat(generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED)).hasValue(expectedNI_1);
-		assertThat(GeneralTab.tableInsuredList).hasRows(2);
+		assertThat(GeneralTab.tblInsuredList).hasRows(2);
 		generalTab.fillTab(getTestSpecificTD("TestDataFill_1_CA"));
 		
 		generalTab.viewInsured(2);
@@ -188,8 +187,7 @@ public class TestQuotePrefill extends AutoCaSelectBaseTest {
 		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN)).hasValue(VIN_2);
 		vehicleTab.fillTab(getTestSpecificTD("VehicleTab"));
 		vehicleTab.submitTab();
-		
-		
+
 		policy.getDefaultView().fill(getTestSpecificTD("TestDataFill_2_CA"));
 		
 		

@@ -43,8 +43,10 @@ public final class AutoCaMetaData {
 
 	public static final class GeneralTab extends MetaData {
 
+		// BondTODO: AAA_PRODUCT_OWNED may have changed
 		public static final AssetDescriptor<AssetList> AAA_PRODUCT_OWNED = declare("AAAProductOwned", AssetList.class, AAAProductOwned.class, By
 				.xpath(".//div[@id='policyDataGatherForm:componentView_ExistingPolicies']"));
+
 		public static final AssetDescriptor<AssetList> CURRENT_CARRIER_INFORMATION = declare("CurrentCarrierInformation", AssetList.class, CurrentCarrierInformation.class, By
 				.xpath(".//div[@id='policyDataGatherForm:componentView_OtherOrPriorPolicy']"));
 		public static final AssetDescriptor<AgencyAutoCaAssetList> POLICY_INFORMATION = declare("PolicyInformation", AgencyAutoCaAssetList.class, PolicyInformation.class);

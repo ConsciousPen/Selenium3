@@ -26,7 +26,6 @@ import toolkit.webdriver.controls.waiters.Waiters;
  */
 public class GeneralTab extends Tab {
 
-	public static AdvancedTable tableInsuredList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListInsured"));
 	public static Table tblInsuredList = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_Insured_body']//table"));
 
 	public GeneralTab() {
@@ -96,8 +95,8 @@ public class GeneralTab extends Tab {
 	}
 
 	public void viewInsured(int index) {
-		if (tableInsuredList.isPresent() && tableInsuredList.getRow(index).isPresent()) {
-			tableInsuredList.getRow(index).getCell(4).controls.links.get("View/Edit").click(Waiters.AJAX);
+		if (tblInsuredList.isPresent() && tblInsuredList.getRow(index).isPresent()) {
+			tblInsuredList.getRow(index).getCell(4).controls.links.get("View/Edit").click(Waiters.AJAX);
 		}
 	}
 }

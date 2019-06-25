@@ -227,38 +227,27 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         // Set keypaths based on policy type.
         switch (getPolicyType().getShortName())
         {
-            case "AutoCA": {
-                // keypathTabSection Result: "GeneralTab|AAAProductOwned"
-                String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.customer.defaulttabs.GeneralTab.class.getSimpleName(),
-                        AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
-
-                // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
-                keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
-                        AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel());
-
-                // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
-                keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
-                        AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
-                break;
+            case "AutoCA":{
+                // Use same as "AutoCAC"
             }
 
             case "AutoCAC": {
-                // keypathTabSection Result: "GeneralTab|AAAProductOwned"
+                // keypathTabSection Result: "GeneralTab|AAAMembership"
                 String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.customer.defaulttabs.GeneralTab.class.getSimpleName(),
-                        AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+                        AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 
                 // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
                 keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
-                        AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel());
+                        AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel());
 
                 // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
                 keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
-                        AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+                        AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
                 break;
             }
 
             case "AutoSS": {
-                // keypathTabSection Result: "GeneralTab|AAAProductOwned"
+                // keypathTabSection Result: "GeneralTab|AAAMembership"
                 String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.customer.defaulttabs.GeneralTab.class.getSimpleName(),
                         AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 
