@@ -55,7 +55,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 		return convertDateToAZDate(systemTime.atZone(ZoneId.systemDefault()));//systemDefault = test.environment.timezone
 	}
 
-	private static String convertDateToAZDate(ZonedDateTime zonedDateTime) {
+	public static String convertDateToAZDate(ZonedDateTime zonedDateTime) {
 		ZonedDateTime zonedDateTimePHX = ZonedDateTime.ofInstant(zonedDateTime.toInstant(), ZoneId.of("America/Phoenix"));
 		return zonedDateTimePHX.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	}

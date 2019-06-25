@@ -26,6 +26,7 @@ import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 import javax.ws.rs.core.Response;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
@@ -168,7 +169,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 
 		//Create pended endorsement - future dated, because otherwise Insurance Score Report must be ordered for newly added NI
 		PolicySummary response2 = HelperCommon.createEndorsement(policyNumber, endorsementDate);
-		assertSoftly(softly -> softly.assertThat(response2.transactionEffectiveDate).isEqualTo(endorsementDate));
+		assertSoftly(softly -> softly.assertThat(response2.transactionEffectiveDate).isEqualTo(HelperMiniServices.convertDateToAZDate(endorsementDate)));
 
 		addDriverRequest = DXPRequestFactory.createAddDriverRequest("MvrNonChargeable", "Doc", "Activity", "1999-01-31", "III");
 		addedDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
@@ -470,7 +471,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 
 				softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
 						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.ORDER_DATE.getLabel()).getValue())
-						.isEqualToIgnoringCase(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+						.isEqualToIgnoringCase(HelperMiniServices.convertDateToAZDate(TimeSetterUtil.getInstance().getCurrentTime().atZone(ZoneId.systemDefault())));
 
 				softly.assertThat(DriverActivityReportsTab.tableCLUEReports.getRow(tableRowIndex)
 						.getCell(AutoSSMetaData.DriverActivityReportsTab.OrderCLUEReport.RECEIPT_DATE.getLabel()).getValue())
