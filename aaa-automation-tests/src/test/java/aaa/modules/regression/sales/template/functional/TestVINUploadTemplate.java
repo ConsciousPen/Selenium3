@@ -436,8 +436,10 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		});
 
 		//Navigate to the P&C Page and grab the comp and coll symbols on the VRD:
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
+		policy.getDefaultView().fillFromTo(testData, AssignmentTab.class, PremiumAndCoveragesTab.class, true);
+//		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+//		premiumAndCoveragesTab.calculatePremium();
 		PremiumAndCoveragesTab.RatingDetailsView.open();
 
 		//PAS-27309: Grab CA Select Symbols
