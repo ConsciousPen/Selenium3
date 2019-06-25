@@ -34,8 +34,8 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		TestData ratingDataPattern = getRatingDataPattern().resolveLinks();
 		if (Boolean.FALSE.equals(openLPolicy.isAaaMember())) {
 			ratingDataPattern
-					.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()))
-					.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()));
+					.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()))
+					.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(),AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()));
 		}
 
 		TestData td = DataProviderFactory.dataOf(

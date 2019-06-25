@@ -13,10 +13,10 @@ MembershipTab: {
 }
 
 GeneralTab: {
-  AAAProductOwned: '@AAAProductOwned'
+  AAAMembership: '@AAAMembership',
 }
 
-AAAProductOwned: {
+AAAMembership: {
   Current AAA Member: 'Membership Override',
 #  Override Type: 'Term', #this is default, so no point to select it
   Membership Number:
@@ -46,7 +46,7 @@ AAAProductOwned_MS_Active: {
   Membership Number: 9436258506738011
 }
 
-AAAProductOwned_MS_Override_Term: {
+AAAMembership_MS_Override_Term: {
   Current AAA Member: 'Membership Override',
 #  Override Type: 'Term', #this is default, so no point to selecting it
 #  Membership Number: 9436258506738011

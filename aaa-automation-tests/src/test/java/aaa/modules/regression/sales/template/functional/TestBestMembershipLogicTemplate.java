@@ -320,45 +320,34 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         switch (getPolicyType().getShortName())
         {
             case "AutoCA": {
-                // keypathTabSection Result: "GeneralTab|AAAProductOwned"
-                String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.customer.defaulttabs.GeneralTab.class.getSimpleName(),
-                        AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
-
-                // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
-                keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
-                        AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel());
-
-                // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
-                keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
-                        AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
-                break;
+                // Same as "AutoCAC"
             }
 
             case "AutoCAC": {
-                // keypathTabSection Result: "GeneralTab|AAAProductOwned"
+                // keypathTabSection Result: "GeneralTab|AAAMembership"
                 String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.customer.defaulttabs.GeneralTab.class.getSimpleName(),
-                        AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+                        AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 
-                // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
+                // keypathCurrentMember Result: "GeneralTab|AAAMembership|Current AAA Member"
                 keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
-                        AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel());
+                        AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel());
 
-                // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
+                // keypathMemberNum Result: "GeneralTab|AAAMembership|Membership Number"
                 keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
-                        AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+                        AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
                 break;
             }
 
             case "AutoSS": {
-                // keypathTabSection Result: "GeneralTab|AAAProductOwned"
+                // keypathTabSection Result: "GeneralTab|AAAMembership"
                 String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.customer.defaulttabs.GeneralTab.class.getSimpleName(),
                         AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 
-                // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
+                // keypathCurrentMember Result: "GeneralTab|AAAMembership|Current AAA Member"
                 keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
                         AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel());
 
-                // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
+                // keypathMemberNum Result: "GeneralTab|AAAMembership|Membership Number"
                 keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
                         AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
                 break;
@@ -866,28 +855,29 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
         aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab gt = new aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab();
         switch(memberStatus){
+            // Updated all the following to the new California UI components but they are untested as CA tests don't use them currently.
             case YES:
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Yes");
+                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Yes");
                 if (rms.equals(RMSStatus.Inactive)) {
-                    CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(INACTIVE_BML_MEMBERSHIP_NUMBER);
+                    CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(INACTIVE_BML_MEMBERSHIP_NUMBER);
                 }
                 if (rms.equals(RMSStatus.Active)) {
-                    CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(ACTIVE_BML_MEMBERSHIP_NUMBER);
+                    CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(ACTIVE_BML_MEMBERSHIP_NUMBER);
                 }
                 break;
             case NO:
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("No");
+                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("No");
                 break;
             case PENDING:
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Pending");
+                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Pending");
                 break;
             case OVERRIDE_LIFE:
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Override");
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel()).getValue().toString()).isEqualToIgnoringCase("Life");
+                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Override");
+                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel()).getValue().toString()).isEqualToIgnoringCase("Life");
                 break;
             case OVERRIDE_TERM:
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Override");
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel()).getValue().toString()).isEqualToIgnoringCase("Term");
+                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Override");
+                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel()).getValue().toString()).isEqualToIgnoringCase("Term");
                 break;
             default:
                 break;
