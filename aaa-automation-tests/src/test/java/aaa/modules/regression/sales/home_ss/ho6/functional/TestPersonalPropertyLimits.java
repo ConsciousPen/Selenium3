@@ -18,7 +18,7 @@ public class TestPersonalPropertyLimits extends TestPersonalPropertyLimitsTempla
 
     /**
      * @author Josh Carpenter
-     * @name Test Scheduled Personal Property max limits for SS HO3 Quote
+     * @name Test Scheduled Personal Property max limits for SS HO6 Quote
      * @scenario
      * 1.  Initiate SS HO3 policy and fill up to Documents Tab
      * 2.  Capture Coverage C and calculate percentages
