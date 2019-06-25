@@ -10,6 +10,7 @@ import aaa.main.enums.CoverageLimits;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
@@ -39,7 +40,7 @@ public class TestServiceRFI extends TestRFIHelper {
     }
 
     /**
-     * @name RFI AA52UPAA Form
+     * @name RFI 550007 CA Form
      * @scenario 1
      * 1. Create policy.
      * 2. Create endorsement outside of PAS.
@@ -61,7 +62,7 @@ public class TestServiceRFI extends TestRFIHelper {
      * @scenario 2
      * 1. Create policy and override the rule
      * 2. Create endorsement outside of PAS.
-     * 3. Trigger the document by updating one of the coverages (UMBI or UMSU)
+     * 3. Trigger the document by updating UMBI
      * 4. Hit RFI service and check that docuemnt is returned
      * 5. Bind Endorsement ---> No rule is fired (as it was overriden at NB)
      *
@@ -81,6 +82,7 @@ public class TestServiceRFI extends TestRFIHelper {
 
         // sceanrio 2
         // Create policy and override rule
+        td.adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel()), "contains=$25,000");
         td.adjust(TestData.makeKeyPath(AutoCaMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoCaMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AutoCaMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_MOTORIST_COVERAGE_DELETION_OR_SELECTION_OF_LIMITS_AGREEMENT.getLabel()), "Not Signed");
         TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
         td = td.adjust(AutoCaMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();

@@ -385,7 +385,7 @@ public class TestServiceRFI extends TestRFIHelper {
 		verifyRFIScenarios("UMSU", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_STACKED_UNSTACKED, CoverageLimits.COV_UNSTACKED.getLimit(), CoverageLimits.COV_STACKED.getDisplay(), document, documentAsset, error, td, true, true);
 	}
 
-	private void verifyRFIScenarios(String coverageCd, AssetDescriptor<? extends AbstractEditableStringElement> coverageAsset, String updateLimitDXP, String updateLimitPAS, DocGenEnum.Documents document, AssetDescriptor<RadioGroup> documentAsset, ErrorEnum.Errors error, TestData td, boolean checkDocXML, boolean isRuleOverridden) {
+	protected void verifyRFIScenarios(String coverageCd, AssetDescriptor<? extends AbstractEditableStringElement> coverageAsset, String updateLimitDXP, String updateLimitPAS, DocGenEnum.Documents document, AssetDescriptor<RadioGroup> documentAsset, ErrorEnum.Errors error, TestData td, boolean checkDocXML, boolean isRuleOverridden) {
 		assertSoftly(softly -> {
 
 			String policyNumber = policyCreationForRFI(coverageCd, updateLimitDXP, td);
@@ -1373,7 +1373,7 @@ public class TestServiceRFI extends TestRFIHelper {
 		});
 	}
 
-	private String checkDocumentInRfiService(String policyNumber, String documentCode, String documentName) {
+	protected String checkDocumentInRfiService(String policyNumber, String documentCode, String documentName) {
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
 		RFIDocument rfiDocument = rfiServiceResponse.documents.stream().filter(document -> document.documentCode.equals(documentCode)).findFirst().orElse(null);
@@ -2306,7 +2306,7 @@ public class TestServiceRFI extends TestRFIHelper {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 	}
 
-	private void bindEndorsement(String policyNumber, String doccId, String errorCode, String errorMessage, boolean isRuleOverridden) {
+	protected void bindEndorsement(String policyNumber, String doccId, String errorCode, String errorMessage, boolean isRuleOverridden) {
 		if (!isRuleOverridden) {
 			//Check that rule is fired when rule is not overridden. Not checking if rule is fired without signing, as per Digital flow it must always be signed.
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, errorCode, errorMessage);
@@ -2315,7 +2315,7 @@ public class TestServiceRFI extends TestRFIHelper {
 		HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), doccId);
 	}
 
-	private String policyCreationForRFI(String coverageId, String newCoverage, TestData td) {
+	protected String policyCreationForRFI(String coverageId, String newCoverage, TestData td) {
 		//Create Policy
 		String policyNumber = openAppAndCreatePolicy(td);
 
@@ -2362,7 +2362,7 @@ public class TestServiceRFI extends TestRFIHelper {
 		verifyDocInDb(softly, policyNumber, query, document, isDocSignTagsExpected);
 	}
 
-	private void goToPasAndVerifyRuleAndSignedBy(ETCSCoreSoftAssertions softly, String policyNumber,
+	protected void goToPasAndVerifyRuleAndSignedBy(ETCSCoreSoftAssertions softly, String policyNumber,
 			AssetDescriptor<RadioGroup> documentAsset, AssetDescriptor<? extends AbstractEditableStringElement> coverageAsset,
 			String coverageLimit, ErrorEnum.Errors error, boolean isRuleOverridden) {
 		//create endorsement from pas go to bind page verify document is electronically signed
