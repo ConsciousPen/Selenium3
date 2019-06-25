@@ -2342,10 +2342,10 @@ public class TestServiceRFI extends AutoSSBaseTest {
 				name = DocGenHelper.getDocumentDataElemByName("DocSignedBy", docInXml).getDataElementChoice().getTextField();
 				date = DocGenHelper.getDocumentDataElemByName("DocSignedDate", docInXml).getDataElementChoice().getDateTimeField();
 			}
-			String currentDate = HelperMiniServices.getAZCurrentDate();
+			String currentDate = DateTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));//current System date instead of AZ Timezone date. Will have new story to be AZ Timezone, if needed.
 			softly.assertThat(name).isEqualTo("Megha Gubbala");
 			softly.assertThat(date).startsWith(currentDate);
-			softly.assertThat(date).endsWith("-07:00"); // validates that the document's DocSignedDate ends with an AZ timestamp
+			softly.assertThat(date).endsWith(":00");// validates that the document's DocSignedDate ends with timestamp (currently it is system Timezone, will have new story to be AZ Timezone, if needed)
 		} else {
 			validateDocSignTagsNotExist(policyNumber, document, query);
 		}
