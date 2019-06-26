@@ -54,12 +54,12 @@ public abstract class TestRFIHelper extends PolicyBaseTest {
             //Go to PAS and verify
             goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, documentAsset, coverageAsset, updateLimitPAS, error, isRuleOverridden);
             //Verify Signed by is not there in XML when Signed from PAS UI.
-            if (checkDocXML) {
-                if ((document.equals(DocGenEnum.Documents.AA52UPAA) || document.equals(DocGenEnum.Documents.AA52IPAA) || document.equals(DocGenEnum.Documents.AAFPPA)) && !isRuleOverridden) { //isRuleOverridden means that Document was not signed.
-                    DocGenHelper.checkDocumentsDoesNotExistInXml(policyNumber, AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE, document);// Document does not exist
-                } else {
-                    validateDocSignTagsNotExist(document, query); //Document doesn't contain DocSignTags if signed in PAS
-                }
+	        if (checkDocXML) {
+		        if ((document.equals(DocGenEnum.Documents.AA52UPAA) || document.equals(DocGenEnum.Documents.AA52IPAA) || document.equals(DocGenEnum.Documents._550007) || document.equals(DocGenEnum.Documents.AAFPPA)) && !isRuleOverridden) { //isRuleOverridden means that Document was not signed.
+			        DocGenHelper.checkDocumentsDoesNotExistInXml(policyNumber, AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE, document);// Document does not exist
+		        } else {
+			        validateDocSignTagsNotExist(document, query); //Document doesn't contain DocSignTags if signed in PAS
+		        }
             }
         });
     }

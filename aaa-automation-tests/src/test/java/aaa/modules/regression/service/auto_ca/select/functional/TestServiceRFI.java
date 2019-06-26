@@ -70,7 +70,7 @@ public class TestServiceRFI extends TestRFIHelper {
     @Parameters({"state"})
     @StateList(states = {Constants.States.CA})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-27225"})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-27225", "PAS-31509"})
     public void pas27225_550007(@Optional("CA") String state) {
         DocGenEnum.Documents document = DocGenEnum.Documents._550007;
         AssetDescriptor<RadioGroup> documentAsset = AutoCaMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_MOTORIST_COVERAGE_DELETION_OR_SELECTION_OF_LIMITS_AGREEMENT;
@@ -79,7 +79,7 @@ public class TestServiceRFI extends TestRFIHelper {
         // scenario 1
         TestData td = getPolicyDefaultTD();
         verifyRFIScenarios("UMBI", AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_2550.getLimit(), CoverageLimits.COV_00.getDisplay(), document, documentAsset, error, td, true, false);
-
+        verifyRFIScenarios("UMBI", AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_00.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, true, false);
         // sceanrio 2
         // Create policy and override rule
         td.adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel()), "contains=$25,000");
