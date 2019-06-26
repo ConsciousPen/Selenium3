@@ -158,6 +158,11 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 	}
 
 	protected Dollar getBillingAmountByType(String type, String subtype, LocalDateTime effDate) {
+		Map<String, String> query = createQueryForPaymentsAndOtherTransactions(type, subtype, effDate);
+		return new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).abs();
+	}
+
+	private Map<String, String> createQueryForPaymentsAndOtherTransactions(String type, String subtype, LocalDateTime effDate) {
 		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		}
@@ -167,7 +172,16 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		if (effDate != null) {
 			query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.EFF_DATE, formatDateToString(effDate));
 		}
-		return new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).abs();
+		return query;
+	}
+
+	protected int getTransactionIndexByType(String type, String subtype) {
+		return getTransactionIndexByType(type, subtype, null);
+	}
+
+	protected int getTransactionIndexByType(String type, String subtype, LocalDateTime effDate) {
+		Map<String, String> query = createQueryForPaymentsAndOtherTransactions(type, subtype, effDate);
+		return BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getIndex() - 1;
 	}
 
 	protected void waiveFeeByDateAndType(LocalDateTime txDate, String feeType) {
@@ -213,14 +227,48 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		StaticElement netPremium = new StaticElement(By.xpath("//td[contains(text(), 'Net Premium')]//following-sibling::td[1]/input"));
 		Dollar netPremiumTotal = new Dollar(netPremium.getAttribute("value"));
 		allocations.put("Net Premium", netPremiumTotal);
+
 		Table tableAdvancedAllocationsTax = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:netPremiumAmount')]//ancestor::table[1]"));
-		Dollar totalAmount = BillingHelper.DZERO;
-		for (Row row : tableAdvancedAllocationsTax.getRows()) {
-			totalAmount= totalAmount.add(new Dollar(row.getCell(2).controls.textBoxes.getFirst().getValue()));
+		if (!tableAdvancedAllocationsTax.getRows().isEmpty()) {
+			Dollar totalAmount = BillingHelper.DZERO;
+			for (Row row : tableAdvancedAllocationsTax.getRows()) {
+				totalAmount = totalAmount.add(new Dollar(row.getCell(2).controls.textBoxes.getFirst().getValue()));
+			}
+			allocations.put("Taxes", totalAmount.subtract(netPremiumTotal));
 		}
-		allocations.put("Taxes", totalAmount.subtract(netPremiumTotal));
+		Table tableAdvancedAllocationsTax2 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:netPremiumAmount_1')]//ancestor::table[1]"));
+		if (!tableAdvancedAllocationsTax2.getRows().isEmpty()) {
+			Dollar totalAmount2 = BillingHelper.DZERO;
+			for (Row row : tableAdvancedAllocationsTax2.getRows()) {
+				totalAmount2 = totalAmount2.add(new Dollar(row.getCell(2).controls.textBoxes.getFirst().getValue()));
+			}
+			allocations.put("Taxes II", totalAmount2.subtract(netPremiumTotal));
+		}
+		allocations.putAll(collectBillingFees());
+
 		Tab.buttonBack.click();
 		Tab.buttonBack.click();
+		return allocations;
+	}
+
+	protected Map<String, Dollar> collectBillingFees() {
+		Map<String, Dollar> allocations = new HashMap<>();
+		Table tableAdvancedAllocationsTax = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:feeAmount')]//ancestor::table[1]"));
+		if (!tableAdvancedAllocationsTax.getRows().isEmpty()) {
+			Dollar totalAmount = BillingHelper.DZERO;
+			for (Row row : tableAdvancedAllocationsTax.getRows()) {
+				totalAmount= totalAmount.add(new Dollar(row.getCell(2).controls.textBoxes.getFirst().getValue()));
+			}
+			allocations.put("Fees I", totalAmount);
+		}
+		Table tableAdvancedAllocationsTax2 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:feeAmount_1')]//ancestor::table[1]"));
+		if (!tableAdvancedAllocationsTax2.getRows().isEmpty()) {
+			Dollar totalAmount2 = BillingHelper.DZERO;
+			for (Row row : tableAdvancedAllocationsTax2.getRows()) {
+				totalAmount2= totalAmount2.add(new Dollar(row.getCell(2).controls.textBoxes.getFirst().getValue()));
+			}
+			allocations.put("Fees II", totalAmount2);
+		}
 		return allocations;
 	}
 
