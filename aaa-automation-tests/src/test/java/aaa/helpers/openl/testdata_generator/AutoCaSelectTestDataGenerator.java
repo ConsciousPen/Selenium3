@@ -348,7 +348,15 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 				AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY));
 
 		TestData aaaProductOwnedData = DataProviderFactory.emptyData();
+
+		// TODO: The following code is no longer applicable.
+		// The new way the UI works is on the General Tab, click search and add manually, set the radio for Policy Number, then
+		// put the policy number. For property types, you can only manually add if elastic does not find the policy or
+		// the service is down. Contact Team CIO for assistance with the new MPD UI.
+		/*
+
 		if (openLPolicy.getHome3or4() != null) {
+
 			switch (openLPolicy.getHome3or4()) {
 				case "HO-3":
 					aaaProductOwnedData.adjust(AutoCaMetaData.GeneralTab.AAAProductOwned.HOME.getLabel(), "Yes");
@@ -396,6 +404,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 					throw new IstfException("Unknown mapping for openl field lifemoto=" + openLPolicy.getLifemoto());
 			}
 		}
+		 */
 
 		return DataProviderFactory.dataOf(
 				AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), namedInsuredInformationData,

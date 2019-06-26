@@ -213,17 +213,6 @@ public final class AutoCaMetaData {
 			}
 		}
 
-		// Old UI
-		public static final class AAAProductOwned extends MetaData {
-
-			public static final AssetDescriptor<RadioGroup> MOTORCYCLE = declare("Motorcycle", RadioGroup.class);
-			public static final AssetDescriptor<RadioGroup> LIFE = declare("Life", RadioGroup.class);
-			public static final AssetDescriptor<RadioGroup> HOME = declare("Home", RadioGroup.class);
-			public static final AssetDescriptor<RadioGroup> RENTERS = declare("Renters", RadioGroup.class);
-			public static final AssetDescriptor<RadioGroup> CONDO = declare("Condo", RadioGroup.class);
-			public static final AssetDescriptor<RadioGroup> PUP = declare("PUP", RadioGroup.class);
-		}
-
 		public static final class ContactInformation extends MetaData {
 			public static final AssetDescriptor<TextBox> HOME_PHONE_NUMBER = declare("Home Phone Number", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> WORK_PHONE_NUMBER = declare("Work Phone Number", TextBox.class);
