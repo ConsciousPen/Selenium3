@@ -40,16 +40,6 @@ public class TestPolicyCreation extends AutoCaSelectBaseTest {
 	@StateList(states = States.CA)
 	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
-	public void testQuoteCreation(@Optional("CA") String state) {
-		mainApp().open();
-		createCustomerIndividual();
-		createQuote();
-	}
-
-		@Parameters({"state"})
-	@StateList(states = States.CA)
-	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
 	public void testPolicyCreation(@Optional("CA") String state) {
 		
 		if (getUserGroup().equals(UserGroups.B31.get())) {
