@@ -351,7 +351,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 
 		// TODO: The following code is no longer applicable.
 		// The new way the UI works is on the General Tab, click search and add manually, set the radio for Policy Number, then
-		// put the policy number. For property types, you can only manually add if elastic does not find the policy or
+		// put the policy number, click Add. For property types, you can only manually add if elastic does not find the policy or
 		// the service is down. Contact Team CIO for assistance with the new MPD UI.
 		/*
 
