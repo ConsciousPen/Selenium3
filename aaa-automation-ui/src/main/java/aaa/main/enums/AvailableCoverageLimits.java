@@ -259,7 +259,8 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_300500,
 			CoverageLimits.COV_500500,
 			CoverageLimits.COV_5001000,
-			CoverageLimits.COV_10001000
+			CoverageLimits.COV_10001000,
+			CoverageLimits.COV_00
 	)),
 	UMPD_MD(ImmutableList.of(
 			CoverageLimits.COV_0,
