@@ -22,7 +22,7 @@ public class TestInquiryMode extends TestInquiryModeTemplate {
     @StateList(states = Constants.States.CA)
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-31369")
-    public void pas31369_testInquiryMode(@Optional("CA") String state) {
+    public void pas31369_testInquiryMode(@Optional("") String state) {
         super.testInquiryMode();
     }
 }

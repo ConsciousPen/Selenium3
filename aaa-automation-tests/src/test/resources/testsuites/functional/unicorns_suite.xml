@@ -157,4 +157,19 @@
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestPolicyRmeNyLegacyTierField"/>
         </classes>
     </test>
+
+    <test name="PAS-31369 Verify inquiry mode - CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestInquiryMode"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestInquiryMode"/>
+        </classes>
+    </test>
+
+    <test name="PAS-31369 Verify inquiry mode - AZ" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestInquiryMode"/>
+        </classes>
+    </test>
 </suite>
