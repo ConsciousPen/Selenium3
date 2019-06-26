@@ -24,4 +24,19 @@
             <!--</class>-->
         <!--</classes>-->
     <!--</test>-->
+    <test thread-count="1024" name="AA16CO AA52COA AA52COB RFI" parallel="methods">
+        <parameter name="state" value="CO"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas28479_AA16CO_MEDPMUpdateInDXP"/>
+                    <include name="pas28479_AA16CO_MEDPMUpdateInPAS"/>
+                    <include name="pas28480_AA52COA_UMBIUpdateInDXP"/>
+                    <include name="pas28480_AA52COA_UMBIUpdateInPAS"/>
+                    <include name="pas28481_AA52COB_UMBIUpdateInDXP"/>
+                    <include name="pas28481_AA52COB_UMBIUpdateInPAS"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
