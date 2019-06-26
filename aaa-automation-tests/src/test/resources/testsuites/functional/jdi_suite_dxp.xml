@@ -1479,4 +1479,14 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="CA Select RFI" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas27225_550007"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
