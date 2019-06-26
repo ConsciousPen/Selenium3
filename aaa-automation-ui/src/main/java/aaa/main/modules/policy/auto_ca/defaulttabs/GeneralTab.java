@@ -7,7 +7,6 @@ package aaa.main.modules.policy.auto_ca.defaulttabs;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
 import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.NoSectionsMultiAssetList;
@@ -55,7 +54,6 @@ public class GeneralTab extends Tab {
 	public AssetList getAAAMembershipAssetList() {
 		return getAssetList().getAsset(AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AssetList.class);
 	}
-
 
 	public NoSectionsMultiAssetList getOtherAAAProductOwnedAssetList() {
 		return getAssetList().getAsset(AutoCaMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED.getLabel(), NoSectionsMultiAssetList .class);
