@@ -631,7 +631,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		premiumAndCoveragesTab.calculatePremium();
 		PremiumAndCoveragesTab.RatingDetailsView.open();
 
-		//Verify the CA Select Symbols are shown and have been changed
+		//29402: Verify the CA Select Symbols are shown and have been changed
 		assertSoftly(softly -> {
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isNotEqualTo(selectCompSymbol);
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isNotEqualTo(selectCollSymbol);
@@ -653,7 +653,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		errorTab.cancel();
 		PremiumAndCoveragesTab.RatingDetailsView.open();
 
-		//Verify the CA Select Symbols are shown and have not been changed
+		//29402: Verify the CA Select Symbols are shown and have not been changed
 		assertSoftly(softly -> {
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isEqualTo(selectCompSymbol);
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isEqualTo(selectCollSymbol);
