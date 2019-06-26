@@ -1,0 +1,63 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="E2E Scenarios Daily" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <test name="Auto SS Scenario 1" parallel="methods">
+        <parameter name="state" value="AZ, CO, OR" />
+        <classes>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario1" />
+        </classes>
+    </test>
+    <test name="Auto SS Scenario 2" parallel="methods">
+        <parameter name="state" value="AZ, CO, OR" />
+        <classes>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario2" />
+        </classes>
+    </test>
+    <test name="Auto SS Scenario 3" parallel="methods">
+        <parameter name="state" value="AZ, CO, OR" />
+        <classes>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario3" />
+        </classes>
+    </test>
+    <test name="Auto SS Scenario 4" parallel="methods">
+        <parameter name="state" value="AZ, CO, OR" />
+        <classes>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario4" />
+        </classes>
+    </test>
+    <test name="Auto SS Scenario 5" parallel="methods">
+        <parameter name="state" value="AZ, CO, OR" />
+        <classes>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario5" />
+        </classes>
+    </test>
+    <test name="Auto SS Scenario 6" parallel="methods">
+        <parameter name="state" value="AZ, CO, OR" />
+        <classes>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario6" />
+        </classes>
+    </test>
+    <test name="Auto SS Scenario 7" parallel="methods">
+        <parameter name="state" value="AZ, CO, OR" />
+        <classes>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario7" />
+        </classes>
+    </test>
+    
+    <test name="Auto SS Scenario 14 for Semi-annual term" parallel="methods">
+        <parameter name="state" value="AZ, CO, OR" />
+        <classes>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario14"/>
+        </classes>
+    </test>
+    <test name="Auto SS Scenario 15 for Semi-annual term" parallel="methods">
+        <parameter name="state" value="AZ, CO, OR" />
+        <classes>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario15"/>
+        </classes>
+    </test>
+</suite>
