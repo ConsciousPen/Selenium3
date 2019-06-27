@@ -47,7 +47,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	@Parameters({"state"})
 	@StateList(states = Constants.States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-28579"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-28579", "PAS-31509"})
 	public void pas28579_updatePolicyLevelCoveragesCA(@Optional("CA") String state) {
 		pas28579_updatePolicyLevelCoveragesCABody();
 	}

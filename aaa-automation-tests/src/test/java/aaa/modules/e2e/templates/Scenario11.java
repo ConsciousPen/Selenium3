@@ -417,7 +417,7 @@ public class Scenario11 extends ScenarioBaseTest {
 		Dollar refundAmount = new Dollar(cancelAmount.substring(1, cancelAmount.length()-1)); 
 		refundAmount = refundAmount.add(100); 
 		
-		if (getPolicyType().equals(PolicyType.HOME_CA_HO3)) {
+		/*if (getPolicyType().equals(PolicyType.HOME_CA_HO3)) {
 			HashMap<String, String> query_renew = new HashMap<>();
 			query_renew.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PREMIUM); 
 			query_renew.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.RENEWAL);
@@ -427,7 +427,7 @@ public class Scenario11 extends ScenarioBaseTest {
 			Dollar premiumAmount = new Dollar(premiumRenewal.substring(1, premiumRenewal.length()-1)); 
 			refundAmount = refundAmount.add(premiumAmount); 
 			//refundAmount = refundAmount.subtract(new Dollar(20)); commented according to PASBB-492: Reinstatement fee 20$ should not be applied
-		}		
+		} */		
 		return refundAmount;		
 	}
 	

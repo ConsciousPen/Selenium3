@@ -26,6 +26,7 @@ public final class ErrorEnum {
 		ERROR_AAA_SS10240324("AAA_SS10240324", "At least one phone number must be provided."),
 		ERROR_AAA_SS190125("AAA_SS190125", "Pennsylvania Notice to Named Insureds Regarding Tort Options must be received prior to issuing this transaction."),
 		ERROR_200115_NY("200115_NY", "Supplementary Uninsured/Underinsured Coverage Waiver must be signed."),
+		ERROR_AAA_CSA6100815("AAA_CSA6100815", "A signed Uninsured/Underinsured Motorists Form must be received prior to issuing this transaction"),
 
 
 		// Property errors
