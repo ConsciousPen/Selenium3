@@ -173,25 +173,25 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.aaaCondoPolicy = aaaCondoPolicy;
 	}
 
-	public Integer getMemberPersistency() { return isNewRenPasCappedPolicy() ? memberPersistency - 1 : memberPersistency; }
+	public Integer getMemberPersistency() { return isNewRenPasCappedPolicy() && term == 12 ? memberPersistency - 1 : memberPersistency; }
 
 	public void setMemberPersistency(Integer memberPersistency) {
 		this.memberPersistency = memberPersistency;
 	}
 
-	public Integer getAutoInsurancePersistency() { return isNewRenPasCappedPolicy() ? autoInsurancePersistency - 1 : autoInsurancePersistency; }
+	public Integer getAutoInsurancePersistency() { return isNewRenPasCappedPolicy() && term == 12 ? autoInsurancePersistency - 1 : autoInsurancePersistency; }
 
 	public void setAutoInsurancePersistency(Integer autoInsurancePersistency) {
 		this.autoInsurancePersistency = autoInsurancePersistency;
 	}
 
-	public Integer getAaaInsurancePersistency() {return isNewRenPasCappedPolicy() ? aaaInsurancePersistency - 1 : aaaInsurancePersistency; }
+	public Integer getAaaInsurancePersistency() {return isNewRenPasCappedPolicy() && term == 12 ? aaaInsurancePersistency - 1 : aaaInsurancePersistency; }
 
 	public void setAaaInsurancePersistency(Integer aaaInsurancePersistency) {
 		this.aaaInsurancePersistency = aaaInsurancePersistency;
 	}
 
-	public Integer getAaaAsdInsurancePersistency() { return isNewRenPasCappedPolicy() ? aaaAsdInsurancePersistency - 1 : aaaAsdInsurancePersistency; }
+	public Integer getAaaAsdInsurancePersistency() { return isNewRenPasCappedPolicy() && term == 12 ? aaaAsdInsurancePersistency - 1 : aaaAsdInsurancePersistency; }
 
 	public void setAaaAsdInsurancePersistency(Integer aaaAsdInsurancePersistency) {
 		this.aaaAsdInsurancePersistency = aaaAsdInsurancePersistency;
@@ -428,9 +428,9 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 			// If effectiveDate precedes or is equal to current date, current date + 1 day is used as effectiveDate,
 			// it prevents NewRenPas capped policy creating with effective date more than 1 year prior to current date.
 			if (!effectiveDate.isAfter(LocalDate.now())) {
-				return LocalDate.now().minusYears(1).plusDays(1);
+				return LocalDate.now().minusMonths(term).plusDays(1);
 			}
-			return effectiveDate.minusYears(1);
+			return effectiveDate.minusMonths(term);
 		}
 		return effectiveDate;
 	}
