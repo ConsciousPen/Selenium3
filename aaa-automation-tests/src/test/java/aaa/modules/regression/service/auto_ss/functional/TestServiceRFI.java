@@ -12,11 +12,14 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.impl.PasDocImpl;
 import aaa.helpers.xml.model.pasdoc.DocumentGenerationRequest;
 import aaa.main.enums.*;
+import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -49,10 +52,11 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.AbstractEditableStringElement;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import javax.ws.rs.core.Response;
 
-public class TestServiceRFI extends AutoSSBaseTest {
+public class TestServiceRFI extends TestRFIHelper {
 	private static final String VIN_LESS_THAN_7_YEARS = "WAUDGAFL1EA123034";
 	private static final String VIN_MORE_THAN_7_YEARS = "WBAAD1300J8851614";
 	private final VehicleTab vehicleTab = new VehicleTab();
@@ -76,6 +80,11 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private static final AssetDescriptor<RadioGroup> REQUIRED_TO_BIND_AAIFNJ4 = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.INSPECTION_WAIVER_SALES_AGREEMENT_REQUIRED;
 	private static final AssetDescriptor<RadioGroup> REQUIRED_TO_BIND_AAIFNYD = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.ACKNOWLEDGEMENT_OF_REQUIREMENT_FOR_PHOTO_INSPECTION;
 	private static final AssetDescriptor<RadioGroup> REQUIRED_TO_BIND_AAIFNYE = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.COPY_OF_SALES_AGREEMENT;
+
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_SS;
+	}
 
 	/**
 	 * @author Jovita Pukenaite
@@ -376,7 +385,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		verifyRFIScenarios("UMSU", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_STACKED_UNSTACKED, CoverageLimits.COV_UNSTACKED.getLimit(), CoverageLimits.COV_STACKED.getDisplay(), document, documentAsset, error, td, true, true);
 	}
 
-	private void verifyRFIScenarios(String coverageCd, AssetDescriptor<? extends AbstractEditableStringElement> coverageAsset, String updateLimitDXP, String updateLimitPAS, DocGenEnum.Documents document, AssetDescriptor<RadioGroup> documentAsset, ErrorEnum.Errors error, TestData td, boolean checkDocXML, boolean isRuleOverridden) {
+	protected void verifyRFIScenarios(String coverageCd, AssetDescriptor<? extends AbstractEditableStringElement> coverageAsset, String updateLimitDXP, String updateLimitPAS, DocGenEnum.Documents document, AssetDescriptor<RadioGroup> documentAsset, ErrorEnum.Errors error, TestData td, boolean checkDocXML, boolean isRuleOverridden) {
 		assertSoftly(softly -> {
 
 			String policyNumber = policyCreationForRFI(coverageCd, updateLimitDXP, td);
@@ -1364,7 +1373,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		});
 	}
 
-	private String checkDocumentInRfiService(String policyNumber, String documentCode, String documentName) {
+	protected String checkDocumentInRfiService(String policyNumber, String documentCode, String documentName) {
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
 		RFIDocument rfiDocument = rfiServiceResponse.documents.stream().filter(document -> document.documentCode.equals(documentCode)).findFirst().orElse(null);
@@ -2297,7 +2306,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 	}
 
-	private void bindEndorsement(String policyNumber, String doccId, String errorCode, String errorMessage, boolean isRuleOverridden) {
+	protected void bindEndorsement(String policyNumber, String doccId, String errorCode, String errorMessage, boolean isRuleOverridden) {
 		if (!isRuleOverridden) {
 			//Check that rule is fired when rule is not overridden. Not checking if rule is fired without signing, as per Digital flow it must always be signed.
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, errorCode, errorMessage);
@@ -2306,7 +2315,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), doccId);
 	}
 
-	private String policyCreationForRFI(String coverageId, String newCoverage, TestData td) {
+	protected String policyCreationForRFI(String coverageId, String newCoverage, TestData td) {
 		//Create Policy
 		String policyNumber = openAppAndCreatePolicy(td);
 
@@ -2353,7 +2362,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		verifyDocInDb(softly, policyNumber, query, document, isDocSignTagsExpected);
 	}
 
-	private void goToPasAndVerifyRuleAndSignedBy(ETCSCoreSoftAssertions softly, String policyNumber,
+	protected void goToPasAndVerifyRuleAndSignedBy(ETCSCoreSoftAssertions softly, String policyNumber,
 			AssetDescriptor<RadioGroup> documentAsset, AssetDescriptor<? extends AbstractEditableStringElement> coverageAsset,
 			String coverageLimit, ErrorEnum.Errors error, boolean isRuleOverridden) {
 		//create endorsement from pas go to bind page verify document is electronically signed
@@ -2796,6 +2805,37 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			softly.assertThat(rfiServiceResponse.url).isNull();
 			softly.assertThat(rfiServiceResponse.documents.isEmpty()).isTrue();
 		});
+	}
+
+	@Override
+	protected AssetList getDocumentAssetList() {
+		return documentsAndBindTab.getRequiredToBindAssetList();
+	}
+
+	@Override
+	protected Tab getDocumentsAndBindTab() {
+		return documentsAndBindTab;
+	}
+
+	@Override
+	protected void updatePremiumAndCoveragesTab(AssetDescriptor<? extends AbstractEditableStringElement> coverageAsset, String coverageLimit) {
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		//From P&C page change coverage again to verify signed by is resetting to  not signed
+		if ((getState().equals(Constants.States.NJ) && coverageAsset.equals(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.MEDICAL_EXPENSE)) ||
+				(getState().equals(Constants.States.NJ) && coverageAsset.equals(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.PRIMARY_INSURER))) {
+			premiumAndCoveragesTab.setPolicyPersonalInjuryProtectionCoverageDetailsValue(coverageAsset.getLabel(), coverageLimit);
+		} else {
+			premiumAndCoveragesTab.setPolicyCoverageDetailsValue(coverageAsset.getLabel(), coverageLimit);
+		}
+
+		if (getState().equals(Constants.States.NJ) && coverageAsset.equals(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.PRIMARY_INSURER) && coverageLimit.equals(CoverageLimits.COV_PIPPRIMINS_PERSONAL_HEALTH_INSURANCE.getDisplay())) {
+			premiumAndCoveragesTab.setPolicyPersonalInjuryProtectionCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.INSURER_NAME.getLabel()
+					, "Peter");
+			premiumAndCoveragesTab.setPolicyPersonalInjuryProtectionCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.POLICY_GROUP_NUM_CERTIFICATE_NUM.getLabel()
+					, "658585");
+		}
+
+		premiumAndCoveragesTab.calculatePremium();
 	}
 }
 
