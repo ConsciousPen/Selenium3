@@ -314,4 +314,20 @@ public final class PolicyConstants {
         public static final String NO_DOCUMENT_RECEIVED = "No Document Received";
     }
 
+    public static final class ScheduledPersonalPropertyTable {
+        public static final String BICYCLES = "Bicycles";
+        public static final String CAMERAS = "Cameras";
+        public static final String COINS = "Coins";
+        public static final String FINE_ARTS = "Fine arts";
+        public static final String FIREARMS = "Firearms";
+        public static final String FURS = "Furs";
+        public static final String GOLF_EQUIPMENT = "Golf equipment";
+        public static final String JEWELRY = "Jewelry";
+        public static final String MEDICAL_DEVICES = "Medical devices";
+        public static final String MUSICAL_INSTRUMENTS = "Musical instruments";
+        public static final String POSTAGE_STAMPS = "Postage stamps";
+        public static final String SILVERWARE = "Silverware";
+        public static final String TRADING_CARDS_COMICS = "Trading cards or comics";
+    }
+
 }

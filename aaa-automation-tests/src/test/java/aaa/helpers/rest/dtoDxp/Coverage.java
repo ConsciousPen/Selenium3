@@ -98,16 +98,20 @@ public class Coverage {
 
 	public Coverage changeAvailableLimits(CoverageLimits... limitToAdd) {
 		availableLimits.clear();
-		for (CoverageLimits coverageLimit : limitToAdd) {
-			CoverageLimit limit = new CoverageLimit().setCoverageLimit(coverageLimit.getLimit()).setCoverageLimitDisplay(coverageLimit.getDisplay());
-			availableLimits.add(limit);
-		}
-		return this;
+		return addAvailableLimits(limitToAdd);
 	}
 
 	public Coverage changeAvailableLimits(AvailableCoverageLimits limitsToAdd) {
 		availableLimits.clear();
-		for (CoverageLimits coverageLimit : limitsToAdd.getAvailableLimits()) {
+		return addAvailableLimits(limitsToAdd.getAvailableLimits());
+	}
+
+	public Coverage addAvailableLimits(CoverageLimits... limitToAdd) {
+		return addAvailableLimits(Arrays.asList(limitToAdd));
+	}
+
+	private Coverage addAvailableLimits(List<CoverageLimits> limitToAdd) {
+		for (CoverageLimits coverageLimit : limitToAdd) {
 			CoverageLimit limit = new CoverageLimit().setCoverageLimit(coverageLimit.getLimit()).setCoverageLimitDisplay(coverageLimit.getDisplay());
 			availableLimits.add(limit);
 		}
