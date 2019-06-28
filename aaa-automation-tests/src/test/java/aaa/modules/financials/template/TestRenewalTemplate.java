@@ -20,6 +20,7 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
+import toolkit.utils.datetime.DateTimeUtils;
 
 public class TestRenewalTemplate extends FinancialsBaseTest {
 
@@ -685,15 +686,18 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 
 	/**
 	 * @scenario
-	 * 1. Create policy with monthly payment plan
-
-	 * @details CPT-01
+	 * 1. Create policy
+	 * 2. Create renewal proposal
+	 * 3. Perform RP Endorsement
+	 * 4. Validate ledger entries: Cross Policy Transfer
+	 * @details CPT-01, CNL-05
 	 */
 	protected void testRenewalScenario_9() {
 		// Create policy
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createFinancialPolicy(getPolicyTD());
+		LocalDateTime policyEffDate = PolicySummaryPage.getEffectiveDate();
 		LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
 
 		// Move to renewal offer time point and create renewal
@@ -710,32 +714,76 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 		performRPEndorsement(policyNumber, getTimePoints().getBillGenerationDate(renewalEffDate));
 		SearchPage.openBilling(policyNumber);
 
-		Map<String, Dollar> adjustmentAllocations = getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT,
+		String accountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
+		List<String> transactionIds = FinancialsSQL.getTransactionIdsForAccount(accountNumber);
+		int index = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CROSS_POLICY_TRANSFER);
+		Dollar crossPolicyTransferAdjAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CROSS_POLICY_TRANSFER);
+		String crossPolicyTransferAdjId = transactionIds.get(index);
+		index = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CROSS_POLICY_TRANSFER);
+		Dollar crossPolicyTransferPaymentAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CROSS_POLICY_TRANSFER);
+		String crossPolicyTransferPaymentId = transactionIds.get(index);
+		Map<String, Dollar> adjustmentAllocations = getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT,
 				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CROSS_POLICY_TRANSFER, TimeSetterUtil.getInstance().getCurrentTime());
-		Dollar crossPolicyAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT,
-				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CROSS_POLICY_TRANSFER);
+		Map<String, Dollar> paymentAllocations = getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT,
+				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CROSS_POLICY_TRANSFER, TimeSetterUtil.getInstance().getCurrentTime());
 
 		//CPT-01 validation
 		assertSoftly(softly -> {
-			softly.assertThat(crossPolicyAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CROSS_POLICY_TRANSFER, "1001"));
-//			softly.assertThat(renewalPrem.subtract(totalTaxesRenewal)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1034");
-//			softly.assertThat(renewalPrem.subtract(totalTaxesRenewal)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1044");
+			softly.assertThat(crossPolicyTransferAdjAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CROSS_POLICY_TRANSFER, "1001"));
+			softly.assertThat(adjustmentAllocations.get("Net Premium")).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CROSS_POLICY_TRANSFER, "1044"));
 
-			softly.assertThat(crossPolicyAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CROSS_POLICY_TRANSFER, "1001"));
-//			softly.assertThat(renewalPrem.subtract(totalTaxesRenewal)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1034");
-//			softly.assertThat(renewalPrem.subtract(totalTaxesRenewal)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1044");
+			softly.assertThat(crossPolicyTransferPaymentAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CROSS_POLICY_TRANSFER, "1001"));
+			softly.assertThat(paymentAllocations.get("Net Premium" + policyEffDate.format(DateTimeUtils.MM_DD_YYYY))).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CROSS_POLICY_TRANSFER, "1044"));
+			softly.assertThat(paymentAllocations.get("Net Premium" + renewalEffDate.format(DateTimeUtils.MM_DD_YYYY))).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CROSS_POLICY_TRANSFER, "1065"));
 		});
-//
-//		// Tax Validations for CPT-01
-//		if (isTaxState()) {
-//			assertSoftly(softly -> {
-//			softly.assertThat(totalTaxesRenewal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1053"));
-//			softly.assertThat(totalTaxesRenewal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.RENEWAL, "1053"));
-//			});
-//		}
+		// Tax Validations for CPT-01
+		if (isTaxState()) {
+			assertSoftly(softly -> {
+				softly.assertThat(adjustmentAllocations.get("Taxes")).isEqualTo(getTotalTaxesFromDb(crossPolicyTransferAdjId, "1053", false));
+
+				softly.assertThat(paymentAllocations.get("Taxes" + policyEffDate.format(DateTimeUtils.MM_DD_YYYY))).isEqualTo(getTotalTaxesFromDb(crossPolicyTransferPaymentId, "1053", true));
+				softly.assertThat(paymentAllocations.get("Taxes" + renewalEffDate.format(DateTimeUtils.MM_DD_YYYY))).isEqualTo(getTotalTaxesFromDb(crossPolicyTransferPaymentId, "1071", true));
+			});
+		}
+		// Fee Validations for CPT-01
+		if (getState().equals(Constants.States.NJ)) {
+			assertSoftly(softly -> {
+				softly.assertThat(adjustmentAllocations.get("Fees")).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(crossPolicyTransferAdjId, FinancialsSQL.TxType.PLIGA_FEE, "1034"));
+				softly.assertThat(paymentAllocations.get("Fees")).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(crossPolicyTransferPaymentId, FinancialsSQL.TxType.PLIGA_FEE, "1034"));
+			});
+		}
+		// taxes only applies to WV and KY and value needs added to premium amount for correct validation below
+		Dollar totalTaxesNB = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1053");
+
+		// CNL - 05 Cancel policy
+		cancelPolicy(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().plusMonths(2));
+		Dollar cxPremAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION);
+		validateCancellation(cxPremAmount, policyNumber, totalTaxesNB);
 	}
 
-    private void openPolicyRenewal(String policyNumber) {
+	private Dollar getTotalTaxesFromDb(String transactionId, String ledgerAccount, boolean isCredit) {
+		Dollar totalTaxes = new Dollar();
+		if (isCredit) {
+			if (getState().equals(Constants.States.KY)) {
+				totalTaxes = FinancialsSQL.getCreditsForAccountByTransaction(transactionId, FinancialsSQL.TxType.STATE_TAX_KY, ledgerAccount)
+						.add(FinancialsSQL.getCreditsForAccountByTransaction(transactionId, FinancialsSQL.TxType.CITY_TAX_KY, ledgerAccount))
+						.add(FinancialsSQL.getCreditsForAccountByTransaction(transactionId, FinancialsSQL.TxType.COUNTY_TAX_KY, ledgerAccount));
+			} else if (getState().equals(Constants.States.WV)) {
+				totalTaxes = FinancialsSQL.getCreditsForAccountByTransaction(transactionId, FinancialsSQL.TxType.STATE_TAX_WV, ledgerAccount);
+			}
+		} else {
+			if (getState().equals(Constants.States.KY)) {
+				totalTaxes = FinancialsSQL.getDebitsForAccountByTransaction(transactionId, FinancialsSQL.TxType.STATE_TAX_KY, ledgerAccount)
+						.add(FinancialsSQL.getDebitsForAccountByTransaction(transactionId, FinancialsSQL.TxType.CITY_TAX_KY, ledgerAccount))
+						.add(FinancialsSQL.getDebitsForAccountByTransaction(transactionId, FinancialsSQL.TxType.COUNTY_TAX_KY, ledgerAccount));
+			} else if (getState().equals(Constants.States.WV)) {
+				totalTaxes = FinancialsSQL.getDebitsForAccountByTransaction(transactionId, FinancialsSQL.TxType.STATE_TAX_WV, ledgerAccount);
+			}
+		}
+		return totalTaxes;
+	}
+
+	private void openPolicyRenewal(String policyNumber) {
         SearchPage.openPolicy(policyNumber);
         if (PolicySummaryPage.buttonRenewals.isEnabled()) {
             PolicySummaryPage.buttonRenewals.click();
@@ -897,5 +945,27 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
             });
         }
     }
+
+	private void validateCancellation(Dollar cancellationAmt, String policyNumber, Dollar taxes) {
+		assertSoftly(softly -> {
+			softly.assertThat(cancellationAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1044"));
+			softly.assertThat(cancellationAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1015")
+					.subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1015")));
+			softly.assertThat(cancellationAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1021")
+					.subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1021")));
+			softly.assertThat(cancellationAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")
+					.subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")));
+		});
+
+		// Tax Validations
+		if (isTaxState()) {
+			assertSoftly(softly -> {
+				softly.assertThat(taxes).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1053")
+						.subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1053")));
+				softly.assertThat(taxes).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1054")
+						.subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1054")));
+			});
+		}
+	}
 
 }
