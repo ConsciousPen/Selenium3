@@ -244,7 +244,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 		LocalDateTime insuranceRenewalReminderDate = getTimePoints().getInsuranceRenewalReminderDate(policyExpirationDate);
 		log.info("Policy Insurance Renewal Reminder Notice Date" + insuranceRenewalReminderDate);
 		TimeSetterUtil.getInstance().nextPhase(insuranceRenewalReminderDate);
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		JobUtils.executeJob(BatchJob.aaaRenewalReminderGenerationAsyncJob);
 		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 

@@ -178,7 +178,7 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(effDate);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(effDate));
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);

@@ -91,7 +91,7 @@ public class HdesConversionTestTemplate extends HomeCaHO3BaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(effDate);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(effDate));
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -135,7 +135,7 @@ public class HdesConversionTestTemplate extends HomeCaHO3BaseTest {
 		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(effDate));
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);

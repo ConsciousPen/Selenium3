@@ -19,8 +19,8 @@ import aaa.helpers.billing.*;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
-import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
@@ -412,7 +412,7 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalDate));
 		log.info("TEST: Run the Batch Jobs: PolicyStatusUpdateJob, policyLapsedRenewalProcessAsyncJob");
 		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();

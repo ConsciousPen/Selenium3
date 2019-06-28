@@ -305,7 +305,7 @@ public class Scenario9 extends ScenarioBaseTest {
 		LocalDateTime updateStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(updateStatusDate);
 		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -317,7 +317,7 @@ public class Scenario9 extends ScenarioBaseTest {
 
 	protected void customerDeclineRenewal() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusHours(1));
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();

@@ -744,7 +744,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		mortgageeBillFirstRenewalReminderNoticeJobExecution(expirationDate);
 		LocalDateTime lapsedRenewal = getTimePoints().getRenewCustomerDeclineDate(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(lapsedRenewal);
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		TimeSetterUtil.getInstance().nextPhase(expirationDate.plusMonths(2).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
 		JOBS_FOR_EVENT.get(MORTGAGEE_BILL_FINAL_EXP_NOTICE).forEach(job -> JobUtils.executeJob(job));
 	}

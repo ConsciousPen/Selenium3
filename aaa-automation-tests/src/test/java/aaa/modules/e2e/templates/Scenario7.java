@@ -418,7 +418,7 @@ public class Scenario7 extends ScenarioBaseTest {
 		LocalDateTime expirePolicyDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(expirePolicyDate);
 		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -450,7 +450,7 @@ public class Scenario7 extends ScenarioBaseTest {
 	protected void customerDeclineRenewal() {
 		LocalDateTime declineDate = getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(declineDate);
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 
 		premiumTransuctionsCount = premiumTransuctionsCount + 1;
 
@@ -506,7 +506,7 @@ public class Scenario7 extends ScenarioBaseTest {
 
 	protected void qualifyForManualRenewalTaskCreated() {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);

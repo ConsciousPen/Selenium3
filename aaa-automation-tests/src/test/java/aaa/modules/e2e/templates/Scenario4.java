@@ -299,7 +299,7 @@ public class Scenario4 extends ScenarioBaseTest {
 	protected void expirePolicy() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate));
 		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
-		// JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		// JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -312,7 +312,7 @@ public class Scenario4 extends ScenarioBaseTest {
 	protected void customerDeclineRenewal() {
 		//added a hour to postpone job execution to avoid conflict with makeManualPaymentInFullRenewalOfferAmount from Scenario2
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusHours(1));
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -324,7 +324,7 @@ public class Scenario4 extends ScenarioBaseTest {
 	protected void payRenewOffer() {
 		//added a hour to postpone job execution to avoid conflict with makeManualPaymentInFullRenewalOfferAmount from Scenario2
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getPayLapsedRenewLong(policyExpirationDate).plusHours(2));
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
@@ -339,7 +339,7 @@ public class Scenario4 extends ScenarioBaseTest {
 	protected void bindRenew() {
 		//added a hour to postpone job execution to avoid conflict with makeManualPaymentInFullRenewalOfferAmount from Scenario2
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		PolicySummaryPage.buttonTasks.click();

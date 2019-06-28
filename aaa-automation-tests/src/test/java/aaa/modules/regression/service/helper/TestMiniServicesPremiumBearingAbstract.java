@@ -1097,7 +1097,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyRenewalOfferExpired.policyFormCd).isEqualTo(getPolicyFormCd());
 
 			TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(15));
-			JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+			JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 
 			PolicySummary responsePolicyOfferLapsed = HelperCommon.viewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyOfferLapsed.policyNumber).isEqualTo(policyNumber);

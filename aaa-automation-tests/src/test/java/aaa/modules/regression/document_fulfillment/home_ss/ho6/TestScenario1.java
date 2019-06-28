@@ -8,8 +8,8 @@ import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
-import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.jobs.JobUtils;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO6BaseTest;
@@ -43,10 +43,10 @@ public class TestScenario1 extends HomeSSHO6BaseTest {
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate));
 		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(policyExpirationDate));
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		JobUtils.executeJob(BatchJob.aaaRenewalReminderGenerationAsyncJob);
 		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, DocGenEnum.Documents.AH64XX);

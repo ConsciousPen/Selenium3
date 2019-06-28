@@ -186,7 +186,7 @@ public class TestManualConversionScenario2 extends AutoSSBaseTest {
 		//15. (R+1) Run the batch jobs: PolicyStatusUpdateJob, policyLapsedRenewalProcessAsyncJob
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalDate));
 		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		//16. Navigate to Policy Consolidated View. -> Policy Status = Active
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -305,7 +305,7 @@ public class TestManualConversionScenario2 extends AutoSSBaseTest {
 		//38. (2R+1) Run the batch jobs: PolicyStatusUpdateJob, policyLapsedRenewalProcessAsyncJob
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(secondRenewalDate));
 		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		//39. Navigate to Policy Consolidated View. -> Policy Status = Proposed
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -313,7 +313,7 @@ public class TestManualConversionScenario2 extends AutoSSBaseTest {
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 		//40. (2R+5) Run the batch jobs: policyLapsedRenewalProcessAsyncJob, aaaRenewalReminderGenerationAsyncJob, aaaDocGen
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(secondRenewalDate));
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		JobUtils.executeJob(BatchJob.aaaRenewalReminderGenerationAsyncJob);
 		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		//41. Retrieve the policy and navigate to Policy Consolidated View

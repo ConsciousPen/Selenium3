@@ -364,7 +364,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		//move time to R+10 and run policyLapsedRenewalProcessAsyncJob
 		LocalDateTime policyLapsedDate = getTimePoints().getRenewCustomerDeclineDate(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(policyLapsedDate);
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 
 		//move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
 		LocalDateTime earnedPremium15 = getTimePoints().getEarnedPremiumBillFirst(expirationDate);

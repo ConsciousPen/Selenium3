@@ -11,8 +11,8 @@ import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.jobs.JobUtils;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.metadata.policy.AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting;
@@ -81,7 +81,7 @@ public class TestScenarioNY extends AutoSSBaseTest {
 
 		LocalDateTime insuranceRenewalReminderDate = getTimePoints().getInsuranceRenewalReminderDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(insuranceRenewalReminderDate);
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		JobUtils.executeJob(BatchJob.aaaRenewalReminderGenerationAsyncJob);
 		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 

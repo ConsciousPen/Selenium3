@@ -1525,7 +1525,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(15));
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 
 		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 		HelperCommon.updatePolicyPreferences(policyNumber, 422);

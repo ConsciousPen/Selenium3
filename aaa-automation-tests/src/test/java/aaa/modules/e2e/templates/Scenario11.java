@@ -292,7 +292,7 @@ public class Scenario11 extends ScenarioBaseTest {
 		LocalDateTime updateStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(updateStatusDate);
 		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -324,7 +324,7 @@ public class Scenario11 extends ScenarioBaseTest {
 	//For AutoCA, HomeCA
 	protected void payRenewalOfferNotInFullAmount(Dollar toleranceAmount) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate)); //.plusHours(1));
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -345,7 +345,7 @@ public class Scenario11 extends ScenarioBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusDays(5));
 
 		//TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(20));
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);

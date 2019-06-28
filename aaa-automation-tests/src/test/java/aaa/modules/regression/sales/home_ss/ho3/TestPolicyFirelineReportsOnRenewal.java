@@ -135,7 +135,7 @@ public class TestPolicyFirelineReportsOnRenewal extends HomeSSHO3BaseTest {
 	private void updatePolicyStatus() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate));
 		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 	}
 
 	private void renewPolicy() {

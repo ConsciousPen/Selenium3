@@ -12,7 +12,7 @@ public class TestCFTCleanFeedFiles extends ControlledFinancialBaseTest {
 	@Test(groups = {Groups.CFT, Groups.PRECONDITION})
 	@TestInfo(component = Groups.CFT)
 	public void cleanFeedFiles() {
-		JobUtils.executeJob(BatchJob.policyTransactionLedgerJob_NonMonthly);
+		JobUtils.executeJob(BatchJob.policyTransactionLedgerJob);
 		RemoteHelper.get().clearFolder(SOURCE_DIR);
 	}
 }

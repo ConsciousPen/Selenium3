@@ -71,10 +71,10 @@ public class TestOrganicDocGenAbstract extends PolicyBaseTest {
 
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(expirationDate));
 		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+        JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(expirationDate));
-		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+        JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		JobUtils.executeJob(BatchJob.aaaRenewalReminderGenerationAsyncJob);
 		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
     }
