@@ -29,7 +29,6 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 
@@ -224,52 +223,68 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 
 	protected Map<String, Dollar> collectAllocationAmounts() {
 		Map<String, Dollar> allocations = new HashMap<>();
-		StaticElement netPremium = new StaticElement(By.xpath("//td[contains(text(), 'Net Premium')]//following-sibling::td[1]/input"));
-		Dollar netPremiumTotal = new Dollar(netPremium.getAttribute("value"));
-		allocations.put("Net Premium", netPremiumTotal);
+		Table tableAdvancedAllocationsNetAndTaxes0 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:netPremiumAmount_0')]//ancestor::table[1]"));
+		Table tablePolicyInfo0 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:subTotalAmount_0')]//preceding::table[1]"));
+		Table tablePolicyInfo1 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:subTotalAmount_1')]//preceding::table[1]"));
+		String effectiveDate0 = extractEffectiveDate(tablePolicyInfo0);
+		String effectiveDate1 = extractEffectiveDate(tablePolicyInfo1);
 
-		Table tableAdvancedAllocationsTax = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:netPremiumAmount')]//ancestor::table[1]"));
-		if (!tableAdvancedAllocationsTax.getRows().isEmpty()) {
-			Dollar totalAmount = BillingHelper.DZERO;
-			for (Row row : tableAdvancedAllocationsTax.getRows()) {
-				totalAmount = totalAmount.add(new Dollar(row.getCell(2).controls.textBoxes.getFirst().getValue()));
-			}
-			allocations.put("Taxes", totalAmount.subtract(netPremiumTotal));
+		Dollar netPremium0 = extractNetPremium(tableAdvancedAllocationsNetAndTaxes0);
+		allocations.put("Net Premium" + effectiveDate0, netPremium0);
+		allocations.put("Net Premium", netPremium0);
+		allocations.put("Taxes" + effectiveDate0, collectAllocationAmountsFrom(tableAdvancedAllocationsNetAndTaxes0).subtract(allocations.get("Net Premium" + effectiveDate0)));
+		allocations.put("Taxes", allocations.get("Taxes" + effectiveDate0));
+
+		Table tableAdvancedAllocationsFees0 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:feeAmount_0')]//ancestor::table[1]"));
+		Dollar totalAmount = collectAllocationAmountsFrom(tableAdvancedAllocationsFees0);
+		if (!totalAmount.isZero()) {
+			allocations.put("Fees", totalAmount);
 		}
-		Table tableAdvancedAllocationsTax2 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:netPremiumAmount_1')]//ancestor::table[1]"));
-		if (!tableAdvancedAllocationsTax2.getRows().isEmpty()) {
-			Dollar totalAmount2 = BillingHelper.DZERO;
-			for (Row row : tableAdvancedAllocationsTax2.getRows()) {
-				totalAmount2 = totalAmount2.add(new Dollar(row.getCell(2).controls.textBoxes.getFirst().getValue()));
+		if (effectiveDate1 != null) {
+			Table tableAdvancedAllocationsNetAndTaxes1 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:netPremiumAmount_1')]//ancestor::table[1]"));
+			Dollar netPremium1 = extractNetPremium(tableAdvancedAllocationsNetAndTaxes1);
+			allocations.put("Net Premium" + effectiveDate1, netPremium1);
+			allocations.put("Net Premium", netPremium0.add(netPremium1));
+			allocations.put("Taxes" + effectiveDate1, collectAllocationAmountsFrom(tableAdvancedAllocationsNetAndTaxes1).subtract(allocations.get("Net Premium" + effectiveDate1)));
+			allocations.put("Taxes", allocations.get("Taxes" + effectiveDate0).add(allocations.get("Taxes" + effectiveDate1)));
+			Table tableAdvancedAllocationsFees1 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:feeAmount_1')]//ancestor::table[1]"));
+			totalAmount = totalAmount.add(collectAllocationAmountsFrom(tableAdvancedAllocationsFees1));
+			if (!totalAmount.isZero()) {
+				allocations.put("Fees", totalAmount);
 			}
-			allocations.put("Taxes II", totalAmount2.subtract(netPremiumTotal));
 		}
-		allocations.putAll(collectBillingFees());
 
 		Tab.buttonBack.click();
 		Tab.buttonBack.click();
 		return allocations;
 	}
 
-	protected Map<String, Dollar> collectBillingFees() {
-		Map<String, Dollar> allocations = new HashMap<>();
-		Table tableAdvancedAllocationsTax = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:feeAmount')]//ancestor::table[1]"));
-		if (!tableAdvancedAllocationsTax.getRows().isEmpty()) {
-			Dollar totalAmount = BillingHelper.DZERO;
-			for (Row row : tableAdvancedAllocationsTax.getRows()) {
+	private Dollar extractNetPremium(Table tableAdvancedAllocationsNetAndTaxes) {
+		Dollar netPremium = BillingHelper.DZERO;
+		for (Row row : tableAdvancedAllocationsNetAndTaxes.getRows()) {
+			if (row.getCell(1).getValue().equals("Net Premium")) {
+				netPremium = netPremium.add(new Dollar(row.getCell(2).controls.textBoxes.getFirst().getValue()));
+			}
+		}
+		return netPremium;
+	}
+
+	private String extractEffectiveDate(Table tablePolicyInfo) {
+		if (tablePolicyInfo.isPresent()) {
+			return tablePolicyInfo.getRow(1).getCell(1)
+					.getWebElement().findElement(By.className("timezone")).getText();
+		}
+		return null;
+	}
+
+	private Dollar collectAllocationAmountsFrom(Table tableAdvancedAllocations) {
+		Dollar totalAmount = BillingHelper.DZERO;
+		if (!tableAdvancedAllocations.getRows().isEmpty()) {
+			for (Row row : tableAdvancedAllocations.getRows()) {
 				totalAmount= totalAmount.add(new Dollar(row.getCell(2).controls.textBoxes.getFirst().getValue()));
 			}
-			allocations.put("Fees I", totalAmount);
 		}
-		Table tableAdvancedAllocationsTax2 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:feeAmount_1')]//ancestor::table[1]"));
-		if (!tableAdvancedAllocationsTax2.getRows().isEmpty()) {
-			Dollar totalAmount2 = BillingHelper.DZERO;
-			for (Row row : tableAdvancedAllocationsTax2.getRows()) {
-				totalAmount2= totalAmount2.add(new Dollar(row.getCell(2).controls.textBoxes.getFirst().getValue()));
-			}
-			allocations.put("Fees II", totalAmount2);
-		}
-		return allocations;
+		return totalAmount;
 	}
 
 	protected Map<String, Dollar> getTaxAmountsForPolicy(String policyNumber) {
