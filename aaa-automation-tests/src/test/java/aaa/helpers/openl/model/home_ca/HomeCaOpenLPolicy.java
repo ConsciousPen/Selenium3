@@ -134,4 +134,7 @@ public abstract class HomeCaOpenLPolicy<F extends HomeCaOpenLForm, D extends Hom
 	public abstract List<F> getForms();
 
 	public abstract D getDwelling();
+
+	@Override
+	public void setIsOneYearBeforePolicy() {}
 }

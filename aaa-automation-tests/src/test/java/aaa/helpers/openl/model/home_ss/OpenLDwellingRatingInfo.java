@@ -4,6 +4,7 @@ import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 @ExcelTableElement(sheetName = OpenLFile.DWELLING_RATING_INFO_SHEET_NAME, headerRowIndex = OpenLFile.DWELLING_RATING_INFO_HEADER_ROW_NUMBER)
 public class OpenLDwellingRatingInfo {
@@ -29,6 +30,13 @@ public class OpenLDwellingRatingInfo {
 	private Integer yearBuilt;
 	private String hailResistiveCode;
 	private String laundryLocation;
+
+	@ExcelTransient
+	private boolean isOneYearBeforePolicy;
+
+	public void setIsOneYearBeforePolicy(boolean isOneYearBeforePolicy) {
+		this.isOneYearBeforePolicy = isOneYearBeforePolicy;
+	}
 
 	public Integer getNumber() {
 		return number;
@@ -63,7 +71,7 @@ public class OpenLDwellingRatingInfo {
 	}
 
 	public Integer getHomeAge() {
-		return homeAge;
+		return isOneYearBeforePolicy ? homeAge - 1 : homeAge;
 	}
 
 	public void setHomeAge(Integer homeAge) {
@@ -87,7 +95,7 @@ public class OpenLDwellingRatingInfo {
 	}
 
 	public Integer getRoofAge() {
-		return roofAge;
+		return isOneYearBeforePolicy ? roofAge - 1 : roofAge;
 	}
 
 	public void setRoofAge(Integer roofAge) {
