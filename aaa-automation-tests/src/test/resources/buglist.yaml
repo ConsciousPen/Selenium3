@@ -567,3 +567,9 @@ PAS-31187:
     messages: ["expected:<$4,[412.00]> but was:<$4,[500.24]"]
   - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
     messages: ["expected:<$5,[691.00]> but was:<$5,[804.82]>"]
+PT-3483:
+  summary: "Unable to proceed EmptyEndorsement due to error \"Unprepared data; Error; Order Prefill must be completed for primary home\""
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.bct.service.pup.TestEndorsement.BCT_ONL_EmptyEndorsementPUP.*]
+    messages: ["Order Prefill must be completed for primary home"]
