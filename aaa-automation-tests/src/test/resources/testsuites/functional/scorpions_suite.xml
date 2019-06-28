@@ -101,6 +101,7 @@
                     <include name="pas2714_Endorsement"/>
                     <include name="pas4253_restrictVehicleRefreshNB"/>
                     <include name="pas12872_VINRefreshPartialMatchUnboundQuote"/>
+                    <include name="pas29402_GetCorrectCAProductSymbols"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshMotorHomeVehicle">
