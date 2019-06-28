@@ -267,9 +267,6 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		if (isVisibleProofOfPEHCR(openLPolicy)) {
 			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS.getLabel(), "Yes");
 		}
-		if (isVisibleProofOfModernization(openLPolicy)) {
-			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION.getLabel(), "Yes");
-		}
 		if (receiptIsRequired(openLPolicy)) {
 			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.APPRAISALS_SALES_RECEIPTS_FOR_SCHEDULED_PROPERTY.getLabel(), "Yes");
 		}
@@ -1082,15 +1079,6 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 
 	private boolean isVisibleProofOfPEHCR(HomeSSOpenLPolicy openLPolicy) {
 		return openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDwellingRatingInfo().getHomeAge()).getYear() < 1940;
-	}
-
-	private boolean isVisibleProofOfModernization(HomeSSOpenLPolicy openLPolicy) {
-		//TODO to be verified for another policy types
-		return "HO3".equals(openLPolicy.getPolicyType()) &&
-				(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovPlumbing() < 10 ||
-						openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovElectrical() < 10 ||
-						openLPolicy.getPolicyDwellingRatingInfo().getRoofAge() < 10 ||
-						openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovHeatOrCooling() < 10);
 	}
 
 	private boolean receiptIsRequired(HomeSSOpenLPolicy openLPolicy) {
