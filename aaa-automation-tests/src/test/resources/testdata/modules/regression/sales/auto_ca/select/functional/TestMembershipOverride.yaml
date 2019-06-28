@@ -46,7 +46,7 @@ AAAProductOwned_MS_Active: {
   Membership Number: 9436258506738011
 }
 
-AAAMembership_MS_Override_Term: {
+AAAProductOwned_MS_Override_Term: {
   Current AAA Member: 'Membership Override',
 #  Override Type: 'Term', #this is default, so no point to selecting it
 #  Membership Number: 9436258506738011
