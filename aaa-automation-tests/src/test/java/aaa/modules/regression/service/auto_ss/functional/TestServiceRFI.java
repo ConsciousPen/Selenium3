@@ -1374,46 +1374,6 @@ public class TestServiceRFI extends TestRFIHelper {
 		});
 	}
 
-	protected String checkDocumentInRfiService(String policyNumber, String documentCode, String documentName) {
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
-		RFIDocument rfiDocument = rfiServiceResponse.documents.stream().filter(document -> document.documentCode.equals(documentCode)).findFirst().orElse(null);
-		assertSoftly(softly -> {
-
-			softly.assertThat(rfiServiceResponse.url).isNull();
-			softly.assertThat(rfiDocument.documentCode).isEqualTo(documentCode);
-			softly.assertThat(rfiDocument.documentName).isEqualTo(documentName);
-			softly.assertThat(rfiDocument.documentId).startsWith(documentCode);
-			softly.assertThat(rfiDocument.status).startsWith("NS");
-			softly.assertThat(rfiDocument.parent).isEqualTo("policy");
-			softly.assertThat(rfiDocument.parentOid).isNotEmpty();
-
-			if (!PropertyProvider.getProperty("app.host").contains("aws")) {// Not checking document generation on AWS servers as DCS is not available from them
-
-				RFIDocuments rfiServiceResponse2 = HelperCommon.rfiViewService(policyNumber, true);
-				softly.assertThat(rfiServiceResponse2.url).endsWith(".pdf");
-				softly.assertThat(rfiServiceResponse2.documents).isNotEmpty();
-
-				//Verify that URL works
-				HttpURLConnection con = null;
-				try {
-					URL url = new URL(rfiServiceResponse2.url);
-					con = (HttpURLConnection) url.openConnection();
-					con.setRequestMethod("GET");
-					softly.assertThat(con.getResponseCode()).isEqualTo(Response.Status.OK.getStatusCode());
-				} catch (IOException e) {
-					e.printStackTrace();
-				} finally {
-					if (con != null) {
-						con.disconnect();
-					}
-				}
-			}
-		});
-
-		return rfiDocument.documentId;
-	}
-
 	/**
 	 * @author Oleg Stasyuk
 	 * @name RFI
