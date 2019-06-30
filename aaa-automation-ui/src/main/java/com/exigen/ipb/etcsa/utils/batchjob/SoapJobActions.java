@@ -112,7 +112,7 @@ public class SoapJobActions implements JobActions {
 		return result;
 	}
 
-	protected String waitForIdleState(JobGroup jobGroup) {
+	public String waitForIdleState(JobGroup jobGroup) {
 		int delay = 2;
 		if (getJobLastExecutionState(jobGroup).isEmpty()) {
 			Application.wait(delay);
@@ -154,7 +154,7 @@ public class SoapJobActions implements JobActions {
 		}
 	}
 
-	protected String getJobLastExecutionState(JobGroup jobGroup) {
+	public String getJobLastExecutionState(JobGroup jobGroup) {
 		checkExecutionServiceIsAlive();
 		String result;
 		try {

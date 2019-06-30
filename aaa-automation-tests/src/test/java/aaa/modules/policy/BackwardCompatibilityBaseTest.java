@@ -24,6 +24,7 @@ import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BctType;
+import aaa.soap.batchJobService.BatchJobPortImplServiceClient;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 
@@ -43,6 +44,17 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		return BctType.ONLINE_TEST;
 	}
 
+	protected void executeBatchUsingBatchJobService(Job job){
+		JobGroup jobGroup = JobGroup.fromSingleJob(JobUtils.convertToIpb(job));
+		SoapJobActions soapJobActions = new SoapJobActions();
+
+		if(!soapJobActions.isJobExist(jobGroup)){
+			soapJobActions.createJob(jobGroup);
+		}
+
+		BatchJobPortImplServiceClient batchJobService = new BatchJobPortImplServiceClient();
+		batchJobService.startJob(JobGroup.fromSingleJob(JobUtils.convertToIpb(job)));
+	}
 	/**
 	 * Execute job and calculate failure percentage.
 	 * if % of failed tasks > 5% hit production team or/and create a defect
