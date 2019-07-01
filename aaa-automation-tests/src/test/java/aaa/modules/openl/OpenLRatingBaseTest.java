@@ -110,6 +110,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends BaseTes
 	public void totalPremiumVerificationTest(@Optional String state, PolicyType testPolicyType, String filePath, int policyNumber) {
 		OpenLTestInfo<P> testInfo = openLTestsManager.getTestInfo(filePath);
 		P openLPolicy = testInfo.getOpenLPolicy(policyNumber);
+		setState(openLPolicy.getState());
 		setPolicyType(testPolicyType);
 		Dollar expectedPremium = openLPolicy.getExpectedPremium();
 		Dollar actualPremium;
