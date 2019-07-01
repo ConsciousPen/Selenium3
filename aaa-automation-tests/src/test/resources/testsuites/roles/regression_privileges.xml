@@ -4,9 +4,7 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-	<parameter name="timeshift-scenario-mode" value="method"/>
-	
-	<suite-files>
+    <suite-files>
 		<suite-file path="./regression_privileges_B31.xml"/>
 		<suite-file path="./regression_privileges_E34.xml"/>
 		<suite-file path="./regression_privileges_F35.xml"/>

@@ -4,12 +4,12 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method" />
+
 
     <parameter name="state" value="UT"/>
     <test name="Batch Maintenance Group 3">
         <classes>
-            <class name="aaa.modules.batch.BatchMaintanance">
+            <class name="aaa.modules.bct.batch.BatchMaintanance">
                 <methods>
                     <include name="RUN_14_COLLECTIONFEEDBATCHORDERJOB"/>
                     <include name="RUN_15_EARNEDPREMIUMWRITEOFFPROCESSINGJOB"/>

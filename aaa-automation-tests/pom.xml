@@ -101,9 +101,6 @@
                                     <value>aaa.helpers.listeners.AlterSuiteListener2,com.exigen.istf.exec.testng.TimeShiftTestNgListener</value>
                                 </property>
                             </properties>
-                            <systemPropertyVariables>
-                                <timeshift-scenario-mode>test</timeshift-scenario-mode>
-                            </systemPropertyVariables>
                             <groups>${groups}</groups>
                             <excludedGroups>${excludedgroups}</excludedGroups>
                             <includes>

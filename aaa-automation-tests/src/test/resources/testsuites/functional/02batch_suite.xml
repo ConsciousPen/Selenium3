@@ -4,8 +4,6 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method" />
-
     <parameter name="state" value="UT"/>
     <test name="Batch Maintenance Group 2">
         <classes>

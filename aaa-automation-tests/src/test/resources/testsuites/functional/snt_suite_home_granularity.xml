@@ -5,8 +5,6 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
-
     <test name="Home Granularity CA HO3" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>

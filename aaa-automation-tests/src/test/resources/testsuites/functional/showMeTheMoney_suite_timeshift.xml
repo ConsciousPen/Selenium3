@@ -4,7 +4,6 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method" />
     <!-- Waive Installment fee if a Policy was Paid in full on an Installment Bill: PAS-22285-->
     <test name="CA TestFinanceWaiveInstallmentFee" parallel="methods">
         <parameter name="state" value="CA"/>
