@@ -1,6 +1,7 @@
 package com.exigen.ipb.eisa.base.app;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -29,6 +30,7 @@ public class CSAACapabilityModifier extends OptionsModifier {
 		options.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 		options.setCapability("name", ReportingContext.get().getCurrentTestName());
 		options.setCapability("enableVNC", true);
+		options.setCapability("chrome.switches", Collections.singletonList("--ignore-certificate-errors"));
 		return allBrowsers(options);
 	}
 
