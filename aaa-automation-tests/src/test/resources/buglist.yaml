@@ -311,18 +311,6 @@ PAS-18945:
   failures:
     - tests: [aaa.modules.openl.AutoCaChoicePremiumCalculationTest.totalPremiumVerificationTest]
       messages: ["Cannot get value of StaticElement {<unnamed>: By.xpath: //span[@class='TOTAL_TERM_PREMIUM']", "Only qualified vehicles may carry Enhanced Transportation Expense"]
-PT-2761:
-  summary: "Homeowners DP3 Conversion Policies second Renewal is not being Proposed"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacket,
-            aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacketMortgagee,
-            aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.pas9816_BillingPacketGeneration]
-    messages: ["Second renewal cannot be proposed due to defect PT-2761"]
-  - tests: [aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3.*]
-    messages: ["[2nd Renewal Offer is not generated] expected:<[2]> but was:<[1]>"]
-  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3.*]
-    messages: ["[2nd Renewal Offer is not generated] expected:<[2]> but was:<[3]>"]
 PAS-20303:
   summary: "KY - Non-Renewal letter generated for policies at @R-81 and @R-79"
   reason: PROD
@@ -335,12 +323,6 @@ PAS-20303:
     messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
   - tests: [aaa.modules.regression.conversions.home_ss.ho6.functional.TestSpecialNonRenewalLetterKY.*]
     messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
-PAS-21025:
-  summary: "driverInformation in Response and Analytics of Microservice contains CAS Driver Information instead of PAS"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestCompClaimsDetermination.pas20361_compClaimDeterminationBeforeMS]
-    messages: ["PAS Driver should be 2nd Driver of Policy"]
 PAS-21992:
   summary: "Regression: HomeSS: Document AHRBXX is not generated on manual renewal"
   reason: PROD
@@ -355,12 +337,6 @@ PT-3048:
     messages: ["Errors: Time out. No session available", "no such element: Unable to locate element"]
   - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestCinNewBusinessHomeHO4.testCinHomeSSCluePropertyViolation]
     messages: ["Errors: Time out. No session available", "no such element: Unable to locate element"]
-PAS-21588:
-  summary: "(AH64XX) Expiration Notice - PAS is sending incorrect trans code in doc gen XML for renewal conversion documents - Auto"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.document_fulfillment.auto_ss.functional.TestConversionAuto.pas20836_expirationNoticeFormGeneration]
-    messages: ["expected:<\"[CANC]\"> but was:<\"[STMT]\">"]
 PAS-18273:
   summary: "Unable to remove second insured in auto policy or Error You must order membership report is fired"
   reason: PROD
@@ -542,6 +518,12 @@ PAS-29024:
               aaa.modules.financials.auto_ss.TestRenewal.testRenewalScenario_3,
               aaa.modules.financials.auto_ss.TestRenewal.testRenewalScenario_4]
       messages: ["caused by PAS-29024"]
+PT-3774:
+  summary: "SD DP3 Manual SIS Conversion hangs up on Premiums & Coverages screen"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.conversions.home_ss.dp3.ManualConversionTest.manualRenewalEntryToActivePolicy]
+      messages: ["Cannot set value of AssetList {PremiumsAndCoveragesQuoteTab:"]
 PAS-30859:
   summary: "Regression 19.7: CA Auto - Wrong Error Code - For Membership Last Name Validation Message"
   reason: PROD
@@ -566,3 +548,28 @@ PAS-30913:
   failures:
     - tests: [aaa.modules.bct.billing_and_payments.*]
       messages: ["To keep the eValue Discount, the customer must choose AutoPay"]
+PAS-31508:
+  summary: "Regression: PAS DOC: Auto AZ: Can't generate documents on GODD tab, Documents & Bind tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.docgen.auto_ss.TestScenario5.testDocGenScenario05,
+              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocGODDcommon.*,
+              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocGODDdeliveryMethods.testScenario4,
+              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocPreBind.testScenario5,
+              aaa.modules.regression.document_fulfillment.auto_ss.PasDoc_AdhocPreBind.testScenario6,
+              aaa.modules.regression.document_fulfillment.auto_ss.TestScenario4.TC01_CreatePolicy]
+      messages: ["No files have been found containing text pattern(s)"]
+PAS-31187:
+  summary: "Regression Master: KY Auto - City and County taxes aren't displayed in 'State and Local Taxes & Premium Surcharges' table on Renewal"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
+    messages: ["expected:<$4,[412.00]> but was:<$4,[500.24]"]
+  - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
+    messages: ["expected:<$5,[691.00]> but was:<$5,[804.82]>"]
+PT-3483:
+  summary: "Unable to proceed EmptyEndorsement due to error \"Unprepared data; Error; Order Prefill must be completed for primary home\""
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.bct.service.pup.TestEndorsement.BCT_ONL_EmptyEndorsementPUP.*]
+    messages: ["Order Prefill must be completed for primary home"]
