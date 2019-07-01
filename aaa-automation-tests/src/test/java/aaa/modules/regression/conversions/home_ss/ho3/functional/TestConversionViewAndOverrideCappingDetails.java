@@ -122,7 +122,7 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO3BaseTe
  * <p> **/
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.AZ, Constants.States.DE, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.UT})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-9350")
 	public void testPolicyCheckCappingFactor(@Optional("VA") String state) {
 
