@@ -10,6 +10,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -38,6 +39,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -58,6 +60,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -73,6 +76,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -123,6 +127,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -138,6 +143,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -168,6 +174,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -230,6 +237,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -262,6 +270,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -277,6 +286,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -384,6 +394,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -405,6 +416,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -491,6 +503,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -520,6 +533,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -540,6 +554,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -641,6 +656,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -656,6 +672,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -680,6 +697,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -707,6 +725,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -757,6 +776,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -799,6 +819,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -819,6 +840,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -917,6 +939,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -932,6 +955,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -947,6 +971,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -967,6 +992,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -1003,6 +1029,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
