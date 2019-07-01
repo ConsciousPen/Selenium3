@@ -43,7 +43,7 @@ import toolkit.utils.TestInfo;
 public class TestConversionViewAndOverrideCappingDetails extends HomeSSHO4BaseTest {
 
     @Parameters({"state"})
-    @StateList(states = {Constants.States.AZ, Constants.States.DE, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.UT})
+    @StateList(states = {Constants.States.DE, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO4, testCaseId = "PAS-3002")
     public void testPolicyViewCappingDetails(@Optional("VA") String state) {

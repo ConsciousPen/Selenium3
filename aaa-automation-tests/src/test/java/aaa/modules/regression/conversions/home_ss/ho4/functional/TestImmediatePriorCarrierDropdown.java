@@ -15,7 +15,6 @@ import aaa.modules.policy.HomeSSHO4BaseTest;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
-@StateList(statesExcept = {Constants.States.CA})
 public class TestImmediatePriorCarrierDropdown extends HomeSSHO4BaseTest {
 
 	/**
@@ -27,6 +26,7 @@ public class TestImmediatePriorCarrierDropdown extends HomeSSHO4BaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.DE, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-16330")
 	public void testCheckImmediatePriorCarrierDropdown(@Optional("") String state) {
