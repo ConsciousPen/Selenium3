@@ -29,12 +29,12 @@
             <class name="aaa.modules.regression.conversions.auto_ss.TestManualConversionScenario4"/>
         </classes>
     </test>-->
-    <test name="Hybrid Conversion Scenario5">
+    <!--<test name="Hybrid Conversion Scenario5">
         <parameter name="state" value="SD"/>
         <classes>
             <class name="aaa.modules.regression.conversions.auto_ss.TestManualConversionScenario5"/>
         </classes>
-    </test>
+    </test>-->
    <!-- <test name="Hybrid Conversion Scenario6">
         <parameter name="state" value="MT"/>
         <classes>
