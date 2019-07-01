@@ -1,6 +1,5 @@
 package aaa.helpers.ssh;
 
-import static aaa.helpers.ssh.RemoteHelper.OS.*;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
@@ -19,6 +18,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
+import aaa.helpers.mock.ApplicationMocksManager;
 import toolkit.exceptions.IstfException;
 
 public final class RemoteHelper {
@@ -328,27 +328,12 @@ public final class RemoteHelper {
 		return ssh.getLastModifiedTime(path);
 	}
 
-	public OS getCurrentOS() {
-		if (currentOS == null) {
-			String osType = get().executeCommand("uname -s").getOutput();
-			if (osType.contains("Unable to execute command or shell on remote system") || osType.contains("CYGWIN") || osType.contains("MINGW32") || osType.contains("MSYS")) {
-				currentOS = WINDOWS;
-			} else if (osType.contains("Linux")) {
-				currentOS = LINUX;
-			} else if (osType.contains("Darwin")) {
-				currentOS = MAC_OS;
-			} else {
-				currentOS = UNKNOWN;
-			}
-		}
-		return currentOS;
-	}
-
 	public List<String> getFilesListBySearchPattern(String sourceFolder, String fileExtension, List<String> textsToSearchPatterns) {
 		StringBuilder grepCmd = new StringBuilder();
 		String correctedFileExtension = fileExtension == null ? "*" : fileExtension;
 		String cmd;
-		switch (getCurrentOS()) {
+		OS currentOS = ApplicationMocksManager.getCurrentOS();
+		switch (currentOS) {
 			case WINDOWS:
 				for (String textToSearch : textsToSearchPatterns) {
 					grepCmd.append(" findstr /s /i /m \"").append(textToSearch).append("\" *./FILE_EXTENSION/ |");
