@@ -194,7 +194,6 @@
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestConversionViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
