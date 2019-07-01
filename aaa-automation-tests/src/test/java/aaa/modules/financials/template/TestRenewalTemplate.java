@@ -690,7 +690,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 	 * 2. Create renewal proposal
 	 * 3. Perform RP Endorsement
 	 * 4. Validate ledger entries: Cross Policy Transfer
-	 * @details CPT-01, CNL-05
+	 * @details CPT-01
 	 */
 	protected void testRenewalScenario_9() {
 		// Create policy
@@ -752,13 +752,6 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 				softly.assertThat(paymentAllocations.get("Fees")).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(crossPolicyTransferPaymentId, FinancialsSQL.TxType.PLIGA_FEE, "1034"));
 			});
 		}
-		// taxes only applies to WV and KY and value needs added to premium amount for correct validation below
-		Dollar totalTaxesNB = FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1053");
-
-		// CNL - 05 Cancel policy
-		cancelPolicy(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().plusMonths(2));
-		Dollar cxPremAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION);
-		validateCancellation(cxPremAmount, policyNumber, totalTaxesNB);
 	}
 
 	private Dollar getTotalTaxesFromDb(String transactionId, String ledgerAccount, boolean isCredit) {
@@ -945,27 +938,4 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
             });
         }
     }
-
-	private void validateCancellation(Dollar cancellationAmt, String policyNumber, Dollar taxes) {
-		assertSoftly(softly -> {
-			softly.assertThat(cancellationAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1044"));
-			softly.assertThat(cancellationAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1015")
-					.subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1015")));
-			softly.assertThat(cancellationAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1021")
-					.subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1021")));
-			softly.assertThat(cancellationAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")
-					.subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")));
-		});
-
-		// Tax Validations
-		if (isTaxState()) {
-			assertSoftly(softly -> {
-				softly.assertThat(taxes).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1053")
-						.subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1053")));
-				softly.assertThat(taxes).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1054")
-						.subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1054")));
-			});
-		}
-	}
-
 }
