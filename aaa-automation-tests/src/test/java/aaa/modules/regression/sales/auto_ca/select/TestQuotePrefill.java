@@ -5,7 +5,6 @@ package aaa.modules.regression.sales.auto_ca.select;
 import static aaa.main.metadata.policy.AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION;
 import static toolkit.verification.CustomAssertions.assertThat;
 
-import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -152,7 +151,7 @@ public class TestQuotePrefill extends AutoCaSelectBaseTest {
 		//check GeneralTab
 		GeneralTab generalTab = new GeneralTab();
 		assertThat(generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED)).hasValue(expectedNI_1);
-		assertThat(GeneralTab.tblInsuredList).hasRows(2);
+		assertThat(GeneralTab.tableInsuredList).hasRows(2);
 		generalTab.fillTab(getTestSpecificTD("TestDataFill_1_CA"));
 		
 		generalTab.viewInsured(2);

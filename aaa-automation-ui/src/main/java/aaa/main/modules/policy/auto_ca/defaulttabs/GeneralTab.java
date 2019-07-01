@@ -25,7 +25,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
  */
 public class GeneralTab extends Tab {
 
-	public static Table tblInsuredList = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_Insured_body']//table"));
+	public static Table tableInsuredList = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_Insured_body']//table"));
 
 	public GeneralTab() {
 		super(AutoCaMetaData.GeneralTab.class);
@@ -82,15 +82,15 @@ public class GeneralTab extends Tab {
 	}
 
 	public void removeInsured(int index) {
-		if (tblInsuredList.isPresent() && tblInsuredList.getRow(index).isPresent()) {
-			tblInsuredList.getRow(index).getCell(4).controls.links.get("Remove").click(Waiters.AJAX);
+		if (tableInsuredList.isPresent() && tableInsuredList.getRow(index).isPresent()) {
+			tableInsuredList.getRow(index).getCell(4).controls.links.get("Remove").click(Waiters.AJAX);
 			Page.dialogConfirmation.confirm();
 		}
 	}
 
 	public void viewInsured(int index) {
-		if (tblInsuredList.isPresent() && tblInsuredList.getRow(index).isPresent()) {
-			tblInsuredList.getRow(index).getCell(4).controls.links.get("View/Edit").click(Waiters.AJAX);
+		if (tableInsuredList.isPresent() && tableInsuredList.getRow(index).isPresent()) {
+			tableInsuredList.getRow(index).getCell(4).controls.links.get("View/Edit").click(Waiters.AJAX);
 		}
 	}
 }
