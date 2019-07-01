@@ -50,7 +50,7 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSHO4Ba
 	 * Fire protection area
 	 **/
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.NJ, Constants.States.AZ, Constants.States.PA, Constants.States.MD})
+	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.NJ, Constants.States.PA, Constants.States.MD})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO4, testCaseId = "PAS-10703")
 	public void testVerifyFireRelatedFieldsOnThePropertyInfoTab(@Optional("NJ") String state) {
@@ -94,8 +94,8 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSHO4Ba
 	 * Fire protection area
 	 **/
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.NJ, Constants.States.AZ, Constants.States.PA, Constants.States.MD})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
+	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.NJ, Constants.States.PA, Constants.States.MD})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO4, testCaseId = "PAS-10703")
 	public void testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal(@Optional("NJ") String state) {
 

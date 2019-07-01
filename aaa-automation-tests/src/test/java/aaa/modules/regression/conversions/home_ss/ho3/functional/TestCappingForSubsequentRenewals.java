@@ -59,7 +59,7 @@ public class TestCappingForSubsequentRenewals extends HomeSSHO3BaseTest {
 	 **/
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.AZ})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-11383")
 	public void testCappingForSubsequentRenewals(@Optional("AZ") String state) {
 
