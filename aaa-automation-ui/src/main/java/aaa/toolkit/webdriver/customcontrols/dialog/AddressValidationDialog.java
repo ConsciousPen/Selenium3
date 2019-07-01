@@ -57,10 +57,10 @@ public class AddressValidationDialog extends DialogAssetList {
 		if (td.containsKey(name)) {
 
 			//TODO auto ss: popup opens with delay, temp solution
-			/*Button buttonClosePopup = (Button) getAssetCollection().get(DEFAULT_POPUP_SUBMITTER_NAME);
+			Button buttonClosePopup = (Button) getAssetCollection().get(DEFAULT_POPUP_SUBMITTER_NAME);
 			if (!buttonClosePopup.isPresent()) {
-				buttonClosePopup.waitForAccessible(7000);
-			}*/
+				buttonClosePopup.waitForAccessible(5000);
+			}
 			//TODO Think on filling.
 			// openDialog();
 			TestData data = getValueToFill(td);
