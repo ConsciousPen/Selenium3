@@ -115,6 +115,10 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	}
 
+	/**
+	 * Opens the VRD Frame, scrapes the data out of the top section, and returns the data in key value pairs (TestData).
+	 * @return TestData representing first section data on VRD page.
+	 */
 	public TestData getRatingDetailsQuoteInfoData() {
 		if (!tableRatingDetailsQuoteInfo.isPresent()) {
 			RatingDetailsView.open();
