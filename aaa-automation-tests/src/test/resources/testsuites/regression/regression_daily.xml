@@ -181,10 +181,6 @@
     <test name="AZ Home Regression Tests" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestConversionViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyMoratorium">
                 <methods>
                     <include name="newBusiness_SoftStopPremiumCalculation_HardStopBind"/>
@@ -196,6 +192,9 @@
     <test name="PA HSS Regression Tests" parallel="methods">
         <parameter name="state" value="PA"/>
         <classes>
+            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestConversionViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg"/>
         </classes>
     </test>
