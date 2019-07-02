@@ -337,6 +337,8 @@ public class PremiumAndCoveragesTab extends Tab {
 			result = cell.controls.comboBoxes.getFirst().getValue();
 		} else if (cell.controls.textBoxes.getFirst().isPresent()) {
 			result = cell.controls.textBoxes.getFirst().getValue();
+		} else if (cell.controls.radioGroups.getFirst().isPresent()) {
+			result = cell.controls.radioGroups.getFirst().getValue();
 		} else {
 			result = cell.getValue();
 		}
