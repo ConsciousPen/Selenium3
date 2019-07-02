@@ -45,11 +45,11 @@ public class VersionsComparisonConstants {
 			.putAll("Policy Information.Third Party Designee Address","VII third party address 1, VII third party address 2, Culver City, CA, 90232","VI third party address 1, VI third party address 2, HUNTINGTON PARK, CA, 90255")
 			//Driver Tab
 			//data gather data
-			.putAll("Drivers.VIFirstName VI VILastName.Age", "18","55")
+			//.putAll("Drivers.VIFirstName VI VILastName.Age", "18","55")
 			.putAll("Drivers.VIFirstName VI VILastName.Permit Before License", "true","false")
 			.putAll("Drivers.VIFirstName VI VILastName.Date First Licensed", "06/20/2018","07/20/2018")
 			.putAll("Drivers.VIFirstName VI VILastName.Licensed in US/Canada for 18 or More Months?", "false","true")
-			.putAll("Drivers.VIFirstName VI VILastName.Total Years Driving Experience", "3","38")
+			.putAll("Drivers.VIFirstName VI VILastName.Total Years Driving Experience", "27","25")
 			.putAll("Drivers.VIFirstName VI VILastName.New Driver Course Completed", "true","false")
 			.putAll("Drivers.VIFirstName VI VILastName.Mature driver course completed within 36 months", "false","true")
 			.putAll("Drivers.VIFirstName VI VILastName.ADB Coverage", "false","true")
@@ -64,7 +64,7 @@ public class VersionsComparisonConstants {
 			.putAll("Drivers.NBFirstName NB NBLastName.Permit Before License", "true","false")
 			.putAll("Drivers.NBFirstName NB NBLastName.Date First Licensed", "06/20/2018","07/20/2018")
 			.putAll("Drivers.NBFirstName NB NBLastName.Licensed in US/Canada for 18 or More Months?", "false","true")
-			.putAll("Drivers.NBFirstName NB NBLastName.Total Years Driving Experience", "3","38")
+			.putAll("Drivers.NBFirstName NB NBLastName.Total Years Driving Experience", "27","25")
 			.putAll("Drivers.NBFirstName NB NBLastName.New Driver Course Completed", "true","false")
 			.putAll("Drivers.NBFirstName NB NBLastName.Mature driver course completed within 36 months", "false","true")
 			.putAll("Drivers.NBFirstName NB NBLastName.ADB Coverage", "false","true")
