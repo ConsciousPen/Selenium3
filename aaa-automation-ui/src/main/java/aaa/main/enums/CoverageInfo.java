@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.apache.tools.ant.taskdefs.Available;
 
 public enum CoverageInfo {
 
@@ -106,8 +105,8 @@ public enum CoverageInfo {
 	UMPD_DE("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_10000, AvailableCoverageLimits.UMPD_DE, "Per Accident"),
 	UMPD_NJ("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UMPD_NJ, "Per Accident"),
 	UIMCONV_CT("UIMCONV", "Underinsured Motorist Conversion Coverage", CoverageLimits.COV_FALSE_NO_COVERAGE, AvailableCoverageLimits.UIMCONV_CT),
-	UMBI_CT_NO("UMBI", "Uninsured/Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI_CT), //when UIMCONV  = No
-	UMBI_CT_YES("UMBI", "Uninsured/Underinsured Motorist Bodily Injury With UIM Conversion Coverage", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI_CT), //when UIMCONV  = Yes
+	UMBI_CT_NO("UMBI", "Uninsured/Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI_CT, "Per Person/Per Accident"), //when UIMCONV  = No
+	UMBI_CT_YES("UMBI", "Uninsured/Underinsured Motorist Bodily Injury With UIM Conversion Coverage", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI_CT, "Per Person/Per Accident"), //when UIMCONV  = Yes
 	ADB("ADB", "Automobile Death Benefit", null, null, null),
 	TD("TD", "Total Disability", null, null, null),
 	TORT_PA("TORT", "Tort Threshold", CoverageLimits.COV_LIMITED_TORT, AvailableCoverageLimits.TORT_PA, null),
@@ -120,7 +119,7 @@ public enum CoverageInfo {
 	UMBI_VA_KS("UMBI", "Uninsured/Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI,"Per Person/Per Accident"),
 	UIMBI("UIMBI", "Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UIMBI,"Per Person/Per Accident"),
 	UIMBI_DC("UIMBI", "Underinsured Motorists Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UIMBI,"Per Person/Per Accident"),
-	BI_WV_VA_KS_DC_DE("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI_WV_VA_KS_DC_DE, "Per Person/Per Accident"),
+	BI_WV_VA_KS_DC_DE_CT("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI_WV_VA_KS_DC_DE_CT, "Per Person/Per Accident"),
 	UMBI_DE("UMBI", "Uninsured/Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI_DE,"Per Person/Per Accident"),
 	UMBI_NJ("UMBI", "Uninsured/Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI_NJ,"Per Person/Per Accident"),
 	PDWV("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD, "Per Accident"),
