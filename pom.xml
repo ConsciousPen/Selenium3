@@ -53,11 +53,11 @@
         </plugins>
     </build>
     <dependencies>
-        <!-- <dependency>
-             <groupId>org.seleniumhq.selenium</groupId>
-             <artifactId>selenium-server</artifactId>
-             <version>${webdriver.version}</version>
-         </dependency>-->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-server</artifactId>
+            <version>${webdriver.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -111,7 +111,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <!-- ISTF Artifacts END -->
         <!-- PEF Artifacts START -->
         <dependency>
