@@ -1,25 +1,13 @@
 package aaa.toolkit.webdriver.customcontrols;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.openqa.selenium.By;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.webdriver.controls.BaseElement;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.ListBox;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.TextBox;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.collection.Controls;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
@@ -65,7 +53,17 @@ import toolkit.webdriver.controls.composite.table.Table;
  * E.g.: <pre>"public static final AssetDescriptor<RadioGroup> CUSTOMER_AGREEMENT = declare("Customer Agreement", RadioGroup.class, Waiters.AJAX, <b>false</b>, <b>By.xpath("//table[@id='policyDataGatherForm:customerRadio']")</b>);"</pre>
  * <br>
  * In case when column has no header name with column number such as "column=1" should be used for control in metadata and testdata.
+ * <br>
+ * In case when #Link or #Button value is not displayed properly (e. g. Report re-or...), it is possible to specify link index in cell:
+ * <br>
+ * <pre>
+ *        ReportsTab: {
+ *            AAAMembershipReport: [{Report: index=1}, {Report: index=2}],
+ *        }
+ * </pre>
+ *  In example above in 1st row and column='Report'  the first link in cell will be clicked, in 2nd row and column='Report' the second link in cell will be clicked.
  */
+
 public class FillableTable extends AbstractContainer<List<TestData>, List<TestData>> {
 	protected Table fillableTable = new Table(getLocator());
 
@@ -216,6 +214,13 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 					innerControls.comboBoxes.getFirst().setValue(value);
 				} else if (control instanceof ListBox) {
 					innerControls.listBoxes.getFirst().setValue(value);
+				} else if (value.contains("index")) {
+					value = value.replace("index", "").replace("=", "").trim();
+					if (control instanceof Button) {
+						innerControls.buttons.get(value).click();
+					} else if (control instanceof Link) {
+						innerControls.links.get(value).click();
+					}
 				} else if (control instanceof Button) {
 					innerControls.buttons.get(value).click();
 				} else if (control instanceof Link) {
