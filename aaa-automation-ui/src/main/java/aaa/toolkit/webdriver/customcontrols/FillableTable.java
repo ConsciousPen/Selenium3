@@ -7,6 +7,7 @@ import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.collection.Controls;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
@@ -219,7 +220,9 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 					if (control instanceof Button) {
 						innerControls.buttons.get(newValue).click();
 					} else if (control instanceof Link) {
-						innerControls.links.get(newValue).click();
+						Link lnk = innerControls.links.get(newValue);
+						BrowserController.get().executeScript("arguments[0].style.whiteSpace='normal'", lnk.getWebElement());
+						lnk.click();
 					}
 				} else if (control instanceof Button) {
 					innerControls.buttons.get(value).click();
