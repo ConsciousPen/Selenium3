@@ -637,11 +637,29 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 		int index = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED);
 		Dollar feeWaiveAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED);
 		String feeWaivedTransactionId = transactionIds.get(index);
+		//Adjustment - Reallocated Payment
+		int indexAdjReallocation = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATED_PAYMENT);
+		Dollar reallocationAdjAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATED_PAYMENT);
+		String reallocationAdjTransactionId = transactionIds.get(indexAdjReallocation);
+		//	Payment	- Reallocate Payment
+		int indexPaymentReallocation = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATE_PAYMENT);
+		Dollar reallocationPaymentAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATE_PAYMENT);
+		String reallocationPaymentTransactionId = transactionIds.get(indexPaymentReallocation);
+		Map<String, Dollar> adjustmentReallocation= getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT,
+				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATED_PAYMENT, TimeSetterUtil.getInstance().getCurrentTime());
+		Map<String, Dollar> paymentReallocation = getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT,
+				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATE_PAYMENT, TimeSetterUtil.getInstance().getCurrentTime());
 
 		 //ADJ-11 validation
         assertSoftly(softly -> {
             softly.assertThat(feeWaiveAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(feeWaivedTransactionId, FinancialsSQL.TxType.NON_EFT_INSTALLMENT_FEE, "1034"));
             softly.assertThat(feeWaiveAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(feeWaivedTransactionId, FinancialsSQL.TxType.NON_EFT_INSTALLMENT_FEE, "1040"));
+            //Reallocation validation
+			softly.assertThat(reallocationAdjAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(reallocationAdjTransactionId, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1001"));
+			softly.assertThat(adjustmentReallocation.get("Net Premium")).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(reallocationAdjTransactionId, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1044"));
+			softly.assertThat(adjustmentReallocation.get("Fees")).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(reallocationAdjTransactionId, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1034"));
+			softly.assertThat(reallocationPaymentAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(reallocationPaymentTransactionId, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1001"));
+			softly.assertThat(paymentReallocation.get("Net Premium")).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(reallocationPaymentTransactionId, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1044"));
         });
 
 		//ADJ-13
