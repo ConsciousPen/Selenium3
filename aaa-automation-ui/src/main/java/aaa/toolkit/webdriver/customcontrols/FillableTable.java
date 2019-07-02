@@ -215,11 +215,11 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 				} else if (control instanceof ListBox) {
 					innerControls.listBoxes.getFirst().setValue(value);
 				} else if (value.contains("index")) {
-					value = value.replace("index", "").replace("=", "").trim();
+					Integer newValue = Integer.parseInt(value.replace("index", "").replace("=", "").trim());
 					if (control instanceof Button) {
-						innerControls.buttons.get(value).click();
+						innerControls.buttons.get(newValue).click();
 					} else if (control instanceof Link) {
-						innerControls.links.get(value).click();
+						innerControls.links.get(newValue).click();
 					}
 				} else if (control instanceof Button) {
 					innerControls.buttons.get(value).click();
