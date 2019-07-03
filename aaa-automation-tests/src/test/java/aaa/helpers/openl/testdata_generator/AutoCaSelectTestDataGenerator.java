@@ -34,8 +34,8 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		TestData ratingDataPattern = getRatingDataPattern().resolveLinks();
 		if (Boolean.FALSE.equals(openLPolicy.isAaaMember())) {
 			ratingDataPattern
-					.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()))
-					.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()));
+					.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()))
+					.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(),AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()));
 		}
 
 		TestData td = DataProviderFactory.dataOf(
@@ -348,7 +348,15 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 				AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY));
 
 		TestData aaaProductOwnedData = DataProviderFactory.emptyData();
+
+		// TODO: The following code is no longer applicable.
+		// The new way the UI works is on the General Tab, click search and add manually, set the radio for Policy Number, then
+		// put the policy number, click Add. For property types, you can only manually add if elastic does not find the policy or
+		// the service is down. Contact Team CIO for assistance with the new MPD UI.
+		/*
+
 		if (openLPolicy.getHome3or4() != null) {
+
 			switch (openLPolicy.getHome3or4()) {
 				case "HO-3":
 					aaaProductOwnedData.adjust(AutoCaMetaData.GeneralTab.AAAProductOwned.HOME.getLabel(), "Yes");
@@ -396,10 +404,11 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 					throw new IstfException("Unknown mapping for openl field lifemoto=" + openLPolicy.getLifemoto());
 			}
 		}
+		 */
 
 		return DataProviderFactory.dataOf(
 				AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), namedInsuredInformationData,
-				AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), aaaProductOwnedData,
+				AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), aaaProductOwnedData,
 				AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), policyInformationData);
 	}
 

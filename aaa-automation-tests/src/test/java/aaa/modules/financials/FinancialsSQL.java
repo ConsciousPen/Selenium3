@@ -1,11 +1,13 @@
 package aaa.modules.financials;
 
-import com.exigen.ipb.etcsa.utils.Dollar;
-import toolkit.db.DBService;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import toolkit.db.DBService;
 
 public final class FinancialsSQL {
 
@@ -56,6 +58,68 @@ public final class FinancialsSQL {
         return value.map(Dollar::new).orElseGet(() -> new Dollar("0.00"));
 	}
 
+	public static Dollar getCreditsForAccountByTransaction(String transactionId, String txType, String account) {
+		return getCreditsForAccountByTransaction(null, transactionId, txType, account);
+	}
+
+	public static Dollar getCreditsForAccountByTransaction(LocalDateTime txDate, String transactionId, String txType, String account) {
+		String query =
+				"select SUM(ENTRYAMT) " +
+						"from (" +
+						"select ENTRYAMT " +
+						"from LEDGERENTRY LE " +
+						"join LEDGERTRANSACTION LT on LE.ledgertransaction_id = LT.id " +
+						"WHERE LT.ENTITYREF_FK = '" + transactionId + "' " +
+						"and LE.TRANSACTIONTYPE like '" + txType + "%' " +
+						"and LE.LEDGERACCOUNTNO = '" + account + "' " +
+						"and LE.entrytype = 'CREDIT'";
+		if (txDate != null) {
+			query += " and trunc(TXDATE) = '" + txDate.format(DateTimeFormatter.ofPattern("dd-MMM-yy")) + "'";
+		}
+		query += ")";
+
+		Optional<String> value = DBService.get().getValue(query);
+		return value.map(Dollar::new).orElseGet(() -> new Dollar("0.00"));
+	}
+
+	public static Dollar getDebitsForAccountByTransaction(String transactionId, String txType, String account) {
+		return getDebitsForAccountByTransaction(null, transactionId, txType, account);
+	}
+
+	public static Dollar getDebitsForAccountByTransaction(LocalDateTime txDate, String transactionId, String txType, String account) {
+		String query =
+				"select SUM(ENTRYAMT) " +
+						"from (" +
+						"select ENTRYAMT " +
+						"from LEDGERENTRY LE " +
+						"join LEDGERTRANSACTION LT on LE.ledgertransaction_id = LT.id " +
+						"WHERE LT.ENTITYREF_FK = '" + transactionId + "' " +
+						"and LE.TRANSACTIONTYPE like '" + txType + "%' " +
+						"and LE.LEDGERACCOUNTNO = '" + account + "' " +
+						"and LE.entrytype = 'DEBIT'";
+		if (txDate != null) {
+			query += " and trunc(TXDATE) = '" + txDate.format(DateTimeFormatter.ofPattern("dd-MMM-yy")) + "'";
+		}
+		query += ")";
+
+		Optional<String> value = DBService.get().getValue(query);
+		return value.map(Dollar::new).orElseGet(() -> new Dollar("0.00"));
+	}
+
+	public static List<String> getTransactionIdsForAccount(String accountNumber) {
+		String query =
+				"SELECT BT.ID FROM BILLINGTRANSACTION BT " +
+						"JOIN BILLINGACCOUNT BA ON BT.ACCOUNT_ID = BA.ID " +
+						"WHERE BA.ACCOUNTNUMBER = '" + accountNumber + "' " +
+						"ORDER BY BT.APPLYDATE DESC ";
+		List<Map<String, String>> rows = DBService.get().getRows(query);
+		List<String> transactionIds = new ArrayList<>();
+		for (Map<String, String> row : rows) {
+			transactionIds.add(row.get("ID"));
+		}
+		return transactionIds;
+	}
+
 	public static final class TxType {
 	    public static final String NEW_BUSINESS = "policy";
 	    public static final String ENDORSEMENT = "endorsement";
@@ -88,6 +152,8 @@ public final class FinancialsSQL {
 		public static final String MANUAL_REFUND = "ManualRefund";
 		public static final String REFUND_PAYMENT_VOIDED = "RefundPaymentVoided";
 		public static final String ESCHEATMENT = "Escheatment";
+		public static final String SMALL_BALANCE_WRITEOFF = "SmallBalanceWriteoff";
+		public static final String CROSS_POLICY_TRANSFER = "CrossPolicyTransfer";
     }
 
 }

@@ -61,7 +61,7 @@ public final class DocGenEnum {
 		AA41CA("Non-Owner Automobile Endorsement"),
 		AA41PA(""),
 		AA41XX("Non-Owner Automobile Endorsement"),
-		AA43AZ("Named Driver Exclusion Election"),
+		AA43AZ("Named Driver Exclusion"),
 		AA43CA("Named Driver(s) Exclusion"),
 		AA43CAB(""),
 		AA43CO("Named Driver Exclusion Endorsement"),

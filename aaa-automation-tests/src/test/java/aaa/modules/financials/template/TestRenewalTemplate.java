@@ -3,6 +3,7 @@ package aaa.modules.financials.template;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -13,10 +14,13 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
+import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
+import toolkit.utils.datetime.DateTimeUtils;
 
 public class TestRenewalTemplate extends FinancialsBaseTest {
 
@@ -373,7 +377,6 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         payTotalAmountDue();
         openPolicyRenewal(policyNumber);
 
-
         // Validate RNW-04 recorded at transaction date
         validateRenewalBoundBeforeEffDateAtTxDate(policyNumber, renewalPrem, new Dollar(0.00));
 
@@ -586,7 +589,212 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 		validateRenewalBoundOnEffDate(policyNumber, renewalPrem, totalTaxesRenewal);
 	}
 
-    private void openPolicyRenewal(String policyNumber) {
+    /**
+     * @scenario
+     * 1. Create policy with monthly payment plan
+	 * 2. Move time DD1-20 to generate 1st installment Bill
+	 * 3. Accept payment: TotalDue - Fee amount
+	 * 4. Move time: DD1 + 1day and run aaaRefundGenerationAsyncJob
+	 * 5. Waive Fee and Reallocation transactions should be created
+	 * 6. Validate ledger entries: Waived Fee
+	 * 7. Create Renewal
+	 * 8. Move time DD1-20 to generate 1st installment Bill
+	 * 9. Accept payment: TotalDue - more that fee amount (example: 10)
+	 * 10. Move time: DD1 + 1day and run aaaRefundGenerationAsyncJob
+	 * 11. Small Balance write Off transaction should be created
+	 * 12. Validate ledger entries
+	 * @details ADJ-11, ADJ-13
+     */
+    protected void testRenewalScenario_8() {
+        // Create policy WITHOUT employee benefit, monthly payment plan
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createFinancialPolicy(adjustTdMonthlyPaymentPlan(getPolicyTD()));
+		LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
+        SearchPage.openBilling(policyNumber);
+
+        //ADJ-11
+        /// Advance time 1 month, generate and pay first installment bill
+        List<LocalDateTime> installmentDueDates = BillingHelper.getInstallmentDueDates();
+		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1));
+		TimeSetterUtil.getInstance().nextPhase(billGenDate);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+
+        Dollar feeNB = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE);
+        Dollar totalPayment = BillingSummaryPage.getTotalDue().subtract(feeNB);
+
+        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalPayment);
+        TimeSetterUtil.getInstance().nextPhase(installmentDueDates.get(1).plusDays(1));
+        JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+        mainApp().open();
+        SearchPage.openBilling(policyNumber);
+
+		String accountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
+		List<String> transactionIds = FinancialsSQL.getTransactionIdsForAccount(accountNumber);
+		int index = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED);
+		Dollar feeWaiveAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED);
+		String feeWaivedTransactionId = transactionIds.get(index);
+		//Adjustment - Reallocated Payment
+		int indexAdjReallocation = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATED_PAYMENT);
+		Dollar reallocationAdjAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATED_PAYMENT);
+		String reallocationAdjTransactionId = transactionIds.get(indexAdjReallocation);
+		//	Payment	- Reallocate Payment
+		int indexPaymentReallocation = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATE_PAYMENT);
+		Dollar reallocationPaymentAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATE_PAYMENT);
+		String reallocationPaymentTransactionId = transactionIds.get(indexPaymentReallocation);
+		Map<String, Dollar> adjustmentReallocation= getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT,
+				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATED_PAYMENT, TimeSetterUtil.getInstance().getCurrentTime());
+		Map<String, Dollar> paymentReallocation = getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT,
+				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REALLOCATE_PAYMENT, TimeSetterUtil.getInstance().getCurrentTime());
+
+		 //ADJ-11 validation
+        assertSoftly(softly -> {
+            softly.assertThat(feeWaiveAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(feeWaivedTransactionId, FinancialsSQL.TxType.NON_EFT_INSTALLMENT_FEE, "1034"));
+            softly.assertThat(feeWaiveAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(feeWaivedTransactionId, FinancialsSQL.TxType.NON_EFT_INSTALLMENT_FEE, "1040"));
+            //Reallocation validation
+			softly.assertThat(reallocationAdjAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(reallocationAdjTransactionId, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1001"));
+			softly.assertThat(adjustmentReallocation.get("Net Premium")).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(reallocationAdjTransactionId, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1044"));
+			softly.assertThat(adjustmentReallocation.get("Fees")).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(reallocationAdjTransactionId, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1034"));
+			softly.assertThat(reallocationPaymentAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(reallocationPaymentTransactionId, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1001"));
+			softly.assertThat(paymentReallocation.get("Net Premium")).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(reallocationPaymentTransactionId, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1044"));
+        });
+
+		//ADJ-13
+        // Move to renewal offer time point and create renewal
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalEffDate));
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+		policy.renew().performAndFill(getRenewalFillTd());
+		TimeSetterUtil.getInstance().nextPhase(renewalEffDate);
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+		Dollar minDue = BillingSummaryPage.getMinimumDue();
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+
+		//Advance time, generate first installment bill for Renewal
+		List<LocalDateTime> installmentDueDatesRenewal = BillingHelper.getInstallmentDueDates();
+		LocalDateTime billGenDateRenewal = getTimePoints().getBillGenerationDate(installmentDueDatesRenewal.get(1));
+		TimeSetterUtil.getInstance().nextPhase(billGenDateRenewal);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+
+		Dollar renewalTotalPayment = BillingSummaryPage.getTotalDue().subtract(new Dollar(10));
+
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), renewalTotalPayment);
+		TimeSetterUtil.getInstance().nextPhase(installmentDueDatesRenewal.get(1).plusDays(1));
+		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+
+		transactionIds = FinancialsSQL.getTransactionIdsForAccount(accountNumber);
+		index = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.SMALL_BALANCE_WRITE_OFF);
+		String smallBalanceWOTransactionId = transactionIds.get(index);
+		Dollar smallBalanceWOAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.SMALL_BALANCE_WRITE_OFF);
+
+		//ADJ-13 validation
+		assertSoftly(softly -> {
+			softly.assertThat(smallBalanceWOAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(smallBalanceWOTransactionId, FinancialsSQL.TxType.SMALL_BALANCE_WRITEOFF, "1041"));
+			softly.assertThat(smallBalanceWOAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(smallBalanceWOTransactionId, FinancialsSQL.TxType.SMALL_BALANCE_WRITEOFF, "1044"));
+		});
+    }
+
+	/**
+	 * @scenario
+	 * 1. Create policy
+	 * 2. Create renewal proposal
+	 * 3. Perform RP Endorsement
+	 * 4. Validate ledger entries: Cross Policy Transfer
+	 * @details CPT-01
+	 */
+	protected void testRenewalScenario_9() {
+		// Create policy
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createFinancialPolicy(getPolicyTD());
+		LocalDateTime policyEffDate = PolicySummaryPage.getEffectiveDate();
+		LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
+
+		// Move to renewal offer time point and create renewal
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalEffDate));
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		policy.renew().performAndFill(getRenewalFillTd());
+		if (!getState().equals(Constants.States.CA)) {
+			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalEffDate));
+			JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		}
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		performRPEndorsement(policyNumber, getTimePoints().getBillGenerationDate(renewalEffDate));
+		SearchPage.openBilling(policyNumber);
+
+		String accountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
+		List<String> transactionIds = FinancialsSQL.getTransactionIdsForAccount(accountNumber);
+		int index = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CROSS_POLICY_TRANSFER);
+		Dollar crossPolicyTransferAdjAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CROSS_POLICY_TRANSFER);
+		String crossPolicyTransferAdjId = transactionIds.get(index);
+		index = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CROSS_POLICY_TRANSFER);
+		Dollar crossPolicyTransferPaymentAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CROSS_POLICY_TRANSFER);
+		String crossPolicyTransferPaymentId = transactionIds.get(index);
+		Map<String, Dollar> adjustmentAllocations = getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT,
+				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CROSS_POLICY_TRANSFER, TimeSetterUtil.getInstance().getCurrentTime());
+		Map<String, Dollar> paymentAllocations = getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT,
+				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CROSS_POLICY_TRANSFER, TimeSetterUtil.getInstance().getCurrentTime());
+
+		//CPT-01 validation
+		assertSoftly(softly -> {
+			softly.assertThat(crossPolicyTransferAdjAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CROSS_POLICY_TRANSFER, "1001"));
+			softly.assertThat(adjustmentAllocations.get("Net Premium")).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CROSS_POLICY_TRANSFER, "1044"));
+
+			softly.assertThat(crossPolicyTransferPaymentAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CROSS_POLICY_TRANSFER, "1001"));
+			softly.assertThat(paymentAllocations.get("Net Premium" + policyEffDate.format(DateTimeUtils.MM_DD_YYYY))).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CROSS_POLICY_TRANSFER, "1044"));
+			softly.assertThat(paymentAllocations.get("Net Premium" + renewalEffDate.format(DateTimeUtils.MM_DD_YYYY))).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CROSS_POLICY_TRANSFER, "1065"));
+		});
+		// Tax Validations for CPT-01
+		if (isTaxState()) {
+			assertSoftly(softly -> {
+				softly.assertThat(adjustmentAllocations.get("Taxes")).isEqualTo(getTotalTaxesFromDb(crossPolicyTransferAdjId, "1053", false));
+
+				softly.assertThat(paymentAllocations.get("Taxes" + policyEffDate.format(DateTimeUtils.MM_DD_YYYY))).isEqualTo(getTotalTaxesFromDb(crossPolicyTransferPaymentId, "1053", true));
+				softly.assertThat(paymentAllocations.get("Taxes" + renewalEffDate.format(DateTimeUtils.MM_DD_YYYY))).isEqualTo(getTotalTaxesFromDb(crossPolicyTransferPaymentId, "1071", true));
+			});
+		}
+		// Fee Validations for CPT-01
+		if (getState().equals(Constants.States.NJ)) {
+			assertSoftly(softly -> {
+				softly.assertThat(adjustmentAllocations.get("Fees")).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(crossPolicyTransferAdjId, FinancialsSQL.TxType.PLIGA_FEE, "1034"));
+				softly.assertThat(paymentAllocations.get("Fees")).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(crossPolicyTransferPaymentId, FinancialsSQL.TxType.PLIGA_FEE, "1034"));
+			});
+		}
+	}
+
+	private Dollar getTotalTaxesFromDb(String transactionId, String ledgerAccount, boolean isCredit) {
+		Dollar totalTaxes = new Dollar();
+		if (isCredit) {
+			if (getState().equals(Constants.States.KY)) {
+				totalTaxes = FinancialsSQL.getCreditsForAccountByTransaction(transactionId, FinancialsSQL.TxType.STATE_TAX_KY, ledgerAccount)
+						.add(FinancialsSQL.getCreditsForAccountByTransaction(transactionId, FinancialsSQL.TxType.CITY_TAX_KY, ledgerAccount))
+						.add(FinancialsSQL.getCreditsForAccountByTransaction(transactionId, FinancialsSQL.TxType.COUNTY_TAX_KY, ledgerAccount));
+			} else if (getState().equals(Constants.States.WV)) {
+				totalTaxes = FinancialsSQL.getCreditsForAccountByTransaction(transactionId, FinancialsSQL.TxType.STATE_TAX_WV, ledgerAccount);
+			}
+		} else {
+			if (getState().equals(Constants.States.KY)) {
+				totalTaxes = FinancialsSQL.getDebitsForAccountByTransaction(transactionId, FinancialsSQL.TxType.STATE_TAX_KY, ledgerAccount)
+						.add(FinancialsSQL.getDebitsForAccountByTransaction(transactionId, FinancialsSQL.TxType.CITY_TAX_KY, ledgerAccount))
+						.add(FinancialsSQL.getDebitsForAccountByTransaction(transactionId, FinancialsSQL.TxType.COUNTY_TAX_KY, ledgerAccount));
+			} else if (getState().equals(Constants.States.WV)) {
+				totalTaxes = FinancialsSQL.getDebitsForAccountByTransaction(transactionId, FinancialsSQL.TxType.STATE_TAX_WV, ledgerAccount);
+			}
+		}
+		return totalTaxes;
+	}
+
+	private void openPolicyRenewal(String policyNumber) {
         SearchPage.openPolicy(policyNumber);
         if (PolicySummaryPage.buttonRenewals.isEnabled()) {
             PolicySummaryPage.buttonRenewals.click();
@@ -748,5 +956,4 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
             });
         }
     }
-
 }

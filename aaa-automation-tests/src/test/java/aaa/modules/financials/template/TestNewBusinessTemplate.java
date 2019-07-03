@@ -617,7 +617,9 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 	 * 5. Generate and pay second installment bill - Future dated
 	 * 6. Waive Fee
 	 * 7. Validate Reallocation Adjustment ledger entries
-     * @details OPR-01, OPR-02
+	 * 8. Cancel policy - future dated
+	 * 9. Validate ledger entries - cancellation
+     * @details OPR-01, OPR-02, CNL-05
      */
     protected void testNewBusinessScenario_6() {
         // Create policy WITHOUT employee benefit, monthly payment plan
@@ -706,6 +708,14 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                 softly.assertThat(paymentAllocations.get("Taxes").add(secondPaymentAllocations.get("Taxes"))).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1053"));
             });
         }
+        // CNL - 05 Cancel policy
+        cancelPolicy(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().plusDays(20));
+
+        // taxes only applies to WV and KY and value needs added to premium amount for correct validation below
+        Dollar totalTaxes = FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1053");
+        Dollar cxPremAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION);
+        //CNL-05 validation
+        validateCancellation(cxPremAmount, policyNumber, totalTaxes);
     }
 
     private void validateCancellationTx(Dollar refundAmt, String policyNumber, Dollar taxes) {
@@ -868,5 +878,24 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         }
         return amount;
     }
+
+	private void validateCancellation(Dollar cancellationAmt, String policyNumber, Dollar taxes) {
+		assertSoftly(softly -> {
+			softly.assertThat(cancellationAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1044"));
+			softly.assertThat(cancellationAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1015")
+					.subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1015")));
+			softly.assertThat(cancellationAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1021")
+					.subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1021")));
+			softly.assertThat(cancellationAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")
+					.subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")));
+		});
+		// Tax Validations CNL-05
+		if (isTaxState()) {
+			assertSoftly(softly -> {
+				softly.assertThat(taxes).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1053")
+						.subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1053")));
+			});
+		}
+	}
 
 }

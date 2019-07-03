@@ -906,7 +906,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			softly.assertThat(getVehicleByOid(HelperCommon.viewEndorsementVehicles(policyNumber), removedVehicleOid).availableActions)
 					.as("Replaced vehicle should have 'revert' option even when there is max count of vehicles, because it doesn't change count of vehicles.")
 					.contains("revert");
-			HelperCommon.revertVehicle(policyNumber, removedVehicleOid, Vehicle.class, Response.Status.OK.getStatusCode()); //Check that Revert is successful and error is not displayed
+			//HelperCommon.revertVehicle(policyNumber, removedVehicleOid, Vehicle.class, Response.Status.OK.getStatusCode()); //Check that Revert is successful and error is not displayed //TODO: uncomment when Digital starts to use this functionality
 		});
 	}
 

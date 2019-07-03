@@ -56,6 +56,17 @@
         </classes>
     </test>
 
+    <test name="Renewal 9 - SS Auto" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, NJ, KY, WV"/>
+        <classes>
+            <class name="aaa.modules.financials.auto_ss.TestRenewal">
+                <methods>
+                    <include name="testRenewalScenario_9"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test name="Renewal 1/2 - SS DP3" parallel="methods" thread-count="1024">
         <parameter name="state" value="KY, WV"/>
         <classes>
