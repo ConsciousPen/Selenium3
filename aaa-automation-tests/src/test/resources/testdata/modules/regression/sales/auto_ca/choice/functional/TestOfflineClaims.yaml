@@ -378,7 +378,7 @@ Activity1: {
   Description: 'Fault accident with injury',
   Loss Payment Amount: '2000',
   Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-#  "Permissive Use Loss?": 'No',
+  "Permissive Use Loss?": 'No',
   "Include in Points and/or YAF?": 'Yes'
 }
 
@@ -400,6 +400,7 @@ Activity3: {
   Description: 'Fault accident with injury',
   Loss Payment Amount: '5500',
   Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+  "Permissive Use Loss?": 'No',
   "Include in Points and/or YAF?": 'Yes'
   }
 
@@ -410,6 +411,7 @@ Activity4: {
     Description: 'Fault accident with injury',
     Loss Payment Amount: '5400',
     Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    "Permissive Use Loss?": 'No',
     "Include in Points and/or YAF?": 'Yes'
     }
 

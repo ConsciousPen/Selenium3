@@ -1532,8 +1532,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         tableDriverList.selectRow(1);
         driverTab.fillTab(getTestSpecificTD("DriverTab_EndorsementActivity_UWRules"));
 
+        //Bind policy and do assertion to verify the rules are triggered and go back to driver tab to set the PU flag as YES for claims
         bindEndorsement();
-        //Assertion to verify the rules are triggered and go back to driver tab to set the PU flag as YES for claims
         updateUWPUFlag();
 
         TestData maskedDriverActivityTd = getPolicyTD()
