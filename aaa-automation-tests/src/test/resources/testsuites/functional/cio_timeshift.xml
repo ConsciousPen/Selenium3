@@ -22,11 +22,4 @@
         </classes>
     </test>
 
-    <test name="Test Policy Copy" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPendedEndorsementReconciliation"/>
-        </classes>
-    </test>
-
 </suite>

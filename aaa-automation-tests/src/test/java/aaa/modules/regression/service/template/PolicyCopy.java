@@ -48,7 +48,6 @@ public class PolicyCopy extends PolicyBaseTest {
 			// Validation for PAS-31666
 			if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
 				assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.UNDERWRITER).getValue()).isEqualTo("CSAAIB");
-				assertThat(policyNumber).startsWith("QCAAS");
 			}
 		}
 	}
