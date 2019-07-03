@@ -8,12 +8,13 @@ import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.table.Table;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 public class MoratoriumPage {
 	public static AssetList assetListSearch = new AssetList(By.id("searchForm"), MoratoriumMetaData.SearchMetaData.class);
 
 	public static Button buttonAddMoratorium = new Button(By.id("searchForm:addMoratoriumBtn"));
-	public static Button buttonSearch = new Button(By.id("searchForm:searchBtn"));
+	public static Button buttonSearch = new Button(By.id("searchForm:searchBtn"), Waiters.AJAX.then(Waiters.AJAX));
 
 	public static Table tableSearchResult = new Table(By.id("searchResultForm:resultInfoTable")).applyConfiguration("MoratoriumSearchResult");
 
