@@ -6,17 +6,57 @@
     </listeners>
     <!-- MPD Tests -->
 
-    <test name="Multi Policy Discount SS" parallel="methods" thread-count="1024">
+    <test name="Multi Policy Discount SS" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMultiPolicyDiscount"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMultiPolicyDiscount">
+                <methods>
+                    <include name="pas29273_updateReasonMPDRemoval"/>
+                    <include name="pas23983_MPD_unquoted_rate_and_show_discounts"/>
+                    <include name="pas_21481_MPD_Unquoted_Companion_Product_AC2_AC3"/>
+                    <include name="pas_21481_MPD_Unquoted_Companion_Product_AC5"/>
+                    <include name="pas18315_CIO_Prevent_Unquoted_Bind_NB"/>
+                    <include name="pas18315_CIO_Prevent_Unquoted_Bind_Endorsment"/>
+                    <include name="pas18315_CIO_Prevent_Unquoted_Bind_Amended_Renewal"/>
+                    <include name="pas_3622_CIO_Remove_NI_Companion_AC1_1"/>
+                    <include name="pas_3622_CIO_Remove_NI_Companion_AC1_2"/>
+                    <include name="pas_3622_CIO_Remove_NI_Companion_AC2_1"/>
+                    <include name="pas_3622_CIO_Remove_NI_Companion_AC2_2"/>
+                    <include name="pas28659_Discount_Removed_Flat_Endorsement"/>
+                    <include name="pas28659_Discount_Removed_FutureDated_Endorsement"/>
+                    <include name="pas28659_Discount_Removed_MidTerm_Endorsement"/>
+                    <include name="run_pas28659_DiscountRemovalTest"/>
+                    <include name="pas24021_MPD_ValidateRerateRuleFires"/>
+                    <include name="pas3649_MPD_ValidateEligibilityRuleFires_Home"/>
+                    <include name="pas3649_MPD_ValidateEligibilityRuleFires_Life"/>
+                    <include name="pas3649_MPD_ValidateEligibility_MidTerm_Renters"/>
+                    <include name="pas3649_MPD_ValidateEligibility_Renewal_Home"/>
+                    <include name="pas23456_MPD_Prevent_MTEBind"/>
+                    <include name="pas23456_MPD_Allow_MTEBind"/>
+                    <include name="pas23456_MPD_Prevent_Renewal"/>
+                    <include name="pas23456_MPD_Allow_NBBindWithSystemValidatedPolicy"/>
+                    <include name="pas27241_MPDPagination"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
-    <test name="Test Pended Endorsement Reconciliation SS" parallel="methods" thread-count="1024">
+    <test name="Test Pended Endorsement Reconciliation SS" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPendedEndorsementReconciliation"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPendedEndorsementReconciliation">
+                <methods>
+                    <include name="pas28489_reconcilePendedEndorsements_Membership_STG1_BeforeThreshold"/>
+                    <include name="pas28489_reconcilePendedEndorsements_Membership_STG1_OnThreshold"/>
+                    <include name="pas28489_reconcilePendedEndorsements_Membership_STG1_AfterThreshold"/>
+                    <include name="pas28489_reconcilePendedEndorsements_Membership_STG2_BeforeThreshold"/>
+                    <include name="pas28489_reconcilePendedEndorsements_Membership_STG2_OnThreshold"/>
+                    <include name="pas28489_reconcilePendedEndorsements_Membership_STG2_AfterThreshold"/>
+                    <include name="pas28489_reconcilePendedEndorsements_MPD_BeforeThreshold"/>
+                    <include name="pas28489_reconcilePendedEndorsements_MPD_OnThreshold"/>
+                    <include name="pas28489_reconcilePendedEndorsements_MPD_AfterThreshold"/>
+                    </methods>
+            </class>
         </classes>
     </test>
 
