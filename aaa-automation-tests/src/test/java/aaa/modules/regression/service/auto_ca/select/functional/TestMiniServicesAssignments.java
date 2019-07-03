@@ -148,7 +148,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsCAHe
 	 * 1.Create policy with Multiple assignments (each vehicle to each driver)
 	 * 2. Create endorsement through service
 	 * 3. Remove driver with Reason code RD1003 so that driver type is changed to NAFR
-	 * 4. Run viewDriverAssignments sercie and verify that vehicle of removed driver nov is in unassignedVehicles
+	 * 4. Run viewDriverAssignments service and verify that vehicle of removed driver now is in unassignedVehicles
 	 * and removed driver is not in assignableDrivers list anymore
 	 */
 	@Parameters({"state"})
