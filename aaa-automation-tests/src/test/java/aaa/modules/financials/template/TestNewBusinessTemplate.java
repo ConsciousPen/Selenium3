@@ -23,6 +23,7 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
+import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.ComboBox;
@@ -31,6 +32,7 @@ import toolkit.webdriver.controls.TextBox;
 public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
     private BillingAccount billingAccount = new BillingAccount();
+    private TestData tdBilling = testDataManager.billingAccount;
     private Dollar zeroDollars = new Dollar(0.00);
 
     /**
@@ -716,6 +718,37 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         Dollar cxPremAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION);
         //CNL-05 validation
         validateCancellation(cxPremAmount, policyNumber, totalTaxes);
+    }
+
+    /**
+     * @scenario
+     * 1. Create policy
+     * 2. Create Other Transaction - adjustment - Write off with positive & negative values
+     * 9. Validate ledger entries - Write-off
+     * @details ADJ-03
+     */
+    protected void testNewBusinessScenario_7() {
+        //Create policy
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createFinancialPolicy();
+
+        //Create Other Transaction - adjustment - Write off
+        BillingSummaryPage.open();
+        billingAccount.otherTransactions().perform(tdBilling.getTestData("Transaction", "TestData_WriteOff"), new Dollar(100));
+        Dollar writeOffPositiveAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.WRITE_OFF);
+        billingAccount.otherTransactions().perform(tdBilling.getTestData("Transaction", "TestData_WriteOff"));
+        Dollar writeOffNegativeAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.WRITE_OFF);
+
+        //ADJ-03 Validate ledger entries - Write-off
+        assertSoftly(softly -> {
+            softly.assertThat(writeOffPositiveAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.WRITEOFF, "1044"));
+            softly.assertThat(writeOffPositiveAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.WRITEOFF, "1041"));
+            softly.assertThat(writeOffNegativeAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.WRITEOFF, "1041"));
+            softly.assertThat(writeOffNegativeAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.WRITEOFF, "1044"));
+        });
     }
 
     private void validateCancellationTx(Dollar refundAmt, String policyNumber, Dollar taxes) {

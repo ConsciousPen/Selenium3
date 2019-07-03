@@ -153,6 +153,7 @@ public final class FinancialsSQL {
 		public static final String REFUND_PAYMENT_VOIDED = "RefundPaymentVoided";
 		public static final String ESCHEATMENT = "Escheatment";
 		public static final String SMALL_BALANCE_WRITEOFF = "SmallBalanceWriteoff";
+		public static final String WRITEOFF = "Writeoff";
 		public static final String CROSS_POLICY_TRANSFER = "CrossPolicyTransfer";
     }
 
