@@ -25,7 +25,6 @@
                     <include name="pas28659_Discount_Removed_Flat_Endorsement"/>
                     <include name="pas28659_Discount_Removed_FutureDated_Endorsement"/>
                     <include name="pas28659_Discount_Removed_MidTerm_Endorsement"/>
-                    <include name="run_pas28659_DiscountRemovalTest"/>
                     <include name="pas24021_MPD_ValidateRerateRuleFires"/>
                     <include name="pas3649_MPD_ValidateEligibilityRuleFires_Home"/>
                     <include name="pas3649_MPD_ValidateEligibilityRuleFires_Life"/>
