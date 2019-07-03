@@ -85,7 +85,7 @@ public class MoratoriumMetaData {
 	}
 
 	public static final class SearchMetaData extends MetaData {
-		public static final AssetDescriptor<TextBox> MORATORIUM_NAME = declare("Moratorium Name", TextBox.class);
+		public static final AssetDescriptor<TextBox> MORATORIUM_NAME = declare("Moratorium Name", TextBox.class, Waiters.NONE);
 		public static final AssetDescriptor<ComboBox> LOB = declare("LOB", ComboBox.class);
 		public static final AssetDescriptor<AdvancedSelector> PRODUCT = declare("Product", AdvancedSelector.class);
 		public static final AssetDescriptor<ComboBox> BRAND = declare("Brand", ComboBox.class);
