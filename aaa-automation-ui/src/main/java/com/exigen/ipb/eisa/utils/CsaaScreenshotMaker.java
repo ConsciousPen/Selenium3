@@ -12,7 +12,6 @@ import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import com.assertthat.selenium_shutterbug.utils.web.ScrollStrategy;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
-import toolkit.exceptions.IstfException;
 import toolkit.utils.screenshots.impl.BasicScreenshotMaker;
 import toolkit.webdriver.BrowserController;
 
@@ -25,17 +24,19 @@ public class CsaaScreenshotMaker extends BasicScreenshotMaker {
 	@Override
 	public boolean capture(File file) throws IOException {
 		boolean result;
-		try {
-			hideFooter();
-			BrowserController.get().executeScript("document.body.scrollTop = document.documentElement.scrollTop = 0;");
-			result = isProfileChrome() ? getChromeFullScreenShot(file) : super.capture(file);
-			showFooter();
-		} catch (IstfException ie) {
-			LOGGER.info("Unable to make Screenshot: {}", ie.getMessage());
-			return false;
-		} catch (Exception e) {
-			LOGGER.info("Unable to make Screenshot: {}", e.getMessage());
-			e.printStackTrace();
+		if (BrowserController.isInitialized()) {
+			try {
+				hideFooter();
+				BrowserController.get().executeScript("document.body.scrollTop = document.documentElement.scrollTop = 0;");
+				result = isProfileChrome() ? getChromeFullScreenShot(file) : super.capture(file);
+				showFooter();
+			} catch (Exception e) {
+				LOGGER.info("Unable to make Screenshot: {}", e.getMessage());
+				e.printStackTrace();
+				return false;
+			}
+		} else {
+			LOGGER.info("Unable to make Screenshot: Browser has not been initialized!");
 			return false;
 		}
 		return result;
