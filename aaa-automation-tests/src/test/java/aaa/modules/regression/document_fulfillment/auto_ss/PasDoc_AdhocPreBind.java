@@ -883,12 +883,12 @@ public class PasDoc_AdhocPreBind extends AutoSSBaseTest {
 	private void verifyDriverDocsPresent(boolean value, ETCSCoreSoftAssertions softly) {
 		//Documents in Available For Printing section
 		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
-				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.NAMED_DRIVER_EXCLUSION_ELECTION)).isPresent(value);
+				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.NAMED_DRIVER_EXCLUSION)).isPresent(value);
 		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(
 				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.CRITICAL_INFORMATION_FOR_TEENAGE_DRIVERS_AND_THEIR_PARENTS)).isPresent(value);
 		//Document in Required to Bind section
 		softly.assertThat(new DocumentsAndBindTab().getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(
-				AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NAMED_DRIVER_EXCLUSION_ELECTION)).isPresent(value);
+				AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.NAMED_DRIVER_EXCLUSION)).isPresent(value);
 	}
 
 	/**

@@ -36,7 +36,7 @@ public class TestCinRenewalAutoCAChoice extends TestCinAbstractAutoCA {
     @TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = "PAS-6341")
     public void testCinRenewalCLUE(@Optional("CA") String state) {
         TestData policyTD = getPolicyDefaultTD().adjust(DOCUMENTS_AND_BIND_PATH, getTestSpecificTD("DocumentsAndBindTab"))
-                .adjust(PRODUCT_OWNED_PATH, getTestSpecificTD("AAAProductOwned"));
+                .adjust(AAA_MEMBERSHIP_PATH, getTestSpecificTD("AAAProductOwned"));
 
         String policyNumber = createPolicy(policyTD);
 
@@ -62,7 +62,7 @@ public class TestCinRenewalAutoCAChoice extends TestCinAbstractAutoCA {
     @TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = "PAS-6341")
     public void testCinRenewalMVR(@Optional("CA") String state) {
         TestData policyTD = getPolicyDefaultTD().adjust(DOCUMENTS_AND_BIND_PATH, getTestSpecificTD("DocumentsAndBindTab"))
-                .adjust(PRODUCT_OWNED_PATH, getTestSpecificTD("AAAProductOwned"));
+                .adjust(AAA_MEMBERSHIP_PATH, getTestSpecificTD("AAAProductOwned"));
 
         String policyNumber = createPolicy(policyTD);
 

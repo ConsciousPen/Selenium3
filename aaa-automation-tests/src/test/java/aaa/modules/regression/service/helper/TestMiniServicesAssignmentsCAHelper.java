@@ -172,6 +172,28 @@ public class TestMiniServicesAssignmentsCAHelper extends TestMiniServicesAssignm
 		getHelperMiniServices().endorsementRateAndBind(policyNumber);
 	}
 
+	protected void pas31827_assignmentWhenDriverRemovedByCodeRD1003Body() {
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle("TestData_3D3V_uniqueAssignments", "TestData_3D3V_uniqueAssignments", "TestData_3D3V_uniqueAssignments");
+
+		String policyNumber = openAppAndCreatePolicy(td);
+		getHelperMiniServices().createEndorsementWithCheck(policyNumber);
+		DriversDto driverNotFNI = getTestMiniServicesDriversHelper().getAnyNotNIActiveDriver(policyNumber);
+		ViewDriverAssignmentResponse driverAssignmentBeforeRemoval = HelperCommon.viewEndorsementAssignments(policyNumber);
+		String removedDriversVehicleOid = driverAssignmentBeforeRemoval.driverVehicleAssignments.stream().filter(p -> p.driverOid.equals(driverNotFNI.oid)).findFirst().orElse(null).vehicleOid;
+		HelperCommon.removeDriver(policyNumber, driverNotFNI.oid, DXPRequestFactory.createRemoveDriverRequest("RD1003"));
+
+		ViewDriverAssignmentResponse driverAssignmentResponseAfterRemoval = HelperCommon.viewEndorsementAssignments(policyNumber);
+		assertSoftly(softly -> {
+			softly.assertThat(driverAssignmentResponseAfterRemoval.unassignedDrivers).isEmpty();
+			softly.assertThat(driverAssignmentResponseAfterRemoval.unassignedVehicles).contains(removedDriversVehicleOid);
+			softly.assertThat(driverAssignmentResponseAfterRemoval.unassignedVehicles.size()).isEqualTo(1);
+			softly.assertThat(driverAssignmentResponseAfterRemoval.driverVehicleAssignments.size()).isEqualTo(2);
+			softly.assertThat(driverAssignmentResponseAfterRemoval.assignableDrivers).doesNotContain(driverNotFNI.oid);
+			softly.assertThat(driverAssignmentResponseAfterRemoval.assignableDrivers.size()).isEqualTo(2);
+			softly.assertThat(driverAssignmentResponseAfterRemoval.assignableVehicles.size()).isEqualTo(3);
+		});
+	}
+
 	protected void pas15412_DriverAssignmentRemoveVehicleBody() {
 		TestData td = createPolicyWithMoreThanOneDriverAndVehicle("TestData_2D3V", "TestData_2D3V", "TestData_2D3V");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);

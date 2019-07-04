@@ -60,7 +60,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     /**
      * @return Test Data for an AZ SS policy with no other active policies
      */
-    protected abstract TestData getTdAuto();
+    protected abstract TestData getTdAuto_mask_CurrentCarrier_RequiredToIssue();
 
     ////////////////////////
     // Navigation Helpers //
@@ -104,6 +104,16 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     protected abstract Button getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_AddSelectedBtnAsset();
     protected abstract StaticElement getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_ExceededLimitMessageAsset();
 
+    /**
+     * Adds another named insured and fills out required data.
+     * @param firstName is named insured's first name.
+     * @param lastName is named insured's last name.
+     * @param dateOfBirth is named insured's date of birth in mm/dd/yyyy format
+     * @param livedHereLessThan3Years is "Yes" or "No" if named insured has lived at location for less than 3 years.
+     * @param residence can be any option in the Residence drop down.
+     */
+    protected abstract void generalTab_addNamedInsured(String firstName, String lastName, String dateOfBirth, String livedHereLessThan3Years, String residence);
+
     ////////////////////////
     // Driver Tab Helpers //
     ////////////////////////
@@ -114,6 +124,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     /////////////////////////////////////
     protected abstract Tab getPremiumsAndCoveragesTab();
     protected abstract TestData getPnCTab_RatingDetailsQuoteInfoData();
+    protected abstract String pncTab_ViewRatingDetails_MPDAppliedKVPLabel();
     protected abstract void closePnCTab_ViewRatingDetails();
     protected abstract Button getPnCTab_BtnCalculatePremium();
     protected abstract String getPnCTab_DiscountsAndSurcharges();
@@ -123,6 +134,8 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     // Documents & Bind Tab Helpers //
     //////////////////////////////////
     protected abstract Tab getDocumentsAndBindTab();
+    protected abstract TestData getDocumentsAndBindTab_getRequiredToIssueAssetList();
+    protected abstract void getDocumentsAndBindTab_setRequiredToIssueAssetList(TestData testData);
     protected abstract Button getDocumentsAndBindTab_BtnPurchase();
     protected abstract Button getDocumentsAndBindTab_ConfirmPurchase_ButtonYes();
     protected abstract Button getDocumentsAndBindTab_ConfirmPurchase_ButtonNo();
@@ -169,16 +182,6 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     protected abstract CheckBox getUnquotedCheckBox(mpdPolicyType policyType);
 
     /**
-     * Adds another named insured and fills out required data.
-     * @param firstName is named insured's first name.
-     * @param lastName is named insured's last name.
-     * @param dateOfBirth is named insured's date of birth in mm/dd/yyyy format
-     * @param livedHereLessThan3Years is "Yes" or "No" if named insured has lived at location for less than 3 years.
-     * @param residence can be any option in the Residence drop down.
-     */
-    protected abstract void addNamedInsured(String firstName, String lastName, String dateOfBirth, String livedHereLessThan3Years, String residence);
-
-    /**
      * Used to search an MPD policy, via Customer Details. <br>
      * @param firstName This parameter has been chosen to drive the search results/response. Edit this field with mapped MPD search string to manipulate which response comes back. <br>
      * @param lastName Customer Last Name. <br>
@@ -196,7 +199,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
      * @author Robert Boles - CIO
      */
     protected void pas29273_updateReasonMPDRemoval_Template() {
-        TestData testData = getTdAuto();
+        TestData testData = getTdAuto_mask_CurrentCarrier_RequiredToIssue();
         mainApp().open();
         createCustomerIndividual();
         policy.initiate();
@@ -273,7 +276,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
 
                 // Check in View Rating details for Multi-Policy Discount //
                 String mpdDiscountApplied =
-                        getPnCTab_RatingDetailsQuoteInfoData().getValue("AAA Multi-Policy Discount");
+                        getPnCTab_RatingDetailsQuoteInfoData().getValue(pncTab_ViewRatingDetails_MPDAppliedKVPLabel());
 
                 // Close the VRD Popup
                 closePnCTab_ViewRatingDetails();
@@ -284,7 +287,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
                 softly.assertThat(mpdDiscountApplied).isEqualTo(mpdVRDExpectedValue);
 
                 // Validate Discount and Surcharges //
-                String discountsAndSurcharges = getPnCTab_DiscountsAndSurcharges();
+                String discountsAndSurcharges = getPnCTab_DiscountsAndSurcharges().toLowerCase(); // CA Lower SS Pascal
 
                 // Check against any property string. Done this way because only one property type listed in Discounts.
                 Boolean propertyValuesPresent =
@@ -293,18 +296,18 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
                         currentScenario.get(mpdPolicyType.CONDO);
 
                 Boolean propertyValuePresentInString =
-                        discountsAndSurcharges.contains("Home") ||
-                                discountsAndSurcharges.contains("Condo") ||
-                                discountsAndSurcharges.contains("Renters");
+                        discountsAndSurcharges.contains("home") ||
+                                discountsAndSurcharges.contains("condo") ||
+                                discountsAndSurcharges.contains("renters");
 
                 softly.assertThat(propertyValuePresentInString).isEqualTo(propertyValuesPresent);
 
                 // MC and Life always show if added.
                 softly.assertThat(currentScenario.get(mpdPolicyType.MOTORCYCLE)).
-                        isEqualTo(discountsAndSurcharges.contains("Motorcycle"));
+                        isEqualTo(discountsAndSurcharges.contains("motorcycle"));
 
                 softly.assertThat(currentScenario.get(mpdPolicyType.LIFE)).
-                        isEqualTo(discountsAndSurcharges.contains("Life"));
+                        isEqualTo(discountsAndSurcharges.contains("life"));
             });
 
             // Return to GeneralTab tab.
@@ -333,7 +336,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         // Step 2
 
         // REFRESH_P will come back with all 3 property types
-        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        generalTab_addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         getGeneralTab_OtherAAAProductsOwned_RefreshAsset().click(Waiters.AJAX);
 
@@ -389,7 +392,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         // Step 3
 
         // REFRESH_P will come back with all 3 property types
-        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        generalTab_addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         getGeneralTab_OtherAAAProductsOwned_RefreshAsset().click(Waiters.AJAX);
 
@@ -583,7 +586,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         createQuoteAndFillUpTo(testData, getGeneralTab().getClass(), true);
 
         // Add second NI
-        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        generalTab_addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         // Move to documents and bind tab.
         getGeneralTab().submitTab();
@@ -627,7 +630,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         createQuoteAndFillUpTo(testData, getGeneralTab().getClass(), true);
 
         // Add second NI
-        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        generalTab_addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         // Trigger refresh
         getGeneralTab_OtherAAAProductsOwned_RefreshAsset().click(Waiters.AJAX);
@@ -672,7 +675,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         createQuoteAndFillUpTo(testData, getGeneralTab().getClass(), true);
 
         // Add second NI
-        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        generalTab_addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         // Trigger refresh
         getGeneralTab_OtherAAAProductsOwned_RefreshAsset().click(Waiters.AJAX);
@@ -734,7 +737,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         createQuoteAndFillUpTo(testData, getGeneralTab().getClass(), true);
 
         // Add second NI
-        addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
+        generalTab_addNamedInsured("REFRESH_P", "Doe", "02/14/1990", "No", "Own Home");
 
         // Trigger refresh
         getGeneralTab_OtherAAAProductsOwned_RefreshAsset().click(Waiters.AJAX);
@@ -747,7 +750,8 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         getPurchaseTab().submitTab();
 
         // Start renewal
-        policy.createRenewal(getPolicyTD("InitiateRenewalEntry", "TestData"));
+        //policy.createRenewal(getPolicyTD("InitiateRenewalEntry", "TestData"));
+        policy.renew().perform();
 
         // Remove driver 2
         generalTab_RemoveInsured(2);
@@ -862,7 +866,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         // Check in View Rating details for Multi-Policy Discount
         // Needs to finish and open a second endorsement to show up.
         String mpdDiscountApplied =
-                getPnCTab_RatingDetailsQuoteInfoData().getValue("AAA Multi-Policy Discount");
+                getPnCTab_RatingDetailsQuoteInfoData().getValue(pncTab_ViewRatingDetails_MPDAppliedKVPLabel());
 
         assertThat(mpdDiscountApplied).isEqualTo("None");
 
@@ -886,9 +890,10 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         // Set pre-conditions by creating a quote, rating and filling up to purchase.
         createQuoteAndFillUpTo(testData, getGeneralTab().getClass(), true);
         otherAAAProducts_SearchAndManuallyAddCompanionPolicy("Home", "NOT_FOUND");
+        getGeneralTab().submitTab();
 
         // Added MPD element, filling up to purchase point. Includes hacky methods to get around system error.
-        policy.getDefaultView().fillFromTo(testData, getGeneralTab().getClass(), getDocumentsAndBindTab().getClass(), true);
+        policy.getDefaultView().fillFromTo(testData, getDriverTab().getClass(), getDocumentsAndBindTab().getClass(), true);
         getDocumentsAndBindTab_BtnPurchase().click();
 
         getErrorTab_ButtonCancel().click();
@@ -909,10 +914,13 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         createQuoteAndFillUpTo(testData, getGeneralTab().getClass(), true);
         otherAAAProducts_SearchCustomerDetails_UsePrefilledData("ELASTIC_QUOTED");
         otherAAAProductsSearchTable_addSelected(0); // Should be adding a HOME policy here. Can only grab by index, so must match.
-        policy.getDefaultView().fillFromTo(testData, getGeneralTab().getClass(), getPurchaseTab().getClass(), true);
+        getGeneralTab().submitTab();
+        policy.getDefaultView().fillFromTo(testData, getDriverTab().getClass(), getPurchaseTab().getClass(), true);
 
-        getPurchaseTab_btnApplyPayment().click();
-        Page.dialogConfirmation.buttonYes.click();
+        getPurchaseTab().submitTab();
+
+        //getPurchaseTab_btnApplyPayment().click();
+        //Page.dialogConfirmation.buttonYes.click();
         assertThat(PolicySummaryPage.labelPolicyStatus.getValue().contains("Active")).isTrue();
     }
 
@@ -945,9 +953,10 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         // Add MPD Element manually (after no results found)
         createQuoteAndFillUpTo(testData, getGeneralTab().getClass(), true);
         otherAAAProducts_SearchAndManuallyAddCompanionPolicy(in_policyType, "NOT_FOUND");
+        getGeneralTab().submitTab();
 
         // Continue towards purchase of quote.
-        policy.getDefaultView().fillFromTo(testData, getGeneralTab().getClass(), getDocumentsAndBindTab().getClass(), true);
+        policy.getDefaultView().fillFromTo(testData, getDriverTab().getClass(), getDocumentsAndBindTab().getClass(), true);
         getDocumentsAndBindTab_BtnPurchase().click();
 
         // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
@@ -1140,10 +1149,9 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         // Go to Policy and Open Renewal Image
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
+
         PolicySummaryPage.buttonRenewals.click();
-        Tab.buttonGo.click();
-        Tab.buttonOk.click();
-        Page.dialogConfirmation.buttonOk.click();
+        policy.dataGather().start();
     }
 
     private void fillFromGeneralTabToErrorMsg(){
@@ -1279,9 +1287,15 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
 
         getGeneralTab().submitTab();
 
-        policy.getDefaultView().fillFromTo(testData, getDriverTab().getClass(), getPurchaseTab().getClass(), true);
+        policy.getDefaultView().fillFromTo(testData, getDriverTab().getClass(), getDocumentsAndBindTab().getClass(), true);
 
-        getPurchaseTab().submitTab();
+        documentsAndSetting_setYesToAllRequiredToIssue();
+
+        getDocumentsAndBindTab().submitTab();
+
+        //policy.getDefaultView().fillFromTo(testData, getDocumentsAndBindTab().getClass(), getPurchaseTab().getClass(), true);
+
+        getPurchaseTab().fillTab(testData).submitTab();
 
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 
@@ -1490,4 +1504,16 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         }
     }
 
+    /**
+     * Sets yes on all Require to Issue items.
+     */
+    private void documentsAndSetting_setYesToAllRequiredToIssue(){
+        TestData requiredToIssueList = getDocumentsAndBindTab_getRequiredToIssueAssetList();
+
+        for (String value : requiredToIssueList.getKeys()){
+            requiredToIssueList.adjust(value, "Yes");
+        }
+
+        getDocumentsAndBindTab_setRequiredToIssueAssetList(requiredToIssueList);
+    }
 }

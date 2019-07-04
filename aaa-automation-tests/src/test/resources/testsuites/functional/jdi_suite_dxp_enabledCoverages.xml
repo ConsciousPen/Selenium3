@@ -38,4 +38,15 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="CT Coverages" parallel="methods">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas15264_WithOutUnderInsuredConversionCoverageCoveragesEnabled"/>
+                    <include name="pas15264_WithUnderInsuredConversionCoverageCoveragesEnabled"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

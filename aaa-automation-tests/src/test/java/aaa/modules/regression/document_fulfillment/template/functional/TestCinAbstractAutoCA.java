@@ -14,9 +14,9 @@ public class TestCinAbstractAutoCA extends TestCinAbstract {
 
     /******* This section should be refactored once generic solution for building paths is implemented ********/
     //Auto CA specific paths
-    protected static final String PRODUCT_OWNED_PATH = TestData.makeKeyPath(
+    protected static final String AAA_MEMBERSHIP_PATH = TestData.makeKeyPath(
             AutoCaMetaData.GeneralTab.class.getSimpleName(),
-            AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+            AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 
     protected static final String PREFILL_TAB_FIRSTNAME = TestData.makeKeyPath(
             AutoCaMetaData.PrefillTab.class.getSimpleName(),

@@ -29,10 +29,10 @@ import toolkit.webdriver.controls.StaticElement;
 public class TestMembershipOverride extends AutoCaSelectBaseTest {
 
 	// "AAA Product Owned" section fields for validation in Inquiry mode
-	private static final StaticElement CURRENT_AAA_MEMBER_INQUIRY = new GeneralTab().getInquiryAssetList().getAsset(AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED)
-			.getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), StaticElement.class);
-	private static final StaticElement OVERRIDE_TYPE_INQUIRY = new GeneralTab().getInquiryAssetList().getAsset(AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED)
-			.getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel(), StaticElement.class);
+	private static final StaticElement CURRENT_AAA_MEMBER_INQUIRY = new GeneralTab().getInquiryAssetList().getAsset(AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP)
+			.getAsset(AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), StaticElement.class);
+	private static final StaticElement OVERRIDE_TYPE_INQUIRY = new GeneralTab().getInquiryAssetList().getAsset(AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP)
+			.getAsset(AutoCaMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel(), StaticElement.class);
 
 	//Timepoint 1 and Timepoint 2 when Membership validation happens at renewal
 	private static final long TIME_POINT_1_CA = 80;
@@ -60,9 +60,9 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 	public void pas6311_Validate_Membership_Override_NewBusiness(@Optional("") String state) {
 
 		TestData testData = getPolicyTD();
-		TestData tdSpecific = getTestSpecificTD("AAAProductOwned").resolveLinks();
+		TestData tdSpecific = getTestSpecificTD("AAAMembership").resolveLinks();
 		testData.adjust(TestData.makeKeyPath(AutoCaMetaData.GeneralTab.class.getSimpleName(),
-				AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()),
+				AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
 				tdSpecific);
 
 		mainApp().open();
@@ -110,9 +110,9 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 	public void pas6311_pas9626_Validate_Membership_Override_Endorsement1(@Optional("") String state) {
 
 		TestData testData = getPolicyTD();
-		getTestSpecificTD("AAAProductOwned").resolveLinks();
+		getTestSpecificTD("AAAMembership").resolveLinks();
 		testData.adjust(TestData.makeKeyPath(AutoCaMetaData.GeneralTab.class.getSimpleName(),
-				AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()),
+				AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
 				getTestSpecificTD("AAAProductOwned_MSNo").resolveLinks());
 
 		mainApp().open();
@@ -159,13 +159,13 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-9626")
 	public void pas9626_Validate_Membership_Override_Endorsement2(@Optional("") String state) {
 
-		TestData tdSpecific = getTestSpecificTD("AAAProductOwned").resolveLinks();
+		TestData tdSpecific = getTestSpecificTD("AAAMembership").resolveLinks();
 		TestData testData = getPolicyTD();
 
 		// Extract Original General tab from common testdata
 		TestData testDataGeneralTab = getPolicyTD().getTestData("GeneralTab");
 		// Swap AAAProductOwned from yaml file to general tab
-		testDataGeneralTab.adjust("AAAProductOwned", tdSpecific);
+		testDataGeneralTab.adjust("AAAMembership", tdSpecific);
 		// Put testDataGeneralTab to common testdata
 		testData.adjust("GeneralTab", testDataGeneralTab);
 
@@ -179,7 +179,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 
 		//Adjust all AAA product owned Section
 		tdSpecific.adjust(TestData.makeKeyPath(AutoCaMetaData.GeneralTab.class.getSimpleName(),
-				AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()),
+				AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
 				getTestSpecificTD("AAAProductOwned_MS_Active").resolveLinks());
 		tdSpecific.adjust(tdSpecific).adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "C$<rx:\\d{7}>");
 
@@ -224,7 +224,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		// Extract Original General tab from common testdata
 		TestData testDataGeneralTab = getPolicyTD().getTestData("GeneralTab");
 		// Swap AAAProductOwned from yaml file to general tab
-		testDataGeneralTab.adjust("AAAProductOwned", tdSpecific);
+		testDataGeneralTab.adjust("AAAMembership", tdSpecific);
 		// Put testDataGeneralTab to common testdata
 		testData.adjust("GeneralTab", testDataGeneralTab);
 
@@ -238,7 +238,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 
 		//Adjust all AAA product owned Section
 		tdSpecific.adjust(TestData.makeKeyPath(AutoCaMetaData.GeneralTab.class.getSimpleName(),
-				AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()),
+				AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
 				getTestSpecificTD("AAAProductOwned_MS_Override_Term").resolveLinks());
 
 		new GeneralTab().fillTab(tdSpecific);
@@ -348,13 +348,13 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-6313")
 	public void pas6313_Validate_Membership_Override_NB15NB30(@Optional("") String state) {
 
-		TestData tdSpecific = getTestSpecificTD("AAAProductOwned").resolveLinks();
+		TestData tdSpecific = getTestSpecificTD("AAAMembership").resolveLinks();
 		TestData testData = getPolicyTD().adjust(tdSpecific);
 
 		// Extract Original General tab from common testdata
 		TestData testDataGeneralTab = getPolicyTD().getTestData("GeneralTab");
 		// Swap AAAProductOwned from yaml file to general tab
-		testDataGeneralTab.adjust("AAAProductOwned", tdSpecific);
+		testDataGeneralTab.adjust("AAAMembership", tdSpecific);
 		// Put testDataGeneralTab to common testdata
 		testData.adjust("GeneralTab", testDataGeneralTab);
 
@@ -377,7 +377,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		policy.policyInquiry().start();
 
 		//Check AAA Product Owned section in Inquiry
-		checkAAAProductsOwnedSectionInquiry("Term");
+		checkAAAMembershipSectionInquiry("Term");
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		//validate that membership discount is applied (displayed) in P&C tab
@@ -391,7 +391,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		policy.policyInquiry().start();
 
 		//Check AAA Product Owned section in Inquiry
-		checkAAAProductsOwnedSectionInquiry("Term");
+		checkAAAMembershipSectionInquiry("Term");
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		//validate that membership discount is applied (displayed) in P&C tab
@@ -419,9 +419,9 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 	public void pas6314_Validate_Membership_Override_AC1(@Optional("") String state) {
 
 		TestData testData = getPolicyTD();
-		TestData tdSpecific = getTestSpecificTD("AAAProductOwned_MS_Override_Term").resolveLinks();
+		TestData tdSpecific = getTestSpecificTD("AAAMembership_MS_Override_Term").resolveLinks();
 		testData.adjust(TestData.makeKeyPath(AutoCaMetaData.GeneralTab.class.getSimpleName(),
-				AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()),
+				AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
 				tdSpecific);
 
 		mainApp().open();
@@ -447,7 +447,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		runRenewalBatchJobs();
 		reopenAppAndInquiryRenewalImage(policyNumber);
 		//Check AAA Product Owned section in Inquiry
-		checkAAAProductsOwnedSectionInquiry("Term");
+		checkAAAMembershipSectionInquiry("Term");
 
 		TimeSetterUtil.getInstance().nextPhase(timePoint2);
 		runRenewalBatchJobs();
@@ -485,7 +485,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		TestData testData = getPolicyTD();
 		TestData tdSpecific = getTestSpecificTD("AAAProductOwned_MS_Override_Life").resolveLinks();
 		testData.adjust(TestData.makeKeyPath(AutoCaMetaData.GeneralTab.class.getSimpleName(),
-				AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()),
+				AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
 				tdSpecific);
 
 		mainApp().open();
@@ -511,19 +511,19 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		runRenewalBatchJobs();
 		reopenAppAndInquiryRenewalImage(policyNumber);
 		//Check AAA Product Owned section in Inquiry
-		checkAAAProductsOwnedSectionInquiry("Life");
+		checkAAAMembershipSectionInquiry("Life");
 
 		TimeSetterUtil.getInstance().nextPhase(timePoint2);
 		runRenewalBatchJobs();
 		reopenAppAndInquiryRenewalImage(policyNumber);
 		//Check AAA Product Owned section in Inquiry
-		checkAAAProductsOwnedSectionInquiry("Life");
+		checkAAAMembershipSectionInquiry("Life");
 
 		TimeSetterUtil.getInstance().nextPhase(ratingTimepoint);
 		runRenewalBatchJobs();
 		reopenAppAndInquiryRenewalImage(policyNumber);
 		//Check AAA Product Owned section in Inquiry
-		checkAAAProductsOwnedSectionInquiry("Life");
+		checkAAAMembershipSectionInquiry("Life");
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		//validate that membership discount is applied (displayed) in P&C tab
@@ -550,7 +550,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		TestData testData = getPolicyTD();
 		TestData tdSpecific = getTestSpecificTD("AAAProductOwned_MSNo").resolveLinks();
 		testData.adjust(TestData.makeKeyPath(AutoCaMetaData.GeneralTab.class.getSimpleName(),
-				AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()),
+				AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
 				tdSpecific);
 
 		mainApp().open();
@@ -571,7 +571,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		tdSpecific = getTestSpecificTD("AAAProductOwned_MS_Override_Term").resolveLinks();
 		testData = getTestSpecificTD("TestData_Endorsement").resolveLinks();
 		testData.adjust(TestData.makeKeyPath(AutoCaMetaData.GeneralTab.class.getSimpleName(),
-				AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()),
+				AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
 				tdSpecific);
 
 		mainApp().reopen();
@@ -599,19 +599,19 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		runRenewalBatchJobs();
 		reopenAppAndInquiryRenewalImage(policyNumber);
 		//Check AAA Product Owned section in Inquiry
-		checkAAAProductsOwnedSectionInquiry("Term");
+		checkAAAMembershipSectionInquiry("Term");
 
 		TimeSetterUtil.getInstance().nextPhase(timePoint2);
 		runRenewalBatchJobs();
 		reopenAppAndInquiryRenewalImage(policyNumber);
 		//Check AAA Product Owned section in Inquiry
-		checkAAAProductsOwnedSectionInquiry("Term");
+		checkAAAMembershipSectionInquiry("Term");
 
 		TimeSetterUtil.getInstance().nextPhase(ratingTimepoint);
 		runRenewalBatchJobs();
 		reopenAppAndInquiryRenewalImage(policyNumber);
 		//Check AAA Product Owned section in Inquiry
-		checkAAAProductsOwnedSectionInquiry("Term");
+		checkAAAMembershipSectionInquiry("Term");
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		//validate that membership discount is applied (displayed) in P&C tab
@@ -646,14 +646,14 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 
 		//Validate that 'Membership Override' option is/is not displayed in "Current AAA Member" field
 		if (hasPrivilege) {
-			assertThat(generalTab.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER)).containsOption("Membership Override");
+			assertThat(generalTab.getAAAMembershipAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER)).containsOption("Membership Override");
 		} else {
-			assertThat(generalTab.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER)).doesNotContainOption("Membership Override");
+			assertThat(generalTab.getAAAMembershipAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER)).doesNotContainOption("Membership Override");
 		}
 
 	}
 
-	private void checkAAAProductsOwnedSectionInquiry(String overrideType) {
+	private void checkAAAMembershipSectionInquiry(String overrideType) {
 
 		assertThat(CURRENT_AAA_MEMBER_INQUIRY).valueContains("Membership Override"); // Still "Membership Override"
 		assertThat(OVERRIDE_TYPE_INQUIRY).hasValue(overrideType); //value like at NB

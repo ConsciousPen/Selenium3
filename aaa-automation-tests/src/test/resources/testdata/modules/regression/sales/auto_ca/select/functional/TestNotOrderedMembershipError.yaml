@@ -14,7 +14,7 @@ TestData_NotOrderedMembershipValidationAU_CA: {
 
 GeneralTab: {
   NamedInsuredInformation: '@NamedInsuredInformation',
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   #CurrentCarrierInformation: '@CurrentCarrierInformation',
   ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation'
@@ -23,7 +23,7 @@ GeneralTab: {
 NamedInsuredInformation: {
 }
 
-AAAProductOwned: {
+AAAMembership: {
   Current AAA Member: 'Yes',
   Membership Number: 4290023667710001
 }
@@ -118,13 +118,13 @@ TestData_NotOrderedMembershipValidationAU_CA_Endorsement: {
 
 GeneralTab_Endorsement: {
   NamedInsuredInformation: '@NamedInsuredInformation',
-  AAAProductOwned: '@AAAProductOwned_Endorsement',
+  AAAMembership: '@AAAMembership_Endorsement',
   #CurrentCarrierInformation: '@CurrentCarrierInformation',
   ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation'
 }
 
-AAAProductOwned_Endorsement: {
+AAAMembership_Endorsement: {
   Current AAA Member: 'No'
 }
 
@@ -141,10 +141,10 @@ TestData_NotOrderedMembershipValidationAU_CA_Endorsement_Changes: {
 }
 
 GeneralTab_Endorsement_Changes: {
-  AAAProductOwned: '@AAAProductOwned_Endorsement_Changes'
+  AAAMembership: '@AAAMembership_Endorsement_Changes'
 }
 
-AAAProductOwned_Endorsement_Changes: {
+AAAMembership_Endorsement_Changes: {
   Current AAA Member: 'Yes',
   Membership Number: 4290023667710001
 }
