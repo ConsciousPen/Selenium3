@@ -36,6 +36,18 @@ TestData_3D3V: {
                                       }]
 }
 
+TestData_3D3V_uniqueAssignments: {
+  DriverTab: ['@DriverTab_Driver1', '@DriverTab_Driver2', '@DriverTab_Driver3'],
+  VehicleTab: ['@VehicleTab_Regular1', '@VehicleTab_Regular2', '@VehicleTab_Regular3'],
+  DriverVehicleRelationshipTable: [   {
+                                        Primary Driver: index=1,
+                                      }, {
+                                        Primary Driver: index=2,
+                                      }, {
+                                        Primary Driver: index=3,
+                                      }]
+}
+
 TestData_2D3V: {
   DriverTab: ['@DriverTab_Driver1', '@DriverTab_Driver2'],
   VehicleTab: ['@VehicleTab_Regular1', '@VehicleTab_Regular2', '@VehicleTab_Regular3'],
