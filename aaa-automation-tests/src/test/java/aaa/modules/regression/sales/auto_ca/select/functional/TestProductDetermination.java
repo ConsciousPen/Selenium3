@@ -12,17 +12,20 @@ import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.TextBox;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 
 @StateList(states = Constants.States.CA)
 public class TestProductDetermination extends AutoCaSelectBaseTest {
 
     private static final String CHOICE = "CA Choice";
     private static final String SELECT = "CA Select";
+
+    private static final List<String> CUSTOMERS_WITH_VIOLATIONS = Arrays.asList("OneMajor", "ThreeMinor", "OneWithInjuryOneMinor", "OneAtFaultTwoMinor", "TwoAtFaultOneMinor", "DUI");
 
     private DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
     private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
@@ -310,7 +313,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
         driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OVERRIDE_ACTIVITY_DETAILS).setValue("Yes");
         if ("Suspended".equals(lastName)) {
             driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.REINSTATEMENT_DATE).setValue(newDate);
-        } else if ("DUI".equals(lastName)) {
+        } else if (CUSTOMERS_WITH_VIOLATIONS.contains(lastName)) {
             driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CONVICTION_DATE).setValue(newDate);
         } else {
             driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).setValue(newDate);
