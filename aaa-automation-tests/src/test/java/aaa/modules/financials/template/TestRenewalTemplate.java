@@ -2,6 +2,7 @@ package aaa.modules.financials.template;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,13 +15,17 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.actiontabs.AdvancedAllocationsActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
+import aaa.toolkit.webdriver.customcontrols.AdvancedAllocationsRepeatAssetList;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.webdriver.controls.TextBox;
 
 public class TestRenewalTemplate extends FinancialsBaseTest {
 
@@ -603,7 +608,10 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 	 * 10. Move time: DD1 + 1day and run aaaRefundGenerationAsyncJob
 	 * 11. Small Balance write Off transaction should be created
 	 * 12. Validate ledger entries
-	 * @details ADJ-11, ADJ-13
+	 * 13. Accept payment
+	 * 14. Transfer payment and allocate amounts
+	 * 15. Validate ledger transactions
+	 * @details ADJ-11, ADJ-13, PMT-13
      */
     protected void testRenewalScenario_8() {
         // Create policy WITHOUT employee benefit, monthly payment plan
@@ -699,6 +707,48 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 		assertSoftly(softly -> {
 			softly.assertThat(smallBalanceWOAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(smallBalanceWOTransactionId, FinancialsSQL.TxType.SMALL_BALANCE_WRITEOFF, "1041"));
 			softly.assertThat(smallBalanceWOAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(smallBalanceWOTransactionId, FinancialsSQL.TxType.SMALL_BALANCE_WRITEOFF, "1044"));
+		});
+
+		Dollar transferPayment = new Dollar(100);
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), transferPayment);
+		new BillingAccount().transferPayment().performWithoutSubmit(testDataManager.billingAccount.getTestData("TransferPayment", "TestData"), policyNumber, Arrays.asList("40","60"));
+
+		//PMT-13
+		AdvancedAllocationsActionTab advancedAllocationsActionTab = new AdvancedAllocationsActionTab();
+		advancedAllocationsActionTab.linkAdvancedAllocation.click();
+
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+				.getAsset(AdvancedAllocationsRepeatAssetList.NET_PREMIUM, TextBox.class, 0).setValue("30");
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+				.getAsset(AdvancedAllocationsRepeatAssetList.POLICY_FEE, TextBox.class, 0).setValue("10");
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+				.getAsset(AdvancedAllocationsRepeatAssetList.NET_PREMIUM, TextBox.class, 1).setValue("40");
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+				.getAsset(AdvancedAllocationsRepeatAssetList.POLICY_FEE, TextBox.class, 1).setValue("20");
+		advancedAllocationsActionTab.buttonOk.click();
+
+		transactionIds = FinancialsSQL.getTransactionIdsForAccount(accountNumber);
+		index = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_TRANSFERRED);
+		Dollar paymentTransferAdjAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_TRANSFERRED);
+		String paymentTransferAdjId = transactionIds.get(index);
+		index = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT);
+		Dollar manualTransferAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT);
+		String manualTransferId = transactionIds.get(index);
+
+		Map<String, Dollar> paymentTransferAllocations = getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT,
+				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_TRANSFERRED, TimeSetterUtil.getInstance().getCurrentTime());
+		Map<String, Dollar> manualPaymentAllocations = getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT,
+				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT, TimeSetterUtil.getInstance().getCurrentTime());
+
+		//PMT-13 validation
+		assertSoftly(softly -> {
+			softly.assertThat(paymentTransferAdjAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(paymentTransferAdjId, FinancialsSQL.TxType.ACCOUNT_MONEY_TRANSFER, "1001"));
+			softly.assertThat(paymentTransferAllocations.get("Net Premium")).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(paymentTransferAdjId, FinancialsSQL.TxType.ACCOUNT_MONEY_TRANSFER, "1044"));
+
+			softly.assertThat(manualTransferAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(manualTransferId, FinancialsSQL.TxType.MANUAL_PAYMENT, "1001"));
+			softly.assertThat(manualPaymentAllocations.get("Net Premium")).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(manualTransferId, FinancialsSQL.TxType.MANUAL_PAYMENT, "1044"));
+			softly.assertThat(manualPaymentAllocations.get("Fees")).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(manualTransferId, FinancialsSQL.TxType.POLICY_FEE, "1034"));
+
 		});
     }
 
