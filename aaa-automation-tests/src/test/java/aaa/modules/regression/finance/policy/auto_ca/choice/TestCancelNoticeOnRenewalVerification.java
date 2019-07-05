@@ -201,8 +201,8 @@ public class TestCancelNoticeOnRenewalVerification extends PolicyOperations {
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-30649")
-	public void pas30649_testCancelNoticeOnRenewalProposeRenewal(@Optional("CA") String state) {
+	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-31941")
+	public void pas31941_testCancelNoticeOnRenewalProposeRenewal(@Optional("CA") String state) {
 		//Create Monthly Auto Ca Choice Policy with Effective date today
 		mainApp().open();
 		createCustomerIndividual();
