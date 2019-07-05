@@ -114,7 +114,6 @@ public class LoginPage extends Page implements ILogin {
 	}
 
 	private void startLogin() {
-		logout();
 		if (startPage.isPresent()) {
 			startPage.click();
 		}
