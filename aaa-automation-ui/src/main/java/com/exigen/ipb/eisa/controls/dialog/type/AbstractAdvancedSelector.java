@@ -19,21 +19,22 @@ import toolkit.webdriver.controls.waiters.Waiters;
 public abstract class AbstractAdvancedSelector extends AbstractStringListElement {
 	public Button buttonOpenPopup = new Button(this, By.xpath(".//*[@value='Select' or normalize-space(@value)='select' or text()='Edit Manager'"
 			+ " or text()='Select' or text()='select' or contains(@value, 'Copy')]"));
+	private boolean isPopupForm = parent != null;
+	protected StaticElement actionControlsParent = isPopupForm ? new StaticElement(By.xpath("//div[contains(@class, 'rf-pp-cntr') " +
+			"and .//*[(contains(@value,'Remove') or contains(text(),'Remove'))]][parent::body]")) : new StaticElement(locator);
+	protected Button buttonAddAll = new Button(actionControlsParent, By.xpath(".//*[(contains(@value,'Add All') or contains(text(),'Add All')]) and not(self::option)"));
 	public TextBox textBoxSearch = new TextBox(actionControlsParent, By.xpath(".//input[contains(@id, 'searchTemplate')]"));
 	public Button buttonSearch = new Button(actionControlsParent, By.xpath(".//input[@value='Search']"));
 	public StaticElement errorMessage = new StaticElement(actionControlsParent, By.xpath(".//span[contains(@class,'error')]"));
+	protected Button buttonRemove = new Button(actionControlsParent, By.xpath(".//*[(contains(@value,'Remove') or contains(text(),'Remove')) and not(self::option)]"));
 	public Button buttonAdd = new Button(actionControlsParent,
 			By.xpath(".//*[(contains(@value,'Add') or contains(text(),'Add')) and not(contains(@value,'Add All')) and not(contains(text(),'Add All')) and not(self::option)]"));
+	protected Button buttonRemoveAll = new Button(actionControlsParent, By.xpath(".//*[(contains(@value,'Remove All') or contains(text(),'Remove All')) and not(self::option)]"));
+
 	public Button buttonSave = new Button(actionControlsParent,
 			By.xpath(".//*[(contains(@value,'Update') or contains(text(),'Update') or contains(@value,'Save') or contains(text(),'Save') or contains(@value,'Create')) and not(self::option)]"));
 	public Button buttonCancel = new Button(actionControlsParent,
 			By.xpath(".//*[(contains(@value,'Back') or contains(text(),'Back') or contains(@value,'Cancel') or contains(text(),'Cancel') or contains(@value,'Exit')) and not(self::option)]"));
-	protected StaticElement actionControlsParent = isPopupForm ? new StaticElement(By.xpath("//div[contains(@class, 'rf-pp-cntr') " +
-			"and .//*[(contains(@value,'Remove') or contains(text(),'Remove'))]][parent::body]")) : new StaticElement(locator);
-	protected Button buttonAddAll = new Button(actionControlsParent, By.xpath(".//*[(contains(@value,'Add All') or contains(text(),'Add All')]) and not(self::option)"));
-	protected Button buttonRemove = new Button(actionControlsParent, By.xpath(".//*[(contains(@value,'Remove') or contains(text(),'Remove')) and not(self::option)]"));
-	protected Button buttonRemoveAll = new Button(actionControlsParent, By.xpath(".//*[(contains(@value,'Remove All') or contains(text(),'Remove All')) and not(self::option)]"));
-	private boolean isPopupForm = parent != null;
 
 	public AbstractAdvancedSelector(By locator) {
 		super(locator, Waiters.DEFAULT);
@@ -50,8 +51,6 @@ public abstract class AbstractAdvancedSelector extends AbstractStringListElement
 	public AbstractAdvancedSelector(BaseElement<?, ?> parent, By locator, Waiter waitBy) {
 		super(parent, locator, waitBy);
 	}
-
-	protected abstract List<String> getSelectedItems();
 
 	@Override
 	public List<String> getRawValue() {
@@ -87,6 +86,8 @@ public abstract class AbstractAdvancedSelector extends AbstractStringListElement
 		addValue((List<String>) CollectionUtils.subtract(value, selected));
 		save();
 	}
+
+	protected abstract List<String> getSelectedItems();
 
 	protected void open() {
 		if (isPopupForm && buttonOpenPopup.isPresent() && buttonOpenPopup.isVisible()) {
