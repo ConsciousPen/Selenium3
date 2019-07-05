@@ -122,9 +122,9 @@ public class JobUtils {
 					return Boolean.TRUE;
 
 				} catch (IstfException e) {
-					log.warn(String.format("IstfException was caught (job='%s',testName='%s',testThreadId=%d,curThreadId=%d)", job.getGroupName(), testName, testThreadId, curThreadId), e);
+					log.error(String.format("IstfException was caught (job='%s',testName='%s',testThreadId=%d,curThreadId=%d)", job.getGroupName(), testName, testThreadId, curThreadId), e);
 					jobException.set(e);
-					return Boolean.FALSE;
+					return Boolean.TRUE;
 
 				} catch (RuntimeException e) {
 					log.error(String.format("Exception was caught (job='%s',testName='%s',testThreadId=%d,curThreadId=%d)", job.getGroupName(), testName, testThreadId, curThreadId), e);
