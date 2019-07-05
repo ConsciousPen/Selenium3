@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import aaa.helpers.billing.BillingHelper;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -232,7 +234,8 @@ public class TestCancelNoticeOnRenewalVerification extends PolicyOperations {
 		assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
 
 		//Proposed renewal - renewal should be in Premium Calculated status, because Cancel Notice is added
-		createRenewalOffer(policyNumber, expirationDate);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		searchForPolicy(policyNumber);
 
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
@@ -245,10 +248,15 @@ public class TestCancelNoticeOnRenewalVerification extends PolicyOperations {
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), BillingHelper.getPolicyMinimumDueAmount(policyNumber));
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
-		assertThat(PolicySummaryPage.labelCancelNotice).isPresent(false);
+		PolicySummaryPage.tableSelectPolicy.getRow(1).getCell(1).controls.links.get(1).click();
+		assertThat(PolicySummaryPage.labelCancelNotice).isAbsent();
 
 		//Propose renewal - Renewal is successfully proposed
-		renewalOfferGeneration(policyNumber, expirationDate);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		searchForPolicy(policyNumber);
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
+		PolicySummaryPage.buttonRenewals.click();
+		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 	}
 
 	private void verifyProposedButton() {
