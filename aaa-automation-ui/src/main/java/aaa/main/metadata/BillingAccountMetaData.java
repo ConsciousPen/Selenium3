@@ -113,7 +113,7 @@ public final class BillingAccountMetaData {
 
 		public static final class AllocationMultiSelector extends MetaData {
 			public static final AssetDescriptor<TextBox> BILLING_ACCOUNT_NUMBER = declare("Billing Account #", TextBox.class);
-			public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy #", TextBox.class, By.id("policySearch:policyNumber"));
+			public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy #", TextBox.class);
 			public static final AssetDescriptor<ComboBox> BILLING_ACCOUNT_NAME_TYPE = declare("Billing Account Name Type", ComboBox.class);
 			public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First Name", TextBox.class);
 			public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last Name", TextBox.class);
