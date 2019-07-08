@@ -9,10 +9,8 @@ import aaa.main.modules.billing.account.actiontabs.RefundActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.datax.TestData;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.TextBox;
+
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
@@ -85,9 +83,9 @@ public abstract class PolicyBillingAddZellePaymentType extends PolicyBaseTest {
         IBillingAccount billing = new BillingAccount();
         TestData tdBilling = testDataManager.billingAccount;
 
-        //Make a payment of $100
-        billing.update().perform(tdBilling.getTestData("Update", "TestData_AddPaymentMethod_Zelle"));
-        BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.equals(100);
+           //Make a payment of $100 (Used when we are actually testing for refund)
+     /*   billing.update().perform(tdBilling.getTestData("Update", "TestData_AddPaymentMethod_Zelle"));
+        BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.equals(100); */
 
         billingAccount.refund().start();
 
