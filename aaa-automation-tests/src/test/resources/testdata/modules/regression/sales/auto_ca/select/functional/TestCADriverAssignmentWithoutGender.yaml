@@ -1,0 +1,285 @@
+#BASE - Add bunch o drivers
+TestData_DriverTab_Assignment_Data_CA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ca_select>@DataGather@GeneralTab',
+  DriverTab:  ['@Driver1','@Driver2','@Driver3','@Driver4','@Driver5']
+}
+
+
+TestData_DriverTab_OfflineClaim_PU_CA: {
+  DriverTab: ['@Driver2','@Driver3','@Driver4']
+}
+
+PremiumAndCoveragesTab_Select: {
+  Product: CA Select,
+  Payment Plan: Annual,
+  Apply eValue Discount: 'Yes',
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+}
+
+PrefillTab: {
+  First Name: Gandalf,
+  Last Name: DeGrey,
+  Zip Code: 90255,
+  Address Line 1: 6586 PORCUPINE WAY,
+  City: HUNTINGTON PARK,
+  State: CA,
+  Date of Birth: $<today-17y>,
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+Driver1: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': First Named Insured,
+#  Date of Birth: 10/16/1997,
+  Age First Licensed: 18,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D1278700
+}
+
+Driver2: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Frodo,
+  Last Name: Baggins,
+  'Rel. to First Named Insured': Other,
+  Date of Birth: 12/05/1970,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435701,
+  Age First Licensed: 18
+}
+
+Driver3: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Not Available for Rating,
+  Reason: Unlicensed spouse,
+  First Name: Tony,
+  Last Name: Stark,
+  'Rel. to First Named Insured': Other,
+  Date of Birth: 12/12/1987,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435702,
+  Age First Licensed: 18
+}
+
+Driver4: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Robin,
+  Last Name: Hood,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 12/20/1975,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435435,
+  Age First Licensed: 18,
+  ActivityInformation:
+    {
+      Activity Source: 'Company Input',
+      Type: 'Accident',
+      Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+      Description: 'Fault accident, no injury, damage > $1000',
+      Loss Payment Amount: '1500',
+      Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+      "Include in Points and/or YAF?": 'Yes'
+    }
+}
+
+Driver5: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Bruce,
+  Last Name: Banerr,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 12/12/1987,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435440,
+  Age First Licensed: 18
+}
+
+Driver6: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Tony,
+  Last Name: Stark,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 12/12/1987,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435434,
+  Age First Licensed: 18
+}
+
+Driver7: {
+Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': First Named Insured,
+#  Date of Birth: 10/16/1997,
+  Age First Licensed: 21,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D1278999,
+  ActivityInformation: [
+        {
+         Activity Source: 'Company Input',
+         Type: '10-yr Major Violation',
+         Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+         Description: 'Driving under the influence of drugs',
+         Conviction Date: '$<today-3M:MM/dd/yyyy>',
+         "Include in Points and/or YAF?": 'No',
+         Not Included in Points and/or YAF - Reason Codes: 'Report errors'
+        },
+        {
+        Activity Source: 'Company Input',
+        Type: 'Accident',
+        Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+        Description: 'Fault accident, no injury, damage > $1000',
+        Loss Payment Amount: '1500',
+        Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+        "Include in Points and/or YAF?": 'Yes'
+        },
+        {
+        Activity Source: 'Customer Input',
+        Type: 'Accident',
+        Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+        Description: 'Fault accident, no injury, damage > $1000',
+         Loss Payment Amount: '2000',
+         Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+         "Include in Points and/or YAF?": 'No',
+         Not Included in Points and/or YAF - Reason Codes: 'Report errors'
+        },
+        {
+        Activity Source: 'Customer Input',
+        Type: 'Suspension/Revocation',
+        Description: 'Alcohol Related Suspension',
+        Suspension Date: '$<today-1M:MM/dd/yyyy>',
+        "Include in Points and/or YAF?": 'Yes'
+        }
+     ]
+  }
+
+Driver8: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': First Named Insured,
+#  Date of Birth: 10/16/1997,
+  Age First Licensed: 21,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D1278999,
+  ActivityInformation: [
+        {
+          Activity Source: 'Company Input',
+          Type: '10-yr Major Violation',
+          Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+          Description: 'Driving under the influence of drugs',
+          Conviction Date: '$<today-3M:MM/dd/yyyy>',
+          "Include in Points and/or YAF?": 'No',
+          Not Included in Points and/or YAF - Reason Codes: 'Report errors'
+        },
+        {
+          Activity Source: 'Company Input',
+          Type: 'Accident',
+          Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+          Description: 'Fault accident, no injury, damage > $1000',
+          Loss Payment Amount: '1500',
+          Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+          "Permissive Use Loss?":'Yes',
+          "Include in Points and/or YAF?": 'Yes'
+        },
+        {
+          Activity Source: 'Customer Input',
+          Type: 'Accident',
+          Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+          Description: 'Fault accident, no injury, damage > $1000',
+          Loss Payment Amount: '2000',
+          Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+          "Include in Points and/or YAF?": 'No',
+          "Permissive Use Loss?":'Yes',
+          Not Included in Points and/or YAF - Reason Codes: 'Report errors'
+        },
+        {
+          Activity Source: 'Customer Input',
+          Type: 'Suspension/Revocation',
+          Description: 'Alcohol Related Suspension',
+          Suspension Date: '$<today-1M:MM/dd/yyyy>',
+          "Include in Points and/or YAF?": 'Yes'
+        }
+    ]
+}
+
+Driver9: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Named Insured: "Steve Rogers",
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Sibling,
+#  Date of Birth: 07/04/1918,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Military,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5437777,
+  Age First Licensed: 18,
+  ActivityInformation: [
+    {
+      Activity Source: 'Customer Input',
+      Type: 'Accident',
+      Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+      Description: 'Fault accident, no injury, damage > $1000',
+      Loss Payment Amount: '2000',
+      Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+      "Include in Points and/or YAF?": 'No',
+      Not Included in Points and/or YAF - Reason Codes: 'Report errors'
+    }
+  ]
+}

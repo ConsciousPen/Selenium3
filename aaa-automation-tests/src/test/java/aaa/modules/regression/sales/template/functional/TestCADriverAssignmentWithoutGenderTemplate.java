@@ -79,17 +79,11 @@ public class TestCADriverAssignmentWithoutGenderTemplate extends CommonTemplateM
 
     protected void pas29418_DriverAssignmentRanking() {
         //Setup test data
-        TestData testData = getPolicyTD();
-        List<TestData> testDataDriverData = new ArrayList<>();// Merged driver tab with 4 drivers
-        testDataDriverData.add(testData.getTestData("DriverTab"));
-        testDataDriverData.addAll(getTestSpecificTD("TestData_DriverTab_OfflineClaim_PU").resolveLinks().getTestDataList("DriverTab"));
-        adjusted = testData.adjust("DriverTab", testDataDriverData).resolveLinks();
+        TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_Assignment_Data").resolveLinks();
+        adjusted = getPolicyTD().adjust(testDataForFNI);
 
-        //Create a policy with 9 drivers
-        mainApp().open();
-        createCustomerIndividual();
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(adjusted, DriverTab.class, true);
+        //Create quote with X drivers
+        createQuoteAndFillUpTo(adjusted, DriverTab.class);
     }
 
 }
