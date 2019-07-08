@@ -2,8 +2,7 @@
 <suite name="Delta Tests" verbose="1"> <!-- parallel="tests" thread-count="10">
      <listeners>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
-    </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/-->
+    </listeners>-->
     <test name="CO AutoSS Delta Tests">
         <parameter name="state" value="CO"/>
         <classes>
