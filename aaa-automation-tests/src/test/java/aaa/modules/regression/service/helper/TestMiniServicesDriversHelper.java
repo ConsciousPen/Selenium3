@@ -1285,7 +1285,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(metaDataFieldResponseDriverType.valueRange.get(DRIVER_TYPE_AVAILABLE_FOR_RATING)).isEqualTo("Available for Rating");
 
 			AttributeMetadata metaDataFieldResponseDriverRelation = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "relationToApplicantCd", true, true, true, null, "String");
-			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("IN")).isEqualTo("First Named Insured");
 			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("SP")).isEqualTo("Spouse");
 			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("CH")).isEqualTo("Child");
 			softly.assertThat(metaDataFieldResponseDriverRelation.valueRange.get("PA")).isEqualTo("Parent");
@@ -2920,11 +2919,11 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	protected String getRandomDriverRemovalCode(boolean happyPath) {
 		ArrayList<String> removalReasonCodes = new ArrayList<>();
 		if (happyPath) {
-			removalReasonCodes.add("RD001"); //driver status will be changed to "pendingRemoval" during removal
-			removalReasonCodes.add("RD002"); //driver status will be changed to "pendingRemoval" during removal
+			removalReasonCodes.add("RD1001"); //driver status will be changed to "pendingRemoval" during removal
+			removalReasonCodes.add("RD1002"); //driver status will be changed to "pendingRemoval" during removal
 		} else {
-			removalReasonCodes.add("RD003"); //driver status will be changed to "driverTypeChanged" during removal
-			removalReasonCodes.add("RD004"); //driver status will be changed to "driverTypeChanged" during removal
+			removalReasonCodes.add("RD1003"); //driver status will be changed to "driverTypeChanged" during removal
+			removalReasonCodes.add("RD1004"); //driver status will be changed to "driverTypeChanged" during removal
 		}
 		// Get Removal Reason Code from ArrayList using Random().nextInt()
 		String removalReasonCode = removalReasonCodes.get(new Random().nextInt(removalReasonCodes.size()));

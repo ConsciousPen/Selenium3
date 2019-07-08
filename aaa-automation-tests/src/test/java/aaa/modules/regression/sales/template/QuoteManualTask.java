@@ -2,11 +2,11 @@ package aaa.modules.regression.sales.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
-import aaa.main.enums.SearchEnum.SearchBy;
-import aaa.main.enums.SearchEnum.SearchFor;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.MyWorkConstants.MyWorkTasksTable;
+import aaa.main.enums.SearchEnum.SearchBy;
+import aaa.main.enums.SearchEnum.SearchFor;
 import aaa.main.metadata.MyWorkMetaData;
 import aaa.main.modules.mywork.IMyWork;
 import aaa.main.modules.mywork.MyWork;
@@ -44,10 +44,9 @@ public class QuoteManualTask extends BaseTest {
 	    TestData tdMyWork = testDataManager.myWork;
 		
 		mainApp().open();
-		
-		getCopiedQuote();
-		String quoteNum = PolicySummaryPage.labelPolicyNumber.getValue();
-		
+
+		createCustomerIndividual();
+		String quoteNum = createQuote();
 		myWork.createTask().perform(tdMyWork.getTestData("CreateTask", "TestData"));
 		
 		String taskName = tdMyWork.getTestData("CreateTask", "TestData").getValue(CreateTaskActionTab.class.getSimpleName(),

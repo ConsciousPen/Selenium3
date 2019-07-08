@@ -49,7 +49,7 @@ public class Dialog {
 
 		labelHeader = new StaticElement(new ByChained(locator, By.xpath(".//div[contains(@id, '_header_content')]")));
 		labelMessage = new StaticElement(new ByChained(locator, By.xpath(".//div[contains(@id, '_content_scroller') or contains(@class,'content')]"
-			+ "//*[contains(@id, 'Message') or contains(@class, 'textBold') or contains(@class, 'message')]")));
+			+ "//*[contains(@id, 'Message') or contains(@id, 'message') or contains(@class, 'textBold') or contains(@class, 'message')]")));
 
 	}
 

@@ -13,10 +13,10 @@ MembershipTab: {
 }
 
 GeneralTab: {
-  AAAProductOwned: '@AAAProductOwned'
+  AAAMembership: '@AAAMembership',
 }
 
-AAAProductOwned: {
+AAAMembership: {
   Current AAA Member: 'Membership Override',
 #  Override Type: 'Term', #this is default, so no point to select it
   Membership Number:

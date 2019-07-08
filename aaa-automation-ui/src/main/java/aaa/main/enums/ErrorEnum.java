@@ -26,6 +26,7 @@ public final class ErrorEnum {
 		ERROR_AAA_SS10240324("AAA_SS10240324", "At least one phone number must be provided."),
 		ERROR_AAA_SS190125("AAA_SS190125", "Pennsylvania Notice to Named Insureds Regarding Tort Options must be received prior to issuing this transaction."),
 		ERROR_200115_NY("200115_NY", "Supplementary Uninsured/Underinsured Coverage Waiver must be signed."),
+		ERROR_AAA_CSA6100815("AAA_CSA6100815", "A signed Uninsured/Underinsured Motorists Form must be received prior to issuing this transaction"),
 
 
 		// Property errors
@@ -102,6 +103,9 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_SS3281092("AAA_HO_SS3281092", "Dwellings with more than 3 detached building structures on the residence prem"),
 		ERROR_AAA_HO_SS3230162("AAA_HO_SS3230162", "More than 2 additional Insureds require Underwriting approval"),
 		ERROR_AAA_HO_SS3230756("AAA_HO_SS3230756", "More than 2 additional Interests require Underwriting approval"),
+		ERROR_AAA_HO_SS3282281("AAA_HO_SS3282281", "Limit of any one Scheduled Personal Property item cannot exceed the max limit for that class"),
+		ERROR_AAA_HO_SS4230168("AAA_HO_SS4230168", "Limit of any one Scheduled Personal Property class cannot exceed 25% of Coverage C"),
+		ERROR_AAA_HO_SS4230108("AAA_HO_SS4230108", "Total limit of Scheduled Personal Property cannot exceed 50% of Coverage C"),
 		ERROR_AAA_HO_UWApp_HS0988_endorsement("AAA_HO_UWApp_HS0988_endorsement", "Underwriting approval is required to add Additional Insured - Special Event e"),
 		ERROR_AAA_HO_SS67cbad46("AAA_HO_SS67cbad46", "All named insureds must have an insurance score ordered."),
 		ERROR_AAA_HO_SS11200000("(AAA_HO_SS11200000", "'Mortgagee Clause' is required (AAA_HO_SS11200000) [for AAAHOMortgageeInfo.legalMortgageeName]"),
@@ -181,6 +185,7 @@ public final class ErrorEnum {
 		ERROR_AAA_200011("200011","Requested Effective Date not Available (200011) [for Policy.effective]"),
 		ERROR_AAA_200034("200034_OR", "A signed Named Driver Exclusion Endorsement must be received prior to issuing"),
 		ERROR_AAA_200037("200037", "A signed Uninsured And Underinsured Motorist Coverage Selection Form must be"),
+		ERROR_AAA_200037_CO("200037_CO", "A signed Uninsured and Underinsured motorist coverage selection form must be received prior to issuing this transaction"),
 		ERROR_AAA_200111("200111_OR", "Named Driver Exclusion requires Underwriting Approval"),
 		ERROR_AAA_SS171018("AAA_SS171018", "Non-members are ineligible for coverage."),
 		ERROR_AAA_SS171018_DE("AAA_SS171018_DE", "Policies with unsuccessful membership validation results require prior approval."),
@@ -203,15 +208,17 @@ public final class ErrorEnum {
 		ERROR_AAA_CAC7100525_CA_CHOICE("AAA_CAC7100525_CA_CHOICE","Any Driver on the policy with an out-of-state U.S., Canadian, or Foreign lice"),
 		ERROR_AAA_200108_1_CA_SELECT("200108_1", "Driver with a Foreign or International License is unacceptable (200108_1) [fo"),
 		AAA_SS02012019("AAA_SS02012019", "Policy cannot be bound with an unbound companion policy."),
+		AAA_CSA02012019("AAA_CSA02012019", "Policy cannot be bound with an unbound companion policy."),
         ERROR_AAA_10015015_CA_SELECT("10015015", "Driver with a combination of at least one Minor violation AND at least one At-fault accident within last 36 months is unacceptable. (10015015) [for Driver.attributeForRules]"),
         ERROR_AAA_10015023_CA_SELECT_CHOICE("10015023", "Driver must not have more than 2 At-fault accidents in the past 3 years (10015023) [for Driver.attributeForRules]"),
+		ERROR_AAA_SS190605("AAA_SS190605", "Driver Name LName has a blank license number (AAA_SS190605) [for Driver.attributeForRules]"),
 		ERROR_AAA_CAC7161836_CA_CHOICE("AAA_CAC7161836_CA_CHOICE", "A driver with more than 26 Violation points is unacceptable (AAA_CAC7161836) [for Driver.attributeForRules]"),
 
 		//MEMBERSHIP Errors
 		ERROR_AAA_AUTO_SS_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm Member details."),
 		ERROR_AAA_HO_SS_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm Member details."),
 		ERROR_AAA_HO_CA_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm Member details."),
-		ERROR_AAA_AUTO_CA_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm Member details."),
+		ERROR_AAA_AUTO_CA_MEM_LASTNAME("AAA_AUTO_CA_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm Member details."),
 		ERROR_AAA_MES_IRE_06("MES-IRE-06", "Too early to rate a policy in PAS."),
 		ERROR_AAA_MES_IRE_07("MES-IRE-07", "Too late to rate a policy in PAS."),
 		ERROR_AAA_MES_IRE_08("MES-IRE-08", "already created for previous policy.");

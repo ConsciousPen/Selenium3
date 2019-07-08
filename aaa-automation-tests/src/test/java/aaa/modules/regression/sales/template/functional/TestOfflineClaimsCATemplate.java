@@ -117,8 +117,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     private static final String PU_CLAIMS_DEFAULTING_2ND_DATA_MODEL = "pu_claims_defaulting_2nd_data_model.yaml"; //TODO: will be used after PAS-26322
     protected boolean updatePUFlag = false;
     protected boolean secondDriverFlag = false;
-    protected boolean newBusinessFlag = false;
+    protected boolean fillContactInfo = false;
     protected boolean MDD = false;
+    private static final String RESTRICT_FNI_MASSAGE = "The select named insured has not been established as a \"named insured driver\" on the driver tab";
 
     @BeforeTest
     public void prepare() {
@@ -294,9 +295,16 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     public void changeFNIGeneralTab(int namedInsuredNumber) {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
         generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(namedInsuredNumber);
-        Page.dialogConfirmation.confirm();
+        //PAS-28399: Check for Restrict FNI message
+        if (Page.dialogConfirmation.labelMessage.getValue().contains(RESTRICT_FNI_MASSAGE)) {
+            assertThat(Page.dialogConfirmation.labelMessage.getValue()).contains(RESTRICT_FNI_MASSAGE);
+            Page.dialogConfirmation.buttonCancel.click();
+        } else {
+            assertThat(Page.dialogConfirmation.labelMessage.getValue()).doesNotContain(RESTRICT_FNI_MASSAGE);
+            Page.dialogConfirmation.confirm();
+        }
         //Reset Contact Info - blanks out after FNI change at New Business
-        if (newBusinessFlag) {
+        if (fillContactInfo) {
             generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue("6025557777");
             generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
         }
@@ -1222,7 +1230,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * @author Chris Johns
+     * @author Kiruthika Rajendran
      * PAS-22172 - END - CAS: reconcile permissive use claims when driver/named insured is added (avail for rating)
+     * PAS-25271 - DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
      * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added
      * @scenario Test Steps:
      * 1. Create a Policy with 2 names Insured and drivers
@@ -1241,17 +1251,33 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         adjusted = getPolicyTD().adjust(testDataForFNI);
         createQuoteAndFillUpTo(adjusted, DriverTab.class);
 
+        tableDriverList.selectRow(1);
+        //PAS-25271 DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
+        //Verify the Rel to FNI field is not editable for FNI driver
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isEnabled()).isFalse();
+
+        tableDriverList.selectRow(2);
+        //Verify the non FNI driver does not show the option of "First Named Insured" in drop down
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+
         //Navigate to the General Tab and change the FNI to the second insured (Steve)
-        newBusinessFlag = true;
+        fillContactInfo = true;
         changeFNIGeneralTab(1);  //Index starts at 0
 
-        //Assert that the PU claims have moved to the new FNI (Steve) and has a total of 3 claims now (one existing)
         tableDriverList.selectRow(1);
+        //PAS-25271 DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
+        //Verify the Rel to FNI field is not editable for new FNI driver
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isEnabled()).isFalse();
+
+        //Assert that the PU claims have moved to the new FNI (Steve) and has a total of 3 claims now (one existing)
         activityAssertions(2, 1, 3, 2, "Company Input", "", true); //assert the company input with Type Accident show up PU indicator
         activityAssertions(2, 1, 3, 3, "Customer Input", "", true); //assert the company input with Type  Accident show up PU indicator
 
-        //Assert that old FNI only has 2 Violation claims
         tableDriverList.selectRow(2);
+        //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+
+        //Assert that old FNI only has 2 Violation claims
         activityAssertions(2, 2, 2, 1, "Company Input", "", false); //assert the company input with Type Violations do not show up PU indicator
         activityAssertions(2, 2, 2, 2, "Customer Input", "", false); //assert the company input with Type Violations do not show up PU indicator
 
@@ -1274,19 +1300,26 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
         //Change FNI back to First Insured (Nicolas)
-        newBusinessFlag = false;
+        fillContactInfo = false;
         changeFNIGeneralTab(1);
 
         //On Driver tab, assert the PU claims all move back to original FNI, Nicolas: 3 Violations, 2 PU claims
         tableDriverList.selectRow(1);
+        //PAS-25271 DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
+        //Verify the Rel to FNI field is not editable for new FNI driver
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isEnabled()).isFalse();
+
         activityAssertions(2, 1, 5, 1, "Company Input", "", false);
         activityAssertions(2, 1, 5, 2, "Customer Input", "", false);
         activityAssertions(2, 1, 5, 3, "MVR", "", false);
         activityAssertions(2, 1, 5, 4, "Company Input", "", true);
         activityAssertions(2, 1, 5, 5, "Customer Input", "", true);
 
-        //Verify the other insured only has one claim now
         tableDriverList.selectRow(2);
+        //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+
+        //Verify the other insured only has one claim now
         activityAssertions(2, 2, 1, 1, "Customer Input", "", false);
 
         //Set 'Rel. to First Named Insured': Other
@@ -1297,7 +1330,9 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
     /**
      * @author Chris Johns
+     * @author Kiruthika Rajendran
      * PAS-22172 - END - CAS: reconcile permissive use claims when driver/named insured is added (avail for rating)
+     * PAS-25271 - DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
      * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added
      * @scenario Test Steps:
      * 1. Create a Policy with 2 names Insured and drivers
@@ -1328,25 +1363,94 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         retrieveRenewal(policyNumber);
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
 
-        // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
         tableDriverList.selectRow(1);
+        //PAS-25271 DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
+        //Verify the Rel to FNI field is not editable for new FNI driver
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isEnabled()).isFalse();
+
+        // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
         activityAssertions(2, 1, 2, 1, "Internal Claims", CLAIM_NUMBER_1, true);
         activityAssertions(2, 1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
+
+        tableDriverList.selectRow(2);
+        //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
 
         //Navigate to the General Tab and change the FNI to the second insured (Steve)
         changeFNIGeneralTab(1);  //Index starts at 0
 
-        //Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
         tableDriverList.selectRow(1);
+        //PAS-25271 DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
+        //Verify the Rel to FNI field is not editable for new FNI driver
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isEnabled()).isFalse();
+
+        //Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
         activityAssertions(2, 1, 2, 1, "Customer Input", "", true);
         activityAssertions(2, 1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true);
 
-        //Assert that old FNI only has 1 Internal Claims
         tableDriverList.selectRow(2);
+        //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
+        assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+
+        //Assert that old FNI only has 1 Internal Claims
         activityAssertions(2, 2, 1, 1, "Internal Claims", CLAIM_NUMBER_1, false);
 
         //Save and exit the Renewal
         DriverTab.buttonSaveAndExit.click();
+    }
+
+    public void pas28399_RestrictChangeFNIGeneralTab(String SCENARIO){
+        // Create Customer and Policy with three named insured' and two drivers
+        adjusted = getPolicyTD().adjust(getTestSpecificTD("TestData_Restrict_FNI_NB_PU_CA").resolveLinks());
+        TestData addDriverTd = getTestSpecificTD("Add_NI_Driver_Endorsement_CA");
+        //Initiate a quote and fill up to the driver tab
+        createQuoteAndFillUpTo(adjusted, DriverTab.class);
+        //Navigate back to General tab and change the FNI to Scott (Not a Driver) - Method checks for 28399 Restrict FNI message
+        changeFNIGeneralTab(2);  //Index starts at 0
+        //Continue to bind the policy
+        driverTab.submitTab();
+        policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, PurchaseTab.class, true);
+        new PurchaseTab().submitTab();
+        policyNumber = labelPolicyNumber.getValue();
+        //ENDORSEMENT or RENEWAL:
+        switch (SCENARIO){
+            case "ENDORSEMENT":
+                //Initiate an endorsement: Try to change FNI again - verify error pop-up
+                policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+                //Navigate back to General tab and change the FNI to Scott (Not a Driver) - Method checks for 28399 Restrict FNI message
+                changeFNIGeneralTab(2);  //Index starts at 0
+                //Add third NI as a driver to resolve pop-up
+                NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+                policy.getDefaultView().fill(addDriverTd);
+                //change FNI again - verify error pop-up does NOT appear
+                changeFNIGeneralTab(2);  //Index starts at 0
+                //Continue to bind the endorsement
+                tableDriverList.selectRow(1);
+                driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
+                tableDriverList.selectRow(2);
+                driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
+                driverTab.submitTab();
+//                policy.getDefaultView().fillFromTo(adjusted, MembershipTab.class, PurchaseTab.class, true);
+                NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+                premiumAndCoveragesTab.buttonSaveAndExit.click();
+                break;
+            case "RENEWAL":
+                //Run the renewal job and pay the bill
+                policyExpirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
+                moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+                //Retrieve policy and enter renewal image: Try to change FNI again - verify error pop-up
+                retrieveRenewal(policyNumber);
+                //Navigate back to General tab and change the FNI to Scott (Not a Driver) - Method checks for 28399 Restrict FNI message
+                changeFNIGeneralTab(2);  //Index starts at 0
+                //Add third NI as a driver to resolve pop-up
+                NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+                policy.getDefaultView().fill(addDriverTd);
+                //Change FNI again - verify error pop-up does NOT appear
+                changeFNIGeneralTab(2);  //Index starts at 0
+                //Save and Exit the renewal
+                GeneralTab.buttonSaveAndExit.click();
+                break;
+        }
     }
 
     /**
@@ -1405,28 +1509,25 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab(); // Verified the rules are not triggered and proceed to create a policy
-
         purchaseTab.fillTab(adjusted).submitTab();
         policyNumber = labelPolicyNumber.getValue();
 
-       //Initiate Endorsement
+        //Initiate Endorsement - Add the second driver for the named insured
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        //Change the FNI to second named insured
-        generalTab.getAssetList().getAsset(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(1);
-        Page.dialogConfirmation.confirm();
         generalTab.viewInsured(2);
-        generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue("6025557777");
-        generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
-        generalTab.submitTab();
-        //Add the second driver for the named insured
-        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
-
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         policy.getDefaultView().fillUpTo(getTestSpecificTD("Add_Driver2_EndorsementUWRules"), DriverTab.class, true);
+
+        //Change the FNI to second named insured
+        fillContactInfo = true;
+        changeFNIGeneralTab(1);
+        tableDriverList.selectRow(2);
+        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         premiumAndCoveragesTab.calculatePremium();
         premiumAndCoveragesTab.submitTab();
         driverActivityReportsTab.fillTab(getTestSpecificTD("Add_Driver2_EndorsementUWRules"));
+
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         tableDriverList.selectRow(1);
         driverTab.fillTab(getTestSpecificTD("DriverTab_EndorsementActivity_UWRules"));
@@ -1443,6 +1544,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab(); // Verified the rules are not triggered and proceed to bind the endorsement
     }
+
     /**
      * @author Saranya Hariharan
      * PAS-27226- CA Mature Driver Discount doesn't work according to rules

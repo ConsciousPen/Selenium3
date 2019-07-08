@@ -61,9 +61,9 @@ public class TestMembershipAndAddressDetailsFromUnderlyingPolicy extends Persona
 		policy.getDefaultView().fillUpTo(tdPUP, GeneralTab.class);
 		//validate membership number
 		assertThat(new GeneralTab().getAAAMembershipAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()).getValue())
-				.isEqualTo(tdAuto.getValue(GeneralTab.class.getSimpleName(), AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()));
+				.isEqualTo(tdAuto.getValue(GeneralTab.class.getSimpleName(), AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()));
 		assertThat(new GeneralTab().getAAAMembershipAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue())
-				.isEqualTo(tdAuto.getValue(GeneralTab.class.getSimpleName(), AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()));
+				.isEqualTo(tdAuto.getValue(GeneralTab.class.getSimpleName(), AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()));
 		//validate dwelling details
 		assertThat(new GeneralTab().getDwellingAddressAssetList().getAsset(PersonalUmbrellaMetaData.GeneralTab.DwellingAddress.STREET_ADDRESS_1.getLabel()).getValue())
 				.isEqualTo(tdAuto.getValue(aaa.main.modules.policy.auto_ca.defaulttabs.PrefillTab.class.getSimpleName(), AutoCaMetaData.GeneralTab.NamedInsuredInformation.ADDRESS_LINE_1.getLabel()));

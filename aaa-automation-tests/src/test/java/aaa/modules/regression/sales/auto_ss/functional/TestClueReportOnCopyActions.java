@@ -102,7 +102,14 @@ public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemp
 				.adjust(AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel(), "Sally")
 				.adjust(AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel(), "Smith");
 		
-		TestData td = getPolicyDefaultTD().adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel()), tdNamedInsured);
+		List<TestData> tdDriverTab =  getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData")
+        		.getTestDataList(DriverTab.class.getSimpleName());
+        
+		
+		TestData td = getPolicyDefaultTD()
+				.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel()), tdNamedInsured)
+        		.adjust(DriverTab.class.getSimpleName(), tdDriverTab);
+		
 		// Initiate Quote with 2 drivers, fill up to DAR page, and initiate Copy From Quote action
 		createQuoteFillAndInitiateCopyAction(td, new DriverActivityReportsTab());
 

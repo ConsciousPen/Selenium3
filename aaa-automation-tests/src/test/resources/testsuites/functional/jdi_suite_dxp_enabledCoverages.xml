@@ -1,0 +1,53 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="JDI DXP Test Suite - Enabled Coverages" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <!-- Listener commented out for local runs-->
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <!--todo Uncomment when tested and DEV branch is merged to Master-->
+    <!--<test thread-count="1024" name="AA52AZ RFI" parallel="methods">-->
+        <!--<parameter name="state" value="AZ"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">-->
+                <!--<methods>-->
+                    <!--<include name="pas28573_rfiAA52AZTriggeredUM"/>-->
+                    <!--<include name="pas28573_rfiAA52AZTriggeredUIM"/>-->
+                    <!--<include name="pas28573_rfiAA52AZNotTriggeredWhenRuleOverriddenUM"/>-->
+                    <!--<include name="pas28573_rfiAA52AZNotTriggeredWhenRuleOverriddenUIM"/>-->
+                    <!--<include name="pas28573_rfiAA52AZUpdateUMInDXPDocumentNotTriggered"/>-->
+                    <!--<include name="pas28573_rfiAA52AZUpdateUIMInDXPDocumentNotTriggered"/>-->
+                    <!--<include name="pas28573_rfiAA52AZUpdateUMInPASDocumentNotTriggered"/>-->
+                    <!--<include name="pas28573_rfiAA52AZUpdateUIMInPASDocumentNotTriggered"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
+    <test thread-count="1024" name="AA16CO AA52COA AA52COB RFI" parallel="methods">
+        <parameter name="state" value="CO"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas28479_AA16CO_MEDPMUpdateInDXP"/>
+                    <include name="pas28479_AA16CO_MEDPMUpdateInPAS"/>
+                    <include name="pas28480_AA52COA_UMBIUpdateInDXP"/>
+                    <include name="pas28480_AA52COA_UMBIUpdateInPAS"/>
+                    <include name="pas28481_AA52COB_UMBIUpdateInDXP"/>
+                    <include name="pas28481_AA52COB_UMBIUpdateInPAS"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="CT Coverages" parallel="methods">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas15264_WithOutUnderInsuredConversionCoverageCoveragesEnabled"/>
+                    <include name="pas15264_WithUnderInsuredConversionCoverageCoveragesEnabled"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

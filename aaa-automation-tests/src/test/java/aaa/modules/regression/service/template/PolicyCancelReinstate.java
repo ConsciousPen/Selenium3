@@ -32,7 +32,9 @@ public class PolicyCancelReinstate extends PolicyBaseTest {
 		
 		if (getUserGroup().equals(UserGroups.B31.get())) {
 			mainApp().open(getLoginTD(UserGroups.QA));
-			getCopiedPolicy();
+			//getCopiedPolicy();
+			createCustomerIndividual();
+			createPolicy();
 			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 			String policyNumber = PolicySummaryPage.getPolicyNumber();
 			
