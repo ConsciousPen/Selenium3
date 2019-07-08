@@ -21,27 +21,6 @@ public class TestCovADoesNotRevertCovCD extends HomeCaHO6BaseTest {
 
     /**
      * @author Josh Carpenter
-     * @name Test Coverage A does not revert Cov C or D to default values for CA HO6 new business
-     * @scenario
-     * 1. Create CA HO6 quote
-     * 2. Fill up to Premium & Coverages tab
-     * 3. Capture Cov A, C, D
-     * 4. Increase/decrease Cov A
-     * 5. Calculate premium and validate
-     * @details
-     **/
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-31629")
-    public void pas31629_testCovCDoesNotRevertCovCD_NB(@Optional("CA") String state) {
-
-        createQuoteAndFillUpTo(getPolicyTD(), PremiumsAndCoveragesQuoteTab.class);
-        validateCovCDoesNotRevertCovCD();
-
-    }
-
-    /**
-     * @author Josh Carpenter
      * @name Test Coverage A does not revert Cov C or D to default values for CA HO6 endorsements
      * @scenario
      * 1. Create CA HO6 policy
@@ -86,10 +65,8 @@ public class TestCovADoesNotRevertCovCD extends HomeCaHO6BaseTest {
 
     private void validateCovCDoesNotRevertCovCD() {
         // Capture current coverage values
-        if (!premiumsAndCoveragesQuoteTab.btnCalculatePremium().isPresent()) {
-            NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
-            NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-        }
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         Dollar covA = new Dollar(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_A).getValue());
         Dollar covC = new Dollar(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C).getValue());
         Dollar covD = new Dollar(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D).getValue());
