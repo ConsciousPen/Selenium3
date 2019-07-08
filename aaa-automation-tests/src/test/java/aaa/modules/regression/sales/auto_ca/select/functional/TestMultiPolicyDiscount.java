@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ss.functional;
+package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
@@ -7,14 +7,15 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
-import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.modules.regression.sales.template.functional.TestMultiPolicyDiscountAbstract;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.Dollar;
-import org.testng.annotations.*;
 import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
@@ -23,12 +24,12 @@ import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-@StateList(statesExcept = Constants.States.CA)
+@StateList(states = Constants.States.CA)
 public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.AUTO_SS;
+        return PolicyType.AUTO_CA_SELECT;
     }
 
     private GeneralTab _generalTab = new GeneralTab();
@@ -48,7 +49,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Provide 'Reason' type for a MTC to show generic wording when MPD discount is added/removed/change")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-29273")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-29273")
     public void pas29273_updateReasonMPDRemoval(@Optional("") String state) {
         pas29273_updateReasonMPDRemoval_Template();
     }
@@ -61,7 +62,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Rate SS Auto with Quoted/Unquoted Products")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23983")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-23983")
     public void pas23983_MPD_unquoted_rate_and_show_discounts(@Optional("") String state) {
         pas23983_MPD_unquoted_rate_and_show_discounts_Template();
     }
@@ -79,7 +80,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Rate SS Auto with Quoted/Unquoted Products")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-21481")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-21481")
     public void pas_21481_MPD_Unquoted_Companion_Product_AC2_AC3(@Optional("") String state) {
         pas_21481_MPD_Unquoted_Companion_Product_AC2_AC3_Template();
     }
@@ -99,7 +100,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Rate SS Auto with Quoted/Unquoted Products")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-21481")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-21481")
     public void pas_21481_MPD_Unquoted_Companion_Product_AC5(@Optional("") String state) {
         pas_21481_MPD_Unquoted_Companion_Product_AC5_Template();
     }
@@ -114,9 +115,10 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      * 4. Verify all scenarios but #7 block binding with hard stop error message: Policy cannot be bound with an unquoted companion policy.
      * @author Brian Bond - CIO
      */
+    // BondTODO: Re-test this when bind error is implemented
     @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind at NB")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-18315")
+    @Test( enabled = false, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind at NB")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-18315")
     public void pas18315_CIO_Prevent_Unquoted_Bind_NB(@Optional("") String state) {
         pas18315_CIO_Prevent_Unquoted_Bind_NB_Template();
     }
@@ -132,9 +134,10 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      * 5. Verify error message stops you from completing endorsement
      * @author Brian Bond - CIO
      */
+    // BondTODO: Re-test this when bind error is implemented
     @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind during Endorsment")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-18315")
+    @Test( enabled = false, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind during Endorsment")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-18315")
     public void pas18315_CIO_Prevent_Unquoted_Bind_Endorsment(@Optional("") String state) {
         pas18315_CIO_Prevent_Unquoted_Bind_Endorsement_Template();
     }
@@ -150,9 +153,10 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      * 5. Verify error message stops you from completing endorsement
      * @author Brian Bond - CIO
      */
+    // BondTODO: Re-test this when bind error is implemented
     @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind during Amended Renewal")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-18315")
+    @Test(enabled = false, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Prevent Unquoted Bind during Amended Renewal")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-18315")
     public void pas18315_CIO_Prevent_Unquoted_Bind_Amended_Renewal(@Optional("") String state) {
         pas18315_CIO_Prevent_Unquoted_Bind_Amended_Renewal_Template();
     }
@@ -169,7 +173,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Removing a NI and associated companion products")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3622")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-3622")
     public void pas_3622_CIO_Remove_NI_Companion_AC1_1(@Optional("") String state) {
         pas_3622_CIO_Remove_NI_Companion_AC1_1_Template();
     }
@@ -188,7 +192,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Removing a NI and associated companion products")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3622")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-3622")
     public void pas_3622_CIO_Remove_NI_Companion_AC1_2(@Optional("") String state) {
         pas_3622_CIO_Remove_NI_Companion_AC1_2_Template();
     }
@@ -205,7 +209,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Removing a NI and associated companion products")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3622")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-3622")
     public void pas_3622_CIO_Remove_NI_Companion_AC2_1(@Optional("") String state) {
         pas_3622_CIO_Remove_NI_Companion_AC2_1_Template();
     }
@@ -222,7 +226,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Removing a NI and associated companion products")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3622")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-3622")
     public void pas_3622_CIO_Remove_NI_Companion_AC2_2(@Optional("") String state) {
         pas_3622_CIO_Remove_NI_Companion_AC2_2_Template();
     }
@@ -241,7 +245,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Remove MPD flat endorsement when companion product is removed")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28659")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-28659")
     public void pas28659_Discount_Removed_Flat_Endorsement(@Optional("") String state) {
         run_pas28659_DiscountRemovalTest(EndorsementType.FLAT);
     }
@@ -260,7 +264,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Remove MPD Future-Dated endorsement when companion product is removed")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28659")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-28659")
     public void pas28659_Discount_Removed_FutureDated_Endorsement(@Optional("") String state) {
         run_pas28659_DiscountRemovalTest(EndorsementType.FUTURE_DATED);
     }
@@ -279,7 +283,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Remove MPD Mid-Term endorsement when companion product is removed")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-28659")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-28659")
     public void pas28659_Discount_Removed_MidTerm_Endorsement(@Optional("") String state) {
         run_pas28659_DiscountRemovalTest(EndorsementType.MIDTERM);
     }
@@ -291,8 +295,8 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     private void run_pas28659_DiscountRemovalTest(EndorsementType endorsementType){
 
         TestData testData = getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("DataGather"), "TestData")
-                .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()))
-                .mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()));
+                .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoCaMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()))
+                .mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoCaMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()));
 
         run_pas28659_DiscountRemovalTest_Template(testData, endorsementType);
     }
@@ -307,8 +311,8 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      * @runtime 4 minutes
      */
     @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Trigger Re-rate event when companion policies are edited or removed")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24021")
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Trigger Re-rate event when companion policies are edited or removed")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24021")
     public void pas24021_MPD_ValidateRerateRuleFires(@Optional("") String state) {
         pas24021_MPD_ValidateRerateRuleFiresTemplate();
     }
@@ -322,8 +326,8 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      * @Runtime 2min
      */
     @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24729")
     public void pas3649_MPD_ValidateEligibilityRuleFires_Home(@Optional("") String state) {
         doMPDEligibilityTest("Home");
     }
@@ -335,8 +339,8 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      * @Runtime 2min
      */
     @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24729")
     public void pas3649_MPD_ValidateEligibilityRuleFires_Life(@Optional("") String state) {
         doMPDEligibilityTest("Life");
     }
@@ -348,8 +352,8 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      * @Runtime 3min
      */
     @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    @Test(groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24729")
     public void pas3649_MPD_ValidateEligibility_MidTerm_Renters(@Optional("") String state) {
         doMPDEligibilityTest_MidTerm(false, "Renters");
     }
@@ -362,39 +366,39 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24729")
     public void pas3649_MPD_ValidateEligibility_Renewal_Home(@Optional("") String state) {
         doMPDEligibilityTest_Renewal("Condo");
     }
 
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23456")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-23456")
     public void pas23456_MPD_Prevent_MTEBind(@Optional("") String state) {
         doMTEPreventBindTest(false, "Home");
     }
 
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23456")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-23456")
     public void pas23456_MPD_Allow_MTEBind(@Optional("") String state) {
         doMTEAllowBindTest(false, "Home");
     }
 
+
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24729")
     public void pas23456_MPD_Prevent_Renewal(@Optional("") String state) {
         doMTEPreventBindTest_Renewals("Renters", false);
     }
-
     /**
      * Validates that a NB policy can be bound when adding a System-Validated Home policy.
      * @param state
      */
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24729")
     public void pas23456_MPD_Allow_NBBindWithSystemValidatedPolicy(@Optional("") String state) {
         pas23456_MPD_Allow_NBBindWithSystemValidatedPolicyTemplate();
     }
@@ -403,19 +407,36 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
 
     @Parameters({"state"})
     @Test(enabled = true, groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27241")
-    public void pas27241_MPDPagination(@Optional("AZ") String state){
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-27241")
+    public void pas27241_MPDPagination(@Optional("") String state){
         pas27241_MPDPaginationTemplate();
     }
 
+    // CLASS METHODS
     /**
+     * Conducts a basic search using the input String as a policy number.
+     * @param inputPolicyNumber
+     */
+    @Override
+    protected void otherAAAProducts_SearchByPolicyNumber(String policyType, String inputPolicyNumber){
+        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getControlClass()).click();
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getControlClass()).setValue("Policy Number");
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_TYPE.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_TYPE.getControlClass()).setValue(policyType);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getControlClass()).setValue(inputPolicyNumber);
+
+        if (!policyType.equalsIgnoreCase(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !policyType.equalsIgnoreCase(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
+            _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
+        }
+    }
+
+    /**
+     * Masks Current Carrier Information and Required to Issue fields.
      * @return Test Data for an AZ SS policy with no other active policies
      */
     @Override
     protected TestData getTdAuto_mask_CurrentCarrier_RequiredToIssue() {
-        return getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData")
-                .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()))
-                .mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()));
+        return getStateTestData(testDataManager.policy.get(PolicyType.AUTO_CA_SELECT).getTestData("DataGather"), "TestData")
+                .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoCaMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()));
     }
 
     ////////////////////////
@@ -427,23 +448,29 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     }
 
     @Override
-    protected void navigateToPremiumAndCoveragesTab(){ NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());}
+    protected void navigateToPremiumAndCoveragesTab(){ NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get()); }
 
     @Override
-    protected void navigateToDocumentsAndBindTab(){ NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());}
+    protected void navigateToDocumentsAndBindTab(){ NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get()); }
+
+    /////////////////////////
+    // General Tab Helpers //
+    /////////////////////////
 
     // General Tab
     @Override
-    protected Tab getGeneralTab(){ return _generalTab;}
+    protected Tab getGeneralTab(){
+        return _generalTab;
+    }
 
     @Override
     protected ComboBox getGeneralTab_CurrentAAAMemberAsset() {
-        return _generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER);
+        return _generalTab.getAAAMembershipAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER);
     }
 
     @Override
     protected TextBox getGeneralTab_MembershipNumberAsset(){
-        return _generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER);
+        return _generalTab.getAAAMembershipAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER);
     }
 
     @Override
@@ -454,23 +481,23 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     // General Tab (These have not been sorted yet)
     @Override
     protected String getGeneralTab_PolicyTypeMetaDataLabel(){
-        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
+        return AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
     }
 
     @Override
     protected String getGeneralTab_PolicyStatusMetaDataLabel(){
-        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.STATUS.getLabel();
+        return AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.STATUS.getLabel();
     }
 
     @Override
     protected String getGeneralTab_CustomerNameDOBMetaDataLabel(){
-        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.CUSTOMER_NAME_DOB.getLabel();
+        return AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.CUSTOMER_NAME_DOB.getLabel();
     }
 
     // General Tab -> Contact Information
     @Override
     protected TextBox getGeneralTab_ContactInformation_EmailAsset(){
-        return _generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.EMAIL);
+        return _generalTab.getContactInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.ContactInformation.EMAIL);
     }
 
     // General Tab -> OtherAAAProductsOwned (MPD Section)
@@ -481,13 +508,13 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
 
     @Override
     protected Button getGeneralTab_OtherAAAProductsOwned_RefreshAsset(){
-        return _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH);
+        return _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.REFRESH);
     }
 
     @Override
     protected Button getGeneralTab_OtherAAAProductsOwned_ManualPolicyAddButton(){
         return _generalTab.getSearchOtherAAAProducts().getAsset(
-                AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN);
+                AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN);
     }
 
     /**
@@ -502,43 +529,43 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
 
     @Override
     protected String getGeneralTab_OtherAAAProducts_LifePolicyCheckboxLabel(){
-        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel();
+        return AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel();
     }
 
     @Override
     protected String getGeneralTab_OtherAAAProducts_MotorcyclePolicyCheckboxLabel(){
-        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel();
+        return AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel();
     }
 
     // General Tab -> OtherAAAProductsOwned (MPD Section) -> ListOfProductsRows
     @Override
     protected ComboBox getGeneralTab_OtherAAAProductsOwned_ListOfProductsRows_PolicyTypeEditAsset(){
         return _generalTab.getListOfProductsRowsAssetList()
-                .getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE_EDIT);
+                .getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE_EDIT);
     }
 
     @Override
     protected TextBox getGeneralTab_OtherAAAProductsOwned_ListOfProductsRows_QuotePolicyNumberEditAsset(){
         return _generalTab.getListOfProductsRowsAssetList()
-                .getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.QUOTE_POLICY_NUMBER_EDIT);
+                .getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.QUOTE_POLICY_NUMBER_EDIT);
     }
 
     @Override
     protected Button getGeneralTab_OtherAAAProductsOwned_ListOfProductsRows_SaveBtnAsset(){
         return _generalTab.getListOfProductsRowsAssetList()
-                .getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.SAVE_BTN);
+                .getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.SAVE_BTN);
     }
 
     // General Tab -> OtherAAAProductsOwned (MPD Section_ -> SearchOtherAAAProducts
     @Override
     protected Button getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_AddSelectedBtnAsset(){
         return  _generalTab.getSearchOtherAAAProducts()
-                .getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN);
+                .getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN);
     }
 
     @Override
     protected StaticElement getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_ExceededLimitMessageAsset(){
-        return _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.EXCEEDED_LIMIT_MESSAGE);
+        return _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.EXCEEDED_LIMIT_MESSAGE);
     }
 
     /**
@@ -553,38 +580,35 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     public void generalTab_addNamedInsured(String firstName, String lastName, String dateOfBirth, String livedHereLessThan3Years, String residence){
         // Click Add Insured Button
         _generalTab.getNamedInsuredInfoAssetList()
-                .getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADD_INSURED.getLabel(),
-                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADD_INSURED.getControlClass()).click(Waiters.AJAX);
+                .getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.ADD_INSURED.getLabel(),
+                        AutoCaMetaData.GeneralTab.NamedInsuredInformation.ADD_INSURED.getControlClass()).click(Waiters.AJAX);
 
         // Click cancel on the Named Insured Popup
         _generalTab.getNamedInsuredInfoAssetList()
-                .getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_SEARCH_DIALOG.getLabel(),
-                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_SEARCH_DIALOG.getControlClass()).cancel();
+                .getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.INSURED_SEARCH_DIALOG.getLabel(),
+                        AutoCaMetaData.GeneralTab.NamedInsuredInformation.INSURED_SEARCH_DIALOG.getControlClass()).cancel();
 
         // First Name
         _generalTab.getNamedInsuredInfoAssetList().
-                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel(),
-                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getControlClass()).setValue(firstName);
+                getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel(),
+                        AutoCaMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getControlClass()).setValue(firstName);
 
         // Last Name
         _generalTab.getNamedInsuredInfoAssetList().
-                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel(),
-                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getControlClass()).setValue(lastName);
+                getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel(),
+                        AutoCaMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getControlClass()).setValue(lastName);
 
         // Date of Birth
         _generalTab.getNamedInsuredInfoAssetList().
-                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_DATE_OF_BIRTH.getLabel(),
-                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_DATE_OF_BIRTH.getControlClass()).setValue(dateOfBirth);
+                getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.INSURED_DATE_OF_BIRTH.getLabel(),
+                        AutoCaMetaData.GeneralTab.NamedInsuredInformation.INSURED_DATE_OF_BIRTH.getControlClass()).setValue(dateOfBirth);
 
         // Lived here less than 3 years
         _generalTab.getNamedInsuredInfoAssetList().
-                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS.getLabel(),
-                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS.getControlClass()).setValue(livedHereLessThan3Years);
+                getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS.getLabel(),
+                        AutoCaMetaData.GeneralTab.NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS.getControlClass()).setValue(livedHereLessThan3Years);
 
-        // Residence
-        _generalTab.getNamedInsuredInfoAssetList().
-                getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(),
-                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getControlClass()).setValue(residence);
+        // CA does not have Residence Dropdown like SS. Do not use parameter for CA.
     }
 
     ////////////////////////
@@ -609,10 +633,12 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     }
 
     @Override
-    protected String pncTab_ViewRatingDetails_MPDAppliedKVPLabel(){return "AAA Multi-Policy Discount";}
+    protected String pncTab_ViewRatingDetails_MPDAppliedKVPLabel(){return "Multi-policy Discount";}
 
     @Override
-    protected void closePnCTab_ViewRatingDetails(){ PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();}
+    protected void closePnCTab_ViewRatingDetails(){
+        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+    }
 
     @Override
     protected Button getPnCTab_BtnCalculatePremium() {
@@ -620,7 +646,9 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     }
 
     @Override
-    protected String getPnCTab_DiscountsAndSurcharges(){ return PremiumAndCoveragesTab.discountsAndSurcharges.getValue();}
+    protected String getPnCTab_DiscountsAndSurcharges(){
+        return PremiumAndCoveragesTab.discountsAndSurcharges.getValue();
+    }
 
     @Override
     protected Dollar getPnCTab_getPolicyCoveragePremium(){
@@ -702,7 +730,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
 
     @Override
     protected String getErrorTab_ErrorOverride_ErrorCodeValue(){
-        return getErrorTab_TableErrors().getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString();
+        return getErrorTab_TableErrors().getColumn(AutoCaMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString();
     }
 
     @Override
@@ -712,13 +740,13 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
 
     @Override
     protected void validateMTEBindError(){
-        errorTab_Verify_ErrorsPresent(true, ErrorEnum.Errors.AAA_SS02012019);
+        errorTab_Verify_ErrorsPresent(true, ErrorEnum.Errors.AAA_CSA02012019);
     }
 
     @Override
     protected void validateMTEBindErrorDoesNotOccur(){
         try{
-            errorTab_Verify_ErrorsPresent(false, ErrorEnum.Errors.AAA_SS02012019);
+            errorTab_Verify_ErrorsPresent(false, ErrorEnum.Errors.AAA_CSA02012019);
         }catch(IstfException ex){
             CustomAssertions.assertThat(ex.getMessage()).isEqualToIgnoringCase("Column Code was not found in the table");
         }
@@ -729,22 +757,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         new ErrorTab().verify.errorsPresent(expectedValue, errors);
     }
 
-    // CLASS METHODS
-    /**
-     * Conducts a basic search using the input String as a policy number.
-     * @param inputPolicyNumber
-     */
-    @Override
-    protected void otherAAAProducts_SearchByPolicyNumber(String policyType, String inputPolicyNumber){
-        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getControlClass()).click();
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getControlClass()).setValue("Policy Number");
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_TYPE.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_TYPE.getControlClass()).setValue(policyType);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getControlClass()).setValue(inputPolicyNumber);
 
-        if (!policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
-            _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
-        }
-    }
 
     /**
      * This method is used when viewing the Search Other AAA Products popup after searching via Policy Number. <br>
@@ -752,13 +765,13 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Override
     protected void otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(String policyType){
-        if(policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME.getLabel()) || policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS.getLabel()) ||
-                policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO.getLabel())){
+        if(policyType.equalsIgnoreCase(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.HOME.getLabel()) || policyType.equalsIgnoreCase(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS.getLabel()) ||
+                policyType.equalsIgnoreCase(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.CONDO.getLabel())){
 
-            _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_HOME_RENTERS_CONDO_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_HOME_RENTERS_CONDO_BTN.getControlClass()).click();
+            _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_HOME_RENTERS_CONDO_BTN.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_HOME_RENTERS_CONDO_BTN.getControlClass()).click();
 
         }else{
-            _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_MOTOR_OR_LIFE_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_MOTOR_OR_LIFE_BTN.getControlClass()).click();
+            _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_MOTOR_OR_LIFE_BTN.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_MOTOR_OR_LIFE_BTN.getControlClass()).click();
         }
     }
 
@@ -774,27 +787,27 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         switch(policyType){
             case HOME:
                 unquotedCheckBox = _generalTab.getOtherAAAProductOwnedAssetList().
-                        getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME);
+                        getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.HOME);
                 break;
 
             case RENTERS:
                 unquotedCheckBox = _generalTab.getOtherAAAProductOwnedAssetList().
-                        getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS);
+                        getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS);
                 break;
 
             case CONDO:
                 unquotedCheckBox = _generalTab.getOtherAAAProductOwnedAssetList().
-                        getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO);
+                        getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.CONDO);
                 break;
 
             case LIFE:
                 unquotedCheckBox = _generalTab.getOtherAAAProductOwnedAssetList().
-                        getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE);
+                        getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.LIFE);
                 break;
 
             case MOTORCYCLE:
                 unquotedCheckBox = _generalTab.getOtherAAAProductOwnedAssetList().
-                        getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE);
+                        getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE);
                 break;
         }
 
@@ -815,15 +828,15 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     @Override
     protected void otherAAAProducts_SearchCustomerDetails(String firstName, String lastName, String dateOfBirth, String address, String city, String state, String zipCode){
-        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getControlClass()).click();
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getControlClass()).setValue("Customer Details");
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ZIP_CODE.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ZIP_CODE.getControlClass()).setValue(zipCode);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.FIRST_NAME.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.FIRST_NAME.getControlClass()).setValue(firstName);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.LAST_NAME.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.LAST_NAME.getControlClass()).setValue(lastName);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.DATE_OF_BIRTH.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.DATE_OF_BIRTH.getControlClass()).setValue(dateOfBirth);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADDRESS_LINE_1.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADDRESS_LINE_1.getControlClass()).setValue(address);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.CITY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.CITY.getControlClass()).setValue(city);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getLabel(), (AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getControlClass())).setValue(state);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
+        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getControlClass()).click();
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getControlClass()).setValue("Customer Details");
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ZIP_CODE.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ZIP_CODE.getControlClass()).setValue(zipCode);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.FIRST_NAME.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.FIRST_NAME.getControlClass()).setValue(firstName);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.LAST_NAME.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.LAST_NAME.getControlClass()).setValue(lastName);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.DATE_OF_BIRTH.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.DATE_OF_BIRTH.getControlClass()).setValue(dateOfBirth);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADDRESS_LINE_1.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADDRESS_LINE_1.getControlClass()).setValue(address);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.CITY.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.CITY.getControlClass()).setValue(city);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getLabel(), (AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getControlClass())).setValue(state);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
     }
 }

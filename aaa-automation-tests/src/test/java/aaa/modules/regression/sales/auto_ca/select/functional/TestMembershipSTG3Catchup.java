@@ -274,17 +274,17 @@ public class TestMembershipSTG3Catchup extends AutoCaSelectBaseTest {
         String keypathMemberNum;
         String keypathOrderMembershipReports = ""; // This is only used for HO products.
 
-        // keypathTabSection Result: "GeneralTab|AAAProductOwned"
+        // keypathTabSection Result: "GeneralTab|AAAMembership"
         String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.customer.defaulttabs.GeneralTab.class.getSimpleName(),
-                AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+                AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 
-        // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
+        // keypathCurrentMember Result: "GeneralTab|AAAMembership|Current AAA Member"
         keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
-                AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel());
+                AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel());
 
-        // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
+        // keypathMemberNum Result: "GeneralTab|AAAMembership|Membership Number"
         keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
-                AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+                AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
 
         TestData testData =  getPolicyTD()
                 .adjust(keypathCurrentMember, "No")

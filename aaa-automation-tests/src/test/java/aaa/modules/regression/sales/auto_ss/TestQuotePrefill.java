@@ -154,7 +154,7 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 
 		assertThat(generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.FIRST_NAMED_INSURED)).hasValue(expectedNI_1);
 
-		assertThat(GeneralTab.tblInsuredList).hasRows(2);
+		assertThat(GeneralTab.tableInsuredList).hasRows(2);
 
 		//fill General tab
 		generalTab.fillTab(getTestSpecificTD("TestData_Fill_Insured1").resolveLinks());

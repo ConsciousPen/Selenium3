@@ -8,6 +8,6 @@ PrefillTabCLUE: {
   Last Name: Activity
 }
 
-AAAProductOwned: {
+AAAMembership: {
   Current AAA Member: 'No'
 }

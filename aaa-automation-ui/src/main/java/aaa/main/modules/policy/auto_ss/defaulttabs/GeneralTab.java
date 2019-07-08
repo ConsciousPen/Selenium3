@@ -4,8 +4,6 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
-import aaa.common.components.OtherAAAProductsSearchTableElement;
-import aaa.common.components.OtherAAAProductsTableElement;
 import aaa.toolkit.webdriver.customcontrols.NoSectionsMultiAssetList;
 import org.openqa.selenium.By;
 import aaa.common.Tab;
@@ -16,19 +14,10 @@ import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.SelectSearchDialog;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -38,7 +27,7 @@ import java.util.List;
  */
 public class GeneralTab extends Tab {
 
-	public static Table tblInsuredList = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_Insured_body']//table"));
+	public static Table tableInsuredList = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_Insured_body']//table"));
 
 	public GeneralTab() {
 		super(AutoSSMetaData.GeneralTab.class);
@@ -99,15 +88,15 @@ public class GeneralTab extends Tab {
 	}
 
 	public void removeInsured(int index) {
-		if (tblInsuredList.isPresent() && tblInsuredList.getRow(index).isPresent()) {
-			tblInsuredList.getRow(index).getCell(4).controls.links.get("Remove").click(Waiters.AJAX);
+		if (tableInsuredList.isPresent() && tableInsuredList.getRow(index).isPresent()) {
+			tableInsuredList.getRow(index).getCell(4).controls.links.get("Remove").click(Waiters.AJAX);
 			Page.dialogConfirmation.confirm();
 		}
 	}
 
 	public void viewInsured(int index) {
-		if (tblInsuredList.isPresent() && tblInsuredList.getRow(index).isPresent()) {
-			tblInsuredList.getRow(index).getCell(4).controls.links.get("View/Edit").click(Waiters.AJAX);
+		if (tableInsuredList.isPresent() && tableInsuredList.getRow(index).isPresent()) {
+			tableInsuredList.getRow(index).getCell(4).controls.links.get("View/Edit").click(Waiters.AJAX);
 		}
 	}
 }

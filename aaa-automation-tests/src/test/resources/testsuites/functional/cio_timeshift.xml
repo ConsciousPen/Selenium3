@@ -15,6 +15,13 @@
         </classes>
     </test>
 
+    <test name="Multi Policy Discount CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMultiPolicyDiscount"/>
+        </classes>
+    </test>
+
     <test name="Test Pended Endorsement Reconciliation SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>

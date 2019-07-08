@@ -144,6 +144,22 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsCAHe
 	}
 
 	/**
+	 * @author Maris Strazds
+	 * 1.Create policy with Multiple assignments (each vehicle to each driver)
+	 * 2. Create endorsement through service
+	 * 3. Remove driver with Reason code RD1003 so that driver type is changed to NAFR
+	 * 4. Run viewDriverAssignments service and verify that vehicle of removed driver now is in unassignedVehicles
+	 * and removed driver is not in assignableDrivers list anymore
+	 */
+	@Parameters({"state"})
+	@StateList(states = Constants.States.CA)
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-31827"})
+	public void pas31827_assignmentWhenDriverRemovedByCodeRD1003(@Optional("CA") String state) {
+		pas31827_assignmentWhenDriverRemovedByCodeRD1003Body();
+	}
+
+	/**
 	 * @author Sabra Domeika
 	 * 1. Create a policy with 2D/3V. Assign one driver to one vehicle, one driver to the other two.
 	 * 2. Create an endorsement through DXP.
