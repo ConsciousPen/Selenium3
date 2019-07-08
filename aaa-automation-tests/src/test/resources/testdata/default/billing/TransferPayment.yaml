@@ -1,0 +1,9 @@
+TestData: {
+  TransferPaymentActionTab: {
+    Transfer Reason: index=1,
+    Allocation: {
+      Billing Account Name Type: Individual,
+      "Policy #": 123456
+    }
+  }
+}

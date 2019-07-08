@@ -3,11 +3,12 @@
 package aaa.main.metadata;
 
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.controls.dialog.DialogMultiSelector;
 import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
+import aaa.toolkit.webdriver.customcontrols.AdvancedAllocationsRepeatAssetList;
 import aaa.toolkit.webdriver.customcontrols.FillableTable;
+import aaa.toolkit.webdriver.customcontrols.dialog.AllocationDialogMultiSelector;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
@@ -107,7 +108,7 @@ public final class BillingAccountMetaData {
 
 	public static final class TransferPaymentActionTab extends MetaData {
 		public static final AssetDescriptor<ComboBox> TRANSFER_REASON = declare("Transfer Reason", ComboBox.class);
-		public static final AssetDescriptor<DialogMultiSelector> ALLOCATION = declare("Allocation", DialogMultiSelector.class, AllocationMultiSelector.class);
+		public static final AssetDescriptor<AllocationDialogMultiSelector> ALLOCATION = declare("Allocation", AllocationDialogMultiSelector.class, AllocationMultiSelector.class);
 		public static final AssetDescriptor<TextBox> ALLOCATED_AMOUNT = declare("Allocated Amount", TextBox.class);
 
 		public static final class AllocationMultiSelector extends MetaData {
@@ -230,11 +231,14 @@ public final class BillingAccountMetaData {
 	}
 
 	public static final class AdvancedAllocationsActionTab extends MetaData {
+		public static final AssetDescriptor<AdvancedAllocationsRepeatAssetList> ADVANCED_ALLOCATIONS = declare("Advanced Allocations",
+				AdvancedAllocationsRepeatAssetList.class, AdvancedAllocationsActionTabDetails.class, false);
+	}
+
+	public static final class AdvancedAllocationsActionTabDetails extends MetaData {
 		public static final AssetDescriptor<TextBox> TOTAL_AMOUNT = declare("Total Amount", TextBox.class);
-		public static final AssetDescriptor<TextBox> PRODUCT_SUB_TOTAL = declare("Total Amount", TextBox.class);
-		public static final AssetDescriptor<TextBox> OTHER = declare("Other", TextBox.class);
-		public static final AssetDescriptor<TextBox> NET_PREMIUM = declare("Net Premium", TextBox.class);
-		public static final AssetDescriptor<TextBox> POLICY_FEE = declare("Policy Fee", TextBox.class);
+		// *** DO NOT DECLARE any other controls in this MetaData. They are added within AdvancedAllocationsRepeatAssetList.class.
+		// If any additional allocations are needed, please configure them in AdvancedAllocationsRepeatAssetList.class***
 	}
 
 	public static final class ChangePaymentPlanActionTab extends MetaData {

@@ -280,13 +280,29 @@ public final class BillingAccountActions {
 			return submit();
 		}
 
-		public AbstractAction perform(TestData td, String policy, String allocatedAmount) {
+		public AbstractAction perform(TestData td, String policy, List<String> allocatedAmount) {
+			td.adjust(
+					TestData.makeKeyPath(BillingAccountMetaData.TransferPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.TransferPaymentActionTab.ALLOCATION.getLabel(),
+							BillingAccountMetaData.TransferPaymentActionTab.AllocationMultiSelector.POLICY_NUMBER.getLabel()), policy)
+					.adjust(TestData.makeKeyPath(BillingAccountMetaData.TransferPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.TransferPaymentActionTab.ALLOCATED_AMOUNT.getLabel()),
+							allocatedAmount);
+			return super.perform(td);
+		}
+
+		public AbstractAction performWithoutSubmit(TestData td, String policy, List<String> allocatedAmount) {
 			td.adjust(
 					TestData.makeKeyPath(BillingAccountMetaData.TransferPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.TransferPaymentActionTab.ALLOCATION.getLabel(),
 							BillingAccountMetaData.TransferPaymentActionTab.AllocationMultiSelector.POLICY_NUMBER.getLabel()), policy)
 					.adjust(TestData.makeKeyPath(BillingAccountMetaData.TransferPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.TransferPaymentActionTab.ALLOCATED_AMOUNT.getLabel()),
 							allocatedAmount);
 			return perform(td);
+		}
+
+		@Override
+		public AbstractAction perform(TestData td) {
+			start();
+			getView().fill(td);
+			return this;
 		}
 
 		@Override
