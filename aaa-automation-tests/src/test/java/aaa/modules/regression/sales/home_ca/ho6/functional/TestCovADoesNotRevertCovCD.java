@@ -72,25 +72,21 @@ public class TestCovADoesNotRevertCovCD extends HomeCaHO6BaseTest {
         Dollar covD = new Dollar(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D).getValue());
 
         // Increase Cov A from original value
-        changeCovA(covA, new Dollar (10000));
-
-        // Validate Cov C and D have not changed
-        assertThat(new Dollar(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C).getValue())).isEqualTo(covC);
-        assertThat(new Dollar(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D).getValue())).isEqualTo(covD);
+        changeCoverageAndValidate(covA, new Dollar (10000));
 
         // Decrease Cov A from original value
-        changeCovA(covA, new Dollar (-10000));
-
-        // Validate Cov C and D have not changed
-        assertThat(new Dollar(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C).getValue())).isEqualTo(covC);
-        assertThat(new Dollar(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D).getValue())).isEqualTo(covD);
+        changeCoverageAndValidate(covA, new Dollar (-10000));
     }
 
-    private void changeCovA(Dollar covA, Dollar amount) {
+    private void changeCoverageAndValidate(Dollar covA, Dollar amount) {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
         new PropertyInfoTab().getPropertyValueAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT).setValue(covA.add(amount).toPlaingString());
         new PropertyInfoTab().getPropertyValueAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.PropertyValue.ISO_REPLACEMENT_COST).setValue(covA.add(amount).toPlaingString());
         premiumsAndCoveragesQuoteTab.calculatePremium();
+
+        // Validate Cov C and D have not changed
+        assertThat(new Dollar(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C).getValue())).isEqualTo(covC);
+        assertThat(new Dollar(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D).getValue())).isEqualTo(covD);
     }
 
 }
