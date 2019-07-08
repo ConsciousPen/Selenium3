@@ -4,6 +4,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -12,9 +13,11 @@ import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab;
 import aaa.modules.policy.HomeCaHO6BaseTest;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 import static toolkit.verification.CustomAssertions.assertThat;
 
+@StateList(states = Constants.States.CA)
 public class TestCovADoesNotRevertCovCD extends HomeCaHO6BaseTest {
 
     private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
