@@ -26,6 +26,7 @@ import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 import javax.ws.rs.core.Response;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
@@ -133,8 +134,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 
 		//Create pended endorsement - future dated, because otherwise Insurance Score Report must be ordered for newly added NI
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		PolicySummary response = HelperCommon.createEndorsement(policyNumber, endorsementDate);
-		assertSoftly(softly -> softly.assertThat(response.transactionEffectiveDate).isEqualTo(endorsementDate));
+		helperMiniServices.createEndorsementWithCheck(policyNumber, endorsementDate);
 
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("ClueNonChargeable", "Doc", "Activity", "1999-01-31", "III");
 		DriversDto addedDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
@@ -169,7 +169,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 
 		//Create pended endorsement - future dated, because otherwise Insurance Score Report must be ordered for newly added NI
 		PolicySummary response2 = HelperCommon.createEndorsement(policyNumber, endorsementDate);
-		assertSoftly(softly -> softly.assertThat(response2.transactionEffectiveDate).isEqualTo(endorsementDate));
+		assertSoftly(softly -> softly.assertThat(response2.transactionEffectiveDate).isEqualTo(HelperMiniServices.convertDateToAZDate(endorsementDate)));
 
 		addDriverRequest = DXPRequestFactory.createAddDriverRequest("MvrNonChargeable", "Doc", "Activity", "1999-01-31", "III");
 		addedDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
@@ -610,7 +610,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		OrderReportsResponse response1 = HelperCommon.orderReports(policyNumber, oidDriver2, OrderReportsResponse.class, 200);
 		String acDate = pasDriverActivityReport1(policyNumber);
 
-		softly.assertThat(response1.drivingRecords.get(0).accidentDate).isEqualTo(acDate);
+		softly.assertThat(response1.drivingRecords.get(0).accidentDate).isEqualTo(HelperMiniServices.convertDateToAZDate(acDate));
 		softly.assertThat(response1.drivingRecords.get(0).activitySource).isEqualTo("MVR");
 		softly.assertThat(response1.mvrReports.get(0).choicePointLicenseStatus).contains("VALID");
 
@@ -640,7 +640,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		if (getState().equals(Constants.States.CA)) {
 			softly.assertThat(response5.mvrReports.get(0).choicePointLicenseStatus).isEqualTo("2  SUSPENDED");
 		} else {
-			softly.assertThat(response5.drivingRecords.get(0).accidentDate).isEqualTo(acDate1);
+			softly.assertThat(response5.drivingRecords.get(0).accidentDate).isEqualTo(HelperMiniServices.convertDateToAZDate(acDate1));
 			softly.assertThat(response5.drivingRecords.get(0).activitySource).isEqualTo("MVR");
 			softly.assertThat(response5.mvrReports.get(0).choicePointLicenseStatus).isEqualTo("2  SUSPENDED");
 		}
@@ -681,7 +681,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 			softly.assertThat(response11.mvrReports.get(0).choicePointLicenseStatus).contains("VALID");
 		} else {
 			String acDate2 = pasDriverActivityReport1(policyNumber);
-			softly.assertThat(response11.drivingRecords.get(0).accidentDate).isEqualTo(acDate2);
+			softly.assertThat(response11.drivingRecords.get(0).accidentDate).isEqualTo(HelperMiniServices.convertDateToAZDate(acDate2));
 			softly.assertThat(response11.drivingRecords.get(0).activitySource).isEqualTo("MVR");
 			softly.assertThat(response11.mvrReports.get(0).choicePointLicenseStatus).contains("VALID");
 		}
@@ -739,7 +739,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		OrderReportsResponse response1 = HelperCommon.orderReports(policyNumber, oidDriver2, OrderReportsResponse.class, 200);
 		String acDate = pasDriverActivityReport1(policyNumber);
 		assertSoftly(softly -> {
-			softly.assertThat(response1.drivingRecords.get(0).accidentDate).isEqualTo(acDate);
+			softly.assertThat(response1.drivingRecords.get(0).accidentDate).isEqualTo(HelperMiniServices.convertDateToAZDate(acDate));
 			softly.assertThat(response1.drivingRecords.get(0).activitySource).isEqualTo("MVR");
 			softly.assertThat(response1.mvrReports.get(0).choicePointLicenseStatus).contains("VALID");
 		});

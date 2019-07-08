@@ -1449,7 +1449,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		VehicleUpdateDto updateVehiclePurchaseDateRequest = new VehicleUpdateDto();
 		updateVehiclePurchaseDateRequest.purchaseDate = "2018-02-28";
 		Vehicle updateVehiclePurchaseDateResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehiclePurchaseDateRequest);
-		assertThat(updateVehiclePurchaseDateResponse.purchaseDate.replace("T00:00:00Z", "")).isEqualTo("2018-02-28");
+		assertThat(updateVehiclePurchaseDateResponse.purchaseDate.replace("T00:00:00Z", "")).isEqualTo(HelperMiniServices.convertDateToAZDate("2018-02-28"));
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
@@ -1849,7 +1849,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(veh1.data.model).isEqualTo("CIVIC");
 		softly.assertThat(veh1.data.bodyStyle).isEqualTo("SEDAN 4 DOOR");
 		softly.assertThat(veh1.data.oid).isEqualTo(oid1);
-		softly.assertThat(veh1.data.purchaseDate).startsWith(purchaseDate);
+		softly.assertThat(veh1.data.purchaseDate).startsWith(HelperMiniServices.convertDateToAZDate(purchaseDate));
 		softly.assertThat(veh1.data.vehIdentificationNo).isEqualTo(vin1);
 		softly.assertThat(veh1.data.vehicleStatus).isEqualTo("pending");
 		softly.assertThat(veh1.data.usage).isEqualTo("Pleasure");
@@ -1898,7 +1898,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(veh2.data.bodyStyle).isEqualTo("3 DOOR COUPE");
 		softly.assertThat(veh2.data.oid).isEqualTo(oid2);
 		softly.assertThat(veh2.data.vehIdentificationNo).isEqualTo(vin2);
-		softly.assertThat(veh2.data.purchaseDate).startsWith(purchaseDate2);
+		softly.assertThat(veh2.data.purchaseDate).startsWith(HelperMiniServices.convertDateToAZDate(purchaseDate2));
 		softly.assertThat(veh2.data.vehicleStatus).isEqualTo("pending");
 		softly.assertThat(veh2.data.usage).isEqualTo("Pleasure");
 		softly.assertThat(veh2.data.salvaged).isEqualTo(false);
@@ -1998,7 +1998,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(veh1nd.data.model).isEqualTo("CIVIC");
 		softly.assertThat(veh1nd.data.bodyStyle).isEqualTo("SEDAN 4 DOOR");
 		softly.assertThat(veh1nd.data.oid).isEqualTo(oid1);
-		softly.assertThat(veh1nd.data.purchaseDate).startsWith(purchaseDate);
+		softly.assertThat(veh1nd.data.purchaseDate).startsWith(HelperMiniServices.convertDateToAZDate(purchaseDate));
 		softly.assertThat(veh1nd.data.vehIdentificationNo).isEqualTo(vin1);
 		softly.assertThat(veh1nd.data.vehicleStatus).isEqualTo("active");
 		softly.assertThat(veh1nd.data.usage).isEqualTo("Pleasure");

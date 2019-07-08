@@ -10,12 +10,9 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.*;
-import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.PolicyBaseTest;
+import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
@@ -96,26 +93,29 @@ public abstract class TestRFIHelper extends PolicyBaseTest {
             softly.assertThat(rfiDocument.parent).isEqualTo("policy");
             softly.assertThat(rfiDocument.parentOid).isNotEmpty();
 
-            RFIDocuments rfiServiceResponse2 = HelperCommon.rfiViewService(policyNumber, true);
-            softly.assertThat(rfiServiceResponse2.url).endsWith(".pdf");
-            softly.assertThat(rfiServiceResponse2.documents).isNotEmpty();
+            if (!PropertyProvider.getProperty("app.host").contains("aws")) {// Not checking document generation on AWS servers as DCS is not available from them
 
-            //Verify that URL works
-            HttpURLConnection con = null;
-            try {
-                URL url = new URL(rfiServiceResponse2.url);
-                con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("GET");
-                softly.assertThat(con.getResponseCode()).isEqualTo(Response.Status.OK.getStatusCode());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (con != null) {
-                    con.disconnect();
+                RFIDocuments rfiServiceResponse2 = HelperCommon.rfiViewService(policyNumber, true);
+                softly.assertThat(rfiServiceResponse2.url).endsWith(".pdf");
+                softly.assertThat(rfiServiceResponse2.documents).isNotEmpty();
+
+                //Verify that URL works
+                HttpURLConnection con = null;
+                try {
+                    URL url = new URL(rfiServiceResponse2.url);
+                    con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("GET");
+                    softly.assertThat(con.getResponseCode()).isEqualTo(Response.Status.OK.getStatusCode());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (con != null) {
+                        con.disconnect();
+                    }
                 }
             }
-
         });
+
         return rfiDocument.documentId;
     }
 

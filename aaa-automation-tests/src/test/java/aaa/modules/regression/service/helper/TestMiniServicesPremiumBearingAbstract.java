@@ -34,6 +34,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.apache.commons.lang.BooleanUtils;
 import org.testng.ITestContext;
+import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -95,7 +96,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		String policyNumber = getCopiedPolicy();
 		mainApp().close();
 
-		ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, null);
+		ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, getStartEndorsementDate());
 		assertSoftly(softly -> {
 			softly.assertThat(response.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
 			softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
@@ -316,7 +317,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		);
 
 		//immediate endorsement delete attempt should not be allowed for UT
-		ValidateEndorsementResponse responseValidateCanCreateEndorsement1 = HelperCommon.startEndorsement(policyNumber, null);
+		ValidateEndorsementResponse responseValidateCanCreateEndorsement1 = HelperCommon.startEndorsement(policyNumber, getStartEndorsementDate());
 		assertSoftly(softly -> {
 			softly.assertThat(responseValidateCanCreateEndorsement1.allowedEndorsements).isEmpty();
 			softly.assertThat(responseValidateCanCreateEndorsement1.ruleSets.get(0).name).isEqualTo("PolicyRules");
@@ -325,7 +326,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		//endorsement delete attempt should not be allowed on the Delay Day
 		TimeSetterUtil.getInstance().nextPhase(testStartDate.plusDays(numberOfDaysDelayBeforeDelete - 1));
-		ValidateEndorsementResponse responseValidateCanCreateEndorsement2 = HelperCommon.startEndorsement(policyNumber, null);
+		ValidateEndorsementResponse responseValidateCanCreateEndorsement2 = HelperCommon.startEndorsement(policyNumber, getStartEndorsementDate());
 		assertSoftly(softly -> {
 			softly.assertThat(responseValidateCanCreateEndorsement2.allowedEndorsements).isEmpty();
 			softly.assertThat(responseValidateCanCreateEndorsement2.ruleSets.get(0).name).isEqualTo("PolicyRules");
@@ -334,7 +335,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		//endorsement delete attempt should be allowed on the Delay Day + 1 day
 		TimeSetterUtil.getInstance().nextPhase(testStartDate.plusDays(numberOfDaysDelayBeforeDelete));
-		ValidateEndorsementResponse responseValidateCanCreateEndorsement3 = HelperCommon.startEndorsement(policyNumber, null);
+		ValidateEndorsementResponse responseValidateCanCreateEndorsement3 = HelperCommon.startEndorsement(policyNumber, getStartEndorsementDate());
 		assertThat(responseValidateCanCreateEndorsement3.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
 	}
 
@@ -369,7 +370,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		//endorsement delete attempt should not be allowed on the Delay Day
 		TimeSetterUtil.getInstance().nextPhase(testStartDate.plusDays(numberOfDaysForNewConfigVersion + numberOfDaysDelayBeforeDelete));
-		ValidateEndorsementResponse responseValidateCanCreateEndorsement2 = HelperCommon.startEndorsement(policyNumber, null);
+		ValidateEndorsementResponse responseValidateCanCreateEndorsement2 = HelperCommon.startEndorsement(policyNumber, getStartEndorsementDate());
 		assertSoftly(softly -> {
 			softly.assertThat(responseValidateCanCreateEndorsement2.allowedEndorsements).isEmpty();
 			softly.assertThat(responseValidateCanCreateEndorsement2.ruleSets.get(0).name).isEqualTo("PolicyRules");
@@ -378,7 +379,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		//endorsement delete attempt should be allowed on the Delay Day + 1 day
 		TimeSetterUtil.getInstance().nextPhase(testStartDate.plusDays(numberOfDaysForNewConfigVersion + numberOfDaysDelayBeforeDelete + 1));
-		ValidateEndorsementResponse responseValidateCanCreateEndorsement3 = HelperCommon.startEndorsement(policyNumber, null);
+		ValidateEndorsementResponse responseValidateCanCreateEndorsement3 = HelperCommon.startEndorsement(policyNumber, getStartEndorsementDate());
 		assertSoftly(softly ->
 				softly.assertThat(responseValidateCanCreateEndorsement3.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle")
 		);
@@ -391,7 +392,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		manualPendedEndorsementCreate();
 
 		//endorsement delete attempt should be allowed on the Delay Day + 1 day
-		ValidateEndorsementResponse responseValidateCanCreateEndorsement3 = HelperCommon.startEndorsement(policyNumber, null);
+		ValidateEndorsementResponse responseValidateCanCreateEndorsement3 = HelperCommon.startEndorsement(policyNumber, getStartEndorsementDate());
 		assertSoftly(softly ->
 				softly.assertThat(responseValidateCanCreateEndorsement3.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle")
 		);
@@ -406,12 +407,23 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		manualPendedEndorsementCreate();
 		convertAgentEndorsementToSystemEndorsement(policyNumber);
 
-		ValidateEndorsementResponse responseValidateCanCreateEndorsement3 = HelperCommon.startEndorsement(policyNumber, null);
+		ValidateEndorsementResponse responseValidateCanCreateEndorsement3 = HelperCommon.startEndorsement(policyNumber, getStartEndorsementDate());
 		assertSoftly(softly -> {
 			softly.assertThat(responseValidateCanCreateEndorsement3.allowedEndorsements).isEmpty();
 			softly.assertThat(responseValidateCanCreateEndorsement3.ruleSets.get(0).name).isEqualTo("PolicyRules");
 			softly.assertThat(responseValidateCanCreateEndorsement3.ruleSets.get(0).errors.get(0).message).startsWith(ErrorDxpEnum.Errors.SYSTEM_CREATED_PENDED_ENDORSEMENT.getMessage());
 		});
+	}
+
+	/**
+	 * Returns Current system date for AWS instances, null for other instances (AZ TimeZone instances).
+	 */
+	private String getStartEndorsementDate() {
+		String endorsementDate = null;
+		if (PropertyProvider.getProperty("app.host").contains("aws")) {
+			endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		}
+		return endorsementDate;
 	}
 
 	private void manualPendedEndorsementCreate() {
@@ -706,7 +718,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		mainApp().close();
 
 		//Check future policy message in service
-		ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, null);
+		ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, getStartEndorsementDate());
 		assertThat(response.ruleSets.get(0).errors.stream().anyMatch(err -> err.message.startsWith(ErrorDxpEnum.Errors.POLICY_TERM_DOES_NOT_EXIST.getMessage()))).isTrue();
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(20));
@@ -799,8 +811,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(todayDateEndorsementResponse.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(todayDateEndorsementResponse.policyStatus).isEqualTo("dataGather");
 			softly.assertThat(todayDateEndorsementResponse.timedPolicyStatus).isEqualTo("dataGather");
-			softly.assertThat(todayDateEndorsementResponse.effectiveDate).isEqualTo(todayDateEndorsement);
-			softly.assertThat(todayDateEndorsementResponse.expirationDate).isEqualTo(expirationDate);
+			softly.assertThat(todayDateEndorsementResponse.effectiveDate).isEqualTo(HelperMiniServices.convertDateToAZDate(todayDateEndorsement));
+			softly.assertThat(todayDateEndorsementResponse.expirationDate).isEqualTo(HelperMiniServices.convertDateToAZDate(expirationDate));
 			softly.assertThat(todayDateEndorsementResponse.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(todayDateEndorsementResponse.renewalCycle).isEqualTo(0);
 			softly.assertThat(todayDateEndorsementResponse.eValueStatus).isEqualTo("NOTENROLLED");
@@ -811,24 +823,24 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(todayDateEndorsementResponse.residentialAddress.city).isNotEmpty();
 			softly.assertThat(todayDateEndorsementResponse.residentialAddress.stateProvCd).isNotEmpty();
 			softly.assertThat(todayDateEndorsementResponse.residentialAddress.postalCode).isNotEmpty();
-			softly.assertThat(todayDateEndorsementResponse.transactionEffectiveDate).isEqualTo(todayDateEndorsement);
+			softly.assertThat(todayDateEndorsementResponse.transactionEffectiveDate).isEqualTo(HelperMiniServices.convertDateToAZDate(todayDateEndorsement));
 			softly.assertThat(todayDateEndorsementResponse.productCd).isEqualTo(getProductCd());
 			softly.assertThat(todayDateEndorsementResponse.policyFormCd).isEqualTo(getPolicyFormCd());
 
 			PolicySummary pendingEndorsementImageInfo1 = HelperCommon.viewPendingEndorsementImageInfo(policyNumber);
-			softly.assertThat(pendingEndorsementImageInfo1.transactionEffectiveDate).isEqualTo(todayDateEndorsement);
+			softly.assertThat(pendingEndorsementImageInfo1.transactionEffectiveDate).isEqualTo(HelperMiniServices.convertDateToAZDate(todayDateEndorsement));
 
 			//Future endorsement
 			String futureDateEndorsement = TimeSetterUtil.getInstance().getCurrentTime().plusDays(5).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 			PolicySummary futureDateEndorsementResponse = HelperCommon.createEndorsement(policyNumber, futureDateEndorsement);
-			softly.assertThat(futureDateEndorsementResponse.transactionEffectiveDate).isEqualTo(futureDateEndorsement);
+			softly.assertThat(futureDateEndorsementResponse.transactionEffectiveDate).isEqualTo(HelperMiniServices.convertDateToAZDate(futureDateEndorsement));
 
 			PolicySummary pendingEndorsementImageInfo2 = HelperCommon.viewPendingEndorsementImageInfo(policyNumber);
-			softly.assertThat(pendingEndorsementImageInfo2.transactionEffectiveDate).isEqualTo(futureDateEndorsement);
+			softly.assertThat(pendingEndorsementImageInfo2.transactionEffectiveDate).isEqualTo(HelperMiniServices.convertDateToAZDate(futureDateEndorsement));
 
 			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(7));
 			PolicySummary pendingEndorsementImageInfo3 = HelperCommon.viewPendingEndorsementImageInfo(policyNumber);
-			softly.assertThat(pendingEndorsementImageInfo3.transactionEffectiveDate).isEqualTo(futureDateEndorsement);
+			softly.assertThat(pendingEndorsementImageInfo3.transactionEffectiveDate).isEqualTo(HelperMiniServices.convertDateToAZDate(futureDateEndorsement));
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
@@ -873,8 +885,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyPending.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyPending.policyStatus).isEqualTo("issued");
 			softly.assertThat(responsePolicyPending.timedPolicyStatus).isEqualTo("inForcePending");
-			softly.assertThat(responsePolicyPending.effectiveDate).isEqualTo(policyEffectiveDate.toLocalDate().toString());
-			softly.assertThat(responsePolicyPending.expirationDate).isEqualTo(policyExpirationDate.toLocalDate().toString());
+			softly.assertThat(responsePolicyPending.effectiveDate).isEqualTo(HelperMiniServices.convertDateToAZDate(policyEffectiveDate.toLocalDate().toString()));
+			softly.assertThat(responsePolicyPending.expirationDate).isEqualTo(HelperMiniServices.convertDateToAZDate(policyExpirationDate.toLocalDate().toString()));
 			softly.assertThat(responsePolicyPending.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyPending.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyPending, state, "NOTENROLLED");
@@ -902,8 +914,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyActive.policyNumber).isEqualTo(policyNumber);
 			softly.assertThat(responsePolicyActive.policyStatus).isEqualTo("issued");
 			softly.assertThat(responsePolicyActive.timedPolicyStatus).isEqualTo("inForce");
-			softly.assertThat(responsePolicyPending.effectiveDate).isEqualTo(policyEffectiveDate.toLocalDate().toString());
-			softly.assertThat(responsePolicyPending.expirationDate).isEqualTo(policyExpirationDate.toLocalDate().toString());
+			softly.assertThat(responsePolicyPending.effectiveDate).isEqualTo(HelperMiniServices.convertDateToAZDate(policyEffectiveDate.toLocalDate().toString()));
+			softly.assertThat(responsePolicyPending.expirationDate).isEqualTo(HelperMiniServices.convertDateToAZDate(policyExpirationDate.toLocalDate().toString()));
 			softly.assertThat(responsePolicyActive.sourceOfBusiness).isEqualTo("NEW");
 			softly.assertThat(responsePolicyActive.renewalCycle).isEqualTo(0);
 			eValueStatusCheck(softly, responsePolicyPending, state, "NOTENROLLED");
