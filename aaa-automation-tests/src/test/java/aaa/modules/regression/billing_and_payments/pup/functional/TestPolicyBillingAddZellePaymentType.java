@@ -26,5 +26,15 @@ public class TestPolicyBillingAddZellePaymentType extends PolicyBillingAddZelleP
 
         super.testAddZellePaymentType();
     }
+
+
+    @Parameters({"state"})
+    @StateList(statesExcept = Constants.States.CA)
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-29419"})
+    public void test_RefundPaymentMethods(@Optional("AZ") String state) {
+
+        super.testRefundZellePaymentType();
+    }
 }
 
