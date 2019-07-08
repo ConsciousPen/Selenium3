@@ -2,30 +2,29 @@ package aaa.modules.regression.finance.policy.auto_ss;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import aaa.helpers.billing.BillingHelper;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.pages.summary.BillingSummaryPage;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
+import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
+import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.finance.template.PolicyOperations;
 import aaa.utils.StateList;
@@ -59,7 +58,7 @@ public class TestCancelNoticeOnRenewalVerification extends PolicyOperations {
 	@StateList(states = {Constants.States.KY, Constants.States.AZ, Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-30649")
-	public void pas30649_testCancelNoticeOnPolicy(@Optional("NJ") String state) {
+	public void pas30649_testCancelNoticeOnPolicy(@Optional("") String state) {
 		String expectedMessage = "Pended Cancellation Exists.";
 
 		mainApp().open();
@@ -104,7 +103,7 @@ public class TestCancelNoticeOnRenewalVerification extends PolicyOperations {
 	@StateList(states = {Constants.States.KY, Constants.States.AZ, Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-30649")
-	public void pas30649_testCancelNoticeOnRenewalDataGathering(@Optional("AZ") String state) {
+	public void pas30649_testCancelNoticeOnRenewalDataGathering(@Optional("") String state) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -155,7 +154,7 @@ public class TestCancelNoticeOnRenewalVerification extends PolicyOperations {
 	@StateList(states = {Constants.States.KY, Constants.States.AZ, Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-30649")
-	public void pas30649_testCancelNoticeOnRenewalPremiumCalculated(@Optional("KY") String state) {
+	public void pas30649_testCancelNoticeOnRenewalPremiumCalculated(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		TestData policyTD = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData")
@@ -203,7 +202,7 @@ public class TestCancelNoticeOnRenewalVerification extends PolicyOperations {
 	@StateList(states = {Constants.States.KY, Constants.States.AZ, Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-31941")
-	public void pas31941_testCancelNoticeOnRenewalProposeRenewal(@Optional("KY") String state) {
+	public void pas31941_testCancelNoticeOnRenewalProposeRenewal(@Optional("") String state) {
 		//Create Policy
 		mainApp().open();
 		createCustomerIndividual();

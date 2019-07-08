@@ -47,10 +47,10 @@ public class TestCancelNoticeOnRenewalVerification extends PolicyOperations {
 	 */
 
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.NJ})
+	@StateList(states = {Constants.States.KY, Constants.States.AZ, Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-30649")
-	public void pas30649_testCancelNoticeOnPolicy(@Optional("NJ") String state) {
+	public void pas30649_testCancelNoticeOnPolicy(@Optional("") String state) {
 		String expectedMessage = "Pended Cancellation Exists.";
 
 		mainApp().open();
@@ -95,10 +95,10 @@ public class TestCancelNoticeOnRenewalVerification extends PolicyOperations {
 	 */
 
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ})
+	@StateList(states = {Constants.States.KY, Constants.States.AZ, Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-30649")
-	public void pas30649_testCancelNoticeOnRenewalDataGathering(@Optional("AZ") String state) {
+	public void pas30649_testCancelNoticeOnRenewalDataGathering(@Optional("") String state) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -146,10 +146,10 @@ public class TestCancelNoticeOnRenewalVerification extends PolicyOperations {
 	 * 9. Expected results: Renewal proposal should be created successfully
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.KY})
+	@StateList(states = {Constants.States.KY, Constants.States.AZ, Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-30649")
-	public void pas30649_testCancelNoticeOnRenewalPremiumCalculated(@Optional("KY") String state) {
+	public void pas30649_testCancelNoticeOnRenewalPremiumCalculated(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		TestData policyTD = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData")
