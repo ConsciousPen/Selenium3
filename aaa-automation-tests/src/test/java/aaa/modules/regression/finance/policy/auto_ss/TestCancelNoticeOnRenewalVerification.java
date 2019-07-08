@@ -1,6 +1,15 @@
 package aaa.modules.regression.finance.policy.auto_ss;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import aaa.helpers.billing.BillingHelper;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
+import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.pages.summary.BillingSummaryPage;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -176,6 +185,79 @@ public class TestCancelNoticeOnRenewalVerification extends PolicyOperations {
 		policy.deleteCancelNotice().perform(new SimpleDataProvider());
 		assertThat(PolicySummaryPage.labelCancelNotice).isPresent(false);
 		renewalOfferGeneration(policyNumber, expirationDate);
+	}
+
+	/**
+	 * @author Andrii Voievodin
+	 * Objectives : Cancel Notice On Renewal
+	 * Preconditions:
+	 * 1. Create Policy
+	 * 2. Make payment - for 9 instalm.
+	 * 3. At R-45 Create Renewal: Status - Premium calculated
+	 * 4. At R-40 Add Cancel Notice
+	 * 5. Proposed renewal - renewal should be in Premium Calculated status, because Cancel Notice is added
+	 * 6. At R-30 Make payment - Min due - Cancel Notice Flag is removed
+	 * 7. Propose renewal - Renewal is successfully proposed
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.KY, Constants.States.AZ, Constants.States.NJ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-31941")
+	public void pas31941_testCancelNoticeOnRenewalProposeRenewal(@Optional("KY") String state) {
+		//Create Policy
+		mainApp().open();
+		createCustomerIndividual();
+		TestData policyTD = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData")
+				.adjust("PremiumAndCoveragesTab|Payment Plan", BillingConstants.PaymentPlan.AUTO_ELEVEN_PAY).resolveLinks();
+		String policyNumber = createPolicy(policyTD);
+		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
+
+		//Make payment - for 9 instalm.
+		BillingSummaryPage.open();
+		List<Dollar> installmentAmounts = BillingHelper.getInstallmentDues();
+		Dollar paymentAmount = BillingHelper.DZERO;
+		for (int i = 1; i < 8; i++) {
+			paymentAmount = paymentAmount.add(installmentAmounts.get(i));
+		}
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), paymentAmount);
+		billingAccount.generateFutureStatement().perform();
+
+		//At R-45 Create Renewal: Status - Premium calculated
+		renewalPreviewGeneration(policyNumber, expirationDate);
+		Tab.buttonBack.click();
+
+		//At R-40 Add Cancel Notice
+		TimeSetterUtil.getInstance().nextPhase(expirationDate.minusDays(40));
+		searchForPolicy(policyNumber);
+
+		log.info("TEST: Cancel Notice for Policy #" + policyNumber);
+		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
+		assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
+
+		//Proposed renewal - renewal should be in Premium Calculated status, because Cancel Notice is added
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		searchForPolicy(policyNumber);
+
+		PolicySummaryPage.buttonRenewals.click();
+		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
+		Tab.buttonBack.click();
+
+		//At R-30 Make payment - Min due - Cancel Notice Flag is removed
+		TimeSetterUtil.getInstance().nextPhase(expirationDate.minusDays(30));
+		searchForPolicy(policyNumber);
+		BillingSummaryPage.open();
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), BillingHelper.getPolicyMinimumDueAmount(policyNumber));
+
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
+		PolicySummaryPage.tableSelectPolicy.getRow(1).getCell(1).controls.links.get(1).click();
+		assertThat(PolicySummaryPage.labelCancelNotice).isAbsent();
+
+		//Propose renewal - Renewal is successfully proposed
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		searchForPolicy(policyNumber);
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
+		PolicySummaryPage.buttonRenewals.click();
+		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 	}
 
 	private void verifyProposedButton() {
