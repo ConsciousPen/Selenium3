@@ -6772,6 +6772,48 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
+	protected void pas31098_body(TestData testData, String ownershipType) {
+		String policyNumber = openAppAndCreatePolicy(testData);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		//get Oid of vehicle to replace
+		Vehicle vehicleToReplace = HelperCommon.viewEndorsementVehicles(policyNumber).vehicleList.get(0);
+		String replacedVehicleVin = "KNDJX3AA0J7895376"; //2018 KIA Soul
+
+		ReplaceVehicleRequest replaceVehicleRequest = DXPRequestFactory.createReplaceVehicleRequest(replacedVehicleVin, "2013-03-31", true, true);
+		VehicleUpdateResponseDto replaceVehicleResponse = HelperCommon.replaceVehicle(policyNumber, vehicleToReplace.oid, replaceVehicleRequest, VehicleUpdateResponseDto.class, Response.Status.OK.getStatusCode());
+
+		String zipCode = "23703";
+		String addressLine1 = "4112 FORREST HILLS DR";
+		String addressLine2 = "Apt. 202";
+		String city = "PORTSMOUTH";
+		String state = "VA";
+		String otherName = "other name";
+		String secondName = "Second Name";
+
+		//Update vehicle Leased Financed Info
+		VehicleUpdateDto updateVehicleLeasedFinanced = new VehicleUpdateDto();
+		updateVehicleLeasedFinanced.vehicleOwnership = new VehicleOwnership();
+		updateVehicleLeasedFinanced.vehicleOwnership.addressLine1 = addressLine1;
+		updateVehicleLeasedFinanced.vehicleOwnership.addressLine2 = addressLine2;
+		updateVehicleLeasedFinanced.vehicleOwnership.city = city;
+		updateVehicleLeasedFinanced.vehicleOwnership.stateProvCd = state;
+		updateVehicleLeasedFinanced.vehicleOwnership.postalCode = zipCode;
+		updateVehicleLeasedFinanced.vehicleOwnership.ownership = ownershipType;
+		updateVehicleLeasedFinanced.vehicleOwnership.name = otherName;
+		updateVehicleLeasedFinanced.vehicleOwnership.secondName = secondName;
+		HelperCommon.updateVehicle(policyNumber, replaceVehicleResponse.oid, updateVehicleLeasedFinanced);
+		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, replaceVehicleResponse.oid);//usage needed to bind
+
+		//Verify that Comp and coll is applied
+		VehicleCoverageInfo newVehicleCoverageList = findVehicleCoverages(HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class), replaceVehicleResponse.oid);
+		Coverage covCompded = findCoverage(newVehicleCoverageList.coverages, "COMPDED");
+		Coverage covCollded = findCoverage(newVehicleCoverageList.coverages, "COLLDED");
+		assertThat(covCompded.getCoverageLimit()).isEqualTo("250");//state default value
+		assertThat(covCollded.getCoverageLimit()).isEqualTo("500");//state default value
+
+	}
+
 	private void remove4DriversAndCheck_pas15363(String policyNumber, Coverage covPIPCOVINCLUDESExpected) {
 		remove4Drivers(policyNumber);
 		ViewDriversResponse endorsementDrivers = HelperCommon.viewEndorsementDrivers(policyNumber);
