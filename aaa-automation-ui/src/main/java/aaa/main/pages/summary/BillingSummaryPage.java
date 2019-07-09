@@ -26,6 +26,7 @@ public class BillingSummaryPage extends SummaryPage {
 	public static StaticElement labelBillingAccountNumber = new StaticElement(By.id("billingDetailedForm:general_info_table:0:accountNumber"));
 	public static StaticElement labelBillingAccountName = new StaticElement(By.xpath("//*[@id='billingInfoForm']/div/table/tbody/tr[1]/td[1]//div[2]/span"));
     public static StaticElement labelBillingAccountStatus = new StaticElement(By.id("billingInfoForm:status"));
+    public static StaticElement labelPolicyEffectiveDate = new StaticElement(By.id("billingInfoForm:formatedEffectiveDate"));
 	public static Table tableBillingGeneralInformation = new Table(By.id("billingDetailedForm:general_info_table"));
 	public static Table tableBillingAccountPolicies = new Table(By.id("billingDetailedForm:billing_policies_info_table"));
 	public static TableWithPages tableInstallmentSchedule = new TableWithPages(By.id("billingDetailedForm:billing_installments_info_table"), PAGINATION_LOCATOR

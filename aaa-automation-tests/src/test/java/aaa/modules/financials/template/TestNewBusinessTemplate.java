@@ -4,7 +4,12 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import aaa.main.modules.billing.account.actiontabs.AdvancedAllocationsActionTab;
+import aaa.main.modules.billing.account.actiontabs.OtherTransactionsActionTab;
+import aaa.toolkit.webdriver.customcontrols.AdvancedAllocationsRepeatAssetList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
@@ -31,6 +36,8 @@ import toolkit.webdriver.controls.TextBox;
 
 public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
+    private OtherTransactionsActionTab otherTransactionsActionTab = new OtherTransactionsActionTab();
+    private AdvancedAllocationsActionTab advancedAllocationsActionTab = new AdvancedAllocationsActionTab();
     private BillingAccount billingAccount = new BillingAccount();
     private TestData tdBilling = testDataManager.billingAccount;
     private Dollar zeroDollars = new Dollar(0.00);
@@ -724,30 +731,93 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
      * @scenario
      * 1. Create policy
      * 2. Create Other Transaction - adjustment - Write off with positive & negative values
-     * 9. Validate ledger entries - Write-off
+     * 3. Validate ledger entries - Write-off
+     * 4. Create Other Transaction - adjustment - Write off, Advanced allocations
+     * 5. Validate ledger entries - Write-off, Advanced allocations
+     * 6. Create Other Transaction - adjustment - Write off, Advanced allocations negate
+     * 7. Validate ledger entries - Write-off, Advanced allocations negate
      * @details ADJ-03
      */
     protected void testNewBusinessScenario_7() {
-        //Create policy
+        TestData writeOffTD = tdBilling.getTestData("Transaction", "TestData_WriteOff");
+        //1. Create policy
         mainApp().open();
         createCustomerIndividual();
         String policyNumber = createFinancialPolicy();
 
-        //Create Other Transaction - adjustment - Write off
+        //2. Create Other Transaction - adjustment - Write off
         BillingSummaryPage.open();
-        billingAccount.otherTransactions().perform(tdBilling.getTestData("Transaction", "TestData_WriteOff"), new Dollar(100));
+        billingAccount.otherTransactions().perform(writeOffTD, new Dollar(100));
         Dollar writeOffPositiveAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT,
                 BillingConstants.PaymentsAndOtherTransactionSubtypeReason.WRITE_OFF);
-        billingAccount.otherTransactions().perform(tdBilling.getTestData("Transaction", "TestData_WriteOff"));
+        billingAccount.otherTransactions().perform(writeOffTD, new Dollar(100).negate());
         Dollar writeOffNegativeAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT,
                 BillingConstants.PaymentsAndOtherTransactionSubtypeReason.WRITE_OFF);
 
-        //ADJ-03 Validate ledger entries - Write-off
+        //3. ADJ-03 Validate ledger entries - Write-off
         assertSoftly(softly -> {
             softly.assertThat(writeOffPositiveAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.WRITEOFF, "1044"));
             softly.assertThat(writeOffPositiveAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.WRITEOFF, "1041"));
             softly.assertThat(writeOffNegativeAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.WRITEOFF, "1041"));
             softly.assertThat(writeOffNegativeAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.WRITEOFF, "1044"));
+        });
+
+        //4. Create Other Transaction - adjustment - Write off, Advanced allocations
+        BillingSummaryPage.linkOtherTransactions.click();
+        otherTransactionsActionTab.fillTab(writeOffTD.adjust(TestData.makeKeyPath(OtherTransactionsActionTab.class.getSimpleName(), BillingAccountMetaData.OtherTransactionsActionTab.AMOUNT.getLabel()), new Dollar(100).toString()));
+        AdvancedAllocationsActionTab.linkAdvancedAllocation.click();
+
+        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+                .getAsset(AdvancedAllocationsRepeatAssetList.NET_PREMIUM, TextBox.class, 0).setValue("70");
+        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+                .getAsset(AdvancedAllocationsRepeatAssetList.POLICY_FEE, TextBox.class, 0).setValue("20");
+        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+                .getAsset(AdvancedAllocationsRepeatAssetList.PLIGA_FEE, TextBox.class, 0).setValue("10");
+        advancedAllocationsActionTab.submitTab();
+
+        //5. ADJ-03 Validate ledger entries - Write-off, Advanced allocations
+        String effectiveDate = BillingSummaryPage.labelPolicyEffectiveDate.getValue();
+        String accountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
+        List<String> transactionIds = FinancialsSQL.getTransactionIdsForAccount(accountNumber);
+        int index = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.WRITE_OFF);
+        String paymentTransferAdjId = transactionIds.get(index);
+
+        Map<String, Dollar> paymentTransferAllocations = getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.WRITE_OFF, TimeSetterUtil.getInstance().getCurrentTime());
+
+        assertSoftly(softly -> {
+            softly.assertThat(paymentTransferAllocations.get(AdvancedAllocationsRepeatAssetList.NET_PREMIUM + effectiveDate)).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(paymentTransferAdjId, FinancialsSQL.TxType.WRITEOFF, "1044")).isEqualTo(new Dollar(70));
+            softly.assertThat(paymentTransferAllocations.get(AdvancedAllocationsRepeatAssetList.POLICY_FEE + effectiveDate)).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(paymentTransferAdjId, FinancialsSQL.TxType.POLICY_FEE, "1034")).isEqualTo(new Dollar(20));
+            softly.assertThat(paymentTransferAllocations.get(AdvancedAllocationsRepeatAssetList.PLIGA_FEE + effectiveDate)).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(paymentTransferAdjId, FinancialsSQL.TxType.PLIGA_FEE, "1034")).isEqualTo(new Dollar(10));
+            softly.assertThat(writeOffPositiveAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(paymentTransferAdjId, FinancialsSQL.TxType.WRITEOFF, "1041"));
+        });
+
+        //6. Create Other Transaction - adjustment - Write off, Advanced allocations negate
+        BillingSummaryPage.linkOtherTransactions.click();
+        otherTransactionsActionTab.fillTab(writeOffTD.adjust(TestData.makeKeyPath(OtherTransactionsActionTab.class.getSimpleName(), BillingAccountMetaData.OtherTransactionsActionTab.AMOUNT.getLabel()), new Dollar(100).negate().toString()));
+        AdvancedAllocationsActionTab.linkAdvancedAllocation.click();
+
+        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+                .getAsset(AdvancedAllocationsRepeatAssetList.NET_PREMIUM, TextBox.class, 0).setValue("-70");
+        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+                .getAsset(AdvancedAllocationsRepeatAssetList.POLICY_FEE, TextBox.class, 0).setValue("-20");
+        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+                .getAsset(AdvancedAllocationsRepeatAssetList.PLIGA_FEE, TextBox.class, 0).setValue("-10");
+        advancedAllocationsActionTab.submitTab();
+
+        //7. ADJ-03 Validate ledger entries - Write-off, Advanced allocations negate
+        transactionIds = FinancialsSQL.getTransactionIdsForAccount(accountNumber);
+        index = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.WRITE_OFF);
+        String paymentTransferAdjIdNegate = transactionIds.get(index);
+
+        Map<String, Dollar> paymentTransferAllocationsNegate = getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.WRITE_OFF, TimeSetterUtil.getInstance().getCurrentTime());
+
+        assertSoftly(softly -> {
+            softly.assertThat(paymentTransferAllocationsNegate.get(AdvancedAllocationsRepeatAssetList.NET_PREMIUM + effectiveDate).negate()).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(paymentTransferAdjIdNegate, FinancialsSQL.TxType.WRITEOFF, "1044")).isEqualTo(new Dollar(70));
+            softly.assertThat(paymentTransferAllocationsNegate.get(AdvancedAllocationsRepeatAssetList.POLICY_FEE + effectiveDate).negate()).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(paymentTransferAdjIdNegate, FinancialsSQL.TxType.POLICY_FEE, "1034")).isEqualTo(new Dollar(20));
+            softly.assertThat(paymentTransferAllocationsNegate.get(AdvancedAllocationsRepeatAssetList.PLIGA_FEE + effectiveDate).negate()).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(paymentTransferAdjIdNegate, FinancialsSQL.TxType.PLIGA_FEE, "1034")).isEqualTo(new Dollar(10));
+            softly.assertThat(writeOffNegativeAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(paymentTransferAdjIdNegate, FinancialsSQL.TxType.WRITEOFF, "1041"));
         });
     }
 
