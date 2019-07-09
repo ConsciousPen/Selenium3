@@ -1,21 +1,20 @@
 package aaa.modules.regression.sales.pup;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import aaa.helpers.constants.Groups;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.utils.TestInfo;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderwritingAndApprovalTab;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
+import toolkit.utils.TestInfo;
 
 public class TestQuoteAdvancedRater extends PersonalUmbrellaBaseTest {
 

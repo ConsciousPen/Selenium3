@@ -108,7 +108,8 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
 	}
 
 	private void precondition() {
-		getCopiedQuote();
+		createCustomerIndividual();
+		createQuote();
 		policy.calculatePremium(getPolicyTD());
 		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERWRITING_AND_APPROVAL.get());
 		policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).fillTab(getPolicyTD());

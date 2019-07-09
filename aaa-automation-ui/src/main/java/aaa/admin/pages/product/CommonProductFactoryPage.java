@@ -1,9 +1,7 @@
 package aaa.admin.pages.product;
 
 import org.openqa.selenium.By;
-
-import com.exigen.ipb.etcsa.controls.productfactory.custom.PFButton;
-
+import com.exigen.ipb.eisa.controls.productfactory.custom.PFButton;
 import aaa.common.pages.Page;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.waiters.Waiters;

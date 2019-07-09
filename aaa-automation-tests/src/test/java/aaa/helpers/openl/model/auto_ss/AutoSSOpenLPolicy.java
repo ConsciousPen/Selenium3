@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
@@ -542,4 +541,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	public Boolean isSupplementalSpousalLiability() {
 		return supplementalSpousalLiability;
 	}
+
+	@Override
+	public void setIsOneYearBeforePolicy() {}
 }

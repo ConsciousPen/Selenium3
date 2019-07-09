@@ -2,9 +2,9 @@
 <suite name="Production data aging jobs suite" verbose="1">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test" />
+
 
     <parameter name="state" value="UT"/>
     <test name="Batch Marker">

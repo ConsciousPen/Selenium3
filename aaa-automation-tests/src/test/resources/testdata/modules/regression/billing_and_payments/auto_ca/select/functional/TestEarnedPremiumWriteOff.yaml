@@ -9,14 +9,14 @@ TestData_Endorsement: {
     Existing Damage: None,
     "Salvaged?": 'No',
     Odometer Reading: 3000
-},
+  },
   AssignmentTab: {
-  DriverVehicleRelationshipTable: [{
-    Vehicle: '2011, MERCEDES-BENZ, G55AMG',
-    Primary Driver: index=1,
-    Manually Rated Driver: index=1
-  }]
-},
+    DriverVehicleRelationshipTable: [{
+                                       Vehicle: '2011, MERCEDES-BENZ, G55AMG',
+                                       Primary Driver: index=1,
+                                       Manually Rated Driver: index=1
+                                     }]
+  },
   FormsTab: {},
   PremiumAndCoveragesTab: {
     Bodily Injury Liability: 'contains=$1,000,000/$1,000,000',

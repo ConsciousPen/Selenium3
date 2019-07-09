@@ -11,8 +11,8 @@ import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
@@ -21,8 +21,8 @@ import aaa.helpers.billing.BillingInstallmentsScheduleVerifier;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.impl.PasDocImpl;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.pasdoc.DataElement;
 import aaa.helpers.xml.model.pasdoc.Document;
 import aaa.helpers.xml.model.pasdoc.DocumentGenerationRequest;
@@ -79,7 +79,7 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 
 		//1b DD1+8
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(1)));
-		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationNoticeAsyncJob);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 
@@ -87,7 +87,7 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		//1c cancelDueDate(+8)
 		LocalDateTime cancelDueDate = getTimePoints().getCancellationDate(DateTimeUtils.getCurrentDateTime());
 		TimeSetterUtil.getInstance().nextPhase(cancelDueDate);
-		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationConfirmationAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
@@ -113,13 +113,13 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 
 		//2d DD3+8
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(3)));
-		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationNoticeAsyncJob);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		//2e cancelDueDate(+8)
 		LocalDateTime cancelDueDate2 = getTimePoints().getCancellationDate(DateTimeUtils.getCurrentDateTime());
 		TimeSetterUtil.getInstance().nextPhase(cancelDueDate2);
-		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationConfirmationAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
@@ -144,14 +144,14 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		new BillingBillsAndStatementsVerifier().setDueDate(installmentDueDate.get(5)).setType(BILL).verifyPresent();
 		//1d DD5+8
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDate.get(5)));
-		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationNoticeAsyncJob);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
 		//1e cancelDueDate(+8)
 		LocalDateTime cancelDueDate3 = getTimePoints().getCancellationDate(DateTimeUtils.getCurrentDateTime());
 		TimeSetterUtil.getInstance().nextPhase(cancelDueDate3);
-		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationConfirmationAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH63XX);
@@ -292,7 +292,7 @@ public class PasDoc_OnlineBatch_Cancel extends AutoSSBaseTest {
 		renewalDueDate = PolicySummaryPage.getExpirationDate();
 		policy.doNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(renewalDueDate));
-		JobUtils.executeJob(Jobs.policyDoNotRenewAsyncJob);
+		JobUtils.executeJob(BatchJob.policyDoNotRenewAsyncJob);
 		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH65XX);
 	}
 

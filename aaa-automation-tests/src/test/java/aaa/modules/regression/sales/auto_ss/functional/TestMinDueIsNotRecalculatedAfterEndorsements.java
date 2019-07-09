@@ -5,16 +5,16 @@ import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -65,7 +65,7 @@ public class TestMinDueIsNotRecalculatedAfterEndorsements extends AutoSSBaseTest
 		moveTimeAndRunRenewJobs(policyExpDate.minusDays(45));
 		moveTimeAndRunRenewJobs(policyExpDate.minusDays(35));
 		TimeSetterUtil.getInstance().nextPhase(policyExpDate.minusDays(20));
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 		TimeSetterUtil.getInstance().nextPhase(policyExpDate.minusDays(17));
 
 		// Save Min Due for Renewal Proposal

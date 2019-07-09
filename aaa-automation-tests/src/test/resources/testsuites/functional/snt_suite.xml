@@ -3,10 +3,8 @@
     <listeners>
         <!-- Listener commented out for local runs-->
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
-
     <test name="General tab/Named Insured Information section/Comparison SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -433,7 +431,6 @@
             </class>
         </classes>
     </test>
-
     <test name="Atomic Merge Assignment Tab CA Select" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
@@ -451,7 +448,6 @@
             </class>
         </classes>
     </test>
-
     <test name="Atomic Merge Assignment Tab CA Choice" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
@@ -469,7 +465,6 @@
             </class>
         </classes>
     </test>
-
     <test name="Regression OOSE" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -477,7 +472,6 @@
             </class>
         </classes>
     </test>
-
     <test name="Regression Renewal OOSE" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
@@ -485,5 +479,4 @@
             </class>
         </classes>
     </test>
-
 </suite>

@@ -1,12 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional.preconditions;
 
-import aaa.config.CsaaTestProperties;
-import toolkit.config.PropertyProvider;
-
 public interface EvalueInsertSetupPreConditions {
-
-	String APP_HOST = PropertyProvider.getProperty(CsaaTestProperties.APP_HOST);
-	String APP_STUB_URL = PropertyProvider.getProperty("app.stub.urltemplate");
 
 	String DELETE_OLD_TASKS1 = "delete from ACT_RU_identitylink";
 	String DELETE_OLD_TASKS2 = "delete from ACT_RU_TASK";
@@ -93,7 +87,7 @@ public interface EvalueInsertSetupPreConditions {
 			+ "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifications'))";
 
 	String PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE = "update PROPERTYCONFIGURERENTITY\n"
-			+ "set value ='http://%s%srecordFinancialAccount.do'\n"
+			+ "set value ='%s/recordFinancialAccount.do'\n"
 			+ "where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')\n";
 
 	String PAPERLESS_PREFERENCE_API_SERVICE_UPDATE = "update propertyconfigurerentity\n"
@@ -129,11 +123,11 @@ public interface EvalueInsertSetupPreConditions {
 			+ "('AAARolloutEligibilityLookupValue', 'AHDEXX', 'TRUE', 'AAA_SS', '%s', null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
 	String CHANNEL_ID_RESOLVER_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
-			+ "set value = 'http://%s%sws/channelIdResolver'\n"
+			+ "set value = '%s/ws/channelIdResolver'\n"
 			+ "where propertyname = 'channelIdRetrievalServiceImpl.channelIdRetrievalUri'";
 
 	String RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
-			+ "set value = 'http://%s%sws/membershipsummary'\n"
+			+ "set value = '%sws/membershipsummary'\n"
 			+ "where propertyname = 'retrieveMembershipSummaryServiceImpl.endpointRetrieveMembershipSummaryUri'";
 
 	String EVALUE_MEMBERSHIP_CONFIG_ACKNOWLEDGEMENT_INSERT = "INSERT ALL\n"
@@ -190,7 +184,7 @@ public interface EvalueInsertSetupPreConditions {
 	String PENDING_REFUND_CONFIGURATION_UPDATE = "update BILLINGREFUNDPAYMENTMETHOD set DEFAULTREFUNDMETHOD = 'pcDisbursementEngine' where id = (select id from BILLINGREFUNDPAYMENTMETHOD)";
 
 	String AUTHENTICATION_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
-			+ "set value = lower('http://%s%sws/local/authentication')\n"
+			+ "set value = lower('%s/ws/local/authentication')\n"
 			+ "where propertyname = 'oAuthClient.oAuthPingUri'";
 
 	String DELETE_UNNECESSARY_PRIVILEGE_FROM_ALL_ROLES = "delete from s_role_privileges\n"

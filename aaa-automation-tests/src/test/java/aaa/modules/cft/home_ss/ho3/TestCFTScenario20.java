@@ -4,19 +4,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.Constants;
-import aaa.utils.StateList;
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.actiontabs.EndorsementActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.utils.StateList;
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
 
 public class TestCFTScenario20 extends ControlledFinancialBaseTest {
 

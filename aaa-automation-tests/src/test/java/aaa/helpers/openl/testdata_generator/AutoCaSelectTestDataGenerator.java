@@ -6,7 +6,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomUtils;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.openl.model.AutoOpenLCoverage;
 import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLCoverage;
