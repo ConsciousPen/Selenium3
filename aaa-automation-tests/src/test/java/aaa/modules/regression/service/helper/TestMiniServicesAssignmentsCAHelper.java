@@ -1,5 +1,11 @@
 package aaa.modules.regression.service.helper;
 
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.ws.rs.core.Response;
 import aaa.common.enums.Constants;
 import aaa.helpers.TestDataManager;
 import aaa.helpers.rest.dtoDxp.*;
@@ -7,21 +13,22 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.AssignmentTab;
-import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 
-import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-
 public class TestMiniServicesAssignmentsCAHelper extends TestMiniServicesAssignmentsHelper {
+
+	/**Assigns any driver to all vehicles for CA Policy*/
+	public static void makeAssignmentsForCA(String policyNumber) {
+		if (getState().equals(Constants.States.CA)) {
+			ViewDriverAssignmentResponse viewDriverAssignmentResponse = HelperCommon.viewEndorsementAssignments(policyNumber);
+			DriversDto driverToAssign = HelperCommon.viewEndorsementDrivers(policyNumber).driverList.get(0);
+			for (String vehicleOid : viewDriverAssignmentResponse.unassignedVehicles) {
+				HelperCommon.updateDriverAssignment(policyNumber, vehicleOid, Collections.singletonList(driverToAssign.oid));
+			}
+		}
+	}
 
 	protected void pas15195_DriverAssignmentAutoAssign1DMVBody() {
 		TestData td = createPolicyWithMoreThanOneVehicle("TestData_1D2V");
@@ -282,18 +289,6 @@ public class TestMiniServicesAssignmentsCAHelper extends TestMiniServicesAssignm
 		getHelperMiniServices().endorsementRateAndBind(policyNumber);
 	}
 
-	private void verifyDriverAssignment(String policyNumber, Vehicle vehicle1, Vehicle vehicle2, DriversDto driver1, DriversDto driver2, Integer driverCt, Integer vehicleCt) {
-		ViewDriverAssignmentResponse endorsementDriverAssignmentsResponse = HelperCommon.viewEndorsementAssignments(policyNumber);
-		assertSoftly(softly -> {
-			softly.assertThat(endorsementDriverAssignmentsResponse.assignableDrivers.size()).isEqualTo(driverCt);
-			softly.assertThat(endorsementDriverAssignmentsResponse.assignableVehicles.size()).isEqualTo(vehicleCt);
-
-			softly.assertThat(assignmentExistsForDriverVehicle(driver1.oid, vehicle2.oid, endorsementDriverAssignmentsResponse.driverVehicleAssignments)).isTrue();
-			softly.assertThat(assignmentExistsForDriverVehicle(driver2.oid, vehicle1.oid, endorsementDriverAssignmentsResponse.driverVehicleAssignments)).isTrue();
-
-		});
-	}
-
 	protected void pas15412_DriverAssignmentViewAssignmentsBody() {
 		TestData td = createPolicyWithMoreThanOneDriverAndVehicle("TestData_7D6V", "TestData_7D6V", "TestData_7D6V");
 		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
@@ -361,14 +356,15 @@ public class TestMiniServicesAssignmentsCAHelper extends TestMiniServicesAssignm
 		});
 	}
 
-	/**Assigns any driver to all vehicles for CA Policy*/
-	public static void makeAssignmentsForCA(String policyNumber) {
-		if (getState().equals(Constants.States.CA)) {
-			ViewDriverAssignmentResponse viewDriverAssignmentResponse = HelperCommon.viewEndorsementAssignments(policyNumber);
-			DriversDto driverToAssign = HelperCommon.viewEndorsementDrivers(policyNumber).driverList.get(0);
-			for (String vehicleOid : viewDriverAssignmentResponse.unassignedVehicles) {
-				HelperCommon.updateDriverAssignment(policyNumber, vehicleOid, Collections.singletonList(driverToAssign.oid));
-			}
-		}
+	private void verifyDriverAssignment(String policyNumber, Vehicle vehicle1, Vehicle vehicle2, DriversDto driver1, DriversDto driver2, Integer driverCt, Integer vehicleCt) {
+		ViewDriverAssignmentResponse endorsementDriverAssignmentsResponse = HelperCommon.viewEndorsementAssignments(policyNumber);
+		assertSoftly(softly -> {
+			softly.assertThat(endorsementDriverAssignmentsResponse.assignableDrivers.size()).isEqualTo(driverCt);
+			softly.assertThat(endorsementDriverAssignmentsResponse.assignableVehicles.size()).isEqualTo(vehicleCt);
+
+			softly.assertThat(assignmentExistsForDriverVehicle(driver1.oid, vehicle2.oid, endorsementDriverAssignmentsResponse.driverVehicleAssignments)).isTrue();
+			softly.assertThat(assignmentExistsForDriverVehicle(driver2.oid, vehicle1.oid, endorsementDriverAssignmentsResponse.driverVehicleAssignments)).isTrue();
+
+		});
 	}
 }

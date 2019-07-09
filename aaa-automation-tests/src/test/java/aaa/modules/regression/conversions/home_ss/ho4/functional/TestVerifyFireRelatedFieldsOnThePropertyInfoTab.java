@@ -5,16 +5,16 @@ import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -129,7 +129,7 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSHO4Ba
 		policyExpirationDate = PolicySummaryPage.getExpirationDate().plusYears(1);
 		renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyEffectiveDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate);
 
 		mainApp().reopen();
@@ -147,7 +147,7 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends HomeSSHO4Ba
 
 	private void initiateSecondRenewal() {
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 	}

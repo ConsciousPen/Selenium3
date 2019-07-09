@@ -3,11 +3,10 @@
 package aaa.admin.modules.product.productfactory.policy;
 
 import org.openqa.selenium.By;
-
-import com.exigen.ipb.etcsa.controls.dialog.DialogAssetList;
-import com.exigen.ipb.etcsa.controls.productfactory.custom.PFButton;
-import com.exigen.ipb.etcsa.controls.productfactory.custom.PFLink;
-
+import com.exigen.ipb.eisa.controls.dialog.DialogAssetList;
+import com.exigen.ipb.eisa.controls.dialog.type.AbstractDialog;
+import com.exigen.ipb.eisa.controls.productfactory.custom.PFButton;
+import com.exigen.ipb.eisa.controls.productfactory.custom.PFLink;
 import aaa.admin.metadata.product.ProductMetaData;
 import aaa.admin.modules.product.productfactory.IProductFactory;
 import aaa.admin.modules.product.productfactory.ProductFactoryActions.Copy;
@@ -26,7 +25,7 @@ import toolkit.webdriver.controls.waiters.ElementWaiter;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 public class ProductFactoryPolicy implements IProductFactory {
-    DialogAssetList dialogAssetlistSelectProductType = new DialogAssetList(DialogAssetList.POPUP_PARENT_LOCATOR, ProductMetaData.ProductProductFactorySelectProductType.class);
+	DialogAssetList dialogAssetlistSelectProductType = new DialogAssetList(AbstractDialog.POPUP_PARENT_LOCATOR, ProductMetaData.ProductProductFactorySelectProductType.class);
     Link linkNavigateHome = new Link(By.xpath("//a[contains(@id,'nav:routes') and .='Home']"));
     PFButton buttonActivateAnyWay = new PFButton(By.id("lookupErrorForm:deploy-anyway"));
     PFButton buttonMenuSwitcher = new PFButton(By.xpath("//div[@role='button' and @class='product-wrapper waves-effect']"));

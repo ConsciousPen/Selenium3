@@ -1,13 +1,12 @@
 package aaa.modules.bct.batch;
 
-import static aaa.helpers.jobs.Jobs.*;
+import static aaa.helpers.jobs.BatchJob.*;
 import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.helpers.jobs.Job;
 import aaa.modules.policy.BackwardCompatibilityBaseTest;
 
 public class ParallelAgingJobs extends BackwardCompatibilityBaseTest {
@@ -29,7 +28,7 @@ public class ParallelAgingJobs extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {"policyAutomatedRenewalAsyncTaskGenerationJob"}, dependsOnGroups = {"policyStatusUpdateJob"}, alwaysRun = true)
 	public void RUN_03_AAAPOLICYAUTOMATEDRENEWALASYNCTASKGENERATIONJOB(@Optional("") String state) {
-		executeBatchTest(new Job("aaaPolicyAutomatedRenewalAsyncTaskGenerationJob", Collections.singletonMap("JOB_UI_PARAMS", "t")));
+		executeBatchTest(aaaPolicyAutomatedRenewalAsyncTaskGenerationJob.setJobParameters(Collections.singletonMap("JOB_UI_PARAMS", "t")));
 	}
 
 	@Parameters({"state"})
@@ -53,7 +52,7 @@ public class ParallelAgingJobs extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {"aaaRecurringPaymentsAsyncProcessJob"}, dependsOnGroups = {"policyStatusUpdateJob"}, alwaysRun = true)
 	public void RUN_07_AAARECURRINGPAYMENTSASYNCPROCESSJOB(@Optional("") String state) {
-		executeBatchTest(new Job("aaaRecurringPaymentsAsyncProcessJob"));
+		executeBatchTest(aaaRecurringPaymentsAsyncProcessJob);
 	}
 
 	@Parameters({"state"})
@@ -71,7 +70,7 @@ public class ParallelAgingJobs extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {"changeCancellationPendingPoliciesStatusJob"}, dependsOnGroups = {"premiumReceivablesOnPolicyEffectiveJob"}, alwaysRun = true)
 	public void RUN_10_CHANGECANCELLATIONPENDINGPOLICIESSTATUSJOB(@Optional("") String state) {
-		executeBatchTest(new Job("changeCancellationPendingPoliciesStatusJob"));
+		executeBatchTest(changeCancellationPendingPoliciesStatusJob);
 	}
 
 	@Parameters({"state"})
@@ -89,13 +88,13 @@ public class ParallelAgingJobs extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {"aaaCollectionCancellDebtBatchAsyncJob"}, dependsOnGroups = {"aaaCancellationConfirmationAsyncJob"}, alwaysRun = true)
 	public void RUN_13_AAACOLLECTIONCANCELLDEBTBATCHASYNCJOB(@Optional("") String state) {
-		executeBatchTest(new Job("aaaCollectionCancellDebtBatchAsyncJob"));
+		executeBatchTest(aaaCollectionCancellDebtBatchAsyncJob);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {"collectionFeedBatchOrderJob"}, dependsOnGroups = {"aaaCollectionCancellDebtBatchAsyncJob"}, alwaysRun = true)
 	public void RUN_14_COLLECTIONFEEDBATCHORDERJOB(@Optional("") String state) {
-		executeBatchTest(collectionFeedBatchorderJob);
+		executeBatchTest(collectionFeedBatchOrderJob);
 	}
 
 	@Parameters({"state"})

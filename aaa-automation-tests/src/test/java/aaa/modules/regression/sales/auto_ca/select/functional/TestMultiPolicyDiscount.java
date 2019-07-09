@@ -1,5 +1,9 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -12,10 +16,6 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.modules.regression.sales.template.functional.TestMultiPolicyDiscountAbstract;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
@@ -836,7 +836,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.DATE_OF_BIRTH.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.DATE_OF_BIRTH.getControlClass()).setValue(dateOfBirth);
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADDRESS_LINE_1.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADDRESS_LINE_1.getControlClass()).setValue(address);
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.CITY.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.CITY.getControlClass()).setValue(city);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getLabel(), (AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getControlClass())).setValue(state);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getControlClass()).setValue(state);
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
     }
 }

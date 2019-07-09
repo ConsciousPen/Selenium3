@@ -1,6 +1,6 @@
 package aaa.modules.openl;
 
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLDriver;

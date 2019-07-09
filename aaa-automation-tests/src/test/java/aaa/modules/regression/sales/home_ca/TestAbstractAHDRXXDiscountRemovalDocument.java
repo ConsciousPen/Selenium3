@@ -1,36 +1,23 @@
 package aaa.modules.regression.sales.home_ca;
 
-import aaa.common.pages.SearchPage;
-import aaa.helpers.TestDataHelper;
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
-import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.DocGenEnum;
-import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeCaHO4BaseTest;
-import aaa.modules.policy.PolicyBaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.apache.commons.lang.StringUtils;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import toolkit.datax.TestData;
-import toolkit.db.DBService;
-import toolkit.utils.TestInfo;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomSoftAssertions;
-import toolkit.verification.ETCSCoreSoftAssertions;
-
-import java.time.LocalDateTime;
-import java.util.function.Supplier;
-
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.modules.regression.sales.auto_ca.select.functional.TestEValueMembershipProcess.retrieveMembershipSummaryEndpointCheck;
 import static org.assertj.core.api.Assertions.assertThat;
+import java.time.LocalDateTime;
+import org.apache.commons.lang.StringUtils;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import aaa.common.pages.SearchPage;
+import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.jobs.JobUtils;
+import aaa.main.enums.DocGenEnum;
+import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.policy.PolicyBaseTest;
+import toolkit.datax.TestData;
+import toolkit.db.DBService;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public abstract class TestAbstractAHDRXXDiscountRemovalDocument extends PolicyBaseTest {
 
@@ -62,12 +49,12 @@ public abstract class TestAbstractAHDRXXDiscountRemovalDocument extends PolicyBa
 
 	private void jobsNBplus15plus30runNoChecks(LocalDateTime dateToShiftTo) {
 		TimeSetterUtil.getInstance().nextPhase(dateToShiftTo);
-		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
-		JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
-		JobUtils.executeJob(Jobs.automatedProcessingRunReportsServicesJob);
-		JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
-		JobUtils.executeJob(Jobs.automatedProcessingStrategyStatusUpdateJob);
-		JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
+		JobUtils.executeJob(BatchJob.aaaAutomatedProcessingInitiationJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingRatingJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingRunReportsServicesJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingIssuingOrProposingJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingStrategyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingBypassingAndErrorsReportGenerationJob);
 	}
 
 	private void transactionHistoryRecordCountCheck(String policyNumber, int rowCount, String value, ETCSCoreSoftAssertions softly) {

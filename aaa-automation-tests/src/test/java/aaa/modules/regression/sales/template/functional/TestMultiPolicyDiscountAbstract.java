@@ -1,20 +1,29 @@
 package aaa.modules.regression.sales.template.functional;
 
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PolicyBaseTest;
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import org.apache.commons.lang.StringUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.SearchEnum;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.apache.commons.lang.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
@@ -24,13 +33,6 @@ import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 
 public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
@@ -801,8 +803,8 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
                 break;
 
             case MIDTERM:
-                JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-                JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+                JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+                JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
                 mainApp().open();
                 SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
                 policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -1117,7 +1119,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
      * @param index
      */
     private void otherAAAProductsSearchTable_addSelected(int index){
-        new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + String.valueOf(index) + ":customerSelected")).setValue(true);
+        new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + index + ":customerSelected")).setValue(true);
         getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_AddSelectedBtnAsset().click();
     }
 
@@ -1139,10 +1141,10 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
 
         // Advance JVM to Image Creation Date
         TimeSetterUtil.getInstance().nextPhase(_renewalImageGenDate);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+        JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+        JobUtils.executeJob(BatchJob.renewalImageRatingAsyncTaskJob);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
         // Go to Policy and Open Renewal Image
         mainApp().open();
@@ -1182,7 +1184,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
      * @return
      */
     private Link otherAAAProductsTable_getRemoveLinkByIndex(int index) {
-        return new Link(By.id("policyDataGatherForm:otherAAAProductsTable:" + String.valueOf(index) + ":removeMPDPolicyLink"));
+        return new Link(By.id("policyDataGatherForm:otherAAAProductsTable:" + index + ":removeMPDPolicyLink"));
     }
 
     /**
@@ -1227,7 +1229,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
     private void otherAAAProductsSearchTable_addSelected(int[] indexList){
         for(int index : indexList)
         {
-            new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + String.valueOf(index) + ":customerSelected")).setValue(true);
+            new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + index + ":customerSelected")).setValue(true);
         }
 
         getGeneralTab_OtherAAAProductsOwned_ManualPolicyAddButton().click();
@@ -1259,7 +1261,7 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
      * @return
      */
     private Link otherAAAProductsTable_getEditLinkByIndex(int index){
-        return new Link(By.id("policyDataGatherForm:otherAAAProductsTable:" + String.valueOf(index) + ":editMPDPolicyLink"));
+        return new Link(By.id("policyDataGatherForm:otherAAAProductsTable:" + index + ":editMPDPolicyLink"));
     }
 
     /**
@@ -1306,13 +1308,13 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
      * Jobset needed to process MPD discount validation at NB +30
      */
     private void jobsNBplus30runNoChecks() {
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
-        JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
-        JobUtils.executeJob(Jobs.automatedProcessingRunReportsServicesJob);
-        JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
-        JobUtils.executeJob(Jobs.automatedProcessingStrategyStatusUpdateJob);
-        JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
+        JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+        JobUtils.executeJob(BatchJob.aaaAutomatedProcessingInitiationJob);
+        JobUtils.executeJob(BatchJob.automatedProcessingRatingJob);
+        JobUtils.executeJob(BatchJob.automatedProcessingRunReportsServicesJob);
+        JobUtils.executeJob(BatchJob.automatedProcessingIssuingOrProposingJob);
+        JobUtils.executeJob(BatchJob.automatedProcessingStrategyStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.automatedProcessingBypassingAndErrorsReportGenerationJob);
         log.info("Current application date: " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")));
     }
 

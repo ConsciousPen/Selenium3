@@ -1,6 +1,6 @@
 package aaa.modules.bct.batch;
 
-import static aaa.helpers.jobs.Jobs.*;
+import static aaa.helpers.jobs.BatchJob.*;
 import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +8,6 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.Job;
 import aaa.modules.policy.BackwardCompatibilityBaseTest;
 
 public class ConsolidatedBatchJobs extends BackwardCompatibilityBaseTest {
@@ -48,7 +47,7 @@ public class ConsolidatedBatchJobs extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test()
 	public void aaaPolicyAutomatedRenewalAsyncTaskGenerationJob(@Optional("") String state) {
-		executeBatchTest(new Job("aaaPolicyAutomatedRenewalAsyncTaskGenerationJob", Collections.singletonMap("JOB_UI_PARAMS", "t")));
+		executeBatchTest(aaaPolicyAutomatedRenewalAsyncTaskGenerationJob.setJobParameters(Collections.singletonMap("JOB_UI_PARAMS", "t")));
 	}
 
 	@Parameters({"state"})
@@ -72,7 +71,7 @@ public class ConsolidatedBatchJobs extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test()
 	public void aaaRecurringPaymentsProcessingJob(@Optional("") String state) {
-		executeBatchTest(new Job("aaaRecurringPaymentsAsyncProcessJob"));
+		executeBatchTest(aaaRecurringPaymentsAsyncProcessJob);
 	}
 
 	@Parameters({"state"})
@@ -90,7 +89,7 @@ public class ConsolidatedBatchJobs extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test()
 	public void changeCancellationPendingPoliciesStatus(@Optional("") String state) {
-		executeBatchTest(new Job("changeCancellationPendingPoliciesStatusJob"));
+		executeBatchTest(changeCancellationPendingPoliciesStatusJob);
 	}
 
 	@Parameters({"state"})
@@ -108,13 +107,13 @@ public class ConsolidatedBatchJobs extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test()
 	public void aaaCollectionCancellDebtBatchAsyncJob(@Optional("") String state) {
-		executeBatchTest(new Job("aaaCollectionCancellDebtBatchAsyncJob"));
+		executeBatchTest(aaaCollectionCancellDebtBatchAsyncJob);
 	}
 
 	@Parameters({"state"})
 	@Test()
 	public void collectionFeedBatchorderJob(@Optional("") String state) {
-		executeBatchTest(collectionFeedBatchorderJob);
+		executeBatchTest(collectionFeedBatchOrderJob);
 	}
 
 	@Parameters({"state"})
@@ -290,6 +289,4 @@ public class ConsolidatedBatchJobs extends BackwardCompatibilityBaseTest {
 	public void aaaGenerateEscheatmentReportJob(@Optional("") String state) {
 		executeBatchTest(aaaGenerateEscheatmentReportJob);
 	}
-
-
 }

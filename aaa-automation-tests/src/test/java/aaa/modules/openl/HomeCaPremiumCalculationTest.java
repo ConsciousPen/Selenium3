@@ -1,9 +1,8 @@
 package aaa.modules.openl;
 
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
-import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.TestDataGenerator;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;

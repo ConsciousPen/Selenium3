@@ -1,7 +1,7 @@
 package aaa.modules.regression.document_fulfillment.auto_ss.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -10,7 +10,7 @@ import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -18,8 +18,8 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.DocumentDataElement;
 import aaa.helpers.xml.model.DocumentPackage;
 import aaa.main.enums.ProductConstants;
@@ -68,7 +68,7 @@ public class TestDecTransactionDateTime extends AutoSSBaseTest {
 		validateBoundDtTag(policyNumber, POLICY_ISSUE);
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(2));
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob); //Policy status changes to Active.
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob); //Policy status changes to Active.
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -84,13 +84,13 @@ public class TestDecTransactionDateTime extends AutoSSBaseTest {
 
 		//Generate renewal image
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		LocalDateTime renewImageGenDateTime = TimeSetterUtil.getInstance().getCurrentTime();
 
 		TimeSetterUtil.getInstance().nextPhase(renewalProposalDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		//validateBoundDtTag(policyNumber, RENEWAL_OFFER); //uncomment this line (use this method) if requirements change to use Renewal offer generation Date and Time
 		validateBoundDtTagBatch(policyNumber, RENEWAL_OFFER, renewImageGenDateTime); //remove this line and delete method if requirements change to use Renewal offer generation Date and Time
 
@@ -100,8 +100,8 @@ public class TestDecTransactionDateTime extends AutoSSBaseTest {
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		endorsementSteps();
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1); // needed to generate renewal offer xmls
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2); // needed to generate renewal offer xmls
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1); // needed to generate renewal offer xmls
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2); // needed to generate renewal offer xmls
 		validateBoundDtTag(policyNumber, RENEWAL_OFFER);
 		validateBoundDtTag(policyNumber, ENDORSEMENT_ISSUE);
 

@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.EndorsementForms;
@@ -7,9 +9,7 @@ import aaa.main.enums.products.HomeSSConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.datax.TestData;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestKYCityAndCountyTaxesForEndorsementFormsTemplate extends TestEndorsementsTabTemplate {
 

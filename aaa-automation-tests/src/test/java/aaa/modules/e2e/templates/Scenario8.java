@@ -4,19 +4,16 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.billing.BillingAccountPoliciesVerifier;
-import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
-import aaa.helpers.billing.BillingHelper;
-import aaa.helpers.billing.BillingInstallmentsScheduleVerifier;
-import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
+import aaa.helpers.billing.*;
 import aaa.helpers.http.HttpStub;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
@@ -32,8 +29,6 @@ import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
-import aaa.common.Tab;
-import toolkit.verification.CustomAssertions;
 
 public class Scenario8 extends ScenarioBaseTest {
 
@@ -59,11 +54,11 @@ public class Scenario8 extends ScenarioBaseTest {
 		policyNum = createPolicy(policyCreationTD);
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssertions.assertThat(installmentDueDates.size()).as("Billing Installments count for Monthly (Eleven Pay) payment plan").isEqualTo(installmentsCount);
+		assertThat(installmentDueDates.size()).as("Billing Installments count for Monthly (Eleven Pay) payment plan").isEqualTo(installmentsCount);
 
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime());
 	}
@@ -76,7 +71,7 @@ public class Scenario8 extends ScenarioBaseTest {
 		LocalDateTime previousDate = DateTimeUtils.getCurrentDateTime();
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDate);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		
@@ -89,9 +84,9 @@ public class Scenario8 extends ScenarioBaseTest {
 	protected void renewalImageGeneration() {
 		LocalDateTime renewDateImage = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewDateImage);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -102,7 +97,7 @@ public class Scenario8 extends ScenarioBaseTest {
 
 	protected void renewalPreviewGeneration() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		mainApp().open();
 		verifyRenewalsStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
 	}
@@ -110,7 +105,7 @@ public class Scenario8 extends ScenarioBaseTest {
 	protected void renewalOfferGeneration(ETCSCoreSoftAssertions softly) {
 		LocalDateTime policyExpirationDateOffer = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDateOffer);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		verifyRenewalsStatus(ProductConstants.PolicyStatus.PROPOSED);
@@ -134,7 +129,7 @@ public class Scenario8 extends ScenarioBaseTest {
 	protected void renewalPremiumNotice() {
 		LocalDateTime billDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(billDate);
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
@@ -175,7 +170,7 @@ public class Scenario8 extends ScenarioBaseTest {
 
 		LocalDateTime transactionDate = TimeSetterUtil.getInstance().getCurrentTime();
 		TimeSetterUtil.getInstance().nextPhase(transactionDate);
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 		mainApp().open();
 
 		if (verifyRenewalsStatusIsPremiumCalculated) {
@@ -196,7 +191,7 @@ public class Scenario8 extends ScenarioBaseTest {
 
 	private void verifyRenewalsStatus(String status) {
 		SearchPage.openPolicy(policyNum);
-		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(status).verify(1);
 	}

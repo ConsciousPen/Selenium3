@@ -1,12 +1,24 @@
 package aaa.modules.regression.service.auto_ss;
 
+import static aaa.helpers.docgen.impl.PasDocImpl.getDocumentRequest;
+import static aaa.main.enums.DocGenEnum.Documents.AA02AZ;
+import static aaa.main.enums.DocGenEnum.Documents.AA11AZ;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.pasdoc.Discount;
 import aaa.helpers.xml.model.pasdoc.DocumentGenerationRequest;
 import aaa.main.enums.DocGenEnum;
@@ -20,24 +32,10 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import static aaa.helpers.docgen.impl.PasDocImpl.getDocumentRequest;
-import static aaa.main.enums.DocGenEnum.Documents.AA02AZ;
-import static aaa.main.enums.DocGenEnum.Documents.AA11AZ;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * @author mlaptsionak
@@ -115,7 +113,7 @@ public class TestTelematicsParticipationDiscount extends AutoSSBaseTest {
 		policy.getDefaultView().fillFromTo(tdAuto, DriverActivityReportsTab.class, PurchaseTab.class, true);
 		policy.getDefaultView().getTab(PurchaseTab.class).submitTab();
 		String policyNum = PolicySummaryPage.getPolicyNumber();
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 
 		//8. Check that Declaration page AA02AZ is generated and has the details of the applicable discounts
 		checkDiscount(getDocumentRequest(policyNum, AA02AZ), true);
@@ -137,7 +135,7 @@ public class TestTelematicsParticipationDiscount extends AutoSSBaseTest {
 		policy.dataGather().getView().getTab(DocumentsAndBindTab.class).submitTab();
 
 		//16. Run aaaDocGenBatchJob
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 
 		//17. Validate that declaration AA02AZ is generated: System should not display "Telematics Participation Discount"
 		checkDiscount(getDocumentRequest(policyNum, AA02AZ), false);
@@ -199,22 +197,22 @@ public class TestTelematicsParticipationDiscount extends AutoSSBaseTest {
 			policyExpirationDate = PolicySummaryPage.getExpirationDate();
 			//R-96
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(policyExpirationDate));
-			JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-			JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 			//R-63
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(policyExpirationDate));
-			//JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+			//			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 			//R-45
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
-			JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-			JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 			mainApp().open();
 			SearchPage.openPolicy(policyNum);
 			PolicySummaryPage.buttonRenewals.click();
 			assertThat(PolicySummaryPage.tableRenewals.getRow(1).getCell(PolicyConstants.PolicyRenewalsTable.STATUS).getValue()).isEqualTo(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
 			//R-35
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
-			JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 			if (i == countsOfRenewals) {
 				checkDiscount(getDocumentRequest(policyNum, AA02AZ), false);
 			}
@@ -226,7 +224,7 @@ public class TestTelematicsParticipationDiscount extends AutoSSBaseTest {
 			Dollar renewalPremium = new Dollar(PolicySummaryPage.tableRenewals.getRow(1).getCell(PolicyConstants.PolicyRenewalsTable.PREMIUM).getValue());
 			//R-20
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));
-			JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+			JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 			//R
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(policyExpirationDate));
 			mainApp().open();
@@ -234,8 +232,8 @@ public class TestTelematicsParticipationDiscount extends AutoSSBaseTest {
 			new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), renewalPremium);
 			//R+1
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate));
-			JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-			JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+			JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
+			JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		}
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);

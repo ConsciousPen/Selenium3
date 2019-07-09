@@ -1,6 +1,6 @@
 package aaa.modules.policy;
 
-import static aaa.helpers.jobs.Jobs.*;
+import static aaa.helpers.jobs.BatchJob.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -11,13 +11,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import org.testng.SkipException;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
-import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
-import com.exigen.ipb.etcsa.utils.batchjob.ws.model.WSJobSummary;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.batchjob.Job;
+import com.exigen.ipb.eisa.utils.batchjob.JobGroup;
+import com.exigen.ipb.eisa.utils.batchjob.SoapJobActions;
+import com.exigen.ipb.eisa.utils.batchjob.ws.model.WSJobSummary;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.jobs.Job;
 import aaa.helpers.jobs.JobUtils;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
@@ -50,14 +50,8 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	 * @param job
 	 */
 	protected void executeBatchTest(Job job){
-		JobGroup jobGroup = JobGroup.fromSingleJob(JobUtils.convertToIpb(job));
-		SoapJobActions soapJobActions = new SoapJobActions();
-
-		if(!soapJobActions.isJobExist(jobGroup)){
-			soapJobActions.createJob(jobGroup);
-		}
-		soapJobActions.startJob(jobGroup);
-		WSJobSummary latestJobRun = JobUtils.getLatestJobRun(jobGroup);
+		JobUtils.executeJob(job);
+		WSJobSummary latestJobRun = JobUtils.getLatestJobRun(JobGroup.fromSingleJob(job));
 
 		//assertThat(latestJobRun.getTotalItems()).as("totalItems picked up by job should be > 0").isGreaterThan(0);
 		//verifyErrorsCountLessFivePercents(latestJobRun);
@@ -183,7 +177,7 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		int totalAmount = getAgingJobsLogicalSequence().size(), jobCreated = 0, jobsExist = 0;
 
 		for(Job job : getAgingJobsLogicalSequence()){
-			JobGroup jobGroup = JobGroup.fromSingleJob(JobUtils.convertToIpb(job));
+			JobGroup jobGroup = JobGroup.fromSingleJob(job);
 			if(soapJobActions.isJobExist(jobGroup)){
 				log.info("{} exist", job.getJobName());
 				jobsExist++;
@@ -207,14 +201,14 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		list.add(renewalValidationAsyncTaskJob);
 		list.add(renewalImageRatingAsyncTaskJob);
 		list.add(aaaRemittanceFeedAsyncBatchReceiveJob);
-		list.add(new Job("aaaRecurringPaymentsAsyncProcessJob"));
+		list.add(aaaRecurringPaymentsAsyncProcessJob);
 		list.add(bofaRecurringPaymentJob);
 		list.add(premiumReceivablesOnPolicyEffectiveJob);
-		list.add(new Job("changeCancellationPendingPoliciesStatusJob"));
+		list.add(changeCancellationPendingPoliciesStatusJob);
 		list.add(aaaCancellationNoticeAsyncJob);
 		list.add(aaaCancellationConfirmationAsyncJob);
-		list.add(new Job("aaaCollectionCancellDebtBatchAsyncJob"));
-		list.add(collectionFeedBatchorderJob);
+		list.add(aaaCollectionCancellDebtBatchAsyncJob);
+		list.add(collectionFeedBatchOrderJob);
 		list.add(earnedPremiumWriteoffProcessingJob);
 		list.add(offCycleBillingInvoiceAsyncJob);
 		list.add(aaaBillingInvoiceAsyncTaskJob);

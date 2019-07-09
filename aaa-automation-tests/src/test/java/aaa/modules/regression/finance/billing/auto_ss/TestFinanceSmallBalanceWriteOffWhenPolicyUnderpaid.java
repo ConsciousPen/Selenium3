@@ -4,13 +4,13 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -57,7 +57,7 @@ public class TestFinanceSmallBalanceWriteOffWhenPolicyUnderpaid extends BillingB
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalPayment);
 		assertThat(BillingSummaryPage.getTotalDue().toString()).isEqualTo("$5.00");
 
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
 		mainApp().open();
 
 		SearchPage.openBilling(policyNumber);
