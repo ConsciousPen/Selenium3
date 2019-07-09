@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.PrivilegeEnum;
 import aaa.common.pages.NavigationPage;
@@ -8,10 +10,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
 
 public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 

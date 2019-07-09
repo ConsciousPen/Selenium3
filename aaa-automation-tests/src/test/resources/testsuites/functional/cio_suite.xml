@@ -1,11 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="CIO Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
-
     <!-- Defects -->
 
     <test name="Test CA Auto Product Determination" parallel="methods" thread-count="1024">

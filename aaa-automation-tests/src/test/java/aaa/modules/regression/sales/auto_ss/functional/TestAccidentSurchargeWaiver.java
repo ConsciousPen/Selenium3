@@ -11,7 +11,7 @@ import org.openqa.selenium.By;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -20,8 +20,8 @@ import aaa.helpers.claim.BatchClaimHelper;
 import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
@@ -398,10 +398,10 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
         payTotalAmtDue(policyNumber);
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
         // Open policy and create second renewal image
         mainApp().open();
@@ -1074,8 +1074,8 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
     private void runRenewalAndOrderJobs() {
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(policyExpirationDate));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+        JobUtils.executeJob(BatchJob.renewalClaimOrderAsyncJob);
     }
 
     private void createCasResponseAndUpload() {
@@ -1085,7 +1085,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         assertThat(claimResponseFile).isFile().isNotNull();
         String content = contentOf(claimResponseFile, Charset.defaultCharset());
         log.info("Generated CAS claim response filename {} content {}", casResponseFileName, content);
-        RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(), Jobs.getClaimReceiveJobFolder() + File.separator + claimResponseFile.getName());
+        RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(), BatchJob.getRenewalClaimOrderAsyncJobParameters().get(BatchJob.ParametersName.IMPORT_FOLDER) + File.separator + claimResponseFile.getName());
     }
 
     private void createCasResponseUpdateLossAmtAndUpload() {
@@ -1098,7 +1098,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         assertThat(claimResponseFile).isFile().isNotNull();
         String content = contentOf(claimResponseFile, Charset.defaultCharset());
         log.info("Updated CAS claim total loss amount in response filename {} content {}", casResponseFileName, content);
-        RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(), Jobs.getClaimReceiveJobFolder() + File.separator + claimResponseFile.getName());
+        RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(), BatchJob.getRenewalClaimOrderAsyncJobParameters().get(BatchJob.ParametersName.IMPORT_FOLDER) + File.separator + claimResponseFile.getName());
     }
 
     private void setClaimLossAmount(String totalAmountPaid, CASClaimResponse response) {

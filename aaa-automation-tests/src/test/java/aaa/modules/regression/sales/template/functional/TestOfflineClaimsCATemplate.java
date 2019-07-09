@@ -1,39 +1,11 @@
 package aaa.modules.regression.sales.template.functional;
 
-import aaa.common.enums.NavigationEnum;
-import aaa.common.enums.PrivilegeEnum;
-import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
-import aaa.common.pages.SearchPage;
-import aaa.helpers.claim.BatchClaimHelper;
-import aaa.helpers.claim.ClaimCASResponseTags;
-import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
-import aaa.helpers.claim.datamodel.claim.Claim;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.helpers.ssh.RemoteHelper;
-import aaa.main.enums.ErrorEnum;
-import aaa.main.enums.SearchEnum;
-import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.*;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableMap;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.BooleanUtils;
-import org.testng.annotations.BeforeTest;
-import toolkit.config.PropertyProvider;
-import toolkit.datax.TestData;
-import toolkit.db.DBService;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomSoftAssertions;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.TextBox;
-
-import javax.annotation.Nonnull;
+import static aaa.common.pages.SearchPage.tableSearchResults;
+import static aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.*;
+import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
+import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Files.contentOf;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -49,13 +21,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static aaa.common.pages.SearchPage.tableSearchResults;
-import static aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.*;
-import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
-import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Files.contentOf;
+import javax.annotation.Nonnull;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.BooleanUtils;
+import org.testng.annotations.BeforeTest;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableMap;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.PrivilegeEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
+import aaa.common.pages.SearchPage;
+import aaa.helpers.claim.BatchClaimHelper;
+import aaa.helpers.claim.ClaimCASResponseTags;
+import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
+import aaa.helpers.claim.datamodel.claim.Claim;
+import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.ssh.RemoteHelper;
+import aaa.main.enums.ErrorEnum;
+import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
+import toolkit.config.PropertyProvider;
+import toolkit.datax.TestData;
+import toolkit.db.DBService;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.TextBox;
 
 /**
  * This template is used to test Batch Claim Logic.
@@ -207,7 +205,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Accept Payment and renew the policy
         payTotalAmtDue(policyNumber);
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
         //Scenario to check the user does not have privilege to edit the PU indicator in endorsement
         //Login with different user. Check the PU indicator is not editable for internal claims other than E34/L41
@@ -283,8 +281,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(63));
         LocalDateTime updatedTime = TimeSetterUtil.getInstance().getCurrentTime();
         assertThat(updatedTime).isEqualToIgnoringHours(policyExpirationDate.minusDays(63));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+        JobUtils.executeJob(BatchJob.renewalClaimOrderAsyncJob);
     }
 
     /**
@@ -471,8 +469,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
     public void runRenewalClaimReceiveJob() {
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(46));
         DBService.get().executeUpdate(SQL_REMOVE_RENEWALCLAIMRECEIVEASYNCJOB_BATCH_JOB_CONTROL_ENTRY);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-        JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+        JobUtils.executeJob(BatchJob.renewalClaimReceiveAsyncJob);
     }
 
     /**
@@ -487,7 +485,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
 
         if (tableSearchResults.isPresent()) {
             tableSearchResults.getRow("Eff. Date",
-                    TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
+                    TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY))
                     .getCell(1).controls.links.getFirst().click();
         }
 
@@ -584,7 +582,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
      * @return CAS claim request content
      */
     protected String downloadClaimRequest() {
-        String claimRequestFolder = Jobs.getClaimOrderJobFolder();
+        String claimRequestFolder = BatchJob.getRenewalClaimOrderAsyncJobParameters().get(BatchJob.ParametersName.PROCESSED_FOLDER);
         List<String> requests = RemoteHelper.get().getListOfFiles(claimRequestFolder);
         assertThat(requests).hasSize(1);
         String claimRequest = requests.get(0);
@@ -596,35 +594,30 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         return content;
     }
 
-    /**
-     * Method creates CAS Response file and updates required fields: Policy Number, Driver Licence, Claim Dates: Date Of Loss, Close Date, Open Date
-     *
-     * @param policyNumber         given Policy Number
-     * @param dataModelFileName    given CAS Response data model
-     * @param claimToDriverLicence if != null, given Driver Licence according to Claim Number
-     * @param claimDatesToUpdate   if != null, given Claim Dates according to Claim Number
+    /*
+    Method verifies that PU indicator has correct defaulted values:
+    used for pas25162_permissiveUseIndicatorDefaulting
      */
-    private void createCasClaimResponseAndUpload(String policyNumber, String dataModelFileName,
-                                                 Map<String, String> claimToDriverLicence, Map<String, String> claimDatesToUpdate) {
-        // Create Cas response file
-        String casResponseFileName = getCasResponseFileName();
-        BatchClaimHelper batchClaimHelper = new BatchClaimHelper(dataModelFileName, casResponseFileName);
-        File claimResponseFile = batchClaimHelper.processClaimTemplate((response) -> {
-            setPolicyNumber(policyNumber, response);
-            if (claimToDriverLicence != null)
-                updateDriverLicence(claimToDriverLicence, response);
-            if (claimDatesToUpdate != null) {
-                updateDatesForClaim(claimDatesToUpdate, response, ClaimCASResponseTags.TagNames.CLAIM_DATE_OF_LOSS);
-                updateDatesForClaim(claimDatesToUpdate, response, ClaimCASResponseTags.TagNames.CLAIM_CLOSE_DATE);
-                updateDatesForClaim(claimDatesToUpdate, response, ClaimCASResponseTags.TagNames.CLAIM_OPEN_DATE);
+    protected void verifyPUvalues() {
+        CustomSoftAssertions.assertSoftly(softly -> {
+            ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
+
+            // Check 1st driver: Contains 7 Matched Claims (Verifying PU default value)
+            softly.assertThat(tableActivityInformationList).hasRows(7);
+
+            // Verifying PU default value for all Claims
+            for (int i = 0; i <= 6; i++) {
+                tableActivityInformationList.selectRow(i + 1);
+                if (i == 6) { //PERMISSIVE_USE match = Yes
+                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[6]);
+                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("Yes");
+                } else {
+                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[i]);
+                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("No");
+                }
+
             }
         });
-        String content = contentOf(claimResponseFile, Charset.defaultCharset());
-        log.info("Generated CAS claim response filename {} content {}", casResponseFileName, content);
-
-        // Upload claim response
-        RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(),
-                Jobs.getClaimReceiveJobFolder() + File.separator + claimResponseFile.getName());
     }
 
     /**
@@ -714,7 +707,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Accept Payment and renew the policy
         payTotalAmtDue(policyNumber);
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
         //Set test date for endorsement
         TestData addDriverTd = getTestSpecificTD("Add_PU_Claim_Driver_Endorsement_CA");
@@ -959,7 +952,7 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         //Accept Payment and renew the policy
         payTotalAmtDue(policyNumber);
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
         //Set test date for endorsement
         TestData addDriverTd = getTestSpecificTD("Add_PU_Claim_Driver_Endorsement_CA");
@@ -1098,30 +1091,36 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         bindEndorsement();
     }
 
-    /*
-    Method verifies that PU indicator has correct defaulted values:
-    used for pas25162_permissiveUseIndicatorDefaulting
+    /**
+     * Method creates CAS Response file and updates required fields: Policy Number, Driver Licence, Claim Dates: Date Of Loss, Close Date, Open Date
+     *
+     * @param policyNumber         given Policy Number
+     * @param dataModelFileName    given CAS Response data model
+     * @param claimToDriverLicence if != null, given Driver Licence according to Claim Number
+     * @param claimDatesToUpdate   if != null, given Claim Dates according to Claim Number
      */
-    protected void verifyPUvalues() {
-        CustomSoftAssertions.assertSoftly(softly -> {
-            ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-
-            // Check 1st driver: Contains 7 Matched Claims (Verifying PU default value)
-            softly.assertThat(driverTab.tableActivityInformationList).hasRows(7);
-
-            // Verifying PU default value for all Claims
-            for (int i = 0; i <= 6; i++) {
-                driverTab.tableActivityInformationList.selectRow(i + 1);
-                if (i == 6) { //PERMISSIVE_USE match = Yes
-                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[i]);
-                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("Yes");
-                } else {
-                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[i]);
-                    softly.assertThat(activityInformationAssetList.getAsset(AutoCaMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("No");
-                }
-
+    private void createCasClaimResponseAndUpload(String policyNumber, String dataModelFileName,
+            Map<String, String> claimToDriverLicence, Map<String, String> claimDatesToUpdate) {
+        // Create Cas response file
+        String casResponseFileName = getCasResponseFileName();
+        BatchClaimHelper batchClaimHelper = new BatchClaimHelper(dataModelFileName, casResponseFileName);
+        File claimResponseFile = batchClaimHelper.processClaimTemplate(response -> {
+            setPolicyNumber(policyNumber, response);
+            if (claimToDriverLicence != null) {
+                updateDriverLicence(claimToDriverLicence, response);
+            }
+            if (claimDatesToUpdate != null) {
+                updateDatesForClaim(claimDatesToUpdate, response, ClaimCASResponseTags.TagNames.CLAIM_DATE_OF_LOSS);
+                updateDatesForClaim(claimDatesToUpdate, response, ClaimCASResponseTags.TagNames.CLAIM_CLOSE_DATE);
+                updateDatesForClaim(claimDatesToUpdate, response, ClaimCASResponseTags.TagNames.CLAIM_OPEN_DATE);
             }
         });
+        String content = contentOf(claimResponseFile, Charset.defaultCharset());
+        log.info("Generated CAS claim response filename {} content {}", casResponseFileName, content);
+
+        // Upload claim response
+        RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(),
+                BatchJob.getRenewalClaimOrderAsyncJobParameters().get(BatchJob.ParametersName.IMPORT_FOLDER) + File.separator + claimResponseFile.getName());
     }
 
     /*
@@ -1165,7 +1164,6 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
                     TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY))
                     .getCell(1).controls.links.getFirst().click();
         }
-
         buttonRenewals.click();
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
@@ -1532,8 +1530,8 @@ public class TestOfflineClaimsCATemplate extends CommonTemplateMethods {
         tableDriverList.selectRow(1);
         driverTab.fillTab(getTestSpecificTD("DriverTab_EndorsementActivity_UWRules"));
 
+        //Bind policy and do assertion to verify the rules are triggered and go back to driver tab to set the PU flag as YES for claims
         bindEndorsement();
-        //Assertion to verify the rules are triggered and go back to driver tab to set the PU flag as YES for claims
         updateUWPUFlag();
 
         TestData maskedDriverActivityTd = getPolicyTD()

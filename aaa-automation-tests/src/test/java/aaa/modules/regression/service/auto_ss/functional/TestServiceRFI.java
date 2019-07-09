@@ -38,10 +38,11 @@ import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.*;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import toolkit.config.PropertyProvider;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -1373,43 +1374,6 @@ public class TestServiceRFI extends TestRFIHelper {
 		});
 	}
 
-	protected String checkDocumentInRfiService(String policyNumber, String documentCode, String documentName) {
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
-		RFIDocument rfiDocument = rfiServiceResponse.documents.stream().filter(document -> document.documentCode.equals(documentCode)).findFirst().orElse(null);
-		assertSoftly(softly -> {
-
-			softly.assertThat(rfiServiceResponse.url).isNull();
-			softly.assertThat(rfiDocument.documentCode).isEqualTo(documentCode);
-			softly.assertThat(rfiDocument.documentName).isEqualTo(documentName);
-			softly.assertThat(rfiDocument.documentId).startsWith(documentCode);
-			softly.assertThat(rfiDocument.status).startsWith("NS");
-			softly.assertThat(rfiDocument.parent).isEqualTo("policy");
-			softly.assertThat(rfiDocument.parentOid).isNotEmpty();
-
-			RFIDocuments rfiServiceResponse2 = HelperCommon.rfiViewService(policyNumber, true);
-			softly.assertThat(rfiServiceResponse2.url).endsWith(".pdf");
-			softly.assertThat(rfiServiceResponse2.documents).isNotEmpty();
-
-			//Verify that URL works
-			HttpURLConnection con = null;
-			try {
-				URL url = new URL(rfiServiceResponse2.url);
-				con = (HttpURLConnection) url.openConnection();
-				con.setRequestMethod("GET");
-				softly.assertThat(con.getResponseCode()).isEqualTo(Response.Status.OK.getStatusCode());
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				if (con != null) {
-					con.disconnect();
-				}
-			}
-
-		});
-		return rfiDocument.documentId;
-	}
-
 	/**
 	 * @author Oleg Stasyuk
 	 * @name RFI
@@ -2347,10 +2311,10 @@ public class TestServiceRFI extends TestRFIHelper {
 				name = DocGenHelper.getDocumentDataElemByName("DocSignedBy", docInXml).getDataElementChoice().getTextField();
 				date = DocGenHelper.getDocumentDataElemByName("DocSignedDate", docInXml).getDataElementChoice().getDateTimeField();
 			}
-			String currentDate = DateTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			String currentDate = DateTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));//current System date instead of AZ Timezone date. Will have new story to be AZ Timezone, if needed.
 			softly.assertThat(name).isEqualTo("Megha Gubbala");
 			softly.assertThat(date).startsWith(currentDate);
-			softly.assertThat(date).endsWith("-07:00"); // validates that the document's DocSignedDate ends with an AZ timestamp
+			softly.assertThat(date).endsWith(":00");// validates that the document's DocSignedDate ends with timestamp (currently it is system Timezone, will have new story to be AZ Timezone, if needed)
 		} else {
 			validateDocSignTagsNotExist(policyNumber, document, query);
 		}

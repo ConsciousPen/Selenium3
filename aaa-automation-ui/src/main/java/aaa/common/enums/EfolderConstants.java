@@ -4,19 +4,21 @@ package aaa.common.enums;
 
 public class EfolderConstants {
 
-	private EfolderConstants() {}
+	private EfolderConstants(){}
 
 	public static final class DocumentOparetions {
 		public static final String ADD_DOCUMENT = "Add Document";
 		public static final String ADD_EXT_DOCUMENT = "Add Ext. Document";
 		public static final String REFRESH = "Refresh";
 		public static final String RETRIEVE = "Retrieve";
+		public static final String RENAME = "Rename";
+		public static final String REINDEX = "Reindex";
 	}
 
 	public static final class Efolders {
-		public static final String CLUE_REPORT = "Clue Report";
-		public static final String NEW_BUSINESS = "New Business";
-		public static final String MVR_REPORT = "MVR Report";
-		public static final String UPLOADED_DOCS = "Uploaded Docs";
+		public static final String IMPORT = "Import";
+		public static final String POLICY_PAPERS = "Policy Papers";
+		public static final String INVOICES_AND_BILLS = "Invoices and Bills";
+		public static final String MISCELLANEOUS = "Miscellaneous";
 	}
 }

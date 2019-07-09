@@ -6,8 +6,8 @@ import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.MainPage;
@@ -16,8 +16,8 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.http.HttpStub;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -134,15 +134,15 @@ public class TestPolicyFirelineReportsOnRenewal extends HomeSSHO3BaseTest {
 
 	private void updatePolicyStatus() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate));
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 	}
 
 	private void renewPolicy() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		HttpStub.executeAllBatches();
 		PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 		BindTab bindTab = new BindTab();
@@ -161,7 +161,7 @@ public class TestPolicyFirelineReportsOnRenewal extends HomeSSHO3BaseTest {
 		TimeSetterUtil.getInstance().nextPhase(timePoint1);
 		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_ISO_BATCH);
 		Waiters.SLEEP(5000).go();
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
 	}
 

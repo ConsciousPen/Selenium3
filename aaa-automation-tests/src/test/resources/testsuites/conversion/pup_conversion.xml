@@ -1,10 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="FoxPro PUP Conversion Test" verbose="1" parallel="tests" thread-count="1024">
 	<listeners>
-		<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
 	</listeners>
-	<parameter name="timeshift-scenario-mode" value="method"/>
-
     <test name="FoxPro PUP Conversion Test" parallel="methods" thread-count="200">
         <parameter name="state" value="CA" />
         <classes>

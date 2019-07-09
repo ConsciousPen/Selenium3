@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
+import aaa.helpers.jobs.BatchJob;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -37,11 +37,11 @@ public class TestScenario5 extends AutoSSBaseTest {
 		installmentDD1 = BillingSummaryPage.getInstallmentDueDate(2);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDD1));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDD1));
-		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationNoticeAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents.AH34XX);
 	}
 }

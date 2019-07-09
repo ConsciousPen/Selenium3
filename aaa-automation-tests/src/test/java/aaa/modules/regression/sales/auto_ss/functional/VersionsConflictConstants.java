@@ -15,88 +15,88 @@ public class VersionsConflictConstants {
 			.putAll("Named Insureds.VIIFirstName VII VIILastName.Residential Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			.putAll("Named Insureds.VIIFirstName VII VIILastName.Prior Address", "VI prior address 1, VI prior address 2, Phoenix, AZ, 85085", "VII prior address 1, VII prior address 2, Red Rock, AZ, 85245")
 			.putAll("Named Insureds.VIIFirstName VII VIILastName.Mailing Address", "VII mailing address 1, VII mailing address 2, Red Rock, AZ, 85245", "VI mailing address 1, VI mailing address 2, Phoenix, AZ, 85085")
-			.putAll("Drivers.VIIFirstName VII VIILastName.Age", "57","55")
+			.putAll("Drivers.VIIFirstName VII VIILastName.Age", "57", "55")
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			//AAA Products Owned
-			.putAll("AAA Products Owned.Override Type","Term","Life")
+			.putAll("AAA Products Owned.Override Type", "Term", "Life")
 			.putAll("Reports.AAA Membership report.Member Since Date", "2005-01-01", "")
-			.putAll("Reports.AAA Membership report.Order Date", "","")
+			.putAll("Reports.AAA Membership report.Order Date", "", "")
 			.putAll("Reports.AAA Membership report.Receipt Date", "", "")
-			.putAll("Reports.AAA Membership report.Status", "Active","")
+			.putAll("Reports.AAA Membership report.Status", "Active", "")
 			//Policy Information
-			.putAll("Policy Information.Renewal Term Premium - Old Rater","","2532")
-			.putAll("Policy Information.Override ASD Level","true","false")
-			.putAll("Policy Information.Agency of Record","500023745","500001406")
-			.putAll("Policy Information.Agent of Record","500034992","500012749")
-			.putAll("Policy Information.Agent Number","500034992","500012749")
+			.putAll("Policy Information.Renewal Term Premium - Old Rater", "", "2532")
+			.putAll("Policy Information.Override ASD Level", "true", "false")
+			.putAll("Policy Information.Agency of Record", "500023745", "500001406")
+			.putAll("Policy Information.Agent of Record", "500034992", "500012749")
+			.putAll("Policy Information.Agent Number", "500034992", "500012749")
 			//Current Currier Information
-			.putAll("Current Carrier Information.Months with Carrier","12","4")
+			.putAll("Current Carrier Information.Months with Carrier", "12", "4")
 			//Driver Tab
-			.putAll("Drivers.NBFirstName NB NBLastName.Age", "18","55")
-			.putAll("Drivers.NBFirstName NB NBLastName.Total Years Driving Experience", "3","39")
-			.putAll("Drivers.NBFirstName NB NBLastName.Smart Driver Course Completed?", "true","false")
-			.putAll("Drivers.NBFirstName NB NBLastName.Defensive Driver Course Completed?", "No","Yes")
-			.putAll("Drivers.NBFirstName NB NBLastName.ADB Coverage", "false","true")
-			.putAll("Drivers.NBFirstName NB NBLastName.Financial Responsibility Filing Needed", "false","true")
-			.putAll("Drivers.NBFirstName NB NBLastName.Filing State", "Utah","Indiana")
-			.putAll("Drivers.NBFirstName NB NBLastName.Form Type", "","SR22")
+			.putAll("Drivers.NBFirstName NB NBLastName.Age", "18", "55")
+			.putAll("Drivers.NBFirstName NB NBLastName.Total Years Driving Experience", "3", "39")
+			.putAll("Drivers.NBFirstName NB NBLastName.Smart Driver Course Completed?", "true", "false")
+			.putAll("Drivers.NBFirstName NB NBLastName.Defensive Driver Course Completed?", "No", "Yes")
+			.putAll("Drivers.NBFirstName NB NBLastName.ADB Coverage", "false", "true")
+			.putAll("Drivers.NBFirstName NB NBLastName.Financial Responsibility Filing Needed", "false", "true")
+			.putAll("Drivers.NBFirstName NB NBLastName.Filing State", "Utah", "Indiana")
+			.putAll("Drivers.NBFirstName NB NBLastName.Form Type", "", "SR22")
 			//TODO return when Activity section is done
 			//.putAll("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Claim Points","","0")
 			//.putAll("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Violation points","0","")
 			//.putAll("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Include in Points and/or Tier?","false","true")
 			//Vehicle Information
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Year","1998","2003")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Make","DODG","MERZ")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Model","CARAVAN","SL500R")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Series","GRAND CARAVAN SE/SPORT","SL500R")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Body Style","SPORT VAN","ROADSTER")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.BI Symbol", "AX","AD")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.PD Symbol", "AX","AD")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.UM Symbol", "AX","AD")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.MP Symbol", "AX","AD")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Comp Symbol", "12","60")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Coll Symbol", "12","60")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Year", "1998", "2003")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Make", "DODG", "MERZ")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Model", "CARAVAN", "SL500R")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Series", "GRAND CARAVAN SE/SPORT", "SL500R")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Body Style", "SPORT VAN", "ROADSTER")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.BI Symbol", "AX", "AD")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.PD Symbol", "AX", "AD")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.UM Symbol", "AX", "AD")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.MP Symbol", "AX", "AD")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Comp Symbol", "12", "60")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Coll Symbol", "12", "60")
 			//TODO should be return to TD when True/False vs Yes/No is fixed
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Salvaged?", "true","false")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Is the vehicle used in any commercial business operations?", "","false")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Air Bags","Both Front","Both Front and Side")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Alternative Fuel Vehicle","true","false")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Salvaged?", "true", "false")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Is the vehicle used in any commercial business operations?", "", "false")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Air Bags", "Both Front", "Both Front and Side")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Alternative Fuel Vehicle", "true", "false")
 			//Garaging address
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Is Garaging different from Residential?", "false", "true")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Garaging Address", "NB residence address 1, NB residence address 2, Gold Canyon, AZ, 85118","VII garaging address 1, VII garaging address 2, Phoenix, AZ, 85003")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Garaging Address", "NB residence address 1, NB residence address 2, Gold Canyon, AZ, 85118", "VII garaging address 1, VII garaging address 2, Phoenix, AZ, 85003")
 			//Usage Based Insurance
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Enroll in Usage Based Insurance?", "false","true")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Enroll in Usage Based Insurance?", "false", "true")
 			//Ownership address
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Ownership Type", "Financed","Owned")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.First Name", "LI011","")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "674, MINNEAPOLIS, MN, 55440-0674","")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Ownership Type", "Financed", "Owned")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.First Name", "LI011", "")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "674, MINNEAPOLIS, MN, 55440-0674", "")
 			//Additional Interest Information
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version2, Second Name version2).First Name", "First Name version1", "First Name version2")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version2, Second Name version2).Second Name", "Second Name version1", "Second Name version2")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version2, Second Name version2).Additional Interest Address", "interest address 1, VI interest address 2, Phoenix, AZ, 85085", "interest address 1, VII interest address 2, Red Rock, AZ, 85245")
 			//Add Components
-            .putAll("Named Insureds.Insured Principal (VIFirstName VI VILastName)","Insured Principal (VIFirstName VI VILastName)","")
-            .putAll("Named Insureds.Insured Principal (VIIFirstName VII VIILastName)","Insured Principal (VIIFirstName VII VIILastName)","")
-            .putAll("Drivers.Driver (New Driver Version1)","Driver (New Driver Version1)","")
-            .putAll("Drivers.Driver (New Driver Version2)","Driver (New Driver Version2)","")
-			.putAll("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order","AAA Clue Order","")
-			.putAll("Vehicles.Vehicle (1998, DODGE, CARAVAN)","Vehicle (1998, DODGE, CARAVAN)","")
-			.putAll("Vehicles.Vehicle (2003, MERCEDES-BENZ, SL500R)","Vehicle (2003, MERCEDES-BENZ, SL500R)","")
-			.putAll("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Accident (Property Damage Only), 05/25/2018, Not included in Rating)","Activity Information (Accident (Property Damage Only), 05/25/2018, Not included in Rating)","")
+			.putAll("Named Insureds.Insured Principal (VIFirstName VI VILastName)", "Insured Principal (VIFirstName VI VILastName)", "")
+			.putAll("Named Insureds.Insured Principal (VIIFirstName VII VIILastName)", "Insured Principal (VIIFirstName VII VIILastName)", "")
+			.putAll("Drivers.Driver (New Driver Version1)", "Driver (New Driver Version1)", "")
+			.putAll("Drivers.Driver (New Driver Version2)", "Driver (New Driver Version2)", "")
+			.putAll("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order", "AAA Clue Order", "")
+			.putAll("Vehicles.Vehicle (1998, DODGE, CARAVAN)", "Vehicle (1998, DODGE, CARAVAN)", "")
+			.putAll("Vehicles.Vehicle (2003, MERCEDES-BENZ, SL500R)", "Vehicle (2003, MERCEDES-BENZ, SL500R)", "")
+			.putAll("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Accident (Property Damage Only), 05/25/2018, Not included in Rating)", "Activity Information (Accident (Property Damage Only), 05/25/2018, Not included in Rating)", "")
 			.putAll("Vehicles.2008, ACURA, MDX.Additional Interest.Additional Interest Information.Are there any additional interest(s)?", "true", "false")
 			.putAll("Vehicles.2008, ACURA, MDX.Additional Interest.Additional Interest Information.First Name", "First Name version1", "")
 			.putAll("Vehicles.2008, ACURA, MDX.Additional Interest.Additional Interest Information.Second Name", "Second Name version1", "")
-			.putAll("Vehicles.2008, ACURA, MDX.Additional Interest.Additional Interest Information.Additional Interest Address", "interest address 1, VI interest address 2, Phoenix, AZ, 85085","")
-			.putAll("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Order Date","","")
-			.putAll("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Receipt Date","","")
-			.putAll("Drivers.New Driver2 Version2.Assigned Vehicle", "2011, CHEVROLET, EXPRESS VAN","1996, MAZDA, MX-5 MIATA")
-			.putAll("Drivers.New Driver3 Version3.Assigned Vehicle", "2011, MERCEDES-BENZ, G55AMG","2011, CHEVROLET, EXPRESS VAN")
-			.putAll("Drivers.Driver (Third Driver Version2)","","Driver (Third Driver Version2)")
-            .putAll("Drivers.Driver (Second Driver Version1)","","Driver (Second Driver Version1)")
-            .putAll("Vehicles.Vehicle (2011, CHEVROLET, EXPRESS VAN)","","Vehicle (2011, CHEVROLET, EXPRESS VAN)")
-            .putAll("Vehicles.Vehicle (2011, MERCEDES-BENZ, G55AMG)","","Vehicle (2011, MERCEDES-BENZ, G55AMG)")
-			.putAll("Named Insureds.Insured Principal (Second VI Insured)","","Insured Principal (Second VI Insured)")
-			.putAll("Policy Options.Payment Plan","semiAnnualSS","quaterlySS")
+			.putAll("Vehicles.2008, ACURA, MDX.Additional Interest.Additional Interest Information.Additional Interest Address", "interest address 1, VI interest address 2, Phoenix, AZ, 85085", "")
+			.putAll("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Order Date", "", "")
+			.putAll("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Receipt Date", "", "")
+			.putAll("Drivers.New Driver2 Version2.Assigned Vehicle", "2011, CHEVROLET, EXPRESS VAN", "1996, MAZDA, MX-5 MIATA")
+			.putAll("Drivers.New Driver3 Version3.Assigned Vehicle", "2011, MERCEDES-BENZ, G55AMG", "2011, CHEVROLET, EXPRESS VAN")
+			.putAll("Drivers.Driver (Third Driver Version2)", "", "Driver (Third Driver Version2)")
+			.putAll("Drivers.Driver (Second Driver Version1)", "", "Driver (Second Driver Version1)")
+			.putAll("Vehicles.Vehicle (2011, CHEVROLET, EXPRESS VAN)", "", "Vehicle (2011, CHEVROLET, EXPRESS VAN)")
+			.putAll("Vehicles.Vehicle (2011, MERCEDES-BENZ, G55AMG)", "", "Vehicle (2011, MERCEDES-BENZ, G55AMG)")
+			.putAll("Named Insureds.Insured Principal (Second VI Insured)", "", "Insured Principal (Second VI Insured)")
+			.putAll("Policy Options.Payment Plan", "semiAnnualSS", "quaterlySS")
 			//Atomic merge Contact Information
 			.putAll("Contact Information.Home Phone Number", "1111111111", "")
 			.putAll("Contact Information.Mobile Phone Number", "", "1111111113")
@@ -145,29 +145,29 @@ public class VersionsConflictConstants {
 			//Current Carrier Information
 			//TODO Should be return after implementation story - Clean up for Current Carrier
 			//.put("Current Carrier Information.More than 6 months Total Insurance Experience","More than 6 months Total Insurance Experience")
-			.put("Current Carrier Information.Agent Entered Current/Prior Carrier","Agent Entered Current/Prior Carrier")
+			.put("Current Carrier Information.Agent Entered Current/Prior Carrier", "Agent Entered Current/Prior Carrier")
 			//TODO Should be return after implementation story - Clean up for Current Carrier
 			//.put("Current Carrier Information.Agent Entered Other Carrier","Agent Entered Other Carrier")
-			.put("Current Carrier Information.Agent Entered Inception Date","Agent Entered Inception Date")
-			.put("Current Carrier Information.Agent Entered Expiration Date","Agent Entered Expiration Date")
-			.put("Current Carrier Information.Agent Entered Policy Number","Agent Entered Policy Number")
-			.put("Current Carrier Information.Days Lapsed","Days Lapsed")
-			.put("Current Carrier Information.Months with Carrier","Months with Carrier")
-			.put("Current Carrier Information.Agent Entered BI Limits","Agent Entered BI Limits")
+			.put("Current Carrier Information.Agent Entered Inception Date", "Agent Entered Inception Date")
+			.put("Current Carrier Information.Agent Entered Expiration Date", "Agent Entered Expiration Date")
+			.put("Current Carrier Information.Agent Entered Policy Number", "Agent Entered Policy Number")
+			.put("Current Carrier Information.Days Lapsed", "Days Lapsed")
+			.put("Current Carrier Information.Months with Carrier", "Months with Carrier")
+			.put("Current Carrier Information.Agent Entered BI Limits", "Agent Entered BI Limits")
 			//Policy Information
-			.put("Policy Information.Source of Business","Source of Business")
-			.put("Policy Information.Source Policy #","Source Policy #")
+			.put("Policy Information.Source of Business", "Source of Business")
+			.put("Policy Information.Source Policy #", "Source Policy #")
 			//TODO should be returned when Yes/NO vs true/false is fixed
 			//.put("Policy Information.Override ASD Level","Override ASD Level")
-			.put("Policy Information.Advance Shopping Discount Override","Advance Shopping Discount Override")
-			.put("Policy Information.ASD Overriden By","ASD Overriden By")
-			.put("Policy Information.Channel Type","Channel Type")
-			.put("Policy Information.Agency","Agency")
-			.put("Policy Information.Sales Channel","Sales Channel")
-			.put("Policy Information.Agent","Agent")
-			.put("Policy Information.Authorized by","Authorized by")
-			.put("Policy Information.TollFree Number","TollFree Number")
-			.put("Policy Information.Suppress Print","Suppress Print")
+			.put("Policy Information.Advance Shopping Discount Override", "Advance Shopping Discount Override")
+			.put("Policy Information.ASD Overriden By", "ASD Overriden By")
+			.put("Policy Information.Channel Type", "Channel Type")
+			.put("Policy Information.Agency", "Agency")
+			.put("Policy Information.Sales Channel", "Sales Channel")
+			.put("Policy Information.Agent", "Agent")
+			.put("Policy Information.Authorized by", "Authorized by")
+			.put("Policy Information.TollFree Number", "TollFree Number")
+			.put("Policy Information.Suppress Print", "Suppress Print")
 			//Driver Information
 			.put("Named Insureds.NBFirstName NB NBLastName.Insured Date of Birth", "Insured Date of Birth")
 			.put("Drivers.NBFirstName NB NBLastName.Date of Birth", "Date of Birth")
@@ -212,14 +212,14 @@ public class VersionsConflictConstants {
 					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAA Claims Report Order.Last Name", CURRENT)
 					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAA Claims Report Order.Date of Birth", CURRENT)
 					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAA Claims Report Order.Name on License", CURRENT)
-					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order.First Name",CURRENT)
-					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order.Last Name",CURRENT)
-					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order.Date of Birth",CURRENT)
-					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order.Name on License",CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order.First Name", CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order.Last Name", CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order.Date of Birth", CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order.Name on License", CURRENT)
 					.put("Named Insureds.VIIFirstName VII VIILastName.Prefix", AVAILABLE)
 					.put("Named Insureds.VIIFirstName VII VIILastName.First Name", CURRENT)
 					.put("Named Insureds.VIIFirstName VII VIILastName.Social Security Number", CURRENT)
-					.put("Named Insureds.VIIFirstName VII VIILastName.Base Date",CURRENT)
+					.put("Named Insureds.VIIFirstName VII VIILastName.Base Date", CURRENT)
 					.put("Named Insureds.VIIFirstName VII VIILastName.Residential Address", CURRENT)
 					.put("Named Insureds.VIIFirstName VII VIILastName.Move-In Date", AVAILABLE)
 					.put("Named Insureds.VIIFirstName VII VIILastName.Mailing Address", CURRENT)
@@ -257,45 +257,48 @@ public class VersionsConflictConstants {
 			.build();
 
 	//Maps to select added Named insureds in endorsement and OOSE
-    protected static final ArrayListMultimap<String, String> ADD_NAMED_INSURED_INFORMATION_MANUAL = ArrayListMultimap.create(
-            ImmutableListMultimap.<String, String>builder()
-                    .put("Named Insureds.Insured Principal (VIFirstName VI VILastName)", AVAILABLE)
-                    .put("Named Insureds.Insured Principal (VIIFirstName VII VIILastName)", CURRENT)
-                    .put("Contact Information.Home Phone Number", CURRENT)
-                    .put("Contact Information.Work Phone Number", AVAILABLE)
-                    .put("Contact Information.Mobile Phone Number", CURRENT)
-                    .put("Contact Information.Preferred Phone #", CURRENT)
-                    .put("Contact Information.Email", AVAILABLE)
-                    .build());
+	protected static final ArrayListMultimap<String, String> ADD_NAMED_INSURED_INFORMATION_MANUAL = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					//TODO next 2 lines should be deleted when defect PT-3834 is fixed
+					.put("Vehicle Assignment", CURRENT)
+					.put("Vehicle Assignment", CURRENT)
+					.put("Named Insureds.Insured Principal (VIFirstName VI VILastName)", AVAILABLE)
+					.put("Named Insureds.Insured Principal (VIIFirstName VII VIILastName)", CURRENT)
+					.put("Contact Information.Home Phone Number", CURRENT)
+					.put("Contact Information.Work Phone Number", AVAILABLE)
+					.put("Contact Information.Mobile Phone Number", CURRENT)
+					.put("Contact Information.Preferred Phone #", CURRENT)
+					.put("Contact Information.Email", AVAILABLE)
+					.build());
 
-    //all components/attributes that should be on Comparison page  Rolled on/OOSE
-    static final Multimap<String, String> ADD_NAMED_INSURED_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()
-            .put("AAAPolicy Issue Summary", "Insured Email")
-            .put("Contact Information", "Work Phone Number")
-            .put("Contact Information", "Email")
-            .put("Named Insureds", "Insured Principal (VIFirstName VI VILastName)")
-            .build();
+	//all components/attributes that should be on Comparison page  Rolled on/OOSE
+	static final Multimap<String, String> ADD_NAMED_INSURED_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()
+			.put("AAAPolicy Issue Summary", "Insured Email")
+			.put("Contact Information", "Work Phone Number")
+			.put("Contact Information", "Email")
+			.put("Named Insureds", "Insured Principal (VIFirstName VI VILastName)")
+			.build();
 
-    //all components/attributes that should be on Comparison page  Rolled on/OOSE
-    static final Multimap<String, String> ADD_NAMED_INSURED_INFORMATION_VERSION_1 = ImmutableListMultimap.<String, String>builder()
-            .put("Contact Information", "Home Phone Number")
-            .put("Contact Information", "Mobile Phone Number")
-            .put("Contact Information", "Preferred Phone #")
-            .put("Named Insureds","Insured Principal (VIIFirstName VII VIILastName)")
-            .build();
+	//all components/attributes that should be on Comparison page  Rolled on/OOSE
+	static final Multimap<String, String> ADD_NAMED_INSURED_INFORMATION_VERSION_1 = ImmutableListMultimap.<String, String>builder()
+			.put("Contact Information", "Home Phone Number")
+			.put("Contact Information", "Mobile Phone Number")
+			.put("Contact Information", "Preferred Phone #")
+			.put("Named Insureds", "Insured Principal (VIIFirstName VII VIILastName)")
+			.build();
 	/**
 	 *  Maps full attribute path on conflict page to version to select (Current, Available).
 	 */
 	protected static final ArrayListMultimap<String, String> AAA_PRODUCT_OWNED_MANUAL = ArrayListMultimap.create(
-					ImmutableListMultimap.<String, String>builder()
-							.put("AAA Products Owned.Current AAA Member", CURRENT)
-							.put("AAA Products Owned.Motorcycle Policy #", AVAILABLE)
-							.put("AAA Products Owned.Life Policy #", CURRENT)
-							.put("AAA Products Owned.Home Policy #", AVAILABLE)
-							.put("AAA Products Owned.Renters Policy #", CURRENT)
-							.put("AAA Products Owned.Condo Policy #", AVAILABLE)
-							.put("AAA Products Owned.PUP Policy #", CURRENT)
-							.build());
+			ImmutableListMultimap.<String, String>builder()
+					.put("AAA Products Owned.Current AAA Member", CURRENT)
+					.put("AAA Products Owned.Motorcycle Policy #", AVAILABLE)
+					.put("AAA Products Owned.Life Policy #", CURRENT)
+					.put("AAA Products Owned.Home Policy #", AVAILABLE)
+					.put("AAA Products Owned.Renters Policy #", CURRENT)
+					.put("AAA Products Owned.Condo Policy #", AVAILABLE)
+					.put("AAA Products Owned.PUP Policy #", CURRENT)
+					.build());
 
 	/**
 	 *  Maps full attribute path on conflict page to version to select (Current, Available).
@@ -378,7 +381,7 @@ public class VersionsConflictConstants {
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
 	static final Multimap<String, String> CURRENT_CARRIER_INFORMATION_VERSION_1 = ImmutableListMultimap.<String, String>builder()
-					.build();
+			.build();
 
 	protected static final ArrayListMultimap<String, String> POLICY_INFORMATION_MANUAL = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
@@ -398,40 +401,40 @@ public class VersionsConflictConstants {
 
 	//all components/attributes that should be on Comparison page Rolled on/OOSE
 	static final Multimap<String, String> POLICY_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()
-			.put("Policy Information","Override ASD Level")
-			.put("Policy Information","Advance Shopping Discount Override")
-			.put("Policy Information","ASD Overriden By")
-			.put("Policy Information","Authorized by")
-			.put("Policy Information","TollFree Number")
-			.put("Policy Information","Suppress Print")
+			.put("Policy Information", "Override ASD Level")
+			.put("Policy Information", "Advance Shopping Discount Override")
+			.put("Policy Information", "ASD Overriden By")
+			.put("Policy Information", "Authorized by")
+			.put("Policy Information", "TollFree Number")
+			.put("Policy Information", "Suppress Print")
 			.build();
 
 	//all components/attributes that should be on Comparison page Renewal or Endorsement
 	static final Multimap<String, String> policyInformationVersion1 = ImmutableListMultimap.<String, String>builder()
-			.put("Policy Information","Source of Business")
-			.put("Policy Information","Source Policy #")
-			.put("Policy Information","Channel Type")
-			.put("Policy Information","Agency")
-			.put("Policy Information","Agency of Record")
-			.put("Policy Information","Sales Channel")
-			.put("Policy Information","Agent")
-			.put("Policy Information","Agent of Record")
-			.put("Policy Information","Agent Number")
+			.put("Policy Information", "Source of Business")
+			.put("Policy Information", "Source Policy #")
+			.put("Policy Information", "Channel Type")
+			.put("Policy Information", "Agency")
+			.put("Policy Information", "Agency of Record")
+			.put("Policy Information", "Sales Channel")
+			.put("Policy Information", "Agent")
+			.put("Policy Information", "Agent of Record")
+			.put("Policy Information", "Agent Number")
 			.build();
 
 	//TODO should be deleted when Policy Information.Renewal Term Premium - Old Rater is fixed, RenewalMerge test need to have policyInformationVersion1, not policyInformationRenewal
 	//all components/attributes that should be on Comparison page Renewal or Endorsement
 	static final Multimap<String, String> POLICY_INFORMATION_RENEWAL_VERSION_1 = ImmutableListMultimap.<String, String>builder()
-			.put("Policy Information","Source of Business")
-			.put("Policy Information","Source Policy #")
-			.put("Policy Information","Renewal Term Premium - Old Rater")
-			.put("Policy Information","Channel Type")
-			.put("Policy Information","Agency")
-			.put("Policy Information","Agency of Record")
-			.put("Policy Information","Sales Channel")
-			.put("Policy Information","Agent")
-			.put("Policy Information","Agent of Record")
-			.put("Policy Information","Agent Number")
+			.put("Policy Information", "Source of Business")
+			.put("Policy Information", "Source Policy #")
+			.put("Policy Information", "Renewal Term Premium - Old Rater")
+			.put("Policy Information", "Channel Type")
+			.put("Policy Information", "Agency")
+			.put("Policy Information", "Agency of Record")
+			.put("Policy Information", "Sales Channel")
+			.put("Policy Information", "Agent")
+			.put("Policy Information", "Agent of Record")
+			.put("Policy Information", "Agent Number")
 			.build();
 
 	/**
@@ -495,28 +498,28 @@ public class VersionsConflictConstants {
 			.put("Drivers.NBFirstName NB NBLastName", "Form Type")
 			.build();
 
-    protected static final ArrayListMultimap<String, String> ADD_DRIVER_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
-            ImmutableListMultimap.<String, String>builder()
-                    .put("Contact Information.Home Phone Number", CURRENT)
-                    .put("Contact Information.Work Phone Number", AVAILABLE)
-                    .put("Contact Information.Mobile Phone Number", CURRENT)
-                    .put("Contact Information.Preferred Phone #", CURRENT)
-                    .put("Contact Information.Email", AVAILABLE)
-                    .put("Reports.AAA Clue Order.Order Date", CURRENT)
-                    .put("Reports.AAA Clue Order.Receipt Date", CURRENT)
-                    .build());
+	protected static final ArrayListMultimap<String, String> ADD_DRIVER_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("Contact Information.Home Phone Number", CURRENT)
+					.put("Contact Information.Work Phone Number", AVAILABLE)
+					.put("Contact Information.Mobile Phone Number", CURRENT)
+					.put("Contact Information.Preferred Phone #", CURRENT)
+					.put("Contact Information.Email", AVAILABLE)
+					.put("Reports.AAA Clue Order.Order Date", CURRENT)
+					.put("Reports.AAA Clue Order.Receipt Date", CURRENT)
+					.build());
 
-    //all components/attributes that should be on Comparison page  Rolled on/OOSE
-    static final Multimap<String, String> ADD_DRIVER_INFORMATION_VERSION_1 = ImmutableListMultimap.<String, String>builder()
-            .put("Contact Information", "Home Phone Number")
-            .put("Contact Information", "Mobile Phone Number")
-            .put("Contact Information", "Preferred Phone #")
-            .put("Drivers", "Driver (New Driver Version2)")
+	//all components/attributes that should be on Comparison page  Rolled on/OOSE
+	static final Multimap<String, String> ADD_DRIVER_INFORMATION_VERSION_1 = ImmutableListMultimap.<String, String>builder()
+			.put("Contact Information", "Home Phone Number")
+			.put("Contact Information", "Mobile Phone Number")
+			.put("Contact Information", "Preferred Phone #")
+			.put("Drivers", "Driver (New Driver Version2)")
 			.put("Vehicles.2008, ACURA, MDX.Coverages.AAAADBCoverage", "Automobile Death Benefit")
 			.put("Reports", "AAA Clue Order")
-			.put("Reports.AAA Clue Order","Order Date")
-			.put("Reports.AAA Clue Order","Receipt Date")
-			.put("Reports.AAA Clue Order","Select")
+			.put("Reports.AAA Clue Order", "Order Date")
+			.put("Reports.AAA Clue Order", "Receipt Date")
+			.put("Reports.AAA Clue Order", "Select")
 			.build();
 
 	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_MANUAL = ArrayListMultimap.create(
@@ -525,7 +528,7 @@ public class VersionsConflictConstants {
 					.put("Vehicles.1998, DODGE, CARAVAN.Usage", CURRENT)
 					.put("Vehicles.1998, DODGE, CARAVAN.Enroll in Usage Based Insurance?", CURRENT)
 					.put("Vehicles.1998, DODGE, CARAVAN.Garaging Address", AVAILABLE)
-					.put("Vehicles.1998, DODGE, CARAVAN.Ownership Type",CURRENT)
+					.put("Vehicles.1998, DODGE, CARAVAN.Ownership Type", CURRENT)
 					.put("Vehicles.1998, DODGE, CARAVAN.Forms.AALPXXEndorsement Form", CURRENT)
 					.build());
 
@@ -609,7 +612,6 @@ public class VersionsConflictConstants {
 			.put("Vehicles", "Vehicle (1998, DODGE, CARAVAN)")
 			.build();
 
-
 	/**
 	 *  Maps full attribute path on conflict page to version to select (Current, Available).
 	 */
@@ -638,37 +640,35 @@ public class VersionsConflictConstants {
 	static final Multimap<String, String> ASSIGNMENT_VERSION_1 = ImmutableListMultimap.<String, String>builder()
 			.build();
 
-
-
 	//components/attributes that should be on comparision page Rolled on/OOSE for Removing components
-	static final Multimap<String,String> REMOVE_DRIVER_VEHICLE_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()
-			.put("Drivers","Driver (Third Driver Version2)")
-			.put("Vehicles","Vehicle (2011, MERCEDES-BENZ, G55AMG)")
+	static final Multimap<String, String> REMOVE_DRIVER_VEHICLE_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()
+			.put("Drivers", "Driver (Third Driver Version2)")
+			.put("Vehicles", "Vehicle (2011, MERCEDES-BENZ, G55AMG)")
 			.build();
 
 	//components/attributes that should be on comparision page Rolled on/Endorsement for Removing components
-	static final Multimap<String,String> REMOVE_DRIVER_VEHICLE_INFORMATION_VERSION_1 = ImmutableListMultimap.<String, String>builder()
-			.put("Drivers","Driver (Second Driver Version1)")
-			.put("Drivers","Driver (Second Driver Version1)")
-			.put("Vehicles","Vehicle (2011, CHEVROLET, EXPRESS VAN)")
-			.put("Vehicles","Vehicle (2011, CHEVROLET, EXPRESS VAN)")
+	static final Multimap<String, String> REMOVE_DRIVER_VEHICLE_INFORMATION_VERSION_1 = ImmutableListMultimap.<String, String>builder()
+			.put("Drivers", "Driver (Second Driver Version1)")
+			.put("Drivers", "Driver (Second Driver Version1)")
+			.put("Vehicles", "Vehicle (2011, CHEVROLET, EXPRESS VAN)")
+			.put("Vehicles", "Vehicle (2011, CHEVROLET, EXPRESS VAN)")
 			.build();
 
 	protected static final ArrayListMultimap<String, String> REMOVE_DRIVER_VEHICLE_INFORMATION = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
 					.put("AAADriver Vehicle Relationship", CURRENT)
 					.put("AAADriver Vehicle Relationship", AVAILABLE)
-					.put("Drivers.Driver (Second Driver Version1)",CURRENT)
-					.put("Drivers.Driver (Second Driver Version1)",CURRENT)
-					.put("Drivers.Driver (Third Driver Version2)",AVAILABLE)
-					.put("Vehicles.Vehicle (2011, CHEVROLET, EXPRESS VAN)",CURRENT)
-					.put("Vehicles.Vehicle (2011, CHEVROLET, EXPRESS VAN)",CURRENT)
-					.put("Vehicles.Vehicle (2011, MERCEDES-BENZ, G55AMG)",AVAILABLE)
+					.put("Drivers.Driver (Second Driver Version1)", CURRENT)
+					.put("Drivers.Driver (Second Driver Version1)", CURRENT)
+					.put("Drivers.Driver (Third Driver Version2)", AVAILABLE)
+					.put("Vehicles.Vehicle (2011, CHEVROLET, EXPRESS VAN)", CURRENT)
+					.put("Vehicles.Vehicle (2011, CHEVROLET, EXPRESS VAN)", CURRENT)
+					.put("Vehicles.Vehicle (2011, MERCEDES-BENZ, G55AMG)", AVAILABLE)
 					.build());
 
 	//components/attributes that should be on comparision page Rolled on/Endorsement for Removing components
-	static final Multimap<String,String> REMOVE_NAMED_INSUREDS_RENEWAL_VERSION_1 = ImmutableListMultimap.<String, String>builder()
-			.put("Named Insureds","Insured Principal (Second VI Insured)")
+	static final Multimap<String, String> REMOVE_NAMED_INSUREDS_RENEWAL_VERSION_1 = ImmutableListMultimap.<String, String>builder()
+			.put("Named Insureds", "Insured Principal (Second VI Insured)")
 			.build();
 
 	protected static final ArrayListMultimap<String, String> REMOVE_NAMED_INSURED = ArrayListMultimap.create(
@@ -680,6 +680,10 @@ public class VersionsConflictConstants {
 	 */
 	protected static final ArrayListMultimap<String, String> PREMIUM_AND_COVERAGES = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
+					//TODO next 2 lines should be deleted when defect PT-3834 is fixed
+					.put("Vehicle Assignment", CURRENT)
+					.put("Vehicle Assignment", CURRENT)
+
 					.put("Policy Options.Payment Plan", AVAILABLE)
 					.build());
 

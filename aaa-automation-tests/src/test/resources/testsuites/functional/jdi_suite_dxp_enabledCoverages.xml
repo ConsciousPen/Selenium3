@@ -3,9 +3,8 @@
     <listeners>
         <!-- Listener commented out for local runs-->
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
     <!--todo Uncomment when tested and DEV branch is merged to Master-->
     <!--<test thread-count="1024" name="AA52AZ RFI" parallel="methods">-->
         <!--<parameter name="state" value="AZ"/>-->

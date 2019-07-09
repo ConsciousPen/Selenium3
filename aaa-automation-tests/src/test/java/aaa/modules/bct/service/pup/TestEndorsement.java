@@ -3,7 +3,7 @@ package aaa.modules.bct.service.pup;
 import static aaa.common.enums.Constants.States.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;

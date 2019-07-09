@@ -2,10 +2,8 @@
 <suite name="Batch Suite" verbose="1">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method" />
-
     <parameter name="state" value="UT"/>
     <test name="Batch Marker">
         <classes>
@@ -15,8 +13,6 @@
                     <include name="removeError"/>
                     <include name="checkSchedulerEnabled"/>
                     <include name="checkAsyncManagerStatus"/>
-                    <include name="createJobIfNotPresent"/>
-                    <include name="createJobIfNotPresent"/>
                     <include name="RUN_01_AAABATCHMARKERJOB"/>
                     <include name="RUN_02_POLICYSTATUSUPDATEJOB"/>
                     <include name="RUN_03_AAAPOLICYAUTOMATEDRENEWALASYNCTASKGENERATIONJOB"/>

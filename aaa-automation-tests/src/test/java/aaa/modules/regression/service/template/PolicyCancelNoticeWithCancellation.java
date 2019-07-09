@@ -2,12 +2,10 @@ package aaa.modules.regression.service.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
-
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.webdriver.controls.TextBox;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum.SearchBy;
 import aaa.main.enums.SearchEnum.SearchFor;
@@ -18,8 +16,8 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.actiontabs.CancelNoticeActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.webdriver.controls.TextBox;
 
 /**
  * @author Ryan Yu
@@ -65,7 +63,7 @@ public class PolicyCancelNoticeWithCancellation extends PolicyBaseTest {
 		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(DateTimeUtils.getCurrentDateTime().plusDays(daysOfNotice));
 		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
 
-		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationConfirmationAsyncJob);
 
 		mainApp().open();
 		SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, policyNumber);

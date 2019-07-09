@@ -9,8 +9,8 @@ import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
@@ -19,8 +19,8 @@ import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.billing.DeclineRecurringPaymentHelper;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.impl.PasDocImpl;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum.EventName;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -48,12 +48,12 @@ public class PasDoc_OnlineBatch_Billing extends AutoSSBaseTest {
 	private TestData tdBilling = testDataManager.billingAccount;
 
 	/**
-	 * <p> OnlineBatch Scenario 21: ENDORSEMENT_ISSUE: AH35XX 
-	 * <p> 	<b>(a)</b>	1. Issue policy with Monthly payment plan and active AutoPay. 
-	 * <p>		2. Purchase Endorsement with premium AP/RP changes, and verify AH35XX form is generated. 
+	 * <p> OnlineBatch Scenario 21: ENDORSEMENT_ISSUE: AH35XX
+	 * <p> 	<b>(a)</b>	1. Issue policy with Monthly payment plan and active AutoPay.
+	 * <p>		2. Purchase Endorsement with premium AP/RP changes, and verify AH35XX form is generated.
 	 * <p>
-	 * <p>	<b>(b)</b> 1. Issue policy with Monthly payment plan and active AutoPay. 
-	 * <p>		2. Purchase Endorsement: change payment plan e.g. to Quarterly, and verify AH35XX form is generated. 
+	 * <p>	<b>(b)</b> 1. Issue policy with Monthly payment plan and active AutoPay.
+	 * <p>		2. Purchase Endorsement: change payment plan e.g. to Quarterly, and verify AH35XX form is generated.
 	 * <p>
 	 * @param state
 	 */
@@ -128,7 +128,7 @@ public class PasDoc_OnlineBatch_Billing extends AutoSSBaseTest {
 		List<LocalDateTime> installmentDueDates = BillingHelper.getInstallmentDueDates();
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1));
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policy2_notActiveAutoPay);
 		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(1), billGenDate, null, BillingHelper.DZERO);
@@ -162,7 +162,7 @@ public class PasDoc_OnlineBatch_Billing extends AutoSSBaseTest {
 	}
 
 	/**
-	 * <p> OnlineBatch - Scenario 25 - AUTO_PAY_METHOD_REMOVED: 60 5004 
+	 * <p> OnlineBatch - Scenario 25 - AUTO_PAY_METHOD_REMOVED: 60 5004
 	 * <p>
 	 * <p> <b>Precondition:</b> Policy is issued with Monthly payment plan and AutoPay is active.
 	 * <p> <b>Steps:</b>  
@@ -190,12 +190,12 @@ public class PasDoc_OnlineBatch_Billing extends AutoSSBaseTest {
 		//Set time to DD1-20 and run aaaBillingInvoiceAsyncTaskJob to generate bill
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1));
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 
 		//Set time to DD1 and run aaaRecurringPaymentsProcessingJob to make a payment
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDates.get(1));
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
+		JobUtils.executeJob(BatchJob.aaaRecurringPaymentsProcessingJob);
 		mainApp().open();
 		SearchPage.openBilling(policy_activeAutoPay);
 		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(1), BillingBillsAndStatmentsTable.MINIMUM_DUE));
@@ -207,7 +207,7 @@ public class PasDoc_OnlineBatch_Billing extends AutoSSBaseTest {
 		String paymentNumber = DBService.get().getValue(String.format(GET_PAYMENT_NUMBER_BY_BILLING_ACCOUNT, billingAccountNumber)).get();
 		File declineRecurringPaymentFile = DeclineRecurringPaymentHelper.createFile(getState(), policy_activeAutoPay, paymentNumber, paymentAmountPlain);
 		DeclineRecurringPaymentHelper.copyFileToServer(declineRecurringPaymentFile);
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsResponseProcessAsyncJob, true);
+		JobUtils.executeJob(BatchJob.aaaRecurringPaymentsResponseProcessAsyncJob, true);
 		Waiters.SLEEP(5000).go();
 
 		mainApp().open();
@@ -229,21 +229,21 @@ public class PasDoc_OnlineBatch_Billing extends AutoSSBaseTest {
 
 	/**
 	 * <p>OnlineBatch Scenario 46: OFFCYCLE_BILL: AHIBXX, AH35XX
-	 * <p>  <b>Precondition:</b> 
+	 * <p>  <b>Precondition:</b>
 	 * <p>	<b>(a)</b> Policy is created:
-	 * <p>		- Quarterly or Semi-annual payment plan. 
-	 * <p>		- Current Carrier Information overriden (BI limits set not the smallest ones). 
+	 * <p>		- Quarterly or Semi-annual payment plan.
+	 * <p>		- Current Carrier Information overriden (BI limits set not the smallest ones).
 	 * <p>		- AutoPay is NOT active.
-	 * <p>	<b>(b)</b> Policy is created: 
-	 * <p>		- Quarterly or Semi-annual payment plan. 
-	 * <p>		- Membership is active. 
-	 * <p>		- Current Carrier Information overriden (BI limits set not the smallest ones). 
-	 * <p>		- AutoPay is active. 
-	 * <p>	<b>Steps:</b> 
-	 * <p>	1. Set time to DD1 - 20 and run aaaBillingInvoicAsyncTaskJob. 
-	 * <p>	2. Bill is NOT paid. 
-	 * <p>	3. Set time to DD1 + 11 and run aaaOffCycleBillingInvoiceAsyncJob. 
-	 * <p>	<b>Expected result:</b> 
+	 * <p>	<b>(b)</b> Policy is created:
+	 * <p>		- Quarterly or Semi-annual payment plan.
+	 * <p>		- Membership is active.
+	 * <p>		- Current Carrier Information overriden (BI limits set not the smallest ones).
+	 * <p>		- AutoPay is active.
+	 * <p>	<b>Steps:</b>
+	 * <p>	1. Set time to DD1 - 20 and run aaaBillingInvoicAsyncTaskJob.
+	 * <p>	2. Bill is NOT paid.
+	 * <p>	3. Set time to DD1 + 11 and run aaaOffCycleBillingInvoiceAsyncJob.
+	 * <p>	<b>Expected result:</b>
 	 * <p> <b>(a)</b> The following form is generated: AHIBXX.
 	 * <p> <b>(b)</b> The following form is generated: AH35XX.
 	 * <p>
@@ -264,9 +264,9 @@ public class PasDoc_OnlineBatch_Billing extends AutoSSBaseTest {
 
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1));
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		TimeSetterUtil.getInstance().nextPhase(installmentDueDates.get(1).plusDays(11));
-		JobUtils.executeJob(Jobs.offCycleBillingInvoiceAsyncJob);
+		JobUtils.executeJob(BatchJob.offCycleBillingInvoiceAsyncJob);
 
 		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy1, EventName.OFFCYCLE_BILL, AHIBXX);
 		PasDocImpl.verifyDocumentsGenerated(null, true, false, policy2, EventName.OFFCYCLE_BILL, AH35XX);

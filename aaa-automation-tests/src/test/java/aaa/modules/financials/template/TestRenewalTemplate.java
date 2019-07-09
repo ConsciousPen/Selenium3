@@ -5,13 +5,13 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -54,7 +54,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(dueDate);
         LocalDateTime billDueDate = getTimePoints().getBillDueDate(dueDate);
         TimeSetterUtil.getInstance().nextPhase(billGenDate);
-        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+        JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
         TimeSetterUtil.getInstance().nextPhase(billDueDate);
 
         mainApp().open();
@@ -175,7 +175,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(dueDate);
         LocalDateTime billDueDate = getTimePoints().getBillDueDate(dueDate);
         TimeSetterUtil.getInstance().nextPhase(billGenDate);
-        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+        JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
         TimeSetterUtil.getInstance().nextPhase(billDueDate);
 
         // Pay installment amount by check, decline payment with fees + no restriction, waive NSF & installment fees
@@ -272,7 +272,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         TimeSetterUtil.getInstance().nextPhase(renewalEffDate);
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
-        JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.ledgerStatusUpdateJob);
 
         // RNW-03 Validations recorded at effective date
         validateRenewalBoundBeforeEffDateAtEffDate(policyNumber, renewalPrem.subtract(renewalOffsetAmt), renewalTermTaxes);
@@ -384,7 +384,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         TimeSetterUtil.getInstance().nextPhase(renewalEffDate);
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
-        JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.ledgerStatusUpdateJob);
 
         // RNW-04 validations recorded at effective date
         validateRenewalBoundBeforeEffDateAtEffDate(policyNumber, renewalPrem, new Dollar(0.00));
@@ -515,8 +515,8 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         policy.manualRenewalWithOrWithoutLapse().perform(getChangeRenewalLapseTd(renewalEffDate.plusMonths(1)));
 
 		TimeSetterUtil.getInstance().nextPhase(renewalEffDate);
-		JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.ledgerStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
@@ -579,7 +579,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(renewalEffDate);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.ledgerStatusUpdateJob);
 
 		Dollar renewalPrem = PolicySummaryPage.TransactionHistory.getEndingPremium();
 		// taxes only applies to WV and KY and value needs added to premium amount for correct validation below
@@ -618,7 +618,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         List<LocalDateTime> installmentDueDates = BillingHelper.getInstallmentDueDates();
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1));
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
@@ -628,7 +628,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 
         new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalPayment);
         TimeSetterUtil.getInstance().nextPhase(installmentDueDates.get(1).plusDays(1));
-        JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
         mainApp().open();
         SearchPage.openBilling(policyNumber);
 
@@ -678,7 +678,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 		List<LocalDateTime> installmentDueDatesRenewal = BillingHelper.getInstallmentDueDates();
 		LocalDateTime billGenDateRenewal = getTimePoints().getBillGenerationDate(installmentDueDatesRenewal.get(1));
 		TimeSetterUtil.getInstance().nextPhase(billGenDateRenewal);
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
@@ -686,7 +686,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), renewalTotalPayment);
 		TimeSetterUtil.getInstance().nextPhase(installmentDueDatesRenewal.get(1).plusDays(1));
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
@@ -725,7 +725,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 		policy.renew().performAndFill(getRenewalFillTd());
 		if (!getState().equals(Constants.States.CA)) {
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalEffDate));
-			JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+			JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 		}
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);

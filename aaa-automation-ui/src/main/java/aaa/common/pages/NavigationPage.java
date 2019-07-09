@@ -7,7 +7,7 @@ import java.text.MessageFormat;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import com.exigen.ipb.etcsa.base.app.Application;
+import com.exigen.ipb.eisa.base.app.Application;
 import aaa.common.Tab;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptLink;
 import toolkit.webdriver.BrowserController;

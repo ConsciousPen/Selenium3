@@ -6,13 +6,13 @@ import java.util.Map;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
+import aaa.helpers.jobs.BatchJob;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -51,21 +51,21 @@ public class TestScenario6 extends AutoSSBaseTest {
 		billing.declinePayment().start(map);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDD1));
-		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationNoticeAsyncJob);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationDate(installmentDD1));
-		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationConfirmationAsyncJob);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationDate(installmentDD1).plusDays(15));
-		JobUtils.executeJob(Jobs.earnedPremiumBillGenerationJob);
+		JobUtils.executeJob(BatchJob.earnedPremiumBillGenerationJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._55_6101);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationDate(installmentDD1).plusDays(30));
-		JobUtils.executeJob(Jobs.earnedPremiumBillGenerationJob);
+		JobUtils.executeJob(BatchJob.earnedPremiumBillGenerationJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._55_6102);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationDate(installmentDD1).plusDays(45));
-		JobUtils.executeJob(Jobs.earnedPremiumBillGenerationJob);
+		JobUtils.executeJob(BatchJob.earnedPremiumBillGenerationJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._55_6103);
 	}
 }

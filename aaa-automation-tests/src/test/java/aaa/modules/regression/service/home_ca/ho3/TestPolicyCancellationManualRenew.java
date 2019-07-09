@@ -7,8 +7,8 @@ import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
@@ -18,8 +18,8 @@ import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
@@ -82,7 +82,7 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 
 		//DD1-20
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(1)));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		log.info("TEST: #L Installment bill is generated under Bills and Statement section of the Billing tab\n"
@@ -103,16 +103,16 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 
 		//DD2-20
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(2)));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 
 		//DD3-20
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(3)));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 
 		//DD3+1
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDates.get(2)));
-		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationNoticeAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		mainApp().open();
 		log.info("TEST: #V1 'Cancel Notice' is set on the policy");
 		SearchPage.openPolicy(policyNum);
@@ -123,24 +123,25 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 		SearchPage.openBilling(policyNum);
 		minDue = new Dollar(BillingSummaryPage.getMinimumDue());
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		log.info("TEST: #L Cancel notice is removed from the policy");
 		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		log.info("TEST: #V3 Cancellation Notice Withdrawn AHCWXX is archived and available in the Billing E-folder under Cancellation & Rescission & Reinstatement folder");
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHCWXX);
 
 		//DD4-20
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(4)));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 
 		//DD5-20
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(5)));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 
 		//DD5
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDueDates.get(4)));
-		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationNoticeAsyncJob);
 		log.info("TEST: #L 'Cancel Notice' is set on the policy");
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -148,7 +149,7 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 
 		//DD6-20
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(6)));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		log.info("TEST: #L Bill is NOT generated");
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -158,8 +159,8 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 
 		//Cancellation DD
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationDate(installmentDueDates.get(4)));
-		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationConfirmationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		log.info("TEST: #V8 Lapse Notice AH67XX is archived in Fastlane and available in the Billing E-folder under Cancellation");
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH67XX);
 		log.info("TEST: #L Status of the policy is 'Policy Cancelled'");
@@ -182,7 +183,7 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 
 		//DD7-20
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(7)));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		log.info("TEST: #L Installment bill is generated under Bills and Statement section of the Billing tab\n"
 				+ " Type = 'Bill'\n"
 				+ " Date = Installment due date");
@@ -200,7 +201,7 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 
 		//DD8-20
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(8)));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		log.info("TEST: #L Installment bill is generated under Bills and Statement section of the Billing tab\n"
 				+ " Type = 'Bill'\n"
 				+ " Date = Installment due date");
@@ -218,7 +219,7 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 
 		//DD9-20
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(9)));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		log.info("TEST: #L Installment bill is generated under Bills and Statement section of the Billing tab\n"
 				+ " Type = 'Bill'\n"
 				+ " Date = Installment due date");
@@ -232,8 +233,8 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 		//R-83
 		LocalDateTime renewalDate = installmentDueDates.get(0).plusYears(1);
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(renewalDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		log.info("TEST: Make sure renewal is not generated");
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -241,7 +242,7 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 
 		//DD10-20
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(10)));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		log.info("TEST: #L Installment bill is generated under Bills and Statement section of the Billing tab\n"
 				+ " Type = 'Bill'\n"
 				+ " Date = Installment due date");
@@ -259,8 +260,8 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 		policy.removeDoNotRenew().perform(new SimpleDataProvider());
 		log.info("TEST: #L DNR flag is removed");
 		PolicySummaryPage.verifyDoNotRenewFlagNotPresent();
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		log.info("TEST: #V Renewal image is created");
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -278,8 +279,8 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 
 		//R-48
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalDate));
-		JobUtils.executeJob(Jobs.policyDoNotRenewAsyncJob);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.policyDoNotRenewAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		log.info("TEST: #V The Policy still has DNR flag set");
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -303,7 +304,7 @@ public class TestPolicyCancellationManualRenew extends PolicyBaseTest {
 
 		//R
 		TimeSetterUtil.getInstance().nextPhase(renewalDate);
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_EXPIRED);

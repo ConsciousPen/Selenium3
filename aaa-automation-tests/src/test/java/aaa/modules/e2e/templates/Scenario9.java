@@ -1,5 +1,11 @@
 package aaa.modules.e2e.templates;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import org.openqa.selenium.By;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -10,8 +16,8 @@ import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.http.HttpStub;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
@@ -25,18 +31,11 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.table.Table;
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
 
 public class Scenario9 extends ScenarioBaseTest {
 	protected IPolicy policy;
@@ -132,7 +131,7 @@ public class Scenario9 extends ScenarioBaseTest {
 	protected void verifyThirdBillNotGenerated() {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(3));
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -160,7 +159,7 @@ public class Scenario9 extends ScenarioBaseTest {
 	protected void verifyPaymentNotGenerated() {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDates.get(3));
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
+		JobUtils.executeJob(BatchJob.aaaRecurringPaymentsProcessingJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -175,9 +174,9 @@ public class Scenario9 extends ScenarioBaseTest {
 	protected void renewalImageGeneration() {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -187,7 +186,7 @@ public class Scenario9 extends ScenarioBaseTest {
 	protected void renewalPreviewGeneration() {
 		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -199,7 +198,7 @@ public class Scenario9 extends ScenarioBaseTest {
 	protected void renewalOfferGeneration(ETCSCoreSoftAssertions softly) {
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -273,7 +272,7 @@ public class Scenario9 extends ScenarioBaseTest {
 	protected void generateRenewalBill() {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -295,7 +294,7 @@ public class Scenario9 extends ScenarioBaseTest {
 	protected void dontPayRenewalBill() {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
+		JobUtils.executeJob(BatchJob.aaaRecurringPaymentsProcessingJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDueDate).setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
@@ -305,8 +304,8 @@ public class Scenario9 extends ScenarioBaseTest {
 	protected void updatePolicyStatus() {
 		LocalDateTime updateStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(updateStatusDate);
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -318,7 +317,7 @@ public class Scenario9 extends ScenarioBaseTest {
 
 	protected void customerDeclineRenewal() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusHours(1));
-		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
@@ -329,7 +328,7 @@ public class Scenario9 extends ScenarioBaseTest {
 	protected void generateEarnedPremiumWriteOff() {
 		//LocalDateTime earnedPremiumWriteOffDate = getTimePoints().getEarnedPremiumWriteOff(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(60).with(DateTimeUtils.closestFutureWorkingDay));
-		JobUtils.executeJob(Jobs.earnedPremiumWriteoffProcessingJob);
+		JobUtils.executeJob(BatchJob.earnedPremiumWriteoffProcessingJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);

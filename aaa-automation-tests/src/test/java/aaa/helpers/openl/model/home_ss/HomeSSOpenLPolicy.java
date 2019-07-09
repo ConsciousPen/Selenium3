@@ -26,6 +26,7 @@ import toolkit.exceptions.IstfException;
 
 @ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 public class HomeSSOpenLPolicy extends OpenLPolicy {
+
 	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
 	@ExcelColumnElement(name = "id")
 	private String policyNumber;
@@ -315,6 +316,16 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 
 	@Override
 	public LocalDate getEffectiveDate() {
+
+		if (isNewRenPasCappedPolicy()) {
+			// If programCode = NewRenPas and termCappingFactor != 1, policy with effective date = effectiveDate - 1 year must be purchased.
+			// If effectiveDate precedes or is equal to current date, current date + 1 day is used as effectiveDate,
+			// it prevents NewRenPas capped policy creating with effective date more than 1 year prior to current date.
+			if (!effectiveDate.isAfter(LocalDate.now())) {
+				return LocalDate.now().minusMonths(getTerm()).plusDays(1);
+			}
+			return effectiveDate.minusMonths(getTerm());
+		}
 		return effectiveDate;
 	}
 
@@ -401,7 +412,7 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 
 	@Override
 	public boolean isCappedPolicy() {
-		return !(getCappingDetails().getTermCappingFactor() == null || getCappingDetails().getTermCappingFactor() == 0.0 || getCappingDetails().getTermCappingFactor() == 1.0);
+		return !(getCappingDetails().getTermCappingFactor() == null || getCappingDetails().getTermCappingFactor() == 0.0);
 	}
 
 	@Override
@@ -416,4 +427,13 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	public String getAutoPolicyNumber() {return autoPolicyNumber;}
 
 	public void setAutoPolicyNumber(String autoPolicyNumber) {this.autoPolicyNumber = autoPolicyNumber;}
+
+	@Override
+	public void setIsOneYearBeforePolicy() {
+		boolean isOneYearBeforePolicy = isNewRenPasCappedPolicy() && getTerm() == 12;
+		policyDiscountInformation.setIsOneYearBeforePolicy(isOneYearBeforePolicy);
+		policyDwellingRatingInfo.setIsOneYearBeforePolicy(isOneYearBeforePolicy);
+		policyNamedInsured.setIsOneYearBeforePolicy(isOneYearBeforePolicy);
+	}
+
 }
