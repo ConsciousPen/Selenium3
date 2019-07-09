@@ -360,8 +360,7 @@
             </class>
         </classes>
     </test>
-    <!-- Not yet implemented into master
-    <test name="PAS-25569 Test Insurance Score Renewal reordering per customer request and automatic reordering">
+    <test name="PAS-22508, PAS-25569 Test Insurance Score Renewal reordering per customer request and automatic reordering">
         <parameter name="state" value="NV, VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestInsuranceScoreRenewal"/>
@@ -370,7 +369,7 @@
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestInsuranceScoreRenewal"/>
         </classes>
     </test>
-    <test name="PAS-24663 Test Insurance Score Endorsement">
+    <test name="PAS-22508, PAS-24663 Test Insurance Score Endorsement">
         <parameter name="state" value="AZ, VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestInsuranceScoreEndorsement"/>
@@ -379,5 +378,13 @@
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestInsuranceScoreEndorsement"/>
         </classes>
     </test>
-    -->
+    <test name="PAS-22508 Test Insurance Score New Business reordering per customer request and automatic reordering">
+        <parameter name="state" value="OH, VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestInsuranceScoreNB"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInsuranceScoreNB"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestInsuranceScoreNB"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestInsuranceScoreNB"/>
+        </classes>
+    </test>
 </suite>

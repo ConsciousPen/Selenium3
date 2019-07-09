@@ -541,4 +541,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	public Boolean isSupplementalSpousalLiability() {
 		return supplementalSpousalLiability;
 	}
+
+	@Override
+	public void setIsOneYearBeforePolicy() {}
 }

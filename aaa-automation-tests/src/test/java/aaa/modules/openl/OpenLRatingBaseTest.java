@@ -112,6 +112,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends BaseTes
 		P openLPolicy = testInfo.getOpenLPolicy(policyNumber);
 		setState(openLPolicy.getState());
 		setPolicyType(testPolicyType);
+		openLPolicy.setIsOneYearBeforePolicy();
 		Dollar expectedPremium = openLPolicy.getExpectedPremium();
 		Dollar actualPremium;
 
