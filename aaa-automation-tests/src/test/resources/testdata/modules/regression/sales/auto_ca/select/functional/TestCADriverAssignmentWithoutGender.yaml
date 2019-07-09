@@ -2,7 +2,8 @@
 TestData_DriverTab_Assignment_Data_CA: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ca_select>@DataGather@GeneralTab',
-  DriverTab:  ['@Driver1','@Driver2','@Driver3','@Driver5','@Driver6','@Driver7','@Driver8'],
+#  DriverTab:  ['@Driver1','@Driver2','@Driver3','@Driver5','@Driver6','@Driver7','@Driver8'],
+  DriverTab:  ['@Driver1','@Driver2','@Driver3','@Driver4','@Driver5','@Driver6','@Driver7'],
   VehicleTab: ['@Vehicle1','@Vehicle1','@Vehicle1','@Vehicle1','@Vehicle1','@Vehicle1','@Vehicle1'],
   AssignmentTab: {
     DriverVehicleRelationshipTable: [  {
@@ -20,7 +21,8 @@ TestData_DriverTab_Assignment_Data_CA: {
                                        },{
                                          Primary Driver: index=1
                                        }]
-  }
+  },
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Select'
 }
 
 PremiumAndCoveragesTab_Select: {
@@ -31,8 +33,8 @@ PremiumAndCoveragesTab_Select: {
 }
 
 PrefillTab: {
-  First Name: Gandalf,
-  Last Name: DeGrey,
+  First Name: Sarah,
+  Last Name: One,
   Zip Code: 90255,
   Address Line 1: 6586 PORCUPINE WAY,
   City: HUNTINGTON PARK,
@@ -57,7 +59,7 @@ Driver1: {
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': First Named Insured,
   Age First Licensed: 18,
-  Gender: Male,
+  Gender: Female,
   Marital Status: Single,
   Occupation: Architect,
   License Type: "Valid",
@@ -71,11 +73,11 @@ Driver2: {
   Add Driver: Click,
   DriverSearchDialog:{},
   Driver Type: Available for Rating,
-  First Name: Frodo,
-  Last Name: Baggins,
+  First Name: Bill,
+  Last Name: Two,
   'Rel. to First Named Insured': Other,
-  Date of Birth: $<today-22y>,
-  Gender: Female,
+  Date of Birth: $<today-21y>,
+  Gender: Male,
   Marital Status: Single,
   Occupation: Architect,
   License Type: "Valid",
@@ -90,10 +92,10 @@ Driver3: {
   Add Driver: Click,
   DriverSearchDialog:{},
   Driver Type: Available for Rating,
-  First Name: Brolo,
-  Last Name: Baggins,
+  First Name: Laura,
+  Last Name: Three,
   'Rel. to First Named Insured': Other,
-  Date of Birth: $<today-33y>,
+  Date of Birth: $<today-21y>,
   Gender: Female,
   Marital Status: Married,
   Occupation: Architect,
@@ -101,29 +103,19 @@ Driver3: {
   License State: CA,
   Permit Before License: 'Yes',
   "License #": D5435703,
-  Age First Licensed: 18,
-  ActivityInformation:
-  {
-    Activity Source: 'Company Input',
-    Type: 'Accident',
-    Occurrence Date: '$<today-1M:MM/dd/yyyy>',
-    Description: 'Fault accident, no injury, damage > $1000',
-    Loss Payment Amount: '1500',
-    Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-    "Include in Points and/or YAF?": 'Yes'
-  }
+  Age First Licensed: 18
 }
 
 Driver4: {
   Add Driver: Click,
   DriverSearchDialog:{},
   Driver Type: Available for Rating,
-  First Name: Trollo,
-  Last Name: Baggins,
+  First Name: Tom,
+  Last Name: Four,
   'Rel. to First Named Insured': Other,
-  Date of Birth: $<today-23y>,
-  Gender: Female,
-  Marital Status: Single,
+  Date of Birth: $<today-22y>,
+  Gender: Male,
+  Marital Status: Married,
   Occupation: Architect,
   License Type: "Valid",
   License State: CA,
@@ -136,10 +128,10 @@ Driver5: {
   Add Driver: Click,
   DriverSearchDialog:{},
   Driver Type: Available for Rating,
-  First Name: Bilbo,
-  Last Name: Baggins,
+  First Name: Beck,
+  Last Name: Five,
   'Rel. to First Named Insured': Other,
-  Date of Birth: $<today-26y>,
+  Date of Birth: $<today-33y>,
   Gender: Male,
   Marital Status: Married,
   Occupation: Architect,
@@ -148,24 +140,42 @@ Driver5: {
   Permit Before License: 'Yes',
   "License #": D5435705,
   Age First Licensed: 18,
-  ActivityInformation:
-    {
-      Activity Source: 'Company Input',
-      Type: 'Accident',
-      Occurrence Date: '$<today-1M:MM/dd/yyyy>',
-      Description: 'Fault accident, no injury, damage > $1000',
-      Loss Payment Amount: '1500',
-      Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-      "Include in Points and/or YAF?": 'Yes'
-    }
+  ActivityInformation: [
+{
+    Activity Source: 'Company Input',
+    Type: 'Accident',
+    Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+    Description: 'Fault accident with injury',
+    Loss Payment Amount: '1500',
+    Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    "Include in Points and/or YAF?": 'Yes'
+  },
+{
+  Activity Source: 'Company Input',
+  Type: 'Accident',
+  Occurrence Date: '$<today-2M:MM/dd/yyyy>',
+  Description: 'Fault accident with injury',
+  Loss Payment Amount: '2500',
+  Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+  "Include in Points and/or YAF?": 'Yes'
+},
+  {
+    Activity Source: 'Company Input',
+    Type: 'Accident',
+    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+    Description: 'Fault accident with injury',
+    Loss Payment Amount: '3500',
+    Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    "Include in Points and/or YAF?": 'Yes'
+  } ]
 }
 
 Driver6: {
   Add Driver: Click,
   DriverSearchDialog:{},
   Driver Type: Available for Rating,
-  First Name: Trillo,
-  Last Name: Baggins,
+  First Name: Jessica,
+  Last Name: Six,
   'Rel. to First Named Insured': Other,
   Date of Birth: $<today-33y>,
   Gender: Female,
@@ -176,26 +186,35 @@ Driver6: {
   Permit Before License: 'Yes',
   "License #": D5435706,
   Age First Licensed: 18,
-  ActivityInformation:
+  ActivityInformation: [
     {
       Activity Source: 'Company Input',
       Type: 'Accident',
       Occurrence Date: '$<today-1M:MM/dd/yyyy>',
-      Description: 'Fault accident, no injury, damage > $1000',
+      Description: 'Fault accident with injury',
       Loss Payment Amount: '1500',
       Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
       "Include in Points and/or YAF?": 'Yes'
-    }
+    },
+  {
+    Activity Source: 'Company Input',
+    Type: 'Accident',
+    Occurrence Date: '$<today-2M:MM/dd/yyyy>',
+    Description: 'Fault accident with injury',
+    Loss Payment Amount: '2500',
+    Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    "Include in Points and/or YAF?": 'Yes'
+  }]
 }
 
 Driver7: {
   Add Driver: Click,
   DriverSearchDialog:{},
   Driver Type: Available for Rating,
-  First Name: Frillo,
-  Last Name: Baggins,
+  First Name: Laney,
+  Last Name: Seven,
   'Rel. to First Named Insured': Other,
-  Date of Birth: $<today-29y>,
+  Date of Birth: $<today-22y>,
   Gender: Female,
   Marital Status: Single,
   Occupation: Architect,
@@ -203,17 +222,18 @@ Driver7: {
   License State: CA,
   Permit Before License: 'Yes',
   "License #": D5435707,
-  Age First Licensed: 18
+  Age First Licensed: 18,
+  Most Recent GPA: 'A Student',
 }
 
 Driver8: {
   Add Driver: Click,
   DriverSearchDialog:{},
   Driver Type: Available for Rating,
-  First Name: Yellow,
-  Last Name: Baggins,
+  First Name: Daisy,
+  Last Name: Eight,
   'Rel. to First Named Insured': Other,
-  Date of Birth: $<today-30y>,
+  Date of Birth: $<today-25y>,
   Gender: Female,
   Marital Status: Married,
   Occupation: Architect,

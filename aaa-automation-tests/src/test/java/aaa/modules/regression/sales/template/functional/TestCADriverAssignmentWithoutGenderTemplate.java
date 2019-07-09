@@ -88,11 +88,16 @@ public class TestCADriverAssignmentWithoutGenderTemplate extends CommonTemplateM
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
 
         //Verify System Rated Drivers are in the correct ranking order
-        assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue().get(0).getValue("System Rated Driver")).contains("Gandalf");
-        assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue().get(0).getValue("System Rated Driver")).contains("Gandalf");
-        assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue().get(0).getValue("System Rated Driver")).contains("Gandalf");
-        assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue().get(0).getValue("System Rated Driver")).contains("Gandalf");
-        assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue().get(0).getValue("System Rated Driver")).contains("Gandalf");
+        driverAssignmentAssertion(0, "Gandalf");
+        driverAssignmentAssertion(0, "Gandalf");
+        driverAssignmentAssertion(0, "Gandalf");
+        driverAssignmentAssertion(0, "Gandalf");
+        driverAssignmentAssertion(0, "Gandalf");
+        driverAssignmentAssertion(0, "Gandalf");
+    }
+
+    private void driverAssignmentAssertion(int driverNumber, String driverName) {
+            assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue().get(driverNumber).getValue("System Rated Driver")).contains(driverName);
     }
 
 }
