@@ -68,13 +68,12 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 
 		checkFormHS0904(tdGenerator, openLPolicy);
 
-		if (openLPolicy.isCappedPolicy() && !PremiumsAndCoveragesQuoteTab.linkViewCappingDetails.isPresent()) {
+		if (openLPolicy.isCappedPolicy()) {
+			if (!openLPolicy.isLegacyConvPolicy()) {
+				policyPurchaseAndRenew(tdGenerator.getPolicyPurchaseData(openLPolicy));
+			}
 			premiumsAndCoveragesQuoteTab.calculatePremium();
 			assertThat(PremiumsAndCoveragesQuoteTab.linkViewCappingDetails).as("View Capping Details link did not appear after premium calculation").isPresent();
-		}
-
-		// Set capping factor from test if policy is capped
-		if (PremiumsAndCoveragesQuoteTab.linkViewCappingDetails.isPresent()) {
 			PremiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
 			premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.VIEW_CAPPING_DETAILS_DIALOG).fill(tdGenerator.getCappingData(openLPolicy));
 		}
@@ -142,5 +141,32 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			specificFees = specificFees.add(new Dollar(PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", "Ohio Mine Subsidence Insurance").getCell("Term Premium ($)").getValue()));
 		}
 		return specificFees;
+	}
+
+	/**
+	 * This method issues quote and creates renewal for tests which have capping but are not LegacyConv.
+	 **/
+	private void policyPurchaseAndRenew(TestData tdPurchase) {
+		PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
+
+		premiumsAndCoveragesQuoteTab.calculatePremium();
+		PremiumsAndCoveragesQuoteTab.btnContinue.click();
+		ErrorTab errorTab = new ErrorTab();
+		if (errorTab.isVisible()) {
+			errorTab.overrideAllErrors();
+			errorTab.override();
+			PremiumsAndCoveragesQuoteTab.btnContinue.click();
+		}
+
+		policy.get().getDefaultView().fillUpTo(tdPurchase, PurchaseTab.class, false);
+		if (errorTab.isVisible()) {
+			errorTab.overrideAllErrors();
+			errorTab.submitTab();
+		}
+
+		policy.get().getDefaultView().fill(DataProviderFactory.dataOf(PurchaseTab.class.getSimpleName(), tdPurchase.getTestData(PurchaseTab.class.getSimpleName())));
+
+		//perform renewal
+		policy.get().renew().perform();
 	}
 }
