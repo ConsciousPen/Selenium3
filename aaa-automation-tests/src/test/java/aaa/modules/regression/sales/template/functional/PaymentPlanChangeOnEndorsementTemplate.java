@@ -1,12 +1,18 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Random;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.TimePoints;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
@@ -23,15 +29,7 @@ import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.PaymentMethodAllocationControl;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Random;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class PaymentPlanChangeOnEndorsementTemplate extends PolicyBaseTest {
 
@@ -43,7 +41,8 @@ public class PaymentPlanChangeOnEndorsementTemplate extends PolicyBaseTest {
 	private BindTab bindTabPup = new BindTab();
 	private PolicyType policyType;
 
-	private PaymentPlanChangeOnEndorsementTemplate(){};
+	private PaymentPlanChangeOnEndorsementTemplate() {}
+
 	public PaymentPlanChangeOnEndorsementTemplate (PolicyType policyType){
 		this.policyType = policyType;
 	}
@@ -420,8 +419,8 @@ public class PaymentPlanChangeOnEndorsementTemplate extends PolicyBaseTest {
 		LocalDateTime renewImageGenDate = timePoints.getRenewImageGenerationDate(policyExpirationDate);
 
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);

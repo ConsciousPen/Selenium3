@@ -18,6 +18,8 @@ public class Groups {
 	public static final String MEDIUM         = "Medium";
 	public static final String LOW            = "Low";
 
+	public static final String OBSOLETE        = "Obsolete";
+
 	public static final String JDI              = "JDI";
 	public static final String CIO              = "CIO";
 	public static final String SCRUM_N_TONIC    = "SCRUM N TONIC";

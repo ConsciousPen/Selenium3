@@ -9,8 +9,8 @@ import java.util.Map;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -19,8 +19,8 @@ import aaa.helpers.billing.*;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
@@ -102,7 +102,7 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		log.info("TEST: #L Cancel Notice Flag is set on policy");
 		assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
 		log.info("TEST: Run aaDOCgen batch job");
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		log.info("TEST: #V Cancellation Notice AH61XX is archived in fast lane and available under E-Folder--> Cancellation");
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH61XX);
 		log.info("TEST: Delete Cancel Notice for Policy #" + policyNum);
@@ -115,7 +115,7 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		billGenDate = getTimePoints().getBillGenerationDate(dd2);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
 		log.info("TEST: aaaBillingInvoiceAsyncTaskJob to generate the Installment Bill (If payment plan= Eleven Pay Standard)");
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		log.info("TEST: #L Installment bill is generated under Bills and Statement section of the Billing tab Type = Bill, Date = Installment due date.");
@@ -147,8 +147,8 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		billDueDate = getTimePoints().getBillDueDate(dd2);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
 		log.info("TEST: Run the Following Batch jobs: a. changeCancellationPendingPoliciesStatus b. Run the aaaRecurringPaymentsProcessingJob");
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
-		JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
+		JobUtils.executeJob(BatchJob.aaaRecurringPaymentsProcessingJob);
+		JobUtils.executeJob(BatchJob.changeCancellationPendingPoliciesStatusJob);
 		mainApp().open();
 		log.info("TEST: #L Bill & Statements (cancellation) CHECK");
 		SearchPage.openBilling(policyNum);
@@ -177,14 +177,14 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		log.info("TEST: #V - Cancellation Notice Withdrawn AHCWXX document is archived");
 		log.info("TEST: in Fast lane and available in the Policy E-folder under Cancellation & Rescission and Reinstatement folder");
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHCWXX);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		log.info("TEST: select 'Cancellation' from move to drop down");
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		log.info("TEST: Run policyStatusUpdateJob");
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 		log.info("TEST: #L Status = Cancelled");
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
@@ -198,15 +198,15 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info("TEST: #V Reinstatement Notice Lapse AH62XX 0316 is archived in Fastlane and available in the Policy E-folder.");
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH62XX);
 
 		//9.(R-73)
 		LocalDateTime renewalDate = installmentDueDates.get(0).plusYears(1);
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(renewalDate));
 		log.info("TEST: Run the Following Batch Jobs: Renewal_Offer_Generation_Part1, Renewal_Offer_Generation_Part2");
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		HttpStub.executeAllBatches();
 		log.info("TEST: #V Renewal process has been initiated");
 		log.info("TEST: #L Current term policy status is 'Policy Active'");
@@ -235,7 +235,7 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		//10.(R-63)
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(renewalDate));
 		log.info("TEST: Run the Following Batch Job - aaaMembershipRenewalBatchOrderAsyncJob");
-		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
 		HttpStub.executeAllBatches();
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -249,7 +249,7 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		//11.(R-48)
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCheckUWRules(renewalDate));
 		log.info("TEST: Run the Following Batch Job - aaaMembershipRenewalBatchOrderAsyncJob");
-		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
 		HttpStub.executeAllBatches();
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -265,7 +265,7 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		//12.(R-45)
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(renewalDate));
 		log.info("TEST: Run the Batch Job Renewal_Offer_Generation_Part2");
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		HttpStub.executeAllBatches();
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -329,8 +329,8 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		//14.(R-35)
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalDate));
 		log.info("TEST: Run the Following Batch  Jobs: Renewal_Offer_Generation_Part2, aaaDocGenBatchJob");
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		//Click on the Renewal link and validate the status of the Renewal image on the renewal screen.
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -345,8 +345,8 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		//15.(R-20)
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalDate));
 		log.info("TEST: Run the Batch Job aaaRenewalNoticeBillAsyncJob");
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		//3. Navigate to the Billing Tab.
@@ -411,8 +411,8 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		//17.(R+1)
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalDate));
 		log.info("TEST: Run the Batch Jobs: PolicyStatusUpdateJob, policyLapsedRenewalProcessAsyncJob");
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();

@@ -6,16 +6,13 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import org.apache.commons.lang3.StringUtils;
 import org.testng.*;
-import com.exigen.ipb.etcsa.utils.RetrySuiteGenerator;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.RetrySuiteGenerator;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
-import aaa.config.CsaaTestProperties;
 import aaa.helpers.logs.AppLogGrabber;
 import aaa.helpers.logs.RatingEngineLogsGrabber;
 import aaa.utils.StateList;
-import toolkit.config.PropertyProvider;
 import toolkit.metrics.ReportingContext;
 import toolkit.utils.teststoragex.listeners.TestngTestListener2;
 import toolkit.utils.teststoragex.models.Attachment;
@@ -54,7 +51,7 @@ public class AaaTestListener extends TestngTestListener2 implements IExecutionLi
 	@Override
 	protected void createAuxAttachments(ITestResult result) {
 		if (result.getTestContext().getAttribute("attachment") != null) {
-			createAttachment(result, result.getTestContext().getAttribute("attachment").toString(), Attachment.Type.OTHER);
+			createAttachment(result, result.getTestContext().getAttribute("attachment").toString(), Attachment.Type.OTHER, null, null);
 		}
 
 		createRatingEngineLogAttachment(result, RatingEngineLogsGrabber.RATING_REQUEST_TEST_CONTEXT_ATTR_NAME);
@@ -62,14 +59,14 @@ public class AaaTestListener extends TestngTestListener2 implements IExecutionLi
 
 		String appLogPath = new AppLogGrabber().grabAppLog(result);
 		if (appLogPath != null) {
-			createAttachment(result, appLogPath, Attachment.Type.APP_LOG);
+			createAttachment(result, appLogPath, Attachment.Type.APP_LOG, null, null);
 		}
 	}
 
 	@Override
 	public void beforeInvocation(IInvokedMethod method, ITestResult result) {
 		if (method.isTestMethod()) {
-			method.getTestResult().setParameters(getState(result));
+			String state = result.getTestContext().getCurrentXmlTest().getParameter(Constants.STATE_PARAM);
 			Method testMethod = result.getMethod().getConstructorOrMethod().getMethod();
 
 			StateList statesAnn = null;
@@ -81,7 +78,6 @@ public class AaaTestListener extends TestngTestListener2 implements IExecutionLi
 			if (statesAnn != null) {
 				List<String> applStates = Arrays.asList(statesAnn.states());
 				List<String> exclStates = Arrays.asList(statesAnn.statesExcept());
-				String state = result.getParameters()[0].toString();
 				if (!applStates.isEmpty() && !applStates.contains(state) || !exclStates.isEmpty() && exclStates.contains(state)) {
 					throw new SkipException(String.format("State '%s' is not applicable to this test", state));
 				}
@@ -115,33 +111,8 @@ public class AaaTestListener extends TestngTestListener2 implements IExecutionLi
 	private void createRatingEngineLogAttachment(ITestResult result, String ratingTestContextAttrName) {
 		ITestContext context = result.getTestContext();
 		if (context.getAttribute(ratingTestContextAttrName) != null) {
-			createAttachment(result, context.getAttribute(ratingTestContextAttrName).toString(), Attachment.Type.OTHER);
+			createAttachment(result, context.getAttribute(ratingTestContextAttrName).toString(), Attachment.Type.OTHER, null, null);
 			context.removeAttribute(ratingTestContextAttrName); // needed to prevent wrong log attachment if rating log gathering will fail for next test
 		}
-	}
-
-	private Object[] getState(ITestResult result) {
-		Object[] params = result.getParameters();
-		if (params != null && params.length != 0 && "".equals(Arrays.asList(params[0]).get(0))) {
-			if (isCAProduct(result)) {
-				params = createParams(params, Constants.States.CA);
-			} else if (StringUtils.isNotBlank(PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE))) {
-				String state = PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE);
-				params = createParams(params, state);
-			} else {
-				params = createParams(params, Constants.States.UT);
-			}
-		}
-		return params;
-	}
-
-	private Boolean isCAProduct(ITestResult result) {
-		return result.getMethod() != null && result.getMethod().getTestClass().getName().contains("_ca.");
-	}
-
-	private Object[] createParams(Object[] inputParams, String state) {
-		List<Object> list = Arrays.asList(inputParams);
-		list.set(0, state);
-		return list.toArray();
 	}
 }

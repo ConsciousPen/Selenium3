@@ -1,10 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Show Me The Money Ledger Time Shift Test Suite AWS" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method" />
     <!-- Earned Premium Calculation Changes: PAS-14510-->
     <test name="PAS-14510 Earned Premium Calculation Changes - I scenario" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ, KY, WV, NJ"/>

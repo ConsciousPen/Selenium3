@@ -1,7 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.SearchEnum;

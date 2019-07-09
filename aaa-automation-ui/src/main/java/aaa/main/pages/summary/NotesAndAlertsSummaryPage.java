@@ -2,8 +2,14 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.pages.summary;
 
-import com.exigen.ipb.etcsa.controls.ActivitiesAndUserNotes;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.HashMap;
+import java.util.Map;
 import org.openqa.selenium.By;
+import com.exigen.ipb.eisa.controls.ActivitiesAndUserNotes;
+import aaa.common.Tab;
+import aaa.common.components.Dialog;
+import aaa.common.metadata.NotesAndAlertsMetaData;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Button;
@@ -11,14 +17,6 @@ import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.table.Table;
-import aaa.common.Tab;
-import aaa.common.components.Dialog;
-import aaa.common.metadata.NotesAndAlertsMetaData;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class NotesAndAlertsSummaryPage extends SummaryPage {
 

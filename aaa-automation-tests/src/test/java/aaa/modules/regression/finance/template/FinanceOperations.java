@@ -14,8 +14,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.batchjob.Job;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -24,9 +25,8 @@ import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.http.HttpStub;
-import aaa.helpers.jobs.Job;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.LedgerHelper;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
@@ -39,7 +39,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssertions;
 
 public abstract class FinanceOperations extends PolicyBaseTest {
 
@@ -71,12 +70,12 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime refundDate = getTimePoints().getRefundDate(paymentDate);
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
-		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob);
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusMonths(13).withDayOfMonth(1));
 
-		JobUtils.executeJob(Jobs.aaaEscheatmentProcessAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaEscheatmentProcessAsyncJob);
 
 		return policyNumber;
 	}
@@ -160,9 +159,9 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 	protected void renewalImageGeneration(String policyNum, LocalDateTime policyExpirationDate) {
 		LocalDateTime renewDateImage = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewDateImage);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -171,10 +170,10 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 
 	protected void renewalPreviewGeneration(String policyNum, LocalDateTime policyExpirationDate) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		searchForPolicy(policyNum);
-		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
@@ -183,11 +182,11 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 	protected void renewalOfferGeneration(String policyNum, LocalDateTime policyExpirationDate) {
 		LocalDateTime renewDateOffer = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewDateOffer);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		searchForPolicy(policyNum);
 
-		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 	}
@@ -195,7 +194,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 	protected void generateRenewalBill(String policyNum, LocalDateTime policyEffectiveDate, LocalDateTime policyExpirationDate) {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
@@ -220,7 +219,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 	protected void updatePolicyStatus(String policyNum, LocalDateTime policyEffectiveDate, LocalDateTime policyExpirationDate) {
 		LocalDateTime updateStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(updateStatusDate);
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -234,7 +233,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 	protected void renewalPremiumNotice(String policyNumber, LocalDateTime policyEffectiveDate, LocalDateTime policyExpirationDate) {
 		LocalDateTime billDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(billDate);
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		BillingSummaryPage.showPriorTerms();
@@ -244,13 +243,13 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 
 	protected void createInitialReviewOffer(LocalDateTime policyExpirationDate) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(policyExpirationDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 	}
 
 	/**
@@ -475,7 +474,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 		for (int i = 0; i < transactions.size(); i++) {
 			TxWithTermPremium processedTx = transactions.get(i);
 			Map<LocalDate, BigDecimal> ep = calculatedEarnedPremiums.get(processedTx);
-			TxWithTermPremium nextTx = (i + 1) < transactions.size() ? transactions.get(i + 1) : null;
+			TxWithTermPremium nextTx = i + 1 < transactions.size() ? transactions.get(i + 1) : null;
 
 			ep.entrySet().stream()
 					.filter(entry -> (nextTx == null || entry.getKey().isBefore(nextTx.getTxDate().plusMonths(1).withDayOfMonth(1)))
@@ -490,7 +489,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 		List<Integer> indexes = new ArrayList<>();
 		for (int i = 0; i < transactions.size(); i++) {
 			TxWithTermPremium processedTx = transactions.get(i);
-			if ((i + 1) == transactions.size()) {
+			if (i + 1 == transactions.size()) {
 				indexes.add(i);
 				break;
 			}

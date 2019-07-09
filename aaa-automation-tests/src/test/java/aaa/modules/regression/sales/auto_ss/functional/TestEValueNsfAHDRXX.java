@@ -10,11 +10,8 @@ import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.admin.pages.general.GeneralSchedulerPage;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.AAARecurringPaymentResponseHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
@@ -22,8 +19,8 @@ import aaa.helpers.billing.PaymentCentralHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -68,10 +65,8 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public void precondJobAdding() {
-		adminApp().open();
-		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_PAYMENT_CENTRAL_REJECT_FEED_ASYNC_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_RECURRING_PAYMENTS_RESPONSE_PROCESS_ASYNC_JOB);
+		JobUtils.createJob(BatchJob.aaaPaymentCentralRejectFeedAsyncJob);
+		JobUtils.createJob(BatchJob.recurringPaymentsProcessingJob);
 	}
 
 	/**
@@ -146,10 +141,10 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 		LocalDateTime dd1 = BillingSummaryPage.getInstallmentDueDate(2);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dd1));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(dd1));
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
+		JobUtils.executeJob(BatchJob.aaaRecurringPaymentsProcessingJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
@@ -167,7 +162,7 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 			String paymentReferenceId = DBService.get().getValue(String.format(GET_PAYMENT_REFERENCE_ID_BY_BILLING_ACCOUNT, billingAccount)).get();
 			File paymentCentralFile = paymentCentralHelper.createFile(policyNumber, paymentAmountPlain, paymentReferenceId);
 			PaymentCentralHelper.copyFileToServer(paymentCentralFile);
-			JobUtils.executeJob(Jobs.aaaPaymentCentralRejectFeedAsyncJob, true);
+			JobUtils.executeJob(BatchJob.aaaPaymentCentralRejectFeedAsyncJob, true);
 		} else if ("ERR".equals(recurringPaymentResponseStatus)) {
 			//Generate file for unsuccessful Recurring Payment Response and run job
 			generateFileForRecurringPaymentResponseJob(policyNumber, billingAccount, paymentAmountPlain, "ERR");
@@ -210,7 +205,7 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 		String paymentNumber = DBService.get().getValue(String.format(GET_PAYMENT_NUMBER_BY_BILLING_ACCOUNT, billingAccount)).get();
 		File recurringPaymentResponseFile = aaaRecurringPaymentResponseHelper.createFile(policyNumber, paymentAmountPlain, paymentNumber, err);
 		AAARecurringPaymentResponseHelper.copyFileToServer(recurringPaymentResponseFile);
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsResponseProcessAsyncJob, true);
+		JobUtils.executeJob(BatchJob.aaaRecurringPaymentsResponseProcessAsyncJob, true);
 		Waiters.SLEEP(5000).go();
 	}
 

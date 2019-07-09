@@ -11,7 +11,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.transport.http.HTTPConduitConfigurer;
 import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
 import aaa.soap.AAAHTTPConfigurer;
 
 /**

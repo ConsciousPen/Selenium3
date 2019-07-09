@@ -3,7 +3,7 @@
 package aaa.modules.regression.service.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;

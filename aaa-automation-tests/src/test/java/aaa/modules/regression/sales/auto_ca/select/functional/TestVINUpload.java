@@ -79,11 +79,11 @@ public class TestVINUpload extends TestVINUploadTemplate {
 
     /**
      * @author Lev Kazarnovskiy
-     * @author Chris Johns
-     * PAS-4253 Restrict VIN Refresh by Vehicle Type
-     * PAS-27309 "Restrict VIN Refresh" should not apply when Select Quote Changes to Choice
-     * See detailed steps in template file
-     * {@link TestVINUploadTemplate#pas4253_restrictVehicleRefreshNB(String, String)}
+	 * @author Chris Johns
+	 * PAS-4253 Restrict VIN Refresh by Vehicle Type
+	 * PAS-27309 "Restrict VIN Refresh" should not apply when Select Quote Changes to Choice
+	 * See detailed steps in template file
+	 * {@link TestVINUploadTemplate#pas4253_restrictVehicleRefreshNB(String, String)}
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})

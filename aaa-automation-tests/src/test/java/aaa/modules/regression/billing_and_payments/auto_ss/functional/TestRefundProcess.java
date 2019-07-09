@@ -13,16 +13,17 @@ import java.util.Optional;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.rest.wiremock.HelperWireMockStub;
 import aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData;
 import aaa.main.metadata.BillingAccountMetaData;
@@ -84,7 +85,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 	private void eRefundLastPaymentMethodConfigCheck() {
 		assertThat(DBService.get().getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).orElse(""))
 				.as("eRefund stub point is set incorrect, please run LAST_PAYMENT_METHOD_STUB_POINT_UPDATE").contains(APP_HOST);
-		/*assertThat(DBService.get().getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, APP_HOST, APP_STUB_URL)).orElse(""))
+		/*assertThat(DBService.get().getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, CSAAApplicationFactory.get().stubApp().formatUrl())).orElse(""))
 				.as("Authentication stub point is set incorrect, please run AUTHENTICATION_STUB_POINT_UPDATE").contains(APP_HOST);*/
 	}
 
@@ -1162,7 +1163,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 		billingAccount.refund().manualRefundPerform("Check", refundAmount);
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE)).hasValue("Refund");
 
-		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		refundProcessHelper.approvedRefundVoid();
@@ -1171,7 +1172,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 		SearchPage.openBilling(policyNumber);
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains("Type", "Refund").getCell(TYPE).controls.links.get("Refund").click();
 		String transactionID = acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).getValue();
-		JobUtils.executeJob(Jobs.aaaRefundCancellationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundCancellationAsyncJob);
 		refundProcessHelper.refundVoidRecordInFileCheck(policyNumber, transactionID, "PA", "4WUIC", refundAmount);
 	}
 
@@ -1199,9 +1200,9 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue1.add(new Dollar(refundAmount)));
 		LocalDateTime refundDate = getTimePoints().getRefundDate(DateTimeUtils.getCurrentDateTime());
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
 
-		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		refundProcessHelper.approvedRefundVoid();
@@ -1210,7 +1211,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 		SearchPage.openBilling(policyNumber);
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains("Type", "Refund").getCell(TYPE).controls.links.get("Refund").click();
 		String transactionID = acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).getValue();
-		JobUtils.executeJob(Jobs.aaaRefundCancellationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundCancellationAsyncJob);
 		refundProcessHelper.refundVoidRecordInFileCheck(policyNumber, transactionID, "PA", "4WUIC", refundAmount);
 	}
 

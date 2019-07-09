@@ -4,13 +4,13 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
+import aaa.helpers.jobs.BatchJob;
 import aaa.main.enums.BillingConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
@@ -66,7 +66,7 @@ public class TestFinancePolicyReallocationWhenTotalsPremiumToZero extends Financ
 		assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM,
 				policyNumber).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue())).isEqualTo(new Dollar(0));
 
-		JobUtils.executeJob(Jobs.aaaBalancingReallocationJob);
+		JobUtils.executeJob(BatchJob.aaaBalancingReallocationJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 

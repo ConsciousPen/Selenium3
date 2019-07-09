@@ -9,7 +9,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.mock.ApplicationMocksManager;
@@ -444,7 +444,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 	private String getValidLicenseNumber(String licenseNumber, int indexOfDriver) {
 		int length = licenseNumber.length();
-		return new StringBuilder(licenseNumber.substring(0, length - 2)).append(indexOfDriver).append(licenseNumber.substring(length - 1, length)).toString();
+		return new StringBuilder(licenseNumber.substring(0, length - 2)).append(indexOfDriver).append(licenseNumber, length - 1, length).toString();
 	}
 
 	private LocalDate getOccurrenceDate(LocalDate effectiveDate) {

@@ -1,6 +1,7 @@
 package aaa.helpers.testng;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import org.testng.collections.Maps;
 import org.testng.xml.XmlClass;
 import org.testng.xml.XmlPackage;
@@ -13,10 +14,14 @@ public class CsaaXmlTest {
 	private String key;
 
 	public CsaaXmlTest(XmlTest xmlTest, String state, String policyType) {
+		key = policyType;
 		if (state != null) {
-			key = state.concat(" ").concat(policyType);
-		} else {
-			key = policyType;
+			key = policyType.concat(" ").concat(state);
+		}
+		Map<String, String> params = xmlTest.getAllParameters();
+		List<String> keys = params.keySet().stream().filter(s -> !"state".equals(s)).collect(Collectors.toList());
+		if(keys != null && keys.size() != 0) {
+			key = key.concat(" ").concat(keys.stream().map(s -> params.get(s)).collect(Collectors.joining(" ")));
 		}
 		if (!testMap.containsKey(key)) {
 			this.xmlTest = createTest(xmlTest, state, policyType);
@@ -47,7 +52,6 @@ public class CsaaXmlTest {
 	}
 
 	private XmlTest createTest(XmlTest test, String state, String policyType) {
-		String pefParam = "timeshift-scenario-mode";
 		XmlTest xmlTest = new XmlTest();
 		xmlTest.setName(key);
 		xmlTest.setVerbose(test.getVerbose());
@@ -60,9 +64,6 @@ public class CsaaXmlTest {
 		if (state != null) {
 			parameters = test.getAllParameters();
 			parameters.put("state", state);
-		}
-		if(parameters.containsKey(pefParam)){
-			parameters.remove(pefParam);
 		}
 		xmlTest.setParameters(parameters);
 		testMap.put(key, xmlTest);

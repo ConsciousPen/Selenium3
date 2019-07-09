@@ -3,8 +3,6 @@
 package aaa.modules.regression.service.auto_ca.select.functional;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-
-import aaa.modules.regression.service.helper.TestMiniServicesAssignmentsCAHelper;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -12,6 +10,7 @@ import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.service.helper.TestMiniServicesAssignmentsCAHelper;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
@@ -141,6 +140,22 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsCAHe
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-15412"})
 	public void pas15412_DriverAssignmentRemoveDriver_CurrentlyUnassigned(@Optional("CA") String state) {
 		pas15412_DriverAssignmentRemoveDriver_CurrentlyUnassignedBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * 1.Create policy with Multiple assignments (each vehicle to each driver)
+	 * 2. Create endorsement through service
+	 * 3. Remove driver with Reason code RD1003 so that driver type is changed to NAFR
+	 * 4. Run viewDriverAssignments service and verify that vehicle of removed driver now is in unassignedVehicles
+	 * and removed driver is not in assignableDrivers list anymore
+	 */
+	@Parameters({"state"})
+	@StateList(states = Constants.States.CA)
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-31827"})
+	public void pas31827_assignmentWhenDriverRemovedByCodeRD1003(@Optional("CA") String state) {
+		pas31827_assignmentWhenDriverRemovedByCodeRD1003Body();
 	}
 
 	/**

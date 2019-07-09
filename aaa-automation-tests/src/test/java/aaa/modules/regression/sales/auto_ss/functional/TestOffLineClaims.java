@@ -35,7 +35,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     public void testCreateCasResponse(@Optional("AZ") @SuppressWarnings("unused") String state) {
         BatchClaimHelper batchClaimHelper = new BatchClaimHelper(NAME_DOB_CLAIMS_DATA_MODEL, getCasResponseFileName());
         String policyNumber = "AZSS999999999";
-        File claimResponse = batchClaimHelper.processClaimTemplate((response) ->
+		File claimResponse = batchClaimHelper.processClaimTemplate(response ->
                 setPolicyNumber(policyNumber, response));
         assertThat(claimResponse).exists().isFile();
         assertThat(Assertions.contentOf(claimResponse)).contains(policyNumber);

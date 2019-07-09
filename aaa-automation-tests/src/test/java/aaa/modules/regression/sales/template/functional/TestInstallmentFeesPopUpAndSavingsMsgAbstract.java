@@ -2,10 +2,10 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.template.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.INSTALLMENT_FEE;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.PAYMENT_METHOD;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import static toolkit.verification.CustomAssertions.assertThat;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;

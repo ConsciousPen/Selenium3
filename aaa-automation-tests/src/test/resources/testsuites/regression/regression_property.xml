@@ -3,9 +3,8 @@
        thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
     <test name="Common Regression Tests" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
@@ -182,10 +181,6 @@
             <class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreationFull"/>
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
-            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestConversionViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyMoratorium">
                 <methods>
                     <include name="newBusiness_SoftStopPremiumCalculation_HardStopBind"/>
@@ -1177,7 +1172,7 @@
         </classes>
     </test>
     <test name="PAS-9525 Validate Conversion PUP UW Fields are enabled for maig and CountryWide Policies" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA, DE, NJ, AZ, MD, OR"/>
+        <parameter name="state" value="VA, DE, NJ, MD, OR"/>
         <classes>
             <class name="aaa.modules.regression.conversions.pup.functional.TestPolicyRenewalManualEntryFieldsVerificationUWQuestions"/>
         </classes>
@@ -1193,7 +1188,7 @@
     </test>
     <test name="PAS-14206,PAS-14207,PAS-14208 Initiate Renewal Manual Entry at R-56,R-84,R-64,R-45 for AS400 and MAIG" parallel="methods"
           thread-count="1024">
-        <parameter name="state" value="AZ,KY,WV,NJ,MD,PA"/>
+        <parameter name="state" value="WV,NJ,MD,PA"/>
         <classes>
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestPolicyRmeEffDateTimeLine"/>
             <class name="aaa.modules.regression.conversions.pup.functional.TestPolicyRmeEffDateTimeLine"/>
@@ -1207,7 +1202,7 @@
     </test>
     <test name="PAS-15836 Add 'CSAA Fire and Casualty Insurance Company' to prior carrier name list of values on General screen" parallel="methods"
           thread-count="1024">
-        <parameter name="state" value="CT,NY,PA,MD"/>
+        <parameter name="state" value="PA,MD"/>
         <classes>
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestImmediatePriorCarrierDropdown"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestImmediatePriorCarrierDropdown"/>
@@ -1217,7 +1212,7 @@
         </classes>
     </test>
     <test name="PAS-10703 Fire related fields on the Property info tab - CW" parallel="methods" thread-count="1024">
-        <parameter name="state" value="VA, DE, NJ, AZ, PA, MD"/>
+        <parameter name="state" value="VA, DE, NJ, PA, MD"/>
         <classes>
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestVerifyFireRelatedFieldsOnThePropertyInfoTab">
                 <methods>

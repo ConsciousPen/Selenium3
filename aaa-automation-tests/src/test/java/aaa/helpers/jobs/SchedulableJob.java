@@ -1,18 +1,19 @@
 package aaa.helpers.jobs;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.batchjob.Job;
 import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.AAAMembershipQueries;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.modules.BaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
-import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
 
 public class SchedulableJob {
 
@@ -29,32 +30,19 @@ public class SchedulableJob {
 
     public final Job job;
 
-    private static SoapJobActions service = new SoapJobActions();
-
-    /**
-     * A select few jobs actually do run on weekends. Setting true will ignore the weekend check.
-     */
-    private boolean supportsWeekend = false;
-
     /**
      * Uses JobOffsetType to add or substract number of days.
      */
-    protected int jobOffsetDays = 0;
+	protected int jobOffsetDays;
+	/**
+	 * A select few jobs actually do run on weekends. Setting true will ignore the weekend check.
+	 */
+	private boolean supportsWeekend;
 
 
     public SchedulableJob(Job jobToSchedule, JobOffsetType jobOffsetOperationType, int jobOffsetByDays){
 
         job = jobToSchedule;
-
-        // Batch marker job always runs after timeshift changes. Validate present.
-        if (!service.isJobExist(JobGroup.fromSingleJob(Jobs.aaaBatchMarkerJob.getJobName()))) {
-            service.createJob(JobGroup.fromSingleJob(Jobs.aaaBatchMarkerJob.getJobName()));
-        }
-
-        // Validate Job Group exists for passed in job.
-        if (!service.isJobExist(JobGroup.fromSingleJob(job.getJobName()))) {
-            service.createJob(JobGroup.fromSingleJob(job.getJobName()));
-        }
 
         if (jobOffsetByDays == SchedulableJobs.jobNotApplicableValue){
             offsetType = JobOffsetType.Job_Not_Applicable;
@@ -106,7 +94,7 @@ public class SchedulableJob {
             // Move time and run the batch marker job to update PAS to new JVM timesetter timeshift.
             if (!simulateOutputOnly) {
                 TimeSetterUtil.getInstance().nextPhase(targetDate);
-                JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+				JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
             }
 
             ArrayList<SchedulableJob> todaysJobs = jobSchedule.getJobScheduleMap().get(daysOffset);

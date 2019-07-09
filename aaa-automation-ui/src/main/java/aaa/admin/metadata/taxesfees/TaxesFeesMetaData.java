@@ -3,9 +3,7 @@
 package aaa.admin.metadata.taxesfees;
 
 import org.openqa.selenium.By;
-
-import com.exigen.ipb.etcsa.controls.AdvancedSelector;
-
+import com.exigen.ipb.eisa.controls.AdvancedSelector;
 import aaa.admin.modules.taxesfees.strategy.tax.defaulttabs.AddTaxStrategyTab.TaxesFeesAddTaxStrategyRulesGroupAssetList;
 import aaa.common.pages.Page;
 import toolkit.webdriver.controls.Button;

@@ -2,8 +2,8 @@ package aaa.modules.regression.billing_and_payments.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;

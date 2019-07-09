@@ -8,16 +8,16 @@ import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.LedgerHelper;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -68,13 +68,13 @@ public class TestFinanceEPCalculationSmallBalanceWriteOff extends FinanceOperati
 
 		TimeSetterUtil.getInstance().nextPhase(today.plusHours(4));
 		
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1)
 				.getCell("Subtype/Reason").getValue()).isEqualTo("Small Balance Write-off");
 
-		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		runEPJobUntil(jobDate, jobEndDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber, "Policy Active");
