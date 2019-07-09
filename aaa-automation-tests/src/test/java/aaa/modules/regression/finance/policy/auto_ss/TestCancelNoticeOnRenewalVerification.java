@@ -1,12 +1,13 @@
 package aaa.modules.regression.finance.policy.auto_ss;
+
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -15,8 +16,8 @@ import aaa.common.pages.Page;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
@@ -234,7 +235,7 @@ public class TestCancelNoticeOnRenewalVerification extends PolicyOperations {
 		assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
 
 		//Proposed renewal - renewal should be in Premium Calculated status, because Cancel Notice is added
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		searchForPolicy(policyNumber);
 
 		PolicySummaryPage.buttonRenewals.click();
@@ -252,7 +253,7 @@ public class TestCancelNoticeOnRenewalVerification extends PolicyOperations {
 		assertThat(PolicySummaryPage.labelCancelNotice).isAbsent();
 
 		//Propose renewal - Renewal is successfully proposed
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		searchForPolicy(policyNumber);
 		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
