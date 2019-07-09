@@ -84,4 +84,20 @@
             <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationRenewal"/>
         </classes>
     </test>
+    <!-- CancelNotice: PAS-30532 -->
+    <test name="PAS-30532 Cancel Notice: Renewal" parallel="methods" thread-count="1024">
+        <parameter name="state" value="NJ, AZ, KY"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.policy.auto_ss.TestCancelNoticeOnRenewalVerification"/>
+            <class name="aaa.modules.regression.finance.policy.home_ss.ho3.TestCancelNoticeOnRenewalVerification"/>
+        </classes>
+    </test>
+    <test name="PAS-30532 Cancel Notice: Renewal-CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.policy.auto_ca.select.TestCancelNoticeOnRenewalVerification"/>
+            <class name="aaa.modules.regression.finance.policy.auto_ca.choice.TestCancelNoticeOnRenewalVerification"/>
+            <class name="aaa.modules.regression.finance.policy.home_ca.ho3.TestCancelNoticeOnRenewalVerification"/>
+        </classes>
+    </test>
 </suite>
