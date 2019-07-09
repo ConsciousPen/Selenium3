@@ -7,11 +7,10 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
-import aaa.admin.pages.general.GeneralSchedulerPage;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.jobs.JobUtils;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
@@ -25,16 +24,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_SS_HO3;
-	}
-
-	@Test(description = "Precondition for TestRefundProcess tests")
-	public void precondJobAdding() {
-		adminApp().open();
-		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_GENERATION_ASYNC_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_ASYNC_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_RECEIVE_INFO_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUNDS_DISBURSMENT_REJECTIONS_ASYNC_JOB);
 	}
 
 	/***

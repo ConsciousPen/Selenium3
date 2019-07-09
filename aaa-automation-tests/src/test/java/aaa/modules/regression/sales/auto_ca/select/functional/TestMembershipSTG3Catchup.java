@@ -1,23 +1,22 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
-import aaa.helpers.db.queries.AAAMembershipQueries;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaSelectBaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import static org.assertj.core.api.Assertions.assertThat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.helpers.db.queries.AAAMembershipQueries;
+import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.jobs.JobUtils;
+import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestMembershipSTG3Catchup extends AutoCaSelectBaseTest {
     /**
@@ -224,15 +223,15 @@ public class TestMembershipSTG3Catchup extends AutoCaSelectBaseTest {
         LocalDateTime init = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
         log.info(" init R-73 Policy Renewal Image Generation Date " + init);
         TimeSetterUtil.getInstance().nextPhase(init);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+        JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+        JobUtils.executeJob(BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob);
 
         //R-80 Membership Tp1
         LocalDateTime membershipTp1 = getTimePoints().getMembershipTp1(policyExpirationDate).plusDays(catchup);
         log.info("R-80 Membership Tp1 " + membershipTp1);
         TimeSetterUtil.getInstance().nextPhase(membershipTp1);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+        JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+        JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
         setTimeToToday();
         return policyNumber;
     }
@@ -250,16 +249,16 @@ public class TestMembershipSTG3Catchup extends AutoCaSelectBaseTest {
         log.info(" init R-73 Policy Renewal Image Generation Date " + init);
         log.info("Current application date: " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")));
         TimeSetterUtil.getInstance().nextPhase(init);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+        JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+        JobUtils.executeJob(BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob);
 
         //reportServices = R-66 Membership Tp2
         LocalDateTime membershipTp2 = getTimePoints().getMembershipTp2(policyExpirationDate).plusDays(catchup);
         log.info("Current application date: " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")));
         log.info("R-66 Membership Tp2 " + membershipTp2);
         TimeSetterUtil.getInstance().nextPhase(membershipTp2);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+        JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+        JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
         setTimeToToday();
         return policyNumber;
     }

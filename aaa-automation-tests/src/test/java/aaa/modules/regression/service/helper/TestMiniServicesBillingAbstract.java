@@ -5,8 +5,8 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.apache.commons.lang3.StringUtils;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.rest.dtoDxp.*;
@@ -84,10 +84,10 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 			Installment installment = billingInstallmentsResponse[i-1];
 			softly.assertThat(installment.type).isEqualTo(typeUi);
 			softly.assertThat(installment.amount).isEqualTo(amountUi);
-			softly.assertThat(dateOnly(installment.dueDate)).isEqualTo((getDateFromInstallmentSchedule(i, INSTALLMENT_DUE_DATE)));
+			softly.assertThat(dateOnly(installment.dueDate)).isEqualTo(HelperMiniServices.convertDateToAZDate(getDateFromInstallmentSchedule(i, INSTALLMENT_DUE_DATE)));
 			softly.assertThat(installment.statusCd).isEqualTo(statusCdUi);
-			softly.assertThat(dateOnly(installment.billGenerationDate)).isEqualTo(getDateFromInstallmentSchedule(i, BILL_GENERATION_DATE));
-			softly.assertThat(dateOnly(installment.billDueDate)).isEqualTo(getDateFromInstallmentSchedule(i, BILL_DUE_DATE));
+			softly.assertThat(dateOnly(installment.billGenerationDate)).isEqualTo(HelperMiniServices.convertDateToAZDate(getDateFromInstallmentSchedule(i, BILL_GENERATION_DATE)));
+			softly.assertThat(dateOnly(installment.billDueDate)).isEqualTo(HelperMiniServices.convertDateToAZDate(getDateFromInstallmentSchedule(i, BILL_DUE_DATE)));
 			softly.assertThat(installment.billedAmount).isEqualTo(billedAmountUi);
 		}
 		return getDateFromInstallmentSchedule(countInstallments, BILL_DUE_DATE);
@@ -111,7 +111,7 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 		softly.assertThat(billingAccountInfoResponse.totalDue.totalAmount).isEqualTo(amountTotalDueUi);
 		softly.assertThat(billingAccountInfoResponse.totalPaid.totalAmount).isEqualTo(amountTotalPaidUi);
 		softly.assertThat(billingAccountInfoResponse.billableAmount.totalAmount).isEqualTo(billableAmountUi);
-		softly.assertThat(dateOnly(billingAccountInfoResponse.latestInvoiceDueDate)).isEqualTo(latestBillDueDate);
+		softly.assertThat(dateOnly(billingAccountInfoResponse.latestInvoiceDueDate)).isEqualTo(HelperMiniServices.convertDateToAZDate(latestBillDueDate));
 	}
 
 	private String dateOnly(String s) {

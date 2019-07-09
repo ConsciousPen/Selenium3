@@ -6,8 +6,8 @@ import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
@@ -17,8 +17,8 @@ import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
@@ -94,7 +94,7 @@ public class TestPolicyReinstatementWithoutLapse extends AutoCaChoiceBaseTest {
 
         //(DD3-20) Run aaaBillingInvoiceAsyncTaskJob to generate the Installment Bill
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDD1));
-        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+        JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
         mainApp().open();
         SearchPage.openBilling(policyNumber);
         billGenDate = getTimePoints().getBillGenerationDate(installmentDD1);
@@ -104,8 +104,8 @@ public class TestPolicyReinstatementWithoutLapse extends AutoCaChoiceBaseTest {
 
         //(DD3+5) Run aaaCancellationNoticeAsyncJob and aaaDocGen
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDD1));
-        JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
-        JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+        JobUtils.executeJob(BatchJob.aaaCancellationNoticeAsyncJob);
+        JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
         searchForPolicy(policyNumber);
         PolicySummaryPage.verifyCancelNoticeFlagPresent();
         //Search for AH34XX form in CANCEL_NOTICE event in DB
@@ -135,7 +135,7 @@ public class TestPolicyReinstatementWithoutLapse extends AutoCaChoiceBaseTest {
         assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
 
         //Run aaaDocGenBatchJob
-        JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+        JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
         //Search for AH61XX form in CANCEL_NOTICE event in DB
         DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, DocGenEnum.Documents.AH61XX);
 
@@ -143,7 +143,7 @@ public class TestPolicyReinstatementWithoutLapse extends AutoCaChoiceBaseTest {
         log.info("Policy Cancellation Started...");
         TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(daysOfNotice).with(DateTimeUtils.nextWorkingDay));
         String cancellationCurrentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
-        JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
+        JobUtils.executeJob(BatchJob.aaaCancellationConfirmationAsyncJob);
         searchForPolicy(policyNumber);
 
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
@@ -157,7 +157,7 @@ public class TestPolicyReinstatementWithoutLapse extends AutoCaChoiceBaseTest {
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
         //Run aaaBillingInvoiceAsyncTaskJob to generate the Installment Bill
-        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+        JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
         BillingSummaryPage.open();
         billGenDate = getTimePoints().getBillGenerationDate(installmentDD2);
         new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDD2, billGenDate);
@@ -175,7 +175,7 @@ public class TestPolicyReinstatementWithoutLapse extends AutoCaChoiceBaseTest {
 
         //(DD9-20) Run aaaBillingInvoiceAsyncTaskJob to generate the Installment Bill
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDD3));
-        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+        JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
         mainApp().open();
         SearchPage.openBilling(policyNumber);
         billGenDate = getTimePoints().getBillGenerationDate(installmentDD3);
@@ -195,19 +195,19 @@ public class TestPolicyReinstatementWithoutLapse extends AutoCaChoiceBaseTest {
         //Run the following jobs: Renewal_Offer_Generation_Part2, Renewal_Offer_Generation_Part1, Renewal_Offer_Generation_Part2, Renewal_Offer_Generation_Part2
         //(R-81)
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(renewalDate));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
         HttpStub.executeAllBatches();
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
         //(R-63)
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCheckUWRules(renewalDate));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
         HttpStub.executeAllBatches();
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
         //(R-57)
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(renewalDate));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
         searchForPolicy(policyNumber);
         PolicySummaryPage.buttonRenewals.click();
 
@@ -215,7 +215,7 @@ public class TestPolicyReinstatementWithoutLapse extends AutoCaChoiceBaseTest {
 
         //(R-35)
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalDate));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
         searchForPolicy(policyNumber);
         PolicySummaryPage.buttonRenewals.click();
 
@@ -232,7 +232,7 @@ public class TestPolicyReinstatementWithoutLapse extends AutoCaChoiceBaseTest {
 
         //(R+1) Run policyStatusUpdateJob
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalDate));
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
         mainApp().open();
         SearchPage.openBilling(policyNumber);
         BillingSummaryPage.showPriorTerms();

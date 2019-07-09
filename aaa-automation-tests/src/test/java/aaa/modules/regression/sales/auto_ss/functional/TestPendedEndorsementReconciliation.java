@@ -1,5 +1,12 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -7,22 +14,18 @@ import aaa.helpers.TestDataHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.AAAMembershipQueries;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * This test class is intended for testing the removal of Pended Endorsements before a variety of discount removals. <br>
@@ -262,12 +265,12 @@ public class TestPendedEndorsementReconciliation extends AutoSSBaseTest {
 
         switch(STG_N){
             case STG1:
-                JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-                JobUtils.executeJob(Jobs.membershipValidationJob);
+                JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+                JobUtils.executeJob(BatchJob.membershipValidationJob);
                 break;
             case STG2:
-                JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-                JobUtils.executeJob(Jobs.membershipValidationJob);
+                JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+                JobUtils.executeJob(BatchJob.membershipValidationJob);
                 break;
             default:
                 CustomAssertions.fail("STG_N has an unexpected/unhandled value: " + STG_N);

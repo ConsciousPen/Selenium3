@@ -573,3 +573,9 @@ PT-3483:
   failures:
   - tests: [aaa.modules.bct.service.pup.TestEndorsement.BCT_ONL_EmptyEndorsementPUP.*]
     messages: ["Order Prefill must be completed for primary home"]
+PAS-32101:
+  summary: "Regression Master: AZ Auto: Error appears if Driver license type is changed"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict]
+    messages: ["Errors: AAA_SS190605"]

@@ -1,6 +1,6 @@
 package aaa.modules.openl;
 
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.helpers.openl.model.pup.PUPOpenLPolicy;

@@ -9,12 +9,12 @@ TestData_withoutAutoPay: {
 
 # ---- Scenario 55
 TestData_FinancialDriver: {
-  DriverTab: '@DriverTab_FinancialDriver', 
+  DriverTab: '@DriverTab_FinancialDriver',
   DocumentsAndBindTab: '@DocumentsAndBindTab_FinancialDriver'
 }
 
 TestData_Conversion_FinancialDriver: {
-  DriverTab: '@DriverTab_FinancialDriver', 
+  DriverTab: '@DriverTab_FinancialDriver',
   FormsTab: {
     Driver Forms: {
       SR22: {
@@ -29,59 +29,59 @@ TestData_Conversion_FinancialDriver: {
 
 # ---- Scenario 58
 TestData_ExcludedDriver: {
-  DriverTab: ['@DriverTab_RegularDriver', '@DriverTab_ExcludedDriver'], 
+  DriverTab: ['@DriverTab_RegularDriver', '@DriverTab_ExcludedDriver'],
   DocumentsAndBindTab: '@DocumentsAndBindTab_ExcludedDriver'
 }
 
 TestData_AddExcludedDriver: {
-  GeneralTab: {}, 
+  GeneralTab: {},
   DriverTab: '@DriverTab_ExcludedDriver',
   RatingDetailReportsTab: {},
   VehicleTab: {},
-  FormsTab: {}, 
-  PremiumAndCoveragesTab: {}, 
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: '@DocumentsAndBindTab_AddExcludedDriver' 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_AddExcludedDriver'
 }
 
 # ---- Scenario 59
 TestData_UMandUIMLessThanBI: {
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMandUIMLessThanBI', 
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMandUIMLessThanBI',
   DocumentsAndBindTab: '@DocumentsAndBindTab_UMandUIMLessThanBI'
 }
 
 # ---- Scenario 60
 TestData_VehicleEnrolledInUBI: {
-  VehicleTab: '@VehicleTab_EnrolledInUBI', 
+  VehicleTab: '@VehicleTab_EnrolledInUBI',
   DocumentsAndBindTab: '@DocumentsAndBindTab_EnrolledInUBI'
 }
 
 TestData_AddEnrolledInUBI: {
-  GeneralTab: {}, 
+  GeneralTab: {},
   DriverTab: {},
   RatingDetailReportsTab: {},
   VehicleTab: '@VehicleTab_addEnrolledInUBI',
-  FormsTab: {}, 
-  PremiumAndCoveragesTab: {}, 
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: '@DocumentsAndBindTab_AddEnrolledInUBI' 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_AddEnrolledInUBI'
 }
 
 # ---- Scenario 61
 TestData_VehicleEnrolledInUBI_NoScore: {
-  VehicleTab: '@VehicleTab_EnrolledInUBI_NoScore', 
+  VehicleTab: '@VehicleTab_EnrolledInUBI_NoScore',
   DocumentsAndBindTab: '@DocumentsAndBindTab_EnrolledInUBI'
 }
 
 TestData_AddEnrolledInUBI_NoScore: {
-  GeneralTab: {}, 
+  GeneralTab: {},
   DriverTab: {},
   RatingDetailReportsTab: {},
   VehicleTab: '@VehicleTab_addEnrolledInUBI_NoScore',
-  FormsTab: {}, 
-  PremiumAndCoveragesTab: {}, 
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: '@DocumentsAndBindTab_AddEnrolledInUBI' 
+  DocumentsAndBindTab: '@DocumentsAndBindTab_AddEnrolledInUBI'
 }
 
 
@@ -96,9 +96,9 @@ DriverTab_RegularDriver: {
 DriverTab_ExcludedDriver: {
   Add Driver: click,
   DriverSearchDialog: {},
-  Driver Type: Excluded, 
-  Reason: index=1, 
-  'Rel. to First Named Insured': Spouse, 
+  Driver Type: Excluded,
+  Reason: index=1,
+  'Rel. to First Named Insured': Spouse,
   First Name: Excluded,
   Last Name: Driver,
   Date of Birth: 01/01/1981,
@@ -114,57 +114,57 @@ DriverTab_FinancialDriver: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
-  License State: 'AZ', 
-  License Number: A12345678, 
-  Financial Responsibility Filing Needed: 'Yes', 
+  License State: 'AZ',
+  License Number: A12345678,
+  Financial Responsibility Filing Needed: 'Yes',
   Filling State: AZ
 }
 
 # --------- VehicleTab ---------
 VehicleTab_EnrolledInUBI: {
   Usage: Pleasure,
-  VIN: 1GNWGPFG8B6548273, 
+  VIN: 1GNWGPFG8B6548273,
   'Enroll in Usage Based Insurance?': 'Yes',
   Get Vehicle Details: click
 }
 
 VehicleTab_addEnrolledInUBI: {
   Add Vehicle: click,
-  Type: Private Passenger Auto, 
+  Type: Private Passenger Auto,
   Usage: Pleasure,
   VIN: WDCYC7BB0B6729451,
   'Enroll in Usage Based Insurance?': 'Yes',
-  Get Vehicle Details: click, 
-  Vehicle Eligibility Response: Vehicle Eligible, 
-  AAA UBI Device Status: Shipped, 
-  Device Voucher Number: 12345678, 
+  Get Vehicle Details: click,
+  Vehicle Eligibility Response: Vehicle Eligible,
+  AAA UBI Device Status: Shipped,
+  Device Voucher Number: 12345678,
   Safety Score: 100
 }
 
 VehicleTab_EnrolledInUBI_NoScore: {
   Usage: Pleasure,
-  VIN: 1GNWGPFG8B6548273, 
+  VIN: 1GNWGPFG8B6548273,
   'Enroll in Usage Based Insurance?': 'Yes',
-  Get Vehicle Details: click, 
+  Get Vehicle Details: click,
   Grant Participation Discount: click
 }
 
 VehicleTab_addEnrolledInUBI_NoScore: {
   Add Vehicle: click,
-  Type: Private Passenger Auto, 
+  Type: Private Passenger Auto,
   Usage: Pleasure,
   VIN: WDCYC7BB0B6729451,
   'Enroll in Usage Based Insurance?': 'Yes',
-  Get Vehicle Details: click, 
-  Vehicle Eligibility Response: Vehicle Eligible,  
+  Get Vehicle Details: click,
+  Vehicle Eligibility Response: Vehicle Eligible,
   AAA UBI Device Status: Active,
-  Device Voucher Number: 12345678, 
+  Device Voucher Number: 12345678,
   #Safety Score: 10, 
   Grant Participation Discount: click
 }
 # ------ PremiumAndCoveragesTab ------- 
 PremiumAndCoveragesTab_Monthly: {
-  Payment Plan: Eleven Pay - Standard, 
+  Payment Plan: Eleven Pay - Standard,
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Comprehensive Deductible: 'contains=$750'
 }
@@ -178,10 +178,10 @@ PremiumAndCoveragesTab_UMandUIMLessThanBI: {
 # ------- DocumentsAndBindTab --------
 DocumentsAndBindTab_ExcludedDriver: {
   RequiredToBind: {
-    Auto Insurance Application: Physically Signed, 
+    Auto Insurance Application: Physically Signed,
     Named Driver Exclusion: Physically Signed
-  }, 
-  Agreement: I agree, 
+  },
+  Agreement: I agree,
   RequiredToIssue: {
     Proof of Prior Insurance: 'Yes'
   }
@@ -189,38 +189,38 @@ DocumentsAndBindTab_ExcludedDriver: {
 
 DocumentsAndBindTab_AddExcludedDriver: {
   RequiredToBind: {
-    Named Driver Exclusion Election: Physically Signed
+    Named Driver Exclusion: Physically Signed
   }
 }
 
 DocumentsAndBindTab_FinancialDriver: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed
-  }, 
-  Agreement: I agree, 
+  },
+  Agreement: I agree,
   RequiredToIssue: {
     Proof of Prior Insurance: 'Yes'
-  }, 
+  },
   Case Number: '12345'
 }
 
 DocumentsAndBindTab_UMandUIMLessThanBI: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed,
-    Uninsured and Underinsured Motorist Coverage Selection: Physically Signed, 
-  }, 
-  Agreement: I agree, 
-  RequiredToIssue: { 
+    Uninsured and Underinsured Motorist Coverage Selection: Physically Signed,
+  },
+  Agreement: I agree,
+  RequiredToIssue: {
     Proof of Prior Insurance: 'Yes'
   }
 }
 
 DocumentsAndBindTab_EnrolledInUBI: {
   RequiredToBind: {
-    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed, 
+    AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
     Auto Insurance Application: Physically Signed
-  }, 
-  Agreement: I agree, 
+  },
+  Agreement: I agree,
   RequiredToIssue: {
     Proof of Prior Insurance: 'Yes'
   }

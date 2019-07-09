@@ -47,4 +47,6 @@ public class Constants {
 		public static final String WV = "WV";
 		public static final String WY = "WY";
 	}
+
+	public static final String STATE_PARAM = "state";
 }

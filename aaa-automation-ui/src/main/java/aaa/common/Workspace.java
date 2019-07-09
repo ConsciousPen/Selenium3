@@ -37,7 +37,7 @@ public abstract class Workspace {
 	 * Fill registered tabs of this workspace.
 	 * If TestData by tab's metakey is present in td and is not empty, the tab is filled.
 	 * If it is empty, the tab is submitted without filling
-	 * If the metakey is not present at all, the tab is assumed to be absent on com.exigen.ipb.etcsa.
+	 * If the metakey is not present at all, the tab is assumed to be absent on com.exigen.ipb.eisa.
 	 * Override to customize tab filling procedure
 	 * @param td TestData object which contains data for registered tabs. Also see {@link products.Tab.fillTab()}
 	 */

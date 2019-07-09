@@ -6,18 +6,17 @@ import java.util.LinkedList;
 import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
-import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.rest.wiremock.HelperWireMockStub;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
@@ -79,13 +78,11 @@ public class TestRefundProcessTemplate extends PolicyBilling {
 
 	@Test(description = "Precondition for TestRefundProcess tests", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public void precondJobAdding() {
-		adminApp().open();
-		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_GENERATION_ASYNC_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_ASYNC_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_RECEIVE_INFO_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_CANCELLATION_ASYNC_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUNDS_DISBURSMENT_REJECTIONS_ASYNC_JOB);
+		JobUtils.createJob(BatchJob.aaaRefundGenerationAsyncJob);
+		JobUtils.createJob(BatchJob.aaaRefundDisbursementAsyncJob);
+		JobUtils.createJob(BatchJob.aaaRefundsDisbursementReceiveInfoAsyncJob);
+		JobUtils.createJob(BatchJob.aaaRefundCancellationAsyncJob);
+		JobUtils.createJob(BatchJob.aaaRefundsDisbursementRejectionsAsyncJob);
 	}
 
 	public void pas7039_Debug(@Optional("VA") String state) throws SftpException, JSchException, IOException {
@@ -135,7 +132,7 @@ public class TestRefundProcessTemplate extends PolicyBilling {
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 
-		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob);
 		refundProcessHelper.refundRecordInFileCheck(getPolicyType(), policyNumber, "M", "CHCK", "4WUIC", "Y", "VA", manualRefundAmount, "", "Y");
 
 		mainApp().open();
@@ -146,8 +143,8 @@ public class TestRefundProcessTemplate extends PolicyBilling {
 		LocalDateTime refundDate = getTimePoints().getRefundDate(DateTimeUtils.getCurrentDateTime());
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
 
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
-		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob);
 		refundProcessHelper.refundRecordInFileCheck(getPolicyType(), policyNumber, "R", "CHCK", "4WUIC", "Y", "VA", automatedRefundAmount, "", "Y");
 	}
 
@@ -162,7 +159,7 @@ public class TestRefundProcessTemplate extends PolicyBilling {
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 
-		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob);
 		refundProcessHelper.refundRecordInFileCheck(getPolicyType(), policyNumber, "M", "CHCK", "4WUIC", "N", "VA", manualRefundAmount, "", "Y");
 
 		mainApp().open();
@@ -172,8 +169,8 @@ public class TestRefundProcessTemplate extends PolicyBilling {
 		LocalDateTime refundDate = getTimePoints().getRefundDate(DateTimeUtils.getCurrentDateTime());
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
 
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
-		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob);
 		refundProcessHelper.refundRecordInFileCheck(getPolicyType(), policyNumber, "R", "CHCK", "4WUIC", "N", "VA", automatedRefundAmount, "", "Y");
 	}
 

@@ -1,5 +1,14 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.time.format.DateTimeFormatter;
+import javax.ws.rs.core.Response;
+import org.apache.commons.lang3.StringUtils;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.admin.metadata.product.MoratoriumMetaData;
 import aaa.admin.modules.product.IProduct;
 import aaa.admin.modules.product.ProductType;
@@ -17,22 +26,11 @@ import aaa.modules.regression.sales.template.functional.PolicyMoratorium;
 import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.modules.regression.service.helper.HelperMiniServices;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.apache.commons.lang3.StringUtils;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-
-import javax.ws.rs.core.Response;
-import java.time.format.DateTimeFormatter;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesMoratorium extends PolicyMoratorium {
 
@@ -192,9 +190,9 @@ public class TestMiniServicesMoratorium extends PolicyMoratorium {
 
 		String generalTabSimpleName = CustomerMetaData.GeneralTab.class.getSimpleName();
 
-		TestData customerTd = (getCustomerIndividualTD("DataGather", "TestData")
+		TestData customerTd = getCustomerIndividualTD("DataGather", "TestData")
 				.adjust(TestData.makeKeyPath(generalTabSimpleName, CustomerMetaData.GeneralTab.ZIP_CODE.getLabel()), "85003")
-				.adjust(TestData.makeKeyPath(generalTabSimpleName, CustomerMetaData.GeneralTab.ADDRESS_LINE_1.getLabel()), "805 N 4rd Avenue"))
+				.adjust(TestData.makeKeyPath(generalTabSimpleName, CustomerMetaData.GeneralTab.ADDRESS_LINE_1.getLabel()), "805 N 4rd Avenue")
 				.adjust(TestData.makeKeyPath(generalTabSimpleName, CustomerMetaData.GeneralTab.STATE.getLabel()), "AZ")
 				.adjust(TestData.makeKeyPath(generalTabSimpleName, CustomerMetaData.GeneralTab.CITY.getLabel()), "Phoenix");
 

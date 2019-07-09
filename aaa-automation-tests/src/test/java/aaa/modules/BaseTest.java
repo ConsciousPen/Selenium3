@@ -2,19 +2,31 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.ITestContext;
+import org.testng.annotations.*;
+import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.eisa.base.app.impl.AdminApplication;
+import com.exigen.ipb.eisa.base.app.impl.MainApplication;
+import com.exigen.ipb.eisa.base.app.impl.OperationalReportApplication;
 import aaa.admin.modules.reports.operationalreports.OperationalReportType;
 import aaa.common.enums.Constants;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.metadata.LoginPageMeta;
 import aaa.common.pages.LoginPage;
-import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.EntitiesHolder;
 import aaa.helpers.TestDataManager;
 import aaa.helpers.TimePoints;
 import aaa.helpers.listeners.AaaTestListener;
-import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.modules.customer.Customer;
 import aaa.main.modules.customer.CustomerActions;
@@ -24,38 +36,22 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.utils.EntityLogger;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.impl.AdminApplication;
-import com.exigen.ipb.etcsa.base.app.impl.MainApplication;
-import com.exigen.ipb.etcsa.base.app.impl.OperationalReportApplication;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.ITestContext;
-import org.testng.annotations.*;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 @Listeners({AaaTestListener.class})
 public class BaseTest {
 
 	protected static final String TEST_DATA_KEY = "TestData";
-	protected static final String STATE_PARAM = "state";
+	protected static final String STATE_PARAM = Constants.STATE_PARAM;
 	protected static Logger log = LoggerFactory.getLogger(BaseTest.class);
-	protected static TestData loginUsers;
+	private static TestData loginUsers;
 	private static TestData tdCustomerIndividual;
 	private static TestData tdCustomerNonIndividual;
 	private static TestData tdOperationalReports;
 	private static ThreadLocal<String> state = new ThreadLocal<>();
 	private static String usState = PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE);
-	private static Map<String, Integer> policyCount = new HashMap<>();
 	public String customerNumber;
 	protected Customer customer = new Customer();
 	protected TestDataManager testDataManager;
@@ -80,7 +76,7 @@ public class BaseTest {
 		return state.get();
 	}
 
-	private void setState(String newState) {
+	public void setState(String newState) {
 		state.set(newState);
 	}
 
@@ -92,47 +88,29 @@ public class BaseTest {
 	protected final Map<String, String> getPrimaryPoliciesForPup() {
 		//EntitiesHolder.addNewEntity(EntitiesHolder.makeDefaultPolicyKey(PolicyType.HOME_SS_HO3,
 		//getState()), "COH3927438929");
-		if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
-			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
+		String customerNum = null;
+		//remember customer if it was created in test
+		if (CustomerSummaryPage.labelCustomerNumber.isPresent()) {
+			customerNum = CustomerSummaryPage.labelCustomerNumber.getValue();
 		}
-		//remember customer that was created in test
-		String customerNum = CustomerSummaryPage.labelCustomerNumber.getValue();
-		Map<String, String> returnValue = new LinkedHashMap<>();
+		mainApp().close();
 		String state = getState().intern();
+		Map<String, String> returnValue = new LinkedHashMap<>();
 		synchronized (state) {
-			PolicyType type;
-			PolicyType typeAuto = null;
 			if (state.equals(Constants.States.CA)) {
-				type = PolicyType.HOME_CA_HO3;
-				typeAuto = PolicyType.AUTO_CA_SELECT;
+				returnValue.put("Primary_HO3", getDefaultPolicy(PolicyType.HOME_CA_HO3));
+				returnValue.put("Primary_Auto", getDefaultPolicy(PolicyType.AUTO_CA_SELECT));
 			} else {
-				type = PolicyType.HOME_SS_HO3;
+				returnValue.put("Primary_HO3", getDefaultPolicy(PolicyType.HOME_SS_HO3));
 			}
-			String key = EntitiesHolder.makeDefaultPolicyKey(type, state);
-			if (EntitiesHolder.isEntityPresent(key)) {
-				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
-			} else {
-				type.get().createPolicy(getStateTestData(testDataManager.policy.get(type), "DataGather", "TestData"));
-				EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
-				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
-			}
-
-			if (typeAuto != null) {
-				String keyAuto = EntitiesHolder.makeDefaultPolicyKey(typeAuto, state);
-				if (EntitiesHolder.isEntityPresent(keyAuto)) {
-					returnValue.put("Primary_Auto", EntitiesHolder.getEntity(keyAuto));
-				} else {
-					typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
-					EntitiesHolder.addNewEntity(keyAuto, PolicySummaryPage.labelPolicyNumber.getValue());
-					returnValue.put("Primary_Auto", EntitiesHolder.getEntity(keyAuto));
-				}
-			}
-			//open Customer that was created in test
-			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
-				SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, customerNum);
-			}
-			return returnValue;
 		}
+		//open Customer if it was created in test
+		mainApp().open();
+		if (customerNum != null) {
+			SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, customerNum);
+		}
+		return returnValue;
+
 	}
 
 	protected TimePoints getTimePoints() {
@@ -150,13 +128,8 @@ public class BaseTest {
 	 * @return Copied quote number
 	 */
 	protected String getCopiedQuote() {
-		openDefaultPolicy(getPolicyType(), getState());
-		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState());
-		synchronized (key) {
-			getPolicyType().get().policyCopy().perform(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
-			log.info("Quote copied {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
-		}
-		return PolicySummaryPage.labelPolicyNumber.getValue();
+		createCustomerIndividual();
+		return createQuote();
 	}
 
 	/**
@@ -166,13 +139,8 @@ public class BaseTest {
 	 * @return policy number
 	 */
 	protected String getCopiedPolicy() {
-		openDefaultPolicy(getPolicyType(), getState());
-		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState());
-		synchronized (key) {
-			getPolicyType().get().copyPolicy(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
-			log.info("Policy copied {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
-		}
-		return PolicySummaryPage.labelPolicyNumber.getValue();
+		createCustomerIndividual();
+		return createPolicy();
 
 	}
 
@@ -195,9 +163,8 @@ public class BaseTest {
 	protected String getUserGroup() {
 		if (StringUtils.isNotBlank(userGroup)) {
 			return userGroup;
-		} else {
-			return Constants.UserGroups.QA.get();
 		}
+		return Constants.UserGroups.QA.get();
 	}
 
 	protected TestData getLoginTD() {
@@ -234,17 +201,29 @@ public class BaseTest {
 
 	@Parameters("login")
 	@BeforeMethod(alwaysRun = true)
-	public void beforeMethodStateConfiguration(@Optional("") String login, Object[] parameters) {
-		if (parameters != null && parameters.length != 0 && StringUtils.isNotBlank(parameters[0].toString())) {
-			setState(parameters[0].toString());
-		} else if (isStateCA()) {
-			setState(Constants.States.CA);
-		} else if (StringUtils.isNotBlank(usState)) {
-			setState(usState);
-		} else {
-			setState(Constants.States.UT);
+	public void stateConfiguration(@Optional("") String login, Method method, ITestContext context) {
+		this.context = context;
+		if (method.isAnnotationPresent(Test.class)) {
+			String state = "";
+			if (StringUtils.isNotBlank(context.getCurrentXmlTest().getParameter(Constants.STATE_PARAM))) {
+				state = context.getCurrentXmlTest().getParameter(Constants.STATE_PARAM);
+			} else {
+				if (method.isAnnotationPresent(Parameters.class) && Arrays.asList(method.getAnnotation(Parameters.class).value()).stream().anyMatch(p -> "state".equals(p))) {
+					Parameter stateParam = Arrays.asList(method.getParameters()).stream().filter(p -> p.isAnnotationPresent(Optional.class)).findFirst().orElse(null);
+					if (stateParam != null) {
+						if (!stateParam.getAnnotation(Optional.class).value().isEmpty()) {
+							state = stateParam.getAnnotation(Optional.class).value();
+						} else if (StringUtils.isNotBlank(PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE))) {
+							state = PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE);
+						} else if (isStateCA()) {
+							state = Constants.States.CA;
+						}
+					}
+				}
+				context.getCurrentXmlTest().addParameter(Constants.STATE_PARAM, state);
+			}
+			setState(state);
 		}
-
 		this.userGroup = login;
 	}
 
@@ -260,11 +239,6 @@ public class BaseTest {
 		if (isCiModeEnabled) {
 			closeAllApps();
 		}
-	}
-
-	@BeforeSuite
-	public void beforeSuite(ITestContext context) {
-		this.context = context;
 	}
 
 	/**
@@ -407,7 +381,7 @@ public class BaseTest {
 	}
 
 	/**
-	 * Should be used for creation of custom Underlying Home or Auto policies to use them durring PUP policy creation.\
+	 * Should be used for creation of custom Underlying Home or Auto policies to use them during PUP policy creation.\
 	 *
 	 * @param tdHomeAdjustment - TestData adjustment for creation of Home HO3 policy (use state specific test data for HOME_CA product)
 	 * @param tdAutoAdjustment - TestData adjustment for creation of AUTO_CA policy
@@ -495,53 +469,49 @@ public class BaseTest {
 		return loginUsers.getTestData(userGroups.get()).adjust(LoginPageMeta.STATES.getLabel(), getState());
 	}
 
+	private String getDefaultPolicy(PolicyType policyType) {
+		assertThat(policyType).as("PolicyType is not set").isNotNull();
+		String key = EntitiesHolder.makeDefaultPolicyKey(policyType, getState());
+		String policyNumber = "";
+		mainApp().close();
+		synchronized (key) {
+			if (EntitiesHolder.isEntityPresent(key)) {
+				policyNumber = EntitiesHolder.getEntity(key);
+
+			} else {
+				mainApp().open();
+				policyNumber = createNewDefaultPolicy(policyType);
+				mainApp().close();
+			}
+		}
+		return policyNumber;
+	}
+
+	private String createNewDefaultPolicy(PolicyType policyType) {
+		assertThat(policyType).as("PolicyType is not set").isNotNull();
+		String key = EntitiesHolder.makeDefaultPolicyKey(policyType, getState());
+		String policyNumber;
+		createCustomerIndividual();
+		TestData td = getStateTestData(testDataManager.policy.get(policyType), "DataGather", "TestData");
+		policyType.get().createPolicy(td);
+		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		EntitiesHolder.addNewEntity(key, policyNumber);
+		return policyNumber;
+	}
+
+	private String getStateTestDataName(String tdName) {
+		if (StringUtils.isNotBlank(getState())) {
+			tdName = tdName + "_" + getState();
+		}
+		return tdName;
+	}
+
 	private void initTestDataForTest() {
 		try {
 			tdSpecific = testDataManager.getDefault(this.getClass());
 		} catch (TestDataException tde) {
 			log.debug(String.format("Specified TestData for test is absent: %s", tde.getMessage()));
 		}
-	}
-
-	private String getStateTestDataName(String tdName) {
-		String state = getState();
-		// if (!state.equals(States.UT) && !state.equals(States.CA))
-		tdName = tdName + "_" + state;
-		return tdName;
-	}
-
-	private String openDefaultPolicy(PolicyType policyType, String state) {
-		assertThat(policyType).as("PolicyType is not set").isNotNull();
-		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), state);
-		String policyNumber;
-		synchronized (key) {
-			Integer count = policyCount.get(key);
-			if (count == null) {
-				count = 1;
-			}
-			if (EntitiesHolder.isEntityPresent(key) && count < 10) {
-				count++;
-				policyNumber = EntitiesHolder.getEntity(key);
-				SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-				if (!PolicySummaryPage.labelPolicyStatus.getValue().equals(ProductConstants.PolicyStatus.POLICY_ACTIVE)) {
-					policyNumber = createNewDefaultPolicy(key);
-				}
-			} else {
-				count = 1;
-				policyNumber = createNewDefaultPolicy(key);
-			}
-			policyCount.put(key, count);
-		}
-		return policyNumber;
-	}
-
-	private String createNewDefaultPolicy(String key) {
-		String policyNumber;
-		createCustomerIndividual();
-		createPolicy();
-		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		EntitiesHolder.addNewEntity(key, policyNumber);
-		return policyNumber;
 	}
 
 	private void closeAllApps() {

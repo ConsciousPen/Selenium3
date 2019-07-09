@@ -1,5 +1,9 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.time.LocalDateTime;
+import java.util.Map;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -7,21 +11,15 @@ import aaa.common.pages.QuoteDataGatherPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.HomeGranularityConstants;
 import aaa.helpers.db.queries.HomeGranularityQueries;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
-
-import java.time.LocalDateTime;
-import java.util.Map;
-
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public abstract class TestHomeGranularityAbstract extends PolicyBaseTest {
 
@@ -122,8 +120,8 @@ public abstract class TestHomeGranularityAbstract extends PolicyBaseTest {
         //move time to R-45 and run renewal batch job
         LocalDateTime renewImageGenDate = getTimePoints().getRenewPreviewGenerationDate(expirationDate);
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+        JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
     }
 
     protected void riskAddressChangeDuringEndorsement(TestData tdChangeAddress) {

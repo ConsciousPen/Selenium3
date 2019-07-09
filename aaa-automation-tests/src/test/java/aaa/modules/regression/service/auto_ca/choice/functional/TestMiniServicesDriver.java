@@ -14,10 +14,10 @@ import toolkit.utils.TestInfo;
 
 public class TestMiniServicesDriver extends TestMiniServicesDriversCAHelper {
 
-    @Override
-    protected PolicyType getPolicyType() {
-        return PolicyType.AUTO_CA_CHOICE;
-    }
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_CA_CHOICE;
+	}
 
 	/**
 	 * @author Maris Strazds

@@ -14,8 +14,8 @@ import javax.ws.rs.core.Response;
 import aaa.common.enums.Constants;
 import aaa.common.pages.Page;
 import org.apache.commons.lang.StringUtils;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -1145,14 +1145,14 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		if ("FNC".equals(ownershipType)) {
 			assertThat(vehicleTab.getOwnershipAssetList().getAsset(OWNERSHIP_TYPE)).hasValue("Financed");
 		}
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.FIRST_NAME)).hasValue("Other");
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.OWNER_NO_LABEL)).hasValue(otherName); //can't take the value of the field with no label
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.SECOND_NAME)).hasValue(secondName);
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.ADDRESS_LINE_1)).hasValue(addressLine1);
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.ADDRESS_LINE_2)).hasValue(addressLine2);
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.CITY)).hasValue(city);
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.STATE)).hasValue(state);
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.ZIP_CODE)).hasValue(zipCode);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.FIRST_NAME)).hasValue("Other");
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.OWNER_NO_LABEL)).hasValue(otherName); //can't take the value of the field with no label
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.SECOND_NAME)).hasValue(secondName);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.ADDRESS_LINE_1)).hasValue(addressLine1);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.ADDRESS_LINE_2)).hasValue(addressLine2);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.CITY)).hasValue(city);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.STATE)).hasValue(state);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.ZIP_CODE)).hasValue(zipCode);
 		mainApp().close();
 
 		ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
@@ -1449,7 +1449,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		VehicleUpdateDto updateVehiclePurchaseDateRequest = new VehicleUpdateDto();
 		updateVehiclePurchaseDateRequest.purchaseDate = "2018-02-28";
 		Vehicle updateVehiclePurchaseDateResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehiclePurchaseDateRequest);
-		assertThat(updateVehiclePurchaseDateResponse.purchaseDate.replace("T00:00:00Z", "")).isEqualTo("2018-02-28");
+		assertThat(updateVehiclePurchaseDateResponse.purchaseDate.replace("T00:00:00Z", "")).isEqualTo(HelperMiniServices.convertDateToAZDate("2018-02-28"));
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Premium Calculated");
@@ -1849,7 +1849,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(veh1.data.model).isEqualTo("CIVIC");
 		softly.assertThat(veh1.data.bodyStyle).isEqualTo("SEDAN 4 DOOR");
 		softly.assertThat(veh1.data.oid).isEqualTo(oid1);
-		softly.assertThat(veh1.data.purchaseDate).startsWith(purchaseDate);
+		softly.assertThat(veh1.data.purchaseDate).startsWith(HelperMiniServices.convertDateToAZDate(purchaseDate));
 		softly.assertThat(veh1.data.vehIdentificationNo).isEqualTo(vin1);
 		softly.assertThat(veh1.data.vehicleStatus).isEqualTo("pending");
 		softly.assertThat(veh1.data.usage).isEqualTo("Pleasure");
@@ -1898,7 +1898,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(veh2.data.bodyStyle).isEqualTo("3 DOOR COUPE");
 		softly.assertThat(veh2.data.oid).isEqualTo(oid2);
 		softly.assertThat(veh2.data.vehIdentificationNo).isEqualTo(vin2);
-		softly.assertThat(veh2.data.purchaseDate).startsWith(purchaseDate2);
+		softly.assertThat(veh2.data.purchaseDate).startsWith(HelperMiniServices.convertDateToAZDate(purchaseDate2));
 		softly.assertThat(veh2.data.vehicleStatus).isEqualTo("pending");
 		softly.assertThat(veh2.data.usage).isEqualTo("Pleasure");
 		softly.assertThat(veh2.data.salvaged).isEqualTo(false);
@@ -1998,7 +1998,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(veh1nd.data.model).isEqualTo("CIVIC");
 		softly.assertThat(veh1nd.data.bodyStyle).isEqualTo("SEDAN 4 DOOR");
 		softly.assertThat(veh1nd.data.oid).isEqualTo(oid1);
-		softly.assertThat(veh1nd.data.purchaseDate).startsWith(purchaseDate);
+		softly.assertThat(veh1nd.data.purchaseDate).startsWith(HelperMiniServices.convertDateToAZDate(purchaseDate));
 		softly.assertThat(veh1nd.data.vehIdentificationNo).isEqualTo(vin1);
 		softly.assertThat(veh1nd.data.vehicleStatus).isEqualTo("active");
 		softly.assertThat(veh1nd.data.usage).isEqualTo("Pleasure");
