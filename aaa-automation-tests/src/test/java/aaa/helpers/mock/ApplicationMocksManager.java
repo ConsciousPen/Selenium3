@@ -11,7 +11,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.exigen.istf.timesetter.client.TimeSetterClient;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.mock.model.UpdatableMock;
@@ -214,7 +213,7 @@ public class ApplicationMocksManager {
 	}
 
 	private static void assertTimeIsNotShifted() {
-		LocalDate serverDate = TimeSetterUtil.istfDateToJava(getTimeSetterClient().getStartTime()).toLocalDate();
+		LocalDate serverDate = getTimeSetterClient().getStartTime().toLocalDate();
 		assertThat(serverDate).as("Stub server start/stop/restart is not allowed on instance with shifted time.\nCurrent date is %1$s, Current date on server is: %2$s", LocalDate.now(), serverDate)
 				.isEqualTo(LocalDate.now());
 	}

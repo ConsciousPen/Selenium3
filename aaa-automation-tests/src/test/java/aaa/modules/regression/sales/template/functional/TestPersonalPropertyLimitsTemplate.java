@@ -1,9 +1,13 @@
 package aaa.modules.regression.sales.template.functional;
 
-import java.util.*;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.EndorsementForms;
@@ -18,7 +22,6 @@ import aaa.toolkit.webdriver.customcontrols.PersonalPropertyMultiAssetList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.TextBox;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestPersonalPropertyLimitsTemplate extends PolicyBaseTest {
 

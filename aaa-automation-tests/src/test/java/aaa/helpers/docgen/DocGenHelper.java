@@ -96,7 +96,6 @@ public class DocGenHelper {
 	 *                        By default strict match check is used, this means exception will be thrown if xml content differs from existing model (e.g. has extra tags)
 	 */
 	public static DocumentWrapper verifyDocumentsGenerated(ETCSCoreSoftAssertions softly, boolean documentsExistence, boolean generatedByJob, String policyNumber, DocGenEnum.Documents... documents) {
-		//checkPasDocEnabled(policyNumber);
 		if (isPasDocEnabled(policyNumber)) {
 			log.info(String.format("PasDoc is enabled for product and state combination: " + policyNumber + "."));
 			PasDocImpl.verifyDocumentsGenerated(softly, documentsExistence, generatedByJob, policyNumber, documents);

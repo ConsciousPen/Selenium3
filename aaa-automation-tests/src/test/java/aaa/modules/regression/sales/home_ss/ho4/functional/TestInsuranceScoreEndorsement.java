@@ -150,7 +150,7 @@ public class TestInsuranceScoreEndorsement extends TestInsuranceScoreEndorsement
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = {"PAS-24664", "PAS-29054", "PAS-25628"})
 	public void pas24664_Endorsement_DeletingQualifiedNamedInsured_SpouseUsedInRating(@Optional("") String state) {
 		testQualifiedNamedInsuredDeletedOnMidTermEndorsement("ApplicantTab_SpouseIsHigher",
-				500, 600 ,650);
+				500, 600, 650);
 	}
 
 	/**
@@ -185,6 +185,6 @@ public class TestInsuranceScoreEndorsement extends TestInsuranceScoreEndorsement
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = {"PAS-24664", "PAS-29054", "PAS-25628"})
 	public void pas24664_Endorsement_DeletingQualifiedNamedInsured_PrimaryInsuredUsedInRating(@Optional("") String state) {
 		testQualifiedNamedInsuredDeletedOnMidTermEndorsement("ApplicantTab_SpouseIsLower",
-				650, 700 ,500);
+				650, 700, 500);
 	}
 }

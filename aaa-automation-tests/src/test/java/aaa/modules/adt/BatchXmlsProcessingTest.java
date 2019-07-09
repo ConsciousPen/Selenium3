@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.helpers.ssh.Ssh;
 import toolkit.config.PropertyProvider;
@@ -43,8 +43,8 @@ public class BatchXmlsProcessingTest {
 		createTempFolder(LOCAL_TXT_FOLDER);
 		
 		RemoteHelper.get().clearFolder(REMOTE_DOCGEN_FOLDER);
-		
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);	
+
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		
 		RemoteHelper.get().downloadBatchFiles(REMOTE_DOCGEN_FOLDER, new File(LOCAL_DOCGEN_FOLDER)).closeSession();
 

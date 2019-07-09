@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
+import aaa.helpers.jobs.BatchJob;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -36,8 +36,8 @@ public class TestScenario1 extends AutoSSBaseTest {
 		policy.doNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
-		JobUtils.executeJob(Jobs.doNotRenewJob);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.policyDoNotRenewAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, DocGenEnum.Documents.AH65XX);
 	}
 

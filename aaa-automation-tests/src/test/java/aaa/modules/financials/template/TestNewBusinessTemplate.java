@@ -5,13 +5,13 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.BillingAccountMetaData;
@@ -250,7 +250,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
         TimeSetterUtil.getInstance().nextPhase(effDate);
-        JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.ledgerStatusUpdateJob);
         mainApp().open();
         SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_PENDING);
 
@@ -435,7 +435,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // Advance time and run escheatment job
         LocalDateTime escheatmentDate = refundDate.plusMonths(13).withDayOfMonth(1);
         TimeSetterUtil.getInstance().nextPhase(escheatmentDate);
-        JobUtils.executeJob(Jobs.aaaEscheatmentProcessAsyncJob);
+        JobUtils.executeJob(BatchJob.aaaEscheatmentProcessAsyncJob);
 
         // Validate PMT-14 and PMT-15
         assertSoftly(softly -> {
@@ -499,7 +499,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
         TimeSetterUtil.getInstance().nextPhase(effDate);
-        JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.ledgerStatusUpdateJob);
         mainApp().open();
         SearchPage.openBilling(policyNumber);
 
@@ -633,7 +633,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(dueDate);
         LocalDateTime billDueDate = getTimePoints().getBillDueDate(dueDate);
         TimeSetterUtil.getInstance().nextPhase(billGenDate);
-        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+        JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
         TimeSetterUtil.getInstance().nextPhase(billDueDate);
 
         mainApp().open();
@@ -673,7 +673,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // Advance time 1 month, generate and pay installment bill
         LocalDateTime secondBillGenDate = getTimePoints().getBillGenerationDate(dueDate.plusMonths(1));
         TimeSetterUtil.getInstance().nextPhase(secondBillGenDate);
-        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+        JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 
         mainApp().open();
         SearchPage.openBilling(policyNumber);
@@ -826,7 +826,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
     private void performReinstatementWithLapse(LocalDateTime effDate, String policyNumber) {
         TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
-        JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
+        JobUtils.executeJob(BatchJob.changeCancellationPendingPoliciesStatusJob);
         TimeSetterUtil.getInstance().nextPhase(effDate.plusDays(20));
         mainApp().open();
         performReinstatement(policyNumber);
@@ -849,16 +849,16 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
     private Dollar generateAutomaticRefund(String policyNumber, LocalDateTime refundDate) {
         TimeSetterUtil.getInstance().nextPhase(refundDate);
         try {
-            JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+            JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
         } catch (IstfException e) {
             // Getting intermittent errors, catching error for now
-            log.error(Jobs.aaaRefundGenerationAsyncJob.getJobName() + " failed, continuing with test...");
+            log.error(BatchJob.aaaRefundGenerationAsyncJob.getJobName() + " failed, continuing with test...");
         }
         try {
-            JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+            JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob);
         } catch (IstfException e) {
             // Getting intermittent errors, catching error for now
-            log.error(Jobs.aaaRefundDisbursementAsyncJob.getJobName() + " failed, continuing with test...");
+            log.error(BatchJob.aaaRefundDisbursementAsyncJob.getJobName() + " failed, continuing with test...");
         }
         mainApp().open();
         SearchPage.openBilling(policyNumber);

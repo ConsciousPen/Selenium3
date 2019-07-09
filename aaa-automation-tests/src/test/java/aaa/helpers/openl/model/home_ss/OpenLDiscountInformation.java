@@ -4,6 +4,7 @@ import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 @ExcelTableElement(sheetName = OpenLFile.DISCOUNT_INFORMATION_SHEET_NAME, headerRowIndex = OpenLFile.DISCOUNT_INFORMATION_HEADER_ROW_NUMBER)
 public class OpenLDiscountInformation {
@@ -90,6 +91,13 @@ public class OpenLDiscountInformation {
 	private Integer timeSinceRenovRoof;
 	private String windStorm;
 
+	@ExcelTransient
+	private boolean isOneYearBeforePolicy;
+
+	public void setIsOneYearBeforePolicy(boolean isOneYearBeforePolicy) {
+		this.isOneYearBeforePolicy = isOneYearBeforePolicy;
+	}
+
 	public Integer getNumber() {
 		return number;
 	}
@@ -131,7 +139,7 @@ public class OpenLDiscountInformation {
 	}
 
 	public Integer getHomeInsPersistency() {
-		return homeInsPersistency;
+		return isOneYearBeforePolicy ? homeInsPersistency - 1 : homeInsPersistency;
 	}
 
 	public void setHomeInsPersistency(Integer homeInsPersistency) {
@@ -243,7 +251,7 @@ public class OpenLDiscountInformation {
 	}
 
 	public Integer getMemberPersistency() {
-		return memberPersistency;
+		return isOneYearBeforePolicy ? memberPersistency - 1 : memberPersistency;
 	}
 
 	public void setMemberPersistency(Integer memberPersistency) {
@@ -259,7 +267,7 @@ public class OpenLDiscountInformation {
 	}
 
 	public Integer getNoOfYrsSinceLoanInception() {
-		return noOfYrsSinceLoanInception;
+		return isOneYearBeforePolicy ? noOfYrsSinceLoanInception - 1 : noOfYrsSinceLoanInception;
 	}
 
 	public void setNoOfYrsSinceLoanInception(Integer noOfYrsSinceLoanInception) {
@@ -339,7 +347,7 @@ public class OpenLDiscountInformation {
 	}
 
 	public Integer getTimeSinceRenovElectrical() {
-		return timeSinceRenovElectrical;
+		return isOneYearBeforePolicy ? timeSinceRenovElectrical - 1 : timeSinceRenovElectrical;
 	}
 
 	public void setTimeSinceRenovElectrical(Integer timeSinceRenovElectrical) {
@@ -347,7 +355,7 @@ public class OpenLDiscountInformation {
 	}
 
 	public Integer getTimeSinceRenovHeatOrCooling() {
-		return timeSinceRenovHeatOrCooling;
+		return isOneYearBeforePolicy ? timeSinceRenovHeatOrCooling - 1 : timeSinceRenovHeatOrCooling;
 	}
 
 	public void setTimeSinceRenovHeatOrCooling(Integer timeSinceRenovHeatOrCooling) {
@@ -355,7 +363,7 @@ public class OpenLDiscountInformation {
 	}
 
 	public Integer getTimeSinceRenovPlumbing() {
-		return timeSinceRenovPlumbing;
+		return isOneYearBeforePolicy ? timeSinceRenovPlumbing - 1 : timeSinceRenovPlumbing;
 	}
 
 	public void setTimeSinceRenovPlumbing(Integer timeSinceRenovPlumbing) {
@@ -363,7 +371,7 @@ public class OpenLDiscountInformation {
 	}
 
 	public Integer getTimeSinceRenovRoof() {
-		return timeSinceRenovRoof;
+		return isOneYearBeforePolicy ? timeSinceRenovRoof - 1 : timeSinceRenovRoof;
 	}
 
 	public void setTimeSinceRenovRoof(Integer timeSinceRenovRoof) {

@@ -2,13 +2,18 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.template.functional;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.List;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.Document;
 import aaa.helpers.xml.model.DocumentPackage;
 import aaa.main.enums.DocGenEnum;
@@ -20,15 +25,8 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.conversions.home_ss.dp3.functional.TestSpecialNonRenewalLetterKY;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeAbstract;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHomeAbstract {
 
@@ -56,8 +54,8 @@ public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHom
 		LocalDateTime conversionExpDate = PolicySummaryPage.getExpirationDate();
 
 		//Try to generate Conversion Specific Special Non-renewal letter (FORM# HSSNRKY 01 18) (document should not be generated)
-		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.aaaPreRenewalNoticeAsyncJob);
 
 		//Check that document is not generated - special conversion non renewal letter for KY (HSSNRKY)
 		DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.HSSNRKYXX, policyNumber, PRE_RENEWAL, false);
@@ -139,8 +137,8 @@ public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHom
 
 	private void runPreRenewalNoticeJob(LocalDateTime date) {
 		TimeSetterUtil.getInstance().nextPhase(date);
-		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.aaaPreRenewalNoticeAsyncJob);
 	}
 
 	private void proposeAndPurchaseConversionPolicy(LocalDateTime conversionExpDate, String policyNumber) {

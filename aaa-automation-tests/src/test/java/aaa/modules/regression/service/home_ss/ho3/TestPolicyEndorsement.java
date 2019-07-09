@@ -2,7 +2,13 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.home_ss.ho3;
 
-import aaa.common.enums.Constants;
+import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.utils.Dollar;
+import aaa.common.enums.Constants.States;
+import aaa.common.enums.Constants.UserGroups;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.NavigationPage;
@@ -16,15 +22,9 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomSoftAssertions;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * @author Olga Reva
@@ -50,57 +50,52 @@ import static toolkit.verification.CustomAssertions.assertThat;
 public class TestPolicyEndorsement extends HomeSSHO3BaseTest {
 
 	@Parameters({"state"})
-	@StateList(statesExcept = { Constants.States.CA })
+	@StateList(statesExcept = {States.CA})
 	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
 	public void testPolicyEndorsement(@Optional("") String state) {
-		
-		if (getUserGroup().equals(Constants.UserGroups.B31.get())) {
-			mainApp().open(getLoginTD(Constants.UserGroups.QA));
-			getCopiedPolicy();
+
+		if (getUserGroup().equals(UserGroups.B31.get())) {
+			mainApp().open(getLoginTD(UserGroups.QA));
+			createCustomerIndividual();
+			createPolicy();
 			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 			String policyNumber = PolicySummaryPage.getPolicyNumber();
 			mainApp().close();
 
 			//re-login with B31 user
-			mainApp().open(getLoginTD(Constants.UserGroups.B31));
+			mainApp().open(getLoginTD(UserGroups.B31));
 			MainPage.QuickSearch.buttonSearchPlus.click();
 			SearchPage.openPolicy(policyNumber);
 			log.info("Verifying 'Endorsement' action");
 			assertThat(NavigationPage.comboBoxListAction).as("Action 'Endorsement' is available").doesNotContainOption("Endorsement");
-		}
-		else {
+		} else {
 			mainApp().open();
-			if (getUserGroup().equals(Constants.UserGroups.F35.get())||getUserGroup().equals(Constants.UserGroups.G36.get())) {
-	        	createCustomerIndividual();
-	            createPolicy();
-	        }
-	        else {
-	        	getCopiedPolicy();
-	        }
-
-			Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
-
-			log.info("TEST: Endorsement for HSS Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-
-			TestData td = getTestSpecificTD("TestData").adjust(getPolicyTD("Endorsement", "TestData"));
-			policy.endorse().perform(td);
-
-			policy.getDefaultView().fillUpTo(td, ApplicantTab.class, true);
-
-			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-
-			policy.getDefaultView().fillFromTo(td, ReportsTab.class, BindTab.class);
-			new BindTab().submitTab();
-
-			CustomSoftAssertions.assertSoftly(softly -> {
-				softly.assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
-				softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
-				softly.assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(2);
-
-				softly.assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
-			});
+			createCustomerIndividual();
+			createPolicy();
 		}
+
+		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+
+		log.info("TEST: Endorsement for HSS Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
+
+		TestData td = getTestSpecificTD("TestData").adjust(getPolicyTD("Endorsement", "TestData"));
+		policy.endorse().perform(td);
+
+		policy.getDefaultView().fillUpTo(td, ApplicantTab.class, true);
+
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+
+		policy.getDefaultView().fillFromTo(td, ReportsTab.class, BindTab.class);
+		new BindTab().submitTab();
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
+			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation).hasRows(2);
+
+			softly.assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
+		});
 	}
 }

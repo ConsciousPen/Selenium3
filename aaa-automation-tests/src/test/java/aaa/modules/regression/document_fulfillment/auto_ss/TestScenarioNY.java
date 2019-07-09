@@ -5,14 +5,14 @@ import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.metadata.policy.AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting;
@@ -70,20 +70,20 @@ public class TestScenarioNY extends AutoSSBaseTest {
 
 		LocalDateTime renewOfferBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferBillGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents.AACDNYR);
 
 		LocalDateTime updatePolicyStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(updatePolicyStatusDate);
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
 		LocalDateTime insuranceRenewalReminderDate = getTimePoints().getInsuranceRenewalReminderDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(insuranceRenewalReminderDate);
-		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
-		JobUtils.executeJob(Jobs.aaaRenewalReminderGenerationAsyncJob);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalReminderGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents.AH64XX);
 	}

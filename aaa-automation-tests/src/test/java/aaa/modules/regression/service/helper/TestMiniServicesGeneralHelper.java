@@ -6,18 +6,21 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import javax.ws.rs.core.Response;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.rest.dtoDxp.*;
-import aaa.main.enums.*;
+import aaa.main.enums.ErrorDxpEnum;
+import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
@@ -469,7 +472,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		updatePurchaseDateVehicleRequest.purchaseDate = purchaseDate2;
 		Vehicle updatePurchaseDateVehicleResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updatePurchaseDateVehicleRequest);
 		//BUG PAS-13524 UpdateVehicle response contains NULLs for some fields
-		softly.assertThat(updatePurchaseDateVehicleResponse.purchaseDate.replace("T00:00:00Z", "")).isEqualTo(purchaseDate2);
+		softly.assertThat(updatePurchaseDateVehicleResponse.purchaseDate.replace("T00:00:00Z", "")).isEqualTo(HelperMiniServices.convertDateToAZDate(purchaseDate2));
 		softly.assertThat(updatePurchaseDateVehicleResponse.oid).isEqualTo(newVehicleOid);
 		softly.assertThat(updatePurchaseDateVehicleResponse.salvaged.toString()).isEqualTo("false");
 		//PAS-13252 end
@@ -610,7 +613,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 
 		//Generate Renewal Bill
 		TimeSetterUtil.getInstance().nextPhase(renewalBillGenDate);
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 
 		//Change time to Renewal effective date and make renewal payment
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
@@ -629,7 +632,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		LocalDateTime renewImageGenDate2 = getTimePoints().getRenewImageGenerationDate(policyExpirationDate2);
 		LocalDateTime renewalProposalDate2 = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate2);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate2);
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 		runRenewalJobsAndValidateIsRenewOfferGeneratedDXP_pas22548(policyNumber, renewalProposalDate2, policyExpirationDate2);
 	}
 
@@ -655,8 +658,8 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 	}
 
 	private void runRenewalJobsAndValidateIsRenewOfferGeneratedDXP_pas22548(String policyNumber, LocalDateTime renewalProposalDate, LocalDateTime policyExpirationDate) {
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		isRenewalOfferGenerated_pas22548(policyNumber, renewalProposalDate, policyExpirationDate);
 	}
 }

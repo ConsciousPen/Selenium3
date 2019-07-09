@@ -24,7 +24,7 @@ PrefillTab: {
 
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   #CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation'
@@ -38,7 +38,7 @@ ContactInformation: {
   Email: temp@gmail.com
 }
 
-AAAProductOwned: {
+AAAMembership: {
   Current AAA Member: 'Yes',
   Membership Number: 4290023667710001
 }
