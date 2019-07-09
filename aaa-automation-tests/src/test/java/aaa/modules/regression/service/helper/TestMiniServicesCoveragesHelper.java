@@ -6800,8 +6800,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		updateVehicleLeasedFinanced.vehicleOwnership.ownership = ownershipType;
 		updateVehicleLeasedFinanced.vehicleOwnership.name = otherName;
 		updateVehicleLeasedFinanced.vehicleOwnership.secondName = secondName;
+		if (getState().equals(Constants.States.CA)) {
+			updateVehicleLeasedFinanced.odometerReading = "22000";
+			updateVehicleLeasedFinanced.distanceOneWayToWork = "12";
+		}
 		HelperCommon.updateVehicle(policyNumber, replaceVehicleResponse.oid, updateVehicleLeasedFinanced);
-		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, replaceVehicleResponse.oid);//usage needed to bind
+		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, replaceVehicleResponse.oid);//update needed to bind
 
 		//Verify that Comp and coll is applied
 		VehicleCoverageInfo newVehicleCoverageList = findVehicleCoverages(HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class), replaceVehicleResponse.oid);
@@ -6809,6 +6813,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		Coverage covCollded = findCoverage(newVehicleCoverageList.coverages, "COLLDED");
 		assertThat(covCompded.getCoverageLimit()).isEqualTo("250");//state default value
 		assertThat(covCollded.getCoverageLimit()).isEqualTo("500");//state default value
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);//finish transaction
 
 	}
 
