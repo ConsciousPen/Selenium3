@@ -2,9 +2,26 @@
 TestData_DriverTab_Assignment_Data_CA: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ca_select>@DataGather@GeneralTab',
-  DriverTab:  ['@Driver1','@Driver2','@Driver3','@Driver4','@Driver5','@Driver6','@Driver7','@Driver8','@Driver9']
+  DriverTab:  ['@Driver1','@Driver2','@Driver3','@Driver5','@Driver6','@Driver7','@Driver8'],
+  VehicleTab: ['@Vehicle1','@Vehicle1','@Vehicle1','@Vehicle1','@Vehicle1','@Vehicle1','@Vehicle1'],
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: [  {
+                                         Primary Driver: index=1
+                                       },{
+                                         Primary Driver: index=1
+                                       },{
+                                         Primary Driver: index=1
+                                       },{
+                                         Primary Driver: index=1
+                                       },{
+                                         Primary Driver: index=1
+                                       },{
+                                         Primary Driver: index=1
+                                       },{
+                                         Primary Driver: index=1
+                                       }]
+  }
 }
-
 
 PremiumAndCoveragesTab_Select: {
   Product: CA Select,
@@ -26,6 +43,13 @@ PrefillTab: {
   Order Prefill: click
 }
 
+Vehicle1: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+  Primary Use: Pleasure (recreational driving only),
+  Odometer Reading: 7000
+}
+
 #FNI
 Driver1: {
   Add Driver: Click,
@@ -39,7 +63,8 @@ Driver1: {
   License Type: "Valid",
   License State: CA,
   Permit Before License: 'Yes',
-  "License #": D1278701
+  "License #": D1278701,
+  Most Recent GPA: 'A Student',
 }
 
 Driver2: {
@@ -57,7 +82,8 @@ Driver2: {
   License State: CA,
   Permit Before License: 'Yes',
   "License #": D5435702,
-  Age First Licensed: 18
+  Age First Licensed: 18,
+  Most Recent GPA: 'A Student',
 }
 
 Driver3: {
@@ -84,13 +110,6 @@ Driver3: {
     Description: 'Fault accident, no injury, damage > $1000',
     Loss Payment Amount: '1500',
     Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-    "Include in Points and/or YAF?": 'Yes'
-  },
-  {
-    Activity Source: 'Customer Input',
-    Type: 'Suspension/Revocation',
-    Description: 'Alcohol Related Suspension',
-    Suspension Date: '$<today-1M:MM/dd/yyyy>',
     "Include in Points and/or YAF?": 'Yes'
   }
 }

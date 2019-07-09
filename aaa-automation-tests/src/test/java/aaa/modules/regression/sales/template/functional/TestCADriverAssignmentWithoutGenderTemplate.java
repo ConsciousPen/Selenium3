@@ -42,6 +42,7 @@ import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -79,11 +80,19 @@ public class TestCADriverAssignmentWithoutGenderTemplate extends CommonTemplateM
 
     protected void pas29418_DriverAssignmentRanking() {
         //Setup test data
-        TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_Assignment_Data").resolveLinks();
-        adjusted = getPolicyTD().adjust(testDataForFNI);
+        TestData testDataDriverDetails = getTestSpecificTD("TestData_DriverTab_Assignment_Data").resolveLinks();
+        adjusted = getPolicyTD().adjust(testDataDriverDetails);
 
-        //Create quote with X drivers
-        createQuoteAndFillUpTo(adjusted, DriverTab.class);
+        //Create quote with X drivers and navigate to P&C page to get system rated drivers
+        createQuoteAndFillUpTo(adjusted, PremiumAndCoveragesTab.class);
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
+
+        //Verify System Rated Drivers are in the correct ranking order
+        assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue().get(0).getValue("System Rated Driver")).contains("Gandalf");
+        assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue().get(0).getValue("System Rated Driver")).contains("Gandalf");
+        assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue().get(0).getValue("System Rated Driver")).contains("Gandalf");
+        assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue().get(0).getValue("System Rated Driver")).contains("Gandalf");
+        assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue().get(0).getValue("System Rated Driver")).contains("Gandalf");
     }
 
 }
