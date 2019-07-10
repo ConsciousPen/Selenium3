@@ -1,22 +1,23 @@
 package aaa.modules.regression.sales.template.functional;
 
-import java.util.*;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.db.DBService;
 import toolkit.webdriver.controls.Link;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestEndorsementPremiumEntriesTemplate extends PolicyBaseTest {
 

@@ -7,8 +7,8 @@ import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
@@ -16,18 +16,23 @@ import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.docgen.impl.PasDocImpl;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
-import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+
+import static aaa.main.enums.DocGenEnum.Documents.*;
 
 public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 
@@ -64,6 +69,7 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 		TestData td = getPolicyTD()
 				.adjust(TestData.makeKeyPath("PremiumAndCoveragesTab", "Payment Plan"), "Eleven Pay - Standard");
 
+        TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusMonths(2).with(DateTimeUtils.nextWorkingDay));
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNum = createPolicy(td);
@@ -90,31 +96,37 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 		new BillingAccount().update().perform(tdBilling.getTestData("Update", "TestData_AddAutopay"));
 		//DD1
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dueDate1));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		billDueDate = getTimePoints().getBillDueDate(dueDate1);
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(dueDate1));
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
+		JobUtils.executeJob(BatchJob.aaaRecurringPaymentsProcessingJob);
 
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
 		declineRecurringPayment(policyNum, billDueDate, "TestData_FeeRestriction");
 
 		//DD2
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dueDate2));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		billDueDate = getTimePoints().getBillDueDate(dueDate2);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
+		JobUtils.executeJob(BatchJob.aaaRecurringPaymentsProcessingJob);
 
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
 		declineRecurringPayment(policyNum, billDueDate, "TestData_FeeRestriction");
 		PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5003);
 
 		//DD3 Scenario 41.2
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dueDate3));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		billDueDate = getTimePoints().getBillDueDate(dueDate3);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
+		JobUtils.executeJob(BatchJob.aaaRecurringPaymentsProcessingJob);
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(dueDate3));
 
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
 		declineRecurringPayment(policyNum, billDueDate, "TestData_FeeRestriction");
 		PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5003);
 	}
@@ -152,11 +164,13 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 		new BillingAccount().update().perform(tdBilling.getTestData("Update", "TestData_AddAutopay"));
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dueDate1));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		billDueDate = getTimePoints().getBillDueDate(dueDate1);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
+		JobUtils.executeJob(BatchJob.aaaRecurringPaymentsProcessingJob);
 
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
 		declineRecurringPayment(policyNum, billDueDate, "TestData_FeeRestriction");
 		PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5000);
 	}
@@ -193,12 +207,14 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 		new BillingAccount().update().perform(tdBilling.getTestData("Update", "TestData_AddAutopay"));
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dueDate1));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		billDueDate = getTimePoints().getBillDueDate(dueDate1);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
+		JobUtils.executeJob(BatchJob.aaaRecurringPaymentsProcessingJob);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(dueDate1));
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
 		declineRecurringPayment(policyNum, billDueDate, "TestData_FeeRestriction");
 		PasDocImpl.verifyDocumentsGenerated(policyNum, _60_5000);
 	}
@@ -230,21 +246,21 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 
 		//R-35
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		//R-20
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalDate));
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 
 		//R
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(renewalDate));
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 		mainApp().open();
 
 		//R+10
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getInsuranceRenewalReminderDate(renewalDate));
-		JobUtils.executeJob(Jobs.aaaRenewalReminderGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalReminderGenerationAsyncJob);
 
 		PasDocImpl.verifyDocumentsGenerated(policyNumber, AH64XX);
 	}
@@ -315,11 +331,6 @@ public class PasDoc_OnlineBatch_Notice extends AutoSSBaseTest {
 	}
 
 	private void declineRecurringPayment(String policyNumber, LocalDateTime installmentDueDate, String declineReason) {
-		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
-			mainApp().open();
-			SearchPage.openBilling(policyNumber);
-		}
-
 		HashMap<String, String> map = new HashMap<>();
 		map.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, getTimePoints().getBillDueDate(installmentDueDate).format(DateTimeUtils.MM_DD_YYYY));
 		map.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PAYMENT);

@@ -9,7 +9,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.mock.ApplicationMocksManager;
@@ -93,7 +93,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	public TestData getCappingData(AutoSSOpenLPolicy openLPolicy) {
 		double manualCappingFactor = openLPolicy.isCappedPolicy() ? openLPolicy.getCappingDetails().getTermCappingFactor() * 100 : 100;
 		return DataProviderFactory.dataOf(AutoSSMetaData.PremiumAndCoveragesTab.VIEW_CAPPING_DETAILS_DIALOG.getLabel(), DataProviderFactory.dataOf(
-				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.MANUAL_CAPPING_FACTOR.getLabel(), manualCappingFactor,
+				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.MANUAL_CAPPING_FACTOR.getLabel(), Math.round(manualCappingFactor * 100.0) / 100.0,
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.CAPPING_OVERRIDE_REASON.getLabel(), "index=1",
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.BUTTON_CALCULATE.getLabel(), "click"));
 	}
@@ -296,7 +296,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				String[] firstLastName = driver.getName().split("\\s", 2);
 				String firstName = firstLastName[0];
 				String lastName = firstLastName.length > 1 ? firstLastName[1] : firstName;
-				int driverAge = (openLPolicy.isNewRenPasCappedPolicy() && openLPolicy.getTerm()==12) ? driver.getDriverAge() - 1 : driver.getDriverAge();
+				int driverAge = openLPolicy.isNewRenPasCappedPolicy() && openLPolicy.getTerm() == 12 ? driver.getDriverAge() - 1 : driver.getDriverAge();
 				driverData.put(AutoSSMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), DataProviderFactory.emptyData());
 				driverData.put(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), firstName);
 				driverData.put(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), lastName);
@@ -444,7 +444,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 	private String getValidLicenseNumber(String licenseNumber, int indexOfDriver) {
 		int length = licenseNumber.length();
-		return new StringBuilder(licenseNumber.substring(0, length - 2)).append(indexOfDriver).append(licenseNumber.substring(length - 1, length)).toString();
+		return new StringBuilder(licenseNumber.substring(0, length - 2)).append(indexOfDriver).append(licenseNumber, length - 1, length).toString();
 	}
 
 	private LocalDate getOccurrenceDate(LocalDate effectiveDate) {

@@ -1,15 +1,15 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite thread-count="1024" guice-stage="DEVELOPMENT" name="Regression Tests Timepoint" parallel="tests">
-    <parameter name="timeshift-scenario-mode" value="method"/>
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
     <test name="AZ Home" parallel="methods">
         <parameter name="state" value="AZ"/>
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -38,6 +38,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -58,6 +59,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -73,6 +75,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -123,6 +126,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -138,6 +142,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -168,6 +173,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -230,6 +236,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -262,6 +269,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -277,6 +285,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -384,6 +393,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -405,6 +415,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -439,7 +450,6 @@
                     <include name="pas17144_ooseConflictManualDriverInformation"/>
                     <include name="pas14121_renewalMergeVehicleInformation"/>
                     <include name="pas19839_ooseConflictManualAddNamedInsuredInformation"/>
-                    <include name="pas19839_renewalMergeAutomaticRemoveNamedInsured"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict -->
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidation">
@@ -473,6 +483,18 @@
                     <include name="pas14738_testAccidentSurchargeWaiverNB"/>
                 </methods>
             </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver -->
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas22140_renewalComparisonPremiumAndCoverages"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas27030_ooseConflictManualPremiumAndCoverages"/>
+                    <include name="pas27030_renewalMergePremiumAndCoverages"/>
+                    <include name="pas27234_renewalAtomicMergeContactInformation"/>
+                </methods>
+            </class>
         </classes>
     </test> <!-- AZ Auto -->
     <test name="PA Auto" parallel="methods">
@@ -480,6 +502,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -509,6 +532,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -529,6 +553,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -630,6 +655,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -645,6 +671,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -669,6 +696,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -696,6 +724,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -746,6 +775,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -788,6 +818,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -808,6 +839,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -906,6 +938,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -921,6 +954,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -936,6 +970,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -956,6 +991,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>
@@ -992,6 +1028,7 @@
         <groups>
             <run>
                 <include name="Regression"/>
+                <exclude name="Obsolete"/>
             </run>
         </groups>
         <classes>

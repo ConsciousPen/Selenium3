@@ -287,4 +287,7 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	public boolean isNewRenPasCappedPolicy() {
 		return !isLegacyConvPolicy() && isCappedPolicy();
 	}
+
+	@Override
+	public void setIsOneYearBeforePolicy() {}
 }

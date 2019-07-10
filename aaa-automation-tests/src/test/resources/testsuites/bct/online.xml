@@ -2,11 +2,9 @@
 <suite name="BCT Online Tests" verbose="1" parallel="tests" thread-count="1024" data-provider-thread-count="1">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener" />
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
-
-                                 <!-- Billing And Payments -->
+    <!-- Billing And Payments -->
 
     <test name="Billing and payment - BCT_ONL_030" preserve-order="true">
         <parameter name="state" value="CA" />

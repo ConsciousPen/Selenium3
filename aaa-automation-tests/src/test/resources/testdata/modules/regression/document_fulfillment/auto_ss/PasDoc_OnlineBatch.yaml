@@ -54,11 +54,15 @@ TestData_2FinancialDrivers: {
 
 # ---- Scenario 5
 TestData_VehicleWithDamage: {
-  VehicleTab: ['@VehicleTab_Regular', '@Vehicle_withDamage']
+  #VehicleTab: ['@VehicleTab_Regular', '@Vehicle_withDamage'], 
+  VehicleTab: '@VehicleTab_RegularWithDamage', 
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
 }
 
 TestData_2VehiclesWithDamage: {
-  VehicleTab: ['@VehicleTab_Regular', '@Vehicle_withDamage', '@Vehicle2_withDamage']
+  #VehicleTab: ['@VehicleTab_Regular', '@Vehicle_withDamage', '@Vehicle2_withDamage'], 
+  VehicleTab: ['@VehicleTab_RegularWithDamage', '@Vehicle2_withDamage'],
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
 }
 
 # ---- Scenario 6
@@ -327,7 +331,7 @@ TestData_2_Drivers: {
 
 # ----- Scenario 20
 TestData_MembershipLapsed: {
-  GeneralTab: '@GeneralTab_MembershipLapsed' 
+  GeneralTab: '@GeneralTab_MembershipLapsed'
 }
 
 # -------- GeneralTab ---------
@@ -796,6 +800,16 @@ PremiumAndCoveragesTab_Monthly: {
   Payment Plan: Eleven Pay - Standard, 
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Comprehensive Deductible: 'contains=$750',
+}
+
+# ------- DriverActivityReportsTab ---------
+DriverActivityReportsTab: {
+  "Has the customer expressed interest in purchasing the quote?": 'Yes',
+  I Agree: true, 
+  Validate Driving History: click,
+  OrderCLUEReport: [{}],
+  OrderMVRReport: [{}],
+  OrderInternalClaimsReport: [{}]
 }
 
 # ------- DocumentsAndBindTab --------

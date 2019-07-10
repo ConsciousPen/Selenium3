@@ -7,8 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.mock.ApplicationMocksManager;
@@ -265,7 +265,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "Yes");
 		}
 		if (isVisibleProofOfPEHCR(openLPolicy)) {
-			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION.getLabel(), "Yes");
+			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS.getLabel(), "Yes");
 		}
 		if (receiptIsRequired(openLPolicy)) {
 			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.APPRAISALS_SALES_RECEIPTS_FOR_SCHEDULED_PROPERTY.getLabel(), "Yes");
@@ -1078,16 +1078,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	private boolean insuranceScoreReport(String state) {return !"MD".equals(state);}
 
 	private boolean isVisibleProofOfPEHCR(HomeSSOpenLPolicy openLPolicy) {
-		boolean isVisibleProofOfPEHCR = false;
-		//TODO clarify logic of proof
-		//		if (openLPolicy.getPolicyDwellingRatingInfo().getHomeAge() >= 10 &&
-		//				(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovPlumbing() < 10 ||
-		//						openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovHeatOrCooling() < 10 ||
-		//						openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovElectrical() < 10 ||
-		//						openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovRoof() < 10)) {
-		//			isVisibleProofOfPEHCR = true;
-		//		}
-		return isVisibleProofOfPEHCR;
+		return openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDwellingRatingInfo().getHomeAge()).getYear() < 1940;
 	}
 
 	private boolean receiptIsRequired(HomeSSOpenLPolicy openLPolicy) {

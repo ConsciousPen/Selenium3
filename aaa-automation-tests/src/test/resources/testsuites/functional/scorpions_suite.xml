@@ -2,9 +2,8 @@
 <suite name="Scorpions Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
 
     <!-- SS & CA Claims Assignment and Permissive Use Features -->
     <test name="Offline Claims AUTO SS">
@@ -44,6 +43,7 @@
                 <methods>
                     <include name="pas8310_nameDobYobMatchMoreManual"/>
                     <include name="pas22608_verifyPermissiveUseIndicator"/>
+                    <include name="pas28399_RestrictChangeFNIGeneralTabEndorsement"/>
                 </methods>
             </class>
         </classes>
@@ -58,6 +58,7 @@
                     <include name="pas20828_productDetermineWithPUClaims"/>
                     <include name="pas24652_ChangeFNIGeneralTabNBEndorsement"/>
                     <include name="pas27908_UpdateUWRulesWithPUFlag"/>
+                    <include name="pas28399_RestrictChangeFNIGeneralTabEndorsement"/>
                 </methods>
             </class>
         </classes>
@@ -71,6 +72,7 @@
                     <include name="pas25463_ViolationsMVRPUIndicatorCheck"/>
                     <include name="pas24652_ChangeFNIGeneralTabNBEndorsement"/>
                     <include name="pas27908_UpdateUWRulesWithPUFlag"/>
+                    <include name="pas28399_RestrictChangeFNIGeneralTabEndorsement"/>
                 </methods>
             </class>
         </classes>
@@ -99,6 +101,7 @@
                     <include name="pas2714_Endorsement"/>
                     <include name="pas4253_restrictVehicleRefreshNB"/>
                     <include name="pas12872_VINRefreshPartialMatchUnboundQuote"/>
+                    <include name="pas29402_GetCorrectCAProductSymbols"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshMotorHomeVehicle">

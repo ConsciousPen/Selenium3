@@ -2,10 +2,16 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.main.metadata.policy.AutoCaMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL;
 import static aaa.main.metadata.policy.AutoCaMetaData.VehicleTab.VIN;
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import javax.ws.rs.core.Response;
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
+import org.assertj.core.api.AssertionsForClassTypes;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -20,19 +26,11 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
-import org.apache.commons.lang.StringUtils;
-import org.assertj.core.api.AssertionsForClassTypes;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.Ownership.IS_REGISTERED_OWNER_DIFFERENT_THAN_NAMED_INSURED;
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import javax.ws.rs.core.Response;
-import org.apache.commons.lang.BooleanUtils;
 
-public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
+public class TestMiniServicesVehiclesHelperCA extends TestMiniServicesVehiclesHelper {
 
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private GeneralTab generalTab = new GeneralTab();
@@ -243,7 +241,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 					softly.assertThat(response1.garagingDifferent).isEqualTo(false);
 					softly.assertThat(response1.vehTypeCd).isEqualTo("Regular");
 					softly.assertThat(response1.odometerReadingDate).isEqualTo(endorsementDate);
-					softly.assertThat(response1.declaredAnnualMiles).isEqualTo("13000");
+					softly.assertThat(response1.declaredAnnualMiles).isEqualTo(DEFAULT_DECLAREDANNUALMILES_CA);
 					softly.assertThat(response1.garagingAddress.postalCode).isEqualTo(zipCodeDefault);
 					softly.assertThat(response1.garagingAddress.addressLine1).isEqualTo(addressDefault);
 					softly.assertThat(response1.garagingAddress.city).isEqualTo(cityDefault);
@@ -345,7 +343,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 		String ownership1 = vehicleTab.getInquiryAssetList().getInquiryAssetList(AutoCaMetaData.VehicleTab.OWNERSHIP)
 				.getStaticElement(AutoCaMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE).getValue().replace("Owned", "OWN");
 		String usage1 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.PRIMARY_USE).getValue().replace("Commute (to/from work and school)", "WC");
-		String garagingDifferent1 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).getValue().toLowerCase();
+		String garagingDifferent1 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).getValue().toLowerCase();
 		String antiTheft1 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.ANTI_THEFT).getValue().toUpperCase().replace("UNKNOWN", "UNK");
 		String vehType1 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.TYPE).getValue().replace("Regular", "Regular");
 		//Garaging address for first vehicle
@@ -369,7 +367,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 		String ownership2 = vehicleTab.getInquiryAssetList().getInquiryAssetList(AutoCaMetaData.VehicleTab.OWNERSHIP)
 				.getStaticElement(AutoCaMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE).getValue().replace("Owned", "OWN");
 		String usage2 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.PRIMARY_USE).getValue().replace("Commute (to/from work and school)", "WC");
-		String garagingDifferent2 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).getValue().toLowerCase();
+		String garagingDifferent2 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).getValue().toLowerCase();
 		String antiTheft2 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.ANTI_THEFT).getValue().toUpperCase().replace("D-IMMOBILIZER/KEYLSS ENTRY/ALARM", "STD");
 		String vehType2 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.TYPE).getValue().replace("Regular", "Regular");
 		//Get garaging address for second vehicle
@@ -506,7 +504,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 		String ownership3 = vehicleTab.getInquiryAssetList().getInquiryAssetList(AutoCaMetaData.VehicleTab.OWNERSHIP)
 				.getStaticElement(AutoCaMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE).getValue().replace("Owned", "OWN");
 		String usage3 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.PRIMARY_USE).getValue().replace("Commute (to/from work and school)", "WC");
-		String garagingDifferent3 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).getValue().toLowerCase();
+		String garagingDifferent3 = vehicleTab.getInquiryAssetList().getStaticElement(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL).getValue().toLowerCase();
 		String antiTheft3 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.ANTI_THEFT).getValue().toUpperCase().replace("N-NONE", "NONE");
 		String vehType3 = vehicleTab.getInquiryAssetList().getStaticElement(AutoCaMetaData.VehicleTab.TYPE).getValue().replace("Regular", "Regular");
 		//Garaging address for third vehicle
@@ -926,7 +924,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 			policy.dataGather().start();
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 			VehicleTab.tableVehicleList.selectRow(2);
-			assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL)).hasValue("Yes");
+			assertThat(vehicleTab.getAssetList().getAsset(IS_GARAGING_DIFFERENT_FROM_RESIDENTAL)).hasValue("Yes");
 			assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.ZIP_CODE)).hasValue(zipCode);
 			assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.ADDRESS_LINE_1)).hasValue(addressLine1);
 			assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.CITY)).hasValue(city);
@@ -955,7 +953,7 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 
 	protected void pas29137_updateVehicleRegisteredOwnerAndStuffBody(ETCSCoreSoftAssertions softly) {
 		mainApp().open();
-		String policyNumber =  getCopiedPolicy();
+		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		String vehicleOid = helperMiniServices.addVehicleWithChecks(policyNumber, "2013-01-20", "1C4BJWDG0JL847133", true);
 		VehicleUpdateDto updateVehicleRequest1 = new VehicleUpdateDto();
@@ -1068,8 +1066,6 @@ public class TestMiniServicesVehiclesHelperCA extends PolicyBaseTest {
 		getAttributeMetadata(metaDataResponse2, "vehicleOwnership.city", true, true, false, null, "String");
 		getAttributeMetadata(metaDataResponse2, "vehicleOwnership.stateProvCd", true, true, false, null, "String");
 	}
-
-	;
 
 	AttributeMetadata getAttributeMetadata(AttributeMetadata[] metaDataResponse, String fieldName, boolean enabled, boolean visible, boolean required, String maxLength, String attributeType) {
 		AttributeMetadata metaDataFieldResponse = Arrays.stream(metaDataResponse).filter(attributeMetadata -> fieldName.equals(attributeMetadata.attributeName)).findFirst().orElse(null);

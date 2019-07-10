@@ -5,13 +5,13 @@ import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.Jobs;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.product.LedgerHelper;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -55,33 +55,33 @@ public class TestFinanceEPCalculationRenewal extends FinanceOperations {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(expirationDate);
 		LocalDateTime updateStatusDate = getTimePoints().getUpdatePolicyStatusDate(expirationDate);
 
-		jobDate = runEPJobUntil(jobDate, renewalImageGenerationDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, renewalImageGenerationDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 
 		searchForPolicy(policyNumber);
 		renewalImageGeneration(policyNumber, expirationDate);
 
-		jobDate = runEPJobUntil(jobDate, renewalPreviewGenerationDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, renewalPreviewGenerationDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		renewalPreviewGeneration(policyNumber, expirationDate);
 
-		jobDate = runEPJobUntil(jobDate, renewalOfferGenerationDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, renewalOfferGenerationDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		renewalOfferGeneration(policyNumber, expirationDate);
 
-		jobDate = runEPJobUntil(jobDate, billOfferGenerationDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, billOfferGenerationDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		generateRenewalBill(policyNumber, today, expirationDate);
 
-		jobDate = runEPJobUntil(jobDate, billDueDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, billDueDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		payRenewalBill(policyNumber, expirationDate);
 
-		jobDate = runEPJobUntil(jobDate, updateStatusDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, updateStatusDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		updatePolicyStatus(policyNumber, today, expirationDate);
 
-		runEPJobUntil(jobDate, renewalJobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		runEPJobUntil(jobDate, renewalJobEndDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber, "Policy Active");
 		PolicySummaryPage.buttonTransactionHistory.click();
 
 		assertThat(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber, "renewal", true)))
-				.isEqualTo(LedgerHelper.getEndingActualPremium(policyNumber));
+				.isEqualTo(LedgerHelper.getEndingActualPremium(policyNumber, "policy"));
 	}
 }

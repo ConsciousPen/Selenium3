@@ -37,6 +37,12 @@ TestData_Change_FNI_Renewal_PU_CA: {
   DriverTab:  ['@Driver1','@Driver9']
 }
 
+TestData_Restrict_FNI_NB_PU_CA: {
+  GeneralTab: '@ThreeNamedInsuredGeneralTab',
+  DriverTab:  ['@Driver1','@Driver9'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_PUDefaulting'
+}
+
 PrefillTab: {
   First Name: Nicolas,
   Last Name: Smith,
@@ -52,6 +58,13 @@ PrefillTab: {
 
 TwoNamedInsuredGeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@<auto_ca_choice>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ca_choice>@DataGather@PolicyInformation'
+}
+
+ThreeNamedInsuredGeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2', '@NamedInsuredInformation5'],
   AAAProductOwned: '@<auto_ca_choice>@DataGather@AAAProductOwned',
   ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ca_choice>@DataGather@PolicyInformation'
@@ -319,6 +332,10 @@ GeneralTab: {},
 DriverTab: ['@Driver3']
 }
 
+Add_NI_Driver_Endorsement_CA: {
+  DriverTab: ['@Driver12']
+}
+
 TestData_PUDefaulting: {
  PrefillTab: '@PrefillTab_PUDefaulting',
  DriverTab: '@Driver_PUDefaulting_FNI',
@@ -361,7 +378,17 @@ Activity1: {
   Description: 'Fault accident with injury',
   Loss Payment Amount: '2000',
   Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-#  "Permissive Use Loss?": 'No',
+  "Permissive Use Loss?": 'No',
+  "Include in Points and/or YAF?": 'Yes'
+}
+
+Activity1_non_PU: {
+  Activity Source: Company Input,
+  Type: 'Accident',
+  Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+  Description: 'Fault accident with injury',
+  Loss Payment Amount: '2000',
+  Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
   "Include in Points and/or YAF?": 'Yes'
 }
 
@@ -383,6 +410,7 @@ Activity3: {
   Description: 'Fault accident with injury',
   Loss Payment Amount: '5500',
   Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+  "Permissive Use Loss?": 'No',
   "Include in Points and/or YAF?": 'Yes'
   }
 
@@ -393,6 +421,7 @@ Activity4: {
     Description: 'Fault accident with injury',
     Loss Payment Amount: '5400',
     Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    "Permissive Use Loss?": 'No',
     "Include in Points and/or YAF?": 'Yes'
     }
 
@@ -486,6 +515,13 @@ NamedInsuredInformation4: {
   Insured Date of Birth: 07/04/1980
 }
 
+NamedInsuredInformation5: {
+  InsuredSearchDialog: {},
+  First Name: Scott,
+  Last Name: Lang,
+  Insured Date of Birth: 09/09/1980
+}
+
 Add_Driver2_EndorsementUWRules: {
 DriverTab: ['@Driver11'],
 DriverActivityReportsTab: '@DriverActivityReportsTab'
@@ -504,7 +540,7 @@ Add Driver: Click,
   DriverSearchDialog:{},
   Named Insured: "Kathy Smith",
   Driver Type: Available for Rating,
-  'Rel. to First Named Insured': First Named Insured,
+  'Rel. to First Named Insured': Other,
 #  Date of Birth: 07/04/1980,
   Gender: Female,
   Marital Status: Married,
@@ -515,6 +551,23 @@ Add Driver: Click,
   "License #": D5439898,
   Age First Licensed: 18
   }
+
+Driver12: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Named Insured: "Scott Lang",
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Sibling,
+  #  Date of Birth: 09/09/1980,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Military,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5437171,
+  Age First Licensed: 18
+}
 
 DriverActivityReportsTab: {
     Sales Agent Agreement: I Agree,
@@ -533,7 +586,7 @@ TestData_Discounts: {
 
 Driver_GoodStudent_NewDriver_Discount: {
   DriverSearchDialog: {},
-  Date of Birth: $<today-23y>,
+#  Date of Birth: $<today-23y>,
   Marital Status: Single,
   Occupation: 'Student',
   Age First Licensed: 16,
@@ -640,7 +693,7 @@ Vehicle3MDD: {
   "Are there any additional interest(s)?": 'No'
 }
 DriverTab_Activity_MDD: {
-  ActivityInformation: ['@Activity1', '@Activity7','@Activity8']
+  ActivityInformation: ['@Activity1_non_PU', '@Activity7','@Activity8']
 }
 
 PremiumAndCoveragesTab_MDD: {
@@ -702,7 +755,7 @@ TestData_Activity_MDD_Endorse: {
 }
 
 DriverTab_Activity: {
-  ActivityInformation: ['@Activity1', '@Activity7']
+  ActivityInformation: ['@Activity1_non_PU', '@Activity7']
 }
 
 AssignmentTab_Endorse: {

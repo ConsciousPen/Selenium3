@@ -51,7 +51,7 @@ public class TestPolicyEndorsementRemove extends AutoCaSelectBaseTest {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		
 		//2. remove second named insured
-		GeneralTab.tableInsuredList.removeRow(2);
+		new GeneralTab().removeInsured(2);
 
 		//3. driver tab is opened, driver which is related to removed insured is removed automatically
 		assertThat(DriverTab.tableDriverList).hasRows(1);

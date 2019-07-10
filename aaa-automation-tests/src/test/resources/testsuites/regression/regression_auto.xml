@@ -2,10 +2,8 @@
 <suite name="Regression Tests Auto" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
-
     <test name="UT Auto Regression Tests" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
@@ -514,8 +512,13 @@
                     <exclude name="pas6313_Validate_Membership_Override_NB15NB30"/>
                 </methods>
             </class>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestInaccurateRatingFromOmittedPoints"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas14162_endorsementsComparisonPremiumAndCoverages"/>
+                </methods>
+            </class>
         </classes>
+
     </test>
     <test name="CA Choice Auto Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
@@ -551,6 +554,11 @@
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ca.choice.TestSpecialHazardSurcharge"/>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas14162_dataGatherComparisonPremiumAndCoverages"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>

@@ -1,9 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Auto SS OpenL Rating Tests" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
     <parameter name="testsDir" value="aaa-rating-rules-ss/src/test/openl/rules"/>
     <!-- Local tests execution parameters -->
     <!--<parameter name="testsDir" value="src/test/resources/openl/auto_ss"/>-->
@@ -39,13 +38,6 @@
     <test name="AutoSS [DE] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="DETests-20190412_part1.xls"/>
         <parameter name="policyNumbers" value="2, 31"/>
-        <classes>
-            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
-        </classes>
-    </test>
-    <test name="AutoSS [ID] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="IDTests-20170915.xls"/>
-        <parameter name="policyNumbers" value="1, 4"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
@@ -106,6 +98,13 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="AutoSS [MT] Premium Calculation Test 2019" preserve-order="true">
+        <parameter name="fileName" value="MTTests-20190715.xls"/>
+        <parameter name="policyNumbers" value="1, 88"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="AutoSS [NJ] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="NJTests-20190401_part5.xls"/>
         <parameter name="policyNumbers" value="1, 405"/>
@@ -134,23 +133,9 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <test name="AutoSS [OK] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="OKTests-20180617.xls"/>
-        <parameter name="policyNumbers" value="283, 287"/>
-        <classes>
-            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
-        </classes>
-    </test>
     <test name="AutoSS [OK] Premium Calculation Test 2019" preserve-order="true">
         <parameter name="fileName" value="OKTests-20190401_part1.xls"/>
         <parameter name="policyNumbers" value="2, 25"/>
-        <classes>
-            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
-        </classes>
-    </test>
-    <test name="AutoSS [OR] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="ORTests-20180601.xls"/>
-        <parameter name="policyNumbers" value="1,23"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
@@ -165,6 +150,20 @@
     <test name="AutoSS [PA] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="PATests-20180828.xls"/>
         <parameter name="policyNumbers" value="228, 235"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="AutoSS [PA] Premium Calculation Test 2019_1" preserve-order="true">
+        <parameter name="fileName" value="PATests-20190701.xls"/>
+        <parameter name="policyNumbers" value="945"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="AutoSS [PA] Premium Calculation Test 2019_2" preserve-order="true">
+        <parameter name="fileName" value="PATests-20190701_capping.xls"/>
+        <parameter name="policyNumbers" value="40"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>

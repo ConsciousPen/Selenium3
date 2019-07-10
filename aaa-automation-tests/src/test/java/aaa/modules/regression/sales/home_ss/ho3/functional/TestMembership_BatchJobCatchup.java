@@ -1,24 +1,21 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
-import aaa.helpers.db.queries.AAAMembershipQueries;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoSSBaseTest;
-import aaa.modules.policy.HomeSSHO3BaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.Lists;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import com.google.common.collect.Lists;
+import aaa.helpers.db.queries.AAAMembershipQueries;
+import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.jobs.JobUtils;
+import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.verification.CustomAssertions;
-
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
 
 public class TestMembership_BatchJobCatchup extends HomeSSHO3BaseTest {
     enum eThresholdTests {BEFORE, ON, AFTER}
@@ -147,7 +144,7 @@ public class TestMembership_BatchJobCatchup extends HomeSSHO3BaseTest {
         }
 
         // Execute NB+15 / NB+30 Membership Validation Jobs
-        JobUtils.executeJob(Jobs.membershipValidationJob);
+        JobUtils.executeJob(BatchJob.membershipValidationJob);
 
         // Validate policyNumber is picked up by batch job at STG1.
         doValidation(policyEffectiveDate, rightNow, nb15or30, policyNumber, bRunningNB30SkipSTG1, bExpectingPolicyToBeProcessed);

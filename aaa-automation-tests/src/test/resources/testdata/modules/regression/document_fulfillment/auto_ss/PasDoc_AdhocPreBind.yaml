@@ -32,7 +32,7 @@ TestData_SC5: {
   DriverTab: ['@<auto_ss>@DataGather@DriverTab', '@DriverTab_ExcludedDriver', '@DriverTab_TeenageDriver'], 
   VehicleTab: ['@<auto_ss>@DataGather@VehicleTab', '@VehicleTab_EnrolledInUBI'],
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_UMBILessThanBI', 
-  DocumentsAndBindTab: '@DocumentsAndBindTab_Full'
+  DocumentsAndBindTab: '@DocumentsAndBindTab_SC5'
 }
 
 TestData_SC5_NO_PASDOC: {

@@ -1,11 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Financials Validation Test Suite - New Business" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
-
     <test name="New Business 1/2 - SS PUP" parallel="methods" thread-count="1024">
         <parameter name="state" value="KY, WV"/>
         <classes>
@@ -156,6 +154,17 @@
                 <methods>
                     <include name="testNewBusinessScenario_3"/>
                     <include name="testNewBusinessScenario_4"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="New Business 6 - SS HO3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="KY, WV, AZ, NJ"/>
+        <classes>
+            <class name="aaa.modules.financials.home_ss.ho3.TestNewBusiness">
+                <methods>
+                    <include name="testNewBusinessScenario_6"/>
                 </methods>
             </class>
         </classes>

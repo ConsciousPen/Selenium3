@@ -1,14 +1,12 @@
 package aaa.modules.regression.document_fulfillment.auto_ca.choice;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-
 import java.util.List;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 
 import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
@@ -16,7 +14,7 @@ import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.billing.BillingPendingTransactionsVerifier;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
@@ -49,16 +47,15 @@ public class TestScenario2 extends AutoCaChoiceBaseTest {
 		billing.approveRefund().perform(amount);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Approved").verifyPresent();
 		//billing.issueRefund().perform(amount);
-		//TODO aperapecha: DocGen - remove shift after upgrade
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
-		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+
+		JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Issued").verifyPresent();
 
-		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		//JobUtils.executeJob(BatchJob.aaaDocGenBatchJob, true);
 		//DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._55_3500);
 		//refund check are now generated throw csv files PASBB-795
 		List<String> documentsFilePaths = RemoteHelper.get().waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, "csv", 10, policyNum);

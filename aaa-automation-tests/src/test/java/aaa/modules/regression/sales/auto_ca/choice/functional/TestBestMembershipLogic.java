@@ -443,8 +443,8 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
 
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Yes");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), ACTIVE_MEMBERSHIP_NUMBER);
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), ACTIVE_MEMBERSHIP_NUMBER);
 
         testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Active, MembershipStatus.YES, RMSStatus.Active);
     }
@@ -464,8 +464,8 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
 
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Yes");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), INACTIVE_BML_MEMBERSHIP_NUMBER);
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), INACTIVE_BML_MEMBERSHIP_NUMBER);
 
         testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Inactive, MembershipStatus.NO, RMSStatus.Inactive);
     }
@@ -484,8 +484,8 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Yes");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), INACTIVE_BML_MEMBERSHIP_NUMBER);
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), INACTIVE_BML_MEMBERSHIP_NUMBER);
 
         testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Inactive, MembershipStatus.NO, RMSStatus.Inactive);
     }
@@ -504,8 +504,8 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Yes");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), ACTIVE_BML_MEMBERSHIP_NUMBER);
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), ACTIVE_BML_MEMBERSHIP_NUMBER);
 
         testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Active, MembershipStatus.YES, RMSStatus.Active);
     }
@@ -524,8 +524,8 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "No");
-        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
+        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
 
         testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Active, MembershipStatus.YES, RMSStatus.Active);
     }
@@ -544,8 +544,8 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "No");
-        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
+        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
 
         testCaseDriver(defaultTestData, MembershipStatus.NO, RMSStatus.Inactive, MembershipStatus.NO, RMSStatus.Inactive);
     }
@@ -564,8 +564,8 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "No");
-        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
+        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
 
         testCaseDriver(defaultTestData, MembershipStatus.NO, RMSStatus.Inactive, MembershipStatus.NO, RMSStatus.Inactive);
     }
@@ -584,9 +584,9 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel(), "Term");
-        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel(), "Term");
+        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
 
         testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Active, MembershipStatus.YES, RMSStatus.Active);
     }
@@ -605,9 +605,9 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel(), "Term");
-        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel(), "Term");
+        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
 
         testCaseDriver(defaultTestData, MembershipStatus.OVERRIDE_TERM, RMSStatus.NA, MembershipStatus.OVERRIDE_TERM, RMSStatus.NA);
     }
@@ -626,9 +626,9 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel(), "Term");
-        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel(), "Term");
+        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
 
         testCaseDriver(defaultTestData, MembershipStatus.OVERRIDE_TERM, RMSStatus.Inactive, MembershipStatus.NO, RMSStatus.Inactive);
     }
@@ -647,9 +647,9 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel(), "Life");
-        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()) ;
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel(), "Life");
+        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
 
         testCaseDriver(defaultTestData, MembershipStatus.OVERRIDE_LIFE, RMSStatus.NA, MembershipStatus.OVERRIDE_LIFE, RMSStatus.NA);
     }

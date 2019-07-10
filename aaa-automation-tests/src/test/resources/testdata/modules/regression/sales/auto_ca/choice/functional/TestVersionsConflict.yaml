@@ -242,7 +242,7 @@ NamedInsuredInformation_Version1: {
   First Name: VIFirstName,
   Middle Name: VI,
   Last Name: VILastName,
-  Suffix: 'SR.',
+  Suffix: Sr,
   Base Date: $<today-1M>,
   Zip Code: 90255,
   Address Line 1: VI residence address 1,
@@ -642,7 +642,7 @@ TestData_DriverInformation_Version1: {
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
     RequiredToIssue:{
-      Proof of Mature Driver Course Completion: 'Yes',
+      #Proof of Mature Driver Course Completion: 'Yes',
     }
   },
 }
@@ -659,7 +659,7 @@ TestData_DriverInformation_Version2: {
   DocumentsAndBindTab: {
     RequiredToIssue: {
       #Proof of New Driver Course Completion: 'Yes',
-      Proof of Good Student Discount: 'Yes',
+      #Proof of Good Student Discount: 'Yes',
     }
   },
 }
@@ -704,7 +704,7 @@ TestData_AddDriverInformation_Version2: {
 }
 
 DriverInformation: {
-  Date of Birth: $<today-35y>,
+  #Date of Birth: $<today-35y>,
   Gender: Female,
   Marital Status: Divorced,
   Occupation: 'Farmer',
@@ -736,7 +736,7 @@ DriverInformation: {
 }
 
 DriverInformation_Version1: {
-  Date of Birth: $<today-55y>,
+  #Date of Birth: $<today-55y>,
   Gender: Male,
   Marital Status: Married,
   Occupation: 'Dentist',
@@ -750,8 +750,8 @@ DriverInformation_Version1: {
   Employee Benefit Type: None,
   #should be No always
   #ADB Coverage: 'Yes',
-  Mature driver course completed within 36 months: 'Yes',
-  Mature Driver Course Completion Date: $<today-2M>,
+  #Mature driver course completed within 36 months: 'Yes',
+  #Mature Driver Course Completion Date: $<today-2M>,
   "Smoker: Cigarettes, cigars or pipes": 'No',
   Financial Responsibility Filling Needed: 'Yes',
   Filling Type: SR-22,
@@ -768,7 +768,7 @@ DriverInformation_Version1: {
 }
 
 DriverInformation_Version2: {
-  Date of Birth: $<today-18y>,
+  #Date of Birth: $<today-18y>,
   Gender: Female,
   Marital Status: Single,
   Occupation: 'Student',
@@ -782,10 +782,10 @@ DriverInformation_Version2: {
   Employee Benefit Type: Surviving spouse,
   #should be No always
   #ADB Coverage: 'No',
-  Most Recent GPA: 'A Student',
-  New Driver Course Completed: 'Yes',
-  New Driver Course Completion Date: $<today>,
-  New Driver Certification Number: 33333,
+  #Most Recent GPA: 'A Student',
+  #New Driver Course Completed: 'Yes',
+  #New Driver Course Completion Date: $<today>,
+  #New Driver Certification Number: 33333,
   "Smoker: Cigarettes, cigars or pipes": 'Yes',
   Financial Responsibility Filling Needed: 'No',
   Ridesharing Coverage: 'No',
@@ -801,7 +801,7 @@ DriverInformation_Version2: {
 }
 
 DriverInformation_AddActivity1: {
-  Date of Birth: $<today-35y>,
+  #Date of Birth: $<today-35y>,
   Gender: Female,
   Marital Status: Divorced,
   Occupation: 'Farmer',
@@ -1394,7 +1394,7 @@ NamedInsuredInformation_RenewalVersion1: {
   First Name: Second,
   Middle Name: VI,
   Last Name: Insured,
-  Suffix: 'SR.',
+  Suffix: Sr,
   Base Date: $<today-1M>,
   Zip Code: 90255,
   Address Line 1: VI residence address 1,

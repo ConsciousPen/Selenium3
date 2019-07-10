@@ -4,6 +4,7 @@ import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 @ExcelTableElement(sheetName = OpenLFile.NAMED_INSURED_SHEET_NAME, headerRowIndex = OpenLFile.NAMED_INSURED_HEADER_ROW_NUMBER)
 public class OpenLNamedInsured {
@@ -23,6 +24,13 @@ public class OpenLNamedInsured {
 	private Integer numofOccupants;
 	private Integer totalNoReinstatements;
 
+	@ExcelTransient
+	private boolean isOneYearBeforePolicy;
+
+	public void setIsOneYearBeforePolicy(boolean isOneYearBeforePolicy) {
+		this.isOneYearBeforePolicy = isOneYearBeforePolicy;
+	}
+
 	public Integer getNumber() {
 		return number;
 	}
@@ -40,7 +48,7 @@ public class OpenLNamedInsured {
 	}
 
 	public Integer getAgeOfOldestInsured() {
-		return ageOfOldestInsured;
+		return isOneYearBeforePolicy ? ageOfOldestInsured - 1 : ageOfOldestInsured;
 	}
 
 	public void setAgeOfOldestInsured(Integer ageOfOldestInsured) {

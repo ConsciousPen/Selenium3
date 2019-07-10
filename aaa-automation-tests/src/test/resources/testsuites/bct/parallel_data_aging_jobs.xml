@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Parallel Data Aging Jobs suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
+    </listeners>
+
+
+    <parameter name="state" value="UT"/>
+    <test name="Parallel Aging Jobs">
+        <classes>
+            <class name="aaa.modules.bct.batch.ParallelAgingJobs"/>
+        </classes>
+    </test>
+</suite>

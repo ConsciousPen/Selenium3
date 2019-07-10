@@ -3,8 +3,8 @@ package aaa.modules.e2e.templates;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -12,8 +12,8 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.*;
 import aaa.helpers.http.HttpStub;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
@@ -103,7 +103,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected void generateCancelNotice() {
 		LocalDateTime cnDate = getTimePoints().getCancellationNoticeDate(installmentDueDates.get(1));
 		TimeSetterUtil.getInstance().nextPhase(cnDate);
-		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationNoticeAsyncJob);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -120,7 +120,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected void generateCancellation() {
 		LocalDateTime cDate = getTimePoints().getCancellationDate(installmentDueDates.get(1));
 		TimeSetterUtil.getInstance().nextPhase(cDate);
-		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationConfirmationAsyncJob);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -142,7 +142,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected void payCancellationNoticeByRemittance() {
 		paymentDate = TimeSetterUtil.getInstance().getCurrentTime();
 		TimeSetterUtil.getInstance().nextPhase(paymentDate);
-		JobUtils.executeJob(Jobs.aaaRemittanceFeedAsyncBatchReceiveJob);
+		JobUtils.executeJob(BatchJob.aaaRemittanceFeedAsyncBatchReceiveJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		Dollar cnAmount = BillingHelper.getBillDueAmount(getTimePoints().getCancellationTransactionDate(installmentDueDates.get(1)),
@@ -204,7 +204,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected void generateRefund() {
 		LocalDateTime refundDate = getTimePoints().getRefundDate(paymentDate);
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
@@ -225,11 +225,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected boolean isRefundAfterImageGeneration() {
 		LocalDateTime refundDate = getTimePoints().getRefundDate(paymentDate);
 		LocalDateTime renewDateImage = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
-		if (refundDate.isAfter(renewDateImage)) {
-			return  true;
-		}
-		else 
-			return false;
+		return refundDate.isAfter(renewDateImage);
 	}
 
 	protected void renewalImageGeneration() {
@@ -243,7 +239,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected void renewalOfferGeneration(ETCSCoreSoftAssertions softly) {
 		LocalDateTime renewDateOffer = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewDateOffer);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -274,7 +270,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected void generateRenewalBill() {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
@@ -367,7 +363,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected void payRenewalBill(){
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate.plusHours(1));
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
+		JobUtils.executeJob(BatchJob.aaaRecurringPaymentsProcessingJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -392,7 +388,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected void updatePolicyStatus() {
 		LocalDateTime updateStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(updateStatusDate);
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -427,7 +423,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected void renewalOfferGeneration_FirstRenewal(ETCSCoreSoftAssertions softly) {
 		LocalDateTime renewDateOffer = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate_FirstRenewal);
 		TimeSetterUtil.getInstance().nextPhase(renewDateOffer);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -523,7 +519,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected void generateRenewalBill_FirstRenewal() {
 		LocalDateTime billDate = getTimePoints().getBillGenerationDate(policyExpirationDate_FirstRenewal);
 		TimeSetterUtil.getInstance().nextPhase(billDate);
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
@@ -551,7 +547,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected void updatePolicyStatus_FirstRenewal() {
 		LocalDateTime updateStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate_FirstRenewal);
 		TimeSetterUtil.getInstance().nextPhase(updateStatusDate);
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -600,9 +596,9 @@ public class Scenario12 extends ScenarioBaseTest {
 	private void renewalImageGeneration(LocalDateTime policyExpirationDate) {
 		LocalDateTime renewDateImage = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewDateImage);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -611,7 +607,7 @@ public class Scenario12 extends ScenarioBaseTest {
 
 	private void renewalPreviewGeneration(LocalDateTime policyExpirationDate) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);

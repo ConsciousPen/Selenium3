@@ -1,6 +1,5 @@
 package aaa.helpers.jobs;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -8,123 +7,61 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
-import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
-import com.exigen.ipb.etcsa.utils.batchjob.ws.model.WSJobSummary;
-import com.exigen.istf.exec.core.TimedTestContext;
+import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.batchjob.Job;
+import com.exigen.ipb.eisa.utils.batchjob.JobGroup;
+import com.exigen.ipb.eisa.utils.batchjob.ws.model.WSJobSummary;
 import com.exigen.istf.exec.testng.TimeShiftTestUtil;
-import aaa.config.CsaaTestProperties;
-import aaa.helpers.http.HttpJob;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.modules.BaseTest;
-import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 
 public class JobUtils {
 
 	private static Logger log = LoggerFactory.getLogger(JobUtils.class);
-	private static String jobRunMode = PropertyProvider.getProperty(CsaaTestProperties.BATCHJOB_RUN_MODE, "http");
 	private static LocalDateTime currentPhase;
 
-	public static void executeJob(Job job, Boolean forceExecution) {
-		if (isPef()) {
-			LocalDateTime phaseTime = TimeSetterUtil.getInstance().getPhaseStartTime();
-			if (!phaseTime.equals(currentPhase)) {
-				Jobs.clearJobsState();
-				currentPhase = phaseTime;
-			}
+	public static void executeJob(JobGroup job, Boolean forceExecution) {
+		CSAAApplicationFactory.get().closeAllApps();
+		if (TimeShiftTestUtil.isPEFAvailable()) {
+			executeJobByPEF(job, forceExecution);
 		} else {
-			Jobs.clearJobsState();
+			executeJobLocally(job);
 		}
+	}
 
-		synchronized (job) {
-			if (forceExecution) {
-				Jobs.setJobState(job.getJobName(), Jobs.JobState.FALSE);
-			}
-			switch (Jobs.getJobState(job.getJobName())) {
-				case FALSE:
-					try {
-						if (isPef()) {
-							executeJobByPEF(job, forceExecution);
-						} else {
-							executeJobLocally(job);
-						}
-						log.info(String.format("Job '%s' was executed successfully", job.getJobName()));
-					} catch (Exception e) {
-						Jobs.setJobState(job.getJobName(), Jobs.JobState.FAILED);
-						throw e;
-						//throw new CustomTestException("Job " + job.getJobName() + " execution is FAILED ", e);
-					}
-					break;
-				case TRUE:
-					log.info(String.format("Job '%s' has been already executed", job.getJobName()));
-					break;
-				case FAILED:
-					log.error(String.format("Job " + job.getJobName() + " execution is FAILED"));
-					//throw new CustomTestException("Job " + job.getJobName() + " execution is FAILED");
-				default:
-					break;
-			}
-		}
+	public static void executeJob(JobGroup job) {
+		executeJob(job, false);
 	}
 
 	public static void executeJob(Job job) {
-		executeJob(job, false);
+		executeJob(JobGroup.fromSingleJob(job), false);
 	}
 
-	public static void executeJob(Job job, long pauseBefore) {
-		try {
-			log.info("Pause before " + job.getJobName() + " job execution is called");
-			Thread.sleep(pauseBefore);
-		} catch (InterruptedException e) {
-			log.info("Pause before job execution is failed: ", e);
-		}
-		executeJob(job, false);
+	public static void executeJob(Job job, Boolean forceExecution) {
+		executeJob(JobGroup.fromSingleJob(job), forceExecution);
 	}
 
-	public static Boolean isPefManager() {
-		return StringUtils.isNotBlank(PropertyProvider.getProperty("timeshift.controller.class"));
-	}
-
-	private static void executeJob(String jobName) {
-		log.info(getFullName() + " is running job: " + jobName);
-		switch (jobRunMode.toLowerCase()) {
-			case "http":
-				try {
-					try {
-						HttpJob.executeJob(jobName);
-					} catch (Exception ioe) {
-						// Workaround of HTTP 502 error
-						if (ioe instanceof IOException || ioe.getCause() instanceof IOException) {
-							log.info("Failed during run of " + jobName + ". Trying to rerun.", ioe);
-							HttpJob.executeJob(jobName);
-						} else {
-							throw ioe;
-						}
-					}
-				} catch (Exception ie) {
-					throw new IstfException(String.format("HTTP Job '%s' run failed:\n", jobName), ie);
-				}
-				break;
-			case "soap":
-				try {
-					new SoapJobActions().startJob(JobGroup.fromSingleJob(jobName));
-				} catch (Exception ie) {
-					throw new IstfException(String.format("SOAP Job '%s' run failed:\n", jobName), ie);
-				}
+	public static void createJob(JobGroup job) {
+		CsaaSoapJobService soapJob = new CsaaSoapJobService();
+		if (!soapJob.isJobExist(job)) {
+			soapJob.createJob(job);
 		}
 	}
 
-	public static void executeJob(JobGroup jobGroup){
-		try {
-			new SoapJobActions().startJob(jobGroup);
-		} catch (Exception ie) {
-			throw new IstfException(String.format("SOAP jobGroup '%s' run failed:\n", jobGroup), ie);
-		}
+	public static void createJob(Job job) {
+		createJob(new JobGroup(job));
+	}
+
+	public static Boolean isJobExist(JobGroup job) {
+		return new CsaaSoapJobService().isJobExist(job);
+	}
+
+	public static Boolean isJobExist(Job job) {
+		return isJobExist(new JobGroup(job));
 	}
 
 	/**
@@ -134,13 +71,13 @@ public class JobUtils {
 	 */
 
 	public static WSJobSummary getLatestJobRun(JobGroup jobGroup) {
-		return getLatestJobRun(jobGroup,TimeSetterUtil.getInstance().getCurrentTime());
+		return getLatestJobRun(jobGroup, TimeSetterUtil.getInstance().getCurrentTime());
 	}
 
 	public static WSJobSummary getLatestJobRun(JobGroup jobGroup, LocalDateTime localDateTime) {
-		SoapJobActions soapJobActions = new SoapJobActions();
+		CsaaSoapJobService soapJobActions = new CsaaSoapJobService();
 		// Get list of all job runs
-		List<WSJobSummary> jobSummaries = soapJobActions.getJobStatusResponse(jobGroup).getBatchSummary().getJobSummary();
+		List<WSJobSummary> jobSummaries = soapJobActions.getStatusResponse(jobGroup).getBatchSummary().getJobSummary();
 		// store all jobSummaries ended today
 		List<WSJobSummary> mostRecentJobSummaries = jobSummaries.stream().filter(wsJobSummary -> wsJobSummary.getEndTime().contains(localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))).collect(Collectors.toList());
 
@@ -151,25 +88,25 @@ public class JobUtils {
 		return mostRecentJobSummaries.stream().max(Comparator.comparing(WSJobSummary::getEndTime)).get();
 	}
 
-	public static com.exigen.ipb.etcsa.utils.batchjob.Job convertToIpb(Job job) {
-		return new com.exigen.ipb.etcsa.utils.batchjob.Job(job.getJobName(), job.getJobParameters(),job.getJobFolders());
-	}
-
-
-	private static void executeJobLocally(Job job) {
+	private static void executeJobImpl(JobGroup jobName) {
+		log.info(getFullName() + " is running job: " + jobName);
 		try {
-			Jobs.setJobState(job.getJobName(), Jobs.JobState.TRUE);
-			if (!job.getJobFolders().isEmpty()) {
-				RemoteHelper.get().clearFolder(job.getJobFolders());
+			CsaaSoapJobService soapJob = new CsaaSoapJobService();
+			if (!soapJob.isJobExist(jobName)) {
+				soapJob.createJob(jobName);
 			}
-				executeJob(job.getJobName());
-		} catch (IstfException e) {
-			throw e;
+			soapJob.startJob(jobName);
+		} catch (Exception ie) {
+			throw new IstfException(String.format("SOAP Job '%s' run failed:\n", jobName), ie);
 		}
 	}
 
-	private static void executeJobByPEF(Job job, boolean forceExecution) {
-		Jobs.setJobState(job.getJobName(), Jobs.JobState.TRUE);
+	private static void executeJobLocally(JobGroup job) {
+		//clearFolders(job);
+		executeJobImpl(job);
+	}
+
+	private static void executeJobByPEF(JobGroup job, boolean forceExecution) {
 		String testName = TimeSetterUtil.getInstance().getContext().getName();
 		long testThreadId = Thread.currentThread().getId();
 		AtomicReference<Exception> jobException = new AtomicReference<Exception>();
@@ -179,45 +116,34 @@ public class JobUtils {
 			public Boolean call() {
 				long curThreadId = Thread.currentThread().getId();
 				try {
-					log.info("Attempt to execute job '{}' in callback (testName='{}',testThreadId={},curThreadId={})", job.getJobName(), testName, testThreadId, curThreadId);
-					if (!job.getJobFolders().isEmpty()) {
-						RemoteHelper.get().clearFolder(job.getJobFolders());
-					}
-					executeJob(job.getJobName());
-					log.info("Job '{}' callback was executed successfully (testName='{}')", job.getJobName(), testName);
+					log.info("Attempt to execute job '{}' in callback (testName='{}',testThreadId={},curThreadId={})", job.getGroupName(), testName, testThreadId, curThreadId);
+					executeJobLocally(job);
+					log.info("Job '{}' callback was executed successfully (testName='{}')", job.getGroupName(), testName);
 					return Boolean.TRUE;
 
 				} catch (IstfException e) {
-					log.warn(String.format("IstfException was caught (job='%s',testName='%s',testThreadId=%d,curThreadId=%d)", job.getJobName(), testName, testThreadId, curThreadId), e);
+					log.error(String.format("IstfException was caught (job='%s',testName='%s',testThreadId=%d,curThreadId=%d)", job.getGroupName(), testName, testThreadId, curThreadId), e);
 					jobException.set(e);
-					return Boolean.FALSE;
+					return Boolean.TRUE;
 
 				} catch (RuntimeException e) {
-					log.error(String.format("Exception was caught (job='%s',testName='%s',testThreadId=%d,curThreadId=%d)", job.getJobName(), testName, testThreadId, curThreadId), e);
+					log.error(String.format("Exception was caught (job='%s',testName='%s',testThreadId=%d,curThreadId=%d)", job.getGroupName(), testName, testThreadId, curThreadId), e);
 					jobException.set(e);
 					return Boolean.FALSE;
 
 				}
 			}
 		};
-		boolean isSuccess = getContext().executeJob(job.getJobName(), jobCallback, forceExecution);
+		boolean isSuccess = TimeShiftTestUtil.getContext().executeJob(job.getGroupName(), jobCallback, forceExecution);
 
 		if (!isSuccess) {
-			throw new IstfException(String.format("Job '%s' execution failed: \n", job.getJobName()), jobException.get());
+			throw new IstfException(String.format("Job '%s' execution failed: \n", job.getGroupName()), jobException.get());
 		}
-	}
-
-	private static TimedTestContext getContext() {
-		return TimeShiftTestUtil.getContext();
-	}
-
-	private static Boolean isPef() {
-		return TimeShiftTestUtil.isContextAvailable();
 	}
 
 	private static String getFullName() {
 		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-		String fullName = new String();
+		String fullName = "";
 		for (StackTraceElement element : stackTraceElements) {
 			if (element.getClassName().startsWith("sun.reflect.") || element.getClassName().contains("java.lang.Class")) {
 				break;
@@ -226,5 +152,12 @@ public class JobUtils {
 		}
 
 		return fullName;
+	}
+
+	private static void clearFolders(JobGroup job) {
+		List<Job> jobsWithFolders = job.getJobs().stream().filter(jobChild -> !jobChild.getJobFolders().isEmpty()).collect(Collectors.toList());
+		if (!jobsWithFolders.isEmpty()) {
+			jobsWithFolders.stream().forEach(job1 -> RemoteHelper.get().clearFolder(job1.getJobFolders()));
+		}
 	}
 }

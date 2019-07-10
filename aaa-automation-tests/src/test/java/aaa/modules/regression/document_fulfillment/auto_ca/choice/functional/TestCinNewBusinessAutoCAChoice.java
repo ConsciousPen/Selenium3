@@ -30,7 +30,7 @@ public class TestCinNewBusinessAutoCAChoice extends TestCinAbstractAutoCA {
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(PREFILL_TAB_FIRSTNAME, getTestSpecificTD("PrefillTabMVR").getValue("First Name"))
                 .adjust(PREFILL_TAB_LASTNAME, getTestSpecificTD("PrefillTabMVR").getValue("Last Name"))
-                .adjust(PRODUCT_OWNED_PATH, getTestSpecificTD("AAAProductOwned"));
+                .adjust(AAA_MEMBERSHIP_PATH, getTestSpecificTD("AAAMembership"));
         caNewBusinessMainFlow(policyTD);
     }
 

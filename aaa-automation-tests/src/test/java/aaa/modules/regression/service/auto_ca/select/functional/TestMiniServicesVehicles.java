@@ -1,36 +1,16 @@
 package aaa.modules.regression.service.auto_ca.select.functional;
 
-import static aaa.main.enums.CustomerConstants.ADDRESS_LINE_1;
-import static aaa.main.enums.CustomerConstants.ZIP_CODE;
-import static aaa.main.metadata.policy.AutoCaMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-
-import aaa.common.enums.Constants;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
-import aaa.common.pages.SearchPage;
-import aaa.helpers.rest.dtoDxp.AttributeMetadata;
-import aaa.helpers.rest.dtoDxp.PolicySummary;
-import aaa.helpers.rest.dtoDxp.ViewVehicleResponse;
-import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.regression.service.helper.HelperCommon;
-import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.service.helper.TestMiniServicesVehiclesHelper;
 import aaa.modules.regression.service.helper.TestMiniServicesVehiclesHelperCA;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
-import toolkit.verification.ETCSCoreSoftAssertions;
-
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 
 public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 
@@ -244,8 +224,50 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 		assertSoftly(softly -> pas29137_updateVehicleRegisteredOwnerAndStuffBody(softly));
 	}
 
+	/**
+	 * @author Megha Gubbala, Maris Strazds
+	 * @name Remove/Replace Vehicle and check fields
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement.
+	 * 3. run delete vehicle service and delete vehicle using Oid
+	 * 4. verify response status should be pending removal
+	 * 5. rate endorsement
+	 * 6. bind endorsement
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.CA})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-29136"})
+	public void pas29136_vehicleDeleteCA(@Optional("CA") String state) {
 
+		pas488_VehicleDeleteBody(getPolicyType());
+	}
 
+	/**
+	 * @author Jovita Pukenaite, Maris Strazds
+	 * @name Transaction Information For Endorsements outside of PAS - Replace vehicle
+	 * @scenario 1. Create policy with three vehicles.
+	 * 2. Start do endorsement outside of PAS.
+	 * 3. Hit "Transaction History Service". Check if response is empty.
+	 * 4. Replace V1 and V2.
+	 * 5. Remove V3.
+	 * 6. Hit "Transaction History Service". Check info.
+	 * 7. Rate and Bind.
+	 * 8. Create new endorsement outside of PAS.
+	 * 9. Hit "Transaction History Service". Check if response is empty.
+	 * 10. Replace Vehicle which was already replaced.
+	 * 11. Hit "Transaction History Service". Check if only one vehicle exist in response.
+	 * 12. Rate and Bind.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.CA})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-14497"})
+	public void pas14497_TransactionInformationForEndorsementsReplaceVehicleCA(@Optional("CA") String state) {
+		assertSoftly(softly ->
+				pas14497_TransactionInformationForEndorsementsReplaceVehicleBody(getPolicyType(), softly)
+		);
+	}
 
 
 }

@@ -2,9 +2,8 @@
 <suite name="Scorpions Functional Test Suite Timeshift" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
 
     <!-- AUTO SS (AZ) Offline Claims Tests -->
     <test name="Offline Claims AUTO SS" >
@@ -21,6 +20,7 @@
                     <include name="pas22172_ReconcilePUEndorsementAFRD"/>
                     <include name="pas18159_offlineClaimsAnalytics"/>
                     <include name="pas25162_permissiveUseIndicatorDefaulting"/>
+                    <include name="pas28399_RestrictChangeFNIGeneralTabRenewal"/>
                 </methods>
             </class>
         </classes>
@@ -39,6 +39,7 @@
                     <include name="pas24587_ClueReconcilePUAFRUserFlagged"/>
                     <include name="pas25162_permissiveUseIndicatorDefaulting"/>
                     <include name="pas24652_ChangeFNIGeneralTabRenewal"/>
+                    <include name="pas28399_RestrictChangeFNIGeneralTabRenewal"/>
                 </methods>
             </class>
         </classes>
@@ -56,6 +57,7 @@
                     <include name="pas24587_ClueReconcilePUAFRUserFlagged"/>
                     <include name="pas25162_permissiveUseIndicatorDefaulting"/>
                     <include name="pas24652_ChangeFNIGeneralTabRenewal"/>
+                    <include name="pas28399_RestrictChangeFNIGeneralTabRenewal"/>
                 </methods>
             </class>
         </classes>

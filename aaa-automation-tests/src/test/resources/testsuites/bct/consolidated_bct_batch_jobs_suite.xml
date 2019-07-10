@@ -1,0 +1,67 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="United BCT Jobs suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
+    </listeners>
+
+
+    <parameter name="state" value="UT"/>
+    <test name="United BCT Jobs" preserve-order="true">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.bct.batch.ConsolidatedBatchJobs">
+                <methods>
+                    <include name="aaaBatchMarkerJob"/>
+                    <include name="renewalClaimOrderAsyncJob"/>
+                    <include name="aaaMvrRenewBatchOrderAsyncJob"/>
+                    <include name="aaaMembershipRenewalBatchOrderAsyncJob"/>
+                    <include name="policyStatusUpdateJob"/>
+                    <include name="aaaPolicyAutomatedRenewalAsyncTaskGenerationJob"/>
+                    <include name="renewalValidationAsyncTaskJob"/>
+                    <include name="renewalImageRatingAsyncTaskJob"/>
+                    <include name="aaaRemittanceFeedAsyncBatchReceiveJob"/>
+                    <include name="aaaRecurringPaymentsProcessingJob"/>
+                    <include name="bofaRecurringPaymentJob"/>
+                    <include name="premiumReceivablesOnPolicyEffectiveJob"/>
+                    <include name="changeCancellationPendingPoliciesStatus"/>
+                    <include name="aaaCancellationNoticeAsyncJob"/>
+                    <include name="aaaCancellationConfirmationAsyncJob"/>
+                    <include name="aaaCollectionCancellDebtBatchAsyncJob"/>
+                    <include name="collectionFeedBatchorderJob"/>
+                    <include name="earnedPremiumWriteoffProcessingJob"/>
+                    <include name="offCycleBillingInvoiceAsyncJob"/>
+                    <include name="aaaBillingInvoiceAsyncTaskJob"/>
+                    <include name="policyDoNotRenewAsyncJob"/>
+                    <include name="aaaRefundGenerationAsyncJob"/>
+                    <include name="preRenewalReminderGenerationAsyncJob"/>
+                    <include name="aaaRenewalNoticeBillAsyncJob"/>
+                    <include name="aaaRenewalDataRefreshAsyncJob"/>
+                    <include name="aaaPreRenewalNoticeAsyncJob"/>
+                    <include name="aaaMortgageeRenewalReminderAndExpNoticeAsyncJob"/>
+                    <include name="renewalOfferAsyncTaskJob"/>
+                    <include name="aaaDelayTriggerTOINoticeAsyncJob"/>
+                    <include name="policyLapsedRenewalProcessAsyncJob"/>
+                    <include name="aaaRenewalReminderGenerationAsyncJob"/>
+                    <include name="policyTransactionLedgerJob"/>
+                    <include name="aaaDataUpdateJob"/>
+                    <include name="activityTimeoutJob"/>
+                    <include name="activityHistoryJob"/>
+                    <include name="activitySummarizationJob"/>
+                    <include name="aaaAutomatedProcessingInitiationJob"/>
+                    <include name="automatedProcessingRunReportsServicesJob"/>
+                    <include name="automatedProcessingRatingJob"/>
+                    <include name="automatedProcessingIssuingOrProposingJob"/>
+                    <include name="automatedProcessingStrategyStatusUpdateJob"/>
+                    <include name="automatedProcessingBypassingAndErrorsReportGenerationJob"/>
+                    <include name="ledgerStatusUpdateJob"/>
+                    <include name="aaaRefundDisbursementAsyncJob"/>
+                    <include name="aaaEscheatmentProcessAsyncJob"/>
+                    <include name="aaaGenerateEscheatmentReportJob"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>
+

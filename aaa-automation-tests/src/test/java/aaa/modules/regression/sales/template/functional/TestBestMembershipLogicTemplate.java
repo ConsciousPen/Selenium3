@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.apache.commons.lang3.NotImplementedException;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -12,8 +12,8 @@ import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.AAAMembershipQueries;
 import aaa.helpers.db.queries.TimePointQueries;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.HomeCaMetaData;
@@ -227,38 +227,27 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         // Set keypaths based on policy type.
         switch (getPolicyType().getShortName())
         {
-            case "AutoCA": {
-                // keypathTabSection Result: "GeneralTab|AAAProductOwned"
-                String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.customer.defaulttabs.GeneralTab.class.getSimpleName(),
-                        AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
-
-                // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
-                keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
-                        AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel());
-
-                // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
-                keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
-                        AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
-                break;
+            case "AutoCA":{
+                // Use same as "AutoCAC"
             }
 
             case "AutoCAC": {
-                // keypathTabSection Result: "GeneralTab|AAAProductOwned"
+                // keypathTabSection Result: "GeneralTab|AAAMembership"
                 String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.customer.defaulttabs.GeneralTab.class.getSimpleName(),
-                        AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+                        AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 
                 // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
                 keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
-                        AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel());
+                        AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel());
 
                 // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
                 keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
-                        AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+                        AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
                 break;
             }
 
             case "AutoSS": {
-                // keypathTabSection Result: "GeneralTab|AAAProductOwned"
+                // keypathTabSection Result: "GeneralTab|AAAMembership"
                 String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.customer.defaulttabs.GeneralTab.class.getSimpleName(),
                         AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 
@@ -331,45 +320,34 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         switch (getPolicyType().getShortName())
         {
             case "AutoCA": {
-                // keypathTabSection Result: "GeneralTab|AAAProductOwned"
-                String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.customer.defaulttabs.GeneralTab.class.getSimpleName(),
-                        AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
-
-                // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
-                keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
-                        AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel());
-
-                // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
-                keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
-                        AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
-                break;
+                // Same as "AutoCAC"
             }
 
             case "AutoCAC": {
-                // keypathTabSection Result: "GeneralTab|AAAProductOwned"
+                // keypathTabSection Result: "GeneralTab|AAAMembership"
                 String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.customer.defaulttabs.GeneralTab.class.getSimpleName(),
-                        AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+                        AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 
-                // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
+                // keypathCurrentMember Result: "GeneralTab|AAAMembership|Current AAA Member"
                 keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
-                        AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel());
+                        AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel());
 
-                // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
+                // keypathMemberNum Result: "GeneralTab|AAAMembership|Membership Number"
                 keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
-                        AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+                        AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
                 break;
             }
 
             case "AutoSS": {
-                // keypathTabSection Result: "GeneralTab|AAAProductOwned"
+                // keypathTabSection Result: "GeneralTab|AAAMembership"
                 String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.customer.defaulttabs.GeneralTab.class.getSimpleName(),
                         AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 
-                // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
+                // keypathCurrentMember Result: "GeneralTab|AAAMembership|Current AAA Member"
                 keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
                         AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel());
 
-                // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
+                // keypathMemberNum Result: "GeneralTab|AAAMembership|Membership Number"
                 keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
                         AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
                 break;
@@ -489,13 +467,13 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
      * Executes the required jobs for BML at STG1 (NB+15) or STG2 (NB+30).
      */
     private void executeSTG1STG2Jobs() {
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
-        JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
-        JobUtils.executeJob(Jobs.automatedProcessingRunReportsServicesJob);
-        JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
-        JobUtils.executeJob(Jobs.automatedProcessingStrategyStatusUpdateJob);
-        //JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.aaaAutomatedProcessingInitiationJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingRatingJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingRunReportsServicesJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingIssuingOrProposingJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingStrategyStatusUpdateJob);
+		//JobUtils.executeJob(BatchJob.automatedProcessingBypassingAndErrorsReportGenerationJob);
     }
 
     /**
@@ -507,8 +485,8 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         LocalDateTime renewalImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
         TimeSetterUtil.getInstance().nextPhase(renewalImageGenDate);
 
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob);
     }
 
     /**
@@ -520,9 +498,9 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         int timepoint1_STG3_Offset = TimePointQueries.getRenewalTimePoint1_STG3(getPolicyType(), getState());
         moveJVMNumberOfDaysBeforeExpirationDate(policyExpirationDate, timepoint1_STG3_Offset);
 
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchReceiveAsyncJob);
     }
 
     /**
@@ -535,8 +513,8 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         LocalDateTime reportServices = getTimePoints().getRenewCheckUWRules(policyExpirationDate);
         TimeSetterUtil.getInstance().nextPhase(reportServices);
 
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.renewalImageRatingAsyncTaskJob);
     }
 
     /**
@@ -548,9 +526,9 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         int timepoint2_STG4_Offset = TimePointQueries.getRenewalTimePoint2_STG4(getPolicyType(), getState());
         moveJVMNumberOfDaysBeforeExpirationDate(policyExpirationDate, timepoint2_STG4_Offset);
 
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchReceiveAsyncJob);
     }
 
     /**
@@ -562,7 +540,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         // Usually R-45
         LocalDateTime ratePolicy = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
         TimeSetterUtil.getInstance().nextPhase(ratePolicy);
-        JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.renewalImageRatingAsyncTaskJob);
     }
 
     /**
@@ -574,8 +552,8 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         // Usually R-35
         LocalDateTime offerIssue = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
         TimeSetterUtil.getInstance().nextPhase(offerIssue);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalOfferAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.renewalOfferAsyncTaskJob);
     }
 
     /**
@@ -587,8 +565,8 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         // Usually R-20
         LocalDateTime billDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
         TimeSetterUtil.getInstance().nextPhase(billDate);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
     }
 
     public TestData getBMLPolicyTD(){
@@ -877,28 +855,29 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
         aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab gt = new aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab();
         switch(memberStatus){
+            // Updated all the following to the new California UI components but they are untested as CA tests don't use them currently.
             case YES:
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Yes");
+                CustomAssertions.assertThat(gt.getAAAMembershipAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Yes");
                 if (rms.equals(RMSStatus.Inactive)) {
-                    CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(INACTIVE_BML_MEMBERSHIP_NUMBER);
+                    CustomAssertions.assertThat(gt.getAAAMembershipAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(INACTIVE_BML_MEMBERSHIP_NUMBER);
                 }
                 if (rms.equals(RMSStatus.Active)) {
-                    CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(ACTIVE_BML_MEMBERSHIP_NUMBER);
+                    CustomAssertions.assertThat(gt.getAAAMembershipAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(ACTIVE_BML_MEMBERSHIP_NUMBER);
                 }
                 break;
             case NO:
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("No");
+                CustomAssertions.assertThat(gt.getAAAMembershipAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("No");
                 break;
             case PENDING:
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Pending");
+                CustomAssertions.assertThat(gt.getAAAMembershipAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Pending");
                 break;
             case OVERRIDE_LIFE:
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Override");
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel()).getValue().toString()).isEqualToIgnoringCase("Life");
+                CustomAssertions.assertThat(gt.getAAAMembershipAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Override");
+                CustomAssertions.assertThat(gt.getAAAMembershipAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel()).getValue().toString()).isEqualToIgnoringCase("Life");
                 break;
             case OVERRIDE_TERM:
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Override");
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel()).getValue().toString()).isEqualToIgnoringCase("Term");
+                CustomAssertions.assertThat(gt.getAAAMembershipAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Override");
+                CustomAssertions.assertThat(gt.getAAAMembershipAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel()).getValue().toString()).isEqualToIgnoringCase("Term");
                 break;
             default:
                 break;

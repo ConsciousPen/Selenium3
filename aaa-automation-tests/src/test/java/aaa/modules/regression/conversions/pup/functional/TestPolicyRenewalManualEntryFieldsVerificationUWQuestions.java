@@ -31,7 +31,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyRenewalManualEntryFieldsVerificationUWQuestions extends ConvPUPBaseTest {
 
     @Parameters({"state"})
-    @StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.MD,Constants.States.NJ, Constants.States.AZ, Constants.States.OR})
+    @StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.MD,Constants.States.NJ, Constants.States.OR})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.PUP, testCaseId = "PAS-9525")
     public void PolicyRenewalActions(@Optional("NJ") String state) {

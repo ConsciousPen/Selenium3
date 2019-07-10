@@ -1,24 +1,24 @@
 package aaa.modules.regression.sales.home_ca.ho3.functional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.AAAMembershipQueries;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestMembershipSTG3Catchup extends HomeCaHO3BaseTest {
     /**
@@ -225,15 +225,15 @@ public class TestMembershipSTG3Catchup extends HomeCaHO3BaseTest {
         LocalDateTime init = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
         log.info(" init R-73 Policy Renewal Image Generation Date " + init);
         TimeSetterUtil.getInstance().nextPhase(init);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+        JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+        JobUtils.executeJob(BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob);
 
         //R-63 Membership Tp1
         LocalDateTime membershipTp1 = getTimePoints().getMembershipTp1(policyExpirationDate).plusDays(catchup);
         log.info("R-63 Membership Tp1 " + membershipTp1);
         TimeSetterUtil.getInstance().nextPhase(membershipTp1);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+        JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+        JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
         setTimeToToday();
         return policyNumber;
     }
@@ -250,15 +250,15 @@ public class TestMembershipSTG3Catchup extends HomeCaHO3BaseTest {
         LocalDateTime init = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
         log.info(" init R-73 Policy Renewal Image Generation Date " + init);
         TimeSetterUtil.getInstance().nextPhase(init);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+        JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+        JobUtils.executeJob(BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob);
 
         //reportServices = R-48 Membership Tp2
         LocalDateTime membershipTp2 = getTimePoints().getMembershipTp2(policyExpirationDate).plusDays(catchup);
         TimeSetterUtil.getInstance().nextPhase(membershipTp2);
         log.info("R-48 Membership Tp2 " + membershipTp2);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+        JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+        JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
         setTimeToToday();
         return policyNumber;
     }

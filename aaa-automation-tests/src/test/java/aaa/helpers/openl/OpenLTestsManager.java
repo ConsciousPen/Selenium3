@@ -9,6 +9,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
 import org.apache.commons.io.FilenameUtils;
@@ -18,7 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;
 import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import com.sun.jersey.api.client.ClientResponse;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.mock.ApplicationMocksManager;
@@ -294,7 +296,7 @@ public final class OpenLTestsManager {
 	/**
 	 * Get policy numbers list to be tested
 	 *
-	 * @param value String of policy numbers separated with "," character
+	 * @param value String of policy numbers separated with "," character or "-" character for range
 	 * @return list of policy numbers to be tested or empty list if {@code policies} argument is empty string.
 	 *
 	 */
@@ -307,11 +309,17 @@ public final class OpenLTestsManager {
 		for (String p : policyNumberStrings) {
 			int policyNumber;
 			try {
-				policyNumber = Integer.parseInt(p.trim());
+				if (p.contains("-")){
+					int[] borderPolicyNumbers = Stream.of(p.split("-")).mapToInt(border -> Integer.parseInt(border.trim())).sorted().toArray();
+					IntStream.rangeClosed(borderPolicyNumbers[0], borderPolicyNumbers[1]).forEach(policyNumbers::add);
+				} else {
+					policyNumber = Integer.parseInt(p.trim());
+					policyNumbers.add(policyNumber);
+				}
 			} catch (NumberFormatException e) {
 				throw new IstfException(String.format("Unable get policy number from [%s] string.", p), e);
 			}
-			policyNumbers.add(policyNumber);
+
 		}
 		return policyNumbers;
 	}

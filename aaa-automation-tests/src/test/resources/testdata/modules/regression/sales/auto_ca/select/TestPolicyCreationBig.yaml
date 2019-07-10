@@ -38,6 +38,7 @@ AAAProductOwned: {
 
 
 DriverTab: {
+  #Date of Birth: '$<today-19y:MM/dd/yyyy>',
   Occupation: Self Employed,
   Age First Licensed: 18,
   Permit Before License: 'No',
@@ -46,19 +47,22 @@ DriverTab: {
   #ActivityInformation: '@ActivityInformation'
 }
 
+
+
 DriverTab2: {
   DriverSearchDialog:{},
-  Named Insured: 'Tom Harris',
+  Named Insured: 'index=0',
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': Other,
-  #Date of Birth: '07/28/1976',
+  #Date of Birth: '$<today-19y:MM/dd/yyyy>',
   Occupation: Self Employed,
   Gender: Male,
   Marital Status: Single,
   Age First Licensed: 18,
   Permit Before License: 'No',
   License State: CA,
-  "License #": C1234560
+  "License #": C1234560,
+  #Most Recent GPA: 'None'
   #ActivityInformation: '@ActivityInformation'
 }
 

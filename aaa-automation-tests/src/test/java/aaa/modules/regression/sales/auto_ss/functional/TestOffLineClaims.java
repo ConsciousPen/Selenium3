@@ -35,7 +35,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     public void testCreateCasResponse(@Optional("AZ") @SuppressWarnings("unused") String state) {
         BatchClaimHelper batchClaimHelper = new BatchClaimHelper(NAME_DOB_CLAIMS_DATA_MODEL, getCasResponseFileName());
         String policyNumber = "AZSS999999999";
-        File claimResponse = batchClaimHelper.processClaimTemplate((response) ->
+		File claimResponse = batchClaimHelper.processClaimTemplate(response ->
                 setPolicyNumber(policyNumber, response));
         assertThat(claimResponse).exists().isFile();
         assertThat(Assertions.contentOf(claimResponse)).contains(policyNumber);
@@ -237,6 +237,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
      * @author Chris Johns
      * @author Saranya Hariharan
      * PAS-22608 - UI-SS-CAS: Permissive Use Indicator (Driver Tab, Transaction Compare, Roll on Changes and Renewal Merge)
+     * PAS-25271 - DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
      * @name Test Clue claims STUB/Mock Data Claims
      * @scenario Test Steps:
      * 1. Create a Quote with 2 drivers
@@ -261,8 +262,10 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
     /**
      * @author Chris Johns
+     * @author Kiruthika Rajendran
      * PAS-22172 - END - CAS: reconcile permissive use claims when driver/named insured is added (avail for rating)
      * PAS-24652 - CHANGE FNI - General Tab (CA): move PU Yes claims when FNI changed via "dropdown" (endorsement and quote) (changed to FNI already exists as driver)
+     * PAS-25271 - DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
      * @name Test Offline STUB/Mock: validate permissive use claims 'move' to new FNI when FNI is changed to existing FNI on general tab
      * @scenario Renewal: See Template For Details and steps
      * @details Clean Path. Expected Result is that PU claim will be move from the FNI to the newly added driver
@@ -309,4 +312,41 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     public void pas25162_permissiveUseIndicatorDefaulting(@Optional("AZ") @SuppressWarnings("unused") String state) {
         pas25162_permissiveUseIndicatorDefaulting();
     }
+
+
+    /**
+     * @author Chris Johns
+     * PAS-28399 -CHANGE FNI - General Tab: don't allow if "changed to FNI" not correctly set up as driver
+     * @name Restring FNI change on general tab when NI is not a Driver
+     * @scenario NB and Enrosement
+     * 1. Initiate a quote with 3 NI and 2 Drivers
+     * 2. Change the FNI to the NI that is NOT a driver
+     * 3. Pop-up Error message stops the action: "The select named insured has not been established as a ‘named insured driver’ on the driver tab.”
+     * 4. Bind the policy and initiate an endorsement OR Renewal
+     * 5. Change the FNI to the NI that is NOT a driver
+     * 6. Pop-up Error message stops the action: "The select named insured has not been established as a ‘named insured driver’ on the driver tab.”
+     * 7. Add third NI as a driver
+     * 8. Change the FNI to newly added driver
+     * 9. Pop-up Error does NOT appear and does not stop the action
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24652")
+    public void pas28399_RestrictChangeFNIGeneralTabEndorsement(@Optional("AZ") @SuppressWarnings("unused") String state) {
+        pas28399_RestrictChangeFNIGeneralTab("ENDORSEMENT");
+    }
+
+    /**
+     * @author Chris Johns
+     * PAS-28399 - CHANGE FNI - General Tab: don't allow if "changed to FNI" not correctly set up as driver
+     * @name Restring FNI change on general tab when NI is not a Driver
+     * @scenario NB and Renewal: Steps Mentioned above 'pas28399_RestrictChangeFNIGeneralTabEndorsement'
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24652")
+    public void pas28399_RestrictChangeFNIGeneralTabRenewal(@Optional("AZ") @SuppressWarnings("unused") String state) {
+        pas28399_RestrictChangeFNIGeneralTab("RENEWAL");
+    }
+
 }

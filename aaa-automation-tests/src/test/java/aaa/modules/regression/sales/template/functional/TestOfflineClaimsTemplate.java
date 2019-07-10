@@ -1,49 +1,14 @@
 package aaa.modules.regression.sales.template.functional;
 
 
-import aaa.common.Tab;
-import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
-import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.enums.PrivilegeEnum;
-import aaa.common.enums.RestRequestMethodTypes;
-import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
-import aaa.common.pages.SearchPage;
-import aaa.helpers.claim.BatchClaimHelper;
-import aaa.helpers.claim.ClaimAnalyticsJSONTags;
-import aaa.helpers.claim.ClaimCASResponseTags;
-import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
-import aaa.helpers.claim.datamodel.claim.Claim;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.helpers.logs.PasLogGrabber;
-import aaa.helpers.rest.JsonClient;
-import aaa.helpers.rest.RestRequestInfo;
-import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
-import aaa.helpers.ssh.RemoteHelper;
-import aaa.main.enums.ProductConstants;
-import aaa.main.enums.SearchEnum;
-import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.PolicyActions;
-import aaa.main.modules.policy.auto_ss.actiontabs.DifferencesActionTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
-import aaa.modules.policy.AutoSSBaseTest;
-import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableMap;
-import org.apache.commons.io.FileUtils;
-import org.json.JSONObject;
-import org.testng.annotations.BeforeTest;
-import toolkit.config.PropertyProvider;
-import toolkit.datax.TestData;
-import toolkit.db.DBService;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomSoftAssertions;
-import toolkit.webdriver.controls.ComboBox;
-
-import javax.annotation.Nonnull;
+import static aaa.common.pages.SearchPage.tableSearchResults;
+import static aaa.main.enums.ProductConstants.TransactionHistoryType.*;
+import static aaa.main.modules.policy.auto_ss.actiontabs.DifferencesActionTab.tableDifferences;
+import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableActivityInformationList;
+import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableDriverList;
+import static aaa.main.pages.summary.PolicySummaryPage.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Files.contentOf;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -58,15 +23,46 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static aaa.common.pages.SearchPage.tableSearchResults;
-import static aaa.main.enums.ProductConstants.TransactionHistoryType.*;
-import static aaa.main.modules.policy.auto_ss.actiontabs.DifferencesActionTab.tableDifferences;
-import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableActivityInformationList;
-import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableDriverList;
-import static aaa.main.pages.summary.PolicySummaryPage.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Files.contentOf;
+import javax.annotation.Nonnull;
+import org.apache.commons.io.FileUtils;
+import org.json.JSONObject;
+import org.testng.annotations.BeforeTest;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableMap;
+import aaa.common.Tab;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.PrivilegeEnum;
+import aaa.common.enums.RestRequestMethodTypes;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
+import aaa.common.pages.SearchPage;
+import aaa.helpers.claim.BatchClaimHelper;
+import aaa.helpers.claim.ClaimAnalyticsJSONTags;
+import aaa.helpers.claim.ClaimCASResponseTags;
+import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
+import aaa.helpers.claim.datamodel.claim.Claim;
+import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.logs.PasLogGrabber;
+import aaa.helpers.rest.JsonClient;
+import aaa.helpers.rest.RestRequestInfo;
+import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
+import aaa.helpers.ssh.RemoteHelper;
+import aaa.main.enums.ProductConstants;
+import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.PolicyActions;
+import aaa.main.modules.policy.auto_ss.actiontabs.DifferencesActionTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
+import aaa.modules.policy.AutoSSBaseTest;
+import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
+import toolkit.config.PropertyProvider;
+import toolkit.datax.TestData;
+import toolkit.db.DBService;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.webdriver.controls.ComboBox;
 
 /**
  * This template is used to test Batch Claim Logic.
@@ -126,9 +122,10 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     private static final String INC_RATING_CLAIM_2 = "IIRatingClaim2";
     private static final String INC_RATING_CLAIM_3 = "IIRatingClaim3";
     private static final String INC_RATING_CLAIM_4 = "IIRatingClaim4";
+    private static final String RESTRICT_FNI_MASSAGE = "The select named insured has not been established as a \"named insured driver\" on the driver tab";
 
 
-    protected boolean newBusinessFlag = false;
+    protected boolean fillContactInfo = false;
     protected static aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab generalTab = new aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab();
     private static final String[] CLAIM_NUMBERS_PU_DEFAULTING = {"PU_DEFAULTING_CMP","PU_DEFAULTING_1","PU_DEFAULTING_2","PU_DEFAULTING_3",
             "PU_DEFAULTING_4","PU_DEFAULTING_5","PU_DEFAULTING_6"};
@@ -214,8 +211,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(63));
         LocalDateTime updatedTime = TimeSetterUtil.getInstance().getCurrentTime();
         assertThat(updatedTime).isEqualToIgnoringHours(policyExpirationDate.minusDays(63));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+        JobUtils.executeJob(BatchJob.renewalClaimOrderAsyncJob);
     }
 
     public void generateClaimRequest() {
@@ -235,8 +232,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     public void runRenewalClaimReceiveJob() {
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(46));
         DBService.get().executeUpdate(SQL_REMOVE_RENEWALCLAIMRECEIVEASYNCJOB_BATCH_JOB_CONTROL_ENTRY);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-        JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+        JobUtils.executeJob(BatchJob.renewalClaimReceiveAsyncJob);
     }
 
     /**
@@ -251,7 +248,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
         if (tableSearchResults.isPresent()) {
             tableSearchResults.getRow("Eff. Date",
-                    TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
+					TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY))
                     .getCell(1).controls.links.getFirst().click();
         }
 
@@ -267,7 +264,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
                 errorTab.submitTab();
             }
         payTotalAmtDue(policyNumber);
-	    JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
     }
 
     /**
@@ -338,7 +335,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
      * @return
      */
     protected String downloadClaimRequest() {
-        String claimRequestFolder = Jobs.getClaimOrderJobFolder();
+        String claimRequestFolder = BatchJob.getRenewalClaimOrderAsyncJobParameters().get(BatchJob.ParametersName.PROCESSED_FOLDER);
         List<String> requests = RemoteHelper.get().getListOfFiles(claimRequestFolder);
         assertThat(requests).hasSize(1);
         String claimRequest = requests.get(0);
@@ -432,7 +429,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         // Create Cas response file
         String casResponseFileName = getCasResponseFileName();
         BatchClaimHelper batchClaimHelper = new BatchClaimHelper(dataModelFileName, casResponseFileName);
-        File claimResponseFile = batchClaimHelper.processClaimTemplate((response) -> {
+		File claimResponseFile = batchClaimHelper.processClaimTemplate(response -> {
             setPolicyNumber(policyNumber, response);
             if (claimToDriverLicence != null)
                 updateDriverLicence(claimToDriverLicence, response);
@@ -447,7 +444,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
         // Upload claim response
         RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(),
-                Jobs.getClaimReceiveJobFolder() + File.separator + claimResponseFile.getName());
+                BatchJob.getRenewalClaimOrderAsyncJobParameters().get(BatchJob.ParametersName.IMPORT_FOLDER) + File.separator + claimResponseFile.getName());
     }
 
     /**
@@ -742,7 +739,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         //Accept Payment and renew the policy
         payTotalAmtDue(policyNumber);
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
         //Scenario to check the user does not have privilege to edit the PU indicator for CAS claims in endorsement
         //Login with different user. Check the PU indicator is not editable for internal claims other than E34/L41
@@ -768,7 +765,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         createManualRenewal();
 
         //Run Claims receive batch job, to assign claims
-        JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
+        JobUtils.executeJob(BatchJob.renewalClaimReceiveAsyncJob);
 
         //Move time by one day to get claims to show in the UI
         TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
@@ -792,7 +789,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         //Accept Payment and renew the policy
         payTotalAmtDue(policyNumber);
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
         //Initiate and bind the OOS Endorsement
         TestData endorsementTD1 = getTestSpecificTD("TestData_Plus90Days");
@@ -856,7 +853,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         createManualRenewal();
 
         //Run Claims receive batch job, to assign claims
-        JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
+        JobUtils.executeJob(BatchJob.renewalClaimReceiveAsyncJob);
 
         //Move time by one day to get claims to show in the UI
         TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
@@ -903,7 +900,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         //Accept Payment and renew the policy
         payTotalAmtDue(policyNumber);
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
         //Set test date for endorsement
         TestData addDriverTd = getTestSpecificTD("Add_PU_Claim_Driver_Endorsement_AZ");
@@ -919,17 +916,29 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     }
 
     //Verify PU indicator for Company/Customer, MVR and CLUE claims for drivers in NB and Endorsement
+    //Verify "rel. to first named insured" NOT editable for existing driver with rel of "first named insured"
     protected void pas22608_verifyPermissiveUseIndicator() {
         TestData testDataForFNI = getTestSpecificTD("TestData_DriverTab_PUFlagCheck").resolveLinks();
         adjusted = getPolicyTD().adjust(testDataForFNI);
         createQuoteAndFillUpTo(adjusted, DriverTab.class);
+
         tableDriverList.selectRow(1);
+        //PAS-25271 DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
+        //Verify the Rel to FNI field is not editable for FNI driver
+        assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isEnabled()).isFalse();
+
         //Assertions to verify PU Indicator does not show up for any Company/Customer type of Activity .
         activityAssertions(2, 1, 3, 1, "Company Input", "", false, "NA");
         activityAssertions(2, 1, 3, 2, "Company Input", "", false, "NA");
         activityAssertions(2, 1, 3, 3, "Customer Input", "", false, "NA");
+
+        tableDriverList.selectRow(2);
+        //Verify the non FNI driver does not show the option of "First Named Insured" in drop down
+        assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+
         driverTab.submitTab();
         policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class, DriverActivityReportsTab.class, true);
+
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         //Assertions to verify PU Indicator does not show up for MVR claim for FNI driver
         activityAssertions(2, 1, 4, 4, "MVR", "", false, "NA");
@@ -948,8 +957,17 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         SearchPage.openPolicy(policyNumber);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        //Driver2 clue claim is reassigned to driver1
+
+        tableDriverList.selectRow(1);
+        //PAS-25271 DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
+        //Verify the Rel to FNI field is not editable for FNI driver
+        assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isEnabled()).isFalse();
+
         tableDriverList.selectRow(2);
+        //Verify the non FNI driver does not show the option of "First Named Insured" in drop down
+        assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+
+        //Driver2 clue claim is reassigned to driver1
         tableActivityInformationList.selectRow(1);
         tableActivityInformationList.getRow(1).getCell(tableActivityInformationList.getColumnsCount()).controls.links.get("Reassign").click();
         activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.SELECT_DRIVER_DIALOG).getAsset(AutoSSMetaData.DriverTab.SelectDriverDialog.ASSIGN_TO).setValueByIndex(1);
@@ -1067,7 +1085,9 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     /**
      * @author Chris Johns
      * @author Saranya Hariharan
+     * @author Kiruthika Rajendran
      * PAS-22172 - END - CAS: reconcile permissive use claims when driver/named insured is added (avail for rating)
+     * PAS-25271 - DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
      * @name Test Offline STUB/Mock: reconcile permissive use claims when driver/named insured is added
      * @scenario Test Steps:
      * 1. Create a Policy with 2 names Insured and drivers
@@ -1083,30 +1103,106 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         adjusted = getPolicyTD().adjust(getTestSpecificTD("TestData_Change_FNI_Renewal_PU_AZ").resolveLinks());
         policyNumber = openAppAndCreatePolicy(adjusted);
         log.info("Policy created successfully. Policy number is " + policyNumber);
+
         runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
         generateClaimRequest();        // Download claim request and assert it
+
         // Create the claim response - product doesn't matter here, we only need comp and pu claims match
         createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE );
+
         runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
+
         // Retrieve policy and enter renewal image
         retrieveRenewal(policyNumber);
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        // Check 1st driver: FNI, has the MVR ,COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
+
         tableDriverList.selectRow(1);
+        //PAS-25271 DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
+        //Verify the Rel to FNI field is not editable for new FNI driver
+        assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isEnabled()).isFalse();
+
+        // Check 1st driver: FNI, has the MVR ,COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
         activityAssertions(2, 1, 3, 1, "MVR", "", false, "NA");
         activityAssertions(2, 1, 3, 2, "Internal Claims", CLAIM_NUMBER_1, true, "NA");
         activityAssertions(2, 1, 3, 3, "Internal Claims", CLAIM_NUMBER_3, true, "NA");
+
+        tableDriverList.selectRow(2);
+        //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
+        assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+
         //Navigate to the General Tab and change the FNI to the second insured (Steve)
         changeFNIGeneralTab(1);  //Index starts at 0
-        //Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
+
         tableDriverList.selectRow(1);
+        //PAS-25271 DRIVER TAB: make "rel. to first named insured" NOT editable for existing driver
+        //Verify the Rel to FNI field is not editable for new FNI driver
+        assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isEnabled()).isFalse();
+
+        //Assert that the PU claims have moved to the new FNI (Steve) for a total of 2 claims now (1 existing, 1 PU)
         activityAssertions(2,1,2, 1, "Customer Input", "", false, "NA");
         activityAssertions(2,1, 2, 2, "Internal Claims", CLAIM_NUMBER_3, true, "NA");
-        //Assert that old FNI  has 1 Internal Claims and 1 existing MVR claim
+
         tableDriverList.selectRow(2);
+        //PAS-25271 Verify the non FNI driver does not show the option of "First Named Insured" in drop down
+        assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).isOptionPresent("First Named Insured")).isFalse();
+
+        //Assert that old FNI  has 1 Internal Claims and 1 existing MVR claim
         activityAssertions(2, 2, 2, 2, "Internal Claims", CLAIM_NUMBER_1, false, "NA");
+
         //Save and exit the Renewal
         DriverTab.buttonSaveAndExit.click();
+    }
+
+    public void pas28399_RestrictChangeFNIGeneralTab(String SCENARIO){
+        // Create Customer and Policy with three named insured' and two drivers
+        adjusted = getPolicyTD().adjust(getTestSpecificTD("TestData_Restrict_FNI_NB_PU_AZ").resolveLinks());
+        TestData addDriverTd = getTestSpecificTD("Add_NI_Driver_Endorsement_AZ");
+        //Initiate a quote and fill up to the driver tab
+        createQuoteAndFillUpTo(adjusted, DriverTab.class);
+        //Navigate back to General tab and change the FNI to Scott (Not a Driver) - Method checks for 28399 Restrict FNI message
+        changeFNIGeneralTab(2);  //Index starts at 0
+        //Continue to bind the policy
+        driverTab.submitTab();
+        policy.getDefaultView().fillFromTo(adjusted, RatingDetailReportsTab.class, PurchaseTab.class, true);
+        new PurchaseTab().submitTab();
+        policyNumber = getPolicyNumber();
+        //ENDORSEMENT or RENEWAL:
+        switch (SCENARIO){
+            case "ENDORSEMENT":
+                //Initiate an endorsement: Try to change FNI again - verify error pop-up
+                policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+                //Navigate back to General tab and change the FNI to Scott (Not a Driver) - Method checks for 28399 Restrict FNI message
+                changeFNIGeneralTab(2);  //Index starts at 0
+                //Add third NI as a driver to resolve pop-up
+                NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+                policy.getDefaultView().fill(addDriverTd);
+                //change FNI again - verify error pop-up does NOT appear
+                changeFNIGeneralTab(2);  //Index starts at 0
+                //Continue to bind the endorsement
+                tableDriverList.selectRow(1);
+                driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
+                tableDriverList.selectRow(2);
+                driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValue("Other");
+                NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+                premiumAndCoveragesTab.buttonSaveAndExit.click();
+                break;
+            case "RENEWAL":
+                //Run the renewal job and pay the bill
+                policyExpirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
+                moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+                //Retrieve policy and enter renewal image: Try to change FNI again - verify error pop-up
+                retrieveRenewal(policyNumber);
+                //Navigate back to General tab and change the FNI to Scott (Not a Driver) - Method checks for 28399 Restrict FNI message
+                changeFNIGeneralTab(2);  //Index starts at 0
+                //Add third NI as a driver to resolve pop-up
+                NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+                policy.getDefaultView().fill(addDriverTd);
+                //Change FNI again - verify error pop-up does NOT appear
+                changeFNIGeneralTab(2);  //Index starts at 0
+                //Save and Exit the renewal
+                GeneralTab.buttonSaveAndExit.click();
+                break;
+        }
     }
 
     /*
@@ -1166,9 +1262,16 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     public void changeFNIGeneralTab(int namedInsuredNumber) {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
         generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(namedInsuredNumber);
-        Page.dialogConfirmation.confirm();
-        //Reset Contact Info - blanks out after FNI change at New Business
-        if (newBusinessFlag) {
+        //PAS-28399: Check for Restrict FNI message
+        if (Page.dialogConfirmation.labelMessage.getValue().contains(RESTRICT_FNI_MASSAGE)) {
+            assertThat(Page.dialogConfirmation.labelMessage.getValue()).contains(RESTRICT_FNI_MASSAGE);
+            Page.dialogConfirmation.buttonCancel.click();
+        } else {
+            assertThat(Page.dialogConfirmation.labelMessage.getValue()).doesNotContain(RESTRICT_FNI_MASSAGE);
+            Page.dialogConfirmation.confirm();
+        }
+        //Reset Contact Info - it is blanked out after FNI change at New Business
+        if (fillContactInfo) {
             generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue("6025557777");
             generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
         }
@@ -1184,13 +1287,13 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
 
             // Check 1st driver: Contains 7 Matched Claims (Verifying PU default value)
-            softly.assertThat(driverTab.tableActivityInformationList).hasRows(7);
+			softly.assertThat(tableActivityInformationList).hasRows(7);
 
             // Verifying PU default value for all Claims
             for (int i = 0; i <= 6; i++) {
-                driverTab.tableActivityInformationList.selectRow(i + 1);
+				tableActivityInformationList.selectRow(i + 1);
                 if (i == 6) { //PERMISSIVE_USE match = Yes
-                    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[i]);
+					softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[6]);
                    // softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("Yes");
                 } else {
                     softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[i]);

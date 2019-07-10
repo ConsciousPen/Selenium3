@@ -92,6 +92,7 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
+
 		policy.getDefaultView().fillUpTo(td, GeneralTab.class, false);
 
 		verifyFieldProperties(PolicyInformation.SOURCE_OF_BUSINESS, true, "New Business");
@@ -120,25 +121,13 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 
 		generalTab.fillTab(td);
 		assertThat(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(PolicyInformation.AGENT_NUMBER).getValue()).isNotEqualTo(""); //verification that field is not blank
-		generalTab.getAssetList().getAsset(AAA_PRODUCT_OWNED).getAsset(AAAProductOwned.MOTORCYCLE).setValue("Yes");
 		generalTab.submitTab();
 
 		policy.getDefaultView().fillFromTo(td, DriverTab.class, DocumentsAndBindTab.class);
 		assertThat(documentsAndBindTab.getAssetList().getAsset(WORK_PHONE_NUM)).isEnabled();
 		assertThat(documentsAndBindTab.getAssetList().getAsset(MOBILE_PHONE_NUM)).isEnabled();
-		assertThat(documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM)).isEnabled();
-		assertThat(documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM).getAttribute("class").contains("required")).isTrue(); // verification that field is mandatory
-		documentsAndBindTab.fillTab(td).submitTab();
-		assertThat(documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM).getWarning().equals("'Policy #' is required"));
-
-		//new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_CSA3081512);
-		//ErrorTab.buttonCancel.click();
-		//assertThat(documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM).getWarning().equals("'Policy #' is required"));
-
-		documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM).setValue("12345678");
 		documentsAndBindTab.getAssetList().getAsset(WORK_PHONE_NUM).setValue("1234567890");
-		documentsAndBindTab.submitTab();
-
+		documentsAndBindTab.fillTab(td).submitTab();
 		new PurchaseTab().fillTab(td).submitTab();
 
 		log.info("General tab for Auto CA policy works properly. Test is passed for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());

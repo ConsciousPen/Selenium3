@@ -1,5 +1,9 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -7,12 +11,7 @@ import aaa.main.enums.CoverageInfo;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.helper.TestMiniServicesCoveragesHelper;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
@@ -889,7 +888,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15265"})
 	public void pas15265_WithOutUnderInsuredConversionCoverage(@Optional("CT") String state) {
-		pas15265_UnderInsuredConversionCoverageBody(false);
+		pas15265_UnderInsuredConversionCoverageBody(false, false);
 	}
 
 	@Parameters({"state"})
@@ -897,7 +896,29 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15265"})
 	public void pas15265_WithUnderInsuredConversionCoverage(@Optional("CT") String state) {
-		pas15265_UnderInsuredConversionCoverageBody(true);
+		pas15265_UnderInsuredConversionCoverageBody(true, false);
+	}
+
+	/**
+	 * @Precondition: UIMCONV and UMBI must be enabled for this test (preconditions in class MiniServicesSetupEnableCoverages)
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CT})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15264"})
+	public void pas15264_WithOutUnderInsuredConversionCoverageCoveragesEnabled(@Optional("CT") String state) {
+		pas15265_UnderInsuredConversionCoverageBody(false, true);
+	}
+
+	/**
+	 * @Precondition: UIMCONV and UMBI must be enabled for this test
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CT})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15264"})
+	public void pas15264_WithUnderInsuredConversionCoverageCoveragesEnabled(@Optional("CT") String state) {
+		pas15265_UnderInsuredConversionCoverageBody(true, true);
 	}
 
 	/**
