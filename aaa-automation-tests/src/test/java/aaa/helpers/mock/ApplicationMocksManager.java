@@ -1,6 +1,5 @@
 package aaa.helpers.mock;
 
-import static aaa.helpers.ssh.RemoteHelper.OS.*;
 import static aaa.helpers.ssh.RemoteHelper.get;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
@@ -43,7 +42,6 @@ public class ApplicationMocksManager {
 	private static final String APP_MOCKS_SCRIPT_STOP = String.format(PropertyProvider.getProperty(CsaaTestProperties.APP_STUB_SCRIPT_STOP), ENV_NAME);
 	private static final String START_STUB_KNOWN_EXCEPTION = "com.ibm.websphere.management.exception.ConnectorException: java.net.SocketTimeoutException: Async operation timed out";
 	private static final int START_STUB_FAILURE_EXIT_CODE = 103;
-	private static RemoteHelper.OS currentOS;
 
 
 	private static MocksCollection appMocks = new MocksCollection();
@@ -206,7 +204,7 @@ public class ApplicationMocksManager {
 	}
 
 	private static String getExecuteScriptCommand(String scriptFileName) {
-		switch (getCurrentOS()) {
+		switch (RemoteHelper.getCurrentOS()) {
 			case WINDOWS:
 				return String.format("cmd /c cd %1$s && cmd /c %2$s", APP_MOCKS_SCRIPT_WORKDIR, scriptFileName);
 			case LINUX:
@@ -216,22 +214,6 @@ public class ApplicationMocksManager {
 			default:
 				throw new IstfException("Unknown OS detected, unable to start/stop stub server");
 		}
-	}
-
-	public static RemoteHelper.OS getCurrentOS() {
-		if (currentOS == null) {
-			String osType = get().executeCommand("uname -s").getOutput();
-			if (osType.contains("Unable to execute command or shell on remote system") || osType.contains("CYGWIN") || osType.contains("MINGW32") || osType.contains("MSYS")) {
-				currentOS = WINDOWS;
-			} else if (osType.contains("Linux")) {
-				currentOS = LINUX;
-			} else if (osType.contains("Darwin")) {
-				currentOS = MAC_OS;
-			} else {
-				currentOS = UNKNOWN;
-			}
-		}
-		return currentOS;
 	}
 
 	private static void sleep(long seconds) {

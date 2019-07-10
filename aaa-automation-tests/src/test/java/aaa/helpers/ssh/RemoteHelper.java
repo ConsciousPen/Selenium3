@@ -1,5 +1,6 @@
 package aaa.helpers.ssh;
 
+import static aaa.helpers.ssh.RemoteHelper.OS.*;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
@@ -18,7 +19,6 @@ import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
-import aaa.helpers.mock.ApplicationMocksManager;
 import toolkit.exceptions.IstfException;
 
 public final class RemoteHelper {
@@ -28,12 +28,28 @@ public final class RemoteHelper {
 
 	private ConnectionParams connectionParams;
 	private Ssh ssh;
-	private OS currentOS;
+	private static OS currentOS = null;
 
 	private RemoteHelper(ConnectionParams connectionParams) {
 		this.connectionParams = connectionParams;
 		log.info("Establishing remote connection with {}", connectionParams);
 		this.ssh = new Ssh(connectionParams);
+	}
+
+	public static OS getCurrentOS() {
+		if (currentOS == null) {
+			String osType = get().executeCommand("uname -s").getOutput();
+			if (osType.contains("Unable to execute command or shell on remote system") || osType.contains("CYGWIN") || osType.contains("MINGW32") || osType.contains("MSYS")) {
+				currentOS = WINDOWS;
+			} else if (osType.contains("Linux")) {
+				currentOS = LINUX;
+			} else if (osType.contains("Darwin")) {
+				currentOS = MAC_OS;
+			} else {
+				currentOS = UNKNOWN;
+			}
+		}
+		return currentOS;
 	}
 
 	public String getServerTimeZone() {
@@ -332,7 +348,7 @@ public final class RemoteHelper {
 		StringBuilder grepCmd = new StringBuilder();
 		String correctedFileExtension = fileExtension == null ? "*" : fileExtension;
 		String cmd;
-		OS currentOS = ApplicationMocksManager.getCurrentOS();
+		OS currentOS = getCurrentOS();
 		switch (currentOS) {
 			case WINDOWS:
 				for (String textToSearch : textsToSearchPatterns) {
