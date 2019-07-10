@@ -73,5 +73,4 @@ public class TestCADriverAssignmentWithoutGender extends TestCADriverAssignmentW
         pas29418_DriverAssignmentRanking("TestData_DriverTab_Assignment_5_9");
     }
 
-
 }
