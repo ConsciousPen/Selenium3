@@ -71,7 +71,7 @@ public class TestRenewal extends TestRenewalTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.TIMEPOINT, Groups.CFT})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-    public void testRenewalScenario_10(@Optional("AZ") String state) {
+    public void testRenewalScenario_10(@Optional("") String state) {
         testRenewalScenario_10();
     }
 }
