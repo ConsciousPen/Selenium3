@@ -90,19 +90,20 @@
         </classes>
     </test>
 
-    <test name="Renewal 1/2 - SS HO3" parallel="methods" thread-count="1024">
+    <test name="Renewal 1/2/10 - SS HO3" parallel="methods" thread-count="1024">
         <parameter name="state" value="KY, WV"/>
         <classes>
             <class name="aaa.modules.financials.home_ss.ho3.TestRenewal">
                 <methods>
                     <include name="testRenewalScenario_1"/>
                     <include name="testRenewalScenario_2"/>
+                    <include name="testRenewalScenario_10"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="Renewal 3/4/5 - SS HO3" parallel="methods" thread-count="1024">
+    <test name="Renewal 3/4/5/10 - SS HO3" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.home_ss.ho3.TestRenewal">
@@ -110,6 +111,7 @@
                     <include name="testRenewalScenario_3"/>
                     <include name="testRenewalScenario_4"/>
                     <include name="testRenewalScenario_5"/>
+                    <include name="testRenewalScenario_10"/>
                 </methods>
             </class>
         </classes>
