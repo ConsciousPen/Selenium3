@@ -1,14 +1,14 @@
 package aaa.modules.bct.batch;
 
-import static aaa.helpers.jobs.Jobs.*;
+import static aaa.helpers.jobs.BatchJob.*;
 import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.utils.batchjob.Job;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.Job;
 import aaa.modules.policy.BackwardCompatibilityBaseTest;
 
 public class ConsolidatedBatchJobsBatchJobService extends BackwardCompatibilityBaseTest {
@@ -114,7 +114,7 @@ public class ConsolidatedBatchJobsBatchJobService extends BackwardCompatibilityB
 	@Parameters({"state"})
 	@Test()
 	public void collectionFeedBatchorderJob(@Optional("") String state) {
-		executeBatchUsingBatchJobService(collectionFeedBatchorderJob);
+		executeBatchUsingBatchJobService(collectionFeedBatchOrderJob);
 	}
 
 	@Parameters({"state"})

@@ -7,7 +7,7 @@ import javax.xml.ws.*;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.transport.http.HTTPConduitConfigurer;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
 import aaa.soap.AAAHTTPConfigurer;
 
 @WebServiceClient(name = "BatchJobPortImplService", targetNamespace = "http://endpoint.batchjobws.aaa.exigen.com/", wsdlLocation = "http://eqxaaawas01.eqxdev.exigengroup.com:9082/aaa-admin/services/BatchJobService.wsdl")
