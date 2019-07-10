@@ -1,65 +1,18 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static aaa.common.pages.SearchPage.tableSearchResults;
-import static aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab.*;
-import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
-import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Files.contentOf;
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.BooleanUtils;
-import org.testng.annotations.BeforeTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.NavigationEnum;
-import aaa.common.enums.PrivilegeEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
-import aaa.common.pages.SearchPage;
-import aaa.helpers.claim.BatchClaimHelper;
-import aaa.helpers.claim.ClaimCASResponseTags;
-import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
-import aaa.helpers.claim.datamodel.claim.Claim;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.helpers.ssh.RemoteHelper;
-import aaa.main.enums.ErrorEnum;
-import aaa.main.enums.SearchEnum;
-import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
-import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomSoftAssertions;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.TextBox;
 
 /**
- * This template is used to test Batch Claim Logic.
- *
- * @author Andrii Syniagin
+ * This template is used to test the new CA Driver Assignment without Gender
+ * @author Chris Johns
  */
 public class TestCADriverAssignmentWithoutGenderTemplate extends CommonTemplateMethods {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_hhmmss");
@@ -79,24 +32,30 @@ public class TestCADriverAssignmentWithoutGenderTemplate extends CommonTemplateM
     protected static ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
 
     protected void pas29418_DriverAssignmentRanking() {
-        //Setup test data
+        //Setup test data for 7 drivers and 7 vehicles
         TestData testDataDriverDetails = getTestSpecificTD("TestData_DriverTab_Assignment_Data").resolveLinks();
         adjusted = getPolicyTD().adjust(testDataDriverDetails);
 
-        //Create quote with X drivers and navigate to P&C page to get system rated drivers
+        //Create quote with 7 drivers and navigate to P&C page to get system rated drivers
         createQuoteAndFillUpTo(adjusted, PremiumAndCoveragesTab.class);
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
 
         //Verify System Rated Drivers are in the correct ranking order
-        driverAssignmentAssertion(0, "Gandalf");
-        driverAssignmentAssertion(0, "Gandalf");
-        driverAssignmentAssertion(0, "Gandalf");
-        driverAssignmentAssertion(0, "Gandalf");
-        driverAssignmentAssertion(0, "Gandalf");
-        driverAssignmentAssertion(0, "Gandalf");
+        driverAssignmentAssertion(0, "One");
+        driverAssignmentAssertion(1, "Two");
+        driverAssignmentAssertion(2, "Three");
+        driverAssignmentAssertion(3, "Four");
+        driverAssignmentAssertion(4, "Five");
+        driverAssignmentAssertion(5, "Six");
+        driverAssignmentAssertion(6, "Seven");
     }
 
-    private void driverAssignmentAssertion(int driverNumber, String driverName) {
+    /**
+     * Method changes current date to policy expiration date and issues generated renewal image
+     * @param driverNumber System Rated Driver position to check - Index starts at zero
+     * @param driverName System Rated Driver Name - Verifies via 'contains'
+     */
+    public void driverAssignmentAssertion(int driverNumber, String driverName) {
             assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue().get(driverNumber).getValue("System Rated Driver")).contains(driverName);
     }
 

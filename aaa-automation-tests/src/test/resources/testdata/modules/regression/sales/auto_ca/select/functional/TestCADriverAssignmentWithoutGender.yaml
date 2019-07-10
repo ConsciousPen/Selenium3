@@ -39,7 +39,7 @@ PrefillTab: {
   Address Line 1: 6586 PORCUPINE WAY,
   City: HUNTINGTON PARK,
   State: CA,
-  Date of Birth: $<today-22y>,
+  Date of Birth: $<today-23y>,
   Validate Address: click,
   Validate Address Dialog: {},
   Order Prefill: click

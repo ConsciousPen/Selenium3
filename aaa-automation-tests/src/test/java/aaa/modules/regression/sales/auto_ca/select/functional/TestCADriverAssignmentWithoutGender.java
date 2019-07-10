@@ -25,13 +25,19 @@ public class TestCADriverAssignmentWithoutGender extends TestCADriverAssignmentW
      * PAS-29418: Assignment Ranking Change - Select Only
      * @name Test CA Driver Assignment Without Gender
      * @scenario Test Steps:
-     * 1. Create a Policy with 3 drivers
-     * 2.
-     * 3.
-     * 4.
-     * 5.
-     * 6.
-     * @details Clean Path. Expected Result:
+     * 1. Create a quote with 7 drivers:
+     *      1. Female, Single, 4 tyde, Xdsrp - primary driver tie breaker
+     *      2. Male, Single, 4 tyde, Xdsrp - (not) primary driver tie breaker
+     *      3. Female, Married, 3 tyde - tyde tie breaker
+     *      4. Male, Married, 4 tyde - tyde tie breaker
+     *      5. Male, (Married), 15 tyde, 6 dsrp - dsrp tie breaker
+     *      6. Female, (Married), 15 tyde, 4 dsrp - dsrp tie breaker
+     *      7. Female, Single, 5 tyde, 0 dsrp  - tyde tie breaker
+     *      **tyde = total years driving experience **dsrp = driver safety record points
+     * 2. Add 7 identical vehicles (this will make it so the vehicle details do no affect assignment)
+     * 3. Calculate premium and navigate to the Assignment tab.
+     * 4. Verify that the System Rated drivers are all assigned as mentioned above
+     * @details Clean Path. Expected Result: System Rated Drivers are listed in the above order as Gender is NOT an assignment factor anymore
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
