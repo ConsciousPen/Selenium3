@@ -894,7 +894,6 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_TRANSFERRED, TimeSetterUtil.getInstance().getCurrentTime());
 		Map<String, Dollar> manualPaymentAllocations = getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT,
 				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT, TimeSetterUtil.getInstance().getCurrentTime());
-
 		//CPT-02 validation
 		assertSoftly(softly -> {
 			softly.assertThat(paymentTransferAdjAmount).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(paymentTransferAdjId, FinancialsSQL.TxType.ACCOUNT_MONEY_TRANSFER, "1001"));
@@ -904,7 +903,6 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 			softly.assertThat(manualPaymentAllocations.get("Net Premium")).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(manualTransferId, FinancialsSQL.TxType.MANUAL_PAYMENT, "1065"));
 			softly.assertThat(manualPaymentAllocations.get("Fees")).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(manualTransferId, FinancialsSQL.TxType.POLICY_FEE, "1034"));
 		});
-
 		// Tax Validations for CPT-01
 		if (isTaxState()) {
 			assertSoftly(softly -> {
@@ -912,7 +910,6 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 				softly.assertThat(paymentTransferAllocations.get("Taxes" + renewalEffDate.format(DateTimeUtils.MM_DD_YYYY))).isEqualTo(getTotalTaxesFromDb(paymentTransferAdjId, "1071", false));
 			});
 		}
-
 	}
 
 	private Dollar getTotalTaxesFromDb(String transactionId, String ledgerAccount, boolean isCredit) {
