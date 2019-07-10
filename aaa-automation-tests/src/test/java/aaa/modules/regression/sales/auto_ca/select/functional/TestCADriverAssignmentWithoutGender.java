@@ -23,7 +23,7 @@ public class TestCADriverAssignmentWithoutGender extends TestCADriverAssignmentW
      * @author Chris Johns
      * @author Kiruthika Rajendran
      * PAS-29418: Assignment Ranking Change - Select Only
-     * @name Test CA Driver Assignment Without Gender
+     * @name Test CA Driver Assignment Without Gender: Ranking steps 1-4 with Tie Breakers
      * @scenario Test Steps:
      * 1. Create a quote with 7 drivers:
      *      1. Female, Single, 4 tyde, Xdsrp - primary driver tie breaker
@@ -42,8 +42,35 @@ public class TestCADriverAssignmentWithoutGender extends TestCADriverAssignmentW
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-14679")
-    public void pas29418_DriverAssignmentRanking(@Optional("CA") @SuppressWarnings("unused") String state) {
-        pas29418_DriverAssignmentRanking();
+    public void pas29418_DriverAssignmentRanking1_4(@Optional("CA") @SuppressWarnings("unused") String state) {
+        pas29418_DriverAssignmentRanking("TestData_DriverTab_Assignment_1_4");
+    }
+
+    /**
+     * @author Chris Johns
+     * @author Kiruthika Rajendran
+     * PAS-29418: Assignment Ranking Change - Select Only
+     * @name Test CA Driver Assignment Without Gender: Ranking steps 5-9, no tie breakers
+     * @scenario Test Steps:
+     * 1. Create a quote with 7 drivers:
+     *      1. Female, Single, 4 tyde, Xdsrp - primary driver
+     *      2. Male, Single, 6 tyde, 0 dsrp
+     *      3. Female, Married, 7 tyde, 0 dsrp
+     *      4. Male, (Widowed), 15 tyde, 2 dsrp
+     *      5. Female, Single, 12 tyde, 0 dsrp
+     *      6. Female, Married, 11 tyde, 0dsrp - tyde tie breaker
+     *      7. Male, (Widowed), 12 tyde, 0dsrp - tyde tie breaker
+     *      **tyde = total years driving experience **dsrp = driver safety record points
+     * 2. Add 7 identical vehicles (this will make it so the vehicle details do no affect assignment)
+     * 3. Calculate premium and navigate to the Assignment tab.
+     * 4. Verify that the System Rated drivers are all assigned as mentioned above
+     * @details Clean Path. Expected Result: System Rated Drivers are listed in the above order as Gender is NOT an assignment factor anymore
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-14679")
+    public void pas29418_DriverAssignmentRanking5_9(@Optional("CA") @SuppressWarnings("unused") String state) {
+        pas29418_DriverAssignmentRanking("TestData_DriverTab_Assignment_5_9");
     }
 
 

@@ -31,9 +31,10 @@ public class TestCADriverAssignmentWithoutGenderTemplate extends CommonTemplateM
     protected static DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
     protected static ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
 
-    protected void pas29418_DriverAssignmentRanking() {
+    protected void pas29418_DriverAssignmentRanking(String SCENARIO_DATA) {
         //Setup test data for 7 drivers and 7 vehicles
-        TestData testDataDriverDetails = getTestSpecificTD("TestData_DriverTab_Assignment_Data").resolveLinks();
+//        TestData testDataDriverDetails = getTestSpecificTD("TestData_DriverTab_Assignment_Data").resolveLinks();
+        TestData testDataDriverDetails = getTestSpecificTD(SCENARIO_DATA).resolveLinks();
         adjusted = getPolicyTD().adjust(testDataDriverDetails);
 
         //Create quote with 7 drivers and navigate to P&C page to get system rated drivers
