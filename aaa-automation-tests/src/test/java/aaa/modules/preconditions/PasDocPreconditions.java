@@ -19,11 +19,11 @@ public class PasDocPreconditions {
 	@Test(groups = Groups.PRECONDITION)
 	public void updateRetrieveAgreement() {
 
-		SQL_UPDATE= "UPDATE PropertyConfigurerentity set value = 'http://sit-soaservices.tent.trt.csaa.pri:42000/1.1/RetrieveAgreementRelatedDocuments' Where Propertyname = 'aaaRetrieveAgreementWebClient.endpointUri'";
+		SQL_UPDATE= "update propertyconfigurerentity set value = 'https://soaqa3.tent.trt.csaa.pri/1.1/RetrieveAgreementRelatedDocuments' where propertyname = 'aaaRetrieveAgreementWebClient.endpointUri'";
 		DBService.get().executeUpdate(SQL_UPDATE);
 		log.info("DB update +++++ PAS DOC PRECONDITIONS ++++aaaRetrieveAgreementWebClient++++ updated");
 
-		SQL_UPDATE= "Update PropertyConfigurerentity set value = 'http://sit-soaservices.tent.trt.csaa.pri:42000/1.1/RetrieveDocument' Where Propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";
+		SQL_UPDATE= "update propertyconfigurerentity set value = 'https://soaqa3.tent.trt.csaa.pri/1.1/RetrieveDocument' where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";
 		DBService.get().executeUpdate(SQL_UPDATE);
 		log.info("DB update +++++ PAS DOC PRECONDITIONS ++++aaaRetrieveDocumentWebClient++++ updated");
 
@@ -31,31 +31,31 @@ public class PasDocPreconditions {
 		DBService.get().executeUpdate(SQL_UPDATE);
 		log.info("DB update +++++ PAS DOC PRECONDITIONS ++++abstractDocgenEventListener++++ updated");
 
-		SQL_UPDATE= "Update PropertyConfigurerentity set value = 'https://soaqa1.tent.trt.csaa.pri/3.1/StandardDocumentService' Where Propertyname = 'docGenwebClient.endpointUri'";
+		SQL_UPDATE= "update propertyconfigurerentity set value = 'https://soaqa3.tent.trt.csaa.pri/3.1/StandardDocumentService' where propertyname = 'docGenwebClient.endpointUri'";
 		DBService.get().executeUpdate(SQL_UPDATE);
 		log.info("DB update +++++ PAS DOC PRECONDITIONS ++++docGenwebClient++++ updated");
 
-		SQL_UPDATE= "Update PropertyConfigurerentity set value = 'http://wiremock-master.apps.prod.pdc.digital.csaa-insurance.aaa.com/as/token.oauth2' Where Propertyname = 'oauth2TokenStore.authTokenEndpointUrl'";
+		SQL_UPDATE= "update propertyconfigurerentity set value = 'https://qa-sso.tent.trt.csaa.pri/as/token.oauth2' where propertyname = 'oauth2TokenStore.authTokenEndpointUrl'";
 		DBService.get().executeUpdate(SQL_UPDATE);
 		log.info("DB update +++++ PAS DOC PRECONDITIONS ++++authTokenEndpointUrl++++ updated");
 
-		SQL_UPDATE= "Update PropertyConfigurerentity set value = 'vFS9ez6zISomQXShgJ5Io8mo9psGPHHiPiIdW6bwjJKOf4dbrd2m1AYUuB6HGjqx' Where Propertyname = 'oauth2TokenStore.clientSecret'";
+		SQL_UPDATE= "update propertyconfigurerentity set value = 'vFS9ez6zISomQXShgJ5Io8mo9psGPHHiPiIdW6bwjJKOf4dbrd2m1AYUuB6HGjqx' where propertyname = 'oauth2TokenStore.clientSecret'";
 		DBService.get().executeUpdate(SQL_UPDATE);
 		log.info("DB update +++++ PAS DOC PRECONDITIONS ++++clientSecret++++ updated");
 
-		SQL_UPDATE= "Update PropertyConfigurerentity set value = 'EXTERNAL' Where Propertyname = 'pasDocEventBuilder.pasDocServerType'";
+		SQL_UPDATE= "update propertyconfigurerentity set value = 'EXTERNAL' where propertyname = 'pasDocEventBuilder.pasDocServerType'";
 		DBService.get().executeUpdate(SQL_UPDATE);
 		log.info("DB update +++++ PAS DOC PRECONDITIONS ++++pasDocServerType++++ updated");
 
-		SQL_UPDATE= "Update PropertyConfigurerentity set value = 'http://pasdoc-dev.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-doc-rs/generateAdhocDocuments' Where Propertyname = 'pasdocGenerateAdhocDocsProvider.address'";
+		SQL_UPDATE= "update propertyconfigurerentity set value = 'http://pasdoc-qa2.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-doc-rs/generateAdhocDocuments' where propertyname = 'pasdocGenerateAdhocDocsProvider.address'";
 		DBService.get().executeUpdate(SQL_UPDATE);
 		log.info("DB update +++++ PAS DOC PRECONDITIONS ++++pasdocGenerateAdhocDocsProvider++++ updated");
 
-		SQL_UPDATE= "Update PropertyConfigurerentity set value = 'http://pasdoc-dev.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-doc-rs/generateDocuments' Where Propertyname = 'pasdocGenerateBatchAndOnlineDocsProvider.address'";
+		SQL_UPDATE= "update propertyconfigurerentity set value = 'http://pasdoc-qa2.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-doc-rs/generateDocuments' where propertyname = 'pasdocGenerateBatchAndOnlineDocsProvider.address'";
 		DBService.get().executeUpdate(SQL_UPDATE);
 		log.info("DB update +++++ PAS DOC PRECONDITIONS ++++pasdocGenerateBatchAndOnlineDocsProvider++++ updated");
 
-		SQL_UPDATE= "Update PropertyConfigurerentity set value = 'http://pasdoc-dev.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-doc-rs/getAdhocTemplates' Where Propertyname = 'pasdocRetrieveAdhocDocsProvider.address'";
+		SQL_UPDATE= "update propertyconfigurerentity set value = 'http://pasdoc-qa2.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-doc-rs/getAdhocTemplates' where propertyname = 'pasdocRetrieveAdhocDocsProvider.address'";
 		DBService.get().executeUpdate(SQL_UPDATE);
 		log.info("DB update +++++ PAS DOC PRECONDITIONS ++++pasdocRetrieveAdhocDocsProvider++++ updated");
 	}
