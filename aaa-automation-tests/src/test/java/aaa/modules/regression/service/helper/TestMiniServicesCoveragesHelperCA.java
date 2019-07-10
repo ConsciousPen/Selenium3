@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.rest.dtoDxp.*;
@@ -33,7 +34,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 
 		Coverage covBIExpected = Coverage.create(CoverageInfo.BI_CA);
 		Coverage covPDExpected = Coverage.create(CoverageInfo.PD_CA);//Note: Starting from 2019-06-08, PD should not have availableLimit 5000
-		Coverage covUMBIExpected = Coverage.create(CoverageInfo.UMBI_CA).removeAvailableLimitsAbove(CoverageLimits.COV_500500);
+		Coverage covUMBIExpected = Coverage.create(CoverageInfo.UMBI_CA).removeAvailableLimitsAbove(CoverageLimits.COV_500500).addAvailableLimits(CoverageLimits.COV_00);//adding No Cov at the end of the list as currently expected
 		Coverage covUIMBIExpected = Coverage.create(CoverageInfo.UIMBI_CA).disableCanChange();
 		Coverage covMEDPMExpected = Coverage.create(CoverageInfo.MEDPM_CA);
 

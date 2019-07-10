@@ -66,4 +66,7 @@ public abstract class AutoCaOpenLPolicy<D extends AutoCaOpenLDriver, V extends O
 				"^policy\\.vehicles\\[\\d+\\]\\.coverages\\[\\d+\\]\\.additionalLimitAmount$" // is applicable for altCoverages only, for regular coverage should be always null
 		);
 	}
+
+	@Override
+	public void setIsOneYearBeforePolicy() {}
 }

@@ -1,24 +1,22 @@
 package aaa.modules.regression.document_fulfillment.template.functional;
 
-import aaa.common.enums.Constants;
-import aaa.helpers.docgen.AaaDocGenEntityQueries;
-import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.DocGenEnum;
-import aaa.main.modules.policy.PolicyType;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PolicyBaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.apache.commons.lang.StringUtils;
-import toolkit.datax.TestData;
-
-import java.time.LocalDateTime;
-
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.EXPIRATION_NOTICE;
 import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
 import static aaa.main.enums.DocGenEnum.Documents.AH64XX;
 import static org.assertj.core.api.Assertions.assertThat;
+import java.time.LocalDateTime;
+import org.apache.commons.lang.StringUtils;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
+import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.jobs.JobUtils;
+import aaa.main.enums.DocGenEnum;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.policy.PolicyBaseTest;
+import toolkit.datax.TestData;
 
 public class TestOrganicDocGenAbstract extends PolicyBaseTest {
     /**
@@ -65,20 +63,20 @@ public class TestOrganicDocGenAbstract extends PolicyBaseTest {
     private void renewalBillJobExecution(LocalDateTime expirationDate){
 
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(expirationDate));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(expirationDate));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(expirationDate));
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-        JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(expirationDate));
-        JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
-        JobUtils.executeJob(Jobs.aaaRenewalReminderGenerationAsyncJob);
-        JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+        JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalReminderGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
     }
 
     /**

@@ -134,7 +134,7 @@ DocumentsAndBindTab_Full: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed,
     Uninsured and Underinsured Motorist Coverage Selection: Physically Signed, 
-    Named Driver Exclusion Election: Physically Signed, 
+    Named Driver Exclusion: Physically Signed, 
     AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed
   }, 
   Agreement: I agree, 
@@ -155,7 +155,7 @@ DocumentsAndBindTab_Renew: {
   RequiredToBind: {
     #Auto Insurance Application: Physically Signed,
     Uninsured and Underinsured Motorist Coverage Selection: Physically Signed, 
-    Named Driver Exclusion Election: Physically Signed, 
+    Named Driver Exclusion: Physically Signed, 
     AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed
   }, 
   RequiredToIssue: {
@@ -180,7 +180,7 @@ DocumentsAndBindTab_Full_NO_PASDOC: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed,
     Uninsured and Underinsured Motorist Coverage Selection: Physically Signed, 
-    Named Driver Exclusion Election: Physically Signed, 
+    Named Driver Exclusion: Physically Signed, 
     AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed
   }, 
   Agreement: I agree, 

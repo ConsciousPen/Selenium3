@@ -3,25 +3,24 @@
 package aaa.helpers.billing;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.helpers.TableVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
 import aaa.main.pages.summary.BillingSummaryPage;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 
-import java.time.LocalDateTime;
-
 public class BillingBillsAndStatementsVerifier extends TableVerifier {
 
-	public BillingBillsAndStatementsVerifier() {};
+	public BillingBillsAndStatementsVerifier() {}
 
 	public BillingBillsAndStatementsVerifier(ETCSCoreSoftAssertions softly) {
 		this.softly = softly;
-	};
+	}
 
 	@Override
 	protected Table getTable() {

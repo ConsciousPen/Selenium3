@@ -7,12 +7,12 @@ import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.Jobs;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.product.LedgerHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
@@ -61,17 +61,17 @@ public class TestFinanceEPCalculationMultipleOOSEndorsement extends FinanceOpera
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 
-		jobDate = runEPJobUntil(jobDate, e1date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, e1date, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e1date);
 		searchForPolicy(policyNumber);
 		createEndorsement(-1, "TestData_EndorsementRemoveCoverage");
 
-		jobDate = runEPJobUntil(jobDate, e2date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, e2date, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e2date);
 		searchForPolicy(policyNumber);
 		createEndorsement(-1, "TestData_EndorsementAddCoverage");
 
-		jobDate = runEPJobUntil(jobDate, oose3date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, oose3date, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(oose3date);
 		searchForPolicy(policyNumber);
 		createEndorsement(-36, "TestData_EndorsementAddSecondCoverage");
@@ -83,7 +83,7 @@ public class TestFinanceEPCalculationMultipleOOSEndorsement extends FinanceOpera
 		policy.rollOn().perform(false, false);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		jobDate = runEPJobUntil(jobDate, oose4date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, oose4date, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(oose4date);
 		searchForPolicy(policyNumber);
 		createEndorsement(-279, "TestData_Endorsement");
@@ -100,17 +100,16 @@ public class TestFinanceEPCalculationMultipleOOSEndorsement extends FinanceOpera
 		policy.rollOn().perform(false, false);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		runEPJobUntil(jobDate, jobEndDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		searchForPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 
 		//assertThat(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)))
 		//		.isEqualTo(LedgerHelper.getEndingActualPremium(policyNumber));
 
-	    assertThat(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber, "cancellation", false)))
-						.isEqualTo(LedgerHelper.getEndingActualPremium(policyNumber));
+		assertThat(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber, "cancellation", false)))
+				.isEqualTo(LedgerHelper.getEndingActualPremium(policyNumber));
 
-		
 		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE, TxType.ENDORSE, TxType.OOS_ENDORSE,
 				TxType.ROLL_ON, TxType.OOS_ENDORSE, TxType.ROLL_ON, TxType.ROLL_ON, TxType.ROLL_ON);
 		validateEPCalculations(policyNumber, txTypes, today, expirationDate);

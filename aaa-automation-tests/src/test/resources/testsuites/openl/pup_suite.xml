@@ -1,9 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="PUP OpenL Rating Tests" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
     <parameter name="testsDir" value="aaa-rating-rules-pup/src/test/openl/rules"/>
     <!-- Local tests execution parameters -->
     <!--<parameter name="testsDir" value="src/test/resources/openl/pup"/>-->
@@ -56,13 +55,6 @@
     <test name="PUP [CT] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="CTTests.xls"/>
         <parameter name="policyNumbers" value="93,120"/>
-        <classes>
-            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
-        </classes>
-    </test>
-    <test name="PUP [ID] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="IDTests.xls"/>
-        <parameter name="policyNumbers" value="93,246"/>
         <classes>
             <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
         </classes>

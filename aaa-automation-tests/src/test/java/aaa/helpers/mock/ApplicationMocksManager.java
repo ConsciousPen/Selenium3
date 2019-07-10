@@ -1,5 +1,6 @@
 package aaa.helpers.mock;
 
+import static aaa.helpers.ssh.RemoteHelper.get;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +12,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.exigen.istf.timesetter.client.TimeSetterClient;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.mock.model.UpdatableMock;
@@ -42,7 +42,7 @@ public class ApplicationMocksManager {
 	private static final String APP_MOCKS_SCRIPT_STOP = String.format(PropertyProvider.getProperty(CsaaTestProperties.APP_STUB_SCRIPT_STOP), ENV_NAME);
 	private static final String START_STUB_KNOWN_EXCEPTION = "com.ibm.websphere.management.exception.ConnectorException: java.net.SocketTimeoutException: Async operation timed out";
 	private static final int START_STUB_FAILURE_EXIT_CODE = 103;
-	private static OS currentOS;
+
 
 	private static MocksCollection appMocks = new MocksCollection();
 
@@ -141,32 +141,16 @@ public class ApplicationMocksManager {
 		return results;
 	}
 
-	public static synchronized OS getCurrentOS() {
-		if (currentOS == null) {
-			String osType = getRemoteHelper().executeCommand("uname -s").getOutput();
-			if (osType.contains("Unable to execute command or shell on remote system") || osType.contains("CYGWIN") || osType.contains("MINGW32") || osType.contains("MSYS")) {
-				currentOS = OS.WINDOWS;
-			} else if (osType.contains("Linux")) {
-				currentOS = OS.LINUX;
-			} else if (osType.contains("Darwin")) {
-				currentOS = OS.MAC_OS;
-			} else {
-				currentOS = OS.UNKNOWN;
-			}
-		}
-		return currentOS;
-	}
-
 	private static <M extends UpdatableMock> M getMockDataObject(Class<M> mockDataClass, String fileName) {
 		String mockSourcePath = Paths.get(APP_MOCKS_FOLDER, fileName).normalize().toString();
 		String mockTempDestinationPath = Paths.get(TEMP_MOCKS_FOLDER, RandomStringUtils.randomNumeric(10) + "_" + fileName).normalize().toString();
 
-		if (!RemoteHelper.get().isPathExist(mockSourcePath)) {
+		if (!get().isPathExist(mockSourcePath)) {
 			log.warn("There is no \"{}\" mock in application server, empty mock object will be returned", mockSourcePath);
 			return MockGenerator.getEmptyMock(mockDataClass);
 		}
 
-		RemoteHelper.get().downloadFile(mockSourcePath, mockTempDestinationPath);
+		get().downloadFile(mockSourcePath, mockTempDestinationPath);
 		File mockTempFile = new File(mockTempDestinationPath);
 		M mockObject;
 		try (ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller(mockTempFile)) {
@@ -189,7 +173,7 @@ public class ApplicationMocksManager {
 
 	private static RemoteHelper getRemoteHelper() {
 		if (APP_ADMIN_USER.isEmpty() && (APP_ADMIN_PASSWORD.isEmpty() || APP_AUTH_KEYPATH.isEmpty())) {
-			return RemoteHelper.get();
+			return get();
 		}
 		return RemoteHelper.with().user(APP_ADMIN_USER, APP_ADMIN_PASSWORD).privateKey(APP_AUTH_KEYPATH).get();
 	}
@@ -214,13 +198,13 @@ public class ApplicationMocksManager {
 	}
 
 	private static void assertTimeIsNotShifted() {
-		LocalDate serverDate = TimeSetterUtil.istfDateToJava(getTimeSetterClient().getStartTime()).toLocalDate();
+		LocalDate serverDate = getTimeSetterClient().getStartTime().toLocalDate();
 		assertThat(serverDate).as("Stub server start/stop/restart is not allowed on instance with shifted time.\nCurrent date is %1$s, Current date on server is: %2$s", LocalDate.now(), serverDate)
 				.isEqualTo(LocalDate.now());
 	}
 
 	private static String getExecuteScriptCommand(String scriptFileName) {
-		switch (getCurrentOS()) {
+		switch (RemoteHelper.getCurrentOS()) {
 			case WINDOWS:
 				return String.format("cmd /c cd %1$s && cmd /c %2$s", APP_MOCKS_SCRIPT_WORKDIR, scriptFileName);
 			case LINUX:
@@ -246,12 +230,5 @@ public class ApplicationMocksManager {
 
 	private static class TimeSetterClientHolder {
 		private static final TimeSetterClient timeSetterClient = new TimeSetterClient();
-	}
-
-	private enum OS {
-		WINDOWS,
-		LINUX,
-		MAC_OS,
-		UNKNOWN
 	}
 }

@@ -54,12 +54,14 @@ TestData_2FinancialDrivers: {
 
 # ---- Scenario 5
 TestData_VehicleWithDamage: {
-  VehicleTab: ['@VehicleTab_Regular', '@Vehicle_withDamage'], 
+  #VehicleTab: ['@VehicleTab_Regular', '@Vehicle_withDamage'], 
+  VehicleTab: '@VehicleTab_RegularWithDamage', 
   DriverActivityReportsTab: '@DriverActivityReportsTab'
 }
 
 TestData_2VehiclesWithDamage: {
-  VehicleTab: ['@VehicleTab_Regular', '@Vehicle_withDamage', '@Vehicle2_withDamage'], 
+  #VehicleTab: ['@VehicleTab_Regular', '@Vehicle_withDamage', '@Vehicle2_withDamage'], 
+  VehicleTab: ['@VehicleTab_RegularWithDamage', '@Vehicle2_withDamage'],
   DriverActivityReportsTab: '@DriverActivityReportsTab'
 }
 
@@ -329,7 +331,7 @@ TestData_2_Drivers: {
 
 # ----- Scenario 20
 TestData_MembershipLapsed: {
-  GeneralTab: '@GeneralTab_MembershipLapsed' 
+  GeneralTab: '@GeneralTab_MembershipLapsed'
 }
 
 # -------- GeneralTab ---------
@@ -864,7 +866,7 @@ DocumentsAndBindTab_ExcludedDriver: {
 
 DocumentsAndBindTab_Endorsement_ExcludedDriver: {
   RequiredToBind: {
-    Named Driver Exclusion Election: Physically Signed
+    Named Driver Exclusion: Physically Signed
   }
 }
 

@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.assertj.core.api.SoftAssertions;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -14,8 +14,8 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.TimePoints;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.*;
 import aaa.main.metadata.policy.HomeCaMetaData;
@@ -28,7 +28,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssertions;
 
 public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	private ApplicantTab applicantTab = new ApplicantTab();
@@ -390,8 +389,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		//3. Generate renewal image
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		//reopen app and retrieve policy by number
 		mainApp().reopen();
@@ -405,9 +404,9 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		switchToFAIRPlanEndorsementAndBind();
 
 		TimeSetterUtil.getInstance().nextPhase(renewalProposalDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+		//JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
 
@@ -436,7 +435,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		//4. Switch to FAIR Plan Endorsement
 		switchToFAIRPlanEndorsementAndBind();
 
-		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
+		//JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
 
 	}
@@ -462,7 +461,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		//4. Switch FAIR Plan Endorsement
 		switchToFAIRPlanEndorsementAndBind();
-		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
+		//JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 
 		//6. Validate that form FPCECA is included in Endorsement package
 		//8. Validate that form FPCECA is included in Endorsement package only once
@@ -601,7 +600,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 			errorTab.cancel();
 		}
 
-		CustomAssertions.assertThat(premiumsAndCoveragesQuoteTab.btnCalculatePremium()).isPresent(); //to validate that Error tab is not displayed and P&C tab is displayed
+		assertThat(premiumsAndCoveragesQuoteTab.btnCalculatePremium()).isPresent(); //to validate that Error tab is not displayed and P&C tab is displayed
 
 	}
 
@@ -670,8 +669,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		LocalDateTime renewImageGenDate = timePoints.getRenewImageGenerationDate(policyExpirationDate);
 
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -685,8 +684,8 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		LocalDateTime renewCheckUWRules = timePoints.getRenewCheckUWRules(policyExpirationDate);
 
 		TimeSetterUtil.getInstance().nextPhase(renewCheckUWRules);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -776,14 +775,14 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		LocalDateTime renewInitiationDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewInitiationDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
-		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
+		//JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 	}
 
 	private void switchToFAIRPlanEndorsement() {
@@ -842,7 +841,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		endorsementTab.submitTab();
 		premiumsAndCoveragesQuoteTab.calculatePremium();
-		CustomAssertions.assertThat(premiumsAndCoveragesQuoteTab.btnCalculatePremium()).isPresent(); //to validate that Error tab is not displayed and P&C tab is displayed
+		assertThat(premiumsAndCoveragesQuoteTab.btnCalculatePremium()).isPresent(); //to validate that Error tab is not displayed and P&C tab is displayed
 
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 		//-----AC#2, AC#5 Is the stove the sole source of heat?
@@ -853,7 +852,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		validateSmokeDetectorQuestion(false);
 
 		premiumsAndCoveragesQuoteTab.saveAndExit();
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
+		assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
 	}
 
 	private void validateThatTaskIsNotGenerated(String rulePartialName) {

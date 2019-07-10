@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import com.google.common.collect.MapDifference;
 import com.google.common.collect.Maps;
 import aaa.helpers.mock.MocksCollection;
@@ -87,6 +87,8 @@ public abstract class OpenLPolicy {
 	public abstract boolean isCappedPolicy();
 
 	public abstract boolean isNewRenPasCappedPolicy();
+
+	public abstract void setIsOneYearBeforePolicy();
 
 	/**
 	 * Returns {@link MocksCollection} with required mocks to be generated and uploaded (if absent) to the application server for OpenL tests which use this OpenL policy object<p>

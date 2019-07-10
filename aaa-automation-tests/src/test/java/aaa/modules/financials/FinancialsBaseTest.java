@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -29,7 +29,6 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 
@@ -158,6 +157,11 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 	}
 
 	protected Dollar getBillingAmountByType(String type, String subtype, LocalDateTime effDate) {
+		Map<String, String> query = createQueryForPaymentsAndOtherTransactions(type, subtype, effDate);
+		return new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).abs();
+	}
+
+	private Map<String, String> createQueryForPaymentsAndOtherTransactions(String type, String subtype, LocalDateTime effDate) {
 		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		}
@@ -167,7 +171,16 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		if (effDate != null) {
 			query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.EFF_DATE, formatDateToString(effDate));
 		}
-		return new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).abs();
+		return query;
+	}
+
+	protected int getTransactionIndexByType(String type, String subtype) {
+		return getTransactionIndexByType(type, subtype, null);
+	}
+
+	protected int getTransactionIndexByType(String type, String subtype, LocalDateTime effDate) {
+		Map<String, String> query = createQueryForPaymentsAndOtherTransactions(type, subtype, effDate);
+		return BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getIndex() - 1;
 	}
 
 	protected void waiveFeeByDateAndType(LocalDateTime txDate, String feeType) {
@@ -210,18 +223,68 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 
 	protected Map<String, Dollar> collectAllocationAmounts() {
 		Map<String, Dollar> allocations = new HashMap<>();
-		StaticElement netPremium = new StaticElement(By.xpath("//td[contains(text(), 'Net Premium')]//following-sibling::td[1]/input"));
-		Dollar netPremiumTotal = new Dollar(netPremium.getAttribute("value"));
-		allocations.put("Net Premium", netPremiumTotal);
-		Table tableAdvancedAllocationsTax = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:netPremiumAmount')]//ancestor::table[1]"));
-		Dollar totalAmount = BillingHelper.DZERO;
-		for (Row row : tableAdvancedAllocationsTax.getRows()) {
-			totalAmount= totalAmount.add(new Dollar(row.getCell(2).controls.textBoxes.getFirst().getValue()));
+		Table tableAdvancedAllocationsNetAndTaxes0 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:netPremiumAmount_0')]//ancestor::table[1]"));
+		Table tablePolicyInfo0 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:subTotalAmount_0')]//preceding::table[1]"));
+		Table tablePolicyInfo1 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:subTotalAmount_1')]//preceding::table[1]"));
+		String effectiveDate0 = extractEffectiveDate(tablePolicyInfo0);
+		String effectiveDate1 = extractEffectiveDate(tablePolicyInfo1);
+
+		Dollar netPremium0 = extractNetPremium(tableAdvancedAllocationsNetAndTaxes0);
+		allocations.put("Net Premium" + effectiveDate0, netPremium0);
+		allocations.put("Net Premium", netPremium0);
+		allocations.put("Taxes" + effectiveDate0, collectAllocationAmountsFrom(tableAdvancedAllocationsNetAndTaxes0).subtract(allocations.get("Net Premium" + effectiveDate0)));
+		allocations.put("Taxes", allocations.get("Taxes" + effectiveDate0));
+
+		Table tableAdvancedAllocationsFees0 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:feeAmount_0')]//ancestor::table[1]"));
+		Dollar totalAmount = collectAllocationAmountsFrom(tableAdvancedAllocationsFees0);
+		if (!totalAmount.isZero()) {
+			allocations.put("Fees", totalAmount);
 		}
-		allocations.put("Taxes", totalAmount.subtract(netPremiumTotal));
+		if (effectiveDate1 != null) {
+			Table tableAdvancedAllocationsNetAndTaxes1 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:netPremiumAmount_1')]//ancestor::table[1]"));
+			Dollar netPremium1 = extractNetPremium(tableAdvancedAllocationsNetAndTaxes1);
+			allocations.put("Net Premium" + effectiveDate1, netPremium1);
+			allocations.put("Net Premium", netPremium0.add(netPremium1));
+			allocations.put("Taxes" + effectiveDate1, collectAllocationAmountsFrom(tableAdvancedAllocationsNetAndTaxes1).subtract(allocations.get("Net Premium" + effectiveDate1)));
+			allocations.put("Taxes", allocations.get("Taxes" + effectiveDate0).add(allocations.get("Taxes" + effectiveDate1)));
+			Table tableAdvancedAllocationsFees1 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:feeAmount_1')]//ancestor::table[1]"));
+			totalAmount = totalAmount.add(collectAllocationAmountsFrom(tableAdvancedAllocationsFees1));
+			if (!totalAmount.isZero()) {
+				allocations.put("Fees", totalAmount);
+			}
+		}
+
 		Tab.buttonBack.click();
 		Tab.buttonBack.click();
 		return allocations;
+	}
+
+	private Dollar extractNetPremium(Table tableAdvancedAllocationsNetAndTaxes) {
+		Dollar netPremium = BillingHelper.DZERO;
+		for (Row row : tableAdvancedAllocationsNetAndTaxes.getRows()) {
+			if (row.getCell(1).getValue().equals("Net Premium")) {
+				netPremium = netPremium.add(new Dollar(row.getCell(2).controls.textBoxes.getFirst().getValue()));
+			}
+		}
+		return netPremium;
+	}
+
+	private String extractEffectiveDate(Table tablePolicyInfo) {
+		if (tablePolicyInfo.isPresent()) {
+			return tablePolicyInfo.getRow(1).getCell(1)
+					.getWebElement().findElement(By.className("timezone")).getText();
+		}
+		return null;
+	}
+
+	private Dollar collectAllocationAmountsFrom(Table tableAdvancedAllocations) {
+		Dollar totalAmount = BillingHelper.DZERO;
+		if (!tableAdvancedAllocations.getRows().isEmpty()) {
+			for (Row row : tableAdvancedAllocations.getRows()) {
+				totalAmount= totalAmount.add(new Dollar(row.getCell(2).controls.textBoxes.getFirst().getValue()));
+			}
+		}
+		return totalAmount;
 	}
 
 	protected Map<String, Dollar> getTaxAmountsForPolicy(String policyNumber) {

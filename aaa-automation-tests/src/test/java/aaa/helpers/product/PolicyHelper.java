@@ -1,16 +1,15 @@
 package aaa.helpers.product;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
-import aaa.main.pages.summary.PolicySummaryPage;
-import toolkit.db.DBService;
-import toolkit.utils.datetime.DateTimeUtils;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import javax.annotation.Nonnull;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
+import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
+import aaa.main.pages.summary.PolicySummaryPage;
+import toolkit.db.DBService;
+import toolkit.utils.datetime.DateTimeUtils;
 
 public class PolicyHelper {
 
@@ -69,7 +68,7 @@ public class PolicyHelper {
         BigDecimal rtp = new BigDecimal(new Dollar(renewalTermPremiumOld).toPlaingString());
         BigDecimal ctp = new BigDecimal(new Dollar(calculatedTermPremium).toPlaingString());
         BigDecimal fcv = new BigDecimal(new Dollar(floorOrCeilCap).toPlaingString());
-        BigDecimal percentValue = (rtp.divide(ctp, 5, 5)).multiply((BigDecimal.ONE).add(fcv.divide(new BigDecimal(100))).multiply(new BigDecimal(100))).setScale(0, RoundingMode.HALF_EVEN);
+		BigDecimal percentValue = rtp.divide(ctp, 5, 5).multiply(BigDecimal.ONE.add(fcv.divide(new BigDecimal(100))).multiply(new BigDecimal(100))).setScale(0, RoundingMode.HALF_EVEN);
         return String.format("%s.00%%", percentValue.toString());
     }
 

@@ -28,7 +28,7 @@ public class TestCinNewBusinessAutoCASelect extends TestCinAbstractAutoCA {
     public void testCinNewBusinessMVR() {
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(getTestSpecificTD("TestData_MVR").resolveLinks())
-                .adjust(PRODUCT_OWNED_PATH, getTestSpecificTD("AAAProductOwned"));
+                .adjust(AAA_MEMBERSHIP_PATH, getTestSpecificTD("AAAProductOwned"));
         caNewBusinessMainFlow(policyTD);
     }
 
@@ -47,7 +47,7 @@ public class TestCinNewBusinessAutoCASelect extends TestCinAbstractAutoCA {
         TestData policyTD = getPolicyDefaultTD()
                 .adjust(PREFILL_TAB_FIRSTNAME, getTestSpecificTD("PrefillTabCLUE").getValue("First Name"))
                 .adjust(PREFILL_TAB_LASTNAME, getTestSpecificTD("PrefillTabCLUE").getValue("Last Name"))
-                .adjust(PRODUCT_OWNED_PATH, getTestSpecificTD("AAAProductOwned"));
+                .adjust(AAA_MEMBERSHIP_PATH, getTestSpecificTD("AAAProductOwned"));
         caNewBusinessMainFlow(policyTD);
     }
 

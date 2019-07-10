@@ -3,7 +3,7 @@ package aaa.helpers.openl.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 

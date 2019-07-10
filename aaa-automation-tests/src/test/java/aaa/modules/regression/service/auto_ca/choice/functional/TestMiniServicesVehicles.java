@@ -1,39 +1,25 @@
 package aaa.modules.regression.service.auto_ca.choice.functional;
 
-import aaa.common.enums.Constants;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
-import aaa.common.pages.SearchPage;
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
-import aaa.helpers.rest.dtoDxp.*;
-import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.regression.service.helper.HelperCommon;
-import aaa.modules.regression.service.helper.TestMiniServicesVehiclesHelper;
-import aaa.modules.regression.service.helper.TestMiniServicesVehiclesHelperCA;
-import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
+import aaa.modules.regression.service.helper.TestMiniServicesVehiclesHelperCA;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
-import toolkit.verification.ETCSCoreSoftAssertions;
-
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-
-import static aaa.main.metadata.policy.AutoCaMetaData.VehicleTab.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 
 public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 
-    private aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab vehicleTab = new VehicleTab();
+	private VehicleTab vehicleTab = new VehicleTab();
 
-    protected PolicyType getPolicyType() {
+	@Override
+	protected PolicyType getPolicyType() {
         return PolicyType.AUTO_CA_CHOICE;
     }
 

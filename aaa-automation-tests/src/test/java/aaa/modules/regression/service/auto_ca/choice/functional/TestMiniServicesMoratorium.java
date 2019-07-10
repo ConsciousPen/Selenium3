@@ -1,14 +1,14 @@
 package aaa.modules.regression.service.auto_ca.choice.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.helper.TestMiniServicesMoratoriumHelper;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 public class TestMiniServicesMoratorium extends TestMiniServicesMoratoriumHelper {
@@ -37,6 +37,7 @@ public class TestMiniServicesMoratorium extends TestMiniServicesMoratoriumHelper
 	 * 5. Rate and bind endorsement.
 	 * 6. Hit start endorsement info service (today). Check the response.
 	 */
+	@Override
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-22549"})
@@ -62,6 +63,7 @@ public class TestMiniServicesMoratorium extends TestMiniServicesMoratoriumHelper
 	 * 11. Update new vehicle again, with AZ address not under the moratorium.
 	 * 12. Rate and Bind.
 	 */
+	@Override
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@StateList(states = {Constants.States.CA})
