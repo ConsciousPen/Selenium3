@@ -66,7 +66,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921"})
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921, PAS-31654"})
     public void pas30921_testMajorMovingViolation(@Optional("CA") String state) {
 
         validateProductDetermination("OneMajor", "B3698702");
@@ -87,7 +87,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921"})
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921, PAS-31654"})
     public void pas30921_testThreeMinorMovingViolations(@Optional("CA") String state) {
 
         validateProductDetermination("ThreeMinor", "B3698703");
@@ -150,7 +150,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921"})
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921, PAS-31654"})
     public void pas30921_testOneAtFaultAccidentWithInjuryAndOneMinorMovingViolation(@Optional("CA") String state) {
 
         validateProductDetermination("OneWithInjuryOneMinor", "B3698706");
@@ -192,7 +192,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921"})
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921, PAS-31654"})
     public void pas30921_testTwoMinorViolationsAndOneAtFaultAccident(@Optional("CA") String state) {
 
         validateProductDetermination("OneAtFaultTwoMinor", "B3698708");
@@ -213,7 +213,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921"})
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921, PAS-31654"})
     public void pas30921_testOneMinorViolationsAndTwoAtFaultAccidents(@Optional("CA") String state) {
 
         validateProductDetermination("TwoAtFaultOneMinor", "B3698709");
@@ -234,7 +234,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921"})
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921, PAS-31654"})
     public void pas30921_testAlcoholRelatedConviction(@Optional("CA") String state) {
 
         validateProductDetermination("DUI", "B3698710");
