@@ -903,7 +903,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 			softly.assertThat(manualPaymentAllocations.get("Net Premium")).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(manualTransferId, FinancialsSQL.TxType.MANUAL_PAYMENT, "1065"));
 			softly.assertThat(manualPaymentAllocations.get("Fees")).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(manualTransferId, FinancialsSQL.TxType.POLICY_FEE, "1034"));
 		});
-		// Tax Validations for CPT-01
+		// Tax Validations for CPT-02
 		if (isTaxState()) {
 			assertSoftly(softly -> {
 				softly.assertThat(manualPaymentAllocations.get("Taxes" + renewalEffDate.format(DateTimeUtils.MM_DD_YYYY))).isEqualTo(getTotalTaxesFromDb(manualTransferId, "1071", true));
