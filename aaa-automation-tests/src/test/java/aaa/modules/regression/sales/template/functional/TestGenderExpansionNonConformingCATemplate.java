@@ -199,6 +199,7 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
                 .mask(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel())
                 .adjust(AutoCaMetaData.DriverTab.FIRST_NAME.getLabel(), "Seriously")
                 .adjust(AutoCaMetaData.DriverTab.LAST_NAME.getLabel(), "Yes")
+                .adjust(AutoCaMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), "12/12/1982")
                 .adjust(AutoCaMetaData.DriverTab.GENDER.getLabel(), "X")
                 .adjust(AutoCaMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click");
     }
