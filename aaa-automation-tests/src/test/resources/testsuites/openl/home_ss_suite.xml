@@ -1,9 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Home SS OpenL Rating Tests" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
     <parameter name="testsDir" value="aaa-rating-rules-home/src/test/openl/rules"/>
     <!-- Local tests execution parameters -->
     <!--<parameter name="testsDir" value="src/test/resources/openl/home_ss"/>-->
@@ -73,7 +72,14 @@
     </test>
     <test name="HomeSS [IN] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="INTests-20180508_part1.xls"/>
-        <parameter name="policyNumbers" value="1,5"/>
+        <parameter name="policyNumbers" value="1"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="HomeSS [IN] Premium Calculation Test 2019" preserve-order="true">
+        <parameter name="fileName" value="INTests-20190508.xls"/>
+        <parameter name="policyNumbers" value="1,2"/>
         <classes>
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
@@ -165,6 +171,13 @@
     <test name="HomeSS [OH] Premium Calculation Test 2019" preserve-order="true">
         <parameter name="fileName" value="OHTests-20190702.xls"/>
         <parameter name="policyNumbers" value="201, 134"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="HomeSS [OH] Premium Calculation Test 2019_2" preserve-order="true">
+        <parameter name="fileName" value="OHTests-20190803.xls"/>
+        <parameter name="policyNumbers" value="98, 201"/>
         <classes>
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>

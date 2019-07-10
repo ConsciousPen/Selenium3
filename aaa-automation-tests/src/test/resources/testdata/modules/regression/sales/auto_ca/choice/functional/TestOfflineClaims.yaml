@@ -378,7 +378,17 @@ Activity1: {
   Description: 'Fault accident with injury',
   Loss Payment Amount: '2000',
   Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
-#  "Permissive Use Loss?": 'No',
+  "Permissive Use Loss?": 'No',
+  "Include in Points and/or YAF?": 'Yes'
+}
+
+Activity1_non_PU: {
+  Activity Source: Company Input,
+  Type: 'Accident',
+  Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+  Description: 'Fault accident with injury',
+  Loss Payment Amount: '2000',
+  Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
   "Include in Points and/or YAF?": 'Yes'
 }
 
@@ -400,6 +410,7 @@ Activity3: {
   Description: 'Fault accident with injury',
   Loss Payment Amount: '5500',
   Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+  "Permissive Use Loss?": 'No',
   "Include in Points and/or YAF?": 'Yes'
   }
 
@@ -410,6 +421,7 @@ Activity4: {
     Description: 'Fault accident with injury',
     Loss Payment Amount: '5400',
     Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    "Permissive Use Loss?": 'No',
     "Include in Points and/or YAF?": 'Yes'
     }
 
@@ -528,7 +540,7 @@ Add Driver: Click,
   DriverSearchDialog:{},
   Named Insured: "Kathy Smith",
   Driver Type: Available for Rating,
-  'Rel. to First Named Insured': First Named Insured,
+  'Rel. to First Named Insured': Other,
 #  Date of Birth: 07/04/1980,
   Gender: Female,
   Marital Status: Married,
@@ -574,7 +586,7 @@ TestData_Discounts: {
 
 Driver_GoodStudent_NewDriver_Discount: {
   DriverSearchDialog: {},
-  Date of Birth: $<today-23y>,
+#  Date of Birth: $<today-23y>,
   Marital Status: Single,
   Occupation: 'Student',
   Age First Licensed: 16,
@@ -681,7 +693,7 @@ Vehicle3MDD: {
   "Are there any additional interest(s)?": 'No'
 }
 DriverTab_Activity_MDD: {
-  ActivityInformation: ['@Activity1', '@Activity7','@Activity8']
+  ActivityInformation: ['@Activity1_non_PU', '@Activity7','@Activity8']
 }
 
 PremiumAndCoveragesTab_MDD: {
@@ -743,7 +755,7 @@ TestData_Activity_MDD_Endorse: {
 }
 
 DriverTab_Activity: {
-  ActivityInformation: ['@Activity1', '@Activity7']
+  ActivityInformation: ['@Activity1_non_PU', '@Activity7']
 }
 
 AssignmentTab_Endorse: {

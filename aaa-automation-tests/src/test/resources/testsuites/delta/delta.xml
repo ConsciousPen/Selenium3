@@ -1,9 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Delta Tests" verbose="1"> <!-- parallel="tests" thread-count="10">
      <listeners>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
-    </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/-->
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
+    </listeners>-->
     <test name="CO AutoSS Delta Tests">
         <parameter name="state" value="CO"/>
         <classes>

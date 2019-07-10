@@ -1,5 +1,9 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -12,9 +16,6 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.regression.sales.template.functional.TestMultiPolicyDiscountAbstract;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.testng.annotations.*;
-import org.testng.annotations.Optional;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
@@ -290,7 +291,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      */
     private void run_pas28659_DiscountRemovalTest(EndorsementType endorsementType){
 
-        TestData testData = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData")
+        TestData testData = getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("DataGather"), "TestData")
                 .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()))
                 .mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()));
 
@@ -408,62 +409,33 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         pas27241_MPDPaginationTemplate();
     }
 
-    // CLASS METHODS
-    /**
-     * Conducts a basic search using the input String as a policy number.
-     * @param inputPolicyNumber
-     */
-    @Override
-    protected void otherAAAProducts_SearchByPolicyNumber(String policyType, String inputPolicyNumber){
-        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getControlClass()).click();
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getControlClass()).setValue("Policy Number");
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_TYPE.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_TYPE.getControlClass()).setValue(policyType);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getControlClass()).setValue(inputPolicyNumber);
-
-        if (!policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
-            _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
-        }
-    }
-
-    /**
-     * This method is used when viewing the Search Other AAA Products popup after searching via Policy Number. <br>
-     * Clicks 'Add' button, unless provided instruction to change data.
-     */
-    @Override
-    protected void otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(String policyType){
-        if(policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME.getLabel()) || policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS.getLabel()) ||
-                policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO.getLabel())){
-
-            _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_HOME_RENTERS_CONDO_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_HOME_RENTERS_CONDO_BTN.getControlClass()).click();
-
-        }else{
-            _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_MOTOR_OR_LIFE_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_MOTOR_OR_LIFE_BTN.getControlClass()).click();
-        }
-    }
-
-    @Override
-    protected void validateMTEBindError(){
-        errorTab_Verify_ErrorsPresent(true, ErrorEnum.Errors.AAA_SS02012019);
-    }
-
-    @Override
-    protected void validateMTEBindErrorDoesNotOccur(){
-        try{
-            errorTab_Verify_ErrorsPresent(false, ErrorEnum.Errors.AAA_SS02012019);
-        }catch(IstfException ex){
-            CustomAssertions.assertThat(ex.getMessage()).isEqualToIgnoringCase("Column Code was not found in the table");
-        }
-    }
-
     /**
      * @return Test Data for an AZ SS policy with no other active policies
      */
     @Override
-    protected TestData getTdAuto() {
+    protected TestData getTdAuto_mask_CurrentCarrier_RequiredToIssue() {
         return getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS).getTestData("DataGather"), "TestData")
                 .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()))
                 .mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()));
     }
+
+    ////////////////////////
+    // Navigation Helpers //
+    ////////////////////////
+    @Override
+    protected void navigateToGeneralTab(){
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+    }
+
+    @Override
+    protected void navigateToPremiumAndCoveragesTab(){ NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());}
+
+    @Override
+    protected void navigateToDocumentsAndBindTab(){ NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());}
+
+    // General Tab
+    @Override
+    protected Tab getGeneralTab(){ return _generalTab;}
 
     @Override
     protected ComboBox getGeneralTab_CurrentAAAMemberAsset() {
@@ -476,8 +448,36 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     }
 
     @Override
+    protected void generalTab_RemoveInsured(int index){
+        _generalTab.removeInsured(index);
+    }
+
+    // General Tab (These have not been sorted yet)
+    @Override
+    protected String getGeneralTab_PolicyTypeMetaDataLabel(){
+        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
+    }
+
+    @Override
+    protected String getGeneralTab_PolicyStatusMetaDataLabel(){
+        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.STATUS.getLabel();
+    }
+
+    @Override
+    protected String getGeneralTab_CustomerNameDOBMetaDataLabel(){
+        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.CUSTOMER_NAME_DOB.getLabel();
+    }
+
+    // General Tab -> Contact Information
+    @Override
     protected TextBox getGeneralTab_ContactInformation_EmailAsset(){
         return _generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.EMAIL);
+    }
+
+    // General Tab -> OtherAAAProductsOwned (MPD Section)
+    @Override
+    protected Table getGeneralTab_OtherAAAProductTable(){
+        return _generalTab.getOtherAAAProductTable();
     }
 
     @Override
@@ -491,6 +491,27 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
                 AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN);
     }
 
+    /**
+     * Sets an individual checkbox to whatever is passed in.
+     * @param policyType is which policy type unquoted box to fill in.
+     * @param fillInCheckbox true = check, false = uncheck.
+     */
+    @Override
+    protected void setGeneralTab_OtherAAAProductsOwned_UnquotedCheckbox(mpdPolicyType policyType, Boolean fillInCheckbox){
+        getUnquotedCheckBox(policyType).setValue(fillInCheckbox);
+    }
+
+    @Override
+    protected String getGeneralTab_OtherAAAProducts_LifePolicyCheckboxLabel(){
+        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel();
+    }
+
+    @Override
+    protected String getGeneralTab_OtherAAAProducts_MotorcyclePolicyCheckboxLabel(){
+        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel();
+    }
+
+    // General Tab -> OtherAAAProductsOwned (MPD Section) -> ListOfProductsRows
     @Override
     protected ComboBox getGeneralTab_OtherAAAProductsOwned_ListOfProductsRows_PolicyTypeEditAsset(){
         return _generalTab.getListOfProductsRowsAssetList()
@@ -509,169 +530,16 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
                 .getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.SAVE_BTN);
     }
 
+    // General Tab -> OtherAAAProductsOwned (MPD Section_ -> SearchOtherAAAProducts
     @Override
     protected Button getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_AddSelectedBtnAsset(){
-       return  _generalTab.getSearchOtherAAAProducts()
-               .getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN);
-    }
-
-    @Override
-    protected Table getErrorTab_TableErrors(){
-        return _errorTab.tableErrors;
-    }
-
-    @Override
-    protected Button getErrorTab_ButtonCancel(){
-        return ErrorTab.buttonCancel;
-    }
-
-    @Override
-    protected void errorTabOverrideErrors(ErrorEnum.Errors... errors) {
-        _errorTab.overrideErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER, errors);
-    }
-
-    @Override
-    protected void errorTabOverride() {
-        _errorTab.override();
-    }
-
-    @Override
-    protected void errorTabOverrideAllErrors() {
-        _errorTab.overrideAllErrors();
-    }
-
-    @Override
-    protected Tab getGeneralTab(){
-        return _generalTab;
-    }
-
-    @Override
-    protected Tab getDriverTab(){
-        return _driverTab;
-    }
-
-    @Override
-    protected Tab getPremiumsAndCoveragesTab(){
-        return _pncTab;
-    }
-
-    @Override
-    protected Tab getDocumentsAndBindTab() { return _documentsAndBindTab; }
-
-    @Override
-    protected Tab getPurchaseTab(){ return _purchaseTab; }
-
-    @Override
-    protected Button getPurchaseTab_btnApplyPayment(){
-        return PurchaseTab.btnApplyPayment;
-    }
-
-    @Override
-    protected Tab getErrorTab() { return _errorTab; }
-
-    @Override
-    protected void navigateToGeneralTab(){
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-    }
-
-    @Override
-    protected void navigateToPremiumAndCoveragesTab(){
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-    }
-
-    @Override
-    protected void navigateToDocumentsAndBindTab(){
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-    }
-
-    @Override
-    protected TestData getPnCTab_RatingDetailsQuoteInfoData(){
-        return  _pncTab.getRatingDetailsQuoteInfoData();
-    }
-
-    @Override
-    protected void closePnCTab_ViewRatingDetails(){
-        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
-    }
-
-    @Override
-    protected String getPnCTab_DiscountsAndSurcharges(){
-        return PremiumAndCoveragesTab.discountsAndSurcharges.getValue();
-    }
-
-    @Override
-    protected Button getPnCTab_BtnCalculatePremium() {
-        return _pncTab.btnCalculatePremium();
-    }
-
-    @Override
-    protected Button getDocumentsAndBindTab_BtnPurchase(){
-        return DocumentsAndBindTab.btnPurchase;
-    }
-
-    @Override
-    protected Button getDocumentsAndBindTab_ConfirmPurchase_ButtonYes(){
-        return DocumentsAndBindTab.confirmPurchase.buttonYes;
-    }
-
-    @Override
-    protected Button getDocumentsAndBindTab_ConfirmPurchase_ButtonNo(){
-        return DocumentsAndBindTab.confirmPurchase.buttonNo;
-    }
-
-    @Override
-    protected Table getGeneralTab_OtherAAAProductTable(){
-        return _generalTab.getOtherAAAProductTable();
-    }
-
-    @Override
-    protected Dollar getPnCTab_getPolicyCoveragePremium(){
-        return _pncTab.getPolicyCoveragePremium();
-    }
-
-    @Override
-    protected String getGeneralTab_PolicyTypeMetaDataLabel(){
-        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.POLICY_TYPE.getLabel();
-    }
-
-    @Override
-    protected String getGeneralTab_PolicyStatusMetaDataLabel(){
-        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.STATUS.getLabel();
-    }
-
-    @Override
-    protected String getGeneralTab_OtherAAAProducts_LifePolicyCheckboxLabel(){
-        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel();
-    }
-
-    @Override
-    protected String getGeneralTab_OtherAAAProducts_MotorcyclePolicyCheckboxLabel(){
-        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel();
-    }
-
-    @Override
-    protected String getGeneralTab_CustomerNameDOBMetaDataLabel(){
-        return AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.ListOfProductsRows.CUSTOMER_NAME_DOB.getLabel();
+        return  _generalTab.getSearchOtherAAAProducts()
+                .getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_SELECTED_BTN);
     }
 
     @Override
     protected StaticElement getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_ExceededLimitMessageAsset(){
         return _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.EXCEEDED_LIMIT_MESSAGE);
-    }
-
-    @Override
-    protected Button getErrorTab_ButtonOverrideAsset(){
-        return _errorTab.buttonOverride;
-    }
-
-    @Override
-    protected String getErrorTab_ErrorOverride_ErrorCodeValue(){
-        return getErrorTab_TableErrors().getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString();
-    }
-
-    @Override
-    protected void errorTab_Verify_ErrorsPresent(boolean expectedValue, ErrorEnum.Errors... errors){
-        new ErrorTab().verify.errorsPresent(expectedValue, errors);
     }
 
     /**
@@ -683,7 +551,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
      * @param residence can be any option in the Residence drop down.
      */
     @Override
-    public void addNamedInsured(String firstName, String lastName, String dateOfBirth, String livedHereLessThan3Years, String residence){
+    public void generalTab_addNamedInsured(String firstName, String lastName, String dateOfBirth, String livedHereLessThan3Years, String residence){
         // Click Add Insured Button
         _generalTab.getNamedInsuredInfoAssetList()
                 .getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADD_INSURED.getLabel(),
@@ -720,9 +588,179 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
                         AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getControlClass()).setValue(residence);
     }
 
+    ////////////////////////
+    // Driver Tab Helpers //
+    ////////////////////////
     @Override
-    protected void generalTab_RemoveInsured(int index){
-        _generalTab.removeInsured(index);
+    protected Tab getDriverTab(){
+        return _driverTab;
+    }
+
+    /////////////////////////////////////
+    // Premium & Coverages Tab Helpers //
+    /////////////////////////////////////
+    @Override
+    protected Tab getPremiumsAndCoveragesTab(){
+        return _pncTab;
+    }
+
+    @Override
+    protected TestData getPnCTab_RatingDetailsQuoteInfoData(){
+        return  _pncTab.getRatingDetailsQuoteInfoData();
+    }
+
+    @Override
+    protected String pncTab_ViewRatingDetails_MPDAppliedKVPLabel(){return "AAA Multi-Policy Discount";}
+
+    @Override
+    protected void closePnCTab_ViewRatingDetails(){ PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();}
+
+    @Override
+    protected Button getPnCTab_BtnCalculatePremium() {
+        return _pncTab.btnCalculatePremium();
+    }
+
+    @Override
+    protected String getPnCTab_DiscountsAndSurcharges(){ return PremiumAndCoveragesTab.discountsAndSurcharges.getValue();}
+
+    @Override
+    protected Dollar getPnCTab_getPolicyCoveragePremium(){
+        return _pncTab.getPolicyCoveragePremium();
+    }
+
+    //////////////////////////////////
+    // Documents & Bind Tab Helpers //
+    //////////////////////////////////
+    @Override
+    protected Tab getDocumentsAndBindTab() { return _documentsAndBindTab; }
+
+    @Override
+    protected TestData getDocumentsAndBindTab_getRequiredToIssueAssetList(){
+        return _documentsAndBindTab.getRequiredToIssueAssetList().getValue();
+    }
+
+    @Override
+    protected void getDocumentsAndBindTab_setRequiredToIssueAssetList(TestData testData){
+        _documentsAndBindTab.getRequiredToIssueAssetList().setValue(testData);
+    }
+
+    @Override
+    protected Button getDocumentsAndBindTab_BtnPurchase(){
+        return DocumentsAndBindTab.btnPurchase;
+    }
+
+    @Override
+    protected Button getDocumentsAndBindTab_ConfirmPurchase_ButtonYes(){
+        return DocumentsAndBindTab.confirmPurchase.buttonYes;
+    }
+
+    @Override
+    protected Button getDocumentsAndBindTab_ConfirmPurchase_ButtonNo(){
+        return DocumentsAndBindTab.confirmPurchase.buttonNo;
+    }
+
+    //////////////////////////
+    // Purchase Tab Helpers //
+    //////////////////////////
+    @Override
+    protected Tab getPurchaseTab(){ return _purchaseTab; }
+
+    @Override
+    protected Button getPurchaseTab_btnApplyPayment(){
+        return PurchaseTab.btnApplyPayment;
+    }
+
+    ///////////////////////
+    // Error Tab Helpers //
+    ///////////////////////
+    @Override
+    protected Tab getErrorTab() { return _errorTab; }
+
+    @Override
+    protected Table getErrorTab_TableErrors(){
+        return _errorTab.tableErrors;
+    }
+
+    @Override
+    protected Button getErrorTab_ButtonCancel(){
+        return ErrorTab.buttonCancel;
+    }
+
+    @Override
+    protected void errorTabOverrideErrors(ErrorEnum.Errors... errors) {
+        _errorTab.overrideErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER, errors);
+    }
+
+    @Override
+    protected void errorTabOverride() {
+        _errorTab.override();
+    }
+
+    @Override
+    protected void errorTabOverrideAllErrors() {
+        _errorTab.overrideAllErrors();
+    }
+
+    @Override
+    protected String getErrorTab_ErrorOverride_ErrorCodeValue(){
+        return getErrorTab_TableErrors().getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString();
+    }
+
+    @Override
+    protected Button getErrorTab_ButtonOverrideAsset(){
+        return _errorTab.buttonOverride;
+    }
+
+    @Override
+    protected void validateMTEBindError(){
+        errorTab_Verify_ErrorsPresent(true, ErrorEnum.Errors.AAA_SS02012019);
+    }
+
+    @Override
+    protected void validateMTEBindErrorDoesNotOccur(){
+        try{
+            errorTab_Verify_ErrorsPresent(false, ErrorEnum.Errors.AAA_SS02012019);
+        }catch(IstfException ex){
+            CustomAssertions.assertThat(ex.getMessage()).isEqualToIgnoringCase("Column Code was not found in the table");
+        }
+    }
+
+    @Override
+    protected void errorTab_Verify_ErrorsPresent(boolean expectedValue, ErrorEnum.Errors... errors){
+        new ErrorTab().verify.errorsPresent(expectedValue, errors);
+    }
+
+    // CLASS METHODS
+    /**
+     * Conducts a basic search using the input String as a policy number.
+     * @param inputPolicyNumber
+     */
+    @Override
+    protected void otherAAAProducts_SearchByPolicyNumber(String policyType, String inputPolicyNumber){
+        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getControlClass()).click();
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getControlClass()).setValue("Policy Number");
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_TYPE.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_TYPE.getControlClass()).setValue(policyType);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getControlClass()).setValue(inputPolicyNumber);
+
+        if (!policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
+            _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
+        }
+    }
+
+    /**
+     * This method is used when viewing the Search Other AAA Products popup after searching via Policy Number. <br>
+     * Clicks 'Add' button, unless provided instruction to change data.
+     */
+    @Override
+    protected void otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(String policyType){
+        if(policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME.getLabel()) || policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS.getLabel()) ||
+                policyType.equalsIgnoreCase(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO.getLabel())){
+
+            _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_HOME_RENTERS_CONDO_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_HOME_RENTERS_CONDO_BTN.getControlClass()).click();
+
+        }else{
+            _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_MOTOR_OR_LIFE_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADD_MOTOR_OR_LIFE_BTN.getControlClass()).click();
+        }
     }
 
     /**
@@ -768,16 +806,6 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     }
 
     /**
-     * Sets an individual checkbox to whatever is passed in.
-     * @param policyType is which policy type unquoted box to fill in.
-     * @param fillInCheckbox true = check, false = uncheck.
-     */
-    @Override
-    protected void setGeneralTab_OtherAAAProductsOwned_UnquotedCheckbox(mpdPolicyType policyType, Boolean fillInCheckbox){
-        getUnquotedCheckBox(policyType).setValue(fillInCheckbox);
-    }
-
-    /**
      * Used to search an MPD policy, via Customer Details. <br>
      * @param firstName This parameter has been chosen to drive the search results/response. Edit this field with mapped MPD search string to manipulate which response comes back. <br>
      * @param lastName Customer Last Name. <br>
@@ -796,7 +824,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.DATE_OF_BIRTH.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.DATE_OF_BIRTH.getControlClass()).setValue(dateOfBirth);
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADDRESS_LINE_1.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.ADDRESS_LINE_1.getControlClass()).setValue(address);
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.CITY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.CITY.getControlClass()).setValue(city);
-        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getLabel(), (AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getControlClass())).setValue(state);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getControlClass()).setValue(state);
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
     }
 }

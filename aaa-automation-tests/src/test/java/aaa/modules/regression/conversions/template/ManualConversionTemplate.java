@@ -2,13 +2,13 @@ package aaa.modules.regression.conversions.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ErrorEnum;
@@ -50,7 +50,7 @@ public class ManualConversionTemplate extends PolicyBaseTest {
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(effDate));
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(effDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
@@ -59,7 +59,7 @@ public class ManualConversionTemplate extends PolicyBaseTest {
 		//TODO  For autopay policies – generate banking reminder letter (I think around R-10)
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(effDate));
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -69,7 +69,7 @@ public class ManualConversionTemplate extends PolicyBaseTest {
 		if (PolicySummaryPage.tableRenewals.getColumn("Status").getValue().get(0).equals(ProductConstants.PolicyStatus.PREMIUM_CALCULATED)) {
 			new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
-			JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 			mainApp().open();
 			SearchPage.openPolicy(policyNum);
 		}

@@ -1,11 +1,32 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="CIO Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
+    <!-- Defects -->
 
+    <test name="Test CA Auto Product Determination" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestProductDetermination"/>
+        </classes>
+    </test>
 
+    <test name="Test Scheduled Personal Property Max Values SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPersonalPropertyLimits"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPersonalPropertyLimits"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPersonalPropertyLimits"/>
+        </classes>
+    </test>
+
+    <test name="Test Changing Cov A does not reset Cov C or D - CA HO6" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestCovADoesNotRevertCovCD"/>
+        </classes>
+    </test>
 
 </suite>

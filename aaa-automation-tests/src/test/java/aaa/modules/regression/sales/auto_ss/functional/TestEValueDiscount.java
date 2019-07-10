@@ -11,23 +11,17 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.*;
-
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.helpers.rest.wiremock.dto.PaperlessPreferencesErrorTemplateData;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import aaa.admin.modules.administration.generateproductschema.defaulttabs.CacheManager;
-import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.Tab;
-import aaa.common.efolder.Efolder;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -39,7 +33,10 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.rest.wiremock.HelperWireMockStub;
+import aaa.helpers.rest.wiremock.dto.PaperlessPreferencesErrorTemplateData;
 import aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.ProductConstants;
@@ -184,13 +181,11 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public void precondJobAdding() {
-		adminApp().open();
-		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_BATCH_MARKER_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_AUTOMATED_PROCESSING_INITIATION_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AUTOMATED_PROCESSING_RATING_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AUTOMATED_PROCESSING_ISSUING_OR_PROPOSING_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_PAYMENT_CENTRAL_REJECT_FEED_ASYNC_JOB);
+		JobUtils.createJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.createJob(BatchJob.aaaAutomatedProcessingInitiationJob);
+		JobUtils.createJob(BatchJob.automatedProcessingRatingJob);
+		JobUtils.createJob(BatchJob.automatedProcessingIssuingOrProposingJob);
+		JobUtils.createJob(BatchJob.aaaPaymentCentralRejectFeedAsyncJob);
 	}
 
 	public static void eValueTerritoryChannelForORConfigCheck() {
@@ -1761,15 +1756,15 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(20));
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -1838,7 +1833,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		SearchPage.openPolicy(policyNumber);
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		vehicleTab.buttonAddVehicle.click();
+		VehicleTab.buttonAddVehicle.click();
 		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE).setValue(getTestSpecificTD("VehicleTab").getValue("Usage"));
 		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).setValue(getTestSpecificTD("VehicleTab").getValue("VIN"));
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1918,14 +1913,14 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(30));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		vehicleTab.buttonAddVehicle.click();
+		VehicleTab.buttonAddVehicle.click();
 		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE).setValue(getTestSpecificTD("VehicleTab").getValue("Usage"));
 		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).setValue(getTestSpecificTD("VehicleTab").getValue("VIN"));
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1978,7 +1973,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		SearchPage.openPolicy(policyNumber);
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		vehicleTab.buttonAddVehicle.click();
+		VehicleTab.buttonAddVehicle.click();
 		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE).setValue(getTestSpecificTD("VehicleTab").getValue("Usage"));
 		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN).setValue(getTestSpecificTD("VehicleTab").getValue("VIN"));
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());

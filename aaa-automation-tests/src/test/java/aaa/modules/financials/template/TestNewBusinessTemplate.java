@@ -5,13 +5,13 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.BillingAccountMetaData;
@@ -250,7 +250,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
         TimeSetterUtil.getInstance().nextPhase(effDate);
-        JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.ledgerStatusUpdateJob);
         mainApp().open();
         SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_PENDING);
 
@@ -435,7 +435,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // Advance time and run escheatment job
         LocalDateTime escheatmentDate = refundDate.plusMonths(13).withDayOfMonth(1);
         TimeSetterUtil.getInstance().nextPhase(escheatmentDate);
-        JobUtils.executeJob(Jobs.aaaEscheatmentProcessAsyncJob);
+        JobUtils.executeJob(BatchJob.aaaEscheatmentProcessAsyncJob);
 
         // Validate PMT-14 and PMT-15
         assertSoftly(softly -> {
@@ -499,7 +499,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
         TimeSetterUtil.getInstance().nextPhase(effDate);
-        JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.ledgerStatusUpdateJob);
         mainApp().open();
         SearchPage.openBilling(policyNumber);
 
@@ -617,7 +617,9 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 	 * 5. Generate and pay second installment bill - Future dated
 	 * 6. Waive Fee
 	 * 7. Validate Reallocation Adjustment ledger entries
-     * @details OPR-01, OPR-02
+	 * 8. Cancel policy - future dated
+	 * 9. Validate ledger entries - cancellation
+     * @details OPR-01, OPR-02, CNL-05
      */
     protected void testNewBusinessScenario_6() {
         // Create policy WITHOUT employee benefit, monthly payment plan
@@ -631,7 +633,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(dueDate);
         LocalDateTime billDueDate = getTimePoints().getBillDueDate(dueDate);
         TimeSetterUtil.getInstance().nextPhase(billGenDate);
-        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+        JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
         TimeSetterUtil.getInstance().nextPhase(billDueDate);
 
         mainApp().open();
@@ -671,7 +673,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // Advance time 1 month, generate and pay installment bill
         LocalDateTime secondBillGenDate = getTimePoints().getBillGenerationDate(dueDate.plusMonths(1));
         TimeSetterUtil.getInstance().nextPhase(secondBillGenDate);
-        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+        JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 
         mainApp().open();
         SearchPage.openBilling(policyNumber);
@@ -706,6 +708,14 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                 softly.assertThat(paymentAllocations.get("Taxes").add(secondPaymentAllocations.get("Taxes"))).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1053"));
             });
         }
+        // CNL - 05 Cancel policy
+        cancelPolicy(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().plusDays(20));
+
+        // taxes only applies to WV and KY and value needs added to premium amount for correct validation below
+        Dollar totalTaxes = FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1053");
+        Dollar cxPremAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION);
+        //CNL-05 validation
+        validateCancellation(cxPremAmount, policyNumber, totalTaxes);
     }
 
     private void validateCancellationTx(Dollar refundAmt, String policyNumber, Dollar taxes) {
@@ -816,7 +826,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
     private void performReinstatementWithLapse(LocalDateTime effDate, String policyNumber) {
         TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
-        JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
+        JobUtils.executeJob(BatchJob.changeCancellationPendingPoliciesStatusJob);
         TimeSetterUtil.getInstance().nextPhase(effDate.plusDays(20));
         mainApp().open();
         performReinstatement(policyNumber);
@@ -839,16 +849,16 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
     private Dollar generateAutomaticRefund(String policyNumber, LocalDateTime refundDate) {
         TimeSetterUtil.getInstance().nextPhase(refundDate);
         try {
-            JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+            JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
         } catch (IstfException e) {
             // Getting intermittent errors, catching error for now
-            log.error(Jobs.aaaRefundGenerationAsyncJob.getJobName() + " failed, continuing with test...");
+            log.error(BatchJob.aaaRefundGenerationAsyncJob.getJobName() + " failed, continuing with test...");
         }
         try {
-            JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+            JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob);
         } catch (IstfException e) {
             // Getting intermittent errors, catching error for now
-            log.error(Jobs.aaaRefundDisbursementAsyncJob.getJobName() + " failed, continuing with test...");
+            log.error(BatchJob.aaaRefundDisbursementAsyncJob.getJobName() + " failed, continuing with test...");
         }
         mainApp().open();
         SearchPage.openBilling(policyNumber);
@@ -868,5 +878,24 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         }
         return amount;
     }
+
+	private void validateCancellation(Dollar cancellationAmt, String policyNumber, Dollar taxes) {
+		assertSoftly(softly -> {
+			softly.assertThat(cancellationAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1044"));
+			softly.assertThat(cancellationAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1015")
+					.subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1015")));
+			softly.assertThat(cancellationAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1021")
+					.subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1021")));
+			softly.assertThat(cancellationAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")
+					.subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")));
+		});
+		// Tax Validations CNL-05
+		if (isTaxState()) {
+			assertSoftly(softly -> {
+				softly.assertThat(taxes).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1053")
+						.subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1053")));
+			});
+		}
+	}
 
 }

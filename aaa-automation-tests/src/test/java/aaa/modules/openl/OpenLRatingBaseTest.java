@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.google.common.collect.MapDifference;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.Page;
@@ -110,7 +110,9 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends BaseTes
 	public void totalPremiumVerificationTest(@Optional String state, PolicyType testPolicyType, String filePath, int policyNumber) {
 		OpenLTestInfo<P> testInfo = openLTestsManager.getTestInfo(filePath);
 		P openLPolicy = testInfo.getOpenLPolicy(policyNumber);
+		setState(openLPolicy.getState());
 		setPolicyType(testPolicyType);
+		openLPolicy.setIsOneYearBeforePolicy();
 		Dollar expectedPremium = openLPolicy.getExpectedPremium();
 		Dollar actualPremium;
 

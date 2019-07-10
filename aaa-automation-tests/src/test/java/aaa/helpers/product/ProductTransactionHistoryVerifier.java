@@ -3,9 +3,7 @@
 package aaa.helpers.product;
 
 import java.time.LocalDateTime;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
-
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.helpers.TableVerifier;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -14,13 +12,13 @@ import toolkit.webdriver.controls.composite.table.Table;
 
 public class ProductTransactionHistoryVerifier extends TableVerifier {
 
-    public ProductTransactionHistoryVerifier() {};
+	public ProductTransactionHistoryVerifier() {}
 
-    public ProductTransactionHistoryVerifier(ETCSCoreSoftAssertions softly) {
+	public ProductTransactionHistoryVerifier(ETCSCoreSoftAssertions softly) {
         this.softly = softly;
-    };
+	}
 
-    public ProductTransactionHistoryVerifier setType(String valueTransactionHistoryType) {
+	public ProductTransactionHistoryVerifier setType(String valueTransactionHistoryType) {
         setValue("Type", valueTransactionHistoryType);
         return this;
     }

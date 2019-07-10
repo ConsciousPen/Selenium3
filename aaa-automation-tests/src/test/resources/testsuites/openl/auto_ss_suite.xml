@@ -1,9 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Auto SS OpenL Rating Tests" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
     <parameter name="testsDir" value="aaa-rating-rules-ss/src/test/openl/rules"/>
     <!-- Local tests execution parameters -->
     <!--<parameter name="testsDir" value="src/test/resources/openl/auto_ss"/>-->
@@ -130,13 +129,6 @@
     <test name="AutoSS [OH] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="OHTests-20170803_part1.xls"/>
         <parameter name="policyNumbers" value="1, 6"/>
-        <classes>
-            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
-        </classes>
-    </test>
-    <test name="AutoSS [OK] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="OKTests-20180617.xls"/>
-        <parameter name="policyNumbers" value="283, 287"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>

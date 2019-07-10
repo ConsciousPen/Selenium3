@@ -76,7 +76,7 @@ public class PasDocImpl extends DocumentWrapper {
 
 		return RemoteHelper.get().waitForDocAppearance(PASDOC_SOURCE_FOLDER, DOCUMENT_GENERATION_TIMEOUT, policyNumber, textsToSearchPatterns);
 	}
-
+	
 	public static boolean waitAndCheckDocumentsAppearance(String policyNumber, DocGenEnum.EventName eventName, DocGenEnum.Documents... documents) {
 		List<String> textsToSearchPatterns = new ArrayList<>();
 		textsToSearchPatterns.add(String.format("<%1$s:PolicyNumber>%2$s</%1$s:PolicyNumber>", DocGenEnum.XmlnsNamespaces.DOC_PREFIX, policyNumber));

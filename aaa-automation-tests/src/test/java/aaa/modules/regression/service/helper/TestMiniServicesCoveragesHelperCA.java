@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.rest.dtoDxp.*;
@@ -34,7 +34,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 
 		Coverage covBIExpected = Coverage.create(CoverageInfo.BI_CA);
 		Coverage covPDExpected = Coverage.create(CoverageInfo.PD_CA);//Note: Starting from 2019-06-08, PD should not have availableLimit 5000
-		Coverage covUMBIExpected = Coverage.create(CoverageInfo.UMBI_CA).removeAvailableLimitsAbove(CoverageLimits.COV_500500);
+		Coverage covUMBIExpected = Coverage.create(CoverageInfo.UMBI_CA).removeAvailableLimitsAbove(CoverageLimits.COV_500500).addAvailableLimits(CoverageLimits.COV_00);//adding No Cov at the end of the list as currently expected
 		Coverage covUIMBIExpected = Coverage.create(CoverageInfo.UIMBI_CA).disableCanChange();
 		Coverage covMEDPMExpected = Coverage.create(CoverageInfo.MEDPM_CA);
 
@@ -62,7 +62,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		CoverageLimits biNewLimit = CoverageLimits.COV_1530;
 		Coverage covBIExpected = Coverage.create(CoverageInfo.BI_CA).changeLimit(biNewLimit);
 		Coverage covPDExpected = Coverage.create(CoverageInfo.PD_CA);//the same as at NB
-		Coverage covUMBIExpected = Coverage.create(CoverageInfo.UMBI_CA).changeLimit(biNewLimit).removeAvailableLimitsAbove(biNewLimit);
+		Coverage covUMBIExpected = Coverage.create(CoverageInfo.UMBI_CA).changeLimit(biNewLimit).removeAvailableLimitsAbove(biNewLimit).addAvailableLimits(CoverageLimits.COV_00);//adding No Cov at the end of the list as currently expected
 		Coverage covUIMBIExpected = Coverage.create(CoverageInfo.UIMBI_CA).changeLimit(biNewLimit).removeAvailableLimitsAbove(biNewLimit).disableCanChange();
 		Coverage covMEDPMExpected = Coverage.create(CoverageInfo.MEDPM_CA);//the same as at NB
 		updateCoverageAndCheck(policyNumber, covBIExpected, covBIExpected, covPDExpected, covUMBIExpected, covUIMBIExpected, covMEDPMExpected);
@@ -70,7 +70,7 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 		//Update BI to higher limit
 		biNewLimit = CoverageLimits.COV_5001000;
 		covBIExpected = Coverage.create(CoverageInfo.BI_CA).changeLimit(biNewLimit);
-		covUMBIExpected = Coverage.create(CoverageInfo.UMBI_CA).changeLimit(biNewLimit).removeAvailableLimitsAbove(biNewLimit);
+		covUMBIExpected = Coverage.create(CoverageInfo.UMBI_CA).changeLimit(biNewLimit).removeAvailableLimitsAbove(biNewLimit).addAvailableLimits(CoverageLimits.COV_00);//adding No Cov at the end of the list as currently expected
 		covUIMBIExpected = Coverage.create(CoverageInfo.UIMBI_CA).changeLimit(biNewLimit).removeAvailableLimitsAbove(biNewLimit).disableCanChange();
 		updateCoverageAndCheck(policyNumber, covBIExpected, covBIExpected, covPDExpected, covUMBIExpected, covUIMBIExpected, covMEDPMExpected);
 
@@ -96,20 +96,26 @@ public class TestMiniServicesCoveragesHelperCA extends TestMiniServicesCoverages
 
 		//Update UM to lower limit
 		CoverageLimits newUMBILimit = CoverageLimits.COV_1530;
-		covUMBIExpected = Coverage.create(CoverageInfo.UMBI_CA).changeLimit(newUMBILimit).removeAvailableLimitsAbove(biNewLimit);
+		covUMBIExpected = Coverage.create(CoverageInfo.UMBI_CA).changeLimit(newUMBILimit).removeAvailableLimitsAbove(biNewLimit).addAvailableLimits(CoverageLimits.COV_00);//adding No Cov at the end of the list as currently expected
+		covUIMBIExpected = Coverage.create(CoverageInfo.UIMBI_CA).changeLimit(newUMBILimit).removeAvailableLimitsAbove(biNewLimit).disableCanChange();
+		updateCoverageAndCheck(policyNumber, covUMBIExpected, covBIExpected, covPDExpected, covUMBIExpected, covUIMBIExpected, covMEDPMExpected);
+
+		//Update UM to No Coverage
+		newUMBILimit = CoverageLimits.COV_00;
+		covUMBIExpected = Coverage.create(CoverageInfo.UMBI_CA).changeLimit(newUMBILimit).removeAvailableLimitsAbove(biNewLimit).addAvailableLimits(CoverageLimits.COV_00);//adding No Cov at the end of the list as currently expected
 		covUIMBIExpected = Coverage.create(CoverageInfo.UIMBI_CA).changeLimit(newUMBILimit).removeAvailableLimitsAbove(biNewLimit).disableCanChange();
 		updateCoverageAndCheck(policyNumber, covUMBIExpected, covBIExpected, covPDExpected, covUMBIExpected, covUIMBIExpected, covMEDPMExpected);
 
 		//Update UM to higher limit
 		newUMBILimit = CoverageLimits.COV_3060;
-		covUMBIExpected = Coverage.create(CoverageInfo.UMBI_CA).changeLimit(newUMBILimit).removeAvailableLimitsAbove(biNewLimit);
+		covUMBIExpected = Coverage.create(CoverageInfo.UMBI_CA).changeLimit(newUMBILimit).removeAvailableLimitsAbove(biNewLimit).addAvailableLimits(CoverageLimits.COV_00);//adding No Cov at the end of the list as currently expected
 		covUIMBIExpected = Coverage.create(CoverageInfo.UIMBI_CA).changeLimit(newUMBILimit).removeAvailableLimitsAbove(biNewLimit).disableCanChange();
 		updateCoverageAndCheck(policyNumber, covUMBIExpected, covBIExpected, covPDExpected, covUMBIExpected, covUIMBIExpected, covMEDPMExpected);
 
 		//Update BI to lower limit and see what happens
 		biNewLimit = CoverageLimits.COV_50100;
 		covBIExpected = Coverage.create(CoverageInfo.BI_CA).changeLimit(biNewLimit);
-		covUMBIExpected = Coverage.create(CoverageInfo.UMBI_CA).changeLimit(biNewLimit).removeAvailableLimitsAbove(biNewLimit);
+		covUMBIExpected = Coverage.create(CoverageInfo.UMBI_CA).changeLimit(biNewLimit).removeAvailableLimitsAbove(biNewLimit).addAvailableLimits(CoverageLimits.COV_00);//adding No Cov at the end of the list as currently expected
 		covUIMBIExpected = Coverage.create(CoverageInfo.UIMBI_CA).changeLimit(biNewLimit).removeAvailableLimitsAbove(biNewLimit).disableCanChange();
 		updateCoverageAndCheck(policyNumber, covBIExpected, covBIExpected, covPDExpected, covUMBIExpected, covUIMBIExpected, covMEDPMExpected);
 

@@ -1,49 +1,14 @@
 package aaa.modules.regression.sales.template.functional;
 
 
-import aaa.common.Tab;
-import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
-import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.enums.PrivilegeEnum;
-import aaa.common.enums.RestRequestMethodTypes;
-import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
-import aaa.common.pages.SearchPage;
-import aaa.helpers.claim.BatchClaimHelper;
-import aaa.helpers.claim.ClaimAnalyticsJSONTags;
-import aaa.helpers.claim.ClaimCASResponseTags;
-import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
-import aaa.helpers.claim.datamodel.claim.Claim;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.helpers.logs.PasLogGrabber;
-import aaa.helpers.rest.JsonClient;
-import aaa.helpers.rest.RestRequestInfo;
-import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
-import aaa.helpers.ssh.RemoteHelper;
-import aaa.main.enums.ProductConstants;
-import aaa.main.enums.SearchEnum;
-import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.PolicyActions;
-import aaa.main.modules.policy.auto_ss.actiontabs.DifferencesActionTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
-import aaa.modules.policy.AutoSSBaseTest;
-import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableMap;
-import org.apache.commons.io.FileUtils;
-import org.json.JSONObject;
-import org.testng.annotations.BeforeTest;
-import toolkit.config.PropertyProvider;
-import toolkit.datax.TestData;
-import toolkit.db.DBService;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomSoftAssertions;
-import toolkit.webdriver.controls.ComboBox;
-
-import javax.annotation.Nonnull;
+import static aaa.common.pages.SearchPage.tableSearchResults;
+import static aaa.main.enums.ProductConstants.TransactionHistoryType.*;
+import static aaa.main.modules.policy.auto_ss.actiontabs.DifferencesActionTab.tableDifferences;
+import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableActivityInformationList;
+import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableDriverList;
+import static aaa.main.pages.summary.PolicySummaryPage.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Files.contentOf;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -58,15 +23,46 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static aaa.common.pages.SearchPage.tableSearchResults;
-import static aaa.main.enums.ProductConstants.TransactionHistoryType.*;
-import static aaa.main.modules.policy.auto_ss.actiontabs.DifferencesActionTab.tableDifferences;
-import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableActivityInformationList;
-import static aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableDriverList;
-import static aaa.main.pages.summary.PolicySummaryPage.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Files.contentOf;
+import javax.annotation.Nonnull;
+import org.apache.commons.io.FileUtils;
+import org.json.JSONObject;
+import org.testng.annotations.BeforeTest;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableMap;
+import aaa.common.Tab;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.PrivilegeEnum;
+import aaa.common.enums.RestRequestMethodTypes;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
+import aaa.common.pages.SearchPage;
+import aaa.helpers.claim.BatchClaimHelper;
+import aaa.helpers.claim.ClaimAnalyticsJSONTags;
+import aaa.helpers.claim.ClaimCASResponseTags;
+import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
+import aaa.helpers.claim.datamodel.claim.Claim;
+import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.logs.PasLogGrabber;
+import aaa.helpers.rest.JsonClient;
+import aaa.helpers.rest.RestRequestInfo;
+import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
+import aaa.helpers.ssh.RemoteHelper;
+import aaa.main.enums.ProductConstants;
+import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.PolicyActions;
+import aaa.main.modules.policy.auto_ss.actiontabs.DifferencesActionTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
+import aaa.modules.policy.AutoSSBaseTest;
+import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
+import toolkit.config.PropertyProvider;
+import toolkit.datax.TestData;
+import toolkit.db.DBService;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.webdriver.controls.ComboBox;
 
 /**
  * This template is used to test Batch Claim Logic.
@@ -129,7 +125,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     private static final String RESTRICT_FNI_MASSAGE = "The select named insured has not been established as a \"named insured driver\" on the driver tab";
 
 
-    protected boolean newBusinessFlag = false;
+    protected boolean fillContactInfo = false;
     protected static aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab generalTab = new aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab();
     private static final String[] CLAIM_NUMBERS_PU_DEFAULTING = {"PU_DEFAULTING_CMP","PU_DEFAULTING_1","PU_DEFAULTING_2","PU_DEFAULTING_3",
             "PU_DEFAULTING_4","PU_DEFAULTING_5","PU_DEFAULTING_6"};
@@ -215,8 +211,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(63));
         LocalDateTime updatedTime = TimeSetterUtil.getInstance().getCurrentTime();
         assertThat(updatedTime).isEqualToIgnoringHours(policyExpirationDate.minusDays(63));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+        JobUtils.executeJob(BatchJob.renewalClaimOrderAsyncJob);
     }
 
     public void generateClaimRequest() {
@@ -236,8 +232,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     public void runRenewalClaimReceiveJob() {
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(46));
         DBService.get().executeUpdate(SQL_REMOVE_RENEWALCLAIMRECEIVEASYNCJOB_BATCH_JOB_CONTROL_ENTRY);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-        JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+        JobUtils.executeJob(BatchJob.renewalClaimReceiveAsyncJob);
     }
 
     /**
@@ -252,7 +248,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
         if (tableSearchResults.isPresent()) {
             tableSearchResults.getRow("Eff. Date",
-                    TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
+					TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY))
                     .getCell(1).controls.links.getFirst().click();
         }
 
@@ -268,7 +264,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
                 errorTab.submitTab();
             }
         payTotalAmtDue(policyNumber);
-	    JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
     }
 
     /**
@@ -339,7 +335,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
      * @return
      */
     protected String downloadClaimRequest() {
-        String claimRequestFolder = Jobs.getClaimOrderJobFolder();
+        String claimRequestFolder = BatchJob.getRenewalClaimOrderAsyncJobParameters().get(BatchJob.ParametersName.PROCESSED_FOLDER);
         List<String> requests = RemoteHelper.get().getListOfFiles(claimRequestFolder);
         assertThat(requests).hasSize(1);
         String claimRequest = requests.get(0);
@@ -433,7 +429,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         // Create Cas response file
         String casResponseFileName = getCasResponseFileName();
         BatchClaimHelper batchClaimHelper = new BatchClaimHelper(dataModelFileName, casResponseFileName);
-        File claimResponseFile = batchClaimHelper.processClaimTemplate((response) -> {
+		File claimResponseFile = batchClaimHelper.processClaimTemplate(response -> {
             setPolicyNumber(policyNumber, response);
             if (claimToDriverLicence != null)
                 updateDriverLicence(claimToDriverLicence, response);
@@ -448,7 +444,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
         // Upload claim response
         RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(),
-                Jobs.getClaimReceiveJobFolder() + File.separator + claimResponseFile.getName());
+                BatchJob.getRenewalClaimOrderAsyncJobParameters().get(BatchJob.ParametersName.IMPORT_FOLDER) + File.separator + claimResponseFile.getName());
     }
 
     /**
@@ -743,7 +739,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         //Accept Payment and renew the policy
         payTotalAmtDue(policyNumber);
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
         //Scenario to check the user does not have privilege to edit the PU indicator for CAS claims in endorsement
         //Login with different user. Check the PU indicator is not editable for internal claims other than E34/L41
@@ -769,7 +765,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         createManualRenewal();
 
         //Run Claims receive batch job, to assign claims
-        JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
+        JobUtils.executeJob(BatchJob.renewalClaimReceiveAsyncJob);
 
         //Move time by one day to get claims to show in the UI
         TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
@@ -793,7 +789,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         //Accept Payment and renew the policy
         payTotalAmtDue(policyNumber);
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
         //Initiate and bind the OOS Endorsement
         TestData endorsementTD1 = getTestSpecificTD("TestData_Plus90Days");
@@ -857,7 +853,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         createManualRenewal();
 
         //Run Claims receive batch job, to assign claims
-        JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
+        JobUtils.executeJob(BatchJob.renewalClaimReceiveAsyncJob);
 
         //Move time by one day to get claims to show in the UI
         TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
@@ -904,7 +900,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         //Accept Payment and renew the policy
         payTotalAmtDue(policyNumber);
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
         //Set test date for endorsement
         TestData addDriverTd = getTestSpecificTD("Add_PU_Claim_Driver_Endorsement_AZ");
@@ -1275,7 +1271,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             Page.dialogConfirmation.confirm();
         }
         //Reset Contact Info - it is blanked out after FNI change at New Business
-        if (newBusinessFlag) {
+        if (fillContactInfo) {
             generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue("6025557777");
             generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.PREFERED_PHONE_NUMBER).setValue("Home Phone");
         }
@@ -1291,13 +1287,13 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
 
             // Check 1st driver: Contains 7 Matched Claims (Verifying PU default value)
-            softly.assertThat(driverTab.tableActivityInformationList).hasRows(7);
+			softly.assertThat(tableActivityInformationList).hasRows(7);
 
             // Verifying PU default value for all Claims
             for (int i = 0; i <= 6; i++) {
-                driverTab.tableActivityInformationList.selectRow(i + 1);
+				tableActivityInformationList.selectRow(i + 1);
                 if (i == 6) { //PERMISSIVE_USE match = Yes
-                    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[i]);
+					softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[6]);
                    // softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.PERMISSIVE_USE_LOSS)).hasValue("Yes");
                 } else {
                     softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBERS_PU_DEFAULTING[i]);

@@ -1,36 +1,16 @@
 package aaa.modules.regression.service.auto_ca.select.functional;
 
-import static aaa.main.enums.CustomerConstants.ADDRESS_LINE_1;
-import static aaa.main.enums.CustomerConstants.ZIP_CODE;
-import static aaa.main.metadata.policy.AutoCaMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-
-import aaa.common.enums.Constants;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
-import aaa.common.pages.SearchPage;
-import aaa.helpers.rest.dtoDxp.AttributeMetadata;
-import aaa.helpers.rest.dtoDxp.PolicySummary;
-import aaa.helpers.rest.dtoDxp.ViewVehicleResponse;
-import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.regression.service.helper.HelperCommon;
-import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.service.helper.TestMiniServicesVehiclesHelper;
 import aaa.modules.regression.service.helper.TestMiniServicesVehiclesHelperCA;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
-import toolkit.verification.ETCSCoreSoftAssertions;
-
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 
 public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelperCA {
 

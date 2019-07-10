@@ -5,15 +5,13 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
@@ -316,7 +314,7 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		//move time to R+60 and run earnedpremiumWriteoffprocessingjob
 		LocalDateTime earnedPremiumWriteOff = getTimePoints().getEarnedPremiumWriteOff(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(earnedPremiumWriteOff);
-		JobUtils.executeJob(Jobs.earnedPremiumWriteoffProcessingJob);
+		JobUtils.executeJob(BatchJob.earnedPremiumWriteoffProcessingJob);
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -361,25 +359,25 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 	private void processLapsedAndCollectionsJobs(LocalDateTime expirationDate) {
 		//move time to R and run policyUpdate Status
 		TimeSetterUtil.getInstance().nextPhase(expirationDate);
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
 		//move time to R+10 and run policyLapsedRenewalProcessAsyncJob
 		LocalDateTime policyLapsedDate = getTimePoints().getRenewCustomerDeclineDate(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(policyLapsedDate);
-		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 
 		//move time to R+15/R+30/R+45 and run AAACollectionCancellDebtBatchAsyncJob
 		LocalDateTime earnedPremium15 = getTimePoints().getEarnedPremiumBillFirst(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(earnedPremium15);
-		JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchJob);
+		JobUtils.executeJob(BatchJob.aaaCollectionCancellDebtBatchAsyncJob);
 
 		LocalDateTime earnedPremium30 = getTimePoints().getEarnedPremiumBillSecond(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(earnedPremium30);
-		JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchJob);
+		JobUtils.executeJob(BatchJob.aaaCollectionCancellDebtBatchAsyncJob);
 
 		LocalDateTime earnedPremium45 = getTimePoints().getEarnedPremiumBillThird(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(earnedPremium45);
-		JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchJob);
+		JobUtils.executeJob(BatchJob.aaaCollectionCancellDebtBatchAsyncJob);
 	}
 
 	public String perfomAPEndorsement(String policyNumber) {
@@ -389,8 +387,8 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		policy.endorse().performAndFill(endorsementTD);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		Map<String,String> endorsement_row = new HashMap<>();
-		endorsement_row.put(BillingPaymentsAndOtherTransactionsTable.TYPE, "Premium");
-		endorsement_row.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Endorsement");
+		endorsement_row.put(TYPE, "Premium");
+		endorsement_row.put(SUBTYPE_REASON, "Endorsement");
 		//return BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(AMOUNT).getValue();
 		return BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(endorsement_row).getCell(AMOUNT).getValue();
 	}
@@ -399,18 +397,18 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		//move time to R-45 and run renewal batch job
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewPreviewGenerationDate(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		//JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		//		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		//move time to R-35 and run renewal batch job
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		//move time to R-20 and run aaaRenewalNotice job
 		LocalDateTime renewalNoticeDate = getTimePoints().getBillGenerationDate(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewalNoticeDate);
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 	}
 
 	private void createPolicyWithoutMortgagee() {

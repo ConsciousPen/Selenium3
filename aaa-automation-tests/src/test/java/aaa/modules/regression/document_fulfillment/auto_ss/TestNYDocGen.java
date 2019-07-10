@@ -19,15 +19,13 @@ import java.util.stream.Collectors;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.DataElementChoice;
 import aaa.helpers.xml.model.Document;
 import aaa.helpers.xml.model.DocumentDataElement;
@@ -206,7 +204,6 @@ public class TestNYDocGen extends AutoSSBaseTest {
 		docAndBind.fillTab(policyTd);
 		DocumentsAndBindTab.btnPurchase.click();
 		Page.dialogConfirmation.confirm();
-		JobUtils.executeJob(Jobs.renewalJob);
 		return PolicySummaryPage.linkPolicy.getValue();
 
 	}

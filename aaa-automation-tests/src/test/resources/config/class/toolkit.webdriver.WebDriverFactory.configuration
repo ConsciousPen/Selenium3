@@ -1,3 +1,3 @@
 {
-"optionsModifier" : "com.exigen.ipb.etcsa.base.app.CSAACapabilityModifier"
+  "optionsModifier": "com.exigen.ipb.eisa.base.app.CSAACapabilityModifier"
 }

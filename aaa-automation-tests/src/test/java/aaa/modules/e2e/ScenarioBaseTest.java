@@ -5,16 +5,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingInstallmentsScheduleVerifier;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.BillingConstants.BillingAccountPoliciesTable;
 import aaa.main.enums.ProductConstants.PolicyStatus;
@@ -45,7 +45,7 @@ public class ScenarioBaseTest extends BaseTest {
 	protected void generateAndCheckBill(LocalDateTime installmentDate, LocalDateTime effectiveDate, Dollar pligaOrMvleFee, ETCSCoreSoftAssertions softly) {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDate);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
@@ -61,7 +61,7 @@ public class ScenarioBaseTest extends BaseTest {
 	protected void payAndCheckBill(LocalDateTime installmentDueDate, Dollar correctionAmount) {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDate);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
+		JobUtils.executeJob(BatchJob.aaaRecurringPaymentsProcessingJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE)).add(correctionAmount);
@@ -71,7 +71,7 @@ public class ScenarioBaseTest extends BaseTest {
 	protected void cancelPolicy(LocalDateTime installmentDueDate) {
 		LocalDateTime cDate = getTimePoints().getCancellationDate(installmentDueDate);
 		TimeSetterUtil.getInstance().nextPhase(cDate);
-		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationConfirmationAsyncJob);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_CANCELLED);
@@ -169,7 +169,7 @@ public class ScenarioBaseTest extends BaseTest {
 
 	/**
 	 * Same as
-	 * {@link #verifyRenewalOfferPaymentAmount(java.time.LocalDateTime, java.time.LocalDateTime, java.time.LocalDateTime, java.lang.Integer)}
+	 * {@link #verifyRenewalOfferPaymentAmount(LocalDateTime, LocalDateTime, LocalDateTime, Integer)}
 	 */
 	protected void verifyCaRenewalOfferPaymentAmount(LocalDateTime expirationDate, LocalDateTime renewOfferDate, Integer installmentsCount, ETCSCoreSoftAssertions softly) {
 		BillingSummaryPage.showPriorTerms();

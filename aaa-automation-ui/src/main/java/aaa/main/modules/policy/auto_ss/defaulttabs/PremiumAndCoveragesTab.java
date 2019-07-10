@@ -10,7 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -111,6 +111,10 @@ public class PremiumAndCoveragesTab extends Tab {
 		}
 	}
 
+	/**
+	 * Opens the VRD Frame, scrapes the data out of the top section, and returns the data in key value pairs (TestData).
+	 * @return TestData representing first section data on VRD page.
+	 */
 	public TestData getRatingDetailsQuoteInfoData() {
 		if (!tableRatingDetailsQuoteInfo.isPresent()) {
 			RatingDetailsView.open();
@@ -337,6 +341,8 @@ public class PremiumAndCoveragesTab extends Tab {
 			result = cell.controls.comboBoxes.getFirst().getValue();
 		} else if (cell.controls.textBoxes.getFirst().isPresent()) {
 			result = cell.controls.textBoxes.getFirst().getValue();
+		} else if (cell.controls.radioGroups.getFirst().isPresent()) {
+			result = cell.controls.radioGroups.getFirst().getValue();
 		} else {
 			result = cell.getValue();
 		}

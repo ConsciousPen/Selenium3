@@ -1,12 +1,17 @@
 package aaa.modules.regression.conversions.template;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import org.apache.commons.lang3.Range;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.CustomerMetaData;
@@ -17,14 +22,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.apache.commons.lang3.Range;
 import toolkit.datax.TestData;
-
-import java.time.LocalDateTime;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestPolicyRmeNyLegacyTierFieldTemplate extends PolicyBaseTest {
 
@@ -69,8 +67,8 @@ public class TestPolicyRmeNyLegacyTierFieldTemplate extends PolicyBaseTest {
 				.InitiateRenewalEntryActionTab.LEGACY_TIER)).isPresent();
 
 		initiateRenewalEntryActionTab.submitTab();
-		assertThat(initiateRenewalEntryActionTab.getAssetList().getWarning((CustomerMetaData
-				.InitiateRenewalEntryActionTab.LEGACY_TIER))).hasValue(LEGACY_TIER_REQUIRED_MESSAGE);
+		assertThat(initiateRenewalEntryActionTab.getAssetList().getWarning(CustomerMetaData
+				.InitiateRenewalEntryActionTab.LEGACY_TIER)).hasValue(LEGACY_TIER_REQUIRED_MESSAGE);
 
 		checkLegacyTierIsOutOfRangeErrorMessage("a");
 		checkLegacyTierIsOutOfRangeErrorMessage("$");
@@ -169,7 +167,7 @@ public class TestPolicyRmeNyLegacyTierFieldTemplate extends PolicyBaseTest {
 		policyExpirationDate = PolicySummaryPage.getExpirationDate().plusYears(1);
 		renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyEffectiveDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate);
 
 		mainApp().reopen();
@@ -190,7 +188,7 @@ public class TestPolicyRmeNyLegacyTierFieldTemplate extends PolicyBaseTest {
 
 		renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -202,7 +200,7 @@ public class TestPolicyRmeNyLegacyTierFieldTemplate extends PolicyBaseTest {
 		initiateRenewalEntryActionTab.getAssetList().getAsset(CustomerMetaData
 				.InitiateRenewalEntryActionTab.LEGACY_TIER).setValue(value);
 		initiateRenewalEntryActionTab.submitTab();
-		assertThat(initiateRenewalEntryActionTab.getAssetList().getWarning((CustomerMetaData
-				.InitiateRenewalEntryActionTab.LEGACY_TIER))).hasValue(LEGACY_TIER_IS_OUT_OF_RANGE_MESSAGE);
+		assertThat(initiateRenewalEntryActionTab.getAssetList().getWarning(CustomerMetaData
+				.InitiateRenewalEntryActionTab.LEGACY_TIER)).hasValue(LEGACY_TIER_IS_OUT_OF_RANGE_MESSAGE);
 	}
 }

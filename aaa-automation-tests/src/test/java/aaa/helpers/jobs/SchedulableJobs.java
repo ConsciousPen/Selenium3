@@ -1,17 +1,14 @@
 package aaa.helpers.jobs;
 
-import aaa.common.enums.Constants;
-import aaa.modules.BaseTest;
-import org.apache.commons.lang.NotImplementedException;
-
-import java.time.temporal.ChronoUnit;
-
+import static aaa.helpers.db.queries.PolicyQueries.getPolicyTermFromSQL;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Logger;
-
-import static aaa.helpers.db.queries.PolicyQueries.getPolicyTermFromSQL;
+import org.apache.commons.lang.NotImplementedException;
+import com.exigen.ipb.eisa.utils.batchjob.Job;
+import aaa.common.enums.Constants;
+import aaa.modules.BaseTest;
 
 /**
  * SchedulableJobs are Jobs with additional metadata to be able to call a list of jobs and have them run at the appropriate
@@ -57,7 +54,7 @@ public class SchedulableJobs {
      */
     public static SchedulableJob aaaTelematicSafetyScoreOrderAsyncJob(String state, PolicyTerm policyTerm, TimePoint timePoint) {
 
-        Job baseJob = Jobs.aaaTelematicSafetyScoreOrderAsyncJob;
+        Job baseJob = BatchJob.aaaTelematicSafetyScoreOrderAsyncJob;
         HashMap<PolicyTerm, HashMap<TimePoint, StateOffset>> timePointMap = getMultiTermMultiTimePointMap();
 
         // Annual First
@@ -111,7 +108,7 @@ public class SchedulableJobs {
      * @return one job that represents the state timepoint requested
      */
     public static SchedulableJob policyAutomatedRenewalAsyncTaskGenerationJob(ProductType productType, String state) {
-        Job baseJob = Jobs.policyAutomatedRenewalAsyncTaskGenerationJob;
+        Job baseJob = BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob;
 
         StateOffset stateOffset = getStateOffsetMap();
 
@@ -138,7 +135,7 @@ public class SchedulableJobs {
     }
 
     public static SchedulableJob aaaMembershipRenewalBatchOrderAsyncJob(ProductType productType, String state, TimePoint timePoint) {
-        Job baseJob = Jobs.aaaMembershipRenewalBatchOrderAsyncJob;
+        Job baseJob = BatchJob.aaaMembershipRenewalBatchOrderAsyncJob;
 
         HashMap<TimePoint, StateOffset> timePointMap = getMultiTimePointMap();
 
@@ -194,7 +191,7 @@ public class SchedulableJobs {
     }
 
     public static SchedulableJob aaaInsuranceScoreRenewalBatchOrderAsyncJob(ProductType productType, String state, TimePoint timePoint) {
-        Job baseJob = Jobs.aaaInsuranceScoreRenewalBatchOrderAsyncJob;
+        Job baseJob = BatchJob.aaaInsuranceScoreRenewalBatchOrderAsyncJob;
 
         int offset;
 
@@ -263,7 +260,7 @@ public class SchedulableJobs {
      * @return SchedulableJob with correct timepoint.
      */
     public static SchedulableJob aaaInsuranceScoreRenewalBatchReceiveAsyncJob(ProductType productType, String state, TimePoint timePoint) {
-        Job baseJob = Jobs.aaaInsuranceScoreRenewalBatchReceiveAsyncJob;
+        Job baseJob = BatchJob.aaaInsuranceScoreRenewalBatchReceiveAsyncJob;
 
         int offset;
 
@@ -325,7 +322,7 @@ public class SchedulableJobs {
     }
 
     public static SchedulableJob aaaMvrRenewBatchOrderAsyncJob(String state) {
-        Job baseJob = Jobs.aaaMvrRenewBatchOrderAsyncJob;
+        Job baseJob = BatchJob.aaaMvrRenewBatchOrderAsyncJob;
 
         StateOffset timePointMap = getStateOffsetMap();
         timePointMap.stateOffsetMap.put(defaultStateKey, 63);
@@ -342,7 +339,7 @@ public class SchedulableJobs {
     }
 
     public static SchedulableJob aaaMvrRenewAsyncBatchReceiveJob(String state) {
-        Job baseJob = Jobs.aaaMvrRenewAsyncBatchReceiveJob;
+        Job baseJob = BatchJob.aaaMvrRenewAsyncBatchReceiveJob;
 
         StateOffset timePointMap = getStateOffsetMap();
         timePointMap.stateOffsetMap.put(defaultStateKey, 63);
@@ -359,7 +356,7 @@ public class SchedulableJobs {
     }
 
     public static SchedulableJob aaaClueRenewBatchOrderAsyncJob(ProductType productType, String state) {
-        Job baseJob = Jobs.aaaClueRenewBatchOrderAsyncJob;
+        Job baseJob = BatchJob.aaaClueRenewBatchOrderAsyncJob;
 
         StateOffset timePointMap = getStateOffsetMap();
 
@@ -388,7 +385,7 @@ public class SchedulableJobs {
     }
 
     public static SchedulableJob aaaClueRenewAsyncBatchReceiveJob(ProductType productType, String state) {
-        Job baseJob = Jobs.aaaClueRenewAsyncBatchReceiveJob;
+        Job baseJob = BatchJob.aaaClueRenewAsyncBatchReceiveJob;
 
         StateOffset timePointMap = getStateOffsetMap();
 
@@ -426,7 +423,7 @@ public class SchedulableJobs {
     }
 
     public static SchedulableJob renewalClaimOrderAsyncJob(String state, TimePoint timePoint) {
-        Job baseJob = Jobs.renewalClaimOrderAsyncJob;
+        Job baseJob = BatchJob.renewalClaimOrderAsyncJob;
 
         HashMap<TimePoint, StateOffset> timePointMap = getMultiTimePointMap();
 
@@ -450,7 +447,7 @@ public class SchedulableJobs {
     }
 
     public static SchedulableJob renewalImageRatingAsyncTaskJob(String state, TimePoint timePoint) {
-        Job baseJob = Jobs.renewalImageRatingAsyncTaskJob;
+        Job baseJob = BatchJob.renewalImageRatingAsyncTaskJob;
 
         HashMap<TimePoint, StateOffset> timePointMap = getMultiTimePointMap();
 
@@ -479,7 +476,7 @@ public class SchedulableJobs {
     }
 
     public static SchedulableJob policyDoNotRenewAsyncJob(ProductType productType, String state) {
-        Job baseJob = Jobs.policyDoNotRenewAsyncJob;
+        Job baseJob = BatchJob.policyDoNotRenewAsyncJob;
 
         StateOffset timePointMap = getStateOffsetMap();
 
@@ -509,7 +506,7 @@ public class SchedulableJobs {
 
     public static SchedulableJob renewalOfferAsyncTaskJob(ProductType productType, String state) {
 
-        Job baseJob = Jobs.renewalOfferAsyncTaskJob;
+        Job baseJob = BatchJob.renewalOfferAsyncTaskJob;
 
         StateOffset timePointMap = getStateOffsetMap();
 
@@ -535,7 +532,7 @@ public class SchedulableJobs {
     }
 
     public static SchedulableJob aaaPreRenewalNoticeAsyncJob(String state) {
-        Job baseJob = Jobs.aaaPreRenewalNoticeAsyncJob;
+        Job baseJob = BatchJob.aaaPreRenewalNoticeAsyncJob;
 
         StateOffset timePointMap = getStateOffsetMap();
         timePointMap.stateOffsetMap.put(defaultStateKey, 35);
@@ -549,7 +546,7 @@ public class SchedulableJobs {
 
     public static SchedulableJob aaaPolicyAutomatedRenewalAsyncTaskGenerationJob(ProductType productType, String state,
                                                                                  TimePoint timePoint) {
-        Job baseJob = Jobs.aaaPolicyAutomatedRenewalAsyncTaskGenerationJob;
+        Job baseJob = BatchJob.aaaPolicyAutomatedRenewalAsyncTaskGenerationJob;
 
         HashMap<TimePoint, StateOffset> timePointMap = getMultiTimePointMap();
 
@@ -573,7 +570,7 @@ public class SchedulableJobs {
     }
 
     public static SchedulableJob aaaRenewalNoticeBillAsyncJob(ProductType productType, String state) {
-        Job baseJob = Jobs.aaaRenewalNoticeBillAsyncJob;
+        Job baseJob = BatchJob.aaaRenewalNoticeBillAsyncJob;
 
         StateOffset timePointMap = getStateOffsetMap();
 
@@ -595,7 +592,7 @@ public class SchedulableJobs {
     public static SchedulableJob.PaymentSchedulableJob makeLumpSumPayment(String state, BaseTest baseTest, String policyNumber) {
 
         // The actual job is not used for this one. This is a placeholder.
-        Job baseJob = Jobs.aaaBatchMarkerJob;
+        Job baseJob = BatchJob.aaaBatchMarkerJob;
 
         StateOffset timePointMap = getStateOffsetMap();
 
@@ -611,7 +608,7 @@ public class SchedulableJobs {
                                                                 LocalDateTime expirationDate, boolean makeFinalPayment) {
 
         // The actual job is not used for this one. This is a placeholder.
-        Job baseJob = Jobs.aaaBatchMarkerJob;
+        Job baseJob = BatchJob.aaaBatchMarkerJob;
 
         ArrayList<SchedulableJob> jobs = new ArrayList<>();
 
@@ -653,7 +650,7 @@ public class SchedulableJobs {
                                                                                                         String policyNumber) {
 
         // The actual job is not used for this one. This is a placeholder.
-        Job baseJob = Jobs.aaaBatchMarkerJob;
+        Job baseJob = BatchJob.aaaBatchMarkerJob;
 
         StateOffset timePointMap = getStateOffsetMap();
         timePointMap.stateOffsetMap.put(defaultStateKey, 57);
@@ -678,7 +675,7 @@ public class SchedulableJobs {
      * @return one job that represents the state requested.
      */
     public static SchedulableJob preRenewalReminderGenerationAsyncJob(ProductType productType, String state) {
-        Job baseJob = Jobs.preRenewalReminderGenerationAsyncJob;
+        Job baseJob = BatchJob.preRenewalReminderGenerationAsyncJob;
 
         StateOffset timePointMap = getStateOffsetMap();
 
@@ -700,7 +697,7 @@ public class SchedulableJobs {
     }
 
     public static SchedulableJob aaaAutomatedProcessingInitiationJob(TimePoint newBusinessTimePoint) {
-        Job baseJob = Jobs.aaaAutomatedProcessingInitiationJob;
+        Job baseJob = BatchJob.aaaAutomatedProcessingInitiationJob;
 
         int offset = getNewBusinessPlus_15_Or_30(newBusinessTimePoint);
 
@@ -708,7 +705,7 @@ public class SchedulableJobs {
     }
 
     public static SchedulableJob automatedProcessingRatingJob(TimePoint newBusinessTimePoint) {
-        Job baseJob = Jobs.automatedProcessingRatingJob;
+        Job baseJob = BatchJob.automatedProcessingRatingJob;
 
         int offset = getNewBusinessPlus_15_Or_30(newBusinessTimePoint);
 
@@ -716,7 +713,7 @@ public class SchedulableJobs {
     }
 
     public static SchedulableJob automatedProcessingRunReportsServicesJob(TimePoint newBusinessTimePoint) {
-        Job baseJob = Jobs.automatedProcessingRunReportsServicesJob;
+        Job baseJob = BatchJob.automatedProcessingRunReportsServicesJob;
 
         int offset = getNewBusinessPlus_15_Or_30(newBusinessTimePoint);
 
@@ -724,7 +721,7 @@ public class SchedulableJobs {
     }
 
     public static SchedulableJob automatedProcessingIssuingOrProposingJob(TimePoint newBusinessTimePoint) {
-        Job baseJob = Jobs.automatedProcessingIssuingOrProposingJob;
+        Job baseJob = BatchJob.automatedProcessingIssuingOrProposingJob;
 
         int offset = getNewBusinessPlus_15_Or_30(newBusinessTimePoint);
 
@@ -732,7 +729,7 @@ public class SchedulableJobs {
     }
 
     public static SchedulableJob automatedProcessingStrategyStatusUpdateJob(TimePoint newBusinessTimePoint) {
-        Job baseJob = Jobs.automatedProcessingStrategyStatusUpdateJob;
+        Job baseJob = BatchJob.automatedProcessingStrategyStatusUpdateJob;
 
         int offset = getNewBusinessPlus_15_Or_30(newBusinessTimePoint);
 
@@ -741,7 +738,7 @@ public class SchedulableJobs {
 
     public static SchedulableJob isoRenewalBatchOrderJob(String state) {
         // Property
-        Job baseJob = Jobs.isoRenewalBatchOrderJob;
+        Job baseJob = BatchJob.isoRenewalBatchOrderJob;
 
         StateOffset timePointMap = getStateOffsetMap();
         timePointMap.stateOffsetMap.put(defaultStateKey, 63);
@@ -760,7 +757,7 @@ public class SchedulableJobs {
 
     public static SchedulableJob aaaCreditDisclosureNoticeJob(String state) {
         // Property
-        Job baseJob = Jobs.aaaCreditDisclosureNoticeJob;
+        Job baseJob = BatchJob.aaaCreditDisclosureNoticeJob;
 
         StateOffset timePointMap = getStateOffsetMap();
         timePointMap.stateOffsetMap.put(defaultStateKey, jobNotApplicableValue);
@@ -773,7 +770,7 @@ public class SchedulableJobs {
 
     public static SchedulableJob aaaIsoRenewAsyncBatchReceiveJob(String state) {
         // Property
-        Job baseJob = Jobs.aaaIsoRenewAsyncBatchReceiveJob;
+        Job baseJob = BatchJob.aaaIsoRenewAsyncBatchReceiveJob;
 
         StateOffset timePointMap = getStateOffsetMap();
         timePointMap.stateOffsetMap.put(defaultStateKey, 63);
@@ -792,7 +789,7 @@ public class SchedulableJobs {
 
     public static SchedulableJob renewalValidationAsyncTaskJob(String state) {
         // Property
-        Job baseJob = Jobs.renewalValidationAsyncTaskJob;
+        Job baseJob = BatchJob.renewalValidationAsyncTaskJob;
 
         StateOffset timePointMap = getStateOffsetMap();
         timePointMap.stateOffsetMap.put(defaultStateKey, 57);
@@ -811,7 +808,7 @@ public class SchedulableJobs {
 
     public static SchedulableJob aaaRenewalDataRefreshAsyncJob(String state) {
         // Property
-        Job baseJob = Jobs.aaaRenewalDataRefreshAsyncJob;
+        Job baseJob = BatchJob.aaaRenewalDataRefreshAsyncJob;
 
         StateOffset timePointMap = getStateOffsetMap();
         timePointMap.stateOffsetMap.put(defaultStateKey, 57);
@@ -830,7 +827,7 @@ public class SchedulableJobs {
 
     public static SchedulableJob renewalImageRatingAsyncTaskJob(String state) {
         // Property
-        Job baseJob = Jobs.renewalImageRatingAsyncTaskJob;
+        Job baseJob = BatchJob.renewalImageRatingAsyncTaskJob;
 
         StateOffset timePointMap = getStateOffsetMap();
         timePointMap.stateOffsetMap.put(defaultStateKey, 45);
@@ -850,7 +847,7 @@ public class SchedulableJobs {
 
     public static SchedulableJob aaaMortgageeRenewalReminderAndExpNoticeAsyncJob(String state, TimePoint timePoint) {
         // Property
-        Job baseJob = Jobs.aaaMortgageeRenewalReminderAndExpNoticeAsyncJob;
+        Job baseJob = BatchJob.aaaMortgageeRenewalReminderAndExpNoticeAsyncJob;
 
         HashMap<TimePoint, StateOffset> timePointMap = getMultiTimePointMap();
 
@@ -889,7 +886,7 @@ public class SchedulableJobs {
      * @return one job that will be run at the offsetType and offsetNumberOfDays.
      */
     public static SchedulableJob policyStatusUpdateJob(SchedulableJob.JobOffsetType offsetType, int offsetNumberOfDays) {
-        Job baseJob = Jobs.policyStatusUpdateJob;
+        Job baseJob = BatchJob.policyStatusUpdateJob;
         return new SchedulableJob(baseJob, offsetType, offsetNumberOfDays);
     }
 

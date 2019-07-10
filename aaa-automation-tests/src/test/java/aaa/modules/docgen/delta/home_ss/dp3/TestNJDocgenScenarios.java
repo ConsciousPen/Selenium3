@@ -7,7 +7,7 @@ import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
+import aaa.helpers.jobs.BatchJob;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.modules.policy.HomeSSDP3BaseTest;
@@ -96,7 +96,7 @@ public class TestNJDocgenScenarios extends HomeSSDP3BaseTest {
 		 * 17315:HO-DOC-TPD01-NJ-01 17315 - US NJ GD- 17 Generate Third Party Designee Cover Page (AHTPC__ 11 12)
 		 */
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData_MaterialMisrepresentation"));
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH61XX);
 	}
 

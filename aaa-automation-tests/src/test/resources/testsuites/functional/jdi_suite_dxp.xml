@@ -3,9 +3,8 @@
     <listeners>
         <!-- Listener commented out for local runs-->
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
     <test thread-count="1024" name="TestMiniServicesPremiumBearingAZ" parallel="methods">
         <!--<test name="TestMiniServicesPremiumBearingAZ">-->
         <parameter name="state" value="AZ"/>
@@ -837,7 +836,7 @@
             </class>
         </classes>
     </test>
-    <!--Commented out because Digital does not use Driver revert option. Tests should be uncommented when Digital starts to use this functionality-->
+    <!--Commented out because Digital does not use revert option. Tests should be uncommented when Digital starts to use this functionality-->
     <!--Currently have bug PAS-30871 DXP: can not revert driver that is removed using removal reason code RD1003/RD1004 related to this.-->
     <!--<test thread-count="1024" name="pas18643_CancelRemoveDriver (Revert Deleted Driver)" parallel="methods">-->
         <!--<parameter name="state" value="VA"/>-->
@@ -852,20 +851,20 @@
             <!--</class>-->
         <!--</classes>-->
     <!--</test>-->
-    <test thread-count="1024" name="Revert Deleted/Replaced Vehicle" parallel="methods">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
-                <methods>
-                    <include name="pas18670_CancelRemoveVehicleWithoutChanges"/>
-                    <include name="pas18670_CancelRemoveVehicleWithChanges"/>
-                    <include name="pas18671_CancelReplaceVehicleWithoutChanges"/>
-                    <include name="pas18671_CancelReplaceVehicleWithChanges"/>
-                    <include name="pas18671_CancelReplaceVehicle_oneDriver"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
+    <!--<test thread-count="1024" name="Revert Deleted/Replaced Vehicle" parallel="methods">-->
+        <!--<parameter name="state" value="VA"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">-->
+                <!--<methods>-->
+                    <!--<include name="pas18670_CancelRemoveVehicleWithoutChanges"/>-->
+                    <!--<include name="pas18670_CancelRemoveVehicleWithChanges"/>-->
+                    <!--<include name="pas18671_CancelReplaceVehicleWithoutChanges"/>-->
+                    <!--<include name="pas18671_CancelReplaceVehicleWithChanges"/>-->
+                    <!--<include name="pas18671_CancelReplaceVehicle_oneDriver"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
     <test thread-count="1024" name="Named Insured marital status and the Relationship to the FNI (MD)" parallel="methods">
         <parameter name="state" value="MD, NJ, CO, DE"/>
         <classes>
@@ -1404,6 +1403,7 @@
                     <include name="pas15412_DriverAssignmentReplaceVehicle1DMV"/>
                     <include name="pas15412_DriverAssignmentViewAssignments"/>
                     <include name="pas29163_DriverAssignmentAndOddBalls"/>
+                    <include name="pas31827_assignmentWhenDriverRemovedByCodeRD1003"/>
                 </methods>
             </class>
         </classes>
@@ -1475,6 +1475,16 @@
                 <methods>
                     <include name="pas21466_GarageAddressUnderTheMoratorium"/>
                     <include name="pas21466_GarageAddressUnderTheMoratoriumPart2"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="CA Select RFI" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas27225_550007"/>
                 </methods>
             </class>
         </classes>
