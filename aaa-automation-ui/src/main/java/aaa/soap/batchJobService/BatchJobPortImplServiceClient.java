@@ -37,6 +37,7 @@ public class BatchJobPortImplServiceClient {
 		LOG.debug(AAAMarshaller.modelToXml(response));
 
 		String jobLastExecutionState = waitForNAState(jobGroup);
+
 	}
 
 
