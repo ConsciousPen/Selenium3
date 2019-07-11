@@ -54,10 +54,9 @@ public abstract class PolicyBillingAddPaymentMethod extends PolicyBaseTest{
 			assertThat(BillingSummaryPage.buttonAcceptPayment).as("Button 'Accept Payment' should be disabled for B31 user").isDisabled();
 		}
 		else {
-			/*mainApp().open();
+			mainApp().open();
 			getCopiedPolicy();
-			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);*/
-			searchForPolicy("CAAS952918543");
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	        
 			BillingSummaryPage.open();
 	        IBillingAccount billing = new BillingAccount();
