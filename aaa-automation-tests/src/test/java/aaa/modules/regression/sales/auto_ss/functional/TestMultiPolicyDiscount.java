@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import aaa.main.metadata.policy.AutoCaMetaData;
+import org.openqa.selenium.By;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -826,5 +828,26 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.CITY.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.CITY.getControlClass()).setValue(city);
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.STATE.getControlClass()).setValue(state);
         _generalTab.getSearchOtherAAAProducts().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
+    }
+
+    /**
+     * Used to add a companion policy from the General Tab. Will perform a policy number search and then add the item at the desired index.
+     * @param policyType Examples: Home, Renters, Condo, Life, Motorcycle
+     * @param inputPolicyNumber Policy number or wiremock 'hook' to use during search. Example hook: CUSTOMER_E
+     * @param indexToSelect Beginning at index 0, the row of search results to be selected and added.
+     */
+    @Override
+    protected void addCompanionPolicy_PolicySearch_AddByIndex(String policyType, String inputPolicyNumber, Integer indexToSelect){
+        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getControlClass()).click();
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getControlClass()).setValue("Policy Number");
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_TYPE.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_TYPE.getControlClass()).setValue(policyType);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getControlClass()).setValue(inputPolicyNumber);
+
+        if (!policyType.equalsIgnoreCase(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !policyType.equalsIgnoreCase(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
+            _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
+        }
+
+        new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + indexToSelect + ":customerSelected")).setValue(true);
+        getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_AddSelectedBtnAsset().click();
     }
 }

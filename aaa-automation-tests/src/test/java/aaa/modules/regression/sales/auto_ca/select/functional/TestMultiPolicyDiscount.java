@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import aaa.helpers.TestDataHelper;
+import org.openqa.selenium.By;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -412,6 +414,21 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         pas27241_MPDPaginationTemplate();
     }
 
+    /**
+     * This test ensures that at NB+30, when MPD validation occurs and the discount is removed, an AHDRXX document is generated. <br>
+     *     This test currently has no document validation, but will simply generate the document for manual validation.
+     * @author Tyrone Jemison (CIO)
+     */
+    @Parameters({"state"})
+    @Test(enabled = true, groups = {Groups.FUNCTIONAL, Groups.CIO})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-31709")
+    public void pas31709_MPD_Discount_Removal_Generates_AHDRXX(@Optional("CA") String state){
+        TestData testData = getPolicyDefaultTD();
+        testData = TestDataHelper.adjustTD(testData, getGeneralTab().getClass(), AutoCaMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoCaMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), "3111111111111121");
+
+        pas31709_MPDDiscountRemovalGeneratesAHDRXX(testData);
+    }
+
     // CLASS METHODS
     /**
      * Conducts a basic search using the input String as a policy number.
@@ -427,6 +444,27 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         if (!policyType.equalsIgnoreCase(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !policyType.equalsIgnoreCase(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
             _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
         }
+    }
+
+    /**
+     * Used to add a companion policy from the General Tab. Will perform a policy number search and then add the item at the desired index.
+     * @param policyType Examples: Home, Renters, Condo, Life, Motorcycle
+     * @param inputPolicyNumber Policy number or wiremock 'hook' to use during search. Example hook: CUSTOMER_E
+     * @param indexToSelect Beginning at index 0, the row of search results to be selected and added.
+     */
+    @Override
+    protected void addCompanionPolicy_PolicySearch_AddByIndex(String policyType, String inputPolicyNumber, Integer indexToSelect){
+        _generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_AND_ADD_MANUALLY.getControlClass()).click();
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BY.getControlClass()).setValue("Policy Number");
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_TYPE.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_TYPE.getControlClass()).setValue(policyType);
+        _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.POLICY_QUOTE_NUMBER.getControlClass()).setValue(inputPolicyNumber);
+
+        if (!policyType.equalsIgnoreCase(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel()) && !policyType.equalsIgnoreCase(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE.getLabel())){
+            _generalTab.getSearchOtherAAAProducts().getAsset(AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getLabel(), AutoCaMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.SEARCH_BTN.getControlClass()).click();
+        }
+
+        new CheckBox(By.id("autoOtherPolicySearchForm:elasticSearchResponseTable:" + indexToSelect + ":customerSelected")).setValue(true);
+        getGeneralTab_OtherAAAProductsOwned_SearchOtherAAAProducts_AddSelectedBtnAsset().click();
     }
 
     /**
