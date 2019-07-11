@@ -76,13 +76,13 @@ Vehicle1: {
   Odometer Reading: 7000
 }
 
-#FNI
+#FNI - Female, Single, 3 tyde, X dsrp - primary driver tie breaker
 Driver1: {
   Add Driver: Click,
   DriverSearchDialog:{},
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': First Named Insured,
-  Age First Licensed: 18,
+  Age First Licensed: 19,
   Gender: Female,
   Marital Status: Single,
   Occupation: Architect,
@@ -93,6 +93,7 @@ Driver1: {
   Most Recent GPA: 'A Student',
 }
 
+#Male, Single, 3 tyde, X dsrp - (not) primary driver tie breaker
 Driver2: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -108,10 +109,11 @@ Driver2: {
   License State: CA,
   Permit Before License: 'Yes',
   "License #": D5435702,
-  Age First Licensed: 18,
+  Age First Licensed: 19,
   Most Recent GPA: 'A Student',
 }
 
+#Female, Married, 2 tyde - tyde tie breaker
 Driver3: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -127,9 +129,10 @@ Driver3: {
   License State: CA,
   Permit Before License: 'Yes',
   "License #": D5435703,
-  Age First Licensed: 18
+  Age First Licensed: 19
 }
 
+#Male, Married, 3 tyde - tyde tie breaker
 Driver4: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -145,9 +148,10 @@ Driver4: {
   License State: CA,
   Permit Before License: 'Yes',
   "License #": D5435704,
-  Age First Licensed: 18
+  Age First Licensed: 19
 }
 
+#Male, (Married), 15 tyde, 6 dsrp - dsrp tie breaker
 Driver5: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -163,7 +167,7 @@ Driver5: {
   License State: CA,
   Permit Before License: 'Yes',
   "License #": D5435705,
-  Age First Licensed: 18,
+  Age First Licensed: 19,
   ActivityInformation: [
 {
     Activity Source: 'Company Input',
@@ -194,6 +198,7 @@ Driver5: {
   } ]
 }
 
+#Female, (Married), 15 tyde, 4 dsrp - dsrp tie breaker
 Driver6: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -209,7 +214,7 @@ Driver6: {
   License State: CA,
   Permit Before License: 'Yes',
   "License #": D5435706,
-  Age First Licensed: 18,
+  Age First Licensed: 19,
   ActivityInformation: [
     {
       Activity Source: 'Company Input',
@@ -231,6 +236,7 @@ Driver6: {
   }]
 }
 
+#Female, Single, 5 tyde, 0 dsrp  - tyde tie breaker
 Driver7: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -250,6 +256,7 @@ Driver7: {
   Most Recent GPA: 'A Student',
 }
 
+#Male, Single, 6tyde, 0dsrp
 Driver8: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -269,6 +276,7 @@ Driver8: {
   Most Recent GPA: 'A Student',
 }
 
+#Female, Married, 7 tyde, 0dsrp
 Driver9: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -287,6 +295,7 @@ Driver9: {
   Age First Licensed: 18
 }
 
+#Male, (Widowed), 15 tyde, 2dsrp
 Driver10: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -315,6 +324,7 @@ Driver10: {
   }
 }
 
+# Female, Single, 12 tyde, 0dsrp
 Driver11: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -333,6 +343,7 @@ Driver11: {
   Age First Licensed: 18
 }
 
+#Female, Married, 11 tyde, 0dsrp - tyde tie breaker
 Driver12: {
   Add Driver: Click,
   DriverSearchDialog:{},
@@ -351,6 +362,7 @@ Driver12: {
   Age First Licensed: 18
 }
 
+#Male, (Widowed), 12 tyde, 0dsrp - tyde tie breaker
 Driver13: {
   Add Driver: Click,
   DriverSearchDialog:{},

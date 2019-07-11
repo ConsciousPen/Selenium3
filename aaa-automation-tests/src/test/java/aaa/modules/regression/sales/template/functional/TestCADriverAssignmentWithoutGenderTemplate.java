@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
@@ -32,16 +33,16 @@ public class TestCADriverAssignmentWithoutGenderTemplate extends CommonTemplateM
     protected static ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
 
     protected void pas29418_DriverAssignmentRanking(String SCENARIO_DATA) {
-        //Setup test data for 7 drivers and 7 vehicles
-//        TestData testDataDriverDetails = getTestSpecificTD("TestData_DriverTab_Assignment_Data").resolveLinks();
+        //Setup test data for 7 drivers and 7 vehicles with 11/01/2019 effective date
         TestData testDataDriverDetails = getTestSpecificTD(SCENARIO_DATA).resolveLinks();
-        adjusted = getPolicyTD().adjust(testDataDriverDetails);
+        adjusted = getPolicyTD().adjust((testDataDriverDetails).adjust(TestData.makeKeyPath("GeneralTab", AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
+                AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()), "11/01/2019"));
 
         //Create quote with 7 drivers and navigate to P&C page to get system rated drivers
         createQuoteAndFillUpTo(adjusted, PremiumAndCoveragesTab.class);
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
 
-        //Verify System Rated Drivers are in the correct ranking order
+        //Verify System Rated Drivers are in the correct ranking order, based on driver details other than Gender
         driverAssignmentAssertion(0, "One");
         driverAssignmentAssertion(1, "Two");
         driverAssignmentAssertion(2, "Three");
