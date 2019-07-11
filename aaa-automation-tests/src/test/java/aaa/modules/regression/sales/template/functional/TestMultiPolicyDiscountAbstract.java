@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.template.functional;
 
+
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.DayOfWeek;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -172,6 +174,14 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
      * Clicks 'Add' button, unless provided instruction to change data.
      */
     protected abstract void otherAAAProducts_ManuallyAddPolicyAfterNoResultsFound(String policyType);
+
+    /**
+     * Used to add a companion policy from the General Tab. Will perform a policy number search and then add the item at the desired index.
+     * @param policyType Examples: Home, Renters, Condo, Life, Motorcycle
+     * @param inputPolicyNumber Policy number or wiremock 'hook' to use during search. Example hook: CUSTOMER_E
+     * @param indexToSelect Beginning at index 0, the row of search results to be selected and added.
+     */
+    protected abstract void addCompanionPolicy_PolicySearch_AddByIndex(String policyType, String inputPolicyNumber, Integer indexToSelect);
 
 
     /**
@@ -946,6 +956,34 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         assertThat(getSearchResultsCount()).isEqualTo(numberOfResultsRequiredForSuccessfulValidation);
     }
 
+    /**
+     * This test ensures that at NB+30, when MPD validation occurs and the discount is removed, an AHDRXX document is generated.
+     */
+    protected void pas31709_MPDDiscountRemovalGeneratesAHDRXX(TestData testData){
+
+        // Open App, Create Customer, Initiate Quote, Add Quoted Companion Policies, Bind.
+        createQuoteAndFillUpTo(testData, getGeneralTab().getClass(), true);
+        addCompanionPolicy_PolicySearch_AddByIndex("Home", "REFRESH_PQ", 1);
+        getGeneralTab().submitTab();
+        policy.getDefaultView().fillFromTo(testData, getDriverTab().getClass(), getPurchaseTab().getClass(), true);
+        getPurchaseTab().submitTab();
+
+        // Move to NB+30
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+        LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+        LocalDateTime nb30Date = policyEffectiveDate.plusDays(30l);
+        TimeSetterUtil.getInstance().nextPhase(nb30Date);
+        printDebugMessage("Moved from effective date: " + policyEffectiveDate.toString() + " to nb30Date: " + nb30Date.toString());
+        printDebugMessage("Batch run date = " + TimeSetterUtil.getInstance().getCurrentTime());
+
+        // Run Batch Job
+        JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+        JobUtils.executeJob(BatchJob.membershipValidationJob);
+
+        // Validate AHDRXX document exists.
+        printDebugMessage("Generated AHDRXX for Policy: " + policyNumber);
+    }
+
     protected void doMPDEligibilityTest(String in_policyType){
         // Using default test data.
         TestData testData = getPolicyTD();
@@ -1516,4 +1554,10 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
 
         getDocumentsAndBindTab_setRequiredToIssueAssetList(requiredToIssueList);
     }
+
+    private void printDebugMessage(String message){
+        String formattedText = String.format("<QALOGS> %s <QALOGS>", message);
+        log.debug(System.lineSeparator() + formattedText + System.lineSeparator());
+    }
+
 }
