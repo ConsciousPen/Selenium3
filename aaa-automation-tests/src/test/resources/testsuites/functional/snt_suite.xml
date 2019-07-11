@@ -163,13 +163,14 @@
 
     <test name="General tab/Third Party Designee section/Conflict CA Choice" parallel="methods" thread-count="1024">
     <parameter name="timeshift-scenario-mode" value="method"/>
-
+    </test>
     <test name="Billing/Zelle Auto CA Choice" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.choice.functional.TestPolicyBillingAddZellePaymentType">
                 <methods>
                     <include name="test_addPaymentMethods"/>
+                    <include name="test_RefundPaymentMethods"/>
                 </methods>
             </class>
         </classes>
@@ -182,6 +183,7 @@
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestPolicyBillingAddZellePaymentType">
                 <methods>
                     <include name="test_addPaymentMethods"/>
+                    <include name="test_RefundPaymentMethods"/>
                 </methods>
             </class>
         </classes>
@@ -193,6 +195,7 @@
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.functional.TestPolicyBillingAddZellePaymentType">
                 <methods>
                     <include name="test_addPaymentMethods"/>
+                    <include name="test_RefundPaymentMethods"/>
                 </methods>
             </class>
         </classes>
@@ -204,6 +207,7 @@
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestPolicyBillingAddZellePaymentType">
                 <methods>
                     <include name="test_addPaymentMethods"/>
+                    <include name="test_RefundPaymentMethods"/>
                 </methods>
             </class>
         </classes>
@@ -215,6 +219,7 @@
             <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestPolicyBillingAddZellePaymentType">
                 <methods>
                     <include name="test_addPaymentMethods"/>
+                    <include name="test_RefundPaymentMethods"/>
                 </methods>
             </class>
         </classes>
