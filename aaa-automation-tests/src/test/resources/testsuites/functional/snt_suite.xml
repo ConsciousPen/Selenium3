@@ -5,10 +5,7 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-
-    <test name="General tab/Third Party Designee section/Conflict CA Choice" parallel="methods" thread-count="1024">
-    <parameter name="timeshift-scenario-mode" value="method"/>
-    </test>
+    
     <test name="Billing/Zelle Auto CA Choice" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
