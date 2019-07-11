@@ -11,8 +11,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import toolkit.datax.TestData;
 
-
-import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public abstract class PolicyBillingAddZellePaymentType extends PolicyBaseTest {
@@ -83,13 +81,18 @@ public abstract class PolicyBillingAddZellePaymentType extends PolicyBaseTest {
         IBillingAccount billing = new BillingAccount();
         TestData tdBilling = testDataManager.billingAccount;
 
-           //Make a payment of $100 (Used when we are actually testing for refund)
-     /*   billing.update().perform(tdBilling.getTestData("Update", "TestData_AddPaymentMethod_Zelle"));
-        BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.equals(100); */
+        //Add zelle accounts (mobile/email) so we can check if it is available for refunds
+        billing.update().perform(tdBilling.getTestData("Update", "TestData_AddPaymentMethod_Zelle"));
+        String expectedZelleMobile = "Zelle " + tdBilling.getTestData("PaymentMethods").getValue("ZelleMobile", "Email Address or Mobile Number");
+        String expectedZelleEmail = "Zelle " + tdBilling.getTestData("PaymentMethods").getValue("ZelleEmail", "Email Address or Mobile Number");
 
         billingAccount.refund().start();
 
-        assertThat(refundActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD)).containsOption("Zelle");
+        //Assert that the Zelle accounts added are available in the dropdown when initiating a refund
+        assertSoftly(softly -> {
+            softly.assertThat(refundActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD)).containsOption(expectedZelleMobile);
+            softly.assertThat(refundActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD)).containsOption(expectedZelleEmail);
+        });
 
 
     }
