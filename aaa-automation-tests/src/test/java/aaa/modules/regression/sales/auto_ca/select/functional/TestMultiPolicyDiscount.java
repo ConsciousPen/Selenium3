@@ -415,12 +415,13 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     }
 
     /**
-     * This test ensures that at NB+30, when MPD validation occurs and the discount is removed, an AHDRXX document is generated. <br>
-     *     This test currently has no document validation, but will simply generate the document for manual validation.
+     *  This test ensures that at NB+30, when MPD validation occurs and the discount is removed, an AHDRXX document is generated. <br>
+     *  This test currently has no document validation, but will simply generate the document for manual validation. <br>
+     *  Marked as disabled so that it will not be included in test suite (no validations are automated)
      * @author Tyrone Jemison (CIO)
      */
     @Parameters({"state"})
-    @Test(enabled = true, groups = {Groups.FUNCTIONAL, Groups.CIO})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CIO})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-31709")
     public void pas31709_MPD_Discount_Removal_Generates_AHDRXX(@Optional("CA") String state){
         TestData testData = getPolicyDefaultTD();
