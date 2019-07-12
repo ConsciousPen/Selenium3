@@ -5,7 +5,6 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.eisa.utils.Dollar;
-import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum;
@@ -27,6 +26,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 /**
  *
@@ -67,7 +67,8 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 
 		// 2
 		policy.quoteDocGen().start();
-		docgenActionTab.verify.documentsEnabled(
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		docgenActionTab.verify.documentsEnabled(softly,
 				DocGenEnum.Documents.AHAPXX_CA,
 				DocGenEnum.Documents._550035,
 				DocGenEnum.Documents._554000,
@@ -83,7 +84,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 				DocGenEnum.Documents._550039,
 				DocGenEnum.Documents._550009
 		);
-		docgenActionTab.verify.documentsEnabled(false,
+		docgenActionTab.verify.documentsEnabled(softly, false,
 				DocGenEnum.Documents._550007,
 				DocGenEnum.Documents._550011,
 				DocGenEnum.Documents._550026,
@@ -106,7 +107,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 
 		// 4
 		policy.quoteDocGen().start();
-		docgenActionTab.verify.documentsEnabled(
+		docgenActionTab.verify.documentsEnabled(softly, 
 				DocGenEnum.Documents._550007,
 				DocGenEnum.Documents._550026,
 				DocGenEnum.Documents._551003,
@@ -122,7 +123,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 		mainApp().close();
 
 		// 6
-		DocGenHelper.verifyDocumentsGenerated(policyNum,
+		DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
 				DocGenEnum.Documents._55_3333,
 				DocGenEnum.Documents._55_1500,
 				DocGenEnum.Documents._55_0038,
@@ -158,7 +159,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 		policy.createEndorsement(endorsementTd1.adjust(getPolicyTD("Endorsement", "TestData_Plus5Day")));
 
 		// 2
-		DocGenHelper.verifyDocumentsGenerated(policyNum,
+		DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
 				DocGenEnum.Documents._55_1500,
 				DocGenEnum.Documents._55_1000,
 				DocGenEnum.Documents._55_1001,
@@ -177,7 +178,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 		mainApp().close();
 
 		// 4
-		DocGenHelper.verifyDocumentsGenerated(policyNum,
+		DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
 				DocGenEnum.Documents._55_1500,
 				DocGenEnum.Documents._55_1001,
 				DocGenEnum.Documents._55_0001,
