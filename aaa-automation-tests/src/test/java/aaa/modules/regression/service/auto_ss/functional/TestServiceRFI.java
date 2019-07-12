@@ -386,31 +386,6 @@ public class TestServiceRFI extends TestRFIHelper {
 		verifyRFIScenarios("UMSU", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_STACKED_UNSTACKED, CoverageLimits.COV_UNSTACKED.getLimit(), CoverageLimits.COV_STACKED.getDisplay(), document, documentAsset, error, td, true, true);
 	}
 
-	protected void verifyRFIScenarios(String coverageCd, AssetDescriptor<? extends AbstractEditableStringElement> coverageAsset, String updateLimitDXP, String updateLimitPAS, DocGenEnum.Documents document, AssetDescriptor<RadioGroup> documentAsset, ErrorEnum.Errors error, TestData td, boolean checkDocXML, boolean isRuleOverridden) {
-		assertSoftly(softly -> {
-
-			String policyNumber = policyCreationForRFI(coverageCd, updateLimitDXP, td);
-			String doccId = checkDocumentInRfiService(policyNumber, document.getId(), document.getName());
-			bindEndorsement(policyNumber, doccId, error.getCode(), error.getMessage(), isRuleOverridden);
-
-			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, document.getIdInXml(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
-			if (checkDocXML) {
-				verifyDocInDb(softly, policyNumber, query, document, true); //tags expected only for Electronically signed doc
-			}
-
-			//Go to PAS and verify
-			goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, documentAsset, coverageAsset, updateLimitPAS, error, isRuleOverridden);
-			//Verify Signed by is not there in XML when Signed from PAS UI.
-			if (checkDocXML) {
-				if ((document.equals(DocGenEnum.Documents.AA52UPAA) || document.equals(DocGenEnum.Documents.AA52IPAA) || document.equals(DocGenEnum.Documents.AAFPPA) || document.equals(DocGenEnum.Documents._AA52CT)) && !isRuleOverridden) { //isRuleOverridden means that Document was not signed.
-					verifyDocumentXMLDoNotExist(policyNumber, document);
-				} else {
-					validateDocSignTagsNotExist(policyNumber, document, query); //Document doesn't contain DocSignTags if signed in PAS
-				}
-			}
-		});
-	}
-
 	/**
 	 * @name RFI AA52IPAA Form
 	 * @scenario 1
@@ -2140,14 +2115,6 @@ public class TestServiceRFI extends TestRFIHelper {
 		});
 	}
 
-	private void verifyDocumentXMLDoNotExist(String policyNumber, DocGenEnum.Documents document) {
-		if (DocGenHelper.isPasDocEnabled(policyNumber)) {
-			PasDocImpl.verifyDocumentsGenerated(false, policyNumber, document);// Document does not exist
-		} else {
-			DocGenHelper.checkDocumentsDoesNotExistInXml(policyNumber, AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE, document);// Document does not exist
-		}
-	}
-
 	private void verifyRFINoDocumentInDXP(ETCSCoreSoftAssertions softly, String policyNumber, String documentCode) {
 		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
 		softly.assertThat(rfiServiceResponse.documents.stream()
@@ -2272,33 +2239,6 @@ public class TestServiceRFI extends TestRFIHelper {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-	}
-
-	protected void bindEndorsement(String policyNumber, String doccId, String errorCode, String errorMessage, boolean isRuleOverridden) {
-		if (!isRuleOverridden) {
-			//Check that rule is fired when rule is not overridden. Not checking if rule is fired without signing, as per Digital flow it must always be signed.
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, errorCode, errorMessage);
-		}
-		//Bind policy with docId for successful bind and document is electronically signed. Not checking if rule is fired without signing, as per Digital flow it must always be signed.
-		HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), doccId);
-	}
-
-	protected String policyCreationForRFI(String coverageId, String newCoverage, TestData td) {
-		//Create Policy
-		String policyNumber = openAppAndCreatePolicy(td);
-
-		//Create endorsement
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		//update coverage
-		if (getState().equals(Constants.States.NJ) && coverageId.equals(CoverageInfo.PIPPRIMINS_NJ.getCode())) {
-			Coverage covToUpdatePIPPRIMINS = Coverage.create(CoverageInfo.PIPPRIMINS_NJ).changeLimit(CoverageLimits.COV_PIPPRIMINS_PERSONAL_HEALTH_INSURANCE).addInsurerName("John"). addCertNum("12345");
-			COV_HELPER.updateCoverageWithInsNameAndCertNum(policyNumber, covToUpdatePIPPRIMINS);
-		} else {
-			HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageId, newCoverage), PolicyCoverageInfo.class);
-		}
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		//TODO-mstrazds: no document needs to be signed ?
-		return policyNumber;
 	}
 
 	private void verifyDocInDb(ETCSCoreSoftAssertions softly, String policyNumber, AaaDocGenEntityQueries.EventNames event, DocGenEnum.Documents document, boolean isDocSignTagsExpected) {

@@ -12,6 +12,7 @@ import aaa.helpers.rest.dtoDxp.*;
 import aaa.helpers.xml.model.Document;
 import aaa.helpers.xml.model.pasdoc.DocumentGenerationRequest;
 import aaa.main.enums.*;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -54,14 +55,22 @@ public abstract class TestRFIHelper extends PolicyBaseTest {
             //Go to PAS and verify
             goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, documentAsset, coverageAsset, updateLimitPAS, error, isRuleOverridden);
             //Verify Signed by is not there in XML when Signed from PAS UI.
-	        if (checkDocXML) {
-		        if ((document.equals(DocGenEnum.Documents.AA52UPAA) || document.equals(DocGenEnum.Documents.AA52IPAA) || document.equals(DocGenEnum.Documents._550007) || document.equals(DocGenEnum.Documents.AAFPPA)) && !isRuleOverridden) { //isRuleOverridden means that Document was not signed.
-			        DocGenHelper.checkDocumentsDoesNotExistInXml(policyNumber, AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE, document);// Document does not exist
-		        } else {
-			        validateDocSignTagsNotExist(policyNumber, document, query); //Document doesn't contain DocSignTags if signed in PAS
-		        }
+            if (checkDocXML) {
+                if ((document.equals(DocGenEnum.Documents.AA52UPAA) || document.equals(DocGenEnum.Documents.AA52IPAA) || document.equals(DocGenEnum.Documents._550007) || document.equals(DocGenEnum.Documents.AAFPPA) || document.equals(DocGenEnum.Documents._AA52CT)) && !isRuleOverridden) { //isRuleOverridden means that Document was not signed.
+                    verifyDocumentXMLDoNotExist(policyNumber, document);
+                } else {
+                    validateDocSignTagsNotExist(policyNumber, document, query); //Document doesn't contain DocSignTags if signed in PAS
+                }
             }
         });
+    }
+
+    protected void verifyDocumentXMLDoNotExist(String policyNumber, DocGenEnum.Documents document) {
+        if (DocGenHelper.isPasDocEnabled(policyNumber)) {
+            PasDocImpl.verifyDocumentsGenerated(false, policyNumber, document);// Document does not exist
+        } else {
+            DocGenHelper.checkDocumentsDoesNotExistInXml(policyNumber, AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE, document);// Document does not exist
+        }
     }
 
     protected String policyCreationForRFI(String coverageId, String newCoverage, TestData td) {
