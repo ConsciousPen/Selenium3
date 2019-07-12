@@ -381,7 +381,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL, Groups.CIO }, description = "Modify rule to prevent MTE bind after NB+30 with MPD when policy has quoted companion products.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-31861")
-    public void pas31861_MPD_QuotedCompanionProduct_AllowMTEBindBasedOnEffectiveDate(@Optional("") String state) {
+    public void pas31861_MPD_QuotedCompanionProduct_AllowMTEBindBasedOnEffectiveDate(@Optional("CA") String state) {
         doQuotedMPDBindTest(true, false);
     }
 
@@ -393,19 +393,19 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL, Groups.CIO }, description = "Modify rule to prevent MTE bind after NB+30 with MPD when policy has quoted companion products.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-31861")
-    public void pas31861_MPD_QuotedCompanionProduct_RestrictMTEBindBasedOnEffectiveDate(@Optional("") String state) {
+    public void pas31861_MPD_QuotedCompanionProduct_RestrictMTEBindBasedOnEffectiveDate(@Optional("CA") String state) {
         doQuotedMPDBindTest(true, true);
     }
 
     @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
+    @Test(enabled = false, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-23456")
     public void pas23456_MPD_Prevent_MTEBind(@Optional("") String state) {
         doMTEPreventBindTest(false, "Home");
     }
 
     @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
+    @Test(enabled = false, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-23456")
     public void pas23456_MPD_Allow_MTEBind(@Optional("") String state) {
         doMTEAllowBindTest(false, "Home");

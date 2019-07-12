@@ -1081,6 +1081,10 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
         Long daysFromEffectiveDate = policyEffectiveDate.until(TimeSetterUtil.getInstance().getCurrentTime(), ChronoUnit.DAYS);
         printDebugMessage("Moved from effective date: " + policyEffectiveDate.toString() + " to NB(" + daysFromEffectiveDate.toString() + ") Date: " + nb30Date.toString());
 
+        //Open App and retrieve policy
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+
         // Do Endorsement
         handleEndorsementType(true);
         fillFromGeneralTabToErrorMsg();
