@@ -18,12 +18,14 @@ import com.exigen.ipb.eisa.utils.batchjob.JobGroup;
 import com.exigen.ipb.eisa.utils.batchjob.SoapJobActions;
 import com.exigen.ipb.eisa.utils.batchjob.ws.model.WSJobSummary;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.jobs.CsaaSoapJobService;
 import aaa.helpers.jobs.JobUtils;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BctType;
+import aaa.soap.batchJobService.BatchJobPortImplServiceClient;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 
@@ -43,6 +45,19 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		return BctType.ONLINE_TEST;
 	}
 
+	protected void executeBatchUsingBatchJobService(Job job){
+		JobGroup jobGroup = JobGroup.fromSingleJob(convertToIpb(job));
+		SoapJobActions soapJobActions = new SoapJobActions();
+
+		if(!soapJobActions.isJobExist(jobGroup)){
+			soapJobActions.createJob(jobGroup);
+		}
+
+		BatchJobPortImplServiceClient batchJobService = new BatchJobPortImplServiceClient();
+		batchJobService.startJob(jobGroup);
+
+		assertThat(new CsaaSoapJobService().getStatusResponse(jobGroup).getBatchSummary().getLastExecutionResult()).isEqualToIgnoringCase("SUCCESS");
+	}
 	/**
 	 * Execute job and calculate failure percentage.
 	 * if % of failed tasks > 5% hit production team or/and create a defect
@@ -54,7 +69,7 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		WSJobSummary latestJobRun = JobUtils.getLatestJobRun(JobGroup.fromSingleJob(job));
 
 		//assertThat(latestJobRun.getTotalItems()).as("totalItems picked up by job should be > 0").isGreaterThan(0);
-		//verifyErrorsCountLessFivePercents(latestJobRun);
+		verifyErrorsCountLessFivePercents(latestJobRun);
 	}
 
 	/**
@@ -234,5 +249,9 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		list.add(ledgerStatusUpdateJob);
 
 		return list;
+	}
+
+	public static com.exigen.ipb.eisa.utils.batchjob.Job convertToIpb(Job job) {
+		return new com.exigen.ipb.eisa.utils.batchjob.Job(job.getJobName(), job.getJobParameters(),job.getJobFolders());
 	}
 }

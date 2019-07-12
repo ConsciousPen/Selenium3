@@ -12,17 +12,20 @@ import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.TextBox;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 
 @StateList(states = Constants.States.CA)
 public class TestProductDetermination extends AutoCaSelectBaseTest {
 
     private static final String CHOICE = "CA Choice";
     private static final String SELECT = "CA Select";
+
+    private static final List<String> CUSTOMERS_WITH_VIOLATIONS = Arrays.asList("OneMajor", "ThreeMinor", "OneWithInjuryOneMinor", "OneAtFaultTwoMinor", "TwoAtFaultOneMinor", "DUI");
 
     private DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
     private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
@@ -63,7 +66,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921"})
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921, PAS-31654"})
     public void pas30921_testMajorMovingViolation(@Optional("CA") String state) {
 
         validateProductDetermination("OneMajor", "B3698702");
@@ -84,7 +87,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921"})
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921, PAS-31654"})
     public void pas30921_testThreeMinorMovingViolations(@Optional("CA") String state) {
 
         validateProductDetermination("ThreeMinor", "B3698703");
@@ -147,7 +150,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921"})
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921, PAS-31654"})
     public void pas30921_testOneAtFaultAccidentWithInjuryAndOneMinorMovingViolation(@Optional("CA") String state) {
 
         validateProductDetermination("OneWithInjuryOneMinor", "B3698706");
@@ -189,7 +192,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921"})
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921, PAS-31654"})
     public void pas30921_testTwoMinorViolationsAndOneAtFaultAccident(@Optional("CA") String state) {
 
         validateProductDetermination("OneAtFaultTwoMinor", "B3698708");
@@ -210,7 +213,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921"})
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921, PAS-31654"})
     public void pas30921_testOneMinorViolationsAndTwoAtFaultAccidents(@Optional("CA") String state) {
 
         validateProductDetermination("TwoAtFaultOneMinor", "B3698709");
@@ -231,7 +234,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921"})
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-30921, PAS-31654"})
     public void pas30921_testAlcoholRelatedConviction(@Optional("CA") String state) {
 
         validateProductDetermination("DUI", "B3698710");
@@ -310,7 +313,7 @@ public class TestProductDetermination extends AutoCaSelectBaseTest {
         driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OVERRIDE_ACTIVITY_DETAILS).setValue("Yes");
         if ("Suspended".equals(lastName)) {
             driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.REINSTATEMENT_DATE).setValue(newDate);
-        } else if ("DUI".equals(lastName)) {
+        } else if (CUSTOMERS_WITH_VIOLATIONS.contains(lastName)) {
             driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.CONVICTION_DATE).setValue(newDate);
         } else {
             driverTab.getActivityInformationAssetList().getAsset(AutoCaMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).setValue(newDate);
