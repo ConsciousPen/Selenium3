@@ -2011,6 +2011,72 @@ public class TestServiceRFI extends TestRFIHelper {
 		verifyRFIScenarios("UIMCONV", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_CONVERSION_COVERAGE, CoverageLimits.COV_FALSE_NO_COVERAGE.getLimit(), CoverageLimits.COV_TRUE.getDisplay(), document, documentAsset, error, td, true, false);//was 100/300 at NB. BI was also the same
 	}
 
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy.
+	 * 2. Create endorsement outside of PAS/inside PAS
+	 * 3. Update UM/UIM to No Coverage and verify that document AA52KS is triggered and error is displayed if it is not signed
+	 * 4. Update UM/UIM to limit lower than BI and verify that document AA52KS is triggered and error is displayed if it is not signed
+	 * 5. Sign document and verify that it is signed
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.KS})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-28521"})
+	public void pas28521_rfiAA52KSTriggered(@Optional("KS") String state) {
+		assertSoftly(softly -> {
+			DocGenEnum.Documents document = DocGenEnum.Documents.AA52KS;
+			AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.STATEMENT_ELECTING_LOWER_LIMITS_FOR_UNINSURED_UNDERINSURED_MOTORISTS_COVERAGE;
+			ErrorEnum.Errors error = ERROR_AAA_200037;
+			TestData td = getPolicyDefaultTD();
+
+			//Update UM to less than BI in DXP, then to less than BI in PAS
+			verifyRFIScenarios("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY,
+					CoverageLimits.COV_50100.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, true, false);
+
+			//Update UM to No Coverage in DXP, then to less than BI in PAS
+			verifyRFIScenarios("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY,
+					CoverageLimits.COV_2550.getLimit(), CoverageLimits.COV_50100.getDisplay(), document, documentAsset, error, td, true, false);
+
+			//Note: not testing case when updating to limit greater than BI, as it is not possible (UMBI limits may not exceed BI limits)
+		});
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS with overridden rule ERROR_AAA_200037
+	 * 2. Create endorsement outside of PAS/inside PAS
+	 * 3. Update UMBI to limit lover than BI limit and verify that document AA52AZ is NOT triggered and error is NOT displayed if it is not signed as Rule is overridden
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.KS})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-28521"})
+	public void pas28521_rfiAA52KSTriggeredRuleOverridden(@Optional("KS") String state) {
+		assertSoftly(softly -> {
+			DocGenEnum.Documents document = DocGenEnum.Documents.AA52KS;
+			AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.STATEMENT_ELECTING_LOWER_LIMITS_FOR_UNINSURED_UNDERINSURED_MOTORISTS_COVERAGE;
+			ErrorEnum.Errors error = ERROR_AAA_200037;
+			TestData td = getPolicyDefaultTD();
+
+			//Rule overridden at NB scenario
+			TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+			td.adjust(TestData.makeKeyPath(premiumAndCoveragesTab.getMetaKey(),
+					AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel()), "contains=$50,000/$100,000"); //Value less than BI
+			td.adjust(TestData.makeKeyPath(documentsAndBindTab.getMetaKey(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(),
+					AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.STATEMENT_ELECTING_LOWER_LIMITS_FOR_UNINSURED_UNDERINSURED_MOTORISTS_COVERAGE.getLabel()), "Not Signed");
+			td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+
+			//Update UMBI to less than BI in DXP, then to less than BI in PAS
+			verifyRFIScenarios("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY,
+					CoverageLimits.COV_2550.getLimit(), CoverageLimits.COV_50100.getDisplay(), document, documentAsset, error, td, true, true);
+		});
+	}
+
 	private void verifyRFIDocumentTriggeredNotTriggeredInDXP(DocGenEnum.Documents document, AssetDescriptor<RadioGroup> documentAsset, ErrorEnum.Errors error, TestData td, String coverageCdToUpdate, String coverageLimitUpdateNoTrigger, String coverageLimitUpdateTrigger) {
 		assertSoftly(softly -> {
 			//verify document not triggered scenario

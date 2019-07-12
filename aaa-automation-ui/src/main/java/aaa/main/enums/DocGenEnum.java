@@ -89,7 +89,7 @@ public final class DocGenEnum {
 		AA52NY("Supplementary Uninsured/Underinsured Motorists Coverage - Rejection or Election of Lower Limits"),
 		AA52OH("Rejection of Uninsured/Underinsured Motorist Bodily Injury Coverage"),
 		AA52OK(""),
-		AA52KS(""),
+		AA52KS("UMBICELL", "AA52KS", "Statement Electing Lower Limits for Uninsured/Underinsured Motorists Coverage"),
 		AA52OR("Rejection of Uninsured/Underinsured Motorist Bodily Injury Coverage"),
 		AA52UPAB(""),
 		AA52UPAC(""),
