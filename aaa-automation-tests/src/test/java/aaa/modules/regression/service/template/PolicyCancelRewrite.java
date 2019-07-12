@@ -2,10 +2,12 @@ package aaa.modules.regression.service.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
+import org.assertj.core.api.Assertions;
 import aaa.common.enums.Constants.UserGroups;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -68,6 +70,12 @@ public class PolicyCancelRewrite extends PolicyBaseTest {
 			
 			String rewritePolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 			log.info("TEST: Rewriting Policy #" + rewritePolicyNumber);
+
+			// Validation for PAS-31666
+			if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+				assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.UNDERWRITER).getValue()).isEqualTo("CSAAIB");
+				assertThat(rewritePolicyNumber).startsWith("QCAAS");
+			}
 			
 			policy.dataGather().start();
 			
