@@ -1,0 +1,382 @@
+#BASE - Add bunch o drivers
+TestData_DriverTab_Assignment_1_4_CA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ca_select>@DataGather@GeneralTab',
+  DriverTab: ['@Driver1','@Driver2','@Driver3','@Driver4','@Driver5','@Driver6','@Driver7'],
+  VehicleTab: ['@Vehicle1','@Vehicle1','@Vehicle1','@Vehicle1','@Vehicle1','@Vehicle1','@Vehicle1'],
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: [  {
+                                         Primary Driver: index=1
+                                       },{
+                                         Primary Driver: index=1
+                                       },{
+                                         Primary Driver: index=1
+                                       },{
+                                         Primary Driver: index=1
+                                       },{
+                                         Primary Driver: index=1
+                                       },{
+                                         Primary Driver: index=1
+                                       },{
+                                         Primary Driver: index=1
+                                       }]
+  },
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Select'
+}
+
+TestData_DriverTab_Assignment_5_9_CA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ca_select>@DataGather@GeneralTab',
+  DriverTab: ['@Driver1','@Driver9','@Driver10','@Driver11','@Driver12','@Driver13','@Driver8'],
+  VehicleTab: ['@Vehicle1','@Vehicle1','@Vehicle1','@Vehicle1','@Vehicle1','@Vehicle1','@Vehicle1'],
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: [  {
+                                         Primary Driver: index=1
+                                       },{
+                                         Primary Driver: index=1
+                                       },{
+                                         Primary Driver: index=1
+                                       },{
+                                         Primary Driver: index=1
+                                       },{
+                                         Primary Driver: index=1
+                                       },{
+                                         Primary Driver: index=1
+                                       },{
+                                         Primary Driver: index=1
+                                       }]
+  },
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Select'
+}
+
+PremiumAndCoveragesTab_Select: {
+  Product: CA Select,
+  Payment Plan: Annual,
+  Apply eValue Discount: 'Yes',
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+}
+
+PrefillTab: {
+  First Name: Sarah,
+  Last Name: One,
+  Zip Code: 90255,
+  Address Line 1: 6586 PORCUPINE WAY,
+  City: HUNTINGTON PARK,
+  State: CA,
+  Date of Birth: $<today-21y>,
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+Vehicle1: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+  Primary Use: Pleasure (recreational driving only),
+  Odometer Reading: 7000
+}
+
+#FNI - Female, Single, 3 tyde, X dsrp - primary driver tie breaker
+Driver1: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': First Named Insured,
+  Age First Licensed: 19,
+  Gender: Female,
+  Marital Status: Single,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D1278701,
+  Most Recent GPA: 'A Student',
+}
+
+#Male, Single, 3 tyde, X dsrp - (not) primary driver tie breaker
+Driver2: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Bill,
+  Last Name: Two,
+  'Rel. to First Named Insured': Other,
+  Date of Birth: $<today-21y>,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435702,
+  Age First Licensed: 19,
+  Most Recent GPA: 'A Student',
+}
+
+#Female, Married, 2 tyde - tyde tie breaker
+Driver3: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Laura,
+  Last Name: Three,
+  'Rel. to First Named Insured': Other,
+  Date of Birth: $<today-20y>,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435703,
+  Age First Licensed: 19
+}
+
+#Male, Married, 3 tyde - tyde tie breaker
+Driver4: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Tom,
+  Last Name: Four,
+  'Rel. to First Named Insured': Other,
+  Date of Birth: $<today-21y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435704,
+  Age First Licensed: 19
+}
+
+#Male, (Married), 15 tyde, 6 dsrp - dsrp tie breaker
+Driver5: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Beck,
+  Last Name: Five,
+  'Rel. to First Named Insured': Other,
+  Date of Birth: $<today-33y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435705,
+  Age First Licensed: 19,
+  ActivityInformation: [
+{
+    Activity Source: 'Company Input',
+    Type: 'Accident',
+    Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+    Description: 'Fault accident with injury',
+    Loss Payment Amount: '1500',
+    Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    "Include in Points and/or YAF?": 'Yes'
+  },
+{
+  Activity Source: 'Company Input',
+  Type: 'Accident',
+  Occurrence Date: '$<today-2M:MM/dd/yyyy>',
+  Description: 'Fault accident with injury',
+  Loss Payment Amount: '2500',
+  Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+  "Include in Points and/or YAF?": 'Yes'
+},
+  {
+    Activity Source: 'Company Input',
+    Type: 'Accident',
+    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+    Description: 'Fault accident with injury',
+    Loss Payment Amount: '3500',
+    Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    "Include in Points and/or YAF?": 'Yes'
+  } ]
+}
+
+#Female, (Married), 15 tyde, 4 dsrp - dsrp tie breaker
+Driver6: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Jessica,
+  Last Name: Six,
+  'Rel. to First Named Insured': Other,
+  Date of Birth: $<today-33y>,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435706,
+  Age First Licensed: 19,
+  ActivityInformation: [
+    {
+      Activity Source: 'Company Input',
+      Type: 'Accident',
+      Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+      Description: 'Fault accident with injury',
+      Loss Payment Amount: '1500',
+      Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+      "Include in Points and/or YAF?": 'Yes'
+    },
+  {
+    Activity Source: 'Company Input',
+    Type: 'Accident',
+    Occurrence Date: '$<today-2M:MM/dd/yyyy>',
+    Description: 'Fault accident with injury',
+    Loss Payment Amount: '2500',
+    Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    "Include in Points and/or YAF?": 'Yes'
+  }]
+}
+
+#Female, Single, 5 tyde, 0 dsrp  - tyde tie breaker
+Driver7: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Laney,
+  Last Name: Seven,
+  'Rel. to First Named Insured': Other,
+  Date of Birth: $<today-22y>,
+  Gender: Female,
+  Marital Status: Single,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435707,
+  Age First Licensed: 18,
+  Most Recent GPA: 'A Student',
+}
+
+#Male, Single, 6tyde, 0dsrp
+Driver8: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Randall,
+  Last Name: Two,
+  'Rel. to First Named Insured': Other,
+  Date of Birth: $<today-23y>,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435708,
+  Age First Licensed: 18,
+  Most Recent GPA: 'A Student',
+}
+
+#Female, Married, 7 tyde, 0dsrp
+Driver9: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Mary,
+  Last Name: Three,
+  'Rel. to First Named Insured': Other,
+  Date of Birth: $<today-24y>,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435709,
+  Age First Licensed: 18
+}
+
+#Male, (Widowed), 15 tyde, 2dsrp
+Driver10: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Billy,
+  Last Name: Four,
+  'Rel. to First Named Insured': Other,
+  Date of Birth: $<today-33y>,
+  Gender: Male,
+  Marital Status: Widowed,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435710,
+  Age First Licensed: 18,
+  ActivityInformation:
+  {
+    Activity Source: 'Company Input',
+    Type: 'Accident',
+    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+    Description: 'Fault accident with injury',
+    Loss Payment Amount: '3500',
+    Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+    "Include in Points and/or YAF?": 'Yes'
+  }
+}
+
+# Female, Single, 12 tyde, 0dsrp
+Driver11: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Becca,
+  Last Name: Five,
+  'Rel. to First Named Insured': Other,
+  Date of Birth: $<today-29y>,
+  Gender: Female,
+  Marital Status: Single,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435711,
+  Age First Licensed: 18
+}
+
+#Female, Married, 11 tyde, 0dsrp - tyde tie breaker
+Driver12: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Bella,
+  Last Name: Six,
+  'Rel. to First Named Insured': Other,
+  Date of Birth: $<today-28y>,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435712,
+  Age First Licensed: 18
+}
+
+#Male, (Widowed), 12 tyde, 0dsrp - tyde tie breaker
+Driver13: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  First Name: Landry,
+  Last Name: Seven,
+  'Rel. to First Named Insured': Other,
+  Date of Birth: $<today-29y>,
+  Gender: Male,
+  Marital Status: Widowed,
+  Occupation: Architect,
+  License Type: "Valid",
+  License State: CA,
+  Permit Before License: 'Yes',
+  "License #": D5435713,
+  Age First Licensed: 18
+}
