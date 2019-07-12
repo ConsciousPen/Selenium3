@@ -97,7 +97,6 @@
                 <methods>
                     <include name="testRenewalScenario_1"/>
                     <include name="testRenewalScenario_2"/>
-                    <include name="testRenewalScenario_10"/>
                 </methods>
             </class>
         </classes>
