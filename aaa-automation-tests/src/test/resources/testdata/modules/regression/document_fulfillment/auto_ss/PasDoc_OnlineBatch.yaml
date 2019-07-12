@@ -866,7 +866,7 @@ DocumentsAndBindTab_ExcludedDriver: {
 
 DocumentsAndBindTab_Endorsement_ExcludedDriver: {
   RequiredToBind: {
-    Named Driver Exclusion Election: Physically Signed
+    Named Driver Exclusion: Physically Signed
   }
 }
 
