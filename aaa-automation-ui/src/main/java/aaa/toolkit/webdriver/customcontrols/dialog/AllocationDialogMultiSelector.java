@@ -1,8 +1,8 @@
 package aaa.toolkit.webdriver.customcontrols.dialog;
 
+import com.exigen.ipb.eisa.controls.dialog.type.AbstractDialogMultiSearch;
+import com.exigen.ipb.eisa.controls.dialog.type.AbstractDialogSearch;
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialogMultiSearch;
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialogSearch;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
