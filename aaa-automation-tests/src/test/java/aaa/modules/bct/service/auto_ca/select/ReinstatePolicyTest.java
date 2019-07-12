@@ -21,6 +21,17 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 
 	private TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);
 
+	/**
+	 * @name Reinstatement
+	 * @scenario
+	 * 1. User retrieves the policy which is in "Cancelled" state with following reasons:
+	 * 2. Policy has cancelled due to insured request reason / UW cancel reason.
+	 * 3. User tries to reinstate - System determines that Reinstate Date' is within the last 48 days of the policy term and displays the following message:"Policy will be reinstated with lapse. Do you wish to continue?".
+	 * 4. User selects 'Yes' and policy reinstated with lapse
+	 * 5. On policy consolidated view the status of Policy is active and  term includes lapse in policy.
+	 * 6. Under transaction history, reinstatement without lapase is logged.
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {CA})
@@ -37,6 +48,15 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
+	/**
+	 * @name Reinstatement
+	 * @scenario
+	 * 1. "Retrieve an Active policy and make a flat cancellation"
+	 * 2. On cancelling policy-  Payments & Other transactions section display an entry for cancellation.
+	 * 3. Policy is reinstated with reinstatement date equal to cancellation effective date, and Total due is no more zero.
+	 * 4. Under transaction history, reinstatement without lapase is logged.
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {CA})
