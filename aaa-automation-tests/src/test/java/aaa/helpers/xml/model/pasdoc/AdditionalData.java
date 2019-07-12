@@ -22,10 +22,6 @@ public class AdditionalData {
 		return this;
 	}
 
-	public DataElement findDataElement(String dataElementName) {
-		return this.getDataElement().stream().filter(p -> dataElementName.equals(p.getName())).findFirst().orElse(null);
-	}
-
 	@Override
 	public String toString() {
 		return "AdditionalData{" +
