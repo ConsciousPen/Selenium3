@@ -154,6 +154,7 @@ public final class FinancialsSQL {
 		public static final String ESCHEATMENT = "Escheatment";
 		public static final String SMALL_BALANCE_WRITEOFF = "SmallBalanceWriteoff";
 		public static final String CROSS_POLICY_TRANSFER = "CrossPolicyTransfer";
+		public static final String EARNED_PREMIUM_WRITE_OFF = "EarnedPremiumWriteoff";
     }
 
 }
