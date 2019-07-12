@@ -75,7 +75,7 @@ public final class DocGenEnum {
 		AA43WV("Named Driver Exclusion Endorsement"),
 		AA47CA(""),
 		AA49CA(""),
-		AA52AZ("Uninsured and Underinsured Motorist Coverage Selection"),
+		AA52AZ("UUMCS", "AA52AZ", "Uninsured and Underinsured Motorist Coverage Selection"),
 		AA52AZ_UPPERCASE("AA52AZ", "UNINSURED AND UNDERINSURED MOTORIST COVERAGE SELECTION FORM"),
 		AA52CA("Agreement Deleting Uninsured/ Underinsured Motorist Bodily Injury Coverage"),
 		AA52COA("RUMBIC", "AA52COA", "Rejection of Uninsured/Underinsured Motorists Coverage"),

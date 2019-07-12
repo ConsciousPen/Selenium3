@@ -15,10 +15,6 @@
                     <!--<include name="pas28573_rfiAA52AZTriggeredUIM"/>-->
                     <!--<include name="pas28573_rfiAA52AZNotTriggeredWhenRuleOverriddenUM"/>-->
                     <!--<include name="pas28573_rfiAA52AZNotTriggeredWhenRuleOverriddenUIM"/>-->
-                    <!--<include name="pas28573_rfiAA52AZUpdateUMInDXPDocumentNotTriggered"/>-->
-                    <!--<include name="pas28573_rfiAA52AZUpdateUIMInDXPDocumentNotTriggered"/>-->
-                    <!--<include name="pas28573_rfiAA52AZUpdateUMInPASDocumentNotTriggered"/>-->
-                    <!--<include name="pas28573_rfiAA52AZUpdateUIMInPASDocumentNotTriggered"/>-->
                 <!--</methods>-->
             <!--</class>-->
         <!--</classes>-->

@@ -7,10 +7,13 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.docgen.impl.PasDocImpl;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.helpers.xml.model.Document;
+import aaa.helpers.xml.model.pasdoc.DocumentGenerationRequest;
 import aaa.main.enums.*;
 import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
@@ -45,7 +48,7 @@ public abstract class TestRFIHelper extends PolicyBaseTest {
 
             String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, document.getIdInXml(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
             if (checkDocXML) {
-                verifyDocInDb(softly, query, document, true); //tags expected only for Electronically signed doc
+                verifyDocInDb(softly, policyNumber, query, document, true); //tags expected only for Electronically signed doc
             }
 
             //Go to PAS and verify
@@ -55,7 +58,7 @@ public abstract class TestRFIHelper extends PolicyBaseTest {
 		        if ((document.equals(DocGenEnum.Documents.AA52UPAA) || document.equals(DocGenEnum.Documents.AA52IPAA) || document.equals(DocGenEnum.Documents._550007) || document.equals(DocGenEnum.Documents.AAFPPA)) && !isRuleOverridden) { //isRuleOverridden means that Document was not signed.
 			        DocGenHelper.checkDocumentsDoesNotExistInXml(policyNumber, AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE, document);// Document does not exist
 		        } else {
-			        validateDocSignTagsNotExist(document, query); //Document doesn't contain DocSignTags if signed in PAS
+			        validateDocSignTagsNotExist(policyNumber, document, query); //Document doesn't contain DocSignTags if signed in PAS
 		        }
             }
         });
@@ -128,28 +131,38 @@ public abstract class TestRFIHelper extends PolicyBaseTest {
         HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), doccId);
     }
 
-    protected void verifyDocInDb(ETCSCoreSoftAssertions softly, String query, DocGenEnum.Documents document, boolean isDocSignTagsExpected) {
+    protected void verifyDocInDb(ETCSCoreSoftAssertions softly, String policyNumber, String query, DocGenEnum.Documents document, boolean isDocSignTagsExpected) {
         if (isDocSignTagsExpected) {
-            Document docInXml = DocGenHelper.getDocument(document, query);
-            String name = DocGenHelper.getDocumentDataElemByName("DocSignedBy", docInXml).getDataElementChoice().getTextField();
-            String date = DocGenHelper.getDocumentDataElemByName("DocSignedDate", docInXml).getDataElementChoice().getDateTimeField();
-            String currentDate = DateTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            String name;
+            String date;
+            if (DocGenHelper.isPasDocEnabled(policyNumber)) {
+                DocumentGenerationRequest docGenReq = PasDocImpl.verifyDocumentsGenerated(PolicySummaryPage.getPolicyNumber(), document);
+                aaa.helpers.xml.model.pasdoc.Document doc = docGenReq.findDocument(document);
+                name = doc.getDocSignedBy();
+                date = doc.getDocSignedDate();
+            } else {
+                Document docInXml = DocGenHelper.getDocument(document, query);
+                name = DocGenHelper.getDocumentDataElemByName("DocSignedBy", docInXml).getDataElementChoice().getTextField();
+                date = DocGenHelper.getDocumentDataElemByName("DocSignedDate", docInXml).getDataElementChoice().getDateTimeField();
+            }
+            String currentDate = DateTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));//current System date instead of AZ Timezone date. Will have new story to be AZ Timezone, if needed.
             softly.assertThat(name).isEqualTo("Megha Gubbala");
             softly.assertThat(date).startsWith(currentDate);
-            softly.assertThat(date).endsWith("-07:00"); // validates that the document's DocSignedDate ends with an AZ timestamp
+            softly.assertThat(date).endsWith(":00");// validates that the document's DocSignedDate ends with timestamp (currently it is system Timezone, will have new story to be AZ Timezone, if needed)
         } else {
-            validateDocSignTagsNotExist(document, query);
+            validateDocSignTagsNotExist(policyNumber, document, query);
         }
     }
 
     protected void goToPasAndVerifyRuleAndSignedBy(ETCSCoreSoftAssertions softly, String policyNumber,
-                                                 AssetDescriptor<RadioGroup> documentAsset, AssetDescriptor<? extends AbstractEditableStringElement> coverageAsset,
-                                                 String coverageLimit, ErrorEnum.Errors error, boolean isRuleOverridden) {
+            AssetDescriptor<RadioGroup> documentAsset, AssetDescriptor<? extends AbstractEditableStringElement> coverageAsset,
+            String coverageLimit, ErrorEnum.Errors error, boolean isRuleOverridden) {
         //create endorsement from pas go to bind page verify document is electronically signed
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         softly.assertThat(getDocumentAssetList().getAsset(documentAsset).getValue()).isEqualTo("Electronically Signed");
 
@@ -168,9 +181,16 @@ public abstract class TestRFIHelper extends PolicyBaseTest {
         }
     }
 
-    protected void validateDocSignTagsNotExist(DocGenEnum.Documents document, String query) {
-        assertThat(DocGenHelper.getDocument(document, query).toString().contains("DocSignedBy")).isFalse();
-        assertThat(DocGenHelper.getDocument(document, query).toString().contains("DocSignedDate")).isFalse();
+    protected void validateDocSignTagsNotExist(String policyNumber, DocGenEnum.Documents document, String query) {
+        if (DocGenHelper.isPasDocEnabled(policyNumber)) {
+            DocumentGenerationRequest docGenReq = PasDocImpl.verifyDocumentsGenerated(PolicySummaryPage.getPolicyNumber(), document);
+            aaa.helpers.xml.model.pasdoc.Document doc = docGenReq.findDocument(document);
+            assertThat(doc.getDocSignedBy()).as("DocSignedBy tag is not expected").isNull();
+            assertThat(doc.getDocSignedDate()).as("DocSignedDate tag is not expected").isNull();
+        } else {
+            assertThat(DocGenHelper.getDocument(document, query).toString().contains("DocSignedBy")).isFalse();
+            assertThat(DocGenHelper.getDocument(document, query).toString().contains("DocSignedDate")).isFalse();
+        }
     }
 
     protected abstract AssetList getDocumentAssetList();
