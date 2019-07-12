@@ -45,4 +45,17 @@
             </class>
         </classes>
     </test>
+    <!--todo Uncomment when tested and DEV branch is merged to Master-->
+    <!--<test thread-count="1024" name="RFI AA52CT" parallel="methods">-->
+        <!--<parameter name="state" value="CT"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">-->
+                <!--<methods>-->
+                    <!--<include name="pas28500_AA52CT_UMBIUpdateInDXP"/>-->
+                    <!--<include name="pas28500_AA52CT_UMBIUpdateInPAS"/>-->
+                    <!--<include name="pas28500_AA52CT_UMCCUpdateInDXPAndPAS"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
 </suite>
