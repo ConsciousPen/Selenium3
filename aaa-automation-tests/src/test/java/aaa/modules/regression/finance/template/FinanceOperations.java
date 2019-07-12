@@ -32,22 +32,16 @@ import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PolicyBaseTest;
-import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 
-public abstract class FinanceOperations extends PolicyBaseTest {
+public abstract class FinanceOperations extends PolicyOperations {
 
 	private static final String CANCELLATION = "cancellation";
 	private static final BigDecimal TOLERANCE_AMOUNT = new BigDecimal(7);
 	private static final String ZERO = "0";
-
-	BillingAccount billingAccount = new BillingAccount();
-	TestData tdBilling = testDataManager.billingAccount;
 
 	/**
 	 * @author Reda Kazlauskiene

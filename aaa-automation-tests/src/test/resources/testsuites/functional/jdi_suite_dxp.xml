@@ -1424,6 +1424,32 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="Default COMP and COLL (if they are No Coverage) when replacing vehicle with Financed/Leased vehicle (Auto SS)" parallel="methods">
+        <parameter name="state" value="NV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas31098_noCollAndCompFNC"/>
+                    <include name="pas31098_noCollFNC"/>
+                    <include name="pas31098_noCollAndCompLSD"/>
+                    <include name="pas31098_noCollLSD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="Default COMP and COLL (if they are No Coverage) when replacing vehicle with Financed/Leased vehicle (CA Select)" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas31098_noCollAndCompFNC"/>
+                    <include name="pas31098_noCollFNC"/>
+                    <include name="pas31098_noCollAndCompLSD"/>
+                    <include name="pas31098_noCollLSD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="CA Coverages - OEM Coverage and ETEC Coverage" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>

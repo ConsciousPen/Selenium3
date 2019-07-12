@@ -1,5 +1,6 @@
 package aaa.helpers.ssh;
 
+import static aaa.helpers.ssh.RemoteHelper.OS.*;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
@@ -11,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
@@ -26,11 +28,28 @@ public final class RemoteHelper {
 
 	private ConnectionParams connectionParams;
 	private Ssh ssh;
+	private static OS currentOS = null;
 
 	private RemoteHelper(ConnectionParams connectionParams) {
 		this.connectionParams = connectionParams;
 		log.info("Establishing remote connection with {}", connectionParams);
 		this.ssh = new Ssh(connectionParams);
+	}
+
+	public static OS getCurrentOS() {
+		if (currentOS == null) {
+			String osType = get().executeCommand("uname -s").getOutput();
+			if (osType.contains("Unable to execute command or shell on remote system") || osType.contains("CYGWIN") || osType.contains("MINGW32") || osType.contains("MSYS")) {
+				currentOS = WINDOWS;
+			} else if (osType.contains("Linux")) {
+				currentOS = LINUX;
+			} else if (osType.contains("Darwin")) {
+				currentOS = MAC_OS;
+			} else {
+				currentOS = UNKNOWN;
+			}
+		}
+		return currentOS;
 	}
 
 	public String getServerTimeZone() {
@@ -287,7 +306,7 @@ public final class RemoteHelper {
 		log.info("Found file(s): {} after {} milliseconds", foundFiles, searchTime);
 		return foundFiles;
 	}
-	
+
 	/**
 	 * Wait and check document(s) with <b>textsToSearchPatterns</b> is appeared in <b>sourceFolder</b>
 	 * @param sourceFolder		folder where file(s) search will be performed
@@ -316,8 +335,8 @@ public final class RemoteHelper {
 			}
 		}
 		while (timeout > System.currentTimeMillis());
-		
-		return isDocGenerated; 
+
+		return isDocGenerated;
 	}
 
 	public LocalDateTime getLastModifiedTime(String path) {
@@ -327,11 +346,25 @@ public final class RemoteHelper {
 
 	public List<String> getFilesListBySearchPattern(String sourceFolder, String fileExtension, List<String> textsToSearchPatterns) {
 		StringBuilder grepCmd = new StringBuilder();
-		for (String textToSearch : textsToSearchPatterns) {
-			grepCmd.append(" | xargs -r grep -li '").append(textToSearch).append("'");
+		String correctedFileExtension = fileExtension == null ? "*" : fileExtension;
+		String cmd;
+		OS currentOS = getCurrentOS();
+		switch (currentOS) {
+			case WINDOWS:
+				for (String textToSearch : textsToSearchPatterns) {
+					grepCmd.append(" findstr /s /i /m \"").append(textToSearch).append("\" *./FILE_EXTENSION/ |");
+				}
+				cmd = StringUtils.removeEnd(String.format("cmd /c cd /d %1$s && %2$s",
+						sourceFolder, grepCmd.toString()).replace("/FILE_EXTENSION/", correctedFileExtension),"|");
+				break;
+			default:
+				for (String textToSearch : textsToSearchPatterns) {
+					grepCmd.append(" | xargs -r grep -li '").append(textToSearch).append("'");
+				}
+
+				cmd = String.format("cd %1$s; find . -type f -iname '*.%2$s' -print%3$s | xargs -r ls -t | xargs -r readlink -f", sourceFolder,
+						correctedFileExtension, grepCmd.toString());
 		}
-		String cmd = String.format("cd %1$s; find . -type f -iname '*.%2$s' -print%3$s | xargs -r ls -t | xargs -r readlink -f", sourceFolder,
-				fileExtension == null ? "*" : fileExtension, grepCmd.toString());
 		String commandOutput = executeCommand(cmd).getOutput();
 		return !commandOutput.isEmpty() ? Arrays.asList(commandOutput.split("\n")) : new ArrayList<>();
 	}
@@ -349,5 +382,9 @@ public final class RemoteHelper {
 		long date = TimeSetterUtil.getInstance().getCurrentTime().atZone(ZoneId.systemDefault()).toEpochSecond();
 
 		return date - Long.parseLong(m.group(1)) < delta;
+	}
+
+	public enum OS {
+		LINUX, MAC_OS, UNKNOWN, WINDOWS
 	}
 }

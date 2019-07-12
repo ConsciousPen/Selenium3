@@ -51,7 +51,7 @@ public class LedgerHelper {
 				"where p.policyNumber = '%s' "+
 				"and pe.premiumtype in ('NET_PREMIUM', 'ENDORSEMENT') "+
 				"and pe.PREMIUMCD='NWT') "+
-				"where TXTYPE not in ('renewal')" +
+				"where TXTYPE not in ('%s')" +
 				"group by TRANSACTIONDATE, TRANSACTIONEFFECTIVEDATE, txtype "+
 				"order by TRANSACTIONDATE ";
 
@@ -88,12 +88,20 @@ public class LedgerHelper {
 	}
 
 	public static List<Map<String, String>> getTermAndActualPremiums(@Nonnull String policyNumber) {
-		String query = String.format(GET_TERM_AND_ACTUAL_PREMIUMS_UPDATED, policyNumber);
+		return getTermAndActualPremiums(policyNumber, "renewal");
+	}
+
+	public static List<Map<String, String>> getTermAndActualPremiums(@Nonnull String policyNumber, @Nonnull String txType) {
+		String query = String.format(GET_TERM_AND_ACTUAL_PREMIUMS_UPDATED, policyNumber, txType);
 		return DBService.get().getRows(query);
 	}
 
 	public static Dollar getEndingActualPremium(@Nonnull String policyNumber) {
-		String query = String.format(GET_TERM_AND_ACTUAL_PREMIUMS_DESC, policyNumber);
+		return getEndingActualPremium(policyNumber, "renewal");
+	}
+
+	public static Dollar getEndingActualPremium(@Nonnull String policyNumber, @Nonnull String txType) {
+		String query = String.format(GET_TERM_AND_ACTUAL_PREMIUMS_DESC, policyNumber, txType);
 		Map<String, String> premiums = DBService.get().getRow(query);
 		return new Dollar(premiums.get(ACTUAL_PREMIUM));
 	}
