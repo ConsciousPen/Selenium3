@@ -64,8 +64,14 @@ AAAProductOwned: {
     'column=7': 'Edit',
     Policy Number: '123',
     Save: 'click'}]
+}
+OtherAAAProductsOwned: {
+  Refresh: click
+}
 
-
+AAAMembership: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001
 }
 
 CurrentCarrierInformation: {
@@ -135,10 +141,11 @@ GeneralTab1_CA: {
 }
 
 GeneralTab1_CA_Discount: {
-  ContactInformation: '@ContactInformation',
-  AAAProductOwned: '@AAAProductOwned',
-  PolicyInformation: '@PolicyInformation',
   NamedInsuredInformation: ['@NamedInsuredInformation1_CA'],
+  AAAMembership: '@AAAMembership',
+  OtherAAAProductsOwned: '@OtherAAAProductsOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation',
 }
 
 Driver_FNI: {

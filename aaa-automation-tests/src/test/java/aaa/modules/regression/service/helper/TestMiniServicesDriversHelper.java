@@ -2607,33 +2607,38 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	}
 
 	protected void verifyDiscounts(DiscountSummary policyDiscountsResponse) {
-		assertThat(policyDiscountsResponse.policyDiscounts.get(0).discountCd).isEqualTo("MPD");
-		assertThat(policyDiscountsResponse.policyDiscounts.get(0).discountName).isEqualTo("Multi-Policy Discount");
 
-		assertThat(policyDiscountsResponse.policyDiscounts.get(1).discountCd).isEqualTo("MVD");
-		assertThat(policyDiscountsResponse.policyDiscounts.get(1).discountName).isEqualTo("Multi-Vehicle Discount");
+		assertThat(policyDiscountsResponse.policyDiscounts.stream().filter(d -> d.discountCd.equals("MPD")).findAny()).isPresent();
+		assertThat(policyDiscountsResponse.policyDiscounts.stream().filter(d -> d.discountName.equals("Multi-Policy Discount")).findAny()).isPresent();
 
-		assertThat(policyDiscountsResponse.driverDiscounts.get(0).discountCd).isEqualTo("GDD");
-		assertThat(policyDiscountsResponse.driverDiscounts.get(0).discountName).isEqualTo("Good Driver Discount");
+		assertThat(policyDiscountsResponse.policyDiscounts.stream().filter(d -> d.discountCd.equals("MVD")).findAny()).isPresent();
+		assertThat(policyDiscountsResponse.policyDiscounts.stream().filter(d -> d.discountName.equals("Multi-Vehicle Discount")).findAny()).isPresent();
 
-		assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountCd).isEqualTo("MDD");
-		assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountName).isEqualTo("Mature Driver Discount");
+		assertThat(policyDiscountsResponse.driverDiscounts.stream().filter(d -> d.discountCd.equals("GDD")).findAny()).isPresent();
+		assertThat(policyDiscountsResponse.driverDiscounts.stream().filter(d -> d.discountName.equals("Good Driver Discount")).findAny()).isPresent();
 
-		assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountCd).isEqualTo("NDD");
-		assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountName).isEqualTo("New Driver Discount");
+		assertThat(policyDiscountsResponse.driverDiscounts.stream().filter(d -> d.discountCd.equals("MDD")).findAny()).isPresent();
+		assertThat(policyDiscountsResponse.driverDiscounts.stream().filter(d -> d.discountName.equals("Mature Driver Discount")).findAny()).isPresent();
 
-		assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountCd).isEqualTo("GSD");
-		assertThat(policyDiscountsResponse.driverDiscounts.get(1).discountName).isEqualTo("Good Student Discount");
+		assertThat(policyDiscountsResponse.driverDiscounts.stream().filter(d -> d.discountCd.equals("NDD")).findAny()).isPresent();
+		assertThat(policyDiscountsResponse.driverDiscounts.stream().filter(d -> d.discountName.equals("New Driver Discount")).findAny()).isPresent();
+
+		assertThat(policyDiscountsResponse.driverDiscounts.stream().filter(d -> d.discountCd.equals("GSD")).findAny()).isPresent();
+		assertThat(policyDiscountsResponse.driverDiscounts.stream().filter(d -> d.discountName.equals("Good Student Discount")).findAny()).isPresent();
 	}
 
 	protected void pas22513_ViewDiscountDriverBody(PolicyType policyType) {
+
 		assertSoftly(softly -> {
-			TestData td = getTestSpecificTD("TestDataDiscountCA");
+
+			// REFRESH_P gets wiremock data which lets us link other policies for the Multi-Policy discount
+			TestData td = getTestSpecificTD("TestDataDiscountCA")
+					.adjust(TestData.makeKeyPath(AutoCaMetaData.PrefillTab.class.getSimpleName(),
+						AutoCaMetaData.PrefillTab.LAST_NAME.getLabel()), "REFRESH_P");
 
 			mainApp().open();
 			createCustomerIndividual();
-			policyType.get().createPolicy(td);
-			String policyNumber = getCopiedPolicy();
+			String policyNumber = createPolicy(td);
 
 			DiscountSummary policyDiscountsResponse = HelperCommon.viewDiscounts(policyNumber, "policy", 200);
 			verifyDiscounts(policyDiscountsResponse);
