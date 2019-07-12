@@ -7,9 +7,11 @@ import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.helper.TestMiniServicesCoveragesHelperCA;
 import aaa.utils.StateList;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA {
@@ -302,5 +304,81 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelperCA
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-17642", "PAS-30778"})
 	public void pas17642_UpdateCoverageADB_CA(@Optional("CA") String state) {
 		pas17642_UpdateCoverageADBBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Default COMP and COLL to default values when replacing vehicle with financed/leased vehicle
+	 * @scenario
+	 * 1. Create policy in PAS with owned vehicle without COMP and COLL
+	 * 2. Create endorsement through service
+	 * 3. Replace vehicle with Financed vehicle
+	 * 4. Verify that COMP and COLL is defaulted to state default values
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-31098"})
+	public void pas31098_noCollAndCompFNC(@Optional("CA") String state) {
+		TestData testData = getPolicyDefaultTD();
+		testData.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel()), "contains=No Coverage");
+		pas31098_body(testData, "FNC");
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Default COMP and COLL to default values when replacing vehicle with financed/leased vehicle
+	 * @scenario
+	 * 1. Create policy in PAS with owned vehicle without COLL
+	 * 2. Create endorsement through service
+	 * 3. Replace vehicle with Financed vehicle
+	 * 4. Verify that COMP and COLL is defaulted to state default values
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-31098"})
+	public void pas31098_noCollFNC(@Optional("CA") String state) {
+		TestData testData = getPolicyDefaultTD();
+		testData.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE.getLabel()), "contains=No Coverage");
+		pas31098_body(testData, "FNC");
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Default COMP and COLL to default values when replacing vehicle with financed/leased vehicle
+	 * @scenario
+	 * 1. Create policy in PAS with owned vehicle without COMP and COLL
+	 * 2. Create endorsement through service
+	 * 3. Replace vehicle with Leased vehicle
+	 * 4. Verify that COMP and COLL is defaulted to state default values
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-31098"})
+	public void pas31098_noCollAndCompLSD(@Optional("CA") String state) {
+		TestData testData = getPolicyDefaultTD();
+		testData.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel()), "contains=No Coverage");
+		pas31098_body(testData, "LSD");
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Default COMP and COLL to default values when replacing vehicle with financed/leased vehicle
+	 * @scenario
+	 * 1. Create policy in PAS with owned vehicle without COLL
+	 * 2. Create endorsement through service
+	 * 3. Replace vehicle with Leased vehicle
+	 * 4. Verify that COMP and COLL is defaulted to state default values
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT, testCaseId = {"PAS-31098"})
+	public void pas31098_noCollLSD(@Optional("CA") String state) {
+		TestData testData = getPolicyDefaultTD();
+		testData.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE.getLabel()), "contains=No Coverage");
+		pas31098_body(testData, "LSD");
 	}
 }

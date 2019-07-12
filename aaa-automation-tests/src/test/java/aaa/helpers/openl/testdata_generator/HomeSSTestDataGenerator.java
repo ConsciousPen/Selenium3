@@ -7,8 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.mock.ApplicationMocksManager;
@@ -365,6 +365,9 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		);
 		if (addressContainsCounty(openLPolicy.getPolicyAddress().getState())) {
 			dwellingAddressData.adjust(DataProviderFactory.dataOf(HomeSSMetaData.ApplicantTab.DwellingAddress.COUNTY.getLabel(), "County"));
+		}
+		if (openLPolicy.getPolicyAddress().getRetCommunityPresent()){
+			dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.RETIREMENT_COMMUNITY.getLabel(), "index=1");
 		}
 
 		List<TestData> otherActiveAAAPoliciesData = new ArrayList<>();

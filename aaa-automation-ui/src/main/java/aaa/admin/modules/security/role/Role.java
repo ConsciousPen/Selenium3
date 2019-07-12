@@ -2,12 +2,13 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.admin.modules.security.role;
 
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
 import aaa.admin.metadata.security.RoleMetaData;
 import aaa.admin.modules.security.ChannelType;
 import aaa.admin.modules.security.role.defaulttabs.GeneralRoleTab;
 import aaa.admin.modules.security.role.views.DefaultView;
 import aaa.admin.pages.security.RolePage;
+import aaa.common.Tab;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -57,7 +58,7 @@ public class Role implements IRole {
         initiate();
         getDefaultView().fill(td);
         String entity = EntityLogger.getEntityHeader(EntityLogger.EntityType.ROLE);
-        GeneralRoleTab.buttonSave.click();
+		Tab.buttonSave.click();
         log.info("Created Role " + entity);
     }
 

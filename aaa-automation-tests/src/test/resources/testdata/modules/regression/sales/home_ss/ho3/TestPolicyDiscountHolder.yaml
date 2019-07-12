@@ -14,7 +14,7 @@ NamedInsured_YoungHomeOwner: {
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
-  InsuranceScoreReport: [{Report: 'Re-ord'}],
+  InsuranceScoreReport: [{Report: 'index=1'}],
   CLUEreport: [{Report: 'Re-order report'}]
 }
 

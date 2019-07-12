@@ -1,13 +1,18 @@
 package aaa.modules.e2e.templates;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.*;
 import aaa.helpers.http.HttpStub;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants.*;
@@ -19,16 +24,10 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
 
 public class Scenario11 extends ScenarioBaseTest { 
 	
@@ -140,7 +139,7 @@ public class Scenario11 extends ScenarioBaseTest {
 		//DD1-20 
 		LocalDateTime dueDate = getTimePoints().getOffcycleBillGenerationDate(offCycleBillDueDate1);
 		TimeSetterUtil.getInstance().nextPhase(dueDate);
-		JobUtils.executeJob(Jobs.offCycleBillingInvoiceAsyncJob);
+		JobUtils.executeJob(BatchJob.offCycleBillingInvoiceAsyncJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -201,7 +200,7 @@ public class Scenario11 extends ScenarioBaseTest {
 		//DD2-20 
 		LocalDateTime dueDate = getTimePoints().getOffcycleBillGenerationDate(offCycleBillDueDate2);
 		TimeSetterUtil.getInstance().nextPhase(dueDate);
-		JobUtils.executeJob(Jobs.offCycleBillingInvoiceAsyncJob);
+		JobUtils.executeJob(BatchJob.offCycleBillingInvoiceAsyncJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -223,9 +222,9 @@ public class Scenario11 extends ScenarioBaseTest {
 	protected void renewalImageGeneration() {
 		LocalDateTime renewDateImage = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewDateImage);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -234,7 +233,7 @@ public class Scenario11 extends ScenarioBaseTest {
 
 	protected void renewalPreviewGeneration() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -248,7 +247,7 @@ public class Scenario11 extends ScenarioBaseTest {
 	protected void renewalOfferGeneration(ETCSCoreSoftAssertions softly) {
 		LocalDateTime renewDateOffer = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewDateOffer);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -276,7 +275,7 @@ public class Scenario11 extends ScenarioBaseTest {
 	protected void generateRenewalBill() {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
@@ -292,8 +291,8 @@ public class Scenario11 extends ScenarioBaseTest {
 	protected void updatePolicyStatus() {
 		LocalDateTime updateStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(updateStatusDate);
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -325,7 +324,7 @@ public class Scenario11 extends ScenarioBaseTest {
 	//For AutoCA, HomeCA
 	protected void payRenewalOfferNotInFullAmount(Dollar toleranceAmount) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate)); //.plusHours(1));
-		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -346,7 +345,7 @@ public class Scenario11 extends ScenarioBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusDays(5));
 
 		//TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(20));
-		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyLapsedRenewalProcessAsyncJob);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -379,8 +378,8 @@ public class Scenario11 extends ScenarioBaseTest {
 	protected void refundGeneration() {		
 		//2DD1+10 
 		LocalDateTime refundDueDate = policyExpirationDate.plusMonths(1).plusDays(10);
-		TimeSetterUtil.getInstance().nextPhase(refundDueDate);		
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		TimeSetterUtil.getInstance().nextPhase(refundDueDate);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum); 

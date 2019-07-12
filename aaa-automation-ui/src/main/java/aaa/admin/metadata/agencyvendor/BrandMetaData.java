@@ -3,9 +3,7 @@
 package aaa.admin.metadata.agencyvendor;
 
 import org.openqa.selenium.By;
-
-import com.exigen.ipb.etcsa.controls.AdvancedSelector;
-
+import com.exigen.ipb.eisa.controls.AdvancedSelector;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;

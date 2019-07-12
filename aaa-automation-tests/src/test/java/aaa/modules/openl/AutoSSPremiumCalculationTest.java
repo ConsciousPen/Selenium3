@@ -5,7 +5,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLVehicle;
 import aaa.main.modules.policy.auto_ss.actiontabs.CancellationActionTab;
 import aaa.main.modules.policy.auto_ss.actiontabs.ReinstatementActionTab;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;

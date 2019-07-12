@@ -34,7 +34,7 @@ ApplicantTab_PA: {
   MailingAddress: {},
   NamedInsuredInformation: {},
   OtherActiveAAAPolicies: {
-    ActiveUnderlyingPoliciesSearch: {},
+    #ActiveUnderlyingPoliciesSearch: {},
     ActiveUnderlyingPoliciesManual: {
       Policy type: HO3,
       Policy number: '123456789',

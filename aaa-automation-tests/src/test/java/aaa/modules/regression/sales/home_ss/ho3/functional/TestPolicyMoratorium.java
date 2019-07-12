@@ -1,6 +1,9 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.LinkedList;
+import java.util.List;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -31,6 +34,7 @@ import toolkit.utils.TestInfo;
 
 public class TestPolicyMoratorium extends PolicyMoratorium {
 
+	private static List<String> moratoriumList = new LinkedList<>();
 	IProduct moratorium = ProductType.MORATORIUM.get();
 	PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 	ProductOfferingTab productOfferingTab = new ProductOfferingTab();
@@ -68,58 +72,56 @@ public class TestPolicyMoratorium extends PolicyMoratorium {
 		String moratoriumZipCode = getMoratoriumZipCode(td);
 		String moratoriumCity = getMoratoriumCity(td);
 		String moratoriumName = getMoratoriumName(td);
+		moratoriumList.add(moratoriumName);
 		String moratoriumDisplayMessage = getExpectedMoratoriumMessage(td);
 		String moratoriumCustomerNumber;
 		TestData testData = adjustDwellingAddress(moratoriumZipCode, addressLine);
-		try {
-			//Step 1 -- entry needs to be added to the AAAMoratoriumGeographyLocationInfo lookup in order to be able to select it when creating moratorium in Step 2.
-			log.info("Step 1: Add ZIP Code entry in lookupvalue table if not exists.");
-			DBService.get().executeUpdate(insertLookupEntry(moratoriumZipCode, moratoriumCity, "AZ"));
+		//Step 1 -- entry needs to be added to the AAAMoratoriumGeographyLocationInfo lookup in order to be able to select it when creating moratorium in Step 2.
+		log.info("Step 1: Add ZIP Code entry in lookupvalue table if not exists.");
+		DBService.get().executeUpdate(insertLookupEntry(moratoriumZipCode, moratoriumCity, "AZ"));
 
-			//Step 2
-			log.info("Step 2: Set Soft Stop moratorium on Premium Calculation and Hard Stop moratorium on Bind.");
-			adminApp().open();
-			moratorium.create(td
-					.adjust(TestData.makeKeyPath("AddMoratoriumTab", MoratoriumMetaData.AddMoratoriumTab.MORATORIUM_NAME.getLabel()), moratoriumName)
-					.adjust(TestData.makeKeyPath("AddMoratoriumTab", "AddRuleSection", MoratoriumMetaData.AddMoratoriumTab.AddRuleSection.DISPLAY_MESSAGE.getLabel()), moratoriumDisplayMessage));
+		//Step 2
+		log.info("Step 2: Set Soft Stop moratorium on Premium Calculation and Hard Stop moratorium on Bind.");
+		adminApp().open();
+		moratorium.create(td
+				.adjust(TestData.makeKeyPath("AddMoratoriumTab", MoratoriumMetaData.AddMoratoriumTab.MORATORIUM_NAME.getLabel()), moratoriumName)
+				.adjust(TestData.makeKeyPath("AddMoratoriumTab", "AddRuleSection", MoratoriumMetaData.AddMoratoriumTab.AddRuleSection.DISPLAY_MESSAGE.getLabel()), moratoriumDisplayMessage));
 
-			//Step 3
-			log.info("Step 3: Create a customer.");
-			mainApp().open();
-			moratoriumCustomerNumber = createCustomer(moratoriumZipCode, addressLine);
+		//Step 3
+		log.info("Step 3: Create a customer.");
+		mainApp().open();
+		moratoriumCustomerNumber = createCustomer(moratoriumZipCode, addressLine);
 
-			//Step 4
-			log.info("Step 4: Initiate a Home SS quote and go to Premium and Coverages Product Offering tab.");
-			policy.initiate();
-			//when moratorium is set on particular address (state, city, zip code) it will be triggered only if dwelling address contains this geo data
-			//dwelling address needs to be adjusted in order to moratorium tests not to affect other tests (moratorium will be set to this zip code and will not affect policies with other zip codes)
-			policy.getDefaultView().fillUpTo(testData, ProductOfferingTab.class, false);
+		//Step 4
+		log.info("Step 4: Initiate a Home SS quote and go to Premium and Coverages Product Offering tab.");
+		policy.initiate();
+		//when moratorium is set on particular address (state, city, zip code) it will be triggered only if dwelling address contains this geo data
+		//dwelling address needs to be adjusted in order to moratorium tests not to affect other tests (moratorium will be set to this zip code and will not affect policies with other zip codes)
+		policy.getDefaultView().fillUpTo(testData, ProductOfferingTab.class, false);
 
-			//Step 5
-			log.info("Step 5: Press Calculate Premium button on Product Offering tab, validate Soft Stop pop-up dialog and press Cancel.");
-			productOfferingTab.btnCalculatePremium.click();
-			softStopPopUpCheckAndCancel(moratoriumDisplayMessage);
+		//Step 5
+		log.info("Step 5: Press Calculate Premium button on Product Offering tab, validate Soft Stop pop-up dialog and press Cancel.");
+		productOfferingTab.btnCalculatePremium.click();
+		softStopPopUpCheckAndCancel(moratoriumDisplayMessage);
 
-			//Step 6
-			log.info("Step 6: Press Calculate Premium button on Quote tab, validate Soft Stop pop-up dialog and press OK.");
-			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-			premiumIsNull();
-			premiumsAndCoveragesQuoteTab.btnCalculatePremium().click();
-			softStopPopUpCheckAndApprove(moratoriumDisplayMessage);
-			premiumIsNOTNull();
+		//Step 6
+		log.info("Step 6: Press Calculate Premium button on Quote tab, validate Soft Stop pop-up dialog and press OK.");
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		premiumIsNull();
+		premiumsAndCoveragesQuoteTab.btnCalculatePremium().click();
+		softStopPopUpCheckAndApprove(moratoriumDisplayMessage);
+		premiumIsNOTNull();
 
-			//Step 7
-			log.info("Step 7: Go to Bind page, press Purchase, validate Hard Stop pop-up dialog and press Cancel.");
-			premiumsAndCoveragesQuoteTab.submitTab();
-			policy.getDefaultView().fillFromTo(getPolicyTD(), MortgageesTab.class, BindTab.class, true);
-			bindTab.btnPurchase.click();
-			hardStopPopUpCheck(moratoriumDisplayMessage);
+		//Step 7
+		log.info("Step 7: Go to Bind page, press Purchase, validate Hard Stop pop-up dialog and press Cancel.");
+		premiumsAndCoveragesQuoteTab.submitTab();
+		policy.getDefaultView().fillFromTo(getPolicyTD(), MortgageesTab.class, BindTab.class, true);
+		bindTab.btnPurchase.click();
+		hardStopPopUpCheck(moratoriumDisplayMessage);
 
-			//Step 9
-			log.info("Step 9: Expire moratorium.");
-		} finally {
-			expireMoratorium(moratoriumName);
-		}
+		//Step 9
+		log.info("Step 9: Expire moratorium.");
+		expireMoratorium(moratoriumName);
 
 		//Step 10
 		log.info("Step 10: Create the same policy to make sure moratorium is not triggering anymore.");
@@ -151,55 +153,58 @@ public class TestPolicyMoratorium extends PolicyMoratorium {
 		String moratoriumZipCode = getMoratoriumZipCode(td);
 		String moratoriumCity = getMoratoriumCity(td);
 		String moratoriumName = getMoratoriumName(td);
+		moratoriumList.add(moratoriumName);
 		String moratoriumDisplayMessage = getExpectedMoratoriumMessage(td);
 		String moratoriumCustomerNumber;
 		TestData testData = adjustDwellingAddress(moratoriumZipCode, addressLine);
-		try {
-			//Step 1
-			log.info("Step 1: Add ZIP Code entry in lookupvalue table if not exists.");
-			DBService.get().executeUpdate(insertLookupEntry(moratoriumZipCode, moratoriumCity, "AZ"));
+		//Step 1
+		log.info("Step 1: Add ZIP Code entry in lookupvalue table if not exists.");
+		DBService.get().executeUpdate(insertLookupEntry(moratoriumZipCode, moratoriumCity, "AZ"));
 
-			//Step 2
-			log.info("Step 2: Set Hard Stop (Overridable) level 4 moratorium on Bind action.");
-			adminApp().open();
-			moratorium.create(td
-					.adjust(TestData.makeKeyPath("AddMoratoriumTab", MoratoriumMetaData.AddMoratoriumTab.MORATORIUM_NAME.getLabel()), moratoriumName)
-					.adjust(TestData.makeKeyPath("AddMoratoriumTab", "AddRuleSection", MoratoriumMetaData.AddMoratoriumTab.AddRuleSection.DISPLAY_MESSAGE.getLabel()), moratoriumDisplayMessage));
+		//Step 2
+		log.info("Step 2: Set Hard Stop (Overridable) level 4 moratorium on Bind action.");
+		adminApp().open();
+		moratorium.create(td
+				.adjust(TestData.makeKeyPath("AddMoratoriumTab", MoratoriumMetaData.AddMoratoriumTab.MORATORIUM_NAME.getLabel()), moratoriumName)
+				.adjust(TestData.makeKeyPath("AddMoratoriumTab", "AddRuleSection", MoratoriumMetaData.AddMoratoriumTab.AddRuleSection.DISPLAY_MESSAGE.getLabel()), moratoriumDisplayMessage));
 
-			//Step 3
-			log.info("Step 3: Create a customer.");
-			//user must have 'Moratorium Override' privilege and UW level 4 --> can use qa user
-			mainApp().open();
-			moratoriumCustomerNumber = createCustomer(moratoriumZipCode, addressLine);
+		//Step 3
+		log.info("Step 3: Create a customer.");
+		//user must have 'Moratorium Override' privilege and UW level 4 --> can use qa user
+		mainApp().open();
+		moratoriumCustomerNumber = createCustomer(moratoriumZipCode, addressLine);
 
-			//Step 4
-			log.info("Step 4: Initiate a Home SS quote, fill it including Bind tab.");
-			policy.initiate();
-			//when moratorium is set on particular address (state, city, zip code) it will be triggered only if dwelling address contains this geo data
-			//dwelling address needs to be adjusted in order to moratorium tests not to affect other tests (moratorium will be set to this zip code and will not affect policies with other zip codes)
-			policy.getDefaultView().fillUpTo(testData, BindTab.class, true);
+		//Step 4
+		log.info("Step 4: Initiate a Home SS quote, fill it including Bind tab.");
+		policy.initiate();
+		//when moratorium is set on particular address (state, city, zip code) it will be triggered only if dwelling address contains this geo data
+		//dwelling address needs to be adjusted in order to moratorium tests not to affect other tests (moratorium will be set to this zip code and will not affect policies with other zip codes)
+		policy.getDefaultView().fillUpTo(testData, BindTab.class, true);
 
-			//Step 5
-			log.info("Step 5: Press Purchase button, validate Hard Stop pop-up dialog and override it.");
-			bindTab.btnPurchase.click();
-			hardStopOverridablePopUpCheck(moratoriumDisplayMessage, bindTab);
+		//Step 5
+		log.info("Step 5: Press Purchase button, validate Hard Stop pop-up dialog and override it.");
+		bindTab.btnPurchase.click();
+		hardStopOverridablePopUpCheck(moratoriumDisplayMessage, bindTab);
 
-			//Step 6
-			log.info("Step 6:Bind/issue the quote.");
-			Page.dialogConfirmation.buttonYes.click();
-			policy.getDefaultView().fillFromTo(getPolicyTD(), PurchaseTab.class, PurchaseTab.class, true);
-			purchaseTab.submitTab();
-			checkPolicyIsActive();
+		//Step 6
+		log.info("Step 6:Bind/issue the quote.");
+		Page.dialogConfirmation.buttonYes.click();
+		policy.getDefaultView().fillFromTo(getPolicyTD(), PurchaseTab.class, PurchaseTab.class, true);
+		purchaseTab.submitTab();
+		checkPolicyIsActive();
 
-			//Step 7
-			log.info("Step 7: Expire moratorium.");
-		} finally {
-			expireMoratorium(moratoriumName);
-		}
+		//Step 7
+		log.info("Step 7: Expire moratorium.");
+		expireMoratorium(moratoriumName);
 
 		//Step 8
 		log.info("Step 8: Create the same policy to make sure moratorium is not triggering anymore.");
 		checkMoratoriumIsNotTriggering(moratoriumCustomerNumber, testData);
+	}
+
+	@AfterClass(alwaysRun = true)
+	public void expireMoratorium() {
+		expireMoratorium(moratoriumList);
 	}
 
 	private TestData adjustDwellingAddress(String moratoriumZipCode, String dwellingAddressLine) {

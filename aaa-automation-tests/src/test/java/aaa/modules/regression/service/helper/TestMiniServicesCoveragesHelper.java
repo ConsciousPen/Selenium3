@@ -1,5 +1,21 @@
 package aaa.modules.regression.service.helper;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
+import javax.ws.rs.core.Response;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -15,29 +31,11 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.RadioGroup;
-
-import javax.ws.rs.core.Response;
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
@@ -5332,7 +5330,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private void updateUIMPDAndValidateUIMPD_pas21421(String policyNumber, CoverageLimits expectedPDLimit, CoverageLimits updateUIMPDLimitTo) {
 		PolicyCoverageInfo updateUIMPDResponse = updateCoverage(policyNumber, CoverageInfo.UIMPD_DC.getCode(), updateUIMPDLimitTo.getLimit());
-		assertSoftly(softly -> {
+		assertSoftly((ETCSCoreSoftAssertions softly) -> {
 			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateUIMPDResponse);
 		});
 		validatePDAndUIMPDLimits_pas21421(updateUIMPDResponse, expectedPDLimit, updateUIMPDLimitTo);
@@ -6770,6 +6768,54 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//Check in PAS UI
 		verifyRelativesNamesPASUI_pas27867(covPIPCOVINCLUDESExpected, policyNumber);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	protected void pas31098_body(TestData testData, String ownershipType) {
+		String policyNumber = openAppAndCreatePolicy(testData);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		//get Oid of vehicle to replace
+		Vehicle vehicleToReplace = HelperCommon.viewEndorsementVehicles(policyNumber).vehicleList.get(0);
+		String replacedVehicleVin = "KNDJX3AA0J7895376"; //2018 KIA Soul
+
+		ReplaceVehicleRequest replaceVehicleRequest = DXPRequestFactory.createReplaceVehicleRequest(replacedVehicleVin, "2013-03-31", true, true);
+		VehicleUpdateResponseDto replaceVehicleResponse = HelperCommon.replaceVehicle(policyNumber, vehicleToReplace.oid, replaceVehicleRequest, VehicleUpdateResponseDto.class, Response.Status.OK.getStatusCode());
+
+		String zipCode = "23703";
+		String addressLine1 = "4112 FORREST HILLS DR";
+		String addressLine2 = "Apt. 202";
+		String city = "PORTSMOUTH";
+		String state = "VA";
+		String otherName = "other name";
+		String secondName = "Second Name";
+
+		//Update vehicle Leased Financed Info
+		VehicleUpdateDto updateVehicleLeasedFinanced = new VehicleUpdateDto();
+		updateVehicleLeasedFinanced.vehicleOwnership = new VehicleOwnership();
+		updateVehicleLeasedFinanced.vehicleOwnership.addressLine1 = addressLine1;
+		updateVehicleLeasedFinanced.vehicleOwnership.addressLine2 = addressLine2;
+		updateVehicleLeasedFinanced.vehicleOwnership.city = city;
+		updateVehicleLeasedFinanced.vehicleOwnership.stateProvCd = state;
+		updateVehicleLeasedFinanced.vehicleOwnership.postalCode = zipCode;
+		updateVehicleLeasedFinanced.vehicleOwnership.ownership = ownershipType;
+		updateVehicleLeasedFinanced.vehicleOwnership.name = otherName;
+		updateVehicleLeasedFinanced.vehicleOwnership.secondName = secondName;
+		if (getState().equals(Constants.States.CA)) {
+			updateVehicleLeasedFinanced.odometerReading = "22000";
+			updateVehicleLeasedFinanced.distanceOneWayToWork = "12";
+		}
+		HelperCommon.updateVehicle(policyNumber, replaceVehicleResponse.oid, updateVehicleLeasedFinanced);
+		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, replaceVehicleResponse.oid);//update needed to bind
+
+		//Verify that Comp and coll is applied
+		VehicleCoverageInfo newVehicleCoverageList = findVehicleCoverages(HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class), replaceVehicleResponse.oid);
+		Coverage covCompded = findCoverage(newVehicleCoverageList.coverages, "COMPDED");
+		Coverage covCollded = findCoverage(newVehicleCoverageList.coverages, "COLLDED");
+		assertThat(covCompded.getCoverageLimit()).isEqualTo("250");//state default value
+		assertThat(covCollded.getCoverageLimit()).isEqualTo("500");//state default value
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);//finish transaction
+
 	}
 
 	private void remove4DriversAndCheck_pas15363(String policyNumber, Coverage covPIPCOVINCLUDESExpected) {

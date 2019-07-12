@@ -1,6 +1,8 @@
 package aaa.modules.regression.document_fulfillment.template.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.xml.model.Document;
@@ -11,10 +13,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
-
-import java.time.LocalDateTime;
 
 public abstract class TestCinAbstract extends BaseTest {
     IPolicy policy;
@@ -99,27 +98,28 @@ public abstract class TestCinAbstract extends BaseTest {
     }
 
     /**
-     * Placeholder for product-specific renewal
-     *
-     * @param renewalTD {@link TestData}
-     */
-    abstract protected void performRenewal(TestData renewalTD);
-
-    abstract protected void performDoNotRenew(TestData doNotRenewTD);
-
-    abstract protected void performRemoveDoNotRenew();
-
-    /**
      * Create a policy based on custom {@link TestData}
      *
      * @param policyTD
      * @return policyNumber
      */
-    protected String createPolicy(TestData policyTD) {
+	@Override
+	protected String createPolicy(TestData policyTD) {
         mainApp().open();
         createCustomerIndividual();
         super.createPolicy(policyTD);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         return PolicySummaryPage.getPolicyNumber();
     }
+
+	/**
+	 * Placeholder for product-specific renewal
+	 *
+	 * @param renewalTD {@link TestData}
+	 */
+	protected abstract void performRenewal(TestData renewalTD);
+
+	protected abstract void performDoNotRenew(TestData doNotRenewTD);
+
+	protected abstract void performRemoveDoNotRenew();
 }

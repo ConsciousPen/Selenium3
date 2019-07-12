@@ -3,7 +3,7 @@ package aaa.modules.bct.batch;
 import java.util.NoSuchElementException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import aaa.helpers.jobs.Job;
+import com.exigen.ipb.eisa.utils.batchjob.Job;
 
 public class BackendJobNames {
 	private static Logger log = LoggerFactory.getLogger(BackendJobNames.class);

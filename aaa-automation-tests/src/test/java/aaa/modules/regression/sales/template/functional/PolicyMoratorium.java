@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 
+import java.util.Arrays;
+import java.util.List;
 import aaa.admin.metadata.product.MoratoriumMetaData;
 import aaa.admin.modules.product.moratorium.defaulttabs.AddMoratoriumTab;
 import aaa.admin.pages.product.MoratoriumPage;
@@ -29,17 +31,27 @@ public class PolicyMoratorium extends PolicyBaseTest {
 		return String.format(INSERT_ZIP_IN_LOOKUPVALUE_TABLE_QUERY, zipCode, city, state);
 	}
 
-	protected void expireMoratorium(String moratoriumName) {
+	protected void expireMoratorium(List<String> moratoriumName) {
 		adminApp().open();
 		NavigationPage.toMainTab(NavigationEnum.AdminAppMainTabs.PRODUCT.get());
 		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.PRODUCT_MORATORIUM.get());
 		//find moratorium by name and set expiration date = today
-		MoratoriumPage.assetListSearch.getAsset(MoratoriumMetaData.SearchMetaData.MORATORIUM_NAME).setValue(moratoriumName);
-		MoratoriumPage.buttonSearch.click();
-		MoratoriumPage.tableSearchResult.getRow(2).getCell("Actions").controls.links.getFirst().click();
-		new AddMoratoriumTab().getAssetList().getAsset(MoratoriumMetaData.AddMoratoriumTab.EXPIRATION_DATE).setValue(DateTimeUtils.getCurrentDateTime().format(DateTimeUtils.MM_DD_YYYY));
-		AddMoratoriumTab.buttonSave.click();
+		for (String name : moratoriumName) {
+			MoratoriumPage.assetListSearch.getAsset(MoratoriumMetaData.SearchMetaData.MORATORIUM_NAME).setValue(name);
+			MoratoriumPage.buttonSearch.click();
+			if (MoratoriumPage.tableSearchResult.isPresent() && MoratoriumPage.tableSearchResult.getRows().size() > 0) {
+				MoratoriumPage.tableSearchResult.getRow(2).getCell("Actions").controls.links.getFirst().click();
+				new AddMoratoriumTab().getAssetList().getAsset(MoratoriumMetaData.AddMoratoriumTab.EXPIRATION_DATE).setValue(DateTimeUtils.getCurrentDateTime().format(DateTimeUtils.MM_DD_YYYY));
+				AddMoratoriumTab.buttonSave.click();
+			} else {
+				log.info("No Moratorium with name '{0}' is found.", moratoriumName);
+			}
+		}
 		adminApp().close();
+	}
+
+	protected void expireMoratorium(String moratoriumName) {
+		expireMoratorium(Arrays.asList(moratoriumName));
 	}
 
 }

@@ -13,7 +13,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
@@ -40,7 +40,6 @@ import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.TextBox;
 
@@ -118,9 +117,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
 		// Start PAS-2714 NB
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		buttonViewRatingDetails.click();
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		assertSoftly(softly -> {
 			// Verify that eash symbol present
 			getPolicySymbols().keySet().forEach(symbol -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, symbol).getCell(1).isPresent()).isEqualTo(true));
 			// PAS-2714 using Oldest Entry Date, PAS-2716 Entry date overlap between VIN versions
@@ -195,7 +194,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		// Start PAS-2714 Renewal Update Vehicle
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		buttonViewRatingDetails.click();
 
 		//List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		Map<String, String> pas2712Values = ImmutableMap.of(
@@ -291,7 +290,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		assertSoftly(softly -> {
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE)).hasValue("TOYOTA");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL)).hasValue("Gt");
 
@@ -807,7 +806,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		Dollar totalDue = BillingSummaryPage.getTotalDue();
 		new BillingAccount().acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(1));
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);*/
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);*/
 		openAndSearchActivePolicy(policyNumber);
 
 		// 4. Initiate Prior Term (backdated) endorsement with effective date in previous term
@@ -898,7 +897,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		Map<String, String> stubResultAfterVinUpload = getStubInfo(quoteNumber);
 
 		buttonViewRatingDetails.click();
-		CustomSoftAssertions.assertSoftly(softly -> {
+		assertSoftly(softly -> {
 			softly.assertThat(stubResultBeforeVinUpload.get("COMPSYMBOL")).as("COMPSYMBOL should be changed after upload").isNotEqualTo(stubResultAfterVinUpload.get("COMPSYMBOL"));
 			softly.assertThat(stubResultBeforeVinUpload.get("COLLSYMBOL")).as("COLLSYMBOL should be changed  after upload").isNotEqualTo(stubResultAfterVinUpload.get("COLLSYMBOL"));
 

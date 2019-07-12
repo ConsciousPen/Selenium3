@@ -7,16 +7,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.main.modules.billing.account.actiontabs.AdvancedAllocationsActionTab;
 import aaa.main.modules.billing.account.actiontabs.OtherTransactionsActionTab;
 import aaa.toolkit.webdriver.customcontrols.AdvancedAllocationsRepeatAssetList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.BillingAccountMetaData;
@@ -28,6 +28,7 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
+import com.google.common.collect.ImmutableMap;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -259,7 +260,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
         TimeSetterUtil.getInstance().nextPhase(effDate);
-        JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.ledgerStatusUpdateJob);
         mainApp().open();
         SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_PENDING);
 
@@ -444,7 +445,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // Advance time and run escheatment job
         LocalDateTime escheatmentDate = refundDate.plusMonths(13).withDayOfMonth(1);
         TimeSetterUtil.getInstance().nextPhase(escheatmentDate);
-        JobUtils.executeJob(Jobs.aaaEscheatmentProcessAsyncJob);
+        JobUtils.executeJob(BatchJob.aaaEscheatmentProcessAsyncJob);
 
         // Validate PMT-14 and PMT-15
         assertSoftly(softly -> {
@@ -508,7 +509,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
         //Advance time to policy effective date and run ledgerStatusUpdateJob to update the ledger
         TimeSetterUtil.getInstance().nextPhase(effDate);
-        JobUtils.executeJob(Jobs.ledgerStatusUpdateJob);
+        JobUtils.executeJob(BatchJob.ledgerStatusUpdateJob);
         mainApp().open();
         SearchPage.openBilling(policyNumber);
 
@@ -642,7 +643,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(dueDate);
         LocalDateTime billDueDate = getTimePoints().getBillDueDate(dueDate);
         TimeSetterUtil.getInstance().nextPhase(billGenDate);
-        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+        JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
         TimeSetterUtil.getInstance().nextPhase(billDueDate);
 
         mainApp().open();
@@ -682,7 +683,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // Advance time 1 month, generate and pay installment bill
         LocalDateTime secondBillGenDate = getTimePoints().getBillGenerationDate(dueDate.plusMonths(1));
         TimeSetterUtil.getInstance().nextPhase(secondBillGenDate);
-        JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+        JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 
         mainApp().open();
         SearchPage.openBilling(policyNumber);
@@ -821,6 +822,146 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         });
     }
 
+    /**
+     * @scenario
+     * 1. Create new policy monthly
+     * 2. generate 1st bill at DD-20, generate 2nd bill at DD2-20
+     * 3. DD+5 Add Cancel Notice
+     * 4. Cancel Policy
+     * 5. Run earned premium job
+     * 6. Make payment (write off)
+     * @details ADJ-09, ADJ-10
+     */
+    protected void testNewBusinessScenario_8() {
+        //1. Create new policy monthly
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createFinancialPolicy(adjustTdMonthlyPaymentPlan(getPolicyTD()));
+        LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
+        BillingSummaryPage.open();
+        LocalDateTime dueDate = BillingSummaryPage.getInstallmentDueDate(2);
+        LocalDateTime dueDate2 = BillingSummaryPage.getInstallmentDueDate(3);
+
+        //2. generate 1st bill at DD-20, generate 2nd bill at DD2-20
+        //Move time to R-20
+        if (!getState().equals(Constants.States.CA)) {
+            TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dueDate));//-20 days
+            //Generate Renewal bill
+            JobUtils.executeJob(BatchJob.billingInvoiceGenerationJob);
+
+            TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dueDate2));//-20 days
+            //Generate Renewal bill
+            JobUtils.executeJob(BatchJob.billingInvoiceGenerationJob);
+        }
+
+        //3. DD+5 Add Cancel Notice
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(dueDate2));//+5 days
+        JobUtils.executeJob(BatchJob.aaaCancellationNoticeAsyncJob);
+        searchForPolicy(policyNumber);
+
+        assertThat(PolicySummaryPage.labelCancelNotice).isPresent();
+
+        //4. Cancel Policy
+        log.info("Policy Cancellation Started...");
+        TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(21).with(DateTimeUtils.nextWorkingDay));
+        JobUtils.executeJob(BatchJob.aaaCancellationConfirmationAsyncJob);
+        searchForPolicy(policyNumber);
+
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+
+        //5. Run earned premium job
+        BillingSummaryPage.open();
+        LocalDateTime transactionCancellationDate = getTransactionDate(ImmutableMap.of(BillingConstants.BillingPaymentsAndOtherTransactionsTable.POLICY, policyNumber,
+                BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM));
+
+        processEarnedPremiumJob(transactionCancellationDate, policyNumber);
+
+        //6. Make payment (write off)
+        Dollar earnedPremiumWriteOffAmt = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).negate();
+
+        billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), earnedPremiumWriteOffAmt);
+
+        //get payment values
+        String accountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
+        List<String> transactionIds = FinancialsSQL.getTransactionIdsForAccount(accountNumber);
+        int index = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF_REVERSED);
+        String paymentEarnedPremiumWriteOffReversedId = transactionIds.get(index);
+
+        index = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT);
+        Dollar manualPaymentAmount = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT);
+        String manualPaymentId = transactionIds.get(index);
+
+        Map<String, Dollar> paymentTransferAllocations = getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF_REVERSED, TimeSetterUtil.getInstance().getCurrentTime());
+        Map<String, Dollar> manualPaymentAllocations = getAllocationsFromTransaction(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT, TimeSetterUtil.getInstance().getCurrentTime());
+
+        //ADJ-09, ADJ-10 validation
+        assertSoftly(softly -> {
+            //Earned Premium Write-off Reversed
+            softly.assertThat(paymentTransferAllocations.get("Net Premium").add(paymentTransferAllocations.getOrDefault("Taxes", BillingHelper.DZERO))).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(paymentEarnedPremiumWriteOffReversedId, FinancialsSQL.TxType.EARNED_PREMIUM_WRITE_OFF, "1037"));
+            softly.assertThat(paymentTransferAllocations.get("Net Premium")).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(paymentEarnedPremiumWriteOffReversedId, FinancialsSQL.TxType.EARNED_PREMIUM_WRITE_OFF, "1044"));
+            softly.assertThat(paymentTransferAllocations.get("Fees")).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(paymentEarnedPremiumWriteOffReversedId, FinancialsSQL.TxType.NON_EFT_INSTALLMENT_FEE, "1046"));
+            softly.assertThat(paymentTransferAllocations.get("Fees")).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(paymentEarnedPremiumWriteOffReversedId, FinancialsSQL.TxType.NON_EFT_INSTALLMENT_FEE, "1034"));
+
+            //Manual Payment
+            softly.assertThat(manualPaymentAmount).isEqualTo(FinancialsSQL.getDebitsForAccountByTransaction(manualPaymentId, FinancialsSQL.TxType.MANUAL_PAYMENT, "1066"));
+            softly.assertThat(manualPaymentAllocations.get("Net Premium")).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(manualPaymentId, FinancialsSQL.TxType.MANUAL_PAYMENT, "1044"));
+            softly.assertThat(manualPaymentAllocations.get("Fees")).isEqualTo(FinancialsSQL.getCreditsForAccountByTransaction(manualPaymentId, FinancialsSQL.TxType.NON_EFT_INSTALLMENT_FEE, "1034"));
+        });
+
+        // Tax Validations for ADJ-09, ADJ-10
+        if (isTaxState()) {
+            assertSoftly(softly -> {
+                softly.assertThat(manualPaymentAllocations.get("Taxes")).isEqualTo(getTotalTaxesFromDb(manualPaymentId, "1053", true));
+                softly.assertThat(paymentTransferAllocations.get("Taxes")).isEqualTo(getTotalTaxesFromDb(paymentEarnedPremiumWriteOffReversedId, "1053", false));
+            });
+        }
+    }
+
+    private Dollar getTotalTaxesFromDb(String transactionId, String ledgerAccount, boolean isCredit) {
+        Dollar totalTaxes = new Dollar();
+        if (isCredit) {
+            if (getState().equals(Constants.States.KY)) {
+                totalTaxes = FinancialsSQL.getCreditsForAccountByTransaction(transactionId, FinancialsSQL.TxType.STATE_TAX_KY, ledgerAccount)
+                        .add(FinancialsSQL.getCreditsForAccountByTransaction(transactionId, FinancialsSQL.TxType.CITY_TAX_KY, ledgerAccount))
+                        .add(FinancialsSQL.getCreditsForAccountByTransaction(transactionId, FinancialsSQL.TxType.COUNTY_TAX_KY, ledgerAccount));
+            } else if (getState().equals(Constants.States.WV)) {
+                totalTaxes = FinancialsSQL.getCreditsForAccountByTransaction(transactionId, FinancialsSQL.TxType.STATE_TAX_WV, ledgerAccount);
+            }
+        } else {
+            if (getState().equals(Constants.States.KY)) {
+                totalTaxes = FinancialsSQL.getDebitsForAccountByTransaction(transactionId, FinancialsSQL.TxType.STATE_TAX_KY, ledgerAccount)
+                        .add(FinancialsSQL.getDebitsForAccountByTransaction(transactionId, FinancialsSQL.TxType.CITY_TAX_KY, ledgerAccount))
+                        .add(FinancialsSQL.getDebitsForAccountByTransaction(transactionId, FinancialsSQL.TxType.COUNTY_TAX_KY, ledgerAccount));
+            } else if (getState().equals(Constants.States.WV)) {
+                totalTaxes = FinancialsSQL.getDebitsForAccountByTransaction(transactionId, FinancialsSQL.TxType.STATE_TAX_WV, ledgerAccount);
+            }
+        }
+        return totalTaxes;
+    }
+
+    private LocalDateTime getTransactionDate(Map<String, String> values) {
+        return TimeSetterUtil.getInstance().parse(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(values).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+    }
+
+    private void processEarnedPremiumJob(LocalDateTime expirationDate, String policyNumber) {
+        //move time to R+60 and run earnedpremiumWriteoffprocessingjob
+        LocalDateTime earnedPremiumWriteOff = getTimePoints().getEarnedPremiumWriteOff(expirationDate);
+        TimeSetterUtil.getInstance().nextPhase(earnedPremiumWriteOff);
+        JobUtils.executeJob(BatchJob.earnedPremiumWriteoffProcessingJob);
+        mainApp().reopen();
+        SearchPage.openBilling(policyNumber);
+
+        HashMap<String, String> writeOffTransaction = new HashMap<>();
+        writeOffTransaction.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, DateTimeUtils.getCurrentDateTime().format(DateTimeUtils.MM_DD_YYYY));
+        writeOffTransaction.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT);
+        writeOffTransaction.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF);
+
+        assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(writeOffTransaction)).isPresent();
+    }
+
+
     private void validateCancellationTx(Dollar refundAmt, String policyNumber, Dollar taxes) {
         assertSoftly(softly -> {
             softly.assertThat(refundAmt.subtract(taxes)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1044"));
@@ -929,7 +1070,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
     private void performReinstatementWithLapse(LocalDateTime effDate, String policyNumber) {
         TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
-        JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
+        JobUtils.executeJob(BatchJob.changeCancellationPendingPoliciesStatusJob);
         TimeSetterUtil.getInstance().nextPhase(effDate.plusDays(20));
         mainApp().open();
         performReinstatement(policyNumber);
@@ -952,16 +1093,16 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
     private Dollar generateAutomaticRefund(String policyNumber, LocalDateTime refundDate) {
         TimeSetterUtil.getInstance().nextPhase(refundDate);
         try {
-            JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+            JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
         } catch (IstfException e) {
             // Getting intermittent errors, catching error for now
-            log.error(Jobs.aaaRefundGenerationAsyncJob.getJobName() + " failed, continuing with test...");
+            log.error(BatchJob.aaaRefundGenerationAsyncJob.getJobName() + " failed, continuing with test...");
         }
         try {
-            JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+            JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob);
         } catch (IstfException e) {
             // Getting intermittent errors, catching error for now
-            log.error(Jobs.aaaRefundDisbursementAsyncJob.getJobName() + " failed, continuing with test...");
+            log.error(BatchJob.aaaRefundDisbursementAsyncJob.getJobName() + " failed, continuing with test...");
         }
         mainApp().open();
         SearchPage.openBilling(policyNumber);

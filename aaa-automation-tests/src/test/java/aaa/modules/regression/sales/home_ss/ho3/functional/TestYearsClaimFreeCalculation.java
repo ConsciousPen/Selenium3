@@ -1,28 +1,26 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
+import java.time.LocalDateTime;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSDP3BaseTest;
-import aaa.modules.policy.HomeSSHO3BaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
-
-import java.time.LocalDateTime;
 
 public class TestYearsClaimFreeCalculation extends HomeSSDP3BaseTest
 {
@@ -71,15 +69,15 @@ public class TestYearsClaimFreeCalculation extends HomeSSDP3BaseTest
 
         // 3 - Move to Renewal Timepoint 1 AKA STAGE3 (R-N).
         TimeSetterUtil.getInstance().nextPhase(renewalImageGenerationDate);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(membershipTP1);
 
         // 4 - Use Batch Job to Order Claims Reports @ R-N. // 5 - Batch job picks up a new internal claim.
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.renewalClaimOrderAsyncJob);
         //HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
-        JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
+		JobUtils.executeJob(BatchJob.renewalClaimReceiveAsyncJob);
 
         TimeSetterUtil.getInstance().nextPhase(renewalImageGenerationDate);
 

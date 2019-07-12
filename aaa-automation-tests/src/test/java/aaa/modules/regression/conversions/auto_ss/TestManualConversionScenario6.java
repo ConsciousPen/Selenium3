@@ -5,15 +5,14 @@ import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
-import aaa.common.metadata.LoginPageMeta;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
@@ -38,7 +37,7 @@ public class TestManualConversionScenario6 extends AutoSSBaseTest {
 	public void manualConversionDocsScenario6(@Optional("MT") String state) {
 		LocalDateTime renewalDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(55);
 		//1. Login with user role = E34 having privilege 'Initiate Renewal Entry' and retrieve the customer created above.
-		mainApp().open(loginUsers.getTestData(Constants.UserGroups.L41.get()).adjust(LoginPageMeta.STATES.getLabel(), state));
+		mainApp().open(getLoginTD(Constants.UserGroups.L41));
 		createCustomerIndividual();
 		//2. (R-55) Select the action "Initiate Renewal Entry" from 'Select Action:' dropdown box on Customer UI and click on the Go button.
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalDate);
@@ -58,8 +57,8 @@ public class TestManualConversionScenario6 extends AutoSSBaseTest {
 
 		//(R-50) Run the batch jobs: AAAPreRenewalNoticeAsyncJob, aaaDocGen Job
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getPreRenewalLetterGenerationDate(renewalDate));
-		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaPreRenewalNoticeAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		//'Pre Renewal Notice' AAPRN1MT is NOT generated in renewal E-folder
 		DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AAPRN1MT, policyNum, PRE_RENEWAL, false);
 	}

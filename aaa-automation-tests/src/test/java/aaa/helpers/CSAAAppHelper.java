@@ -1,13 +1,11 @@
 package aaa.helpers;
 
-import java.net.URL;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.apache.http.client.fluent.Request;
+import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.eisa.utils.EISAppHelper;
 import toolkit.config.ClassConfigurator;
-import toolkit.utils.http.HttpExecutor;
-import toolkit.utils.http.HttpHelper;
-import toolkit.utils.http.HttpRequest;
-import toolkit.utils.http.HttpResponse;
-import toolkit.utils.teststoragex.utils.helpers.EISAppHelper;
 
 public class CSAAAppHelper extends EISAppHelper {
 
@@ -36,15 +34,18 @@ public class CSAAAppHelper extends EISAppHelper {
 		String host = CSAAApplicationFactory.get().mainApp().formatUrl();
 
 		try {
-			HttpRequest request = new HttpRequest();
-			request.setUrl(new URL(host));
-			HttpResponse response = HttpExecutor.sendRequest(request);
-			buildInfo = HttpHelper.find(response.getContent(), regexBuildInfo, 2);
+			Pattern r = Pattern.compile(regexBuildInfo);
+			Matcher m = r.matcher(Request.Get(host).execute().returnContent().asString());
+
+			if (!m.find()) {
+				buildInfo = "N/A";
+			}
+			buildInfo = m.group(2);
 		} catch (Exception e) {
 			buildInfo = "N/A";
 		}
-		log.info("Application URL: " + host);
-		log.info("Build num : " + buildInfo);
+		LOGGER.info("Application URL: " + host);
+		LOGGER.info("Build num : " + buildInfo);
 		return buildInfo;
 	}
 }

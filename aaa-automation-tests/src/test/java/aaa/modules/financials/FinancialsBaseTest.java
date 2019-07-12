@@ -7,8 +7,8 @@ import java.util.Map;
 
 import aaa.toolkit.webdriver.customcontrols.AdvancedAllocationsRepeatAssetList;
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;

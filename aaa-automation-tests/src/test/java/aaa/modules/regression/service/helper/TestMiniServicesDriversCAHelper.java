@@ -1,5 +1,11 @@
 package aaa.modules.regression.service.helper;
 
+import static aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.miniServicesEndorsementDeleteDelayConfigCheck;
+import static aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.myPolicyUserAddedConfigCheck;
+import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.time.format.DateTimeFormatter;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -9,17 +15,10 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
-
-import java.time.format.DateTimeFormatter;
-
-import static aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.miniServicesEndorsementDeleteDelayConfigCheck;
-import static aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.myPolicyUserAddedConfigCheck;
-import static org.assertj.core.api.Assertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelper {
 	private DriverTab driverTab = new DriverTab();
@@ -36,9 +35,8 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
 		assertSoftly(softly -> {
 			softly.assertThat(addDriverResponse.aaaMaritalStatusCd).isNull();
 			softly.assertThat(addDriverResponse.ageFirstLicensed).isNull();
-			softly.assertThat(addDriverResponse.birthDate).isEqualTo("1960-02-08");
+			softly.assertThat(addDriverResponse.birthDate).isEqualTo(HelperMiniServices.convertDateToAZDate("1960-02-08"));
 			softly.assertThat(addDriverResponse.driverStatus).isEqualTo("pendingAdd");
-			softly.assertThat(addDriverResponse.birthDate).isEqualTo("1960-02-08");
 			softly.assertThat(addDriverResponse.gender).isNull();
 			softly.assertThat(addDriverResponse.namedInsuredType).isEqualTo("Not a Named Insured");
 			softly.assertThat(addDriverResponse.driverType).isEqualTo("afr");
@@ -326,7 +324,7 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
 
             softly.assertThat(updateDriverResponse.validations.stream()
                     .anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR_CA.getMessage())
-                            && (ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR_CA.getCode()).equals(error.errorCode))).isTrue();
+							&& ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR_CA.getCode().equals(error.errorCode))).isTrue();
 
 			UpdateDriverRequest updateDriverRequest2 = DXPRequestFactory
                     .createUpdateDriverRequest("female", "C32329585", 16, "CA", "SP", null);
@@ -339,7 +337,7 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
             policy.dataGather().start();
             NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.GENERAL.get());
 
-            aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab generalTab = new aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab();
+			GeneralTab generalTab = new GeneralTab();
 
             MultiAssetList namedInsuredInfo = generalTab.getNamedInsuredInfoAssetList();
             String address1 = namedInsuredInfo.getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.ADDRESS_LINE_1).getValue();

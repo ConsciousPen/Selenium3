@@ -3,8 +3,9 @@
 package aaa.main.metadata;
 
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
+import com.exigen.ipb.eisa.controls.dialog.DialogMultiSelector;
+import com.exigen.ipb.eisa.controls.dialog.DialogSingleSelector;
+import com.exigen.ipb.eisa.controls.dialog.type.AbstractDialog;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.AdvancedAllocationsRepeatAssetList;
 import aaa.toolkit.webdriver.customcontrols.FillableTable;
@@ -108,7 +109,7 @@ public final class BillingAccountMetaData {
 
 	public static final class TransferPaymentActionTab extends MetaData {
 		public static final AssetDescriptor<ComboBox> TRANSFER_REASON = declare("Transfer Reason", ComboBox.class);
-		public static final AssetDescriptor<AllocationDialogMultiSelector> ALLOCATION = declare("Allocation", AllocationDialogMultiSelector.class, AllocationMultiSelector.class);
+		public static final AssetDescriptor<DialogMultiSelector> ALLOCATION = declare("Allocation", DialogMultiSelector.class, AllocationMultiSelector.class);
 		public static final AssetDescriptor<TextBox> ALLOCATED_AMOUNT = declare("Allocated Amount", TextBox.class);
 
 		public static final class AllocationMultiSelector extends MetaData {
@@ -177,7 +178,7 @@ public final class BillingAccountMetaData {
 		public static final AssetDescriptor<TextBox> HOLD_DESCRIPTION = declare("Hold Description", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> REASON = declare("Reason", ComboBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> ADDITIONAL_INFO = declare("Additional Info", TextBox.class, Waiters.AJAX);
-		public static final AssetDescriptor<ListBox> HOLD_TYPE = declare("Hold Type", ListBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<ListBox> HOLD_TYPE = declare("Hold Type", ListBox.class);
 		public static final AssetDescriptor<TextBox> HOLD_EFFECTIVE_DATE = declare("Effective Date", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> HOLD_EXPIRATION_DATE = declare("Expiration Date", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<FillableTable> HOLDS_TABLE = declare("Billing Holds and Moratoriums", FillableTable.class, HoldsTableRow.class, By.id("holdPoliciesForm:holdsTable"));

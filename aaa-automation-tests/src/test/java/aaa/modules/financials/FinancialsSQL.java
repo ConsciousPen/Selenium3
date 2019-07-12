@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import toolkit.db.DBService;
 
 public final class FinancialsSQL {
@@ -156,6 +156,7 @@ public final class FinancialsSQL {
 		public static final String WRITEOFF = "Writeoff";
 		public static final String CROSS_POLICY_TRANSFER = "CrossPolicyTransfer";
 		public static final String ACCOUNT_MONEY_TRANSFER = "AccountMoneyTransfer";
+		public static final String EARNED_PREMIUM_WRITE_OFF = "EarnedPremiumWriteoff";
     }
 
 }
