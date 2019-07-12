@@ -34,6 +34,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
+import aaa.toolkit.webdriver.customcontrols.AdvancedAllocationsRepeatAssetList;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -483,9 +484,12 @@ public class RefundProcessHelper extends PolicyBilling {
 			acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue(paymentMethodMessage);
 			acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT).setValue(refund.get(AMOUNT));
 			BillingSummaryPage.linkAdvancedAllocation.click();
-			advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.NET_PREMIUM).setValue(getAllocationAmount(refund));
-			advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.OTHER).setValue(getAllocationAmount(refund));
-			advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.POLICY_FEE).setValue(getAllocationAmount(refund));
+			advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+					.getAsset(AdvancedAllocationsRepeatAssetList.NET_PREMIUM, TextBox.class).setValue(getAllocationAmount(refund));
+			advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+					.getAsset(AdvancedAllocationsRepeatAssetList.OTHER, TextBox.class).setValue(getAllocationAmount(refund));
+			advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+					.getAsset(AdvancedAllocationsRepeatAssetList.POLICY_FEE, TextBox.class).setValue(getAllocationAmount(refund));
 			advancedAllocationsActionTab.submitTab();
 		}
 
@@ -535,9 +539,12 @@ public class RefundProcessHelper extends PolicyBilling {
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("Cash");
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT).setValue(refund.get(AMOUNT));
 		BillingSummaryPage.linkAdvancedAllocation.click();
-		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.NET_PREMIUM).setValue(getAllocationAmount(refund));
-		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.OTHER).setValue(getAllocationAmount(refund));
-		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.POLICY_FEE).setValue(getAllocationAmount(refund));
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+				.getAsset(AdvancedAllocationsRepeatAssetList.NET_PREMIUM, TextBox.class).setValue(getAllocationAmount(refund));
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+				.getAsset(AdvancedAllocationsRepeatAssetList.OTHER, TextBox.class).setValue(getAllocationAmount(refund));
+		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+				.getAsset(AdvancedAllocationsRepeatAssetList.POLICY_FEE, TextBox.class).setValue(getAllocationAmount(refund));
 		advancedAllocationsActionTab.submitTab();
 	}
 
@@ -634,11 +641,16 @@ public class RefundProcessHelper extends PolicyBilling {
 	private void checkRefundAllocationAmount(Map<String, String> refund) {
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TYPE).controls.links.get(1).click();
 		BillingSummaryPage.linkAdvancedAllocation.click();
-		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.PRODUCT_SUB_TOTAL)).hasValue(refund.get(AMOUNT));
-		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.TOTAL_AMOUNT)).hasValue(refund.get(AMOUNT));
-		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.NET_PREMIUM)).hasValue(getAllocationAmount(refund));
-		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.OTHER)).hasValue(getAllocationAmount(refund));
-		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.POLICY_FEE)).hasValue(getAllocationAmount(refund));
+
+		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+				.getAsset(AdvancedAllocationsRepeatAssetList.PRODUCT_SUB_TOTAL, TextBox.class)).hasValue(refund.get(AMOUNT));
+		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTabDetails.TOTAL_AMOUNT)).hasValue(refund.get(AMOUNT));
+		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+				.getAsset(AdvancedAllocationsRepeatAssetList.NET_PREMIUM, TextBox.class)).hasValue(getAllocationAmount(refund));
+		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+				.getAsset(AdvancedAllocationsRepeatAssetList.OTHER, TextBox.class)).hasValue(getAllocationAmount(refund));
+		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
+				.getAsset(AdvancedAllocationsRepeatAssetList.POLICY_FEE, TextBox.class)).hasValue(getAllocationAmount(refund));
 		advancedAllocationsActionTab.back();
 		acceptPaymentActionTab.back();
 	}
