@@ -373,6 +373,30 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         doMPDEligibilityTest_Renewal("Condo");
     }
 
+    /**
+     * Validates that while a policy is YOUNGER than 30 days effective, an agent can bind an endorsement containing a quoted companion policy.
+     * @param state
+     * @author Tyrone Jemison
+     */
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL, Groups.CIO }, description = "Modify rule to prevent MTE bind after NB+30 with MPD when policy has quoted companion products.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-31861")
+    public void pas31861_MPD_QuotedCompanionProduct_AllowMTEBindBasedOnEffectiveDate(@Optional("") String state) {
+        doQuotedMPDBindTest(true, false);
+    }
+
+    /**
+     * Validates that while a policy is OLDER than 30 days effective, an agent can bind an endorsement containing a quoted companion policy.
+     * @param state
+     * @author Tyrone Jemison
+     */
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL, Groups.CIO }, description = "Modify rule to prevent MTE bind after NB+30 with MPD when policy has quoted companion products.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-31861")
+    public void pas31861_MPD_QuotedCompanionProduct_RestrictMTEBindBasedOnEffectiveDate(@Optional("") String state) {
+        doQuotedMPDBindTest(true, true);
+    }
+
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-23456")
@@ -386,7 +410,6 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     public void pas23456_MPD_Allow_MTEBind(@Optional("") String state) {
         doMTEAllowBindTest(false, "Home");
     }
-
 
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
