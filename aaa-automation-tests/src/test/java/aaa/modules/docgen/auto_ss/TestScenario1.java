@@ -204,7 +204,8 @@ public class TestScenario1 extends AutoSSBaseTest {
 
 		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 
-		BillingSummaryPage.open();
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
 
 		plcyPayFullAmt = formatValue(BillingSummaryPage.getTotalDue().toString());
 		reinstmtFee = BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Reinstatement Fee")
