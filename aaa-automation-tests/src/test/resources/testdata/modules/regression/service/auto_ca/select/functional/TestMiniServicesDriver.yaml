@@ -57,13 +57,7 @@ ContactInformation: {
 
 AAAProductOwned: {
   Current AAA Member: 'Yes',
-  Membership Number: 4290023667710001,
-  #All below lines need commented/deleted after CIO MPD for CA is merged
-  Home: 'Yes',
-  ListOfProducts:[{
-    'column=7': 'Edit',
-    Policy Number: '123',
-    Save: 'click'}]
+  Membership Number: 4290023667710001
 }
 OtherAAAProductsOwned: {
   Refresh: click
