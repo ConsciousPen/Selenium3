@@ -20,9 +20,9 @@ import aaa.main.modules.mywork.MyWork;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import aaa.toolkit.webdriver.customcontrols.AdvancedAllocationsRepeatAssetList;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.TextBox;
-import aaa.toolkit.webdriver.customcontrols.AdvancedAllocationsRepeatAssetList;
 
 public abstract class PolicyBillingOperations extends PolicyBaseTest {
 

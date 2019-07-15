@@ -65,8 +65,9 @@ PremiumAndCoveragesTab: {
 DocumentsAndBindTab: {
   RequiredToBind: {
     Auto Insurance Application: Not Signed,
-    'Statement Electing Lower Limits for Uninsured/Underinsured Motorists Coverage': Not Signed,
-    Named Driver Exclusion Endorsement: Not Signed
+    #'Statement Electing Lower Limits for Uninsured/Underinsured Motorists Coverage': Not Signed,
+    Named Driver Exclusion Endorsement: Not Signed, 
+    'Rejection of Uninsured/Underinsured Motorists Coverage': Not Signed
   },
   RequiredToIssue: {
     Proof of Prior Insurance: 'Yes'

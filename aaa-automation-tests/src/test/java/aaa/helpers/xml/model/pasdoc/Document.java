@@ -29,6 +29,12 @@ public class Document {
 	@XmlElement(name = "XPathInfo")
 	private String xPathInfo;
 
+	@XmlElement(name = "DocSignedBy")
+	private String docSignedBy;
+
+	@XmlElement(name = "DocSignedDate")
+	private String docSignedDate;
+
 	public AdditionalData getAdditionalData() {
 		return additionalData;
 	}
@@ -92,6 +98,14 @@ public class Document {
 		return this;
 	}
 
+	public String getDocSignedBy(){
+		return docSignedBy;
+	}
+
+	public String getDocSignedDate(){
+		return docSignedDate;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -102,6 +116,8 @@ public class Document {
 		}
 		Document document = (Document) o;
 		return Objects.equals(additionalData, document.additionalData) &&
+				Objects.equals(docSignedBy, document.docSignedBy) &&
+				Objects.equals(docSignedDate, document.docSignedDate) &&
 				Objects.equals(isThirdPartyForm, document.isThirdPartyForm) &&
 				Objects.equals(sequence, document.sequence) &&
 				Objects.equals(signatureType, document.signatureType) &&
@@ -112,13 +128,15 @@ public class Document {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(additionalData, isThirdPartyForm, sequence, signatureType, templateId, templateVersion, xPathInfo);
+		return Objects.hash(additionalData, docSignedBy, docSignedDate, isThirdPartyForm, sequence, signatureType, templateId, templateVersion, xPathInfo);
 	}
 
 	@Override
 	public String toString() {
 		return "Document{" +
 				"additionalData=" + additionalData +
+				", docSignedBy='" + docSignedBy + '\'' +
+				", docSignedDate='" + docSignedDate + '\'' +
 				", isThirdPartyForm='" + isThirdPartyForm + '\'' +
 				", sequence='" + sequence + '\'' +
 				", signatureType='" + signatureType + '\'' +

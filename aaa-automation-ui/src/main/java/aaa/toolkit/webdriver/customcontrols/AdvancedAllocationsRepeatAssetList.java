@@ -22,6 +22,10 @@ public class AdvancedAllocationsRepeatAssetList extends RepeatAssetList {
 	public static final String PLIGA_FEE = "PLIGA Fee";
 	public static final String OTHER = "Other";
 	public static final String PRODUCT_SUB_TOTAL = "Product Subtotal";
+	public static final String PREMT_CITY = "PREMT_CITY";
+	public static final String PREMT_COUNTY = "PREMT_COUNTY";
+	public static final String PRMS_KY = "PRMS_KY";
+	public static final String PRMS_WV = "PRMS_WV";
 
 	private static final ByT ADVANCED_ALLOCATIONS_COMMON_LOCATOR = ByT.id("advAllocationForm");
 	private static final ByT ADVANCED_ALLOCATIONS_TOTAL_AMOUNT = ByT.id("advAllocationForm:requestedAmount");
@@ -29,6 +33,10 @@ public class AdvancedAllocationsRepeatAssetList extends RepeatAssetList {
 	private static final ByT ADVANCED_ALLOCATIONS_POLICY_FEE = ByT.id("advAllocationForm:feeAmount_%1$s_23");
 	private static final ByT ADVANCED_ALLOCATIONS_PLIGA_FEE = ByT.id("advAllocationForm:feeAmount_%1$s_21");
 	private static final ByT ADVANCED_ALLOCATIONS_OTHER = ByT.id("advAllocationForm:feeAmount_%1$s_20");
+	private static final ByT ADVANCED_ALLOCATIONS_PREMT_CITY = ByT.id("advAllocationForm:premiumTaxes_%1$s_0");
+	private static final ByT ADVANCED_ALLOCATIONS_PREMT_COUNTY = ByT.id("advAllocationForm:premiumTaxes_%1$s_1");
+	private static final ByT ADVANCED_ALLOCATIONS_PRMS_KY = ByT.id("advAllocationForm:premiumTaxes_%1$s_2");
+	private static final ByT ADVANCED_ALLOCATIONS_PRMS_WV = ByT.id("advAllocationForm:premiumTaxes_%1$s_0");
 	private static final ByT ADVANCED_ALLOCATIONS_PRODUCT_SUBTOTAL = ByT.id("advAllocationForm:subTotalAmount_%1$s");
 
 	public AdvancedAllocationsRepeatAssetList(BaseElement<?, ?> parent, Class<? extends MetaData> metaDataClass) {
@@ -53,6 +61,10 @@ public class AdvancedAllocationsRepeatAssetList extends RepeatAssetList {
 		addAssetTo(ADVANCED_ALLOCATIONS_PLIGA_FEE, PLIGA_FEE, al, sectionIndex);
 		addAssetTo(ADVANCED_ALLOCATIONS_OTHER, OTHER, al, sectionIndex);
 		addAssetTo(ADVANCED_ALLOCATIONS_PRODUCT_SUBTOTAL, PRODUCT_SUB_TOTAL, al, sectionIndex);
+		addAssetTo(ADVANCED_ALLOCATIONS_PREMT_CITY, PREMT_CITY, al, sectionIndex);
+		addAssetTo(ADVANCED_ALLOCATIONS_PREMT_COUNTY, PREMT_COUNTY, al, sectionIndex);
+		addAssetTo(ADVANCED_ALLOCATIONS_PRMS_KY, PRMS_KY, al, sectionIndex);
+		addAssetTo(ADVANCED_ALLOCATIONS_PRMS_WV, PRMS_WV, al, sectionIndex);
 		al.applyConfiguration("AdvancedAllocationsActionTabDetails");
 		return al;
 	}
