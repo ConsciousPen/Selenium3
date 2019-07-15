@@ -54,9 +54,10 @@ public class TestOperationalReportsCheckPermissionToAccessEuwDetail extends Base
 	 * 4. Check "View Earn, Unearned, Written Premium (EUW) - Detail" displayed in the drop down section
 	 */
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-17040")
-	public void pas17040_testOperationalReportsCheckPermissionToAccessEuwDetail_C32() {
+	public void pas17040_testOperationalReportsCheckPermissionToAccessEuwDetail_C32(@Optional("") String state) {
 		TestData loginTD = getLoginTD()
 				.adjust("Groups", "C32")
 				.adjust("User", "gac9syl")
@@ -79,9 +80,10 @@ public class TestOperationalReportsCheckPermissionToAccessEuwDetail extends Base
 	 * 4. Check "View Earn, Unearned, Written Premium (EUW) - Detail" not displayed in the drop down section
 	 */
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-17040")
-	public void pas17040_testOperationalReportsCheckPermissionToAccessEuwDetail_E34() {
+	public void pas17040_testOperationalReportsCheckPermissionToAccessEuwDetail_E34(@Optional("") String state) {
 		TestData loginTD = getLoginTD()
 				.adjust("Groups", "E34")
 				.adjust("User", "gac9syl")
