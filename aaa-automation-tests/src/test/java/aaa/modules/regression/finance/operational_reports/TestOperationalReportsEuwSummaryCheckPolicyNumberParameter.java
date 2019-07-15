@@ -1,6 +1,8 @@
 package aaa.modules.regression.finance.operational_reports;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.admin.metadata.reports.OperationalReportsMetaData;
 import aaa.admin.modules.reports.operationalreports.defaulttabs.OperationalReportsTab;
@@ -22,9 +24,10 @@ public class TestOperationalReportsEuwSummaryCheckPolicyNumberParameter extends 
 	 * 3. Check that "Policy Number” is NOT displayed
 	 */
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-17631")
-	public void pas17631_testOperationalReportsEuwSummaryCheckPolicyNumberParameter() {
+	public void pas17631_testOperationalReportsEuwSummaryCheckPolicyNumberParameter(@Optional("") String state) {
 		opReportApp().open();
 
 		orTab.fillTab(getOperationalReportsTD("DataGather", "TestData_EUW_Summary"));

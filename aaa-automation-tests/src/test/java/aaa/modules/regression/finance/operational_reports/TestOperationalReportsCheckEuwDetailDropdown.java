@@ -1,6 +1,8 @@
 package aaa.modules.regression.finance.operational_reports;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.admin.metadata.reports.OperationalReportsMetaData;
 import aaa.admin.modules.reports.operationalreports.defaulttabs.OperationalReportsTab;
@@ -23,9 +25,10 @@ public class TestOperationalReportsCheckEuwDetailDropdown extends BaseTest {
 	 * 3. Check "View Earn, Unearned, Written Premium (EUW) - Detail" displayed in the drop down section
 	 */
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-14523")
-	public void pas14523_testOperationalReportsCheckEuwDropdown() {
+	public void pas14523_testOperationalReportsCheckEuwDropdown(@Optional("") String state) {
 		opReportApp().open();
 
 		orTab.fillTab(getOperationalReportsTD("DataGather", "TestData"));
