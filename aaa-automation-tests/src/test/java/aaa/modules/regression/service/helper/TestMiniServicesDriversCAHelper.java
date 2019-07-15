@@ -287,7 +287,7 @@ public class TestMiniServicesDriversCAHelper extends TestMiniServicesDriversHelp
 
             getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "drivingLicense.stateLicensed", true, true, true, null, "String");
             getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "drivingLicense.licenseNumber", true, true, false, null, "String");
-            getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "ageFirstLicensed", true, true, true, "3", "Integer");
+            getTestMiniServicesGeneralHelper().getAttributeMetadata(metaDataResponse, "ageFirstLicensed", true, true, true, null, "Integer");
         });
     }
 
