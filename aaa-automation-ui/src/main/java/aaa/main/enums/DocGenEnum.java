@@ -172,7 +172,7 @@ public final class DocGenEnum {
 		AH65XX(""),
 		AH67XX("Lapse Notice - Non-pay"),
 		AHAPXX("AutoPay Authorization Form"),
-		AHAPXX_CA("AHAPXX", "Automatic Payment Authorization"),
+		AHAPXX_CA("AHAPXX", "AutoPay Authorization Form"),
 		AHAUXX("Consumer Information Notice"),
 		AHCAAG("Coverage Acceptance Statement"),
 		AHCDCT("Credit Disclosure Notice And Summary of Consumer Protections"),
