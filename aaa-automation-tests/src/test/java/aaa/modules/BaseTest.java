@@ -309,7 +309,7 @@ public class BaseTest {
 			throw new TestDataException(String.format("Can't get TestData '%s', parrent TestData is null", tdName));
 		}
 		String tdNameState = getStateTestDataName(tdName);
-		if (!td.containsKey(getStateTestDataName(tdNameState))) {
+		if (!td.containsKey(tdNameState)) {
 			tdNameState = tdName;
 		}
 		td = td.getTestData(tdNameState);
@@ -497,8 +497,7 @@ public class BaseTest {
 	private String getStateTestDataName(String tdName) {
 		if (StringUtils.isNotBlank(getState())) {
 			tdName = tdName + "_" + getState();
-		}
-		else {
+		} else {
 			tdName = tdName + "_" + Constants.States.UT;
 		}
 		return tdName;
