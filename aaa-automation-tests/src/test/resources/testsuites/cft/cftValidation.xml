@@ -6,6 +6,7 @@
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
     <test name="CFT Validation">
+        <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.cft.TestCFTValidator"/>
             <class name="aaa.modules.cft.TestCFTFutureDatedPolicy"/>
