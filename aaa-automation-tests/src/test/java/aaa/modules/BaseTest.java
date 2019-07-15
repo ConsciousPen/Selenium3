@@ -310,13 +310,13 @@ public class BaseTest {
 		}
 		if (td.containsKey(getStateTestDataName(tdName))) {
 			td = td.getTestData(getStateTestDataName(tdName));
-			log.info(String.format("==== %s Test Data is used: %s ====", getState(), getStateTestDataName(tdName)));
+			log.info("==== Using State Test Data: '{0}' ====", getStateTestDataName(tdName));
 		} else {
 			td = td.getTestData(tdName);
 			if (getState().equals(Constants.States.CA)) {
-				log.info("==== CA Test Data is used: {0} ====", tdName);
+				log.info("==== CA Test Data is used: '{0}' ====", getStateTestDataName(tdName));
 			} else {
-				log.info("==== Default state UT Test Data is used. Requested Test Data: {0} is missing ====", getStateTestDataName(tdName));
+				log.info(String.format("==== Default Test Data is used: '%s'. State Test Data: '%s' is missing ====", tdName, getStateTestDataName(tdName)));
 			}
 		}
 		return td;
