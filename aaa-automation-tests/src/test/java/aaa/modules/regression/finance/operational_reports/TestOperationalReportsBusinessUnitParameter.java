@@ -3,6 +3,8 @@ package aaa.modules.regression.finance.operational_reports;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.admin.metadata.reports.OperationalReportsMetaData;
 import aaa.admin.modules.reports.operationalreports.defaulttabs.OperationalReportsTab;
@@ -26,10 +28,10 @@ public class TestOperationalReportsBusinessUnitParameter extends BaseTest {
 	 * 3. Click Button “Business Unit”
 	 * 4. check that “Business Unit” values are displayed and selectable
 	 */
-
+	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-15535")
-	public void pas15535_testOperationalReportsBusinessUnitParameter() {
+	public void pas15535_testOperationalReportsBusinessUnitParameter(@Optional("") String state) {
 
 		opReportApp().open();
 		orTab.fillTab(getOperationalReportsTD("DataGather", "TestData_EUW_Detail"));
