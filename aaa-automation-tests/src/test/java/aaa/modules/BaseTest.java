@@ -308,17 +308,12 @@ public class BaseTest {
 		if (td == null) {
 			throw new TestDataException(String.format("Can't get TestData '%s', parrent TestData is null", tdName));
 		}
-		if (td.containsKey(getStateTestDataName(tdName))) {
-			td = td.getTestData(getStateTestDataName(tdName));
-			log.info("==== Using State Test Data: '{0}' ====", getStateTestDataName(tdName));
-		} else {
-			td = td.getTestData(tdName);
-			if (getState().equals(Constants.States.CA)) {
-				log.info("==== CA Test Data is used: '{0}' ====", getStateTestDataName(tdName));
-			} else {
-				log.info(String.format("==== Default Test Data is used: '%s'. State Test Data: '%s' is missing ====", tdName, getStateTestDataName(tdName)));
-			}
+		String tdNameState = getStateTestDataName(tdName);
+		if (!td.containsKey(getStateTestDataName(tdNameState))) {
+			tdNameState = tdName;
 		}
+		td = td.getTestData(tdNameState);
+		log.info(String.format("==== Entered Test Data: '%s'. State Test Data: '%s'. Using Test Data: '%s'. ====", tdName, getStateTestDataName(tdName), tdNameState));
 		return td;
 	}
 
