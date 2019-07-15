@@ -1,11 +1,15 @@
 package com.exigen.ipb.eisa.base.app;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import org.apache.http.client.utils.URIBuilder;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
 import toolkit.webdriver.BrowserController;
 
 public abstract class Application {
@@ -115,7 +119,13 @@ public abstract class Application {
 
 	public String formatUrl() {
 		builder.setScheme(getProtocol()).setHost(getHost()).setPort(getPort()).setPath(getPath());
-		return builder.toString();
+		String decodedUrl = null;
+		try {
+			decodedUrl = URLDecoder.decode(builder.toString(), StandardCharsets.UTF_8.name());
+		} catch (UnsupportedEncodingException e){
+			throw new IstfException(e.getCause());
+		}
+		return decodedUrl;
 	}
 
 	protected abstract void switchPanel();
