@@ -2,6 +2,8 @@ package aaa.modules.regression.finance.operational_reports;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.admin.metadata.reports.OperationalReportsMetaData;
 import aaa.admin.modules.reports.operationalreports.defaulttabs.OperationalReportsTab;
@@ -26,9 +28,10 @@ public class TestOperationalReportsEuwDetailCheckPolicyNumberParameter extends B
 	 * 3. Check that "Policy Number” is displayed and enabled, free format policy number can be entered
 	 */
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "16020")
-	public void pas16020_testOperationalReportsEuwDetailCheckPolicyNumberParameter() {
+	public void pas16020_testOperationalReportsEuwDetailCheckPolicyNumberParameter(@Optional("") String state) {
 		opReportApp().open();
 
 		orTab.fillTab(getOperationalReportsTD("DataGather", "TestData_EUW_Detail"));

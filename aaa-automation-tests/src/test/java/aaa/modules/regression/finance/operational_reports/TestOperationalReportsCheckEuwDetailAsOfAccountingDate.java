@@ -1,6 +1,8 @@
 package aaa.modules.regression.finance.operational_reports;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.admin.metadata.reports.OperationalReportsMetaData;
 import aaa.admin.modules.reports.operationalreports.defaulttabs.OperationalReportsTab;
@@ -23,9 +25,10 @@ public class TestOperationalReportsCheckEuwDetailAsOfAccountingDate extends Base
 	 * 3. Check "As of Accounting Date” is displayed and enabled, has value equal to the sub ledger account date
 	 */
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-15534")
-	public void pas15534_testOperationalReportsCheckAsOfAccountingDate() {
+	public void pas15534_testOperationalReportsCheckAsOfAccountingDate(@Optional("") String state) {
 		opReportApp().open();
 
 		orTab.fillTab(getOperationalReportsTD("DataGather", "TestData_EUW_Detail"));

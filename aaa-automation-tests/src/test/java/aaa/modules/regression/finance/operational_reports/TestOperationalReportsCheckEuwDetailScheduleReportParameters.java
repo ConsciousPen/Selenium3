@@ -2,6 +2,8 @@ package aaa.modules.regression.finance.operational_reports;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.admin.metadata.reports.OperationalReportsMetaData;
 import aaa.admin.modules.reports.operationalreports.defaulttabs.OperationalReportsTab;
@@ -26,9 +28,10 @@ public class TestOperationalReportsCheckEuwDetailScheduleReportParameters extend
 	 * 5. Check controls in "Scheduling Parameters" section.
 	 */
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-16021")
-	public void pas16021_testOperationalReportsCheckEuwDetailScheduleReportParameters() {
+	public void pas16021_testOperationalReportsCheckEuwDetailScheduleReportParameters(@Optional("") String state) {
 		opReportApp().open();
 
 		orTab.fillTab(getOperationalReportsTD("DataGather", "TestData_EUW_Detail"));
