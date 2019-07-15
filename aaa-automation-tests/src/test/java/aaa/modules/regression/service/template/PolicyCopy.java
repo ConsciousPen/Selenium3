@@ -6,6 +6,7 @@ import aaa.common.enums.Constants.UserGroups;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -39,10 +40,16 @@ public class PolicyCopy extends PolicyBaseTest {
 			}
 			else {
 		        policy.policyCopy().perform(getPolicyTD("CopyFromPolicy", "TestData"));
+				// Validation for PAS-31666
+				if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+					assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.UNDERWRITER).getValue()).isEqualTo("CSAAIB");
+					assertThat(PolicySummaryPage.getPolicyNumber()).startsWith("QCAAS");
+				}
 		    	policy.calculatePremiumAndPurchase(getPolicyTD("CopyFromPolicy", "TestData"));
 		    }
 
 			assertThat(PolicySummaryPage.labelPolicyNumber).as("Copied policy number is the same as initial policy number").doesNotHaveValue(policyNumber);
+
 		}
 	}
 }
