@@ -75,16 +75,15 @@
             <!--</class>-->
         <!--</classes>-->
     <!--</test>-->
-    <!--todo Uncomment when tested and DEV branch is merged to Master-->
-    <!--<test thread-count="1024" name="RFI AA52KS" parallel="methods">-->
-        <!--<parameter name="state" value="KS"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">-->
-                <!--<methods>-->
-                    <!--<include name="pas28521_rfiAA52KSTriggered"/>-->
-                    <!--<include name="pas28521_rfiAA52KSTriggeredRuleOverridden"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test thread-count="1024" name="RFI AA52KS" parallel="methods">
+        <parameter name="state" value="KS"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas28521_rfiAA52KSTriggered"/>
+                    <include name="pas28521_rfiAA52KSTriggeredRuleOverridden"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
