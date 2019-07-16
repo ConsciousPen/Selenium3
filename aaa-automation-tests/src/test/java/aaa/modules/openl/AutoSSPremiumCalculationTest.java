@@ -66,6 +66,9 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
         if (PremiumAndCoveragesTab.tableStateAndLocalTaxesSummaryDetailed.isPresent() || PremiumAndCoveragesTab.tableStateAndLocalTaxesSummary.isPresent()) { // WV and KY states have AP/RP taxes
             totalPremium = totalPremium.subtract(PremiumAndCoveragesTab.getStateAndLocalTaxesAndPremiumSurchargesPremium());
         }
+        if (PremiumAndCoveragesTab.tablefeesSummary.isPresent() && PremiumAndCoveragesTab.tablefeesSummary.getRowsCount()>0) { // NJ and NY states have fees
+            totalPremium = totalPremium.subtract(PremiumAndCoveragesTab.getFeesTotalAmount());
+        }
         return totalPremium;
     }
 
