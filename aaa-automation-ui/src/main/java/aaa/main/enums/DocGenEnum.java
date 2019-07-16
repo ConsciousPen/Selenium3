@@ -82,6 +82,7 @@ public final class DocGenEnum {
 		AA52COB("UMBICELL", "AA52COB", "Statement Electing Lower Limits for Uninsured/Underinsured Motorists Coverage"),
 		AA52CT("Agreement Deleting Uninsured/ Underinsured Motorist Bodily Injury Coverage"),
 		_AA52CT("AA52CT", "Informed Consent Form - Uninsured Motorist Coverage"),
+		AA52ID("AA52ID", "UM and UIM Disclosure Statement and Rejection Of Coverage"),
 		AA52IN("Uninsured/Underinsured Motorist Coverage - Rejection or Election of Lower Limits"),
 		AA52IPAB(""),
 		AA52IPAC(""),

@@ -44,4 +44,14 @@ public class MiniServicesSetupEnableCoverages {
 	public static void enableUMBIForKS() {
 		enableCoverageForState(Constants.States.KS, "UMBI");
 	}
+
+	@Test(description = "Enabling 'canChange' for UMBI for ID on test environment", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public static void enableUMBIForID() {
+		enableCoverageForState(Constants.States.ID, "UMBI");
+	}
+
+	@Test(description = "Enabling 'canChange' for UIMBI for ID on test environment", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public static void enableUIMBIForID() {
+		enableCoverageForState(Constants.States.ID, "UIMBI");
+	}
 }
