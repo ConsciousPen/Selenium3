@@ -968,7 +968,6 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas15368_viewUpdatePIPCoverage_UT"/>
-                    <include name="pas20306_viewUpdateCoveragesUmpdCompColl"/>
                 </methods>
             </class>
         </classes>
