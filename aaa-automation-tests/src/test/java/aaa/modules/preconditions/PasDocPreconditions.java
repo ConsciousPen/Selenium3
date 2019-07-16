@@ -35,7 +35,7 @@ public class PasDocPreconditions {
 		DBService.get().executeUpdate(SQL_UPDATE);
 		log.info("DB update +++++ PAS DOC PRECONDITIONS ++++docGenwebClient++++ updated");
 
-		SQL_UPDATE= "update propertyconfigurerentity set value = 'https://qa-sso.tent.trt.csaa.pri/as/token.oauth2' where propertyname = 'oauth2TokenStore.authTokenEndpointUrl'";
+		SQL_UPDATE= "update propertyconfigurerentity set value = 'http://wiremock-master.apps.prod.pdc.digital.csaa-insurance.aaa.com/as/token.oauth2' where propertyname = 'oauth2TokenStore.authTokenEndpointUrl'";
 		DBService.get().executeUpdate(SQL_UPDATE);
 		log.info("DB update +++++ PAS DOC PRECONDITIONS ++++authTokenEndpointUrl++++ updated");
 
