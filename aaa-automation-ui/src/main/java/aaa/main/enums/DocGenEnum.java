@@ -371,7 +371,7 @@ public final class DocGenEnum {
 		_55_6103("55 6103", "Earned Premium Bill 3"),
 		_55_6109("55 6109", ""),
 		_550002("550002", "Lien-Holder's Statement of Policy Coverage"),
-		_550007("550007", "Uninsured Motorist Coverage Deletion or Selection of Limits Agreement"),
+		_550007("UUMCI", "55 0007", "Uninsured Motorist Coverage Deletion or Selection of Limits Agreement"),
 		_550009("550009", "Request for Additional Information"),
 		_550010("550010", "Community Service Survey"),
 		_550011("550011", "Camper Physical Damage Coverage Waiver"),
