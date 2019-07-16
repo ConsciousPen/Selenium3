@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import aaa.helpers.TestDataHelper;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import org.openqa.selenium.By;
 import org.testng.annotations.Optional;
@@ -370,18 +371,28 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
         doMPDEligibilityTest_Renewal("Condo");
     }
 
+    /**
+     * Validates that while a policy is YOUNGER than 30 days effective, an agent can bind an endorsement containing a quoted companion policy.
+     * @param state
+     * @author Tyrone Jemison
+     */
     @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23456")
-    public void pas23456_MPD_Prevent_MTEBind(@Optional("") String state) {
-        doMTEPreventBindTest(false, "Home");
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL, Groups.CIO }, description = "Modify rule to prevent MTE bind after NB+30 with MPD when policy has quoted companion products.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-31861")
+    public void pas31861_MPD_QuotedCompanionProduct_AllowMTEBindBasedOnEffectiveDate(@Optional("CA") String state) {
+        doQuotedMPDBindTest(true, false);
     }
 
+    /**
+     * Validates that while a policy is OLDER than 30 days effective, an agent can bind an endorsement containing a quoted companion policy.
+     * @param state
+     * @author Tyrone Jemison
+     */
     @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23456")
-    public void pas23456_MPD_Allow_MTEBind(@Optional("") String state) {
-        doMTEAllowBindTest(false, "Home");
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL, Groups.CIO }, description = "Modify rule to prevent MTE bind after NB+30 with MPD when policy has quoted companion products.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-31861")
+    public void pas31861_MPD_QuotedCompanionProduct_RestrictMTEBindBasedOnEffectiveDate(@Optional("CA") String state) {
+        doQuotedMPDBindTest(true, true);
     }
 
     @Parameters({"state"})
@@ -409,6 +420,22 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-27241")
     public void pas27241_MPDPagination(@Optional("AZ") String state){
         pas27241_MPDPaginationTemplate();
+    }
+
+    /**
+     *  This test ensures that at NB+30, when MPD validation occurs and the discount is removed, an AHDRXX document is generated. <br>
+     *  This test currently has no document validation, but will simply generate the document for manual validation. <br>
+     *  Marked as disabled so that it will not be included in test suite (no validations are automated)
+     * @author Tyrone Jemison (CIO)
+     */
+    @Parameters({"state"})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CIO})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-31709")
+    public void pas31709_MPD_Discount_Removal_Generates_AHDRXX(@Optional("CA") String state){
+        TestData testData = getPolicyDefaultTD();
+        testData = TestDataHelper.adjustTD(testData, getGeneralTab().getClass(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), "3111111111111121");
+
+        pas31709_MPDDiscountRemovalGeneratesAHDRXX(testData);
     }
 
     /**

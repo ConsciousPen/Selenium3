@@ -398,20 +398,6 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     }
 
     @Parameters({"state"})
-    @Test(enabled = false, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-23456")
-    public void pas23456_MPD_Prevent_MTEBind(@Optional("") String state) {
-        doMTEPreventBindTest(false, "Home");
-    }
-
-    @Parameters({"state"})
-    @Test(enabled = false, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Need ability to prevent MTE bind with MPD when policy has quoted companion products.")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-23456")
-    public void pas23456_MPD_Allow_MTEBind(@Optional("") String state) {
-        doMTEAllowBindTest(false, "Home");
-    }
-
-    @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-24729")
     public void pas23456_MPD_Prevent_Renewal(@Optional("") String state) {
