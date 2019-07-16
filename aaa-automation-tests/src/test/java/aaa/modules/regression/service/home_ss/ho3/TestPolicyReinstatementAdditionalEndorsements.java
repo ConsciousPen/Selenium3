@@ -106,6 +106,8 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		log.info("TEST: #V Cancellation Notice AH61XX is archived in fast lane and available under E-Folder--> Cancellation");
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH61XX);
 		log.info("TEST: Delete Cancel Notice for Policy #" + policyNum);
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
 		policy.deleteCancelNotice().perform(new SimpleDataProvider());
 		log.info("TEST: Cancel Notice flag is removed from policy");
 		assertThat(PolicySummaryPage.labelCancelNotice).isPresent(false);
@@ -185,6 +187,8 @@ public class TestPolicyReinstatementAdditionalEndorsements extends HomeSSHO3Base
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		log.info("TEST: Run policyStatusUpdateJob");
 		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
 		log.info("TEST: #L Status = Cancelled");
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
