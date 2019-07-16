@@ -3,7 +3,6 @@
 package aaa.main.metadata;
 
 import org.openqa.selenium.By;
-import com.exigen.ipb.eisa.controls.dialog.DialogMultiSelector;
 import com.exigen.ipb.eisa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.eisa.controls.dialog.type.AbstractDialog;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
@@ -109,7 +108,7 @@ public final class BillingAccountMetaData {
 
 	public static final class TransferPaymentActionTab extends MetaData {
 		public static final AssetDescriptor<ComboBox> TRANSFER_REASON = declare("Transfer Reason", ComboBox.class);
-		public static final AssetDescriptor<DialogMultiSelector> ALLOCATION = declare("Allocation", DialogMultiSelector.class, AllocationMultiSelector.class);
+		public static final AssetDescriptor<AllocationDialogMultiSelector> ALLOCATION = declare("Allocation", AllocationDialogMultiSelector.class, AllocationMultiSelector.class);
 		public static final AssetDescriptor<TextBox> ALLOCATED_AMOUNT = declare("Allocated Amount", TextBox.class);
 
 		public static final class AllocationMultiSelector extends MetaData {

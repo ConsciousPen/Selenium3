@@ -745,6 +745,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         mainApp().open();
         createCustomerIndividual();
         String policyNumber = createFinancialPolicy();
+        String effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue();
 
         //2. Create Other Transaction - adjustment - Write off
         BillingSummaryPage.open();
@@ -777,7 +778,6 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         advancedAllocationsActionTab.submitTab();
 
         //5. ADJ-03 Validate ledger entries - Write-off, Advanced allocations
-        String effectiveDate = BillingSummaryPage.labelPolicyEffectiveDate.getValue();
         String accountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
         List<String> transactionIds = FinancialsSQL.getTransactionIdsForAccount(accountNumber);
         int index = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.WRITE_OFF);
@@ -846,11 +846,11 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         //Move time to R-20
         if (!getState().equals(Constants.States.CA)) {
             TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dueDate));//-20 days
-            //Generate Renewal bill
+            //Generate bill
             JobUtils.executeJob(BatchJob.billingInvoiceGenerationJob);
 
             TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dueDate2));//-20 days
-            //Generate Renewal bill
+            //Generate bill
             JobUtils.executeJob(BatchJob.billingInvoiceGenerationJob);
         }
 

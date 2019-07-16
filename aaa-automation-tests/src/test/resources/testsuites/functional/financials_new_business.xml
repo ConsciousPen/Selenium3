@@ -64,11 +64,22 @@
     </test>
 
     <test name="New Business 7 - SS Auto Writeoff" parallel="methods" thread-count="1024">
-        <parameter name="state" value="KY, WV"/>
+        <parameter name="state" value="KY, WV, AZ, NJ"/>
         <classes>
             <class name="aaa.modules.financials.auto_ss.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_7"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="New Business 8 - SS Auto Writeoff" parallel="methods" thread-count="1024">
+        <parameter name="state" value="KY, WV, AZ, NJ"/>
+        <classes>
+            <class name="aaa.modules.financials.auto_ss.TestNewBusiness">
+                <methods>
+                    <include name="testNewBusinessScenario_8"/>
                 </methods>
             </class>
         </classes>
