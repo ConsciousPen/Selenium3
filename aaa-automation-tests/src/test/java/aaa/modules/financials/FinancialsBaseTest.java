@@ -4,6 +4,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+
+import aaa.toolkit.webdriver.customcontrols.AdvancedAllocationsRepeatAssetList;
 import org.openqa.selenium.By;
 import com.exigen.ipb.eisa.utils.Dollar;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
@@ -222,42 +224,41 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 	}
 
 	protected Map<String, Dollar> collectAllocationAmounts() {
-		Map<String, Dollar> allocations = new HashMap<>();
-		Table tableAdvancedAllocationsNetAndTaxes0 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:netPremiumAmount_0')]//ancestor::table[1]"));
-		Table tablePolicyInfo0 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:subTotalAmount_0')]//preceding::table[1]"));
-		Table tablePolicyInfo1 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:subTotalAmount_1')]//preceding::table[1]"));
-		String effectiveDate0 = extractEffectiveDate(tablePolicyInfo0);
-		String effectiveDate1 = extractEffectiveDate(tablePolicyInfo1);
+        Map<String, Dollar> allocations = new HashMap<>();
+        AdvancedAllocationsActionTab advancedAllocationsActionTab = new AdvancedAllocationsActionTab();
+        AdvancedAllocationsRepeatAssetList advancedAllocationsRepeatAssetList = advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS);
+        for (int i = 0; i < advancedAllocationsRepeatAssetList.getValue().size(); i++) {
+            Table tablePolicyInfo = advancedAllocationsRepeatAssetList.getTablePolicyInfo(i);
+            String effectiveDate = extractEffectiveDate(tablePolicyInfo);
 
-		Dollar netPremium0 = extractNetPremium(tableAdvancedAllocationsNetAndTaxes0);
-		allocations.put("Net Premium" + effectiveDate0, netPremium0);
-		allocations.put("Net Premium", netPremium0);
-		allocations.put("Taxes" + effectiveDate0, collectAllocationAmountsFrom(tableAdvancedAllocationsNetAndTaxes0).subtract(allocations.get("Net Premium" + effectiveDate0)));
-		allocations.put("Taxes", allocations.get("Taxes" + effectiveDate0));
+            Table tableAdvancedAllocationsNetAndTaxes = advancedAllocationsRepeatAssetList.getTableAdvancedAllocationsNetAndTaxes(i);
+            Dollar netPremium = extractNetPremium(tableAdvancedAllocationsNetAndTaxes);
+            allocations.put(AdvancedAllocationsRepeatAssetList.NET_PREMIUM + effectiveDate, netPremium);
+            if (allocations.containsKey(AdvancedAllocationsRepeatAssetList.NET_PREMIUM)) {
+                allocations.put(AdvancedAllocationsRepeatAssetList.NET_PREMIUM, allocations.get(AdvancedAllocationsRepeatAssetList.NET_PREMIUM).add(netPremium));
+            } else {
+                allocations.put(AdvancedAllocationsRepeatAssetList.NET_PREMIUM, netPremium);
+            }
+            allocations.put("Taxes" + effectiveDate, collectAllocationAmountsFrom(tableAdvancedAllocationsNetAndTaxes).subtract(allocations.get(AdvancedAllocationsRepeatAssetList.NET_PREMIUM + effectiveDate)));
+            allocations.put("Taxes", allocations.get("Taxes" + effectiveDate));
 
-		Table tableAdvancedAllocationsFees0 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:feeAmount_0')]//ancestor::table[1]"));
-		Dollar totalAmount = collectAllocationAmountsFrom(tableAdvancedAllocationsFees0);
-		if (!totalAmount.isZero()) {
-			allocations.put("Fees", totalAmount);
-		}
-		if (effectiveDate1 != null) {
-			Table tableAdvancedAllocationsNetAndTaxes1 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:netPremiumAmount_1')]//ancestor::table[1]"));
-			Dollar netPremium1 = extractNetPremium(tableAdvancedAllocationsNetAndTaxes1);
-			allocations.put("Net Premium" + effectiveDate1, netPremium1);
-			allocations.put("Net Premium", netPremium0.add(netPremium1));
-			allocations.put("Taxes" + effectiveDate1, collectAllocationAmountsFrom(tableAdvancedAllocationsNetAndTaxes1).subtract(allocations.get("Net Premium" + effectiveDate1)));
-			allocations.put("Taxes", allocations.get("Taxes" + effectiveDate0).add(allocations.get("Taxes" + effectiveDate1)));
-			Table tableAdvancedAllocationsFees1 = new Table(By.xpath("//input[contains(@id, 'advAllocationForm:feeAmount_1')]//ancestor::table[1]"));
-			totalAmount = totalAmount.add(collectAllocationAmountsFrom(tableAdvancedAllocationsFees1));
-			if (!totalAmount.isZero()) {
-				allocations.put("Fees", totalAmount);
-			}
-		}
+            Table tableAdvancedAllocationsFees = advancedAllocationsRepeatAssetList.getTableAdvancedAllocationsFees(i);
+            Dollar totalAmount = collectAllocationAmountsFrom(tableAdvancedAllocationsFees);
+            if (!totalAmount.isZero()) {
+                if (allocations.containsKey("Fees")) {
+                    allocations.put("Fees", allocations.get("Fees").add(totalAmount));
+                } else {
+                    allocations.put("Fees", totalAmount);
+                }
+            }
 
-		Tab.buttonBack.click();
-		Tab.buttonBack.click();
-		return allocations;
-	}
+            allocations.putAll(collectAllocationAmountsSeparatelyFrom(tableAdvancedAllocationsFees, effectiveDate));
+        }
+
+        Tab.buttonBack.click();
+        Tab.buttonBack.click();
+        return allocations;
+    }
 
 	private Dollar extractNetPremium(Table tableAdvancedAllocationsNetAndTaxes) {
 		Dollar netPremium = BillingHelper.DZERO;
@@ -286,6 +287,16 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		}
 		return totalAmount;
 	}
+
+	private Map<String, Dollar> collectAllocationAmountsSeparatelyFrom(Table tableAdvancedAllocations, String effectiveDate) {
+	    Map<String, Dollar> map = new HashMap<>();
+	    if (!tableAdvancedAllocations.getRows().isEmpty()) {
+            for (Row row : tableAdvancedAllocations.getRows()) {
+                map.put(row.getCell(1).getValue() + effectiveDate, new Dollar(row.getCell(2).controls.textBoxes.getFirst().getValue()));
+            }
+        }
+        return map;
+    }
 
 	protected Map<String, Dollar> getTaxAmountsForPolicy(String policyNumber) {
 		Map<String, Dollar> taxes = new HashMap<>();

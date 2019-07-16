@@ -37,6 +37,7 @@
             <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationOOSEndorseNegativePremium"/>
             <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationIssueNegativePremium"/>
             <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment"/>
+            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationEPWriteOff"/>
         </classes>
     </test>
     <test name="PAS-21446, PAS-21454, PAS-21458, PAS-21446,
@@ -51,7 +52,6 @@
             <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationRPEndorsement"/>
             <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationFlatCancellation"/>
             <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationPremiumRefund"/>
-            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationEPWriteOff"/>
             <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationFlagTransactions"/>
         </classes>
     </test>

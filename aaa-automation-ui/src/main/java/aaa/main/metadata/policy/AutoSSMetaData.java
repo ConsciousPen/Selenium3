@@ -1002,6 +1002,8 @@ public final class AutoSSMetaData {
 			// NV
 			public static final AssetDescriptor<RadioGroup> UNINSURED_MOTORIST_COVERAGE_AND_UNDERINSURED_MOTORIST_COVERAGE = declare("Uninsured Motorist Coverage and Underinsured Motorist Coverage -" +
 					" Election of Lower Limits / Rejection of Coverage", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> REJECTION_OF_MEDICAL_PAYMENTS_COVERAGE_FORM
+					= declare("Rejection of Medical Payments Coverage Form", RadioGroup.class);
 			// PA
 			public static final AssetDescriptor<RadioGroup> UNUNSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION =
 					declare("Uninsured Motorists Coverage Selection/Rejection", RadioGroup.class, Waiters.AJAX);

@@ -35,6 +35,5 @@ public class TestOperationalReportsCheckEuwDetailDropdown extends BaseTest {
 
 		assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.NAME))
 				.containsOption(OperationalReportsConstants.EUW_DETAIL);
-
 	}
 }

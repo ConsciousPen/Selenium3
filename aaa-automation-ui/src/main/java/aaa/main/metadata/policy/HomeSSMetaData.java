@@ -1944,9 +1944,9 @@ public final class HomeSSMetaData {
 
 	public static final class GenerateOnDemandDocumentActionTab extends MetaData {
 		public static final AssetDescriptor<FillableDocumentsTable> ON_DEMAND_DOCUMENTS = declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentRow.class, By
-				.xpath("(//div[@id='policyDataGatherForm:componentView_AAAHODocGen']//table)[1]"));
+				.xpath("(//div[@id='policyDataGatherForm:componentView_AAAHODocGen' or @id='policyDataGatherForm:componentView_AAAPasdocAdHocOnDemandDocs']//table)[1]"));
 		public static final AssetDescriptor<AdvancedRadioGroup> DELIVERY_METHOD = declare("Delivery Method", AdvancedRadioGroup.class, Waiters.AJAX, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']/table"));
+				.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body' or @id='policyDataGatherForm:componentView_AAAPasdocAdHocOnDemandDocs_body']/table"));
 		public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<DialogAssetList> E_SIGNATURE_EMAIL_DIALOG = declare("ESignatureEmailDialog", DialogAssetList.class, ESignatureEmailDialog.class, By.xpath("//div[@id='emailAddrPopup_container']"));
 

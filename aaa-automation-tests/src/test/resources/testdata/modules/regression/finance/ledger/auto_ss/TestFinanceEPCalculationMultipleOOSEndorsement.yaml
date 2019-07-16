@@ -138,3 +138,22 @@ TestData_EndorsementAddSecondCoverage_WV: {
     DriverActivityReportsTab: {},
     DocumentsAndBindTab: {}
 }
+
+# ====================== TestData NV =======================
+TestData_EndorsementRemoveCoverage_NV: {
+   GeneralTab: {},
+   DriverTab: {},
+   RatingDetailReportsTab: {},
+   VehicleTab: {},
+   FormsTab: {},
+   PremiumAndCoveragesTab: {
+   Uninsured and Underinsured Motorist Bodily Injury: 'contains=No Coverage'
+   },
+   DriverActivityReportsTab: {},
+   DocumentsAndBindTab: {
+    RequiredToBind: {
+      Uninsured Motorist Coverage and Underinsured Motorist Coverage - Election of Lower Limits / Rejection of Coverage: Physically Signed,
+      Rejection of Medical Payments Coverage Form: Physically Signed,
+   },
+  }
+ }

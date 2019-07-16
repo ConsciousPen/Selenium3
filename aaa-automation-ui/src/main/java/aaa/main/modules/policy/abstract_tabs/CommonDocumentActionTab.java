@@ -161,7 +161,7 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 		}
 
 		public void documentsPresent(boolean expectedValue, DocGenEnum.Documents... documents) {
-			documentsPresent(null, true, documents);
+			documentsPresent(null, expectedValue, documents);
 		}
 
 		public void documentsPresent(ETCSCoreSoftAssertions softly, boolean expectedValue, DocGenEnum.Documents... documents) {
@@ -196,7 +196,7 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 
 			for (DocGenEnum.Documents doc : documents) {
 				String message = String.format("On demand document %1$s is not %2$s as expected.", doc, expectedValue ? "enabled" : "disabled");
-				documentQuery.put(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, doc.getId());
+				documentQuery.put(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, doc.getIdInXml().replace(" ", ""));
 				documentQuery.put(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, doc.getName());
 				if (softly == null) {
 					assertThat(getDocumentsControl().getTable().getRow(documentQuery).getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).controls.checkBoxes.getFirst())

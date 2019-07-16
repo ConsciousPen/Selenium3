@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.eisa.utils.Dollar;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
+import aaa.common.enums.Constants.States;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.mock.ApplicationMocksManager;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLForm;
@@ -366,7 +367,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		if (addressContainsCounty(openLPolicy.getPolicyAddress().getState())) {
 			dwellingAddressData.adjust(DataProviderFactory.dataOf(HomeSSMetaData.ApplicantTab.DwellingAddress.COUNTY.getLabel(), "County"));
 		}
-		if (openLPolicy.getPolicyAddress().getRetCommunityPresent()){
+		if (openLPolicy.getPolicyAddress().getRetCommunityPresent() && !States.MD.equals(openLPolicy.getPolicyAddress().getState())){
 			dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.RETIREMENT_COMMUNITY.getLabel(), "index=1");
 		}
 
