@@ -1,10 +1,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="JDI DXP Test Suite" verbose="1" parallel="tests" thread-count="1024">
+<suite name="DXP" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!-- Listener commented out for local runs-->
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
+
     <test thread-count="1024" name="TestMiniServicesPremiumBearingAZ" parallel="methods">
         <!--<test name="TestMiniServicesPremiumBearingAZ">-->
         <parameter name="state" value="AZ"/>
@@ -839,31 +840,31 @@
     <!--Commented out because Digital does not use revert option. Tests should be uncommented when Digital starts to use this functionality-->
     <!--Currently have bug PAS-30871 DXP: can not revert driver that is removed using removal reason code RD1003/RD1004 related to this.-->
     <!--<test thread-count="1024" name="pas18643_CancelRemoveDriver (Revert Deleted Driver)" parallel="methods">-->
-        <!--<parameter name="state" value="VA"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">-->
-                <!--<methods>-->
-                    <!--<include name="pas18643_CancelRemoveDriverWithoutChangesPendingRemoval"/>-->
-                    <!--<include name="pas18643_CancelRemoveDriverWithoutChangesDriverTypeChanged"/>-->
-                    <!--<include name="pas18643_CancelRemoveDriverWithChangesPendingRemoval"/>-->
-                    <!--<include name="pas18643_CancelRemoveDriverWithChangesDriverTypeChanged"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-        <!--</classes>-->
+    <!--<parameter name="state" value="VA"/>-->
+    <!--<classes>-->
+    <!--<class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">-->
+    <!--<methods>-->
+    <!--<include name="pas18643_CancelRemoveDriverWithoutChangesPendingRemoval"/>-->
+    <!--<include name="pas18643_CancelRemoveDriverWithoutChangesDriverTypeChanged"/>-->
+    <!--<include name="pas18643_CancelRemoveDriverWithChangesPendingRemoval"/>-->
+    <!--<include name="pas18643_CancelRemoveDriverWithChangesDriverTypeChanged"/>-->
+    <!--</methods>-->
+    <!--</class>-->
+    <!--</classes>-->
     <!--</test>-->
     <!--<test thread-count="1024" name="Revert Deleted/Replaced Vehicle" parallel="methods">-->
-        <!--<parameter name="state" value="VA"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">-->
-                <!--<methods>-->
-                    <!--<include name="pas18670_CancelRemoveVehicleWithoutChanges"/>-->
-                    <!--<include name="pas18670_CancelRemoveVehicleWithChanges"/>-->
-                    <!--<include name="pas18671_CancelReplaceVehicleWithoutChanges"/>-->
-                    <!--<include name="pas18671_CancelReplaceVehicleWithChanges"/>-->
-                    <!--<include name="pas18671_CancelReplaceVehicle_oneDriver"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-        <!--</classes>-->
+    <!--<parameter name="state" value="VA"/>-->
+    <!--<classes>-->
+    <!--<class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">-->
+    <!--<methods>-->
+    <!--<include name="pas18670_CancelRemoveVehicleWithoutChanges"/>-->
+    <!--<include name="pas18670_CancelRemoveVehicleWithChanges"/>-->
+    <!--<include name="pas18671_CancelReplaceVehicleWithoutChanges"/>-->
+    <!--<include name="pas18671_CancelReplaceVehicleWithChanges"/>-->
+    <!--<include name="pas18671_CancelReplaceVehicle_oneDriver"/>-->
+    <!--</methods>-->
+    <!--</class>-->
+    <!--</classes>-->
     <!--</test>-->
     <test thread-count="1024" name="Named Insured marital status and the Relationship to the FNI (MD)" parallel="methods">
         <parameter name="state" value="MD, NJ, CO, DE"/>
@@ -968,6 +969,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas15368_viewUpdatePIPCoverage_UT"/>
+                    <include name="pas20306_viewUpdateCoveragesUmpdCompColl"/>
                 </methods>
             </class>
         </classes>
@@ -1419,32 +1421,6 @@
                     <include name="pas19057_OrderOfCoverageCATC01"/>
                     <include name="pas19057_OrderOfCoverageCATC02"/>
                     <include name="pas17642_UpdateCoverageADB_CA"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test thread-count="1024" name="Default COMP and COLL (if they are No Coverage) when replacing vehicle with Financed/Leased vehicle (Auto SS)" parallel="methods">
-        <parameter name="state" value="NV"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
-                <methods>
-                    <include name="pas31098_noCollAndCompFNC"/>
-                    <include name="pas31098_noCollFNC"/>
-                    <include name="pas31098_noCollAndCompLSD"/>
-                    <include name="pas31098_noCollLSD"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test thread-count="1024" name="Default COMP and COLL (if they are No Coverage) when replacing vehicle with Financed/Leased vehicle (CA Select)" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesCoverages">
-                <methods>
-                    <include name="pas31098_noCollAndCompFNC"/>
-                    <include name="pas31098_noCollFNC"/>
-                    <include name="pas31098_noCollAndCompLSD"/>
-                    <include name="pas31098_noCollLSD"/>
                 </methods>
             </class>
         </classes>

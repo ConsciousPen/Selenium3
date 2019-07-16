@@ -1,6 +1,8 @@
 package aaa.modules.regression.finance.operational_reports;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.admin.metadata.reports.OperationalReportsMetaData;
 import aaa.admin.modules.reports.operationalreports.defaulttabs.OperationalReportsTab;
@@ -22,9 +24,10 @@ public class TestOperationalReportsCheckEuwDetailDeliveryFormat extends BaseTest
 	 * 3. Check "Delivery Format" options
 	 */
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-15537")
-	public void pas15537_testOperationalReportsCheckEuwDetailDeliveryFormat() {
+	public void pas15537_testOperationalReportsCheckEuwDetailDeliveryFormat(@Optional("") String state) {
 		opReportApp().open();
 
 		orTab.fillTab(getOperationalReportsTD("DataGather", "TestData_EUW_Detail"));

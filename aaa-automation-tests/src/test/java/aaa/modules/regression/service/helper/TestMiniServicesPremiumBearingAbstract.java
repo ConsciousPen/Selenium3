@@ -1596,9 +1596,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
-		String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", "%%");
-		int numberOfDocumentsRecordsInDb = Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get());
-
 		//Create pended endorsement manually
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(getPremiumAndCoverageTab());
@@ -1614,9 +1611,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		//check bound endorsement created by
 		checkAuthorizedByChanged(authorizedBy);
 
-		//check number of documents in DB
-		assertThat(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).map(Integer::parseInt)).hasValue(numberOfDocumentsRecordsInDb + 1);
-
 		//Create additional endorsement
 		SearchPage.openPolicy(policyNumber);
 		testEValueDiscount.secondEndorsementIssueCheck();
@@ -1631,8 +1625,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		String policyNumber = getCopiedPolicy();
 
 		assertSoftly(softly -> {
-			String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", "ENDORSEMENT_ISSUE");
-			int numberOfDocumentsRecordsInDb = Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get());
 
 			//Create pended endorsement
 			PolicySummary endorsementResponse = HelperCommon.createEndorsement(policyNumber, null);
@@ -1650,9 +1642,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			//check bound endorsement created by
 			checkAuthorizedByChanged(authorizedBy);
-
-			//check number of documents in DB
-			softly.assertThat(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).map(Integer::parseInt)).hasValue(numberOfDocumentsRecordsInDb + 1);
 
 			//Create additional endorsement
 			SearchPage.openPolicy(policyNumber);

@@ -4,8 +4,10 @@
  */
 package aaa.main.modules.policy.home_ca.defaulttabs;
 
+import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeCaMetaData;
+import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
 /**
@@ -15,6 +17,8 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
  * @category Generated
  */
 public class DocumentsTab extends Tab {
+	public static Button btnGenerateDocuments = new Button(By.id("policyDataGatherForm:generate_link"));
+
     public DocumentsTab() {
         super(HomeCaMetaData.DocumentsTab.class);
     }

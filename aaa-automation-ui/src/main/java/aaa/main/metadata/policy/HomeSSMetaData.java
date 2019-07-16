@@ -855,7 +855,7 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> DESCRIPTION_OF_STRUCTURE = declare("Description of structure", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> CONSTRUCTION_TYPE = declare("Construction type", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class);
+			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementDS0469 extends MetaData {
@@ -924,7 +924,7 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class EndorsementHS0436 extends MetaData {
-			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class);
+			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> LOCATION_TYPE = declare("Location type", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> DESCRIPTION_OF_STRUCTURE = declare("Description of structure", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> CONSTRUCTION_TYPE = declare("Construction type", ComboBox.class, Waiters.AJAX);
@@ -967,11 +967,11 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class EndorsementHS0453 extends MetaData {
-			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class);
+			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHS0455 extends MetaData {
-			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class);
+			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHS0459 extends MetaData {
@@ -989,7 +989,7 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class EndorsementHS0461 extends MetaData {
-			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class);
+			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHS0465 extends MetaData {
@@ -1081,12 +1081,12 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class EndorsementHS0926 extends MetaData {
-			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class);
+			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHS0930 extends MetaData {
-			public static final AssetDescriptor<ComboBox> PROPERTY_COVERAGE_LIMIT = declare("Property Coverage Limit", ComboBox.class);
-			public static final AssetDescriptor<ComboBox> LIABILITY_COVERAGE_LIMIT = declare("Liability Coverage Limit", ComboBox.class);
+			public static final AssetDescriptor<ComboBox> PROPERTY_COVERAGE_LIMIT = declare("Property Coverage Limit", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> LIABILITY_COVERAGE_LIMIT = declare("Liability Coverage Limit", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class EndorsementHS0934 extends MetaData {
@@ -1944,9 +1944,9 @@ public final class HomeSSMetaData {
 
 	public static final class GenerateOnDemandDocumentActionTab extends MetaData {
 		public static final AssetDescriptor<FillableDocumentsTable> ON_DEMAND_DOCUMENTS = declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentRow.class, By
-				.xpath("(//div[@id='policyDataGatherForm:componentView_AAAHODocGen']//table)[1]"));
+				.xpath("(//div[@id='policyDataGatherForm:componentView_AAAHODocGen' or @id='policyDataGatherForm:componentView_AAAPasdocAdHocOnDemandDocs']//table)[1]"));
 		public static final AssetDescriptor<AdvancedRadioGroup> DELIVERY_METHOD = declare("Delivery Method", AdvancedRadioGroup.class, Waiters.AJAX, By
-				.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']/table"));
+				.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body' or @id='policyDataGatherForm:componentView_AAAPasdocAdHocOnDemandDocs_body']/table"));
 		public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<DialogAssetList> E_SIGNATURE_EMAIL_DIALOG = declare("ESignatureEmailDialog", DialogAssetList.class, ESignatureEmailDialog.class, By.xpath("//div[@id='emailAddrPopup_container']"));
 

@@ -110,7 +110,6 @@
                     <include name="testRenewalScenario_3"/>
                     <include name="testRenewalScenario_4"/>
                     <include name="testRenewalScenario_5"/>
-                    <include name="testRenewalScenario_10"/>
                 </methods>
             </class>
         </classes>

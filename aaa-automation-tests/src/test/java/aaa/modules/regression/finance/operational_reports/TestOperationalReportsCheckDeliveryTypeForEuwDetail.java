@@ -2,6 +2,8 @@ package aaa.modules.regression.finance.operational_reports;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.admin.metadata.reports.OperationalReportsMetaData;
 import aaa.admin.modules.reports.operationalreports.defaulttabs.OperationalReportsTab;
@@ -28,9 +30,10 @@ public class TestOperationalReportsCheckDeliveryTypeForEuwDetail extends BaseTes
 	 * 7. Verify, that errors 'Field is required' for 'E-mail Address' Selection and 'Additional E-mail Address'
 	 */
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-15536")
-	public void pas15536_testOperationalReportsCheckDeliveryTypeForEuwDetail() {
+	public void pas15536_testOperationalReportsCheckDeliveryTypeForEuwDetail(@Optional("") String state) {
 		opReportApp().open();
 
 		orTab.fillTab(getOperationalReportsTD("DataGather", "TestData_EUW_Detail"));
