@@ -3,7 +3,6 @@
 package aaa.main.metadata;
 
 import org.openqa.selenium.By;
-import com.exigen.ipb.eisa.controls.dialog.DialogMultiSelector;
 import com.exigen.ipb.eisa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.eisa.controls.dialog.type.AbstractDialog;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
