@@ -51,11 +51,11 @@ public class PasDocPreconditions {
 		DBService.get().executeUpdate(SQL_UPDATE);
 		log.info("DB update +++++ PAS DOC PRECONDITIONS ++++pasdocGenerateAdhocDocsProvider++++ updated");
 
-		SQL_UPDATE= "update propertyconfigurerentity set value = 'http://pasdoc-qa2.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-doc-rs/generateDocuments' where propertyname = 'pasdocGenerateBatchAndOnlineDocsProvider.address'";
+		SQL_UPDATE= "update propertyconfigurerentity set value = 'https://pasdoc-dev-phase3.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-doc-rs/generateDocuments' where propertyname = 'pasdocGenerateBatchAndOnlineDocsProvider.address'";
 		DBService.get().executeUpdate(SQL_UPDATE);
 		log.info("DB update +++++ PAS DOC PRECONDITIONS ++++pasdocGenerateBatchAndOnlineDocsProvider++++ updated");
 
-		SQL_UPDATE= "update propertyconfigurerentity set value = 'http://pasdoc-qa2.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-doc-rs/getAdhocTemplates' where propertyname = 'pasdocRetrieveAdhocDocsProvider.address'";
+		SQL_UPDATE= "update propertyconfigurerentity set value = 'https://pasdoc-dev-phase3.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-doc-rs/getAdhocTemplates' where propertyname = 'pasdocRetrieveAdhocDocsProvider.address'";
 		DBService.get().executeUpdate(SQL_UPDATE);
 		log.info("DB update +++++ PAS DOC PRECONDITIONS ++++pasdocRetrieveAdhocDocsProvider++++ updated");
 	}
