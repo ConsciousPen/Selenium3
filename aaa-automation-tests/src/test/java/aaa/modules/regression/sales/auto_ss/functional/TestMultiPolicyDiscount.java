@@ -379,7 +379,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL, Groups.CIO }, description = "Modify rule to prevent MTE bind after NB+30 with MPD when policy has quoted companion products.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-31861")
-    public void pas31861_MPD_QuotedCompanionProduct_AllowMTEBindBasedOnEffectiveDate(@Optional("CA") String state) {
+    public void pas31861_MPD_QuotedCompanionProduct_AllowMTEBindBasedOnEffectiveDate(@Optional("") String state) {
         doQuotedMPDBindTest(true, false);
     }
 
@@ -391,7 +391,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL, Groups.CIO }, description = "Modify rule to prevent MTE bind after NB+30 with MPD when policy has quoted companion products.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-31861")
-    public void pas31861_MPD_QuotedCompanionProduct_RestrictMTEBindBasedOnEffectiveDate(@Optional("CA") String state) {
+    public void pas31861_MPD_QuotedCompanionProduct_RestrictMTEBindBasedOnEffectiveDate(@Optional("") String state) {
         doQuotedMPDBindTest(true, true);
     }
 
@@ -431,7 +431,7 @@ public class TestMultiPolicyDiscount extends TestMultiPolicyDiscountAbstract {
     @Parameters({"state"})
     @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CIO})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-31709")
-    public void pas31709_MPD_Discount_Removal_Generates_AHDRXX(@Optional("CA") String state){
+    public void pas31709_MPD_Discount_Removal_Generates_AHDRXX(@Optional("") String state){
         TestData testData = getPolicyDefaultTD();
         testData = TestDataHelper.adjustTD(testData, getGeneralTab().getClass(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), "3111111111111121");
 
