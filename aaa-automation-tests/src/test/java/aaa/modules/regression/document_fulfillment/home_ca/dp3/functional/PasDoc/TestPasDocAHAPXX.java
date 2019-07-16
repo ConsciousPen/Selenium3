@@ -4,6 +4,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants.States;
+import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.impl.PasDocImpl;
 import aaa.main.enums.DocGenEnum;
@@ -14,6 +15,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
 import aaa.modules.policy.HomeCaDP3BaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
 public class TestPasDocAHAPXX extends HomeCaDP3BaseTest {
@@ -34,6 +36,7 @@ public class TestPasDocAHAPXX extends HomeCaDP3BaseTest {
 	@Parameters({"state"})
 	@StateList(states = States.CA)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-30933")
 	public void testAHAPXX_documentsTab(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -67,6 +70,7 @@ public class TestPasDocAHAPXX extends HomeCaDP3BaseTest {
 	@Parameters({"state"})
 	@StateList(states = States.CA)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-30933")
 	public void testAHAPXX_GODDPage_Quote(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -96,6 +100,7 @@ public class TestPasDocAHAPXX extends HomeCaDP3BaseTest {
 	@Parameters({"state"})
 	@StateList(states = States.CA)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = {"PAS-30933", "PAS-30936"})
 	public void testAHAPXX_GODDPage_Policy(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -106,6 +111,8 @@ public class TestPasDocAHAPXX extends HomeCaDP3BaseTest {
 
 		docgenActionTab.verify.documentsPresent(DocGenEnum.Documents.AHAPXX_CA);
 		docgenActionTab.verify.documentsEnabled(DocGenEnum.Documents.AHAPXX_CA);
+
+		docgenActionTab.verify.documentsPresent(false, DocGenEnum.Documents.WURFICA);
 
 		docgenActionTab.generateDocuments(DocGenEnum.Documents.AHAPXX_CA);
 
