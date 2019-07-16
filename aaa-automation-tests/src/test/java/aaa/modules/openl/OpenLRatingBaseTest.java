@@ -95,7 +95,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends BaseTes
 
 		//Sort policies list by effective date for further valid time shifts
 		return testInfo.getOpenLPolicies().stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate))
-				.map(p -> new Object[] {p.getState(), p.getTestPolicyType(), testInfo.getOpenLFilePath(), p.getNumber()}).toArray(Object[][]::new);
+				.map(p -> new Object[] {p.getTestPolicyType(), testInfo.getOpenLFilePath(), p.getNumber()}).toArray(Object[][]::new);
 	}
 
 	/**
@@ -105,9 +105,9 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends BaseTes
 	 * @param filePath path to the OpenL test file
 	 * @param policyNumber policy number from OpenL test file which total premium should be verified
 	 */
-	@Parameters({"state", "filePath", "policyNumber"})
+	@Parameters({"filePath", "policyNumber"})
 	@Test(groups = {Groups.OPENL, Groups.HIGH}, dataProvider = DATA_PROVIDER_NAME)
-	public void totalPremiumVerificationTest(@Optional String state, PolicyType testPolicyType, String filePath, int policyNumber) {
+	public void totalPremiumVerificationTest(PolicyType testPolicyType, String filePath, int policyNumber) {
 		OpenLTestInfo<P> testInfo = openLTestsManager.getTestInfo(filePath);
 		P openLPolicy = testInfo.getOpenLPolicy(policyNumber);
 		setState(openLPolicy.getState());
