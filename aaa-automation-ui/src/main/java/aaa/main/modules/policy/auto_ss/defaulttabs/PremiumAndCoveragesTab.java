@@ -111,6 +111,13 @@ public class PremiumAndCoveragesTab extends Tab {
 		}
 	}
 
+	public static Dollar getFeesTotalAmount() {
+		final Dollar[] amount = {new Dollar("0")};
+		PremiumAndCoveragesTab.tablefeesSummary.getRows().forEach(fee ->
+				amount[0]= amount[0].add(new Dollar(fee.getCell(2).getValue())));
+		return amount[0];
+	}
+
 	/**
 	 * Opens the VRD Frame, scrapes the data out of the top section, and returns the data in key value pairs (TestData).
 	 * @return TestData representing first section data on VRD page.
