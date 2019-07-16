@@ -367,7 +367,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		if (addressContainsCounty(openLPolicy.getPolicyAddress().getState())) {
 			dwellingAddressData.adjust(DataProviderFactory.dataOf(HomeSSMetaData.ApplicantTab.DwellingAddress.COUNTY.getLabel(), "County"));
 		}
-		if (openLPolicy.getPolicyAddress().getRetCommunityPresent() && States.AZ.equals(openLPolicy.getPolicyAddress().getState())){
+		if (openLPolicy.getPolicyAddress().getRetCommunityPresent() && !States.MD.equals(openLPolicy.getPolicyAddress().getState())){
 			dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.RETIREMENT_COMMUNITY.getLabel(), "index=1");
 		}
 
