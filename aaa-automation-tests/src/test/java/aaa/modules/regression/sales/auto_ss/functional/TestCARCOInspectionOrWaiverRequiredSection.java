@@ -243,6 +243,7 @@ public class TestCARCOInspectionOrWaiverRequiredSection extends AutoSSBaseTest {
 		TestData tdAddVehiclesEndorsement = getTestSpecificTD("TestData_addVehiclesEndorsement");
 		policy.getDefaultView().fillFromTo(tdAddVehiclesEndorsement, VehicleTab.class, VehicleTab.class, true);
 
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		verifyCARCOVehicle("1", "2017, FIAT, 500", NO_DOCUMENT_RECEIVED, false, true, false);
