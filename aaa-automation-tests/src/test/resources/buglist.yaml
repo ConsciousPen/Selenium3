@@ -579,3 +579,10 @@ PAS-32101:
   failures:
   - tests: [aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict]
     messages: ["Errors: AAA_SS190605"]
+
+PT-3883:
+  summary: "No error message when refund exceeds limit of refund amount"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas5743_EnterTooMuchAndGetMessage]
+      messages: ["Cannot get value of StaticElement {<unnamed>: {Amount: {AcceptPaymentActionTab: By.xpath: //div[@id='contentWrapper']} -> By.xpath: .//tr[td[normalize-space(.)=","The amount you entered exceeds the maximum amount for this payment method.]"]
