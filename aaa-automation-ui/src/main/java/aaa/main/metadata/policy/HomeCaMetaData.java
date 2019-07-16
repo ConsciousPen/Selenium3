@@ -1628,13 +1628,14 @@ public final class HomeCaMetaData {
 
 	public static final class DocumentsTab extends MetaData {
 		public static final AssetDescriptor<AssetList> DOCUMENTS_FOR_PRINTING = declare("DocumentsForPrinting", AssetList.class, DocumentsForPrinting.class, By
-				.xpath(".//div[@id='policyDataGatherForm:componentView_AAAHODocGenPrint']"));
+				.xpath(".//div[@id='policyDataGatherForm:componentView_AAAPasdocAdHocPrintDocs_body']"));
 		public static final AssetDescriptor<AssetList> DOCUMENTS_TO_BIND = declare("DocumentsToBind", AssetList.class, DocumentsToBind.class, By
 				.xpath(".//div[@id='policyDataGatherForm:componentView_AAAHOBindDocuments']"));
 		public static final AssetDescriptor<AssetList> DOCUMENTS_TO_ISSUE = declare("DocumentsToIssue", AssetList.class, DocumentsToIssue.class, By
 				.xpath(".//div[@id='policyDataGatherForm:componentView_AAAHOIssueDocuments']"));
 
 		public static final class DocumentsForPrinting extends MetaData {
+			public static final AssetDescriptor<RadioGroup> AUTOPAY_AUTHORIZATION_FORM = declare("AutoPay Authorization Form", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> CONSUMER_INFORMATION_NOTICE = declare("Consumer Information Notice", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> FAX_MEMORANDUM = declare("Fax Memorandum", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> HOMEOWNERS_INSURANCE_QUOTE_PAGE = declare("Homeowners Insurance Quote Page", RadioGroup.class, Waiters.AJAX);
@@ -1645,6 +1646,7 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<RadioGroup> APPLICATION_FOR_HOMEOWNERS_INSURANCE = declare("Application for Homeowners Insurance", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> APPRAISALS_RECEIPTS_FOR_SCHEDULED_PERSONAL_PROPERTY = declare("Appraisals/sales receipts for scheduled personal property items",
 					RadioGroup.class, Waiters.AJAX);
+
 		}
 
 		public static final class DocumentsToBind extends MetaData {
@@ -1675,7 +1677,6 @@ public final class HomeCaMetaData {
 					Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> FAIR_PLAN_COMPANION_ENDORSEMENT_CALIFORNIA = declare("FAIR Plan Companion Endorsement - California", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> SIGNED_POLICY_APPLICATION = declare("Signed policy application", RadioGroup.class, Waiters.AJAX);
-			public static final AssetDescriptor<RadioGroup> AUTOPAY_AUTHORIZATION_FORM = declare("AutoPay Authorization Form", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> FPCECA = declare("FAIR Plan Companion Endorsement - California", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> FPCECADP = declare("FAIR Plan Companion Endorsement - California", RadioGroup.class, Waiters.AJAX);
 		}
@@ -1907,9 +1908,9 @@ public final class HomeCaMetaData {
 
 	public static final class PolicyDocGenActionTab extends MetaData {
 		public static final AssetDescriptor<FillableDocumentsTable> ON_DEMAND_DOCUMENTS =
-				declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentRow.class, By.xpath("(//div[@id='policyDataGatherForm:componentView_AAAHODocGen']//table)[1]"));
+				declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentRow.class, By.xpath("(//div[@id='policyDataGatherForm:componentView_AAAHODocGen' or @id='policyDataGatherForm:componentView_AAAPasdocAdHocOnDemandDocs']//table)[1]"));
 		public static final AssetDescriptor<AdvancedRadioGroup> DELIVERY_METHOD =
-				declare("Delivery Method", AdvancedRadioGroup.class, Waiters.AJAX, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']/table"));
+				declare("Delivery Method", AdvancedRadioGroup.class, Waiters.AJAX, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body' or @id='policyDataGatherForm:componentView_AAAPasdocAdHocOnDemandDocs_body']/table"));
 		public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, Waiters.AJAX);
 
 		public static final class DocumentRow extends MetaData {

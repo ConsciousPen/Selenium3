@@ -161,7 +161,7 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 		}
 
 		public void documentsPresent(boolean expectedValue, DocGenEnum.Documents... documents) {
-			documentsPresent(null, true, documents);
+			documentsPresent(null, expectedValue, documents);
 		}
 
 		public void documentsPresent(ETCSCoreSoftAssertions softly, boolean expectedValue, DocGenEnum.Documents... documents) {
