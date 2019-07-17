@@ -1,7 +1,5 @@
 package aaa.modules.regression.billing_and_payments.template;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-
 import aaa.common.Tab;
 import aaa.common.enums.Constants.UserGroups;
 import aaa.common.pages.MainPage;
@@ -19,6 +17,8 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.ComboBox;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public abstract class PolicyBillingAddPaymentMethod extends PolicyBaseTest{
 

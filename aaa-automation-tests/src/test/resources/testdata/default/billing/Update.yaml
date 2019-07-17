@@ -41,3 +41,9 @@ TestData_AddPaymentMetods: {
     PaymentMethods: ['@PaymentMethods@CC_Visa', '@PaymentMethods@EFT']
   }
 }
+
+TestData_AddPaymentMethod_Zelle: {
+  UpdateBillingAccountActionTab: {
+    PaymentMethods: ['@PaymentMethods@ZelleMobile', '@PaymentMethods@ZelleEmail']
+  }
+}
