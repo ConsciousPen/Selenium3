@@ -5,20 +5,19 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <!--todo Uncomment when tested and DEV branch is merged to Master-->
-    <!--<test thread-count="1024" name="AA52AZ RFI" parallel="methods">-->
-        <!--<parameter name="state" value="AZ"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">-->
-                <!--<methods>-->
-                    <!--<include name="pas28573_rfiAA52AZTriggeredUM"/>-->
-                    <!--<include name="pas28573_rfiAA52AZTriggeredUIM"/>-->
-                    <!--<include name="pas28573_rfiAA52AZNotTriggeredWhenRuleOverriddenUM"/>-->
-                    <!--<include name="pas28573_rfiAA52AZNotTriggeredWhenRuleOverriddenUIM"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test thread-count="1024" name="AA52AZ RFI" parallel="methods">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas28573_rfiAA52AZTriggeredUM"/>
+                    <include name="pas28573_rfiAA52AZTriggeredUIM"/>
+                    <include name="pas28573_rfiAA52AZNotTriggeredWhenRuleOverriddenUM"/>
+                    <include name="pas28573_rfiAA52AZNotTriggeredWhenRuleOverriddenUIM"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="AA16CO AA52COA AA52COB RFI" parallel="methods">
         <parameter name="state" value="CO"/>
         <classes>
@@ -45,6 +44,23 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="AA52ID RFI" parallel="methods">
+        <parameter name="state" value="ID"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas28509_AA52ID_UMBIUpdateInDXPLowerThanBI"/>
+                    <include name="pas28509_AA52ID_UMBIUpdateInDXPNoCov"/>
+                    <include name="pas28509_AA52ID_UIMBIUpdateInDXPLowerThanBI"/>
+                    <include name="pas28509_AA52ID_UIMBIUpdateInDXPNoCov"/>
+                    <include name="pas28509_AA52ID_UMBIUpdateInPASLowerThanBI"/>
+                    <include name="pas28509_AA52ID_UMBIUpdateInPASNoCov"/>
+                    <include name="pas28509_AA52ID_UIMBIUpdateInPASLowerThanBI"/>
+                    <include name="pas28509_AA52ID_UIMBIUpdateInPASNoCov"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <!--todo Uncomment when tested and DEV branch is merged to Master-->
     <!--<test thread-count="1024" name="RFI AA52CT" parallel="methods">-->
         <!--<parameter name="state" value="CT"/>-->
@@ -58,16 +74,15 @@
             <!--</class>-->
         <!--</classes>-->
     <!--</test>-->
-    <!--todo Uncomment when tested and DEV branch is merged to Master-->
-    <!--<test thread-count="1024" name="RFI AA52KS" parallel="methods">-->
-        <!--<parameter name="state" value="KS"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">-->
-                <!--<methods>-->
-                    <!--<include name="pas28521_rfiAA52KSTriggered"/>-->
-                    <!--<include name="pas28521_rfiAA52KSTriggeredRuleOverridden"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test thread-count="1024" name="RFI AA52KS" parallel="methods">
+        <parameter name="state" value="KS"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas28521_rfiAA52KSTriggered"/>
+                    <include name="pas28521_rfiAA52KSTriggeredRuleOverridden"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

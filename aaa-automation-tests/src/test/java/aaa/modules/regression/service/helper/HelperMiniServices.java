@@ -60,9 +60,12 @@ public class HelperMiniServices extends PolicyBaseTest {
 		return zonedDateTimePHX.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	}
 
-	public static String convertDateToAZDate(String date){
-		ZonedDateTime zonedDateTime = LocalDateTime.of(LocalDate.parse(date), LocalTime.MIDNIGHT).atZone(ZoneId.systemDefault());
-		return convertDateToAZDate(zonedDateTime);
+	public static String convertDateToAZDate(String date) {
+		if (date != null) {
+			ZonedDateTime zonedDateTime = LocalDateTime.of(LocalDate.parse(date), LocalTime.MIDNIGHT).atZone(ZoneId.systemDefault());
+			return convertDateToAZDate(zonedDateTime);
+		}
+		return null;
 	}
 
 	public String addVehicleWithChecks(String policyNumber, String purchaseDate, String vin, boolean allowedToAddVehicle) {
