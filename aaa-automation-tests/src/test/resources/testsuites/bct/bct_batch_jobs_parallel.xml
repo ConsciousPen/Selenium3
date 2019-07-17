@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Batch Test Parallel suite" verbose="1" parallel="tests" thread-count="1024">
+<suite name="Batch Test Parallel suite" verbose="1" parallel="methods" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
@@ -7,7 +7,7 @@
 
 
     <parameter name="state" value="UT"/>
-    <test name="Batch Test Parallel">
+    <test name="Batch Jobs in    Parallel">
         <classes>
             <class name="aaa.modules.bct.batch.BatchTestParallel"/>
         </classes>
