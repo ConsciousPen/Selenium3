@@ -6,6 +6,7 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -1042,6 +1043,60 @@ public abstract class TestMultiPolicyDiscountAbstract extends PolicyBaseTest {
 
         // Validate error message appears.
         validateMTEBindErrorDoesNotOccur();
+    }
+
+    /**
+     * Test begins with a quoted companion policy being added during NB. <br>
+     *     Next the test ensures that if base policy effective date + 30 days < System Date, quoted policies can be endorsed.
+     */
+    protected void doQuotedMPDBindTest(Boolean bAddQuotedCompanionPolicyAtNewBusiness, Boolean bMakeSystemDateOverNB30){
+        // Initiate Quote
+        createQuoteAndFillUpTo(getPolicyDefaultTD(), getGeneralTab().getClass(), true);
+
+        // Add Quoted MPD if required for test
+        if(bAddQuotedCompanionPolicyAtNewBusiness){
+            addCompanionPolicy_PolicySearch_AddByIndex("Home", "ELASTIC_QUOTED", 0);
+        }
+
+        // Continue and bind the NB quote.
+        getGeneralTab().submitTab();
+        policy.getDefaultView().fillFromTo(getPolicyDefaultTD(), getDriverTab().getClass(), getPurchaseTab().getClass(), true);
+        getPurchaseTab().submitTab();
+
+        // Move to before or after NB+30, depending on value of 'bMakeSystemDateOverNB30'
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+        LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+        printDebugMessage("Created policy: " + policyNumber);
+
+        // Determine time point to move to.
+        LocalDateTime nb30Date;
+        if(bMakeSystemDateOverNB30){
+            nb30Date = policyEffectiveDate.plusDays(32l);
+        }else{
+            nb30Date = policyEffectiveDate.plusDays(16l);
+        }
+
+        // Go to new time point. Display # of days moved from Effective Date.
+        TimeSetterUtil.getInstance().nextPhase(nb30Date);
+        Long daysFromEffectiveDate = policyEffectiveDate.until(TimeSetterUtil.getInstance().getCurrentTime(), ChronoUnit.DAYS);
+        printDebugMessage("Moved from effective date: " + policyEffectiveDate.toString() + " to NB(" + daysFromEffectiveDate.toString() + ") Date: " + nb30Date.toString());
+
+        //Open App and retrieve policy
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+
+        // Do Endorsement
+        handleEndorsementType(true);
+        fillFromGeneralTabToErrorMsg();
+
+        // Validate If Error Present / UW Rule Thrown
+        if(bMakeSystemDateOverNB30)
+        {
+            validateMTEBindError();
+        }else{
+            validateMTEBindErrorDoesNotOccur();
+        }
+
     }
 
     protected void doMTEPreventBindTest(Boolean bFlatEndorsement, String in_policyType){
