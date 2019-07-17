@@ -644,7 +644,7 @@ public class RefundProcessHelper extends PolicyBilling {
 
 		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
 				.getAsset(AdvancedAllocationsRepeatAssetList.PRODUCT_SUB_TOTAL, TextBox.class)).hasValue(refund.get(AMOUNT));
-		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.TOTAL_AMOUNT)).hasValue(refund.get(AMOUNT));
+		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS).getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.AdvancedAllocationsActionTabDetails.TOTAL_AMOUNT)).hasValue(refund.get(AMOUNT));
 		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
 				.getAsset(AdvancedAllocationsRepeatAssetList.NET_PREMIUM, TextBox.class)).hasValue(getAllocationAmount(refund));
 		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)

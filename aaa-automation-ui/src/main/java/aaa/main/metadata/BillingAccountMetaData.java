@@ -231,10 +231,18 @@ public final class BillingAccountMetaData {
 	}
 
 	public static final class AdvancedAllocationsActionTab extends MetaData {
-		public static final AssetDescriptor<TextBox> TOTAL_AMOUNT = declare("Total Amount", TextBox.class);
 		public static final AssetDescriptor<AdvancedAllocationsRepeatAssetList> ADVANCED_ALLOCATIONS = declare("Advanced Allocations",
-				AdvancedAllocationsRepeatAssetList.class);
+				AdvancedAllocationsRepeatAssetList.class, AdvancedAllocationsActionTabDetails.class, false);
+
+
+		public static final class AdvancedAllocationsActionTabDetails extends MetaData {
+			public static final AssetDescriptor<TextBox> TOTAL_AMOUNT = declare("Total Amount", TextBox.class);
+			// *** DO NOT DECLARE any other controls in this MetaData. They are added within AdvancedAllocationsRepeatAssetList.class.
+			// If any additional allocations are needed, please configure them in AdvancedAllocationsRepeatAssetList.class***
+		}
 	}
+
+
 
 	public static final class ChangePaymentPlanActionTab extends MetaData {
 		public static final AssetDescriptor<StaticElement> PRODUCT_NUM = declare("Product #", StaticElement.class);
