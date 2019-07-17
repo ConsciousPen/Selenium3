@@ -406,8 +406,9 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
+	//TODO 'isCappedPolicy' condition should be removed when issue related to LegacyConv with empty termCappingFactor field is resolved
 	public boolean isLegacyConvPolicy() {
-		return TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(getCappingDetails().getProgramCode());
+		return TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(getCappingDetails().getProgramCode()) && isCappedPolicy();
 	}
 
 	@Override
