@@ -29,6 +29,7 @@ public abstract class PolicyBillingAddZellePaymentType extends PolicyBaseTest {
      * 5. Click on 'Add Credit Card/Bank Account' button in AutoPay Setup section.
      * 6. Add 'Zelle' payment type.
      * 7. Navigate back to Add Payment Method page and verify that Zelle payment methods are listed correctly.
+     * 8. Verify that Zelle payment methods have no Edit action.
      */
     public void testAddZellePaymentType() {
         mainApp().open();
@@ -53,6 +54,8 @@ public abstract class PolicyBillingAddZellePaymentType extends PolicyBaseTest {
         assertSoftly(softly -> {
             softly.assertThat(paymentMethodZelleMobile).as("Payment method is labeled incorrectly").contains(expectedZelleMobile);
             softly.assertThat(paymentMethodZelleEmail).as("Payment method is labeled incorrectly").contains(expectedZelleEmail);
+            softly.assertThat(AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Action").getValue()).as("Edit action is available").doesNotContain("Edit");
+            softly.assertThat(AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(2).getCell("Action").getValue()).as("Edit action is available").doesNotContain("Edit");
         });
         Tab.buttonBack.click();
 
