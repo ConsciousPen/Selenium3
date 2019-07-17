@@ -2185,9 +2185,8 @@ public class TestServiceRFI extends TestRFIHelper {
 		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.INFORMED_CONSENT_FORM_UNINSURED_MOTORIST_COVERAGE;
 		ErrorEnum.Errors error = ERROR_AAA_200037;
 		TestData td = getPolicyDefaultTD();
-		verifyRFIDocumentTriggeredNotTriggeredInDXP(document, documentAsset, error, td, "UMBI", CoverageLimits.COV_100300.getLimit(), CoverageLimits.COV_100200.getLimit());//was 100/300 at NB. BI was also the same
+		verifyRFIDocumentTriggeredNotTriggeredInDXP(document, documentAsset, error, td, "UMBI", CoverageLimits.COV_200600.getLimit(), CoverageLimits.COV_100200.getLimit());//was 100/300 at NB. BI was also the same
 		//BUG: PAS-31820 AA52CT is triggered when updating UM/UIM to a limit greater than BI (Incident was created for this)
-		//TODO-mstrazds:COV_200600 to not trigger
 	}
 
 	/**
@@ -2213,9 +2212,9 @@ public class TestServiceRFI extends TestRFIHelper {
 		ErrorEnum.Errors error = ERROR_AAA_200037;
 		AssetDescriptor<ComboBox> coverageAsset = AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY;
 		TestData td = getPolicyDefaultTD();
-		verifyRFIDocumentTriggeredNotTriggeredInPAS(document, documentAsset, error, coverageAsset, CoverageLimits.COV_100300.getDisplay(), CoverageLimits.COV_50100.getDisplay(), td);//was 100/300 at NB. BI was also the same
+		verifyRFIDocumentTriggeredNotTriggeredInPAS(document, documentAsset, error, coverageAsset, CoverageLimits.COV_200600.getDisplay(), CoverageLimits.COV_50100.getDisplay(), td);//was 100/300 at NB. BI was also the same
 		//BUG: PAS-31820 AA52CT is triggered when updating UM/UIM to a limit greater than BI (Incident was created for this)
-	}//TODO-mstrazds:COV_200600 to not trigger
+	}
 
 	/**
 	 * @name RFI AA52CT Form
