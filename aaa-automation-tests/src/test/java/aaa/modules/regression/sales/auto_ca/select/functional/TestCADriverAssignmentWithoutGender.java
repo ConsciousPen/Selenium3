@@ -24,7 +24,7 @@ public class TestCADriverAssignmentWithoutGender extends TestCADriverAssignmentW
      * @author Kiruthika Rajendran
      * PAS-29418: Assignment Ranking Change - Select Only
      * @name Test CA Driver Assignment Without Gender: Ranking steps 1-4 with Tie Breakers
-     * @scenario Test Steps: NOTE: Test will only pass after 11/1/19 policy date
+     * @scenario Test Steps: NOTE: Test will only pass after 11/2/19 policy date
      * 1. Create a quote with 7 drivers:
      *      1. Female, Single, 4 tyde, Xdsrp - primary driver tie breaker
      *      2. Male, Single, 4 tyde, Xdsrp - (not) primary driver tie breaker
@@ -51,7 +51,7 @@ public class TestCADriverAssignmentWithoutGender extends TestCADriverAssignmentW
      * @author Kiruthika Rajendran
      * PAS-29418: Assignment Ranking Change - Select Only
      * @name Test CA Driver Assignment Without Gender: Ranking steps 5-9, no tie breakers
-     * @scenario Test Steps: NOTE: Test will only pass after 11/1/19 policy date
+     * @scenario Test Steps: NOTE: Test will only pass after 11/2/19 policy date
      * 1. Create a quote with 7 drivers:
      *      1. Female, Single, 4 tyde, Xdsrp - primary driver
      *      2. Male, Single, 6 tyde, 0 dsrp

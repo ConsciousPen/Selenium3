@@ -36,7 +36,7 @@ public class TestCADriverAssignmentWithoutGenderTemplate extends CommonTemplateM
         //Setup test data for 7 drivers and 7 vehicles with 11/01/2019 effective date
         TestData testDataDriverDetails = getTestSpecificTD(SCENARIO_DATA).resolveLinks();
         adjusted = getPolicyTD().adjust((testDataDriverDetails).adjust(TestData.makeKeyPath("GeneralTab", AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
-                AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()), "11/01/2019"));
+                AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()), "11/02/2019"));
 
         //Create quote with 7 drivers and navigate to P&C page to get system rated drivers
         createQuoteAndFillUpTo(adjusted, PremiumAndCoveragesTab.class);
