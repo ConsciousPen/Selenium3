@@ -600,6 +600,14 @@ PT-3772:
               aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver.pas14475_NameInsuredMaritalStatusPSS,
               aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver.pas16696_AddANameInsuredSameDayPolicyEffectiveDate]
       messages: ["expected:<[1]> but was:<[0]>", "expected:<[tru]e> but was:<[fals]e>"]
+PAS-31820:
+  summary: "AA52CT is triggered when updating UM/UIM to a limit greater than BI"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas28500_AA52CT_UMBIUpdateInDXP,
+              aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas28500_AA52CT_UMBIUpdateInPAS,
+              ]
+      messages: ["expected:<[tru]e> but was:<[fals]e>", "expected:<\"[Physically] Signed\"> but was:<\"[Not] Signed\">"]
 PAS-32188:
   summary: "DXP: can not update declaredAnnualMiles (CA)"
   reason: PROD
