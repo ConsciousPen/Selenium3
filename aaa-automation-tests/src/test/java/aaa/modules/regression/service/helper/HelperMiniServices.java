@@ -246,7 +246,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(errorResponseDto.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 		assertThat(errorResponseDto.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 		return errorResponseDto.errors.stream().anyMatch(error -> expectedError.getCode().equals(error.errorCode)
-				&& StringUtils.startsWith(error.message, expectedError.getMessage()));
+				&& StringUtils.startsWith(error.message.replace("\r", ""), expectedError.getMessage().replace("\r", ""))); //not checking "\r" as it can/can not be there depending on OS
 	}
 
 }
