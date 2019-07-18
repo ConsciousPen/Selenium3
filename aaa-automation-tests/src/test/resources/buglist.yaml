@@ -630,6 +630,23 @@ PAS-32364:
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages.pas10352_ManageVehicleCoverageUpdateCoverageOtherThanVa]
       messages: ["expected:<\"[-1]\"> but was:<\"[500]\">"]
+PAS-32429:
+  summary: "Regression: Finance: Extra rows with transaction amount = 0 in Payments & Other Transactions table"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.financials.auto_ss.TestRenewal.*,
+            aaa.modules.financials.auto_ca.choice.TestRenewal.*,
+            aaa.modules.financials.auto_ca.select.TestRenewal.*,
+            aaa.modules.financials.home_ss.dp3.TestRenewal.*,
+            aaa.modules.financials.home_ss.ho3.TestRenewal.*,
+            aaa.modules.financials.home_ss.ho4.TestRenewal.*,
+            aaa.modules.financials.home_ss.ho6.TestRenewal.*,
+            aaa.modules.financials.home_ca.dp3.TestRenewal.*,
+            aaa.modules.financials.home_ca.ho3.TestRenewal.*,
+            aaa.modules.financials.home_ca.ho4.TestRenewal.*,
+            aaa.modules.financials.home_ca.ho6.TestRenewal.*,
+            aaa.modules.financials.pup.TestRenewal.*]
+    messages: ["caused by PAS-32429"]
 PAS-32537:
   summary: "Incorrect Values When Re-Adding COMPDED Coverage with DXP"
   reason: PROD
