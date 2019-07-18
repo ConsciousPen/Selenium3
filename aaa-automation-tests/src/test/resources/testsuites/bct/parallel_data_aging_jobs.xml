@@ -6,10 +6,11 @@
     </listeners>
 
 
-    <parameter name="state" value="UT"/>
     <test name="Parallel Aging Jobs">
+        <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.bct.batch.ParallelAgingJobs"/>
         </classes>
     </test>
+
 </suite>

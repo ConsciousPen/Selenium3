@@ -4,6 +4,7 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
+
     <test name="Service - BCT_ONL_EmptyEndorsementAutoCAChoice" preserve-order="true">
         <parameter name="state" value="CA"/>
         <classes>

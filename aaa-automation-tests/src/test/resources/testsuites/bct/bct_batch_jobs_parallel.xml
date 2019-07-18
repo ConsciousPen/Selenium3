@@ -5,11 +5,11 @@
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
 
-
-    <parameter name="state" value="UT"/>
-    <test name="Batch Jobs in    Parallel">
+    <test name="Batch Jobs in Parallel"  parallel="methods">
+        <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.bct.batch.BatchTestParallel"/>
         </classes>
     </test>
+
 </suite>
