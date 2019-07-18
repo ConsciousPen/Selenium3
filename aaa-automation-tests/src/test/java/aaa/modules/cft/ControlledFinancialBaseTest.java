@@ -6,7 +6,11 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.io.File;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import com.exigen.ipb.eisa.utils.Dollar;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.admin.modules.reports.operationalreports.OperationalReport;
@@ -18,7 +22,11 @@ import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.TimePoints;
-import aaa.helpers.billing.*;
+import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
+import aaa.helpers.billing.BillingHelper;
+import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
+import aaa.helpers.billing.BillingPendingTransactionsVerifier;
+import aaa.helpers.billing.RemittancePaymentsHelper;
 import aaa.helpers.conversion.ConversionPolicyData;
 import aaa.helpers.conversion.ConversionUtils;
 import aaa.helpers.conversion.MaigConversionData;
@@ -993,7 +1001,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void runCFTJobs() {
 		JobUtils.executeJob(BatchJob.cftDcsEodJob);
 		//JobUtils.executeJob(BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
-		JobUtils.executeJob(BatchJob.policyTransactionLedgerJob);
+		JobUtils.executeJob(BatchJob.policyTransactionLedgerJob_NonMonthly);
 	}
 
 	protected void checkReportNotExist(String dirPath, String fileName) {
