@@ -63,17 +63,20 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	 * if job processed 0 items, it is case for investigation in case u are running this at env+prod data
 	 * @param job
 	 */
-    public static int a = 0;
+	public static int a = 0;
+	protected void executeBatchTest(Job job) {
+		JobGroup jobGroup = JobGroup.fromSingleJob(job);
 
-	protected void executeBatchTest(Job job){
 		a++;
 		log.info("\n\n{} {}\n\n", Thread.currentThread().getStackTrace()[2].getMethodName(), a);
 		//JobUtils.executeJob(job);
-
 		CsaaSoapJobService csaaSoapJobService = new CsaaSoapJobService();
-		csaaSoapJobService.startJob(JobGroup.fromSingleJob(job));
-//		WSJobSummary latestJobRun = JobUtils.getLatestJobRun(JobGroup.fromSingleJob(job));
 
+		if(!csaaSoapJobService.isJobExist(jobGroup)){
+			csaaSoapJobService.createJob(jobGroup);
+		}
+		csaaSoapJobService.startJob(jobGroup);
+		//		WSJobSummary latestJobRun = JobUtils.getLatestJobRun(JobGroup.fromSingleJob(job));
 		//assertThat(latestJobRun.getTotalItems()).as("totalItems picked up by job should be > 0").isGreaterThan(0);
 		//verifyErrorsCountLessFivePercents(latestJobRun);
 	}
