@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.utils.batchjob.Job;
 import aaa.modules.policy.BackwardCompatibilityBaseTest;
 
 public class BatchTestParallel extends BackwardCompatibilityBaseTest {
@@ -144,13 +145,13 @@ public class BatchTestParallel extends BackwardCompatibilityBaseTest {
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {"queue7_aaaCancellationNoticeAsyncJob"}, dependsOnMethods = "queue7_changeCancellationPendingPoliciesStatusJob", alwaysRun = true)
+	@Test(groups = {"queue7_aaaCancellationNoticeAsyncJob"}, dependsOnMethods = "queue6_premiumReceivablesOnPolicyEffectiveJob", alwaysRun = true)
 	public void queue7_aaaCancellationNoticeAsyncJob(@Optional("") String state) {
-		executeBatchTest(aaaCancellationNoticeAsyncJob);
+		executeBatchTest(new Job("aaaCancellationNoticeAsyncJob",Collections.singletonMap("JOB_UI_PARAMS", "t")));
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {"queue7_aaaCancellationConfirmationAsyncJob"}, dependsOnMethods = "queue7_aaaCancellationNoticeAsyncJob", alwaysRun = true)
+	@Test(groups = {"queue7_aaaCancellationConfirmationAsyncJob"}, dependsOnMethods = "queue6_premiumReceivablesOnPolicyEffectiveJob", alwaysRun = true)
 	public void queue7_aaaCancellationConfirmationAsyncJob(@Optional("") String state) {
 		executeBatchTest(aaaCancellationConfirmationAsyncJob);
 	}
