@@ -232,8 +232,6 @@ public class BatchJob {
 	public static Job recurringPaymentsProcessingJob = new Job("recurringPaymentsProcessingJob");
 	public static Job refundGenerationJob = new Job("refundGenerationJob");
 	public static Job removeExpiredLocksJob = new Job("removeExpiredLocksJob");
-
-	//public static Job cftDcsEodJob = new Job("cftDcsEodJob");
 	public static Job renewalClaimPropertyReceiveAsyncJob = new Job("renewalClaimPropertyReceiveAsyncJob");
 	public static Job renewalClaimReceiveAsyncJob = new Job("renewalClaimReceiveAsyncJob");
 	public static Job renewalImageRatingAsyncTaskJob = new Job("renewalImageRatingAsyncTaskJob");
