@@ -7,10 +7,4 @@
         </classes>
     </test>
 
-    <test name="MiniservicesEnableCoverages">
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.MiniServicesSetupEnableCoverages"/>
-        </classes>
-    </test>
-
 </suite>
