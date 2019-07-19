@@ -32,8 +32,8 @@ public final class ErrorDxpEnum {
 		USAGE_IS_BUSINESS_CA("AAA_CSA1007147", "Usage is Business"),
 		MORATORIUM_EXIST("AAA_SS181109", "Moratorium Exists"),
 		INSURER_NAME_POLICY_GROUP_CERTIFICATE_BLANK_NJ("AAA_SS4030000", "\"Insurer name\",\"Policy/Group #/Certificate #\" mandatory fields value cannot be left blank and  \r\n"
-				+ "Requires at least 3 characters. (AAA_SS4030000)"),
-		INSURER_NAME_POLICY_GROUP_CERTIFICATE_BLANK_NY("AAA_SS4030001", "\"Insurer name\",\"Policy/Group #/Certificate #\" mandatory fields value cannot be left blank and requires at least 3 characters. (AAA_SS4030001)"),
+				+ "Requires at least 3 characters."),
+		INSURER_NAME_POLICY_GROUP_CERTIFICATE_BLANK_NY("AAA_SS4030001", "\"Insurer name\",\"Policy/Group #/Certificate #\" mandatory fields value cannot be left blank and requires at least 3 characters."),
 
 		//Mvr and Clue Errors
 		ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS("OP-01", "Error occurred while executing operations"),

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import com.exigen.ipb.eisa.utils.Dollar;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
@@ -715,7 +716,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 
 		//PMT-13
 		AdvancedAllocationsActionTab advancedAllocationsActionTab = new AdvancedAllocationsActionTab();
-		advancedAllocationsActionTab.linkAdvancedAllocation.click();
+		AdvancedAllocationsActionTab.linkAdvancedAllocation.click();
 
 		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
 				.getAsset(AdvancedAllocationsRepeatAssetList.NET_PREMIUM, TextBox.class, 0).setValue("30");
@@ -725,7 +726,7 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 				.getAsset(AdvancedAllocationsRepeatAssetList.NET_PREMIUM, TextBox.class, 1).setValue("40");
 		advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
 				.getAsset(AdvancedAllocationsRepeatAssetList.POLICY_FEE, TextBox.class, 1).setValue("20");
-		advancedAllocationsActionTab.buttonOk.click();
+		Tab.buttonOk.click();
 
 		transactionIds = FinancialsSQL.getTransactionIdsForAccount(accountNumber);
 		index = getTransactionIndexByType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_TRANSFERRED);
@@ -853,14 +854,14 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 
     private void validateAPEndorsementTx(String policyNumber, Dollar addedPrem, Dollar totalTaxesEnd) {
         // END-07 and END-08 validations
-        assertSoftly(softly -> {    // TODO remove the 'as' descriptor once PAS-29024 is fixed
-            softly.assertThat(addedPrem.subtract(totalTaxesEnd)).as("caused by PAS-29024").isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")
+		assertSoftly(softly -> {
+			softly.assertThat(addedPrem.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")));
-            softly.assertThat(addedPrem.subtract(totalTaxesEnd)).as("caused by PAS-29024").isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")
+			softly.assertThat(addedPrem.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")
                     .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")));
-            softly.assertThat(addedPrem.subtract(totalTaxesEnd)).as("caused by PAS-29024").isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")
+			softly.assertThat(addedPrem.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")));
-            softly.assertThat(addedPrem.subtract(totalTaxesEnd)).as("caused by PAS-29024").isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
+			softly.assertThat(addedPrem.subtract(totalTaxesEnd)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
         });
 
         // Validations for taxes (WV/KY only)
@@ -876,14 +877,14 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
 
     private void validateRPEndorsementTx(String policyNumber, Dollar reducedPrem, Dollar totalTaxesEnd) {
         // END-07 and END-08 validations
-        assertSoftly(softly -> {    // TODO remove the 'as' descriptor once PAS-29024 is fixed
-            softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).as("caused by PAS-29024").isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")
+		assertSoftly(softly -> {    // TODO remove the 'as' descriptor once PAS-32429 is fixed
+			softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).as("caused by PAS-32429").isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")
                     .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")));
-            softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).as("caused by PAS-29024").isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")
+			softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).as("caused by PAS-32429").isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")
                     .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")));
-            softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).as("caused by PAS-29024").isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")
+			softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).as("caused by PAS-32429").isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")
                     .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")));
-            softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).as("caused by PAS-29024").isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
+			softly.assertThat(reducedPrem.subtract(totalTaxesEnd)).as("caused by PAS-32429").isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
         });
 
         // END-07 validations for taxes (WV/KY only)

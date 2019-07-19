@@ -579,3 +579,91 @@ PAS-32101:
   failures:
   - tests: [aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict]
     messages: ["Errors: AAA_SS190605"]
+
+PT-3883:
+  summary: "No error message when refund exceeds limit of refund amount"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas5743_EnterTooMuchAndGetMessage]
+      messages: ["Cannot get value of StaticElement {<unnamed>: {Amount: {AcceptPaymentActionTab: By.xpath: //div[@id='contentWrapper']} -> By.xpath: .//tr[td[normalize-space(.)=","The amount you entered exceeds the maximum amount for this payment method.]"]
+PT-3772:
+  summary: "Not getting error 'Need Insurance Score Order' when adding Named Insured (Spouse) when endorsement date is the same as policy effective date"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver.pas14475_NameInsuredMaritalStatus,
+              aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver.pas14475_NameInsuredMaritalStatusDSS,
+              aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver.pas14475_NameInsuredMaritalStatusWSS,
+              aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver.pas16696_AddANameInsuredSameDayPolicyEffectiveDate,
+              aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver.pas16696_AddANameInsuredSameDayPolicyEffectiveDate,
+              aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver.pas16696_AddANameInsuredSameDayPolicyEffectiveDate,
+              aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver.pas13301_validateDriverLicenseAndAgeFirstLicensed,
+              aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver.pas14475_NameInsuredMaritalStatusPSS,
+              aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver.pas16696_AddANameInsuredSameDayPolicyEffectiveDate]
+      messages: ["expected:<["]
+PAS-31820:
+  summary: "AA52CT is triggered when updating UM/UIM to a limit greater than BI"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas28500_AA52CT_UMBIUpdateInDXP,
+              aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas28500_AA52CT_UMBIUpdateInPAS,
+              ]
+      messages: ["expected:<[tru]e> but was:<[fals]e>", "expected:<\"[Physically] Signed\"> but was:<\"[Not] Signed\">"]
+PAS-32188:
+  summary: "DXP: can not update declaredAnnualMiles (CA)"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesVehicles.pas9610_UpdateVehicleService]
+      messages: ["Error reading entity from input stream."]
+PAS-32347:
+  summary: "Endorsement status is reset when navigating to a vehicle added through service after it was rated through service"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles.pas14952_StatusResetsForNewlyAddedVehicle]
+      messages: ["expected:<\"[Premium Calculated]\"> but was:<\"[Gathering Info]\">"]
+PAS-32360:
+  summary: "coverageLimit is not updated for Other Than Collision with update to COMPDED"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages.pas10352_ManageVehicleCoverageUpdateCoverage]
+      messages: ["expected:<\"[50]0\"> but was:<\"[25]0\">"]
+PAS-32361:
+  summary: "DXP: viewPolicyPremiums returns wrong premium (NY)"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.pas10227_ViewPremiumServicePolicy]
+      messages: ["expected:<$"]
+PAS-32364:
+  summary: "Incorrect Values When Re-Adding COMPDED Coverage with DXP"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages.pas10352_ManageVehicleCoverageUpdateCoverageOtherThanVa]
+      messages: ["expected:<\"[-1]\"> but was:<\"[500]\">"]
+PAS-32429:
+  summary: "Regression: Finance: Extra rows with transaction amount = 0 in Payments & Other Transactions table"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.financials.auto_ss.TestRenewal.*,
+            aaa.modules.financials.auto_ca.choice.TestRenewal.*,
+            aaa.modules.financials.auto_ca.select.TestRenewal.*,
+            aaa.modules.financials.home_ss.dp3.TestRenewal.*,
+            aaa.modules.financials.home_ss.ho3.TestRenewal.*,
+            aaa.modules.financials.home_ss.ho4.TestRenewal.*,
+            aaa.modules.financials.home_ss.ho6.TestRenewal.*,
+            aaa.modules.financials.home_ca.dp3.TestRenewal.*,
+            aaa.modules.financials.home_ca.ho3.TestRenewal.*,
+            aaa.modules.financials.home_ca.ho4.TestRenewal.*,
+            aaa.modules.financials.home_ca.ho6.TestRenewal.*,
+            aaa.modules.financials.pup.TestRenewal.*]
+    messages: ["caused by PAS-32429"]
+PAS-32537:
+  summary: "Incorrect Values When Re-Adding COMPDED Coverage with DXP"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas25029_CARCOFormAAIFNYDOutsidePASAddReplaceVehicleTC01]
+      messages: ["<no message>"]
+PAS-32563:
+  summary: "Endorsement status is reset from 'Premium Calculated' to 'Gathering Info' when updating purchase Date for Leased Vehicle"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles.pas14952_EndorsementStatusResetForVehRatingFactors]
+      messages: [" expected: <Premium Calculated>, actual: <Gathering Info>"]

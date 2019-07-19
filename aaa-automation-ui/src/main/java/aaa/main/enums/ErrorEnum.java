@@ -200,7 +200,7 @@ public final class ErrorEnum {
 		ERROR_AAA_200306("200306", "A signed Uninsured motorist coverage selection form must be received prior to"),
 		ERROR_AAA_200205("200205", "Vehicles with Physical Damage Coverage requires a CARCO Inspection"),
 		ERROR_AAA_200200_NY("200200_NY", "Vehicles with Physical Damage Coverage require a CARCO Inspection or Proof of New Vehicle"),
-		ERROR_AAA_200203("200203", "If Uninsured/Underinsured Motorist (UM/UIM) Coverage is rejected. A signed Un"),
+		ERROR_AAA_200203("200203", "If Uninsured/Underinsured Motorist (UM/UIM) Coverage is rejected. A signed Uninsured/Underinsured Motorist coverage selection form must be received prior to issuing this transaction"),
 		ERROR_AAA_10006002_CA("10006002", "Do not bind the endorsement more than 30 days in advance. (10006002) [for Pol"),
 		ERROR_AAA_validate_pu_clue_claim_2("AAA_validate_pu_clue_claim_2", "Confirm CLUE activity is a permissive use claim based on a CLUE report or oth"),
 		ERROR_AAA_10015021_CA_SELECT("10015021", "Driver with more than 1 At-fault injury accident is unacceptable (10015021) [for Driver.attributeForRules]"),

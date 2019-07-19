@@ -2598,7 +2598,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(driverResponse.maritalStatusCd).isEqualTo(maritalStatusCd);
 			softly.assertThat(driverResponse.gender).isEqualTo(genderCd);
 			softly.assertThat(driverResponse.driverStatus).isEqualTo("active");
-			softly.assertThat(driverResponse.birthDate).isEqualTo(birthDate);
+			softly.assertThat(driverResponse.birthDate).isEqualTo(HelperMiniServices.convertDateToAZDate(birthDate));
 			softly.assertThat(driverResponse.ageFirstLicensed).isEqualTo(ageFirstLicensed);
 			softly.assertThat(driverResponse.drivingLicense).isNotNull();
 			softly.assertThat(driverResponse.drivingLicense.stateLicensed).isEqualTo(stateLicensed);

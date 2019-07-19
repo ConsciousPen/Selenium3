@@ -132,16 +132,6 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="TestRFI-AutoSSNano" parallel="methods">
-        <parameter name="state" value="AZ, NV"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
-                <methods>
-                    <include name="pas349_rfiNano"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test thread-count="1024" name="TestEValueDiscountDCandVA" parallel="methods">
         <parameter name="state" value="DC, VA"/>
         <classes>
