@@ -232,8 +232,8 @@ public class BatchJob {
 	public static Job recurringPaymentsProcessingJob = new Job("recurringPaymentsProcessingJob");
 	public static Job refundGenerationJob = new Job("refundGenerationJob");
 	public static Job removeExpiredLocksJob = new Job("removeExpiredLocksJob");
-	//	public static JobGroup cftDcsEodJob = new JobGroup("cftDcsEodJob", getCftDcsEodJob_batchJobs());
-	public static Job cftDcsEodJob = new Job("cftDcsEodJob");
+
+	//public static Job cftDcsEodJob = new Job("cftDcsEodJob");
 	public static Job renewalClaimPropertyReceiveAsyncJob = new Job("renewalClaimPropertyReceiveAsyncJob");
 	public static Job renewalClaimReceiveAsyncJob = new Job("renewalClaimReceiveAsyncJob");
 	public static Job renewalImageRatingAsyncTaskJob = new Job("renewalImageRatingAsyncTaskJob");
@@ -262,6 +262,7 @@ public class BatchJob {
 	public static JobGroup membershipValidationJob = new JobGroup("membershipValidationJob", getMembershipValidationJob_batchJobs());
 	public static JobGroup renewalOfferGenerationPart1 = new JobGroup("Renewal_Offer_Generation_Part1", getRenewal_Offer_Generation_Part1_batchJobs());
 	public static JobGroup renewalOfferGenerationPart2 = new JobGroup("Renewal_Offer_Generation_Part2", getRenewal_Offer_Generation_Part2_batchJobs());
+	public static JobGroup cftDcsEodJob = new JobGroup("cftDcsEodJob", getCftDcsEodJob_batchJobs());
 
 	public static HashMap<String, String> getRenewalClaimOrderAsyncJobParameters() {
 		HashMap<String, String> parameters = new HashMap();
