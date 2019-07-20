@@ -2,6 +2,7 @@ package aaa.modules.policy;
 
 import static aaa.helpers.jobs.BatchJob.*;
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.format.DateTimeFormatter;
@@ -25,6 +26,7 @@ import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BctType;
+import aaa.modules.bct.batch.miscellaneous.SaveJobResult;
 import aaa.soap.batchJobService.BatchJobPortImplServiceClient;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
@@ -64,12 +66,28 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	 * if job processed 0 items, it is case for investigation in case u are running this at env+prod data
 	 * @param job
 	 */
-	protected void executeBatchTest(Job job){
-		JobUtils.executeJob(job);
-		WSJobSummary latestJobRun = JobUtils.getLatestJobRun(JobGroup.fromSingleJob(job));
+	public static int a = 0;
+	protected void executeBatchTest(Job job) {
+		JobGroup jobGroup = JobGroup.fromSingleJob(job);
 
+		a++;
+		log.info("\n\n{} {}\n\n", Thread.currentThread().getStackTrace()[2].getMethodName(), a);
+		//JobUtils.executeJob(job);
+		CsaaSoapJobService csaaSoapJobService = new CsaaSoapJobService();
+
+		if(!csaaSoapJobService.isJobExist(jobGroup)){
+			csaaSoapJobService.createJob(jobGroup);
+		}
+		csaaSoapJobService.startJob(jobGroup);
+		WSJobSummary latestJobRun = JobUtils.getLatestJobRun(JobGroup.fromSingleJob(job));
 		//assertThat(latestJobRun.getTotalItems()).as("totalItems picked up by job should be > 0").isGreaterThan(0);
-		verifyErrorsCountLessFivePercents(latestJobRun);
+		//verifyErrorsCountLessFivePercents(latestJobRun);
+
+		try {
+			SaveJobResult.saveToXls(latestJobRun);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
