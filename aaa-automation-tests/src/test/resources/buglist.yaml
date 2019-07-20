@@ -607,7 +607,7 @@ PAS-31820:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas28500_AA52CT_UMBIUpdateInDXP,
               aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas28500_AA52CT_UMBIUpdateInPAS,
               ]
-      messages: ["expected:<[tru]e> but was:<[fals]e>", "expected:<\"[Physically] Signed\"> but was:<\"[Not] Signed\">"]
+      messages: ["but was"]
 PAS-32188:
   summary: "DXP: can not update declaredAnnualMiles (CA)"
   reason: PROD
