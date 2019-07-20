@@ -304,6 +304,10 @@ public final class RemoteHelper {
 		long searchTime = System.currentTimeMillis() - searchStart;
 		assertThat(foundFiles).as("No files have been found%s", searchParams).isNotEmpty();
 		log.info("Found file(s): {} after {} milliseconds", foundFiles, searchTime);
+
+		if (getCurrentOS().equals(WINDOWS)) {
+			return foundFiles.stream().map(foundFile -> sourceFolder.substring(2) + "/" + foundFile).collect(Collectors.toList());//removes Drive letter from path
+		}
 		return foundFiles;
 	}
 
