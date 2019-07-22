@@ -11,7 +11,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.*;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;

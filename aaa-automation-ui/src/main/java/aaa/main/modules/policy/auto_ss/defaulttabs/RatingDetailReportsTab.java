@@ -5,7 +5,7 @@
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
 import java.util.LinkedHashMap;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import toolkit.datax.DataProviderFactory;

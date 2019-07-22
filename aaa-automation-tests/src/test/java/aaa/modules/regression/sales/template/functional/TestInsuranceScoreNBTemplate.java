@@ -17,7 +17,7 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.conversions.home_ss.dp3.functional.TestSpecialNonRenewalLetterKY;
 import aaa.modules.regression.sales.home_ss.ho3.functional.TestInsuranceScoreNB;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.Assertions;
 import toolkit.datax.TestData;
 

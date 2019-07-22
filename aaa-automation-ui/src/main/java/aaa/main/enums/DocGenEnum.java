@@ -1,6 +1,6 @@
 package aaa.main.enums;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public final class DocGenEnum {
 	public static final String EMAIL = "test@csaa.com";

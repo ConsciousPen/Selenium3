@@ -5,7 +5,7 @@
 package aaa.main.modules.policy.home_ss.defaulttabs;
 
 import java.util.LinkedHashMap;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.SkipException;
@@ -36,9 +37,9 @@ public class DocGenHelper {
 	private static final String SQL_GET_DOC_GEN_FOLDER = "select  value\n"
 			+ "from PROPERTYCONFIGURERENTITY\n"
 			+ "where propertyname ='aaaDocGenSerializer.exportDocumentLocation'";
-	private static String DOCGEN_ROOT_FOLDER = DBService.get().getValue(SQL_GET_DOC_GEN_FOLDER).orElse("null");
-	private static final String DOCGEN_JOB_FOLDER = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");
+	private static final String DOCGEN_ROOT_FOLDER = DBService.get().getValue(SQL_GET_DOC_GEN_FOLDER).orElse("null");
 	public static final String DOCGEN_BATCH_SOURCE_FOLDER = DOCGEN_ROOT_FOLDER + "Batch/";
+	private static final String DOCGEN_JOB_FOLDER = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");
 	public static final String JOBS_DOCGEN_SOURCE_FOLDER = DOCGEN_JOB_FOLDER + "PAS_B_EXGPAS_DCMGMT_6500_D/outbound/";
 	public static final DateTimeFormatter DATE_TIME_FIELD_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T00:00:00.000'XXX");
 	private static final int DOCUMENT_GENERATION_TIMEOUT = 40;
@@ -199,7 +200,6 @@ public class DocGenHelper {
 		String zoneId = RemoteHelper.get().getServerTimeZone();
 		return date.atZone(ZoneId.of(zoneId)).format(DATE_TIME_FIELD_FORMAT);
 	}
-
 
 	/**
 	 * Extracts data from Document model
@@ -431,6 +431,7 @@ public class DocGenHelper {
 			assertThat(documentTemplate).doesNotContain(doc.getIdInXml());
 		}
 	}
+
 	@Deprecated
 	public static Document getDocument(DocGenEnum.Documents value, String query) {
 		String xmlDocData = DbXmlHelper.getXmlByDocName(value, query);
@@ -501,46 +502,51 @@ public class DocGenHelper {
 	}
 
 	public static Boolean isPasDocEnabled(String state, PolicyType pType) {
-		HashMap<String, ProductCode> pMap = new HashMap<>();
-		pMap.put(PolicyType.HOME_SS_HO3.getName(), ProductCode.AAA_HO_SS);
-		pMap.put(PolicyType.AUTO_SS.getName(), ProductCode.AAA_SS);
-		pMap.put(PolicyType.AUTO_CA_SELECT.getName(), ProductCode.AAA_CSA);
-		pMap.put(PolicyType.HOME_CA_HO3.getName(), ProductCode.AAA_HO_CA);
-		pMap.put(PolicyType.PUP.getName(), ProductCode.AAA_PUP_SS);
-		assertThat(pMap.get(pType.getName()).name()).as("Policy Type " + pType.getName() + " is not in a range").isNotEmpty();
-		return executePasDocQuery(state, pMap.get(pType.getName()).name());
+		HashMap<PolicyType, ProductCode> pMap = new HashMap<>();
+		pMap.put(PolicyType.HOME_SS_HO3, ProductCode.AAA_HO_SS_HO3);
+		pMap.put(PolicyType.HOME_SS_HO4, ProductCode.AAA_HO_SS_HO4);
+		pMap.put(PolicyType.HOME_SS_HO6, ProductCode.AAA_HO_SS_HO6);
+		pMap.put(PolicyType.HOME_SS_DP3, ProductCode.AAA_HO_SS_DP3);
+		pMap.put(PolicyType.AUTO_SS, ProductCode.AAA_SS);
+		pMap.put(PolicyType.AUTO_CA_SELECT, ProductCode.AAA_CSA_SELECT);
+		pMap.put(PolicyType.AUTO_CA_CHOICE, ProductCode.AAA_CSA_CHOICE);
+		pMap.put(PolicyType.HOME_CA_HO3, ProductCode.AAA_HO_CA_HO3);
+		pMap.put(PolicyType.HOME_CA_HO4, ProductCode.AAA_HO_CA_HO4);
+		pMap.put(PolicyType.HOME_CA_HO6, ProductCode.AAA_HO_CA_HO6);
+		pMap.put(PolicyType.HOME_CA_DP3, ProductCode.AAA_HO_CA_DP3);
+		pMap.put(PolicyType.PUP, ProductCode.AAA_PUP_SS);
+		assertThat(pMap.get(pType).name()).as("Policy Type " + pType.getShortName() + " is not in a range").isNotEmpty();
+		return executePasDocQuery(state, pMap.get(pType));
 	}
 
 	public static Boolean isPasDocEnabled(String policyNum) {
 		assertThat(policyNum).as("Policy number is not defined").isNotEmpty();
 		String template = parsePolicyNum(policyNum);
-		String state;
-		ProductCode product = null;
-		if (template.startsWith("CA")) {
-			state = Constants.States.CA;
-			if (template.startsWith("CAH") || template.startsWith("CAD")) {
-				product = ProductCode.AAA_HO_CA;
-			}
-			if (template.startsWith("CAA")) {
-				product = ProductCode.AAA_CSA;
-			}
-			if (template.startsWith("CAPU")) {
-				product = ProductCode.AAA_PUP_SS;
-			}
-		} else {
-			state = template.substring(0, 2);
-			String prodTemp = template.substring(2);
-			if (prodTemp.startsWith("H") || prodTemp.startsWith("D")) {
-				product = ProductCode.AAA_HO_SS;
-			}
-			if (prodTemp.startsWith("SS")) {
-				product = ProductCode.AAA_SS;
-			}
-			if (prodTemp.startsWith("PU")) {
-				product = ProductCode.AAA_PUP_SS;
-			}
+		assertThat(template).isNotEmpty();
+		HashMap<String, ProductCode> pMap = new HashMap<>();
+		ProductCode product;
+		String state = template.substring(0,2);
+		if(state.equals(Constants.States.CA)){
+			pMap.put("CAH3", ProductCode.AAA_HO_CA_HO3);
+			pMap.put("CAH4", ProductCode.AAA_HO_CA_HO4);
+			pMap.put("CAH6", ProductCode.AAA_HO_CA_HO6);
+			pMap.put("CAD3", ProductCode.AAA_HO_CA_DP3);
+			pMap.put("CAAC", ProductCode.AAA_CSA_CHOICE);
+			pMap.put("CAAS", ProductCode.AAA_CSA_SELECT);
+			pMap.put("CAPU", ProductCode.AAA_PUP_SS);
+			product = pMap.get(template);
 		}
-		return executePasDocQuery(state, product.name());
+		else {
+			pMap.put("H3", ProductCode.AAA_HO_SS_HO3);
+			pMap.put("H4", ProductCode.AAA_HO_SS_HO4);
+			pMap.put("H6", ProductCode.AAA_HO_SS_HO6);
+			pMap.put("D3", ProductCode.AAA_HO_SS_DP3);
+			pMap.put("SS", ProductCode.AAA_SS);
+			pMap.put("PU", ProductCode.AAA_PUP_SS);
+			product = pMap.get(template.substring(2));
+		}
+
+		return executePasDocQuery(state, product);
 	}
 
 	public static void checkPasDocEnabled(String state, PolicyType pType, Boolean expectedValue) {
@@ -575,16 +581,22 @@ public class DocGenHelper {
 		}
 	}
 
-	private static Boolean executePasDocQuery(String state, String pType) {
+	private static Boolean executePasDocQuery(String state, ProductCode pType) {
 		assertThat(state).as("State is not defined").isNotEmpty();
-		assertThat(pType).as("Policy Type is not defined").isNotNull();
-		final String queryTemplate = "select lv.displayvalue from lookuplist ll inner join lookupvalue lv on lv.lookuplist_id=ll.id where ll.lookupname='AAARolloutEligibilityLookup' and lv.code='PASDoc' and lv.productcd='%s' and lv.riskstatecd='%s'";
-		String value = DBService.get().getValue(String.format(queryTemplate, pType, state)).orElse("false");
+		assertThat(pType).as("Product Code is not defined").isNotNull();
+		String queryTemplate = "select lv.displayvalue from lookuplist ll inner join lookupvalue lv on lv.lookuplist_id=ll.id where ll.lookupname='AAARolloutEligibilityLookup' and lv.code='PASDoc' and lv.productcd='%s' and lv.riskstatecd='%s'";
+		String query = String.format(queryTemplate, pType.getCode(), state);
+		if (StringUtils.isBlank(pType.getForm())) {
+			query = query.concat(" and lv.policyformcd is null");
+		} else {
+			query = query.concat(String.format(" and lv.policyformcd = '%s'", pType.getForm()));
+		}
+		String value = DBService.get().getValue(query).orElse("false");
 		return value.equalsIgnoreCase("true");
 	}
 
 	private static String parsePolicyNum(String policyNum) {
-		Pattern r = Pattern.compile("Q?([A-Z]*).*");
+		Pattern r = Pattern.compile("Q?([A-Z,4,6,3]{4}).*");
 		Matcher m = r.matcher(policyNum);
 
 		if (!m.find()) {
@@ -594,6 +606,33 @@ public class DocGenHelper {
 	}
 
 	private enum ProductCode {
-		AAA_HO_SS, AAA_SS, AAA_CSA, AAA_HO_CA, AAA_PUP_SS
+		AAA_HO_SS_HO3("AAA_HO_SS", null),
+		AAA_HO_SS_HO4("AAA_HO_SS", null),
+		AAA_HO_SS_HO6("AAA_HO_SS", null),
+		AAA_HO_SS_DP3("AAA_HO_SS", null),
+		AAA_SS("AAA_SS", null),
+		AAA_CSA_CHOICE("AAA_CSA", "CHOICE"),
+		AAA_CSA_SELECT("AAA_CSA", null),
+		AAA_HO_CA_HO3("AAA_HO_CA", null),
+		AAA_HO_CA_HO4("AAA_HO_CA", null),
+		AAA_HO_CA_HO6("AAA_HO_CA", null),
+		AAA_HO_CA_DP3("AAA_HO_CA", null),
+		AAA_PUP_SS("AAA_PUP_SS", null);
+
+		private String code;
+		private String policyformcd;
+
+		ProductCode(String code, String policyformcd) {
+			this.code = code;
+			this.policyformcd = policyformcd;
+		}
+
+		public String getCode() {
+			return code;
+		}
+
+		public String getForm() {
+			return policyformcd;
+		}
 	}
 }

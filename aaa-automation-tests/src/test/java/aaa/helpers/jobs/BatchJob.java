@@ -1,6 +1,11 @@
 package aaa.helpers.jobs;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import com.exigen.ipb.eisa.utils.batchjob.Job;
 import com.exigen.ipb.eisa.utils.batchjob.JobGroup;
 import aaa.config.CsaaTestProperties;
@@ -218,6 +223,7 @@ public class BatchJob {
 	public static Job policyTermExtensionJob = new Job("policyTermExtensionJob");
 	public static Job policyTermUbiJob = new Job("policyTermUbiJob");
 	public static Job policyTransactionLedgerJob = new Job("policyTransactionLedgerJob");
+	public static Job policyTransactionLedgerJob_NonMonthly = new Job("policyTransactionLedgerJob_NonMonthly");
 	public static Job premiumReceivablesOnPolicyEffectiveJob = new Job("premiumReceivablesOnPolicyEffectiveJob");
 	public static Job preRenewalReminderGenerationAsyncJob = new Job("preRenewalReminderGenerationAsyncJob");
 	public static Job quoteExpirationJob = new Job("quoteExpirationJob");
@@ -226,8 +232,6 @@ public class BatchJob {
 	public static Job recurringPaymentsProcessingJob = new Job("recurringPaymentsProcessingJob");
 	public static Job refundGenerationJob = new Job("refundGenerationJob");
 	public static Job removeExpiredLocksJob = new Job("removeExpiredLocksJob");
-	//	public static JobGroup cftDcsEodJob = new JobGroup("cftDcsEodJob", getCftDcsEodJob_batchJobs());
-	public static Job cftDcsEodJob = new Job("cftDcsEodJob");
 	public static Job renewalClaimPropertyReceiveAsyncJob = new Job("renewalClaimPropertyReceiveAsyncJob");
 	public static Job renewalClaimReceiveAsyncJob = new Job("renewalClaimReceiveAsyncJob");
 	public static Job renewalImageRatingAsyncTaskJob = new Job("renewalImageRatingAsyncTaskJob");
@@ -256,6 +260,7 @@ public class BatchJob {
 	public static JobGroup membershipValidationJob = new JobGroup("membershipValidationJob", getMembershipValidationJob_batchJobs());
 	public static JobGroup renewalOfferGenerationPart1 = new JobGroup("Renewal_Offer_Generation_Part1", getRenewal_Offer_Generation_Part1_batchJobs());
 	public static JobGroup renewalOfferGenerationPart2 = new JobGroup("Renewal_Offer_Generation_Part2", getRenewal_Offer_Generation_Part2_batchJobs());
+	public static JobGroup cftDcsEodJob = new JobGroup("cftDcsEodJob", getCftDcsEodJob_batchJobs());
 
 	public static HashMap<String, String> getRenewalClaimOrderAsyncJobParameters() {
 		HashMap<String, String> parameters = new HashMap();

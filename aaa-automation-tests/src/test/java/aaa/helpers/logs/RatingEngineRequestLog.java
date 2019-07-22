@@ -7,7 +7,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import com.exigen.ipb.eisa.utils.Dollar;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

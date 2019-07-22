@@ -4,7 +4,7 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NA
 import static aaa.modules.regression.sales.auto_ca.select.functional.TestEValueMembershipProcess.retrieveMembershipSummaryEndpointCheck;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.docgen.DocGenHelper;
