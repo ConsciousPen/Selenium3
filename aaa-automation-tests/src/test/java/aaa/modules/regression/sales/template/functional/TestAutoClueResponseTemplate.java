@@ -7,7 +7,7 @@ import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.*;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.modules.policy.PolicyBaseTest;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import toolkit.datax.TestData;
 
 import java.util.HashMap;

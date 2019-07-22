@@ -1,3 +1,4 @@
 {
-"appHelper": "aaa.helpers.CSAAAppHelper"
+"appHelper": "aaa.helpers.CSAAAppHelper",
+"excludeMetersFromDuration": ["PEF.GET_BROWSER", "PEF.NEXT_PHASE", "PEF.EXECUTE_JOB", "PEF.THREAD_LIMITER"]
 }

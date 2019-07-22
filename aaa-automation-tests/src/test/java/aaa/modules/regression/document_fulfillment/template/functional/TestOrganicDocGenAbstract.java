@@ -5,7 +5,7 @@ import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
 import static aaa.main.enums.DocGenEnum.Documents.AH64XX;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;

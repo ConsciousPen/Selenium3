@@ -3,7 +3,7 @@ package aaa.helpers.db;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.main.enums.DocGenEnum;
 import com.google.common.collect.ImmutableMap;
-import org.apache.commons.lang.text.StrSubstitutor;
+import org.apache.commons.lang3.text.StrSubstitutor;
 import toolkit.db.DBService;
 
 import javax.annotation.Nonnull;
