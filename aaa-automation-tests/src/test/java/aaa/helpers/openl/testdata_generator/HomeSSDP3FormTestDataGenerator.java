@@ -20,12 +20,9 @@ import toolkit.verification.CustomAssertions;
 public class HomeSSDP3FormTestDataGenerator {
 	private static Function<HomeSSOpenLPolicy, List<TestData>> formDS0420DataFunction = openLPolicy -> {
 		List<TestData> tdList = new ArrayList<>();
-		//		HomeSSOpenLForm form = openLPolicy.getForms().stream().filter(c -> "DS0420".equals(c.getFormCode())).findFirst().get();
 		tdList.add(DataProviderFactory.dataOf(
 				"Action", "Add",
 				HomeSSMetaData.EndorsementTab.EndorsementDS0420.COVERAGE_LIMIT.getLabel(), openLPolicy.getForms().stream().filter(c -> "DS0420".equals(c.getFormCode())).findFirst().get().getCovPercentage() + "%"));
-		//				HomeSSMetaData.EndorsementTab.EndorsementHS0412.IS_THE_BUSINESS_CONDUCTED_ON_THE_RESIDENCE_PREMISES.getLabel(), "No",
-		//				HomeSSMetaData.EndorsementTab.EndorsementHS0412.IS_THE_BUSINESS_PROPERTY_FOR_SAMPLE_SALE_OR_DELIVERY_AFTER_SALE.getLabel(), "No"));
 		return tdList;
 	};
 
