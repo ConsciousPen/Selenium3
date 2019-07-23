@@ -446,7 +446,7 @@ PT-3603:
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.auto_ss.ReinstatePolicy.*]
-      messages: ["Error; Operation has failed due to illegal arguments"]
+      messages: ["Error: Operation has failed due to illegal arguments"]
 PT-3604:
   summary: "Regression BCT 19.4 : 'Business Use Description' is required"
   reason: PROD
