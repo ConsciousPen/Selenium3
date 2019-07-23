@@ -4,10 +4,7 @@ import static aaa.helpers.jobs.BatchJob.*;
 import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.eisa.utils.batchjob.Job;
 import aaa.modules.policy.BackwardCompatibilityBaseTest;
 
 public class BatchTestParallel extends BackwardCompatibilityBaseTest {
@@ -18,281 +15,254 @@ public class BatchTestParallel extends BackwardCompatibilityBaseTest {
 	 * Scheme of dependencies can be found by link below
 	 * https://csaaig.atlassian.net/wiki/spaces/PAS/pages/1113391525/BCT+Batch+Jobs+runbook
 	 */
-	@Parameters({"state"})
-	@Test(groups = {"queue1_aaaBatchMarkerJob"}, alwaysRun = true)
-	public void queue1_aaaBatchMarkerJob(@Optional("") String state) {
+
+	@Test(groups = {queue1}, priority = 1)
+	public void queue1_aaaBatchMarkerJob() {
 		executeBatchTest(aaaBatchMarkerJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue2_aaaMvrRenewBatchOrderAsyncJob"}, dependsOnMethods = "queue1_aaaBatchMarkerJob", alwaysRun = true)
-	public void queue2_aaaMvrRenewBatchOrderAsyncJob(@Optional("") String state) {
+	@Test(groups = {queue2}, dependsOnGroups = {queue1}, alwaysRun = true, priority = 2)
+	public void queue2_aaaMvrRenewBatchOrderAsyncJob() {
 		executeBatchTest(aaaMvrRenewBatchOrderAsyncJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue2_renewalClaimOrderAsyncJob"}, dependsOnMethods = "queue1_aaaBatchMarkerJob", alwaysRun = true)
-	public void queue2_renewalClaimOrderAsyncJob(@Optional("") String state) {
+	@Test(groups = {queue2}, dependsOnGroups = {queue1}, alwaysRun = true, priority = 2)
+	public void queue2_renewalClaimOrderAsyncJob() {
 		executeBatchTest(renewalClaimOrderAsyncJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue2_aaaMembershipRenewalBatchOrderAsyncJob"}, dependsOnMethods = "queue1_aaaBatchMarkerJob", alwaysRun = true)
-	public void queue2_aaaMembershipRenewalBatchOrderAsyncJob(@Optional("") String state) {
+	@Test(groups = {queue2}, dependsOnGroups = {queue1}, alwaysRun = true, priority = 2)
+	public void queue2_aaaMembershipRenewalBatchOrderAsyncJob() {
 		executeBatchTest(aaaMembershipRenewalBatchOrderAsyncJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue3_policyStatusUpdateJob"}, dependsOnMethods = "queue2_aaaMembershipRenewalBatchOrderAsyncJob", alwaysRun = true)
-	public void queue3_policyStatusUpdateJob(@Optional("") String state) {
+	@Test(groups = {queue3}, dependsOnGroups = {queue2}, alwaysRun = true, priority = 3)
+	public void queue3_policyStatusUpdateJob() {
 		executeBatchTest(policyStatusUpdateJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue4_aaaPolicyAutomatedRenewalAsyncTaskGenerationJob"}, dependsOnMethods = "queue3_policyStatusUpdateJob", alwaysRun = true)
-	public void queue4_aaaPolicyAutomatedRenewalAsyncTaskGenerationJob(@Optional("") String state) {
+	@Test(groups = {queue4}, dependsOnGroups = {queue3}, alwaysRun = true, priority = 4)
+	public void queue4_aaaPolicyAutomatedRenewalAsyncTaskGenerationJob() {
 		executeBatchTest(aaaPolicyAutomatedRenewalAsyncTaskGenerationJob.setJobParameters(Collections.singletonMap("JOB_UI_PARAMS", "t")));
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue5_renewalValidationAsyncTaskJob"}, dependsOnMethods = "queue4_aaaPolicyAutomatedRenewalAsyncTaskGenerationJob", alwaysRun = true)
-	public void queue5_renewalValidationAsyncTaskJob(@Optional("") String state) {
-		executeBatchTest(renewalValidationAsyncTaskJob);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {"queue6_aaaRenewalDataRefreshAsyncJob"}, dependsOnMethods = "queue5_renewalValidationAsyncTaskJob", alwaysRun = true)
-	public void queue6_aaaRenewalDataRefreshAsyncJob(@Optional("") String state) {
-		executeBatchTest(aaaRenewalDataRefreshAsyncJob);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {"queue7_aaaPreRenewalNoticeAsyncJob"}, dependsOnMethods = "queue6_aaaRenewalDataRefreshAsyncJob", alwaysRun = true)
-	public void queue7_aaaPreRenewalNoticeAsyncJob(@Optional("") String state) {
-		executeBatchTest(aaaPreRenewalNoticeAsyncJob);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {"queue8_renewalImageRatingAsyncTaskJob"}, dependsOnMethods = "queue7_aaaPreRenewalNoticeAsyncJob", alwaysRun = true)
-	public void queue8_renewalImageRatingAsyncTaskJob(@Optional("") String state) {
-		executeBatchTest(renewalImageRatingAsyncTaskJob);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {"queue4_aaaRemittanceFeedAsyncBatchReceiveJob"}, dependsOnMethods = "queue3_policyStatusUpdateJob", alwaysRun = true)
-	public void queue4_aaaRemittanceFeedAsyncBatchReceiveJob(@Optional("") String state) {
+	@Test(groups = {queue4}, dependsOnGroups = {queue3}, alwaysRun = true, priority = 4)
+	public void queue4_aaaRemittanceFeedAsyncBatchReceiveJob() {
 		executeBatchTest(aaaRemittanceFeedAsyncBatchReceiveJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue4_aaaRecurringPaymentsAsyncProcessJob"}, dependsOnMethods = "queue3_policyStatusUpdateJob", alwaysRun = true)
-	public void queue4_aaaRecurringPaymentsAsyncProcessJob(@Optional("") String state) {
+	@Test(groups = {queue4}, dependsOnGroups = {queue3}, alwaysRun = true, priority = 4)
+	public void queue4_aaaRecurringPaymentsAsyncProcessJob() {
 		executeBatchTest(aaaRecurringPaymentsAsyncProcessJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue4_aaaAutomatedProcessingInitiationJob"}, dependsOnMethods = "queue3_policyStatusUpdateJob", alwaysRun = true)
-	public void queue4_aaaAutomatedProcessingInitiationJob(@Optional("") String state) {
+	@Test(groups = {queue4}, dependsOnGroups = {queue3}, alwaysRun = true, priority = 4)
+	public void queue4_aaaAutomatedProcessingInitiationJob() {
 		executeBatchTest(aaaAutomatedProcessingInitiationJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue5_automatedProcessingRunReportsServicesJob"}, dependsOnMethods = "queue4_aaaAutomatedProcessingInitiationJob", alwaysRun = true)
-	public void queue5_automatedProcessingRunReportsServicesJob(@Optional("") String state) {
-		executeBatchTest(automatedProcessingRunReportsServicesJob);
+	@Test(groups = {queue5}, dependsOnGroups = {queue4}, alwaysRun = true, priority = 5)
+	public void queue5_renewalValidationAsyncTaskJob() {
+		executeBatchTest(renewalValidationAsyncTaskJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue6_automatedProcessingRatingJob"}, dependsOnMethods = "queue5_automatedProcessingRunReportsServicesJob", alwaysRun = true)
-	public void queue6_automatedProcessingRatingJob(@Optional("") String state) {
-		executeBatchTest(automatedProcessingRatingJob);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {"queue7_automatedProcessingIssuingOrProposingJob"}, dependsOnMethods = "queue6_automatedProcessingRatingJob", alwaysRun = true)
-	public void queue7_automatedProcessingIssuingOrProposingJob(@Optional("") String state) {
-		executeBatchTest(automatedProcessingIssuingOrProposingJob);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {"queue8_automatedProcessingStrategyStatusUpdateJob"}, dependsOnMethods = "queue7_automatedProcessingIssuingOrProposingJob", alwaysRun = true)
-	public void queue8_automatedProcessingStrategyStatusUpdateJob(@Optional("") String state) {
-		executeBatchTest(automatedProcessingStrategyStatusUpdateJob);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {"queue9_automatedProcessingBypassingAndErrorsReportGenerationJob"}, dependsOnMethods = "queue8_automatedProcessingStrategyStatusUpdateJob", alwaysRun = true)
-	public void queue9_automatedProcessingBypassingAndErrorsReportGenerationJob(@Optional("") String state) {
-		executeBatchTest(automatedProcessingBypassingAndErrorsReportGenerationJob);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {"queue5_bofaRecurringPaymentJob"}, dependsOnMethods = "queue4_aaaRecurringPaymentsAsyncProcessJob", alwaysRun = true)
-	public void queue5_bofaRecurringPaymentJob(@Optional("") String state) {
+	@Test(groups = {queue5}, dependsOnGroups = {queue4}, alwaysRun = true, priority = 5)
+	public void queue5_bofaRecurringPaymentJob() {
 		executeBatchTest(bofaRecurringPaymentJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue6_premiumReceivablesOnPolicyEffectiveJob"}, dependsOnMethods = "queue5_bofaRecurringPaymentJob", alwaysRun = true)
-	public void queue6_premiumReceivablesOnPolicyEffectiveJob(@Optional("") String state) {
+	@Test(groups = {queue5}, dependsOnGroups = {queue4}, alwaysRun = true, priority = 5)
+	public void queue5_automatedProcessingRunReportsServicesJob() {
+		executeBatchTest(automatedProcessingRunReportsServicesJob);
+	}
+
+	@Test(groups = {queue6}, dependsOnGroups = {queue5}, alwaysRun = true, priority = 6)
+	public void queue6_aaaRenewalDataRefreshAsyncJob() {
+		executeBatchTest(aaaRenewalDataRefreshAsyncJob);
+	}
+
+	@Test(groups = {queue6}, dependsOnGroups = {queue5}, alwaysRun = true, priority = 6)
+	public void queue6_automatedProcessingRatingJob() {
+		executeBatchTest(automatedProcessingRatingJob);
+	}
+
+	@Test(groups = {queue6}, dependsOnGroups = {queue5}, alwaysRun = true, priority = 6)
+	public void queue6_premiumReceivablesOnPolicyEffectiveJob() {
 		executeBatchTest(premiumReceivablesOnPolicyEffectiveJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue7_changeCancellationPendingPoliciesStatusJob"}, dependsOnMethods = "queue6_premiumReceivablesOnPolicyEffectiveJob", alwaysRun = true)
-	public void queue7_changeCancellationPendingPoliciesStatusJob(@Optional("") String state) {
+	@Test(groups = {queue7}, dependsOnGroups = {queue6}, alwaysRun = true, priority = 7)
+	public void queue7_aaaPreRenewalNoticeAsyncJob() {
+		executeBatchTest(aaaPreRenewalNoticeAsyncJob);
+	}
+
+	@Test(groups = {queue7}, dependsOnGroups = {queue6}, alwaysRun = true, priority = 7)
+	public void queue7_automatedProcessingIssuingOrProposingJob() {
+		executeBatchTest(automatedProcessingIssuingOrProposingJob);
+	}
+
+	@Test(groups = {queue7}, dependsOnGroups = {queue6}, alwaysRun = true, priority = 7)
+	public void queue7_changeCancellationPendingPoliciesStatusJob() {
 		executeBatchTest(changeCancellationPendingPoliciesStatusJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue7_aaaCancellationNoticeAsyncJob"}, dependsOnMethods = "queue6_premiumReceivablesOnPolicyEffectiveJob", alwaysRun = true)
-	public void queue7_aaaCancellationNoticeAsyncJob(@Optional("") String state) {
-		executeBatchTest(new Job("aaaCancellationNoticeAsyncJob",Collections.singletonMap("JOB_UI_PARAMS", "t")));
+	@Test(groups = {queue7}, dependsOnGroups = {queue6}, alwaysRun = true, priority = 7)
+	public void queue7_aaaCancellationNoticeAsyncJob() {
+		executeBatchTest(aaaCancellationNoticeAsyncJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue7_aaaCancellationConfirmationAsyncJob"}, dependsOnMethods = "queue6_premiumReceivablesOnPolicyEffectiveJob", alwaysRun = true)
-	public void queue7_aaaCancellationConfirmationAsyncJob(@Optional("") String state) {
+	@Test(groups = {queue7}, dependsOnGroups = {queue6}, alwaysRun = true, priority = 7)
+	public void queue7_aaaCancellationConfirmationAsyncJob() {
 		executeBatchTest(aaaCancellationConfirmationAsyncJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue7_activityTimeoutJob"}, dependsOnMethods = "queue6_premiumReceivablesOnPolicyEffectiveJob", alwaysRun = true)
-	public void queue7_activityTimeoutJob(@Optional("") String state) {
+	@Test(groups = {queue7}, dependsOnGroups = {queue6}, alwaysRun = true, priority = 7)
+	public void queue7_activityTimeoutJob() {
 		executeBatchTest(activityTimeoutJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue7_activityHistoryJob"}, dependsOnMethods = "queue6_premiumReceivablesOnPolicyEffectiveJob", alwaysRun = true)
-	public void queue7_activityHistoryJob(@Optional("") String state) {
+	@Test(groups = {queue7}, dependsOnGroups = {queue6}, alwaysRun = true, priority = 7)
+	public void queue7_activityHistoryJob() {
 		executeBatchTest(activityHistoryJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue7_activitySummarizationJob"}, dependsOnMethods = "queue6_premiumReceivablesOnPolicyEffectiveJob", alwaysRun = true)
-	public void queue7_activitySummarizationJob(@Optional("") String state) {
+	@Test(groups = {queue7}, dependsOnGroups = {queue6}, alwaysRun = true, priority = 7)
+	public void queue7_activitySummarizationJob() {
 		executeBatchTest(activitySummarizationJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue8_aaaCollectionCancellDebtBatchAsyncJob"}, dependsOnMethods = "queue7_aaaCancellationConfirmationAsyncJob", alwaysRun = true)
-	public void queue8_aaaCollectionCancellDebtBatchAsyncJob(@Optional("") String state) {
+	@Test(groups = {queue8}, dependsOnGroups = {queue7}, alwaysRun = true, priority = 8)
+	public void queue8_renewalImageRatingAsyncTaskJob() {
+		executeBatchTest(renewalImageRatingAsyncTaskJob);
+	}
+
+	@Test(groups = {queue8}, dependsOnGroups = {queue7}, alwaysRun = true, priority = 8)
+	public void queue8_automatedProcessingStrategyStatusUpdateJob() {
+		executeBatchTest(automatedProcessingStrategyStatusUpdateJob);
+	}
+
+	@Test(groups = {queue8}, dependsOnGroups = {queue7}, alwaysRun = true, priority = 8)
+	public void queue8_aaaCollectionCancellDebtBatchAsyncJob() {
 		executeBatchTest(aaaCollectionCancellDebtBatchAsyncJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue9_collectionFeedBatchOrderJob"}, dependsOnMethods = "queue8_aaaCollectionCancellDebtBatchAsyncJob", alwaysRun = true)
-	public void queue9_collectionFeedBatchOrderJob(@Optional("") String state) {
+	@Test(groups = {queue9}, dependsOnGroups = {queue8}, alwaysRun = true, priority = 9)
+	public void queue9_automatedProcessingBypassingAndErrorsReportGenerationJob() {
+		executeBatchTest(automatedProcessingBypassingAndErrorsReportGenerationJob);
+	}
+
+	@Test(groups = {queue9}, dependsOnGroups = {queue8}, alwaysRun = true, priority = 9)
+	public void queue9_collectionFeedBatchOrderJob() {
 		executeBatchTest(collectionFeedBatchOrderJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue10_earnedPremiumWriteoffProcessingJob"}, dependsOnMethods = "queue9_collectionFeedBatchOrderJob", alwaysRun = true)
-	public void queue10_earnedPremiumWriteoffProcessingJob(@Optional("") String state) {
+	@Test(groups = {queue10}, dependsOnGroups = {queue9}, alwaysRun = true, priority = 10)
+	public void queue10_earnedPremiumWriteoffProcessingJob() {
 		executeBatchTest(earnedPremiumWriteoffProcessingJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue11_aaaOffCycleBillingInvoiceAsyncJob"}, dependsOnMethods = "queue10_earnedPremiumWriteoffProcessingJob", alwaysRun = true)
-	public void queue11_aaaOffCycleBillingInvoiceAsyncJob(@Optional("") String state) {
-		executeBatchTest(offCycleBillingInvoiceAsyncJob);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {"queue11_aaaBillingInvoiceAsyncTaskJob"}, dependsOnMethods = "queue10_earnedPremiumWriteoffProcessingJob", alwaysRun = true)
-	public void queue11_aaaBillingInvoiceAsyncTaskJob(@Optional("") String state) {
+	@Test(groups = {queue11}, dependsOnGroups = {queue10}, alwaysRun = true, priority = 11)
+	public void queue11_aaaBillingInvoiceAsyncTaskJob() {
 		executeBatchTest(aaaBillingInvoiceAsyncTaskJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue12_aaaRefundGenerationAsyncJob"}, dependsOnMethods = "queue11_aaaBillingInvoiceAsyncTaskJob", alwaysRun = true)
-	public void queue12_aaaRefundGenerationAsyncJob(@Optional("") String state) {
+	@Test(groups = {queue11}, dependsOnGroups = {queue10}, alwaysRun = true, priority = 11)
+	public void queue11_aaaOffCycleBillingInvoiceAsyncJob() {
+		executeBatchTest(offCycleBillingInvoiceAsyncJob);
+	}
+
+	@Test(groups = {queue12}, dependsOnGroups = {queue11}, alwaysRun = true, priority = 12)
+	public void queue12_aaaRefundGenerationAsyncJob() {
 		executeBatchTest(aaaRefundGenerationAsyncJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue13_ledgerStatusUpdateJob"}, dependsOnMethods = "queue12_aaaRefundGenerationAsyncJob", alwaysRun = true)
-	public void queue13_ledgerStatusUpdateJob(@Optional("") String state) {
+	@Test(groups = {queue13}, dependsOnGroups = {queue12}, alwaysRun = true, priority = 13)
+	public void queue13_ledgerStatusUpdateJob() {
 		executeBatchTest(ledgerStatusUpdateJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue14_aaaRefundDisbursementAsyncJob"}, dependsOnMethods = "queue13_ledgerStatusUpdateJob", alwaysRun = true)
-	public void queue14_aaaRefundDisbursementAsyncJob(@Optional("") String state) {
-		executeBatchTest(aaaRefundDisbursementAsyncJob);
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {"queue13_preRenewalReminderGenerationAsyncJob"}, dependsOnMethods = "queue12_aaaRefundGenerationAsyncJob", alwaysRun = true)
-	public void queue13_preRenewalReminderGenerationAsyncJob(@Optional("") String state) {
+	@Test(groups = {queue13}, dependsOnGroups = {queue12}, alwaysRun = true, priority = 13)
+	public void queue13_preRenewalReminderGenerationAsyncJob() {
 		executeBatchTest(preRenewalReminderGenerationAsyncJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue13_aaaRenewalNoticeBillAsyncJob"}, dependsOnMethods = "queue12_aaaRefundGenerationAsyncJob", alwaysRun = true)
-	public void queue13_aaaRenewalNoticeBillAsyncJob(@Optional("") String state) {
+	@Test(groups = {queue13}, dependsOnGroups = {queue12}, alwaysRun = true, priority = 13)
+	public void queue13_aaaRenewalNoticeBillAsyncJob() {
 		executeBatchTest(aaaRenewalNoticeBillAsyncJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue13_aaaMortgageeRenewalReminderAndExpNoticeAsyncJob"}, dependsOnMethods = "queue12_aaaRefundGenerationAsyncJob", alwaysRun = true)
-	public void queue13_aaaMortgageeRenewalReminderAndExpNoticeAsyncJob(@Optional("") String state) {
+	@Test(groups = {queue13}, dependsOnGroups = {queue12}, alwaysRun = true, priority = 13)
+	public void queue13_aaaMortgageeRenewalReminderAndExpNoticeAsyncJob() {
 		executeBatchTest(aaaMortgageeRenewalReminderAndExpNoticeAsyncJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue14_aaaDelayTriggerTOINoticeAsyncJob"}, dependsOnMethods = "queue13_aaaMortgageeRenewalReminderAndExpNoticeAsyncJob", alwaysRun = true)
-	public void queue14_aaaDelayTriggerTOINoticeAsyncJob(@Optional("") String state) {
+	@Test(groups = {queue14}, dependsOnGroups = {queue13}, alwaysRun = true, priority = 14)
+	public void queue14_aaaRefundDisbursementAsyncJob() {
+		executeBatchTest(aaaRefundDisbursementAsyncJob);
+	}
+
+	@Test(groups = {queue14}, dependsOnGroups = {queue13}, alwaysRun = true, priority = 14)
+	public void queue14_aaaDelayTriggerTOINoticeAsyncJob() {
 		executeBatchTest(aaaDelayTriggerTOINoticeAsyncJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue14_policyDoNotRenewAsyncJob"}, dependsOnMethods = "queue13_aaaMortgageeRenewalReminderAndExpNoticeAsyncJob", alwaysRun = true)
-	public void queue14_policyDoNotRenewAsyncJob(@Optional("") String state) {
+	@Test(groups = {queue14}, dependsOnGroups = {queue13}, alwaysRun = true, priority = 14)
+	public void queue14_policyDoNotRenewAsyncJob() {
 		executeBatchTest(policyDoNotRenewAsyncJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue14_renewalOfferAsyncTaskJob"}, dependsOnMethods = "queue13_aaaMortgageeRenewalReminderAndExpNoticeAsyncJob", alwaysRun = true)
-	public void queue14_renewalOfferAsyncTaskJob(@Optional("") String state) {
+	@Test(groups = {queue14}, dependsOnGroups = {queue13}, alwaysRun = true, priority = 14)
+	public void queue14_renewalOfferAsyncTaskJob() {
 		executeBatchTest(renewalOfferAsyncTaskJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue15_policyLapsedRenewalProcessAsyncJob"}, dependsOnMethods = "queue14_renewalOfferAsyncTaskJob", alwaysRun = true)
-	public void queue15_policyLapsedRenewalProcessAsyncJob(@Optional("") String state) {
+	@Test(groups = {queue15}, dependsOnGroups = {queue14}, alwaysRun = true, priority = 15)
+	public void queue15_policyLapsedRenewalProcessAsyncJob() {
 		executeBatchTest(policyLapsedRenewalProcessAsyncJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue16_aaaRenewalReminderGenerationAsyncJob"}, dependsOnMethods = "queue15_policyLapsedRenewalProcessAsyncJob", alwaysRun = true)
-	public void queue16_aaaRenewalReminderGenerationAsyncJob(@Optional("") String state) {
+	@Test(groups = {queue16}, dependsOnGroups = {queue15}, alwaysRun = true, priority = 16)
+	public void queue16_aaaRenewalReminderGenerationAsyncJob() {
 		executeBatchTest(aaaRenewalReminderGenerationAsyncJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue17_aaaDataUpdateJob"}, dependsOnMethods = "queue16_aaaRenewalReminderGenerationAsyncJob", alwaysRun = true)
-	public void queue17_aaaDataUpdateJob(@Optional("") String state) {
+	@Test(groups = {queue17}, dependsOnGroups = {queue16}, alwaysRun = true, priority = 17)
+	public void queue17_aaaDataUpdateJob() {
 		executeBatchTest(aaaDataUpdateJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue17_aaaEscheatmentProcessAsyncJob"}, dependsOnMethods = "queue16_aaaRenewalReminderGenerationAsyncJob", alwaysRun = true)
-	public void queue17_aaaEscheatmentProcessAsyncJob(@Optional("") String state) {
+	@Test(groups = {queue17}, dependsOnGroups = {queue16}, alwaysRun = true, priority = 17)
+	public void queue17_aaaEscheatmentProcessAsyncJob() {
 		executeBatchTest(aaaEscheatmentProcessAsyncJob);
 	}
 
-	@Parameters({"state"})
-	@Test(groups = {"queue18_aaaGenerateEscheatmentReportJob"}, dependsOnMethods = "queue17_aaaEscheatmentProcessAsyncJob", alwaysRun = true)
-	public void queue18_aaaGenerateEscheatmentReportJob(@Optional("") String state) {
+	@Test(groups = {queue18}, dependsOnGroups = {queue17}, alwaysRun = true, priority = 17)
+	public void queue18_aaaGenerateEscheatmentReportJob() {
 		executeBatchTest(aaaGenerateEscheatmentReportJob);
 	}
 
-
-	@Parameters({"state"})
-	@Test(groups = {"queue19_policyTransactionLedgerJob"}, dependsOnMethods = "queue18_aaaGenerateEscheatmentReportJob", alwaysRun = true)
-	public void queue19_policyTransactionLedgerJob(@Optional("") String state) {
+	@Test(groups = {queue19}, dependsOnGroups = {queue18}, alwaysRun = true, priority = 18)
+	public void queue19_policyTransactionLedgerJob() {
 		executeBatchTest(policyTransactionLedgerJob);
 	}
 
+	private static final String queue1 = "1";
+	private static final String queue2 = "2";
+	private static final String queue3 = "3";
+	private static final String queue4 = "4";
+	private static final String queue5 = "5";
+	private static final String queue6 = "6";
+	private static final String queue7 = "7";
+	private static final String queue8 = "8";
+	private static final String queue9 = "9";
+	private static final String queue10 = "10";
+	private static final String queue11 = "11";
+	private static final String queue12 = "12";
+	private static final String queue13 = "13";
+	private static final String queue14 = "14";
+	private static final String queue15 = "15";
+	private static final String queue16 = "16";
+	private static final String queue17 = "17";
+	private static final String queue18 = "18";
+	private static final String queue19 = "19";
 }
