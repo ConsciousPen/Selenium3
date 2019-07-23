@@ -831,7 +831,7 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class EndorsementDS0420 extends MetaData {
-			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.AJAX.then(Waiters.AJAX));
 			public static final AssetDescriptor<ComboBox> AMOUNT_OF_INSURANCE = declare("Amount of insurance", ComboBox.class, Waiters.AJAX);
 		}
 

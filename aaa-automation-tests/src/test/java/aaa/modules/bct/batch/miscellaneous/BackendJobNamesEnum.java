@@ -1,4 +1,4 @@
-package aaa.modules.bct.batch;
+package aaa.modules.bct.batch.miscellaneous;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.exigen.ipb.eisa.utils.batchjob.Job;

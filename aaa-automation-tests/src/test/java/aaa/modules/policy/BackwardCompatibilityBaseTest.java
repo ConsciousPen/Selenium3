@@ -2,6 +2,7 @@ package aaa.modules.policy;
 
 import static aaa.helpers.jobs.BatchJob.*;
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.format.DateTimeFormatter;
@@ -24,6 +25,7 @@ import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BctType;
+import aaa.modules.bct.batch.miscellaneous.SaveJobResult;
 import aaa.soap.batchJobService.BatchJobPortImplServiceClient;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
@@ -76,9 +78,15 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 			csaaSoapJobService.createJob(jobGroup);
 		}
 		csaaSoapJobService.startJob(jobGroup);
-		//		WSJobSummary latestJobRun = JobUtils.getLatestJobRun(JobGroup.fromSingleJob(job));
+		WSJobSummary latestJobRun = JobUtils.getLatestJobRun(JobGroup.fromSingleJob(job));
 		//assertThat(latestJobRun.getTotalItems()).as("totalItems picked up by job should be > 0").isGreaterThan(0);
 		//verifyErrorsCountLessFivePercents(latestJobRun);
+
+		try {
+			SaveJobResult.saveToXls(latestJobRun);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

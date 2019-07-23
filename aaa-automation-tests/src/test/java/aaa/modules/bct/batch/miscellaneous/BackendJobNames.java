@@ -1,4 +1,4 @@
-package aaa.modules.bct.batch;
+package aaa.modules.bct.batch.miscellaneous;
 
 import java.util.NoSuchElementException;
 import org.slf4j.Logger;

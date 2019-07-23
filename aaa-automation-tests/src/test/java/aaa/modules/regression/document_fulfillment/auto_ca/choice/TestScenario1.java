@@ -69,9 +69,9 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 		// 2
 		policy.quoteDocGen().start();
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-		docgenActionTab.verify.documentsEnabled(softly,
+		docgenActionTab.verify.documentsEnabled(softly, true, 
 				Documents.AA11CA,
-				Documents.AHAPXX_CA,
+				Documents.AHAPXX_CA_CHOICE,
 				Documents.AA53CA,
 				Documents.AHFMXX,
 				Documents.AAIQCA
@@ -94,10 +94,10 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 
 		// 4
 		policy.quoteDocGen().start();
-		docgenActionTab.verify.documentsEnabled(softly,
+		docgenActionTab.verify.documentsEnabled(softly, true,
 				Documents.AA11CA,
 				Documents.AA43CA,
-				Documents.AHAPXX_CA,
+				Documents.AHAPXX_CA_CHOICE,
 				Documents.AHFMXX,
 				Documents.AAIQCA
 		);

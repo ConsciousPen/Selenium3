@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Precondition DXP Coverages" verbose="1" parallel="false">
+
+    <test name="MiniservicesEnableCoverages">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.MiniServicesSetupEnableCoverages"/>
+        </classes>
+    </test>
+
+</suite>

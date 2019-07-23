@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.jcraft.jsch.JSchException;
@@ -33,7 +36,8 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
-	public void validate() throws SftpException, JSchException, IOException {
+	@Parameters({STATE_PARAM})
+	public void validate(@Optional(StringUtils.EMPTY) String state) throws SftpException, JSchException, IOException {
 		// refreshReports
 		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
 

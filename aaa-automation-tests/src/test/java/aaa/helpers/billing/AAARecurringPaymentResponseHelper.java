@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.ssh.RemoteHelper;
 import toolkit.config.PropertyProvider;

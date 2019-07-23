@@ -1,7 +1,7 @@
 package aaa.main.modules.policy.abstract_tabs;
 
 import java.util.*;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;

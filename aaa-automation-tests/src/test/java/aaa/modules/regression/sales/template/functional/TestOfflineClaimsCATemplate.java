@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.testng.annotations.BeforeTest;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;

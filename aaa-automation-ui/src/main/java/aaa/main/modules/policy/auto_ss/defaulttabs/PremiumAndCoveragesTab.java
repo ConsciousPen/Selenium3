@@ -114,7 +114,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Dollar getFeesTotalAmount() {
 		final Dollar[] amount = {new Dollar("0")};
 		PremiumAndCoveragesTab.tablefeesSummary.getRows().forEach(fee ->
-			amount[0]= amount[0].add(new Dollar(fee.getCell(2).getValue())));
+				amount[0]= amount[0].add(new Dollar(fee.getCell(2).getValue())));
 		return amount[0];
 	}
 
