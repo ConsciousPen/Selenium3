@@ -175,7 +175,6 @@
                     <include name="pas12407_BigMetaDataService"/>
                     <include name="pas9997_paymentMethodsLookup"/>
                     <include name="pas9997_paymentPlansLookup"/>
-                    <include name="pas15369_reportOrderAndDriver"/>
                 </methods>
             </class>
         </classes>
@@ -191,6 +190,7 @@
                     <include name="pas13301_validateDriverLicenseAndAgeFirstLicensed"/>
                     <include name="pas15373_uniqueDriverLicenses"/>
                     <include name="pas16551_relationToFniHardStop"/>
+                    <include name="pas9493_TransactionInformationForEndorsementsAddDriver"/>
                 </methods>
             </class>
         </classes>
@@ -200,13 +200,10 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
-                    <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
                     <include name="pas10449_ViewVehicleServiceOrderOfVehicle"/>
-                    <include name="pas11741_ManageVehicleLevelCoverages"/>
                     <include name="pas502_DuplicateVinAddVehicleService"/>
                     <include name="pas9493_TransactionInformationForEndorsementsAddRemoveVehicle"/>
                     <include name="pas14497_TransactionInformationForEndorsementsReplaceVehicle"/>
-                    <include name="pas9493_TransactionInformationForEndorsementsAddDriver"/>
                     <include name="pas7147_VehicleUpdateBusiness"/>
                     <include name="pas7147_VehicleUpdateRegisteredOwner"/>
                     <include name="pas14952_EndorsementStatusResetForVehRatingFactors"/>
@@ -258,7 +255,6 @@
                     <include name="pas13353_LoanLeaseCoverage"/>
                     <include name="pas14316_LoanLeasedCovForLeasedOldVehicle"/>
                     <include name="pas14316_LoanLeasedCovForFinancedNewVehicle"/>
-                    <include name="pas502_DuplicateVinAddVehicleService"/>
                     <include name="pas14721_UpdateCoveragesBI_PD"/>
                     <include name="pas14536_TransportationExpensePart1"/>
                     <include name="pas14536_TransportationExpensePart2"/>
@@ -364,7 +360,6 @@
                     <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
                     <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
                     <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
-                    <include name="pas28686_GreenButtonServiceUnhappyPathRideShareCoverage"/>
                 </methods>
             </class>
         </classes>
@@ -386,6 +381,7 @@
                     <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
                     <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
                     <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
+                    <include name="pas28686_GreenButtonServiceUnhappyPathRideShareCoverage"/>
                 </methods>
             </class>
         </classes>
@@ -651,6 +647,7 @@
                     <include name="pas15383_driverWithOneOrMoreFaultAccidents"/>
                     <include name="pas15374_driverWithMajorViolationsError"/>
                     <include name="pas19673_theOrderOfViolations"/>
+                    <include name="pas15369_reportOrderAndDriver"/>
                 </methods>
             </class>
         </classes>
@@ -1200,7 +1197,7 @@
     <test thread-count="1024" name="pas25042_endorsementValidateAllowedForAllStates SS" parallel="methods">
         <parameter name="state" value="NY, VA, NJ"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas25042_endorsementValidateAllowedForAllStates"/>
                 </methods>
@@ -1343,7 +1340,7 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesVehicles">
                 <methods>
-                    <include name="pas25263_addVehicleMetadataCheck"/>
+                    <include name="pas25263_addVehicleMetadataCheck_CA_Select"/>
                     <include name="pas29137_updateVehicleRegisteredOwnerAndStuff"/>
                 </methods>
             </class>
