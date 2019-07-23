@@ -288,10 +288,19 @@ public final class RemoteHelper {
 		String searchParams = String.format("%1$s in \"%2$s\" folder with %3$s seconds timeout.",
 				textsToSearchPatterns.size() > 0 ? String.format(" containing text pattern(s): %s", textsToSearchPatterns) : "",
 				sourceFolder, timeoutInSeconds);
+		int foundFilesBefore = 0;
+		int foundFilesAfter;
+		int tryCount = 0;
 		do {
 			interimList = getFilesListBySearchPattern(sourceFolder, "xml", textsToSearchPatterns);
 			foundFiles = interimList.stream().filter(s -> s.contains(policyNum) && isTimeDiffMatch(s)).collect(Collectors.toList());
-			if (!foundFiles.isEmpty()) {
+			tryCount++;
+			if (tryCount == 1) {
+				foundFilesBefore = foundFiles.size();
+			}
+
+			foundFilesAfter = foundFiles.size();
+			if (foundFilesAfter > foundFilesBefore) {
 				break;
 			}
 			try {
@@ -304,6 +313,10 @@ public final class RemoteHelper {
 		long searchTime = System.currentTimeMillis() - searchStart;
 		assertThat(foundFiles).as("No files have been found%s", searchParams).isNotEmpty();
 		log.info("Found file(s): {} after {} milliseconds", foundFiles, searchTime);
+
+		if (getCurrentOS().equals(WINDOWS)) {
+			return foundFiles.stream().map(foundFile -> sourceFolder.substring(2) + "/" + foundFile).collect(Collectors.toList());//removes Drive letter from path
+		}
 		return foundFiles;
 	}
 

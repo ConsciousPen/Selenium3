@@ -10,14 +10,14 @@ import aaa.helpers.listeners.AaaTestListener;
 @Listeners({AaaTestListener.class})
 public class MiniServicesSetupEnableCoverages {
 
-	@Test(description = "Enabling 'canChange' for UM for AZ on test environment", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	@Test(description = "Enabling 'canChange' for UMBI for AZ on test environment", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void enableUMForAZ() {
-		enableCoverageForState(Constants.States.AZ, "UM");
+		enableCoverageForState(Constants.States.AZ, "UMBI");
 	}
 
 	@Test(description = "Enabling 'canChange' for UIM for AZ on test environment", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void enableUIMForAZ() {
-		enableCoverageForState(Constants.States.AZ, "UIM");
+		enableCoverageForState(Constants.States.AZ, "UIMBI");
 	}
 
 	@Test(description = "Enabling 'canChange' for UMBI for CO on test environment", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})

@@ -619,7 +619,7 @@ PAS-31820:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas28500_AA52CT_UMBIUpdateInDXP,
               aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas28500_AA52CT_UMBIUpdateInPAS,
               ]
-      messages: ["expected:<[tru]e> but was:<[fals]e>", "expected:<\"[Physically] Signed\"> but was:<\"[Not] Signed\">"]
+      messages: ["but was"]
 PAS-32188:
   summary: "DXP: can not update declaredAnnualMiles (CA)"
   reason: PROD
@@ -668,11 +668,17 @@ PAS-32429:
             aaa.modules.financials.pup.TestRenewal.*]
     messages: ["caused by PAS-32429"]
 PAS-32537:
-  summary: "Incorrect Values When Re-Adding COMPDED Coverage with DXP"
+  summary: "Form AAIFNYD is generated twice when adding Vehicle"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas25029_CARCOFormAAIFNYDOutsidePASAddReplaceVehicleTC01]
       messages: ["<no message>"]
+PAS-32191:
+  summary: "docSignedDate has wrong format"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.*]
+      messages: ["to end with:"]
 PAS-32563:
   summary: "Endorsement status is reset from 'Premium Calculated' to 'Gathering Info' when updating purchase Date for Leased Vehicle"
   reason: PROD

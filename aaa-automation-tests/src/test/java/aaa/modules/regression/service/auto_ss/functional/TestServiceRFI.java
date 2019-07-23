@@ -2289,7 +2289,7 @@ public class TestServiceRFI extends TestRFIHelper {
 	 * @scenario
 	 * 1. Create policy in PAS with overridden rule ERROR_AAA_200037
 	 * 2. Create endorsement outside of PAS/inside PAS
-	 * 3. Update UMBI to limit lover than BI limit and verify that document AA52AZ is NOT triggered and error is NOT displayed if it is not signed as Rule is overridden
+	 * 3. Update UMBI to limit lover than BI limit and verify that document AA52KS is NOT triggered and error is NOT displayed if it is not signed as Rule is overridden
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.KS})
