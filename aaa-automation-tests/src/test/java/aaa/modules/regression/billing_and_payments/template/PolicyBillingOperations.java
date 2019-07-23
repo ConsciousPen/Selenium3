@@ -278,11 +278,10 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 
 		// 11. Check that System defaults 'Total Amount' with the value entered by user in 'Amount' field on 'Other Transactions' tab
 		OtherTransactionsActionTab.linkAdvancedAllocation.click();
-		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS).getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.AdvancedAllocationsActionTabDetails.TOTAL_AMOUNT.getLabel(), TextBox.class)).hasValue(writeoffAmount.toString());
+		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.TOTAL_AMOUNT)).hasValue(writeoffAmount.toString());
 
 		// 12. Check that System defaults 'Product Sub total' with the value entered by user in 'Amount' field on 'Other Transactions' tab
-		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
-				.getAsset(AdvancedAllocationsRepeatAssetList.PRODUCT_SUB_TOTAL, TextBox.class)).hasValue(writeoffAmount.toString());
+		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.PRODUCT_SUB_TOTAL)).hasValue(writeoffAmount.toString());
 		AdvancedAllocationsActionTab.buttonOk.click();
 
 		// 13. Check positive adjustment transaction appears in "Payments and other transactions" section on billing tab

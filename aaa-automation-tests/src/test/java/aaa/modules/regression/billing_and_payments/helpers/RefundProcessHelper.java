@@ -642,15 +642,11 @@ public class RefundProcessHelper extends PolicyBilling {
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TYPE).controls.links.get(1).click();
 		BillingSummaryPage.linkAdvancedAllocation.click();
 
-		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
-				.getAsset(AdvancedAllocationsRepeatAssetList.PRODUCT_SUB_TOTAL, TextBox.class)).hasValue(refund.get(AMOUNT));
-		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS).getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.AdvancedAllocationsActionTabDetails.TOTAL_AMOUNT)).hasValue(refund.get(AMOUNT));
-		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
-				.getAsset(AdvancedAllocationsRepeatAssetList.NET_PREMIUM, TextBox.class)).hasValue(getAllocationAmount(refund));
-		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
-				.getAsset(AdvancedAllocationsRepeatAssetList.OTHER, TextBox.class)).hasValue(getAllocationAmount(refund));
-		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.ADVANCED_ALLOCATIONS)
-				.getAsset(AdvancedAllocationsRepeatAssetList.POLICY_FEE, TextBox.class)).hasValue(getAllocationAmount(refund));
+		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.PRODUCT_SUB_TOTAL)).hasValue(refund.get(AMOUNT));
+		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.TOTAL_AMOUNT)).hasValue(refund.get(AMOUNT));
+		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.NET_PREMIUM)).hasValue(getAllocationAmount(refund));
+		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.OTHER)).hasValue(getAllocationAmount(refund));
+		assertThat(advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.POLICY_FEE)).hasValue(getAllocationAmount(refund));
 		advancedAllocationsActionTab.back();
 		acceptPaymentActionTab.back();
 	}

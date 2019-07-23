@@ -235,12 +235,17 @@ public final class BillingAccountMetaData {
 	}
 
 	public static final class AdvancedAllocationsActionTab extends MetaData {
+		public static final AssetDescriptor<TextBox> TOTAL_AMOUNT = declare("Total Amount", TextBox.class);
+		public static final AssetDescriptor<TextBox> PRODUCT_SUB_TOTAL = declare("Total Amount", TextBox.class);
+		public static final AssetDescriptor<TextBox> OTHER = declare("Other", TextBox.class);
+		public static final AssetDescriptor<TextBox> NET_PREMIUM = declare("Net Premium", TextBox.class);
+		public static final AssetDescriptor<TextBox> POLICY_FEE = declare("Policy Fee", TextBox.class);
+		//TODO aperepecha: Refactor AdvancedAllocationsRepeatAssetList
 		public static final AssetDescriptor<AdvancedAllocationsRepeatAssetList> ADVANCED_ALLOCATIONS = declare("Advanced Allocations",
 				AdvancedAllocationsRepeatAssetList.class, AdvancedAllocationsActionTabDetails.class, false);
 
 
 		public static final class AdvancedAllocationsActionTabDetails extends MetaData {
-			public static final AssetDescriptor<TextBox> TOTAL_AMOUNT = declare("Total Amount", TextBox.class);
 			// *** DO NOT DECLARE any other controls in this MetaData. They are added within AdvancedAllocationsRepeatAssetList.class.
 			// If any additional allocations are needed, please configure them in AdvancedAllocationsRepeatAssetList.class***
 		}
