@@ -1,15 +1,518 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Batch Test Parallel suite" verbose="1" parallel="methods" thread-count="1024">
     <listeners>
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
 
-
-    <parameter name="state" value="UT"/>
-    <test name="Batch Jobs in    Parallel">
+    <test name="BCT Batch suite" preserve-order="true">
         <classes>
             <class name="aaa.modules.bct.batch.BatchTestParallel"/>
         </classes>
     </test>
+
+<!--    <test name="queue1_aaaBatchMarkerJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue1_aaaBatchMarkerJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue2_aaaMvrRenewBatchOrderAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue2_aaaMvrRenewBatchOrderAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue2_renewalClaimOrderAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue2_renewalClaimOrderAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue2_aaaMembershipRenewalBatchOrderAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue2_aaaMembershipRenewalBatchOrderAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue3_policyStatusUpdateJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue3_policyStatusUpdateJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue4_aaaPolicyAutomatedRenewalAsyncTaskGenerationJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue4_aaaPolicyAutomatedRenewalAsyncTaskGenerationJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue5_renewalValidationAsyncTaskJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue5_renewalValidationAsyncTaskJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue6_aaaRenewalDataRefreshAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue6_aaaRenewalDataRefreshAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue7_aaaPreRenewalNoticeAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue7_aaaPreRenewalNoticeAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue8_renewalImageRatingAsyncTaskJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue8_renewalImageRatingAsyncTaskJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue4_aaaRemittanceFeedAsyncBatchReceiveJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue4_aaaRemittanceFeedAsyncBatchReceiveJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue4_aaaRecurringPaymentsAsyncProcessJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue4_aaaRecurringPaymentsAsyncProcessJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue4_aaaAutomatedProcessingInitiationJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue4_aaaAutomatedProcessingInitiationJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue5_automatedProcessingRunReportsServicesJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue5_automatedProcessingRunReportsServicesJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue6_automatedProcessingRatingJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue6_automatedProcessingRatingJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue7_automatedProcessingIssuingOrProposingJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue7_automatedProcessingIssuingOrProposingJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue8_automatedProcessingStrategyStatusUpdateJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue8_automatedProcessingStrategyStatusUpdateJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue9_automatedProcessingBypassingAndErrorsReportGenerationJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue9_automatedProcessingBypassingAndErrorsReportGenerationJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue5_bofaRecurringPaymentJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue5_bofaRecurringPaymentJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue6_premiumReceivablesOnPolicyEffectiveJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue6_premiumReceivablesOnPolicyEffectiveJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue7_changeCancellationPendingPoliciesStatusJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue7_changeCancellationPendingPoliciesStatusJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue7_aaaCancellationNoticeAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue7_aaaCancellationNoticeAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue7_aaaCancellationConfirmationAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue7_aaaCancellationConfirmationAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue7_activityTimeoutJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue7_activityTimeoutJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue7_activityHistoryJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue7_activityHistoryJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue7_activitySummarizationJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue7_activitySummarizationJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue8_aaaCollectionCancellDebtBatchAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue8_aaaCollectionCancellDebtBatchAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue9_collectionFeedBatchOrderJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue9_collectionFeedBatchOrderJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue10_earnedPremiumWriteoffProcessingJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue10_earnedPremiumWriteoffProcessingJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue11_aaaOffCycleBillingInvoiceAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue11_aaaOffCycleBillingInvoiceAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue11_aaaBillingInvoiceAsyncTaskJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue11_aaaBillingInvoiceAsyncTaskJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue12_aaaRefundGenerationAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue12_aaaRefundGenerationAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue13_ledgerStatusUpdateJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue13_ledgerStatusUpdateJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue14_aaaRefundDisbursementAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue14_aaaRefundDisbursementAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue13_preRenewalReminderGenerationAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue13_preRenewalReminderGenerationAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue13_aaaRenewalNoticeBillAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue13_aaaRenewalNoticeBillAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue13_aaaMortgageeRenewalReminderAndExpNoticeAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue13_aaaMortgageeRenewalReminderAndExpNoticeAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue14_aaaDelayTriggerTOINoticeAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue14_aaaDelayTriggerTOINoticeAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue14_policyDoNotRenewAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue14_policyDoNotRenewAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue14_renewalOfferAsyncTaskJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue14_renewalOfferAsyncTaskJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue15_policyLapsedRenewalProcessAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue15_policyLapsedRenewalProcessAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue16_aaaRenewalReminderGenerationAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue16_aaaRenewalReminderGenerationAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue17_aaaDataUpdateJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue17_aaaDataUpdateJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue17_aaaEscheatmentProcessAsyncJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue17_aaaEscheatmentProcessAsyncJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue18_aaaGenerateEscheatmentReportJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue18_aaaGenerateEscheatmentReportJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="queue19_policyTransactionLedgerJob" preserve-order="true">-->
+<!--        <parameter name="state" value="UT"/>-->
+<!--        <classes>-->
+<!--            <class name="aaa.modules.bct.batch.BatchTestParallel">-->
+<!--                <methods>-->
+<!--                    <include name="queue19_policyTransactionLedgerJob"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
 </suite>

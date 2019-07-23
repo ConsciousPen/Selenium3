@@ -20,7 +20,6 @@ import com.exigen.ipb.eisa.utils.batchjob.SoapJobActions;
 import com.exigen.ipb.eisa.utils.batchjob.ws.model.WSJobSummary;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.CsaaSoapJobService;
-import aaa.helpers.jobs.JobUtils;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
