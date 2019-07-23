@@ -36,7 +36,7 @@
     <test thread-count="1024" name="CT Coverages" parallel="methods">
         <parameter name="state" value="CT"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas15264_WithOutUnderInsuredConversionCoverageCoveragesEnabled"/>
                     <include name="pas15264_WithUnderInsuredConversionCoverageCoveragesEnabled"/>
