@@ -367,7 +367,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		if (addressContainsCounty(openLPolicy.getPolicyAddress().getState())) {
 			dwellingAddressData.adjust(DataProviderFactory.dataOf(HomeSSMetaData.ApplicantTab.DwellingAddress.COUNTY.getLabel(), "County"));
 		}
-		if (openLPolicy.getPolicyAddress().getRetCommunityPresent() && !States.MD.equals(openLPolicy.getPolicyAddress().getState())){
+		if (openLPolicy.getPolicyAddress().getRetCommunityPresent() && !States.MD.equals(openLPolicy.getPolicyAddress().getState())) {
 			dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.RETIREMENT_COMMUNITY.getLabel(), "index=1");
 		}
 
@@ -691,59 +691,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		return DataProviderFactory.dataOf(policyLevel, new SimpleDataProvider(productOfferingTabData));
 	}
 
-	private TestData getEndorsementTabData(HomeSSOpenLPolicy openLPolicy) {
-
-		TestData endorsementData = new SimpleDataProvider();
-		switch (openLPolicy.getPolicyType()) {
-			case "DP3":
-				for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
-					String formCode = openLForm.getFormCode();
-					if (!endorsementData.containsKey(HomeSSDP3FormTestDataGenerator.getFormMetaKey(formCode))) {
-						List<TestData> tdList = HomeSSDP3FormTestDataGenerator.getFormTestData(openLPolicy, formCode);
-						if (tdList != null) {
-							TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeSSDP3FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeSSDP3FormTestDataGenerator.getFormMetaKey(formCode), tdList);
-							endorsementData.adjust(td);
-						}
-					}
-				}
-				break;
-			case "HO4":
-				for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
-					String formCode = openLForm.getFormCode();
-					if (!endorsementData.containsKey(HomeSSHO4FormTestDataGenerator.getFormMetaKey(formCode))) {
-						List<TestData> tdList = HomeSSHO4FormTestDataGenerator.getFormTestData(openLPolicy, formCode);
-						if (tdList != null) {
-							TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeSSHO4FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeSSHO4FormTestDataGenerator.getFormMetaKey(formCode), tdList);
-							endorsementData.adjust(td);
-						}
-					}
-				}
-				break;
-			case "HO6":
-				for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
-					String formCode = openLForm.getFormCode();
-					if (!endorsementData.containsKey(HomeSSHO6FormTestDataGenerator.getFormMetaKey(formCode))) {
-						List<TestData> tdList = HomeSSHO6FormTestDataGenerator.getFormTestData(openLPolicy, formCode);
-						if (tdList != null) {
-							TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeSSHO6FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeSSHO6FormTestDataGenerator.getFormMetaKey(formCode), tdList);
-							endorsementData.adjust(td);
-						}
-					}
-				}
-				break;
-			default:
-				for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
-					String formCode = openLForm.getFormCode();
-					if (!endorsementData.containsKey(HomeSSHO3FormTestDataGenerator.getFormMetaKey(formCode))) {
-						List<TestData> tdList = HomeSSHO3FormTestDataGenerator.getFormTestData(openLPolicy, formCode);
-						if (tdList != null) {
-							TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeSSHO3FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeSSHO3FormTestDataGenerator.getFormMetaKey(formCode), tdList);
-							endorsementData.adjust(td);
-						}
-					}
-				}
-		}
-		return endorsementData;
+	protected TestData getEndorsementTabData(HomeSSOpenLPolicy openLPolicy) {
+		throw new IstfException("Please override method in appropriate child class with relevant test data preparation");
 	}
 
 	private boolean isFormPresent(HomeSSOpenLPolicy openLPolicy, String formCode) {
