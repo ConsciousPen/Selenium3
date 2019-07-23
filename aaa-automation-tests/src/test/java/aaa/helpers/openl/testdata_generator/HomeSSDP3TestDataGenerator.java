@@ -1,11 +1,14 @@
 package aaa.helpers.openl.testdata_generator;
 
+import java.util.List;
 import aaa.helpers.TestDataHelper;
+import aaa.helpers.openl.model.home_ss.HomeSSOpenLForm;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 
 public class HomeSSDP3TestDataGenerator extends HomeSSTestDataGenerator {
 	public HomeSSDP3TestDataGenerator(String state, TestData ratingDataPattern) {
@@ -63,5 +66,21 @@ public class HomeSSDP3TestDataGenerator extends HomeSSTestDataGenerator {
 			return overrideErrorData;
 		}
 		return DataProviderFactory.emptyData();
+	}
+
+	@Override
+	protected TestData getEndorsementTabData(HomeSSOpenLPolicy openLPolicy) {
+		TestData endorsementData = new SimpleDataProvider();
+		for (HomeSSOpenLForm openLForm : openLPolicy.getForms()) {
+			String formCode = openLForm.getFormCode();
+			if (!endorsementData.containsKey(HomeSSDP3FormTestDataGenerator.getFormMetaKey(formCode))) {
+				List<TestData> tdList = HomeSSDP3FormTestDataGenerator.getFormTestData(openLPolicy, formCode);
+				if (tdList != null) {
+					TestData td = tdList.size() == 1 ? DataProviderFactory.dataOf(HomeSSDP3FormTestDataGenerator.getFormMetaKey(formCode), tdList.get(0)) : DataProviderFactory.dataOf(HomeSSDP3FormTestDataGenerator.getFormMetaKey(formCode), tdList);
+					endorsementData.adjust(td);
+				}
+			}
+		}
+		return endorsementData;
 	}
 }
